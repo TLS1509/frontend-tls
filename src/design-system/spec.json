@@ -1,0 +1,759 @@
+{
+  "$schema": "https://thelearningsociety.fr/design-system/schema/v1.0.0",
+  "meta": {
+    "name": "The Learning Society Design System",
+    "version": "1.0.0",
+    "date": "2026-04-24",
+    "authors": ["TLS Design Team"],
+    "description": "Système de design officiel de The Learning Society — éditorial, premium, Liquid Glass inspiré.",
+    "fonts": {
+      "display": "League Spartan",
+      "body": "Nunito",
+      "mono": "JetBrains Mono"
+    },
+    "sourceFiles": {
+      "tokens": "styles/tokens.css",
+      "shell": "styles/shell.css",
+      "components": "styles/components.css",
+      "learning": "styles/learning.css",
+      "patterns": "styles/patterns.css"
+    }
+  },
+
+  "foundations": {
+    "colors": {
+      "brand": {
+        "primary": {
+          "description": "Teal Blue — couleur identitaire TLS. Actions principales, liens, focus rings.",
+          "scale": {
+            "50":  { "token": "--tls-primary-50",  "value": "#E8F4F7" },
+            "100": { "token": "--tls-primary-100", "value": "#DCEBEF" },
+            "200": { "token": "--tls-primary-200", "value": "#B9D7DF" },
+            "300": { "token": "--tls-primary-300", "value": "#96C3CF" },
+            "400": { "token": "--tls-primary-400", "value": "#73AFBF" },
+            "500": { "token": "--tls-primary-500", "value": "#55A1B4", "base": true },
+            "600": { "token": "--tls-primary-600", "value": "#4A8FA1" },
+            "700": { "token": "--tls-primary-700", "value": "#3D7786" },
+            "800": { "token": "--tls-primary-800", "value": "#2F5F6A" },
+            "900": { "token": "--tls-primary-900", "value": "#1F3E45" }
+          }
+        },
+        "orange": {
+          "description": "Warm Orange — chaleur, célébration, CTA chauds. Accent, pas couleur primaire.",
+          "scale": {
+            "50":  { "token": "--tls-orange-50",  "value": "#FFF3EB" },
+            "100": { "token": "--tls-orange-100", "value": "#FDDCC7" },
+            "200": { "token": "--tls-orange-200", "value": "#FCBB93" },
+            "300": { "token": "--tls-orange-300", "value": "#F59A5F" },
+            "400": { "token": "--tls-orange-400", "value": "#F18A4C" },
+            "500": { "token": "--tls-orange-500", "value": "#ED843A", "base": true },
+            "600": { "token": "--tls-orange-600", "value": "#C06920" },
+            "700": { "token": "--tls-orange-700", "value": "#8F5017" },
+            "800": { "token": "--tls-orange-800", "value": "#5E3710" },
+            "900": { "token": "--tls-orange-900", "value": "#3B2109" }
+          }
+        },
+        "yellow": {
+          "description": "Golden Yellow — récompenses, badges, progression, highlights.",
+          "scale": {
+            "50":  { "token": "--tls-yellow-50",  "value": "#FFF9EE" },
+            "100": { "token": "--tls-yellow-100", "value": "#FFECC8" },
+            "200": { "token": "--tls-yellow-200", "value": "#FFD791" },
+            "300": { "token": "--tls-yellow-300", "value": "#FFC15A" },
+            "400": { "token": "--tls-yellow-400", "value": "#F8B044", "base": true },
+            "500": { "token": "--tls-yellow-500", "value": "#DF9E3D" },
+            "600": { "token": "--tls-yellow-600", "value": "#C68D36" },
+            "700": { "token": "--tls-yellow-700", "value": "#AE7B30" },
+            "800": { "token": "--tls-yellow-800", "value": "#956A29" },
+            "900": { "token": "--tls-yellow-900", "value": "#7C5822" }
+          }
+        },
+        "ink": {
+          "description": "Neutrals — structure, texte, borders, surfaces. Légèrement teintés bleu.",
+          "scale": {
+            "0":   { "token": "--tls-ink-0",   "value": "#FFFFFF" },
+            "25":  { "token": "--tls-ink-25",  "value": "#FAFBFC" },
+            "50":  { "token": "--tls-ink-50",  "value": "#F5F8F8" },
+            "100": { "token": "--tls-ink-100", "value": "#EEF2F4" },
+            "200": { "token": "--tls-ink-200", "value": "#E0E6E9" },
+            "300": { "token": "--tls-ink-300", "value": "#C8D2D6" },
+            "400": { "token": "--tls-ink-400", "value": "#9AA8AE" },
+            "500": { "token": "--tls-ink-500", "value": "#6B7981" },
+            "600": { "token": "--tls-ink-600", "value": "#535B62" },
+            "700": { "token": "--tls-ink-700", "value": "#3A474B" },
+            "800": { "token": "--tls-ink-800", "value": "#2A3538" },
+            "900": { "token": "--tls-ink-900", "value": "#252B37" },
+            "950": { "token": "--tls-ink-950", "value": "#12181C" }
+          }
+        }
+      },
+      "semantic": {
+        "success": { "base": { "token": "--tls-success-base", "value": "#9DBEBA" }, "bg": { "token": "--tls-success-bg", "value": "#E8F2F0" }, "fg": { "token": "--tls-success-fg", "value": "#335A56" } },
+        "warning": { "base": { "token": "--tls-warning-base", "value": "#F8B044" }, "bg": { "token": "--tls-warning-bg", "value": "#FFF9EE" }, "fg": { "token": "--tls-warning-fg", "value": "#7C5822" } },
+        "danger":  { "base": { "token": "--tls-danger-base",  "value": "#F28559" }, "bg": { "token": "--tls-danger-bg",  "value": "#FEF4F0" }, "fg": { "token": "--tls-danger-fg",  "value": "#8F2A0E" } },
+        "info":    { "base": { "token": "--tls-info-base",    "value": "#55A1B4" }, "bg": { "token": "--tls-info-bg",    "value": "#E8F4F7" }, "fg": { "token": "--tls-info-fg",    "value": "#1F3E45" } }
+      },
+      "roles": {
+        "--bg":             "#FAFBFC",
+        "--surface":        "#FFFFFF",
+        "--surface-muted":  "#F5F8F8",
+        "--surface-sunken": "#EEF2F4",
+        "--border":         "rgba(37,43,55,0.08)",
+        "--border-strong":  "rgba(37,43,55,0.14)",
+        "--text":           "#252B37",
+        "--text-muted":     "#535B62",
+        "--text-soft":      "#6B7981",
+        "--text-inverse":   "#FFFFFF",
+        "--brand":          "#55A1B4",
+        "--brand-ink":      "#3D7786"
+      }
+    },
+
+    "typography": {
+      "families": {
+        "display": { "token": "--font-display", "value": "'League Spartan', 'Helvetica Neue', Arial, sans-serif", "usage": "Headings, numbers, hero text" },
+        "body":    { "token": "--font-body",    "value": "'Nunito', -apple-system, BlinkMacSystemFont, system-ui, sans-serif", "usage": "Body text, UI labels, descriptions" },
+        "mono":    { "token": "--font-mono",    "value": "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace", "usage": "Code, tokens, numeric data" }
+      },
+      "scale": {
+        "display-2xl": { "token": "--t-display-2xl", "value": "clamp(3.5rem, 6vw + 1rem, 6.5rem)", "px": "56→104", "usage": "Hero pages, landing" },
+        "display-xl":  { "token": "--t-display-xl",  "value": "clamp(2.75rem, 4vw + 1rem, 4.5rem)", "px": "44→72",  "usage": "Section headers, page titles" },
+        "display-lg":  { "token": "--t-display-lg",  "value": "clamp(2.25rem, 2.5vw + 1rem, 3.25rem)", "px": "36→52", "usage": "Page titles standards" },
+        "h1":          { "token": "--t-h1",          "value": "2.25rem",   "px": "36", "usage": "Dans-page sections" },
+        "h2":          { "token": "--t-h2",          "value": "1.75rem",   "px": "28", "usage": "Sous-sections" },
+        "h3":          { "token": "--t-h3",          "value": "1.375rem",  "px": "22", "usage": "Titres de cards" },
+        "h4":          { "token": "--t-h4",          "value": "1.125rem",  "px": "18", "usage": "Petits titres, menus" },
+        "body-lg":     { "token": "--t-body-lg",     "value": "1.125rem",  "px": "18", "usage": "Lede, intro paragraphs" },
+        "body":        { "token": "--t-body",        "value": "1rem",      "px": "16", "usage": "Corps standard, UI" },
+        "body-sm":     { "token": "--t-body-sm",     "value": "0.9375rem", "px": "15", "usage": "Secondary text, metadata" },
+        "caption":     { "token": "--t-caption",     "value": "0.8125rem", "px": "13", "usage": "Labels, helpers, badges" },
+        "micro":       { "token": "--t-micro",       "value": "0.6875rem", "px": "11", "usage": "Eyebrows, shortcuts, micro-UI" }
+      }
+    },
+
+    "spacing": {
+      "base": "4px",
+      "scale": {
+        "s-0":  { "token": "--s-0",  "px": "0" },
+        "s-1":  { "token": "--s-1",  "px": "4px" },
+        "s-2":  { "token": "--s-2",  "px": "8px" },
+        "s-3":  { "token": "--s-3",  "px": "12px" },
+        "s-4":  { "token": "--s-4",  "px": "16px" },
+        "s-5":  { "token": "--s-5",  "px": "20px" },
+        "s-6":  { "token": "--s-6",  "px": "24px" },
+        "s-8":  { "token": "--s-8",  "px": "32px" },
+        "s-10": { "token": "--s-10", "px": "40px" },
+        "s-12": { "token": "--s-12", "px": "48px" },
+        "s-16": { "token": "--s-16", "px": "64px" },
+        "s-20": { "token": "--s-20", "px": "80px" },
+        "s-24": { "token": "--s-24", "px": "96px" },
+        "s-32": { "token": "--s-32", "px": "128px" }
+      }
+    },
+
+    "radius": {
+      "r-xs":   { "token": "--r-xs",   "value": "4px",    "usage": "Tags, micro-elements" },
+      "r-sm":   { "token": "--r-sm",   "value": "6px",    "usage": "Badges, code blocks" },
+      "r-md":   { "token": "--r-md",   "value": "10px",   "usage": "Inputs, buttons default" },
+      "r-lg":   { "token": "--r-lg",   "value": "14px",   "usage": "Cards" },
+      "r-xl":   { "token": "--r-xl",   "value": "20px",   "usage": "Panels, large cards" },
+      "r-2xl":  { "token": "--r-2xl",  "value": "28px",   "usage": "Hero cards" },
+      "r-pill": { "token": "--r-pill", "value": "999px",  "usage": "Chips, pills, buttons" }
+    },
+
+    "shadows": {
+      "shadow-xs":    { "token": "--shadow-xs",    "value": "0 1px 2px rgba(18,24,28,0.04)",                                                  "usage": "Borders, inputs" },
+      "shadow-sm":    { "token": "--shadow-sm",    "value": "0 1px 2px rgba(18,24,28,0.05), 0 1px 3px rgba(18,24,28,0.04)",                   "usage": "Cards at rest" },
+      "shadow-md":    { "token": "--shadow-md",    "value": "0 4px 12px -2px rgba(18,24,28,0.08), 0 2px 4px rgba(18,24,28,0.04)",             "usage": "Cards hover, dropdowns" },
+      "shadow-lg":    { "token": "--shadow-lg",    "value": "0 16px 40px -12px rgba(18,24,28,0.14), 0 4px 8px rgba(18,24,28,0.04)",           "usage": "Popovers, tooltips" },
+      "shadow-xl":    { "token": "--shadow-xl",    "value": "0 28px 72px -20px rgba(18,24,28,0.22), 0 8px 16px rgba(18,24,28,0.06)",          "usage": "Modals, sheets" },
+      "shadow-brand": { "token": "--shadow-brand", "value": "0 10px 30px -10px rgba(85,161,180,0.45)",                                        "usage": "Hero CTA, focal action" },
+      "shadow-warm":  { "token": "--shadow-warm",  "value": "0 10px 30px -10px rgba(237,132,58,0.35)",                                        "usage": "Warm CTAs, celebration" }
+    },
+
+    "motion": {
+      "easings": {
+        "standard":   { "token": "--ease-standard",   "value": "cubic-bezier(0.2, 0, 0, 1)",    "usage": "Default — 90% of UI" },
+        "emphasized": { "token": "--ease-emphasized",  "value": "cubic-bezier(0.2, 0, 0, 1.15)", "usage": "Celebration, accent moments" },
+        "entrance":   { "token": "--ease-entrance",    "value": "cubic-bezier(0, 0, 0.2, 1)",    "usage": "Elements entering" },
+        "exit":       { "token": "--ease-exit",        "value": "cubic-bezier(0.4, 0, 1, 1)",    "usage": "Elements leaving" }
+      },
+      "durations": {
+        "dur-1": { "token": "--dur-1", "value": "120ms", "usage": "Micro-feedback, hover, focus ring" },
+        "dur-2": { "token": "--dur-2", "value": "200ms", "usage": "Standard UI — buttons, chips, tabs" },
+        "dur-3": { "token": "--dur-3", "value": "320ms", "usage": "Cards hover, dropdowns, tooltips" },
+        "dur-4": { "token": "--dur-4", "value": "520ms", "usage": "Modal entrances, drawers, page transitions" },
+        "dur-5": { "token": "--dur-5", "value": "800ms", "usage": "Celebrations, confetti, editorial reveal" }
+      }
+    },
+
+    "gradients": {
+      "g-hero":        { "token": "--g-hero",        "value": "linear-gradient(120deg, #3D7786 0%, #55A1B4 30%, #ED843A 75%, #F8B044 100%)", "usage": "Signature brand hero (rare)" },
+      "g-cool-deep":   { "token": "--g-cool-deep",   "value": "radial-gradient(circle at 0% 0%, #55A1B4 0%, #2F5F6A 60%, #1F3E45 100%)",    "usage": "Auth pages, dark cards" },
+      "g-cool-soft":   { "token": "--g-cool-soft",   "value": "linear-gradient(180deg, #E8F4F7 0%, #FFFFFF 100%)",                           "usage": "Section backgrounds" },
+      "g-warm":        { "token": "--g-warm",        "value": "linear-gradient(135deg, #ED843A 0%, #F8B044 100%)",                           "usage": "Celebration, achievement" },
+      "g-warm-soft":   { "token": "--g-warm-soft",   "value": "linear-gradient(180deg, #FFF3EB 0%, #FFF9EE 100%)",                           "usage": "Warm card surfaces" },
+      "g-text":        { "token": "--g-text",        "value": "linear-gradient(120deg, #55A1B4 0%, #ED843A 50%, #F8B044 100%)",              "usage": "Hero text only — never background" },
+      "g-glass":       { "token": "--g-glass",       "value": "linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.35))",       "usage": "Glass fill interior" },
+      "g-glass-brand": { "token": "--g-glass-brand", "value": "linear-gradient(135deg, rgba(85,161,180,0.22), rgba(85,161,180,0.06))",        "usage": "Brand-tinted glass surfaces" },
+      "g-mesh":        { "token": "--g-mesh",        "value": "radial-gradient(at 18% 15%, rgba(85,161,180,0.35) 0px, transparent 45%), radial-gradient(at 82% 10%, rgba(237,132,58,0.28) 0px, transparent 45%), ...", "usage": "Decorative ambient backgrounds" },
+      "g-success-soft":{ "token": "--g-success-soft","value": "linear-gradient(180deg, #E8F2F0 0%, #FFFFFF 100%)",                           "usage": "Success banners, empty states" }
+    }
+  },
+
+  "components": {
+    "Button": {
+      "name": "Button",
+      "codename": "Buttons.html",
+      "category": "Core",
+      "description": "Action trigger. Un bouton = une action. Forme pill cohérente, hiérarchie claire entre primary (la seule action principale d'un écran), warm (moments chauds), secondary (alternatives), ghost (tertiaire).",
+      "cssBase": ".btn",
+      "anatomy": {
+        "root": ".btn",
+        "slots": {
+          "leading-icon": ".btn__icon (before label)",
+          "label": "Text content",
+          "trailing-icon": ".btn__icon (after label)"
+        }
+      },
+      "variants": {
+        "primary":     { "class": ".btn--primary",     "bg": "var(--tls-primary-600)", "color": "#fff",                    "shadow": "var(--shadow-sm) + inset highlight",                "hover-bg": "var(--tls-primary-700)", "hover-shadow": "var(--shadow-brand)", "usage": "One per screen. Main task." },
+        "warm":        { "class": ".btn--warm",        "bg": "var(--tls-orange-500)",  "color": "#fff",                    "shadow": "var(--shadow-sm) + inset highlight",                "hover-bg": "var(--tls-orange-600)",  "hover-shadow": "var(--shadow-warm)",  "usage": "Post-achievement, celebration CTA." },
+        "secondary":   { "class": ".btn--secondary",   "bg": "var(--surface)",         "color": "var(--text)",             "border": "1px solid var(--border-strong)", "shadow": "var(--shadow-xs)", "hover-bg": "var(--surface-muted)", "hover-border": "var(--tls-primary-300)", "usage": "Alternative actions." },
+        "ghost":       { "class": ".btn--ghost",       "bg": "transparent",            "color": "var(--text)",             "hover-bg": "var(--surface-muted)",                            "usage": "Tertiary — cancel, dismiss." },
+        "brand-ghost": { "class": ".btn--brand-ghost", "bg": "var(--tls-primary-50)",  "color": "var(--tls-primary-800)",  "hover-bg": "var(--tls-primary-100)",                          "usage": "Soft brand action." },
+        "destructive": { "class": ".btn--destructive", "bg": "var(--tls-danger-base)", "color": "#fff",                    "hover-bg": "#D16A41",                                         "usage": "Delete, irreversible actions." },
+        "glass":       { "class": ".btn--glass",       "bg": "var(--glass-fill)",      "color": "var(--text)",             "border": "1px solid var(--glass-border)",                     "backdrop-filter": "var(--glass-blur)", "usage": "On tinted/gradient surfaces only." },
+        "link":        { "class": ".btn--link",        "bg": "transparent",            "color": "var(--tls-primary-700)",  "text-decoration": "underline",                                "usage": "Inline text links." }
+      },
+      "sizes": {
+        "sm": { "class": ".btn--sm", "height": "32px", "padding": "0 14px", "font-size": "var(--t-caption)" },
+        "md": { "class": ".btn--md", "height": "40px", "padding": "0 18px", "font-size": "var(--t-body-sm)", "default": true },
+        "lg": { "class": ".btn--lg", "height": "48px", "padding": "0 24px", "font-size": "var(--t-body)" },
+        "xl": { "class": ".btn--xl", "height": "56px", "padding": "0 28px", "font-size": "var(--t-body-lg)", "usage": "Hero isolated CTA only." }
+      },
+      "states": {
+        "default":  {},
+        "hover":    { "transform": "none", "description": "Color shift + shadow change" },
+        "active":   { "transform": "translateY(1px)" },
+        "focus":    { "outline": "2px solid var(--tls-primary-500)", "outline-offset": "2px" },
+        "disabled": { "opacity": "0.5", "pointer-events": "none" },
+        "loading":  { "pointer-events": "none", "spinner": "16px border-radius spinner, white on dark variants" }
+      },
+      "modifiers": {
+        "icon-only": { "class": ".btn--icon-only", "aspect-ratio": "1", "requires": "aria-label" }
+      },
+      "tokens": {
+        "border-radius": "var(--r-pill)",
+        "transition": "background var(--dur-2) var(--ease-standard), color var(--dur-2), transform var(--dur-2), box-shadow var(--dur-2)",
+        "font-family": "var(--font-body)",
+        "font-weight": "600",
+        "letter-spacing": "-0.005em"
+      },
+      "a11y": {
+        "minTarget": "40×40px (MD)",
+        "iconOnly": "Required: aria-label",
+        "loading": "aria-busy='true', aria-disabled='true'",
+        "contrast": "Primary (#4A8FA1 on white) = 4.52:1 AA",
+        "focusRing": "Never remove"
+      },
+      "dosDonts": {
+        "do": ["One primary per screen", "Use warm for post-success CTA only", "Use destructive for delete/irreversible"],
+        "dont": ["Two warm/primary buttons side-by-side", "Use warm for destructive actions", "Icon-only without aria-label"]
+      }
+    },
+
+    "Input": {
+      "name": "Input",
+      "codename": "Inputs.html",
+      "category": "Core",
+      "description": "Champ de formulaire. Label toujours au-dessus, jamais en placeholder seul. Hint/error en dessous.",
+      "cssBase": ".input",
+      "anatomy": {
+        "wrapper": ".field",
+        "slots": {
+          "label":          ".field__label",
+          "hint":           ".field__hint",
+          "error":          ".field__error",
+          "input-wrapper":  ".input",
+          "leading-icon":   ".input__icon (before input)",
+          "input-element":  "input | textarea | select",
+          "trailing-icon":  ".input__icon (after input)"
+        }
+      },
+      "variants": {
+        "default":  { "border": "1px solid var(--border-strong)", "bg": "var(--surface)" },
+        "hover":    { "border-color": "var(--tls-primary-300)" },
+        "focus":    { "border-color": "var(--tls-primary-500)", "box-shadow": "0 0 0 4px rgba(85,161,180,0.14)" },
+        "success":  { "class": ".input--success", "border-color": "#9DBEBA" },
+        "error":    { "class": ".input--error",   "border-color": "var(--tls-danger-base)", "focus-shadow": "0 0 0 4px rgba(242,133,89,0.18)" },
+        "disabled": { "class": ".input--disabled","bg": "var(--surface-muted)", "color": "var(--text-soft)", "cursor": "not-allowed" },
+        "textarea": { "class": ".textarea", "min-height": "96px", "padding": "12px 14px", "resize": "vertical" }
+      },
+      "sizes": {
+        "sm": { "class": ".input--sm", "height": "36px", "padding": "0 12px", "font-size": "var(--t-caption)" },
+        "md": { "height": "44px", "padding": "0 14px", "font-size": "var(--t-body-sm)", "default": true },
+        "lg": { "class": ".input--lg", "height": "52px", "padding": "0 16px", "font-size": "var(--t-body)" }
+      },
+      "subComponents": {
+        "Checkbox": {
+          "class": ".check",
+          "anatomy": { "root": ".check", "input": "input[type=checkbox] (hidden)", "box": ".check__box", "label": "text content" },
+          "states": { "checked": "bg: var(--tls-primary-600), checkmark SVG visible", "unchecked": "border: 1.5px solid var(--border-strong)", "focus": "box-shadow: 0 0 0 4px rgba(85,161,180,0.18)" },
+          "size": "20×20px box, border-radius: 6px"
+        },
+        "Radio": {
+          "class": ".radio",
+          "anatomy": { "root": ".radio", "input": "input[type=radio] (hidden)", "box": ".radio__box", "label": "text content" },
+          "states": { "checked": "bg: var(--tls-primary-600), white dot scale(1)", "unchecked": "border: 1.5px solid var(--border-strong)" },
+          "size": "20×20px, border-radius: 50%"
+        },
+        "Switch": {
+          "class": ".switch",
+          "anatomy": { "root": ".switch", "input": "input[type=checkbox] (hidden)", "track": ".switch__track", "thumb": ".switch__track::after" },
+          "states": { "on": "track: var(--tls-primary-600), thumb: translateX(16px)", "off": "track: var(--tls-ink-300), thumb: left 3px" },
+          "size": "track: 40×24px, thumb: 18×18px"
+        }
+      },
+      "a11y": {
+        "label": "<label for='id'> always linked",
+        "error": "aria-invalid='true' + aria-describedby pointing to error",
+        "required": "required attribute + visual indicator",
+        "focusRing": "4px teal ring + teal-500 border",
+        "tapTarget": "44×44px including label"
+      },
+      "dosDonts": {
+        "do": ["Label above, always visible", "Placeholder as example only (e.g., nom@exemple.fr)", "Show error on field + message below"],
+        "dont": ["Placeholder as sole label", "Red saturated error (use coral/orange)", "Input without label"]
+      }
+    },
+
+    "Card": {
+      "name": "Card",
+      "codename": "Cards.html",
+      "category": "Core",
+      "description": "Unité de contenu principale de l'app. Surface groupant des informations liées.",
+      "cssBase": ".card",
+      "anatomy": {
+        "root": ".card",
+        "slots": {
+          "eyebrow":  ".card__eyebrow — micro uppercase label",
+          "title":    ".card__title — League Spartan h3",
+          "desc":     ".card__desc — body-sm muted",
+          "footer":   ".card__footer — meta + secondary CTA"
+        }
+      },
+      "variants": {
+        "default":     { "bg": "var(--surface)", "border": "1px solid var(--border)", "radius": "var(--r-xl)", "padding": "var(--s-6)", "shadow": "none" },
+        "feature":     { "class": ".card--feature",     "padding": "var(--s-8)", "shadow": "var(--shadow-sm)", "border": "none" },
+        "interactive": { "class": ".card--interactive", "hover-transform": "translateY(-2px)", "hover-shadow": "var(--shadow-md)", "hover-border-color": "var(--tls-primary-200)", "cursor": "pointer" },
+        "glass":       { "class": ".card--glass",       "bg": "var(--glass-fill)", "backdrop-filter": "var(--glass-blur)", "border": "1px solid var(--glass-border)", "shadow": "var(--shadow-md), var(--glass-ring)", "rule": "Only on tinted/gradient backgrounds. Never on white." }
+      },
+      "tokens": {
+        "transition": "transform var(--dur-3) var(--ease-standard), box-shadow var(--dur-3), border-color var(--dur-3)"
+      },
+      "dosDonts": {
+        "do": ["White card on tinted background", "Interactive card gets hover treatment only when clickable", "Glass card only on colored bg"],
+        "dont": ["Tinted card on gradient bg (zero contrast)", "Glass card on white bg (invisible effect)"]
+      }
+    },
+
+    "Badge": {
+      "name": "Badge",
+      "codename": "Badges.html",
+      "category": "Core",
+      "description": "Statut compact. Uppercase, 11px, corners carrés. Court (1–2 mots max).",
+      "cssBase": ".badge",
+      "anatomy": {
+        "root": ".badge",
+        "modifiers": ".badge--dot::before (status dot)"
+      },
+      "variants": {
+        "brand":   { "class": ".badge",           "bg": "var(--tls-primary-50)",   "color": "var(--tls-primary-800)" },
+        "neutral": { "class": ".badge--neutral",  "bg": "var(--surface-muted)",    "color": "var(--text-muted)" },
+        "warm":    { "class": ".badge--warm",      "bg": "var(--tls-orange-50)",    "color": "var(--tls-orange-700)" },
+        "sun":     { "class": ".badge--sun",       "bg": "var(--tls-yellow-100)",   "color": "var(--tls-yellow-900)" },
+        "success": { "class": ".badge--success",   "bg": "var(--tls-success-bg)",   "color": "var(--tls-success-fg)" },
+        "danger":  { "class": ".badge--danger",    "bg": "var(--tls-danger-bg)",    "color": "var(--tls-danger-fg)" },
+        "dot":     { "class": ".badge--dot",       "modifier": "::before 6×6px circle, color matches badge" }
+      },
+      "sizing": { "padding": "2px 8px", "font-size": "var(--t-micro)", "font-weight": "700", "letter-spacing": "0.04em", "text-transform": "uppercase", "border-radius": "var(--r-sm)" },
+      "dosDonts": {
+        "do": ["1–2 words max", "Use semantic tints (green=success, orange=in-progress, red=blocked)"],
+        "dont": ["Long sentences in badge", "Wrong color semantics (red for success)"]
+      }
+    },
+
+    "Tag": {
+      "name": "Tag",
+      "codename": "Badges.html",
+      "category": "Core",
+      "description": "Catégorie ou filtre actif. Pill 24–28px, neutre par défaut. Removable pour filtres actifs.",
+      "cssBase": ".tag",
+      "anatomy": {
+        "root": ".tag",
+        "slots": { "label": "text", "close": ".tag__close (optional)" }
+      },
+      "variants": {
+        "default":   { "bg": "var(--surface-muted)", "border": "1px solid var(--border)", "color": "var(--text)" },
+        "removable": { "class": ".tag--removable", "padding-right": "4px", "close-button": ".tag__close 20×20px" }
+      },
+      "sizing": { "padding": "4px 10px", "font-size": "var(--t-caption)", "font-weight": "500", "border-radius": "var(--r-pill)" }
+    },
+
+    "Avatar": {
+      "name": "Avatar",
+      "codename": "Avatars.html",
+      "category": "Core",
+      "description": "Représentation utilisateur. Soit image, soit initiales. Jamais de placeholder générique.",
+      "cssBase": ".avatar",
+      "anatomy": {
+        "root": ".avatar",
+        "slots": { "image": "img", "initials": "text", "status": ".avatar__dot" }
+      },
+      "sizes": {
+        "xs": { "class": ".avatar--xs", "size": "24×24px", "font-size": "10px" },
+        "sm": { "class": ".avatar--sm", "size": "32×32px", "font-size": "12px" },
+        "md": { "size": "40×40px",       "font-size": "14px", "default": true },
+        "lg": { "class": ".avatar--lg", "size": "56×56px", "font-size": "18px" },
+        "xl": { "class": ".avatar--xl", "size": "80×80px", "font-size": "26px" }
+      },
+      "tints": {
+        "brand": { "bg": "var(--tls-primary-100)", "color": "var(--tls-primary-800)", "default": true },
+        "warm":  { "class": ".avatar--warm", "bg": "var(--tls-orange-100)", "color": "var(--tls-orange-700)" },
+        "sun":   { "class": ".avatar--sun",  "bg": "var(--tls-yellow-100)", "color": "var(--tls-yellow-800)" },
+        "ink":   { "class": ".avatar--ink",  "bg": "var(--tls-ink-200)",    "color": "var(--tls-ink-800)" }
+      },
+      "statusDot": {
+        "class": ".avatar__dot",
+        "size": "28% of avatar, min 8px",
+        "states": {
+          "online": "bg: #9DBEBA (teal success)",
+          "busy":   { "class": ".avatar__dot--busy", "bg": "var(--tls-danger-base)" },
+          "away":   { "class": ".avatar__dot--away", "bg": "var(--tls-yellow-400)" }
+        },
+        "border": "2px solid var(--surface)"
+      },
+      "group": {
+        "class": ".avatar-group",
+        "overlap": "-10px margin-left",
+        "border": "2px solid var(--surface)",
+        "overflow": "Show count (+N) as last avatar"
+      },
+      "rule": "Tint assignment must be stable (hash of name). Never random."
+    },
+
+    "Alert": {
+      "name": "Alert",
+      "codename": "Alerts.html",
+      "category": "Patterns",
+      "description": "Message persistant et contextuel ancré dans la page. Quatre intentions sémantiques.",
+      "cssBase": ".alert",
+      "anatomy": {
+        "root": ".alert",
+        "layout": "grid: auto 1fr auto",
+        "slots": { "icon": ".alert__icon", "body": ".alert__body { .alert__title + .alert__desc }", "close": ".alert__close (optional)", "action": "button or link (optional)" }
+      },
+      "variants": {
+        "info":    { "class": ".alert--info",    "bg": "rgba(74,143,161,0.08)",  "border": "rgba(74,143,161,0.22)",  "color": "var(--tls-primary-800)",  "icon-color": ".alert__icon--info:   var(--tls-primary-600)" },
+        "success": { "class": ".alert--success", "bg": "var(--tls-success-bg)", "border": "rgba(157,190,186,0.45)", "color": "var(--tls-success-fg)",   "icon-color": ".alert__icon--success:var(--tls-success-base)" },
+        "warning": { "class": ".alert--warning", "bg": "var(--tls-warning-bg)", "border": "rgba(248,176,68,0.3)",   "color": "var(--tls-warning-fg)",   "icon-color": ".alert__icon--warning:var(--tls-warning-base)" },
+        "danger":  { "class": ".alert--danger",  "bg": "var(--tls-danger-bg)",  "border": "rgba(241,138,76,0.3)",   "color": "var(--tls-danger-fg)",    "icon-color": ".alert__icon--danger: var(--tls-danger-base)" }
+      },
+      "sizing": { "padding": "var(--s-4) var(--s-5)", "gap": "var(--s-3)", "border-radius": "var(--r-lg)", "font-size": "var(--t-body-sm)" },
+      "usagePatterns": {
+        "inline": "Compact padding (8px 12px), font-size caption — inline in form validation",
+        "banner": "Standard padding, full-width at top of page or section"
+      },
+      "usageRules": {
+        "info": "Context without urgency — new feature, reminder",
+        "success": "Confirm persistent action — save, submit. (Use Toast for transient confirmations)",
+        "warning": "Attention required soon, non-blocking",
+        "danger": "Blocking error, destructive confirmation. Use coral/orange, never saturated red"
+      }
+    },
+
+    "Toast": {
+      "name": "Toast",
+      "codename": "Feedback.html",
+      "category": "Patterns",
+      "description": "Confirmation passagère, non-bloquante. 4–6s affichage, bottom-right, max 3 empilés.",
+      "cssBase": ".toast",
+      "anatomy": {
+        "root": ".toast",
+        "slots": { "icon": ".toast__icon", "body": ".toast__body { .toast__title + .toast__desc }", "action": ".toast__action (optional CTA)", "close": ".toast__close" }
+      },
+      "variants": {
+        "success": { "icon-class": ".toast__icon--success", "icon-bg": "var(--tls-success-base)" },
+        "info":    { "icon-class": ".toast__icon--info",    "icon-bg": "var(--tls-primary-600)" },
+        "warning": { "icon-class": ".toast__icon--warning", "icon-bg": "var(--tls-warning-base)" },
+        "danger":  { "icon-class": ".toast__icon--danger",  "icon-bg": "var(--tls-danger-base)" }
+      },
+      "sizing": { "min-width": "320px", "max-width": "440px", "padding": "12px 16px 12px 12px", "icon-size": "32×32px", "border-radius": "var(--r-lg)", "shadow": "var(--shadow-lg)" }
+    },
+
+    "Modal": {
+      "name": "Modal",
+      "codename": "Feedback.html",
+      "category": "Patterns",
+      "description": "Interruption bloquante pour décisions importantes ou informations critiques.",
+      "cssBase": ".modal",
+      "anatomy": {
+        "scrim": ".modal-scrim (bg: rgba(21,35,46,0.55), backdrop-filter: blur(4px))",
+        "root": ".modal",
+        "slots": { "head": ".modal__head { .modal__title + .modal__desc + .modal__close }", "body": "content", "actions": ".modal__actions (justify: flex-end)" }
+      },
+      "sizing": { "max-width": "480px", "padding": "var(--s-8)", "border-radius": "var(--r-2xl)", "shadow": "var(--shadow-xl)", "gap": "var(--s-5)" },
+      "usageRules": {
+        "use": ["Delete/irreversible actions", "Critical information to read", "Post-module celebration (celebration variant)"],
+        "avoid": ["Simple confirmations (use Toast)", "Too many fields (use page)"]
+      }
+    },
+
+    "EmptyState": {
+      "name": "EmptyState",
+      "codename": "EmptyStates.html",
+      "category": "Patterns",
+      "description": "Premier contact, absence de résultats, erreur serveur. Toujours avec une sortie actionnable.",
+      "cssBase": ".empty",
+      "anatomy": {
+        "root": ".empty",
+        "slots": { "icon": ".empty__icon", "title": ".empty__title", "desc": ".empty__desc", "actions": ".empty__actions" }
+      },
+      "iconVariants": {
+        "default": { "bg": "var(--tls-primary-50)", "color": "var(--tls-primary-700)", "ring": "var(--tls-primary-200)" },
+        "warm":    { "class": ".empty__icon--warm", "bg": "var(--tls-orange-50)", "color": "var(--tls-orange-700)", "ring": "rgba(237,132,58,0.3)" },
+        "danger":  { "class": ".empty__icon--danger", "bg": "var(--tls-danger-bg)", "color": "var(--tls-danger-base)", "ring": "rgba(241,138,76,0.3)" }
+      },
+      "sizing": { "icon": "88×88px, border-radius: 50%", "ring": "inset: -6px", "padding": "var(--s-12) var(--s-6)", "gap": "var(--s-4)" },
+      "rule": "Every empty state must have a primary CTA. No dead ends."
+    },
+
+    "Skeleton": {
+      "name": "Skeleton",
+      "codename": "Loading.html",
+      "category": "Patterns",
+      "description": "Placeholder shimmer correspondant à la forme du contenu attendu.",
+      "cssBase": ".skeleton",
+      "variants": {
+        "text":   { "class": ".skeleton--text",   "height": "14px", "border-radius": "var(--r-pill)" },
+        "title":  { "class": ".skeleton--title",  "height": "24px", "width": "60%", "border-radius": "var(--r-sm)" },
+        "block":  { "class": ".skeleton--block",  "height": "120px", "border-radius": "var(--r-lg)" },
+        "circle": { "class": ".skeleton--circle", "border-radius": "50%" }
+      },
+      "animation": "skeleton-shimmer — background-position sweep 1.6s infinite ease-in-out",
+      "tokens": { "from": "var(--surface-muted)", "via": "var(--tls-ink-100)", "to": "var(--surface-muted)" },
+      "whenToUse": { "300ms-1s": "Spinner", "1s-3s": "Skeleton", ">3s": "Skeleton + message" }
+    },
+
+    "Search": {
+      "name": "Search",
+      "codename": "Search.html",
+      "category": "Patterns",
+      "description": "Barre de recherche avec suggestion dropdown optionnel.",
+      "cssBase": ".search",
+      "anatomy": { "root": ".search", "slots": { "icon": ".search__icon", "input": "input", "shortcut": ".search__shortcut (optional)" } },
+      "variants": {
+        "default": { "border-radius": "var(--r-xl)", "padding": "10px var(--s-4)" },
+        "lg":      { "class": ".search--lg", "border-radius": "var(--r-2xl)", "padding": "14px var(--s-5)" }
+      },
+      "states": {
+        "focus": { "border-color": "var(--tls-primary-500)", "box-shadow": "var(--focus-ring)" }
+      }
+    },
+
+    "Pagination": {
+      "name": "Pagination",
+      "codename": "Pagination.html",
+      "category": "Patterns",
+      "description": "Navigation dans les listes longues.",
+      "cssBase": ".pager",
+      "anatomy": { "root": ".pager", "item": "button", "active": "button[aria-current='page']", "dots": ".pager__dots", "info": ".pager-info" },
+      "sizing": { "button": "min-width: 36px, height: 36px, border-radius: var(--r-md)" },
+      "variants": {
+        "numbered": "default",
+        "loadMore": "Single 'Charger X de plus' button",
+        "infinite": "No UI — triggered on scroll"
+      },
+      "choosingGuide": {
+        "catalogue": "numbered",
+        "feed": "load-more",
+        "activity": "infinite",
+        "admin-table": "numbered + page-size selector"
+      }
+    },
+
+    "Medal": {
+      "name": "Medal",
+      "codename": "Achievement.html",
+      "category": "Learning",
+      "description": "Représentation visuelle d'un achievement débloqué. Cercle avec ring pointillé intérieur.",
+      "cssBase": ".medal",
+      "anatomy": { "root": ".medal", "ring": ".medal::before (inset 6px, dashed)", "icon": "svg (44% width)" },
+      "variants": {
+        "default": { "bg": "var(--g-warm)", "shadow": "var(--shadow-warm) + inset highlights" },
+        "brand":   { "class": ".medal--brand", "bg": "var(--g-cool-deep)", "shadow": "var(--shadow-brand)" },
+        "locked":  { "class": ".medal--locked", "bg": "var(--tls-ink-200)", "color": "var(--tls-ink-500)", "shadow": "none" }
+      },
+      "sizes": {
+        "sm": { "class": ".medal--sm", "size": "72×72px" },
+        "md": { "size": "120×120px", "default": true },
+        "lg": { "class": ".medal--lg", "size": "160×160px" }
+      },
+      "rule": "Warm gradient = achievement unlocked. Brand deep = special/rare. Ink gray = locked."
+    },
+
+    "CompetenceBadge": {
+      "name": "CompetenceBadge",
+      "codename": "Competence.html",
+      "category": "Learning",
+      "description": "Compétence + niveau acquis. 4 paliers chromatiques progressifs.",
+      "cssBase": ".comp-badge",
+      "anatomy": { "root": ".comp-badge", "slots": { "dot": ".comp-badge__dot (level number)", "label": "competence name" } },
+      "variants": {
+        "level-1": { "class": "default", "bg": "var(--tls-primary-50)",   "color": "var(--tls-primary-800)",  "dot-bg": "var(--tls-primary-600)",  "label": "Découverte" },
+        "level-2": { "class": ".comp-badge--warm", "bg": "var(--tls-orange-50)",   "color": "var(--tls-orange-700)",   "dot-bg": "var(--tls-orange-600)",   "label": "Pratique" },
+        "level-3": { "class": ".comp-badge--sun",  "bg": "var(--tls-yellow-100)",  "color": "var(--tls-yellow-900)",   "dot-bg": "var(--tls-yellow-400)",   "label": "Maîtrise" },
+        "level-4": { "class": ".comp-badge--mastered", "bg": "var(--g-cool-deep)", "color": "#fff",                    "dot-bg": "rgba(255,255,255,0.9)", "label": "Expert" }
+      },
+      "sizing": { "padding": "6px 14px 6px 8px", "gap": "10px", "border-radius": "var(--r-pill)", "dot": "22×22px, border-radius: 50%", "font-size": "var(--t-body-sm)", "font-weight": "600" },
+      "rule": "Color = level. Stable assignment, never decorative."
+    },
+
+    "StatCard": {
+      "name": "StatCard",
+      "codename": "Stats.html",
+      "category": "Learning",
+      "description": "Métrique d'apprentissage saillante. Chiffre display, label micro, delta optionnel.",
+      "cssBase": ".stat-card",
+      "anatomy": { "root": ".stat-card", "slots": { "label": ".stat-card__label (micro uppercase)", "value": ".stat-card__value (League Spartan display)", "sub": "value > sub (unit)", "delta": ".stat-card__delta (optional)" } },
+      "variants": {
+        "default":  { "bg": "var(--surface)", "border": "1px solid var(--border)" },
+        "elevated": { "class": ".stat-card--elevated", "shadow": "var(--shadow-sm)", "border": "none" },
+        "warm":     { "class": ".stat-card--warm",     "bg": "var(--g-warm-soft)", "border": "none" },
+        "brand":    { "class": ".stat-card--brand",    "bg": "var(--g-cool-soft)", "border": "none" }
+      },
+      "valueColors": {
+        "default": "var(--text)",
+        "warm":    { "class": ".stat-card__value--warm",  "color": "var(--tls-orange-600)" },
+        "brand":   { "class": ".stat-card__value--brand", "color": "var(--tls-primary-700)" }
+      },
+      "deltaColors": {
+        "up":   { "class": ".stat-card__delta--up",   "color": "#5A8A86" },
+        "down": { "class": ".stat-card__delta--down", "color": "var(--tls-danger-fg)" }
+      },
+      "sizing": { "padding": "var(--s-6)", "border-radius": "var(--r-xl)", "value-font": "clamp(2rem, 3vw, 2.75rem)", "label-font": "var(--t-micro) uppercase" }
+    },
+
+    "Progress": {
+      "name": "Progress",
+      "codename": "Progress.html",
+      "category": "Learning",
+      "description": "Trois formes : bar (suivi linéaire), ring (% saillant), steps (parcours).",
+      "cssBase": ".progress / .ring / .steps",
+      "subComponents": {
+        "ProgressBar": {
+          "cssBase": ".progress",
+          "anatomy": { "root": ".progress", "head": ".progress__head (.progress__label + .progress__value)", "track": ".progress__track", "fill": ".progress__fill" },
+          "sizes": { "sm": { "class": ".progress--sm", "height": "4px" }, "md": { "height": "8px", "default": true }, "lg": { "class": ".progress--lg", "height": "14px" } },
+          "fillVariants": { "brand": "var(--tls-primary-600)", "warm": { "class": ".progress__fill--warm", "bg": "var(--g-warm)" }, "gradient": { "class": ".progress__fill--gradient", "bg": "linear-gradient(90deg, var(--tls-primary-500), var(--tls-orange-500))" } }
+        },
+        "Ring": {
+          "cssBase": ".ring",
+          "cssVars": { "--ring-size": "120px (default)", "--ring-pct": "0–100", "--ring-thickness": "10px", "--ring-color": "var(--tls-primary-600)" },
+          "implementation": "conic-gradient(var(--ring-color) calc(var(--ring-pct) * 1%), var(--surface-muted) 0)",
+          "center": ".ring__content { .ring__value + .ring__label }"
+        },
+        "Steps": {
+          "cssBase": ".steps > .step",
+          "states": { "done": ".step--done — primary marker + strikethrough title", "current": ".step--current — ring glow", "upcoming": "gray marker" },
+          "connector": ".step::before — 2px vertical line, colored when done"
+        }
+      }
+    },
+
+    "Celebration": {
+      "name": "Celebration",
+      "codename": "Celebration.html",
+      "category": "Learning",
+      "description": "Moments de victoire. Trois formes : banner plein, inline win, toast.",
+      "cssBase": ".celebration / .inline-win / toast success",
+      "variants": {
+        "banner":      { "cssBase": ".celebration", "bg": "var(--g-warm-soft)", "border": "rgba(237,132,58,0.12)", "padding": "var(--s-10) var(--s-12)", "border-radius": "var(--r-2xl)", "confetti": ".celebration__confetti" },
+        "inline-win":  { "cssBase": ".inline-win",  "bg": "var(--g-warm-soft)", "spark": ".inline-win__spark (gradient circle icon)" },
+        "toast":       "Use toast with .toast__icon--success"
+      },
+      "rule": "Rare = precious. Celebrate real milestones only (module completion, streak, first badge). Never gratuitous micro-interactions."
+    },
+
+    "Sidebar": {
+      "name": "Sidebar",
+      "codename": "Sidebar.html",
+      "category": "Navigation",
+      "description": "Navigation principale de l'app. Sections groupées, état actif avec barre latérale.",
+      "cssBase": ".sidebar / .nav-item",
+      "anatomy": { "root": ".sidebar", "slots": { "brand": ".sidebar__brand", "section-labels": ".sidebar__group-label", "nav-items": ".nav-item", "user": ".sidebar__user" } },
+      "navItemStates": {
+        "default": { "color": "var(--text-muted)", "bg": "transparent" },
+        "hover":   { "bg": "var(--surface-muted)", "color": "var(--text)" },
+        "active":  { "class": ".nav-item--active", "bg": "var(--tls-primary-50)", "color": "var(--tls-primary-800)", "font-weight": "600", "bar": "3px left edge var(--tls-primary-600), inset -16px" }
+      },
+      "badge": { "class": ".nav-item__count", "family": "var(--font-mono)", "size": "11px", "active-bg": "var(--tls-primary-200)", "active-color": "var(--tls-primary-900)" },
+      "sizing": { "width": "240px", "padding": "20px 12px", "item-padding": "10px", "item-radius": "var(--r-md)" }
+    },
+
+    "Tabs": {
+      "name": "Tabs",
+      "codename": "Tabs.html",
+      "category": "Navigation",
+      "description": "Switch entre vues d'un même objet. Jamais pour naviguer entre pages différentes.",
+      "cssBase": ".tabs / .tab",
+      "variants": {
+        "pill":      { "bg": "var(--surface-muted)", "padding": "4px", "border-radius": "var(--r-lg)", "active-bg": "var(--surface)", "active-shadow": "var(--shadow-sm)" },
+        "underline": { "class": ".tabs--underline", "bg": "transparent", "border-bottom": "1px solid var(--border)", "active-underline": "2px bottom var(--tls-primary-600)" }
+      },
+      "rule": "2–5 tabs max. No nesting. No multi-select (that's a filter)."
+    },
+
+    "Stepper": {
+      "name": "Stepper",
+      "codename": "Stepper.html",
+      "category": "Navigation",
+      "description": "Processus linéaire séquentiel. 3–5 étapes max.",
+      "cssBase": ".stepper / .stepper__step",
+      "anatomy": { "step": ".stepper__step { .stepper__circle + .stepper__label + .stepper__desc }", "connector": ".stepper__line (between steps)" },
+      "states": {
+        "done":    { "class": ".stepper__step--done",    "circle-bg": "var(--tls-primary-600)", "line-bg": "var(--tls-primary-500)", "icon": "checkmark" },
+        "current": { "class": ".stepper__step--current", "circle-border": "var(--tls-primary-600)", "ring": "0 0 0 4px rgba(85,161,180,0.18)" },
+        "upcoming":{ "circle-bg": "rgba(0,0,0,0.05)", "border": "transparent" }
+      },
+      "orientations": ["horizontal", "vertical"],
+      "rule": "Stepper = named sequential steps. Progress bar = continuous percentage. >5 steps → split into phases."
+    },
+
+    "DropdownMenu": {
+      "name": "DropdownMenu",
+      "codename": "Menu.html",
+      "category": "Navigation",
+      "description": "Actions secondaires groupées derrière un trigger. Labels, séparateurs, danger zone en bas.",
+      "cssBase": ".dd",
+      "anatomy": { "root": ".dd", "slots": { "label": ".dd__label (section header)", "item": ".dd__item", "separator": ".dd__sep", "kbd": "kbd shortcut" } },
+      "itemStates": {
+        "default": { "bg": "transparent", "color": "var(--text)" },
+        "hover":   { "bg": "var(--surface-muted)" },
+        "danger":  { "class": ".dd__item--danger", "color": "var(--tls-danger-fg)", "hover-bg": "var(--tls-danger-bg)" }
+      },
+      "sizing": { "padding": "6px", "item-padding": "9px var(--s-3)", "item-radius": "var(--r-md)", "min-width": "220px", "border-radius": "var(--r-lg)", "shadow": "var(--shadow-lg)" }
+    },
+
+    "Breadcrumb": {
+      "name": "Breadcrumb",
+      "codename": "Breadcrumb.html",
+      "category": "Navigation",
+      "description": "Trace du chemin. Utiliser pour hiérarchie ≥ 3 niveaux.",
+      "cssBase": ".breadcrumb",
+      "anatomy": { "root": ".breadcrumb", "slots": { "link": "a (clickable ancestors)", "separator": ".breadcrumb__sep", "current": ".breadcrumb__current (not clickable)" } },
+      "rule": "Last item never clickable. Max 4 levels visible (collapse middle). Mobile: prefer Back button."
+    }
+  }
+}

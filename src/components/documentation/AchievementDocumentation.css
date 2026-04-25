@@ -1,0 +1,315 @@
+/**
+ * AchievementDocumentation.css
+ * Styling for AchievementDocumentation component
+ */
+
+.achievement-documentation {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.achievement-documentation .doc-section {
+  margin-bottom: 3rem;
+}
+
+.achievement-documentation .doc-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--tls-secondary-200);
+}
+
+.achievement-documentation h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--tls-ink-900);
+  font-family: var(--typography-heading-font-family, 'League Spartan', sans-serif);
+}
+
+.achievement-documentation .doc-description {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--tls-ink-600);
+  line-height: 1.6;
+}
+
+.achievement-documentation h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+  margin: 1.5rem 0 1rem 0;
+  font-family: var(--typography-heading-font-family, 'League Spartan', sans-serif);
+}
+
+.achievement-documentation h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.achievement-documentation .doc-intro {
+  margin: 0.5rem 0 1.5rem 0;
+  font-size: 0.95rem;
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   VARIANTS GRID
+   ============================================================================ */
+
+.achievement-documentation .variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.achievement-documentation .variant-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--tls-ink-100);
+  border-radius: 8px;
+  background-color: var(--tls-ink-0);
+  transition: all 0.2s ease;
+}
+
+.achievement-documentation .variant-item:hover {
+  border-color: var(--tls-secondary-200);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.achievement-documentation .variant-preview {
+  flex: 1;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--tls-ink-50);
+  border-radius: 6px;
+}
+
+.achievement-documentation .variant-info h4 {
+  font-size: 0.95rem;
+  color: var(--tls-ink-900);
+}
+
+.achievement-documentation .variant-info p {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.875rem;
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   CODE TOGGLE & EXAMPLE
+   ============================================================================ */
+
+.achievement-documentation .code-toggle {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--tls-secondary-600);
+  background: none;
+  border: 1px solid var(--tls-secondary-200);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.achievement-documentation .code-toggle:hover {
+  background-color: var(--tls-secondary-50);
+  border-color: var(--tls-secondary-300);
+}
+
+.achievement-documentation .code-example {
+  margin: 1rem 0 0 0;
+  padding: 1rem;
+  background-color: var(--tls-ink-900);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.achievement-documentation .code-example code {
+  color: var(--tls-ink-0);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   ANATOMY TABLE
+   ============================================================================ */
+
+.achievement-documentation .anatomy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.achievement-documentation .anatomy-table thead {
+  background-color: var(--tls-secondary-50);
+  border-bottom: 2px solid var(--tls-secondary-200);
+}
+
+.achievement-documentation .anatomy-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.achievement-documentation .anatomy-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--tls-ink-100);
+  color: var(--tls-ink-700);
+}
+
+.achievement-documentation .anatomy-table tr:last-child td {
+  border-bottom: none;
+}
+
+.achievement-documentation .slot-name {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: var(--tls-secondary-600);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   STATE DESCRIPTIONS
+   ============================================================================ */
+
+.achievement-documentation .state-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.achievement-documentation .state-card {
+  padding: 1rem;
+  background-color: var(--tls-secondary-50);
+  border-radius: 6px;
+}
+
+.achievement-documentation .state-card h4 {
+  color: var(--tls-secondary-600);
+  margin-bottom: 0.5rem;
+}
+
+.achievement-documentation .state-card p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   PROPS TABLE
+   ============================================================================ */
+
+.achievement-documentation .props-table {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.achievement-documentation .prop-row {
+  display: grid;
+  grid-template-columns: 140px 200px 100px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--tls-ink-100);
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.achievement-documentation .prop-row:hover {
+  background-color: var(--tls-ink-50);
+  border-color: var(--tls-secondary-200);
+}
+
+.achievement-documentation .prop-name {
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.achievement-documentation .prop-name code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: var(--tls-secondary-600);
+}
+
+.achievement-documentation .prop-type {
+  color: var(--tls-ink-600);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.achievement-documentation .prop-default {
+  color: var(--tls-ink-600);
+  font-weight: 500;
+}
+
+.achievement-documentation .prop-desc {
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   BEST PRACTICES
+   ============================================================================ */
+
+.achievement-documentation .best-practices-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.achievement-documentation .best-practices-list li {
+  padding: 1rem;
+  border-left: 3px solid var(--tls-secondary-500);
+  background-color: var(--tls-secondary-50);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--tls-ink-700);
+}
+
+.achievement-documentation .best-practices-list strong {
+  color: var(--tls-ink-900);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .achievement-documentation {
+    padding: 1rem;
+  }
+
+  .achievement-documentation .variants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-documentation .prop-row {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-documentation h1 {
+    font-size: 1.5rem;
+  }
+
+  .achievement-documentation h2 {
+    font-size: 1.25rem;
+  }
+}

@@ -1,0 +1,19 @@
+.tls-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: var(--t-caption);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.tls-meta-pill__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875em;
+}

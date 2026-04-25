@@ -1,0 +1,13 @@
+.tls-surface-card {
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+}
+
+.tls-surface-card--muted {
+  background-color: var(--surface-muted);
+}
+
+.tls-surface-card--sunken {
+  background-color: var(--surface-sunken);
+}

@@ -1,0 +1,26 @@
+.tls-glass-card {
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--r-lg);
+  padding: var(--s-6);
+  transition: all var(--dur-2) var(--ease-standard);
+}
+
+.tls-glass-card--light {
+  background: var(--g-glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.tls-glass-card--light:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.tls-glass-card--brand {
+  background: var(--g-glass-brand);
+  border: 1px solid rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-sm);
+}
+
+.tls-glass-card--brand:hover {
+  box-shadow: var(--shadow-md);
+}

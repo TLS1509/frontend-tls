@@ -1,0 +1,281 @@
+/**
+ * AlertDocumentation.css
+ * Styling for AlertDocumentation component
+ */
+
+.alert-documentation {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.alert-documentation .doc-section {
+  margin-bottom: 3rem;
+}
+
+.alert-documentation .doc-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--tls-primary-200);
+}
+
+.alert-documentation h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--tls-ink-900);
+  font-family: var(--typography-heading-font-family, 'League Spartan', sans-serif);
+}
+
+.alert-documentation .doc-description {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--tls-ink-600);
+  line-height: 1.6;
+}
+
+.alert-documentation h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+  margin: 1.5rem 0 1rem 0;
+  font-family: var(--typography-heading-font-family, 'League Spartan', sans-serif);
+}
+
+.alert-documentation .doc-intro {
+  margin: 0.5rem 0 1.5rem 0;
+  font-size: 0.95rem;
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   VARIANTS GRID
+   ============================================================================ */
+
+.alert-documentation .variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.alert-documentation .variant-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--tls-ink-100);
+  border-radius: 8px;
+  background-color: var(--tls-ink-0);
+  transition: all 0.2s ease;
+}
+
+.alert-documentation .variant-item:hover {
+  border-color: var(--tls-primary-200);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.alert-documentation .variant-preview {
+  flex: 1;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--tls-ink-50);
+  border-radius: 6px;
+}
+
+.alert-documentation .variant-info h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.alert-documentation .variant-info p {
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   CODE TOGGLE & EXAMPLE
+   ============================================================================ */
+
+.alert-documentation .code-toggle {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--tls-primary-600);
+  background: none;
+  border: 1px solid var(--tls-primary-200);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.alert-documentation .code-toggle:hover {
+  background-color: var(--tls-primary-50);
+  border-color: var(--tls-primary-300);
+}
+
+.alert-documentation .code-example {
+  margin: 1rem 0 0 0;
+  padding: 1rem;
+  background-color: var(--tls-ink-900);
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.alert-documentation .code-example code {
+  color: var(--tls-ink-0);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   ANATOMY TABLE
+   ============================================================================ */
+
+.alert-documentation .anatomy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.alert-documentation .anatomy-table thead {
+  background-color: var(--tls-primary-50);
+  border-bottom: 2px solid var(--tls-primary-200);
+}
+
+.alert-documentation .anatomy-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.alert-documentation .anatomy-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--tls-ink-100);
+  color: var(--tls-ink-700);
+}
+
+.alert-documentation .anatomy-table tr:last-child td {
+  border-bottom: none;
+}
+
+.alert-documentation .slot-name {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: var(--tls-primary-600);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   PROPS TABLE
+   ============================================================================ */
+
+.alert-documentation .props-table {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.alert-documentation .prop-row {
+  display: grid;
+  grid-template-columns: 150px 200px 100px 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--tls-ink-100);
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.alert-documentation .prop-row:hover {
+  background-color: var(--tls-ink-50);
+  border-color: var(--tls-primary-200);
+}
+
+.alert-documentation .prop-name {
+  font-weight: 600;
+  color: var(--tls-ink-900);
+}
+
+.alert-documentation .prop-name code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  color: var(--tls-primary-600);
+}
+
+.alert-documentation .prop-type {
+  color: var(--tls-ink-600);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.alert-documentation .prop-default {
+  color: var(--tls-ink-600);
+  font-weight: 500;
+}
+
+.alert-documentation .prop-desc {
+  color: var(--tls-ink-600);
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   BEST PRACTICES
+   ============================================================================ */
+
+.alert-documentation .best-practices-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.alert-documentation .best-practices-list li {
+  padding: 1rem;
+  border-left: 3px solid var(--tls-primary-500);
+  background-color: var(--tls-primary-50);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--tls-ink-700);
+}
+
+.alert-documentation .best-practices-list strong {
+  color: var(--tls-ink-900);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .alert-documentation {
+    padding: 1rem;
+  }
+
+  .alert-documentation .variants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alert-documentation .prop-row {
+    grid-template-columns: 1fr;
+  }
+
+  .alert-documentation h1 {
+    font-size: 1.5rem;
+  }
+
+  .alert-documentation h2 {
+    font-size: 1.25rem;
+  }
+}

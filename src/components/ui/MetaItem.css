@@ -1,0 +1,25 @@
+.tls-meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tls-meta-item:last-child {
+  border-bottom: none;
+}
+
+.tls-meta-item__label {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tls-meta-item__value {
+  font-size: var(--t-body-sm);
+  color: var(--text);
+  font-weight: 500;
+}

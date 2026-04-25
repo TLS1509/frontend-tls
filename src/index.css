@@ -1,0 +1,39 @@
+/* ============================================
+   GLOBAL STYLES - The Learning Society
+   Design Tokens from: The Learning Society Design System (Claude Design Export)
+   ============================================ */
+
+/* Import global styles (includes design tokens + all component styles) */
+@import url('./styles/globals.css');
+
+/* ============================================
+   TAILWIND CSS (includes @layer directives)
+   ============================================ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   REACT ROOT ELEMENT
+   ============================================ */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

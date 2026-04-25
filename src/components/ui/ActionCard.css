@@ -1,0 +1,53 @@
+/* ActionCard Component - Interactive card with button/action */
+
+.tls-action-card {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  transition: all var(--dur-2) var(--ease-standard);
+}
+
+.tls-action-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.tls-action-card__icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--tls-primary-100), var(--tls-primary-50));
+  border-radius: var(--r-md);
+  color: var(--tls-primary-500);
+  font-size: 1.75rem;
+}
+
+.tls-action-card__content {
+  flex: 1;
+}
+
+.tls-action-card__title {
+  font-size: var(--t-h4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 var(--s-2) 0;
+}
+
+.tls-action-card__description {
+  font-size: var(--t-body-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tls-action-card__action {
+  flex-shrink: 0;
+}

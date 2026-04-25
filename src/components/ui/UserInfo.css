@@ -1,0 +1,23 @@
+.tls-user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.tls-user-info__content {
+  flex: 1;
+}
+
+.tls-user-info__name {
+  font-size: var(--t-body-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.tls-user-info__role {
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  margin: var(--s-1) 0 0 0;
+}

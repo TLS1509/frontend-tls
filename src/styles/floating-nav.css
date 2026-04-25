@@ -1,0 +1,69 @@
+/**
+ * Floating Navigation Button Styles
+ *
+ * Fixed button in bottom-right corner with bubble design
+ */
+
+.floating-nav-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3), 0 8px 24px rgba(85, 161, 180, 0.2);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+}
+
+.floating-nav-button:hover {
+  transform: scale(1.1) translateY(-4px);
+  box-shadow: 0 8px 24px rgba(85, 161, 180, 0.4), 0 12px 36px rgba(85, 161, 180, 0.3);
+}
+
+.floating-nav-button:active {
+  transform: scale(0.95) translateY(-2px);
+}
+
+.floating-nav-icon {
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .floating-nav-button {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-nav-button {
+    bottom: 1rem;
+    right: 1rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.125rem;
+  }
+}
