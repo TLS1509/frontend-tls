@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Lock, Mail, Sparkles, ShieldCheck, Eye, EyeOff, Circle } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from 'lucide-react';
 import '../styles/static-pages.css';
 
 export const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
     <div className="tls-page">
-      <section className="tls-page__hero">
+      <section className="tls-editorial-hero">
+        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Authentification</span>
         <h1>Connexion</h1>
-        <p>Retrouvez votre espace d'apprentissage et vos parcours en cours.</p>
+        <p className="tls-editorial-summary">Retrouvez votre espace d'apprentissage, vos parcours en cours et vos recommandations personalisees.</p>
       </section>
 
       <section className="tls-auth-shell">
@@ -44,11 +47,11 @@ export const Login: React.FC = () => {
                 />
                 Se souvenir de moi
               </label>
-              <button type="button" className="tls-auth-link">Mot de passe oublie ?</button>
+              <button type="button" className="tls-auth-link" onClick={() => navigate('/auth/forgot-password')}>Mot de passe oublie ?</button>
             </div>
             <div className="tls-auth-actions">
               <Button type="submit">Se connecter</Button>
-              <Button type="button" variant="ghost">Creer un compte</Button>
+              <Button type="button" variant="ghost" onClick={() => navigate('/auth/signup')}>Creer un compte</Button>
             </div>
             <div className="tls-auth-divider">
               <span />
@@ -57,12 +60,10 @@ export const Login: React.FC = () => {
             </div>
             <div className="tls-auth-socials">
               <button type="button" className="tls-auth-social-btn">
-                <Circle size={14} />
-                Google
+                Continuer avec Google
               </button>
               <button type="button" className="tls-auth-social-btn">
-                <Circle size={14} />
-                LinkedIn
+                Continuer avec LinkedIn
               </button>
             </div>
           </form>
@@ -82,6 +83,9 @@ export const Login: React.FC = () => {
             <p>Recevez les rappels de sessions, ressources et échéances importantes.</p>
           </div>
           <div className="tls-pill"><Lock size={14} /> Version UI statique</div>
+          <Button variant="secondary" onClick={() => navigate('/auth/signup')}>
+            Creer un compte <ArrowRight size={14} />
+          </Button>
         </aside>
       </section>
     </div>

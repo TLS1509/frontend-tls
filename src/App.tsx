@@ -68,6 +68,11 @@ import {
   JournalFreeEntry,
   ResetPassword,
   Account,
+  Error404,
+  Error500,
+  Help,
+  Enterprise,
+  CourseDetail,
 } from './pages';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
@@ -351,7 +356,12 @@ function App() {
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                   <Route path="/auth/reset-password" element={<ResetPassword />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
+                  <Route path="/error/404" element={<Error404 />} />
+                  <Route path="/error/500" element={<Error500 />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/enterprise" element={<Enterprise />} />
+                  <Route path="/course/:id" element={<CourseDetail />} />
+                  <Route path="*" element={<Error404 />} />
                 </Routes>
               </AppLayout>
             }

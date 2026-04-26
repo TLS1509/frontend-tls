@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "npm": "allow",
+    "node": "allow",
+    "bash": ["npm", "node", "git", "grep", "find"]
+  }
+}

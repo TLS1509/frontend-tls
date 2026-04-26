@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { CircleCheck, CircleDashed, UserRound } from 'lucide-react';
+import { CircleCheck, CircleDashed, UserRound, Sparkles, Compass } from 'lucide-react';
 import '../styles/static-pages.css';
 
-export const Onboarding: React.FC = () => (
-  <div className="tls-page">
-    <section className="tls-page__hero">
+export const Onboarding: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="tls-page">
+    <section className="tls-editorial-hero">
+      <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Demarrage personalise</span>
       <h1>Onboarding</h1>
-      <p>Flow d'entree utilisateur pour personnaliser l'experience d'apprentissage.</p>
+      <p className="tls-editorial-summary">Flow d'entree utilisateur pour personnaliser l'experience d'apprentissage selon vos objectifs.</p>
     </section>
     <section className="tls-content-layout">
       <div className="tls-content-main">
@@ -19,10 +24,13 @@ export const Onboarding: React.FC = () => (
             <div className="tls-field"><label>Objectif principal</label><input type="text" placeholder="Ex: renforcer mon leadership" /></div>
             <div className="tls-field"><label>Niveau actuel</label><input type="text" placeholder="Debutant / Intermediaire / Avance" /></div>
           </div>
-          <Button>Continuer</Button>
+          <div className="tls-actions">
+            <Button>Continuer</Button>
+            <Button variant="secondary" onClick={() => navigate('/dashboard')}>Passer pour l'instant</Button>
+          </div>
         </Card>
       </div>
-      <aside className="tls-content-aside">
+      <aside className="tls-content-aside tls-editorial-sticky">
         <Card className="tls-section-card">
           <h4>Progression onboarding</h4>
           <ul className="tls-meta-list">
@@ -32,8 +40,13 @@ export const Onboarding: React.FC = () => (
             <li><CircleDashed size={12} /> Confirmation finale</li>
           </ul>
         </Card>
+        <Card className="tls-section-card">
+          <h4><Compass size={15} /> A quoi ca sert ?</h4>
+          <p className="tls-muted">Vos reponses alimentent les recommandations de contenus, le rythme propose et les suggestions de coaching.</p>
+        </Card>
       </aside>
     </section>
   </div>
-);
+  );
+};
 

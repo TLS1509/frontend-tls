@@ -1,3 +1,7 @@
+node_modules
+.DS_Store
+build
+.env
 # Logs
 logs
 *.log
@@ -11,11 +15,6 @@ node_modules
 dist
 dist-ssr
 *.local
-
-# Environment files (local development config)
-.env
-.env.local
-.env.*.local
 
 # Editor directories and files
 .vscode/*

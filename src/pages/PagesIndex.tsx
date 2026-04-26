@@ -27,7 +27,9 @@ interface PageItem {
     | 'coaching-flow'
     | 'account-auth'
     | 'social'
-    | 'system';
+    | 'system'
+    | 'enterprise'
+    | 'support';
 }
 
 const PAGES_LIST: PageItem[] = [
@@ -133,7 +135,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Galerie des composants et design tokens',
     path: '/components',
     icon: '🎨',
-    status: 'in-progress',
+    status: 'completed',
     category: 'admin',
     design: 'system',
     itemType: 'Documentation',
@@ -157,7 +159,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Hub apprentissage multi-sections (parcours, ressources, actions)',
     path: '/learning-space',
     icon: '🧭',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'hub',
     itemType: 'Learning Hub',
@@ -169,7 +171,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Detail article avec structure longue et metadata',
     path: '/veille/article/1',
     icon: '🗞️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -181,7 +183,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Page dossier thematique (sommaire, enjeux, ressources)',
     path: '/veille/dossier/1',
     icon: '📂',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -193,7 +195,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Tutoriel video avec player, chapitres et notes',
     path: '/veille/video-tutorial/1',
     icon: '🎬',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -205,7 +207,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Feed micro-learning de reels',
     path: '/veille/video-reels',
     icon: '🎞️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'list',
     itemType: 'Veille Item',
@@ -217,7 +219,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Collection des editions magazine',
     path: '/veille/magazine',
     icon: '📚',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'list',
     itemType: 'Veille Item',
@@ -229,7 +231,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Article detail d une edition magazine',
     path: '/veille/magazine-article/1',
     icon: '📰',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -241,7 +243,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Recap hebdomadaire editorial',
     path: '/veille/weekly-newsletter',
     icon: '📬',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -253,7 +255,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Detail d un item de la newsletter',
     path: '/veille/weekly-news/1',
     icon: '🧾',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -265,7 +267,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Abonnement, preferences et archives newsletter',
     path: '/veille/newsletter',
     icon: '✉️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'settings',
     itemType: 'Veille Item',
@@ -277,7 +279,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Page dediee au projet final de parcours',
     path: '/project/1',
     icon: '🚀',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Project',
@@ -289,7 +291,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Parcours de prise en main de la plateforme',
     path: '/onboarding',
     icon: '🧩',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Flow',
@@ -301,7 +303,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Etapes de reservation d une session coaching',
     path: '/coaching/booking',
     icon: '📅',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Flow',
@@ -313,7 +315,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Questionnaire pre-session',
     path: '/coaching/pre-questionnaire',
     icon: '🧠',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Flow',
@@ -325,7 +327,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Vue reponse du questionnaire pre-coaching',
     path: '/coaching/pre-questionnaire/response',
     icon: '✅',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Flow',
@@ -337,7 +339,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Parametres compte detailles (securite, notifications, langue)',
     path: '/account',
     icon: '🔐',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'settings',
     itemType: 'Account',
@@ -373,7 +375,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Sous-page detail d une entree du journal',
     path: '/journal/detail/1',
     icon: '📝',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Journal',
@@ -385,7 +387,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Creation guidee d une nouvelle entree',
     path: '/journal/new-entry',
     icon: '✍️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Journal',
@@ -397,7 +399,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Saisie libre d une entree journal',
     path: '/journal/free-entry',
     icon: '🗒️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Journal',
@@ -409,7 +411,7 @@ const PAGES_LIST: PageItem[] = [
     description: 'Sous-page detail d un contenu veille',
     path: '/veille/content',
     icon: '📰',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'detail',
     itemType: 'Veille Item',
@@ -457,11 +459,71 @@ const PAGES_LIST: PageItem[] = [
     description: 'Reinitialisation mot de passe',
     path: '/auth/reset-password',
     icon: '🛡️',
-    status: 'in-progress',
+    status: 'completed',
     category: 'feature',
     design: 'settings',
     itemType: 'Auth',
     family: 'account-auth',
+  },
+  {
+    id: 'course-detail',
+    name: 'Course Detail',
+    description: 'Detail module/cours avec programme et lecons (Figma CourseDetailPageUpdated)',
+    path: '/course/1',
+    icon: '🎓',
+    status: 'completed',
+    category: 'feature',
+    design: 'detail',
+    itemType: 'Learning',
+    family: 'learning',
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    description: 'Espace entreprise admin: KPI, equipe, parametres (Figma EntreprisePageComplete)',
+    path: '/enterprise',
+    icon: '🏢',
+    status: 'completed',
+    category: 'feature',
+    design: 'dashboard',
+    itemType: 'Enterprise',
+    family: 'enterprise',
+  },
+  {
+    id: 'help-chatbot',
+    name: 'Help / Assistant',
+    description: 'Assistant conversationnel statique (Figma HelpChatbotPage)',
+    path: '/help',
+    icon: '💬',
+    status: 'completed',
+    category: 'feature',
+    design: 'hub',
+    itemType: 'Support',
+    family: 'support',
+  },
+  {
+    id: 'error-404',
+    name: 'Error 404',
+    description: 'Page introuvable (Figma Error404Page)',
+    path: '/error/404',
+    icon: '🧭',
+    status: 'completed',
+    category: 'feature',
+    design: 'system',
+    itemType: 'Error',
+    family: 'support',
+  },
+  {
+    id: 'error-500',
+    name: 'Error 500',
+    description: 'Erreur serveur (Figma Error500Page)',
+    path: '/error/500',
+    icon: '⚠️',
+    status: 'completed',
+    category: 'feature',
+    design: 'system',
+    itemType: 'Error',
+    family: 'support',
   },
 ];
 
@@ -633,6 +695,28 @@ export const PagesIndex: React.FC = () => {
         <p className="section-description">Collaboration et notifications</p>
         <div className="pages-grid">
           {byFamily('social').map((page) => (
+            <PageCard key={page.id} page={page} />
+          ))}
+        </div>
+      </section>
+
+      {/* FAMILY: ENTERPRISE */}
+      <section className="pages-section">
+        <h2 className="section-title">🏢 Famille Entreprise</h2>
+        <p className="section-description">Administration multi-utilisateurs (structure statique)</p>
+        <div className="pages-grid">
+          {byFamily('enterprise').map((page) => (
+            <PageCard key={page.id} page={page} />
+          ))}
+        </div>
+      </section>
+
+      {/* FAMILY: SUPPORT */}
+      <section className="pages-section">
+        <h2 className="section-title">🛟 Famille Support & erreurs</h2>
+        <p className="section-description">Aide, 404 et 500</p>
+        <div className="pages-grid">
+          {byFamily('support').map((page) => (
             <PageCard key={page.id} page={page} />
           ))}
         </div>

@@ -12,6 +12,9 @@ import { restClient } from './restClient';
 // Start with AJAX, eventually migrate endpoints to REST
 const USE_REST_API = false;
 
+// Development mode: use mock data instead of WordPress endpoints
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
+
 interface QuizQuestion {
   id: string;
   question: string;
@@ -73,9 +76,20 @@ class WordPressAPI {
    * Get current authenticated user
    * Uses WordPress AJAX handler tls_get_current_user
    * This properly handles session cookies via AJAX
+   * In dev mode (USE_MOCK_DATA), returns mock user
    */
   async getCurrentUser(): Promise<User | null> {
     try {
+      // Development mode: return mock user
+      if (USE_MOCK_DATA) {
+        return {
+          id: 1,
+          name: 'Dev User',
+          email: 'dev@localhost',
+          roles: ['administrator'],
+        };
+      }
+
       // Use AJAX handler which better supports session cookie passing
       return await ajaxClient.call<User>('tls_get_current_user', {});
     } catch (error) {

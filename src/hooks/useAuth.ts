@@ -32,17 +32,32 @@ export const useAuth = (): UseAuthReturn => {
         setLoading(true);
         setError(null);
 
-        // Call WordPress API via AJAX handler (better session cookie support)
-        // wpApi.getCurrentUser() uses ajaxClient which routes to /admin-ajax.php
-        // This has superior session cookie handling compared to REST API
-        const userData = await wpApi.getCurrentUser();
+        // Mode développement: skip authentication check si flag activée
+        const skipAuthCheck = import.meta.env.VITE_SKIP_AUTH_CHECK === 'true';
 
-        if (userData) {
-          console.log('User authenticated:', userData);
-          setUser(userData);
+        if (skipAuthCheck) {
+          // Use mock user for development
+          const mockUser = {
+            id: 1,
+            name: 'Dev User',
+            email: 'dev@localhost',
+            roles: ['administrator'],
+          };
+          console.log('Dev mode: Using mock user');
+          setUser(mockUser);
         } else {
-          console.log('User not authenticated');
-          setUser(null);
+          // Call WordPress API via AJAX handler (better session cookie support)
+          // wpApi.getCurrentUser() uses ajaxClient which routes to /admin-ajax.php
+          // This has superior session cookie handling compared to REST API
+          const userData = await wpApi.getCurrentUser();
+
+          if (userData) {
+            console.log('User authenticated:', userData);
+            setUser(userData);
+          } else {
+            console.log('User not authenticated');
+            setUser(null);
+          }
         }
       } catch (err) {
         console.error('Failed to fetch user:', err);

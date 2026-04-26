@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/core/Button';
-import { Bell, CheckCheck, Clock3, Filter, BookOpen, MessageSquare, CalendarDays } from 'lucide-react';
+import { Bell, CheckCheck, Clock3, Filter, BookOpen, MessageSquare, CalendarDays, Sparkles } from 'lucide-react';
 import '../styles/static-pages.css';
 
 const items = [
@@ -12,11 +13,14 @@ const items = [
 ];
 
 export const Notifications: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="tls-page">
-      <section className="tls-page__hero">
+      <section className="tls-editorial-hero">
+        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Centre de notifications</span>
         <h1>Notifications</h1>
-        <p>Retrouvez les événements importants de votre activité d'apprentissage.</p>
+        <p className="tls-editorial-summary">Retrouvez les evenements importants de votre activite d'apprentissage avec tri par categorie.</p>
       </section>
       <div className="tls-actions">
         <Button size="sm"><CheckCheck size={14} />Tout marquer comme lu</Button>
@@ -45,6 +49,13 @@ export const Notifications: React.FC = () => {
           </Card>
         ))}
       </section>
+      <Card className="tls-section-card">
+        <h3>Parametres rapides</h3>
+        <p className="tls-muted">Ajustez vos preferences de canaux et de frequence pour reduire le bruit.</p>
+        <div className="tls-actions">
+          <Button variant="secondary" onClick={() => navigate('/account')}>Configurer mes notifications</Button>
+        </div>
+      </Card>
     </div>
   );
 };

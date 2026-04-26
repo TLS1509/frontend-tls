@@ -8,6 +8,7 @@
 ## Learning Space
 - `/learning-space` -> `src/pages/LearningSpace.tsx` -> `src/styles/static-pages.css`
 - `/project/:id` -> `src/pages/Project.tsx` -> `src/styles/static-pages.css`
+- `/course/:id` -> `src/pages/CourseDetail.tsx` -> `src/styles/figma-missing-pages.css` (+ `static-pages.css`)
 
 ## Veille (Hub + Items)
 - `/veille` -> `src/pages/Veille.tsx` -> `src/styles/veille.css`
@@ -48,6 +49,12 @@
 - `/collaboration` -> `src/pages/Collaboration.tsx` -> `src/styles/feature-pages-modern.css`
 - `/notifications` -> `src/pages/Notifications.tsx` -> `src/styles/static-pages.css`
 - `/pages-index` -> `src/pages/PagesIndex.tsx` -> `src/styles/pages-index.css`
+
+## Enterprise & support (Figma Make)
+- `/enterprise` -> `src/pages/Enterprise.tsx` -> `src/styles/figma-missing-pages.css`
+- `/help` -> `src/pages/Help.tsx` -> `src/styles/figma-missing-pages.css`
+- `/error/404` -> `src/pages/Error404.tsx` -> `src/styles/figma-missing-pages.css`
+- `/error/500` -> `src/pages/Error500.tsx` -> `src/styles/figma-missing-pages.css`
 
 ## Pointer les bons fichiers dans Cursor
 - Niveau page: `@src/pages/<Page>.tsx`

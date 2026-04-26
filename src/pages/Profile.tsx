@@ -23,6 +23,7 @@ import {
   Zap,
 } from 'lucide-react';
 import '../styles/feature-pages-modern.css';
+import '../styles/static-pages.css';
 
 export const Profile: React.FC = () => {
   const { user } = useAuth();
@@ -59,9 +60,26 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="feature-page">
-      <section className="feature-page__hero feature-page__hero--profile">
-        <h1>Profil</h1>
-        <p>Vue complete de votre progression, vos badges et vos informations de compte.</p>
+      <section className="tls-editorial-hero">
+        <p className="tls-editorial-eyebrow">Account • Profil</p>
+        <h1 style={{ margin: 0 }}>Profil utilisateur</h1>
+        <p className="tls-editorial-summary">
+          Vue complete de votre progression, vos badges et vos informations de compte.
+        </p>
+        <div className="tls-editorial-meta">
+          <span className="tls-micro">
+            <BookOpen size={12} style={{ marginRight: 4 }} />
+            12 cours termines
+          </span>
+          <span className="tls-micro">
+            <Clock3 size={12} style={{ marginRight: 4 }} />
+            86h d apprentissage
+          </span>
+          <span className="tls-micro">
+            <Flame size={12} style={{ marginRight: 4 }} />
+            Streak 7 jours
+          </span>
+        </div>
       </section>
 
       {user && (
@@ -164,6 +182,13 @@ export const Profile: React.FC = () => {
                   <Button>Modifier le profil</Button>
                 </div>
               </Card>
+
+              <div className="tls-callout" style={{ gridColumn: '1 / -1' }}>
+                <p style={{ marginTop: 0, marginBottom: 'var(--s-1)', fontWeight: 600 }}>Focus recommande</p>
+                <p className="tls-micro" style={{ marginBottom: 0 }}>
+                  Prioriser les modules IA Generative et Prompt Engineering pour atteindre le prochain palier.
+                </p>
+              </div>
             </section>
           )}
 

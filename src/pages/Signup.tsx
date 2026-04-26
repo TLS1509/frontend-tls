@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { BookOpenCheck, UserPlus, Shield, Sparkles, Mail, Lock, UserRound, Circle } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Lock, Mail, Shield, Sparkles, UserPlus, UserRound } from 'lucide-react';
 import '../styles/static-pages.css';
 
 export const Signup: React.FC = () => {
+  const navigate = useNavigate();
   const [acceptTerms, setAcceptTerms] = useState(false);
 
   return (
     <div className="tls-page">
-      <section className="tls-page__hero">
+      <section className="tls-editorial-hero">
+        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Creation de compte</span>
         <h1>Inscription</h1>
-        <p>Créez votre compte pour démarrer un parcours personnalisé.</p>
+        <p className="tls-editorial-summary">Creez votre compte pour demarrer un parcours personnalise et acceder a la veille premium.</p>
       </section>
       <section className="tls-auth-shell">
         <Card className="tls-auth-card">
@@ -47,7 +50,7 @@ export const Signup: React.FC = () => {
             </label>
             <div className="tls-auth-actions">
               <Button type="submit"><UserPlus size={16} />Créer mon compte</Button>
-              <Button type="button" variant="ghost">Deja inscrit ?</Button>
+              <Button type="button" variant="ghost" onClick={() => navigate('/auth/login')}>Deja inscrit ?</Button>
             </div>
             <div className="tls-auth-divider">
               <span />
@@ -56,12 +59,10 @@ export const Signup: React.FC = () => {
             </div>
             <div className="tls-auth-socials">
               <button type="button" className="tls-auth-social-btn">
-                <Circle size={14} />
-                Google
+                Continuer avec Google
               </button>
               <button type="button" className="tls-auth-social-btn">
-                <Circle size={14} />
-                LinkedIn
+                Continuer avec LinkedIn
               </button>
             </div>
           </form>
@@ -76,6 +77,9 @@ export const Signup: React.FC = () => {
             <p>Gestion des accès et des espaces de collaboration dès l'activation.</p>
           </div>
           <div className="tls-pill"><Sparkles size={14} /> Phase design statique validée</div>
+          <Button variant="secondary" onClick={() => navigate('/auth/login')}>
+            Aller a la connexion <ArrowRight size={14} />
+          </Button>
         </aside>
       </section>
     </div>

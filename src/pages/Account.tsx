@@ -1,14 +1,18 @@
 import React from 'react';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { BellRing, Languages, ShieldCheck } from 'lucide-react';
+import { BellRing, Languages, ShieldCheck, UserRound, Sparkles } from 'lucide-react';
 import '../styles/static-pages.css';
 
 export const Account: React.FC = () => (
   <div className="tls-page">
-    <section className="tls-page__hero">
+    <section className="tls-editorial-hero">
+      <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Parametres de compte</span>
       <h1>Account</h1>
-      <p>Parametres de compte detailles: securite, notifications, langue.</p>
+      <p className="tls-editorial-summary">Parametres de compte detailles: securite, notifications, langue et gouvernance personnelle.</p>
+      <div className="tls-editorial-meta">
+        <span><UserRound size={12} /> Profil actif</span>
+      </div>
     </section>
     <section className="tls-grid">
       <Card className="tls-section-card">

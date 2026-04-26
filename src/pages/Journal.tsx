@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { CalendarDays, PenSquare, BookOpen, ArrowRight, Search, Sparkles, Clock3 } from 'lucide-react';
@@ -10,14 +11,23 @@ const entries = [
 ];
 
 export const Journal: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="tls-page">
-      <section className="tls-page__hero">
+      <section className="tls-editorial-hero">
+        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Reflexion personnelle</span>
         <h1>Journal</h1>
-        <p>Capitalisez vos apprentissages et suivez votre progression réflexive.</p>
+        <p className="tls-editorial-summary">Capitalisez vos apprentissages et suivez votre progression reflexive avec un espace de prise de notes structure.</p>
+      </section>
+      <section className="tls-kpi-row">
+        <div className="tls-kpi"><strong>12</strong><span>Entrees ce mois</span></div>
+        <div className="tls-kpi"><strong>4</strong><span>Themes actifs</span></div>
+        <div className="tls-kpi"><strong>78%</strong><span>Regularite hebdo</span></div>
       </section>
       <div className="tls-actions">
-        <Button><PenSquare size={16} />Ecrire une nouvelle entree</Button>
+        <Button onClick={() => navigate('/journal/new-entry')}><PenSquare size={16} />Ecrire une nouvelle entree</Button>
+        <Button variant="secondary" onClick={() => navigate('/journal/free-entry')}>Entree libre</Button>
       </div>
       <div className="tls-journal-toolbar">
         <label className="tls-journal-search">
@@ -41,8 +51,8 @@ export const Journal: React.FC = () => {
               <span className="tls-journal-card__type">{entry.type}</span>
               <p className="tls-muted">{entry.excerpt}</p>
               <div className="tls-journal-card__actions">
-                <Button variant="secondary" size="sm"><BookOpen size={14} />Lire l'entree</Button>
-                <Button variant="ghost" size="sm">Continuer <ArrowRight size={14} /></Button>
+                <Button variant="secondary" size="sm" onClick={() => navigate('/journal/detail/1')}><BookOpen size={14} />Lire l'entree</Button>
+                <Button variant="ghost" size="sm" onClick={() => navigate('/journal/detail/1')}>Continuer <ArrowRight size={14} /></Button>
               </div>
             </div>
           </Card>

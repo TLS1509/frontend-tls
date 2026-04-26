@@ -27,6 +27,7 @@ import {
   Clock3,
 } from 'lucide-react';
 import '../styles/feature-pages-modern.css';
+import '../styles/static-pages.css';
 
 interface CoachingSession {
   id: string;
@@ -87,9 +88,26 @@ const sessions: CoachingSession[] = [
 export const Coaching: React.FC = () => {
   return (
     <div className="feature-page">
-      <section className="feature-page__hero feature-page__hero--coaching">
-        <h1>Coaching</h1>
-        <p>Accompagnement 1:1 pour accelerer la mise en pratique sur vos cas reels.</p>
+      <section className="tls-editorial-hero">
+        <p className="tls-editorial-eyebrow">Coaching Flow • Accompagnement</p>
+        <h1 style={{ margin: 0 }}>Coaching 1:1</h1>
+        <p className="tls-editorial-summary">
+          Accompagnement individuel pour accelerer la mise en pratique sur vos cas reels.
+        </p>
+        <div className="tls-editorial-meta">
+          <span className="tls-micro">
+            <CalendarClock size={12} style={{ marginRight: 4 }} />
+            1 session planifiee
+          </span>
+          <span className="tls-micro">
+            <Star size={12} style={{ marginRight: 4 }} />
+            Satisfaction moyenne 4.9/5
+          </span>
+          <span className="tls-micro">
+            <Users size={12} style={{ marginRight: 4 }} />
+            12 sessions realisees
+          </span>
+        </div>
       </section>
 
       <section className="feature-page__kpis">
@@ -121,6 +139,12 @@ export const Coaching: React.FC = () => {
                 <ExternalLink size={14} />
                 LinkedIn
               </a>
+            </div>
+            <div className="tls-callout">
+              <p style={{ marginTop: 0, marginBottom: 'var(--s-1)', fontWeight: 600 }}>Conseil preparation</p>
+              <p className="tls-micro" style={{ marginBottom: 0 }}>
+                Completez le questionnaire pre-session pour maximiser la valeur du rendez-vous.
+              </p>
             </div>
           </div>
         </Card>

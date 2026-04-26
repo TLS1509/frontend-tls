@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { CalendarDays, Clock3, MapPin } from 'lucide-react';
+import { CalendarDays, Clock3, MapPin, Sparkles, UserRound } from 'lucide-react';
 import '../styles/static-pages.css';
 
-export const CoachingBookingFlow: React.FC = () => (
-  <div className="tls-page">
-    <section className="tls-page__hero">
+export const CoachingBookingFlow: React.FC = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="tls-page">
+    <section className="tls-editorial-hero">
+      <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Coaching personnalise</span>
       <h1>Coaching Booking Flow</h1>
-      <p>Reservation de session coaching: creneau, contexte, validation.</p>
+      <p className="tls-editorial-summary">Reservation de session coaching: creneau, contexte, validation et questionnaire pre-session.</p>
     </section>
     <section className="tls-content-layout">
       <div className="tls-content-main">
@@ -19,20 +24,25 @@ export const CoachingBookingFlow: React.FC = () => (
             <div className="tls-related-item"><strong>Lundi 09:00</strong><p className="tls-muted">Coach: Sarah Martin</p></div>
             <div className="tls-related-item"><strong>Mardi 14:30</strong><p className="tls-muted">Coach: Julien Morel</p></div>
           </div>
-          <Button>Confirmer la reservation</Button>
+          <div className="tls-actions">
+            <Button onClick={() => navigate('/coaching/pre-questionnaire')}>Confirmer la reservation</Button>
+            <Button variant="secondary">Voir tous les creneaux</Button>
+          </div>
         </Card>
       </div>
-      <aside className="tls-content-aside">
+      <aside className="tls-content-aside tls-editorial-sticky">
         <Card className="tls-section-card">
           <h4>Session choisie</h4>
           <ul className="tls-meta-list">
             <li><CalendarDays size={12} /> Mardi 14:30</li>
             <li><Clock3 size={12} /> 45 minutes</li>
             <li><MapPin size={12} /> Visioconference</li>
+            <li><UserRound size={12} /> Coach: Sarah Martin</li>
           </ul>
         </Card>
       </aside>
     </section>
   </div>
-);
+  );
+};
 

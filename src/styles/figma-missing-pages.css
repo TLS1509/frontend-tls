@@ -1,0 +1,321 @@
+/* Figma Make parity — Error, Help, Enterprise, Course detail (static) */
+
+.tls-error-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-8) var(--s-4);
+  position: relative;
+  overflow: hidden;
+}
+
+.tls-error-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--g-mesh);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tls-error-inner {
+  position: relative;
+  max-width: 640px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.tls-error-code {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 18vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: var(--s-6);
+  background: var(--g-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.04em;
+}
+
+.tls-error-code--danger {
+  background: linear-gradient(135deg, var(--tls-danger-base), var(--tls-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.tls-error-icon-wrap {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto var(--s-6);
+  border-radius: var(--r-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(85, 161, 180, 0.12);
+  border: 2px solid var(--tls-primary-200);
+  color: var(--tls-primary-600);
+}
+
+.tls-error-icon-wrap--danger {
+  background: rgba(242, 133, 89, 0.12);
+  border-color: rgba(242, 133, 89, 0.35);
+  color: var(--tls-danger-base);
+}
+
+.tls-error-title {
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 600;
+  margin: 0 0 var(--s-3);
+  color: var(--text);
+}
+
+.tls-error-desc {
+  font-size: var(--t-body-lg);
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin: 0 0 var(--s-8);
+}
+
+.tls-error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  justify-content: center;
+}
+
+/* Help chatbot */
+.help-chat {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  max-height: 900px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.help-chat__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.help-chat__head h1 {
+  font-size: var(--t-h3);
+  margin: 0;
+}
+
+.help-chat__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.help-chat__bubble {
+  max-width: 85%;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  font-size: var(--t-body-sm);
+  line-height: 1.55;
+}
+
+.help-chat__bubble--bot {
+  align-self: flex-start;
+  background: var(--tls-primary-50);
+  border: 1px solid var(--tls-primary-200);
+  color: var(--text);
+}
+
+.help-chat__bubble--user {
+  align-self: flex-end;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+}
+
+.help-chat__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+.help-chat__suggestion {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--t-caption);
+  cursor: pointer;
+  color: var(--text);
+  transition: border-color var(--dur-2), background var(--dur-2);
+}
+
+.help-chat__suggestion:hover {
+  border-color: var(--tls-primary-300);
+  background: var(--tls-primary-50);
+}
+
+.help-chat__footer {
+  padding: var(--s-4);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  background: var(--surface);
+}
+
+.help-chat__footer input {
+  flex: 1;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  padding: var(--s-3) var(--s-4);
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.help-chat__typing {
+  font-size: var(--t-caption);
+  color: var(--text-soft);
+  padding: 0 var(--s-5) var(--s-2);
+}
+
+/* Enterprise */
+.enterprise-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-bottom: var(--s-5);
+}
+
+.enterprise-tab {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--r-pill);
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-soft);
+}
+
+.enterprise-tab[data-active='true'] {
+  background: var(--tls-primary-50);
+  border-color: var(--tls-primary-300);
+  color: var(--tls-primary-800);
+}
+
+.enterprise-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-4);
+  margin-bottom: var(--s-6);
+}
+
+.enterprise-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-body-sm);
+}
+
+.enterprise-table th,
+.enterprise-table td {
+  text-align: left;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.enterprise-table th {
+  color: var(--text-soft);
+  font-weight: 600;
+  font-size: var(--t-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Course detail */
+.course-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: var(--s-6);
+  margin-bottom: var(--s-6);
+}
+
+@media (max-width: 900px) {
+  .course-detail-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+.course-detail-thumb {
+  border-radius: var(--r-xl);
+  min-height: 220px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  font-size: var(--t-caption);
+}
+
+.course-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: var(--s-3) 0;
+}
+
+.course-step {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  margin-bottom: var(--s-3);
+  overflow: hidden;
+}
+
+.course-step__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: none;
+  background: var(--surface-muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.course-step__lessons {
+  padding: 0 var(--s-4) var(--s-4);
+}
+
+.course-lesson-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--t-body-sm);
+}
+
+.course-lesson-row:last-child {
+  border-bottom: none;
+}
