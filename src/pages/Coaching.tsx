@@ -129,7 +129,7 @@ export const Coaching: React.FC = () => {
             onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
-            <div className="tls-kpi-icon" style={{ background: 'rgba(237, 132, 58, 0.1)', color: 'var(--tls-orange-600)' }}>
+            <div className="tls-kpi-icon" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)' }}>
               <CheckCircle2 size={20} />
             </div>
             <p style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--tls-orange-600)', margin: '0 0 var(--s-1)', lineHeight: 1 }} role="status" aria-label="12 sessions réalisées">12</p>
@@ -142,7 +142,7 @@ export const Coaching: React.FC = () => {
             onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
-            <div className="tls-kpi-icon" style={{ background: 'rgba(234, 192, 74, 0.12)', color: 'var(--tls-yellow-600)' }}>
+            <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)' }}>
               <Star size={20} />
             </div>
             <p style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--tls-yellow-600)', margin: '0 0 var(--s-1)', lineHeight: 1 }} role="status" aria-label="4.9 sur 5 de satisfaction">4.9/5</p>
