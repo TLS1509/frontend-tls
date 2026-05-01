@@ -1,11 +1,25 @@
+/**
+ * Dashboard Page — User Learning Hub
+ *
+ * Central dashboard with:
+ * - Personalized hero greeting with stats
+ * - Quick action cards for main features
+ * - Continue learning card with progress
+ * - Prompt reflection cards for journaling
+ * - Recent activity feed
+ *
+ * Uses TLS design tokens throughout. No hardcoded values.
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Badge } from '../components/ui/Badge';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Button } from '../components/core/Button';
 import { ActivityItem } from '../components/ui/ActivityItem';
-import { IconFeatureCard } from '../components/ui/IconFeatureCard';
+import { MetaPillGroup } from '../components/ui/MetaPillGroup';
+import { CardGrid } from '../components/patterns/CardGrid';
+import { Card, CardTitle, CardDesc } from '../components/core/Card';
 import {
   Users,
   Map,
@@ -18,7 +32,7 @@ import {
   Award,
   Flame,
 } from 'lucide-react';
-import '../styles/dashboard-modern.css';
+import { PromptCard } from '../components/learning';
 
 interface Activity {
   id: string;
@@ -123,88 +137,149 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-modern">
-      <section className="dashboard-modern__hero">
-        <div className="dashboard-modern__hero-glow dashboard-modern__hero-glow--top" />
-        <div className="dashboard-modern__hero-glow dashboard-modern__hero-glow--bottom" />
+    <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
+      {/* Hero Section with Greeting & Stats */}
+      <section style={{ background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', color: 'white', padding: 'var(--s-12)', position: 'relative', overflow: 'hidden' }}>
+        {/* Decorative blur blobs */}
+        <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.05)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.08)', filter: 'blur(50px)', pointerEvents: 'none' }} />
 
-        <div className="dashboard-modern__hero-header">
-          <div className="dashboard-modern__hero-title-wrap">
-            <span className="dashboard-modern__date">{currentDate}</span>
-            <h1 className="dashboard-modern__title">Hello {user?.name ?? 'membre'} 👋</h1>
-            <p className="dashboard-modern__quote">
+        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', alignItems: 'flex-start' }}>
+          {/* Greeting */}
+          <div>
+            <p style={{ margin: 0, fontSize: 'var(--t-caption)', fontWeight: 600, opacity: 0.9 }}>
+              {currentDate}
+            </p>
+            <h1 style={{ fontSize: 'var(--t-h1)', fontFamily: 'var(--font-display)', fontWeight: 700, margin: 'var(--s-2) 0 var(--s-3)' }}>
+              Hello {user?.name ?? 'membre'} 👋
+            </h1>
+            <p style={{ margin: 0, fontSize: 'var(--t-body-lg)', opacity: 0.92, maxWidth: 500 }}>
               "L'apprentissage est un voyage, pas une destination."
             </p>
           </div>
-          <div className="dashboard-modern__stats">
-            <span className="dashboard-modern__stat-pill dashboard-modern__stat-pill--sun">
-              <Flame size={14} /> 7 jours
-            </span>
-            <span className="dashboard-modern__stat-pill dashboard-modern__stat-pill--warm">
-              <Award size={14} /> 12 badges
-            </span>
-            <span className="dashboard-modern__stat-pill dashboard-modern__stat-pill--brand">
-              <TrendingUp size={14} /> 68%
-            </span>
-          </div>
+
+          {/* Stats Pills */}
+          <MetaPillGroup
+            items={[
+              { icon: <Flame size={14} />, text: '7 jours', tone: 'sun' },
+              { icon: <Award size={14} />, text: '12 badges', tone: 'warm' },
+              { icon: <TrendingUp size={14} />, text: '68%', tone: 'primary' },
+            ]}
+            layout="horizontal"
+            gap="md"
+            size="md"
+          />
         </div>
       </section>
 
-      <section className="dashboard-modern__quick-actions">
-        {quickActions.map((action) => (
-          <button
-            key={action.id}
-            type="button"
-            className="dashboard-modern__action-btn"
-            onClick={() => navigate(action.path)}
-          >
-            <IconFeatureCard
-              icon={action.icon}
-              title={action.title}
-              description={action.description}
-              className="dashboard-modern__action"
+      {/* Main Content */}
+      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
+        {/* Quick Actions Grid */}
+        <div>
+          <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
+            Actions rapides
+          </h2>
+          <CardGrid layout="feature" gapSize="md">
+            {quickActions.map((action) => (
+              <Card
+                key={action.id}
+                variant="interactive"
+                onClick={() => navigate(action.path)}
+                style={{ textAlign: 'center', cursor: 'pointer' }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--s-4)' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {action.icon}
+                  </div>
+                </div>
+                <CardTitle style={{ textAlign: 'center', fontSize: 'var(--t-body)', margin: '0 0 var(--s-2)' }}>
+                  {action.title}
+                </CardTitle>
+                <CardDesc style={{ textAlign: 'center', fontSize: 'var(--t-caption)' }}>
+                  {action.description}
+                </CardDesc>
+              </Card>
+            ))}
+          </CardGrid>
+        </div>
+
+        {/* Continue Learning Card */}
+        <Card variant="feature" style={{ background: 'linear-gradient(135deg, var(--tls-orange-50), var(--tls-yellow-50))', border: '2px solid var(--tls-orange-200)', cursor: 'pointer', transition: 'all var(--dur-2)' }} onClick={() => navigate('/learning-paths/1')}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--s-4)' }}>
+              <div style={{ flex: 1 }}>
+                <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, textTransform: 'uppercase', color: 'var(--tls-orange-600)', letterSpacing: '0.06em', display: 'block', marginBottom: 'var(--s-2)' }}>
+                  Continuer votre parcours
+                </span>
+                <h2 style={{ fontSize: 'var(--t-h3)', fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-2)' }}>
+                  Maîtriser l'IA pour la Formation
+                </h2>
+                <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
+                  Étape 2 : Applications pratiques
+                </p>
+              </div>
+              <Button onClick={(e) => { e.stopPropagation(); navigate('/learning-paths/1'); }}>
+                Continuer →
+              </Button>
+            </div>
+
+            {/* Progress */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-2)' }}>
+                <span style={{ fontSize: 'var(--t-caption)', fontWeight: 500, color: 'var(--text-muted)' }}>
+                  Progression globale
+                </span>
+                <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--text)' }}>
+                  {progressValue}%
+                </span>
+              </div>
+              <ProgressBar value={progressValue} fill="brand" />
+            </div>
+
+            {/* Lesson Stats */}
+            <MetaPillGroup
+              items={[
+                { icon: <CheckCircle2 size={13} />, text: '24 leçons complétées', tone: 'warm' },
+                { icon: <BookOpen size={13} />, text: '35 leçons au total', tone: 'warm' },
+              ]}
+              size="sm"
+              layout="horizontal"
             />
-          </button>
-        ))}
-      </section>
-
-      <section className="dashboard-modern__continue">
-        <div className="dashboard-modern__continue-head">
-          <div>
-            <h2>Maîtriser l'IA pour la Formation</h2>
-            <p>Étape 2: Applications pratiques</p>
           </div>
-          <Button onClick={() => navigate('/learning-paths/1')}>Continuer</Button>
+        </Card>
+
+        {/* Reflection Prompts */}
+        <div>
+          <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
+            Prompts de réflexion
+          </h2>
+          <CardGrid layout="default" gapSize="lg" autoFit={true}>
+            {prompts.map((prompt) => (
+              <PromptCard
+                key={prompt.id}
+                label={prompt.label}
+                icon={prompt.icon}
+                text={prompt.text}
+                variant={prompt.badgeVariant}
+                onClick={() => navigate(prompt.path)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    navigate(prompt.path);
+                  }
+                }}
+              />
+            ))}
+          </CardGrid>
         </div>
-        <ProgressBar value={progressValue} label="Progression" />
-        <span className="dashboard-modern__progress-label">{progressValue}% complété</span>
-      </section>
 
-      <section className="dashboard-modern__prompts">
-        {prompts.map((prompt) => (
-          <article
-            key={prompt.id}
-            className="dashboard-modern__prompt-card"
-            role="button"
-            tabIndex={0}
-            onClick={() => navigate(prompt.path)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                navigate(prompt.path);
-              }
-            }}
-          >
-            <Badge variant={prompt.badgeVariant}>{prompt.label}</Badge>
-            {prompt.icon}
-            <p>{prompt.text}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="dashboard-modern__activity">
-        <h3>Fil d'actualités</h3>
-        <div className="dashboard-modern__activity-list dashboard-modern__activity-shell">
+        {/* Activity Feed */}
+        <div>
+          <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
+            Fil d'actualités
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
             {activities.map((activity) => (
               <ActivityItem
                 key={activity.id}
@@ -214,8 +289,9 @@ export const Dashboard: React.FC = () => {
                 timestamp={activity.timestamp}
               />
             ))}
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

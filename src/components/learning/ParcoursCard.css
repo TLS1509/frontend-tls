@@ -1,0 +1,78 @@
+.tls-parcours-card {
+  padding: var(--s-6);
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r-lg);
+  transition: all var(--dur-2) var(--ease-standard);
+  cursor: pointer;
+}
+
+.tls-parcours-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.tls-parcours-card--completed {
+  border-color: var(--tls-success-base);
+  background: linear-gradient(135deg, var(--tls-success-bg), var(--surface));
+}
+
+.tls-parcours-card--in-progress {
+  border-color: var(--tls-primary-500);
+}
+
+.tls-parcours-card__header {
+  margin-bottom: var(--s-3);
+}
+
+.tls-parcours-card__title {
+  font-size: var(--t-h4);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.tls-parcours-card__description {
+  font-size: var(--t-body-sm);
+  color: var(--text-muted);
+  margin: 0 0 var(--s-4) 0;
+  line-height: 1.5;
+}
+
+.tls-parcours-card__progress {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+.tls-parcours-card__bar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--tls-ink-100);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.tls-parcours-card__fill {
+  height: 100%;
+  background-color: var(--tls-primary-500);
+  border-radius: var(--r-pill);
+  transition: width var(--dur-3) var(--ease-standard);
+}
+
+.tls-parcours-card__percent {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--text);
+  min-width: 40px;
+  text-align: right;
+}
+
+.tls-parcours-card__lessons {
+  font-size: var(--t-caption);
+  color: var(--text-soft);
+  margin: 0;
+}

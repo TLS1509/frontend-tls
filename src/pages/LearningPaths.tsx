@@ -1,34 +1,31 @@
 /**
- * LearningPaths Page (List View)
+ * LearningPaths Page — Mes Parcours
  *
- * Liste des parcours d'apprentissage avec hero, KPIs, filtres et grille de cartes
- * "glass" en rotation de couleurs (primary / warm / sun) inspirée du Figma
- * `ParcoursPageUpgraded`.
- *
- * Statique : les données sont locales pour la phase design.
+ * Layout adapté du WIP ParcoursPageUpgraded :
+ * - Titre + sous-titre
+ * - KPI row (4 indicateurs)
+ * - Filtres statut + recherche
+ * - Grille 3 colonnes de ParcoursCard (design system pattern)
  */
 
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   GraduationCap,
-  ArrowRight,
-  PlayCircle,
-  Clock3,
-  Layers,
-  BookOpen,
-  UserRound,
   Flame,
   CheckCircle2,
+  BookOpen,
   Sparkles,
   RotateCcw,
-  Search,
 } from 'lucide-react';
-import '../styles/learning-paths.css';
+import { Search } from '../components/ui/Search';
+import { FilterChip } from '../components/ui/FilterChip';
+import { ParcoursCard } from '../components/patterns/ParcoursCard';
+import type { ParcoursTone, ParcoursStatus } from '../components/patterns/ParcoursCard';
+import { CardGrid } from '../components/patterns/CardGrid';
+import { Button } from '../components/core/Button';
 
-type Tone = 'primary' | 'warm' | 'sun';
-type Status = 'en cours' | 'complété' | 'non commencé';
-
+/* ── Types ─────────────────────────────────────────────────── */
 interface Parcours {
   id: string;
   title: string;
@@ -38,10 +35,11 @@ interface Parcours {
   duration: string;
   lessons: number;
   progress: number;
-  status: Status;
+  status: ParcoursStatus;
   category: string;
 }
 
+/* ── Mock data ─────────────────────────────────────────────── */
 const MOCK_PARCOURS: Parcours[] = [
   {
     id: '1',
@@ -123,35 +121,34 @@ const MOCK_PARCOURS: Parcours[] = [
   },
 ];
 
-const TONES: Tone[] = ['primary', 'warm', 'sun'];
+/* ── Tone rotation (primary / warm / sun) ──────────────────── */
+const TONES: ParcoursTone[] = ['primary', 'warm', 'sun'];
 
-const STATUS_FILTERS: { id: Status; label: string }[] = [
+/* ── Status filter config ──────────────────────────────────── */
+const STATUS_FILTERS: { id: ParcoursStatus; label: string }[] = [
   { id: 'en cours', label: 'En cours' },
-  { id: 'complété', label: 'Complétés' },
+  { id: 'complété', label: 'Terminés' },
   { id: 'non commencé', label: 'Pas commencés' },
 ];
 
-const STATUS_BADGE_LABEL: Record<Status, string> = {
-  'en cours': 'EN COURS',
-  complété: 'TERMINÉ',
-  'non commencé': 'PAS COMMENCÉ',
-};
-
+/* ── Component ─────────────────────────────────────────────── */
 export const LearningPaths: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedStatuses, setSelectedStatuses] = useState<Set<Status>>(new Set());
+  const [selectedStatuses, setSelectedStatuses] = useState<Set<ParcoursStatus>>(new Set());
   const [query, setQuery] = useState('');
 
+  /* KPI calculations */
   const total = MOCK_PARCOURS.length;
   const inProgressCount = MOCK_PARCOURS.filter((p) => p.status === 'en cours').length;
   const completedCount = MOCK_PARCOURS.filter((p) => p.status === 'complété').length;
-  const totalLessons = MOCK_PARCOURS.reduce((sum, p) => sum + p.lessons, 0);
+  const totalLessons = MOCK_PARCOURS.reduce((s, p) => s + p.lessons, 0);
   const completedLessons = MOCK_PARCOURS.reduce(
-    (sum, p) => sum + Math.round((p.lessons * p.progress) / 100),
+    (s, p) => s + Math.round((p.lessons * p.progress) / 100),
     0
   );
   const overallProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
+  /* Filtering */
   const filteredParcours = useMemo(() => {
     return MOCK_PARCOURS.filter((p) => {
       const matchStatus = selectedStatuses.size === 0 || selectedStatuses.has(p.status);
@@ -165,235 +162,157 @@ export const LearningPaths: React.FC = () => {
     });
   }, [selectedStatuses, query]);
 
-  const toggleStatus = (status: Status) => {
+  const toggleStatus = (status: ParcoursStatus) => {
     setSelectedStatuses((prev) => {
       const next = new Set(prev);
-      if (next.has(status)) next.delete(status);
-      else next.add(status);
+      next.has(status) ? next.delete(status) : next.add(status);
       return next;
     });
   };
 
-  const resetFilters = () => setSelectedStatuses(new Set());
-
-  const handleOpen = (parcoursId: string) => {
-    navigate(`/learning-paths/${parcoursId}`);
+  const resetFilters = () => {
+    setSelectedStatuses(new Set());
+    setQuery('');
   };
 
+  const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
+
   return (
-    <div className="parcours-page">
-      <header className="parcours-page__hero">
-        <div className="parcours-page__hero-text">
-          <span className="parcours-page__eyebrow">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)', maxWidth: 1180, margin: '0 auto', padding: 'var(--s-8) var(--s-6) var(--s-12)' }}>
+
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <header style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', padding: 'var(--s-8)', borderRadius: 'var(--r-2xl)', background: 'linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.6) 100%)', backdropFilter: 'var(--glass-blur-heavy)', WebkitBackdropFilter: 'var(--glass-blur-heavy)', border: '1px solid rgba(255, 255, 255, 0.6)', boxShadow: 'var(--shadow-xs)', position: 'relative', overflow: 'hidden' }}>
+
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 0% 0%, var(--overlay-brand-lg) 0%, transparent 60%), radial-gradient(circle at 100% 100%, var(--overlay-warm-lg) 0%, transparent 60%)', pointerEvents: 'none' }} />
+
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', maxWidth: 720 }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: 'var(--r-pill)', background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', alignSelf: 'flex-start' }}>
             <GraduationCap size={14} /> Mon apprentissage
           </span>
-          <h1>Mes Parcours</h1>
-          <p>Explorez vos parcours de formation et suivez votre progression au fil des leçons.</p>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h1)', fontWeight: 700, lineHeight: 1.1, margin: 0, color: 'var(--text)' }}>
+            Mes Parcours
+          </h1>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-lg)', color: 'var(--text-soft)', margin: 0 }}>
+            Explorez vos parcours de formation et suivez votre progression au fil des leçons.
+          </p>
         </div>
 
-        <div className="parcours-kpis" role="list">
-          <div className="parcours-kpi" role="listitem">
-            <span className="parcours-kpi__icon parcours-kpi__icon--primary">
+        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--s-4)' }} role="list">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
+            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)' }}>
               <Sparkles size={18} />
             </span>
             <div>
-              <span className="parcours-kpi__value">{total}</span>
-              <span className="parcours-kpi__label">Parcours</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{total}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Parcours</span>
             </div>
           </div>
-          <div className="parcours-kpi" role="listitem">
-            <span className="parcours-kpi__icon parcours-kpi__icon--warm">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
+            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-warm-sm)', color: 'var(--tls-orange-600)' }}>
               <Flame size={18} />
             </span>
             <div>
-              <span className="parcours-kpi__value">{inProgressCount}</span>
-              <span className="parcours-kpi__label">En cours</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{inProgressCount}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>En cours</span>
             </div>
           </div>
-          <div className="parcours-kpi" role="listitem">
-            <span className="parcours-kpi__icon parcours-kpi__icon--sun">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
+            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-warm-md)', color: 'var(--tls-yellow-600)' }}>
               <CheckCircle2 size={18} />
             </span>
             <div>
-              <span className="parcours-kpi__value">{completedCount}</span>
-              <span className="parcours-kpi__label">Terminés</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{completedCount}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Terminés</span>
             </div>
           </div>
-          <div className="parcours-kpi" role="listitem">
-            <span className="parcours-kpi__icon parcours-kpi__icon--primary">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
+            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)' }}>
               <BookOpen size={18} />
             </span>
             <div>
-              <span className="parcours-kpi__value">
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>
                 {completedLessons}
-                <span className="parcours-kpi__value-suffix">/{totalLessons}</span>
+                <span style={{ fontSize: 'var(--t-body)', color: 'var(--text-soft)', fontWeight: 500 }}>/{totalLessons}</span>
               </span>
-              <span className="parcours-kpi__label">Leçons complétées</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Leçons complétées</span>
             </div>
           </div>
         </div>
 
         {overallProgress > 0 && (
-          <div
-            className="parcours-overall"
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={overallProgress}
-            aria-label="Progression globale"
-          >
-            <div className="parcours-overall__head">
+          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', padding: 'var(--s-4) var(--s-5)', borderRadius: 'var(--r-xl)', background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-700))', color: 'var(--text-inverse)', boxShadow: '0 8px 24px var(--overlay-brand-xl)' }} role="progressbar" aria-valuenow={overallProgress} aria-valuemin={0} aria-valuemax={100} aria-label="Progression globale">
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontWeight: 600 }}>
               <span>Progression globale</span>
-              <strong>{overallProgress}%</strong>
+              <strong style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)' }}>{overallProgress}%</strong>
             </div>
-            <div className="parcours-overall__track">
-              <div
-                className="parcours-overall__fill"
-                style={{ width: `${overallProgress}%` }}
-              />
+            <div style={{ height: '8px', borderRadius: 'var(--r-pill)', background: 'var(--overlay-white-sm)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', background: 'var(--text-inverse)', borderRadius: 'var(--r-pill)', transition: `width var(--dur-3) var(--ease-standard)`, width: `${overallProgress}%` }} />
             </div>
           </div>
         )}
       </header>
 
-      <div className="parcours-page__divider" aria-hidden="true" />
+      {/* ── Filters ─────────────────────────────────────────── */}
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }} aria-label="Filtres">
 
-      <section className="parcours-page__filters" aria-label="Filtrer les parcours par statut">
-        <span className="parcours-page__filters-label">Filtrer par statut</span>
-        <label className="parcours-page__search">
-          <Search size={14} />
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Rechercher un parcours..."
-            aria-label="Rechercher un parcours"
-          />
-        </label>
-        <div className="parcours-page__filters-row">
-          {STATUS_FILTERS.map((filter) => {
-            const active = selectedStatuses.has(filter.id);
-            return (
-              <button
-                key={filter.id}
-                type="button"
-                className="parcours-filter-pill"
-                data-active={active ? 'true' : 'false'}
-                onClick={() => toggleStatus(filter.id)}
-                aria-pressed={active}
-              >
-                {filter.label}
-              </button>
-            );
-          })}
-          {selectedStatuses.size > 0 && (
-            <button
-              type="button"
-              className="parcours-filter-pill parcours-filter-pill--reset"
+        {/* Search — premier élément, ancré à gauche */}
+        <Search
+          value={query}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+          placeholder="Rechercher un parcours…"
+          wrapperClassName="parcours-page__search"
+          aria-label="Rechercher un parcours"
+        />
+
+        {/* Status chips + count */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }} role="group" aria-label="Filtrer par statut">
+          {STATUS_FILTERS.map((f) => (
+            <FilterChip
+              key={f.id}
+              label={f.label}
+              active={selectedStatuses.has(f.id)}
+              onClick={() => toggleStatus(f.id)}
+            />
+          ))}
+          {(selectedStatuses.size > 0 || query) && (
+            <FilterChip
+              variant="reset"
+              label="Réinitialiser"
+              icon={<RotateCcw size={12} />}
               onClick={resetFilters}
-            >
-              <RotateCcw size={12} />
-              Réinitialiser
-            </button>
+              aria-label="Réinitialiser les filtres"
+            />
           )}
+          <span style={{ marginLeft: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)' }}>
+            {filteredParcours.length} sur {total}
+          </span>
         </div>
-        <span className="parcours-page__filters-count">
-          {filteredParcours.length} sur {total}
-        </span>
       </section>
 
-      <section className="parcours-grid" aria-label="Liste des parcours">
-        {filteredParcours.map((parcours, index) => {
-          const tone: Tone = TONES[index % TONES.length];
-          const isLocked = parcours.status === 'non commencé';
-          const isDone = parcours.status === 'complété';
+      {/* ── Card grid — using CardGrid DS component ────────────────────────────────────────── */}
+      <CardGrid layout="default" gapSize="md" aria-label="Liste des parcours">
+        {filteredParcours.map((parcours, index) => (
+          <ParcoursCard
+            key={parcours.id}
+            id={parcours.id}
+            title={parcours.title}
+            description={parcours.description}
+            progress={parcours.progress}
+            status={parcours.status}
+            tone={TONES[index % TONES.length]}
+            onClick={handleCardClick}
+          />
+        ))}
+      </CardGrid>
 
-          return (
-            <article
-              key={parcours.id}
-              className="parcours-tile"
-              data-tone={tone}
-              data-status={parcours.status}
-            >
-              <div className="parcours-tile__glow" aria-hidden="true" />
-
-              <header className="parcours-tile__head">
-                <span
-                  className="parcours-tile__badge"
-                  data-state={isDone ? 'done' : isLocked ? 'idle' : 'progress'}
-                >
-                  {STATUS_BADGE_LABEL[parcours.status]}
-                </span>
-                <span className="parcours-tile__category">{parcours.category}</span>
-              </header>
-
-              <h2 className="parcours-tile__title">{parcours.title}</h2>
-              <p className="parcours-tile__description">{parcours.description}</p>
-
-              <div className="parcours-tile__chips">
-                <span className="parcours-tile__chip">
-                  <UserRound size={14} />
-                  {parcours.instructor}
-                </span>
-                <span className="parcours-tile__chip">
-                  <Clock3 size={14} />
-                  {parcours.duration}
-                </span>
-                <span className="parcours-tile__chip">
-                  <Layers size={14} />
-                  Niveau {parcours.level}
-                </span>
-                <span className="parcours-tile__chip">
-                  <BookOpen size={14} />
-                  {parcours.lessons} leçons
-                </span>
-              </div>
-
-              <div className="parcours-tile__spacer" />
-
-              <div className="parcours-tile__progress">
-                <div
-                  className="parcours-tile__progress-track"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={parcours.progress}
-                  aria-label={`Progression du parcours ${parcours.title}`}
-                >
-                  <div
-                    className="parcours-tile__progress-fill"
-                    style={{ width: `${parcours.progress}%` }}
-                  />
-                </div>
-                <span className="parcours-tile__progress-value">{parcours.progress}%</span>
-              </div>
-
-              <button
-                type="button"
-                className="parcours-tile__cta"
-                onClick={() => handleOpen(parcours.id)}
-              >
-                <span>
-                  {isDone
-                    ? 'Revoir le parcours'
-                    : parcours.progress > 0
-                    ? 'Continuer le parcours'
-                    : 'Commencer le parcours'}
-                </span>
-                {parcours.progress > 0 ? <ArrowRight size={16} /> : <PlayCircle size={16} />}
-              </button>
-            </article>
-          );
-        })}
-      </section>
-
+      {/* Empty state */}
       {filteredParcours.length === 0 && (
-        <div className="parcours-empty">
-          <p>Aucun parcours ne correspond à vos filtres.</p>
-          <button type="button" className="parcours-filter-pill" onClick={resetFilters}>
+        <div style={{ textAlign: 'center', padding: 'var(--s-12)', borderRadius: 'var(--r-2xl)', background: 'rgba(255, 255, 255, 0.7)', border: '1px dashed var(--overlay-dark-lg)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
+          <p style={{ margin: 0, fontFamily: 'var(--font-body)', color: 'var(--text-soft)' }}>Aucun parcours ne correspond à vos filtres.</p>
+          <Button variant="secondary" size="sm" onClick={resetFilters}>
             <RotateCcw size={12} />
             Réinitialiser les filtres
-          </button>
+          </Button>
         </div>
       )}
     </div>

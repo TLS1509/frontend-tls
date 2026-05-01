@@ -57,6 +57,9 @@ export type { SkeletonProps, SkeletonVariant } from './ui/Skeleton';
 export { Search } from './ui/Search';
 export type { SearchProps, SearchSize } from './ui/Search';
 
+export { FilterChip } from './ui/FilterChip';
+export type { FilterChipProps } from './ui/FilterChip';
+
 export { Pagination } from './ui/Pagination';
 export type { PaginationProps } from './ui/Pagination';
 
@@ -134,10 +137,30 @@ export { Achievement } from './ui/Achievement';
 export { ActionCard } from './ui/ActionCard';
 export { GlassCard } from './ui/GlassCard';
 export { SurfaceCard } from './ui/SurfaceCard';
-export { ParcoursCard } from './ui/ParcoursCard';
 export { SectionTitle } from './ui/SectionTitle';
 export { MetaPill } from './ui/MetaPill';
 export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';
 export { UserInfo } from './ui/UserInfo';
+
+/* ============================================================================
+ * Patterns & Layouts
+ * ============================================================================ */
+export { CardGrid } from './patterns/CardGrid';
+export type { CardGridProps } from './patterns/CardGrid';
+
+export { MetaPillGroup } from './ui/MetaPillGroup';
+export type { MetaPillGroupProps } from './ui/MetaPillGroup';
+
+export { InlineProgress } from './patterns/InlineProgress';
+export type { InlineProgressProps } from './patterns/InlineProgress';
+
+export { ToneAwareCard } from './patterns/ToneAwareCard';
+export type { ToneAwareCardProps } from './patterns/ToneAwareCard';
+
+export { HeroSection } from './patterns/HeroSection';
+export type { HeroSectionProps } from './patterns/HeroSection';
+
+export { ParcoursCard } from './patterns/ParcoursCard';
+export type { ParcoursCardProps, ParcoursTone, ParcoursStatus } from './patterns/ParcoursCard';
