@@ -486,7 +486,7 @@
 .tls-editorial-meta span {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
 }
 
 .tls-editorial-summary {

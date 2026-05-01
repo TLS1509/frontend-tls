@@ -571,7 +571,7 @@ export const Profile: React.FC = () => {
                   {item.icon}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ margin: '0 0 2px', fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>
+                  <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>
                     {item.title}
                   </p>
                   <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>

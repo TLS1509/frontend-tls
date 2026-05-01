@@ -366,7 +366,7 @@ export const LessonPlayer: React.FC = () => {
         <h2 className="lesson-player__section-title">{d.heading}</h2>
         <div className="lesson-player__example-bad">
           <div style={{ marginBottom: 'var(--s-3)' }}>
-            <span style={{ background: '#ef4444', color: 'white', padding: '4px 12px', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+            <span style={{ background: '#ef4444', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
@@ -381,7 +381,7 @@ export const LessonPlayer: React.FC = () => {
         </div>
         <div className="lesson-player__example-good">
           <div style={{ marginBottom: 'var(--s-3)' }}>
-            <span style={{ background: 'var(--tls-success-base)', color: 'white', padding: '4px 12px', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+            <span style={{ background: 'var(--tls-success-base)', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
               <CheckCircle2 size={14} /> {d.good.label}
             </span>
           </div>

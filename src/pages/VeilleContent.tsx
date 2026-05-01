@@ -575,7 +575,7 @@ export const VeilleContent: React.FC = () => {
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: 'var(--s-1)',
                       padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: stat.trendUp
@@ -757,7 +757,7 @@ export const VeilleContent: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '14px 32px',
+              padding: 'var(--btn-padding-lg)',
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-orange-500)',
               border: 'none',

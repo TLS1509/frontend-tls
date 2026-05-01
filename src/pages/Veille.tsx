@@ -297,7 +297,7 @@ export const Veille: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: 'var(--s-2-5)',
-              padding: '12px 14px',
+              padding: 'var(--s-3) var(--s-3-5)',
               borderRadius: 'var(--r-xl)',
               background: f.bg,
               border: `1.5px solid ${f.border}`,

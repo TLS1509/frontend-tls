@@ -143,7 +143,7 @@ export const WeeklyNewsletter: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '6px 16px',
+              padding: 'var(--s-1-5) var(--s-4)',
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-primary-500)',
               color: 'var(--text-inverse)',
@@ -330,7 +330,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 <span
                   style={{
                     display: 'inline-block',
-                    padding: '4px 12px',
+                    padding: 'var(--s-1) var(--s-3)',
                     borderRadius: 'var(--r-full)',
                     background: 'rgba(237,132,58,0.1)',
                     color: 'var(--tls-orange-600)',
@@ -476,7 +476,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: 'var(--s-1)',
                       fontSize: 'var(--t-caption)',
                       color: 'var(--tls-primary-600)',
                       fontWeight: 600,
@@ -553,7 +553,7 @@ export const WeeklyNewsletter: React.FC = () => {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '4px',
+                          gap: 'var(--s-1)',
                           fontSize: 'var(--t-caption)',
                           color: 'var(--text-muted)',
                         }}
@@ -670,7 +670,7 @@ export const WeeklyNewsletter: React.FC = () => {
               placeholder="votre@email.com"
               style={{
                 flex: 1,
-                padding: '12px 18px',
+                padding: 'var(--s-3) var(--s-4-5)',
                 borderRadius: 'var(--r-full)',
                 border: 'none',
                 background: 'rgba(255,255,255,0.95)',
@@ -686,7 +686,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 'var(--s-2)',
-                padding: '12px 24px',
+                padding: 'var(--s-3) var(--s-6)',
                 borderRadius: 'var(--r-full)',
                 background: 'var(--tls-orange-500)',
                 border: 'none',

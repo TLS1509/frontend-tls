@@ -444,7 +444,7 @@ export const Magazine: React.FC = () => {
                       fontSize: 'var(--t-sm)',
                       fontWeight: 600,
                       color: 'var(--text)',
-                      margin: '0 0 2px',
+                      margin: '0 0 var(--s-1)',
                       lineHeight: 1.4,
                     }}
                   >

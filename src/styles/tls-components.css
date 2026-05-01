@@ -213,7 +213,7 @@
   color: var(--tls-danger-fg);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
 }
 
 .input {
@@ -296,7 +296,7 @@
 
 .textarea {
   min-height: 96px;
-  padding: 12px 14px;
+  padding: var(--s-3) var(--s-3-5);
   resize: vertical;
   align-items: flex-start;
 }
@@ -985,7 +985,7 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   padding: 2px 8px;
   background: var(--tls-primary-50);
   color: var(--tls-primary-800);
@@ -1297,7 +1297,7 @@
   font-weight: 600;
   font-size: var(--t-caption);
   cursor: pointer;
-  padding: 6px 10px;
+  padding: var(--s-1-5) var(--s-2-5);
   border-radius: var(--r-md);
   transition: background var(--dur-2);
 }
@@ -1571,7 +1571,7 @@
 .pager {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   font-family: var(--font-body);
 }
 .pager button {
@@ -1744,7 +1744,7 @@
   color: var(--text);
   display: inline-flex;
   align-items: baseline;
-  gap: 4px;
+  gap: var(--s-1);
   margin: 0;
 }
 .stat-card__value sub {
@@ -1759,7 +1759,7 @@
 .stat-card__delta {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   font-size: var(--t-caption);
   font-weight: 600;
   margin-top: 2px;

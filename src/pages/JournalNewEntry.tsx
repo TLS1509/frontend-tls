@@ -341,7 +341,7 @@ export const JournalNewEntry: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '8px 18px',
+              padding: 'var(--s-2) var(--s-4-5)',
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-orange-50)',
               border: '1px solid rgba(237,132,58,0.3)',

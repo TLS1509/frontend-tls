@@ -492,7 +492,7 @@
 .learning-path-detail-meta-label {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -563,7 +563,7 @@
 .learning-path-detail-tabs {
   display: inline-flex;
   align-self: flex-start;
-  gap: 4px;
+  gap: var(--s-1);
   padding: 6px;
   border-radius: var(--r-pill);
   background: var(--overlay-dark-xs);
@@ -600,7 +600,7 @@
 .learning-path-detail-badge-locked {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   padding: 2px 8px;
   border-radius: var(--r-pill);
   background: rgba(255, 200, 60, 0.25);
@@ -713,7 +713,7 @@
 .learning-path-step-meta span {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   padding: 2px 10px;
   border-radius: var(--r-pill);
   background: var(--overlay-dark-xs);
@@ -859,7 +859,7 @@
 .learning-path-lesson-duration {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   font-family: var(--font-body);
   font-size: var(--t-micro);
   color: var(--text-soft);

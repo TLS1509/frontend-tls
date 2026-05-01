@@ -293,7 +293,7 @@
 .veille-card__type-date {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
   font-family: var(--font-body);
   font-size: var(--t-micro);
   color: var(--text-soft);
@@ -382,7 +382,7 @@
 .veille-card__meta span {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s-1);
 }
 
 .veille-card__cta {

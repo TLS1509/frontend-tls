@@ -114,7 +114,7 @@
   font-size: var(--t-caption);
   color: var(--text-soft);
   border-radius: var(--r-pill);
-  padding: 6px 10px;
+  padding: var(--s-1-5) var(--s-2-5);
   background: var(--surface-muted);
   border: 1px solid var(--border);
 }

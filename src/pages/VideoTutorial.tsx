@@ -118,14 +118,14 @@ export const VideoTutorial: React.FC = () => {
               fontWeight: 500,
               display: "inline-flex",
               alignItems: "center",
-              gap: "4px",
+              gap: "var(--s-1)",
             }}
           >
             <ArrowLeft size={13} />
             Veille
           </span>
           <ChevronRight size={13} />
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "var(--s-1)" }}>
             <Play size={12} style={{ color: "var(--tls-orange-500)" }} />
             Tutoriel vidéo
           </span>
@@ -210,7 +210,7 @@ export const VideoTutorial: React.FC = () => {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  padding: "4px 12px",
+                  padding: "var(--s-1) var(--s-3)",
                   borderRadius: "var(--r-pill)",
                   background: "var(--tls-primary-50)",
                   border: "1px solid rgba(85,161,180,0.25)",
@@ -226,7 +226,7 @@ export const VideoTutorial: React.FC = () => {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "5px",
+                  gap: "var(--s-1)",
                   color: "var(--text-muted)",
                   fontSize: "var(--t-caption)",
                 }}
@@ -238,7 +238,7 @@ export const VideoTutorial: React.FC = () => {
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "5px",
+                  gap: "var(--s-1)",
                   color: "var(--text-muted)",
                   fontSize: "var(--t-caption)",
                 }}
@@ -326,7 +326,7 @@ export const VideoTutorial: React.FC = () => {
                 <div
                   style={{
                     display: "flex",
-                    gap: "5px",
+                    gap: "var(--s-1)",
                   }}
                 >
                   <div

@@ -367,7 +367,7 @@ const LAYOUT_STYLES = `
   }
 
   .ds-select {
-    padding: 6px 10px;
+    padding: var(--s-1-5) var(--s-2-5);
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
@@ -480,7 +480,7 @@ const LAYOUT_STYLES = `
 
     .ds-select,
     .ds-toggle-button {
-      padding: 4px 8px;
+      padding: var(--chip-padding-xs);
       font-size: var(--t-micro);
     }
 
