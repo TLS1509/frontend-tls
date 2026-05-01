@@ -1,6 +1,9 @@
 /* Import design tokens from The Learning Society Design System */
 @import './design-tokens.css';
 
+/* Import dark mode token overrides */
+@import './dark-mode-tokens.css';
+
 /* Import layout and container patterns */
 @import './layouts.css';
 

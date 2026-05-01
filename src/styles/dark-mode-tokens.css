@@ -1,0 +1,187 @@
+/**
+ * Dark Mode Design Tokens
+ *
+ * Extend design-tokens.css with dark mode color overrides
+ * Uses @media (prefers-color-scheme: dark) for system dark mode support
+ *
+ * Token mapping strategy:
+ * - Light mode: Light backgrounds (--tls-ink-50) with dark text (--tls-ink-900)
+ * - Dark mode: Dark backgrounds (--tls-ink-900) with light text (--tls-ink-50)
+ * - Semantic colors: Adjusted saturation/lightness for dark backgrounds
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* =========================================================================
+       PRIMARY COLORS — Dark Mode Variants
+       ========================================================================= */
+
+    /* Backgrounds */
+    --bg: var(--tls-ink-950);
+    --surface: var(--tls-ink-900);
+    --surface-muted: var(--tls-ink-800);
+    --surface-active: var(--tls-ink-700);
+
+    /* Text Colors */
+    --text: var(--tls-ink-50);
+    --text-inverse: var(--tls-ink-950);
+    --text-soft: var(--tls-ink-300);
+    --text-muted: var(--tls-ink-400);
+
+    /* Borders & Dividers */
+    --border: rgba(255, 255, 255, 0.12);
+    --border-light: rgba(255, 255, 255, 0.08);
+    --divider: rgba(255, 255, 255, 0.08);
+
+    /* =========================================================================
+       SEMANTIC COLORS — Dark Mode Adjusted
+       ========================================================================= */
+
+    /* Success (Green) — Brighter for dark backgrounds */
+    --tls-success-light: rgba(34, 197, 94, 0.15);
+    --tls-success-bg: rgba(34, 197, 94, 0.1);
+
+    /* Warning (Yellow) — More saturated for visibility */
+    --tls-warning-light: rgba(251, 191, 36, 0.15);
+    --tls-warning-bg: rgba(251, 191, 36, 0.1);
+
+    /* Danger (Red) — Adjusted for dark backgrounds */
+    --tls-danger-light: rgba(239, 68, 68, 0.15);
+    --tls-danger-bg: rgba(239, 68, 68, 0.1);
+
+    /* Info (Blue/Primary) — Brighter variant */
+    --tls-info-light: rgba(59, 130, 246, 0.15);
+    --tls-info-bg: rgba(59, 130, 246, 0.1);
+
+    /* =========================================================================
+       OVERLAY COLORS — Dark Mode
+       ========================================================================= */
+
+    /* Glass morphism overlays */
+    --overlay-white-sm: rgba(255, 255, 255, 0.05);
+    --overlay-white-md: rgba(255, 255, 255, 0.08);
+    --overlay-white-lg: rgba(255, 255, 255, 0.12);
+    --overlay-white-xl: rgba(255, 255, 255, 0.15);
+
+    /* Dark overlays */
+    --overlay-dark-sm: rgba(0, 0, 0, 0.3);
+    --overlay-dark-md: rgba(0, 0, 0, 0.4);
+    --overlay-dark-lg: rgba(0, 0, 0, 0.5);
+
+    /* Brand tone overlays (primary) */
+    --overlay-brand-lg: rgba(85, 161, 180, 0.08);
+    --overlay-brand-md: rgba(85, 161, 180, 0.06);
+    --overlay-brand-sm: rgba(85, 161, 180, 0.04);
+
+    /* Warm tone overlays (orange) */
+    --overlay-warm-lg: rgba(237, 132, 58, 0.08);
+    --overlay-warm-md: rgba(237, 132, 58, 0.06);
+    --overlay-warm-sm: rgba(237, 132, 58, 0.04);
+
+    /* =========================================================================
+       SHADOW SYSTEM — Dark Mode (More pronounced on light backgrounds)
+       ========================================================================= */
+
+    --shadow-xs: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 6px 12px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+
+    /* =========================================================================
+       GLASS MORPHISM — Dark Mode
+       ========================================================================= */
+
+    --glass-fill: rgba(255, 255, 255, 0.08);
+    --glass-fill-strong: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-ring: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    /* =========================================================================
+       GRADIENTS — Dark Mode
+       ========================================================================= */
+
+    /* Hero gradient */
+    --g-hero: linear-gradient(
+      135deg,
+      var(--tls-primary-600) 0%,
+      var(--tls-orange-600) 100%
+    );
+
+    /* =========================================================================
+       STATE COLORS — Dark Mode
+       ========================================================================= */
+
+    /* Hover state */
+    --state-hover-opacity: 0.12;
+
+    /* Focus/Active state */
+    --state-active-opacity: 0.16;
+
+    /* Disabled state */
+    --state-disabled-opacity: 0.5;
+  }
+}
+
+/* =========================================================================
+   DARK MODE COMPONENT OVERRIDES
+   ========================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  /* Glass cards should be more transparent in dark mode */
+  .glass,
+  .parcours-card {
+    --glass-overlay: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Input fields need better contrast in dark mode */
+  input,
+  textarea,
+  select {
+    background-color: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Buttons should be more visible in dark mode */
+  button {
+    color: var(--text);
+  }
+
+  /* Links should use primary color (more visible) */
+  a {
+    color: var(--tls-primary-400);
+  }
+
+  a:visited {
+    color: var(--tls-primary-500);
+  }
+
+  /* Code blocks and pre elements */
+  pre,
+  code {
+    background-color: var(--surface-muted);
+    color: var(--text-soft);
+    border-color: var(--border);
+  }
+}
+
+/* =========================================================================
+   DARK MODE TRANSITION
+   ========================================================================= */
+
+:root {
+  color-scheme: light dark;
+  transition: background-color var(--dur-2), color var(--dur-2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
