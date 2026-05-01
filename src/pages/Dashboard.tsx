@@ -44,6 +44,7 @@ interface Activity {
 interface QuickAction {
   id: string;
   icon: React.ReactNode;
+  iconBg: string;
   title: string;
   description: string;
   path: string;
@@ -81,6 +82,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'coaching',
       icon: <Users size={28} strokeWidth={1.8} color="var(--tls-primary-600)" />,
+      iconBg: 'var(--tls-primary-50)',
       title: 'Coaching 1-to-1',
       description: 'Réserver une session',
       path: '/coaching',
@@ -88,6 +90,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'paths',
       icon: <Map size={28} strokeWidth={1.8} color="var(--tls-orange-600)" />,
+      iconBg: 'rgba(237, 132, 58, 0.1)',
       title: 'Parcours',
       description: 'Explorer les cours',
       path: '/learning-paths',
@@ -95,6 +98,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'journal',
       icon: <PenLine size={28} strokeWidth={1.8} color="var(--tls-yellow-600)" />,
+      iconBg: 'rgba(234, 192, 74, 0.12)',
       title: 'Journal',
       description: 'Noter mes réflexions',
       path: '/journal',
@@ -102,6 +106,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'veille',
       icon: <Sparkles size={28} strokeWidth={1.8} color="var(--tls-primary-500)" />,
+      iconBg: 'rgba(85, 161, 180, 0.1)',
       title: 'Veille',
       description: 'Découvrir du contenu',
       path: '/veille',
@@ -162,17 +167,21 @@ export const Dashboard: React.FC = () => {
             </p>
           </div>
 
-          {/* Stats Pills */}
-          <MetaPillGroup
-            items={[
-              { icon: <Flame size={14} />, text: '7 jours', tone: 'sun' },
-              { icon: <Award size={14} />, text: '12 badges', tone: 'warm' },
-              { icon: <TrendingUp size={14} />, text: '68%', tone: 'primary' },
-            ]}
-            layout="horizontal"
-            gap="md"
-            size="md"
-          />
+          {/* Hero Stat Chips — gamification at a glance */}
+          <div className="tls-hero-stats">
+            <div className="tls-hero-stat">
+              <div className="tls-hero-stat__value">🔥 7</div>
+              <div className="tls-hero-stat__label">Jours consécutifs</div>
+            </div>
+            <div className="tls-hero-stat">
+              <div className="tls-hero-stat__value">12</div>
+              <div className="tls-hero-stat__label">Badges obtenus</div>
+            </div>
+            <div className="tls-hero-stat">
+              <div className="tls-hero-stat__value">68%</div>
+              <div className="tls-hero-stat__label">Progression globale</div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -213,7 +222,7 @@ export const Dashboard: React.FC = () => {
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--s-4)' }}>
-                  <div style={{ width: 48, height: 48, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 'var(--r-lg)', background: action.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {action.icon}
                   </div>
                 </div>
@@ -266,8 +275,11 @@ export const Dashboard: React.FC = () => {
                 <h2 style={{ fontSize: 'var(--t-h3)', fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-2)' }}>
                   Maîtriser l'IA pour la Formation
                 </h2>
-                <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
+                <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
                   Étape 2 : Applications pratiques
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', color: 'var(--tls-orange-500)', fontWeight: 600, fontSize: 'var(--t-caption)' }}>
+                    · ⏱ ~8 min restantes
+                  </span>
                 </p>
               </div>
               <Button onClick={(e) => { e.stopPropagation(); navigate('/learning-paths/1'); }}>

@@ -9,7 +9,7 @@
  */
 
 import React, { useState } from 'react';
-import { Card, CardTitle, CardEyebrow } from '../components/core/Card';
+import { Card } from '../components/core/Card';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { HeroSection } from '../components/patterns/HeroSection';
 import { Badge } from '../components/ui/Badge';
@@ -25,7 +25,9 @@ import {
   Video,
   Calendar,
   Clock3,
+  CheckCircle2,
 } from 'lucide-react';
+import '../styles/static-pages.css';
 
 
 interface CoachingSession {
@@ -85,7 +87,6 @@ const sessions: CoachingSession[] = [
 ];
 
 export const Coaching: React.FC = () => {
-  const [joinHovered, setJoinHovered] = useState(false);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--tls-primary-50)', display: 'flex', flexDirection: 'column' }}>
@@ -101,17 +102,44 @@ export const Coaching: React.FC = () => {
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
         {/* KPI Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
-          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-            <CardEyebrow>Session planifiée</CardEyebrow>
-            <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="1 session planifiée">1</CardTitle>
+          <Card
+            className="card-stagger"
+            variant="default"
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)' }}>
+              <Calendar size={20} />
+            </div>
+            <p style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--tls-primary-600)', margin: '0 0 var(--s-1)', lineHeight: 1 }} role="status" aria-label="1 session planifiée">1</p>
+            <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>Session planifiée</p>
           </Card>
-          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-            <CardEyebrow>Sessions réalisées</CardEyebrow>
-            <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="12 sessions réalisées">12</CardTitle>
+          <Card
+            className="card-stagger"
+            variant="default"
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            <div className="tls-kpi-icon" style={{ background: 'rgba(237, 132, 58, 0.1)', color: 'var(--tls-orange-600)' }}>
+              <CheckCircle2 size={20} />
+            </div>
+            <p style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--tls-orange-600)', margin: '0 0 var(--s-1)', lineHeight: 1 }} role="status" aria-label="12 sessions réalisées">12</p>
+            <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>Sessions réalisées</p>
           </Card>
-          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-            <CardEyebrow>Satisfaction moyenne</CardEyebrow>
-            <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="4.9 sur 5 de satisfaction">4.9/5</CardTitle>
+          <Card
+            className="card-stagger"
+            variant="default"
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+          >
+            <div className="tls-kpi-icon" style={{ background: 'rgba(234, 192, 74, 0.12)', color: 'var(--tls-yellow-600)' }}>
+              <Star size={20} />
+            </div>
+            <p style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--tls-yellow-600)', margin: '0 0 var(--s-1)', lineHeight: 1 }} role="status" aria-label="4.9 sur 5 de satisfaction">4.9/5</p>
+            <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>Satisfaction moyenne</p>
           </Card>
         </div>
 
@@ -263,39 +291,9 @@ export const Coaching: React.FC = () => {
 
               {/* Actions */}
               <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap', paddingTop: 'var(--s-2)' }}>
-                <button
-                  onMouseEnter={() => setJoinHovered(true)}
-                  onMouseLeave={() => setJoinHovered(false)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 'var(--s-2)',
-                    padding: 'var(--s-3) var(--s-5)',
-                    borderRadius: 'var(--r-lg)',
-                    border: 'none',
-                    background: joinHovered
-                      ? 'var(--tls-primary-600)'
-                      : 'var(--tls-primary-500)',
-                    color: 'var(--text-inverse)',
-                    fontSize: 'var(--t-body-sm)',
-                    fontFamily: 'var(--font-body)',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'background 0.15s, outline 0.2s',
-                    outline: 'none',
-                  }}
-                  aria-label="Rejoindre la session de coaching"
-                  onFocus={(e) => {
-                    e.currentTarget.style.outline = '2px solid var(--tls-primary-500)';
-                    e.currentTarget.style.outlineOffset = '2px';
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.outline = 'none';
-                  }}
-                >
-                  <Video size={15} />
+                <Button leadingIcon={<Video size={15} />} aria-label="Rejoindre la session de coaching">
                   Rejoindre la session
-                </button>
+                </Button>
                 <Button variant="secondary">Reprogrammer</Button>
               </div>
             </div>

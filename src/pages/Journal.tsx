@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { HeroSection } from '../components/patterns/HeroSection';
-import { CalendarDays, PenSquare, BookOpen, ArrowRight, Search, Sparkles, Clock3 } from 'lucide-react';
+import { CalendarDays, PenSquare, BookOpen, ArrowRight, Search, Sparkles, Clock3, TrendingUp } from 'lucide-react';
+import '../styles/static-pages.css';
 
 
 const entries = [
@@ -11,10 +12,21 @@ const entries = [
   { id: 'j2', title: 'Feedback équipe', excerpt: 'Les retours ont mis en avant la clarté des attentes.', date: '12 avril 2026', type: 'Coaching' },
 ];
 
-const KpiCard: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+const KpiCard: React.FC<{
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+  iconBg?: string;
+  iconColor?: string;
+}> = ({ label, value, icon, iconBg = 'var(--tls-primary-50)', iconColor = 'var(--tls-primary-600)' }) => (
   <Card variant="feature" style={{ textAlign: 'center' }}>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-      <p style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--tls-primary-500)', margin: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', alignItems: 'center' }}>
+      {icon && (
+        <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>
+          {icon}
+        </div>
+      )}
+      <p style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: iconColor ?? 'var(--tls-primary-500)', margin: 0 }}>
         {value}
       </p>
       <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>
@@ -115,13 +127,31 @@ export const Journal: React.FC = () => {
         {/* KPI Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
           <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '0ms' } as React.CSSProperties}>
-            <KpiCard label="Entrées ce mois" value="12" />
+            <KpiCard
+              label="Entrées ce mois"
+              value="12"
+              icon={<PenSquare size={20} />}
+              iconBg="var(--tls-primary-50)"
+              iconColor="var(--tls-primary-600)"
+            />
           </div>
           <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '80ms' } as React.CSSProperties}>
-            <KpiCard label="Thèmes actifs" value="4" />
+            <KpiCard
+              label="Thèmes actifs"
+              value="4"
+              icon={<Sparkles size={20} />}
+              iconBg="rgba(237, 132, 58, 0.1)"
+              iconColor="var(--tls-orange-600)"
+            />
           </div>
           <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '160ms' } as React.CSSProperties}>
-            <KpiCard label="Régularité hebdo" value="78%" />
+            <KpiCard
+              label="Régularité hebdo"
+              value="78%"
+              icon={<TrendingUp size={20} />}
+              iconBg="rgba(234, 192, 74, 0.12)"
+              iconColor="var(--tls-yellow-600)"
+            />
           </div>
         </div>
 
@@ -157,38 +187,15 @@ export const Journal: React.FC = () => {
             </div>
 
             {/* Filter Pills */}
-            <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }} role="tablist" aria-label="Filtrer les entrées">
               {filters.map(({ key, icon: Icon, label }) => (
                 <button
                   key={key}
+                  type="button"
+                  role="tab"
+                  aria-selected={filterType === key}
                   onClick={() => setFilterType(key)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 'var(--s-1)',
-                    padding: 'var(--s-2) var(--s-3)',
-                    borderRadius: 'var(--r-pill)',
-                    border: filterType === key ? '2px solid var(--tls-primary-500)' : '1.5px solid var(--border)',
-                    background: filterType === key ? 'var(--tls-primary-50)' : 'transparent',
-                    color: filterType === key ? 'var(--tls-primary-600)' : 'var(--text-muted)',
-                    fontSize: 'var(--t-caption)',
-                    fontWeight: filterType === key ? 600 : 500,
-                    fontFamily: 'var(--font-body)',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (filterType !== key) {
-                      (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)';
-                      (e.currentTarget as HTMLButtonElement).style.color = 'var(--text)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (filterType !== key) {
-                      (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                      (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
-                    }
-                  }}
+                  className={`tls-filter-pill${filterType === key ? ' tls-filter-pill--active' : ''}`}
                 >
                   <Icon size={13} />
                   {label}
