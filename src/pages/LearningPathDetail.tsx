@@ -193,10 +193,10 @@ export const LearningPathDetail: React.FC = () => {
 
       {/* ── HERO — Elevated with enhanced visual prominence ─────────────────────────────────────────────── */}
       <div style={{ background: HERO_GRADIENT[tone], paddingBottom: 'var(--s-12)', paddingTop: 'var(--s-10)', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative overlays — Enhanced visibility using design system tokens */}
-        <div style={{ position: 'absolute', top: '-30%', right: '-10%', width: 480, height: 480, borderRadius: '50%', background: 'var(--glass-fill-light)', filter: 'var(--glass-blur-light)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '-40%', left: '-8%', width: 360, height: 360, borderRadius: '50%', background: 'var(--glass-fill-light)', filter: 'var(--glass-blur-light)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.15) 100%)', pointerEvents: 'none' }} />
+        {/* Decorative overlays — Enhanced visibility */}
+        <div style={{ position: 'absolute', top: '-30%', right: '-10%', width: 480, height: 480, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-40%', left: '-8%', width: 360, height: 360, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.2) 100%)', pointerEvents: 'none' }} />
         {/* Back button — Enhanced styling */}
         <div style={{ padding: '0 var(--s-10)', marginBottom: 'var(--s-8)' }}>
           <button
@@ -206,13 +206,13 @@ export const LearningPathDetail: React.FC = () => {
               display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
               padding: 'var(--s-2-5) var(--s-4)', borderRadius: 'var(--r-xl)',
               fontWeight: 600, cursor: 'pointer', transition: 'all var(--dur-2)',
-              background: 'var(--glass-fill-light)',
+              background: 'rgba(255,255,255,0.15)',
               color: 'var(--text-inverse)',
-              border: '1px solid var(--glass-border-light)',
+              border: '1px solid rgba(255,255,255,0.3)',
               fontSize: 'var(--t-body-sm)',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--glass-fill-standard)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--glass-fill-light)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.25)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; }}
           >
             <ArrowLeft size={16} /> Retour
           </button>
@@ -227,7 +227,7 @@ export const LearningPathDetail: React.FC = () => {
               { icon: BookOpen, label: `${totalLessons} leçons` },
               { icon: Layers, label: parcours.level },
             ].map(({ icon: Icon, label }) => (
-              <span key={label} className="learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 600, background: 'var(--glass-fill-light)', color: 'var(--text-inverse)', border: '1px solid var(--glass-border-light)', backdropFilter: 'var(--glass-blur-light)' }}>
+              <span key={label} className="learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 600, background: 'rgba(255,255,255,0.2)', color: 'var(--text-inverse)', border: '1px solid rgba(255,255,255,0.35)', backdropFilter: 'blur(8px)' }}>
                 <Icon size={14} /> {label}
               </span>
             ))}
@@ -256,15 +256,15 @@ export const LearningPathDetail: React.FC = () => {
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
                 padding: 'var(--s-3) var(--s-6)',
                 borderRadius: 'var(--r-xl)',
-                background: 'var(--glass-fill-light)',
-                backdropFilter: 'var(--glass-blur-light)',
-                border: '1.5px solid var(--glass-border-light)',
-                color: 'var(--text-inverse)',
+                background: 'rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(8px)',
+                border: '1.5px solid rgba(255,255,255,0.4)',
+                color: '#fff',
                 fontWeight: 700, fontSize: 'var(--t-body)',
                 cursor: 'pointer', transition: 'all var(--dur-2)',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--glass-fill-standard)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--glass-fill-light)'; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.3)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.2)'; }}
             >
               🎯 Se positionner &amp; commencer
             </button>
