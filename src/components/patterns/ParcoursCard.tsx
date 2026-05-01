@@ -26,6 +26,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
+import { ToneAwareCard } from './ToneAwareCard';
 import './ParcoursCard.css';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
@@ -99,20 +100,27 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   const isNew = status === 'non commencé';
 
   return (
-    <div
-      className={`parcours-card parcours-card--${tone} ${className}`}
+    <ToneAwareCard
+      tone={tone}
       onClick={() => onClick?.(id)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(id)}
-      aria-label={`${title} — ${status}`}
+      className={`parcours-card parcours-card--${tone} ${className}`}
+      style={{ cursor: 'pointer', transition: 'all var(--dur-2)' }}
+      borderRadius="var(--r-2xl)"
     >
-      {/* Radial top glow overlay */}
       <div
-        className="parcours-card__glow"
-        style={{ background: `radial-gradient(circle at 50% 0%, ${glow} 0%, transparent 70%)` }}
-        aria-hidden="true"
-      />
+        onClick={() => onClick?.(id)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(id)}
+        aria-label={`${title} — ${status}`}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* Radial top glow overlay */}
+        <div
+          className="parcours-card__glow"
+          style={{ background: `radial-gradient(circle at 50% 0%, ${glow} 0%, transparent 70%)` }}
+          aria-hidden="true"
+        />
 
       {/* Card content */}
       <div className="parcours-card__inner">
@@ -155,7 +163,8 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
           <ArrowRight size={15} aria-hidden="true" />
         </button>
       </div>
-    </div>
+      </div>
+    </ToneAwareCard>
   );
 };
 
