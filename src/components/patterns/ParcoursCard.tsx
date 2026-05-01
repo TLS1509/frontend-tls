@@ -25,6 +25,7 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { InlineProgress } from './InlineProgress';
 import './ParcoursCard.css';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
@@ -39,6 +40,11 @@ export interface ParcoursCardProps {
   tone?: ParcoursTone;
   onClick?: (id: string) => void;
   className?: string;
+  // Optional metadata
+  instructor?: string;
+  duration?: string;
+  lessons?: number;
+  level?: 'débutant' | 'intermédiaire' | 'avancé';
 }
 
 const TONE_COLORS: Record<ParcoursTone, string> = {
@@ -80,6 +86,10 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   tone = 'primary',
   onClick,
   className = '',
+  instructor,
+  duration,
+  lessons,
+  level,
 }) => {
   const color = TONE_COLORS[tone];
   const shadow = TONE_SHADOWS[tone];
@@ -114,25 +124,21 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {/* Description */}
         <p className="parcours-card__desc">{description}</p>
 
+        {/* Metadata (if provided) */}
+        {(instructor || duration || lessons || level) && (
+          <div className="parcours-card__metadata">
+            {instructor && <span className="parcours-card__meta-item">👤 {instructor}</span>}
+            {level && <span className="parcours-card__meta-item">📊 {level}</span>}
+            {duration && <span className="parcours-card__meta-item">⏱️ {duration}</span>}
+            {lessons && <span className="parcours-card__meta-item">📚 {lessons} leçons</span>}
+          </div>
+        )}
+
         {/* Spacer */}
         <div className="parcours-card__spacer" />
 
-        {/* Progress row */}
-        <div className="parcours-card__progress-row">
-          <div className="parcours-card__track">
-            <div
-              className="parcours-card__fill"
-              style={{ width: `${progress}%`, background: color }}
-              aria-valuenow={progress}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              role="progressbar"
-            />
-          </div>
-          <span className="parcours-card__pct" style={{ color }}>
-            {progress}%
-          </span>
-        </div>
+        {/* Progress bar using InlineProgress component */}
+        <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
 
         {/* CTA button */}
         <button

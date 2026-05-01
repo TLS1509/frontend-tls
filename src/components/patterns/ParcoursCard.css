@@ -127,47 +127,33 @@
 }
 
 /* =============================================================================
+   METADATA
+   ============================================================================= */
+
+.parcours-card__metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  padding: var(--s-2) 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: var(--t-caption);
+  color: var(--text-soft);
+}
+
+.parcours-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =============================================================================
    SPACER
    ============================================================================= */
 
 .parcours-card__spacer {
   flex: 1;
   min-height: var(--s-2);
-}
-
-/* =============================================================================
-   PROGRESS ROW
-   ============================================================================= */
-
-.parcours-card__progress-row {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-}
-
-.parcours-card__track {
-  flex: 1;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.07);
-  border-radius: var(--r-pill);
-  overflow: hidden;
-}
-
-.parcours-card__fill {
-  height: 100%;
-  border-radius: var(--r-pill);
-  transition: width var(--dur-4) var(--ease-standard);
-  /* background set inline from tone */
-}
-
-.parcours-card__pct {
-  font-family: var(--font-display);
-  font-size: var(--t-body-sm);
-  font-weight: 700;
-  min-width: 40px;
-  text-align: right;
-  flex-shrink: 0;
-  /* color set inline from tone */
 }
 
 /* =============================================================================
