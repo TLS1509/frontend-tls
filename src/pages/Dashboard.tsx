@@ -172,10 +172,10 @@ export const Dashboard: React.FC = () => {
     <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
       {/* Hero Section with Greeting & Stats */}
       <section style={{ background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', color: 'var(--text-inverse)', padding: 'var(--s-12)', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative blur blobs with breathe animation */}
-        <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255,255,255,0.07)', filter: 'blur(60px)', pointerEvents: 'none', animation: 'dbBreathe 6s ease-in-out infinite' }} />
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.09)', filter: 'blur(50px)', pointerEvents: 'none', animation: 'dbBreathe 8s ease-in-out infinite 2s' }} />
-        <div style={{ position: 'absolute', top: '20%', left: '50%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', filter: 'blur(40px)', pointerEvents: 'none', animation: 'dbBreathe 10s ease-in-out infinite 1s' }} />
+        {/* Decorative blur blobs with breathe animation — using glass tokens */}
+        <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'var(--glass-fill-light)', filter: 'var(--glass-blur-light)', pointerEvents: 'none', animation: 'dbBreathe 6s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'var(--glass-fill-light)', filter: 'var(--glass-blur-light)', pointerEvents: 'none', animation: 'dbBreathe 8s ease-in-out infinite 2s' }} />
+        <div style={{ position: 'absolute', top: '20%', left: '50%', width: '300px', height: '300px', borderRadius: '50%', background: 'var(--glass-fill-light)', filter: 'var(--glass-blur-light)', pointerEvents: 'none', animation: 'dbBreathe 10s ease-in-out infinite 1s' }} />
 
         <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', alignItems: 'flex-start', width: '100%', padding: '0 var(--page-padding-desktop)' }}>
           {/* Greeting */}
@@ -213,7 +213,7 @@ export const Dashboard: React.FC = () => {
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
         {/* Quick Actions Grid */}
         <div>
-          <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
+          <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-6)' }}>
             Actions rapides
           </h2>
           <CardGrid layout="feature" gapSize="md">
@@ -283,8 +283,8 @@ export const Dashboard: React.FC = () => {
             border: '2px solid var(--tls-orange-200)',
             cursor: 'pointer',
             transition: 'all var(--dur-2)',
-            transform: hoveredContinue ? 'translateY(-2px)' : 'translateY(0)',
-            boxShadow: hoveredContinue ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+            transform: hoveredContinue ? 'translateY(-4px)' : 'translateY(0)',
+            boxShadow: hoveredContinue ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
             outline: focusedContinue ? '2px solid var(--tls-orange-500)' : 'none',
             outlineOffset: focusedContinue ? '2px' : '0',
           }}
@@ -370,7 +370,7 @@ export const Dashboard: React.FC = () => {
           <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
             Fil d'actualités
           </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
             {activities.map((activity) => (
               <ActivityItem
                 key={activity.id}
