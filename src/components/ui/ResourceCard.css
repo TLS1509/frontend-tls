@@ -1,0 +1,267 @@
+/* ==========================================================================
+   RESOURCECARD — .tls-resource-card
+   Reusable learning resource card for Veille, LearningPathDetail, Magazine
+   ========================================================================== */
+
+.tls-resource-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  border-left: 4px solid var(--card-accent-color, var(--tls-primary-500));
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  transition: all var(--dur-2) ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tls-resource-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-left-color: var(--card-accent-color, var(--tls-primary-500));
+}
+
+.tls-resource-card:focus-visible {
+  outline: 2px solid var(--card-accent-color, var(--tls-primary-500));
+  outline-offset: 2px;
+}
+
+/* -------- Header (icon + type) -------- */
+.tls-resource-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.tls-resource-card__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--card-accent-color, var(--tls-primary-500));
+  font-size: 1.5rem;
+}
+
+.tls-resource-card__icon--sm {
+  width: 36px;
+  height: 36px;
+}
+
+.tls-resource-card__icon--md {
+  width: 40px;
+  height: 40px;
+}
+
+.tls-resource-card__icon--lg {
+  width: 48px;
+  height: 48px;
+}
+
+.tls-resource-card__type {
+  font-size: var(--t-caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--card-accent-color, var(--tls-primary-500));
+}
+
+/* -------- Content (title + description) -------- */
+.tls-resource-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.tls-resource-card__title {
+  margin: 0;
+  font-size: var(--t-h4);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.tls-resource-card__description {
+  margin: 0;
+  font-size: var(--t-body-sm);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* -------- Footer (metadata + CTA) -------- */
+.tls-resource-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+  border-top: 1px solid var(--border);
+  padding-top: var(--s-3);
+}
+
+.tls-resource-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.tls-resource-card__category {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  padding: var(--s-1) var(--s-2);
+  background: var(--surface-muted);
+  border-radius: var(--r-sm);
+}
+
+.tls-resource-card__duration {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+}
+
+.tls-resource-card__duration svg {
+  opacity: 0.7;
+}
+
+/* -------- CTA Button -------- */
+.tls-resource-card__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  color: var(--card-accent-color, var(--tls-primary-500));
+  cursor: pointer;
+  transition: all var(--dur-2) ease;
+  white-space: nowrap;
+}
+
+.tls-resource-card__cta:hover {
+  background: var(--card-accent-bg, var(--tls-primary-50));
+}
+
+.tls-resource-card__cta:focus-visible {
+  outline: 2px solid var(--card-accent-color, var(--tls-primary-500));
+  outline-offset: 2px;
+}
+
+.tls-resource-card__cta svg {
+  transition: transform var(--dur-2) ease;
+}
+
+.tls-resource-card__cta:hover svg {
+  transform: translateX(2px);
+}
+
+/* -------- Badge (corner) -------- */
+.tls-resource-card--with-badge {
+  position: relative;
+}
+
+.tls-resource-card__badge {
+  position: absolute;
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  border-radius: var(--r-pill);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.tls-resource-card__badge--top-right {
+  top: var(--s-3);
+  right: var(--s-3);
+}
+
+.tls-resource-card__badge--top-left {
+  top: var(--s-3);
+  left: var(--s-3);
+}
+
+.tls-resource-card__badge--primary {
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-800);
+}
+
+.tls-resource-card__badge--warm {
+  background: var(--tls-orange-50);
+  color: var(--tls-orange-800);
+}
+
+.tls-resource-card__badge--sun {
+  background: var(--tls-yellow-100);
+  color: var(--tls-yellow-900);
+}
+
+.tls-resource-card__badge--success {
+  background: var(--tls-success-bg);
+  color: var(--tls-success-fg);
+}
+
+.tls-resource-card__badge--danger {
+  background: var(--tls-danger-bg);
+  color: var(--tls-danger-fg);
+}
+
+/* -------- Variant: Minimal -------- */
+.tls-resource-card--minimal {
+  padding: var(--s-4);
+}
+
+.tls-resource-card--minimal .tls-resource-card__footer {
+  display: none;
+}
+
+/* -------- Tone Variants -------- */
+.tls-resource-card--tone-primary {
+  --card-accent-color: var(--tls-primary-500);
+  --card-accent-bg: var(--tls-primary-50);
+}
+
+.tls-resource-card--tone-warm {
+  --card-accent-color: var(--tls-orange-500);
+  --card-accent-bg: var(--tls-orange-50);
+}
+
+.tls-resource-card--tone-sun {
+  --card-accent-color: var(--tls-yellow-500);
+  --card-accent-bg: var(--tls-yellow-50);
+}
+
+.tls-resource-card--tone-brand {
+  --card-accent-color: var(--tls-primary-600);
+  --card-accent-bg: var(--tls-primary-50);
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 768px) {
+  .tls-resource-card {
+    padding: var(--s-4);
+    gap: var(--s-3);
+  }
+
+  .tls-resource-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tls-resource-card__cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tls-resource-card__meta {
+    flex-wrap: wrap;
+  }
+}

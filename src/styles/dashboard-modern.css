@@ -57,6 +57,31 @@
   }
 }
 
+/* Stagger entrance for cards */
+@keyframes cardStaggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth scale on interaction */
+@keyframes cardPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .dashboard-modern__hero {
   position: relative;
   overflow: hidden;
@@ -162,6 +187,24 @@
   cursor: pointer;
   transition: transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2);
   min-height: 222px;
+  animation: cardStaggerIn var(--dur-4) var(--ease-entrance) both;
+}
+
+/* Stagger animation for quick action cards */
+.dashboard-modern__action:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.dashboard-modern__action:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.dashboard-modern__action:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.dashboard-modern__action:nth-child(4) {
+  animation-delay: 180ms;
 }
 
 .dashboard-modern__action:hover {
@@ -250,14 +293,30 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-3);
-  animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
+}
+
+/* Stagger animation for prompt cards */
+.dashboard-modern__prompts > * {
+  animation: cardStaggerIn var(--dur-4) var(--ease-entrance) both;
+}
+
+.dashboard-modern__prompts > :nth-child(1) {
+  animation-delay: 240ms;
+}
+
+.dashboard-modern__prompts > :nth-child(2) {
+  animation-delay: 300ms;
+}
+
+.dashboard-modern__prompts > :nth-child(3) {
+  animation-delay: 360ms;
 }
 
 .dashboard-modern__activity {
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
-  animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
+  animation: dashboardFadeUp var(--dur-4) var(--ease-entrance) 420ms both;
 }
 
 .dashboard-modern__activity h3 {

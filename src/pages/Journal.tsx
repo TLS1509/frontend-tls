@@ -114,9 +114,15 @@ export const Journal: React.FC = () => {
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', boxSizing: 'border-box' }}>
         {/* KPI Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
-          <KpiCard label="Entrées ce mois" value="12" />
-          <KpiCard label="Thèmes actifs" value="4" />
-          <KpiCard label="Régularité hebdo" value="78%" />
+          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '0ms' } as React.CSSProperties}>
+            <KpiCard label="Entrées ce mois" value="12" />
+          </div>
+          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '80ms' } as React.CSSProperties}>
+            <KpiCard label="Thèmes actifs" value="4" />
+          </div>
+          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '160ms' } as React.CSSProperties}>
+            <KpiCard label="Régularité hebdo" value="78%" />
+          </div>
         </div>
 
         {/* Action Buttons */}
@@ -194,12 +200,19 @@ export const Journal: React.FC = () => {
 
         {/* Entries List */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-          {entries.map((entry) => (
-            <EntryCard
+          {entries.map((entry, index) => (
+            <div
               key={entry.id}
-              entry={entry}
-              onNavigate={(id) => navigate(`/journal/detail/${id}`)}
-            />
+              style={{
+                animation: 'cardFadeInUp var(--dur-3) var(--ease-entrance) both',
+                animationDelay: `${240 + index * 80}ms`
+              } as React.CSSProperties}
+            >
+              <EntryCard
+                entry={entry}
+                onNavigate={(id) => navigate(`/journal/detail/${id}`)}
+              />
+            </div>
           ))}
         </div>
       </div>

@@ -13,6 +13,9 @@
 /* Import all component styles */
 @import './tls-components.css';
 
+/* Import animations and micro-interactions polish */
+@import './animations-polish.css';
+
 /* Global styles using design tokens */
 * {
   margin: 0;

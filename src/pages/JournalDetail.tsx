@@ -177,7 +177,7 @@ export const JournalDetail: React.FC = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-3)', marginBottom: 'var(--s-8)' }}>
           <button
             type="button"
-            onClick={() => navigate('/journal/detail/prev')}
+            onClick={() => navigate(-1)}
             style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)' }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
@@ -190,7 +190,7 @@ export const JournalDetail: React.FC = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/journal/detail/next')}
+            onClick={() => navigate(1)}
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', textAlign: 'right', fontFamily: 'var(--font-body)' }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}

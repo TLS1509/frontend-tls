@@ -1,0 +1,146 @@
+/**
+ * CompetencyMatrix Styles
+ *
+ * Interactive skills matrix showing competency levels with visual indicators.
+ * Used for learning analytics and skill tracking dashboards.
+ */
+
+.competency-matrix {
+  overflow-x: auto;
+  margin-top: var(--s-6);
+}
+
+.competency-matrix__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+}
+
+/* Table header */
+.competency-matrix__thead {
+  background: var(--surface-muted);
+}
+
+.competency-matrix__th {
+  padding: var(--s-4);
+  text-align: left;
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+}
+
+.competency-matrix__th--level {
+  text-align: center;
+  font-size: var(--t-micro);
+  color: var(--text-soft);
+}
+
+.competency-matrix__level-icon {
+  margin-right: var(--s-1);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Table body */
+.competency-matrix__tbody {
+  background: var(--surface);
+}
+
+.competency-matrix__tr {
+  border-bottom: 2px solid var(--border);
+  transition: background-color var(--dur-2);
+}
+
+.competency-matrix__tr:hover {
+  background: var(--surface-muted);
+}
+
+.competency-matrix__td {
+  padding: var(--s-4);
+  font-size: var(--t-body-sm);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.competency-matrix__skill-name {
+  font-weight: 600;
+}
+
+.competency-matrix__td--level {
+  text-align: center;
+  padding: var(--s-4);
+}
+
+/* Competency circle indicator */
+.competency-matrix__level-indicator {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--dur-2) var(--ease-standard);
+  border: 2px solid;
+  font-size: var(--t-caption);
+  font-weight: 600;
+}
+
+.competency-matrix__level-indicator--achieved {
+  color: white;
+  background: var(--competency-color);
+  border-color: var(--competency-color);
+}
+
+.competency-matrix__level-indicator--achieved:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+}
+
+.competency-matrix__level-indicator--not-achieved {
+  color: var(--text-soft);
+  background: var(--surface-sunken);
+  border-color: var(--border);
+}
+
+.competency-matrix__level-indicator--not-achieved:hover {
+  background: var(--surface-muted);
+  border-color: var(--border-strong);
+}
+
+/* Tooltip on hover */
+.competency-matrix__level-indicator[title] {
+  position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .competency-matrix {
+    overflow-x: auto;
+  }
+
+  .competency-matrix__table {
+    min-width: 600px;
+  }
+
+  .competency-matrix__th,
+  .competency-matrix__td {
+    padding: var(--s-3);
+    font-size: var(--t-caption);
+  }
+
+  .competency-matrix__level-indicator {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .competency-matrix__tr,
+  .competency-matrix__level-indicator {
+    transition: none;
+  }
+}

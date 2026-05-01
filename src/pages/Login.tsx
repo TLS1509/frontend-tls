@@ -1,7 +1,21 @@
+/**
+ * Login Page — User authentication
+ *
+ * Features:
+ * - Email/password authentication form
+ * - Remember me toggle
+ * - Forgot password link
+ * - Social login options (Google, LinkedIn)
+ * - Dark mode support via CSS tokens
+ * - Fully accessible form components
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { FormGroup } from '../components/core/FormGroup';
+import { Input } from '../components/core/Input';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from 'lucide-react';
 import '../styles/static-pages.css';
 
@@ -9,6 +23,14 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // API call would happen here
+    console.log('Login attempt:', { email, password, rememberMe });
+  };
 
   return (
     <div className="tls-page">
@@ -20,44 +42,105 @@ export const Login: React.FC = () => {
 
       <section className="tls-auth-shell">
         <Card className="tls-auth-card">
-          <form className="tls-form">
-            <div className="tls-field">
-              <label>Email</label>
-              <div className="tls-input-icon">
-                <Mail size={14} />
-                <input type="email" placeholder="vous@thelearningsociety.com" />
-              </div>
-            </div>
-            <div className="tls-field">
-              <label>Mot de passe</label>
-              <div className="tls-input-icon">
-                <Lock size={14} />
-                <input type={showPassword ? 'text' : 'password'} placeholder="********" />
-                <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                </button>
-              </div>
-            </div>
-            <div className="tls-auth-inline">
-              <label className="tls-auth-check">
+          <form className="tls-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+            {/* Email Field */}
+            <FormGroup
+              label="Email"
+              hint="Entrez votre adresse email professionnelle"
+              id="email"
+              required
+            >
+              <Input
+                id="email"
+                type="email"
+                placeholder="vous@thelearningsociety.com"
+                leadingIcon={<Mail size={14} />}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FormGroup>
+
+            {/* Password Field */}
+            <FormGroup
+              label="Mot de passe"
+              hint="Entrez votre mot de passe sécurisé"
+              id="password"
+              required
+            >
+              <Input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                leadingIcon={<Lock size={14} />}
+                trailingIcon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--text-soft)',
+                      padding: 0,
+                    }}
+                    aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                }
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormGroup>
+
+            {/* Remember Me & Forgot Password */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label className="check" style={{ margin: 0 }}>
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(event) => setRememberMe(event.target.checked)}
                 />
-                Se souvenir de moi
+                <span style={{ marginLeft: 'var(--s-2)', fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>
+                  Se souvenir de moi
+                </span>
               </label>
-              <button type="button" className="tls-auth-link" onClick={() => navigate('/auth/forgot-password')}>Mot de passe oublie ?</button>
+              <button
+                type="button"
+                onClick={() => navigate('/auth/forgot-password')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--tls-primary-600)',
+                  cursor: 'pointer',
+                  fontSize: 'var(--t-body-sm)',
+                  textDecoration: 'underline',
+                  padding: 0,
+                }}
+              >
+                Mot de passe oublie ?
+              </button>
             </div>
-            <div className="tls-auth-actions">
+
+            {/* Actions */}
+            <div style={{ display: 'flex', gap: 'var(--s-3)', flexDirection: 'column' }}>
               <Button type="submit">Se connecter</Button>
-              <Button type="button" variant="ghost" onClick={() => navigate('/auth/signup')}>Creer un compte</Button>
+              <Button type="button" variant="ghost" onClick={() => navigate('/auth/signup')}>
+                Creer un compte
+              </Button>
             </div>
+
+            {/* Divider */}
             <div className="tls-auth-divider">
               <span />
               <p>ou continuer avec</p>
               <span />
             </div>
+
+            {/* Social Logins */}
             <div className="tls-auth-socials">
               <button type="button" className="tls-auth-social-btn">
                 Continuer avec Google
@@ -82,7 +165,7 @@ export const Login: React.FC = () => {
             <h4><Mail size={16} /> Notifications ciblées</h4>
             <p>Recevez les rappels de sessions, ressources et échéances importantes.</p>
           </div>
-          <div className="tls-pill"><Lock size={14} /> Version UI statique</div>
+          <div className="tls-pill"><Lock size={14} /> Version UI interactive</div>
           <Button variant="secondary" onClick={() => navigate('/auth/signup')}>
             Creer un compte <ArrowRight size={14} />
           </Button>

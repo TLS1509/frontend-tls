@@ -1,0 +1,173 @@
+/**
+ * CourseCard Styles
+ *
+ * Specialized card for course enrollment with hero image, progress tracking,
+ * and category-based theming. Used in learning paths and course listings.
+ */
+
+.course-card {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08),
+              0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all var(--dur-3) var(--ease-standard);
+  cursor: pointer;
+}
+
+.course-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12),
+              0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.course-card:active {
+  transform: translateY(-2px);
+}
+
+/* Hero section with gradient overlay */
+.course-card__hero {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--course-color), var(--course-color-dark));
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.course-card__hero-icon {
+  font-size: 4rem;
+  opacity: 0.95;
+}
+
+/* Content section */
+.course-card__content {
+  padding: var(--s-6);
+}
+
+/* Category badge */
+.course-card__badge {
+  display: inline-block;
+  padding: var(--s-2) var(--s-4);
+  background: var(--course-color-tint);
+  color: var(--course-color);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--course-color-border);
+  margin-bottom: var(--s-4);
+}
+
+/* Title */
+.course-card__title {
+  margin: 0 0 var(--s-2) 0;
+  font-size: var(--t-h4);
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+/* Description */
+.course-card__description {
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  margin-bottom: var(--s-4);
+  line-height: 1.5;
+}
+
+/* Instructor info */
+.course-card__instructor {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+  font-size: var(--t-caption);
+}
+
+.course-card__instructor-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+}
+
+.course-card__instructor-name {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Progress bar (if enrolled) */
+.course-card__progress-section {
+  margin-bottom: var(--s-6);
+}
+
+.course-card__progress-bar {
+  height: 6px;
+  background-color: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: var(--s-2);
+}
+
+.course-card__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--course-color), var(--tls-yellow-400));
+  transition: width var(--dur-3) var(--ease-standard);
+}
+
+.course-card__progress-label {
+  font-size: var(--t-micro);
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* CTA Button */
+.course-card__button {
+  width: 100%;
+  padding: var(--s-4);
+  border: none;
+  border-radius: var(--r-md);
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  transition: all var(--dur-2) var(--ease-standard);
+}
+
+.course-card__button--enroll {
+  background: linear-gradient(135deg, var(--course-color), var(--tls-yellow-400));
+  color: white;
+  box-shadow: 0 4px 12px rgba(127, 86, 217, 0.2);
+}
+
+.course-card__button--enroll:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(127, 86, 217, 0.3);
+}
+
+.course-card__button--enrolled {
+  background: var(--surface-sunken);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.course-card__button--enrolled:hover {
+  background: var(--surface-muted);
+}
+
+.course-card__button-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .course-card__content {
+    padding: var(--s-4);
+  }
+}

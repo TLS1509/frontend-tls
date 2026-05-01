@@ -53,7 +53,7 @@ export const Notifications: React.FC = () => {
         <h3>Parametres rapides</h3>
         <p className="tls-muted">Ajustez vos preferences de canaux et de frequence pour reduire le bruit.</p>
         <div className="tls-actions">
-          <Button variant="secondary" onClick={() => navigate('/account')}>Configurer mes notifications</Button>
+          <Button variant="secondary" onClick={() => navigate('/settings')}>Configurer mes notifications</Button>
         </div>
       </Card>
     </div>

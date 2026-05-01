@@ -29,6 +29,8 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
+  Building2,
+  Bell,
 } from 'lucide-react';
 import {
   Dashboard,
@@ -86,7 +88,7 @@ import './styles/design-tokens.css';
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(true);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
 
   // Determine active nav item
   const isActive = (path: string) => location.pathname === path || location.pathname === path + '/';
@@ -208,6 +210,13 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               active={isActive('/journal')}
             />
             <NavItem
+              href="/notifications"
+              icon={<Bell size={18} />}
+              label="Notifications"
+              title="Notifications"
+              active={isActive('/notifications')}
+            />
+            <NavItem
               href="/collaboration"
               icon={<MessagesSquare size={18} />}
               label="Communauté"
@@ -232,6 +241,13 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               label="Paramètres"
               title="Paramètres"
               active={isActive('/settings')}
+            />
+            <NavItem
+              href="/enterprise"
+              icon={<Building2 size={18} />}
+              label="Entreprise"
+              title="Gestion Entreprise"
+              active={isActive('/enterprise')}
             />
             <NavItem
               onClick={() => {

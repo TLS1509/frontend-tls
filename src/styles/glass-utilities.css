@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Glass Morphism Utilities
+   ========================================================================== */
+
+/* Standard glass effect */
+.glass {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-ring);
+}
+
+/* Strong glass effect - more opaque */
+.glass-strong {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-ring);
+}
+
+/* Subtle glass effect - lighter blur */
+.glass-subtle {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}

@@ -101,15 +101,15 @@ export const Coaching: React.FC = () => {
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
         {/* KPI Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
-          <Card variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
             <CardEyebrow>Session planifiée</CardEyebrow>
             <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="1 session planifiée">1</CardTitle>
           </Card>
-          <Card variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
             <CardEyebrow>Sessions réalisées</CardEyebrow>
             <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="12 sessions réalisées">12</CardTitle>
           </Card>
-          <Card variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
+          <Card className="card-stagger" variant="default" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
             <CardEyebrow>Satisfaction moyenne</CardEyebrow>
             <CardTitle style={{ fontSize: 'var(--t-h2)', margin: 0 }} role="status" aria-label="4.9 sur 5 de satisfaction">4.9/5</CardTitle>
           </Card>

@@ -23,8 +23,8 @@
     box-shadow var(--dur-2) var(--ease-standard),
     backdrop-filter var(--dur-2);
 
-  /* Animate in */
-  animation: pcFadeUp var(--dur-3) var(--ease-entrance) both;
+  /* Animate in with enhanced entrance */
+  animation: pcFadeUp var(--dur-4) var(--ease-entrance) both;
 }
 
 @keyframes pcFadeUp {

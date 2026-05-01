@@ -6,22 +6,31 @@
   display: flex;
   height: 100vh;
   background-color: var(--tls-ink-0, #ffffff);
+  overflow: hidden;
 }
+
+/* ============================================================================
+   SIDEBAR WRAPPER
+   ============================================================================ */
 
 .app-shell__sidebar-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  flex-shrink: 0;
   background: var(--surface, #ffffff);
   border-right: 1px solid var(--border, #e5e5e5);
   overflow-y: auto;
-  transition: width var(--dur-2, 0.2s) ease, opacity var(--dur-2, 0.2s) ease;
+  overflow-x: hidden;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
 }
 
 .app-shell__sidebar-wrapper--closed {
   width: 0;
   opacity: 0;
   overflow: hidden;
+  border-right: none;
 }
 
 .app-shell__sidebar-wrapper--open {
@@ -34,8 +43,12 @@
 }
 
 .app-shell__sidebar-wrapper--collapsed {
-  width: 84px;
+  width: 68px;
 }
+
+/* ============================================================================
+   SIDEBAR BRAND ROW
+   ============================================================================ */
 
 .app-shell__sidebar-brand-row {
   display: flex;
@@ -48,6 +61,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
   border: 1px solid var(--border);
@@ -64,8 +78,12 @@
   border-color: var(--border-strong);
 }
 
+/* ============================================================================
+   COLLAPSED STATE
+   ============================================================================ */
+
 .app-shell__sidebar-wrapper--collapsed .sidebar {
-  width: 84px;
+  width: 68px;
   padding: 14px 8px;
 }
 
@@ -95,23 +113,29 @@
 
 .app-shell__sidebar-wrapper--collapsed .nav-item {
   justify-content: center;
-  padding: 10px 8px;
+  padding: 10px 6px;
+  border-radius: var(--r-md);
 }
 
 .app-shell__sidebar-wrapper--collapsed .nav-item__icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   margin: 0;
 }
 
 .app-shell__sidebar-wrapper--collapsed .nav-item--active::before {
-  left: -8px;
+  left: -6px;
 }
+
+/* ============================================================================
+   CONTENT AREA
+   ============================================================================ */
 
 .app-shell__content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -119,39 +143,58 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: var(--bg, #f5f5f5);
+  background-color: var(--bg, #f8fafc);
+  /* Subtle gradient — doesn't bleed too much on empty pages */
   background-image: linear-gradient(
-    146.29deg,
+    160deg,
     var(--tls-primary-50, #e8f4f7) 0%,
-    var(--tls-ink-0, #ffffff) 50%,
-    var(--tls-yellow-50, #fff9ee) 100%
+    var(--tls-ink-0, #ffffff) 40%,
+    var(--tls-ink-0, #ffffff) 100%
   );
+  background-attachment: local;
 }
 
 .app-shell__footer {
   background-color: var(--tls-ink-0, #ffffff);
   border-top: 1px solid var(--border, #e5e5e5);
-  padding: 1rem 1.5rem;
+  padding: var(--s-3) var(--s-6);
   text-align: center;
   color: var(--text-muted, #666666);
   font-size: var(--t-caption, 0.875rem);
 }
 
 /* ============================================================================
-   RESPONSIVE
+   RESPONSIVE — Mobile
    ============================================================================ */
+
+@media (max-width: 1024px) {
+  .app-shell__sidebar-wrapper--open:not(.app-shell__sidebar-wrapper--collapsed) {
+    width: 200px;
+  }
+}
 
 @media (max-width: 768px) {
   .app-shell__sidebar-wrapper {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
-    z-index: 100;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 200;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.12);
   }
 
   .app-shell__sidebar-wrapper--closed {
     display: none;
+  }
+
+  /* On mobile, default collapsed = hidden, not icon-only */
+  .app-shell__sidebar-wrapper--collapsed {
+    width: 0;
+    overflow: hidden;
+    border-right: none;
+  }
+
+  .app-shell__content {
+    width: 100%;
   }
 }

@@ -1,0 +1,428 @@
+/* ==========================================================================
+   CARD LAYOUTS — Grid, Carousel, and Masonry Utilities
+   Responsive container patterns for card collections
+   ========================================================================== */
+
+/* ==========================================================================
+   RESPONSIVE GRIDS
+   ========================================================================== */
+
+/**
+ * Basic responsive grid utilities
+ * Uses CSS Grid with auto-fit for flexible column counts
+ */
+
+.cards-grid {
+  display: grid;
+  gap: var(--s-4);
+}
+
+/* 2-column grid: 2 cards per row on desktop, 1 on mobile */
+.cards-grid--2col {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+/* 3-column grid: 3 cards per row on desktop, 2 on tablet, 1 on mobile */
+.cards-grid--3col {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* 4-column grid: 4 cards per row on desktop, 2 on tablet, 1 on mobile */
+.cards-grid--4col {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Dense grid: smaller cards, 5+ per row on large screens */
+.cards-grid--dense {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* ==========================================================================
+   FEATURED/ASYMMETRIC GRID
+   ========================================================================== */
+
+/**
+ * Asymmetric grid with featured (larger) first card
+ * First card spans 2x2, others stack normally
+ * Responsive: becomes 1-column on mobile with equal sizes
+ */
+
+.cards-grid--featured {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: auto;
+}
+
+.cards-grid--featured .card:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+@media (max-width: 1024px) {
+  .cards-grid--featured {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-grid--featured .card:first-child {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-grid--featured {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   CAROUSEL / HORIZONTAL SCROLL
+   ========================================================================== */
+
+/**
+ * Horizontal scrolling card carousel
+ * Snap alignment, smooth scrolling, hidden scrollbar
+ */
+
+.cards-carousel {
+  display: flex;
+  gap: var(--s-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: var(--s-4) 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome/Safari */
+.cards-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Default: 33% width per card (3 cards visible) */
+.cards-carousel .card {
+  flex: 0 0 calc(33.333% - var(--s-3));
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* 2-column carousel: 50% width per card (2 cards visible) */
+.cards-carousel--2col .card {
+  flex: 0 0 calc(50% - var(--s-2));
+}
+
+/* Single column carousel: 100% width per card (1 card visible) */
+.cards-carousel--single .card {
+  flex: 0 0 100%;
+}
+
+/* Large carousel items: fewer items visible */
+.cards-carousel--large .card {
+  flex: 0 0 calc(50% - var(--s-2));
+}
+
+/* Responsive carousel adjustments */
+@media (max-width: 1280px) {
+  .cards-carousel .card {
+    flex: 0 0 calc(50% - var(--s-2));
+  }
+
+  .cards-carousel--2col .card {
+    flex: 0 0 calc(66.666% - var(--s-3));
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-carousel .card,
+  .cards-carousel--2col .card,
+  .cards-carousel--large .card {
+    flex: 0 0 calc(100% - var(--s-4));
+  }
+}
+
+/* ==========================================================================
+   MASONRY LAYOUT
+   ========================================================================== */
+
+/**
+ * CSS Grid masonry layout
+ * Auto-fit items into columns, auto-rows with varying heights
+ */
+
+.cards-masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  auto-rows: max-content;
+  gap: var(--s-4);
+}
+
+/**
+ * Optional: Stagger every 3rd card to be taller
+ * Creates visual rhythm without explicit spanning
+ */
+.cards-masonry .card:nth-child(3n) {
+  /* Can be extended with min-height or transform if desired */
+}
+
+/**
+ * Optional: Every 5th card spans 2 columns (requires manual layout)
+ * Uncomment to enable asymmetric masonry effect
+ */
+/*
+.cards-masonry .card:nth-child(5n+1) {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .cards-masonry .card:nth-child(5n+1) {
+    grid-column: span 1;
+  }
+}
+*/
+
+/* Responsive masonry: fewer columns on smaller screens */
+@media (max-width: 1024px) {
+  .cards-masonry {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-masonry {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-masonry {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   HORIZONTAL CARD LAYOUT
+   ========================================================================== */
+
+/**
+ * Horizontal card variant: flexbox row layout
+ * Icon on left, content in middle, CTA on right
+ */
+
+.card--horizontal {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex-direction: row;
+  padding: var(--s-4) var(--s-5);
+}
+
+.card--horizontal .card__icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card--horizontal .card__content {
+  flex: 1;
+}
+
+.card--horizontal .card__footer {
+  margin-left: auto;
+  flex-shrink: 0;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Responsive: stack vertically on mobile */
+@media (max-width: 768px) {
+  .card--horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card--horizontal .card__footer {
+    margin-left: 0;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: var(--s-3);
+  }
+}
+
+/* ==========================================================================
+   CARD CONTAINER WITH DIVIDER
+   ========================================================================== */
+
+/**
+ * Separator between card groups
+ * Useful for categorized card collections
+ */
+
+.cards-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.cards-group__divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--s-6) 0;
+}
+
+.cards-group__label {
+  font-family: var(--font-body);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  padding: 0 var(--s-4);
+}
+
+/* ==========================================================================
+   CARD STACK (VERTICAL)
+   ========================================================================== */
+
+/**
+ * Single-column vertical stack with proper spacing
+ * Used for feeds, activity lists, etc.
+ */
+
+.cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  max-width: 100%;
+}
+
+.cards-stack--compact {
+  gap: var(--s-3);
+}
+
+.cards-stack--spacious {
+  gap: var(--s-6);
+}
+
+/* ==========================================================================
+   RESPONSIVE HELPERS
+   ========================================================================== */
+
+/**
+ * Helper utilities for common responsive patterns
+ */
+
+/* Hide scrollbar on carousel but keep functionality */
+.cards-carousel {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Ensure cards don't overflow their containers */
+.card {
+  box-sizing: border-box;
+}
+
+/* Prevent text selection in carousel (for swipe/drag) */
+.cards-carousel {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* ==========================================================================
+   MOBILE-FIRST ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  /* Reduce gap on small screens to maximize space */
+  .cards-grid,
+  .cards-carousel,
+  .cards-masonry,
+  .cards-stack {
+    gap: var(--s-3);
+  }
+
+  /* Padding adjustments */
+  .cards-carousel {
+    padding: var(--s-3) 0;
+  }
+
+  /* Stack featured grid on mobile */
+  .cards-grid--featured {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-grid--featured .card:first-child {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* ==========================================================================
+   ANIMATION SUPPORT (Optional)
+   ========================================================================== */
+
+/**
+ * Subtle entrance animation for cards
+ * Use with data-animate="true" or apply selectively
+ */
+
+@keyframes card-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card[data-animate='true'] {
+  animation: card-entrance var(--dur-2) var(--ease-standard) forwards;
+}
+
+/* Stagger animation for multiple cards */
+.cards-grid > .card[data-animate='true'],
+.cards-carousel > .card[data-animate='true'],
+.cards-stack > .card[data-animate='true'] {
+  animation-delay: calc(var(--card-index, 0) * 50ms);
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+/**
+ * Focus visible states for keyboard navigation
+ */
+
+.cards-carousel:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 2px;
+}
+
+/* Ensure carousel is keyboard accessible */
+.cards-carousel {
+  scroll-padding: var(--s-4);
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+  .cards-carousel {
+    overflow-x: visible;
+  }
+
+  .cards-carousel .card {
+    flex: 0 0 calc(50% - var(--s-2));
+    page-break-inside: avoid;
+  }
+}

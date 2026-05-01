@@ -1,0 +1,285 @@
+/**
+ * CoachCardGrid Pattern Styles
+ *
+ * Responsive grid layout for coach/mentor profile cards
+ * Includes specialties badges and availability indicators
+ */
+
+/* ============================================================================
+ * Container & Base Styles
+ * ============================================================================ */
+
+.coach-card-grid {
+  display: grid;
+  gap: var(--s-4);
+  width: 100%;
+}
+
+/* Column variants */
+.coach-card-grid--1col {
+  grid-template-columns: 1fr;
+}
+
+.coach-card-grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.coach-card-grid--3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.coach-card-grid--4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ============================================================================
+ * Grid Items
+ * ============================================================================ */
+
+.coach-card-grid__item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--s-2);
+}
+
+.coach-card-grid__card-wrapper {
+  flex: 1;
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+
+.coach-card-grid__card-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+.coach-card-grid__card {
+  height: 100%;
+}
+
+/* ============================================================================
+ * Specialties Badges
+ * ============================================================================ */
+
+.coach-card-grid__specialties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+  padding: 0 var(--s-2);
+}
+
+.coach-card-grid__specialty-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--s-1) var(--s-2);
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-600);
+  border-radius: var(--r-sm);
+  font-size: var(--t-body-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ============================================================================
+ * Availability Indicator
+ * ============================================================================ */
+
+.coach-card-grid__availability {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2);
+  margin: 0 var(--s-2);
+  font-size: var(--t-body-xs);
+  font-weight: 500;
+  border-radius: var(--r-sm);
+  background: var(--surface-muted);
+}
+
+.coach-card-grid__availability--available {
+  color: var(--tls-success-600);
+  background: var(--tls-success-50);
+}
+
+.coach-card-grid__availability--unavailable {
+  color: var(--text-soft);
+  background: var(--border);
+}
+
+.coach-card-grid__availability-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.coach-card-grid__availability--available .coach-card-grid__availability-dot {
+  animation: coach-pulse var(--dur-slow) ease-in-out infinite;
+}
+
+@keyframes coach-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================================================
+ * Loading State
+ * ============================================================================ */
+
+.coach-card-grid--loading {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coach-card-grid__loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.coach-card-grid__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--tls-primary-500);
+  border-radius: 50%;
+  animation: coach-grid-spin var(--dur-medium) linear infinite;
+}
+
+@keyframes coach-grid-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.coach-card-grid--loading p {
+  font-size: var(--t-body-sm);
+  color: var(--text-soft);
+}
+
+/* ============================================================================
+ * Empty State
+ * ============================================================================ */
+
+.coach-card-grid--empty {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-6);
+}
+
+.coach-card-grid__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+  text-align: center;
+}
+
+.coach-card-grid__empty-icon {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.coach-card-grid__empty-message {
+  font-size: var(--t-body-sm);
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* ============================================================================
+ * Responsive Design
+ * ============================================================================ */
+
+/* Tablet (768px-1024px) */
+@media (max-width: 1024px) {
+  .coach-card-grid--3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coach-card-grid--4col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .coach-card-grid {
+    gap: var(--s-3);
+  }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 768px) {
+  .coach-card-grid--2col,
+  .coach-card-grid--3col,
+  .coach-card-grid--4col {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-card-grid {
+    gap: var(--s-3);
+  }
+
+  .coach-card-grid__specialties {
+    padding: 0;
+    gap: var(--s-1);
+  }
+
+  .coach-card-grid__specialty-badge {
+    padding: var(--s-1) var(--s-2);
+    font-size: var(--t-body-xs);
+  }
+
+  .coach-card-grid__availability {
+    padding: var(--s-2);
+    margin: 0;
+  }
+
+  .coach-card-grid__empty {
+    gap: var(--s-2);
+  }
+
+  .coach-card-grid__empty-icon {
+    font-size: 2.5rem;
+  }
+
+  .coach-card-grid__empty-message {
+    font-size: var(--t-body-xs);
+  }
+}
+
+/* Small mobile (< 480px) */
+@media (max-width: 480px) {
+  .coach-card-grid {
+    gap: var(--s-2);
+  }
+
+  .coach-card-grid__specialties {
+    gap: var(--s-1);
+  }
+
+  .coach-card-grid__specialty-badge {
+    font-size: var(--t-body-xs);
+  }
+
+  .coach-card-grid__empty {
+    gap: var(--s-1);
+    padding: var(--s-4);
+  }
+
+  .coach-card-grid__empty-icon {
+    font-size: 2rem;
+  }
+
+  .coach-card-grid__empty-message {
+    font-size: var(--t-body-xs);
+  }
+}

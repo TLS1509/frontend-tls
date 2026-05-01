@@ -18,6 +18,12 @@ export type {
   InputStatus,
 } from './core/Input';
 
+export { FormGroup } from './core/FormGroup';
+export type { FormGroupProps } from './core/FormGroup';
+
+export { Select } from './core/Select';
+export type { SelectProps, SelectOption, SelectSize, SelectStatus } from './core/Select';
+
 /* ============================================================================
  * UI — Identity & Content
  * ============================================================================ */

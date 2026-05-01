@@ -5,6 +5,52 @@
    ========================================================================== */
 
 /* ==========================================================================
+   ANIMATION UTILITIES
+   ========================================================================== */
+
+@keyframes cardFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statCardStagger {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-stagger {
+  animation: statCardStagger var(--dur-3) var(--ease-entrance) both;
+}
+
+.card-stagger:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.card-stagger:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.card-stagger:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.card-stagger:nth-child(4) {
+  animation-delay: 240ms;
+}
+
+/* ==========================================================================
    LAYOUT UTILITIES
    ========================================================================== */
 .vstack {
@@ -216,6 +262,65 @@
   gap: var(--s-1);
 }
 
+/* FormGroup — Wrapper for form field + label + error/hint */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  font-family: var(--font-body);
+}
+
+.form-group--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--s-4);
+}
+
+.form-group--horizontal .form-group__label {
+  flex: 0 0 auto;
+  min-width: 150px;
+}
+
+.form-group__label {
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.form-group__required {
+  color: var(--tls-danger-base);
+  font-weight: 700;
+}
+
+.form-group__control {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.form-group__hint {
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.form-group__error {
+  font-size: var(--t-caption);
+  color: var(--tls-danger-fg);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.form-group--error .form-group__label {
+  color: var(--tls-danger-base);
+}
+
 .input {
   display: flex;
   align-items: center;
@@ -301,6 +406,87 @@
   align-items: flex-start;
 }
 .textarea textarea { resize: inherit; height: auto; min-height: inherit; }
+
+/* Select */
+.select {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 0;
+  height: 44px;
+  padding: 0 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-md);
+  font-size: var(--t-body-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  transition: border-color var(--dur-2) var(--ease-standard),
+              box-shadow var(--dur-2);
+  width: 100%;
+}
+
+.select:hover:not(:disabled):not(.select--disabled) {
+  border-color: var(--tls-primary-300);
+}
+
+.select:focus-within {
+  outline: none;
+  border-color: var(--tls-primary-500);
+  box-shadow: 0 0 0 4px rgba(85, 161, 180, 0.14);
+}
+
+.select--sm { height: 36px; padding: 0 12px; font-size: var(--t-caption); }
+.select--lg { height: 52px; padding: 0 16px; font-size: var(--t-body); }
+
+.select--success { border-color: #9DBEBA; }
+.select--success:focus-within {
+  box-shadow: 0 0 0 4px rgba(157, 190, 186, 0.25);
+}
+
+.select--error { border-color: var(--tls-danger-base); }
+.select--error:focus-within {
+  box-shadow: 0 0 0 4px rgba(242, 133, 89, 0.18);
+}
+
+.select--disabled,
+.select select:disabled {
+  background: var(--surface-muted);
+  color: var(--text-soft);
+  cursor: not-allowed;
+}
+
+.select select {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.select select:disabled {
+  cursor: not-allowed;
+  color: var(--text-soft);
+}
+
+.select__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-left: var(--s-1);
+  pointer-events: none;
+}
 
 /* Checkbox */
 .check {

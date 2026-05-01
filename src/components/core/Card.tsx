@@ -12,6 +12,18 @@ import React from 'react';
 
 export type CardVariant = 'default' | 'feature' | 'interactive' | 'glass';
 
+/** Tone variants for color-coded cards */
+export type CardTone = 'primary' | 'warm' | 'sun' | 'brand';
+
+/** Badge overlay config for card header */
+export interface CardBadgeConfig {
+  label: string;
+  tone?: CardTone;
+  icon?: React.ReactNode;
+  variant?: 'primary' | 'warm' | 'sun' | 'success' | 'danger';
+  position?: 'top-right' | 'top-left';
+}
+
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: CardVariant;
   /** Render as a semantic element (article, section, etc.) */

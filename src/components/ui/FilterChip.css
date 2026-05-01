@@ -1,0 +1,88 @@
+/**
+ * FilterChip — Design System Component
+ *
+ * Toggle-style pill used for filtering content lists.
+ *
+ * States:
+ *   default  — glass pill, muted uppercase text
+ *   :hover   — lift 1px + primary color hint
+ *   active   — solid primary fill, white text, teal glow
+ *   --reset  — no uppercase, lighter weight, icon support
+ *
+ * Usage:
+ *   <FilterChip label="En cours" active={true} onClick={toggle} />
+ *   <FilterChip label="Réinitialiser" variant="reset" icon={<RotateCcw />} onClick={reset} />
+ */
+
+/* =============================================================================
+   BASE
+   ============================================================================= */
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition:
+    transform var(--dur-2) var(--ease-standard),
+    background-color var(--dur-2) var(--ease-standard),
+    border-color var(--dur-2) var(--ease-standard),
+    color var(--dur-2) var(--ease-standard),
+    box-shadow var(--dur-2) var(--ease-standard);
+}
+
+/* =============================================================================
+   HOVER
+   ============================================================================= */
+
+.filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: rgba(85, 161, 180, 0.4);
+  color: var(--tls-primary-700);
+}
+
+/* =============================================================================
+   ACTIVE STATE
+   ============================================================================= */
+
+.filter-chip[data-active='true'] {
+  background: var(--tls-primary-600);
+  border-color: var(--tls-primary-600);
+  color: var(--text-inverse);
+  box-shadow: 0 4px 14px rgba(85, 161, 180, 0.30);
+}
+
+.filter-chip[data-active='true']:hover {
+  color: var(--text-inverse);
+  border-color: var(--tls-primary-700);
+}
+
+/* =============================================================================
+   RESET VARIANT
+   ============================================================================= */
+
+.filter-chip--reset {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+/* =============================================================================
+   ICON
+   ============================================================================= */
+
+.filter-chip__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}

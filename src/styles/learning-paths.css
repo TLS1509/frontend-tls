@@ -10,6 +10,54 @@
  */
 
 /* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes kpiStaggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pathCardStaggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stepCardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes complementaryCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
    Tokens locaux pour mapper les anciens noms (--primary, --secondary, --accent)
    utilisés dans la page détail vers les tokens TLS.
    ========================================================================== */
@@ -143,6 +191,24 @@
   box-shadow: var(--shadow-xs);
   transition: transform var(--dur-2) var(--ease-standard),
     box-shadow var(--dur-2) var(--ease-standard);
+  animation: kpiStaggerIn var(--dur-4) var(--ease-entrance) both;
+}
+
+/* Stagger animation for KPI cards */
+.parcours-kpi:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.parcours-kpi:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.parcours-kpi:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.parcours-kpi:nth-child(4) {
+  animation-delay: 180ms;
 }
 
 .parcours-kpi:hover {
@@ -631,6 +697,30 @@
   gap: var(--s-4);
 }
 
+.learning-path-steps-list > * {
+  animation: stepCardSlideIn var(--dur-3) var(--ease-entrance) both;
+}
+
+.learning-path-steps-list > :nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.learning-path-steps-list > :nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.learning-path-steps-list > :nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.learning-path-steps-list > :nth-child(4) {
+  animation-delay: 240ms;
+}
+
+.learning-path-steps-list > :nth-child(5) {
+  animation-delay: 320ms;
+}
+
 .learning-path-step-card {
   display: flex;
   flex-direction: column;
@@ -937,6 +1027,28 @@
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
+  animation: complementaryCardFadeIn var(--dur-4) var(--ease-entrance) both;
+  animation-delay: 480ms;
+}
+
+.learning-path-complementary-grid > * {
+  animation: complementaryCardFadeIn var(--dur-3) var(--ease-entrance) both;
+}
+
+.learning-path-complementary-grid > :nth-child(1) {
+  animation-delay: 500ms;
+}
+
+.learning-path-complementary-grid > :nth-child(2) {
+  animation-delay: 580ms;
+}
+
+.learning-path-complementary-grid > :nth-child(3) {
+  animation-delay: 660ms;
+}
+
+.learning-path-complementary-grid > :nth-child(4) {
+  animation-delay: 740ms;
 }
 
 .learning-path-complementary-title {
