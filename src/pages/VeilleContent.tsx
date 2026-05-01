@@ -144,7 +144,7 @@ export const VeilleContent: React.FC = () => {
           padding: 'var(--s-10) var(--s-8) var(--s-8)',
         }}
       >
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto' }}>
           {/* Icon + tag row */}
           <div
             style={{
@@ -237,7 +237,7 @@ export const VeilleContent: React.FC = () => {
       </div>
 
       {/* ─ Orange Résumé Exécutif callout ───────────────────────── */}
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 var(--s-8)' }}>
+      <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: '0 var(--s-8)' }}>
         <div
           style={{
             background: 'linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)',
@@ -282,7 +282,7 @@ export const VeilleContent: React.FC = () => {
       {/* ─ 2-column layout ──────────────────────────────────────── */}
       <div
         style={{
-          maxWidth: '900px',
+          maxWidth: 'var(--container-default)',
           margin: '0 auto',
           padding: '0 var(--s-8) var(--s-12)',
           display: 'grid',

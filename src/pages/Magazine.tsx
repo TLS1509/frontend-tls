@@ -227,7 +227,7 @@ export const Magazine: React.FC = () => {
       {/* ─ Below hero ───────────────────────────────────────────── */}
       <div
         style={{
-          maxWidth: '900px',
+          maxWidth: 'var(--container-default)',
           margin: '0 auto',
           padding: 'var(--s-8) var(--s-6) var(--s-12)',
           display: 'grid',

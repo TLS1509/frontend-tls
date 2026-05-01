@@ -184,7 +184,7 @@ export const AstucesViewer: React.FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          maxWidth: 600,
+          maxWidth: 'var(--container-narrow)',
           textAlign: 'center',
           gap: 'var(--s-6)',
         }}

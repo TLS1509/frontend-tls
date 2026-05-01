@@ -98,7 +98,7 @@ export const Coaching: React.FC = () => {
       />
 
       {/* Content Section */}
-      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
+      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
         {/* KPI Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
           <Card variant="default" style={{ background: '#fff', boxShadow: '0 1px 6px rgba(0,0,0,0.05)' }}>

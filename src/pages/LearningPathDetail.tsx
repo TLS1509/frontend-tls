@@ -201,7 +201,7 @@ export const LearningPathDetail: React.FC = () => {
           </button>
         </div>
 
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 var(--s-10)', color: 'var(--text-inverse)' }}>
+        <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: '0 var(--s-10)', color: 'var(--text-inverse)' }}>
           {/* Eyebrow chips */}
           <div style={{ display: 'flex', gap: 'var(--s-2)', marginBottom: 'var(--s-4)', flexWrap: 'wrap' }}>
             {[
@@ -234,7 +234,7 @@ export const LearningPathDetail: React.FC = () => {
       </div>
 
       {/* ── MAIN ─────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: 'var(--s-10) var(--s-10)' }}>
+      <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: 'var(--s-10) var(--s-10)' }}>
 
         {/* Tab nav */}
         <div style={{ display: 'flex', gap: 'var(--s-2)', padding: 'var(--s-2)', borderRadius: 'var(--r-2xl)', background: 'var(--tls-ink-100)', marginBottom: 'var(--s-8)' }}>
@@ -473,7 +473,7 @@ export const LearningPathDetail: React.FC = () => {
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h2)', fontWeight: 700, margin: '0 0 var(--s-3)' }}>
                 {parcours.finalProject.title}
               </h2>
-              <p style={{ fontSize: 'var(--t-body-lg)', margin: '0 0 var(--s-8)', opacity: 0.92, maxWidth: 600, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 'var(--t-body-lg)', margin: '0 0 var(--s-8)', opacity: 0.92, maxWidth: 'var(--container-narrow)', lineHeight: 1.6 }}>
                 {parcours.finalProject.description}
               </p>
 

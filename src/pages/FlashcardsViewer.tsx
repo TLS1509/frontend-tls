@@ -146,7 +146,7 @@ export const FlashcardsViewer: React.FC = () => {
           onClick={() => setIsFlipped(!isFlipped)}
           style={{
             width: '100%',
-            maxWidth: 600,
+            maxWidth: 'var(--container-narrow)',
             aspectRatio: '16 / 9',
             background: isFlipped ? 'var(--tls-orange-50)' : 'var(--tls-primary-50)',
             border: `2px solid ${isFlipped ? 'var(--tls-orange-200)' : 'var(--tls-primary-200)'}`,

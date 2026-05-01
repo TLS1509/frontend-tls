@@ -282,7 +282,7 @@ export const Veille: React.FC = () => {
           gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '12px',
           padding: '0 var(--s-6) var(--s-4)',
-          maxWidth: '900px',
+          maxWidth: 'var(--container-default)',
           margin: '0 auto',
           width: '100%',
           boxSizing: 'border-box',

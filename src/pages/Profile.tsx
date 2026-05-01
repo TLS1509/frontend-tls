@@ -151,7 +151,7 @@ export const Profile: React.FC = () => {
             borderRadius: 'var(--r-2xl)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.9) inset',
             padding: 'var(--s-8)',
-            maxWidth: '1000px',
+            maxWidth: 'var(--container-wide)',
             margin: '0 auto',
             position: 'relative',
           }}
@@ -375,7 +375,7 @@ export const Profile: React.FC = () => {
           style={{
             display: 'flex',
             gap: 0,
-            maxWidth: '1000px',
+            maxWidth: 'var(--container-wide)',
             margin: '0 auto',
           }}
         >
@@ -418,7 +418,7 @@ export const Profile: React.FC = () => {
       <main
         style={{
           padding: 'var(--s-8)',
-          maxWidth: '1000px',
+          maxWidth: 'var(--container-wide)',
           margin: '0 auto',
         }}
       >

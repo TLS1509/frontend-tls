@@ -111,7 +111,7 @@ export const Journal: React.FC = () => {
       />
 
       {/* Content Section */}
-      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 1000, marginLeft: 'auto', marginRight: 'auto', width: '100%', boxSizing: 'border-box' }}>
+      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', boxSizing: 'border-box' }}>
         {/* KPI Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
           <KpiCard label="Entrées ce mois" value="12" />

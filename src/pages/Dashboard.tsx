@@ -144,7 +144,7 @@ export const Dashboard: React.FC = () => {
         <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.05)', filter: 'blur(60px)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.08)', filter: 'blur(50px)', pointerEvents: 'none' }} />
 
-        <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', alignItems: 'flex-start' }}>
+        <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', alignItems: 'flex-start', width: '100%', padding: '0 var(--page-padding-desktop)' }}>
           {/* Greeting */}
           <div>
             <p style={{ margin: 0, fontSize: 'var(--t-caption)', fontWeight: 600, opacity: 0.9 }}>
@@ -173,7 +173,7 @@ export const Dashboard: React.FC = () => {
       </section>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 1200, marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
+      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
         {/* Quick Actions Grid */}
         <div>
           <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', marginBottom: 'var(--s-6)', margin: '0 0 var(--s-6)' }}>
