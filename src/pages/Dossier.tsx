@@ -156,17 +156,17 @@ export const Dossier: React.FC = () => {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "8px",
-              padding: "9px 20px",
+              gap: "var(--s-2)",
+              padding: "var(--btn-padding-md-sm)",
               borderRadius: "var(--r-full)",
               border: "none",
               background: "var(--tls-orange-500)",
               color: 'var(--text-inverse)',
-              fontSize: "var(--t-sm)",
+              fontSize: "var(--t-body-sm)",
               fontWeight: 700,
               cursor: "pointer",
               fontFamily: "var(--font-body)",
-              boxShadow: "0 2px 8px rgba(237,132,58,0.3)",
+              boxShadow: "var(--shadow-warm)",
             }}
           >
             <Download size={14} /> Télécharger PDF
@@ -246,12 +246,12 @@ export const Dossier: React.FC = () => {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                padding: "5px 14px",
+                padding: "var(--chip-padding-sm)",
                 borderRadius: "var(--r-full)",
                 background: "rgba(237,132,58,0.1)",
                 border: "1px solid rgba(237,132,58,0.25)",
                 color: "var(--tls-orange-600)",
-                fontSize: "12px",
+                fontSize: "var(--t-micro)",
                 fontWeight: 800,
                 letterSpacing: "0.08em",
               }}
@@ -309,7 +309,7 @@ export const Dossier: React.FC = () => {
       </div>
 
       {/* ─ Résumé Exécutif callout ────────────────────────────────── */}
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "0 var(--s-8)" }}>
+      <div style={{ maxWidth: "var(--container-default)", margin: "0 auto", padding: "0 var(--s-8)" }}>
         <div
           style={{
             background: "linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)",
@@ -686,12 +686,12 @@ export const Dossier: React.FC = () => {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: "4px",
-                      padding: "3px 10px",
+                      gap: "var(--s-1)",
+                      padding: "var(--s-1) var(--s-2-5)",
                       borderRadius: "var(--r-full)",
-                      background: stat.trendUp ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)",
-                      color: stat.trendUp ? "#16a34a" : "#dc2626",
-                      fontSize: "12px",
+                      background: stat.trendUp ? "var(--tls-success-light)" : "var(--tls-danger-light)",
+                      color: stat.trendUp ? "var(--tls-success-base)" : "var(--tls-danger-base)",
+                      fontSize: "var(--t-micro)",
                       fontWeight: 600,
                     }}
                   >
@@ -865,7 +865,7 @@ export const Dossier: React.FC = () => {
               display: "inline-flex",
               alignItems: "center",
               gap: "var(--s-2)",
-              padding: "14px 32px",
+              padding: "var(--s-3-5) var(--s-8)",
               borderRadius: "var(--r-full)",
               background: "var(--tls-orange-500)",
               border: "none",
@@ -874,7 +874,7 @@ export const Dossier: React.FC = () => {
               fontSize: "var(--t-body)",
               cursor: "pointer",
               fontFamily: "var(--font-body)",
-              boxShadow: "0 4px 16px rgba(237,132,58,0.35)",
+              boxShadow: "var(--shadow-warm)",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = "var(--tls-orange-600)")}

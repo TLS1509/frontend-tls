@@ -1149,11 +1149,11 @@ const Components: React.FC = () => {
                           <span
                             key={tag}
                             style={{
-                              padding: '2px 8px',
-                              borderRadius: '999px',
+                              padding: 'var(--chip-padding-xs)',
+                              borderRadius: 'var(--r-pill)',
                               background: 'var(--surface-muted)',
                               border: '1px solid var(--border)',
-                              fontSize: '11px',
+                              fontSize: 'var(--t-micro)',
                               fontWeight: 600,
                               color: 'var(--text-muted)',
                             }}
@@ -1172,14 +1172,14 @@ const Components: React.FC = () => {
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '6px',
-                          padding: '9px 18px',
-                          borderRadius: '999px',
+                          gap: 'var(--s-1-5)',
+                          padding: 'var(--s-2) var(--s-4-5)',
+                          borderRadius: 'var(--r-pill)',
                           background: p.color,
                           border: 'none',
                           color: 'var(--text-inverse)',
                           fontWeight: 700,
-                          fontSize: 'var(--t-sm)',
+                          fontSize: 'var(--t-body-sm)',
                           cursor: 'pointer',
                           fontFamily: 'var(--font-body)',
                           transition: 'opacity 0.15s',
