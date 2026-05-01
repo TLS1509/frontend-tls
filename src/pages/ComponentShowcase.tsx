@@ -318,6 +318,108 @@ export const ComponentShowcase: React.FC = () => {
           <p style={{ fontSize: 'var(--t-micro)' }}>Micro</p>
         </div>
       </Card>
+
+      {/* Design Tokens: Spacing */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Spacing Tokens</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: 'var(--s-4)' }}>
+          Base 4px system: --s-1 (4px) through --s-32 (128px). Intermediate values: --s-1-5, --s-2-5, --s-3-5, --s-4-5, --s-5-5, --s-7
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 'var(--s-4)' }}>
+          {['1', '2', '3', '4', '5', '6', '8', '12'].map((size) => (
+            <div key={size}>
+              <div style={{ height: `var(--s-${size})`, background: 'var(--tls-primary-200)', borderRadius: 'var(--r-sm)', marginBottom: 'var(--s-2)' }} />
+              <code style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>--s-{size}</code>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Design Tokens: Colors */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Color Tokens</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--s-4)' }}>
+          {[
+            { name: 'Primary', color: 'var(--tls-primary-500)' },
+            { name: 'Orange', color: 'var(--tls-orange-500)' },
+            { name: 'Yellow', color: 'var(--tls-yellow-500)' },
+            { name: 'Success', color: 'var(--tls-success-base)' },
+            { name: 'Warning', color: 'var(--tls-warning-base)' },
+            { name: 'Danger', color: 'var(--tls-danger-base)' },
+          ].map((c) => (
+            <div key={c.name}>
+              <div style={{ height: '60px', background: c.color, borderRadius: 'var(--r-md)', marginBottom: 'var(--s-2)' }} />
+              <code style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>{c.name}</code>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* Layout Patterns */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Layout Patterns</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)' }}>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 'var(--r-md)', padding: 'var(--s-4)' }}>
+            <code style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>container-narrow</code>
+            <p style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', margin: 'var(--s-2) 0 0' }}>600px</p>
+          </div>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 'var(--r-md)', padding: 'var(--s-4)' }}>
+            <code style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>container-default</code>
+            <p style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', margin: 'var(--s-2) 0 0' }}>900px</p>
+          </div>
+          <div style={{ border: '1px dashed var(--border)', borderRadius: 'var(--r-md)', padding: 'var(--s-4)' }}>
+            <code style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>container-wide</code>
+            <p style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', margin: 'var(--s-2) 0 0' }}>1200px</p>
+          </div>
+        </div>
+      </Card>
+
+      {/* Button Padding Tokens */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Button Padding Variants</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)' }}>
+          <Button size="sm" variant="primary">--btn-padding-xs</Button>
+          <Button size="sm" variant="primary">--btn-padding-sm</Button>
+          <Button variant="primary">--btn-padding-md</Button>
+          <Button size="lg" variant="primary">--btn-padding-lg</Button>
+        </div>
+      </Card>
+
+      {/* Text & State Utilities */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Text & State Utilities</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 'var(--s-4)' }}>
+          <div style={{ background: 'var(--surface-muted)', padding: 'var(--s-4)', borderRadius: 'var(--r-md)' }}>
+            <p style={{ color: 'var(--text)' }} className="text-semibold">Font: Semibold</p>
+            <p style={{ color: 'var(--text)' }} className="text-muted">Color: Muted</p>
+            <p style={{ color: 'var(--text)' }} className="text-truncate">Truncate: Very long text that should be cut...</p>
+          </div>
+          <div style={{ background: 'var(--tls-success-light)', padding: 'var(--s-4)', borderRadius: 'var(--r-md)', borderLeft: '4px solid var(--tls-success-base)' }}>
+            <p style={{ color: 'var(--tls-success-base)', fontWeight: 600 }}>Success State</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>Positive feedback indicator</p>
+          </div>
+          <div style={{ background: 'var(--tls-danger-light)', padding: 'var(--s-4)', borderRadius: 'var(--r-md)', borderLeft: '4px solid var(--tls-danger-base)' }}>
+            <p style={{ color: 'var(--tls-danger-base)', fontWeight: 600 }}>Error State</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>Error feedback indicator</p>
+          </div>
+        </div>
+      </Card>
+
+      {/* Responsive Breakpoints */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-4)' }}>Responsive Breakpoints</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+          {[
+            { name: 'Mobile', bp: '375px' },
+            { name: 'Tablet', bp: '768px' },
+            { name: 'Laptop', bp: '1024px' },
+            { name: 'Desktop', bp: '1280px' },
+            { name: 'Wide', bp: '1920px' },
+          ].map((b) => (
+            <Badge key={b.name} text={`${b.name}: ${b.bp}`} variant="primary" size="md" />
+          ))}
+        </div>
+      </Card>
     </div>
   );
 };

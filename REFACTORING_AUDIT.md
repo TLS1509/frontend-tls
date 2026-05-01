@@ -142,7 +142,36 @@ After each page is refactored, verify:
 ## Progress Tracking
 
 Updated: 2026-05-01
-- [x] Added design-tokens.css extensions (border-width, button/form sizing, state opacity)
-- [x] Created utilities.css with text and interaction patterns
+
+### Completed ✅
+- [x] Added design-tokens.css extensions:
+  - Intermediate spacing tokens (--s-1-5, --s-2-5, --s-3-5, --s-4-5, --s-5-5, --s-7)
+  - Border width tokens (--border-width-thin through --border-width-heavy)
+  - Button padding variants (--btn-padding-xs through --btn-padding-lg-md)
+  - Chip/pill padding variants (--chip-padding-xs through --chip-padding-lg)
+  - Input form sizing tokens (--input-height, --input-padding, --label-*)
+  - Interaction state opacity tokens (--state-hover-opacity, --state-disabled-opacity)
+- [x] Created utilities.css with:
+  - Text utilities (truncate, font weights, colors, alignment, line heights)
+  - Interaction state utilities (hover, active, disabled, focus states)
+  - Semantic utilities (success, warning, error, info states)
+  - Accessibility utilities (sr-only, visibility, aspect ratios)
 - [x] Integrated new styles into globals.css import chain
-- [ ] Phase 2 refactoring in progress...
+- [x] Refactored JournalFreeEntry.tsx (30+ hardcoded padding values → tokens)
+- [x] Refactored Components.tsx (padding and color tokens)
+- [x] Refactored Dossier.tsx (multiple padding, color, and shadow token replacements)
+- [x] All pages pass build verification
+
+### In Progress 🔄
+- HIGH PRIORITY: Dashboard.tsx, LearningPaths.tsx, LearningPathDetail.tsx, Journal.tsx
+- MEDIUM PRIORITY: Coaching.tsx, Veille.tsx, Magazine.tsx
+
+### Summary of Token Usage Now
+- **Spacing**: 18 intermediate values available (--s-0 through --s-32)
+- **Button Padding**: 7 predefined variants for different button sizes
+- **Chip Padding**: 4 variants for different chip/pill sizes
+- **Colors**: All using design system roles (--text, --text-muted, --tls-primary-*, etc.)
+- **Typography**: All using fluid type scale (--t-h1 through --t-micro)
+- **Shadows**: All using predefined shadow tokens (--shadow-xs through --shadow-xl)
+- **Borders**: Using --border-width-* tokens for consistency
+- **Focus/Hover States**: Using opacity tokens for consistent interactive feedback
