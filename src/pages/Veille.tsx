@@ -276,43 +276,19 @@ export const Veille: React.FC = () => {
       </header>
 
       {/* ─ Format quick-access strip ─────────────────────────── */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 'var(--s-3)',
-          padding: '0 var(--s-6) var(--s-4)',
-          maxWidth: 'var(--container-default)',
-          margin: '0 auto',
-          width: '100%',
-          boxSizing: 'border-box',
-        }}
-      >
+      <div className="veille-format-strip">
         {FORMAT_LINKS.map((f) => (
           <button
             key={f.path}
             type="button"
             onClick={() => navigate(f.path)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-2-5)',
-              padding: 'var(--s-3) var(--s-3-5)',
-              borderRadius: 'var(--r-xl)',
-              background: f.bg,
-              border: `1.5px solid ${f.border}`,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              textAlign: 'left',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
+            className="veille-format-card"
+            style={{ '--fmt-bg': f.bg, '--fmt-border': f.border, '--fmt-color': f.color } as React.CSSProperties}
           >
-            <span style={{ fontSize: 'var(--t-h3)', flexShrink: 0 }}>{f.icon}</span>
+            <span className="veille-format-card__emoji">{f.icon}</span>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: f.color, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
-              <div style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', lineHeight: 1.3, marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.sub}</div>
+              <div className="veille-format-card__label">{f.label}</div>
+              <div className="veille-format-card__sub">{f.sub}</div>
             </div>
           </button>
         ))}

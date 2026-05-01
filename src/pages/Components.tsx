@@ -17,6 +17,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/static-pages.css';
 import {
   // Core
   Button,
@@ -309,6 +310,73 @@ const PAGE_TEMPLATES: PageTemplate[] = [
     tags: ['multi-step', 'vertical timeline', 'textarea', 'form validation'],
     icon: '🧠',
   },
+  /* ── Premium pages (glass-elevated pass) ── */
+  {
+    id: 'profile',
+    name: 'Profil utilisateur',
+    description: 'Hero glass avec avatar gradient + initiales, online dot, meta chips, intérêts pills. Stats row 4 KPI avec tls-kpi-icon colorés. Onglets (Vue d\'ensemble / Activité / Badges / Compétences).',
+    path: '/profile',
+    family: 'Compte',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['glass hero', 'avatar', 'kpi icons', 'tabs', 'badges', 'skills'],
+    icon: '👤',
+  },
+  {
+    id: 'messages',
+    name: 'Messagerie',
+    description: 'Split layout: liste de threads avec avatars initiales colorés, dots non-lus, filter pills (Tous/Coaching/Équipe/Support), recherche. Panneau conversation avec empty-state illustré.',
+    path: '/messages',
+    family: 'Communauté',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['split layout', 'avatar stack', 'unread dots', 'filter pills', 'empty state'],
+    icon: '💬',
+  },
+  {
+    id: 'collaboration',
+    name: 'Collaboration',
+    description: 'Glass hero éditorial, KPI row 3 colonnes (Layers/ListChecks/CheckCircle2), cartes projet avec badge statut inline, barre de progression + %, meta chips, stack avatars équipe superposés.',
+    path: '/collaboration',
+    family: 'Communauté',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['glass hero', 'kpi icons', 'project cards', 'avatar stack', 'progress'],
+    icon: '🤝',
+  },
+  {
+    id: 'leaderboard',
+    name: 'Leaderboard',
+    description: 'Podium or/argent/bronze avec gradients, emojis médailles, cercle initiales 48px, badge points, streak flame pill, hover translateY(-3px). KPI row Flame/TrendingUp/Users.',
+    path: '/leaderboard',
+    family: 'Communauté',
+    color: 'var(--tls-yellow-600)',
+    bg: 'rgba(248,176,68,0.08)',
+    tags: ['podium', 'gold silver bronze', 'gamification', 'streak', 'kpi icons'],
+    icon: '🏆',
+  },
+  {
+    id: 'notifications',
+    name: 'Notifications',
+    description: 'Cards avec bordure gauche 4px colorée par type (info/warm/success), icône bulle tone-aware 36×36, badge unread count live dans le hero, filter pills 4 catégories, bouton "Tout lire".',
+    path: '/notifications',
+    family: 'Compte',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['notification cards', 'colored border', 'unread badge', 'filter pills', 'tone system'],
+    icon: '🔔',
+  },
+  {
+    id: 'settings',
+    name: 'Paramètres',
+    description: 'Glass hero COMPTE & PRÉFÉRENCES, tls-kpi-row (BellRing/Shield/Palette), 4 cards settings avec switch toggles, selects langue/sécurité, best practice callout.',
+    path: '/settings',
+    family: 'Compte',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['glass hero', 'kpi icons', 'toggles', 'settings cards', 'select'],
+    icon: '⚙️',
+  },
 ];
 
 /* ============================================================================
@@ -596,6 +664,132 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="vstack">
         <SectionTitle title="Actions rapides" subtitle="Accédez directement à vos fonctionnalités" />
         <SectionTitle title="Fil d'actualité" />
+      </div>
+    ),
+  },
+
+  /* ---- TLS APP PATTERNS ------------------------------------------------- */
+  {
+    name: 'CardGrid',
+    codeName: 'patterns/CardGrid.tsx',
+    cssBase: '.card-grid',
+    category: 'Patterns',
+    description: 'Grid responsive réutilisable. Layouts: compact (2 col), default (3 col), feature (4 col), autoFit. Breakpoints automatiques mobile/tablette/desktop.',
+    keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
+    render: () => (
+      <div className="vstack">
+        <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>layout="default" (3 col)</p>
+        <div className="card-grid card-grid--default card-grid--gap-sm">
+          {['Module A', 'Module B', 'Module C'].map((t) => (
+            <div key={t} style={{ padding: 'var(--s-3)', background: 'var(--tls-primary-50)', border: '1px solid rgba(85,161,180,0.2)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', color: 'var(--tls-primary-700)', fontWeight: 600 }}>{t}</div>
+          ))}
+        </div>
+        <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>layout="feature" (4 col)</p>
+        <div className="card-grid card-grid--feature card-grid--gap-sm">
+          {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
+            <div key={t} style={{ padding: 'var(--s-3)', background: 'rgba(237,132,58,0.07)', border: '1px solid rgba(237,132,58,0.2)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', color: 'var(--tls-orange-600)', fontWeight: 600 }}>{t}</div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'InlineProgress',
+    codeName: 'patterns/InlineProgress.tsx',
+    cssBase: '.inline-progress',
+    category: 'Patterns',
+    description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
+    keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
+    render: () => (
+      <div className="vstack" style={{ maxWidth: 400 }}>
+        {[
+          { label: 'Prompt Engineering', value: 92, tone: 'primary' as const },
+          { label: 'Leadership',         value: 67, tone: 'warm' as const },
+          { label: 'IA Générative',      value: 84, tone: 'sun' as const },
+        ].map(({ label, value, tone }) => (
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
+            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text)', fontWeight: 600, minWidth: 140 }}>{label}</span>
+            <div className={`inline-progress inline-progress--${tone} inline-progress--md`} style={{ flex: 1 }}>
+              <div className="inline-progress__track">
+                <div className="inline-progress__fill" style={{ width: `${value}%` }} />
+              </div>
+              <span className="inline-progress__label">{value}%</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
+  },
+  {
+    name: 'MetaPillGroup',
+    codeName: 'ui/MetaPillGroup.tsx',
+    cssBase: '.tls-meta-pill',
+    category: 'Patterns',
+    description: 'Collection de MetaPill avec tones (primary/warm/sun/brand). Layouts horizontal/vertical. Remplace les chips dispersés dans les pages.',
+    keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone'],
+    render: () => (
+      <div className="vstack">
+        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+          <span className="tls-meta-pill">Default</span>
+          <span className="tls-meta-pill tls-meta-pill--primary">Primary</span>
+          <span className="tls-meta-pill tls-meta-pill--warm">Warm</span>
+          <span className="tls-meta-pill tls-meta-pill--sun">Sun</span>
+          <span className="tls-meta-pill tls-meta-pill--brand">Brand</span>
+        </div>
+        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+          <span className="tls-meta-pill tls-meta-pill--sm tls-meta-pill--primary">Sm primary</span>
+          <span className="tls-meta-pill tls-meta-pill--primary">Md primary</span>
+          <span className="tls-meta-pill tls-meta-pill--lg tls-meta-pill--primary">Lg primary</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'TLS KPI Pattern',
+    codeName: 'static-pages.css',
+    cssBase: '.tls-kpi + .tls-kpi-icon',
+    category: 'Patterns',
+    description: 'Bloc statistique standardisé: icône colorée 44×44 (tls-kpi-icon) + grand chiffre 800w + label muted. Utilisé sur Dashboard, Journal, Coaching, Collaboration, Settings, Leaderboard.',
+    keywords: ['kpi', 'stat', 'metric', 'icon', 'number'],
+    render: () => (
+      <section className="tls-kpi-row">
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
+            {I.book}
+          </div>
+          <strong style={{ color: 'var(--tls-primary-700)' }}>12</strong>
+          <span>Cours terminés</span>
+        </div>
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.10)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+            {I.trophy}
+          </div>
+          <strong style={{ color: 'var(--tls-orange-600)' }}>2 450</strong>
+          <span>Points XP</span>
+        </div>
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+            {I.heart}
+          </div>
+          <strong style={{ color: 'var(--tls-yellow-600)' }}>7j</strong>
+          <span>Série actuelle</span>
+        </div>
+      </section>
+    ),
+  },
+  {
+    name: 'Filter Pills',
+    codeName: 'static-pages.css',
+    cssBase: '.tls-filter-pill / .tls-filter-pill--active',
+    category: 'Patterns',
+    description: 'Pills de filtrage CSS-only avec focus ring WCAG AA. État actif via aria-selected ou classe --active. Utilisées sur Journal, Notifications, Messages, Veille.',
+    keywords: ['filter', 'pill', 'tab', 'category', 'active', 'aria'],
+    render: () => (
+      <div role="tablist" className="hstack" style={{ flexWrap: 'wrap' }}>
+        <button type="button" role="tab" aria-selected={true}  className="tls-filter-pill tls-filter-pill--active">⚡ Tous</button>
+        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.book} Formations</button>
+        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.trophy} Badges</button>
+        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.heart} Favoris</button>
       </div>
     ),
   },

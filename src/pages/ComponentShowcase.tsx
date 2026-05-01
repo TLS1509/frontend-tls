@@ -12,11 +12,20 @@ import {
   ParcoursCard,
   SectionTitle,
   MetaPill,
+  MetaPillGroup,
   MetaItem,
   ActivityItem,
   IconFeatureCard,
   UserInfo,
+  CardGrid,
+  InlineProgress,
+  ToneAwareCard,
 } from '../components';
+import {
+  BookOpen, Clock3, Flame, Trophy, Users, TrendingUp,
+  Sparkles, CheckCircle2, Award, Zap, Star,
+} from 'lucide-react';
+import '../styles/static-pages.css';
 
 export const ComponentShowcase: React.FC = () => {
   return (
@@ -419,6 +428,235 @@ export const ComponentShowcase: React.FC = () => {
             <Badge key={b.name} text={`${b.name}: ${b.bp}`} variant="primary" size="md" />
           ))}
         </div>
+      </Card>
+
+      {/* ─────────────────────────────────────────────────────────────────────
+          TLS DESIGN PATTERNS — new sections
+      ───────────────────────────────────────────────────────────────────── */}
+
+      {/* KPI Pattern */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>KPI Pattern <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>tls-kpi + tls-kpi-icon</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Utilisé sur Dashboard, Journal, Coaching, Leaderboard, Collaboration, Settings. Icon container 44×44 + grand chiffre + label.
+        </p>
+        <section className="tls-kpi-row">
+          <div className="tls-kpi">
+            <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
+              <BookOpen size={20} />
+            </div>
+            <strong style={{ color: 'var(--tls-primary-700)' }}>12</strong>
+            <span>Cours terminés</span>
+          </div>
+          <div className="tls-kpi">
+            <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.10)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+              <Flame size={20} />
+            </div>
+            <strong style={{ color: 'var(--tls-orange-600)' }}>7j</strong>
+            <span>Série actuelle</span>
+          </div>
+          <div className="tls-kpi">
+            <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+              <Trophy size={20} />
+            </div>
+            <strong style={{ color: 'var(--tls-yellow-600)' }}>2 450</strong>
+            <span>Points XP</span>
+          </div>
+        </section>
+      </Card>
+
+      {/* Filter Pills */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>Filter Pills <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>.tls-filter-pill</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Pills de filtrage CSS-only avec focus ring. État actif via <code>aria-selected="true"</code> ou classe <code>--active</code>.
+        </p>
+        <div role="tablist" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
+          <button type="button" role="tab" aria-selected={true}  className="tls-filter-pill tls-filter-pill--active"><Sparkles size={13} /> Tous</button>
+          <button type="button" role="tab" aria-selected={false} className="tls-filter-pill"><BookOpen size={13} /> Formations</button>
+          <button type="button" role="tab" aria-selected={false} className="tls-filter-pill"><Users size={13} /> Équipe</button>
+          <button type="button" role="tab" aria-selected={false} className="tls-filter-pill"><Trophy size={13} /> Badges</button>
+          <button type="button" role="tab" aria-selected={false} className="tls-filter-pill"><Flame size={13} /> En cours</button>
+        </div>
+      </Card>
+
+      {/* MetaPill & MetaPillGroup */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>MetaPill &amp; MetaPillGroup</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Labels avec icône et système de tones. <code>MetaPillGroup</code> pour les collections.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+            <MetaPill text="Default"  icon={<Star size={14} />} />
+            <MetaPill text="Primary"  icon={<BookOpen size={14} />} tone="primary" />
+            <MetaPill text="Warm"     icon={<Flame size={14} />}    tone="warm" />
+            <MetaPill text="Sun"      icon={<Zap size={14} />}      tone="sun" />
+            <MetaPill text="Brand"    icon={<Award size={14} />}    tone="brand" />
+          </div>
+          <MetaPillGroup
+            items={[
+              { icon: <Users size={14} />,    text: '24 apprenants', tone: 'primary' },
+              { icon: <Clock3 size={14} />,   text: '4 semaines',    tone: 'warm' },
+              { icon: <Trophy size={14} />,   text: 'Niveau expert', tone: 'sun' },
+              { icon: <CheckCircle2 size={14} />, text: 'Certifié',  tone: 'brand' },
+            ]}
+            gap="sm"
+          />
+        </div>
+      </Card>
+
+      {/* CardGrid */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>CardGrid <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>layout compact|default|feature|autoFit</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Grid responsive avec breakpoints automatiques. Remplace les grids ad-hoc répétés dans chaque page.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
+          <div>
+            <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 var(--s-2)' }}>layout="compact" (2 col)</p>
+            <CardGrid layout="compact" gapSize="sm">
+              {['Card A', 'Card B'].map((t) => (
+                <div key={t} style={{ background: 'var(--surface-muted)', border: '1px solid var(--border)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{t}</div>
+              ))}
+            </CardGrid>
+          </div>
+          <div>
+            <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 var(--s-2)' }}>layout="default" (3 col)</p>
+            <CardGrid layout="default" gapSize="sm">
+              {['Card 1', 'Card 2', 'Card 3'].map((t) => (
+                <div key={t} style={{ background: 'var(--surface-muted)', border: '1px solid var(--border)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{t}</div>
+              ))}
+            </CardGrid>
+          </div>
+          <div>
+            <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 var(--s-2)' }}>layout="feature" (4 col)</p>
+            <CardGrid layout="feature" gapSize="sm">
+              {['Item 1', 'Item 2', 'Item 3', 'Item 4'].map((t) => (
+                <div key={t} style={{ background: 'var(--surface-muted)', border: '1px solid var(--border)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{t}</div>
+              ))}
+            </CardGrid>
+          </div>
+        </div>
+      </Card>
+
+      {/* InlineProgress */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>InlineProgress <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>tone primary|warm|sun</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Barre de progression embarquée dans les cartes, étapes et listes. Companion de <code>ProgressBar</code> pour les contextes inline.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          {[
+            { value: 75, tone: 'primary' as const, label: 'Prompt Engineering' },
+            { value: 55, tone: 'warm' as const,    label: 'Leadership' },
+            { value: 88, tone: 'sun' as const,     label: 'IA Générative' },
+          ].map(({ value, tone, label }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
+              <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text)', fontWeight: 600, minWidth: 160 }}>{label}</span>
+              <div style={{ flex: 1 }}>
+                <InlineProgress value={value} tone={tone} showLabel={true} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      {/* ToneAwareCard */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>ToneAwareCard <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>tone primary|warm|sun</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Wrapper qui injecte des CSS variables <code>--tone-bg/border/text/accent</code>. Les enfants utilisent ces variables pour une cohérence couleur sans répétition.
+        </p>
+        <CardGrid layout="default" gapSize="md">
+          {([
+            { tone: 'primary' as const, label: 'Primary', icon: <BookOpen size={18} />, text: 'Parcours IA Générative' },
+            { tone: 'warm' as const,    label: 'Warm',    icon: <Flame size={18} />,    text: 'Série en cours : 7j' },
+            { tone: 'sun' as const,     label: 'Sun',     icon: <Trophy size={18} />,   text: 'Badge débloqué' },
+          ]).map(({ tone, label, icon, text }) => (
+            <ToneAwareCard key={tone} tone={tone}>
+              <div style={{
+                padding: 'var(--s-5)', borderRadius: 'var(--r-xl)',
+                background: 'var(--tone-bg)', border: '1px solid var(--tone-border)',
+                display: 'flex', flexDirection: 'column', gap: 'var(--s-3)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', color: 'var(--tone-accent)' }}>
+                  {icon}
+                  <span style={{ fontSize: 'var(--t-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</span>
+                </div>
+                <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--tone-text)' }}>{text}</p>
+                <Badge variant={tone === 'primary' ? 'brand' : tone === 'warm' ? 'warm' : 'sun'}>
+                  <TrendingUp size={11} /> Actif
+                </Badge>
+              </div>
+            </ToneAwareCard>
+          ))}
+        </CardGrid>
+      </Card>
+
+      {/* Avatar Stack Pattern */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>Avatar Stack Pattern</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Cercles initiales superposés avec palette de 4 couleurs. Utilisé dans Collaboration (membres équipe) et Messages (avatars threads).
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
+          {[
+            ['Alice J.', 'Bob S.', 'Carol D.'],
+            ['David L.', 'Emma W.', 'Frank M.', 'Grace B.'],
+          ].map((members, groupIdx) => {
+            const palette = [
+              { bg: 'var(--tls-primary-100)', color: 'var(--tls-primary-700)' },
+              { bg: 'rgba(237,132,58,0.15)',  color: 'var(--tls-orange-700)' },
+              { bg: 'rgba(234,192,74,0.2)',   color: 'var(--tls-yellow-700)' },
+              { bg: 'rgba(74,140,110,0.12)',  color: 'var(--tls-success-fg)' },
+            ];
+            return (
+              <div key={groupIdx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
+                <div style={{ display: 'flex' }}>
+                  {members.map((name, i) => {
+                    const pal = palette[i % palette.length];
+                    const initials = name.split(' ').map((n) => n[0]).join('').toUpperCase();
+                    return (
+                      <div key={name} title={name} style={{
+                        width: 36, height: 36, borderRadius: '50%',
+                        background: pal.bg, color: pal.color,
+                        border: '2px solid var(--surface)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '11px', fontWeight: 800,
+                        marginLeft: i > 0 ? -10 : 0,
+                        position: 'relative', zIndex: members.length - i,
+                      }}>
+                        {initials}
+                      </div>
+                    );
+                  })}
+                </div>
+                <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                  {members.length} membres
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
+      {/* Glass Hero Pattern */}
+      <Card variant="elevated" padding={true} style={{ marginBottom: 'var(--s-8)' }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', marginBottom: 'var(--s-2)' }}>Glass Hero Pattern <code style={{ fontSize: 'var(--t-caption)', background: 'var(--surface-muted)', padding: '2px 8px', borderRadius: 4 }}>.tls-editorial-hero</code></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)', marginBottom: 'var(--s-5)' }}>
+          Hero section glassmorphique cohérente sur toutes les pages. Avec eyebrow, h1 800w, subtitle et badge de comptage dynamique.
+        </p>
+        <section className="tls-editorial-hero" style={{ marginBottom: 0 }}>
+          <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Design System</span>
+          <h1>Glass Hero Example</h1>
+          <p className="tls-editorial-summary">
+            Ceci est un exemple de hero glassmorphique avec badge de comptage.
+            <span style={{ marginLeft: 'var(--s-2)', display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '2px 10px', borderRadius: 'var(--r-pill)', background: 'var(--tls-primary-600)', color: '#fff', fontSize: 'var(--t-micro)', fontWeight: 700 }}>
+              3 actifs
+            </span>
+          </p>
+        </section>
       </Card>
     </div>
   );
