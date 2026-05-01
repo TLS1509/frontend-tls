@@ -98,15 +98,27 @@ const SettingRow: React.FC<{
 
 const SectionCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div style={{
-    borderRadius: 'var(--r-xl)', border: '1px solid var(--border)',
-    background: 'var(--surface)', overflow: 'hidden', marginBottom: 'var(--s-6)',
+    borderRadius: 'var(--r-xl)',
+    border: '1px solid var(--border)',
+    background: 'var(--surface)',
+    overflow: 'hidden',
+    marginBottom: 'var(--s-8)',
+    boxShadow: 'var(--shadow-sm)',
+    transition: 'all var(--dur-2)'
   }}>
     <div style={{
-      padding: 'var(--s-4) var(--s-6)',
+      padding: 'var(--s-5) var(--s-6)',
       borderBottom: '1px solid var(--border)',
       background: 'var(--surface-muted)',
     }}>
-      <h3 style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+      <h3 style={{
+        margin: 0,
+        fontSize: 'var(--t-body-sm)',
+        fontWeight: 700,
+        color: 'var(--text)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em'
+      }}>
         {title}
       </h3>
     </div>
@@ -228,8 +240,15 @@ const SecurityTab: React.FC = () => {
             key={session.id}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              gap: 'var(--s-4)', padding: 'var(--s-4) 0',
+              gap: 'var(--s-4)',
+              padding: 'var(--s-5) 0',
               borderBottom: i < SESSIONS.length - 1 ? '1px solid var(--border-light)' : 'none',
+              background: session.current ? 'rgba(85,161,180,0.04)' : 'transparent',
+              marginLeft: '-var(--s-6)',
+              marginRight: '-var(--s-6)',
+              paddingLeft: 'var(--s-6)',
+              paddingRight: 'var(--s-6)',
+              transition: 'all var(--dur-2)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-3)' }}>
@@ -327,10 +346,12 @@ const BillingTab: React.FC = () => (
       <div style={{ padding: 'var(--s-5) 0' }}>
         <div style={{
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--s-4)',
-          padding: 'var(--s-5)', borderRadius: 'var(--r-xl)',
-          background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25, var(--tls-primary-50)))',
+          padding: 'var(--s-6)', borderRadius: 'var(--r-xl)',
+          background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
           border: '1.5px solid var(--tls-primary-200)',
-          marginBottom: 'var(--s-5)',
+          marginBottom: 'var(--s-6)',
+          boxShadow: 'var(--shadow-md), 0 8px 24px rgba(85,161,180,0.15)',
+          transition: 'all var(--dur-2)'
         }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
@@ -380,8 +401,9 @@ const BillingTab: React.FC = () => (
           key={inv.date}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--s-4)',
-            padding: 'var(--s-4) 0',
+            padding: 'var(--s-5) 0',
             borderBottom: i < arr.length - 1 ? '1px solid var(--border-light)' : 'none',
+            transition: 'all var(--dur-2)'
           }}
         >
           <div>
