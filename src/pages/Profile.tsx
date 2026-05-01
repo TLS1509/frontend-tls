@@ -123,10 +123,11 @@ export const Profile: React.FC = () => {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body)' }}>
 
-      {/* ─ Glass Hero ───────────────────────────────────────────────────── */}
+      {/* ─ Glass Hero — Elevated with better visual hierarchy ───────────────────────────────────────────────────── */}
       <div style={{
-        background: 'linear-gradient(135deg, var(--tls-primary-100) 0%, var(--tls-ink-0) 55%, var(--tls-yellow-100) 100%)',
-        padding: 'var(--s-8) var(--s-8) 0',
+        background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-orange-500) 100%)',
+        color: 'var(--text-inverse)',
+        padding: 'var(--s-10) var(--s-8) var(--s-6)',
         position: 'relative',
         overflow: 'hidden',
       }}>
@@ -139,31 +140,32 @@ export const Profile: React.FC = () => {
         <div aria-hidden="true" style={{ position: 'absolute', top: '-30%', left: '-8%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-primary-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
         <div aria-hidden="true" style={{ position: 'absolute', bottom: '-20%', right: '5%',  width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-yellow-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
 
-        {/* Profile glass card */}
+        {/* Profile glass card — Enhanced with elevated styling */}
         <div style={{
-          background: 'rgba(255,255,255,0.88)',
-          backdropFilter: 'var(--glass-blur-medium)',
-          WebkitBackdropFilter: 'var(--glass-blur-medium)',
-          border: '1px solid rgba(255,255,255,0.75)',
+          background: 'rgba(255,255,255,0.95)',
+          backdropFilter: 'var(--glass-blur-standard)',
+          WebkitBackdropFilter: 'var(--glass-blur-standard)',
+          border: '1px solid rgba(255,255,255,0.85)',
           borderRadius: 'var(--r-2xl)',
-          boxShadow: 'var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.95)',
-          padding: 'var(--s-8)',
+          boxShadow: 'var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.98)',
+          padding: 'var(--s-10)',
           maxWidth: 'var(--container-wide)',
-          margin: '0 auto',
+          margin: '0 auto var(--s-4)',
           position: 'relative',
         }}>
           <div style={{ display: 'flex', gap: 'var(--s-6)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
-            {/* Avatar */}
+            {/* Avatar — Elevated styling */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
               <div style={{
-                width: 96, height: 96,
+                width: 104, height: 104,
                 borderRadius: 'var(--r-2xl)',
-                background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-orange-500) 100%)',
+                background: 'linear-gradient(135deg, var(--tls-primary-400) 0%, var(--tls-orange-500) 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 12px 32px rgba(85,161,180,0.35)',
+                boxShadow: 'var(--shadow-xl), 0 20px 40px rgba(85,161,180,0.25)',
                 overflow: 'hidden',
                 position: 'relative',
+                border: '2px solid rgba(255,255,255,0.3)',
               }}>
                 <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-0.02em', zIndex: 1 }}>
                   {USER_MOCK.avatar}
@@ -184,29 +186,29 @@ export const Profile: React.FC = () => {
                   <Camera size={22} color="#fff" />
                 </button>
               </div>
-              {/* Level badge */}
+              {/* Level badge — Elevated with better prominence */}
               <div style={{
-                position: 'absolute', bottom: -6, right: -6,
-                width: 30, height: 30,
+                position: 'absolute', bottom: -8, right: -8,
+                width: 40, height: 40,
                 borderRadius: 'var(--r-lg)',
                 background: 'linear-gradient(135deg, var(--tls-orange-500) 0%, var(--tls-yellow-500) 100%)',
-                border: '3px solid #fff',
-                boxShadow: '0 4px 12px rgba(237,132,58,0.4)',
+                border: '4px solid #fff',
+                boxShadow: 'var(--shadow-lg), 0 8px 20px rgba(237,132,58,0.5)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: '0.65rem' }}>12</span>
+                <span style={{ color: '#fff', fontWeight: 800, fontSize: '0.75rem' }}>12</span>
               </div>
             </div>
 
-            {/* Name + meta */}
+            {/* Name + meta — Enhanced visual hierarchy */}
             <div style={{ flex: 1, minWidth: 200 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-1)', flexWrap: 'wrap' }}>
-                <h1 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--text)', margin: 0, letterSpacing: '-0.02em' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-2)', flexWrap: 'wrap' }}>
+                <h1 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--text-inverse)', margin: 0, letterSpacing: '-0.02em' }}>
                   {displayUser.name}
                 </h1>
-                <Badge variant="sun">Niveau 12</Badge>
+                <Badge variant="sun" style={{ backgroundColor: 'rgba(255,255,255,0.25)', color: '#fff', border: '1px solid rgba(255,255,255,0.4)' }}>Niveau 12</Badge>
               </div>
-              <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: '0 0 var(--s-3)' }}>
+              <p style={{ fontSize: 'var(--t-caption)', color: 'rgba(255,255,255,0.85)', margin: '0 0 var(--s-3)', fontWeight: 500 }}>
                 {USER_MOCK.role} · {USER_MOCK.username}
               </p>
 
