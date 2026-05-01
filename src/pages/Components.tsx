@@ -16,6 +16,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   // Core
   Button,
@@ -31,44 +32,28 @@ import {
   Switch,
   // Identity
   Badge,
-  Tag,
   Avatar,
-  AvatarGroup,
   // Feedback
-  Alert,
-  Toast,
-  Modal,
   EmptyState,
   Skeleton,
   Search,
-  Pagination,
   // Learning
-  Medal,
-  CompetenceBadge,
   StatCard,
   ProgressBar,
-  ProgressRing,
-  Steps,
-  Celebration,
-  InlineWin,
   // Navigation
-  Tabs,
-  Stepper,
-  DropdownMenu,
-  DropdownItem,
-  DropdownLabel,
-  DropdownSeparator,
-  Breadcrumb,
   Sidebar,
   SidebarGroup,
   NavItem,
+  // Content & Display
+  ActivityItem,
+  SectionTitle,
 } from '../components';
 
 /* ============================================================================
  * TYPES
  * ============================================================================ */
 
-type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation';
+type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content';
 
 interface ComponentEntry {
   name: string;              // React name: Button
@@ -104,6 +89,227 @@ const I = {
   trash: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>,
   edit: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>,
 };
+
+/* ============================================================================
+ * PAGE TEMPLATES — recently designed full-page patterns
+ * ============================================================================ */
+
+interface PageTemplate {
+  id: string;
+  name: string;
+  description: string;
+  path: string;
+  family: string;
+  color: string;
+  bg: string;
+  tags: string[];
+  icon: string;
+}
+
+const PAGE_TEMPLATES: PageTemplate[] = [
+  /* ── Core ── */
+  {
+    id: 'dashboard',
+    name: 'Dashboard',
+    description: 'Vue d\'ensemble avec KPI row, parcours en cours, activité récente, prompts IA et quick-actions 4-col.',
+    path: '/dashboard',
+    family: 'Core',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['KPI', 'cards', 'quick-actions', 'activity feed'],
+    icon: '📊',
+  },
+  {
+    id: 'learning-paths',
+    name: 'Parcours',
+    description: 'Grid de tiles parcours avec filtres pills, barre de recherche, ProgressBar et badge de niveau.',
+    path: '/learning-paths',
+    family: 'Core',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['grid', 'filter pills', 'search', 'ProgressBar'],
+    icon: '📚',
+  },
+  {
+    id: 'learning-path-detail',
+    name: 'Détail Parcours',
+    description: 'Header hero, étapes avec accordéon, ressources complémentaires et CTA "Commencer".',
+    path: '/learning-paths/1',
+    family: 'Core',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['hero', 'steps', 'accordion', 'CTA'],
+    icon: '🎯',
+  },
+  /* ── Journal ── */
+  {
+    id: 'journal',
+    name: 'Journal de bord',
+    description: 'Liste d\'entrées avec filter pills par type (Réflexion, Apprentissage, Coaching, Insight), barre de recherche et cartes d\'entrées colorées.',
+    path: '/journal',
+    family: 'Journal',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['filter pills', 'search', 'cards', 'type system'],
+    icon: '📓',
+  },
+  {
+    id: 'journal-new-entry',
+    name: 'Nouvelle entrée journal',
+    description: '4 type selector cards (Réflexion Libre, Apprentissage, Session Coaching, Moment Eurêka), question de réflexion contextuelle, textarea avec compteur de mots.',
+    path: '/journal/new-entry',
+    family: 'Journal',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['type selector', 'form', 'sticky header', 'word count'],
+    icon: '✍️',
+  },
+  {
+    id: 'journal-detail',
+    name: 'Entrée journal — détail',
+    description: 'Lecteur d\'entrée avec 3 sections structurées (Observation/Analyse/Actions), checklist engagements, navigation prev/next, CTA teal gradient.',
+    path: '/journal/detail/1',
+    family: 'Journal',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['reader', 'structured sections', 'checklist', 'navigation'],
+    icon: '📝',
+  },
+  {
+    id: 'journal-free-entry',
+    name: 'Entrée libre journal',
+    description: 'Éditeur épuré avec titre, catégorie pills, mood selector, textarea + compteur mots, tags dynamiques, sidebar aide-mémoire avec prompts cliquables.',
+    path: '/journal/free-entry',
+    family: 'Journal',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['editor', 'mood selector', 'dynamic tags', 'sticky header', 'sidebar'],
+    icon: '🗒️',
+  },
+  /* ── Veille ── */
+  {
+    id: 'veille',
+    name: 'Veille Hub',
+    description: 'Hub éditorial avec filtres pills (Tout/Actus/Tutoriels/Dossiers/Magazine), recherche, quick-access 4 formats, feed d\'articles avec bookmark.',
+    path: '/veille',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['filter pills', 'search', 'feed', 'bookmark', 'quick-access'],
+    icon: '🗞️',
+  },
+  {
+    id: 'veille-article',
+    name: 'Article — Actu de la semaine',
+    description: 'Lecteur article avec breadcrumb, badge ACTU teal, hero gradient, callout "Points essentiels", 3 sections corps, like/save/share, contenus liés.',
+    path: '/veille/article/1',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['reader', 'breadcrumb', 'callout teal', 'actions', 'related'],
+    icon: '📰',
+  },
+  {
+    id: 'veille-content',
+    name: 'Étude de Marché',
+    description: 'Layout 2 colonnes (sommaire sticky + contenu), callout orange Résumé Exécutif, grille 2×2 Points clés, grands chiffres Données & Analyses, CTA téléchargement.',
+    path: '/veille/content',
+    family: 'Veille',
+    color: 'var(--tls-orange-600)',
+    bg: 'rgba(237,132,58,0.07)',
+    tags: ['two-column', 'sidebar', 'callout orange', 'data viz', 'download CTA'],
+    icon: '📂',
+  },
+  {
+    id: 'veille-dossier',
+    name: 'Dossier thématique',
+    description: 'Breadcrumb + actions télécharger/bookmark/share, hero teal gradient, icône BarChart orange + tag "DOSSIER", callout Résumé Exécutif orange, sommaire sticky sidebar, sections numérotées, Points clés 2×2, grands chiffres Données & Analyses, conclusion teal gradient, CTA download orange.',
+    path: '/veille/dossier/1',
+    family: 'Veille',
+    color: 'var(--tls-orange-600)',
+    bg: 'rgba(237,132,58,0.07)',
+    tags: ['two-column', 'sidebar', 'callout orange', 'key points 2x2', 'data viz', 'download CTA'],
+    icon: '📋',
+  },
+  {
+    id: 'veille-video-tutorial',
+    name: 'Tutoriel Vidéo',
+    description: 'Player 16:9 sombre avec barre de progression orange, chapitres listés sur fond teal, actions like/save/share, meta durée + vues.',
+    path: '/veille/video-tutorial/1',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['video player', 'chapters', 'social actions', 'progress bar'],
+    icon: '🎬',
+  },
+  {
+    id: 'veille-weekly-newsletter',
+    name: 'Actus de la semaine',
+    description: 'Badge SEMAINE #08, grand titre teal, bloc éditorial avec guillemets, vidéo split-card, grille 3 cartes "À la une", liste articles bookmark, subscribe footer teal.',
+    path: '/veille/weekly-newsletter',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['editorial', 'quote block', 'split card', '3-col grid', 'newsletter'],
+    icon: '📬',
+  },
+  {
+    id: 'veille-weekly-news-detail',
+    name: 'Article newsletter — détail',
+    description: 'Breadcrumb Veille > Actus, badges catégorie + À la une, hero teal, callout "L\'essentiel", 3 sections, source card, like/save/share, articles liés.',
+    path: '/veille/weekly-news/1',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['reader', 'breadcrumb', 'callout', 'source card', 'related'],
+    icon: '🧾',
+  },
+  {
+    id: 'veille-magazine',
+    name: 'Magazine TLS',
+    description: 'Hero plein écran sombre avec titre en overlay, Synthèse Exécutive card blanche, Sommaire du magazine avec header orange et liste numérotée teal/orange.',
+    path: '/veille/magazine',
+    family: 'Veille',
+    color: 'var(--tls-orange-500)',
+    bg: 'rgba(237,132,58,0.07)',
+    tags: ['dark hero', 'full-bleed', 'sommaire', 'two-column'],
+    icon: '📚',
+  },
+  {
+    id: 'veille-magazine-article',
+    name: 'Article magazine — détail',
+    description: 'Lien retour texte + icônes bookmark/share, pill catégorie teal outline, grand titre bold, avatar auteur + durée, intro paragraphe, callout "À retenir" bordure gauche teal + puces ChevronRight, 4 sections éditoriales, citation teal italique, conclusion, footer hashtags.',
+    path: '/veille/magazine-article/1',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['reader', 'editorial', 'outline pill', 'callout teal', 'quote', 'hashtags'],
+    icon: '📰',
+  },
+  /* ── Coaching ── */
+  {
+    id: 'coaching',
+    name: 'Coaching 1-to-1',
+    description: 'Layout 2 colonnes : session à venir (teal + orange CTA) + historique sessions, coach card sticky avec avatar, spécialités pills, liens contact.',
+    path: '/coaching',
+    family: 'Coaching',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['two-column', 'sticky card', 'session history', 'action chips'],
+    icon: '🎓',
+  },
+  {
+    id: 'pre-coaching-questionnaire',
+    name: 'Préparez votre session',
+    description: '3 étapes verticales — icône cercle 48px + carte blanche avec question bold + textarea gris. Bouton Envoyer désactivé jusqu\'à saisie.',
+    path: '/coaching/pre-questionnaire',
+    family: 'Coaching',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['multi-step', 'vertical timeline', 'textarea', 'form validation'],
+    icon: '🧠',
+  },
+];
 
 /* ============================================================================
  * COMPONENT SHOWCASE ENTRIES — 21 components
@@ -240,22 +446,6 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'Tag',
-    codeName: 'Tag.tsx',
-    cssBase: '.tag',
-    category: 'Core',
-    description: 'Category or active filter pill. Neutral by default, removable for active filters.',
-    keywords: ['filter', 'category', 'pill', 'removable', 'chip'],
-    render: () => (
-      <div className="hstack">
-        <Tag>Éducation</Tag>
-        <Tag leadingIcon={I.heart}>Favori</Tag>
-        <Tag onRemove={() => {}}>Pédagogie</Tag>
-        <Tag onRemove={() => {}}>Niveau 3</Tag>
-      </div>
-    ),
-  },
-  {
     name: 'Avatar',
     codeName: 'Avatar.tsx',
     cssBase: '.avatar',
@@ -280,90 +470,11 @@ const COMPONENTS: ComponentEntry[] = [
           <Avatar name="PM" status="busy" />
           <Avatar name="AW" status="away" />
         </div>
-        <AvatarGroup max={3}>
-          <Avatar name="Alice" />
-          <Avatar name="Bruno" />
-          <Avatar name="Chloé" />
-          <Avatar name="David" />
-          <Avatar name="Eva" />
-          <Avatar name="Farid" />
-        </AvatarGroup>
       </div>
     ),
   },
 
   /* ---- PATTERNS --------------------------------------------------------- */
-  {
-    name: 'Alert',
-    codeName: 'Alert.tsx',
-    cssBase: '.alert',
-    category: 'Patterns',
-    description: 'Persistent contextual message anchored in the page. 4 intents + banner/inline patterns.',
-    keywords: ['notice', 'banner', 'info', 'success', 'warning', 'danger', 'error'],
-    render: () => (
-      <div className="vstack">
-        <Alert variant="info" title="Nouvelle fonctionnalité">
-          Le tableau de bord inclut désormais la répartition de vos compétences.
-        </Alert>
-        <Alert variant="success" title="Module enregistré">
-          Vos réponses ont été envoyées au coach.
-        </Alert>
-        <Alert variant="warning" title="Attention" dismissible>
-          Votre session expire dans 5 minutes. Sauvegardez votre travail.
-        </Alert>
-        <Alert variant="danger" title="Erreur de synchronisation" actions={<Button size="sm" variant="ghost">Réessayer</Button>}>
-          Impossible de contacter le serveur. Vérifiez votre connexion.
-        </Alert>
-        <Alert variant="info" pattern="inline">Astuce : appuyez sur ⌘K pour rechercher.</Alert>
-      </div>
-    ),
-  },
-  {
-    name: 'Toast',
-    codeName: 'Toast.tsx',
-    cssBase: '.toast',
-    category: 'Patterns',
-    description: 'Transient non-blocking confirmation. 4–6s, bottom-right, max 3 stacked.',
-    keywords: ['notification', 'snackbar', 'confirm', 'feedback'],
-    render: () => (
-      <div className="vstack">
-        <Toast variant="success" title="Module complété" actionLabel="Voir">
-          Bravo ! Votre progression a été enregistrée.
-        </Toast>
-        <Toast variant="info" title="Nouvelle recommandation">
-          Un parcours pourrait vous intéresser.
-        </Toast>
-        <Toast variant="warning" title="Session bientôt expirée" />
-        <Toast variant="danger" title="Enregistrement impossible" actionLabel="Réessayer" />
-      </div>
-    ),
-  },
-  {
-    name: 'Modal',
-    codeName: 'Modal.tsx',
-    cssBase: '.modal',
-    category: 'Patterns',
-    description: 'Blocking interruption for critical decisions. Scrim + focus trap expected.',
-    keywords: ['dialog', 'popup', 'confirm', 'blocking'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <>
-          <Button variant="primary" onClick={() => setOpen(true)}>Ouvrir Modal</Button>
-          <Modal
-            open={open}
-            onClose={() => setOpen(false)}
-            title="Confirmer la suppression"
-            description="Cette action est irréversible. Tous vos brouillons seront perdus."
-            actions={<>
-              <Button variant="ghost" onClick={() => setOpen(false)}>Annuler</Button>
-              <Button variant="destructive" onClick={() => setOpen(false)}>Supprimer</Button>
-            </>}
-          />
-        </>
-      );
-    },
-  },
   {
     name: 'EmptyState',
     codeName: 'EmptyState.tsx',
@@ -423,60 +534,8 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
-  {
-    name: 'Pagination',
-    codeName: 'Pagination.tsx',
-    cssBase: '.pager',
-    category: 'Patterns',
-    description: 'Numbered pagination for long lists. Use load-more for feeds, infinite for activity.',
-    keywords: ['pages', 'navigation', 'list'],
-    render: () => {
-      const [page, setPage] = useState(4);
-      return (
-        <Pagination
-          page={page}
-          totalPages={12}
-          onChange={setPage}
-          info={<span>Page {page} sur 12 · 240 résultats</span>}
-        />
-      );
-    },
-  },
 
   /* ---- LEARNING --------------------------------------------------------- */
-  {
-    name: 'Medal',
-    codeName: 'Medal.tsx',
-    cssBase: '.medal',
-    category: 'Learning',
-    description: 'Achievement visual. Dashed inner ring. Warm = unlocked, brand = rare, ink = locked.',
-    keywords: ['achievement', 'award', 'badge', 'trophy'],
-    render: () => (
-      <div className="hstack" style={{ alignItems: 'center' }}>
-        <Medal size="sm" label="Premier pas" />
-        <Medal size="md" label="Parcours complet" />
-        <Medal size="md" variant="brand" label="Excellence" />
-        <Medal size="md" variant="locked" label="Verrouillé" />
-        <Medal size="lg" label="Grand chelem" />
-      </div>
-    ),
-  },
-  {
-    name: 'CompetenceBadge',
-    codeName: 'CompetenceBadge.tsx',
-    cssBase: '.comp-badge',
-    category: 'Learning',
-    description: 'Competence + acquired level. 4 progressive chromatic tiers. Color = level, never decorative.',
-    keywords: ['skill', 'level', 'competence', 'mastery'],
-    render: () => (
-      <div className="hstack">
-        <CompetenceBadge level={1} label="Découverte · Pédagogie" />
-        <CompetenceBadge level={2} label="Pratique · Facilitation" />
-        <CompetenceBadge level={3} label="Maîtrise · Design d'exp." />
-        <CompetenceBadge level={4} label="Expert · Stratégie" />
-      </div>
-    ),
-  },
   {
     name: 'StatCard',
     codeName: 'StatCard.tsx',
@@ -509,57 +568,34 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
+
+  /* ---- CONTENT & DISPLAY ------------------------------------------------ */
   {
-    name: 'ProgressRing',
-    codeName: 'ProgressRing.tsx',
-    cssBase: '.ring',
-    category: 'Learning',
-    description: 'Circular progress with prominent centered percentage. Pure conic-gradient.',
-    keywords: ['ring', 'circular', 'dial', 'percentage'],
+    name: 'ActivityItem',
+    codeName: 'ActivityItem.tsx',
+    cssBase: '.tls-activity-item',
+    category: 'Content',
+    description: 'Ligne d\'activité pour les fils d\'actualités. Icône + titre + description + timestamp.',
+    keywords: ['activity', 'feed', 'timeline', 'history', 'notification'],
     render: () => (
-      <div className="hstack" style={{ alignItems: 'center' }}>
-        <ProgressRing value={72} label="complétés" />
-        <ProgressRing value={33} size={96} label="semaine" />
-        <ProgressRing value={100} size={96} label="terminé" color="var(--tls-orange-500)" />
+      <div className="vstack">
+        <ActivityItem icon={I.check} title="Leçon terminée" description="Introduction au Prompt Engineering" timestamp="Il y a 2h" />
+        <ActivityItem icon={I.trophy} title="Badge débloqué" description="Pionnier IA — Premier badge gagné !" timestamp="Hier" />
+        <ActivityItem icon={I.heart} title="Série maintenue" description="7 jours consécutifs d'apprentissage" timestamp="Aujourd'hui" />
       </div>
     ),
   },
   {
-    name: 'Steps',
-    codeName: 'Steps.tsx',
-    cssBase: '.steps',
-    category: 'Learning',
-    description: 'Sequential checklist within a journey. done = strikethrough, current = ring, upcoming = gray.',
-    keywords: ['steps', 'checklist', 'journey', 'progress'],
-    render: () => (
-      <Steps
-        items={[
-          { title: 'Diagnostic initial', description: 'Entretien 30 min', state: 'done' },
-          { title: 'Parcours personnalisé', description: 'Sélection des 4 modules', state: 'done' },
-          { title: 'Mise en pratique', description: 'Cas réel sur votre terrain', state: 'current' },
-          { title: 'Bilan avec votre coach', state: 'upcoming' },
-        ]}
-      />
-    ),
-  },
-  {
-    name: 'Celebration',
-    codeName: 'Celebration.tsx',
-    cssBase: '.celebration / .inline-win',
-    category: 'Learning',
-    description: 'Milestone victory moments. Banner + inline-win. Rare = precious: never gratuitous.',
-    keywords: ['win', 'celebration', 'achievement', 'confetti'],
+    name: 'SectionTitle',
+    codeName: 'SectionTitle.tsx',
+    cssBase: '.tls-section-title',
+    category: 'Content',
+    description: 'En-tête de section de page. Titre + sous-titre optionnel. Assure la cohérence des titres de section à travers l\'app.',
+    keywords: ['heading', 'section', 'title', 'subtitle', 'header'],
     render: () => (
       <div className="vstack">
-        <Celebration
-          title="Parcours complété !"
-          description="Vous venez de terminer Design Systems. Votre certificat est en route."
-          actions={<>
-            <Button variant="warm">Partager</Button>
-            <Button variant="ghost">Continuer</Button>
-          </>}
-        />
-        <InlineWin title="Série de 7 jours !" description="Meilleure performance depuis 3 mois." />
+        <SectionTitle title="Actions rapides" subtitle="Accédez directement à vos fonctionnalités" />
+        <SectionTitle title="Fil d'actualité" />
       </div>
     ),
   },
@@ -588,107 +624,6 @@ const COMPONENTS: ComponentEntry[] = [
           </SidebarGroup>
         </Sidebar>
       </div>
-    ),
-  },
-  {
-    name: 'Tabs',
-    codeName: 'Tabs.tsx',
-    cssBase: '.tabs',
-    category: 'Navigation',
-    description: 'Switch between views of the same object. 2–5 tabs max. Variants: pill, underline.',
-    keywords: ['tabs', 'switch', 'views'],
-    render: () => {
-      const [pill, setPill] = useState('overview');
-      const [line, setLine] = useState('details');
-      return (
-        <div className="vstack">
-          <Tabs
-            value={pill}
-            onChange={setPill}
-            items={[
-              { id: 'overview', label: "Vue d'ensemble" },
-              { id: 'modules', label: 'Modules' },
-              { id: 'team', label: 'Équipe' },
-            ]}
-          />
-          <Tabs
-            variant="underline"
-            value={line}
-            onChange={setLine}
-            items={[
-              { id: 'details', label: 'Détails' },
-              { id: 'history', label: 'Historique' },
-              { id: 'settings', label: 'Paramètres', disabled: true },
-            ]}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    name: 'Stepper',
-    codeName: 'Stepper.tsx',
-    cssBase: '.stepper',
-    category: 'Navigation',
-    description: 'Linear sequential process, 3–5 steps max. Horizontal or vertical.',
-    keywords: ['stepper', 'wizard', 'onboarding', 'flow'],
-    render: () => (
-      <div className="vstack">
-        <Stepper
-          items={[
-            { label: 'Profil', state: 'done' },
-            { label: 'Objectifs', state: 'done' },
-            { label: 'Parcours', state: 'current' },
-            { label: 'Confirmation', state: 'upcoming' },
-          ]}
-        />
-        <Stepper
-          orientation="vertical"
-          items={[
-            { label: 'Diagnostic', description: 'Entretien initial', state: 'done' },
-            { label: 'Sélection', description: '4 modules adaptés', state: 'current' },
-            { label: 'Démarrage', description: 'Premier module', state: 'upcoming' },
-          ]}
-        />
-      </div>
-    ),
-  },
-  {
-    name: 'DropdownMenu',
-    codeName: 'DropdownMenu.tsx',
-    cssBase: '.dd',
-    category: 'Navigation',
-    description: 'Grouped secondary actions behind a trigger. Labels, separators, danger zone.',
-    keywords: ['menu', 'dropdown', 'popover', 'actions'],
-    render: () => (
-      <div style={{ position: 'relative', display: 'inline-block' }}>
-        <DropdownMenu style={{ position: 'static' }}>
-          <DropdownLabel>Actions</DropdownLabel>
-          <DropdownItem icon={I.edit} shortcut="E">Modifier</DropdownItem>
-          <DropdownItem icon={I.plus} shortcut="N">Dupliquer</DropdownItem>
-          <DropdownSeparator />
-          <DropdownLabel>Zone de danger</DropdownLabel>
-          <DropdownItem icon={I.trash} danger>Supprimer</DropdownItem>
-        </DropdownMenu>
-      </div>
-    ),
-  },
-  {
-    name: 'Breadcrumb',
-    codeName: 'Breadcrumb.tsx',
-    cssBase: '.breadcrumb',
-    category: 'Navigation',
-    description: 'Trail of ancestor pages. Use for ≥3 levels. Last item never clickable.',
-    keywords: ['breadcrumb', 'trail', 'hierarchy'],
-    render: () => (
-      <Breadcrumb
-        items={[
-          { label: 'Accueil', href: '#' },
-          { label: 'Parcours', href: '#' },
-          { label: 'Design systems', href: '#' },
-          { label: 'Module 3 — Tokens' },
-        ]}
-      />
     ),
   },
 ];
@@ -1004,25 +939,28 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
  * MAIN PAGE
  * ============================================================================ */
 
-type Filter = 'all' | Category | 'Tokens';
+type Filter = 'all' | Category | 'Tokens' | 'Pages';
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: 'Tout' },
   { id: 'Core', label: 'Core' },
   { id: 'Patterns', label: 'Patterns' },
   { id: 'Learning', label: 'Learning' },
+  { id: 'Content', label: 'Content' },
   { id: 'Navigation', label: 'Navigation' },
   { id: 'Tokens', label: 'Tokens' },
+  { id: 'Pages', label: 'Pages & Templates' },
 ];
 
 const Components: React.FC = () => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
 
   const q = query.trim().toLowerCase();
 
   const filteredComponents = useMemo(() => {
-    if (filter === 'Tokens') return [];
+    if (filter === 'Tokens' || filter === 'Pages') return [];
     return COMPONENTS.filter((c) => {
       if (filter !== 'all' && c.category !== filter) return false;
       if (!q) return true;
@@ -1042,6 +980,27 @@ const Components: React.FC = () => {
     });
   }, [q, filter]);
 
+  const filteredPages = useMemo(() => {
+    if (filter !== 'all' && filter !== 'Pages') return [];
+    return PAGE_TEMPLATES.filter((p) => {
+      if (!q) return true;
+      const haystack = [p.name, p.description, p.family, ...p.tags].join(' ').toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [q, filter]);
+
+  const pagesByFamily = useMemo(() => {
+    const order = ['Core', 'Journal', 'Veille', 'Coaching'];
+    const map = new Map<string, PageTemplate[]>();
+    filteredPages.forEach((p) => {
+      if (!map.has(p.family)) map.set(p.family, []);
+      map.get(p.family)!.push(p);
+    });
+    return order
+      .map((fam) => [fam, map.get(fam) ?? []] as const)
+      .filter(([, list]) => list.length > 0);
+  }, [filteredPages]);
+
   const tokensByGroup = useMemo(() => {
     const map = new Map<string, TokenEntry[]>();
     filteredTokens.forEach((t) => {
@@ -1052,7 +1011,7 @@ const Components: React.FC = () => {
   }, [filteredTokens]);
 
   const componentsByCategory = useMemo(() => {
-    const order: Category[] = ['Core', 'Patterns', 'Learning', 'Navigation'];
+    const order: Category[] = ['Core', 'Patterns', 'Learning', 'Content', 'Navigation'];
     return order
       .map((cat) => [cat, filteredComponents.filter((c) => c.category === cat)] as const)
       .filter(([, list]) => list.length > 0);
@@ -1065,14 +1024,14 @@ const Components: React.FC = () => {
         <p className="ds-hero__eyebrow">Design System · v1.0.0 · 2026-04-24</p>
         <h1 className="ds-hero__title">The Learning Society — Components</h1>
         <p className="ds-hero__desc">
-          Source of truth: <code>src/design-system/spec.json</code>. 21 composants React
+          Source of truth: <code>src/components/</code>. {COMPONENTS.length} composants React
           + tous les tokens du système. Tout est copiable — cliquez sur une puce pour
           copier le nom de code ou la variable CSS.
         </p>
         <div className="ds-hero__stats">
           <div><strong>{COMPONENTS.length}</strong><span>composants</span></div>
           <div><strong>{ALL_TOKENS.length}</strong><span>tokens</span></div>
-          <div><strong>4</strong><span>catégories</span></div>
+          <div><strong>5</strong><span>catégories</span></div>
           <div><strong>3</strong><span>fontes</span></div>
         </div>
       </header>
@@ -1100,7 +1059,7 @@ const Components: React.FC = () => {
       </div>
 
       {/* -------------------------------- RESULTS ----------------------------- */}
-      {filteredComponents.length === 0 && filteredTokens.length === 0 ? (
+      {filteredComponents.length === 0 && filteredTokens.length === 0 && filteredPages.length === 0 ? (
         <EmptyState
           title="Aucun résultat"
           description={`Rien ne correspond à « ${query} ». Essayez un autre terme.`}
@@ -1131,6 +1090,108 @@ const Components: React.FC = () => {
                     </header>
                     <div className="ds-component__preview">{c.render()}</div>
                   </article>
+                ))}
+              </div>
+            </section>
+          ))}
+
+          {/* ---- Pages & Templates ---- */}
+          {pagesByFamily.map(([family, pages]) => (
+            <section key={family} className="ds-section">
+              <div className="ds-section__head">
+                <h2 className="ds-section__title">Pages · {family}</h2>
+                <span className="ds-section__count">{pages.length} template{pages.length > 1 ? 's' : ''}</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--s-4)' }}>
+                {pages.map((p) => (
+                  <div
+                    key={p.id}
+                    style={{
+                      background: 'var(--surface)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 'var(--r-xl)',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    {/* Color header */}
+                    <div
+                      style={{
+                        background: p.bg,
+                        borderBottom: '1px solid var(--border)',
+                        padding: 'var(--s-5) var(--s-5) var(--s-4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--s-3)',
+                      }}
+                    >
+                      <span style={{ fontSize: '28px', lineHeight: 1 }}>{p.icon}</span>
+                      <div>
+                        <div style={{ fontSize: '11px', fontWeight: 700, color: p.color, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
+                          {p.family}
+                        </div>
+                        <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2 }}>
+                          {p.name}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Body */}
+                    <div style={{ padding: 'var(--s-4) var(--s-5)', flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+                      <p style={{ fontSize: 'var(--t-sm)', color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
+                        {p.description}
+                      </p>
+
+                      {/* Tags */}
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                        {p.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            style={{
+                              padding: '2px 8px',
+                              borderRadius: '999px',
+                              background: 'var(--surface-muted)',
+                              border: '1px solid var(--border)',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              color: 'var(--text-muted)',
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Navigate button */}
+                      <button
+                        type="button"
+                        onClick={() => navigate(p.path)}
+                        style={{
+                          marginTop: 'auto',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '6px',
+                          padding: '9px 18px',
+                          borderRadius: '999px',
+                          background: p.color,
+                          border: 'none',
+                          color: '#fff',
+                          fontWeight: 700,
+                          fontSize: 'var(--t-sm)',
+                          cursor: 'pointer',
+                          fontFamily: 'var(--font-body)',
+                          transition: 'opacity 0.15s',
+                          width: '100%',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
+                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                      >
+                        Ouvrir la page →
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             </section>

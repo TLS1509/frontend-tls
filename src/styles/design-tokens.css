@@ -82,9 +82,12 @@
   --tls-ink-950: #12181C;
 
   /* ---------- SEMANTIC (map to brand) ---------- */
-  --tls-success-bg:   #E8F2F0;
-  --tls-success-fg:   #335A56;
-  --tls-success-base: #9DBEBA;
+  --tls-success-bg:     #E8F2F0;
+  --tls-success-fg:     #335A56;
+  --tls-success-base:   #9DBEBA;
+  --tls-success-light:  rgba(34, 197, 94, 0.05);  /* Lighter overlay for lessons */
+  --tls-success-light-bg: rgba(34, 197, 94, 0.15); /* Light background for completed elements */
+  --tls-success-border: rgba(34, 197, 94, 0.20); /* Completion state highlight */
 
   --tls-warning-bg:   #FFF9EE;
   --tls-warning-fg:   #7C5822;
@@ -93,6 +96,8 @@
   --tls-danger-bg:    #FEF4F0;
   --tls-danger-fg:    #8F2A0E;
   --tls-danger-base:  #F28559;
+  --tls-danger-light: rgba(239, 68, 68, 0.04);  /* Lighter overlay */
+  --tls-danger-border: rgba(239, 68, 68, 0.15); /* Error state highlight */
 
   --tls-info-bg:      #E8F4F7;
   --tls-info-fg:      #1F3E45;
@@ -164,13 +169,53 @@
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
   --shadow-brand: 0 10px 30px -10px rgba(85, 161, 180, 0.45);
   --shadow-warm:  0 10px 30px -10px rgba(237, 132, 58, 0.35);
+  --shadow-success: 0 6px 20px rgba(34, 197, 94, 0.25);
+  --shadow-error: 0 4px 12px rgba(239, 68, 68, 0.15);
 
   /* Glass recipes */
+  /* Glass morphism base tokens */
   --glass-blur: saturate(180%) blur(20px);
   --glass-fill: rgba(255, 255, 255, 0.55);
   --glass-fill-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-ring: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.25);
+
+  /* Glass blur intensity variants — composable for different contexts */
+  --glass-blur-light: saturate(180%) blur(12px);     /* Subtle, for overlays */
+  --glass-blur-medium: saturate(160%) blur(18px);    /* Balanced, for content areas */
+  --glass-blur-standard: saturate(180%) blur(20px);  /* Standard, default glass */
+  --glass-blur-heavy: saturate(180%) blur(24px);     /* Strong, for hero/prominent areas */
+
+  /* Saturation variants — for tone-specific glass */
+  --glass-saturate-standard: saturate(180%);
+  --glass-saturate-light: saturate(160%);
+
+  /* ---------- OVERLAY COLORS (for complex backgrounds, CSS Grid borders, etc.) ---------- */
+  /* Primary blue overlays */
+  --overlay-brand-xs: rgba(85, 161, 180, 0.05);
+  --overlay-brand-sm: rgba(85, 161, 180, 0.10);
+  --overlay-brand-md: rgba(85, 161, 180, 0.12);
+  --overlay-brand-lg: rgba(85, 161, 180, 0.18);
+  --overlay-brand-xl: rgba(85, 161, 180, 0.25);
+
+  /* Warm/Orange overlays */
+  --overlay-warm-xs: rgba(248, 176, 68, 0.05);
+  --overlay-warm-sm: rgba(248, 176, 68, 0.12);
+  --overlay-warm-md: rgba(248, 176, 68, 0.16);
+  --overlay-warm-lg: rgba(248, 176, 68, 0.18);
+
+  /* Ink/Dark overlays (for borders, subtle backgrounds) */
+  --overlay-dark-xs: rgba(15, 23, 42, 0.04);
+  --overlay-dark-sm: rgba(15, 23, 42, 0.06);
+  --overlay-dark-md: rgba(15, 23, 42, 0.08);
+  --overlay-dark-lg: rgba(15, 23, 42, 0.10);
+
+  /* White glass overlays */
+  --overlay-white-xs: rgba(255, 255, 255, 0.20);
+  --overlay-white-sm: rgba(255, 255, 255, 0.25);
+  --overlay-white-md: rgba(255, 255, 255, 0.30);
+  --overlay-white-lg: rgba(255, 255, 255, 0.60);
+  --overlay-white-xl: rgba(255, 255, 255, 0.85);
 
   /* ---------- MOTION ---------- */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
@@ -182,6 +227,17 @@
   --dur-3: 320ms;
   --dur-4: 520ms;
   --dur-5: 800ms;
+
+  /* ---------- LEARNING SKILL LEVELS ---------- */
+  --skill-level-1: #FDD2CF;   /* Novice - light red */
+  --skill-level-2: #FDCEC5;   /* Beginner - light orange */
+  --skill-level-3: #FEE9AE;   /* Intermediate - light yellow */
+  --skill-level-4: #B4E7A0;   /* Advanced - light green */
+  --skill-level-5: #86EFAC;   /* Expert - bright green */
+
+  /* ---------- ACHIEVEMENT GRADIENTS ---------- */
+  --g-achievement: linear-gradient(135deg, #F8B044, #ED843A);
+  --g-achievement-glow: 0 8px 16px rgba(237, 132, 58, 0.3);
 
   /* ---------- CURATED GRADIENTS (10 essentials) ---------- */
   /* 1. Hero brand — signature TLS sweep (use sparingly) */

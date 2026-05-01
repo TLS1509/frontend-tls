@@ -1,3 +1,16 @@
+/**
+ * Dashboard Modern - Premium Learning Dashboard
+ *
+ * Features:
+ * - Glassmorphic design (backdrop-filter blur)
+ * - Elevated components (multi-layer shadows)
+ * - Smooth micro-interactions (transform, hover, focus)
+ * - Responsive layout (mobile/tablet/desktop)
+ * - Accessibility first (focus rings, keyboard nav)
+ *
+ * Standard for dashboard pages across TLS Learning App
+ */
+
 .dashboard-modern {
   max-width: 1000px;
   margin: 0 auto;
@@ -6,6 +19,10 @@
   flex-direction: column;
   gap: var(--s-6);
 }
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
 
 @keyframes dashboardFadeUp {
   from {
@@ -18,6 +35,28 @@
   }
 }
 
+/* Smooth entrance for premium feel */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Glow pulse effect */
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(85, 161, 180, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(85, 161, 180, 0.4));
+  }
+}
+
 .dashboard-modern__hero {
   position: relative;
   overflow: hidden;
@@ -25,9 +64,21 @@
   padding: var(--s-8);
   border: 1px solid rgba(255, 255, 255, 0.9);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.62));
-  backdrop-filter: saturate(180%) blur(24px);
-  box-shadow: 0 10px 30px rgba(18, 24, 28, 0.08);
+  backdrop-filter: var(--glass-blur-heavy);
+  /* Enhanced elevation: multiple shadow layers */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 10px 24px rgba(0, 0, 0, 0.08),
+    0 20px 40px rgba(85, 161, 180, 0.08);
   animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
+  transition: box-shadow var(--dur-3) var(--ease-standard);
+}
+
+.dashboard-modern__hero:hover {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 12px 28px rgba(0, 0, 0, 0.12),
+    0 24px 48px rgba(85, 161, 180, 0.12);
 }
 
 .dashboard-modern__hero-glow {
@@ -91,46 +142,9 @@
   align-self: flex-start;
 }
 
-.dashboard-modern__stat-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-1);
-  padding: var(--s-2) var(--s-3);
-  border-radius: var(--r-pill);
-  border: 1px solid rgba(85, 161, 180, 0.25);
-  background: rgba(85, 161, 180, 0.1);
-  color: var(--text);
-  font-size: var(--t-caption);
-  font-weight: 700;
-  transition: transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2);
-}
+/* Stat pills now use MetaPillGroup + MetaPill components */
 
-.dashboard-modern__stat-pill:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-xs);
-}
-
-.dashboard-modern__stat-pill--sun {
-  border-color: rgba(248, 176, 68, 0.35);
-  background: rgba(248, 176, 68, 0.14);
-}
-
-.dashboard-modern__stat-pill--warm {
-  border-color: rgba(237, 132, 58, 0.35);
-  background: rgba(237, 132, 58, 0.12);
-}
-
-.dashboard-modern__stat-pill--brand {
-  border-color: rgba(85, 161, 180, 0.35);
-  background: rgba(85, 161, 180, 0.12);
-}
-
-.dashboard-modern__quick-actions {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--s-3);
-  animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
-}
+/* .dashboard-modern__quick-actions — now using CardGrid DS component (layout="feature") */
 
 .dashboard-modern__action-btn {
   all: unset;
@@ -181,19 +195,30 @@
 }
 
 .dashboard-modern__continue {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--r-2xl);
   padding: var(--s-6);
   border: 1px solid rgba(255, 255, 255, 0.9);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.62));
-  backdrop-filter: saturate(180%) blur(24px);
-  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--glass-blur-heavy);
+  /* Enhanced elevation */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    0 16px 32px rgba(248, 176, 68, 0.06);
   animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
-  transition: transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2);
+  transition:
+    transform var(--dur-2) var(--ease-standard),
+    box-shadow var(--dur-2) var(--ease-standard);
 }
 
 .dashboard-modern__continue:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.12),
+    0 20px 40px rgba(248, 176, 68, 0.1);
 }
 
 .dashboard-modern__continue-head {
@@ -228,37 +253,6 @@
   animation: dashboardFadeUp var(--dur-4) var(--ease-entrance);
 }
 
-.dashboard-modern__prompt-card {
-  border-radius: var(--r-2xl);
-  padding: var(--s-5);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.6));
-  backdrop-filter: saturate(180%) blur(20px);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--s-3);
-  cursor: pointer;
-  transition: transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2);
-}
-
-.dashboard-modern__prompt-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.dashboard-modern__prompt-card:focus-visible {
-  outline: 2px solid var(--tls-primary-500);
-  outline-offset: 2px;
-}
-
-.dashboard-modern__prompt-card p {
-  margin: 0;
-  color: var(--text);
-  font-size: var(--t-body-sm);
-}
-
 .dashboard-modern__activity {
   display: flex;
   flex-direction: column;
@@ -280,8 +274,21 @@
   border-radius: var(--r-2xl);
   border: 1px solid rgba(255, 255, 255, 0.9);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.62));
-  backdrop-filter: saturate(160%) blur(18px);
+  backdrop-filter: var(--glass-blur-medium);
   padding: var(--s-2) var(--s-5);
+  /* Enhanced elevation */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(85, 161, 180, 0.04);
+  transition: box-shadow var(--dur-3);
+}
+
+.dashboard-modern__activity-shell:hover {
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 10px 20px rgba(0, 0, 0, 0.08),
+    0 20px 40px rgba(85, 161, 180, 0.08);
 }
 
 .dashboard-modern__activity-shell .tls-activity-item {
@@ -294,10 +301,11 @@
   border-radius: 50%;
 }
 
+.dashboard-modern__continue-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(237, 132, 58, 0.07) 0%, transparent 65%);
+}
+
 @media (max-width: 980px) {
-  .dashboard-modern__quick-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .dashboard-modern__prompts {
     grid-template-columns: 1fr;
   }
@@ -314,18 +322,11 @@
   .dashboard-modern__continue {
     padding: var(--s-5);
   }
-  .dashboard-modern__quick-actions {
-    grid-template-columns: 1fr;
-  }
   .dashboard-modern__title {
     font-size: clamp(1.8rem, 9vw, 2.5rem);
   }
   .dashboard-modern__stats {
     width: 100%;
-  }
-  .dashboard-modern__stat-pill {
-    flex: 1;
-    justify-content: center;
   }
   .dashboard-modern__activity-shell {
     padding: var(--s-2) var(--s-4);

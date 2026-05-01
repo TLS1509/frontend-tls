@@ -1,19 +1,70 @@
+/* MetaPill — Icon + text label chip */
+
 .tls-meta-pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-2) var(--s-3);
-  background-color: var(--surface-muted);
+  gap: var(--s-1);
+  padding: 4px var(--s-3);
+  background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   font-size: var(--t-caption);
-  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--text-muted);
   white-space: nowrap;
+  user-select: none;
+  transition: background var(--dur-2), color var(--dur-2), border-color var(--dur-2);
 }
 
 .tls-meta-pill__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875em;
+  flex-shrink: 0;
+}
+
+/* Sizes */
+.tls-meta-pill--sm {
+  font-size: var(--t-micro);
+  padding: 2px var(--s-2);
+  gap: 3px;
+}
+.tls-meta-pill--lg {
+  font-size: var(--t-body-sm);
+  padding: var(--s-2) var(--s-4);
+  gap: var(--s-2);
+}
+
+/* Tones */
+.tls-meta-pill--primary,
+.tls-meta-pill--brand {
+  background: var(--tls-primary-50);
+  border-color: rgba(85, 161, 180, 0.25);
+  color: var(--tls-primary-700);
+}
+
+.tls-meta-pill--warm {
+  background: var(--tls-orange-50);
+  border-color: rgba(237, 132, 58, 0.25);
+  color: var(--tls-orange-700);
+}
+
+.tls-meta-pill--sun {
+  background: var(--tls-yellow-50);
+  border-color: rgba(248, 176, 68, 0.3);
+  color: var(--tls-yellow-700);
+}
+
+/* Clickable */
+.tls-meta-pill--clickable {
+  cursor: pointer;
+}
+.tls-meta-pill--clickable:hover {
+  background: var(--surface-sunken);
+  border-color: var(--border-strong);
+}
+.tls-meta-pill--clickable:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 2px;
 }

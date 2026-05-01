@@ -1,0 +1,1 @@
+- [Component Development Workflow](feedback_component_workflow.md) — auto-sync ComponentShowcase when modifying UI components

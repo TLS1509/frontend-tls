@@ -1,0 +1,223 @@
+/**
+ * ParcoursCard — Glass morphism learning path tile
+ *
+ * Design spec from WIP ParcoursPageUpgraded:
+ * - Frosted glass with blur(20px)
+ * - Hover: lift -4px + stronger shadow + white inset glow
+ * - Progress bar: 6px, tone fill, inline percentage
+ * - CTA: full-width, solid tone, 40px height, hover lift
+ */
+
+/* =============================================================================
+   CARD SHELL
+   ============================================================================= */
+
+.parcours-card {
+  position: relative;
+  border-radius: var(--r-2xl);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.44) 100%
+  );
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.80);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform var(--dur-2) var(--ease-standard),
+    background var(--dur-2) var(--ease-standard),
+    box-shadow var(--dur-2) var(--ease-standard),
+    border-color var(--dur-2) var(--ease-standard),
+    backdrop-filter var(--dur-2);
+
+  /* Animate in */
+  animation: pcFadeUp var(--dur-3) var(--ease-entrance) both;
+}
+
+@keyframes pcFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger children */
+.parcours-card:nth-child(2) { animation-delay: 60ms; }
+.parcours-card:nth-child(3) { animation-delay: 120ms; }
+.parcours-card:nth-child(4) { animation-delay: 180ms; }
+.parcours-card:nth-child(5) { animation-delay: 240ms; }
+.parcours-card:nth-child(6) { animation-delay: 300ms; }
+
+.parcours-card:hover,
+.parcours-card:focus-visible {
+  transform: translateY(-4px);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.54) 100%
+  );
+  backdrop-filter: saturate(200%) blur(28px);
+  -webkit-backdrop-filter: saturate(200%) blur(28px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+  outline: none;
+}
+
+/* =============================================================================
+   GLOW OVERLAY
+   ============================================================================= */
+
+.parcours-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-2);
+}
+
+.parcours-card:hover .parcours-card__glow {
+  opacity: 1;
+}
+
+/* =============================================================================
+   INNER CONTENT
+   ============================================================================= */
+
+.parcours-card__inner {
+  position: relative;
+  padding: var(--s-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  height: 100%;
+  min-height: 220px;
+}
+
+/* =============================================================================
+   TITLE
+   ============================================================================= */
+
+.parcours-card__title {
+  font-family: var(--font-display);
+  font-size: var(--t-h4);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  /* color set inline from tone */
+}
+
+/* =============================================================================
+   DESCRIPTION
+   ============================================================================= */
+
+.parcours-card__desc {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* =============================================================================
+   SPACER
+   ============================================================================= */
+
+.parcours-card__spacer {
+  flex: 1;
+  min-height: var(--s-2);
+}
+
+/* =============================================================================
+   PROGRESS ROW
+   ============================================================================= */
+
+.parcours-card__progress-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.parcours-card__track {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.07);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.parcours-card__fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  transition: width var(--dur-4) var(--ease-standard);
+  /* background set inline from tone */
+}
+
+.parcours-card__pct {
+  font-family: var(--font-display);
+  font-size: var(--t-body-sm);
+  font-weight: 700;
+  min-width: 40px;
+  text-align: right;
+  flex-shrink: 0;
+  /* color set inline from tone */
+}
+
+/* =============================================================================
+   CTA BUTTON
+   ============================================================================= */
+
+.parcours-card__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--r-xl);
+  padding: 0 var(--s-4);
+  cursor: pointer;
+
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+
+  /* background + box-shadow set inline from tone */
+  transition:
+    transform var(--dur-1) var(--ease-standard),
+    box-shadow var(--dur-1) var(--ease-standard);
+}
+
+.parcours-card__cta:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--cta-shadow-hover, 0 8px 20px rgba(0, 0, 0, 0.2));
+}
+
+.parcours-card__cta:active {
+  transform: translateY(0);
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .parcours-card__inner {
+    padding: var(--s-5);
+    min-height: 190px;
+  }
+
+  .parcours-card__title {
+    font-size: var(--t-body);
+  }
+}

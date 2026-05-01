@@ -61,17 +61,17 @@ const TYPE_META: Record<VeilleType, { label: string; Icon: React.ComponentType<{
 
 const ITEMS: VeilleItem[] = [
   {
-    id: 'item-1',
+    id: '1',
     type: 'actu',
-    title: 'IA générative en formation : où en sommes-nous en 2026 ?',
-    summary: 'Tour d\'horizon des nouveaux usages de l\'IA dans les parcours de formation, des cas concrets et des limites.',
+    title: "IA générative en formation : où en sommes-nous en 2026 ?",
+    summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.",
     category: 'IA & Pédagogie',
     author: 'The Learning Society',
-    publishedAt: 'Aujourd\'hui',
+    publishedAt: "Aujourd'hui",
     readTime: '6 min',
   },
   {
-    id: 'item-2',
+    id: '2',
     type: 'tutoriel',
     title: 'Construire un prompt structuré en 5 étapes',
     summary: 'Une vidéo pas à pas pour formaliser ses prompts et obtenir des résultats reproductibles.',
@@ -81,17 +81,17 @@ const ITEMS: VeilleItem[] = [
     readTime: '12 min',
   },
   {
-    id: 'item-3',
+    id: '3',
     type: 'dossier',
-    title: 'Le futur du travail hybride',
-    summary: 'Synthèse approfondie sur les impacts du travail hybride sur la culture d\'apprentissage en entreprise.',
+    title: "Transformation IA des parcours de formation",
+    summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.",
     category: 'Management',
     author: 'McKinsey',
     publishedAt: 'Il y a 3 jours',
     readTime: '22 min',
   },
   {
-    id: 'item-4',
+    id: '4',
     type: 'magazine',
     title: 'Tendances EdTech 2026',
     summary: 'Notre numéro mensuel : marchés en croissance, nouveaux acteurs et opportunités stratégiques.',
@@ -101,20 +101,20 @@ const ITEMS: VeilleItem[] = [
     readTime: '18 min',
   },
   {
-    id: 'item-5',
+    id: '5',
     type: 'actu',
-    title: 'React 19 : les nouveautés UI à connaître',
-    summary: 'Décryptage des nouveautés React 19 utiles pour les plateformes d\'apprentissage modernes.',
-    category: 'Tech',
-    author: 'TLS Tech',
+    title: "L'essor du microlearning dans les entreprises françaises",
+    summary: "78% des entreprises du CAC40 ont adopté le microlearning : résultats, bonnes pratiques et conditions du succès.",
+    category: 'Formation',
+    author: 'TLS Rédaction',
     publishedAt: 'Il y a 2 semaines',
-    readTime: '8 min',
+    readTime: '4 min',
   },
   {
-    id: 'item-6',
+    id: '6',
     type: 'tutoriel',
-    title: 'Animer un atelier collaboratif à distance',
-    summary: 'Méthode et outils pour faciliter un atelier d\'intelligence collective en visio.',
+    title: 'Maîtriser l\'IA pour la Formation Professionnelle',
+    summary: "Comment intégrer l'intelligence artificielle dans vos parcours de formation pour maximiser l'engagement.",
     category: 'Facilitation',
     author: 'Pierre Leclerc',
     publishedAt: 'Il y a 3 semaines',
@@ -168,11 +168,52 @@ export const Veille: React.FC = () => {
   };
 
   const resolveItemRoute = (item: VeilleItem) => {
-    if (item.type === 'actu') return '/veille/article/1';
-    if (item.type === 'tutoriel') return '/veille/video-tutorial/1';
-    if (item.type === 'dossier') return '/veille/dossier/1';
-    return '/veille/magazine-article/1';
+    // Chaque type pointe vers sa page spécifiquement designée
+    if (item.type === 'actu')     return `/veille/weekly-news/${item.id}`;    // → WeeklyNewsDetail
+    if (item.type === 'tutoriel') return `/veille/video-tutorial/${item.id}`; // → VideoTutorial
+    if (item.type === 'dossier')  return `/veille/dossier/${item.id}`;        // → Dossier
+    if (item.type === 'magazine') return `/veille/magazine-article/${item.id}`; // → MagazineArticle
+    return '/veille';
   };
+
+  const FORMAT_LINKS = [
+    {
+      icon: '📬',
+      label: 'Actus de la semaine',
+      sub: 'Sélection hebdo éditoriale',
+      path: '/veille/weekly-newsletter',
+      color: 'var(--tls-primary-500)',
+      bg: 'var(--tls-primary-50)',
+      border: 'rgba(85,161,180,0.25)',
+    },
+    {
+      icon: '📂',
+      label: 'Étude de Marché',
+      sub: 'Dossier & analyse approfondie',
+      path: '/veille/content',
+      color: 'var(--tls-orange-600)',
+      bg: 'rgba(237,132,58,0.07)',
+      border: 'rgba(237,132,58,0.2)',
+    },
+    {
+      icon: '🎬',
+      label: 'Tutoriel Vidéo',
+      sub: 'Séquence pratique guidée',
+      path: '/veille/video-tutorial/1',
+      color: 'var(--tls-primary-600)',
+      bg: 'var(--tls-primary-50)',
+      border: 'rgba(85,161,180,0.2)',
+    },
+    {
+      icon: '📚',
+      label: 'Magazine TLS',
+      sub: 'Édition complète · 56 pages',
+      path: '/veille/magazine',
+      color: 'var(--tls-orange-500)',
+      bg: 'rgba(237,132,58,0.07)',
+      border: 'rgba(237,132,58,0.2)',
+    },
+  ];
 
   return (
     <div className="veille-page">
@@ -234,6 +275,49 @@ export const Veille: React.FC = () => {
         </div>
       </header>
 
+      {/* ─ Format quick-access strip ─────────────────────────── */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '12px',
+          padding: '0 var(--s-6) var(--s-4)',
+          maxWidth: '900px',
+          margin: '0 auto',
+          width: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
+        {FORMAT_LINKS.map((f) => (
+          <button
+            key={f.path}
+            type="button"
+            onClick={() => navigate(f.path)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '12px 14px',
+              borderRadius: '16px',
+              background: f.bg,
+              border: `1.5px solid ${f.border}`,
+              cursor: 'pointer',
+              fontFamily: 'var(--font-body)',
+              textAlign: 'left',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
+          >
+            <span style={{ fontSize: '22px', flexShrink: 0 }}>{f.icon}</span>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: f.color, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.3, marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.sub}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
       <section className="veille-page__feed" aria-live="polite">
         {filteredItems.length === 0 ? (
           <div className="veille-page__empty">
@@ -248,9 +332,19 @@ export const Veille: React.FC = () => {
             {filteredItems.map((item) => {
               const meta = TYPE_META[item.type];
               const isSaved = savedIds.has(item.id);
+              const route = resolveItemRoute(item);
               return (
                 <li key={item.id}>
-                  <article className="veille-card" data-tone={meta.tone}>
+                  <article
+                    className="veille-card"
+                    data-tone={meta.tone}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => navigate(route)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(route); }}
+                    aria-label={`Lire : ${item.title}`}
+                  >
                     <header className="veille-card__head">
                       <div className="veille-card__type">
                         <span className="veille-card__type-icon" aria-hidden="true">
@@ -268,7 +362,7 @@ export const Veille: React.FC = () => {
                         type="button"
                         className="veille-card__save"
                         data-active={isSaved ? 'true' : 'false'}
-                        onClick={() => toggleSave(item.id)}
+                        onClick={(e) => { e.stopPropagation(); toggleSave(item.id); }}
                         title={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
                         aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
                       >
@@ -297,7 +391,7 @@ export const Veille: React.FC = () => {
                       <button
                         type="button"
                         className="veille-card__cta"
-                        onClick={() => navigate(resolveItemRoute(item))}
+                        onClick={(e) => { e.stopPropagation(); navigate(route); }}
                       >
                         <span>Lire</span>
                         <ArrowRight size={14} />
