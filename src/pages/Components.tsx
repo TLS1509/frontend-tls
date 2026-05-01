@@ -1177,7 +1177,7 @@ const Components: React.FC = () => {
                           borderRadius: '999px',
                           background: p.color,
                           border: 'none',
-                          color: '#fff',
+                          color: 'var(--text-inverse)',
                           fontWeight: 700,
                           fontSize: 'var(--t-sm)',
                           cursor: 'pointer',

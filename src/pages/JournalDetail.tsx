@@ -79,7 +79,7 @@ export const JournalDetail: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/journal/new-entry')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: '#fff', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
         >
           <PenLine size={15} /> Nouvelle entrée
         </button>
@@ -98,7 +98,7 @@ export const JournalDetail: React.FC = () => {
 
           {/* Meta chips */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-500)', color: '#fff', fontSize: '12px', fontWeight: 800, letterSpacing: '0.06em' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: '12px', fontWeight: 800, letterSpacing: '0.06em' }}>
               <Sparkles size={12} /> JOURNAL DE BORD
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', borderRadius: 'var(--r-full)', background: 'rgba(85,161,180,0.1)', color: 'var(--tls-primary-700)', fontSize: '12px', fontWeight: 700 }}>
@@ -206,7 +206,7 @@ export const JournalDetail: React.FC = () => {
         {/* New entry CTA */}
         <div style={{ background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%)', borderRadius: 'var(--r-xl)', padding: 'var(--s-6)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--s-4)' }}>
           <div>
-            <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: '#fff', marginBottom: 'var(--s-1)' }}>Qu'avez-vous appris cette semaine ?</div>
+            <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--text-inverse)', marginBottom: 'var(--s-1)' }}>Qu'avez-vous appris cette semaine ?</div>
             <div style={{ fontSize: 'var(--t-sm)', color: 'rgba(255,255,255,0.8)' }}>Capturez vos observations pendant qu'elles sont fraîches.</div>
           </div>
           <button

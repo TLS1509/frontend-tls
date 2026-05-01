@@ -100,7 +100,7 @@ export const JournalFreeEntry: React.FC = () => {
           </button>
           <button
             type="button"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: '#fff', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
           >
             <Send size={14} /> Publier
           </button>
@@ -222,7 +222,7 @@ export const JournalFreeEntry: React.FC = () => {
           <div style={{ display: 'flex', gap: 'var(--s-2)', marginTop: 'var(--s-6)' }}>
             <button
               type="button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: '#fff', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
             >
               <Send size={15} /> Publier l'entrée
             </button>

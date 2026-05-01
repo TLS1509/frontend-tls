@@ -201,7 +201,7 @@ export const JournalNewEntry: React.FC = () => {
             borderRadius: 'var(--r-xl)',
             background: 'var(--tls-primary-500)',
             border: 'none',
-            color: '#fff',
+            color: 'var(--text-inverse)',
             fontWeight: 700,
             fontSize: 'var(--t-sm)',
             cursor: 'pointer',

@@ -161,7 +161,7 @@ export const Dossier: React.FC = () => {
               borderRadius: "var(--r-full)",
               border: "none",
               background: "var(--tls-orange-500)",
-              color: "#fff",
+              color: 'var(--text-inverse)',
               fontSize: "var(--t-sm)",
               fontWeight: 700,
               cursor: "pointer",
@@ -744,7 +744,7 @@ export const Dossier: React.FC = () => {
                 background: "linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%)",
                 borderRadius: "var(--r-2xl)",
                 padding: "var(--s-7)",
-                color: "#fff",
+                color: 'var(--text-inverse)',
                 marginBottom: "var(--s-5)",
               }}
             >
@@ -775,7 +775,7 @@ export const Dossier: React.FC = () => {
                   fontWeight: 600,
                   lineHeight: 1.6,
                   margin: "0 0 var(--s-5)",
-                  color: "#fff",
+                  color: 'var(--text-inverse)',
                 }}
               >
                 La transformation IA des parcours de formation n'est plus optionnelle. Les organisations
@@ -869,7 +869,7 @@ export const Dossier: React.FC = () => {
               borderRadius: "var(--r-full)",
               background: "var(--tls-orange-500)",
               border: "none",
-              color: "#fff",
+              color: 'var(--text-inverse)',
               fontWeight: 700,
               fontSize: "var(--t-body)",
               cursor: "pointer",

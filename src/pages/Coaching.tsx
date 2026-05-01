@@ -137,7 +137,7 @@ export const Coaching: React.FC = () => {
                       boxShadow: '0 2px 8px rgba(85,161,180,0.3)',
                     }}
                   >
-                    <span style={{ fontSize: 'var(--t-h4)', fontWeight: 700, color: '#fff' }}>
+                    <span style={{ fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text-inverse)' }}>
                       {coach.name.split(' ').map((n: string) => n[0]).join('')}
                     </span>
                   </div>
@@ -276,7 +276,7 @@ export const Coaching: React.FC = () => {
                     background: joinHovered
                       ? 'var(--tls-primary-600)'
                       : 'var(--tls-primary-500)',
-                    color: '#fff',
+                    color: 'var(--text-inverse)',
                     fontSize: 'var(--t-body-sm)',
                     fontFamily: 'var(--font-body)',
                     fontWeight: 600,

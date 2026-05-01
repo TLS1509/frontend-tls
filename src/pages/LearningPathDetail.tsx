@@ -201,7 +201,7 @@ export const LearningPathDetail: React.FC = () => {
           </button>
         </div>
 
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 var(--s-10)', color: 'white' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 var(--s-10)', color: 'var(--text-inverse)' }}>
           {/* Eyebrow chips */}
           <div style={{ display: 'flex', gap: 'var(--s-2)', marginBottom: 'var(--s-4)', flexWrap: 'wrap' }}>
             {[
@@ -466,7 +466,7 @@ export const LearningPathDetail: React.FC = () => {
         {activeTab === 'project' && parcours.finalProject && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
             {/* Hero Section */}
-            <div style={{ background: HERO_GRADIENT[tone], borderRadius: 'var(--r-2xl)', padding: 'var(--s-10)', color: 'white', textAlign: 'center' }}>
+            <div style={{ background: HERO_GRADIENT[tone], borderRadius: 'var(--r-2xl)', padding: 'var(--s-10)', color: 'var(--text-inverse)', textAlign: 'center' }}>
               <div style={{ width: 80, height: 80, borderRadius: 'var(--r-xl)', background: 'rgba(255, 255, 255, 0.2)', margin: '0 auto var(--s-6)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)' }}>
                 <Award size={36} />
               </div>
@@ -542,7 +542,7 @@ export const LearningPathDetail: React.FC = () => {
                   { num: 5, title: 'Réflexion', desc: 'Capitalisez sur vos apprentissages' },
                 ].map((step: { num: number; title: string; desc: string }) => (
                   <div key={step.num} style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'flex-start', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 'var(--r-lg)', background: TONE_COLOR[tone], color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 'var(--t-h4)', flexShrink: 0 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 'var(--r-lg)', background: TONE_COLOR[tone], color: 'var(--text-inverse)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 'var(--t-h4)', flexShrink: 0 }}>
                       {step.num}
                     </div>
                     <div style={{ flex: 1 }}>

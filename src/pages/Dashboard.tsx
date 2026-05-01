@@ -139,7 +139,7 @@ export const Dashboard: React.FC = () => {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
       {/* Hero Section with Greeting & Stats */}
-      <section style={{ background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', color: 'white', padding: 'var(--s-12)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', color: 'var(--text-inverse)', padding: 'var(--s-12)', position: 'relative', overflow: 'hidden' }}>
         {/* Decorative blur blobs */}
         <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.05)', filter: 'blur(60px)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.08)', filter: 'blur(50px)', pointerEvents: 'none' }} />

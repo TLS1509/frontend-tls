@@ -233,7 +233,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
                 ? 'var(--tls-primary-500)'
                 : 'rgba(85,161,180,0.35)',
               border: 'none',
-              color: '#fff',
+              color: 'var(--text-inverse)',
               fontSize: 'var(--t-body)',
               fontWeight: 700,
               cursor: isComplete ? 'pointer' : 'not-allowed',

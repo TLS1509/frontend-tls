@@ -167,7 +167,7 @@ export const Magazine: React.FC = () => {
             style={{
               fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
               fontWeight: 900,
-              color: '#fff',
+              color: 'var(--text-inverse)',
               margin: '0 0 var(--s-4)',
               letterSpacing: '-0.03em',
               lineHeight: 1.05,
@@ -356,7 +356,7 @@ export const Magazine: React.FC = () => {
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-primary-500)',
               border: 'none',
-              color: '#fff',
+              color: 'var(--text-inverse)',
               fontWeight: 700,
               fontSize: 'var(--t-sm)',
               cursor: 'pointer',
@@ -395,7 +395,7 @@ export const Magazine: React.FC = () => {
               style={{
                 fontSize: 'var(--t-body)',
                 fontWeight: 800,
-                color: '#fff',
+                color: 'var(--text-inverse)',
                 margin: 0,
               }}
             >

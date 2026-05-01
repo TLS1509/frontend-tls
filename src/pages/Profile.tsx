@@ -181,7 +181,7 @@ export const Profile: React.FC = () => {
               >
                 <span
                   style={{
-                    color: '#fff',
+                    color: 'var(--text-inverse)',
                     fontWeight: 800,
                     fontSize: '2rem',
                     letterSpacing: '-0.02em',
