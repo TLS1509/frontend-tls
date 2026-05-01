@@ -103,11 +103,11 @@
   background: linear-gradient(
     135deg,
     var(--overlay-white-xl) 0%,
-    rgba(255, 255, 255, 0.6) 100%
+    var(--overlay-white-lg) 100%
   );
   -webkit-backdrop-filter: var(--glass-blur-heavy);
   backdrop-filter: var(--glass-blur-heavy);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-border-standard);
   box-shadow: var(--shadow-xs);
   position: relative;
   overflow: hidden;
@@ -388,7 +388,7 @@
 
 .parcours-filter-pill:hover {
   transform: translateY(-1px);
-  border-color: rgba(85, 161, 180, 0.4);
+  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
   color: var(--tls-primary-700);
 }
 
@@ -396,7 +396,7 @@
   background: var(--tls-primary-600);
   border-color: var(--tls-primary-600);
   color: var(--text-inverse);
-  box-shadow: 0 4px 14px rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .parcours-filter-pill--reset {
@@ -411,7 +411,7 @@
   text-align: center;
   padding: var(--s-12);
   border-radius: var(--r-2xl);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7); /* no exact token */
   border: 1px dashed var(--overlay-dark-lg);
   display: flex;
   flex-direction: column;
@@ -501,7 +501,7 @@
   gap: var(--s-1-5);
   padding: var(--s-1-5) var(--s-3);
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--on-color-fill-md);
   border: 1px solid var(--overlay-white-sm);
   color: inherit;
   font-family: var(--font-body);
@@ -512,7 +512,7 @@
 }
 
 .learning-path-detail-back-btn:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: var(--on-color-fill-lg);
 }
 
 .learning-path-detail-title {
@@ -550,7 +550,7 @@
   gap: var(--s-2);
   padding: 8px 14px;
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--on-color-fill-md);
   border: 1px solid var(--overlay-white-sm);
   font-family: var(--font-body);
 }
@@ -669,7 +669,7 @@
   gap: var(--s-1);
   padding: 2px 8px;
   border-radius: var(--r-pill);
-  background: rgba(255, 200, 60, 0.25);
+  background: rgba(255, 200, 60, 0.25); /* no exact token for this color */
   color: #92400e;
   font-size: var(--t-micro);
   font-weight: 700;
@@ -780,7 +780,7 @@
 }
 
 .learning-path-step-card.locked .learning-path-step-number {
-  background: rgba(15, 23, 42, 0.15);
+  background: rgba(15, 23, 42, 0.15); /* between overlay-dark-lg (0.10) and no higher token */
   color: var(--text-soft);
   box-shadow: none;
 }
@@ -849,7 +849,7 @@
   padding: var(--s-1-5) var(--s-3);
   border-radius: var(--r-pill);
   border: 1px solid var(--overlay-dark-md);
-  background: rgba(15, 23, 42, 0.02);
+  background: var(--overlay-dark-xs);
   cursor: pointer;
   font-family: var(--font-body);
   font-size: var(--t-caption);
@@ -861,9 +861,9 @@
 }
 
 .learning-path-step-toggle:hover:not(:disabled) {
-  border-color: rgba(85, 161, 180, 0.4);
+  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
   color: var(--tls-primary-700);
-  background: rgba(85, 161, 180, 0.06);
+  background: var(--overlay-brand-sm);
 }
 
 .learning-path-step-toggle:disabled {
@@ -911,12 +911,12 @@
 }
 
 .learning-path-lesson-item:hover {
-  border-color: rgba(85, 161, 180, 0.4);
+  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
 }
 
 .learning-path-lesson-item.completed {
-  background: rgba(34, 197, 94, 0.08);
-  border-color: rgba(34, 197, 94, 0.25);
+  background: var(--tls-success-light);
+  border-color: var(--tls-success-border);
 }
 
 .learning-path-lesson-icon {
@@ -994,7 +994,7 @@
 }
 
 .learning-path-step-card.warm-color .learning-path-lesson-icon {
-  background: rgba(237, 132, 58, 0.14);
+  background: rgba(237, 132, 58, 0.14); /* no exact token for orange 0.14 */
   color: var(--secondary-hover);
 }
 
@@ -1018,9 +1018,9 @@
   background: linear-gradient(
     135deg,
     var(--overlay-white-xl) 0%,
-    rgba(255, 255, 255, 0.6) 100%
+    var(--overlay-white-lg) 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-border-standard);
   -webkit-backdrop-filter: var(--glass-blur-standard);
   backdrop-filter: var(--glass-blur-standard);
   box-shadow: var(--shadow-xs);
@@ -1084,7 +1084,7 @@
 }
 
 .learning-path-hero-btn:hover {
-  background: rgba(255, 255, 255, 0.32);
+  background: var(--overlay-white-md);
 }
 
 /* Hero metadata pills */

@@ -40,7 +40,7 @@
 .tls-meta-pill--primary,
 .tls-meta-pill--brand {
   background: var(--tls-primary-50);
-  border-color: rgba(85, 161, 180, 0.25);
+  border-color: var(--overlay-brand-xl);
   color: var(--tls-primary-700);
 }
 

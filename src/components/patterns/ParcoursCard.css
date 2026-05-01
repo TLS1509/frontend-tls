@@ -112,8 +112,8 @@
 
 .parcours-card__metadata-pills {
   padding: var(--s-2) 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--overlay-dark-sm);
+  border-bottom: 1px solid var(--overlay-dark-sm);
 }
 
 /* =============================================================================

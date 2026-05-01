@@ -14,8 +14,8 @@
   inset: 0;
   z-index: 200;
   background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: var(--glass-blur-standard);
+  -webkit-backdrop-filter: var(--glass-blur-standard);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -41,8 +41,8 @@
   top: 0;
   z-index: 10;
   background: var(--overlay-white-xl);
-  backdrop-filter: saturate(150%) blur(20px);
-  -webkit-backdrop-filter: saturate(150%) blur(20px);
+  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
   border-bottom: 1px solid var(--shadow-xs);
   padding: var(--s-5) var(--s-10) var(--s-4);
 }
@@ -88,7 +88,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--glass-fill-strong);
   border: 1px solid var(--shadow-xs);
   cursor: pointer;
   transition: all var(--dur-2) var(--ease-standard);
@@ -133,8 +133,8 @@
   top: 0; /* will stack below header via calc or separate sticky */
   z-index: 9;
   background: var(--overlay-white-xl);
-  backdrop-filter: saturate(150%) blur(20px);
-  -webkit-backdrop-filter: saturate(150%) blur(20px);
+  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
   padding: var(--s-3) var(--s-10);
   border-bottom: 1px solid var(--shadow-xs);
 }

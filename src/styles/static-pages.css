@@ -81,7 +81,7 @@ a.tls-pill {
 button.tls-pill:hover,
 a.tls-pill:hover {
   background: var(--surface-muted);
-  border-color: rgba(85, 161, 180, 0.25);
+  border-color: var(--overlay-brand-xl);
   color: var(--text);
 }
 
@@ -133,7 +133,7 @@ a.tls-pill:hover {
 .tls-field textarea:focus-visible {
   outline: none;
   border-color: var(--tls-primary-500);
-  box-shadow: 0 0 0 3px rgba(85, 161, 180, 0.18);
+  box-shadow: 0 0 0 3px var(--overlay-brand-lg);
 }
 
 .tls-kpi {
@@ -151,7 +151,7 @@ a.tls-pill:hover {
 .tls-kpi:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-color: rgba(85, 161, 180, 0.2);
+  border-color: var(--overlay-brand-md);
 }
 
 .tls-kpi strong {
@@ -176,7 +176,7 @@ a.tls-pill:hover {
 .tls-auth-card {
   border: 1px solid var(--border);
   border-radius: var(--r-2xl);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.74));
+  background: linear-gradient(135deg, var(--overlay-white-xl), rgba(255, 255, 255, 0.74));
   -webkit-backdrop-filter: var(--glass-blur-light);
   backdrop-filter: var(--glass-blur-light);
   box-shadow: var(--shadow-sm);
@@ -319,7 +319,7 @@ a.tls-pill:hover {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  background: rgba(74, 140, 110, 0.12);
+  background: var(--tls-success-light-bg);
   color: var(--tls-success-700, #2f6b53);
 }
 
@@ -339,7 +339,7 @@ a.tls-pill:hover {
 .tls-notification-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-color: rgba(85, 161, 180, 0.2);
+  border-color: var(--overlay-brand-md);
 }
 
 .tls-notification-card__head {
@@ -508,7 +508,7 @@ a.tls-pill:hover {
 
 .tls-editorial-hero {
   border-radius: var(--r-2xl);
-  border: 1px solid rgba(85, 161, 180, 0.18);
+  border: 1px solid var(--overlay-brand-lg);
   background: linear-gradient(135deg, rgba(85, 161, 180, 0.14) 0%, rgba(255, 255, 255, 0.88) 100%);
   -webkit-backdrop-filter: var(--glass-blur-medium);
   backdrop-filter: var(--glass-blur-medium);
@@ -530,7 +530,7 @@ a.tls-pill:hover {
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(85, 161, 180, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--overlay-brand-md) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -579,7 +579,7 @@ a.tls-pill:hover {
 .tls-editorial-cover {
   border-radius: var(--r-xl);
   border: 1px solid var(--border);
-  background: linear-gradient(135deg, rgba(85, 161, 180, 0.08), rgba(248, 176, 68, 0.08));
+  background: linear-gradient(135deg, var(--overlay-brand-sm), var(--overlay-warm-xs));
   min-height: 260px;
   display: flex;
   align-items: center;
@@ -591,7 +591,7 @@ a.tls-pill:hover {
 .tls-callout {
   border-radius: var(--r-xl);
   border: 1px solid rgba(248, 176, 68, 0.28);
-  background: linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04));
+  background: linear-gradient(135deg, rgba(248, 176, 68, 0.14), var(--overlay-warm-xs));
   padding: var(--s-5);
 }
 
@@ -630,7 +630,7 @@ a.tls-pill:hover {
   align-items: center;
   gap: var(--s-1);
   padding: var(--s-3) var(--s-5);
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--on-color-fill-sm);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--r-xl);
   min-width: 84px;
@@ -638,7 +638,7 @@ a.tls-pill:hover {
 }
 
 .tls-hero-stat:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.22); /* no exact token; between on-color-fill-md (0.20) and on-color-fill-lg (0.25) */
 }
 
 .tls-hero-stat__value {
@@ -651,7 +651,7 @@ a.tls-pill:hover {
 
 .tls-hero-stat__label {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--on-color-text-muted);
   font-weight: 500;
   white-space: nowrap;
   text-align: center;

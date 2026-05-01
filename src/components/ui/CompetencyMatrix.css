@@ -96,7 +96,7 @@
 
 .competency-matrix__level-indicator--achieved:hover {
   transform: scale(1.15);
-  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .competency-matrix__level-indicator--not-achieved {

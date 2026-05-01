@@ -17,7 +17,7 @@
 
 .tls-glass-card--brand {
   background: var(--g-glass-brand);
-  border: 1px solid rgba(85, 161, 180, 0.3);
+  border: 1px solid var(--overlay-brand-xl);
   box-shadow: var(--shadow-sm);
 }
 

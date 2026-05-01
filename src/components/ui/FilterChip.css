@@ -24,8 +24,8 @@
   gap: 6px;
   padding: 6px 14px;
   border-radius: var(--r-pill);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--overlay-dark-md);
+  background: var(--glass-fill-premium);
   font-family: var(--font-body);
   font-size: var(--t-micro);
   font-weight: 700;
@@ -47,7 +47,7 @@
 
 .filter-chip:hover {
   transform: translateY(-1px);
-  border-color: rgba(85, 161, 180, 0.4);
+  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
   color: var(--tls-primary-700);
 }
 
@@ -59,7 +59,7 @@
   background: var(--tls-primary-600);
   border-color: var(--tls-primary-600);
   color: var(--text-inverse);
-  box-shadow: 0 4px 14px rgba(85, 161, 180, 0.30);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .filter-chip[data-active='true']:hover {

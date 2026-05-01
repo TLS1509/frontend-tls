@@ -128,7 +128,7 @@
 /* Selected state */
 .quiz__option-label:has(:checked) {
   border-color: var(--tls-primary-500);
-  background-color: rgba(85, 161, 180, 0.08);
+  background-color: var(--overlay-brand-sm);
   transform: scale(1.02);
 }
 
