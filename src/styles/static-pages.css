@@ -63,11 +63,26 @@
   align-items: center;
   gap: var(--s-2);
   padding: var(--s-2) var(--s-3);
-  background: var(--surface-muted);
+  background: var(--surface);
   border-radius: var(--r-pill);
   border: 1px solid var(--border);
   font-size: var(--t-caption);
+  font-weight: 500;
   color: var(--text-soft);
+  box-shadow: var(--shadow-xs), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: background var(--dur-1), border-color var(--dur-1), color var(--dur-1);
+}
+
+button.tls-pill,
+a.tls-pill {
+  cursor: pointer;
+}
+
+button.tls-pill:hover,
+a.tls-pill:hover {
+  background: var(--surface-muted);
+  border-color: rgba(85, 161, 180, 0.25);
+  color: var(--text);
 }
 
 .tls-list {
@@ -122,18 +137,34 @@
 }
 
 .tls-kpi {
-  padding: var(--s-4);
+  padding: var(--s-5) var(--s-5) var(--s-4);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  background: var(--surface-muted);
+  border-radius: var(--r-xl);
+  background: var(--surface);
   display: flex;
   flex-direction: column;
   gap: var(--s-1);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2);
+}
+
+.tls-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border-color: rgba(85, 161, 180, 0.2);
 }
 
 .tls-kpi strong {
-  font-size: var(--t-h3);
+  font-size: var(--t-h2);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--tls-primary-700);
+  line-height: 1;
+}
+
+.tls-kpi span {
+  font-size: var(--t-caption);
+  color: var(--text-muted);
 }
 
 .tls-auth-shell {
@@ -301,6 +332,14 @@
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
   background: var(--surface);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform var(--dur-2), box-shadow var(--dur-2), border-color var(--dur-2);
+}
+
+.tls-notification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border-color: rgba(85, 161, 180, 0.2);
 }
 
 .tls-notification-card__head {
@@ -389,18 +428,30 @@
 
 .tls-section-card {
   border: 1px solid var(--border);
-  border-radius: var(--r-xl);
+  border-radius: var(--r-2xl);
   background: var(--surface);
-  padding: var(--s-5);
+  padding: var(--s-6);
   display: flex;
   flex-direction: column;
-  gap: var(--s-3);
+  gap: var(--s-4);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .tls-section-card h3,
 .tls-section-card h4,
 .tls-section-card p {
   margin: 0;
+}
+
+.tls-section-card h3 {
+  font-family: var(--font-display);
+  font-size: var(--t-h4);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--text);
 }
 
 .tls-placeholder-media {
@@ -457,15 +508,40 @@
 
 .tls-editorial-hero {
   border-radius: var(--r-2xl);
-  border: 1px solid rgba(85, 161, 180, 0.16);
-  background: linear-gradient(135deg, rgba(85, 161, 180, 0.12), rgba(255, 255, 255, 0.76));
+  border: 1px solid rgba(85, 161, 180, 0.18);
+  background: linear-gradient(135deg, rgba(85, 161, 180, 0.14) 0%, rgba(255, 255, 255, 0.88) 100%);
   -webkit-backdrop-filter: var(--glass-blur-medium);
   backdrop-filter: var(--glass-blur-medium);
-  padding: var(--s-6);
-  box-shadow: var(--shadow-sm);
+  padding: var(--s-8) var(--s-8) var(--s-7);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle decorative glow behind hero */
+.tls-editorial-hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -20%;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(85, 161, 180, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tls-editorial-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-h1);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.1;
 }
 
 .tls-editorial-eyebrow {

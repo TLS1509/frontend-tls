@@ -636,7 +636,7 @@
   border: 1px solid var(--border);
   border-radius: var(--r-xl);  /* 20px — consistent across all cards */
   padding: var(--s-6);         /* 24px — MD size (default) */
-  box-shadow: var(--shadow-card-base);
+  box-shadow: var(--shadow-card-base), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   transition: transform var(--dur-2) var(--ease-standard),
               box-shadow var(--dur-2) var(--ease-standard),
               border-color var(--dur-2);
@@ -647,7 +647,8 @@
 }
 
 .card:hover {
-  border-color: var(--border-strong);
+  border-color: rgba(85, 161, 180, 0.2);
+  box-shadow: var(--shadow-card-hover), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 /* ===== ICON SIZING — scoped to .card__icon wrapper =====
@@ -822,14 +823,14 @@
 }
 
 .card--interactive:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--tls-primary-200);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border-color: rgba(85, 161, 180, 0.25);
 }
 
 .card--interactive:active {
-  transform: translateY(1px);
-  box-shadow: var(--shadow-card-base);
+  transform: translateY(0px);
+  box-shadow: var(--shadow-card-base), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 /* ===== GLASS MORPHISM — STANDARDIZED ===== */

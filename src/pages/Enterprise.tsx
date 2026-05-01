@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import '../styles/static-pages.css';
+import '../styles/static-pages.css';
 import '../styles/figma-missing-pages.css';
 
 type EnterpriseTab = 'overview' | 'users' | 'settings';
@@ -73,15 +74,24 @@ export const Enterprise: React.FC = () => {
         <>
           <section className="enterprise-kpi-row">
             <div className="tls-kpi">
-              <strong>24</strong>
-              <span>Utilisateurs</span>
+              <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
+                <Users size={20} />
+              </div>
+              <strong style={{ color: 'var(--tls-primary-700)' }}>24</strong>
+              <span>Utilisateurs actifs</span>
             </div>
             <div className="tls-kpi">
-              <strong>456 h</strong>
+              <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.1)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+                <TrendingUp size={20} />
+              </div>
+              <strong style={{ color: 'var(--tls-orange-600)' }}>456 h</strong>
               <span>Heures cumulées</span>
             </div>
             <div className="tls-kpi">
-              <strong>72%</strong>
+              <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+                <Shield size={20} />
+              </div>
+              <strong style={{ color: 'var(--tls-yellow-600)' }}>72%</strong>
               <span>Complétion moyenne</span>
             </div>
           </section>
