@@ -24,9 +24,10 @@
  */
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, User, Zap, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
 import { ToneAwareCard } from './ToneAwareCard';
+import { MetaPillGroup } from '../ui/MetaPillGroup';
 import './ParcoursCard.css';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
@@ -132,14 +133,20 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {/* Description */}
         <p className="parcours-card__desc">{description}</p>
 
-        {/* Metadata (if provided) */}
+        {/* Metadata using MetaPillGroup (if provided) */}
         {(instructor || duration || lessons || level) && (
-          <div className="parcours-card__metadata">
-            {instructor && <span className="parcours-card__meta-item">👤 {instructor}</span>}
-            {level && <span className="parcours-card__meta-item">📊 {level}</span>}
-            {duration && <span className="parcours-card__meta-item">⏱️ {duration}</span>}
-            {lessons && <span className="parcours-card__meta-item">📚 {lessons} leçons</span>}
-          </div>
+          <MetaPillGroup
+            items={[
+              ...(instructor ? [{ icon: <User size={13} />, text: instructor }] : []),
+              ...(level ? [{ icon: <Zap size={13} />, text: level }] : []),
+              ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
+              ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
+            ]}
+            size="sm"
+            layout="horizontal"
+            gap="sm"
+            className="parcours-card__metadata-pills"
+          />
         )}
 
         {/* Spacer */}

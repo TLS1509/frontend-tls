@@ -107,24 +107,13 @@
 }
 
 /* =============================================================================
-   METADATA
+   METADATA PILLS (MetaPillGroup)
    ============================================================================= */
 
-.parcours-card__metadata {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
+.parcours-card__metadata-pills {
   padding: var(--s-2) 0;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  font-size: var(--t-caption);
-  color: var(--text-soft);
-}
-
-.parcours-card__meta-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
 }
 
 /* =============================================================================
