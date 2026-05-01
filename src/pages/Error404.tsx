@@ -73,8 +73,10 @@ export const Error404: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            margin: '0 auto var(--s-6)',
+            margin: '0 auto var(--s-8)',
             color: 'var(--tls-primary-600)',
+            boxShadow: 'var(--shadow-md), 0 12px 32px rgba(85,161,180,0.2)',
+            transition: 'all var(--dur-2)'
           }}
         >
           <Compass size={56} strokeWidth={1.5} />
@@ -85,8 +87,11 @@ export const Error404: React.FC = () => {
           style={{
             fontSize: 'clamp(4rem, 10vw, 6rem)',
             fontWeight: 900,
-            color: 'var(--tls-primary-200)',
-            margin: '0 0 var(--s-2) 0',
+            background: 'linear-gradient(135deg, var(--tls-primary-300), var(--tls-orange-200))',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+            margin: '0 0 var(--s-4) 0',
             letterSpacing: '-0.02em',
             lineHeight: 1,
           }}
@@ -123,10 +128,10 @@ export const Error404: React.FC = () => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: 'var(--s-4)',
+          gap: 'var(--s-6)',
           width: '100%',
           maxWidth: '960px',
-          marginBottom: 'var(--s-8)',
+          marginBottom: 'var(--s-10)',
         }}
       >
         {suggestions.map((item, idx) => (
@@ -146,17 +151,18 @@ export const Error404: React.FC = () => {
               transition: 'all var(--dur-2)',
               textAlign: 'left',
               fontFamily: 'inherit',
+              boxShadow: 'var(--shadow-sm)'
             }}
             onMouseEnter={(e) => {
               const card = e.currentTarget as HTMLButtonElement;
               card.style.borderColor = 'var(--tls-primary-300)';
-              card.style.boxShadow = 'var(--shadow-md)';
+              card.style.boxShadow = 'var(--shadow-lg)';
               card.style.transform = 'translateY(-4px)';
             }}
             onMouseLeave={(e) => {
               const card = e.currentTarget as HTMLButtonElement;
               card.style.borderColor = 'var(--border)';
-              card.style.boxShadow = 'var(--shadow-xs)';
+              card.style.boxShadow = 'var(--shadow-sm)';
               card.style.transform = 'translateY(0)';
             }}
           >
@@ -165,11 +171,11 @@ export const Error404: React.FC = () => {
                 width: '40px',
                 height: '40px',
                 borderRadius: 'var(--r-lg)',
-                background: 'var(--tls-primary-50)',
+                background: idx === 0 ? 'var(--tls-primary-50)' : idx === 1 ? 'var(--tls-yellow-50)' : idx === 2 ? 'var(--tls-orange-50)' : 'rgba(85,161,180,0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'var(--tls-primary-600)',
+                color: idx === 0 ? 'var(--tls-primary-600)' : idx === 1 ? 'var(--tls-yellow-600)' : idx === 2 ? 'var(--tls-orange-600)' : 'var(--tls-primary-600)',
               }}
             >
               {item.icon}
