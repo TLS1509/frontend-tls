@@ -74,15 +74,15 @@ export const JournalFreeEntry: React.FC = () => {
   const removeTag = (tag: string) => setTags(tags.filter((t) => t !== tag));
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--surface)', fontFamily: 'var(--font-body)' }}>
 
       {/* ─ Top bar ────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--s-4) var(--s-8)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, background: '#fff', zIndex: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--s-4) var(--s-8)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, background: 'var(--surface)', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
           <button
             type="button"
             onClick={() => navigate('/journal')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
           >
             <ArrowLeft size={14} /> Retour
           </button>
@@ -94,13 +94,13 @@ export const JournalFreeEntry: React.FC = () => {
         <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
           <button
             type="button"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 18px', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm-lg)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
           >
             <Save size={14} /> Brouillon
           </button>
           <button
             type="button"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-md-sm)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-body-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
           >
             <Send size={14} /> Publier
           </button>
@@ -108,7 +108,7 @@ export const JournalFreeEntry: React.FC = () => {
       </div>
 
       {/* ─ Layout (2 col) ─────────────────────────────────────── */}
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: 'var(--s-6) var(--s-8)', display: 'grid', gridTemplateColumns: '1fr 280px', gap: 'var(--s-8)', alignItems: 'start' }}>
+      <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', padding: 'var(--s-6) var(--s-8)', display: 'grid', gridTemplateColumns: '1fr 280px', gap: 'var(--s-8)', alignItems: 'start' }}>
 
         {/* Main editor */}
         <div>
@@ -138,7 +138,7 @@ export const JournalFreeEntry: React.FC = () => {
                     key={cat.id}
                     type="button"
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 14px', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--chip-padding-sm)', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: 'var(--t-caption)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
                   >
                     <span>{cat.icon}</span> {cat.label}
                   </button>
@@ -158,7 +158,7 @@ export const JournalFreeEntry: React.FC = () => {
                     key={mood.label}
                     type="button"
                     onClick={() => setSelectedMood(active ? null : mood.label)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-md)', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: 'var(--t-micro)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
                   >
                     {mood.emoji} {mood.label}
                   </button>
@@ -195,7 +195,7 @@ export const JournalFreeEntry: React.FC = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 10px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: '12px', fontWeight: 600, border: '1px solid rgba(85,161,180,0.2)' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-xs)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-micro)', fontWeight: 600, border: '1px solid rgba(85,161,180,0.2)' }}
                 >
                   {tag}
                   <button
@@ -222,13 +222,13 @@ export const JournalFreeEntry: React.FC = () => {
           <div style={{ display: 'flex', gap: 'var(--s-2)', marginTop: 'var(--s-6)' }}>
             <button
               type="button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 28px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-lg-md)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-body-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
             >
               <Send size={15} /> Publier l'entrée
             </button>
             <button
               type="button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-lg-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
             >
               <Save size={14} /> Sauvegarder en brouillon
             </button>
@@ -250,9 +250,9 @@ export const JournalFreeEntry: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', border: '1.5px solid rgba(85,161,180,0.15)', background: '#fff', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', border: '1.5px solid rgba(85,161,180,0.15)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; e.currentTarget.style.background = 'var(--tls-primary-50)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(85,161,180,0.15)'; e.currentTarget.style.background = '#fff'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(85,161,180,0.15)'; e.currentTarget.style.background = 'var(--surface)'; }}
                 >
                   <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0, marginTop: '1px' }}>{prompt.icon}</span>
                   <div>

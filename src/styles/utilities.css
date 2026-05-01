@@ -1,0 +1,221 @@
+/* ==========================================================================
+   TLS DESIGN SYSTEM — TEXT & INTERACTION UTILITIES
+   Common text patterns, state overlays, interactive feedback
+   ========================================================================== */
+
+/* =========================================================================
+   TEXT UTILITIES
+   ========================================================================= */
+
+/* Truncation utilities */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Font weight utilities */
+.text-light { font-weight: 300; }
+.text-normal { font-weight: 400; }
+.text-medium { font-weight: 500; }
+.text-semibold { font-weight: 600; }
+.text-bold { font-weight: 700; }
+
+/* Text color utilities */
+.text-default { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-soft { color: var(--text-soft); }
+.text-inverse { color: var(--text-inverse); }
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Line height utilities */
+.text-tight { line-height: var(--lh-tight); }
+.text-normal { line-height: var(--lh-normal); }
+.text-relaxed { line-height: var(--lh-relaxed); }
+.text-loose { line-height: var(--lh-loose); }
+
+/* Uppercase and lowercase utilities */
+.text-uppercase { text-transform: uppercase; letter-spacing: 0.06em; }
+.text-lowercase { text-transform: lowercase; }
+.text-capitalize { text-transform: capitalize; }
+
+/* =========================================================================
+   INTERACTION STATE UTILITIES
+   ========================================================================= */
+
+/* Hover overlay (apply to interactive elements) */
+.hover\:overlay {
+  transition: background-color var(--state-transition);
+}
+
+.hover\:overlay:hover {
+  background-color: rgba(0, 0, 0, var(--state-hover-opacity));
+}
+
+/* Active state (pressed button appearance) */
+.is-active,
+[aria-pressed="true"] {
+  background-color: var(--tls-primary-600);
+  color: var(--text-inverse);
+  border-color: var(--tls-primary-600);
+}
+
+/* Disabled state utilities */
+.is-disabled,
+[aria-disabled="true"],
+:disabled {
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* =========================================================================
+   FOCUS & ACCESSIBILITY STATES
+   ========================================================================= */
+
+/* Enhanced focus visible state for form controls */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 2px;
+}
+
+/* Button focus state */
+button:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 2px;
+}
+
+/* Link focus state */
+a:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* =========================================================================
+   SEMANTIC UTILITY CLASSES
+   ========================================================================= */
+
+/* Success states */
+.has-success {
+  border-color: var(--tls-success-base);
+  background-color: var(--tls-success-light);
+}
+
+.has-success::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--tls-success-base);
+  border-radius: var(--r-sm) 0 0 var(--r-sm);
+}
+
+/* Warning/caution states */
+.has-warning {
+  border-color: var(--tls-warning-base);
+  background-color: var(--tls-warning-bg);
+}
+
+/* Error/danger states */
+.has-error {
+  border-color: var(--tls-danger-base);
+  background-color: var(--tls-danger-light);
+}
+
+.has-error::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--tls-danger-base);
+  border-radius: var(--r-sm) 0 0 var(--r-sm);
+}
+
+/* Info states */
+.has-info {
+  border-color: var(--tls-info-base);
+  background-color: var(--tls-info-bg);
+}
+
+/* =========================================================================
+   CURSOR & INTERACTIVE UTILITIES
+   ========================================================================= */
+
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-text { cursor: text; }
+
+/* =========================================================================
+   VISIBILITY & DISPLAY UTILITIES
+   ========================================================================= */
+
+.hidden { display: none !important; }
+.visible { display: block !important; }
+.invisible { visibility: hidden; }
+
+/* Screen reader only (accessibility) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* =========================================================================
+   ASPECT RATIO UTILITIES
+   ========================================================================= */
+
+.aspect-square { aspect-ratio: 1; }
+.aspect-video { aspect-ratio: 16 / 9; }
+.aspect-4-3 { aspect-ratio: 4 / 3; }
+.aspect-21-9 { aspect-ratio: 21 / 9; }
+
+/* =========================================================================
+   RESPONSIVE TEXT UTILITIES
+   ========================================================================= */
+
+@media (max-width: 767px) {
+  .text-sm\:hidden { display: none; }
+  .text-sm\:block { display: block; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .text-md\:hidden { display: none; }
+  .text-md\:block { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .text-lg\:hidden { display: none; }
+  .text-lg\:block { display: block; }
+}

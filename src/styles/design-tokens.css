@@ -139,11 +139,17 @@
   /* ---------- SPACING (4pt base) ---------- */
   --s-0: 0;
   --s-1: 4px;
+  --s-1-5: 6px;
   --s-2: 8px;
+  --s-2-5: 10px;
   --s-3: 12px;
+  --s-3-5: 14px;
   --s-4: 16px;
+  --s-4-5: 18px;
   --s-5: 20px;
+  --s-5-5: 22px;
   --s-6: 24px;
+  --s-7: 28px;
   --s-8: 32px;
   --s-10: 40px;
   --s-12: 48px;
@@ -151,6 +157,56 @@
   --s-20: 80px;
   --s-24: 96px;
   --s-32: 128px;
+
+  /* ---------- RESPONSIVE BREAKPOINTS (mobile-first) ---------- */
+  --bp-mobile: 375px;      /* Small phones */
+  --bp-tablet: 768px;      /* Tablets */
+  --bp-laptop: 1024px;     /* Laptops */
+  --bp-desktop: 1280px;    /* Desktop monitors */
+  --bp-wide: 1920px;       /* Ultra-wide screens */
+
+  /* ---------- CONTAINER & LAYOUT (flexible, modify as needed) ---------- */
+  /* Page container widths */
+  --container-narrow: 600px;   /* Narrow content: articles, single column */
+  --container-default: 900px;  /* Standard: learning paths, coaching, journal */
+  --container-wide: 1200px;    /* Wide: dashboard, veille overview */
+  --container-full: 100%;      /* Full width with horizontal padding */
+
+  /* Standard page padding (applies to horizontal padding) */
+  --page-padding-mobile: var(--s-4);   /* 16px on mobile */
+  --page-padding-tablet: var(--s-6);   /* 24px on tablet */
+  --page-padding-desktop: var(--s-8);  /* 32px on desktop */
+
+  /* Section spacing (vertical gaps between major sections) */
+  --section-gap-compact: var(--s-6);   /* 24px */
+  --section-gap-standard: var(--s-8);  /* 32px */
+  --section-gap-large: var(--s-12);    /* 48px */
+
+  /* Component spacing (within cards, sections) */
+  --component-padding-compact: var(--s-3);  /* 12px */
+  --component-padding-standard: var(--s-4); /* 16px */
+  --component-padding-large: var(--s-6);    /* 24px */
+
+  /* Grid & List gaps */
+  --grid-gap-compact: var(--s-3);   /* 12px */
+  --grid-gap-standard: var(--s-4);  /* 16px */
+  --grid-gap-loose: var(--s-6);     /* 24px */
+
+  /* Vertical rhythm (line-height scale) */
+  --lh-tight: 1.2;      /* Headings, compact text */
+  --lh-normal: 1.5;     /* Body text, optimal reading */
+  --lh-relaxed: 1.75;   /* Long-form content */
+  --lh-loose: 2;        /* Extra spacing for accessibility */
+
+  /* Z-index scale (for layering: dropdowns, modals, etc.) */
+  --z-base: 0;
+  --z-relative: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
 
   /* ---------- RADIUS ---------- */
   --r-xs: 4px;
@@ -189,6 +245,59 @@
   /* Saturation variants — for tone-specific glass */
   --glass-saturate-standard: saturate(180%);
   --glass-saturate-light: saturate(160%);
+
+  /* ---------- BORDER SCALE ---------- */
+  --border-width-thin: 1px;      /* Subtle borders, dividers */
+  --border-width-base: 2px;      /* Input borders, card borders */
+  --border-width-thick: 3px;     /* Accents, active states */
+  --border-width-heavy: 4px;     /* Focus rings, prominent accents */
+
+  /* ---------- BUTTON & FORM SIZING ---------- */
+  /* Button padding variants (for common button sizes) */
+  --btn-padding-xs: var(--s-1) var(--s-2);           /* 4px 8px */
+  --btn-padding-sm: var(--s-2) var(--s-4);           /* 8px 16px */
+  --btn-padding-sm-lg: var(--s-2) var(--s-5);        /* 8px 20px */
+  --btn-padding-md-sm: var(--s-2-5) var(--s-5);      /* 10px 20px */
+  --btn-padding-md: var(--s-3) var(--s-6);           /* 12px 24px */
+  --btn-padding-lg: var(--s-4) var(--s-8);           /* 16px 32px */
+  --btn-padding-lg-md: var(--s-3) var(--s-7);        /* 12px 28px - for prominent buttons */
+  --btn-padding-lg-sm: var(--s-3) var(--s-5-5);      /* 12px 22px - for secondary buttons */
+
+  /* Chip/pill padding variants */
+  --chip-padding-xs: var(--s-1) var(--s-2);          /* 4px 8px */
+  --chip-padding-sm: var(--s-1-5) var(--s-3-5);      /* 6px 14px */
+  --chip-padding-md: var(--s-1) var(--s-3);          /* 4px 12px */
+  --chip-padding-lg: var(--s-2) var(--s-4);          /* 8px 16px */
+
+  /* Button heights for consistency */
+  --btn-height-sm: 32px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+
+  /* Input & form field sizing */
+  --input-height: 40px;
+  --input-padding: var(--s-2) var(--s-3);         /* 8px 12px */
+  --input-border-width: var(--border-width-base);
+
+  /* Label sizing */
+  --label-font-size: var(--t-body-sm);
+  --label-font-weight: 500;
+  --label-spacing-bottom: var(--s-2);
+
+  /* Card padding variants */
+  --card-padding-sm: var(--s-3);                  /* 12px */
+  --card-padding-md: var(--s-4);                  /* 16px */
+  --card-padding-lg: var(--s-6);                  /* 24px */
+
+  /* ---------- INTERACTION STATE OPACITY ---------- */
+  /* Used for hover, focus, active, disabled states */
+  --state-hover-opacity: 0.08;        /* 8% overlay on hover */
+  --state-focus-opacity: 0.12;        /* 12% overlay on focus */
+  --state-active-opacity: 0.16;       /* 16% overlay on active */
+  --state-disabled-opacity: 0.5;      /* 50% opacity for disabled elements */
+
+  /* State transition duration */
+  --state-transition: var(--dur-1);   /* 120ms for quick interactive feedback */
 
   /* ---------- OVERLAY COLORS (for complex backgrounds, CSS Grid borders, etc.) ---------- */
   /* Primary blue overlays */
