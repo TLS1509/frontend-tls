@@ -17,8 +17,6 @@ import {
   ChevronRight,
   PlusCircle,
 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
 
 /* ─── Mock data ─────────────────────────────────────────────────────────────── */
 
@@ -177,14 +175,14 @@ export const CoachingCompteRendu: React.FC = () => {
           onClick={() => navigate(-1)}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
-            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
+            background: 'var(--on-color-fill-xs)', border: '1px solid var(--on-color-border-sm)',
             borderRadius: 'var(--r-md)', padding: 'var(--s-2) var(--s-4)',
-            color: '#fff', cursor: 'pointer', fontSize: 'var(--t-body-sm)',
+            color: 'var(--text-inverse)', cursor: 'pointer', fontSize: 'var(--t-body-sm)',
             fontFamily: 'var(--font-body)', marginBottom: 'var(--s-6)',
             transition: 'background var(--dur-2)',
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
-          onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--on-color-fill-lg)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--on-color-fill-xs)')}
         >
           <ArrowLeft size={16} />
           Retour
@@ -197,14 +195,14 @@ export const CoachingCompteRendu: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
                 <span style={{
                   fontSize: 'var(--t-caption)', fontWeight: 700, textTransform: 'uppercase',
-                  letterSpacing: '0.1em', background: 'rgba(255,255,255,0.18)',
+                  letterSpacing: '0.1em', background: 'var(--on-color-fill-md)',
                   padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-pill)',
                 }}>
                   Compte rendu
                 </span>
                 <span style={{
                   fontSize: 'var(--t-caption)', fontWeight: 600,
-                  background: 'rgba(255,255,255,0.12)', padding: 'var(--s-1) var(--s-3)',
+                  background: 'var(--on-color-fill-xs)', padding: 'var(--s-1) var(--s-3)',
                   borderRadius: 'var(--r-pill)',
                 }}>
                   Session {report.sessionNumber}/{report.totalSessions}
@@ -229,7 +227,7 @@ export const CoachingCompteRendu: React.FC = () => {
             <div style={{ textAlign: 'center' }}>
               <div style={{
                 width: 80, height: 80, borderRadius: '50%',
-                background: `conic-gradient(rgba(255,255,255,0.9) ${progressPercent * 3.6}deg, rgba(255,255,255,0.2) 0deg)`,
+                background: `conic-gradient(var(--on-color-progress-fill) ${progressPercent * 3.6}deg, var(--on-color-progress-track) 0deg)`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <div style={{

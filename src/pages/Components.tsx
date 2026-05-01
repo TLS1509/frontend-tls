@@ -17,7 +17,6 @@
 
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/static-pages.css';
 import {
   PositionnementModal,
   BookingModal,

@@ -29,7 +29,6 @@ import {
   Clock3,
   CheckCircle2,
 } from 'lucide-react';
-import '../styles/static-pages.css';
 
 
 interface CoachingSession {

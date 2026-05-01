@@ -20,10 +20,23 @@
   box-shadow: var(--glass-ring);
 }
 
-/* Subtle glass effect - lighter blur */
+/* Subtle glass effect - lighter blur, uses on-color tokens */
 .glass-subtle {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: var(--backdrop-blur-light);
+  -webkit-backdrop-filter: var(--backdrop-blur-light);
+  background: var(--on-color-fill-xl);
+  border: 1px solid var(--on-color-border-lg);
+}
+
+/* On-color glass — for elements placed on colored/gradient hero backgrounds */
+.glass-on-color {
+  backdrop-filter: var(--backdrop-blur-light);
+  -webkit-backdrop-filter: var(--backdrop-blur-light);
+  background: var(--on-color-fill-sm);
+  border: 1px solid var(--on-color-border-sm);
+  color: var(--text-inverse);
+  transition: background var(--dur-2) var(--ease-standard);
+}
+.glass-on-color:hover {
+  background: var(--on-color-fill-lg);
 }

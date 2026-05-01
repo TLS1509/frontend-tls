@@ -2,8 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
-import '../styles/figma-missing-pages.css';
-import '../styles/static-pages.css';
 
 /**
  * Static 500 — parity with figmamakedesignreact/src/app/pages/Error500Page.tsx

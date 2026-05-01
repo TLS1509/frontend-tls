@@ -16,8 +16,6 @@ import {
   CheckCircle2,
   Sparkles,
 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/figma-missing-pages.css';
 
 const STATIC_COURSE = {
   title: 'Enjeux de la maîtrise du prompt',

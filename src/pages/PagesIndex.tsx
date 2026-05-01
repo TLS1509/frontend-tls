@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/pages-index.css';
 
 interface PageItem {
   id: string;

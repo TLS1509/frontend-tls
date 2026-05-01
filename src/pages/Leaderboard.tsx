@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { RankingCard } from '../components/learning/RankingCard';
 import { Flame, Medal, Sparkles, Trophy, TrendingUp, Users, Zap, ArrowUp, Minus, ArrowDown, Star } from 'lucide-react';
-import '../styles/static-pages.css';
 
 const PODIUM_USERS = [
   { name: 'Sophie Martin',  points: 1240, streak: 18, initials: 'SM', rank: 1, level: 12, xp: 4820, badges: 9 },

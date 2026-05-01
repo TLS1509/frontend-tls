@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserRound, Target, Clock, CheckCircle2, Sparkles, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
 import { Card, Button, Badge, Stepper, Field } from '../components';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
 
 /* ============================================================================
    Types

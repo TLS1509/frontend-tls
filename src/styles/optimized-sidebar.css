@@ -43,7 +43,7 @@
 }
 
 .hamburger-button:hover {
-  background: rgba(85, 161, 180, 0.1);
+  background: var(--overlay-brand-sm);
   border-color: rgba(85, 161, 180, 0.3);
 }
 
@@ -84,10 +84,10 @@
 .optimized-sidebar--collapsed {
   width: var(--sidebar-width-collapsed);
   background: var(--glass-fill);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid var(--on-color-fill-md);
   box-shadow:
     0 8px 32px 0 rgba(0, 0, 0, 0.08),
-    0 1px 0 0 rgba(255, 255, 255, 0.3) inset;
+    0 1px 0 0 var(--overlay-white-md) inset;
   cursor: pointer;
 }
 
@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--on-color-fill-md);
   flex-shrink: 0;
 }
 
@@ -284,7 +284,7 @@
 
 .optimized-sidebar--collapsed .nav-item:hover {
   transform: none;
-  background: rgba(85, 161, 180, 0.12);
+  background: var(--overlay-brand-md);
 }
 
 .nav-item--active {
@@ -320,7 +320,7 @@
 .sidebar-footer {
   position: relative;
   padding: 16px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid var(--on-color-fill-md);
   flex-shrink: 0;
   transition: var(--sidebar-transition);
   z-index: 100;
@@ -336,8 +336,8 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: rgba(85, 161, 180, 0.05);
-  border: 1px solid rgba(85, 161, 180, 0.1);
+  background: var(--overlay-brand-xs);
+  border: 1px solid var(--overlay-brand-sm);
   border-radius: 16px;
   cursor: pointer;
   transition: var(--item-transition);
@@ -350,7 +350,7 @@
 }
 
 .user-button:hover {
-  background: rgba(85, 161, 180, 0.1);
+  background: var(--overlay-brand-sm);
   border-color: var(--tls-primary-500);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(85, 161, 180, 0.15);
@@ -471,7 +471,7 @@
 /* More opaque background when floating (collapsed state) */
 .optimized-sidebar--collapsed .dropdown-menu {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
+  backdrop-filter: var(--backdrop-blur-light);
   border: 1px solid rgba(255, 255, 255, 0.8);
 }
 

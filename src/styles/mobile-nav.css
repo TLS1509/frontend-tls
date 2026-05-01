@@ -25,7 +25,7 @@
   width: 44px;
   height: 44px;
   padding: 6px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
+  background: linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.75) 100%);
   border: 1.5px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--r-lg);
   cursor: pointer;
@@ -50,7 +50,7 @@
 }
 
 .hamburger-button:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, var(--overlay-white-xl) 100%);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.08),
     0 6px 12px rgba(85, 161, 180, 0.15),
@@ -118,7 +118,7 @@
 .top-nav {
   position: relative;
   display: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
+  background: linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.75) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
@@ -258,7 +258,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
+  background: linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.75) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid rgba(255, 255, 255, 0.4);

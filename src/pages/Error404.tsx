@@ -2,8 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Compass, Home, Search, LayoutGrid, Zap, HelpCircle } from 'lucide-react';
-import '../styles/figma-missing-pages.css';
-import '../styles/static-pages.css';
 
 /**
  * Static 404 — Learner-centric with friendly illustration and suggested next steps

@@ -25,7 +25,6 @@ import {
   BookOpen, Clock3, Flame, Trophy, Users, TrendingUp,
   Sparkles, CheckCircle2, Award, Zap, Star,
 } from 'lucide-react';
-import '../styles/static-pages.css';
 
 export const ComponentShowcase: React.FC = () => {
   return (

@@ -13,7 +13,6 @@
  */
 
 import React, { useState } from 'react';
-import '../../styles/mobile-nav.css';
 
 export interface HamburgerButtonProps {
   isOpen?: boolean;

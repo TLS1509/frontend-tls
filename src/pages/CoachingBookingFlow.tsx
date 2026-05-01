@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { CalendarDays, Clock3, MapPin, Sparkles, UserRound } from 'lucide-react';
-import '../styles/static-pages.css';
 
 export const CoachingBookingFlow: React.FC = () => {
   const navigate = useNavigate();

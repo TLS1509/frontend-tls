@@ -10,7 +10,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpenText, Palette } from 'lucide-react';
-import '../styles/floating-nav.css';
 
 export const FloatingNavButton: React.FC = () => {
   const navigate = useNavigate();

@@ -11,7 +11,6 @@ import { useState, useCallback } from 'react';
 import { Search, Filter, RotateCcw } from 'lucide-react';
 import { Button } from '../components';
 import { debounce } from '../utils/design-system';
-import '../styles/components-showcase.css';
 
 type Category = 'Core' | 'Patterns' | 'Composite Patterns' | 'Learning' | 'Navigation';
 type TokenType = 'color' | 'typography' | 'spacing' | 'radius' | 'shadow' | 'motion' | 'gradient' | 'role';

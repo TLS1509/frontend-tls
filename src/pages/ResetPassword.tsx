@@ -15,8 +15,6 @@ import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { ArrowLeft, ShieldCheck, Sparkles, Lock, CheckCircle2 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/auth-pages.css';
 
 export const ResetPassword: React.FC = () => {
   const navigate = useNavigate();

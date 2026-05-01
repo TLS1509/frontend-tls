@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { ArrowLeft, BookOpen, CalendarDays } from 'lucide-react';
-import '../styles/static-pages.css';
 
 export const MagazineArticle: React.FC = () => {
   const navigate = useNavigate();

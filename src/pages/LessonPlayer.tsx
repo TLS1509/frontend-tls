@@ -30,7 +30,6 @@ import {
   XCircle,
 } from 'lucide-react';
 import { resolveLessonContext } from '../data/learningPaths';
-import '../styles/lesson-player.css';
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
 

@@ -359,6 +359,30 @@
   --overlay-white-lg: rgba(255, 255, 255, 0.60);
   --overlay-white-xl: rgba(255, 255, 255, 0.85);
 
+  /* On-Color Glass Effects — for UI elements rendered ON colored hero backgrounds */
+  /* Use these for buttons, badges, pills, and overlays placed on gradients          */
+  --on-color-fill-2xs: rgba(255, 255, 255, 0.08);  /* Ghost hover, very subtle bg    */
+  --on-color-fill-xs:  rgba(255, 255, 255, 0.12);  /* Subtle overlay panels          */
+  --on-color-fill-sm:  rgba(255, 255, 255, 0.15);  /* Hero buttons, default state     */
+  --on-color-fill-md:  rgba(255, 255, 255, 0.20);  /* Glass chips, pill backgrounds   */
+  --on-color-fill-lg:  rgba(255, 255, 255, 0.25);  /* Hover state on hero elements    */
+  --on-color-fill-xl:  rgba(255, 255, 255, 0.35);  /* Strong glass fill               */
+
+  --on-color-border-sm:  rgba(255, 255, 255, 0.25); /* Subtle border on hero elements */
+  --on-color-border-md:  rgba(255, 255, 255, 0.35); /* Standard hero border           */
+  --on-color-border-lg:  rgba(255, 255, 255, 0.50); /* Strong hero border             */
+
+  --on-color-text-muted: rgba(255, 255, 255, 0.70); /* Muted text on colored bg       */
+  --on-color-text-soft:  rgba(255, 255, 255, 0.85); /* Soft text on colored bg        */
+  --on-color-text-main:  rgba(255, 255, 255, 0.95); /* Near-full text on colored bg   */
+
+  --on-color-progress-fill:  rgba(255, 255, 255, 0.90); /* Progress ring / fill on hero */
+  --on-color-progress-track: rgba(255, 255, 255, 0.20); /* Progress track on hero      */
+
+  /* Hero scrim gradients — bottom shadow for depth & text legibility */
+  --g-hero-scrim:      linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.18) 100%);
+  --g-hero-scrim-dark: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.32) 100%);
+
   /* ========================================== */
   /* MOTION — Modern Micro-interactions       */
   /* ========================================== */

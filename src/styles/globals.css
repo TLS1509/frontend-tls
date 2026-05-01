@@ -1,34 +1,59 @@
-/* Import design tokens from The Learning Society Design System */
+/* ==========================================================================
+   TLS Design System — Global CSS
+   Single import point for all styles. All pages inherit this cascade.
+   Architecture: tokens → layout → utilities → components → pages → animations
+   ========================================================================== */
+
+/* ── 1. TOKENS ─────────────────────────────────────────────────────────── */
+/* Base design tokens (colors, spacing, typography, radius, shadows, glass) */
 @import './design-tokens.css';
-
-/* Import modern design system tokens (glassmorphism, micro-interactions) */
+/* Modern glassmorphism & micro-interaction tokens */
 @import './design-system-modern-tokens.css';
-
-/* Import dark mode token overrides */
+/* Dark mode overrides */
 @import './dark-mode-tokens.css';
 
-/* Import layout and container patterns */
+/* ── 2. LAYOUT ──────────────────────────────────────────────────────────── */
 @import './layouts.css';
-
-/* Import text and interaction utilities */
-@import './utilities.css';
-
-/* Import extended utility classes (200+ utility classes for Phase 5 Polish) */
-@import './utilities-extended.css';
-
-/* Import all component styles */
-@import './tls-components.css';
-
-/* Import modern components with glassmorphism */
-@import './components-modern.css';
-
-/* Import modern page layouts with cohesive styling */
+@import './layout-helpers.css';
+@import './app-layout.css';
 @import './page-layouts-modern.css';
 
-/* Import learning-specific modern components */
-@import './learning-components-modern.css';
+/* ── 3. NAVIGATION ──────────────────────────────────────────────────────── */
+@import './floating-nav.css';
+@import './mobile-nav.css';
+@import './optimized-sidebar.css';
 
-/* Import animations and micro-interactions polish */
+/* ── 4. UTILITIES ───────────────────────────────────────────────────────── */
+@import './utilities.css';
+@import './utilities-extended.css';
+@import './glass-utilities.css';
+
+/* ── 5. COMPONENTS ──────────────────────────────────────────────────────── */
+@import './tls-components.css';
+@import './components-modern.css';
+@import './card-layouts.css';
+@import './components-showcase.css';
+
+/* ── 6. LEARNING ────────────────────────────────────────────────────────── */
+@import './learning-components-modern.css';
+@import './learning-paths.css';
+@import './lesson-player.css';
+
+/* ── 7. PAGES ───────────────────────────────────────────────────────────── */
+@import './static-pages.css';
+@import './feature-pages-modern.css';
+@import './figma-missing-pages.css';
+@import './auth-pages.css';
+@import './dashboard-modern.css';
+@import './veille.css';
+@import './pages-index.css';
+
+/* ── 8. PATTERNS (loaded for all pages) ────────────────────────────────── */
+@import './patterns/activity-feed.css';
+@import './patterns/dashboard-hero.css';
+@import './patterns/coach-card-grid.css';
+
+/* ── 9. ANIMATIONS ──────────────────────────────────────────────────────── */
 @import './animations-polish.css';
 
 /* Global styles using design tokens */

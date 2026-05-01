@@ -53,7 +53,6 @@ import {
   type FinalProject,
   type Parcours,
 } from '../data/learningPaths';
-import '../styles/learning-paths.css';
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 
@@ -191,35 +190,28 @@ export const LearningPathDetail: React.FC = () => {
     <>
     <div style={{ minHeight: '100vh', background: 'var(--surface-muted)' }}>
 
-      {/* ── HERO — Elevated with enhanced visual prominence ─────────────────────────────────────────────── */}
+      {/* ── HERO ──────────────────────────────────────────────── */}
       <div style={{ background: HERO_GRADIENT[tone], paddingBottom: 'var(--s-12)', paddingTop: 'var(--s-10)', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative overlays — Enhanced visibility */}
-        <div style={{ position: 'absolute', top: '-30%', right: '-10%', width: 480, height: 480, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '-40%', left: '-8%', width: 360, height: 360, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.2) 100%)', pointerEvents: 'none' }} />
-        {/* Back button — Enhanced styling */}
-        <div style={{ padding: '0 var(--s-10)', marginBottom: 'var(--s-8)' }}>
+        {/* Hero bottom scrim for depth & text legibility */}
+        <div style={{ position: 'absolute', inset: 0, background: 'var(--g-hero-scrim)', pointerEvents: 'none' }} />
+        {/* Back button */}
+        <div style={{ padding: '0 var(--s-10)', marginBottom: 'var(--s-8)', position: 'relative', zIndex: 1 }}>
           <button
             onClick={() => navigate(parcours.backUrl)}
-            className="learning-path-hero-btn"
+            className="glass-on-color learning-path-hero-btn"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
               padding: 'var(--s-2-5) var(--s-4)', borderRadius: 'var(--r-xl)',
-              fontWeight: 600, cursor: 'pointer', transition: 'all var(--dur-2)',
-              background: 'rgba(255,255,255,0.15)',
-              color: 'var(--text-inverse)',
-              border: '1px solid rgba(255,255,255,0.3)',
+              fontWeight: 600, cursor: 'pointer',
               fontSize: 'var(--t-body-sm)',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.25)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.15)'; }}
           >
             <ArrowLeft size={16} /> Retour
           </button>
         </div>
 
-        <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: '0 var(--s-10)', color: 'var(--text-inverse)' }}>
-          {/* Eyebrow chips — Enhanced with better styling */}
+        <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: '0 var(--s-10)', color: 'var(--text-inverse)', position: 'relative', zIndex: 1 }}>
+          {/* Eyebrow chips */}
           <div style={{ display: 'flex', gap: 'var(--s-2)', marginBottom: 'var(--s-5)', flexWrap: 'wrap' }}>
             {[
               { icon: GraduationCap, label: parcours.instructor },
@@ -227,44 +219,39 @@ export const LearningPathDetail: React.FC = () => {
               { icon: BookOpen, label: `${totalLessons} leçons` },
               { icon: Layers, label: parcours.level },
             ].map(({ icon: Icon, label }) => (
-              <span key={label} className="learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 600, background: 'rgba(255,255,255,0.2)', color: 'var(--text-inverse)', border: '1px solid rgba(255,255,255,0.35)', backdropFilter: 'blur(8px)' }}>
+              <span key={label} className="glass-on-color learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 600 }}>
                 <Icon size={14} /> {label}
               </span>
             ))}
           </div>
 
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h1)', fontWeight: 700, lineHeight: 1.15, margin: '0 0 var(--s-4)', color: '#fff', letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h1)', fontWeight: 700, lineHeight: 1.15, margin: '0 0 var(--s-4)', color: 'var(--text-inverse)', letterSpacing: '-0.02em' }}>
             {parcours.title}
           </h1>
-          <p style={{ fontSize: 'var(--t-body)', opacity: 0.95, lineHeight: 1.65, margin: '0 0 var(--s-8)', maxWidth: 640, color: 'rgba(255,255,255,0.9)' }}>
+          <p style={{ fontSize: 'var(--t-body)', lineHeight: 1.65, margin: '0 0 var(--s-8)', maxWidth: 640, color: 'var(--on-color-text-main)' }}>
             {parcours.description}
           </p>
 
-          {/* Progress bar — using InlineProgress DS component */}
+          {/* Progress */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-5)' }}>
-            <span style={{ fontSize: 'var(--t-caption)', fontWeight: 500, opacity: 0.9 }}>
+            <span style={{ fontSize: 'var(--t-caption)', fontWeight: 500, color: 'var(--on-color-text-soft)' }}>
               Progression — {completedLessons}/{totalLessons} leçons
             </span>
             <InlineProgress value={progressPct} tone="primary" showLabel={true} size="md" className="hero-progress" />
           </div>
 
-          {/* CTA — positioning or continue */}
+          {/* CTA */}
           {progressPct === 0 && !positioned ? (
             <button
               onClick={() => setShowPositionnement(true)}
+              className="glass-on-color"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
                 padding: 'var(--s-3) var(--s-6)',
                 borderRadius: 'var(--r-xl)',
-                background: 'rgba(255,255,255,0.2)',
-                backdropFilter: 'blur(8px)',
-                border: '1.5px solid rgba(255,255,255,0.4)',
-                color: '#fff',
                 fontWeight: 700, fontSize: 'var(--t-body)',
-                cursor: 'pointer', transition: 'all var(--dur-2)',
+                cursor: 'pointer',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.3)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.2)'; }}
             >
               🎯 Se positionner &amp; commencer
             </button>

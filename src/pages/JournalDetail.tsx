@@ -23,7 +23,6 @@ import {
   PenLine,
   BookOpen,
 } from 'lucide-react';
-import '../styles/static-pages.css';
 
 const ENTRY = {
   date: '25 avril 2026',

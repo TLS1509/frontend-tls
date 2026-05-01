@@ -87,7 +87,6 @@ import {
 } from './pages';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
-import './styles/app-layout.css';
 import './styles/tls-components.css';
 import './styles/design-tokens.css';
 

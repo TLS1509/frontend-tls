@@ -19,8 +19,6 @@ import type { SelectOption } from '../components/core/Select';
 import { Switch } from '../components/core/Input';
 import { useTheme } from '../hooks/useTheme';
 import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Settings2, Moon, Sun } from 'lucide-react';
-import '../styles/feature-pages-modern.css';
-import '../styles/static-pages.css';
 
 export const Settings: React.FC = () => {
   const { theme, toggle: toggleTheme } = useTheme();
@@ -317,9 +315,9 @@ export const Settings: React.FC = () => {
                 padding: 'var(--s-4) var(--s-4)',
                 borderRadius: 'var(--r-lg)',
                 background: theme === 'dark'
-                  ? 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03))'
+                  ? 'linear-gradient(135deg, var(--on-color-fill-2xs), rgba(255,255,255,0.02))'
                   : 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
-                border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'var(--tls-primary-200)'}`,
+                border: `1px solid ${theme === 'dark' ? 'var(--on-color-border-sm)' : 'var(--tls-primary-200)'}`,
                 boxShadow: 'var(--shadow-xs)',
                 transition: 'all var(--dur-2)'
               }}>

@@ -29,7 +29,6 @@ import {
   MapPin,
   ChevronRight,
 } from 'lucide-react';
-import '../styles/static-pages.css';
 
 /* ─── Types ─────────────────────────────────────────────────────────────────── */
 

@@ -204,7 +204,7 @@
   padding: var(--s-3) var(--s-3-5);
   border-radius: var(--r-xl);
   background: var(--fmt-bg, var(--tls-primary-50));
-  border: 1.5px solid var(--fmt-border, rgba(85,161,180,0.25));
+  border: 1.5px solid var(--fmt-border, var(--overlay-brand-xl));
   cursor: pointer;
   font-family: var(--font-body);
   text-align: left;

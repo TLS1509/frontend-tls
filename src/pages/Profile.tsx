@@ -31,8 +31,6 @@ import {
   Camera,
   Share2,
 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 type Tab = 'overview' | 'activity' | 'badges' | 'skills';

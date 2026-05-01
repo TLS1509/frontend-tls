@@ -14,7 +14,6 @@
  */
 
 import React from 'react';
-import '../../styles/mobile-nav.css';
 
 export interface BreadcrumbItem {
   label: string;

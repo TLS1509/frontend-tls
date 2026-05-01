@@ -13,8 +13,6 @@ import {
   Circle,
   ChevronRight,
 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
 
 /* ── Mock data ──────────────────────────────────────────────────────────── */
 
@@ -80,13 +78,13 @@ export const Enterprise: React.FC = () => {
               alignItems: 'center',
               gap: 'var(--s-2)',
               padding: 'var(--s-2) var(--s-4)',
-              background: 'rgba(255,255,255,0.72)',
-              border: '1px solid rgba(85,161,180,0.2)',
+              background: 'var(--glass-fill-strong)',
+              border: '1px solid var(--overlay-brand-xs)',
               borderRadius: 'var(--r-pill)',
               fontWeight: 600,
               color: 'var(--tls-primary-700)',
               fontSize: 'var(--t-caption)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'var(--backdrop-blur-light)',
             }}
           >
             <Users size={14} />
@@ -98,13 +96,13 @@ export const Enterprise: React.FC = () => {
               alignItems: 'center',
               gap: 'var(--s-2)',
               padding: 'var(--s-2) var(--s-4)',
-              background: 'rgba(255,255,255,0.72)',
-              border: '1px solid rgba(85,161,180,0.2)',
+              background: 'var(--glass-fill-strong)',
+              border: '1px solid var(--overlay-brand-xs)',
               borderRadius: 'var(--r-pill)',
               fontWeight: 600,
               color: 'var(--text)',
               fontSize: 'var(--t-caption)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'var(--backdrop-blur-light)',
             }}
           >
             <Clock size={14} />
@@ -116,13 +114,13 @@ export const Enterprise: React.FC = () => {
               alignItems: 'center',
               gap: 'var(--s-2)',
               padding: 'var(--s-2) var(--s-4)',
-              background: 'rgba(255,255,255,0.72)',
-              border: '1px solid rgba(85,161,180,0.2)',
+              background: 'var(--glass-fill-strong)',
+              border: '1px solid var(--overlay-brand-xs)',
               borderRadius: 'var(--r-pill)',
               fontWeight: 600,
               color: 'var(--text)',
               fontSize: 'var(--t-caption)',
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'var(--backdrop-blur-light)',
             }}
           >
             <TrendingUp size={14} />
@@ -163,7 +161,7 @@ export const Enterprise: React.FC = () => {
                 width: 44,
                 height: 44,
                 borderRadius: 'var(--r-lg)',
-                background: 'rgba(85,161,180,0.1)',
+                background: 'var(--overlay-brand-sm)',
                 color: 'var(--tls-primary-600)',
                 display: 'flex',
                 alignItems: 'center',
@@ -181,7 +179,7 @@ export const Enterprise: React.FC = () => {
                 width: 44,
                 height: 44,
                 borderRadius: 'var(--r-lg)',
-                background: 'rgba(248,176,68,0.12)',
+                background: 'var(--overlay-warm-sm)',
                 color: 'var(--tls-orange-600,#c26a10)',
                 display: 'flex',
                 alignItems: 'center',
@@ -311,8 +309,8 @@ export const Enterprise: React.FC = () => {
             style={{
               padding: 'var(--s-5)',
               marginBottom: 'var(--s-4)',
-              border: '1px solid rgba(85,161,180,0.28)',
-              background: 'linear-gradient(135deg, rgba(85,161,180,0.06), rgba(255,255,255,0.9))',
+              border: '1px solid var(--overlay-brand-xl)',
+              background: 'var(--g-glass-brand)',
             }}
           >
             <CardTitle style={{ marginBottom: 'var(--s-3)' }}>Inviter un nouveau collaborateur</CardTitle>
