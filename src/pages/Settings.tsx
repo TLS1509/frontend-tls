@@ -17,7 +17,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Switch } from '../components/core/Input';
-import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Globe } from 'lucide-react';
+import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Globe, Settings2 } from 'lucide-react';
 import '../styles/feature-pages-modern.css';
 import '../styles/static-pages.css';
 
@@ -66,43 +66,44 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
-      {/* Hero Section */}
-      <section style={{ padding: 'var(--s-8)', background: 'var(--tls-primary-50)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
-          <p style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Compte • Preferences
-          </p>
-          <h1 style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-h1)', fontWeight: 700, color: 'var(--text)' }}>
-            Parametres
-          </h1>
-          <p style={{ margin: 0, fontSize: 'var(--t-body)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: '600px' }}>
-            Controlez vos preferences de notifications, confidentialite et experience utilisateur.
-          </p>
-        </div>
+    <div className="tls-page">
+      {/* Glass Hero */}
+      <section className="tls-editorial-hero">
+        <span className="tls-editorial-eyebrow"><Settings2 size={12} /> Compte &amp; Préférences</span>
+        <h1>Paramètres</h1>
+        <p className="tls-editorial-summary">
+          Contrôlez vos préférences de notifications, confidentialité et expérience utilisateur.
+        </p>
       </section>
 
-      {/* KPI Summary */}
-      <section style={{ padding: 'var(--s-8)', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)' }}>
-          <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)', textAlign: 'center' }}>
-            <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Notifications</p>
-            <p style={{ margin: 0, fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)' }}>2 activees</p>
+      {/* KPI Summary row */}
+      <section className="tls-kpi-row">
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
+            <BellRing size={20} />
           </div>
-          <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)', textAlign: 'center' }}>
-            <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Confidentialite</p>
-            <p style={{ margin: 0, fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)' }}>Standard</p>
+          <strong style={{ color: 'var(--tls-primary-700)' }}>2</strong>
+          <span>Canaux actifs</span>
+        </div>
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.1)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+            <Shield size={20} />
           </div>
-          <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)', textAlign: 'center' }}>
-            <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Mise a jour</p>
-            <p style={{ margin: 0, fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)' }}>Auto</p>
+          <strong style={{ color: 'var(--tls-orange-600)' }}>Standard</strong>
+          <span>Niveau sécurité</span>
+        </div>
+        <div className="tls-kpi">
+          <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+            <Palette size={20} />
           </div>
+          <strong style={{ color: 'var(--tls-yellow-600)' }}>Auto</strong>
+          <span>Mises à jour</span>
         </div>
       </section>
 
       {/* Settings Grid */}
-      <section style={{ flex: 1, padding: 'var(--s-8)' }}>
-        <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: 'var(--s-6)' }}>
+      <section>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: 'var(--s-6)' }}>
 
           {/* Notifications Card */}
           <Card variant="feature" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
