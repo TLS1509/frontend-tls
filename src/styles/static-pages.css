@@ -49,6 +49,11 @@
 }
 
 .tls-micro {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: var(--t-caption);
   color: var(--text-soft);
 }
