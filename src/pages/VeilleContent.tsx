@@ -159,8 +159,8 @@ export const VeilleContent: React.FC = () => {
                 width: '56px',
                 height: '56px',
                 borderRadius: 'var(--r-2xl)',
-                background: 'rgba(237,132,58,0.12)',
-                border: '1px solid rgba(237,132,58,0.25)',
+                background: 'var(--tls-orange-100)',
+                border: '1px solid var(--tls-orange-300)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -176,8 +176,8 @@ export const VeilleContent: React.FC = () => {
                 alignItems: 'center',
                 padding: 'var(--s-1) var(--s-3-5)',
                 borderRadius: 'var(--r-full)',
-                background: 'rgba(237,132,58,0.1)',
-                border: '1px solid rgba(237,132,58,0.25)',
+                background: 'var(--tls-orange-50)',
+                border: '1px solid var(--tls-orange-300)',
                 color: 'var(--tls-orange-600)',
                 fontSize: 'var(--t-caption)',
                 fontWeight: 800,
@@ -241,7 +241,7 @@ export const VeilleContent: React.FC = () => {
         <div
           style={{
             background: 'linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)',
-            border: '1.5px solid rgba(237,132,58,0.3)',
+            border: '1.5px solid var(--tls-orange-300)',
             borderLeft: '4px solid var(--tls-orange-500)',
             borderRadius: 'var(--r-xl)',
             padding: 'var(--s-5) var(--s-6)',
@@ -448,8 +448,8 @@ export const VeilleContent: React.FC = () => {
                 <div
                   key={i}
                   style={{
-                    background: 'rgba(237,132,58,0.05)',
-                    border: '1px solid rgba(237,132,58,0.15)',
+                    background: 'var(--tls-orange-50)',
+                    border: '1px solid var(--tls-orange-200)',
                     borderRadius: 'var(--r-xl)',
                     padding: 'var(--s-5)',
                   }}
@@ -467,7 +467,7 @@ export const VeilleContent: React.FC = () => {
                         width: '36px',
                         height: '36px',
                         borderRadius: 'var(--r-lg)',
-                        background: 'rgba(237,132,58,0.15)',
+                        background: 'var(--tls-orange-200)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -579,8 +579,8 @@ export const VeilleContent: React.FC = () => {
                       padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: stat.trendUp
-                        ? 'rgba(34,197,94,0.1)'
-                        : 'rgba(239,68,68,0.1)',
+                        ? 'var(--tls-success-light)'
+                        : 'var(--tls-danger-light)',
                       color: stat.trendUp ? '#16a34a' : '#dc2626',
                       fontSize: 'var(--t-caption)',
                       fontWeight: 600,
@@ -712,7 +712,7 @@ export const VeilleContent: React.FC = () => {
         <div
           style={{
             background: 'linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)',
-            border: '1.5px solid rgba(237,132,58,0.25)',
+            border: '1.5px solid var(--tls-orange-300)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-8)',
           }}
@@ -727,7 +727,7 @@ export const VeilleContent: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto var(--s-4)',
-              boxShadow: '0 4px 16px rgba(237,132,58,0.3)',
+              boxShadow: '0 4px 16px var(--tls-orange-300)',
             }}
           >
             <Download size={24} color="#fff" />

@@ -68,7 +68,7 @@ export const Magazine: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: 'var(--bg)',
         fontFamily: 'var(--font-body)',
       }}
     >
@@ -77,7 +77,7 @@ export const Magazine: React.FC = () => {
         style={{
           position: 'relative',
           minHeight: '480px',
-          background: 'linear-gradient(160deg, #0a0a1a 0%, #1a1a2e 40%, #0f2a3d 70%, #1a3a4a 100%)',
+          background: 'linear-gradient(160deg, var(--tls-ink-950) 0%, var(--tls-ink-900) 40%, var(--tls-ink-800) 70%, var(--tls-ink-800) 100%)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -93,8 +93,9 @@ export const Magazine: React.FC = () => {
             width: '400px',
             height: '400px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(85,161,180,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--tls-primary-300) 0%, transparent 70%)',
             pointerEvents: 'none',
+            opacity: 0.2,
           }}
         />
         <div
@@ -105,8 +106,9 @@ export const Magazine: React.FC = () => {
             width: '350px',
             height: '350px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(237,132,58,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--tls-orange-300) 0%, transparent 70%)',
             pointerEvents: 'none',
+            opacity: 0.15,
           }}
         />
 
@@ -124,13 +126,13 @@ export const Magazine: React.FC = () => {
           }}
         >
           <span
-            style={{ cursor: 'pointer', color: 'rgba(255,255,255,0.8)' }}
+            style={{ cursor: 'pointer', color: 'var(--text-inverse)', opacity: 0.8 }}
             onClick={() => navigate('/veille')}
           >
             Veille
           </span>
           <ChevronRight size={14} />
-          <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 500 }}>Magazine</span>
+          <span style={{ color: 'var(--text-inverse)', opacity: 0.9, fontWeight: 500 }}>Magazine</span>
         </div>
 
         {/* Hero content */}
@@ -151,7 +153,7 @@ export const Magazine: React.FC = () => {
               borderRadius: 'var(--r-full)',
               background: 'rgba(255,255,255,0.12)',
               border: '1px solid rgba(255,255,255,0.2)',
-              color: 'rgba(255,255,255,0.9)',
+              color: 'var(--text-inverse)',
               fontSize: 'var(--t-caption)',
               fontWeight: 700,
               letterSpacing: '0.1em',
@@ -179,7 +181,8 @@ export const Magazine: React.FC = () => {
           <p
             style={{
               fontSize: 'var(--t-body)',
-              color: 'rgba(255,255,255,0.7)',
+              color: 'var(--text-inverse)',
+              opacity: 0.7,
               margin: '0 0 var(--s-5)',
               maxWidth: '540px',
               lineHeight: 1.6,
@@ -201,7 +204,8 @@ export const Magazine: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 'var(--s-2)',
-                color: 'rgba(255,255,255,0.6)',
+                color: 'var(--text-inverse)',
+                opacity: 0.6,
                 fontSize: 'var(--t-sm)',
               }}
             >
@@ -213,7 +217,8 @@ export const Magazine: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 'var(--s-2)',
-                color: 'rgba(255,255,255,0.6)',
+                color: 'var(--text-inverse)',
+                opacity: 0.6,
                 fontSize: 'var(--t-sm)',
               }}
             >
@@ -239,8 +244,8 @@ export const Magazine: React.FC = () => {
         {/* ─ Synthèse Exécutive ──────────────────────────────── */}
         <div
           style={{
-            background: '#fff',
-            border: '1px solid rgba(0,0,0,0.08)',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-6)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
@@ -376,7 +381,7 @@ export const Magazine: React.FC = () => {
           style={{
             borderRadius: 'var(--r-2xl)',
             overflow: 'hidden',
-            border: '1px solid rgba(0,0,0,0.08)',
+            border: '1px solid var(--border)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
           }}
         >
@@ -390,7 +395,7 @@ export const Magazine: React.FC = () => {
               gap: 'var(--s-3)',
             }}
           >
-            <BookOpen size={20} color="#fff" />
+            <BookOpen size={20} color="var(--text-inverse)" />
             <h2
               style={{
                 fontSize: 'var(--t-body)',
@@ -404,7 +409,7 @@ export const Magazine: React.FC = () => {
           </div>
 
           {/* Article list */}
-          <div style={{ background: '#fff' }}>
+          <div style={{ background: 'var(--surface)' }}>
             {SOMMAIRE.map((item, index) => (
               <div
                 key={item.num}
@@ -414,12 +419,12 @@ export const Magazine: React.FC = () => {
                   gap: 'var(--s-3)',
                   padding: 'var(--s-4) var(--s-5)',
                   borderBottom:
-                    index < SOMMAIRE.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+                    index < SOMMAIRE.length - 1 ? '1px solid var(--border)' : 'none',
                   cursor: 'pointer',
                   transition: 'background 0.15s',
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-muted)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#fff')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
                 onClick={() => navigate('/veille/magazine-article/1')}
               >
                 {/* Number */}

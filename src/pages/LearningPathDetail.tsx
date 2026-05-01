@@ -14,6 +14,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { PositionnementModal } from '../components/modals';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { Badge } from '../components/ui/Badge';
 import { InlineProgress } from '../components/patterns/InlineProgress';
@@ -37,6 +38,9 @@ import {
   Target,
   GraduationCap,
   Layers,
+  Lightbulb,
+  Briefcase,
+  TrendingUp,
 } from 'lucide-react';
 import {
   MOCK_PARCOURS_DATA,
@@ -109,6 +113,8 @@ export const LearningPathDetail: React.FC = () => {
   const [parcoursData, setParcoursData] = useState<Parcours | null>(null);
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'steps' | 'project'>('steps');
+  const [showPositionnement, setShowPositionnement] = useState(false);
+  const [positioned, setPositioned] = useState(false);
 
   /* Load parcours on mount */
   useEffect(() => {
@@ -182,10 +188,15 @@ export const LearningPathDetail: React.FC = () => {
   const carouselItems = parcours.complementaryContent ?? [];
 
   return (
+    <>
     <div style={{ minHeight: '100vh', background: 'var(--surface-muted)' }}>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <div style={{ background: HERO_GRADIENT[tone], paddingBottom: 'var(--s-10)', paddingTop: 'var(--s-8)' }}>
+      <div style={{ background: HERO_GRADIENT[tone], paddingBottom: 'var(--s-10)', paddingTop: 'var(--s-8)', position: 'relative', overflow: 'hidden' }}>
+        {/* Decorative overlays */}
+        <div style={{ position: 'absolute', top: '-30%', right: '-10%', width: 480, height: 480, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-40%', left: '-8%', width: 360, height: 360, borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.15) 100%)', pointerEvents: 'none' }} />
         {/* Back */}
         <div style={{ padding: '0 var(--s-10)', marginBottom: 'var(--s-6)' }}>
           <button
@@ -224,17 +235,103 @@ export const LearningPathDetail: React.FC = () => {
           </p>
 
           {/* Progress bar — using InlineProgress DS component */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--s-3)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-5)' }}>
             <span style={{ fontSize: 'var(--t-caption)', fontWeight: 500, opacity: 0.9 }}>
               Progression — {completedLessons}/{totalLessons} leçons
             </span>
             <InlineProgress value={progressPct} tone="primary" showLabel={true} size="md" className="hero-progress" />
           </div>
+
+          {/* CTA — positioning or continue */}
+          {progressPct === 0 && !positioned ? (
+            <button
+              onClick={() => setShowPositionnement(true)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
+                padding: 'var(--s-3) var(--s-6)',
+                borderRadius: 'var(--r-xl)',
+                background: 'rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(8px)',
+                border: '1.5px solid rgba(255,255,255,0.4)',
+                color: '#fff',
+                fontWeight: 700, fontSize: 'var(--t-body)',
+                cursor: 'pointer', transition: 'all var(--dur-2)',
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.3)'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.2)'; }}
+            >
+              🎯 Se positionner &amp; commencer
+            </button>
+          ) : null}
         </div>
       </div>
 
       {/* ── MAIN ─────────────────────────────────────────────── */}
       <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: 'var(--s-10) var(--s-10)' }}>
+
+        {/* ── Objectifs section ───────────────────────────────── */}
+        <div style={{ marginBottom: 'var(--s-8)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-5)' }}>
+            <Target size={18} style={{ color: TONE_COLOR[tone] }} />
+            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)' }}>
+              Ce que vous allez acquérir
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--s-4)' }}>
+            {[
+              {
+                Icon: Target,
+                label: 'Compétences opérationnelles',
+                desc: 'Des méthodes applicables immédiatement dans votre contexte professionnel.',
+                bg: TONE_BG[tone], color: TONE_COLOR[tone], border: TONE_BORDER[tone],
+              },
+              {
+                Icon: Lightbulb,
+                label: 'Insights & prise de conscience',
+                desc: 'Comprendre vos patterns, identifier vos angles morts, renforcer votre posture.',
+                bg: 'var(--tls-yellow-100)', color: 'var(--tls-yellow-700)', border: 'var(--tls-yellow-300)',
+              },
+              {
+                Icon: Briefcase,
+                label: 'Outils & templates',
+                desc: 'Des ressources pratiques (guides, templates, exercices) pour agir en continu.',
+                bg: 'var(--tls-orange-100)', color: 'var(--tls-orange-700)', border: 'var(--tls-orange-200)',
+              },
+              {
+                Icon: TrendingUp,
+                label: 'Progression mesurable',
+                desc: 'Évaluez vos acquis via le quiz de positionnement et le projet final.',
+                bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'rgba(157, 190, 186, 0.4)',
+              },
+            ].map(({ Icon, label, desc, bg, color, border }) => (
+              <div
+                key={label}
+                style={{
+                  padding: 'var(--s-5)',
+                  borderRadius: 'var(--r-xl)',
+                  background: bg,
+                  border: `1px solid ${border}`,
+                  display: 'flex', flexDirection: 'column', gap: 'var(--s-3)',
+                  transition: 'transform var(--dur-2), box-shadow var(--dur-2)',
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'var(--shadow-md)'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = 'none'; (e.currentTarget as HTMLDivElement).style.boxShadow = 'none'; }}
+              >
+                <div style={{ width: 40, height: 40, borderRadius: 'var(--r-md)', background: `${color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon size={20} style={{ color }} />
+                </div>
+                <div>
+                  <h3 style={{ margin: '0 0 var(--s-1)', fontFamily: 'var(--font-display)', fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)' }}>
+                    {label}
+                  </h3>
+                  <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-soft)', lineHeight: 1.55 }}>
+                    {desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Tab nav */}
         <div style={{ display: 'flex', gap: 'var(--s-2)', padding: 'var(--s-2)', borderRadius: 'var(--r-2xl)', background: 'var(--tls-ink-100)', marginBottom: 'var(--s-8)' }}>
@@ -628,5 +725,22 @@ export const LearningPathDetail: React.FC = () => {
 
       </div>
     </div>
+
+    {/* ── Positionnement Modal ─────────────────────────────────── */}
+    <PositionnementModal
+      isOpen={showPositionnement}
+      onClose={() => setShowPositionnement(false)}
+      courseTitle={parcours.title}
+      courseId={parcours.id}
+      onPositionnementComplete={() => setPositioned(true)}
+      onStartCourse={() => {
+        // Navigate to first available lesson
+        const firstEtape = parcours.etapes.find((e: Etape) => e.unlocked);
+        if (firstEtape && firstEtape.lecons.length > 0) {
+          navigate(`/learning-paths/${parcours.id}/lessons/${firstEtape.lecons[0].id}`);
+        }
+      }}
+    />
+    </>
   );
 };

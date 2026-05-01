@@ -17,11 +17,14 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Switch } from '../components/core/Input';
-import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Globe, Settings2 } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
+import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Settings2, Moon, Sun } from 'lucide-react';
 import '../styles/feature-pages-modern.css';
 import '../styles/static-pages.css';
 
 export const Settings: React.FC = () => {
+  const { theme, toggle: toggleTheme } = useTheme();
+
   // Notification preferences
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(true);
@@ -86,18 +89,18 @@ export const Settings: React.FC = () => {
           <span>Canaux actifs</span>
         </div>
         <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.1)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+          <div className="tls-kpi-icon" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
             <Shield size={20} />
           </div>
           <strong style={{ color: 'var(--tls-orange-600)' }}>Standard</strong>
           <span>Niveau sécurité</span>
         </div>
         <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
-            <Palette size={20} />
+          <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+            {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
           </div>
-          <strong style={{ color: 'var(--tls-yellow-600)' }}>Auto</strong>
-          <span>Mises à jour</span>
+          <strong style={{ color: 'var(--tls-yellow-600)' }}>{theme === 'dark' ? 'Sombre' : 'Clair'}</strong>
+          <span>Thème actif</span>
         </div>
       </section>
 
@@ -243,8 +246,49 @@ export const Settings: React.FC = () => {
                 <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Navigation compacte</span>
               </label>
 
-              <p style={{ margin: 'var(--s-2) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                Ces preferences sont synchronisees avec votre profil utilisateur.
+              {/* Dark mode toggle — wired to useTheme hook */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 'var(--s-3) var(--s-3)',
+                borderRadius: 'var(--r-lg)',
+                background: theme === 'dark'
+                  ? 'rgba(255,255,255,0.05)'
+                  : 'var(--tls-primary-50)',
+                border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'var(--tls-primary-200)'}`,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 'var(--r-md)',
+                    background: theme === 'dark' ? 'var(--tls-yellow-100)' : 'var(--tls-primary-100)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: theme === 'dark' ? 'var(--tls-yellow-500)' : 'var(--tls-primary-600)',
+                    flexShrink: 0,
+                  }}>
+                    {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
+                  </div>
+                  <div>
+                    <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>
+                      Mode sombre
+                    </p>
+                    <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                      {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
+                    </p>
+                  </div>
+                </div>
+                <label className="switch" style={{ margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={theme === 'dark'}
+                    onChange={toggleTheme}
+                  />
+                  <span className="switch__track" />
+                </label>
+              </div>
+
+              <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                Ces préférences sont synchronisées avec votre profil utilisateur.
               </p>
             </div>
           </Card>

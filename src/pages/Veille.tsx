@@ -29,6 +29,7 @@ import {
   Bookmark,
   BookmarkCheck,
 } from 'lucide-react';
+import { VideoPlayerModal } from '../components/modals';
 import '../styles/veille.css';
 
 type VeilleType = 'actu' | 'tutoriel' | 'dossier' | 'magazine';
@@ -122,11 +123,25 @@ const ITEMS: VeilleItem[] = [
   },
 ];
 
+interface VideoModalState {
+  open: boolean;
+  item?: VeilleItem;
+}
+
+// Maps a VeilleItem to VideoPlayerModal props
+const itemToVideoProps = (item: VeilleItem) => ({
+  title: item.title,
+  duration: item.readTime,
+  instructor: item.author,
+  description: item.summary,
+});
+
 export const Veille: React.FC = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState<'all' | VeilleType>('all');
   const [query, setQuery] = useState('');
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [videoModal, setVideoModal] = useState<VideoModalState>({ open: false });
 
   const counts = useMemo(() => {
     const base: Record<'all' | VeilleType, number> = {
@@ -184,7 +199,7 @@ export const Veille: React.FC = () => {
       path: '/veille/weekly-newsletter',
       color: 'var(--tls-primary-500)',
       bg: 'var(--tls-primary-50)',
-      border: 'rgba(85,161,180,0.25)',
+      border: 'var(--tls-primary-300)',
     },
     {
       icon: '📂',
@@ -192,8 +207,8 @@ export const Veille: React.FC = () => {
       sub: 'Dossier & analyse approfondie',
       path: '/veille/content',
       color: 'var(--tls-orange-600)',
-      bg: 'rgba(237,132,58,0.07)',
-      border: 'rgba(237,132,58,0.2)',
+      bg: 'var(--tls-orange-50)',
+      border: 'var(--tls-orange-200)',
     },
     {
       icon: '🎬',
@@ -202,7 +217,7 @@ export const Veille: React.FC = () => {
       path: '/veille/video-tutorial/1',
       color: 'var(--tls-primary-600)',
       bg: 'var(--tls-primary-50)',
-      border: 'rgba(85,161,180,0.2)',
+      border: 'var(--tls-primary-200)',
     },
     {
       icon: '📚',
@@ -210,8 +225,8 @@ export const Veille: React.FC = () => {
       sub: 'Édition complète · 56 pages',
       path: '/veille/magazine',
       color: 'var(--tls-orange-500)',
-      bg: 'rgba(237,132,58,0.07)',
-      border: 'rgba(237,132,58,0.2)',
+      bg: 'var(--tls-orange-50)',
+      border: 'var(--tls-orange-200)',
     },
   ];
 
@@ -315,11 +330,22 @@ export const Veille: React.FC = () => {
                     className="veille-card"
                     data-tone={meta.tone}
                     style={{ cursor: 'pointer' }}
-                    onClick={() => navigate(route)}
+                    onClick={() => {
+                      if (item.type === 'tutoriel') {
+                        setVideoModal({ open: true, item });
+                      } else {
+                        navigate(route);
+                      }
+                    }}
                     role="button"
                     tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate(route); }}
-                    aria-label={`Lire : ${item.title}`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        if (item.type === 'tutoriel') setVideoModal({ open: true, item });
+                        else navigate(route);
+                      }
+                    }}
+                    aria-label={`${item.type === 'tutoriel' ? 'Visionner' : 'Lire'} : ${item.title}`}
                   >
                     <header className="veille-card__head">
                       <div className="veille-card__type">
@@ -367,9 +393,13 @@ export const Veille: React.FC = () => {
                       <button
                         type="button"
                         className="veille-card__cta"
-                        onClick={(e) => { e.stopPropagation(); navigate(route); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (item.type === 'tutoriel') setVideoModal({ open: true, item });
+                          else navigate(route);
+                        }}
                       >
-                        <span>Lire</span>
+                        <span>{item.type === 'tutoriel' ? 'Visionner' : 'Lire'}</span>
                         <ArrowRight size={14} />
                       </button>
                     </footer>
@@ -398,6 +428,15 @@ export const Veille: React.FC = () => {
           Voir la dernière édition
         </button>
       </aside>
+
+      {/* ─ Video Player Modal (tutoriels) ──────────────────────────── */}
+      {videoModal.item && (
+        <VideoPlayerModal
+          isOpen={videoModal.open}
+          onClose={() => setVideoModal({ open: false })}
+          {...itemToVideoProps(videoModal.item)}
+        />
+      )}
     </div>
   );
 };

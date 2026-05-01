@@ -5,9 +5,10 @@
  * Design system TLS : glassmorphism hero, tls-kpi-icon stats, tone-colored activity items.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Badge, Button, ProgressBar } from '../components';
+import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import {
   Mail,
   ShieldCheck,
@@ -27,6 +28,8 @@ import {
   Users,
   Edit3,
   Target,
+  Camera,
+  Share2,
 } from 'lucide-react';
 import '../styles/static-pages.css';
 import '../styles/feature-pages-modern.css';
@@ -49,9 +52,9 @@ const USER_MOCK = {
 
 const STATS = [
   { icon: <BookOpen size={20} />, value: '12', label: 'Cours terminés',  iconBg: 'var(--tls-primary-50)',       iconColor: 'var(--tls-primary-600)',  numColor: 'var(--tls-primary-700)' },
-  { icon: <Clock3 size={20} />,   value: '86h', label: 'Temps appris',   iconBg: 'rgba(237,132,58,0.10)',       iconColor: 'var(--tls-orange-600)',   numColor: 'var(--tls-orange-600)' },
-  { icon: <Flame size={20} />,    value: '7j',  label: 'Série actuelle', iconBg: 'rgba(237,132,58,0.12)',       iconColor: '#ea580c',                 numColor: '#ea580c' },
-  { icon: <Trophy size={20} />,   value: '2 450', label: 'Points XP',   iconBg: 'rgba(234,192,74,0.14)',       iconColor: 'var(--tls-yellow-600)',   numColor: 'var(--tls-yellow-600)' },
+  { icon: <Clock3 size={20} />,   value: '86h', label: 'Temps appris',   iconBg: 'var(--tls-orange-50)',        iconColor: 'var(--tls-orange-600)',   numColor: 'var(--tls-orange-600)' },
+  { icon: <Flame size={20} />,    value: '7j',  label: 'Série actuelle', iconBg: 'var(--tls-orange-50)',        iconColor: 'var(--tls-orange-600)',   numColor: 'var(--tls-orange-600)' },
+  { icon: <Trophy size={20} />,   value: '2 450', label: 'Points XP',   iconBg: 'var(--tls-yellow-50)',        iconColor: 'var(--tls-yellow-600)',   numColor: 'var(--tls-yellow-600)' },
 ];
 
 const BADGES = [
@@ -64,10 +67,10 @@ const BADGES = [
 ];
 
 const ACTIVITY_STYLES = {
-  success: { bg: 'rgba(74,140,110,0.10)',  color: 'var(--tls-success-fg)',   border: 'rgba(74,140,110,0.2)' },
-  sun:     { bg: 'rgba(234,192,74,0.12)',  color: 'var(--tls-yellow-600)',   border: 'rgba(234,192,74,0.25)' },
-  warm:    { bg: 'rgba(237,132,58,0.10)',  color: 'var(--tls-orange-600)',   border: 'rgba(237,132,58,0.2)' },
-  info:    { bg: 'var(--tls-primary-50)',  color: 'var(--tls-primary-600)',  border: 'rgba(85,161,180,0.2)' },
+  success: { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)',   border: 'rgba(157, 190, 186, 0.4)' },
+  sun:     { bg: 'var(--tls-yellow-100)',  color: 'var(--tls-yellow-600)',   border: 'var(--tls-yellow-300)' },
+  warm:    { bg: 'var(--tls-orange-100)',  color: 'var(--tls-orange-600)',   border: 'var(--tls-orange-200)' },
+  info:    { bg: 'var(--tls-primary-50)',  color: 'var(--tls-primary-600)',  border: 'var(--tls-primary-200)' },
 } as const;
 
 type ActivityVariant = keyof typeof ACTIVITY_STYLES;
@@ -105,19 +108,36 @@ export const Profile: React.FC = () => {
     roles: user?.roles ?? ['Apprenant', 'Formateur'],
   };
 
+  const colorMap: Record<string, string> = { brand: 'default', warm: 'orange', sun: 'yellow', gradient: 'success' };
+
+  const skillsForMatrix = useMemo(
+    () =>
+      SKILLS.map((skill) => ({
+        name: skill.label,
+        level: Math.max(1, Math.round(skill.value / 20)),
+        color: colorMap[skill.fill] ?? 'default',
+      })),
+    [],
+  );
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body)' }}>
 
       {/* ─ Glass Hero ───────────────────────────────────────────────────── */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(85,161,180,0.10) 0%, rgba(255,255,255,0.92) 55%, rgba(248,176,68,0.06) 100%)',
+        background: 'linear-gradient(135deg, var(--tls-primary-100) 0%, var(--tls-ink-0) 55%, var(--tls-yellow-100) 100%)',
         padding: 'var(--s-8) var(--s-8) 0',
         position: 'relative',
         overflow: 'hidden',
       }}>
+        {/* Decorative dual-radial glow overlay */}
+        <div aria-hidden="true" style={{
+          position: 'absolute', inset: 0, opacity: 0.4, pointerEvents: 'none',
+          background: 'radial-gradient(circle at 28% 30%, var(--tls-primary-400) 0%, transparent 50%), radial-gradient(circle at 82% 75%, var(--tls-yellow-300) 0%, transparent 50%)',
+        }} />
         {/* Soft glow blobs */}
-        <div aria-hidden="true" style={{ position: 'absolute', top: '-30%', left: '-8%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, rgba(85,161,180,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-20%', right: '5%',  width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(248,176,68,0.08) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', top: '-30%', left: '-8%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-primary-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
+        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-20%', right: '5%',  width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-yellow-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
 
         {/* Profile glass card */}
         <div style={{
@@ -137,17 +157,45 @@ export const Profile: React.FC = () => {
             {/* Avatar */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
               <div style={{
-                width: 88, height: 88, borderRadius: '50%',
+                width: 96, height: 96,
+                borderRadius: 'var(--r-2xl)',
                 background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-orange-500) 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 8px 24px rgba(85,161,180,0.30)',
+                boxShadow: '0 12px 32px rgba(85,161,180,0.35)',
+                overflow: 'hidden',
+                position: 'relative',
               }}>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.6rem', letterSpacing: '-0.02em' }}>
+                <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-0.02em', zIndex: 1 }}>
                   {USER_MOCK.avatar}
                 </span>
+                {/* Camera hover overlay */}
+                <button style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(0,0,0,0.55)',
+                  backdropFilter: 'blur(4px)',
+                  border: 'none', cursor: 'pointer',
+                  opacity: 0, transition: 'opacity var(--dur-2)',
+                  zIndex: 2,
+                }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0'; }}
+                >
+                  <Camera size={22} color="#fff" />
+                </button>
               </div>
-              {/* Online dot */}
-              <div style={{ position: 'absolute', bottom: 4, right: 4, width: 14, height: 14, borderRadius: '50%', background: '#22c55e', border: '2px solid #fff', boxShadow: '0 0 0 2px rgba(34,197,94,0.2)' }} />
+              {/* Level badge */}
+              <div style={{
+                position: 'absolute', bottom: -6, right: -6,
+                width: 30, height: 30,
+                borderRadius: 'var(--r-lg)',
+                background: 'linear-gradient(135deg, var(--tls-orange-500) 0%, var(--tls-yellow-500) 100%)',
+                border: '3px solid #fff',
+                boxShadow: '0 4px 12px rgba(237,132,58,0.4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{ color: '#fff', fontWeight: 800, fontSize: '0.65rem' }}>12</span>
+              </div>
             </div>
 
             {/* Name + meta */}
@@ -202,9 +250,10 @@ export const Profile: React.FC = () => {
             </div>
 
             {/* Action buttons */}
-            <div style={{ display: 'flex', gap: 'var(--s-2)', flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: 'var(--s-2)', flexShrink: 0, alignItems: 'flex-start' }}>
               <Button variant="secondary" size="sm"><Edit3 size={13} /> Modifier</Button>
               <Button variant="ghost" size="sm"><Settings size={14} /></Button>
+              <Button variant="ghost" size="sm"><Share2 size={14} /></Button>
             </div>
           </div>
 
@@ -277,80 +326,117 @@ export const Profile: React.FC = () => {
 
         {/* ─ Overview ── */}
         {activeTab === 'overview' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-5)' }}>
-            {/* Info card */}
-            <div style={{
-              background: 'var(--surface)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-              boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-4)' }}>
-                <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
-                  Informations
-                </h3>
-                <Button size="sm" variant="ghost"><Edit3 size={13} /> Modifier</Button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-                {[
-                  { icon: <UserRound size={15} />,  label: displayUser.name },
-                  { icon: <Mail size={15} />,        label: displayUser.email },
-                  { icon: <ShieldCheck size={15} />, label: `ID ${user?.id ?? '1'}` },
-                  { icon: <TrendingUp size={15} />,  label: 'Top 5% apprenants IA' },
-                  { icon: <Trophy size={15} />,      label: '2 450 points XP' },
-                ].map(({ icon, label }) => (
-                  <div key={label} style={{
-                    display: 'flex', alignItems: 'center', gap: 'var(--s-3)',
-                    padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-lg)',
-                    background: 'var(--surface-muted)',
-                  }}>
-                    <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0 }}>{icon}</span>
-                    <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text)' }}>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Roles & Badges card */}
-            <div style={{
-              background: 'var(--surface)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-              boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
-            }}>
-              <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-4)' }}>
-                Rôles &amp; Badges
-              </h3>
-              <div style={{ marginBottom: 'var(--s-4)' }}>
-                <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 var(--s-2)' }}>
-                  Rôles
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
-                  {displayUser.roles.map((role: string) => (
-                    <Badge key={role} variant="neutral">{role}</Badge>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
+            {/* Top row: info + badges */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-5)' }}>
+              {/* Info card */}
+              <div style={{
+                background: 'var(--surface)', border: '1px solid var(--border)',
+                borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
+                boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-4)' }}>
+                  <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+                    Informations
+                  </h3>
+                  <Button size="sm" variant="ghost"><Edit3 size={13} /> Modifier</Button>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+                  {[
+                    { icon: <UserRound size={15} />,  label: displayUser.name },
+                    { icon: <Mail size={15} />,        label: displayUser.email },
+                    { icon: <ShieldCheck size={15} />, label: `ID ${user?.id ?? '1'}` },
+                    { icon: <TrendingUp size={15} />,  label: 'Top 5% apprenants IA' },
+                    { icon: <Trophy size={15} />,      label: '2 450 points XP' },
+                  ].map(({ icon, label }) => (
+                    <div key={label} style={{
+                      display: 'flex', alignItems: 'center', gap: 'var(--s-3)',
+                      padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-lg)',
+                      background: 'var(--surface-muted)',
+                    }}>
+                      <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0 }}>{icon}</span>
+                      <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text)' }}>{label}</span>
+                    </div>
                   ))}
                 </div>
               </div>
-              <div style={{ marginBottom: 'var(--s-4)' }}>
-                <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 var(--s-2)' }}>
-                  Badges récents
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
-                  <Badge variant="success"><Award size={12} /> Expert GPT</Badge>
-                  <Badge variant="warm"><Star size={12} /> Pionnier IA</Badge>
-                  <Badge variant="info"><CheckCircle2 size={12} /> Streak Master</Badge>
+
+              {/* Roles & Badges card */}
+              <div style={{
+                background: 'var(--surface)', border: '1px solid var(--border)',
+                borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
+                boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
+              }}>
+                <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-4)' }}>
+                  Rôles &amp; Badges
+                </h3>
+                <div style={{ marginBottom: 'var(--s-4)' }}>
+                  <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 var(--s-2)' }}>
+                    Rôles
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
+                    {displayUser.roles.map((role: string) => (
+                      <Badge key={role} variant="neutral">{role}</Badge>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ marginBottom: 'var(--s-4)' }}>
+                  <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', margin: '0 0 var(--s-2)' }}>
+                    Badges récents
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
+                    <Badge variant="success"><Award size={12} /> Expert GPT</Badge>
+                    <Badge variant="warm"><Star size={12} /> Pionnier IA</Badge>
+                    <Badge variant="info"><CheckCircle2 size={12} /> Streak Master</Badge>
+                  </div>
+                </div>
+                {/* Focus recommandé */}
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, rgba(255,255,255,0.7) 100%)',
+                  border: '1px solid rgba(85,161,180,0.18)',
+                  borderRadius: 'var(--r-xl)', padding: 'var(--s-4)',
+                }}>
+                  <p style={{ margin: '0 0 var(--s-1)', fontWeight: 700, fontSize: 'var(--t-caption)', color: 'var(--text)' }}>
+                    🎯 Focus recommandé
+                  </p>
+                  <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                    Priorité aux modules IA Générative et Prompt Engineering pour atteindre le palier Expert.
+                  </p>
                 </div>
               </div>
-              {/* Focus recommandé */}
-              <div style={{
-                background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, rgba(255,255,255,0.7) 100%)',
-                border: '1px solid rgba(85,161,180,0.18)',
-                borderRadius: 'var(--r-xl)', padding: 'var(--s-4)',
-              }}>
-                <p style={{ margin: '0 0 var(--s-1)', fontWeight: 700, fontSize: 'var(--t-caption)', color: 'var(--text)' }}>
-                  🎯 Focus recommandé
-                </p>
-                <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  Priorité aux modules IA Générative et Prompt Engineering pour atteindre le palier Expert.
-                </p>
+            </div>
+
+            {/* Week progression card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(85,161,180,0.08) 0%, rgba(248,176,68,0.05) 100%)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
+              boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
+            }}>
+              <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-5)' }}>
+                Progression cette semaine
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s-4)' }}>
+                {[
+                  { icon: <Target size={24} />, value: '3/5', label: 'Objectifs atteints', iconColor: 'var(--tls-primary-600)', bg: 'var(--surface)' },
+                  { icon: <Clock3 size={24} />,  value: '12h', label: "Temps d'étude",      iconColor: 'var(--tls-orange-600)',  bg: 'var(--surface)' },
+                  { icon: <Zap size={24} />,      value: '+450', label: 'Points XP gagnés',  iconColor: 'var(--tls-yellow-600)',  bg: 'var(--surface)' },
+                ].map(({ icon, value, label, iconColor, bg }) => (
+                  <div key={label} style={{
+                    background: bg, border: '1px solid var(--border)',
+                    borderRadius: 'var(--r-xl)', padding: 'var(--s-5)',
+                    textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s-2)',
+                    boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.95)',
+                  }}>
+                    <div style={{ color: iconColor }}>{icon}</div>
+                    <span style={{ fontSize: 'var(--t-h3)', fontWeight: 800, color: iconColor, lineHeight: 1, letterSpacing: '-0.02em' }}>
+                      {value}
+                    </span>
+                    <span style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', fontWeight: 500 }}>
+                      {label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -440,6 +526,25 @@ export const Profile: React.FC = () => {
         {/* ─ Skills ── */}
         {activeTab === 'skills' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+            {/* Competency Matrix — visual overview of skill levels */}
+            <div style={{
+              background: 'var(--surface)', border: '1px solid var(--border)',
+              borderRadius: 'var(--r-xl)', padding: 'var(--s-5)',
+              boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.9)',
+            }}>
+              <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-1)' }}>
+                Matrice de compétences
+              </h3>
+              <p style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', margin: 0 }}>
+                Survol d'une compétence pour plus de détails
+              </p>
+              <CompetencyMatrix
+                skills={skillsForMatrix}
+                onSkillHover={(skill) => skill && console.log(skill.name)}
+              />
+            </div>
+
+            {/* Existing progress bars */}
             {SKILLS.map((skill) => (
               <div key={skill.id} style={{
                 background: 'var(--surface)', border: '1px solid var(--border)',

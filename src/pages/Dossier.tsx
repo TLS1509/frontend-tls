@@ -231,8 +231,8 @@ export const Dossier: React.FC = () => {
                 width: "56px",
                 height: "56px",
                 borderRadius: "var(--r-2xl)",
-                background: "rgba(237,132,58,0.12)",
-                border: "1px solid rgba(237,132,58,0.25)",
+                background: "var(--tls-orange-100)",
+                border: "1px solid var(--tls-orange-300)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -248,8 +248,8 @@ export const Dossier: React.FC = () => {
                 alignItems: "center",
                 padding: "var(--chip-padding-sm)",
                 borderRadius: "var(--r-full)",
-                background: "rgba(237,132,58,0.1)",
-                border: "1px solid rgba(237,132,58,0.25)",
+                background: "var(--tls-orange-50)",
+                border: "1px solid var(--tls-orange-300)",
                 color: "var(--tls-orange-600)",
                 fontSize: "var(--t-micro)",
                 fontWeight: 800,
@@ -313,7 +313,7 @@ export const Dossier: React.FC = () => {
         <div
           style={{
             background: "linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)",
-            border: "1.5px solid rgba(237,132,58,0.3)",
+            border: "1.5px solid var(--tls-orange-300)",
             borderLeft: "4px solid var(--tls-orange-500)",
             borderRadius: "var(--r-xl)",
             padding: "var(--s-5) var(--s-6)",
@@ -559,8 +559,8 @@ export const Dossier: React.FC = () => {
                 <div
                   key={i}
                   style={{
-                    background: "rgba(237,132,58,0.05)",
-                    border: "1px solid rgba(237,132,58,0.15)",
+                    background: "var(--tls-orange-50)",
+                    border: "1px solid var(--tls-orange-200)",
                     borderRadius: "var(--r-xl)",
                     padding: "var(--s-5)",
                   }}
@@ -578,7 +578,7 @@ export const Dossier: React.FC = () => {
                         width: "36px",
                         height: "36px",
                         borderRadius: "var(--r-lg)",
-                        background: "rgba(237,132,58,0.15)",
+                        background: "var(--tls-orange-200)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -820,7 +820,7 @@ export const Dossier: React.FC = () => {
         <div
           style={{
             background: "linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)",
-            border: "1.5px solid rgba(237,132,58,0.25)",
+            border: "1.5px solid var(--tls-orange-300)",
             borderRadius: "var(--r-2xl)",
             padding: "var(--s-8)",
           }}
@@ -835,7 +835,7 @@ export const Dossier: React.FC = () => {
               alignItems: "center",
               justifyContent: "center",
               margin: "0 auto var(--s-4)",
-              boxShadow: "0 4px 16px rgba(237,132,58,0.3)",
+              boxShadow: "0 4px 16px var(--tls-orange-300)",
             }}
           >
             <Download size={24} color="#fff" />

@@ -11,7 +11,7 @@
  * Uses TLS design tokens throughout. No hardcoded values.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { ProgressBar } from '../components/ui/ProgressBar';
@@ -57,7 +57,18 @@ interface PromptItem {
   icon: React.ReactNode;
   text: string;
   path: string;
+  cardBg?: string;
+  cardBorder?: string;
 }
+
+const DAILY_QUOTES = [
+  "L'apprentissage est un voyage, pas une destination.",
+  "Ce n'est pas l'intelligence qui garantit le succès, c'est la curiosité.",
+  "Chaque jour, une nouvelle compétence transforme votre potentiel.",
+  "Apprendre, c'est s'offrir la liberté de devenir.",
+  "La croissance commence là où la zone de confort s'arrête.",
+  "Un petit progrès chaque jour mène à de grands changements.",
+];
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -72,6 +83,12 @@ export const Dashboard: React.FC = () => {
     month: 'long',
     day: 'numeric',
   });
+
+  // Rotate daily quote based on day of year
+  const dailyQuote = useMemo(() => {
+    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+    return DAILY_QUOTES[dayOfYear % DAILY_QUOTES.length];
+  }, []);
   const activities: Activity[] = [
     { id: '1', title: 'Leçon terminée', description: 'Vous avez terminé "Introduction au Machine Learning".', timestamp: 'Il y a 2 heures' },
     { id: '2', title: 'Nouveau badge débloqué', description: "Vous avez obtenu le badge 'Pionnier de l'IA'.", timestamp: 'Hier' },
@@ -90,7 +107,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'paths',
       icon: <Map size={28} strokeWidth={1.8} color="var(--tls-orange-600)" />,
-      iconBg: 'rgba(237, 132, 58, 0.1)',
+      iconBg: 'var(--tls-orange-50)',
       title: 'Parcours',
       description: 'Explorer les cours',
       path: '/learning-paths',
@@ -98,7 +115,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'journal',
       icon: <PenLine size={28} strokeWidth={1.8} color="var(--tls-yellow-600)" />,
-      iconBg: 'rgba(234, 192, 74, 0.12)',
+      iconBg: 'var(--tls-yellow-50)',
       title: 'Journal',
       description: 'Noter mes réflexions',
       path: '/journal',
@@ -106,7 +123,7 @@ export const Dashboard: React.FC = () => {
     {
       id: 'veille',
       icon: <Sparkles size={28} strokeWidth={1.8} color="var(--tls-primary-500)" />,
-      iconBg: 'rgba(85, 161, 180, 0.1)',
+      iconBg: 'var(--tls-primary-50)',
       title: 'Veille',
       description: 'Découvrir du contenu',
       path: '/veille',
@@ -120,6 +137,8 @@ export const Dashboard: React.FC = () => {
       icon: <BookOpen size={34} strokeWidth={1.8} color="var(--tls-primary-600)" />,
       text: "Quelle a été ma plus grande découverte aujourd'hui ?",
       path: '/journal/new',
+      cardBg: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-100))',
+      cardBorder: 'var(--tls-primary-200)',
     },
     {
       id: 'block',
@@ -128,6 +147,8 @@ export const Dashboard: React.FC = () => {
       icon: <TrendingUp size={34} strokeWidth={1.8} color="var(--tls-orange-600)" />,
       text: "Qu'est-ce qui m'a ralenti et comment puis-je le surmonter ?",
       path: '/journal/new',
+      cardBg: 'linear-gradient(135deg, var(--tls-orange-50), var(--tls-orange-100))',
+      cardBorder: 'var(--tls-orange-200)',
     },
     {
       id: 'gratitude',
@@ -136,6 +157,8 @@ export const Dashboard: React.FC = () => {
       icon: <Heart size={34} strokeWidth={1.8} color="var(--tls-yellow-600)" />,
       text: 'Pour quoi suis-je reconnaissant dans mon parcours ?',
       path: '/journal/new',
+      cardBg: 'linear-gradient(135deg, var(--tls-yellow-50), var(--tls-yellow-100))',
+      cardBorder: 'var(--tls-yellow-200)',
     },
   ];
 
@@ -149,9 +172,10 @@ export const Dashboard: React.FC = () => {
     <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
       {/* Hero Section with Greeting & Stats */}
       <section style={{ background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', color: 'var(--text-inverse)', padding: 'var(--s-12)', position: 'relative', overflow: 'hidden' }}>
-        {/* Decorative blur blobs */}
-        <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.05)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255, 255, 255, 0.08)', filter: 'blur(50px)', pointerEvents: 'none' }} />
+        {/* Decorative blur blobs with breathe animation */}
+        <div style={{ position: 'absolute', top: '-40%', right: '-20%', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255,255,255,0.07)', filter: 'blur(60px)', pointerEvents: 'none', animation: 'dbBreathe 6s ease-in-out infinite' }} />
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.09)', filter: 'blur(50px)', pointerEvents: 'none', animation: 'dbBreathe 8s ease-in-out infinite 2s' }} />
+        <div style={{ position: 'absolute', top: '20%', left: '50%', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', filter: 'blur(40px)', pointerEvents: 'none', animation: 'dbBreathe 10s ease-in-out infinite 1s' }} />
 
         <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', alignItems: 'flex-start', width: '100%', padding: '0 var(--page-padding-desktop)' }}>
           {/* Greeting */}
@@ -162,8 +186,8 @@ export const Dashboard: React.FC = () => {
             <h1 style={{ fontSize: 'var(--t-h1)', fontFamily: 'var(--font-display)', fontWeight: 700, margin: 'var(--s-2) 0 var(--s-3)' }}>
               Hello {user?.name ?? 'membre'} 👋
             </h1>
-            <p style={{ margin: 0, fontSize: 'var(--t-body-lg)', opacity: 0.92, maxWidth: 500 }}>
-              "L'apprentissage est un voyage, pas une destination."
+            <p style={{ margin: 0, fontSize: 'var(--t-body-lg)', opacity: 0.92, maxWidth: 500, fontStyle: 'italic', letterSpacing: '-0.01em' }}>
+              "{dailyQuote}"
             </p>
           </div>
 
@@ -332,6 +356,10 @@ export const Dashboard: React.FC = () => {
                     navigate(prompt.path);
                   }
                 }}
+                cardStyle={prompt.cardBg ? {
+                  background: prompt.cardBg,
+                  border: `1px solid ${prompt.cardBorder}`,
+                } : undefined}
               />
             ))}
           </CardGrid>
@@ -355,6 +383,13 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes dbBreathe {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.08); }
+        }
+      `}</style>
     </div>
   );
 };

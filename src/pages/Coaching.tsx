@@ -9,6 +9,8 @@
  */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BookingModal, CancelSessionModal, SessionFeedbackModal } from '../components/modals';
 import { Card } from '../components/core/Card';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { HeroSection } from '../components/patterns/HeroSection';
@@ -87,8 +89,13 @@ const sessions: CoachingSession[] = [
 ];
 
 export const Coaching: React.FC = () => {
+  const navigate = useNavigate();
+  const [showBooking, setShowBooking] = useState(false);
+  const [showCancel, setShowCancel] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   return (
+    <>
     <div style={{ minHeight: '100vh', background: 'var(--tls-primary-50)', display: 'flex', flexDirection: 'column' }}>
       {/* Hero Section */}
       <HeroSection
@@ -162,7 +169,7 @@ export const Coaching: React.FC = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0,
-                      boxShadow: '0 2px 8px rgba(85,161,180,0.3)',
+                      boxShadow: 'var(--shadow-brand)',
                     }}
                   >
                     <span style={{ fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text-inverse)' }}>
@@ -258,6 +265,16 @@ export const Coaching: React.FC = () => {
                     {"Complétez le questionnaire pré-session pour maximiser la valeur du rendez-vous."}
                   </p>
                 </div>
+
+                {/* Book CTA */}
+                <Button
+                  variant="primary"
+                  leadingIcon={<Calendar size={15} />}
+                  onClick={() => setShowBooking(true)}
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  Réserver une session
+                </Button>
               </div>
             </Card>
           </div>
@@ -294,7 +311,8 @@ export const Coaching: React.FC = () => {
                 <Button leadingIcon={<Video size={15} />} aria-label="Rejoindre la session de coaching">
                   Rejoindre la session
                 </Button>
-                <Button variant="secondary">Reprogrammer</Button>
+                <Button variant="secondary" onClick={() => setShowCancel(true)}>Annuler / Reprogrammer</Button>
+                <Button variant="ghost" onClick={() => setShowFeedback(true)}>Donner un avis</Button>
               </div>
             </div>
           </Card>
@@ -324,6 +342,16 @@ export const Coaching: React.FC = () => {
                 questionnaire={session.questionnaire}
                 report={session.report}
                 journal={session.journal}
+                onViewQuestionnaire={
+                  session.questionnaire
+                    ? () => navigate('/coaching/pre-questionnaire')
+                    : undefined
+                }
+                onViewReport={
+                  session.report
+                    ? () => navigate(`/coaching/compte-rendu/${session.id}`)
+                    : undefined
+                }
                 onOpen={() => {}}
               />
             ))}
@@ -331,5 +359,44 @@ export const Coaching: React.FC = () => {
         </div>
       </div>
     </div>
+
+    <BookingModal
+      isOpen={showBooking}
+      onClose={() => setShowBooking(false)}
+      onBookingConfirmed={({ date, time }) => {
+        console.log('📅 Session réservée:', date, time);
+        setShowBooking(false);
+      }}
+      coachName={coach.name}
+      coachInitials={coach.name.split(' ').map((n: string) => n[0]).join('')}
+    />
+
+    <CancelSessionModal
+      isOpen={showCancel}
+      onClose={() => setShowCancel(false)}
+      onCancel={(reason) => {
+        console.log('❌ Session annulée — motif:', reason);
+        setShowCancel(false);
+      }}
+      onReschedule={() => {
+        setShowCancel(false);
+        setShowBooking(true);
+      }}
+      sessionTitle={upcoming.title}
+      sessionDate={`${upcoming.dateLabel} — ${upcoming.hourLabel}`}
+    />
+
+    <SessionFeedbackModal
+      isOpen={showFeedback}
+      onClose={() => setShowFeedback(false)}
+      onSubmit={(rating, comment) => {
+        console.log('⭐ Avis:', rating, comment);
+        setShowFeedback(false);
+      }}
+      title="Votre avis sur la session"
+      subtitle="Comment évaluez-vous cette session de coaching ?"
+    />
+
+    </>
   );
 };

@@ -101,7 +101,7 @@ export const WeeklyNewsletter: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: 'var(--bg)',
         fontFamily: 'var(--font-body)',
       }}
     >
@@ -178,7 +178,7 @@ export const WeeklyNewsletter: React.FC = () => {
         <div
           style={{
             background: 'var(--tls-primary-50)',
-            border: '1px solid rgba(85,161,180,0.2)',
+            border: '1px solid var(--tls-primary-200)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-7)',
             marginBottom: 'var(--s-8)',
@@ -274,7 +274,7 @@ export const WeeklyNewsletter: React.FC = () => {
             {/* Left: video thumbnail */}
             <div
               style={{
-                background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                background: 'linear-gradient(135deg, var(--tls-ink-950) 0%, var(--tls-ink-900) 50%, var(--tls-ink-800) 100%)',
                 minHeight: '200px',
                 display: 'flex',
                 alignItems: 'center',
@@ -297,7 +297,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   backdropFilter: 'blur(8px)',
                 }}
               >
-                <Play size={20} fill="#fff" color="#fff" style={{ marginLeft: '3px' }} />
+                <Play size={20} fill="var(--text-inverse)" color="var(--text-inverse)" style={{ marginLeft: '3px' }} />
               </div>
               <div
                 style={{
@@ -319,7 +319,7 @@ export const WeeklyNewsletter: React.FC = () => {
             {/* Right: info */}
             <div
               style={{
-                background: '#fff',
+                background: 'var(--surface)',
                 padding: 'var(--s-6)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -332,7 +332,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     display: 'inline-block',
                     padding: 'var(--s-1) var(--s-3)',
                     borderRadius: 'var(--r-full)',
-                    background: 'rgba(237,132,58,0.1)',
+                    background: 'var(--tls-orange-50)',
                     color: 'var(--tls-orange-600)',
                     fontSize: 'var(--t-caption)',
                     fontWeight: 700,
@@ -386,7 +386,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-primary-600)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-primary-500)')}
               >
-                <Play size={14} fill="#fff" />
+                <Play size={14} fill="var(--text-inverse)" />
                 Regarder maintenant
               </button>
             </div>
@@ -460,7 +460,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: 'var(--s-4)', background: '#fff' }}>
+                <div style={{ padding: 'var(--s-4)', background: 'var(--surface)' }}>
                   <p
                     style={{
                       fontSize: 'var(--t-sm)',
@@ -510,8 +510,8 @@ export const WeeklyNewsletter: React.FC = () => {
                 <div
                   key={article.id}
                   style={{
-                    background: '#fff',
-                    border: '1px solid rgba(0,0,0,0.07)',
+                    background: 'var(--surface)',
+                    border: '1px solid var(--border)',
                     borderRadius: 'var(--r-xl)',
                     padding: 'var(--s-4) var(--s-5)',
                     display: 'flex',
@@ -634,7 +634,7 @@ export const WeeklyNewsletter: React.FC = () => {
               margin: '0 auto var(--s-4)',
             }}
           >
-            <Mail size={24} color="#fff" />
+            <Mail size={24} color="var(--text-inverse)" />
           </div>
           <h3
             style={{
