@@ -251,14 +251,22 @@ export const Notifications: React.FC = () => {
       </section>
 
       {/* ── KPI row ───────────────────────────────────────────────── */}
-      <section className="tls-kpi-row">
+      <section className="tls-kpi-row" style={{ marginBottom: 'var(--s-10)' }}>
         {[
           { icon: <Bell size={20} />, value: items.length,                          label: 'Total',     color: 'var(--tls-primary-700)',  iconBg: 'var(--tls-primary-50)',         iconColor: 'var(--tls-primary-600)' },
           { icon: <MessageSquare size={20} />, value: unread,                       label: 'Non lues',  color: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)', iconBg: unread > 0 ? 'rgba(237,132,58,0.1)' : 'var(--surface-muted)', iconColor: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)' },
           { icon: <CheckCheck size={20} />, value: items.filter((n) => n.isRead).length, label: 'Traitées', color: 'var(--tls-success-fg)',  iconBg: 'rgba(74,140,110,0.1)',         iconColor: 'var(--tls-success-fg)' },
           { icon: <BellOff size={20} />, value: 0,                                  label: 'Archivées', color: 'var(--tls-yellow-700)',    iconBg: 'rgba(234,192,74,0.15)',        iconColor: 'var(--tls-yellow-700)' },
         ].map(({ icon, value, label, color, iconBg, iconColor }) => (
-          <div key={label} className="tls-kpi">
+          <div key={label} className="tls-kpi" style={{
+            transition: 'all var(--dur-2)',
+            cursor: 'default',
+            boxShadow: 'var(--shadow-sm)',
+            padding: 'var(--s-4)',
+            borderRadius: 'var(--r-lg)',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)'
+          }}>
             <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>{icon}</div>
             <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color, letterSpacing: '-0.03em' }}>{value}</h2>
             <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{label}</span>
@@ -267,7 +275,15 @@ export const Notifications: React.FC = () => {
       </section>
 
       {/* ── Toolbar ───────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--s-4)',
+        flexWrap: 'wrap',
+        marginBottom: 'var(--s-8)',
+        paddingBottom: 'var(--s-4)',
+        borderBottom: '1px solid var(--border)'
+      }}>
         <Button size="sm" variant="secondary" onClick={markAllRead}>
           <CheckCheck size={14} /> Tout marquer comme lu
         </Button>
@@ -288,15 +304,21 @@ export const Notifications: React.FC = () => {
       </div>
 
       {/* ── Notification cards ────────────────────────────────────── */}
-      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
         {visible.length === 0 ? (
           <div style={{
-            textAlign: 'center', padding: 'var(--s-12)',
-            background: 'var(--surface)', border: '1px solid var(--border)',
+            textAlign: 'center',
+            padding: 'var(--s-12) var(--s-6)',
+            background: 'linear-gradient(135deg, var(--tls-primary-50), var(--surface))',
+            border: '1.5px solid var(--tls-primary-200)',
             borderRadius: 'var(--r-2xl)',
+            boxShadow: 'var(--shadow-sm)'
           }}>
-            <Bell size={32} style={{ color: 'var(--text-muted)', opacity: 0.3, marginBottom: 'var(--s-3)' }} />
-            <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: 'var(--t-body-sm)' }}>
+            <Bell size={48} style={{ color: 'var(--tls-primary-200)', opacity: 0.5, marginBottom: 'var(--s-4)' }} />
+            <p style={{ color: 'var(--text)', margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, marginBottom: 'var(--s-1)' }}>
+              Toutes les notifications traitées
+            </p>
+            <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: 'var(--t-caption)' }}>
               Aucune notification dans cette catégorie
             </p>
           </div>
@@ -308,14 +330,15 @@ export const Notifications: React.FC = () => {
               <div
                 key={item.id}
                 style={{
-                  background: 'var(--surface)',
-                  border: '1px solid var(--border)',
+                  background: item.isRead ? 'var(--surface)' : 'linear-gradient(135deg, rgba(85,161,180,0.02), rgba(85,161,180,0.01))',
+                  border: `1px solid ${item.isRead ? 'var(--border)' : 'var(--tls-primary-200)'}`,
                   borderLeft: `4px solid ${item.isRead ? 'var(--border)' : s.accent}`,
                   borderRadius: 'var(--r-xl)',
                   padding: 'var(--s-5)',
-                  boxShadow: item.isRead ? 'none' : 'var(--shadow-xs)',
-                  opacity: item.isRead ? 0.8 : 1,
+                  boxShadow: item.isRead ? 'var(--shadow-xs)' : 'var(--shadow-sm)',
+                  opacity: item.isRead ? 0.85 : 1,
                   transition: 'all var(--dur-2)',
+                  cursor: 'default'
                 }}
               >
                 <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'flex-start' }}>
