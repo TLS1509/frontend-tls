@@ -1,6 +1,9 @@
 /* Import design tokens from The Learning Society Design System */
 @import './design-tokens.css';
 
+/* Import modern design system tokens (glassmorphism, micro-interactions) */
+@import './design-system-modern-tokens.css';
+
 /* Import dark mode token overrides */
 @import './dark-mode-tokens.css';
 
@@ -10,8 +13,20 @@
 /* Import text and interaction utilities */
 @import './utilities.css';
 
+/* Import extended utility classes (200+ utility classes for Phase 5 Polish) */
+@import './utilities-extended.css';
+
 /* Import all component styles */
 @import './tls-components.css';
+
+/* Import modern components with glassmorphism */
+@import './components-modern.css';
+
+/* Import modern page layouts with cohesive styling */
+@import './page-layouts-modern.css';
+
+/* Import learning-specific modern components */
+@import './learning-components-modern.css';
 
 /* Import animations and micro-interactions polish */
 @import './animations-polish.css';

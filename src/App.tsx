@@ -15,6 +15,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
+import { useTheme } from './hooks/useTheme';
 import { Sidebar, SidebarGroup, NavItem } from './components/layout/Sidebar';
 import {
   LayoutDashboard,
@@ -31,6 +32,8 @@ import {
   PanelLeftOpen,
   Building2,
   Bell,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import {
   Dashboard,
@@ -75,6 +78,12 @@ import {
   Help,
   Enterprise,
   CourseDetail,
+  LessonPlayer,
+  AstucesViewer,
+  ComplementaryContentViewer,
+  FlashcardsViewer,
+  VideoViewer,
+  CoachingCompteRendu,
 } from './pages';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
@@ -87,6 +96,7 @@ import './styles/design-tokens.css';
  */
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
+  const { theme, toggle: toggleTheme } = useTheme();
   const location = useLocation();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
 
@@ -110,15 +120,27 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--tls-primary-600)' }}>TLS</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>The Learning Society</span>
               </div>
-              <button
-                type="button"
-                className="app-shell__sidebar-toggle"
-                onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-                title={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
-                aria-label={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
-              >
-                {isSidebarCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
-              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+                <button
+                  type="button"
+                  className="app-shell__sidebar-toggle"
+                  onClick={toggleTheme}
+                  title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                  aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+                  style={{ color: theme === 'dark' ? 'var(--tls-yellow-500)' : 'var(--tls-primary-500)' }}
+                >
+                  {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                </button>
+                <button
+                  type="button"
+                  className="app-shell__sidebar-toggle"
+                  onClick={() => setIsSidebarCollapsed((prev) => !prev)}
+                  title={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
+                  aria-label={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
+                >
+                  {isSidebarCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+                </button>
+              </div>
             </div>
           }
           user={
@@ -184,12 +206,12 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               active={isActive('/coaching')}
             />
             <NavItem
-              href="/components"
+              href="/leaderboard"
               icon={<Trophy size={18} />}
               label="Réussites"
               count="2"
               title="Réussites"
-              active={isActive('/components')}
+              active={isActive('/leaderboard')}
             />
           </SidebarGroup>
 
@@ -270,7 +292,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         {/* Footer */}
         <footer className="app-shell__footer">
-          © 2024 The Learning Society. All rights reserved.
+          © {new Date().getFullYear()} The Learning Society. All rights reserved.
         </footer>
       </div>
 
@@ -295,7 +317,7 @@ function App() {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'var(--bg)',
         }}
       >
         <div style={{ textAlign: 'center' }}>
@@ -304,8 +326,8 @@ function App() {
             style={{
               width: '40px',
               height: '40px',
-              border: '3px solid #e0e0e0',
-              borderTop: '3px solid #55A1B4',
+              border: '3px solid var(--border)',
+              borderTop: '3px solid var(--tls-primary-500)',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite',
             }}
@@ -367,6 +389,7 @@ function App() {
                   <Route path="/coaching/booking" element={<CoachingBookingFlow />} />
                   <Route path="/coaching/pre-questionnaire" element={<PreCoachingQuestionnaire />} />
                   <Route path="/coaching/pre-questionnaire/response" element={<PreCoachingQuestionnaireResponse />} />
+                  <Route path="/coaching/compte-rendu/:id" element={<CoachingCompteRendu />} />
                   <Route path="/account" element={<Account />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
@@ -377,6 +400,11 @@ function App() {
                   <Route path="/help" element={<Help />} />
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/course/:id" element={<CourseDetail />} />
+                  <Route path="/learning-paths/:pathId/lessons/:lessonId" element={<LessonPlayer />} />
+                  <Route path="/lesson/:id/astuces" element={<AstucesViewer />} />
+                  <Route path="/lesson/:id/complementary" element={<ComplementaryContentViewer />} />
+                  <Route path="/lesson/:id/flashcards" element={<FlashcardsViewer />} />
+                  <Route path="/veille/video/:id" element={<VideoViewer />} />
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               </AppLayout>

@@ -19,6 +19,16 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/static-pages.css';
 import {
+  PositionnementModal,
+  BookingModal,
+  ConfirmModal,
+  SuccessModal,
+  StreakCelebrationModal,
+  SessionFeedbackModal,
+  CancelSessionModal,
+  VideoPlayerModal,
+} from '../components/modals';
+import {
   // Core
   Button,
   Card,
@@ -38,23 +48,36 @@ import {
   EmptyState,
   Skeleton,
   Search,
+  Toast,
   // Learning
   StatCard,
   ProgressBar,
+  ProgressRing,
+  Medal,
+  CompetenceBadge,
+  MasteryBadge,
+  Achievement,
+  TrendingBadge,
+  GlassCard,
+  FilterChip,
   // Navigation
   Sidebar,
   SidebarGroup,
   NavItem,
+  Tabs,
+  Stepper,
   // Content & Display
   ActivityItem,
   SectionTitle,
 } from '../components';
+import { ToastContainer } from '../components';
+import { useToast } from '../hooks/useToast';
 
 /* ============================================================================
  * TYPES
  * ============================================================================ */
 
-type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content';
+type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals';
 
 interface ComponentEntry {
   name: string;              // React name: Button
@@ -819,6 +842,443 @@ const COMPONENTS: ComponentEntry[] = [
         </Sidebar>
       </div>
     ),
+  },
+
+  /* ---- MODALS ---------------------------------------------------------------- */
+  {
+    name: 'PositionnementModal',
+    codeName: 'modals/PositionnementModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Auto-évaluation des compétences apprenant avant de démarrer un parcours. 5 niveaux, barre de progression, écran de succès.',
+    keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
+          <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
+          </p>
+          <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'BookingModal',
+    codeName: 'modals/BookingModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Réservation de session coaching en 2 étapes : sélection date/heure via calendrier + confirmation.',
+    keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
+          <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
+          </p>
+          <BookingModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            onBookingConfirmed={({ date, time }) => { alert(`Session réservée le ${date} à ${time}`); setOpen(false); }}
+            coachName="Sophie Martin"
+            coachInitials="SM"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'ConfirmModal',
+    codeName: 'modals/ConfirmModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Dialog de confirmation générique. 4 variantes: info, success, warning, danger.',
+    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info'],
+    render: () => {
+      const [variant, setVariant] = useState<'info' | 'success' | 'warning' | 'danger'>('info');
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+            {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
+              <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
+                {v}
+              </Button>
+            ))}
+          </div>
+          <ConfirmModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            onConfirm={() => console.log('Confirmed')}
+            title={variant === 'danger' ? 'Supprimer la session ?' : variant === 'warning' ? 'Attention' : variant === 'success' ? 'Confirmer' : 'Information'}
+            message="Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?"
+            variant={variant}
+            confirmText="Oui, continuer"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'SuccessModal',
+    codeName: 'modals/SuccessModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Célébration de réussite générique. Icône check animée avec ring pulsé.',
+    keywords: ['modal', 'success', 'celebration', 'achievement', 'check', 'completion'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
+          <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'StreakCelebrationModal',
+    codeName: 'modals/StreakCelebrationModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Célébration de série quotidienne. Particules feu, streak count, stats semaines/XP.',
+    keywords: ['modal', 'streak', 'flame', 'celebration', 'consecutive', 'days', 'gamification'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
+          <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'SessionFeedbackModal',
+    codeName: 'modals/SessionFeedbackModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
+    keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
+          <SessionFeedbackModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            onSubmit={(rating, comment) => { console.log('Feedback:', rating, comment); }}
+          />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'CancelSessionModal',
+    codeName: 'modals/CancelSessionModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Annulation ou reprogrammation d\'une session coaching avec sélection du motif.',
+    keywords: ['modal', 'cancel', 'session', 'coaching', 'reschedule', 'reason'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      const [showBooking, setShowBooking] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+          <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
+          <CancelSessionModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            onCancel={(reason) => { console.log('Annulé, motif:', reason); setOpen(false); }}
+            onReschedule={() => { setOpen(false); setShowBooking(true); }}
+            sessionTitle="Session de coaching IA"
+            sessionDate="Mardi 30 avril 2026 — 14h00"
+          />
+          <BookingModal
+            isOpen={showBooking}
+            onClose={() => setShowBooking(false)}
+            onBookingConfirmed={({ date, time }) => { console.log('Réservé:', date, time); setShowBooking(false); }}
+            coachName="Sophie Martin"
+            coachInitials="SM"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'VideoPlayerModal',
+    codeName: 'modals/VideoPlayerModal.tsx',
+    cssBase: '—',
+    category: 'Modals',
+    description: 'Lecteur vidéo plein écran pour tutoriels, leçons vidéo et contenu Veille.',
+    keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
+          <VideoPlayerModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            title="Introduction au Prompt Engineering"
+            duration="12:34"
+            instructor="Sophie Martin"
+            description="Découvrez les fondamentaux du prompt engineering."
+          />
+        </div>
+      );
+    },
+  },
+
+  /* ---- LEARNING SYSTEM COMPONENTS ----------------------------------------- */
+  {
+    name: 'GlassCard',
+    codeName: 'GlassCard.tsx',
+    cssBase: '.tls-glass-card',
+    category: 'Patterns',
+    description: 'Carte glassmorphism avec backdrop-filter blur. Deux variantes : light (défaut) et brand (teinte primaire). Utilisée dans les heroes et sections éditorialles.',
+    keywords: ['glass', 'card', 'blur', 'frosted', 'hero', 'backdrop'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap', background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', padding: 'var(--s-6)', borderRadius: 'var(--r-xl)' }}>
+        <div style={{ flex: 1, minWidth: 140 }}>
+          <GlassCard variant="light" className="tls-glass-card-showcase-light">
+            <div style={{ padding: 'var(--s-5)' }}>
+              <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600 }}>Light Glass</p>
+              <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond clair + blur</p>
+            </div>
+          </GlassCard>
+        </div>
+        <div style={{ flex: 1, minWidth: 140 }}>
+          <GlassCard variant="brand">
+            <div style={{ padding: 'var(--s-5)' }}>
+              <p style={{ margin: 0, color: 'white', fontWeight: 600 }}>Brand Glass</p>
+              <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'rgba(255,255,255,0.8)' }}>Teinte primaire</p>
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Toast + useToast',
+    codeName: 'Toast.tsx / useToast.ts',
+    cssBase: '.toast / .toast__icon--*',
+    category: 'Patterns',
+    description: 'Notification toast avec hook useToast(). 4 variantes: success / info / warning / danger. Auto-dismiss configurable, dismissible, slot action.',
+    keywords: ['toast', 'notification', 'alert', 'feedback', 'success', 'error', 'warning'],
+    render: () => {
+      const { toasts, success, error, warning, info, removeToast } = useToast();
+      return (
+        <div>
+          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-4)' }}>
+            <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
+            <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
+            <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
+            <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
+          </div>
+          <ToastContainer toasts={toasts} onRemove={removeToast} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+            <Toast variant="success" title="Sauvegardé" dismissible={false}>Vos modifications ont été enregistrées.</Toast>
+            <Toast variant="danger" title="Erreur" dismissible={false}>Impossible de se connecter au serveur.</Toast>
+            <Toast variant="warning" title="Attention" dismissible={false}>Votre session expire dans 5 minutes.</Toast>
+            <Toast variant="info" title="Info" dismissible={false}>Nouvelle version disponible.</Toast>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'Tabs',
+    codeName: 'Tabs.tsx',
+    cssBase: '.tabs / .tab / .tab--active',
+    category: 'Navigation',
+    description: 'Navigation par onglets. Variante pill (défaut) ou underline. 2–5 onglets, aria-selected + keyboard navigation. Utilisé dans Account, Profile, LearningPathDetail.',
+    keywords: ['tab', 'navigation', 'pill', 'underline', 'switch'],
+    render: () => {
+      const [active1, setActive1] = useState('tab1');
+      const [active2, setActive2] = useState('a');
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+          <div>
+            <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Pill (défaut)</p>
+            <Tabs
+              items={[
+                { id: 'tab1', label: '📚 Étapes' },
+                { id: 'tab2', label: '🎯 Projet' },
+                { id: 'tab3', label: '📊 Stats' },
+              ]}
+              value={active1}
+              onChange={setActive1}
+              variant="pill"
+            />
+          </div>
+          <div>
+            <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Underline</p>
+            <Tabs
+              items={[
+                { id: 'a', label: 'Général' },
+                { id: 'b', label: 'Sécurité' },
+                { id: 'c', label: 'Notifications' },
+              ]}
+              value={active2}
+              onChange={setActive2}
+              variant="underline"
+            />
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'FilterChip',
+    codeName: 'FilterChip.tsx',
+    cssBase: '.filter-chip',
+    category: 'Patterns',
+    description: 'Chip de filtrage cliquable avec état actif. Supporte icon, variante reset. Accessibilité: focus ring WCAG AA.',
+    keywords: ['filter', 'chip', 'tag', 'select', 'active'],
+    render: () => {
+      const [active, setActive] = useState('all');
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+          {['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'].map((label, i) => {
+            const key = i === 0 ? 'all' : label.toLowerCase();
+            return (
+              <FilterChip
+                key={key}
+                label={label}
+                active={active === key}
+                onClick={() => setActive(key)}
+              />
+            );
+          })}
+          <FilterChip label="Réinitialiser" variant="reset" onClick={() => setActive('all')} />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'Medal',
+    codeName: 'Medal.tsx',
+    cssBase: '.medal',
+    category: 'Learning',
+    description: 'Médaille de réussite: cercle avec anneau en pointillés intérieur. Warm gradient = déverrouillé, Brand deep = spécial/rare, Ink gray = verrouillé.',
+    keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Medal size="lg" variant="default">🏆</Medal>
+        <Medal size="lg" variant="brand">⚡</Medal>
+        <Medal size="lg" variant="locked">🔒</Medal>
+        <Medal size="md" variant="default">🎯</Medal>
+        <Medal size="md" variant="brand">🌟</Medal>
+        <Medal size="sm" variant="default">✨</Medal>
+      </div>
+    ),
+  },
+  {
+    name: 'ProgressRing',
+    codeName: 'ProgressRing.tsx',
+    cssBase: 'ProgressRing (inline SVG)',
+    category: 'Learning',
+    description: 'Anneau de progression SVG circulaire. Tailles: sm/md/lg/xl. Animation de fill avec stroke-dashoffset. Utilisé dans profil, badges de compétences.',
+    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'percentage'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-6)', alignItems: 'center', flexWrap: 'wrap' }}>
+        <ProgressRing value={75} size={100} label="Parcours" />
+        <ProgressRing value={45} size={80} label="Leçons" />
+        <ProgressRing value={90} size={64} />
+        <ProgressRing value={30} size={48} />
+      </div>
+    ),
+  },
+  {
+    name: 'CompetenceBadge',
+    codeName: 'CompetenceBadge.tsx',
+    cssBase: '.comp-badge',
+    category: 'Learning',
+    description: '4 niveaux de compétence avec code couleur progressif. Niveau 1 = débutant (gris), Niveau 4 = expert (primary vibrant). Utilisé dans profil compétences.',
+    keywords: ['competence', 'skill', 'level', 'badge', 'proficiency'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+        <CompetenceBadge level={1} label="Sensibilisé" />
+        <CompetenceBadge level={2} label="Pratiquant" />
+        <CompetenceBadge level={3} label="Autonome" />
+        <CompetenceBadge level={4} label="Expert" />
+      </div>
+    ),
+  },
+  {
+    name: 'MasteryBadge',
+    codeName: 'MasteryBadge.tsx',
+    cssBase: '.mastery-badge',
+    category: 'Learning',
+    description: '5 niveaux de maîtrise (Novice → Expert) avec représentation de la taxonomie de Bloom. Progression visuelle par couleur du clair au vif.',
+    keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
+        <MasteryBadge level={1} skillName="Découverte" progressToNext={30} size="md" />
+        <MasteryBadge level={3} skillName="Prompt Engineering" progressToNext={65} size="md" />
+        <MasteryBadge level={5} skillName="IA Générative" progressToNext={100} size="md" />
+      </div>
+    ),
+  },
+  {
+    name: 'Achievement',
+    codeName: 'Achievement.tsx',
+    cssBase: '.achievement',
+    category: 'Learning',
+    description: 'Composant de récompense/achievement. 3 variantes: unlocked (déverrouillé), locked (verrouillé avec opacité réduite), in-progress (avec barre de progression).',
+    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
+        <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
+        <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
+        <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
+      </div>
+    ),
+  },
+  {
+    name: 'TrendingBadge',
+    codeName: 'TrendingBadge.tsx',
+    cssBase: '.trending-badge',
+    category: 'Learning',
+    description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Animations subtiles. Utilisé sur les cartes de cours/veille.',
+    keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+        <TrendingBadge type="trending" />
+        <TrendingBadge type="popular" />
+        <TrendingBadge type="recommended" />
+        <TrendingBadge type="featured" />
+        <TrendingBadge type="new" />
+      </div>
+    ),
+  },
+  {
+    name: 'Stepper',
+    codeName: 'Stepper.tsx',
+    cssBase: '.stepper / .stepper__step',
+    category: 'Navigation',
+    description: 'Indicateur d\'étapes séquentiel. Orientations: horizontal/vertical. États par step: done/current/upcoming. Utilisé dans onboarding, wizards multi-étapes.',
+    keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence'],
+    render: () => {
+      const steps = [
+        { id: '1', label: 'Positionnement', state: 'done' as const },
+        { id: '2', label: 'Parcours', state: 'current' as const },
+        { id: '3', label: 'Coaching', state: 'upcoming' as const },
+        { id: '4', label: 'Certification', state: 'upcoming' as const },
+      ];
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+          <Stepper items={steps} orientation="horizontal" />
+          <Stepper items={steps} orientation="vertical" />
+        </div>
+      );
+    },
   },
 ];
 

@@ -149,6 +149,14 @@ export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
 export { IconFeatureCard } from './ui/IconFeatureCard';
 export { UserInfo } from './ui/UserInfo';
+export { TrendingBadge } from './ui/TrendingBadge';
+export type { TrendingBadgeProps } from './ui/TrendingBadge';
+export { MasteryBadge } from './ui/MasteryBadge';
+export type { MasteryBadgeProps } from './ui/MasteryBadge';
+export { BackgroundBlobs } from './ui/BackgroundBlobs';
+export { GoalProgress } from './ui/GoalProgress';
+export type { GoalProgressProps } from './ui/GoalProgress';
+export { ToastContainer } from './ui/ToastContainer';
 
 /* ============================================================================
  * Patterns & Layouts

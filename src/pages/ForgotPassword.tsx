@@ -16,6 +16,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { KeyRound, MailCheck, ShieldAlert, CheckCircle2, ArrowLeft, Mail } from 'lucide-react';
 import '../styles/static-pages.css';
+import '../styles/auth-pages.css';
 
 export const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
@@ -40,26 +41,11 @@ export const ForgotPassword: React.FC = () => {
       <section className="tls-auth-shell">
         <Card className="tls-auth-card">
           {!sent ? (
-            <form
-              className="tls-form"
-              onSubmit={handleSubmit}
-              style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}
-            >
+            <form className="tls-auth-form" onSubmit={handleSubmit}>
               <button
                 type="button"
                 onClick={() => navigate('/auth/login')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--tls-primary-600)',
-                  cursor: 'pointer',
-                  fontSize: 'var(--t-body-sm)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--s-1)',
-                  padding: 0,
-                  marginBottom: 'var(--s-2)',
-                }}
+                className="tls-auth-back-link"
               >
                 <ArrowLeft size={14} />
                 Retour a la connexion
@@ -81,7 +67,7 @@ export const ForgotPassword: React.FC = () => {
                 />
               </FormGroup>
 
-              <div style={{ display: 'flex', gap: 'var(--s-3)', flexDirection: 'column' }}>
+              <div className="tls-auth-actions">
                 <Button type="submit">
                   <MailCheck size={16} />
                   Envoyer le lien
@@ -92,38 +78,13 @@ export const ForgotPassword: React.FC = () => {
               </div>
             </form>
           ) : (
-            <div
-              className="tls-auth-success"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 'var(--s-4)',
-                textAlign: 'center',
-                padding: 'var(--s-6)',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 60,
-                  height: 60,
-                  borderRadius: '50%',
-                  background: 'var(--tls-primary-50)',
-                  color: 'var(--tls-primary-600)',
-                }}
-              >
+            <div className="tls-auth-success">
+              <div className="tls-auth-success-icon">
                 <CheckCircle2 size={32} />
               </div>
-              <div>
-                <h3 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h3)', color: 'var(--text)' }}>
-                  Email envoye !
-                </h3>
-                <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                  Un lien de reinitialisation a ete envoye sur votre adresse email. Verifiez votre boite de reception et vos spams si besoin.
-                </p>
+              <div className="tls-auth-success-content">
+                <h3>Email envoye !</h3>
+                <p>Un lien de reinitialisation a ete envoye sur votre adresse email. Verifiez votre boite de reception et vos spams si besoin.</p>
               </div>
               <Button type="button" onClick={() => navigate('/auth/login')}>
                 Aller a la connexion

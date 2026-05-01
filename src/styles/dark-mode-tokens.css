@@ -11,7 +11,8 @@
  */
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* :not([data-theme="light"]) lets a manual "light" toggle override system dark */
+  :root:not([data-theme="light"]) {
     /* =========================================================================
        PRIMARY COLORS — Dark Mode Variants
        ========================================================================= */
@@ -125,6 +126,81 @@
     /* Disabled state */
     --state-disabled-opacity: 0.5;
   }
+}
+
+/* =========================================================================
+   MANUAL DARK MODE — [data-theme="dark"] on <html>
+   Mirrors the @media block above so JS toggle works independently
+   of system preference.
+   ========================================================================= */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --bg: var(--tls-ink-950);
+  --surface: var(--tls-ink-900);
+  --surface-muted: var(--tls-ink-800);
+  --surface-active: var(--tls-ink-700);
+
+  /* Text Colors */
+  --text: var(--tls-ink-50);
+  --text-inverse: var(--tls-ink-950);
+  --text-soft: var(--tls-ink-300);
+  --text-muted: var(--tls-ink-400);
+
+  /* Borders & Dividers */
+  --border: rgba(255, 255, 255, 0.12);
+  --border-light: rgba(255, 255, 255, 0.08);
+  --divider: rgba(255, 255, 255, 0.08);
+
+  /* Semantic Colors */
+  --tls-success-light: rgba(34, 197, 94, 0.15);
+  --tls-success-bg: rgba(34, 197, 94, 0.1);
+  --tls-warning-light: rgba(251, 191, 36, 0.15);
+  --tls-warning-bg: rgba(251, 191, 36, 0.1);
+  --tls-danger-light: rgba(239, 68, 68, 0.15);
+  --tls-danger-bg: rgba(239, 68, 68, 0.1);
+  --tls-info-light: rgba(59, 130, 246, 0.15);
+  --tls-info-bg: rgba(59, 130, 246, 0.1);
+
+  /* Overlay Colors */
+  --overlay-white-sm: rgba(255, 255, 255, 0.05);
+  --overlay-white-md: rgba(255, 255, 255, 0.08);
+  --overlay-white-lg: rgba(255, 255, 255, 0.12);
+  --overlay-white-xl: rgba(255, 255, 255, 0.15);
+  --overlay-dark-sm: rgba(0, 0, 0, 0.3);
+  --overlay-dark-md: rgba(0, 0, 0, 0.4);
+  --overlay-dark-lg: rgba(0, 0, 0, 0.5);
+  --overlay-brand-lg: rgba(85, 161, 180, 0.08);
+  --overlay-brand-md: rgba(85, 161, 180, 0.06);
+  --overlay-brand-sm: rgba(85, 161, 180, 0.04);
+  --overlay-warm-lg: rgba(237, 132, 58, 0.08);
+  --overlay-warm-md: rgba(237, 132, 58, 0.06);
+  --overlay-warm-sm: rgba(237, 132, 58, 0.04);
+
+  /* Shadow System */
+  --shadow-xs: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 6px 12px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+
+  /* Glass Morphism */
+  --glass-fill: rgba(255, 255, 255, 0.08);
+  --glass-fill-strong: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-ring: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Gradients */
+  --g-hero: linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-orange-500) 100%);
+
+  /* State Colors */
+  --state-hover-opacity: 0.12;
+  --state-active-opacity: 0.16;
+  --state-disabled-opacity: 0.5;
 }
 
 /* =========================================================================
@@ -362,6 +438,173 @@
     border-color: var(--tls-primary-700) !important;
     color: var(--text-inverse) !important;
   }
+}
+
+/* =========================================================================
+   MANUAL DARK MODE — Component overrides for [data-theme="dark"]
+   Mirrors the @media component overrides above for JS-toggled dark mode
+   ========================================================================= */
+
+[data-theme="dark"] .glass,
+[data-theme="dark"] .parcours-card {
+  --glass-overlay: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] button {
+  color: var(--text);
+}
+
+[data-theme="dark"] a {
+  color: var(--tls-primary-400);
+}
+
+[data-theme="dark"] a:visited {
+  color: var(--tls-primary-500);
+}
+
+[data-theme="dark"] pre,
+[data-theme="dark"] code {
+  background-color: var(--surface-muted);
+  color: var(--text-soft);
+  border-color: var(--border);
+}
+
+/* Dashboard */
+[data-theme="dark"] .dashboard-modern__hero {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.4),
+    0 20px 40px rgba(85, 161, 180, 0.15);
+}
+
+[data-theme="dark"] .dashboard-modern__continue {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 16px 32px rgba(248, 176, 68, 0.12);
+}
+
+[data-theme="dark"] .dashboard-modern__activity-shell {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 16px 32px rgba(85, 161, 180, 0.1);
+}
+
+[data-theme="dark"] .dashboard-modern__action-btn:nth-child(1) .tls-icon-feature-card__icon { background: rgba(85, 161, 180, 0.15) !important; }
+[data-theme="dark"] .dashboard-modern__action-btn:nth-child(2) .tls-icon-feature-card__icon { background: rgba(237, 132, 58, 0.15) !important; }
+[data-theme="dark"] .dashboard-modern__action-btn:nth-child(3) .tls-icon-feature-card__icon { background: rgba(248, 176, 68, 0.15) !important; }
+[data-theme="dark"] .dashboard-modern__action-btn:nth-child(4) .tls-icon-feature-card__icon { background: rgba(85, 161, 180, 0.15) !important; }
+
+/* Learning Paths */
+[data-theme="dark"] .parcours-page__hero {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 16px 32px rgba(85, 161, 180, 0.15);
+}
+
+[data-theme="dark"] .parcours-page__hero [role="listitem"] {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .parcours-card { --tone-bg: var(--tls-ink-800); --tone-border: var(--tls-ink-700); }
+[data-theme="dark"] .parcours-card--primary { --tone-bg: rgba(85, 161, 180, 0.1); --tone-border: rgba(85, 161, 180, 0.2); }
+[data-theme="dark"] .parcours-card--warm { --tone-bg: rgba(237, 132, 58, 0.1); --tone-border: rgba(237, 132, 58, 0.2); }
+[data-theme="dark"] .parcours-card--sun { --tone-bg: rgba(248, 176, 68, 0.1); --tone-border: rgba(248, 176, 68, 0.2); }
+
+/* Coaching */
+[data-theme="dark"] .coaching-kpi-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 8px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Journal */
+[data-theme="dark"] .journal-entry-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .journal-filter-chip {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .journal-filter-chip:hover,
+[data-theme="dark"] .journal-filter-chip[data-active='true'] {
+  background: var(--tls-primary-700) !important;
+  border-color: var(--tls-primary-700) !important;
+  color: var(--text-inverse) !important;
+}
+
+/* Veille */
+[data-theme="dark"] .veille-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .veille-format-card {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-theme="dark"] .veille-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .veille-pill[data-active='true'] {
+  background: var(--tls-primary-700);
+  border-color: var(--tls-primary-600);
+}
+
+[data-theme="dark"] .veille-page__newsletter {
+  background: linear-gradient(135deg, rgba(85, 161, 180, 0.12), rgba(85, 161, 180, 0.06));
+  border-color: rgba(85, 161, 180, 0.2);
+}
+
+/* Profile */
+[data-theme="dark"] .tls-kpi {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Sidebar */
+[data-theme="dark"] .nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .nav-item--active {
+  background: rgba(85, 161, 180, 0.15);
 }
 
 /* =========================================================================

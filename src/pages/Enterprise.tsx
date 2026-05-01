@@ -1,178 +1,459 @@
 import React, { useState } from 'react';
-import { Card } from '../components/core/Card';
-import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { Card, CardTitle, CardDesc, Button, Badge } from '../components';
 import {
   Building2,
   Users,
   TrendingUp,
   Clock,
-  Shield,
+  BarChart2,
+  Download,
   Mail,
-  Sparkles,
+  UserPlus,
+  CheckCircle2,
+  Circle,
+  ChevronRight,
 } from 'lucide-react';
 import '../styles/static-pages.css';
-import '../styles/static-pages.css';
-import '../styles/figma-missing-pages.css';
+import '../styles/feature-pages-modern.css';
 
-type EnterpriseTab = 'overview' | 'users' | 'settings';
+/* ── Mock data ──────────────────────────────────────────────────────────── */
 
-const MOCK_MEMBERS = [
-  { name: 'Claire Dupont', email: 'claire@entreprise.fr', role: 'Manager', status: 'active' as const },
-  { name: 'Marc Leroy', email: 'marc@entreprise.fr', role: 'Membre', status: 'active' as const },
-  { name: 'Julie Petit', email: 'julie@entreprise.fr', role: 'Membre', status: 'invited' as const },
+const TEAM_MEMBERS = [
+  { name: 'Claire Dupont',  role: 'Manager',          progress: 82, lastActive: 'Aujourd\'hui' },
+  { name: 'Marc Leroy',     role: 'Consultant Senior', progress: 67, lastActive: 'Hier' },
+  { name: 'Julie Petit',    role: 'Analyste',          progress: 45, lastActive: 'Il y a 3 jours' },
+  { name: 'Thomas Renaud',  role: 'Chef de projet',    progress: 91, lastActive: 'Aujourd\'hui' },
 ];
 
-/**
- * Entreprise — static shell aligned with figmamakedesignreact EntreprisePageComplete (simplified)
- */
+const ACCESS_USERS = [
+  { name: 'Claire Dupont',  email: 'claire@entreprise.fr',  role: 'Admin',   status: 'active' },
+  { name: 'Marc Leroy',     email: 'marc@entreprise.fr',    role: 'Membre',  status: 'active' },
+  { name: 'Julie Petit',    email: 'julie@entreprise.fr',   role: 'Membre',  status: 'active' },
+  { name: 'Sophie Martin',  email: 'sophie@entreprise.fr',  role: 'Invité',  status: 'pending' },
+];
+
+const REPORTS = [
+  {
+    title: 'Formation mensuelle',
+    desc: 'Synthèse des heures de formation, modules suivis et taux de complétion par collaborateur.',
+    icon: BarChart2,
+    period: 'Avril 2026',
+  },
+  {
+    title: 'Engagement équipe',
+    desc: 'Analyse des connexions, interactions coaching et progression des compétences clés.',
+    icon: TrendingUp,
+    period: 'Q1 2026',
+  },
+];
+
+/* ── Component ──────────────────────────────────────────────────────────── */
+
 export const Enterprise: React.FC = () => {
-  const [tab, setTab] = useState<EnterpriseTab>('overview');
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   return (
     <div className="tls-page">
+
+      {/* ── Glass Hero ─────────────────────────────────────────────────── */}
       <section className="tls-editorial-hero">
-        <div className="tls-row" style={{ alignItems: 'flex-start' }}>
-          <div>
-            <h1>
-              <Building2 size={22} style={{ verticalAlign: 'middle', marginRight: 8 }} />
-              Espace entreprise
-            </h1>
-            <p className="tls-editorial-summary">Vue admin synthetique : KPI, equipe, parametres et pilotage des licences (donnees statiques pour design).</p>
+        <div className="tls-row" style={{ alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--s-4)' }}>
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <span className="tls-editorial-eyebrow">
+              <Building2 size={13} />
+              Tableau de bord entreprise
+            </span>
+            <h1 style={{ marginTop: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>Espace Entreprise</h1>
+            <p className="tls-editorial-summary">
+              Pilotez la formation de votre équipe, gérez les accès et suivez les indicateurs clés
+              en temps réel.
+            </p>
           </div>
           <Badge variant="brand">Premium Enterprise</Badge>
         </div>
-        <div className="tls-editorial-meta">
-          <span><Sparkles size={12} /> 24 utilisateurs actifs</span>
-          <span><Clock size={12} /> Suivi hebdomadaire</span>
+
+        {/* KPI pills */}
+        <div className="tls-editorial-meta" style={{ gap: 'var(--s-3)', marginTop: 'var(--s-2)' }}>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--s-2)',
+              padding: 'var(--s-2) var(--s-4)',
+              background: 'rgba(255,255,255,0.72)',
+              border: '1px solid rgba(85,161,180,0.2)',
+              borderRadius: 'var(--r-pill)',
+              fontWeight: 600,
+              color: 'var(--tls-primary-700)',
+              fontSize: 'var(--t-caption)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Users size={14} />
+            24 collaborateurs actifs
+          </span>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--s-2)',
+              padding: 'var(--s-2) var(--s-4)',
+              background: 'rgba(255,255,255,0.72)',
+              border: '1px solid rgba(85,161,180,0.2)',
+              borderRadius: 'var(--r-pill)',
+              fontWeight: 600,
+              color: 'var(--text)',
+              fontSize: 'var(--t-caption)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Clock size={14} />
+            456 h de formation
+          </span>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--s-2)',
+              padding: 'var(--s-2) var(--s-4)',
+              background: 'rgba(255,255,255,0.72)',
+              border: '1px solid rgba(85,161,180,0.2)',
+              borderRadius: 'var(--r-pill)',
+              fontWeight: 600,
+              color: 'var(--text)',
+              fontSize: 'var(--t-caption)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <TrendingUp size={14} />
+            72 % complétion
+          </span>
         </div>
       </section>
 
-      <div className="enterprise-tabs" role="tablist" aria-label="Sections entreprise">
-        {(
-          [
-            { id: 'overview' as const, label: "Vue d'ensemble" },
-            { id: 'users' as const, label: 'Équipe' },
-            { id: 'settings' as const, label: 'Paramètres' },
-          ] as const
-        ).map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            role="tab"
-            aria-selected={tab === id}
-            data-active={tab === id ? 'true' : 'false'}
-            className="enterprise-tab"
-            onClick={() => setTab(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      {/* ── Tableau de bord équipe ────────────────────────────────────── */}
+      <section>
+        <h2 style={{ margin: '0 0 var(--s-4)', fontSize: 'var(--t-h3)', fontWeight: 700, letterSpacing: '-0.02em' }}>
+          Tableau de bord équipe
+        </h2>
 
-      {tab === 'overview' && (
-        <>
-          <section className="enterprise-kpi-row">
-            <div className="tls-kpi">
-              <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
-                <Users size={20} />
-              </div>
-              <strong style={{ color: 'var(--tls-primary-700)' }}>24</strong>
-              <span>Utilisateurs actifs</span>
+        {/* Stat cards */}
+        <div className="feature-page__kpis" style={{ marginBottom: 'var(--s-4)' }}>
+          <div className="feature-page__kpi">
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 'var(--r-lg)',
+                background: 'var(--tls-primary-50)',
+                color: 'var(--tls-primary-600)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Users size={20} />
             </div>
-            <div className="tls-kpi">
-              <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.1)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
-                <TrendingUp size={20} />
-              </div>
-              <strong style={{ color: 'var(--tls-orange-600)' }}>456 h</strong>
-              <span>Heures cumulées</span>
-            </div>
-            <div className="tls-kpi">
-              <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
-                <Shield size={20} />
-              </div>
-              <strong style={{ color: 'var(--tls-yellow-600)' }}>72%</strong>
-              <span>Complétion moyenne</span>
-            </div>
-          </section>
-          <Card className="tls-section-card">
-            <h3>
-              <TrendingUp size={16} /> Activité récente
-            </h3>
-            <p className="tls-muted">Graphiques et exports seront branchés sur l&apos;API entreprise.</p>
-            <div className="tls-placeholder-media" style={{ minHeight: 160 }}>
-              Zone graphique (placeholder)
-            </div>
-          </Card>
-        </>
-      )}
-
-      {tab === 'users' && (
-        <Card className="tls-section-card">
-          <div className="tls-row">
-            <h3>
-              <Users size={16} /> Membres
-            </h3>
-            <Button size="sm" variant="secondary">
-              Inviter
-            </Button>
+            <strong>24</strong>
+            <span>Collaborateurs inscrits</span>
           </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table className="enterprise-table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Email</th>
-                  <th>Rôle</th>
-                  <th>Statut</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MOCK_MEMBERS.map((m) => (
-                  <tr key={m.email}>
-                    <td>{m.name}</td>
-                    <td>{m.email}</td>
-                    <td>{m.role}</td>
-                    <td>{m.status === 'invited' ? 'Invité' : 'Actif'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="feature-page__kpi">
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 'var(--r-lg)',
+                background: 'rgba(85,161,180,0.1)',
+                color: 'var(--tls-primary-600)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <TrendingUp size={20} />
+            </div>
+            <strong>72 %</strong>
+            <span>Taux de complétion</span>
+          </div>
+          <div className="feature-page__kpi">
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 'var(--r-lg)',
+                background: 'rgba(248,176,68,0.12)',
+                color: 'var(--tls-orange-600,#c26a10)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Clock size={20} />
+            </div>
+            <strong>18</strong>
+            <span>Sessions coaching</span>
+          </div>
+        </div>
+
+        {/* Team list */}
+        <Card style={{ padding: 'var(--s-6)', display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          <div className="tls-row">
+            <CardTitle>Membres de l'équipe</CardTitle>
+            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+              4 collaborateurs
+            </span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+            {TEAM_MEMBERS.map((m) => (
+              <div
+                key={m.name}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--s-4)',
+                  padding: 'var(--s-3) var(--s-4)',
+                  borderRadius: 'var(--r-xl)',
+                  border: '1px solid var(--border)',
+                  background: 'var(--bg)',
+                  transition: 'background var(--dur-1)',
+                }}
+              >
+                {/* Avatar initials */}
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    background: 'var(--tls-primary-100)',
+                    color: 'var(--tls-primary-700)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 700,
+                    fontSize: 'var(--t-caption)',
+                    flexShrink: 0,
+                  }}
+                >
+                  {m.name.split(' ').map((w) => w[0]).join('')}
+                </div>
+                {/* Name + role */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>
+                    {m.name}
+                  </p>
+                  <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                    {m.role}
+                  </p>
+                </div>
+                {/* Progress bar */}
+                <div style={{ flex: 1, minWidth: 100, maxWidth: 180 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>Progression</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--tls-primary-700)' }}>
+                      {m.progress} %
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      height: 6,
+                      borderRadius: 'var(--r-pill)',
+                      background: 'var(--tls-primary-100)',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${m.progress}%`,
+                        height: '100%',
+                        borderRadius: 'inherit',
+                        background: 'linear-gradient(90deg, var(--tls-primary-400), var(--tls-primary-600))',
+                        transition: 'width var(--dur-3)',
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* Last active */}
+                <span
+                  style={{
+                    fontSize: 'var(--t-caption)',
+                    color: 'var(--text-muted)',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0,
+                  }}
+                >
+                  {m.lastActive}
+                </span>
+              </div>
+            ))}
           </div>
         </Card>
-      )}
+      </section>
 
-      {tab === 'settings' && (
-        <section className="tls-grid">
-          <Card className="tls-section-card">
-            <h3>
-              <Shield size={16} /> Sécurité
-            </h3>
-            <p className="tls-muted">SSO, domaine vérifié, politique de mot de passe.</p>
-            <Button size="sm" variant="secondary">
-              Configurer
-            </Button>
+      {/* ── Gestion des accès ─────────────────────────────────────────── */}
+      <section>
+        <div className="tls-row" style={{ marginBottom: 'var(--s-4)' }}>
+          <h2 style={{ margin: 0, fontSize: 'var(--t-h3)', fontWeight: 700, letterSpacing: '-0.02em' }}>
+            Gestion des accès
+          </h2>
+          <Button
+            variant="primary"
+            size="sm"
+            leadingIcon={<UserPlus size={15} />}
+            onClick={() => setInviteOpen((v) => !v)}
+          >
+            Inviter un collaborateur
+          </Button>
+        </div>
+
+        {/* Invite form (inline toggle) */}
+        {inviteOpen && (
+          <Card
+            style={{
+              padding: 'var(--s-5)',
+              marginBottom: 'var(--s-4)',
+              border: '1px solid rgba(85,161,180,0.28)',
+              background: 'linear-gradient(135deg, rgba(85,161,180,0.06), rgba(255,255,255,0.9))',
+            }}
+          >
+            <CardTitle style={{ marginBottom: 'var(--s-3)' }}>Inviter un nouveau collaborateur</CardTitle>
+            <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+              <div className="tls-field" style={{ flex: 1, minWidth: 200 }}>
+                <label htmlFor="invite-email">Adresse e-mail</label>
+                <input id="invite-email" type="email" placeholder="prenom.nom@entreprise.fr" />
+              </div>
+              <div className="tls-field" style={{ minWidth: 140 }}>
+                <label htmlFor="invite-role">Rôle</label>
+                <select
+                  id="invite-role"
+                  style={{
+                    border: '1px solid var(--border-strong)',
+                    borderRadius: 'var(--r-md)',
+                    background: 'var(--surface)',
+                    color: 'var(--text)',
+                    padding: 'var(--s-3) var(--s-4)',
+                    font: 'inherit',
+                  }}
+                >
+                  <option>Membre</option>
+                  <option>Admin</option>
+                </select>
+              </div>
+              <Button variant="primary" size="sm">Envoyer l'invitation</Button>
+              <Button variant="ghost" size="sm" onClick={() => setInviteOpen(false)}>Annuler</Button>
+            </div>
           </Card>
-          <Card className="tls-section-card">
-            <h3>
-              <Mail size={16} /> Facturation
-            </h3>
-            <p className="tls-muted">Licences, renouvellement, contacts facturation.</p>
-            <Button size="sm" variant="secondary">
-              Voir
-            </Button>
-          </Card>
-          <Card className="tls-section-card">
-            <h3>
-              <Clock size={16} /> Rétention des données
-            </h3>
-            <p className="tls-muted">Durées de conservation et export RGPD.</p>
-            <Button size="sm" variant="secondary">
-              Politique
-            </Button>
-          </Card>
-        </section>
-      )}
+        )}
+
+        {/* User rows */}
+        <Card style={{ padding: 'var(--s-6)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+          {ACCESS_USERS.map((u) => (
+            <div
+              key={u.email}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--s-4)',
+                padding: 'var(--s-3) var(--s-4)',
+                borderRadius: 'var(--r-xl)',
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
+                flexWrap: 'wrap',
+              }}
+            >
+              {/* Status icon */}
+              <div style={{ flexShrink: 0 }}>
+                {u.status === 'active' ? (
+                  <CheckCircle2 size={18} style={{ color: 'var(--tls-primary-500)' }} />
+                ) : (
+                  <Circle size={18} style={{ color: 'var(--text-muted)' }} />
+                )}
+              </div>
+              {/* Name + email */}
+              <div style={{ flex: 1, minWidth: 160 }}>
+                <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>
+                  {u.name}
+                </p>
+                <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                  {u.email}
+                </p>
+              </div>
+              {/* Role badge */}
+              <Badge
+                variant={u.role === 'Admin' ? 'brand' : u.role === 'Invité' ? 'warm' : 'neutral'}
+              >
+                {u.role}
+              </Badge>
+              {/* Status badge */}
+              <Badge variant={u.status === 'active' ? 'success' : 'warm'}>
+                {u.status === 'active' ? 'Actif' : 'En attente'}
+              </Badge>
+              {/* Action */}
+              <Button variant="ghost" size="sm" leadingIcon={<Mail size={14} />}>
+                {u.status === 'pending' ? 'Renvoyer' : 'Contacter'}
+              </Button>
+            </div>
+          ))}
+        </Card>
+      </section>
+
+      {/* ── Rapports ──────────────────────────────────────────────────── */}
+      <section>
+        <h2 style={{ margin: '0 0 var(--s-4)', fontSize: 'var(--t-h3)', fontWeight: 700, letterSpacing: '-0.02em' }}>
+          Rapports
+        </h2>
+        <div className="feature-page__grid">
+          {REPORTS.map((r) => {
+            const Icon = r.icon;
+            return (
+              <Card
+                key={r.title}
+                style={{
+                  padding: 'var(--s-6)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--s-4)',
+                  border: '1px solid var(--border)',
+                  background: 'var(--surface)',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'transform var(--dur-2), box-shadow var(--dur-2)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-4)' }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 'var(--r-lg)',
+                      background: 'var(--tls-primary-50)',
+                      color: 'var(--tls-primary-600)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Icon size={22} />
+                  </div>
+                  <div>
+                    <CardTitle style={{ marginBottom: 'var(--s-1)' }}>{r.title}</CardTitle>
+                    <Badge variant="neutral">{r.period}</Badge>
+                  </div>
+                </div>
+                <CardDesc>{r.desc}</CardDesc>
+                <div style={{ marginTop: 'auto', display: 'flex', gap: 'var(--s-2)' }}>
+                  <Button variant="secondary" size="sm" leadingIcon={<Download size={14} />}>
+                    Télécharger
+                  </Button>
+                  <Button variant="ghost" size="sm" leadingIcon={<ChevronRight size={14} />}>
+                    Aperçu
+                  </Button>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
     </div>
   );
 };

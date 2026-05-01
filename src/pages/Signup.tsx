@@ -18,6 +18,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { ArrowRight, BookOpenCheck, Lock, Mail, Shield, Sparkles, UserPlus, UserRound } from 'lucide-react';
 import '../styles/static-pages.css';
+import '../styles/auth-pages.css';
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export const Signup: React.FC = () => {
       </section>
       <section className="tls-auth-shell">
         <Card className="tls-auth-card">
-          <form className="tls-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          <form className="tls-auth-form" onSubmit={handleSubmit}>
             {/* Full Name Field */}
             <FormGroup
               label="Nom complet"
@@ -98,27 +99,27 @@ export const Signup: React.FC = () => {
             </FormGroup>
 
             {/* Terms & Conditions */}
-            <label className="check" style={{ margin: 'var(--s-2) 0' }}>
+            <label className="check tls-auth-terms">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(event) => setAcceptTerms(event.target.checked)}
                 required
               />
-              <span style={{ marginLeft: 'var(--s-2)', fontSize: 'var(--t-body-sm)', color: 'var(--text)', lineHeight: 1.5 }}>
+              <span>
                 J'accepte les{' '}
-                <a href="#" style={{ color: 'var(--tls-primary-600)', textDecoration: 'underline' }}>
+                <a href="#" className="tls-auth-link-inline">
                   conditions d'utilisation
                 </a>{' '}
                 et la{' '}
-                <a href="#" style={{ color: 'var(--tls-primary-600)', textDecoration: 'underline' }}>
+                <a href="#" className="tls-auth-link-inline">
                   politique de confidentialite
                 </a>
               </span>
             </label>
 
             {/* Actions */}
-            <div style={{ display: 'flex', gap: 'var(--s-3)', flexDirection: 'column' }}>
+            <div className="tls-auth-actions">
               <Button type="submit" disabled={!acceptTerms}>
                 <UserPlus size={16} />
                 Créer mon compte

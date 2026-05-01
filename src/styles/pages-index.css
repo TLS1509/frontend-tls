@@ -44,7 +44,7 @@
   background: linear-gradient(135deg, var(--tls-primary-50, #e8f5f9) 0%, var(--tls-primary-100, #d0e8f2) 100%);
   border-radius: var(--tls-border-radius-lg, 8px);
   border: 1px solid var(--tls-primary-200, #a8d5e2);
-  box-shadow: 0 2px 4px rgba(85, 161, 180, 0.1);
+  box-shadow: var(--shadow-xs);
 }
 
 .stat-number {
@@ -95,14 +95,14 @@
   background: var(--tls-ink-0, #ffffff);
   border: 1px solid var(--tls-ink-200, #e0e0e0);
   border-radius: var(--tls-border-radius-lg, 8px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 
 .page-card:hover {
   border-color: var(--tls-primary-400, #6eb3c7);
-  box-shadow: 0 8px 24px rgba(85, 161, 180, 0.15);
+  box-shadow: var(--shadow-md);
   transform: translateY(-4px);
 }
 

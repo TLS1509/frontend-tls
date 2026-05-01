@@ -228,23 +228,56 @@
   --shadow-success: 0 6px 20px rgba(34, 197, 94, 0.25);
   --shadow-error: 0 4px 12px rgba(239, 68, 68, 0.15);
 
-  /* Glass recipes */
-  /* Glass morphism base tokens */
+  /* =================================================================== */
+  /* GLASS MORPHISM — Modern, Elevated, Sophisticated              */
+  /* =================================================================== */
+
+  /* Base glass effect — primary usage */
   --glass-blur: saturate(180%) blur(20px);
   --glass-fill: rgba(255, 255, 255, 0.55);
   --glass-fill-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-ring: inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(255,255,255,0.25);
 
-  /* Glass blur intensity variants — composable for different contexts */
-  --glass-blur-light: saturate(180%) blur(12px);     /* Subtle, for overlays */
-  --glass-blur-medium: saturate(160%) blur(18px);    /* Balanced, for content areas */
-  --glass-blur-standard: saturate(180%) blur(20px);  /* Standard, default glass */
-  --glass-blur-heavy: saturate(180%) blur(24px);     /* Strong, for hero/prominent areas */
+  /* Glass blur intensity variants — modern glassmorphism hierarchy */
+  --glass-blur-light: saturate(180%) blur(12px);      /* Subtle overlays, muted background */
+  --glass-blur-medium: saturate(160%) blur(18px);     /* Standard cards, balanced content */
+  --glass-blur-standard: saturate(180%) blur(20px);   /* Hero sections, featured content */
+  --glass-blur-heavy: saturate(180%) blur(28px);      /* Elevated modals, prominent panels */
+  --glass-blur-ultra: saturate(180%) blur(32px);      /* Maximum elevation, full modals */
 
-  /* Saturation variants — for tone-specific glass */
+  /* Glass fill opacity levels — composable for different depths */
+  --glass-fill-light: rgba(255, 255, 255, 0.35);      /* Minimal opacity, maximum visibility */
+  --glass-fill-standard: rgba(255, 255, 255, 0.55);   /* Balanced opacity */
+  --glass-fill-strong: rgba(255, 255, 255, 0.72);     /* High opacity, reduced background bleed */
+  --glass-fill-premium: rgba(255, 255, 255, 0.85);    /* Premium cards, elevated surfaces */
+
+  /* Glass border variants — for edge definition */
+  --glass-border-light: rgba(255, 255, 255, 0.35);
+  --glass-border-standard: rgba(255, 255, 255, 0.6);
+  --glass-border-strong: rgba(255, 255, 255, 0.8);
+
+  /* Glass ring for inner light effect */
+  --glass-ring-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --glass-ring-standard: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.25);
+  --glass-ring-strong: inset 0 2px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+
+  /* Saturation variants — modern color preservation */
+  --glass-saturate-light: saturate(150%);
   --glass-saturate-standard: saturate(180%);
-  --glass-saturate-light: saturate(160%);
+  --glass-saturate-strong: saturate(200%);
+
+  /* Backdrop blur as separate property for flexibility */
+  --backdrop-blur-light: blur(10px);
+  --backdrop-blur-medium: blur(18px);
+  --backdrop-blur-standard: blur(24px);
+  --backdrop-blur-heavy: blur(32px);
+
+  /* Composed glass effects for specific components */
+  --glass-card: var(--glass-blur-standard) brightness(1.1);
+  --glass-hero: var(--glass-blur-heavy) brightness(1.05);
+  --glass-modal: var(--glass-blur-ultra) brightness(1.02);
+  --glass-overlay: var(--glass-blur-medium) brightness(1.08);
 
   /* ---------- BORDER SCALE ---------- */
   --border-width-thin: 1px;      /* Subtle borders, dividers */
@@ -326,16 +359,54 @@
   --overlay-white-lg: rgba(255, 255, 255, 0.60);
   --overlay-white-xl: rgba(255, 255, 255, 0.85);
 
-  /* ---------- MOTION ---------- */
+  /* ========================================== */
+  /* MOTION — Modern Micro-interactions       */
+  /* ========================================== */
+
+  /* Easing curves — Material Design 3 inspired */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.15);
   --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
-  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);
-  --dur-1: 120ms;
-  --dur-2: 200ms;
-  --dur-3: 320ms;
-  --dur-4: 520ms;
-  --dur-5: 800ms;
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Spring-like easing for modern feel */
+  --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-elastic: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-sharp: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* Duration scale — Fast for interactive feedback, slow for complex transitions */
+  --dur-instant: 60ms;      /* Instant (imperceptible, only for opacity) */
+  --dur-fast: 100ms;        /* Very fast interactions (clicks, hovers) */
+  --dur-1: 120ms;           /* Quick feedback (button states, small transitions) */
+  --dur-2: 200ms;           /* Standard transitions (card elevation, modal appear) */
+  --dur-3: 320ms;           /* Complex transitions (expand/collapse, page changes) */
+  --dur-4: 520ms;           /* Slow transitions (long animations, staggered effects) */
+  --dur-5: 800ms;           /* Very slow (entrance animations, special effects) */
+  --dur-slow: 1000ms;       /* Slow entrance effects (parallax, backdrop blur) */
+
+  /* Transition composition patterns */
+  --transition-fast: all var(--dur-fast) var(--ease-standard);
+  --transition-quick: all var(--dur-1) var(--ease-standard);
+  --transition-standard: all var(--dur-2) var(--ease-standard);
+  --transition-smooth: all var(--dur-3) var(--ease-smooth);
+
+  /* Property-specific transitions for performance */
+  --transition-color: color var(--dur-2) var(--ease-standard), background-color var(--dur-2) var(--ease-standard);
+  --transition-transform: transform var(--dur-2) var(--ease-standard);
+  --transition-shadow: box-shadow var(--dur-2) var(--ease-standard);
+  --transition-elevation: box-shadow var(--dur-2) var(--ease-standard), transform var(--dur-2) var(--ease-standard);
+  --transition-opacity: opacity var(--dur-1) var(--ease-standard);
+  --transition-all-smooth: all var(--dur-3) var(--ease-smooth);
+
+  /* Button & interactive element transitions */
+  --transition-btn: background-color var(--dur-1) var(--ease-standard), box-shadow var(--dur-1) var(--ease-standard), transform var(--dur-2) var(--ease-standard);
+
+  /* Scale/zoom transitions */
+  --transition-scale: transform var(--dur-2) var(--ease-bounce);
+
+  /* Expand/collapse transitions */
+  --transition-expand: height var(--dur-3) var(--ease-smooth), opacity var(--dur-2) var(--ease-standard);
 
   /* ---------- LEARNING SKILL LEVELS ---------- */
   --skill-level-1: #FDD2CF;   /* Novice - light red */

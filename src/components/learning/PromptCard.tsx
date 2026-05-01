@@ -28,6 +28,7 @@ export interface PromptCardProps {
   onClick?: () => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   className?: string;
+  cardStyle?: React.CSSProperties;
 }
 
 export const PromptCard: React.FC<PromptCardProps> = ({
@@ -38,6 +39,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   onClick,
   onKeyDown,
   className = '',
+  cardStyle,
 }) => {
   return (
     <Card
@@ -47,7 +49,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       tabIndex={0}
       role="button"
       className={className}
-      style={{ textAlign: 'center', cursor: 'pointer' }}
+      style={{ textAlign: 'center', cursor: 'pointer', ...cardStyle }}
     >
       <div style={{ marginBottom: 'var(--s-3)' }}>
         <Badge variant={variant}>{label}</Badge>

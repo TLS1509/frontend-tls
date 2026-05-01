@@ -18,6 +18,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from 'lucide-react';
 import '../styles/static-pages.css';
+import '../styles/auth-pages.css';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export const Login: React.FC = () => {
 
       <section className="tls-auth-shell">
         <Card className="tls-auth-card">
-          <form className="tls-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          <form className="tls-auth-form" onSubmit={handleSubmit}>
             {/* Email Field */}
             <FormGroup
               label="Email"
@@ -76,16 +77,7 @@ export const Login: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'var(--text-soft)',
-                      padding: 0,
-                    }}
+                    className="tls-auth-icon-btn"
                     aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                   >
                     {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -97,36 +89,26 @@ export const Login: React.FC = () => {
             </FormGroup>
 
             {/* Remember Me & Forgot Password */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label className="check" style={{ margin: 0 }}>
+            <div className="tls-auth-inline">
+              <label className="check tls-auth-remember">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(event) => setRememberMe(event.target.checked)}
                 />
-                <span style={{ marginLeft: 'var(--s-2)', fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>
-                  Se souvenir de moi
-                </span>
+                <span>Se souvenir de moi</span>
               </label>
               <button
                 type="button"
                 onClick={() => navigate('/auth/forgot-password')}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--tls-primary-600)',
-                  cursor: 'pointer',
-                  fontSize: 'var(--t-body-sm)',
-                  textDecoration: 'underline',
-                  padding: 0,
-                }}
+                className="tls-auth-link"
               >
                 Mot de passe oublie ?
               </button>
             </div>
 
             {/* Actions */}
-            <div style={{ display: 'flex', gap: 'var(--s-3)', flexDirection: 'column' }}>
+            <div className="tls-auth-actions">
               <Button type="submit">Se connecter</Button>
               <Button type="button" variant="ghost" onClick={() => navigate('/auth/signup')}>
                 Creer un compte

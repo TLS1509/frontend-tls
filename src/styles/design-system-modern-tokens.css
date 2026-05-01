@@ -1,0 +1,238 @@
+/* ==========================================================================
+   MODERN DESIGN SYSTEM TOKENS — Comprehensive Reference
+   Glassmorphism, Micro-interactions, Modern Elevations
+   ========================================================================== */
+
+:root {
+  /* ========================================================================
+     GLASSMORPHISM SYSTEM — Modern, Layered, Sophisticated
+     ======================================================================== */
+
+  /* Glass Blur Intensities (primary variable) */
+  --glass-blur-light: saturate(180%) blur(12px);
+  --glass-blur-medium: saturate(160%) blur(18px);
+  --glass-blur-standard: saturate(180%) blur(20px);
+  --glass-blur-heavy: saturate(180%) blur(28px);
+  --glass-blur-ultra: saturate(180%) blur(32px);
+
+  /* Glass Fill Opacity Levels */
+  --glass-fill-light: rgba(255, 255, 255, 0.35);
+  --glass-fill-standard: rgba(255, 255, 255, 0.55);
+  --glass-fill-strong: rgba(255, 255, 255, 0.72);
+  --glass-fill-premium: rgba(255, 255, 255, 0.85);
+
+  /* Glass Border Variants */
+  --glass-border-light: rgba(255, 255, 255, 0.35);
+  --glass-border-standard: rgba(255, 255, 255, 0.6);
+  --glass-border-strong: rgba(255, 255, 255, 0.8);
+
+  /* Glass Ring Effects for inner light */
+  --glass-ring-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --glass-ring-standard: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.25);
+  --glass-ring-strong: inset 0 2px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+
+  /* Saturation Levels for Glass */
+  --glass-saturate-light: saturate(150%);
+  --glass-saturate-standard: saturate(180%);
+  --glass-saturate-strong: saturate(200%);
+
+  /* Backdrop Blur as separate property */
+  --backdrop-blur-light: blur(10px);
+  --backdrop-blur-medium: blur(18px);
+  --backdrop-blur-standard: blur(24px);
+  --backdrop-blur-heavy: blur(32px);
+
+  /* Composed glass effects for specific components */
+  --glass-card: var(--glass-blur-standard) brightness(1.1);
+  --glass-hero: var(--glass-blur-heavy) brightness(1.05);
+  --glass-modal: var(--glass-blur-ultra) brightness(1.02);
+  --glass-overlay: var(--glass-blur-medium) brightness(1.08);
+
+  /* ========================================================================
+     MOTION & TRANSITIONS — Modern Micro-interactions
+     ======================================================================== */
+
+  /* Enhanced Easing Curves */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1.15);
+  --ease-entrance: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-elastic: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-sharp: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* Duration Scale — Optimized for perception */
+  --dur-instant: 60ms;
+  --dur-fast: 100ms;
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --dur-4: 520ms;
+  --dur-5: 800ms;
+  --dur-slow: 1000ms;
+
+  /* Transition Composition Patterns */
+  --transition-fast: all var(--dur-fast) var(--ease-standard);
+  --transition-quick: all var(--dur-1) var(--ease-standard);
+  --transition-standard: all var(--dur-2) var(--ease-standard);
+  --transition-smooth: all var(--dur-3) var(--ease-smooth);
+
+  /* Property-specific Transitions (performance optimized) */
+  --transition-color: color var(--dur-2) var(--ease-standard), background-color var(--dur-2) var(--ease-standard);
+  --transition-transform: transform var(--dur-2) var(--ease-standard);
+  --transition-shadow: box-shadow var(--dur-2) var(--ease-standard);
+  --transition-elevation: box-shadow var(--dur-2) var(--ease-standard), transform var(--dur-2) var(--ease-standard);
+  --transition-opacity: opacity var(--dur-1) var(--ease-standard);
+  --transition-all-smooth: all var(--dur-3) var(--ease-smooth);
+  --transition-btn: background-color var(--dur-1) var(--ease-standard), box-shadow var(--dur-1) var(--ease-standard), transform var(--dur-2) var(--ease-standard);
+  --transition-scale: transform var(--dur-2) var(--ease-bounce);
+  --transition-expand: height var(--dur-3) var(--ease-smooth), opacity var(--dur-2) var(--ease-standard);
+
+  /* ========================================================================
+     MODERN ELEVATION SYSTEM — Depth & Layering
+     ======================================================================== */
+
+  /* Base Shadows (subtle, modern) */
+  --shadow-xs: 0 1px 2px rgba(18, 24, 28, 0.04);
+  --shadow-sm: 0 1px 2px rgba(18, 24, 28, 0.05), 0 1px 3px rgba(18, 24, 28, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(18, 24, 28, 0.08), 0 2px 4px rgba(18, 24, 28, 0.04);
+  --shadow-lg: 0 16px 40px -12px rgba(18, 24, 28, 0.14), 0 4px 8px rgba(18, 24, 28, 0.04);
+  --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
+
+  /* Brand Shadows (colored elevations) */
+  --shadow-brand: 0 10px 30px -10px rgba(85, 161, 180, 0.45);
+  --shadow-brand-sm: 0 4px 12px rgba(85, 161, 180, 0.25);
+  --shadow-brand-lg: 0 20px 50px rgba(85, 161, 180, 0.35);
+
+  /* Warm Shadows */
+  --shadow-warm: 0 10px 30px -10px rgba(237, 132, 58, 0.35);
+  --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.2);
+  --shadow-warm-lg: 0 20px 50px rgba(237, 132, 58, 0.28);
+
+  /* Success Shadows */
+  --shadow-success: 0 6px 20px rgba(34, 197, 94, 0.25);
+  --shadow-success-sm: 0 2px 8px rgba(34, 197, 94, 0.15);
+  --shadow-success-lg: 0 12px 30px rgba(34, 197, 94, 0.25);
+
+  /* Error Shadows */
+  --shadow-error: 0 4px 12px rgba(239, 68, 68, 0.15);
+  --shadow-error-sm: 0 2px 6px rgba(239, 68, 68, 0.1);
+  --shadow-error-lg: 0 10px 24px rgba(239, 68, 68, 0.2);
+
+  /* ========================================================================
+     COMPONENT STATE PATTERNS — Consistent Interactions
+     ======================================================================== */
+
+  /* Hover/Focus/Active State Opacities */
+  --state-hover-opacity: 0.08;
+  --state-focus-opacity: 0.12;
+  --state-active-opacity: 0.16;
+  --state-disabled-opacity: 0.5;
+
+  /* State Transitions */
+  --state-transition: var(--dur-1);
+
+  /* ========================================================================
+     MODERN BORDER SYSTEM — Refined Edges
+     ======================================================================== */
+
+  --border-width-thin: 1px;
+  --border-width-base: 2px;
+  --border-width-thick: 3px;
+  --border-width-heavy: 4px;
+
+  /* ========================================================================
+     COMPONENT PADDING & SIZING — Generous, Balanced
+     ======================================================================== */
+
+  /* Button Padding */
+  --btn-padding-xs: var(--s-1) var(--s-2);
+  --btn-padding-sm: var(--s-2) var(--s-4);
+  --btn-padding-sm-lg: var(--s-2) var(--s-5);
+  --btn-padding-md-sm: var(--s-2-5) var(--s-5);
+  --btn-padding-md: var(--s-3) var(--s-6);
+  --btn-padding-lg: var(--s-4) var(--s-8);
+  --btn-padding-lg-md: var(--s-3) var(--s-7);
+  --btn-padding-lg-sm: var(--s-3) var(--s-5-5);
+
+  /* Button Heights */
+  --btn-height-sm: 32px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+
+  /* Card Padding */
+  --card-padding-sm: var(--s-3);
+  --card-padding-md: var(--s-4);
+  --card-padding-lg: var(--s-6);
+
+  /* Input Sizing */
+  --input-height: 40px;
+  --input-padding: var(--s-2) var(--s-3);
+  --input-border-width: var(--border-width-base);
+
+  /* ========================================================================
+     GRADIENT LIBRARY — Modern, Sophisticated
+     ======================================================================== */
+
+  /* Brand Gradients */
+  --g-brand-primary: linear-gradient(135deg, #55A1B4, #3D7786);
+  --g-brand-light: linear-gradient(180deg, #E8F4F7, #DCEBEF);
+  --g-brand-vibrant: linear-gradient(120deg, #55A1B4, #ED843A);
+
+  /* Warm Gradients */
+  --g-warm: linear-gradient(135deg, #ED843A, #F8B044);
+  --g-warm-light: linear-gradient(180deg, #FFF3EB, #FFF9EE);
+
+  /* Success Gradients */
+  --g-success: linear-gradient(135deg, #22C55E, #16A34A);
+  --g-success-light: linear-gradient(180deg, #E8F2F0, #FFFFFF);
+
+  /* Hero Mesh */
+  --g-mesh: radial-gradient(at 18% 15%, rgba(85,161,180,0.35) 0px, transparent 45%),
+            radial-gradient(at 82% 10%, rgba(237,132,58,0.28) 0px, transparent 45%),
+            radial-gradient(at 10% 85%, rgba(248,176,68,0.25) 0px, transparent 50%),
+            radial-gradient(at 90% 85%, rgba(150,195,207,0.35) 0px, transparent 50%);
+
+  /* Glass Overlay Gradient */
+  --g-glass: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.35));
+  --g-glass-brand: linear-gradient(135deg, rgba(85,161,180,0.22), rgba(85,161,180,0.06));
+
+  /* ========================================================================
+     SPACING & LAYOUT — Modern, Generous
+     ======================================================================== */
+
+  /* Section Gaps */
+  --section-gap-compact: var(--s-6);
+  --section-gap-standard: var(--s-8);
+  --section-gap-large: var(--s-12);
+
+  /* Grid Gaps */
+  --grid-gap-compact: var(--s-3);
+  --grid-gap-standard: var(--s-4);
+  --grid-gap-loose: var(--s-6);
+
+  /* Component Spacing */
+  --component-padding-compact: var(--s-3);
+  --component-padding-standard: var(--s-4);
+  --component-padding-large: var(--s-6);
+
+  /* Page Padding */
+  --page-padding-mobile: var(--s-4);
+  --page-padding-tablet: var(--s-6);
+  --page-padding-desktop: var(--s-8);
+
+  /* ========================================================================
+     ANIMATION UTILITIES — Ready-to-use Effects
+     ======================================================================== */
+
+  /* Entrance animations */
+  --animation-fade: fade-in var(--dur-2) var(--ease-entrance);
+  --animation-slide-up: slide-up var(--dur-3) var(--ease-entrance);
+  --animation-scale: scale-in var(--dur-2) var(--ease-entrance);
+
+  /* Micro-interaction animations */
+  --animation-pulse: pulse 2s ease-in-out infinite;
+  --animation-float: float 3s ease-in-out infinite;
+  --animation-shimmer: shimmer 2s infinite;
+}

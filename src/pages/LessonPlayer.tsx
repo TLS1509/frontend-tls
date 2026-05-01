@@ -12,6 +12,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { SessionFeedbackModal } from '../components/modals';
+import { QuizComponent } from '../components/ui/QuizComponent';
 import {
   X,
   Clock3,
@@ -265,9 +267,9 @@ export const LessonPlayer: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [completedSections, setCompletedSections] = useState<Set<number>>(new Set([0]));
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [reflections, setReflections] = useState<Record<string, string>>({});
   const [actionPlan, setActionPlan] = useState({ objectif: '', action1: '', action2: '', action3: '' });
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const ctx = resolveLessonContext(pathId, lessonId);
   const lessonData = LESSON_DATA[lessonId] ?? DEFAULT_LESSON_DATA;
@@ -286,7 +288,9 @@ export const LessonPlayer: React.FC = () => {
     if (!isLast) {
       goTo(currentIndex + 1);
     } else {
-      navigate(`/learning-paths/${pathId}`);
+      // Mark conclusion as completed then open feedback before leaving
+      setCompletedSections((prev) => new Set(prev).add(currentIndex));
+      setShowFeedback(true);
     }
   };
 
@@ -366,7 +370,7 @@ export const LessonPlayer: React.FC = () => {
         <h2 className="lesson-player__section-title">{d.heading}</h2>
         <div className="lesson-player__example-bad">
           <div style={{ marginBottom: 'var(--s-3)' }}>
-            <span style={{ background: '#ef4444', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+            <span style={{ background: 'var(--tls-danger-base)', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
@@ -398,29 +402,20 @@ export const LessonPlayer: React.FC = () => {
     );
   };
 
-  const renderQuiz = () => (
-    <div>
-      <h2 className="lesson-player__section-title">Testez vos connaissances</h2>
-      {lessonData.quiz.questions.map((q, qi) => (
-        <div key={q.id} className="lesson-player__quiz-question">
-          <h3 style={{ margin: '0 0 var(--s-1)', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--t-body)' }}>
-            Question {qi + 1} : {q.text}
-          </h3>
-          <div className="lesson-player__quiz-options">
-            {q.options.map((opt) => (
-              <button
-                key={opt.id}
-                className={`lesson-player__quiz-option ${selectedAnswers[q.id] === opt.id ? 'lesson-player__quiz-option--selected' : ''}`}
-                onClick={() => setSelectedAnswers((prev) => ({ ...prev, [q.id]: opt.id }))}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  const renderQuiz = () => {
+    const quizQuestions = lessonData.quiz.questions.map(q => ({
+      question: q.text,
+      options: q.options.map(o => o.label),
+      correct: q.options.findIndex(o => o.id === q.correct),
+    }));
+    return (
+      <QuizComponent
+        questions={quizQuestions}
+        showEmojis={true}
+        onComplete={(results) => console.log('Quiz done', results)}
+      />
+    );
+  };
 
   const renderReflechir = () => (
     <div>
@@ -642,6 +637,21 @@ export const LessonPlayer: React.FC = () => {
         </div>
 
       </div>
+
+      {/* ─ Session Feedback Modal ─────────────────────────────────── */}
+      <SessionFeedbackModal
+        isOpen={showFeedback}
+        onClose={() => {
+          setShowFeedback(false);
+          navigate(`/learning-paths/${pathId}`);
+        }}
+        onSubmit={(_rating, _comment) => {
+          setShowFeedback(false);
+          navigate(`/learning-paths/${pathId}`);
+        }}
+        title={displayTitle}
+        subtitle={`Leçon complétée · ${displayDuration}`}
+      />
     </div>
   );
 };

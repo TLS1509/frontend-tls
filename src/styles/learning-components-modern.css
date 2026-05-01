@@ -1,0 +1,443 @@
+/* ==========================================================================
+   LEARNING APP COMPONENTS — Modern Glassmorphic Design
+   Cards, Progress, Stats, Learning-specific UI
+   ========================================================================== */
+
+/* ==========================================================================
+   LEARNING PATH CARDS — Glass Morphic with Gradient Accents
+   ========================================================================== */
+
+.parcours-tile,
+.learning-path-card,
+[class*="parcours"],
+[class*="path-card"] {
+  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  background: linear-gradient(135deg, var(--glass-fill-standard), var(--glass-fill-light));
+  border: 1px solid var(--glass-border-standard);
+  border-radius: var(--r-xl);
+  padding: var(--component-padding-large);
+  box-shadow: var(--shadow-sm), var(--glass-ring-standard);
+  transition: var(--transition-elevation);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Gradient overlay for tone variants */
+.parcours-tile[data-tone="primary"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(85, 161, 180, 0.05));
+  pointer-events: none;
+}
+
+.parcours-tile[data-tone="warm"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(237, 132, 58, 0.05));
+  pointer-events: none;
+}
+
+.parcours-tile[data-tone="success"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(34, 197, 94, 0.05));
+  pointer-events: none;
+}
+
+/* Hover state — elevated glass */
+.parcours-tile:hover,
+.learning-path-card:hover {
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  background: linear-gradient(135deg, var(--glass-fill-strong), var(--glass-fill-standard));
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-md), var(--glass-ring-standard);
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   STAT CARDS — KPI Display with Modern Styling
+   ========================================================================== */
+
+.stat-card,
+.stat-item,
+[class*="stat-card"] {
+  backdrop-filter: var(--glass-blur-light);
+  -webkit-backdrop-filter: var(--glass-blur-light);
+  background: var(--glass-fill-light);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--r-lg);
+  padding: var(--component-padding-large);
+  text-align: center;
+  transition: var(--transition-elevation);
+  position: relative;
+}
+
+.stat-card:hover,
+.stat-item:hover {
+  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  background: var(--glass-fill-standard);
+  border-color: var(--glass-border-standard);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card strong,
+.stat-item strong {
+  display: block;
+  font-size: var(--t-h2);
+  font-weight: 800;
+  color: var(--tls-primary-600);
+  margin-bottom: var(--s-1);
+}
+
+.stat-card span,
+.stat-item span {
+  display: block;
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   PROGRESS INDICATORS — Modern, Animated
+   ========================================================================== */
+
+.progress-wrapper,
+.progress-container,
+[class*="progress"] {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: linear-gradient(90deg, var(--surface-muted), var(--surface-sunken));
+  border-radius: var(--r-pill);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progress-shimmer var(--dur-5) ease-in-out infinite;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tls-primary-400), var(--tls-primary-500));
+  border-radius: var(--r-pill);
+  transition: width var(--dur-3) var(--ease-standard);
+  position: relative;
+  box-shadow: 0 0 12px rgba(85, 161, 180, 0.4);
+}
+
+.progress-bar__fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: progress-shimmer var(--dur-5) ease-in-out infinite;
+}
+
+@keyframes progress-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.progress-label {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ==========================================================================
+   ACHIEVEMENT BADGES — Elevated, Celebratory
+   ========================================================================== */
+
+.achievement-badge,
+.badge-achievement,
+[class*="achievement"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--s-2);
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--tls-yellow-50), var(--tls-orange-50));
+  border: 2px solid var(--tls-yellow-200);
+  border-radius: var(--r-2xl);
+  box-shadow: var(--shadow-brand), 0 8px 16px rgba(237, 132, 58, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-elevation);
+  animation: achievement-pop var(--dur-4) var(--ease-bounce);
+}
+
+.achievement-badge::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+  animation: achievement-shine var(--dur-3) ease-in-out;
+}
+
+.achievement-badge:hover {
+  transform: scale(1.08);
+  box-shadow: var(--shadow-xl), 0 12px 24px rgba(237, 132, 58, 0.3);
+}
+
+@keyframes achievement-pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes achievement-shine {
+  0% { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+.achievement-icon {
+  font-size: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.achievement-label {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  text-align: center;
+  color: var(--tls-orange-700);
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   COACHING SESSION CARDS — Premium Glass Effect
+   ========================================================================== */
+
+.coaching-card,
+.session-card,
+[class*="coaching"] {
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  background: linear-gradient(135deg, var(--glass-fill-strong), var(--glass-fill-standard));
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--r-xl);
+  padding: var(--component-padding-large);
+  box-shadow: var(--shadow-md), var(--glass-ring-standard);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-elevation);
+}
+
+.coaching-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+  pointer-events: none;
+  border-radius: var(--r-xl);
+}
+
+.coaching-card:hover {
+  backdrop-filter: var(--glass-blur-ultra);
+  -webkit-backdrop-filter: var(--glass-blur-ultra);
+  background: linear-gradient(135deg, var(--glass-fill-premium), var(--glass-fill-strong));
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-lg), var(--glass-ring-strong);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   LESSON/COURSE CARDS — Layered Glass Morphism
+   ========================================================================== */
+
+.lesson-card,
+.course-card,
+.content-card,
+[class*="lesson"],
+[class*="course"],
+[class*="content-card"] {
+  backdrop-filter: var(--glass-blur-medium);
+  -webkit-backdrop-filter: var(--glass-blur-medium);
+  background: var(--glass-fill-standard);
+  border: 1px solid var(--glass-border-standard);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm), var(--glass-ring-standard);
+  transition: var(--transition-elevation);
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-card:hover,
+.course-card:hover {
+  backdrop-filter: var(--glass-blur-heavy);
+  -webkit-backdrop-filter: var(--glass-blur-heavy);
+  background: var(--glass-fill-strong);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-lg), var(--glass-ring-standard);
+  transform: translateY(-4px);
+}
+
+.lesson-card__image,
+.course-card__image,
+[class*="card__image"] {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--tls-primary-200), var(--tls-orange-100));
+}
+
+.lesson-card__content,
+.course-card__content {
+  padding: var(--component-padding-large);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   STEP INDICATORS — Modern, Progressive
+   ========================================================================== */
+
+.step-indicator,
+.stepper-step,
+[class*="step"] {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--component-padding-large);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  transition: var(--transition-standard);
+}
+
+.step-indicator.completed {
+  background: var(--tls-success-light);
+  border-color: var(--tls-success-border);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+}
+
+.step-indicator.active {
+  background: linear-gradient(135deg, var(--tls-primary-100), var(--tls-primary-50));
+  border-color: var(--tls-primary-300);
+  box-shadow: var(--shadow-brand-sm);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--tls-primary-100);
+  color: var(--tls-primary-600);
+  font-weight: 700;
+  font-size: var(--t-body);
+  flex-shrink: 0;
+}
+
+.step-indicator.completed .step-number {
+  background: var(--tls-success-light);
+  color: var(--tls-success-fg);
+}
+
+/* ==========================================================================
+   RESPONSIVE — Mobile optimization
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .parcours-tile,
+  .coaching-card {
+    padding: var(--component-padding-standard);
+    border-radius: var(--r-lg);
+  }
+
+  .achievement-badge {
+    width: 100px;
+    height: 100px;
+  }
+
+  .achievement-icon {
+    font-size: 2rem;
+  }
+
+  .step-indicator {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   DARK MODE — Glass effects adaptation
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .parcours-tile,
+  .learning-path-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.3));
+  }
+
+  .parcours-tile:hover,
+  .learning-path-card:hover {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.5));
+  }
+
+  .stat-card,
+  .stat-item {
+    background: rgba(15, 23, 42, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .coaching-card,
+  .lesson-card,
+  .course-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.4));
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .coaching-card:hover,
+  .lesson-card:hover,
+  .course-card:hover {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.6));
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .progress-bar {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .step-indicator {
+    background: rgba(15, 23, 42, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

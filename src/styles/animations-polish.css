@@ -339,3 +339,80 @@
 .transition-slow {
   transition: all var(--dur-3) var(--ease-standard);
 }
+
+/* ─── PAGE ENTRANCE ANIMATIONS ──────────────────────────────────────────── */
+
+/* Richer page enter: fade + slide up from 14px below */
+@keyframes pageSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply to all main page containers */
+.tls-page,
+.feature-page,
+.dashboard-modern,
+.veille-page,
+.tls-editorial-page,
+.tls-editorial-detail {
+  animation: pageSlideUp 0.42s var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1)) both;
+}
+
+/* ─── KPI / STAT CARD STAGGER ───────────────────────────────────────────── */
+
+.tls-kpi-row .tls-kpi {
+  animation: pageSlideUp 0.35s var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1)) both;
+}
+
+.tls-kpi-row .tls-kpi:nth-child(1) { animation-delay: 60ms; }
+.tls-kpi-row .tls-kpi:nth-child(2) { animation-delay: 110ms; }
+.tls-kpi-row .tls-kpi:nth-child(3) { animation-delay: 160ms; }
+.tls-kpi-row .tls-kpi:nth-child(4) { animation-delay: 210ms; }
+
+/* ─── VEILLE FEED STAGGER ───────────────────────────────────────────────── */
+
+.veille-page__feed-list > li {
+  animation: pageSlideUp 0.35s var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1)) both;
+}
+
+.veille-page__feed-list > li:nth-child(1) { animation-delay: 80ms; }
+.veille-page__feed-list > li:nth-child(2) { animation-delay: 140ms; }
+.veille-page__feed-list > li:nth-child(3) { animation-delay: 200ms; }
+.veille-page__feed-list > li:nth-child(4) { animation-delay: 260ms; }
+.veille-page__feed-list > li:nth-child(5) { animation-delay: 320ms; }
+.veille-page__feed-list > li:nth-child(6) { animation-delay: 380ms; }
+
+/* ─── FORMAT STRIP STAGGER ──────────────────────────────────────────────── */
+
+.veille-format-strip .veille-format-card {
+  animation: pageSlideUp 0.3s var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1)) both;
+}
+
+.veille-format-strip .veille-format-card:nth-child(1) { animation-delay: 30ms; }
+.veille-format-strip .veille-format-card:nth-child(2) { animation-delay: 70ms; }
+.veille-format-strip .veille-format-card:nth-child(3) { animation-delay: 110ms; }
+.veille-format-strip .veille-format-card:nth-child(4) { animation-delay: 150ms; }
+
+/* ─── FILTER PILL STAGGER ───────────────────────────────────────────────── */
+
+.tls-filter-pill-row .tls-filter-pill,
+.veille-page__filters .veille-pill {
+  animation: pageSlideUp 0.28s var(--ease-standard, cubic-bezier(0.4, 0, 0.2, 1)) both;
+}
+
+.tls-filter-pill-row .tls-filter-pill:nth-child(1),
+.veille-page__filters .veille-pill:nth-child(1) { animation-delay: 20ms; }
+.tls-filter-pill-row .tls-filter-pill:nth-child(2),
+.veille-page__filters .veille-pill:nth-child(2) { animation-delay: 50ms; }
+.tls-filter-pill-row .tls-filter-pill:nth-child(3),
+.veille-page__filters .veille-pill:nth-child(3) { animation-delay: 80ms; }
+.tls-filter-pill-row .tls-filter-pill:nth-child(4),
+.veille-page__filters .veille-pill:nth-child(4) { animation-delay: 110ms; }
+.tls-filter-pill-row .tls-filter-pill:nth-child(5),
+.veille-page__filters .veille-pill:nth-child(5) { animation-delay: 140ms; }

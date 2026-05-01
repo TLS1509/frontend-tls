@@ -57,10 +57,16 @@ export const FlashcardsViewer: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [marked, setMarked] = useState<Set<number>>(new Set());
+  const [marked, setMarked] = useState<Map<number, 'easy' | 'medium' | 'hard'>>(new Map());
 
   const currentCard = FLASHCARDS[currentIndex];
   const isMarked = marked.has(currentCard.id);
+
+  const stats = {
+    mastered: Array.from(marked.values()).filter((v) => v === 'easy').length,
+    learning: Array.from(marked.values()).filter((v) => v === 'medium').length,
+    reviewing: Array.from(marked.values()).filter((v) => v === 'hard').length,
+  };
 
   const handleNext = () => {
     if (currentIndex < FLASHCARDS.length - 1) {
@@ -77,11 +83,11 @@ export const FlashcardsViewer: React.FC = () => {
   };
 
   const handleMark = (difficulty: 'easy' | 'medium' | 'hard') => {
-    const newMarked = new Set(marked);
+    const newMarked = new Map(marked);
     if (isMarked) {
       newMarked.delete(currentCard.id);
     } else {
-      newMarked.add(currentCard.id);
+      newMarked.set(currentCard.id, difficulty);
     }
     setMarked(newMarked);
   };
@@ -202,9 +208,9 @@ export const FlashcardsViewer: React.FC = () => {
         </div>
       </div>
 
-      {/* Card Metadata */}
-      {currentCard.difficulty && (
-        <div style={{ textAlign: 'center' }}>
+      {/* Card Metadata & Study Stats */}
+      <div style={{ display: 'flex', gap: 'var(--s-4)', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+        {currentCard.difficulty && (
           <MetaPill
             icon={<Clock size={12} />}
             text={
@@ -217,8 +223,30 @@ export const FlashcardsViewer: React.FC = () => {
             tone={currentCard.difficulty === 'easy' ? 'sun' : currentCard.difficulty === 'medium' ? 'warm' : 'brand'}
             size="sm"
           />
+        )}
+
+        {/* Study Stats */}
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
+          <div style={{ textAlign: 'center', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--tls-success-fg)' }}>
+              {stats.mastered}
+            </div>
+            <div style={{ fontSize: '10px' }}>Maîtrisées</div>
+          </div>
+          <div style={{ textAlign: 'center', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--tls-orange-600)' }}>
+              {stats.learning}
+            </div>
+            <div style={{ fontSize: '10px' }}>En cours</div>
+          </div>
+          <div style={{ textAlign: 'center', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--tls-primary-600)' }}>
+              {stats.reviewing}
+            </div>
+            <div style={{ fontSize: '10px' }}>À revoir</div>
+          </div>
         </div>
-      )}
+      </div>
 
       {/* Actions */}
       <div style={{ display: 'flex', gap: 'var(--s-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -226,8 +254,9 @@ export const FlashcardsViewer: React.FC = () => {
           variant="ghost"
           onClick={() => handleMark('easy')}
           style={{
-            color: isMarked ? 'var(--tls-primary-500)' : 'var(--text-muted)',
-            borderColor: isMarked ? 'var(--tls-primary-500)' : 'var(--border-subtle)',
+            color: marked.get(currentCard.id) === 'easy' ? 'var(--tls-success-fg)' : 'var(--text-muted)',
+            borderColor: marked.get(currentCard.id) === 'easy' ? 'var(--tls-success-fg)' : 'var(--border)',
+            background: marked.get(currentCard.id) === 'easy' ? 'rgba(74,140,110,0.1)' : 'transparent',
           }}
         >
           <ThumbsUp size={16} />
@@ -235,10 +264,23 @@ export const FlashcardsViewer: React.FC = () => {
         </Button>
         <Button
           variant="ghost"
+          onClick={() => handleMark('medium')}
+          style={{
+            color: marked.get(currentCard.id) === 'medium' ? 'var(--tls-orange-600)' : 'var(--text-muted)',
+            borderColor: marked.get(currentCard.id) === 'medium' ? 'var(--tls-orange-600)' : 'var(--border)',
+            background: marked.get(currentCard.id) === 'medium' ? 'rgba(237,132,58,0.1)' : 'transparent',
+          }}
+        >
+          <Clock size={16} />
+          En cours
+        </Button>
+        <Button
+          variant="ghost"
           onClick={() => handleMark('hard')}
           style={{
-            color: isMarked ? 'var(--tls-orange-500)' : 'var(--text-muted)',
-            borderColor: isMarked ? 'var(--tls-orange-500)' : 'var(--border-subtle)',
+            color: marked.get(currentCard.id) === 'hard' ? 'var(--tls-primary-600)' : 'var(--text-muted)',
+            borderColor: marked.get(currentCard.id) === 'hard' ? 'var(--tls-primary-600)' : 'var(--border)',
+            background: marked.get(currentCard.id) === 'hard' ? 'var(--tls-primary-50)' : 'transparent',
           }}
         >
           <ThumbsDown size={16} />

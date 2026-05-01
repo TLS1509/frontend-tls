@@ -1,49 +1,209 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
-import { Compass, Home, Search, LayoutGrid } from 'lucide-react';
+import { Compass, Home, Search, LayoutGrid, Zap, HelpCircle } from 'lucide-react';
 import '../styles/figma-missing-pages.css';
 import '../styles/static-pages.css';
 
 /**
- * Static 404 — parity with figmamakedesignreact/src/app/pages/Error404Page.tsx
+ * Static 404 — Learner-centric with friendly illustration and suggested next steps
  */
 export const Error404: React.FC = () => {
   const navigate = useNavigate();
 
+  const suggestions = [
+    {
+      icon: <Home size={20} />,
+      title: 'Tableau de bord',
+      desc: 'Retourner à votre espace personnel',
+      action: () => navigate('/dashboard'),
+      variant: 'primary',
+    },
+    {
+      icon: <Search size={20} />,
+      title: 'Parcours disponibles',
+      desc: 'Explorer tous les cursus d\'apprentissage',
+      action: () => navigate('/learning-paths'),
+      variant: 'secondary',
+    },
+    {
+      icon: <Zap size={20} />,
+      title: 'Veille & Ressources',
+      desc: 'Découvrir vidéos et contenus récents',
+      action: () => navigate('/veille'),
+      variant: 'secondary',
+    },
+    {
+      icon: <HelpCircle size={20} />,
+      title: 'Support & Questions',
+      desc: 'Contacter notre équipe d\'assistance',
+      action: () => navigate('/messages'),
+      variant: 'secondary',
+    },
+  ];
+
   return (
-    <div className="tls-error-page">
-      <div className="tls-error-inner">
-        <p className="tls-editorial-eyebrow">Navigation • Erreur</p>
-        <div className="tls-error-code" aria-hidden="true">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: 'var(--bg)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'var(--s-6)',
+      }}
+    >
+      {/* Hero section */}
+      <div
+        style={{
+          textAlign: 'center',
+          maxWidth: '520px',
+          marginBottom: 'var(--s-12)',
+        }}
+      >
+        {/* Large icon with gradient background */}
+        <div
+          style={{
+            width: '120px',
+            height: '120px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, var(--tls-orange-50) 100%)',
+            border: '2px solid var(--tls-primary-200)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto var(--s-6)',
+            color: 'var(--tls-primary-600)',
+          }}
+        >
+          <Compass size={56} strokeWidth={1.5} />
+        </div>
+
+        {/* Error code */}
+        <div
+          style={{
+            fontSize: 'clamp(4rem, 10vw, 6rem)',
+            fontWeight: 900,
+            color: 'var(--tls-primary-200)',
+            margin: '0 0 var(--s-2) 0',
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+          }}
+          aria-hidden="true"
+        >
           404
         </div>
-        <div className="tls-error-icon-wrap">
-          <Compass size={48} strokeWidth={1.5} />
-        </div>
-        <h1 className="tls-error-title">Page introuvable</h1>
-        <p className="tls-error-desc">
-          La page demandée n&apos;existe pas ou a été déplacée. Revenez au tableau de bord ou explorez les parcours.
+
+        <h1
+          style={{
+            fontSize: 'var(--t-h2)',
+            fontWeight: 700,
+            color: 'var(--text)',
+            margin: '0 0 var(--s-3) 0',
+          }}
+        >
+          Oups, page non trouvée
+        </h1>
+
+        <p
+          style={{
+            fontSize: 'var(--t-body)',
+            color: 'var(--text-muted)',
+            margin: '0 0 var(--s-8) 0',
+            lineHeight: 1.6,
+          }}
+        >
+          La page demandée n&apos;existe pas ou a été déplacée. Pas de problème, nous vous proposons ces raccourcis utiles.
         </p>
-        <div className="tls-callout" style={{ textAlign: 'left', marginBottom: 'var(--s-6)' }}>
-          <p style={{ marginTop: 0, marginBottom: 'var(--s-2)', fontWeight: 600 }}>Raccourcis utiles</p>
-          <p className="tls-micro" style={{ marginBottom: 0 }}>
-            Vous pouvez relancer votre parcours depuis l&apos;index des pages ou revenir au dashboard pour reprendre au
-            bon endroit.
-          </p>
-        </div>
-        <div className="tls-error-actions">
-          <Button leadingIcon={<Home size={18} />} onClick={() => navigate('/dashboard')}>
-            Tableau de bord
-          </Button>
-          <Button variant="secondary" leadingIcon={<Search size={18} />} onClick={() => navigate('/learning-paths')}>
-            Parcours
-          </Button>
-          <Button variant="secondary" leadingIcon={<LayoutGrid size={18} />} onClick={() => navigate('/pages-index')}>
-            Index des pages
-          </Button>
-        </div>
       </div>
+
+      {/* Suggested next steps — 2x2 grid on desktop, single column mobile */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: 'var(--s-4)',
+          width: '100%',
+          maxWidth: '960px',
+          marginBottom: 'var(--s-8)',
+        }}
+      >
+        {suggestions.map((item, idx) => (
+          <button
+            key={idx}
+            onClick={item.action}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 'var(--s-3)',
+              padding: 'var(--s-5)',
+              borderRadius: 'var(--r-xl)',
+              border: '1px solid var(--border)',
+              background: 'var(--surface)',
+              cursor: 'pointer',
+              transition: 'all var(--dur-2)',
+              textAlign: 'left',
+              fontFamily: 'inherit',
+            }}
+            onMouseEnter={(e) => {
+              const card = e.currentTarget as HTMLButtonElement;
+              card.style.borderColor = 'var(--tls-primary-300)';
+              card.style.boxShadow = 'var(--shadow-md)';
+              card.style.transform = 'translateY(-4px)';
+            }}
+            onMouseLeave={(e) => {
+              const card = e.currentTarget as HTMLButtonElement;
+              card.style.borderColor = 'var(--border)';
+              card.style.boxShadow = 'var(--shadow-xs)';
+              card.style.transform = 'translateY(0)';
+            }}
+          >
+            <div
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: 'var(--r-lg)',
+                background: 'var(--tls-primary-50)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--tls-primary-600)',
+              }}
+            >
+              {item.icon}
+            </div>
+            <div>
+              <h3
+                style={{
+                  margin: '0 0 var(--s-1) 0',
+                  fontSize: 'var(--t-body-sm)',
+                  fontWeight: 700,
+                  color: 'var(--text)',
+                }}
+              >
+                {item.title}
+              </h3>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 'var(--t-caption)',
+                  color: 'var(--text-muted)',
+                  lineHeight: 1.5,
+                }}
+              >
+                {item.desc}
+              </p>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Primary action */}
+      <Button onClick={() => navigate('/dashboard')} leadingIcon={<Home size={16} />}>
+        Retour au tableau de bord
+      </Button>
     </div>
   );
 };
