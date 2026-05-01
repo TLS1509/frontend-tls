@@ -38,7 +38,7 @@ const EntryCard: React.FC<EntryCardProps> = ({ entry, onNavigate }) => {
       style={{
         transition: 'all 0.15s',
         transform: hovered ? 'translateY(-2px)' : 'none',
-        boxShadow: hovered ? '0 6px 20px rgba(0,0,0,0.08)' : undefined,
+        boxShadow: hovered ? 'var(--shadow-lg)' : undefined,
         cursor: 'default',
       }}
       onMouseEnter={() => setHovered(true)}
@@ -133,7 +133,7 @@ export const Journal: React.FC = () => {
         <Card variant="feature" style={{ marginBottom: 'var(--s-6)' }}>
           <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap' }}>
             {/* Search */}
-            <div style={{ flex: 1, minWidth: 200, display: 'flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--s-3)', background: 'var(--surface-muted)', borderRadius: 'var(--r-md)', border: '1px solid transparent', transition: 'border-color 0.15s' }}>
+            <div style={{ flex: 1, minWidth: 'min(100%, 200px)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--s-3)', background: 'var(--surface-muted)', borderRadius: 'var(--r-md)', border: '1px solid transparent', transition: 'border-color 0.15s' }}>
               <Search size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
               <input
                 type="search"

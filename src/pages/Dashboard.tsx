@@ -11,7 +11,7 @@
  * Uses TLS design tokens throughout. No hardcoded values.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { ProgressBar } from '../components/ui/ProgressBar';
@@ -61,6 +61,10 @@ interface PromptItem {
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [hoveredAction, setHoveredAction] = useState<string | null>(null);
+  const [focusedAction, setFocusedAction] = useState<string | null>(null);
+  const [hoveredContinue, setHoveredContinue] = useState(false);
+  const [focusedContinue, setFocusedContinue] = useState(false);
   const currentDate = new Date().toLocaleDateString('fr-FR', {
     weekday: 'long',
     year: 'numeric',
@@ -185,7 +189,28 @@ export const Dashboard: React.FC = () => {
                 key={action.id}
                 variant="interactive"
                 onClick={() => navigate(action.path)}
-                style={{ textAlign: 'center', cursor: 'pointer' }}
+                onMouseEnter={() => setHoveredAction(action.id)}
+                onMouseLeave={() => setHoveredAction(null)}
+                onFocus={() => setFocusedAction(action.id)}
+                onBlur={() => setFocusedAction(null)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(action.path);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`${action.title}: ${action.description}`}
+                style={{
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'all var(--dur-2)',
+                  transform: hoveredAction === action.id ? 'translateY(-4px)' : 'translateY(0)',
+                  boxShadow: hoveredAction === action.id ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
+                  outline: focusedAction === action.id ? '2px solid var(--tls-primary-500)' : 'none',
+                  outlineOffset: focusedAction === action.id ? '2px' : '0',
+                }}
               >
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--s-4)' }}>
                   <div style={{ width: 48, height: 48, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -204,7 +229,33 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Continue Learning Card */}
-        <Card variant="feature" style={{ background: 'linear-gradient(135deg, var(--tls-orange-50), var(--tls-yellow-50))', border: '2px solid var(--tls-orange-200)', cursor: 'pointer', transition: 'all var(--dur-2)' }} onClick={() => navigate('/learning-paths/1')}>
+        <Card
+          variant="feature"
+          onClick={() => navigate('/learning-paths/1')}
+          onMouseEnter={() => setHoveredContinue(true)}
+          onMouseLeave={() => setHoveredContinue(false)}
+          onFocus={() => setFocusedContinue(true)}
+          onBlur={() => setFocusedContinue(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              navigate('/learning-paths/1');
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Continuer le parcours d'apprentissage: Maîtriser l'IA pour la Formation"
+          style={{
+            background: 'linear-gradient(135deg, var(--tls-orange-50), var(--tls-yellow-50))',
+            border: '2px solid var(--tls-orange-200)',
+            cursor: 'pointer',
+            transition: 'all var(--dur-2)',
+            transform: hoveredContinue ? 'translateY(-2px)' : 'translateY(0)',
+            boxShadow: hoveredContinue ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+            outline: focusedContinue ? '2px solid var(--tls-orange-500)' : 'none',
+            outlineOffset: focusedContinue ? '2px' : '0',
+          }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--s-4)' }}>

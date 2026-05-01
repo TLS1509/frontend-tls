@@ -3376,3 +3376,57 @@
   border-left-color: var(--card-accent-color);
   background: linear-gradient(90deg, var(--card-accent-bg), transparent);
 }
+
+/* =========================================================================
+   DECORATIVE BLUR BLOB UTILITIES
+   ========================================================================= */
+
+.blur-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(var(--glass-blur-heavy));
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.blur-blob--top-right {
+  top: -40%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+}
+
+.blur-blob--bottom-left {
+  bottom: -30%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+}
+
+/* =========================================================================
+   GRADIENT BACKGROUND UTILITIES
+   ========================================================================= */
+
+.bg-gradient-hero {
+  background: var(--g-hero);
+  color: var(--text-inverse);
+}
+
+.bg-gradient-warm {
+  background: linear-gradient(135deg, var(--tls-orange-50), var(--tls-yellow-50));
+}
+
+/* =========================================================================
+   KPI ICON BACKGROUND UTILITY
+   ========================================================================= */
+
+.kpi-icon-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  background: var(--tls-primary-100);
+  flex-shrink: 0;
+}
