@@ -107,14 +107,14 @@ export const Coaching: React.FC = () => {
 
       {/* Content Section */}
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
-        {/* KPI Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
+        {/* KPI Stats — Elevated with better visual hierarchy */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-10)' }}>
           <Card
-            className="card-stagger"
+            className="card-stagger hover-lift"
             variant="default"
-            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
-            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)' }}>
               <Calendar size={20} />
@@ -123,11 +123,11 @@ export const Coaching: React.FC = () => {
             <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>Session planifiée</p>
           </Card>
           <Card
-            className="card-stagger"
+            className="card-stagger hover-lift"
             variant="default"
-            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
-            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             <div className="tls-kpi-icon" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)' }}>
               <CheckCircle2 size={20} />
@@ -136,11 +136,11 @@ export const Coaching: React.FC = () => {
             <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>Sessions réalisées</p>
           </Card>
           <Card
-            className="card-stagger"
+            className="card-stagger hover-lift"
             variant="default"
-            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-xs)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
-            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', transition: 'all var(--dur-2)', cursor: 'default', textAlign: 'center' }}
+            onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)' }}>
               <Star size={20} />
@@ -150,11 +150,11 @@ export const Coaching: React.FC = () => {
           </Card>
         </div>
 
-        {/* Two-column layout: Coach info + Upcoming session */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) 1fr', gap: 'var(--s-8)', marginBottom: 'var(--s-8)', alignItems: 'start' }}>
-          {/* Coach Card - Sticky */}
+        {/* Two-column layout: Coach info + Upcoming session — Enhanced spacing & elevation */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1.2fr', gap: 'var(--s-8)', marginBottom: 'var(--s-10)', alignItems: 'start' }}>
+          {/* Coach Card - Sticky with elevated styling */}
           <div style={{ position: 'sticky', top: 'var(--s-8)' }}>
-            <Card variant="feature" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', transition: 'all var(--dur-2)' }}>
+            <Card variant="feature" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)', transition: 'all var(--dur-2)', borderRadius: 'var(--r-lg)' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
                 {/* Avatar section */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
@@ -279,8 +279,8 @@ export const Coaching: React.FC = () => {
             </Card>
           </div>
 
-          {/* Upcoming Session Card */}
-          <Card variant="feature" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', transition: 'all var(--dur-2)' }}>
+          {/* Upcoming Session Card — Featured with elevated styling */}
+          <Card variant="feature" style={{ background: 'linear-gradient(135deg, var(--tls-primary-50), var(--surface))', boxShadow: 'var(--shadow-md)', transition: 'all var(--dur-2)', borderRadius: 'var(--r-lg)', border: '1px solid var(--tls-primary-200)' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
               {/* Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--s-3)' }}>
@@ -318,13 +318,16 @@ export const Coaching: React.FC = () => {
           </Card>
         </div>
 
-        {/* Past Sessions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+        {/* Past Sessions — Better visual separation and spacing */}
+        <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', paddingTop: 'var(--s-8)', borderTop: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
-              Sessions passées
-            </h2>
-            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            <div>
+              <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+                Sessions passées
+              </h2>
+              <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: 'var(--s-1) 0 0' }}>Historique complet de vos sessions de coaching</p>
+            </div>
+            <span style={{ fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--tls-primary-600)', background: 'var(--tls-primary-50)', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-pill)' }}>
               {sessions.length} sessions
             </span>
           </div>
@@ -356,7 +359,7 @@ export const Coaching: React.FC = () => {
               />
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </div>
 

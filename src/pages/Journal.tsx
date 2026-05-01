@@ -229,23 +229,37 @@ const KpiCard: React.FC<{
   icon?: React.ReactNode;
   iconBg?: string;
   iconColor?: string;
-}> = ({ label, value, icon, iconBg = 'var(--tls-primary-50)', iconColor = 'var(--tls-primary-600)' }) => (
-  <Card variant="feature" style={{ textAlign: 'center' }}>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', alignItems: 'center' }}>
-      {icon && (
-        <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>
-          {icon}
-        </div>
-      )}
-      <p style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: iconColor ?? 'var(--tls-primary-500)', margin: 0 }}>
-        {value}
-      </p>
-      <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>
-        {label}
-      </p>
-    </div>
-  </Card>
-);
+}> = ({ label, value, icon, iconBg = 'var(--tls-primary-50)', iconColor = 'var(--tls-primary-600)' }) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <Card
+      variant="feature"
+      style={{
+        textAlign: 'center',
+        transition: 'all var(--dur-2)',
+        boxShadow: hovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        cursor: 'default'
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
+        {icon && (
+          <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>
+            {icon}
+          </div>
+        )}
+        <p style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: iconColor ?? 'var(--tls-primary-500)', margin: 0 }}>
+          {value}
+        </p>
+        <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>
+          {label}
+        </p>
+      </div>
+    </Card>
+  );
+};
 
 interface EntryCardProps {
   entry: JournalEntry;
@@ -263,10 +277,10 @@ const EntryCard: React.FC<EntryCardProps> = ({ entry, onNavigate, onCoachingActi
       variant="feature"
       style={{
         transition: 'all var(--dur-2)',
-        transform: hovered ? 'translateY(-2px)' : 'none',
-        boxShadow: hovered ? 'var(--shadow-lg)' : undefined,
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        boxShadow: hovered ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
         cursor: 'default',
-        borderLeft: `3px solid ${meta.border}`,
+        borderLeft: `4px solid ${meta.border}`,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -405,8 +419,8 @@ export const Journal: React.FC = () => {
       />
 
       <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', boxSizing: 'border-box' }}>
-        {/* KPI Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-8)' }}>
+        {/* KPI Cards — Enhanced with elevation and better spacing */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-10)' }}>
           <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '0ms' } as React.CSSProperties}>
             <KpiCard
               label="Entrées ce mois"
@@ -445,8 +459,8 @@ export const Journal: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA row */}
-        <div style={{ display: 'flex', gap: 'var(--s-3)', marginBottom: 'var(--s-8)', flexWrap: 'wrap' }}>
+        {/* CTA row — Enhanced with better visual prominence */}
+        <div style={{ display: 'flex', gap: 'var(--s-3)', marginBottom: 'var(--s-10)', flexWrap: 'wrap', alignItems: 'center' }}>
           {(['guided', 'free', 'insight'] as EntryType[]).map((type) => {
             const m = TYPE_META[type];
             return (
@@ -455,19 +469,23 @@ export const Journal: React.FC = () => {
                 variant="secondary"
                 leadingIcon={<span style={{ fontSize: '1em' }}>{m.emoji}</span>}
                 onClick={() => navigate(`/journal/new-entry?type=${type}`)}
-                style={{ background: m.bg, borderColor: m.border, color: m.color }}
+                style={{ background: m.bg, borderColor: m.border, color: m.color, transition: 'all var(--dur-2)' }}
               >
                 {m.label}
               </Button>
             );
           })}
-          <Button leadingIcon={<PenSquare size={16} />} onClick={() => navigate('/journal/new-entry')}>
+          <Button
+            leadingIcon={<PenSquare size={16} />}
+            onClick={() => navigate('/journal/new-entry')}
+            style={{ marginLeft: 'auto' }}
+          >
             Nouvelle entrée
           </Button>
         </div>
 
-        {/* Toolbar */}
-        <Card variant="feature" style={{ marginBottom: 'var(--s-6)' }}>
+        {/* Toolbar — Enhanced with better visual separation */}
+        <Card variant="feature" style={{ marginBottom: 'var(--s-8)', boxShadow: 'var(--shadow-sm)', backgroundColor: 'var(--surface)' }}>
           <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap' }}>
             {/* Search */}
             <div style={{
@@ -567,13 +585,13 @@ export const Journal: React.FC = () => {
           </div>
         </Card>
 
-        {/* Result count */}
+        {/* Result count — Enhanced with better styling */}
         {(typeFilter !== 'all' || periodFilter !== 'all' || searchQuery) && (
           <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             marginBottom: 'var(--s-4)', padding: 'var(--s-3) var(--s-5)',
-            background: 'var(--tls-primary-50)', borderRadius: 'var(--r-lg)',
-            border: '1px solid var(--tls-primary-100)',
+            background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))', borderRadius: 'var(--r-lg)',
+            border: '1px solid var(--tls-primary-100)', boxShadow: 'var(--shadow-xs)',
           }}>
             <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--tls-primary-700)', fontWeight: 500 }}>
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
