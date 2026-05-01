@@ -5,10 +5,9 @@
    ========================================================================== */
 
 /* ── 1. TOKENS ─────────────────────────────────────────────────────────── */
-/* Base design tokens (colors, spacing, typography, radius, shadows, glass) */
+/* Base design tokens — single source of truth for all colors, spacing,
+   typography, shadows, glass, motion, gradients, overlays, and on-color effects */
 @import './design-tokens.css';
-/* Modern glassmorphism & micro-interaction tokens */
-@import './design-system-modern-tokens.css';
 /* Dark mode overrides */
 @import './dark-mode-tokens.css';
 
@@ -25,7 +24,6 @@
 
 /* ── 4. UTILITIES ───────────────────────────────────────────────────────── */
 @import './utilities.css';
-@import './utilities-extended.css';
 @import './glass-utilities.css';
 
 /* ── 5. COMPONENTS ──────────────────────────────────────────────────────── */
