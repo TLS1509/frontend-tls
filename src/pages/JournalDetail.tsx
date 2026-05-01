@@ -72,14 +72,14 @@ export const JournalDetail: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/journal')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
         >
           <ArrowLeft size={14} /> Retour au journal
         </button>
         <button
           type="button"
           onClick={() => navigate('/journal/new-entry')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '9px 20px', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--s-2-5) var(--s-5)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
         >
           <PenLine size={15} /> Nouvelle entrée
         </button>
@@ -94,18 +94,18 @@ export const JournalDetail: React.FC = () => {
 
       {/* ─ Hero light ─────────────────────────────────────────── */}
       <div style={{ background: 'linear-gradient(160deg, var(--tls-primary-50) 0%, #fff 60%)', padding: 'var(--s-8) var(--s-8) var(--s-6)' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
+        <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto' }}>
 
           {/* Meta chips */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 14px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: '12px', fontWeight: 800, letterSpacing: '0.06em' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-1) var(--s-3-5)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-caption)', fontWeight: 800, letterSpacing: '0.06em' }}>
               <Sparkles size={12} /> JOURNAL DE BORD
             </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', borderRadius: 'var(--r-full)', background: 'rgba(85,161,180,0.1)', color: 'var(--tls-primary-700)', fontSize: '12px', fontWeight: 700 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '5px 12px', borderRadius: 'var(--r-full)', background: 'rgba(85,161,180,0.1)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-caption)', fontWeight: 700 }}>
               <BookOpen size={12} /> {ENTRY.category}
             </span>
             {/* Mood */}
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '5px 12px', borderRadius: 'var(--r-full)', background: '#f8f9fa', color: 'var(--text-muted)', fontSize: '12px', fontWeight: 600, border: '1px solid var(--border)' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '5px 12px', borderRadius: 'var(--r-full)', background: '#f8f9fa', color: 'var(--text-muted)', fontSize: 'var(--t-caption)', fontWeight: 600, border: '1px solid var(--border)' }}>
               {ENTRY.mood} {ENTRY.moodLabel}
             </span>
           </div>
@@ -120,7 +120,7 @@ export const JournalDetail: React.FC = () => {
               { icon: <CalendarDays size={14} />, label: ENTRY.date },
               { icon: <Clock size={14} />, label: ENTRY.readTime },
             ].map((m, i) => (
-              <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
+              <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
                 {m.icon}{m.label}
               </span>
             ))}
@@ -129,14 +129,14 @@ export const JournalDetail: React.FC = () => {
       </div>
 
       {/* ─ Body ───────────────────────────────────────────────── */}
-      <div style={{ maxWidth: '760px', margin: '0 auto', padding: 'var(--s-6) var(--s-8) var(--s-12)' }}>
+      <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto', padding: 'var(--s-6) var(--s-8) var(--s-12)' }}>
 
         {/* Sections structurées */}
         {ENTRY.sections.map((section, i) => (
           <div key={i} style={{ background: section.color, border: `1.5px solid ${section.border}`, borderLeft: `4px solid ${section.accent}`, borderRadius: 'var(--r-xl)', padding: 'var(--s-5) var(--s-6)', marginBottom: 'var(--s-5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
               {section.icon}
-              <span style={{ fontSize: '12px', fontWeight: 800, color: section.accent, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{section.label}</span>
+              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: section.accent, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{section.label}</span>
             </div>
             <p style={{ fontSize: 'var(--t-sm)', color: 'var(--text)', lineHeight: 1.85, margin: 0 }}>{section.text}</p>
           </div>
@@ -164,7 +164,7 @@ export const JournalDetail: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-6)' }}>
           <Tag size={14} style={{ color: 'var(--text-muted)' }} />
           {ENTRY.tags.map((tag) => (
-            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', padding: '4px 10px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: '12px', fontWeight: 600, border: '1px solid rgba(85,161,180,0.2)' }}>
+            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-caption)', fontWeight: 600, border: '1px solid rgba(85,161,180,0.2)' }}>
               {tag}
             </span>
           ))}
@@ -184,7 +184,7 @@ export const JournalDetail: React.FC = () => {
           >
             <ArrowLeft size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>Entrée précédente</div>
+              <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 'var(--s-1)' }}>Entrée précédente</div>
               <div style={{ fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>Semaine 13 — Délégation</div>
             </div>
           </button>
@@ -196,7 +196,7 @@ export const JournalDetail: React.FC = () => {
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
           >
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>Entrée suivante</div>
+              <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 'var(--s-1)' }}>Entrée suivante</div>
               <div style={{ fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>Semaine 15 — Feedback</div>
             </div>
             <ArrowRight size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
@@ -212,7 +212,7 @@ export const JournalDetail: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/journal/new-entry')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 22px', borderRadius: 'var(--r-full)', border: 'none', background: '#fff', color: 'var(--tls-primary-600)', fontSize: 'var(--t-sm)', fontWeight: 800, cursor: 'pointer', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap', flexShrink: 0 }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: '12px 22px', borderRadius: 'var(--r-full)', border: 'none', background: '#fff', color: 'var(--tls-primary-600)', fontSize: 'var(--t-sm)', fontWeight: 800, cursor: 'pointer', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap', flexShrink: 0 }}
           >
             <PenLine size={15} /> Nouvelle entrée
           </button>

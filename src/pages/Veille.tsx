@@ -280,7 +280,7 @@ export const Veille: React.FC = () => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '12px',
+          gap: 'var(--s-3)',
           padding: '0 var(--s-6) var(--s-4)',
           maxWidth: 'var(--container-default)',
           margin: '0 auto',
@@ -296,9 +296,9 @@ export const Veille: React.FC = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: 'var(--s-2-5)',
               padding: '12px 14px',
-              borderRadius: '16px',
+              borderRadius: 'var(--r-xl)',
               background: f.bg,
               border: `1.5px solid ${f.border}`,
               cursor: 'pointer',
@@ -309,10 +309,10 @@ export const Veille: React.FC = () => {
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
           >
-            <span style={{ fontSize: '22px', flexShrink: 0 }}>{f.icon}</span>
+            <span style={{ fontSize: 'var(--t-h3)', flexShrink: 0 }}>{f.icon}</span>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: f.color, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.3, marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.sub}</div>
+              <div style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: f.color, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.label}</div>
+              <div style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', lineHeight: 1.3, marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.sub}</div>
             </div>
           </button>
         ))}

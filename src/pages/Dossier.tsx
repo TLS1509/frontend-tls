@@ -269,7 +269,7 @@ export const Dossier: React.FC = () => {
               margin: "0 0 var(--s-5)",
               letterSpacing: "-0.03em",
               lineHeight: 1.1,
-              maxWidth: "760px",
+              maxWidth: "var(--container-narrow)",
             }}
           >
             Transformation IA des parcours de formation professionnelle
@@ -295,7 +295,7 @@ export const Dossier: React.FC = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "6px",
+                  gap: "var(--s-1-5)",
                   color: "var(--text-muted)",
                   fontSize: "var(--t-sm)",
                 }}
@@ -322,7 +322,7 @@ export const Dossier: React.FC = () => {
         >
           <div
             style={{
-              fontSize: "11px",
+              fontSize: "var(--t-micro)",
               fontWeight: 800,
               color: "var(--tls-orange-600)",
               textTransform: "uppercase",
@@ -385,7 +385,7 @@ export const Dossier: React.FC = () => {
               <BookOpen size={14} style={{ color: "var(--tls-primary-500)" }} />
               <span
                 style={{
-                  fontSize: "11px",
+                  fontSize: "var(--t-micro)",
                   fontWeight: 700,
                   color: "var(--tls-primary-600)",
                   textTransform: "uppercase",
@@ -422,7 +422,7 @@ export const Dossier: React.FC = () => {
                 >
                   <span
                     style={{
-                      fontSize: "11px",
+                      fontSize: "var(--t-micro)",
                       fontWeight: 800,
                       color: isActive ? "var(--tls-primary-600)" : "var(--text-muted)",
                       minWidth: "20px",
@@ -434,7 +434,7 @@ export const Dossier: React.FC = () => {
                   </span>
                   <span
                     style={{
-                      fontSize: "13px",
+                      fontSize: "var(--t-caption)",
                       fontWeight: isActive ? 600 : 500,
                       color: isActive ? "var(--tls-primary-700)" : "var(--text)",
                       lineHeight: 1.4,
@@ -590,7 +590,7 @@ export const Dossier: React.FC = () => {
                     </div>
                     <span
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--t-caption)",
                         fontWeight: 700,
                         color: "var(--tls-orange-600)",
                         textTransform: "uppercase",
@@ -759,7 +759,7 @@ export const Dossier: React.FC = () => {
                 <CheckCircle2 size={20} color="rgba(255,255,255,0.8)" />
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "var(--t-caption)",
                     fontWeight: 700,
                     color: "rgba(255,255,255,0.8)",
                     textTransform: "uppercase",
@@ -811,7 +811,7 @@ export const Dossier: React.FC = () => {
       {/* ─ Download CTA ─────────────────────────────────────────────── */}
       <div
         style={{
-          maxWidth: "640px",
+          maxWidth: "var(--container-narrow)",
           margin: "0 auto",
           padding: "0 var(--s-8) var(--s-12)",
           textAlign: "center",

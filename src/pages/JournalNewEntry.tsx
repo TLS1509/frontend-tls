@@ -168,7 +168,7 @@ export const JournalNewEntry: React.FC = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: 'var(--s-1)',
               color: 'var(--text-muted)',
               fontSize: 'var(--t-caption)',
             }}
@@ -197,7 +197,7 @@ export const JournalNewEntry: React.FC = () => {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 'var(--s-2)',
-            padding: '9px 20px',
+            padding: 'var(--s-2-5) var(--s-5)',
             borderRadius: 'var(--r-xl)',
             background: 'var(--tls-primary-500)',
             border: 'none',
@@ -221,7 +221,7 @@ export const JournalNewEntry: React.FC = () => {
       <main
         style={{
           flex: 1,
-          maxWidth: '780px',
+          maxWidth: 'var(--container-narrow)',
           width: '100%',
           margin: '0 auto',
           padding: 'var(--s-8) var(--s-6)',

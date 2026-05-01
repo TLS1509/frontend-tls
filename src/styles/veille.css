@@ -137,7 +137,7 @@
 .veille-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--s-2);
   padding: 8px 14px;
   border-radius: var(--r-pill);
   border: 1px solid var(--border, var(--overlay-dark-md));
@@ -337,7 +337,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 4px 10px;
+  padding: var(--s-1) var(--s-2-5);
   border-radius: var(--r-pill);
   background: rgba(15, 23, 42, 0.05);
   color: var(--text-soft);
@@ -388,7 +388,7 @@
 .veille-card__cta {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   border: none;
   background: var(--overlay-brand-md);
   color: var(--tls-primary-700);
@@ -483,7 +483,7 @@
 .veille-page__newsletter-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   font-family: var(--font-body);
   font-size: var(--t-micro);
   font-weight: 700;
@@ -510,7 +510,7 @@
 .veille-page__newsletter-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--s-2);
   background: var(--tls-primary-600);
   color: var(--text-inverse);
   border: none;

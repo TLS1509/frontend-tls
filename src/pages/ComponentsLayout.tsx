@@ -329,7 +329,7 @@ const LAYOUT_STYLES = `
   }
 
   .ds-filter-pill {
-    padding: 6px 12px;
+    padding: var(--s-1-5) var(--s-3);
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
@@ -390,7 +390,7 @@ const LAYOUT_STYLES = `
   }
 
   .ds-toggle-button {
-    padding: 6px 12px;
+    padding: var(--s-1-5) var(--s-3);
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
@@ -470,7 +470,7 @@ const LAYOUT_STYLES = `
     }
 
     .ds-filter-pill {
-      padding: 4px 10px;
+      padding: var(--s-1) var(--s-2-5);
       font-size: var(--t-micro);
     }
 

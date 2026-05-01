@@ -174,12 +174,12 @@ export const VeilleContent: React.FC = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                padding: '5px 14px',
+                padding: 'var(--s-1) var(--s-3-5)',
                 borderRadius: 'var(--r-full)',
                 background: 'rgba(237,132,58,0.1)',
                 border: '1px solid rgba(237,132,58,0.25)',
                 color: 'var(--tls-orange-600)',
-                fontSize: '12px',
+                fontSize: 'var(--t-caption)',
                 fontWeight: 800,
                 letterSpacing: '0.08em',
               }}
@@ -197,7 +197,7 @@ export const VeilleContent: React.FC = () => {
               margin: '0 0 var(--s-5)',
               letterSpacing: '-0.03em',
               lineHeight: 1.1,
-              maxWidth: '760px',
+              maxWidth: 'var(--container-narrow)',
             }}
           >
             L'IA Générative dans la Formation Professionnelle
@@ -223,7 +223,7 @@ export const VeilleContent: React.FC = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
+                  gap: 'var(--s-1-5)',
                   color: 'var(--text-muted)',
                   fontSize: 'var(--t-sm)',
                 }}
@@ -250,7 +250,7 @@ export const VeilleContent: React.FC = () => {
         >
           <div
             style={{
-              fontSize: '11px',
+              fontSize: 'var(--t-micro)',
               fontWeight: 800,
               color: 'var(--tls-orange-600)',
               textTransform: 'uppercase',
@@ -314,7 +314,7 @@ export const VeilleContent: React.FC = () => {
               <BookOpen size={14} style={{ color: 'var(--tls-primary-500)' }} />
               <span
                 style={{
-                  fontSize: '11px',
+                  fontSize: 'var(--t-micro)',
                   fontWeight: 700,
                   color: 'var(--tls-primary-600)',
                   textTransform: 'uppercase',
@@ -351,7 +351,7 @@ export const VeilleContent: React.FC = () => {
                 >
                   <span
                     style={{
-                      fontSize: '11px',
+                      fontSize: 'var(--t-micro)',
                       fontWeight: 800,
                       color: isActive ? 'var(--tls-primary-600)' : 'var(--text-muted)',
                       minWidth: '20px',
@@ -363,7 +363,7 @@ export const VeilleContent: React.FC = () => {
                   </span>
                   <span
                     style={{
-                      fontSize: '13px',
+                      fontSize: 'var(--t-caption)',
                       fontWeight: isActive ? 600 : 500,
                       color: isActive ? 'var(--tls-primary-700)' : 'var(--text)',
                       lineHeight: 1.4,
@@ -479,7 +479,7 @@ export const VeilleContent: React.FC = () => {
                     </div>
                     <span
                       style={{
-                        fontSize: '12px',
+                        fontSize: 'var(--t-caption)',
                         fontWeight: 700,
                         color: 'var(--tls-orange-600)',
                         textTransform: 'uppercase',
@@ -576,13 +576,13 @@ export const VeilleContent: React.FC = () => {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '4px',
-                      padding: '3px 10px',
+                      padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: stat.trendUp
                         ? 'rgba(34,197,94,0.1)'
                         : 'rgba(239,68,68,0.1)',
                       color: stat.trendUp ? '#16a34a' : '#dc2626',
-                      fontSize: '12px',
+                      fontSize: 'var(--t-caption)',
                       fontWeight: 600,
                     }}
                   >
@@ -650,7 +650,7 @@ export const VeilleContent: React.FC = () => {
                 <CheckCircle2 size={20} color="rgba(255,255,255,0.8)" />
                 <span
                   style={{
-                    fontSize: '12px',
+                    fontSize: 'var(--t-caption)',
                     fontWeight: 700,
                     color: 'rgba(255,255,255,0.8)',
                     textTransform: 'uppercase',

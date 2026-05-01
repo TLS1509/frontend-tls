@@ -147,12 +147,12 @@ export const Magazine: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '5px 14px',
+              padding: 'var(--s-1) var(--s-3-5)',
               borderRadius: 'var(--r-full)',
               background: 'rgba(255,255,255,0.12)',
               border: '1px solid rgba(255,255,255,0.2)',
               color: 'rgba(255,255,255,0.9)',
-              fontSize: '12px',
+              fontSize: 'var(--t-caption)',
               fontWeight: 700,
               letterSpacing: '0.1em',
               marginBottom: 'var(--s-5)',
@@ -171,7 +171,7 @@ export const Magazine: React.FC = () => {
               margin: '0 0 var(--s-4)',
               letterSpacing: '-0.03em',
               lineHeight: 1.05,
-              maxWidth: '700px',
+              maxWidth: 'var(--container-narrow)',
             }}
           >
             L'IA au Cœur de la Formation
@@ -272,7 +272,7 @@ export const Magazine: React.FC = () => {
             <div>
               <div
                 style={{
-                  fontSize: '11px',
+                  fontSize: 'var(--t-micro)',
                   fontWeight: 700,
                   color: 'var(--tls-primary-600)',
                   textTransform: 'uppercase',
@@ -352,7 +352,7 @@ export const Magazine: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '10px 20px',
+              padding: 'var(--btn-padding-md-sm)',
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-primary-500)',
               border: 'none',
@@ -425,7 +425,7 @@ export const Magazine: React.FC = () => {
                 {/* Number */}
                 <span
                   style={{
-                    fontSize: '22px',
+                    fontSize: 'var(--t-h3)',
                     fontWeight: 900,
                     color: item.color,
                     lineHeight: 1,
@@ -452,7 +452,7 @@ export const Magazine: React.FC = () => {
                   </p>
                   <span
                     style={{
-                      fontSize: '12px',
+                      fontSize: 'var(--t-caption)',
                       color: 'var(--text-muted)',
                       fontStyle: 'italic',
                     }}

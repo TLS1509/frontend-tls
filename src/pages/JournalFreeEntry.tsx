@@ -86,7 +86,7 @@ export const JournalFreeEntry: React.FC = () => {
           >
             <ArrowLeft size={14} /> Retour
           </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
             <Sparkles size={16} color="var(--tls-primary-500)" />
             <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 'var(--t-body)' }}>Nouvelle entrée libre</span>
           </div>
@@ -113,7 +113,7 @@ export const JournalFreeEntry: React.FC = () => {
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 'var(--s-4)', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', marginBottom: 'var(--s-4)', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
             <CalendarDays size={14} />
             <span>1 mai 2026</span>
           </div>
@@ -129,7 +129,7 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Category selector */}
           <div style={{ marginBottom: 'var(--s-4)' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Catégorie</div>
+            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Catégorie</div>
             <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat.id;
@@ -149,7 +149,7 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Mood selector */}
           <div style={{ marginBottom: 'var(--s-5)' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Comment vous sentez-vous ?</div>
+            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Comment vous sentez-vous ?</div>
             <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
               {MOODS.map((mood) => {
                 const active = selectedMood === mood.label;
@@ -180,7 +180,7 @@ export const JournalFreeEntry: React.FC = () => {
               style={{ width: '100%', border: 'none', outline: 'none', resize: 'none', fontSize: 'var(--t-body)', color: 'var(--text)', fontFamily: 'var(--font-body)', lineHeight: 1.85, background: 'transparent', boxSizing: 'border-box', padding: 0 }}
             />
             {/* Word count */}
-            <div style={{ textAlign: 'right', fontSize: '12px', color: 'var(--text-muted)', marginTop: 'var(--s-2)' }}>
+            <div style={{ textAlign: 'right', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', marginTop: 'var(--s-2)' }}>
               {wordCount} mot{wordCount > 1 ? 's' : ''}
             </div>
           </div>
@@ -190,7 +190,7 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Tags */}
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Tags</div>
+            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Tags</div>
             <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', alignItems: 'center' }}>
               {tags.map((tag) => (
                 <span
@@ -201,7 +201,7 @@ export const JournalFreeEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--tls-primary-400)', padding: 0, lineHeight: 1, fontSize: '14px', fontFamily: 'var(--font-body)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--tls-primary-400)', padding: 0, lineHeight: 1, fontSize: 'var(--t-body-sm)', fontFamily: 'var(--font-body)' }}
                   >
                     ×
                   </button>
@@ -213,7 +213,7 @@ export const JournalFreeEntry: React.FC = () => {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
                 placeholder="Ajouter un tag..."
-                style={{ border: 'none', outline: 'none', fontSize: '12px', color: 'var(--text)', fontFamily: 'var(--font-body)', background: 'transparent', minWidth: '120px' }}
+                style={{ border: 'none', outline: 'none', fontSize: 'var(--t-caption)', color: 'var(--text)', fontFamily: 'var(--font-body)', background: 'transparent', minWidth: '120px' }}
               />
             </div>
           </div>
@@ -242,7 +242,7 @@ export const JournalFreeEntry: React.FC = () => {
           <div style={{ background: 'var(--tls-primary-50)', border: '1.5px solid rgba(85,161,180,0.2)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)', marginBottom: 'var(--s-4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
               <PenLine size={15} color="var(--tls-primary-600)" />
-              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--tls-primary-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide à l'écriture</span>
+              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-primary-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide à l'écriture</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
               {PROMPTS.map((prompt, i) => (
@@ -256,8 +256,8 @@ export const JournalFreeEntry: React.FC = () => {
                 >
                   <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0, marginTop: '1px' }}>{prompt.icon}</span>
                   <div>
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--tls-primary-600)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{prompt.label}</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4 }}>{prompt.hint}</div>
+                    <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--tls-primary-600)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{prompt.label}</div>
+                    <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.4 }}>{prompt.hint}</div>
                   </div>
                 </button>
               ))}
@@ -268,7 +268,7 @@ export const JournalFreeEntry: React.FC = () => {
           <div style={{ background: 'rgba(237,132,58,0.06)', border: '1.5px solid rgba(237,132,58,0.15)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
               <Lightbulb size={15} color="var(--tls-orange-500)" />
-              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--tls-orange-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide-mémoire</span>
+              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-orange-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide-mémoire</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
               {[
@@ -280,7 +280,7 @@ export const JournalFreeEntry: React.FC = () => {
               ].map((tip, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)' }}>
                   <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--tls-orange-400)', flexShrink: 0, marginTop: '7px' }} />
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5 }}>{tip}</span>
+                  <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>{tip}</span>
                 </div>
               ))}
             </div>

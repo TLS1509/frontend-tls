@@ -252,13 +252,13 @@ export const Profile: React.FC = () => {
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '5px',
-                      padding: '4px 10px',
+                      gap: 'var(--s-1)',
+                      padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: 'var(--surface-muted)',
                       border: '1px solid var(--border)',
                       color: 'var(--text-muted)',
-                      fontSize: '12px',
+                      fontSize: 'var(--t-caption)',
                       fontWeight: 500,
                     }}
                   >
@@ -287,7 +287,7 @@ export const Profile: React.FC = () => {
                   <span
                     key={interest}
                     style={{
-                      padding: '3px 10px',
+                      padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: 'var(--tls-primary-50)',
                       color: 'var(--tls-primary-700)',

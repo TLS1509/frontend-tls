@@ -90,7 +90,7 @@
 }
 
 .app-shell__sidebar-wrapper--collapsed .sidebar__group {
-  gap: 6px;
+  gap: var(--s-1-5);
 }
 
 .app-shell__sidebar-wrapper--collapsed .nav-item {

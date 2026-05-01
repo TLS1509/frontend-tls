@@ -147,7 +147,7 @@ export const WeeklyNewsletter: React.FC = () => {
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-primary-500)',
               color: 'var(--text-inverse)',
-              fontSize: '12px',
+              fontSize: 'var(--t-caption)',
               fontWeight: 800,
               letterSpacing: '0.08em',
               marginBottom: 'var(--s-4)',
@@ -230,7 +230,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'var(--text-inverse)',
-                fontSize: '14px',
+                fontSize: 'var(--t-body-sm)',
                 fontWeight: 700,
                 flexShrink: 0,
               }}
@@ -306,9 +306,9 @@ export const WeeklyNewsletter: React.FC = () => {
                   right: '12px',
                   background: 'rgba(0,0,0,0.6)',
                   color: 'var(--text-inverse)',
-                  fontSize: '12px',
+                  fontSize: 'var(--t-caption)',
                   fontWeight: 700,
-                  padding: '3px 8px',
+                  padding: 'var(--s-1) var(--s-2)',
                   borderRadius: 'var(--r-lg)',
                 }}
               >
@@ -334,7 +334,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     borderRadius: 'var(--r-full)',
                     background: 'rgba(237,132,58,0.1)',
                     color: 'var(--tls-orange-600)',
-                    fontSize: '12px',
+                    fontSize: 'var(--t-caption)',
                     fontWeight: 700,
                     marginBottom: 'var(--s-3)',
                   }}
@@ -371,7 +371,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 'var(--s-2)',
-                  padding: '10px 20px',
+                  padding: 'var(--btn-padding-md-sm)',
                   borderRadius: 'var(--r-full)',
                   background: 'var(--tls-primary-500)',
                   border: 'none',
@@ -446,11 +446,11 @@ export const WeeklyNewsletter: React.FC = () => {
                 >
                   <span
                     style={{
-                      padding: '3px 10px',
+                      padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
                       background: 'rgba(255,255,255,0.2)',
                       color: 'var(--text-inverse)',
-                      fontSize: '11px',
+                      fontSize: 'var(--t-micro)',
                       fontWeight: 700,
                       backdropFilter: 'blur(4px)',
                     }}
@@ -477,7 +477,7 @@ export const WeeklyNewsletter: React.FC = () => {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '4px',
-                      fontSize: '12px',
+                      fontSize: 'var(--t-caption)',
                       color: 'var(--tls-primary-600)',
                       fontWeight: 600,
                     }}
@@ -540,7 +540,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     >
                       <span
                         style={{
-                          fontSize: '11px',
+                          fontSize: 'var(--t-micro)',
                           fontWeight: 700,
                           color: 'var(--tls-primary-600)',
                           textTransform: 'uppercase',
@@ -554,7 +554,7 @@ export const WeeklyNewsletter: React.FC = () => {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '4px',
-                          fontSize: '12px',
+                          fontSize: 'var(--t-caption)',
                           color: 'var(--text-muted)',
                         }}
                       >
@@ -573,7 +573,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     >
                       {article.title}
                     </p>
-                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
                       {article.date}
                     </span>
                   </div>

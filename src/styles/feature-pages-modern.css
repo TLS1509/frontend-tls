@@ -188,7 +188,7 @@
 .feature-page__tab {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   padding: 8px 14px;
   border-radius: var(--r-pill);
   border: 1px solid var(--border);
@@ -222,7 +222,7 @@
 .feature-page__link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   color: var(--text-soft);
   text-decoration: none;
   font-size: var(--t-caption);

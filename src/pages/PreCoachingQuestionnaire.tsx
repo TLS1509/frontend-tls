@@ -73,7 +73,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         padding: 'var(--s-6) var(--s-8)',
       }}
     >
-      <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+      <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto' }}>
 
         {/* ─ Back button ─────────────────────────────────────────────── */}
         <div style={{ marginBottom: 'var(--s-8)' }}>
@@ -84,7 +84,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-1)',
-              padding: '8px 16px',
+              padding: 'var(--btn-padding-sm)',
               borderRadius: 'var(--r-full)',
               background: 'var(--surface)',
               border: '1px solid var(--border)',
@@ -227,7 +227,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              padding: '14px 36px',
+              padding: 'var(--btn-padding-lg)',
               borderRadius: 'var(--r-full)',
               background: isComplete
                 ? 'var(--tls-primary-500)'

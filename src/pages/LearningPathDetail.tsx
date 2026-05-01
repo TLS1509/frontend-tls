@@ -210,7 +210,7 @@ export const LearningPathDetail: React.FC = () => {
               { icon: BookOpen, label: `${totalLessons} leçons` },
               { icon: Layers, label: parcours.level },
             ].map(({ icon: Icon, label }) => (
-              <span key={label} className="learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '3px 10px', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 500 }}>
+              <span key={label} className="learning-path-hero-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-pill)', fontSize: 'var(--t-caption)', fontWeight: 500 }}>
                 <Icon size={12} /> {label}
               </span>
             ))}

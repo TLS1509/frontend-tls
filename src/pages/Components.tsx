@@ -1126,9 +1126,9 @@ const Components: React.FC = () => {
                         gap: 'var(--s-3)',
                       }}
                     >
-                      <span style={{ fontSize: '28px', lineHeight: 1 }}>{p.icon}</span>
+                      <span style={{ fontSize: 'var(--t-h2)', lineHeight: 1 }}>{p.icon}</span>
                       <div>
-                        <div style={{ fontSize: '11px', fontWeight: 700, color: p.color, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '2px' }}>
+                        <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: p.color, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 'var(--s-1)' }}>
                           {p.family}
                         </div>
                         <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2 }}>
@@ -1144,7 +1144,7 @@ const Components: React.FC = () => {
                       </p>
 
                       {/* Tags */}
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-1-5)' }}>
                         {p.tags.map((tag) => (
                           <span
                             key={tag}
@@ -1232,7 +1232,7 @@ const Components: React.FC = () => {
 
 const PAGE_STYLES = `
   .ds-showcase {
-    max-width: 1240px;
+    max-width: var(--container-wide);
     margin: 0 auto;
     padding: var(--s-8) var(--s-6);
     display: flex;
@@ -1279,11 +1279,11 @@ const PAGE_STYLES = `
     display: flex; flex-direction: column; gap: var(--s-3);
     border: 1px solid var(--border);
   }
-  .ds-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ds-filters { display: flex; gap: var(--s-1-5); flex-wrap: wrap; }
   .ds-filter {
     border: 1px solid var(--border);
     background: var(--surface);
-    padding: 6px 12px;
+    padding: var(--s-1-5) var(--s-3);
     border-radius: var(--r-pill);
     font-size: var(--t-caption);
     font-weight: 600;
@@ -1329,11 +1329,11 @@ const PAGE_STYLES = `
     margin: 4px 0 0; color: var(--text-muted); font-size: var(--t-body-sm);
     max-width: 70ch;
   }
-  .ds-component__chips { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
   .ds-component__cat {
     font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
     text-transform: uppercase; color: var(--tls-primary-700);
-    background: var(--tls-primary-50); padding: 3px 8px; border-radius: var(--r-sm);
+    background: var(--tls-primary-50); padding: var(--s-1) var(--s-2); border-radius: var(--r-sm);
   }
 
   .ds-component__preview {
@@ -1353,11 +1353,11 @@ const PAGE_STYLES = `
 
   /* Copy chip */
   .copy-chip {
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex; align-items: center; gap: var(--s-1-5);
     background: var(--surface-muted);
     border: 1px solid var(--border);
     border-radius: var(--r-md);
-    padding: 3px 8px;
+    padding: var(--s-1) var(--s-2);
     font-family: 'JetBrains Mono', monospace; font-size: var(--t-caption);
     color: var(--text); cursor: pointer;
     transition: all var(--dur-2) var(--ease-standard);
@@ -1408,7 +1408,7 @@ const PAGE_STYLES = `
     display: flex; align-items: center; justify-content: center;
     min-height: 72px;
   }
-  .token-card__meta { display: flex; flex-direction: column; gap: 3px; }
+  .token-card__meta { display: flex; flex-direction: column; gap: var(--s-1); }
   .token-card__name {
     margin: 0; font-size: var(--t-caption); font-weight: 600; color: var(--text);
   }

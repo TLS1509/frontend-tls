@@ -1,5 +1,5 @@
 .tls-page {
-  max-width: 1200px;
+  max-width: var(--container-wide);
   margin: 0 auto;
   padding: var(--s-8);
   display: flex;
@@ -192,7 +192,7 @@
 .tls-auth-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   border: none;
   background: transparent;
   color: var(--tls-primary-700);
@@ -257,7 +257,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--s-2);
   height: 40px;
   border-radius: var(--r-md);
   border: 1px solid var(--border);
@@ -358,7 +358,7 @@
   border: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--text-soft);
-  padding: 4px 10px;
+  padding: var(--s-1) var(--s-2-5);
   font-size: var(--t-micro);
   font-weight: 700;
 }
@@ -421,7 +421,7 @@
   list-style: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   color: var(--text-soft);
   font-size: var(--t-caption);
 }
@@ -466,7 +466,7 @@
 .tls-editorial-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-1-5);
   font-size: var(--t-micro);
   text-transform: uppercase;
   letter-spacing: 0.06em;

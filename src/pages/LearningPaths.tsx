@@ -186,7 +186,7 @@ export const LearningPaths: React.FC = () => {
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 0% 0%, var(--overlay-brand-lg) 0%, transparent 60%), radial-gradient(circle at 100% 100%, var(--overlay-warm-lg) 0%, transparent 60%)', pointerEvents: 'none' }} />
 
         <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', maxWidth: 720 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: 'var(--r-pill)', background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', alignSelf: 'flex-start' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-pill)', background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', alignSelf: 'flex-start' }}>
             <GraduationCap size={14} /> Mon apprentissage
           </span>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h1)', fontWeight: 700, lineHeight: 1.1, margin: 0, color: 'var(--text)' }}>

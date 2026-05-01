@@ -191,7 +191,7 @@ export const VideoTutorial: React.FC = () => {
                 color: "var(--text-muted)",
                 lineHeight: 1.6,
                 margin: "0 0 var(--s-4)",
-                maxWidth: "640px",
+                maxWidth: "var(--container-narrow)",
               }}
             >
               {tuto.description}
@@ -215,7 +215,7 @@ export const VideoTutorial: React.FC = () => {
                   background: "var(--tls-primary-50)",
                   border: "1px solid rgba(85,161,180,0.25)",
                   color: "var(--tls-primary-700)",
-                  fontSize: "11px",
+                  fontSize: "var(--t-micro)",
                   fontWeight: 800,
                   letterSpacing: "0.07em",
                 }}
@@ -281,9 +281,9 @@ export const VideoTutorial: React.FC = () => {
                   background: "rgba(0,0,0,0.55)",
                   backdropFilter: "blur(8px)",
                   color: 'var(--text-inverse)',
-                  fontSize: "12px",
+                  fontSize: "var(--t-caption)",
                   fontWeight: 600,
-                  padding: "4px 10px",
+                  padding: "var(--s-1) var(--s-2-5)",
                   borderRadius: "6px",
                 }}
               >
@@ -360,7 +360,7 @@ export const VideoTutorial: React.FC = () => {
                 background: "rgba(0,0,0,0.6)",
                 backdropFilter: "blur(4px)",
                 color: 'var(--text-inverse)',
-                fontSize: "13px",
+                fontSize: "var(--t-caption)",
                 fontWeight: 700,
                 padding: "3px 10px",
                 borderRadius: "6px",
@@ -442,7 +442,7 @@ export const VideoTutorial: React.FC = () => {
                 >
                   <span
                     style={{
-                      fontSize: "12px",
+                      fontSize: "var(--t-caption)",
                       fontWeight: 700,
                       color: isActive
                         ? "var(--tls-primary-600)"
@@ -491,7 +491,7 @@ export const VideoTutorial: React.FC = () => {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "6px",
+                gap: "var(--s-1-5)",
                 background: "none",
                 border: "none",
                 color: "var(--text-muted)",
