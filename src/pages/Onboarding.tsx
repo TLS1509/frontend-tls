@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserRound, Target, Clock, CheckCircle2, Sparkles, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
-import { Card, Button, Badge, Stepper, Field } from '../components';
+import { Card, Button, Badge, Stepper, Input, Select } from '../components';
 
 /* ============================================================================
    Types
@@ -72,40 +72,33 @@ function StepProfil({
       <p className="onb-step__sub">Ces informations nous permettent de personnaliser vos recommandations.</p>
 
       <div className="onb-fields">
-        <Field id="firstName" label="Votre prénom" required>
-          <input
-            id="firstName"
-            type="text"
-            className="tls-input"
-            placeholder="Ex : Sophie"
-            value={answers.firstName}
-            onChange={e => onChange({ firstName: e.target.value })}
-          />
-        </Field>
+        <Input
+          id="firstName"
+          label="Votre prénom"
+          required
+          type="text"
+          placeholder="Ex : Sophie"
+          value={answers.firstName}
+          onChange={e => onChange({ firstName: e.target.value })}
+        />
 
-        <Field id="role" label="Votre rôle" required>
-          <select
-            id="role"
-            className="tls-input"
-            value={answers.role}
-            onChange={e => onChange({ role: e.target.value })}
-          >
-            <option value="">Sélectionner…</option>
-            {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
-        </Field>
+        <Select
+          id="role"
+          label="Votre rôle"
+          required
+          options={ROLE_OPTIONS.map(r => ({ value: r, label: r }))}
+          value={answers.role}
+          onChange={e => onChange({ role: e.target.value })}
+        />
 
-        <Field id="sector" label="Votre secteur" required>
-          <select
-            id="sector"
-            className="tls-input"
-            value={answers.sector}
-            onChange={e => onChange({ sector: e.target.value })}
-          >
-            <option value="">Sélectionner…</option>
-            {SECTOR_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-        </Field>
+        <Select
+          id="sector"
+          label="Votre secteur"
+          required
+          options={SECTOR_OPTIONS.map(s => ({ value: s, label: s }))}
+          value={answers.sector}
+          onChange={e => onChange({ sector: e.target.value })}
+        />
       </div>
     </div>
   );

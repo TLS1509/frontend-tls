@@ -7,10 +7,9 @@ export type { ButtonProps, ButtonVariant, ButtonSize } from './core/Button';
 export { Card, CardEyebrow, CardTitle, CardDesc, CardFooter } from './core/Card';
 export type { CardProps, CardVariant } from './core/Card';
 
-export { Input, Field, Checkbox, Radio, Switch } from './core/Input';
+export { Input, Checkbox, Radio, Switch } from './core/Input';
 export type {
   InputProps,
-  FieldProps,
   CheckboxProps,
   RadioProps,
   SwitchProps,

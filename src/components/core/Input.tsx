@@ -2,78 +2,64 @@ import React from 'react';
 import './Input.css';
 
 /**
- * Input — Source of truth: design-system/spec.json → components.Input
+ * Input — Complete, self-contained form field component
  *
- * Form field. Label always above, never placeholder-only. Hint/error below.
- * Sizes: sm/md/lg. Variants: default/success/error/disabled + textarea.
+ * Includes everything needed for a form field:
+ * - Label (with optional required indicator)
+ * - Control (input/textarea with optional icons)
+ * - Helper text or error message
+ *
+ * Sizes: sm/md/lg
+ * Status: default/success/error
+ * Features: Leading/trailing icons, multiline, disabled, required
  */
 
 export type InputSize = 'sm' | 'md' | 'lg';
 export type InputStatus = 'default' | 'success' | 'error';
 
-export interface FieldProps {
-  /** Label text displayed above the input */
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  /** Label text displayed above the control */
   label?: React.ReactNode;
-  /** Helper text below input */
+  /** Helper text displayed below the control */
   hint?: React.ReactNode;
-  /** Error message (overrides hint when shown) */
+  /** Error message (displayed in place of hint, overrides when present) */
   error?: React.ReactNode;
-  /** Marks field as required visually + in DOM */
+  /** Mark field as required (adds * to label) */
   required?: boolean;
-  /** Input id (auto-generated if omitted) — used to link label */
-  id?: string;
-  children: React.ReactNode;
-  className?: string;
+  /** Size of the input control */
+  size?: InputSize;
+  /** Status/validation state of the input */
+  status?: InputStatus;
+  /** Icon displayed before the input text */
+  leadingIcon?: React.ReactNode;
+  /** Icon or control displayed after the input text */
+  trailingIcon?: React.ReactNode;
+  /** Render as textarea instead of input */
+  multiline?: boolean;
+  /** Number of rows for textarea */
+  rows?: number;
 }
 
-/** Wrapper that provides label + hint/error layout. */
-export const Field: React.FC<FieldProps> = ({
+/**
+ * Input — Self-contained form field component
+ *
+ * Usage:
+ * <Input
+ *   label="Email"
+ *   hint="Enter your work email"
+ *   error={emailError}
+ *   type="email"
+ *   required
+ *   status={emailError ? "error" : "default"}
+ * />
+ */
+export const Input: React.FC<InputProps> = ({
   label,
   hint,
   error,
   required,
   id,
-  children,
-  className = '',
-}) => {
-  const classes = ['field', className].filter(Boolean).join(' ');
-
-  return (
-    <div className={classes}>
-      {label && (
-        <label className="field__label" htmlFor={id}>
-          {label}
-          {required && <span className="required" aria-hidden="true"> *</span>}
-        </label>
-      )}
-      {children}
-      {error ? (
-        <p className="field__error" role="alert">
-          {error}
-        </p>
-      ) : hint ? (
-        <p className="field__hint">{hint}</p>
-      ) : null}
-    </div>
-  );
-};
-
-// ============================================================================
-// INPUT
-// ============================================================================
-
-export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  size?: InputSize;
-  status?: InputStatus;
-  leadingIcon?: React.ReactNode;
-  trailingIcon?: React.ReactNode;
-  /** Render as textarea instead of input */
-  multiline?: boolean;
-  rows?: number;
-}
-
-export const Input: React.FC<InputProps> = ({
   size = 'md',
   status = 'default',
   leadingIcon,
@@ -84,101 +70,172 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   ...rest
 }) => {
-  const wrapperClasses = [
+  // Generate ID if not provided
+  const fieldId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+
+  // Container classes for the entire field
+  const containerClasses = [
+    'field',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  // Control wrapper classes (using .input base class with modifiers)
+  const controlClasses = [
     'input',
     size !== 'md' && `input--${size}`,
     status === 'success' && 'input--success',
     status === 'error' && 'input--error',
     disabled && 'input--disabled',
     multiline && 'textarea',
-    className,
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <span className={wrapperClasses}>
-      {leadingIcon && <span className="input__icon">{leadingIcon}</span>}
-      {multiline ? (
-        <textarea
-          rows={rows}
-          disabled={disabled}
-          aria-invalid={status === 'error' || undefined}
-          {...(rest as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-        />
-      ) : (
-        <input
-          disabled={disabled}
-          aria-invalid={status === 'error' || undefined}
-          {...rest}
-        />
+    <div className={containerClasses}>
+      {/* Label */}
+      {label && (
+        <label className="field__label" htmlFor={fieldId}>
+          {label}
+          {required && <span className="required" aria-hidden="true">*</span>}
+        </label>
       )}
-      {trailingIcon && <span className="input__icon">{trailingIcon}</span>}
-    </span>
+
+      {/* Control: Input/Textarea with optional icons */}
+      <div className={controlClasses}>
+        {leadingIcon && <span className="input__icon">{leadingIcon}</span>}
+
+        {multiline ? (
+          <textarea
+            id={fieldId}
+            rows={rows}
+            disabled={disabled}
+            aria-invalid={status === 'error' || undefined}
+            aria-describedby={error || hint ? `${fieldId}-message` : undefined}
+            {...(rest as unknown as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+          />
+        ) : (
+          <input
+            id={fieldId}
+            disabled={disabled}
+            aria-invalid={status === 'error' || undefined}
+            aria-describedby={error || hint ? `${fieldId}-message` : undefined}
+            {...rest}
+          />
+        )}
+
+        {trailingIcon && <span className="input__icon">{trailingIcon}</span>}
+      </div>
+
+      {/* Helper text or error message */}
+      {(error || hint) && (
+        <p
+          id={`${fieldId}-message`}
+          className={error ? 'field__error' : 'field__hint'}
+          role={error ? 'alert' : undefined}
+        >
+          {error || hint}
+        </p>
+      )}
+    </div>
   );
 };
 
 // ============================================================================
-// CHECKBOX
+// CHECKBOX — Self-contained checkbox with integrated label
 // ============================================================================
 
 export interface CheckboxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+  /** Label text displayed next to checkbox */
   label?: React.ReactNode;
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   label,
+  id,
   className = '',
   ...rest
-}) => (
-  <label className={['check', className].filter(Boolean).join(' ')}>
-    <input type="checkbox" {...rest} />
-    <span className="check__box" aria-hidden="true" />
-    {label && <span>{label}</span>}
-  </label>
-);
+}) => {
+  const fieldId = id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+
+  return (
+    <label className={['check', className].filter(Boolean).join(' ')}>
+      <input
+        id={fieldId}
+        type="checkbox"
+        {...rest}
+      />
+      <span className="check__box" aria-hidden="true" />
+      {label && <span>{label}</span>}
+    </label>
+  );
+};
 
 // ============================================================================
-// RADIO
+// RADIO — Self-contained radio button with integrated label
 // ============================================================================
 
 export interface RadioProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+  /** Label text displayed next to radio button */
   label?: React.ReactNode;
 }
 
 export const Radio: React.FC<RadioProps> = ({
   label,
+  id,
   className = '',
   ...rest
-}) => (
-  <label className={['radio', className].filter(Boolean).join(' ')}>
-    <input type="radio" {...rest} />
-    <span className="radio__box" aria-hidden="true" />
-    {label && <span>{label}</span>}
-  </label>
-);
+}) => {
+  const fieldId = id || `radio-${Math.random().toString(36).substr(2, 9)}`;
+
+  return (
+    <label className={['radio', className].filter(Boolean).join(' ')}>
+      <input
+        id={fieldId}
+        type="radio"
+        {...rest}
+      />
+      <span className="radio__box" aria-hidden="true" />
+      {label && <span>{label}</span>}
+    </label>
+  );
+};
 
 // ============================================================================
-// SWITCH
+// SWITCH/TOGGLE — Self-contained toggle with integrated label
 // ============================================================================
 
 export interface SwitchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+  /** Label text displayed next to toggle */
   label?: React.ReactNode;
 }
 
 export const Switch: React.FC<SwitchProps> = ({
   label,
+  id,
   className = '',
   ...rest
-}) => (
-  <label className={['switch', className].filter(Boolean).join(' ')}>
-    <input type="checkbox" role="switch" {...rest} />
-    <span className="switch__track" aria-hidden="true" />
-    {label && <span>{label}</span>}
-  </label>
-);
+}) => {
+  const fieldId = id || `switch-${Math.random().toString(36).substr(2, 9)}`;
+
+  return (
+    <label className={['switch', className].filter(Boolean).join(' ')}>
+      <input
+        id={fieldId}
+        type="checkbox"
+        role="switch"
+        {...rest}
+      />
+      <span className="switch__track" aria-hidden="true" />
+      {label && <span>{label}</span>}
+    </label>
+  );
+};
+
 
 export default Input;

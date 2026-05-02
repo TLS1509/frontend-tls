@@ -8,7 +8,7 @@
 import React, { useState } from 'react';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Switch, Field } from '../components/core/Input';
+import { Switch, Input } from '../components/core/Input';
 import { Tabs } from '../components/ui/Tabs';
 import {
   UserRound,
@@ -138,31 +138,29 @@ const GeneralTab: React.FC = () => {
     <div>
       <SectionCard title="Informations personnelles">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-5)', paddingTop: 'var(--s-5)', paddingBottom: 'var(--s-5)' }}>
-          <Field label="Nom complet" id="name">
-            <input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input"
-              style={{ fontFamily: 'var(--font-body)' }}
-            />
-          </Field>
-          <Field label="Adresse email" id="email">
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input"
-              style={{ fontFamily: 'var(--font-body)' }}
-            />
-          </Field>
-          <Field label="Poste" id="poste">
-            <input id="poste" defaultValue="Responsable Formation" className="input" style={{ fontFamily: 'var(--font-body)' }} />
-          </Field>
-          <Field label="Entreprise" id="company">
-            <input id="company" defaultValue="TLS Learning Society" className="input" style={{ fontFamily: 'var(--font-body)' }} />
-          </Field>
+          <Input
+            label="Nom complet"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            label="Adresse email"
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            label="Poste"
+            id="poste"
+            defaultValue="Responsable Formation"
+          />
+          <Input
+            label="Entreprise"
+            id="company"
+            defaultValue="TLS Learning Society"
+          />
         </div>
         <div style={{ paddingBottom: 'var(--s-5)', display: 'flex', gap: 'var(--s-3)' }}>
           <Button>Enregistrer les modifications</Button>

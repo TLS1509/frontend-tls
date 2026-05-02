@@ -36,7 +36,6 @@ import {
   CardDesc,
   CardFooter,
   Input,
-  Field,
   Checkbox,
   Radio,
   Switch,
@@ -500,18 +499,34 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['form', 'text', 'checkbox', 'radio', 'switch', 'textarea'],
     render: () => (
       <div className="vstack" style={{ maxWidth: 480 }}>
-        <Field label="Nom complet" hint="Tel qu'il apparaîtra sur votre certificat" id="demo-name">
-          <Input id="demo-name" placeholder="Jeanne Dupont" />
-        </Field>
-        <Field label="Email" error="Adresse email invalide" id="demo-email" required>
-          <Input id="demo-email" type="email" status="error" placeholder="nom@exemple.fr" />
-        </Field>
-        <Field label="Validation OK" id="demo-ok">
-          <Input id="demo-ok" status="success" defaultValue="jeanne@tls.fr" />
-        </Field>
-        <Field label="Message" id="demo-msg">
-          <Input id="demo-msg" multiline rows={3} placeholder="Écrivez ici…" />
-        </Field>
+        <Input
+          label="Nom complet"
+          hint="Tel qu'il apparaîtra sur votre certificat"
+          id="demo-name"
+          placeholder="Jeanne Dupont"
+        />
+        <Input
+          label="Email"
+          error="Adresse email invalide"
+          id="demo-email"
+          required
+          type="email"
+          status="error"
+          placeholder="nom@exemple.fr"
+        />
+        <Input
+          label="Validation OK"
+          id="demo-ok"
+          status="success"
+          defaultValue="jeanne@tls.fr"
+        />
+        <Input
+          label="Message"
+          id="demo-msg"
+          multiline
+          rows={3}
+          placeholder="Écrivez ici…"
+        />
         <div className="hstack" style={{ alignItems: 'center' }}>
           <Checkbox label="Me tenir informée" defaultChecked />
           <Radio name="demo-r" label="Option A" defaultChecked />

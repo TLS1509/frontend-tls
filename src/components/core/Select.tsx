@@ -1,12 +1,18 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
+import './Input.css';
 
 /**
- * Select — Native HTML select with design system styling
+ * Select — Complete, self-contained dropdown field component
  *
- * Provides accessible dropdown selection with proper focus states,
- * icon indicators, and status variants.
- * Sizes: sm/md/lg. Variants: default/success/error/disabled.
+ * Includes everything needed for a form field:
+ * - Label (with optional required indicator)
+ * - Control (select with chevron icon)
+ * - Helper text or error message
+ *
+ * Sizes: sm/md/lg
+ * Status: default/success/error
+ * Features: Custom options array or children elements, disabled, required
  */
 
 export type SelectSize = 'sm' | 'md' | 'lg';
@@ -20,6 +26,14 @@ export interface SelectOption {
 
 export interface SelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
+  /** Label text displayed above the control */
+  label?: React.ReactNode;
+  /** Helper text displayed below the control */
+  hint?: React.ReactNode;
+  /** Error message (displayed in place of hint, overrides when present) */
+  error?: React.ReactNode;
+  /** Mark field as required (adds * to label) */
+  required?: boolean;
   /** Visual size of the select */
   size?: SelectSize;
   /** Status variant: default/success/error */
@@ -32,7 +46,28 @@ export interface SelectProps
   showIcon?: boolean;
 }
 
+/**
+ * Select — Self-contained dropdown field component
+ *
+ * Usage:
+ * <Select
+ *   label="Choose language"
+ *   hint="Select your preferred language"
+ *   options={[
+ *     { value: 'fr', label: 'Français' },
+ *     { value: 'en', label: 'English' },
+ *   ]}
+ *   value={selected}
+ *   onChange={handleChange}
+ *   required
+ * />
+ */
 export const Select: React.FC<SelectProps> = ({
+  label,
+  hint,
+  error,
+  required,
+  id,
   size = 'md',
   status = 'default',
   options = [],
@@ -43,43 +78,78 @@ export const Select: React.FC<SelectProps> = ({
   children,
   ...rest
 }) => {
-  const wrapperClasses = [
-    'select',
-    size !== 'md' && `select--${size}`,
-    status === 'success' && 'select--success',
-    status === 'error' && 'select--error',
-    disabled && 'select--disabled',
+  // Generate ID if not provided
+  const fieldId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
+
+  // Container classes for the entire field
+  const containerClasses = [
+    'field',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
+  // Control wrapper classes (using .input base class with modifiers)
+  const controlClasses = [
+    'input',
+    size !== 'md' && `input--${size}`,
+    status === 'success' && 'input--success',
+    status === 'error' && 'input--error',
+    disabled && 'input--disabled',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <span className={wrapperClasses}>
-      <select
-        disabled={disabled}
-        aria-invalid={status === 'error' || undefined}
-        {...rest}
-      >
-        {placeholder && (
-          <option value="" disabled hidden>
-            {placeholder}
-          </option>
-        )}
-        {options.length > 0
-          ? options.map((opt) => (
-              <option key={opt.value} value={opt.value} disabled={opt.disabled}>
-                {opt.label}
-              </option>
-            ))
-          : children}
-      </select>
-      {showIcon && (
-        <span className="select__icon" aria-hidden="true">
-          <ChevronDown size={16} />
-        </span>
+    <div className={containerClasses}>
+      {/* Label */}
+      {label && (
+        <label className="field__label" htmlFor={fieldId}>
+          {label}
+          {required && <span className="required" aria-hidden="true">*</span>}
+        </label>
       )}
-    </span>
+
+      {/* Control: Select with optional icon */}
+      <span className={controlClasses}>
+        <select
+          id={fieldId}
+          disabled={disabled}
+          aria-invalid={status === 'error' || undefined}
+          aria-describedby={error || hint ? `${fieldId}-message` : undefined}
+          {...rest}
+        >
+          {placeholder && (
+            <option value="" disabled hidden>
+              {placeholder}
+            </option>
+          )}
+          {options.length > 0
+            ? options.map((opt) => (
+                <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+                  {opt.label}
+                </option>
+              ))
+            : children}
+        </select>
+        {showIcon && (
+          <span className="input__icon" aria-hidden="true">
+            <ChevronDown size={16} />
+          </span>
+        )}
+      </span>
+
+      {/* Helper text or error message */}
+      {(error || hint) && (
+        <p
+          id={`${fieldId}-message`}
+          className={error ? 'field__error' : 'field__hint'}
+          role={error ? 'alert' : undefined}
+        >
+          {error || hint}
+        </p>
+      )}
+    </div>
   );
 };
 
