@@ -24,8 +24,7 @@ import {
   Tabs,
   ProgressBar,
 } from '../components';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
+import './LearningSpace.css';
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 
@@ -577,7 +576,7 @@ export const LearningSpace: React.FC = () => {
             width: 340,
             height: 340,
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, var(--overlay-white-xs) 0%, transparent 70%)',
             pointerEvents: 'none',
           }}
         />
@@ -589,7 +588,7 @@ export const LearningSpace: React.FC = () => {
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.75)',
+              color: 'var(--on-color-text-muted)',
               marginBottom: 'var(--s-2)',
             }}
           >
@@ -608,7 +607,7 @@ export const LearningSpace: React.FC = () => {
           <p
             style={{
               fontSize: 'var(--t-body)',
-              color: 'rgba(255,255,255,0.85)',
+              color: 'var(--on-color-text-soft)',
               marginBottom: 'var(--s-5)',
               maxWidth: 540,
             }}
@@ -622,16 +621,16 @@ export const LearningSpace: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: 'var(--s-2)',
-              background: 'rgba(255,255,255,0.18)',
-              border: '1px solid rgba(255,255,255,0.3)',
+              background: 'var(--overlay-white-xs)',
+              border: '1px solid var(--overlay-white-sm)',
               borderRadius: 'var(--r-full)',
               padding: 'var(--s-2) var(--s-4)',
               maxWidth: 400,
-              backdropFilter: 'blur(8px)',
+              backdropFilter: 'var(--glass-blur)',
               marginBottom: 'var(--s-5)',
             }}
           >
-            <Search size={16} color="rgba(255,255,255,0.8)" />
+            <Search size={16} color="var(--on-color-text-soft)" />
             <input
               type="search"
               placeholder="Rechercher un contenu…"
@@ -654,7 +653,7 @@ export const LearningSpace: React.FC = () => {
                 alignItems: 'center',
                 gap: 'var(--s-2)',
                 padding: 'var(--s-1) var(--s-3)',
-                background: 'rgba(255,255,255,0.2)',
+                background: 'var(--overlay-white-sm)',
                 borderRadius: 'var(--r-full)',
                 fontSize: 'var(--t-caption)',
                 color: 'var(--text-inverse)',
@@ -669,7 +668,7 @@ export const LearningSpace: React.FC = () => {
                 alignItems: 'center',
                 gap: 'var(--s-2)',
                 padding: 'var(--s-1) var(--s-3)',
-                background: 'rgba(255,255,255,0.2)',
+                background: 'var(--overlay-white-sm)',
                 borderRadius: 'var(--r-full)',
                 fontSize: 'var(--t-caption)',
                 color: 'var(--text-inverse)',
@@ -684,7 +683,7 @@ export const LearningSpace: React.FC = () => {
                 alignItems: 'center',
                 gap: 'var(--s-2)',
                 padding: 'var(--s-1) var(--s-3)',
-                background: 'rgba(255,255,255,0.2)',
+                background: 'var(--overlay-white-sm)',
                 borderRadius: 'var(--r-full)',
                 fontSize: 'var(--t-caption)',
                 color: 'var(--text-inverse)',

@@ -17,6 +17,7 @@ import {
   CalendarDays,
   FileText,
 } from 'lucide-react';
+import './Magazine.css';
 
 /* ─── Mock data ──────────────────────────────────────────────────────────── */
 
@@ -120,7 +121,7 @@ export const Magazine: React.FC = () => {
             alignItems: 'center',
             gap: 'var(--s-2)',
             fontSize: 'var(--t-sm)',
-            color: 'rgba(255,255,255,0.6)',
+            color: 'var(--on-color-text-muted)',
             position: 'relative',
             zIndex: 2,
           }}
@@ -151,8 +152,8 @@ export const Magazine: React.FC = () => {
               gap: 'var(--s-2)',
               padding: 'var(--s-1) var(--s-3-5)',
               borderRadius: 'var(--r-full)',
-              background: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              background: 'var(--overlay-white-xs)',
+              border: '1px solid var(--overlay-white-sm)',
               color: 'var(--text-inverse)',
               fontSize: 'var(--t-caption)',
               fontWeight: 700,
@@ -248,7 +249,7 @@ export const Magazine: React.FC = () => {
             border: '1px solid var(--border)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-6)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            boxShadow: 'var(--shadow-md)',
           }}
         >
           <div
@@ -382,7 +383,7 @@ export const Magazine: React.FC = () => {
             borderRadius: 'var(--r-2xl)',
             overflow: 'hidden',
             border: '1px solid var(--border)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            boxShadow: 'var(--shadow-md)',
           }}
         >
           {/* Orange header */}

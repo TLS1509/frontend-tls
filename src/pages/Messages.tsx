@@ -22,7 +22,7 @@ import {
   ArrowLeft,
   MessageSquarePlus,
 } from 'lucide-react';
-import '../styles/static-pages.css';
+import './Messages.css';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 type FilterType = 'all' | 'coach' | 'support' | 'starred';
@@ -153,8 +153,8 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
 /* ─── Helper ─────────────────────────────────────────────────────────────── */
 function getAvatarColors(role: 'coach' | 'support' | 'admin'): { bg: string; color: string } {
   if (role === 'coach') return { bg: 'var(--tls-primary-50)',    color: 'var(--tls-primary-700)' };
-  if (role === 'support') return { bg: 'rgba(74,140,110,0.12)',  color: 'var(--tls-success-fg)' };
-  return { bg: 'rgba(248,176,68,0.14)', color: 'var(--tls-yellow-700)' };
+  if (role === 'support') return { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)' };
+  return { bg: 'var(--overlay-warm-xs)', color: 'var(--tls-yellow-700)' };
 }
 
 const CONTEXT_ICONS: Record<ContextType, string> = {
@@ -574,12 +574,12 @@ export const Messages: React.FC = () => {
                                 display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
                                 padding: 'var(--s-2) var(--s-3)',
                                 borderRadius: 'var(--r-lg)',
-                                background: isUser ? 'rgba(255,255,255,0.18)' : 'var(--surface-muted)',
+                                background: isUser ? 'var(--overlay-white-xs)' : 'var(--surface-muted)',
                               }}
                             >
                               <div style={{
                                 width: 30, height: 30, borderRadius: 'var(--r-md)',
-                                background: isUser ? 'rgba(255,255,255,0.25)' : 'var(--tls-primary-50)',
+                                background: isUser ? 'var(--overlay-white-sm)' : 'var(--tls-primary-50)',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 flexShrink: 0,
                               }}>
@@ -593,7 +593,7 @@ export const Messages: React.FC = () => {
                                   {att.name}
                                 </p>
                                 {att.size && (
-                                  <p style={{ margin: 0, fontSize: '10px', color: isUser ? 'rgba(255,255,255,0.75)' : 'var(--text-muted)' }}>
+                                  <p style={{ margin: 0, fontSize: '10px', color: isUser ? 'var(--on-color-text-muted)' : 'var(--text-muted)' }}>
                                     {att.size}
                                   </p>
                                 )}

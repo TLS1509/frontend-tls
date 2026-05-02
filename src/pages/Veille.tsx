@@ -30,6 +30,7 @@ import {
   BookmarkCheck,
 } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
+import './Veille.css';
 
 type VeilleType = 'actu' | 'tutoriel' | 'dossier' | 'magazine';
 
