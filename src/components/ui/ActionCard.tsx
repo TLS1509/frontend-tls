@@ -1,11 +1,14 @@
 import React from 'react';
 import './ActionCard.css';
 
+export type ActionCardTone = 'brand' | 'warm' | 'sun';
+
 interface ActionCardProps {
   icon?: React.ReactNode;
   title: string;
   description?: string;
   action?: React.ReactNode;
+  tone?: ActionCardTone;
   className?: string;
 }
 
@@ -14,9 +17,12 @@ export const ActionCard: React.FC<ActionCardProps> = ({
   title,
   description,
   action,
+  tone = 'brand',
   className = '',
 }) => {
-  const classes = ['tls-action-card', className].filter(Boolean).join(' ');
+  const classes = ['tls-action-card', `tls-action-card--${tone}`, className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={classes}>

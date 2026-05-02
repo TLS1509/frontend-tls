@@ -26,7 +26,7 @@
   height: 44px;
   padding: 6px;
   background: linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.75) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border: 1.5px solid var(--overlay-white-mid);
   border-radius: var(--r-lg);
   cursor: pointer;
 
@@ -184,7 +184,7 @@
   width: 100%;
   padding: var(--s-3) var(--s-4) var(--s-3) var(--s-8);
   background: rgba(85, 161, 180, 0.04);
-  border: 1px solid rgba(85, 161, 180, 0.2);
+  border: 1px solid var(--overlay-brand-lg);
   border-radius: var(--r-md);
   font-size: var(--t-body-sm);
   color: var(--text);
@@ -198,8 +198,8 @@
 .top-nav__search-input:focus {
   outline: none;
   background: rgba(85, 161, 180, 0.08);
-  border-color: rgba(85, 161, 180, 0.4);
-  box-shadow: 0 0 0 3px rgba(85, 161, 180, 0.15);
+  border-color: var(--overlay-brand-2xl);
+  box-shadow: 0 0 0 3px var(--overlay-brand-xl);
 }
 
 .top-nav__search-icon {
@@ -356,7 +356,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--glass-border-premium);
   animation: badge-pulse 2s var(--ease-standard) infinite;
 }
 

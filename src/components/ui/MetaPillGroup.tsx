@@ -1,6 +1,7 @@
 import React from 'react';
 import { MetaPill } from './MetaPill';
 import type { MetaPillTone, MetaPillSize } from './MetaPill';
+import './MetaPillGroup.css';
 
 export interface MetaPillItem {
   icon?: React.ReactNode;
@@ -17,8 +18,6 @@ export interface MetaPillGroupProps {
   className?: string;
 }
 
-const GAP_MAP = { sm: 'var(--s-2)', md: 'var(--s-3)', lg: 'var(--s-4)' };
-
 export const MetaPillGroup: React.FC<MetaPillGroupProps> = ({
   items,
   size = 'md',
@@ -26,17 +25,17 @@ export const MetaPillGroup: React.FC<MetaPillGroupProps> = ({
   gap = 'md',
   className = '',
 }) => {
+  const classes = [
+    'tls-meta-pill-group',
+    layout === 'vertical' && 'tls-meta-pill-group--vertical',
+    `tls-meta-pill-group--gap-${gap}`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: layout === 'vertical' ? 'column' : 'row',
-        flexWrap: layout === 'horizontal' ? 'wrap' : undefined,
-        gap: GAP_MAP[gap],
-        alignItems: layout === 'horizontal' ? 'center' : 'flex-start',
-      }}
-      className={className}
-    >
+    <div className={classes}>
       {items.map((item, i) => (
         <MetaPill
           key={i}

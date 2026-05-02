@@ -46,10 +46,12 @@ interface CoachingSession {
 
 const coach = {
   name: 'Sophie Martin',
-  role: 'Expert IA & Pedagogie',
-  bio: 'Specialiste IA generative et design pedagogique. Accompagnement 1:1 orienté mise en pratique.',
-  rating: '4.9',
+  role: 'Expert IA & Pédagogie',
+  bio: 'Spécialiste IA générative et design pédagogique. Accompagnement 1:1 orienté mise en pratique sur vos cas réels.',
+  rating: 4.9,
+  ratingCount: 42,
   sessions: '156',
+  specialties: ['Prompt Engineering', 'IA Générative', 'Design Pédagogique'],
   email: 'sophie.martin@thelearningsociety.com',
   linkedin: 'linkedin.com/in/sophiemartin',
 };
@@ -149,133 +151,178 @@ export const Coaching: React.FC = () => {
           </Card>
         </div>
 
-        {/* Two-column layout: Coach info + Upcoming session — Enhanced spacing & elevation */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1fr) 1.2fr', gap: 'var(--s-8)', marginBottom: 'var(--s-10)', alignItems: 'start' }}>
-          {/* Coach Card - Sticky with elevated styling */}
-          <div style={{ position: 'sticky', top: 'var(--s-8)' }}>
-            <Card variant="feature" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)', transition: 'all var(--dur-2)', borderRadius: 'var(--r-lg)' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-                {/* Avatar section */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-                  {/* Avatar circle */}
-                  <div
-                    style={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 'var(--r-full)',
-                      background: 'linear-gradient(135deg, var(--tls-primary-400) 0%, var(--tls-primary-600) 100%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                      boxShadow: 'var(--shadow-brand)',
-                    }}
-                  >
-                    <span style={{ fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text-inverse)' }}>
-                      {coach.name.split(' ').map((n: string) => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                      {coach.name}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--tls-primary-600)', fontWeight: 500 }}>
-                      {coach.role}
-                    </p>
-                  </div>
-                  <Badge variant="info" style={{ marginLeft: 'auto', flexShrink: 0 }}>1:1</Badge>
+        {/* Two-column layout: Coach card (1/3) + Upcoming session (2/3) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 'var(--s-8)', marginBottom: 'var(--s-10)', alignItems: 'start' }}>
+          {/* Coach Profile Card — Sticky glass card */}
+          <div style={{ position: 'sticky', top: 'var(--s-6)' }}>
+            <div style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--r-2xl)',
+              padding: 'var(--s-8)',
+              boxShadow: 'var(--shadow-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 'var(--s-5)',
+            }}>
+              {/* Avatar with level badge */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: 96,
+                  height: 96,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--tls-primary-400), var(--tls-orange-500))',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: 'var(--shadow-brand-md)',
+                }}>
+                  <span style={{
+                    fontSize: 'var(--t-h2)',
+                    fontWeight: 800,
+                    color: 'var(--text-inverse)',
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '-0.02em',
+                  }}>
+                    {coach.name.split(' ').map((n: string) => n[0]).join('')}
+                  </span>
                 </div>
-
-                {/* Rating & sessions */}
-                <div style={{ display: 'flex', gap: 'var(--s-3)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-1) var(--s-2)', borderRadius: 'var(--r-lg)', background: 'var(--tls-yellow-50)', border: '1px solid var(--tls-yellow-100)' }}>
-                    <Star size={13} style={{ color: 'var(--tls-yellow-500)' }} />
-                    <span style={{ fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--tls-yellow-700)' }}>
-                      {coach.rating} / 5
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--s-1) var(--s-2)', borderRadius: 'var(--r-lg)', background: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-                    <Users size={13} style={{ color: 'var(--text-muted)' }} />
-                    <span style={{ fontSize: 'var(--t-caption)', fontWeight: 500, color: 'var(--text-muted)' }}>
-                      {coach.sessions} sessions
-                    </span>
-                  </div>
+                {/* Level badge — absolute bottom-right */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: -4,
+                  right: -4,
+                  width: 32,
+                  height: 32,
+                  borderRadius: 'var(--r-lg)',
+                  background: 'linear-gradient(135deg, var(--tls-orange-500), var(--tls-yellow-500))',
+                  border: '3px solid var(--surface)',
+                  boxShadow: 'var(--shadow-sm)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <Star size={14} style={{ color: 'var(--text-inverse)' }} fill="currentColor" />
                 </div>
-
-                {/* Bio */}
-                <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>
-                  {coach.bio}
-                </p>
-
-                {/* Links */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', paddingTop: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>
-                  <a
-                    href={`mailto:${coach.email}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--s-2)',
-                      fontSize: 'var(--t-body-sm)',
-                      color: 'var(--tls-primary-600)',
-                      textDecoration: 'none',
-                      transition: 'color 0.15s',
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-700)';
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-600)';
-                    }}
-                  >
-                    <Mail size={14} />
-                    {coach.email}
-                  </a>
-                  <a
-                    href={`https://${coach.linkedin}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--s-2)',
-                      fontSize: 'var(--t-body-sm)',
-                      color: 'var(--tls-primary-600)',
-                      textDecoration: 'none',
-                      transition: 'color 0.15s',
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-700)';
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-600)';
-                    }}
-                  >
-                    <ExternalLink size={14} />
-                    LinkedIn
-                  </a>
-                </div>
-
-                {/* Callout */}
-                <div style={{ padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-50)', border: '1px solid var(--tls-primary-100)' }}>
-                  <p style={{ fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)', margin: '0 0 var(--s-1)' }}>
-                    Conseil préparation
-                  </p>
-                  <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: 0 }}>
-                    {"Complétez le questionnaire pré-session pour maximiser la valeur du rendez-vous."}
-                  </p>
-                </div>
-
-                {/* Book CTA */}
-                <Button
-                  variant="primary"
-                  leadingIcon={<Calendar size={15} />}
-                  onClick={() => setShowBooking(true)}
-                  style={{ width: '100%', justifyContent: 'center' }}
-                >
-                  Réserver une session
-                </Button>
               </div>
-            </Card>
+
+              {/* Name + role centered */}
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)', fontFamily: 'var(--font-display)' }}>
+                  {coach.name}
+                </p>
+                <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--tls-primary-600)', fontWeight: 500 }}>
+                  {coach.role}
+                </p>
+              </div>
+
+              {/* Star rating row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
+                <div style={{ display: 'flex', gap: 'var(--s-1)' }}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      size={16}
+                      style={{ color: star <= Math.round(coach.rating) ? 'var(--tls-yellow-500)' : 'var(--border)' }}
+                      fill={star <= Math.round(coach.rating) ? 'var(--tls-yellow-500)' : 'none'}
+                    />
+                  ))}
+                </div>
+                <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--tls-yellow-700)' }}>
+                  {coach.rating}
+                </span>
+                <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                  ({coach.ratingCount} avis)
+                </span>
+              </div>
+
+              {/* Specialties as Tag chips */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)', justifyContent: 'center' }}>
+                {coach.specialties.map((specialty) => (
+                  <span
+                    key={specialty}
+                    style={{
+                      padding: 'var(--s-1) var(--s-3)',
+                      borderRadius: 'var(--r-pill)',
+                      background: 'var(--tls-primary-50)',
+                      border: '1px solid var(--tls-primary-100)',
+                      color: 'var(--tls-primary-700)',
+                      fontSize: 'var(--t-caption)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    {specialty}
+                  </span>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <div style={{ width: '100%', height: '1px', background: 'var(--border)' }} />
+
+              {/* Contact info rows */}
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+                <a
+                  href={`mailto:${coach.email}`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--s-2)',
+                    fontSize: 'var(--t-caption)',
+                    color: 'var(--tls-primary-600)',
+                    textDecoration: 'none',
+                    transition: 'color var(--dur-2)',
+                    padding: 'var(--s-2) var(--s-3)',
+                    borderRadius: 'var(--r-lg)',
+                    background: 'var(--surface-muted)',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-700)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-600)'; }}
+                >
+                  <Mail size={14} style={{ flexShrink: 0 }} />
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {coach.email}
+                  </span>
+                </a>
+                <a
+                  href={`https://${coach.linkedin}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--s-2)',
+                    fontSize: 'var(--t-caption)',
+                    color: 'var(--tls-primary-600)',
+                    textDecoration: 'none',
+                    transition: 'color var(--dur-2)',
+                    padding: 'var(--s-2) var(--s-3)',
+                    borderRadius: 'var(--r-lg)',
+                    background: 'var(--surface-muted)',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-700)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--tls-primary-600)'; }}
+                >
+                  <ExternalLink size={14} style={{ flexShrink: 0 }} />
+                  LinkedIn
+                </a>
+              </div>
+
+              {/* Bio */}
+              <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: 0, lineHeight: 1.6, textAlign: 'center' }}>
+                {coach.bio}
+              </p>
+
+              {/* Book CTA */}
+              <Button
+                variant="primary"
+                leadingIcon={<Calendar size={15} />}
+                onClick={() => setShowBooking(true)}
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                Réserver une session
+              </Button>
+            </div>
           </div>
 
           {/* Upcoming Session Card — Featured with elevated styling */}

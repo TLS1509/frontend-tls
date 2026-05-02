@@ -6,6 +6,7 @@ import { ArrowRight, X, Sparkles } from 'lucide-react';
  * Design: Progressive Cards, 5 niveaux, auto-avancement, success screen
  * Tokens: TLS design system (--tls-primary-*, --s-*, --r-*, --shadow-*)
  */
+import './modals.css';
 
 interface Question {
   id: number;
@@ -146,45 +147,20 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
         {/* Modal container */}
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: 880,
-            background: 'linear-gradient(148deg, var(--tls-primary-50) 0%, rgba(255,249,238,0.95) 100%)',
-            borderRadius: 'var(--r-2xl)',
-            border: '1.5px solid var(--border)',
-            boxShadow: 'var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'modalIn 0.3s var(--ease-spring, cubic-bezier(.34,1.56,.64,1)) both',
-            overflow: 'hidden',
-          }}
+          className="modal--positionement modal__content"
         >
           {/* Close */}
           <button
             onClick={onClose}
-            style={{
-              position: 'absolute',
-              top: 'var(--s-5)',
-              right: 'var(--s-5)',
-              zIndex: 10,
-              width: 36,
-              height: 36,
-              borderRadius: '50%',
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-muted)',
-              transition: 'all var(--dur-2)',
-            }}
+            className="modal__close-btn"
+            style={{ top: 'var(--s-5)', right: 'var(--s-5)', width: 36, height: 36 }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-danger-bg, rgba(220,38,38,0.08))';
-              (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+              e.currentTarget.style.background = 'var(--tls-danger-bg, rgba(220,38,38,0.08))';
+              e.currentTarget.style.color = '#dc2626';
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface)';
-              (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
+              e.currentTarget.style.background = 'var(--surface)';
+              e.currentTarget.style.color = 'var(--text-muted)';
             }}
             aria-label="Fermer"
           >
@@ -207,15 +183,10 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                       {Math.round(progress)}%
                     </span>
                   </div>
-                  <div style={{ height: 6, background: 'var(--border)', borderRadius: 'var(--r-pill)', overflow: 'hidden' }}>
+                  <div className="modal__progress-bar">
                     <div
-                      style={{
-                        width: `${progress}%`,
-                        height: '100%',
-                        background: 'linear-gradient(90deg, var(--tls-primary-500), var(--tls-primary-400))',
-                        borderRadius: 'var(--r-pill)',
-                        transition: 'width 0.45s var(--ease-out, ease)',
-                      }}
+                      className="modal__progress-fill"
+                      style={{ width: `${progress}%` }}
                     />
                   </div>
                 </div>
@@ -240,51 +211,37 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                 </div>
 
                 {/* Level selection */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(5, 1fr)',
-                    gap: 'var(--s-3)',
-                    marginBottom: 'var(--s-6)',
-                  }}
-                >
+                <div className="modal__level-grid">
                   {LEVELS.map((level) => {
                     const isSelected = selectedLevel === level.id;
                     return (
                       <button
                         key={level.id}
                         onClick={() => handleLevelSelect(level.id)}
+                        className={`modal__level-btn ${isSelected ? 'modal__level-btn--selected' : ''}`}
                         style={{
                           background: isSelected ? level.colorLight : 'var(--surface)',
-                          border: isSelected ? `2px solid ${level.color}` : '2px solid var(--border)',
-                          borderRadius: 'var(--r-xl)',
-                          padding: 'var(--s-5) var(--s-3)',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          gap: 'var(--s-2)',
-                          cursor: 'pointer',
-                          transition: 'all var(--dur-2)',
+                          borderColor: isSelected ? level.color : 'var(--border)',
                           boxShadow: isSelected ? `0 8px 24px ${level.glowColor}, var(--shadow-sm)` : 'var(--shadow-xs)',
                           transform: isSelected ? 'translateY(-4px) scale(1.04)' : 'translateY(0) scale(1)',
                         }}
                         onMouseEnter={(e) => {
                           if (!isSelected) {
-                            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-3px) scale(1.02)';
-                            (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 8px 20px ${level.glowColor}`;
-                            (e.currentTarget as HTMLButtonElement).style.borderColor = level.color;
+                            e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                            e.currentTarget.style.boxShadow = `0 8px 20px ${level.glowColor}`;
+                            e.currentTarget.style.borderColor = level.color;
                           }
                         }}
                         onMouseLeave={(e) => {
                           if (!isSelected) {
-                            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0) scale(1)';
-                            (e.currentTarget as HTMLButtonElement).style.boxShadow = 'var(--shadow-xs)';
-                            (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                            e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
+                            e.currentTarget.style.borderColor = 'var(--border)';
                           }
                         }}
                       >
-                        <span style={{ fontSize: '2.5rem', lineHeight: 1 }}>{level.emoji}</span>
-                        <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: isSelected ? level.color : 'var(--text)', textAlign: 'center', lineHeight: 1.2 }}>
+                        <span className="modal__level-emoji">{level.emoji}</span>
+                        <span className="modal__level-label" style={{ color: isSelected ? level.color : 'var(--text)' }}>
                           {level.label}
                         </span>
                         <span style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center' }}>

@@ -4,11 +4,11 @@ import React from 'react';
  * Skeleton — Source of truth: design-system/spec.json → components.Skeleton
  *
  * Placeholder shimmer matching the shape of expected content.
- * Variants: text (1 line) / title (wide heading) / block (rect) / circle.
+ * Variants: text (1 line) / title (wide heading) / block (rect) / circle / card / button.
  * Use when 1–3s load; for ≤1s use a spinner, ≥3s add a message.
  */
 
-export type SkeletonVariant = 'text' | 'title' | 'block' | 'circle';
+export type SkeletonVariant = 'text' | 'title' | 'block' | 'circle' | 'card' | 'button';
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: SkeletonVariant;

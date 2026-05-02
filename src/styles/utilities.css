@@ -748,3 +748,42 @@ a:focus-visible {
 }
 
 /* End of utilities-extended.css */
+
+/* ==========================================================================
+   GLASS MORPHISM UTILITIES — merged from glass-utilities.css
+   ========================================================================== */
+/* Standard glass effect */
+.glass {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-ring);
+}
+/* Strong glass effect - more opaque */
+.glass-strong {
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  background: var(--glass-fill-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-ring);
+}
+/* Subtle glass effect - lighter blur, uses on-color tokens */
+.glass-subtle {
+  backdrop-filter: var(--backdrop-blur-light);
+  -webkit-backdrop-filter: var(--backdrop-blur-light);
+  background: var(--on-color-fill-xl);
+  border: 1px solid var(--on-color-border-lg);
+}
+/* On-color glass — for elements placed on colored/gradient hero backgrounds */
+.glass-on-color {
+  backdrop-filter: var(--backdrop-blur-light);
+  -webkit-backdrop-filter: var(--backdrop-blur-light);
+  background: var(--on-color-fill-sm);
+  border: 1px solid var(--on-color-border-sm);
+  color: var(--text-inverse);
+  transition: background var(--dur-2) var(--ease-standard);
+}
+.glass-on-color:hover {
+  background: var(--on-color-fill-lg);
+}

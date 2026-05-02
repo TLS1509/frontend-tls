@@ -12,6 +12,7 @@
  */
 
 import React from 'react';
+import './auth.css';
 
 export type SocialProvider = 'google' | 'linkedin';
 
@@ -88,41 +89,21 @@ export const SocialButton: React.FC<SocialButtonProps> = ({
       disabled={disabled || isLoading}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      className="auth__button"
       style={{
-        width: '100%',
-        padding: 'var(--s-3) var(--s-4)',
-        borderRadius: 'var(--r-md)',
-        border: `1px solid ${config.borderColor}`,
+        borderColor: config.borderColor,
         background: isHovered ? config.hoverBg : config.bgColor,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 'var(--s-3)',
-        cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.6 : 1,
-        transition: 'all var(--dur-2)',
-        fontSize: 'var(--t-body-sm)',
-        fontWeight: 500,
-        color: 'var(--text)',
-        fontFamily: 'var(--font-body)',
       }}
       aria-label={config.label}
       title={config.label}
     >
       {isLoading ? (
-        <span
-          style={{
-            display: 'inline-block',
-            width: 18,
-            height: 18,
-            borderRadius: '50%',
-            border: `2px solid var(--tls-primary-300)`,
-            borderTopColor: 'var(--tls-primary-500)',
-            animation: 'spin 0.8s linear infinite',
-          }}
-        />
+        <span className="auth__button-loader" />
       ) : (
-        <Icon />
+        <span className="auth__button-icon">
+          <Icon />
+        </span>
       )}
       {config.label}
     </button>

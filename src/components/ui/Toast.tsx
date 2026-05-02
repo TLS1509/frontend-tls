@@ -5,6 +5,7 @@ import React from 'react';
  *
  * Transient confirmation, non-blocking. 4–6s display, bottom-right, max 3 stacked.
  * Variants: success/info/warning/danger.
+ * Each variant gets a tone-colored left border and icon background.
  */
 
 export type ToastVariant = 'success' | 'info' | 'warning' | 'danger';
@@ -48,6 +49,8 @@ export interface ToastProps
   /** Show close button */
   dismissible?: boolean;
   onDismiss?: () => void;
+  /** Dismissing animation state */
+  dismissing?: boolean;
   icon?: React.ReactNode;
 }
 
@@ -58,12 +61,20 @@ export const Toast: React.FC<ToastProps> = ({
   onAction,
   dismissible = true,
   onDismiss,
+  dismissing = false,
   icon,
   className = '',
   children,
   ...rest
 }) => {
-  const classes = ['toast', className].filter(Boolean).join(' ');
+  const classes = [
+    'toast',
+    `toast--${variant}`,
+    dismissing && 'toast--dismissing',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={classes} role="status" aria-live="polite" {...rest}>

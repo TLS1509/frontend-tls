@@ -49,30 +49,6 @@ export interface ParcoursCardProps {
   level?: 'débutant' | 'intermédiaire' | 'avancé';
 }
 
-const TONE_COLORS: Record<ParcoursTone, string> = {
-  primary: 'var(--tls-primary-500)',
-  warm:    'var(--tls-orange-500)',
-  sun:     'var(--tls-yellow-400)',
-};
-
-const TONE_SHADOWS: Record<ParcoursTone, string> = {
-  primary: '0 4px 14px rgba(85,161,180,0.30)',
-  warm:    '0 4px 14px rgba(237,132,58,0.30)',
-  sun:     '0 4px 14px rgba(248,176,68,0.30)',
-};
-
-const TONE_SHADOWS_HOVER: Record<ParcoursTone, string> = {
-  primary: '0 8px 24px rgba(85,161,180,0.45)',
-  warm:    '0 8px 24px rgba(237,132,58,0.45)',
-  sun:     '0 8px 24px rgba(248,176,68,0.45)',
-};
-
-const TONE_GLOWS: Record<ParcoursTone, string> = {
-  primary: 'rgba(85,161,180,0.14)',
-  warm:    'rgba(237,132,58,0.14)',
-  sun:     'rgba(248,176,68,0.14)',
-};
-
 const CTA_LABELS: Record<ParcoursStatus, string> = {
   'en cours':       'Continuer le parcours',
   complété:         'Revoir le parcours',
@@ -93,13 +69,6 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   lessons,
   level,
 }) => {
-  const color = TONE_COLORS[tone];
-  const shadow = TONE_SHADOWS[tone];
-  const shadowHover = TONE_SHADOWS_HOVER[tone];
-  const glow = TONE_GLOWS[tone];
-  const isDone = status === 'complété';
-  const isNew = status === 'non commencé';
-
   return (
     <ToneAwareCard
       tone={tone}
@@ -116,17 +85,16 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         aria-label={`${title} — ${status}`}
         style={{ cursor: 'pointer' }}
       >
-        {/* Radial top glow overlay */}
+        {/* Radial top glow overlay — tone-specific via CSS class */}
         <div
           className="parcours-card__glow"
-          style={{ background: `radial-gradient(circle at 50% 0%, ${glow} 0%, transparent 70%)` }}
           aria-hidden="true"
         />
 
       {/* Card content */}
       <div className="parcours-card__inner">
-        {/* Title */}
-        <h3 className="parcours-card__title" style={{ color }}>
+        {/* Title — tone color via CSS class */}
+        <h3 className="parcours-card__title">
           {title}
         </h3>
 
@@ -155,14 +123,9 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         {/* Progress bar using InlineProgress component */}
         <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
 
-        {/* CTA button */}
+        {/* CTA button — tone-specific via CSS class */}
         <button
-          className="parcours-card__cta"
-          style={{
-            background: color,
-            boxShadow: shadow,
-            '--cta-shadow-hover': shadowHover,
-          } as React.CSSProperties}
+          className={`parcours-card__cta parcours-card__cta--${tone}`}
           onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
           aria-label={CTA_LABELS[status]}
         >

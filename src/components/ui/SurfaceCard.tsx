@@ -1,15 +1,17 @@
 import React from 'react';
 import './SurfaceCard.css';
 
+export type SurfaceCardVariant = 'default' | 'elevated' | 'glass' | 'bordered' | 'muted' | 'sunken';
+
 interface SurfaceCardProps {
   children: React.ReactNode;
-  variant?: 'muted' | 'sunken';
+  variant?: SurfaceCardVariant;
   className?: string;
 }
 
 export const SurfaceCard: React.FC<SurfaceCardProps> = ({
   children,
-  variant = 'muted',
+  variant = 'default',
   className = '',
 }) => {
   const classes = ['tls-surface-card', `tls-surface-card--${variant}`, className]
@@ -18,3 +20,5 @@ export const SurfaceCard: React.FC<SurfaceCardProps> = ({
 
   return <div className={classes}>{children}</div>;
 };
+
+export default SurfaceCard;

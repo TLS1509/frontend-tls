@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, AlertTriangle, CheckCircle2, Info, AlertCircle } from 'lucide-react';
+import './modals.css';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
@@ -77,59 +78,27 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   return (
     <>
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 1001,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.45)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          animation: 'cmBdIn 0.2s ease both',
-        }}
+        className="modal__backdrop"
+        style={{ background: 'rgba(0,0,0,0.45)', animation: 'cmBdIn 0.2s ease both' }}
         onClick={onClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: 440,
-            background: 'var(--surface)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-8)',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'cmIn 0.28s cubic-bezier(.34,1.56,.64,1) both',
-          }}
+          className="modal--confirm modal__content"
+          style={{ padding: 'var(--s-8)' }}
         >
           {/* Close */}
           <button
             onClick={onClose}
-            style={{
-              position: 'absolute', top: 'var(--s-4)', right: 'var(--s-4)',
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'var(--surface-muted)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)', transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
+            className="modal__close-btn"
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
           >
             <X size={14} />
           </button>
 
           {/* Icon */}
-          <div style={{
-            width: 64, height: 64, borderRadius: '50%',
-            background: meta.iconBg, color: meta.iconColor,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto var(--s-5)',
-            animation: 'cmIconIn 0.4s cubic-bezier(.34,1.56,.64,1) 0.1s both',
-          }}>
+          <div className="modal__icon-circle" style={{ background: meta.iconBg, color: meta.iconColor }}>
             {displayIcon}
           </div>
 
@@ -144,42 +113,29 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           </div>
 
           {/* Actions */}
-          <div style={{ display: 'flex', gap: 'var(--s-3)' }}>
+          <div className="modal__actions">
             <button
               onClick={onClose}
-              style={{
-                flex: 1, padding: 'var(--s-3) var(--s-4)',
-                borderRadius: 'var(--r-lg)',
-                border: '1.5px solid var(--border)',
-                background: 'var(--surface)',
-                color: 'var(--text)',
-                fontWeight: 600, fontSize: 'var(--t-body-sm)',
-                cursor: 'pointer', transition: 'all var(--dur-1)',
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface)'; }}
+              className="modal__action-btn modal__action-btn--cancel"
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface)'; }}
             >
               {cancelText}
             </button>
             <button
               onClick={() => { onConfirm(); onClose(); }}
+              className="modal__action-btn modal__action-btn--confirm"
               style={{
-                flex: 1, padding: 'var(--s-3) var(--s-4)',
-                borderRadius: 'var(--r-lg)',
-                border: 'none',
                 background: meta.confirmBg,
-                color: '#fff',
-                fontWeight: 700, fontSize: 'var(--t-body-sm)',
-                cursor: 'pointer', transition: 'all var(--dur-2)',
                 boxShadow: `0 4px 14px ${meta.confirmShadow}`,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 8px 20px ${meta.confirmShadow}`;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = `0 8px 20px ${meta.confirmShadow}`;
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 14px ${meta.confirmShadow}`;
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = `0 4px 14px ${meta.confirmShadow}`;
               }}
             >
               {confirmText}

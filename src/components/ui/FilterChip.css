@@ -1,12 +1,12 @@
 /**
- * FilterChip — Design System Component
+ * FilterChip.css
  *
- * Toggle-style pill used for filtering content lists.
+ * Toggle-style pill for filtering content lists.
  *
  * States:
- *   default  — glass pill, muted uppercase text
- *   :hover   — lift 1px + primary color hint
- *   active   — solid primary fill, white text, teal glow
+ *   default  — glass pill, muted text, subtle border
+ *   :hover   — lift 1px, teal tint
+ *   active   — solid primary fill, white text, brand glow
  *   --reset  — no uppercase, lighter weight, icon support
  *
  * Usage:
@@ -21,50 +21,53 @@
 .filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: var(--s-1);
+  padding: var(--s-2) var(--s-3);
   border-radius: var(--r-pill);
-  border: 1px solid var(--overlay-dark-md);
-  background: var(--glass-fill-premium);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
   font-family: var(--font-body);
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-soft);
+  font-size: var(--t-caption);
+  font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
   transition:
-    transform var(--dur-2) var(--ease-standard),
-    background-color var(--dur-2) var(--ease-standard),
-    border-color var(--dur-2) var(--ease-standard),
-    color var(--dur-2) var(--ease-standard),
-    box-shadow var(--dur-2) var(--ease-standard);
+    background var(--dur-1) var(--ease-standard),
+    border-color var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard),
+    box-shadow var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-standard);
 }
 
 /* =============================================================================
-   HOVER
+   HOVER — inactive state
    ============================================================================= */
 
-.filter-chip:hover {
+.filter-chip:not([aria-pressed='true']):hover {
+  background: var(--surface-muted);
+  border-color: var(--border-strong);
+  color: var(--text);
   transform: translateY(-1px);
-  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
-  color: var(--tls-primary-700);
 }
 
 /* =============================================================================
    ACTIVE STATE
    ============================================================================= */
 
-.filter-chip[data-active='true'] {
-  background: var(--tls-primary-600);
-  border-color: var(--tls-primary-600);
-  color: var(--text-inverse);
-  box-shadow: var(--shadow-brand-sm);
+.filter-chip[aria-pressed='true'] {
+  background: var(--tls-primary-50);
+  border-color: var(--tls-primary-500);
+  border-width: 2px;
+  color: var(--tls-primary-700);
+  font-weight: 600;
+  box-shadow: var(--shadow-brand-xs);
 }
 
-.filter-chip[data-active='true']:hover {
-  color: var(--text-inverse);
-  border-color: var(--tls-primary-700);
+.filter-chip[aria-pressed='true']:hover {
+  background: var(--tls-primary-100);
+  border-color: var(--tls-primary-600);
+  transform: translateY(-1px);
 }
 
 /* =============================================================================
@@ -72,17 +75,57 @@
    ============================================================================= */
 
 .filter-chip--reset {
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 600;
+  border-color: var(--border);
+  color: var(--text-soft);
+  gap: var(--s-1-5);
+}
+
+.filter-chip--reset:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-muted);
+  color: var(--text-muted);
 }
 
 /* =============================================================================
-   ICON
+   ICON SLOT
    ============================================================================= */
 
 .filter-chip__icon {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+}
+
+/* =============================================================================
+   COUNT BADGE — optional numeric count inside the chip
+   ============================================================================= */
+
+.filter-chip__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--s-4);
+  height: var(--s-4);
+  padding: 0 var(--s-1);
+  border-radius: var(--r-pill);
+  background: var(--overlay-dark-md);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-muted);
+  margin-left: var(--s-1);
+}
+
+.filter-chip[aria-pressed='true'] .filter-chip__count {
+  background: var(--overlay-brand-xl);
+  color: var(--tls-primary-700);
+}
+
+/* =============================================================================
+   FOCUS
+   ============================================================================= */
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }

@@ -1,1 +1,66 @@
-/* Alert styles are now centralized in /src/styles/tls-components.css (.alert) */
+/**
+ * Alert.css
+ *
+ * Component-level additions on top of the base .alert styles in tls-components.css:
+ * — Slide-down entrance animation
+ * — Left-accent border treatment (3px tone color)
+ * — Polished hover/focus state on dismiss button
+ */
+
+/* ============================================================================
+   ENTRANCE ANIMATION
+   ============================================================================ */
+
+@keyframes alert-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert {
+  animation: alert-slide-down var(--dur-2) var(--ease-entrance) both;
+  /* Override uniform border to add left accent */
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 3px;
+}
+
+/* ============================================================================
+   LEFT ACCENT BORDER — per tone
+   The left border is set to the tone's primary color for a strong visual cue.
+   The other 3 sides use the lighter border-color set in tls-components.css.
+   ============================================================================ */
+
+.alert--info    { border-left-color: var(--tls-primary-500); }
+.alert--success { border-left-color: var(--tls-success-base); }
+.alert--warning { border-left-color: var(--tls-warning-base); }
+.alert--danger  { border-left-color: var(--tls-danger-base); }
+
+/* ============================================================================
+   DISMISS BUTTON — polished interaction
+   ============================================================================ */
+
+.alert__close {
+  transition:
+    opacity var(--dur-1) var(--ease-standard),
+    background var(--dur-1) var(--ease-standard),
+    transform var(--dur-1) var(--ease-standard);
+}
+
+.alert__close:hover {
+  opacity: 1;
+  background: var(--overlay-dark-md);
+  transform: scale(1.1);
+}
+
+.alert__close:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  opacity: 1;
+}

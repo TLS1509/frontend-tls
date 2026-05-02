@@ -1,0 +1,253 @@
+/* ============================================================================
+   NotificationCard — Notification display card with type variants
+   ============================================================================ */
+
+.notification-card {
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  padding: var(--s-4);
+  border-radius: var(--r-2xl);
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition: all var(--dur-2);
+}
+
+/* Unread variant — colored background */
+.notification-card--unread {
+  background: var(--notification-bg);
+  border-color: var(--notification-border);
+}
+
+/* Hover state */
+.notification-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border);
+}
+
+/* ── Icon / Badge Container ── */
+.notification-card__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--t-h4);
+  background: var(--notification-icon-bg);
+  color: var(--notification-icon-color);
+}
+
+.notification-card--unread .notification-card__icon {
+  background: var(--notification-accent);
+  color: white;
+}
+
+/* ── Content Container ── */
+.notification-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Title with optional unread dot */
+.notification-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-1);
+}
+
+.notification-card__title {
+  margin: 0;
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Unread indicator dot */
+.notification-card__unread-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--notification-accent);
+}
+
+/* Message text */
+.notification-card__message {
+  margin: 0;
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--s-2);
+}
+
+/* Timestamp */
+.notification-card__timestamp {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ── Actions Container ── */
+.notification-card__actions {
+  display: flex;
+  gap: var(--s-1);
+  opacity: 0;
+  transition: opacity var(--dur-2);
+}
+
+.notification-card:hover .notification-card__actions {
+  opacity: 1;
+}
+
+/* Action button */
+.notification-card__action-btn {
+  padding: var(--s-2);
+  background: none;
+  border: none;
+  color: var(--notification-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--dur-2);
+  flex-shrink: 0;
+}
+
+.notification-card__action-btn:hover {
+  color: var(--tls-primary-500);
+}
+
+.notification-card__action-btn--delete {
+  color: var(--text-muted);
+}
+
+.notification-card__action-btn--delete:hover {
+  color: var(--tls-danger-base);
+}
+
+/* ── Type Variants (background colors) ── */
+
+/* Message type — primary blue */
+.notification-card--message {
+  --notification-bg: var(--tls-primary-50);
+  --notification-border: var(--tls-primary-200);
+  --notification-accent: var(--tls-primary-500);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Lesson type — primary blue */
+.notification-card--lesson {
+  --notification-bg: var(--tls-primary-50);
+  --notification-border: var(--tls-primary-200);
+  --notification-accent: var(--tls-primary-500);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Coaching type — warm orange */
+.notification-card--coaching {
+  --notification-bg: var(--overlay-warm-xs);
+  --notification-border: var(--tls-orange-200);
+  --notification-accent: var(--tls-orange-600);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Achievement type — sun yellow */
+.notification-card--achievement {
+  --notification-bg: var(--tls-yellow-50);
+  --notification-border: var(--tls-yellow-200);
+  --notification-accent: var(--tls-yellow-600);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Correction type — success green */
+.notification-card--correction {
+  --notification-bg: var(--tls-success-light);
+  --notification-border: var(--tls-success-border);
+  --notification-accent: var(--tls-success-base);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* System type — muted gray */
+.notification-card--system {
+  --notification-bg: var(--surface-muted);
+  --notification-border: var(--border-default);
+  --notification-accent: var(--text-muted);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Completion type — success green */
+.notification-card--completion {
+  --notification-bg: var(--tls-success-light);
+  --notification-border: var(--tls-success-border);
+  --notification-accent: var(--tls-success-base);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* Report type — warm orange */
+.notification-card--report {
+  --notification-bg: var(--overlay-warm-xs);
+  --notification-border: var(--tls-orange-200);
+  --notification-accent: var(--tls-orange-600);
+  --notification-icon-bg: var(--surface-muted);
+  --notification-icon-color: var(--text-soft);
+}
+
+/* ── Responsive Design ── */
+@media (max-width: 768px) {
+  .notification-card {
+    padding: var(--s-3);
+    gap: var(--s-2);
+  }
+
+  .notification-card__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-card__title {
+    font-size: var(--t-caption);
+  }
+
+  .notification-card__message {
+    font-size: 0.8125rem;
+  }
+
+  /* Show actions on mobile (no hover available) */
+  .notification-card__actions {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-card {
+    padding: var(--s-2);
+    gap: var(--s-2);
+  }
+
+  .notification-card__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .notification-card__actions {
+    gap: var(--s-0);
+  }
+
+  .notification-card__action-btn {
+    padding: var(--s-1);
+  }
+}

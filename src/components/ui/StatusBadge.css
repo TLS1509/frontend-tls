@@ -1,0 +1,92 @@
+/**
+ * StatusBadge.css
+ *
+ * Status indicator for learning paths, lessons, sessions, and modules.
+ *
+ * 5 semantic states:
+ *  locked      — gray, muted surface
+ *  available   — teal/brand, subtle fill
+ *  in-progress — brand with glow
+ *  completed   — success green
+ *  failed      — error red
+ */
+
+/* ============================================================================
+   BASE
+   ============================================================================ */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  vertical-align: middle;
+  border: 1px solid;
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard),
+    box-shadow var(--dur-1) var(--ease-standard);
+}
+
+/* ============================================================================
+   SIZE VARIANTS
+   ============================================================================ */
+
+.status-badge--sm {
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-1-5);
+  font-size: var(--t-micro);
+}
+
+.status-badge--sm.status-badge--icon-only {
+  padding: var(--s-1);
+}
+
+.status-badge--md {
+  gap: var(--s-1);
+  padding: var(--s-1-5) var(--s-2);
+  font-size: var(--t-caption);
+}
+
+.status-badge--md.status-badge--icon-only {
+  padding: var(--s-1-5);
+}
+
+/* ============================================================================
+   STATE VARIANTS
+   ============================================================================ */
+
+.status-badge--locked {
+  background: var(--surface-muted);
+  color: var(--text-soft);
+  border-color: var(--border);
+}
+
+.status-badge--available {
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-700);
+  border-color: var(--tls-primary-100);
+}
+
+.status-badge--in-progress {
+  background: var(--overlay-brand-sm);
+  color: var(--tls-primary-700);
+  border-color: var(--tls-primary-200);
+  box-shadow: var(--shadow-brand-xs);
+}
+
+.status-badge--completed {
+  background: var(--tls-success-bg);
+  color: var(--tls-success-fg);
+  border-color: var(--tls-success-base);
+}
+
+.status-badge--failed {
+  background: var(--tls-danger-bg);
+  color: var(--tls-danger-fg);
+  border-color: var(--tls-danger-base);
+}

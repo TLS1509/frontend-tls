@@ -1,0 +1,51 @@
+/* ==========================================================================
+   NOTIFICATION BADGE — .notif-badge
+   Overlaid count badge for icon buttons and avatars
+   ========================================================================== */
+
+.notif-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notif-badge__dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--s-1);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--surface);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  /* Single-digit: perfect circle */
+  aspect-ratio: auto;
+}
+
+/* Tone variants */
+.notif-badge--danger .notif-badge__dot {
+  background: var(--tls-danger-base);
+  box-shadow: var(--shadow-error);
+}
+
+.notif-badge--brand .notif-badge__dot {
+  background: var(--brand);
+  box-shadow: var(--shadow-brand-xs);
+}
+
+.notif-badge--warm .notif-badge__dot {
+  background: var(--tls-orange-500);
+  box-shadow: var(--shadow-warm-sm);
+}

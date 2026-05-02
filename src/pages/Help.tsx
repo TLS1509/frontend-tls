@@ -12,8 +12,6 @@ import {
   BookOpen,
   Sparkles,
 } from 'lucide-react';
-import '../styles/static-pages.css';
-import '../styles/feature-pages-modern.css';
 
 /* ── FAQ data ───────────────────────────────────────────────────────────── */
 
@@ -117,12 +115,12 @@ export const Help: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             gap: 'var(--s-3)',
-            background: 'rgba(255,255,255,0.82)',
-            border: '1px solid rgba(85,161,180,0.25)',
+            background: 'var(--glass-fill-strong)',
+            border: '1px solid var(--tls-primary-200)',
             borderRadius: 'var(--r-xl)',
             padding: 'var(--s-3) var(--s-4)',
             maxWidth: 520,
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'var(--glass-blur)',
             boxShadow: 'var(--shadow-sm)',
           }}
         >
@@ -172,10 +170,10 @@ export const Help: React.FC = () => {
               <div
                 key={item.id}
                 style={{
-                  border: `1px solid ${isOpen ? 'rgba(85,161,180,0.35)' : 'var(--border)'}`,
+                  border: `1px solid ${isOpen ? 'var(--tls-primary-300)' : 'var(--border)'}`,
                   borderRadius: 'var(--r-xl)',
                   background: isOpen
-                    ? 'linear-gradient(135deg, rgba(85,161,180,0.06), rgba(255,255,255,0.95))'
+                    ? 'linear-gradient(135deg, var(--tls-primary-50), var(--glass-fill-strong))'
                     : 'var(--surface)',
                   overflow: 'hidden',
                   boxShadow: isOpen ? 'var(--shadow-sm)' : 'none',
@@ -249,7 +247,7 @@ export const Help: React.FC = () => {
 
         <Card
           style={{
-            border: '1px solid rgba(85,161,180,0.2)',
+            border: '1px solid var(--tls-primary-200)',
             background: 'var(--surface)',
             overflow: 'hidden',
             display: 'flex',
@@ -264,7 +262,7 @@ export const Help: React.FC = () => {
               gap: 'var(--s-3)',
               padding: 'var(--s-4) var(--s-5)',
               borderBottom: '1px solid var(--border)',
-              background: 'linear-gradient(135deg, rgba(85,161,180,0.08), rgba(255,255,255,0.96))',
+              background: 'linear-gradient(135deg, var(--tls-primary-50), var(--glass-fill-strong))',
             }}
           >
             <div
@@ -321,7 +319,7 @@ export const Help: React.FC = () => {
                     background: msg.role === 'user'
                       ? 'var(--tls-primary-500)'
                       : 'var(--tls-primary-50)',
-                    color: msg.role === 'user' ? '#fff' : 'var(--text)',
+                    color: msg.role === 'user' ? 'var(--on-color-text-main)' : 'var(--text)',
                     fontSize: 'var(--t-body-sm)',
                     lineHeight: 1.6,
                     boxShadow: 'var(--shadow-xs)',

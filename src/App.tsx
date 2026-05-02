@@ -87,8 +87,7 @@ import {
 } from './pages';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
-import './styles/tls-components.css';
-import './styles/design-tokens.css';
+// CSS is centrally managed in globals.css — no direct imports needed here
 
 /**
  * AppLayout - Main layout wrapper with navigation and sidebar (design system)

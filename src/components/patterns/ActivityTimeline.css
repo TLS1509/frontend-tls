@@ -1,0 +1,195 @@
+/* ==========================================================================
+   ActivityTimeline — Vertical timeline for activity display
+   ========================================================================== */
+
+.activity-timeline {
+  width: 100%;
+}
+
+.activity-timeline__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.activity-timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+}
+
+.activity-timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+/* Connector line */
+.activity-timeline__connector {
+  position: absolute;
+  left: calc(var(--s-5) * -1 + 50%);
+  top: calc(var(--s-5) + var(--s-3));
+  width: 2px;
+  height: calc(100% - var(--s-5) - var(--s-3));
+  background-color: var(--border);
+}
+
+/* Dot */
+.activity-timeline__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--s-5);
+  height: var(--s-5);
+  flex-shrink: 0;
+  background-color: var(--tls-ink-0);
+  border: 2px solid var(--border);
+  border-radius: var(--r-full);
+  position: relative;
+  z-index: 1;
+}
+
+.activity-timeline__dot-inner {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--tls-ink-300);
+  border-radius: var(--r-full);
+}
+
+.activity-timeline__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+/* Tone-specific dot colors */
+.activity-timeline__item--primary .activity-timeline__dot {
+  border-color: var(--tls-primary-500);
+  background-color: var(--tls-primary-50);
+}
+
+.activity-timeline__item--primary .activity-timeline__icon {
+  color: var(--tls-primary-600);
+}
+
+.activity-timeline__item--warm .activity-timeline__dot {
+  border-color: var(--tls-orange-500);
+  background-color: var(--tls-orange-50);
+}
+
+.activity-timeline__item--warm .activity-timeline__icon {
+  color: var(--tls-orange-600);
+}
+
+.activity-timeline__item--sun .activity-timeline__dot {
+  border-color: var(--tls-yellow-500);
+  background-color: var(--tls-yellow-50);
+}
+
+.activity-timeline__item--sun .activity-timeline__icon {
+  color: var(--tls-yellow-600);
+}
+
+.activity-timeline__item--success .activity-timeline__dot {
+  border-color: var(--tls-success-base);
+  background-color: var(--tls-success-light-bg);
+}
+
+.activity-timeline__item--success .activity-timeline__icon {
+  color: var(--tls-success-fg);
+}
+
+.activity-timeline__item--warning .activity-timeline__dot {
+  border-color: var(--tls-warning-base);
+  background-color: var(--tls-warning-bg);
+}
+
+.activity-timeline__item--warning .activity-timeline__icon {
+  color: var(--tls-warning-fg);
+}
+
+/* Status-specific styling */
+.activity-timeline__item--pending {
+  opacity: 0.7;
+}
+
+.activity-timeline__item--in-progress .activity-timeline__dot {
+  animation: pulse var(--dur-3) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(85, 161, 180, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(85, 161, 180, 0);
+  }
+}
+
+/* Content */
+.activity-timeline__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-2) 0;
+}
+
+.activity-timeline__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.activity-timeline__title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.activity-timeline__timestamp {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.activity-timeline__description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .activity-timeline__item {
+    gap: var(--s-2);
+    padding: var(--s-2) 0;
+  }
+
+  .activity-timeline__connector {
+    left: calc(var(--s-4) * -1 + 50%);
+    top: calc(var(--s-4) + var(--s-2));
+  }
+
+  .activity-timeline__dot {
+    width: var(--s-4);
+    height: var(--s-4);
+  }
+
+  .activity-timeline__title {
+    font-size: var(--text-sm);
+  }
+
+  .activity-timeline__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-1);
+  }
+}

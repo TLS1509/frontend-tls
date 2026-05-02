@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle, CalendarX, RefreshCcw } from 'lucide-react';
+import './modals.css';
 
 /**
  * CancelSessionModal — Annulation ou reprogrammation d'une session de coaching
@@ -58,49 +59,24 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     <>
       {/* Backdrop */}
       <div
+        className="modal__backdrop"
         onClick={handleClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 1001,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.45)',
-          backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-          animation: 'csoBdIn 0.2s ease both',
-        }}
+        style={{ background: 'rgba(0,0,0,0.45)', animation: 'csoBdIn 0.2s ease both' }}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative', width: '100%', maxWidth: 460,
-            background: 'var(--surface)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-8)',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'csoIn 0.32s cubic-bezier(.34,1.56,.64,1) both',
-            overflow: 'hidden',
-          }}
+          className="modal--cancel-session modal__content"
+          style={{ padding: 'var(--s-8)', overflow: 'hidden' }}
         >
           {/* Warning glow blob */}
-          <div style={{
-            position: 'absolute', top: -60, left: '50%', transform: 'translateX(-50%)',
-            width: 200, height: 200, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(237,132,58,0.18) 0%, transparent 70%)',
-            filter: 'blur(30px)', pointerEvents: 'none',
-          }} />
+          <div className="modal__warning-glow" />
 
           {/* Close */}
           <button
             onClick={handleClose}
-            style={{
-              position: 'absolute', top: 'var(--s-4)', right: 'var(--s-4)',
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'var(--surface-muted)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)', zIndex: 1,
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
+            className="modal__close-btn"
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
           >
             <X size={13} />
           </button>
@@ -108,13 +84,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
           {step === 'confirm' ? (
             <>
               {/* Icon */}
-              <div style={{
-                width: 56, height: 56, borderRadius: 'var(--r-xl)',
-                background: 'linear-gradient(135deg, rgba(237,132,58,0.15) 0%, rgba(237,132,58,0.06) 100%)',
-                border: '1px solid rgba(237,132,58,0.25)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto var(--s-4)',
-              }}>
+              <div className="modal__warning-icon">
                 <AlertTriangle size={26} style={{ color: 'var(--tls-orange-600)' }} />
               </div>
 
@@ -126,13 +96,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               </p>
 
               {/* Session summary */}
-              <div style={{
-                padding: 'var(--s-3) var(--s-4)',
-                borderRadius: 'var(--r-xl)',
-                background: 'var(--surface-muted)',
-                border: '1px solid var(--border)',
-                marginBottom: 'var(--s-5)',
-              }}>
+              <div className="modal__session-summary">
                 <p style={{ margin: '0 0 2px', fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
                   {sessionTitle}
                 </p>
@@ -173,22 +137,13 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               </div>
 
               {/* Action buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+              <div className="modal__action-buttons">
                 {/* Reschedule (primary action) */}
                 <button
                   onClick={() => { onReschedule(); handleClose(); }}
-                  style={{
-                    width: '100%', padding: 'var(--s-3-5)',
-                    borderRadius: 'var(--r-xl)', border: 'none',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--s-2)',
-                    background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%)',
-                    color: '#fff', fontWeight: 700, fontSize: 'var(--t-body-sm)',
-                    cursor: 'pointer', transition: 'all var(--dur-2)',
-                    boxShadow: '0 4px 16px rgba(85,161,180,0.3)',
-                    fontFamily: 'inherit',
-                  }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 24px rgba(85,161,180,0.4)'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(85,161,180,0.3)'; }}
+                  className="modal__btn-primary"
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(85,161,180,0.4)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(85,161,180,0.3)'; }}
                 >
                   <RefreshCcw size={15} /> Reprogrammer plutôt
                 </button>
@@ -197,21 +152,16 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
                 <button
                   onClick={handleCancel}
                   disabled={!reason}
+                  className="modal__btn-secondary"
                   style={{
-                    width: '100%', padding: 'var(--s-3-5)',
-                    borderRadius: 'var(--r-xl)',
-                    border: reason ? '1.5px solid rgba(237,132,58,0.4)' : '1.5px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--s-2)',
+                    borderColor: reason ? 'rgba(237,132,58,0.4)' : 'var(--border)',
                     background: reason ? 'rgba(237,132,58,0.08)' : 'var(--surface-muted)',
                     color: reason ? 'var(--tls-orange-700)' : 'var(--text-muted)',
-                    fontWeight: 700, fontSize: 'var(--t-body-sm)',
-                    cursor: reason ? 'pointer' : 'not-allowed',
                     opacity: reason ? 1 : 0.5,
-                    transition: 'all var(--dur-2)',
-                    fontFamily: 'inherit',
+                    cursor: reason ? 'pointer' : 'not-allowed',
                   }}
-                  onMouseEnter={(e) => { if (reason) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(237,132,58,0.14)'; }}
-                  onMouseLeave={(e) => { if (reason) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(237,132,58,0.08)'; }}
+                  onMouseEnter={(e) => { if (reason) e.currentTarget.style.background = 'rgba(237,132,58,0.14)'; }}
+                  onMouseLeave={(e) => { if (reason) e.currentTarget.style.background = 'rgba(237,132,58,0.08)'; }}
                 >
                   <CalendarX size={15} /> Confirmer l'annulation
                 </button>

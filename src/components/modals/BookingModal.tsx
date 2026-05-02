@@ -9,6 +9,7 @@ import {
  * 2 étapes : sélection date/heure → confirmation
  * Tokens: TLS design system
  */
+import './modals.css';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -108,43 +109,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   return (
     <>
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.45)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          animation: 'modalBdIn 0.22s ease both',
-        }}
+        className="modal__backdrop"
+        style={{ background: 'rgba(0,0,0,0.45)', animation: 'modalBdIn 0.22s ease both' }}
         onClick={handleClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: 760,
-            background: 'var(--surface)',
-            borderRadius: 'var(--r-2xl)',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'modalIn 0.3s cubic-bezier(.34,1.56,.64,1) both',
-            overflow: 'hidden',
-          }}
+          className="modal--booking modal__content"
+          style={{ overflow: 'hidden' }}
         >
           {/* Header */}
-          <div style={{
-            padding: 'var(--s-6)',
-            borderBottom: '1px solid var(--border)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--s-4)',
-          }}>
+          <div className="modal__header">
             <div style={{
               width: 48, height: 48, borderRadius: '50%',
               background: 'var(--tls-primary-100)', color: 'var(--tls-primary-700)',
@@ -179,22 +154,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
             <button
               onClick={handleClose}
-              style={{
-                width: 32, height: 32, borderRadius: '50%',
-                background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: 'var(--text-muted)', transition: 'all var(--dur-2)',
-                flexShrink: 0,
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
+              className="modal__close-btn"
+              style={{ position: 'relative', flexShrink: 0 }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
             >
               <X size={14} />
             </button>
           </div>
 
           {/* Body */}
-          <div style={{ padding: 'var(--s-6)' }}>
+          <div className="modal__body">
             {step === 'datetime' ? (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 200px', gap: 'var(--s-6)' }}>
                 {/* Calendar */}
@@ -203,8 +173,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     <button
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
                       style={{ ...navBtnStyle }}
-                      onMouseEnter={(e) => (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'}
-                      onMouseLeave={(e) => (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--border)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-muted)'}
                     >
                       <ChevronLeft size={16} />
                     </button>
@@ -214,24 +184,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     <button
                       onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
                       style={{ ...navBtnStyle }}
-                      onMouseEnter={(e) => (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'}
-                      onMouseLeave={(e) => (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--border)'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-muted)'}
                     >
                       <ChevronRight size={16} />
                     </button>
                   </div>
 
                   {/* Day headers */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2, marginBottom: 'var(--s-2)' }}>
+                  <div className="modal__day-header">
                     {DAYS_FR.map((d) => (
-                      <div key={d} style={{ textAlign: 'center', fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', padding: '6px 0' }}>
+                      <div key={d} className="modal__day-label">
                         {d}
                       </div>
                     ))}
                   </div>
 
                   {/* Day grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2 }}>
+                  <div className="modal__day-grid">
                     {days.map((day, idx) => {
                       if (day === null) return <div key={`e-${idx}`} />;
                       const dateKey = formatDateKey(day, currentMonth);
@@ -242,18 +212,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                           key={dateKey}
                           onClick={() => handleDateClick(day)}
                           disabled={!hasSlots}
-                          style={{
-                            aspectRatio: '1',
-                            borderRadius: 'var(--r-md)',
-                            border: isSelected ? '2px solid var(--tls-primary-500)' : '1px solid transparent',
-                            background: isSelected ? 'var(--tls-primary-500)' : hasSlots ? 'var(--tls-primary-50)' : 'transparent',
-                            color: isSelected ? '#fff' : hasSlots ? 'var(--tls-primary-700)' : 'var(--text-muted)',
-                            fontWeight: hasSlots ? 700 : 400,
-                            fontSize: 'var(--t-caption)',
-                            cursor: hasSlots ? 'pointer' : 'default',
-                            opacity: hasSlots ? 1 : 0.35,
-                            transition: 'all var(--dur-1)',
-                          }}
+                          className={`modal__day-btn ${hasSlots ? 'modal__day-btn--available' : ''} ${isSelected ? 'modal__day-btn--selected' : ''}`}
                         >
                           {day}
                         </button>
@@ -339,14 +298,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div style={{
-            padding: 'var(--s-5) var(--s-6)',
-            borderTop: '1px solid var(--border)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: 'var(--s-3)',
-            background: 'var(--surface-muted)',
-          }}>
+          <div className="modal__footer">
             {step === 'confirmation' ? (
               <button
                 onClick={() => setStep('datetime')}

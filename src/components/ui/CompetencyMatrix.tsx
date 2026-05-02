@@ -120,7 +120,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
                         cursor: 'pointer',
                         transition: 'all var(--dur-2) var(--ease-standard)',
                         transform: 'scale(1)',
-                        color: isAchieved ? '#fff' : 'var(--text-soft)',
+                        color: isAchieved ? 'var(--text-inverse)' : 'var(--text-soft)',
                       }}
                       title={isAchieved ? labels[lvl] : 'Not yet achieved'}
                       onMouseEnter={(e) => {

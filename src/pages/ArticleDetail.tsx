@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { ArrowLeft, CalendarDays, UserRound, Clock3, Share2, Newspaper } from 'lucide-react';
-import '../styles/static-pages.css';
 
 export const ArticleDetail: React.FC = () => {
   const navigate = useNavigate();

@@ -26,6 +26,7 @@ import { Button } from '../core/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { CheckCircle2, CalendarDays, Users } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
+import './ProjectCard.css';
 
 interface TeamMember {
   id: string;
@@ -86,65 +87,54 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <Card className={className}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-        {/* Header with title and status */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--s-3)' }}>
-          <h3 style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 600 }}>{title}</h3>
-          <Badge variant={getStatusVariant()}>{getStatusLabel()}</Badge>
-        </div>
-
-        {/* Description */}
-        <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-          {description}
-        </p>
-
-        {/* Metadata row: tasks, deadline, team */}
-        <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-            <CheckCircle2 size={14} /> {completedTasks}/{totalTasks} tasks
-          </span>
-          {deadline && (
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-              <CalendarDays size={14} /> {deadline}
-            </span>
-          )}
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-            <Users size={14} /> {teamMembers.length} membres
-          </span>
-        </div>
-
-        {/* Progress bar */}
-        <ProgressBar value={progress} fill="brand" />
-
-        {/* Team members list */}
-        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-          {teamMembers.map((member) => (
-            <span
-              key={member.id}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: 'var(--s-2) var(--s-3)',
-                borderRadius: 'var(--r-md)',
-                background: 'var(--surface-muted)',
-                color: 'var(--text-muted)',
-                fontSize: 'var(--t-caption)',
-                fontWeight: 500,
-              }}
-            >
-              {member.name} ({member.role})
-            </span>
-          ))}
-        </div>
-
-        {/* Action button */}
-        {onViewProject && (
-          <Button onClick={onViewProject} fullWidth>
-            Voir le projet
-          </Button>
-        )}
+    <Card className={`project-card ${className}`}>
+      {/* Header with title and status */}
+      <div className="project-card__header">
+        <h3 className="project-card__title">{title}</h3>
+        <Badge variant={getStatusVariant()}>{getStatusLabel()}</Badge>
       </div>
+
+      {/* Description */}
+      <p className="project-card__description">
+        {description}
+      </p>
+
+      {/* Metadata row: tasks, deadline, team */}
+      <div className="project-card__metadata">
+        <span className="project-card__meta-item">
+          <CheckCircle2 size={14} /> {completedTasks}/{totalTasks} tasks
+        </span>
+        {deadline && (
+          <span className="project-card__meta-item">
+            <CalendarDays size={14} /> {deadline}
+          </span>
+        )}
+        <span className="project-card__meta-item">
+          <Users size={14} /> {teamMembers.length} membres
+        </span>
+      </div>
+
+      {/* Progress bar */}
+      <ProgressBar value={progress} fill="brand" />
+
+      {/* Team members list */}
+      <div className="project-card__team">
+        {teamMembers.map((member) => (
+          <span
+            key={member.id}
+            className="project-card__team-member"
+          >
+            {member.name} ({member.role})
+          </span>
+        ))}
+      </div>
+
+      {/* Action button */}
+      {onViewProject && (
+        <Button onClick={onViewProject} fullWidth>
+          Voir le projet
+        </Button>
+      )}
     </Card>
   );
 };

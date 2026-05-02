@@ -4,11 +4,12 @@ import React from 'react';
  * Medal — Source of truth: design-system/spec.json → components.Medal
  *
  * Achievement representation: circle with inset dashed ring.
+ * Rank medals: gold (1st), silver (2nd), bronze (3rd).
  * Rule: Warm gradient = unlocked. Brand deep = special/rare. Ink gray = locked.
  */
 
 export type MedalSize = 'sm' | 'md' | 'lg';
-export type MedalVariant = 'default' | 'brand' | 'locked';
+export type MedalVariant = 'default' | 'brand' | 'locked' | 'gold' | 'silver' | 'bronze';
 
 export interface MedalProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: MedalSize;

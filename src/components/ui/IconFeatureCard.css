@@ -1,3 +1,5 @@
+/* IconFeatureCard — Icon + title + description feature card */
+
 .tls-icon-feature-card {
   display: flex;
   flex-direction: column;
@@ -7,7 +9,9 @@
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  transition: all var(--dur-2) var(--ease-standard);
+  transition: box-shadow var(--dur-2) var(--ease-standard),
+              transform var(--dur-2) var(--ease-standard),
+              border-color var(--dur-2) var(--ease-standard);
 }
 
 .tls-icon-feature-card:hover {
@@ -16,19 +20,40 @@
   transform: translateY(-4px);
 }
 
+/* ── Icon container ── */
 .tls-icon-feature-card__icon {
   width: 80px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--tls-primary-100), var(--tls-primary-50));
   border-radius: var(--r-lg);
-  color: var(--tls-primary-500);
   font-size: 2.5rem;
   margin-bottom: var(--s-6);
+  transition: transform var(--dur-2) var(--ease-standard);
 }
 
+.tls-icon-feature-card:hover .tls-icon-feature-card__icon {
+  transform: scale(1.1);
+}
+
+/* ── Tone variants: icon bg + color ── */
+.tls-icon-feature-card--brand .tls-icon-feature-card__icon {
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-600);
+}
+
+.tls-icon-feature-card--warm .tls-icon-feature-card__icon {
+  background: var(--tls-orange-50);
+  color: var(--tls-orange-600);
+}
+
+.tls-icon-feature-card--sun .tls-icon-feature-card__icon {
+  background: var(--tls-yellow-50);
+  color: var(--tls-yellow-600);
+}
+
+/* ── Typography ── */
 .tls-icon-feature-card__title {
   font-size: var(--t-h4);
   font-family: var(--font-display);

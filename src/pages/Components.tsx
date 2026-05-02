@@ -44,10 +44,12 @@ import {
   Badge,
   Avatar,
   // Feedback
+  Alert,
   EmptyState,
   Skeleton,
   Search,
   Toast,
+  Modal,
   // Learning
   StatCard,
   ProgressBar,
@@ -59,24 +61,72 @@ import {
   TrendingBadge,
   GlassCard,
   FilterChip,
+  Steps,
+  Celebration,
   // Navigation
   Sidebar,
   SidebarGroup,
   NavItem,
   Tabs,
   Stepper,
+  Breadcrumb,
+  Pagination,
+  DropdownMenu,
+  DropdownItem,
+  DropdownLabel,
+  DropdownSeparator,
   // Content & Display
+  ActionCard,
   ActivityItem,
   SectionTitle,
+  Tag,
+  MetaPill,
+  MetaItem,
+  UserInfo,
+  IconFeatureCard,
+  // Patterns
+  ToneAwareCard,
+  ParcoursCard,
 } from '../components';
 import { ToastContainer } from '../components';
 import { useToast } from '../hooks/useToast';
+// Components not yet in main index — direct imports
+import { ProfileCard } from '../components/ui/ProfileCard';
+import { CourseCard } from '../components/ui/CourseCard';
+import { SurfaceCard } from '../components/ui/SurfaceCard';
+import { ResourceCard } from '../components/ui/ResourceCard';
+import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
+import { GoalProgress } from '../components/ui/GoalProgress';
+import { QuizComponent } from '../components/ui/QuizComponent';
+import { ActivityFeed } from '../components/patterns/ActivityFeed';
+import { DashboardHero } from '../components/patterns/DashboardHero';
+import { CardGrid } from '../components/patterns/CardGrid';
+import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
+import { HeroSection } from '../components/patterns/HeroSection';
+import { InlineProgress } from '../components/patterns/InlineProgress';
+import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
+import { LearningPathHeader } from '../components/patterns/LearningPathHeader';
+import { MultiStepForm } from '../components/patterns/MultiStepForm';
+import { PageCard } from '../components/patterns/PageCard';
+import { PageHeaderSimple } from '../components/patterns/PageHeaderSimple';
+import { ResourceCardGrid } from '../components/patterns/ResourceCardGrid';
+import { SettingsSection } from '../components/patterns/SettingsSection';
+import { VeilleCardFeed } from '../components/patterns/VeilleCardFeed';
+import { Spinner } from '../components/ui/Spinner';
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { NotificationBadge } from '../components/ui/NotificationBadge';
+import { KPICard } from '../components/ui/KPICard';
+import { SkillBar } from '../components/ui/SkillBar';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { PageHeader } from '../components/patterns/PageHeader';
+import { Divider } from '../components/ui/Divider';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2 } from 'lucide-react';
 
 /* ============================================================================
  * TYPES
  * ============================================================================ */
 
-type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals';
+type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals' | 'Feedback';
 
 interface ComponentEntry {
   name: string;              // React name: Button
@@ -661,17 +711,51 @@ const COMPONENTS: ComponentEntry[] = [
 
   /* ---- CONTENT & DISPLAY ------------------------------------------------ */
   {
-    name: 'ActivityItem',
-    codeName: 'ActivityItem.tsx',
-    cssBase: '.tls-activity-item',
+    name: 'ActionCard',
+    codeName: 'ActionCard.tsx',
+    cssBase: '.tls-action-card / .tls-action-card--brand/warm/sun',
     category: 'Content',
-    description: 'Ligne d\'activité pour les fils d\'actualités. Icône + titre + description + timestamp.',
-    keywords: ['activity', 'feed', 'timeline', 'history', 'notification'],
+    description: 'Carte action horizontale: icône colorée + titre + description + CTA. Tones: brand/warm/sun. Hover: translateY(-3px) + shadow-md.',
+    keywords: ['action', 'card', 'icon', 'cta', 'tone', 'brand', 'warm', 'sun', 'quick-action'],
     render: () => (
       <div className="vstack">
-        <ActivityItem icon={I.check} title="Leçon terminée" description="Introduction au Prompt Engineering" timestamp="Il y a 2h" />
-        <ActivityItem icon={I.trophy} title="Badge débloqué" description="Pionnier IA — Premier badge gagné !" timestamp="Hier" />
-        <ActivityItem icon={I.heart} title="Série maintenue" description="7 jours consécutifs d'apprentissage" timestamp="Aujourd'hui" />
+        <ActionCard
+          tone="brand"
+          icon={I.book}
+          title="Continuer mon parcours"
+          description="Prompt Engineering — Module 3 sur 8"
+          action={<Button size="sm" variant="primary">Reprendre</Button>}
+        />
+        <ActionCard
+          tone="warm"
+          icon={I.trophy}
+          title="Réserver une session"
+          description="Coaching individuel avec Sophie Martin"
+          action={<Button size="sm" variant="warm">Réserver</Button>}
+        />
+        <ActionCard
+          tone="sun"
+          icon={I.heart}
+          title="Voir mes badges"
+          description="Découvrez vos accomplissements récents"
+          action={<Button size="sm" variant="secondary">Voir</Button>}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'ActivityItem',
+    codeName: 'ActivityItem.tsx',
+    cssBase: '.tls-activity-item / .tls-activity-item--lesson/achievement/coach/journal',
+    category: 'Content',
+    description: 'Ligne d\'activité timeline. Dot coloré par type + connecteur entre items. Types: lesson/achievement/coach/journal. Hover: surface-muted.',
+    keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
+    render: () => (
+      <div style={{ padding: 'var(--s-2) var(--s-4)', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--r-lg)' }}>
+        <ActivityItem type="lesson" icon={I.check} title="Leçon terminée" description="Introduction au Prompt Engineering" timestamp="Il y a 2h" />
+        <ActivityItem type="achievement" icon={I.trophy} title="Badge débloqué" description="Pionnier IA — Premier badge gagné !" timestamp="Hier" />
+        <ActivityItem type="coach" icon={I.heart} title="Session coaching" description="Sophie Martin — Leadership" timestamp="Aujourd'hui" />
+        <ActivityItem type="journal" icon={I.book} title="Journal mis à jour" description="Réflexions sur les nouvelles compétences" timestamp="Avant-hier" />
       </div>
     ),
   },
@@ -680,12 +764,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'SectionTitle.tsx',
     cssBase: '.tls-section-title',
     category: 'Content',
-    description: 'En-tête de section de page. Titre + sous-titre optionnel. Assure la cohérence des titres de section à travers l\'app.',
-    keywords: ['heading', 'section', 'title', 'subtitle', 'header'],
+    description: 'En-tête de section. Icône optionnelle + titre + sous-titre + action à droite. Variante divider pour ligne de séparation.',
+    keywords: ['heading', 'section', 'title', 'subtitle', 'header', 'icon', 'action'],
     render: () => (
       <div className="vstack">
-        <SectionTitle title="Actions rapides" subtitle="Accédez directement à vos fonctionnalités" />
-        <SectionTitle title="Fil d'actualité" />
+        <SectionTitle title="Actions rapides" subtitle="Accédez directement à vos fonctionnalités" icon="⚡" />
+        <SectionTitle title="Fil d'actualité" divider action={<button type="button" className="btn btn--secondary btn--sm">Voir tout</button>} />
+        <SectionTitle title="Parcours" />
       </div>
     ),
   },
@@ -1038,26 +1123,34 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'GlassCard',
     codeName: 'GlassCard.tsx',
-    cssBase: '.tls-glass-card',
+    cssBase: '.tls-glass-card / .tls-glass-card--default/brand/warm/dark',
     category: 'Patterns',
-    description: 'Carte glassmorphism avec backdrop-filter blur. Deux variantes : light (défaut) et brand (teinte primaire). Utilisée dans les heroes et sections éditorialles.',
-    keywords: ['glass', 'card', 'blur', 'frosted', 'hero', 'backdrop'],
+    description: 'Carte glassmorphism avec backdrop-filter blur. Tones: default, brand, warm, dark. Utilisée dans les heroes et sections éditorialles.',
+    keywords: ['glass', 'card', 'blur', 'frosted', 'hero', 'backdrop', 'tone'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap', background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-orange-500))', padding: 'var(--s-6)', borderRadius: 'var(--r-xl)' }}>
-        <div style={{ flex: 1, minWidth: 140 }}>
-          <GlassCard variant="light" className="tls-glass-card-showcase-light">
-            <div style={{ padding: 'var(--s-5)' }}>
-              <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600 }}>Light Glass</p>
-              <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond clair + blur</p>
-            </div>
+      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap', background: 'var(--g-hero)', padding: 'var(--s-6)', borderRadius: 'var(--r-xl)' }}>
+        <div style={{ flex: 1, minWidth: 120 }}>
+          <GlassCard tone="default">
+            <p style={{ margin: 0, fontWeight: 600, color: 'var(--text)' }}>Default</p>
+            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond clair + blur</p>
           </GlassCard>
         </div>
-        <div style={{ flex: 1, minWidth: 140 }}>
-          <GlassCard variant="brand">
-            <div style={{ padding: 'var(--s-5)' }}>
-              <p style={{ margin: 0, color: 'white', fontWeight: 600 }}>Brand Glass</p>
-              <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'rgba(255,255,255,0.8)' }}>Teinte primaire</p>
-            </div>
+        <div style={{ flex: 1, minWidth: 120 }}>
+          <GlassCard tone="brand">
+            <p style={{ margin: 0, fontWeight: 600, color: 'var(--on-color-text-main)' }}>Brand</p>
+            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)' }}>Teinte primaire</p>
+          </GlassCard>
+        </div>
+        <div style={{ flex: 1, minWidth: 120 }}>
+          <GlassCard tone="warm">
+            <p style={{ margin: 0, fontWeight: 600, color: 'var(--tls-orange-800)' }}>Warm</p>
+            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--tls-orange-700)' }}>Teinte orange</p>
+          </GlassCard>
+        </div>
+        <div style={{ flex: 1, minWidth: 120 }}>
+          <GlassCard tone="dark">
+            <p style={{ margin: 0, fontWeight: 600, color: 'var(--on-color-text-main)' }}>Dark</p>
+            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)' }}>Fond profond</p>
           </GlassCard>
         </div>
       </div>
@@ -1219,9 +1312,10 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
     render: () => (
       <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
-        <MasteryBadge level={1} skillName="Découverte" progressToNext={30} size="md" />
-        <MasteryBadge level={3} skillName="Prompt Engineering" progressToNext={65} size="md" />
-        <MasteryBadge level={5} skillName="IA Générative" progressToNext={100} size="md" />
+        <MasteryBadge level="beginner" label="Découverte" progress={30} />
+        <MasteryBadge level="intermediate" label="Prompt Engineering" progress={65} />
+        <MasteryBadge level="advanced" label="IA Générative" progress={80} />
+        <MasteryBadge level="expert" label="Design System" progress={100} />
       </div>
     ),
   },
@@ -1278,6 +1372,964 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       );
     },
+  },
+
+  /* ---- FEEDBACK --------------------------------------------------------- */
+  {
+    name: 'Alert',
+    codeName: 'Alert.tsx',
+    cssBase: '.alert / .alert--*',
+    category: 'Feedback',
+    description: 'Message contextuel persistant ancré dans la page. 4 variantes sémantiques: info, success, warning, danger. Patterns: banner (défaut) et inline (compact).',
+    keywords: ['alert', 'message', 'warning', 'error', 'success', 'info', 'danger', 'banner', 'inline'],
+    render: () => (
+      <div className="vstack">
+        <Alert variant="info" title="Information">Mise à jour disponible — rechargez la page pour en bénéficier.</Alert>
+        <Alert variant="success" title="Enregistré avec succès" dismissible>Vos modifications ont bien été sauvegardées.</Alert>
+        <Alert variant="warning" title="Attention" actions={<Button size="sm" variant="ghost">Voir les détails</Button>}>
+          Votre session expire dans 5 minutes.
+        </Alert>
+        <Alert variant="danger" title="Erreur de connexion">Impossible de joindre le serveur. Vérifiez votre connexion.</Alert>
+        <div className="hstack">
+          <Alert variant="info" pattern="inline">Inline info</Alert>
+          <Alert variant="success" pattern="inline">Inline success</Alert>
+          <Alert variant="warning" pattern="inline">Inline warning</Alert>
+          <Alert variant="danger" pattern="inline">Inline danger</Alert>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Modal',
+    codeName: 'Modal.tsx',
+    cssBase: '.modal / .modal-scrim',
+    category: 'Feedback',
+    description: 'Dialog bloquant pour décisions critiques. Scrim + blur en arrière-plan. Fermeture via Escape, bouton close, ou clic scrim. Slots: title, description, actions, body.',
+    keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
+    render: () => {
+      const [open, setOpen] = useState(false);
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+          <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
+          <Modal
+            open={open}
+            onClose={() => setOpen(false)}
+            title="Confirmer l'action"
+            description="Cette opération ne peut pas être annulée."
+            actions={
+              <>
+                <Button variant="secondary" onClick={() => setOpen(false)}>Annuler</Button>
+                <Button variant="primary" onClick={() => setOpen(false)}>Confirmer</Button>
+              </>
+            }
+          >
+            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>
+              Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
+            </p>
+          </Modal>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'Celebration',
+    codeName: 'Celebration.tsx',
+    cssBase: '.celebration / .inline-win',
+    category: 'Feedback',
+    description: 'Moments de victoire. Deux formes: banner (plein) et inline-win (compact). Règle: rare = précieux, célébrer les vrais jalons uniquement.',
+    keywords: ['celebration', 'win', 'achievement', 'confetti', 'success', 'milestone', 'reward'],
+    render: () => (
+      <div className="vstack">
+        <Celebration
+          title="Parcours complété !"
+          description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
+          actions={
+            <>
+              <Button variant="warm">Voir mon badge</Button>
+              <Button variant="ghost">Partager</Button>
+            </>
+          }
+        />
+      </div>
+    ),
+  },
+
+  /* ---- NAVIGATION (additional) ----------------------------------------- */
+  {
+    name: 'Breadcrumb',
+    codeName: 'Breadcrumb.tsx',
+    cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
+    category: 'Navigation',
+    description: 'Fil d\'Ariane pour hiérarchies ≥ 3 niveaux. Dernier élément non cliquable (bold). Hover: tls-primary-600. Variante sticky: blur + border-bottom.',
+    keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky'],
+    render: () => (
+      <div className="vstack">
+        <Breadcrumb
+          items={[
+            { label: 'Accueil', href: '#' },
+            { label: 'Parcours', href: '#' },
+            { label: 'Prompt Engineering', href: '#' },
+            { label: 'Module 3' },
+          ]}
+        />
+        <Breadcrumb
+          separator="›"
+          items={[
+            { label: 'Veille', href: '#' },
+            { label: 'Dossiers', href: '#' },
+            { label: 'IA & Travail' },
+          ]}
+        />
+        <div style={{ background: 'var(--bg)', borderRadius: 'var(--r-md)', overflow: 'hidden' }}>
+          <Breadcrumb
+            sticky
+            items={[
+              { label: 'Accueil', href: '#' },
+              { label: 'Veille', href: '#' },
+              { label: 'Article courant' },
+            ]}
+          />
+          <div style={{ padding: 'var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)' }}>sticky — blur + border-bottom</div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Pagination',
+    codeName: 'Pagination.tsx',
+    cssBase: '.pager / .pager__dots / .pager-info',
+    category: 'Navigation',
+    description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
+    keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
+    render: () => {
+      const [page, setPage] = useState(3);
+      return (
+        <div className="vstack">
+          <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'Steps',
+    codeName: 'Steps.tsx',
+    cssBase: '.steps / .step / .step--done / .step--current',
+    category: 'Navigation',
+    description: 'Checklist séquentielle d\'étapes au sein d\'une tâche ou d\'un parcours. États: done, current, upcoming. Différent du Stepper (linéaire horizontal/vertical).',
+    keywords: ['steps', 'checklist', 'task', 'journey', 'done', 'current', 'sequential'],
+    render: () => (
+      <Steps
+        items={[
+          { title: 'Créer votre compte', description: 'Email + mot de passe sécurisé', state: 'done' },
+          { title: 'Compléter votre profil', description: 'Nom, photo, objectifs', state: 'done' },
+          { title: 'Se positionner', description: 'Évaluation initiale de compétences', state: 'current' },
+          { title: 'Choisir un parcours', description: 'Sélectionnez votre première formation', state: 'upcoming' },
+          { title: 'Démarrer l\'apprentissage', state: 'upcoming' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'DropdownMenu',
+    codeName: 'DropdownMenu.tsx',
+    cssBase: '.dd / .dd__item / .dd__item--danger / .dd__sep',
+    category: 'Navigation',
+    description: 'Menu d\'actions secondaires derrière un déclencheur. Labels de section, séparateurs, zone danger en bas. Le consommateur gère l\'état ouvert/fermé et le positionnement.',
+    keywords: ['dropdown', 'menu', 'actions', 'context', 'secondary', 'popover'],
+    render: () => (
+      <div style={{ display: 'flex', gap: 'var(--s-8)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <DropdownMenu style={{ width: 220, position: 'static', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border)', borderRadius: 'var(--r-lg)', background: 'var(--surface)', overflow: 'hidden' }}>
+          <DropdownLabel>Actions</DropdownLabel>
+          <DropdownItem icon={I.edit} shortcut="⌘E">Modifier</DropdownItem>
+          <DropdownItem icon={I.arrow}>Partager</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem icon={I.trash} danger>Supprimer</DropdownItem>
+        </DropdownMenu>
+      </div>
+    ),
+  },
+
+  /* ---- CONTENT (additional) --------------------------------------------- */
+  {
+    name: 'Tag',
+    codeName: 'Tag.tsx',
+    cssBase: '.tag / .tag--removable',
+    category: 'Content',
+    description: 'Étiquette de catégorie ou filtre actif. Neutre par défaut, supprimable pour les filtres actifs (bouton ×).',
+    keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip'],
+    render: () => (
+      <div className="hstack" style={{ flexWrap: 'wrap' }}>
+        <Tag>Leadership</Tag>
+        <Tag>IA Générative</Tag>
+        <Tag leadingIcon={I.book}>Formation</Tag>
+        <Tag onRemove={() => {}}>Supprimable ×</Tag>
+        <Tag leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
+      </div>
+    ),
+  },
+  {
+    name: 'MetaPill',
+    codeName: 'MetaPill.tsx',
+    cssBase: '.tls-meta-pill / .tls-meta-pill--*',
+    category: 'Content',
+    description: 'Pilule de métadonnée unique avec tones et tailles. Contrairement à MetaPillGroup, s\'utilise seul pour des contextes précis. Clickable optionnel.',
+    keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand'],
+    render: () => (
+      <div className="vstack">
+        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+          <MetaPill text="Default" />
+          <MetaPill text="Primary" tone="primary" />
+          <MetaPill text="Warm" tone="warm" />
+          <MetaPill text="Sun" tone="sun" />
+          <MetaPill text="Brand" tone="brand" />
+        </div>
+        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+          <MetaPill text="Small" size="sm" tone="primary" />
+          <MetaPill text="Medium" size="md" tone="primary" />
+          <MetaPill text="Large" size="lg" tone="primary" />
+          <MetaPill text="Cliquable" tone="warm" onClick={() => {}} />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'MetaItem',
+    codeName: 'MetaItem.tsx',
+    cssBase: '.tls-meta-item / .tls-meta-item--sm / .tls-meta-item--brand/warm',
+    category: 'Content',
+    description: 'Paire label/valeur pour les métadonnées structurées. Sizes: sm/md. Tones: muted (défaut)/brand/warm. Icon optionnel dans le label.',
+    keywords: ['meta', 'item', 'label', 'value', 'pair', 'data', 'detail', 'size', 'tone'],
+    render: () => (
+      <div className="vstack" style={{ maxWidth: 360 }}>
+        <MetaItem label="Durée" value="4h 30min" />
+        <MetaItem label="Niveau" value="Intermédiaire" tone="brand" />
+        <MetaItem label="Modules" value="12 leçons" tone="warm" />
+        <MetaItem label="Certifié" value="Oui" size="sm" />
+      </div>
+    ),
+  },
+  {
+    name: 'UserInfo',
+    codeName: 'UserInfo.tsx',
+    cssBase: '.tls-user-info / .tls-user-info--sm|md|lg',
+    category: 'Content',
+    description: 'Bloc identité utilisateur compact: avatar + nom + rôle + status dot optionnel. Tailles: sm/md/lg. Statuts: online/offline/away.',
+    keywords: ['user', 'info', 'avatar', 'name', 'role', 'identity', 'author', 'status', 'online'],
+    render: () => (
+      <div className="vstack" style={{ maxWidth: 320 }}>
+        <UserInfo name="Jeanne Dupont" role="Apprenante" size="sm" status="online" />
+        <UserInfo name="Sophie Martin" role="Coach certifiée" size="md" status="away" />
+        <UserInfo name="Ahmed Ali" role="Formateur" size="lg" status="offline" />
+      </div>
+    ),
+  },
+  {
+    name: 'ProfileCard',
+    codeName: 'ProfileCard.tsx',
+    cssBase: '.tls-profile-card / .tls-profile-card--*',
+    category: 'Content',
+    description: 'Carte profil complète: avatar, nom, rôle, bio, métadonnées chips, liens sociaux, CTA. 3 variantes: default, compact, featured.',
+    keywords: ['profile', 'card', 'user', 'avatar', 'bio', 'social', 'coach', 'compact', 'featured'],
+    render: () => (
+      <div className="grid-2">
+        <ProfileCard
+          name="Sophie Martin"
+          role="Coach Leadership & IA"
+          bio="Experte en développement managérial avec 10 ans d'expérience en grandes entreprises."
+          metadata={[
+            { label: 'Séances', value: 48 },
+            { label: 'Satisfaction', value: '98%' },
+          ]}
+          socialLinks={[
+            { platform: 'linkedin', url: '#' },
+            { platform: 'email', url: '#' },
+          ]}
+          cta={{ label: 'Réserver une session', onClick: () => {} }}
+        />
+        <ProfileCard
+          variant="compact"
+          name="Paul Bernard"
+          role="Expert Prompt Engineering"
+          cta={{ label: 'Voir profil', onClick: () => {}, variant: 'secondary' }}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'IconFeatureCard',
+    codeName: 'IconFeatureCard.tsx',
+    cssBase: '.tls-icon-feature-card / .tls-icon-feature-card--brand/warm/sun',
+    category: 'Content',
+    description: 'Carte de fonctionnalité avec icône proéminente + titre + description. Tones: brand/warm/sun. Hover: icon scale(1.1) + shadow-md.',
+    keywords: ['feature', 'icon', 'card', 'highlight', 'benefit', 'landing', 'tone'],
+    render: () => (
+      <div className="grid-2">
+        <IconFeatureCard
+          tone="brand"
+          icon={I.book}
+          title="Parcours personnalisés"
+          description="Des formations adaptées à votre rythme et vos objectifs professionnels."
+        />
+        <IconFeatureCard
+          tone="warm"
+          icon={I.trophy}
+          title="Certifications reconnues"
+          description="Obtenez des badges et diplômes valorisés par les recruteurs."
+        />
+        <IconFeatureCard
+          tone="sun"
+          icon={I.heart}
+          title="Coaching 1-to-1"
+          description="Sessions individuelles avec des coachs certifiés et expérimentés."
+        />
+        <IconFeatureCard
+          tone="brand"
+          icon={I.settings}
+          title="Suivi de progression"
+          description="Tableaux de bord détaillés pour mesurer vos avancées en temps réel."
+        />
+      </div>
+    ),
+  },
+
+  /* ---- CORE CARDS (additional) ----------------------------------------- */
+  {
+    name: 'CourseCard',
+    codeName: 'CourseCard.tsx',
+    cssBase: '.course-card / .course-card--brand/warm/sun',
+    category: 'Core',
+    description: 'Carte de cours EDTECH avec gradient hero, badge catégorie, progression si inscrit, CTA Enroll/Continue. Tones: brand/warm/sun. Hover: shadow-md + translateY(-2px).',
+    keywords: ['course', 'card', 'enroll', 'progress', 'learning', 'edtech', 'category', 'tone'],
+    render: () => (
+      <div className="grid-2">
+        <CourseCard
+          title="Prompt Engineering Avancé"
+          instructor="Sophie Martin"
+          category="Design"
+          tone="warm"
+          enrolled={false}
+          onEnroll={() => {}}
+        />
+        <CourseCard
+          title="React & Design Systems"
+          instructor="Paul Bernard"
+          category="React"
+          tone="brand"
+          enrolled={true}
+          progress={67}
+          onContinue={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'ParcoursCard',
+    codeName: 'patterns/ParcoursCard.tsx',
+    cssBase: '.parcours-card / .parcours-card--primary|warm|sun',
+    category: 'Core',
+    description: 'Carte de parcours glassmorphism avec progression, statut, CTA tonalisé. Tones: primary/warm/sun. Hover: translateY(-4px) + shadow-lg + radial glow.',
+    keywords: ['parcours', 'learning path', 'progress', 'glass', 'tone', 'cta'],
+    render: () => (
+      <div className="grid-2">
+        <ParcoursCard
+          id="1"
+          title="Fondamentaux du Leadership"
+          description="Apprenez les principes clés du leadership moderne et développez votre style."
+          progress={65}
+          status="en cours"
+          tone="primary"
+          instructor="Sophie Martin"
+          lessons={12}
+          duration="6h"
+          onClick={() => {}}
+        />
+        <ParcoursCard
+          id="2"
+          title="Maîtrise du Prompt Engineering"
+          description="Devenez expert en IA générative et optimisation des prompts pour l'entreprise."
+          progress={0}
+          status="non commencé"
+          tone="warm"
+          instructor="Ahmed Ali"
+          lessons={8}
+          duration="4h"
+          onClick={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'SurfaceCard',
+    codeName: 'SurfaceCard.tsx',
+    cssBase: '.tls-surface-card / .tls-surface-card--default|elevated|glass|bordered',
+    category: 'Core',
+    description: 'Conteneur de surface générique. Variantes: default (surface+shadow-sm+border), elevated (shadow-md, pas de border), glass (backdrop-filter), bordered (accent primary-200).',
+    keywords: ['surface', 'card', 'container', 'glass', 'elevated', 'bordered', 'group'],
+    render: () => (
+      <div className="grid-2">
+        <SurfaceCard variant="default">
+          <p className="text-label">Default</p>
+          <p className="text-caption text-muted">Surface + shadow-sm + border.</p>
+        </SurfaceCard>
+        <SurfaceCard variant="elevated">
+          <p className="text-label">Elevated</p>
+          <p className="text-caption text-muted">Shadow-md, sans bordure.</p>
+        </SurfaceCard>
+        <SurfaceCard variant="bordered">
+          <p className="text-label">Bordered</p>
+          <p className="text-caption text-muted">Bordure accent primary-200.</p>
+        </SurfaceCard>
+        <SurfaceCard variant="muted">
+          <p className="text-label">Muted</p>
+          <p className="text-caption text-muted">Fond grisé léger.</p>
+        </SurfaceCard>
+      </div>
+    ),
+  },
+  {
+    name: 'ResourceCard',
+    codeName: 'ResourceCard.tsx',
+    cssBase: '.tls-resource-card / .tls-resource-card--*',
+    category: 'Core',
+    description: 'Carte de ressource avec icône, type, titre, description, durée, catégorie, CTA. Variantes: default, minimal, with-badge. Tones: primary/warm/sun.',
+    keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone'],
+    render: () => (
+      <div className="grid-2">
+        <ResourceCard
+          resourceType="TUTORIEL"
+          title="Introduction au Prompt Engineering"
+          description="Maîtrisez l'art de formuler des requêtes efficaces pour l'IA générative."
+          duration="45 min"
+          category="IA"
+          tone="primary"
+          cta={{ label: 'Lire', onClick: () => {} }}
+          icon={I.book}
+        />
+        <ResourceCard
+          variant="with-badge"
+          resourceType="DOSSIER"
+          title="IA & Marché du Travail 2026"
+          description="Analyse complète des impacts de l'IA sur les métiers et compétences."
+          duration="20 min"
+          category="Veille"
+          tone="warm"
+          badge={{ label: 'Nouveau', variant: 'warm', position: 'top-right' }}
+          cta={{ label: 'Télécharger', onClick: () => {} }}
+          icon={I.arrow}
+        />
+      </div>
+    ),
+  },
+
+  /* ---- LEARNING (additional) -------------------------------------------- */
+  {
+    name: 'CompetencyMatrix',
+    codeName: 'CompetencyMatrix.tsx',
+    cssBase: 'CompetencyMatrix (table + inline styles)',
+    category: 'Learning',
+    description: 'Tableau de compétences multi-dimensions. Niveaux 1–5 (Novice → Expert) avec icônes par niveau et code couleur par compétence.',
+    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment'],
+    render: () => (
+      <CompetencyMatrix
+        skills={[
+          { name: 'Prompt Engineering', level: 4 },
+          { name: 'Leadership', level: 3, color: 'var(--tls-orange-500)' },
+          { name: 'IA Générative', level: 5 },
+          { name: 'Communication', level: 2, color: 'var(--tls-yellow-400)' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'GoalProgress',
+    codeName: 'GoalProgress.tsx',
+    cssBase: 'GoalProgress (inline styles)',
+    category: 'Learning',
+    description: 'Suivi de progression vers un objectif d\'apprentissage: nom, %, temps restant, indicateur on-track/retard. Tones: primary/warm/success/danger.',
+    keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
+    render: () => (
+      <div className="vstack">
+        <GoalProgress goal="Terminer le parcours Leadership" percentComplete={72} daysRemaining={8} isOnTrack={true} tone="primary" />
+        <GoalProgress goal="Obtenir la certification IA" percentComplete={35} daysRemaining={3} isOnTrack={false} tone="danger" />
+        <GoalProgress goal="Compléter 10 sessions coaching" percentComplete={100} isOnTrack={true} tone="success" />
+      </div>
+    ),
+  },
+  {
+    name: 'QuizComponent',
+    codeName: 'QuizComponent.tsx',
+    cssBase: 'QuizComponent (inline styles)',
+    category: 'Learning',
+    description: 'Quiz interactif multi-questions avec navigation prev/next, barre de progression, résultats finaux avec score et pourcentage.',
+    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive'],
+    render: () => (
+      <QuizComponent
+        questions={[
+          { question: 'Qu\'est-ce que le Prompt Engineering ?', options: ['L\'art de formuler des requêtes efficaces pour l\'IA', 'Un langage de programmation', 'Un framework CSS', 'Un protocole réseau'], correct: 0 },
+          { question: 'Quelle entreprise a créé ChatGPT ?', options: ['Google', 'Meta', 'OpenAI', 'Microsoft'], correct: 2 },
+        ]}
+        onComplete={({ correct, total }) => console.log(`Score: ${correct}/${total}`)}
+      />
+    ),
+  },
+
+  /* ---- PATTERNS (additional) -------------------------------------------- */
+  {
+    name: 'ToneAwareCard',
+    codeName: 'patterns/ToneAwareCard.tsx',
+    cssBase: '.tone-card--primary / .tone-card--warm / .tone-card--sun',
+    category: 'Patterns',
+    description: 'Conteneur adaptatif au tone. Applique automatiquement le fond et la bordure correspondant au tone (primary/warm/sun). Clickable optionnel.',
+    keywords: ['tone', 'card', 'primary', 'warm', 'sun', 'adaptive', 'background'],
+    render: () => (
+      <div className="grid-2">
+        {(['primary', 'warm', 'sun'] as const).map((tone) => (
+          <ToneAwareCard key={tone} tone={tone} padding="var(--s-4)">
+            <p style={{ margin: 0, fontWeight: 700, fontSize: 'var(--t-caption)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Tone: {tone}</p>
+            <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond + bordure automatique selon le tone.</p>
+          </ToneAwareCard>
+        ))}
+        <ToneAwareCard tone="primary" padding="var(--s-4)" onClick={() => {}}>
+          <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--t-caption)' }}>Cliquable (hover lift)</p>
+        </ToneAwareCard>
+      </div>
+    ),
+  },
+  {
+    name: 'HeroSection',
+    codeName: 'patterns/HeroSection.tsx',
+    cssBase: 'HeroSection (inline styles)',
+    category: 'Patterns',
+    description: 'Section hero réutilisable avec icône, titre, description, métadonnées et gradient de fond. Gradients: primary/orange. Utilisée dans Veille, Parcours, Settings.',
+    keywords: ['hero', 'section', 'header', 'gradient', 'icon', 'title', 'landing'],
+    render: () => (
+      <div className="vstack">
+        <HeroSection
+          title="Veille & Ressources"
+          description="Restez à la pointe de votre domaine avec notre sélection éditoriale."
+          gradient="primary"
+          metadata={[{ icon: I.book, text: '240 ressources' }, { icon: I.heart, text: 'Mise à jour hebdomadaire' }]}
+        />
+        <HeroSection
+          title="Coaching 1-to-1"
+          description="Sessions personnalisées avec des experts certifiés."
+          gradient="orange"
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'ActivityFeed',
+    codeName: 'patterns/ActivityFeed.tsx',
+    cssBase: 'ActivityFeed (inline styles)',
+    category: 'Patterns',
+    description: 'Feed d\'activités chronologique avec timeline optionnelle. Types: start, complete, progress, achievement, feedback, message. Pagination interne.',
+    keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
+    render: () => (
+      <ActivityFeed
+        useTimeline
+        items={[
+          { id: '1', type: 'complete', title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: new Date(Date.now() - 7200000), tone: 'primary' },
+          { id: '2', type: 'achievement', title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: new Date(Date.now() - 86400000), tone: 'warm' },
+          { id: '3', type: 'feedback', title: 'Feedback reçu', description: 'Sophie Martin a commenté votre dernière session', timestamp: new Date(Date.now() - 172800000), tone: 'sun' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'DashboardHero',
+    codeName: 'patterns/DashboardHero.tsx',
+    cssBase: 'DashboardHero (inline styles)',
+    category: 'Patterns',
+    description: 'Hero composite pour pages dashboard: titre, sous-titre, stats KPI, CTA primaire + secondaire, glassmorphism optionnel. Tone-aware.',
+    keywords: ['dashboard', 'hero', 'kpi', 'stats', 'cta', 'composite', 'glass'],
+    render: () => (
+      <DashboardHero
+        title="Bonjour, Jeanne"
+        subtitle="Continuez votre apprentissage"
+        description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée !"
+        stats={[
+          { label: 'Cours complétés', value: 12, accent: 'primary' },
+          { label: 'Points XP', value: '2 450', accent: 'warm' },
+          { label: 'Série', value: '7j', accent: 'sun' },
+        ]}
+        primaryCta={{ label: 'Continuer mon parcours', onClick: () => {} }}
+        secondaryCta={{ label: 'Explorer', onClick: () => {} }}
+        showGlow
+      />
+    ),
+  },
+
+  /* ---- FEEDBACK & STATUS -------------------------------------------------- */
+  {
+    name: 'Spinner',
+    codeName: 'ui/Spinner.tsx',
+    cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
+    category: 'Feedback',
+    description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris).',
+    keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
+    render: () => (
+      <div className="vstack" style={{ gap: 'var(--s-6)' }}>
+        <div className="hstack" style={{ alignItems: 'center', gap: 'var(--s-6)' }}>
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
+        </div>
+        <div className="hstack" style={{ alignItems: 'center', gap: 'var(--s-6)' }}>
+          <Spinner size="md" tone="brand" label="Chargement..." />
+          <Spinner size="md" tone="warm" />
+          <Spinner size="md" tone="muted" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'StatusBadge',
+    codeName: 'ui/StatusBadge.tsx',
+    cssBase: '.status-badge / .status-badge--{state}',
+    category: 'Feedback',
+    description: 'Badge d\'état d\'apprentissage. 5 états : locked, available, in-progress, completed, failed. Avec ou sans label.',
+    keywords: ['status', 'badge', 'state', 'progress', 'locked', 'completed', 'learning'],
+    render: () => (
+      <div className="vstack" style={{ gap: 'var(--s-4)' }}>
+        <div className="hstack" style={{ flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+          <StatusBadge status="locked" />
+          <StatusBadge status="available" />
+          <StatusBadge status="in-progress" />
+          <StatusBadge status="completed" />
+          <StatusBadge status="failed" />
+        </div>
+        <div className="hstack" style={{ flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+          <StatusBadge status="locked" showLabel />
+          <StatusBadge status="available" showLabel />
+          <StatusBadge status="in-progress" showLabel />
+          <StatusBadge status="completed" showLabel />
+          <StatusBadge status="failed" showLabel />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'NotificationBadge',
+    codeName: 'ui/NotificationBadge.tsx',
+    cssBase: '.notif-badge / .notif-badge--{tone}',
+    category: 'Feedback',
+    description: 'Badge numérique superposé sur un enfant (icône, avatar). Tones : danger, brand, warm. Max configurable (99 par défaut).',
+    keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
+    render: () => (
+      <div className="hstack" style={{ gap: 'var(--s-8)', alignItems: 'center', flexWrap: 'wrap' }}>
+        <NotificationBadge count={3} tone="danger"><Bell size={24} /></NotificationBadge>
+        <NotificationBadge count={12} tone="brand"><MessageSquare size={24} /></NotificationBadge>
+        <NotificationBadge count={99} tone="warm"><BookOpen size={24} /></NotificationBadge>
+        <NotificationBadge count={150} max={99}><Bell size={24} /></NotificationBadge>
+        <NotificationBadge count={0}><Bell size={24} /></NotificationBadge>
+      </div>
+    ),
+  },
+  {
+    name: 'KPICard',
+    codeName: 'ui/KPICard.tsx',
+    cssBase: '.tls-kpi / .tls-kpi-icon / .tls-kpi--{tone}',
+    category: 'Feedback',
+    description: 'Carte de KPI avec icône, valeur, label, tendance optionnelle (up/down/neutral) et 4 tones (brand/warm/sun/success).',
+    keywords: ['kpi', 'metric', 'stat', 'card', 'number', 'icon', 'trend', 'dashboard'],
+    render: () => (
+      <div className="grid-2" style={{ gap: 'var(--s-4)' }}>
+        <KPICard value="12" label="Cours terminés" icon={<BookOpen size={20} />} tone="brand" trend={{ value: 2, direction: 'up', label: 'ce mois' }} />
+        <KPICard value="86h" label="Temps d'apprentissage" icon={<Clock3 size={20} />} tone="warm" />
+        <KPICard value="7j" label="Série actuelle" icon={<Flame size={20} />} tone="sun" />
+        <KPICard value="2 450" label="Points XP" icon={<Trophy size={20} />} tone="success" trend={{ value: 180, direction: 'up' }} />
+      </div>
+    ),
+  },
+
+  /* ---- PATTERNS (nouveaux) ------------------------------------------------ */
+  {
+    name: 'SectionHeader',
+    codeName: 'patterns/SectionHeader.tsx',
+    cssBase: 'SectionHeader (tokens inline)',
+    category: 'Patterns',
+    description: 'En-tête de section réutilisable avec icône optionnelle, titre h2, sous-titre et action droite. Variante compact. Utilisée dans Coaching, Leaderboard, Journal.',
+    keywords: ['section', 'header', 'title', 'icon', 'h2', 'action', 'compact'],
+    render: () => (
+      <div className="vstack">
+        <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="btn btn--sm btn--outline">Voir tout</button>} />
+        <SectionHeader icon={BookOpen} title="Ressources associées" compact />
+        <SectionHeader title="Sans icône" subtitle="Section sans icône avec sous-titre" />
+      </div>
+    ),
+  },
+  {
+    name: 'SkillBar',
+    codeName: 'ui/SkillBar.tsx',
+    cssBase: 'SkillBar (tokens inline)',
+    category: 'Learning',
+    description: 'Barre de progression de compétence. Tones : brand (teal), warm (orange), sun (jaune). Affichage du pourcentage optionnel. Transition CSS animée.',
+    keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
+    render: () => (
+      <div className="vstack" style={{ gap: 'var(--s-3)', maxWidth: 480 }}>
+        <SkillBar label="Prompt Engineering" value={95} tone="brand" />
+        <SkillBar label="Pédagogie" value={88} tone="warm" />
+        <SkillBar label="Design Thinking" value={72} tone="sun" />
+        <SkillBar label="Communication" value={60} tone="brand" showValue={false} />
+      </div>
+    ),
+  },
+  {
+    name: 'PageHeader',
+    codeName: 'patterns/PageHeader.tsx',
+    cssBase: 'PageHeader (tokens inline)',
+    category: 'Patterns',
+    description: 'En-tête de page complet. Eyebrow optionnel (icône + texte majuscule), titre h1, description, actions droite. Utilisé dans toutes les pages principales.',
+    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1'],
+    render: () => (
+      <div className="vstack">
+        <PageHeader
+          eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
+          title="Fondamentaux du Leadership"
+          description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
+          actions={<><button className="btn btn--sm btn--outline">Partager</button><button className="btn btn--sm btn--primary">Continuer</button></>}
+        />
+        <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
+      </div>
+    ),
+  },
+  {
+    name: 'CoachCardGrid',
+    codeName: 'patterns/CoachCardGrid.tsx',
+    cssBase: 'CoachCardGrid (responsive grid)',
+    category: 'Patterns',
+    description: 'Grille de cartes pour les séances de coaching. Responsive sur tous les breakpoints. Variantes de tons (primary/warm/sun).',
+    keywords: ['grid', 'coach', 'cards', 'coaching', 'session', 'responsive', 'tone'],
+    render: () => (
+      <CoachCardGrid
+        coaches={[
+          {
+            id: '1',
+            name: 'Sarah Chen',
+            role: 'Coach',
+            avatar: 'https://via.placeholder.com/120?text=Sarah',
+            bio: 'Experte en leadership',
+            specialties: ['Leadership', 'Communication'],
+            availability: true,
+          },
+          {
+            id: '2',
+            name: 'Marc Dupont',
+            role: 'Mentor',
+            avatar: 'https://via.placeholder.com/120?text=Marc',
+            bio: 'Consultant stratégique',
+            specialties: ['Stratégie', 'Vision'],
+            availability: true,
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'LearningPathGrid',
+    codeName: 'patterns/LearningPathGrid.tsx',
+    cssBase: 'LearningPathGrid (responsive grid)',
+    category: 'Patterns',
+    description: 'Grille pour les parcours d\'apprentissage. Responsive avec gestion des images de fond.',
+    keywords: ['learning', 'path', 'grid', 'course', 'responsive'],
+    render: () => (
+      <LearningPathGrid
+        paths={[
+          {
+            id: '1',
+            title: 'Fondamentaux du Leadership',
+            description: 'Apprenez les principes essentiels',
+            lessonCount: 12,
+            progress: 65,
+            status: 'in-progress',
+            tone: 'primary',
+          },
+          {
+            id: '2',
+            title: 'Communication Efficace',
+            description: 'Maîtrisez les techniques de communication',
+            lessonCount: 8,
+            progress: 0,
+            status: 'not-started',
+            tone: 'warm',
+          },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'LearningPathHeader',
+    codeName: 'patterns/LearningPathHeader.tsx',
+    cssBase: 'LearningPathHeader (header with progress)',
+    category: 'Patterns',
+    description: 'En-tête de parcours avec progression, durée estimée et statut de complétude.',
+    keywords: ['learning', 'header', 'progress', 'path', 'completion'],
+    render: () => (
+      <LearningPathHeader
+        title="Fondamentaux du Leadership"
+        category="Développement Personnel"
+        description="Apprenez les principes essentiels du leadership moderne"
+        progress={65}
+        kpis={[
+          { label: 'Leçons complétées', value: '8/12', icon: <CheckCircle2 size={16} /> },
+          { label: 'Durée restante', value: '2h 30m', icon: <Clock3 size={16} /> },
+        ]}
+        tone="primary"
+      />
+    ),
+  },
+  {
+    name: 'MultiStepForm',
+    codeName: 'patterns/MultiStepForm.tsx',
+    cssBase: 'MultiStepForm (form progress)',
+    category: 'Patterns',
+    description: 'Formulaire multi-étapes avec indicateurs de progression et navigation.',
+    keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
+    render: () => {
+      const [step, setStep] = React.useState(1);
+      return (
+        <div style={{ maxWidth: 500 }}>
+          <MultiStepForm
+            steps={[
+              { id: 1, title: 'Informations', description: 'Vos données personnelles' },
+              { id: 2, title: 'Préférences', description: 'Vos préférences d\'apprentissage' },
+              { id: 3, title: 'Confirmation', description: 'Vérifiez et confirmez' },
+            ]}
+            currentStep={step}
+            onNext={() => setStep(s => Math.min(s + 1, 3))}
+            onBack={() => setStep(s => Math.max(s - 1, 1))}
+            showProgressBar
+            showStepIndicators
+          >
+            <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
+              {step === 1 && <p>Étape 1: Informations personnelles</p>}
+              {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
+              {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
+            </div>
+          </MultiStepForm>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'PageCard',
+    codeName: 'patterns/PageCard.tsx',
+    cssBase: 'PageCard (featured card)',
+    category: 'Patterns',
+    description: 'Carte de page avec image, titre, description. Variantes pour mise en avant.',
+    keywords: ['card', 'page', 'featured', 'image', 'content'],
+    render: () => (
+      <PageCard
+        item={{
+          id: '1',
+          thumbnail: 'https://via.placeholder.com/300x200?text=Course',
+          title: 'Cours Featured',
+          description: 'Apprenez les fondamentaux essentiels',
+          status: 'active',
+        }}
+        showThumbnail={true}
+      />
+    ),
+  },
+  {
+    name: 'PageHeaderSimple',
+    codeName: 'patterns/PageHeaderSimple.tsx',
+    cssBase: 'PageHeaderSimple (simple header)',
+    category: 'Patterns',
+    description: 'En-tête de page minimaliste. Titre seul ou avec description courte.',
+    keywords: ['header', 'simple', 'title', 'minimal'],
+    render: () => (
+      <div className="vstack">
+        <PageHeaderSimple title="Tableau de bord" />
+        <PageHeaderSimple title="Mon profil" description="Gérez vos informations personnelles" />
+      </div>
+    ),
+  },
+  {
+    name: 'ResourceCardGrid',
+    codeName: 'patterns/ResourceCardGrid.tsx',
+    cssBase: 'ResourceCardGrid (responsive grid)',
+    category: 'Patterns',
+    description: 'Grille de cartes pour les ressources. Responsive sur tous les breakpoints.',
+    keywords: ['resource', 'grid', 'cards', 'responsive'],
+    render: () => (
+      <ResourceCardGrid
+        items={[
+          {
+            id: '1',
+            type: 'ARTICLE',
+            title: 'Guide du Leadership',
+            description: 'Apprenez les principes essentiels',
+            duration: '5 min',
+            category: 'Leadership',
+          },
+          {
+            id: '2',
+            type: 'VIDEO',
+            title: 'Communication Efficace',
+            description: 'Techniques de communication avancées',
+            duration: '15 min',
+            category: 'Communication',
+          },
+        ]}
+        columns={2}
+      />
+    ),
+  },
+  {
+    name: 'SettingsSection',
+    codeName: 'patterns/SettingsSection.tsx',
+    cssBase: 'SettingsSection (form section)',
+    category: 'Patterns',
+    description: 'Section de paramètres avec groupes de formulaires et labels.',
+    keywords: ['settings', 'form', 'section', 'group', 'preferences'],
+    render: () => (
+      <SettingsSection title="Paramètres de notification">
+        <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
+          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)' }}>Sélectionnez vos préférences de notification</p>
+        </div>
+      </SettingsSection>
+    ),
+  },
+  {
+    name: 'VeilleCardFeed',
+    codeName: 'patterns/VeilleCardFeed.tsx',
+    cssBase: 'VeilleCardFeed (content feed)',
+    category: 'Patterns',
+    description: 'Flux de contenu pour la veille. Carousel ou grille adaptative.',
+    keywords: ['veille', 'feed', 'news', 'content', 'carousel'],
+    render: () => (
+      <VeilleCardFeed
+        items={[
+          { id: '1', type: 'ARTICLE', title: 'Tendance Leadership 2024', summary: 'Les nouvelles tendances du leadership', category: 'Leadership', publishedDate: new Date(), isNew: true },
+          { id: '2', type: 'VIDEO', title: 'Communication Digitale', summary: 'Comment bien communiquer en ligne', category: 'Communication', publishedDate: new Date() },
+          { id: '3', type: 'PODCAST', title: 'L\'avenir du travail', summary: 'Discussion avec des experts', category: 'Tendances', publishedDate: new Date() },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'Divider',
+    codeName: 'ui/Divider.tsx',
+    cssBase: '.divider / .divider--vertical / .divider--labeled / .divider--sm/md/lg',
+    category: 'Content',
+    description: 'Séparateur horizontal ou vertical. Label centré avec var(--text-soft). Spacings: sm/md/lg via classes CSS. Ligne: var(--border).',
+    keywords: ['divider', 'separator', 'hr', 'section', 'label', 'horizontal', 'vertical', 'css'],
+    render: () => (
+      <div className="vstack">
+        <Divider />
+        <Divider label="ou" />
+        <Divider label="Compétences" spacing="lg" />
+        <div style={{ display: 'flex', alignItems: 'center', height: 80, gap: 'var(--s-4)' }}>
+          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section A</span>
+          <Divider orientation="vertical" />
+          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section B</span>
+          <Divider orientation="vertical" />
+          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section C</span>
+        </div>
+      </div>
+    ),
   },
 ];
 
@@ -1393,6 +2445,19 @@ const SHADOW_TOKENS: TokenEntry[] = [
   { name: 'shadow-xl', cssVar: '--shadow-xl', value: '0 28px 72px -20px rgba(0,0,0,.22)', group: 'Elevation', type: 'shadow' },
   { name: 'shadow-brand', cssVar: '--shadow-brand', value: '0 10px 30px -10px rgba(85,161,180,.45)', group: 'Elevation', type: 'shadow' },
   { name: 'shadow-warm', cssVar: '--shadow-warm', value: '0 10px 30px -10px rgba(237,132,58,.35)', group: 'Elevation', type: 'shadow' },
+  // Brand shadow scale
+  { name: 'shadow-brand-xs', cssVar: '--shadow-brand-xs', value: '0 4px 12px rgba(85,161,180,.15)', group: 'Brand Shadows', type: 'shadow' },
+  { name: 'shadow-brand-md', cssVar: '--shadow-brand-md', value: '0 6px 16px rgba(85,161,180,.40)', group: 'Brand Shadows', type: 'shadow' },
+  { name: 'shadow-brand-xl', cssVar: '--shadow-brand-xl', value: '0 12px 32px rgba(85,161,180,.50)', group: 'Brand Shadows', type: 'shadow' },
+  { name: 'shadow-brand-card', cssVar: '--shadow-brand-card', value: '0 12px 32px rgba(85,161,180,.28)', group: 'Brand Shadows', type: 'shadow' },
+  { name: 'shadow-warm-card', cssVar: '--shadow-warm-card', value: '0 12px 32px rgba(237,132,58,.28)', group: 'Brand Shadows', type: 'shadow' },
+  // Focus rings
+  { name: 'shadow-focus-brand', cssVar: '--shadow-focus-brand', value: '0 0 0 4px rgba(85,161,180,.18)', group: 'Focus Rings', type: 'shadow' },
+  { name: 'shadow-focus-warm', cssVar: '--shadow-focus-warm', value: '0 0 0 4px rgba(242,133,89,.18)', group: 'Focus Rings', type: 'shadow' },
+  // Inset highlights
+  { name: 'shadow-inset-top-sm', cssVar: '--shadow-inset-top-sm', value: 'inset 0 1px 0 rgba(255,255,255,.80)', group: 'Inset Highlights', type: 'shadow' },
+  { name: 'shadow-inset-top-md', cssVar: '--shadow-inset-top-md', value: 'inset 0 1px 0 rgba(255,255,255,.90)', group: 'Inset Highlights', type: 'shadow' },
+  { name: 'shadow-inset-top-lg', cssVar: '--shadow-inset-top-lg', value: 'inset 0 1px 0 rgba(255,255,255,.95)', group: 'Inset Highlights', type: 'shadow' },
 ];
 
 const MOTION_TOKENS: TokenEntry[] = [
@@ -1597,6 +2662,7 @@ type Filter = 'all' | Category | 'Tokens' | 'Pages';
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'all', label: 'Tout' },
   { id: 'Core', label: 'Core' },
+  { id: 'Feedback', label: 'Feedback' },
   { id: 'Patterns', label: 'Patterns' },
   { id: 'Learning', label: 'Learning' },
   { id: 'Content', label: 'Content' },
@@ -1664,7 +2730,7 @@ const Components: React.FC = () => {
   }, [filteredTokens]);
 
   const componentsByCategory = useMemo(() => {
-    const order: Category[] = ['Core', 'Patterns', 'Learning', 'Content', 'Navigation'];
+    const order: Category[] = ['Core', 'Feedback', 'Patterns', 'Learning', 'Content', 'Navigation'];
     return order
       .map((cat) => [cat, filteredComponents.filter((c) => c.category === cat)] as const)
       .filter(([, list]) => list.length > 0);

@@ -1,4 +1,5 @@
 import React from 'react';
+import './FormGroup.css';
 
 /**
  * FormGroup — Wrapper for form field + label + error/hint

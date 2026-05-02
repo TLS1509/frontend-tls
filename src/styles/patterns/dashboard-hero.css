@@ -30,7 +30,7 @@
     rgba(85, 161, 180, 0.08) 0%,
     rgba(85, 161, 180, 0.04) 100%
   );
-  border: 1px solid rgba(85, 161, 180, 0.15);
+  border: 1px solid var(--overlay-brand-sm);
 }
 
 .dashboard-hero--tone-warm {
@@ -39,7 +39,7 @@
     rgba(226, 132, 82, 0.08) 0%,
     rgba(226, 132, 82, 0.04) 100%
   );
-  border: 1px solid rgba(226, 132, 82, 0.15);
+  border: 1px solid var(--overlay-orange-xs);
 }
 
 .dashboard-hero--tone-sun {
@@ -48,7 +48,7 @@
     rgba(255, 183, 77, 0.08) 0%,
     rgba(255, 183, 77, 0.04) 100%
   );
-  border: 1px solid rgba(255, 183, 77, 0.15);
+  border: 1px solid var(--overlay-warm-xs);
 }
 
 /* ============================================================================
@@ -166,7 +166,7 @@
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   border-radius: var(--r-md);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--overlay-white-md);
 }
 
 .dashboard-hero__stat {
@@ -176,7 +176,7 @@
   padding: var(--s-3);
   border-radius: var(--r-sm);
   background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--overlay-white-xs);
   transition: all var(--dur-fast) ease;
 }
 
@@ -250,22 +250,22 @@
 .dashboard-hero__cta--primary {
   background: linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .dashboard-hero--tone-warm .dashboard-hero__cta--primary {
   background: linear-gradient(135deg, var(--tls-warm-500) 0%, var(--tls-warm-600) 100%);
-  box-shadow: 0 4px 12px rgba(226, 132, 82, 0.3);
+  box-shadow: var(--shadow-warm-sm);
 }
 
 .dashboard-hero--tone-sun .dashboard-hero__cta--primary {
   background: linear-gradient(135deg, var(--tls-sun-500) 0%, var(--tls-sun-600) 100%);
-  box-shadow: 0 4px 12px rgba(255, 183, 77, 0.3);
+  box-shadow: var(--shadow-sun-sm);
 }
 
 .dashboard-hero__cta--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(85, 161, 180, 0.4);
+  box-shadow: var(--shadow-brand-md);
 }
 
 .dashboard-hero__cta--primary:active {
@@ -276,7 +276,7 @@
 .dashboard-hero__cta--secondary {
   background: rgba(255, 255, 255, 0.4);
   color: var(--text-strong);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--overlay-white-lg);
   backdrop-filter: blur(10px);
 }
 

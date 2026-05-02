@@ -1,0 +1,133 @@
+/**
+ * Pagination.css
+ * Numbered page navigation for long lists.
+ * Supports: prev/next arrows, numbered pages, dots collapse, info text.
+ */
+
+/* ============================================================================
+   WRAPPER
+   ============================================================================ */
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  font-family: var(--font-body);
+}
+
+/* ============================================================================
+   PAGE BUTTONS
+   ============================================================================ */
+
+.pager button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--s-10);
+  height: var(--s-10);
+  padding: 0 var(--s-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--t-body-sm);
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-2) var(--ease-standard),
+    border-color var(--dur-2) var(--ease-standard),
+    color var(--dur-2) var(--ease-standard),
+    box-shadow var(--dur-2) var(--ease-standard);
+}
+
+.pager button:hover:not(:disabled) {
+  background: var(--surface-muted);
+  border-color: var(--border-strong);
+  color: var(--tls-primary-700);
+}
+
+.pager button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-teal);
+}
+
+/* ============================================================================
+   ACTIVE / CURRENT PAGE
+   ============================================================================ */
+
+.pager button[aria-current='page'] {
+  background: var(--tls-primary-600);
+  border-color: var(--tls-primary-600);
+  color: var(--on-color-text-main);
+  font-weight: 600;
+  box-shadow: var(--shadow-brand-xs);
+  cursor: default;
+}
+
+.pager button[aria-current='page']:hover {
+  background: var(--tls-primary-600);
+  border-color: var(--tls-primary-600);
+  color: var(--on-color-text-main);
+}
+
+/* ============================================================================
+   DISABLED
+   ============================================================================ */
+
+.pager button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   DOTS ELLIPSIS
+   ============================================================================ */
+
+.pager__dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--s-10);
+  height: var(--s-10);
+  color: var(--text-soft);
+  font-size: var(--t-body-sm);
+  user-select: none;
+}
+
+/* ============================================================================
+   INFO TEXT ("Page X sur Y" / "1–20 sur 240")
+   ============================================================================ */
+
+.pager-info {
+  width: 100%;
+  text-align: center;
+  font-size: var(--t-caption);
+  color: var(--text-muted);
+  margin-top: var(--s-2);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .pager {
+    gap: var(--s-1);
+  }
+
+  .pager button {
+    min-width: var(--s-8);
+    height: var(--s-8);
+    padding: 0 var(--s-2);
+    font-size: var(--t-caption);
+  }
+
+  .pager__dots {
+    min-width: var(--s-8);
+    height: var(--s-8);
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
+import './modals.css';
 
 /**
  * SuccessModal — Célébration d'une réussite générique
@@ -27,76 +28,32 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   return (
     <>
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 1001,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.45)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          animation: 'smBdIn 0.2s ease both',
-        }}
+        className="modal__backdrop"
+        style={{ background: 'rgba(0,0,0,0.45)', animation: 'smBdIn 0.2s ease both' }}
         onClick={onClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative',
-            width: '100%',
-            maxWidth: 480,
-            background: 'var(--surface)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-10)',
-            border: '1px solid rgba(85,161,180,0.2)',
-            boxShadow: '0 25px 50px rgba(85,161,180,0.2), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'smIn 0.35s cubic-bezier(.34,1.56,.64,1) both',
-            overflow: 'hidden',
-          }}
+          className="modal--success modal__content"
+          style={{ padding: 'var(--s-10)', overflow: 'hidden' }}
         >
           {/* Background teal gradient */}
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'linear-gradient(135deg, rgba(85,161,180,0.06) 0%, transparent 60%)',
-          }} />
+          <div className="modal__success-bg-gradient" />
 
           {/* Close */}
           <button
             onClick={onClose}
-            style={{
-              position: 'absolute', top: 'var(--s-4)', right: 'var(--s-4)',
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'var(--surface-muted)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)', zIndex: 1,
-              transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
+            className="modal__close-btn"
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
           >
             <X size={14} />
           </button>
 
           {/* Success icon with pulse ring */}
-          <div style={{
-            position: 'relative', width: 96, height: 96, margin: '0 auto var(--s-6)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <div style={{
-              position: 'absolute', inset: 0, borderRadius: '50%',
-              border: '3px solid var(--tls-primary-300)',
-              animation: 'smPulse 1.8s ease-out infinite',
-            }} />
-            <div style={{
-              width: 80, height: 80, borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-400) 100%)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 12px 32px rgba(85,161,180,0.35)',
-              animation: 'smIconIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.15s both',
-            }}>
+          <div className="modal__success-icon-container">
+            <div className="modal__pulse-ring" />
+            <div className="modal__success-icon">
               <CheckCircle2 size={40} style={{ color: '#fff' }} />
             </div>
           </div>
@@ -129,12 +86,12 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
               animation: 'smFadeUp 0.4s ease 0.35s both',
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 28px rgba(85,161,180,0.45)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 10px 28px rgba(85,161,180,0.45)';
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(85,161,180,0.35)';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(85,161,180,0.35)';
             }}
           >
             {buttonText}

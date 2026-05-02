@@ -89,7 +89,7 @@ export const VideoViewer: React.FC = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: 'var(--s-3)',
-            background: 'rgba(0, 0, 0, 0.3)',
+            background: 'var(--overlay-black-xs)',
             zIndex: 10,
           }}
         >
@@ -169,7 +169,7 @@ export const VideoViewer: React.FC = () => {
             </div>
 
             {/* Progress Bar */}
-            <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.3)', borderRadius: 'var(--r-full)', overflow: 'hidden' }}>
+            <div style={{ flex: 1, height: 4, background: 'var(--overlay-white-xs)', borderRadius: 'var(--r-full)', overflow: 'hidden' }}>
               <div style={{ height: '100%', width: '35%', background: 'var(--tls-primary-500)' }} />
             </div>
 

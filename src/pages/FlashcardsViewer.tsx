@@ -256,7 +256,7 @@ export const FlashcardsViewer: React.FC = () => {
           style={{
             color: marked.get(currentCard.id) === 'easy' ? 'var(--tls-success-fg)' : 'var(--text-muted)',
             borderColor: marked.get(currentCard.id) === 'easy' ? 'var(--tls-success-fg)' : 'var(--border)',
-            background: marked.get(currentCard.id) === 'easy' ? 'rgba(74,140,110,0.1)' : 'transparent',
+            background: marked.get(currentCard.id) === 'easy' ? 'var(--tls-success-bg)' : 'transparent',
           }}
         >
           <ThumbsUp size={16} />
@@ -268,7 +268,7 @@ export const FlashcardsViewer: React.FC = () => {
           style={{
             color: marked.get(currentCard.id) === 'medium' ? 'var(--tls-orange-600)' : 'var(--text-muted)',
             borderColor: marked.get(currentCard.id) === 'medium' ? 'var(--tls-orange-600)' : 'var(--border)',
-            background: marked.get(currentCard.id) === 'medium' ? 'rgba(237,132,58,0.1)' : 'transparent',
+            background: marked.get(currentCard.id) === 'medium' ? 'var(--tls-orange-50)' : 'transparent',
           }}
         >
           <Clock size={16} />

@@ -1,58 +1,86 @@
 /* ==========================================================================
-   TLS Design System — Global CSS
-   Single import point for all styles. All pages inherit this cascade.
-   Architecture: tokens → layout → utilities → components → pages → animations
+   TLS Design System — Global CSS                          21 fichiers, 1 entrée
+   ─────────────────────────────────────────────────────────────────────────────
+   ARCHITECTURE : tokens → layout → nav → utilities → components → learning
+                  → pages → patterns → animations
+
+   COMMENT ÇA MARCHE :
+     main.tsx  →  index.css  →  globals.css  →  tout le cascade CSS
+
+   Chaque page et composant hérite automatiquement de TOUS les tokens et classes
+   sans importer individuellement quoi que ce soit.
    ========================================================================== */
 
-/* ── 1. TOKENS ─────────────────────────────────────────────────────────── */
-/* Base design tokens — single source of truth for all colors, spacing,
-   typography, shadows, glass, motion, gradients, overlays, and on-color effects */
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+/* Toutes les variables CSS : couleurs, espacement, typographie, ombres, glass,
+   animations, overlays, gradients, on-color effects (246+ tokens) */
 @import './design-tokens.css';
-/* Dark mode overrides */
+/* Overrides dark mode — scoped sous [data-theme="dark"] */
 @import './dark-mode-tokens.css';
 
 /* ── 2. LAYOUT ──────────────────────────────────────────────────────────── */
+/* layouts.css      → grilles, containers, flex/grid helpers + layout-helpers */
+/* app-layout.css   → AppLayout, shell principal, sidebar offset */
+/* page-layouts-modern.css → layouts de pages (2-col, avec sidebar, hero) */
 @import './layouts.css';
-@import './layout-helpers.css';
 @import './app-layout.css';
 @import './page-layouts-modern.css';
 
 /* ── 3. NAVIGATION ──────────────────────────────────────────────────────── */
+/* floating-nav.css    → bouton flottant d'accès rapide */
+/* mobile-nav.css      → bottom nav mobile */
+/* optimized-sidebar.css → sidebar principale desktop */
 @import './floating-nav.css';
 @import './mobile-nav.css';
 @import './optimized-sidebar.css';
 
 /* ── 4. UTILITIES ───────────────────────────────────────────────────────── */
+/* utilities.css → classes utilitaires + glass morphism (.glass, .glass-on-color...) */
 @import './utilities.css';
-@import './glass-utilities.css';
 
 /* ── 5. COMPONENTS ──────────────────────────────────────────────────────── */
+/* tls-components.css    → tous les composants TLS : Button, Card, Badge, Modal,
+                           Alert, Steps, Tabs, Toast, Medal... + card layouts + showcase */
+/* components-modern.css → variantes modernes (glass cards, gradients avancés) */
 @import './tls-components.css';
 @import './components-modern.css';
-@import './card-layouts.css';
-@import './components-showcase.css';
 
 /* ── 6. LEARNING ────────────────────────────────────────────────────────── */
+/* learning-components-modern.css → composants spécifiques au parcours apprenant */
+/* learning-paths.css             → page Parcours (tiles, filtres, heros, étapes) */
+/* lesson-player.css              → lecteur de leçons */
 @import './learning-components-modern.css';
 @import './learning-paths.css';
 @import './lesson-player.css';
 
 /* ── 7. PAGES ───────────────────────────────────────────────────────────── */
+/* static-pages.css      → classes génériques de pages + auth + feature pages */
+/* figma-missing-pages.css → pages secondaires (VideoReels, Flashcards, etc.) */
+/* dashboard-modern.css  → Dashboard hero, KPIs, widgets */
+/* veille.css             → Hub Veille, cards, filtres */
+/* pages-index.css        → page d'index des pages / composants */
 @import './static-pages.css';
-@import './feature-pages-modern.css';
 @import './figma-missing-pages.css';
-@import './auth-pages.css';
 @import './dashboard-modern.css';
 @import './veille.css';
 @import './pages-index.css';
 
-/* ── 8. PATTERNS (loaded for all pages) ────────────────────────────────── */
+/* ── 8. PATTERNS ────────────────────────────────────────────────────────── */
+/* Patterns composites réutilisables par plusieurs pages */
 @import './patterns/activity-feed.css';
 @import './patterns/dashboard-hero.css';
 @import './patterns/coach-card-grid.css';
 
 /* ── 9. ANIMATIONS ──────────────────────────────────────────────────────── */
+/* Keyframes, classes animate-*, transitions polies */
 @import './animations-polish.css';
+
+/* ── 10. FEATURE PAGES ───────────────────────────────────────────────────── */
+@import './dashboard.css';
+@import './feature-pages-modern.css';
+
+/* ── 11. PAGE-SPECIFIC ────────────────────────────────────────────────────── */
+@import './profile.css';
 
 /* Global styles using design tokens */
 * {

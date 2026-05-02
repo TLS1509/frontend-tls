@@ -4,10 +4,10 @@ import React from 'react';
  * StatCard — Source of truth: design-system/spec.json → components.StatCard
  *
  * Prominent learning metric. Display number, micro uppercase label, optional delta.
- * Variants: default / elevated / warm / brand.
+ * Variants: default / elevated / warm / brand / sun.
  */
 
-export type StatCardVariant = 'default' | 'elevated' | 'warm' | 'brand';
+export type StatCardVariant = 'default' | 'elevated' | 'warm' | 'brand' | 'sun';
 export type StatValueColor = 'default' | 'warm' | 'brand';
 export type StatDeltaDirection = 'up' | 'down';
 
@@ -25,6 +25,8 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: StatCardVariant;
   /** Override value color tint (defaults to variant-appropriate) */
   valueColor?: StatValueColor;
+  /** Icon shown above label (rendered in a tone-colored circle) */
+  icon?: React.ReactNode;
 
   // ---- Legacy API (pre-spec) ------------------------------------------------
   /** @deprecated Use `label` */
@@ -33,8 +35,6 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   unit?: string;
   /** @deprecated Use `delta` + `deltaDirection` (numeric trend) */
   trend?: number;
-  /** @deprecated Not part of the new spec, rendered as prefix */
-  icon?: React.ReactNode;
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -45,11 +45,11 @@ export const StatCard: React.FC<StatCardProps> = ({
   deltaDirection,
   variant = 'default',
   valueColor,
+  icon,
   // Legacy
   title,
   unit,
   trend,
-  icon,
   className = '',
   children,
   ...rest
@@ -89,7 +89,7 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <div className={classes} {...rest}>
-      {icon && <div style={{ marginBottom: 'var(--s-3)' }}>{icon}</div>}
+      {icon && <div className="stat-card__icon">{icon}</div>}
       {resolvedLabel && <p className="stat-card__label">{resolvedLabel}</p>}
       <p className={valueClasses}>
         {value}

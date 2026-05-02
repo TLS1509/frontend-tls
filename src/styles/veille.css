@@ -89,7 +89,7 @@
 
 .veille-page__search[data-active='true'] {
   border-color: var(--tls-primary-500);
-  box-shadow: 0 4px 16px rgba(85, 161, 180, 0.15);
+  box-shadow: var(--shadow-brand-xs);
 }
 
 .veille-page__search svg {
@@ -162,7 +162,7 @@
   background: var(--tls-primary-600);
   border-color: var(--tls-primary-600);
   color: var(--text-inverse);
-  box-shadow: 0 6px 18px rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .veille-pill[data-active='true'] .veille-pill__count {
@@ -210,12 +210,12 @@
   text-align: left;
   transition: transform var(--dur-2) var(--ease-standard),
     box-shadow var(--dur-2) var(--ease-standard);
-  box-shadow: var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.8);
+  box-shadow: var(--shadow-xs), var(--shadow-inset-top-sm);
 }
 
 .veille-format-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.9);
+  box-shadow: var(--shadow-md), var(--shadow-inset-top-md);
 }
 
 .veille-format-card__emoji {

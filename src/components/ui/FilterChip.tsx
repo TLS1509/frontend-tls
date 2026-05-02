@@ -1,10 +1,20 @@
 import React from 'react';
+import './FilterChip.css';
+
+/**
+ * FilterChip — Toggle pill for filtering content lists.
+ *
+ * States: inactive (default), active (aria-pressed=true), reset variant.
+ * Supports optional icon, label, and numeric count badge.
+ */
 
 export interface FilterChipProps {
   label: string;
   active?: boolean;
   onClick?: () => void;
   icon?: React.ReactNode;
+  /** Optional count to display after the label */
+  count?: number;
   variant?: 'default' | 'reset';
   className?: string;
   'aria-label'?: string;
@@ -15,48 +25,38 @@ export const FilterChip: React.FC<FilterChipProps> = ({
   active = false,
   onClick,
   icon,
+  count,
   variant = 'default',
   className,
   'aria-label': ariaLabel,
 }) => {
   const isReset = variant === 'reset';
 
+  const classes = [
+    'filter-chip',
+    isReset && 'filter-chip--reset',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={className}
+      className={classes}
       aria-pressed={!isReset ? active : undefined}
       aria-label={ariaLabel}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 'var(--s-1)',
-        padding: 'var(--s-2) var(--s-3)',
-        borderRadius: 'var(--r-pill)',
-        border: active ? '2px solid var(--tls-primary-500)' : '1.5px solid var(--border)',
-        background: active ? 'var(--tls-primary-50)' : 'transparent',
-        color: active ? 'var(--tls-primary-600)' : 'var(--text-muted)',
-        fontSize: 'var(--t-caption)',
-        fontWeight: active ? 600 : 500,
-        fontFamily: 'var(--font-body)',
-        cursor: 'pointer',
-        transition: 'all 0.15s',
-      }}
-      onMouseEnter={(e) => {
-        if (!active && !isReset) {
-          e.currentTarget.style.background = 'var(--surface-muted)';
-          e.currentTarget.style.color = 'var(--text)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!active && !isReset) {
-          e.currentTarget.style.background = 'transparent';
-          e.currentTarget.style.color = 'var(--text-muted)';
-        }
-      }}
     >
-      {icon && <span style={{ display: 'inline-flex' }}>{icon}</span>}
+      {icon && <span className="filter-chip__icon">{icon}</span>}
       {label}
+      {count !== undefined && (
+        <span className="filter-chip__count" aria-hidden="true">
+          {count}
+        </span>
+      )}
     </button>
   );
 };
+
+export default FilterChip;

@@ -1,20 +1,27 @@
+/* GlassCard — Glassmorphic surface with blur + tonal fill */
+
 .tls-glass-card {
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border-radius: var(--r-lg);
   padding: var(--s-6);
-  transition: all var(--dur-2) var(--ease-standard);
+  transition: box-shadow var(--dur-2) var(--ease-standard),
+              transform var(--dur-2) var(--ease-standard);
 }
 
+.tls-glass-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Tone: default / light ── */
+.tls-glass-card--default,
 .tls-glass-card--light {
   background: var(--g-glass);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-sm);
 }
 
-.tls-glass-card--light:hover {
-  box-shadow: var(--shadow-md);
-}
-
+/* ── Tone: brand ── */
 .tls-glass-card--brand {
   background: var(--g-glass-brand);
   border: 1px solid var(--overlay-brand-xl);
@@ -22,5 +29,28 @@
 }
 
 .tls-glass-card--brand:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-brand-sm);
+}
+
+/* ── Tone: warm ── */
+.tls-glass-card--warm {
+  background: linear-gradient(135deg, var(--overlay-orange-2xs), var(--overlay-warm-xs));
+  border: 1px solid var(--overlay-orange-xs);
+  box-shadow: var(--shadow-sm);
+}
+
+.tls-glass-card--warm:hover {
+  box-shadow: var(--shadow-warm-sm);
+}
+
+/* ── Tone: dark ── */
+.tls-glass-card--dark {
+  background: var(--g-cool-deep);
+  border: 1px solid var(--overlay-white-xs);
+  box-shadow: var(--shadow-lg);
+  color: var(--on-color-text-main);
+}
+
+.tls-glass-card--dark:hover {
+  box-shadow: var(--shadow-xl);
 }

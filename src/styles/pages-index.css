@@ -272,7 +272,7 @@
 .page-link-button:hover {
   background-color: var(--tls-primary-600, #3d7d8f);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .page-link-button:active {

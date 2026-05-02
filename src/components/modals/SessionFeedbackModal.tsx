@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
+import './modals.css';
 
 /**
  * SessionFeedbackModal — Notation étoiles + commentaire
@@ -58,49 +59,24 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
   return (
     <>
       <div
-        style={{
-          position: 'fixed', inset: 0, zIndex: 1001,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.4)',
-          backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
-          animation: 'fbBdIn 0.2s ease both',
-        }}
+        className="modal__backdrop"
+        style={{ background: 'rgba(0,0,0,0.4)', animation: 'fbBdIn 0.2s ease both' }}
         onClick={handleClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative', width: '100%', maxWidth: 500,
-            background: 'var(--surface)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-8)',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.9)',
-            animation: 'fbIn 0.32s cubic-bezier(.34,1.56,.64,1) both',
-            overflow: 'hidden',
-          }}
+          className="modal--feedback modal__content"
+          style={{ padding: 'var(--s-8)', overflow: 'hidden' }}
         >
           {/* Blur glow blob */}
-          <div style={{
-            position: 'absolute', top: -80, left: '50%', transform: 'translateX(-50%)',
-            width: 240, height: 240, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(248,176,68,0.25) 0%, transparent 70%)',
-            filter: 'blur(40px)', pointerEvents: 'none',
-          }} />
+          <div className="modal__glow-blob" />
 
           {/* Close */}
           <button
             onClick={handleClose}
-            style={{
-              position: 'absolute', top: 'var(--s-4)', right: 'var(--s-4)',
-              width: 34, height: 34, borderRadius: '50%',
-              background: 'var(--surface-muted)', border: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)', zIndex: 1, transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
+            className="modal__close-btn"
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
           >
             <X size={14} />
           </button>
@@ -108,13 +84,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           {!submitted ? (
             <>
               {/* Icon */}
-              <div style={{
-                width: 60, height: 60, borderRadius: 'var(--r-lg)',
-                background: 'linear-gradient(135deg, rgba(248,176,68,0.2) 0%, rgba(248,176,68,0.08) 100%)',
-                border: '1px solid rgba(248,176,68,0.25)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto var(--s-4)',
-              }}>
+              <div className="modal__icon-badge">
                 <Sparkles size={28} style={{ color: 'var(--tls-yellow-600)' }} />
               </div>
 
@@ -127,7 +97,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
               </p>
 
               {/* Stars */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)' }}>
+              <div className="modal__star-container">
                 {[1, 2, 3, 4, 5].map((star) => {
                   const filled = star <= display;
                   const selected = star <= rating;
@@ -137,16 +107,14 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                       onClick={() => setRating(star)}
                       onMouseEnter={(e) => {
                         setHover(star);
-                        if (!selected) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.15)';
+                        if (!selected) e.currentTarget.style.transform = 'scale(1.15)';
                       }}
                       onMouseLeave={(e) => {
                         setHover(0);
-                        (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                        e.currentTarget.style.transform = 'scale(1)';
                       }}
+                      className="modal__star-btn"
                       style={{
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        padding: 0, width: 52, height: 52,
-                        transition: 'transform var(--dur-1)',
                         filter: selected
                           ? 'drop-shadow(0 0 10px rgba(248,176,68,0.7))'
                           : filled
@@ -172,15 +140,9 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
 
               {/* Rating label */}
               {display > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--s-5)' }}>
-                  <div style={{
-                    padding: 'var(--s-2) var(--s-5)',
-                    borderRadius: 'var(--r-lg)',
-                    background: 'linear-gradient(135deg, rgba(248,176,68,0.1) 0%, rgba(248,176,68,0.15) 100%)',
-                    border: '1.5px solid rgba(248,176,68,0.25)',
-                    boxShadow: '0 4px 16px rgba(248,176,68,0.12)',
-                  }}>
-                    <span style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--tls-yellow-600)' }}>
+                <div className="modal__rating-label">
+                  <div className="modal__rating-label-badge">
+                    <span>
                       {RATING_LABELS[display]}
                     </span>
                   </div>
@@ -197,16 +159,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Partagez votre expérience…"
                   rows={3}
-                  style={{
-                    width: '100%', boxSizing: 'border-box',
-                    padding: 'var(--s-3)', borderRadius: 'var(--r-lg)',
-                    border: '1.5px solid var(--border)',
-                    background: 'var(--surface-muted)',
-                    color: 'var(--text)',
-                    fontSize: 'var(--t-body-sm)', lineHeight: 1.6,
-                    resize: 'vertical', transition: 'border-color var(--dur-1)',
-                    fontFamily: 'inherit',
-                  }}
+                  className="modal__textarea"
                   onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--tls-yellow-400)'; e.currentTarget.style.background = 'var(--surface)'; }}
                   onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--surface-muted)'; }}
                 />
@@ -216,30 +169,17 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
               <button
                 onClick={handleSubmit}
                 disabled={!canSubmit}
-                style={{
-                  width: '100%', padding: 'var(--s-4)',
-                  borderRadius: 'var(--r-xl)', border: 'none',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--s-2)',
-                  background: canSubmit
-                    ? 'linear-gradient(135deg, #F8B044 0%, #e89a30 100%)'
-                    : 'var(--border)',
-                  color: canSubmit ? '#fff' : 'var(--text-muted)',
-                  fontWeight: 700, fontSize: 'var(--t-body)',
-                  cursor: canSubmit ? 'pointer' : 'not-allowed',
-                  opacity: canSubmit ? 1 : 0.5,
-                  transition: 'all var(--dur-2)',
-                  boxShadow: canSubmit ? '0 6px 20px rgba(248,176,68,0.3)' : 'none',
-                }}
+                className={`modal__submit-btn ${canSubmit ? 'modal__submit-btn--enabled' : 'modal__submit-btn--disabled'}`}
                 onMouseEnter={(e) => {
                   if (canSubmit) {
-                    (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 10px 28px rgba(248,176,68,0.4)';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 10px 28px rgba(248,176,68,0.4)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (canSubmit) {
-                    (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(248,176,68,0.3)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(248,176,68,0.3)';
                   }
                 }}
               >

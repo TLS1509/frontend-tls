@@ -3,11 +3,12 @@ import React from 'react';
 /**
  * ProgressBar — Source of truth: design-system/spec.json → components.Progress.subComponents.ProgressBar
  *
- * Linear progress tracking. Sizes: sm/md/lg. Fill variants: brand (default), warm, gradient.
+ * Linear progress tracking. Sizes: xs/sm/md/lg. Fill variants: brand/warm/sun/success/danger/gradient.
+ * Optional striped animated pattern.
  */
 
-export type ProgressSize = 'sm' | 'md' | 'lg';
-export type ProgressFill = 'brand' | 'warm' | 'gradient';
+export type ProgressSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ProgressFill = 'brand' | 'warm' | 'sun' | 'success' | 'danger' | 'gradient';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 0–100 */
@@ -16,6 +17,8 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   max?: number;
   size?: ProgressSize;
   fill?: ProgressFill;
+  /** Animated diagonal stripes overlay */
+  striped?: boolean;
   /** Label text (left of value) */
   label?: React.ReactNode;
   /** Value text on right. Pass explicit string or false to hide (default: "<pct>%") */
@@ -35,6 +38,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   max = 100,
   size = 'md',
   fill = 'brand',
+  striped = false,
   label,
   valueLabel,
   // Legacy
@@ -62,6 +66,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const fillClasses = [
     'progress__fill',
     resolvedFill !== 'brand' && `progress__fill--${resolvedFill}`,
+    striped && 'progress__fill--striped',
   ]
     .filter(Boolean)
     .join(' ');

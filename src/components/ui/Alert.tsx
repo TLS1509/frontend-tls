@@ -1,4 +1,5 @@
 import React from 'react';
+import './Alert.css';
 
 /**
  * Alert — Source of truth: design-system/spec.json → components.Alert

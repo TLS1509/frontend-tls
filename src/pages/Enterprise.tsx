@@ -180,7 +180,7 @@ export const Enterprise: React.FC = () => {
                 height: 44,
                 borderRadius: 'var(--r-lg)',
                 background: 'var(--overlay-warm-sm)',
-                color: 'var(--tls-orange-600,#c26a10)',
+                color: 'var(--tls-orange-600)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

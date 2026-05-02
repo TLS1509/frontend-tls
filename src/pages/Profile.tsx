@@ -7,7 +7,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { Badge, Button, ProgressBar } from '../components';
+import { Badge, Button, ProgressBar, SkillBar } from '../components';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import {
   Mail,
@@ -65,7 +65,7 @@ const BADGES = [
 ];
 
 const ACTIVITY_STYLES = {
-  success: { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)',   border: 'rgba(157, 190, 186, 0.4)' },
+  success: { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)',   border: 'var(--tls-success-border)' },
   sun:     { bg: 'var(--tls-yellow-100)',  color: 'var(--tls-yellow-600)',   border: 'var(--tls-yellow-300)' },
   warm:    { bg: 'var(--tls-orange-100)',  color: 'var(--tls-orange-600)',   border: 'var(--tls-orange-200)' },
   info:    { bg: 'var(--tls-primary-50)',  color: 'var(--tls-primary-600)',  border: 'var(--tls-primary-200)' },
@@ -122,91 +122,41 @@ export const Profile: React.FC = () => {
     <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body)' }}>
 
       {/* ─ Glass Hero — Elevated with better visual hierarchy ───────────────────────────────────────────────────── */}
-      <div style={{
-        background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-orange-500) 100%)',
-        color: 'var(--text-inverse)',
-        padding: 'var(--s-10) var(--s-8) var(--s-6)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Decorative dual-radial glow overlay */}
-        <div aria-hidden="true" style={{
-          position: 'absolute', inset: 0, opacity: 0.4, pointerEvents: 'none',
-          background: 'radial-gradient(circle at 28% 30%, var(--tls-primary-400) 0%, transparent 50%), radial-gradient(circle at 82% 75%, var(--tls-yellow-300) 0%, transparent 50%)',
-        }} />
-        {/* Soft glow blobs */}
-        <div aria-hidden="true" style={{ position: 'absolute', top: '-30%', left: '-8%', width: 380, height: 380, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-primary-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
-        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-20%', right: '5%',  width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, var(--tls-yellow-300) 0%, transparent 70%)', pointerEvents: 'none', opacity: 0.15 }} />
+      <div className="profile__hero-banner">
+        {/* Decorative glow blobs */}
+        <div aria-hidden="true" className="profile__hero-glow-top" />
+        <div aria-hidden="true" className="profile__hero-glow-bottom" />
 
         {/* Profile glass card — Enhanced with elevated styling */}
-        <div style={{
-          background: 'rgba(255,255,255,0.95)',
-          backdropFilter: 'var(--glass-blur-standard)',
-          WebkitBackdropFilter: 'var(--glass-blur-standard)',
-          border: '1px solid rgba(255,255,255,0.85)',
-          borderRadius: 'var(--r-2xl)',
-          boxShadow: 'var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.98)',
-          padding: 'var(--s-10)',
-          maxWidth: 'var(--container-wide)',
-          margin: '0 auto var(--s-4)',
-          position: 'relative',
-        }}>
+        <div className="profile__card">
           <div style={{ display: 'flex', gap: 'var(--s-6)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
             {/* Avatar — Elevated styling */}
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <div style={{
-                width: 104, height: 104,
-                borderRadius: 'var(--r-2xl)',
-                background: 'linear-gradient(135deg, var(--tls-primary-400) 0%, var(--tls-orange-500) 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: 'var(--shadow-xl), 0 20px 40px rgba(85,161,180,0.25)',
-                overflow: 'hidden',
-                position: 'relative',
-                border: '2px solid rgba(255,255,255,0.3)',
-              }}>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.8rem', letterSpacing: '-0.02em', zIndex: 1 }}>
+            <div className="profile__avatar-wrap">
+              <div className="profile__avatar">
+                <span className="profile__avatar-initials">
                   {USER_MOCK.avatar}
                 </span>
                 {/* Camera hover overlay */}
-                <button style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(0,0,0,0.55)',
-                  backdropFilter: 'blur(4px)',
-                  border: 'none', cursor: 'pointer',
-                  opacity: 0, transition: 'opacity var(--dur-2)',
-                  zIndex: 2,
-                }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0'; }}
-                >
-                  <Camera size={22} color="#fff" />
+                <button className="profile__avatar-camera" aria-label="Modifier la photo de profil">
+                  <Camera size={22} />
                 </button>
               </div>
-              {/* Level badge — Elevated with better prominence */}
-              <div style={{
-                position: 'absolute', bottom: -8, right: -8,
-                width: 40, height: 40,
-                borderRadius: 'var(--r-lg)',
-                background: 'linear-gradient(135deg, var(--tls-orange-500) 0%, var(--tls-yellow-500) 100%)',
-                border: '4px solid #fff',
-                boxShadow: 'var(--shadow-lg), 0 8px 20px rgba(237,132,58,0.5)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: '0.75rem' }}>12</span>
+              {/* Level badge */}
+              <div className="profile__level-badge">
+                <span>12</span>
               </div>
             </div>
 
             {/* Name + meta — Enhanced visual hierarchy */}
             <div style={{ flex: 1, minWidth: 200 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-2)', flexWrap: 'wrap' }}>
-                <h1 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, color: 'var(--text-inverse)', margin: 0, letterSpacing: '-0.02em' }}>
+                <h1 className="profile__name">
                   {displayUser.name}
                 </h1>
-                <Badge variant="sun" style={{ backgroundColor: 'rgba(255,255,255,0.25)', color: '#fff', border: '1px solid rgba(255,255,255,0.4)' }}>Niveau 12</Badge>
+                <Badge variant="brand">Niveau 12</Badge>
               </div>
-              <p style={{ fontSize: 'var(--t-caption)', color: 'rgba(255,255,255,0.85)', margin: '0 0 var(--s-3)', fontWeight: 500 }}>
+              <p className="profile__role">
                 {USER_MOCK.role} · {USER_MOCK.username}
               </p>
 
@@ -217,13 +167,7 @@ export const Profile: React.FC = () => {
                   { icon: <MapPin size={12} />, label: USER_MOCK.location },
                   { icon: <Calendar size={12} />, label: `Membre depuis ${USER_MOCK.joinDate}` },
                 ].map(({ icon, label }) => (
-                  <span key={label} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)',
-                    padding: 'var(--s-1) var(--s-2-5)',
-                    borderRadius: 'var(--r-pill)',
-                    background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                    color: 'var(--text-muted)', fontSize: 'var(--t-micro)', fontWeight: 500,
-                  }}>
+                  <span key={label} className="profile__meta-chip">
                     {icon} {label}
                   </span>
                 ))}
@@ -237,12 +181,7 @@ export const Profile: React.FC = () => {
               {/* Interests */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-1)' }}>
                 {USER_MOCK.interests.map((interest) => (
-                  <span key={interest} style={{
-                    padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-pill)',
-                    background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)',
-                    fontSize: 'var(--t-micro)', fontWeight: 600,
-                    border: '1px solid rgba(85,161,180,0.18)',
-                  }}>
+                  <span key={interest} className="profile__interest-tag">
                     {interest}
                   </span>
                 ))}
@@ -258,19 +197,16 @@ export const Profile: React.FC = () => {
           </div>
 
           {/* Stats row — tls-kpi-icon pattern */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--s-3)',
-            marginTop: 'var(--s-6)', paddingTop: 'var(--s-6)', borderTop: '1px solid var(--border)',
-          }}>
+          <div className="profile__stats-row">
             {STATS.map(({ icon, value, label, iconBg, iconColor, numColor }) => (
-              <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s-1-5)', textAlign: 'center' }}>
+              <div key={label} className="profile__stat">
                 <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor, marginBottom: 'var(--s-1)' }}>
                   {icon}
                 </div>
-                <span style={{ fontSize: 'var(--t-h3)', fontWeight: 800, color: numColor, lineHeight: 1, letterSpacing: '-0.02em' }}>
+                <span className="profile__stat-value" style={{ color: numColor }}>
                   {value}
                 </span>
-                <span style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', fontWeight: 500 }}>
+                <span className="profile__stat-label">
                   {label}
                 </span>
               </div>
@@ -280,15 +216,8 @@ export const Profile: React.FC = () => {
       </div>
 
       {/* ─ Tab bar ──────────────────────────────────────────────────────── */}
-      <div style={{
-        background: 'var(--surface)',
-        borderBottom: '1px solid var(--border)',
-        padding: '0 var(--s-8)',
-        position: 'sticky', top: 0, zIndex: 10,
-      }}>
-        <div role="tablist" aria-label="Sections du profil" style={{
-          display: 'flex', gap: 0, maxWidth: 'var(--container-wide)', margin: '0 auto',
-        }}>
+      <div className="profile__tab-bar">
+        <div role="tablist" aria-label="Sections du profil" className="profile__tab-list">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -298,20 +227,7 @@ export const Profile: React.FC = () => {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveTab(tab.id)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
-                  padding: 'var(--s-4) var(--s-5)',
-                  border: 'none', background: 'transparent',
-                  color: isActive ? 'var(--tls-primary-700)' : 'var(--text-muted)',
-                  fontWeight: isActive ? 700 : 500,
-                  fontSize: 'var(--t-caption)',
-                  cursor: 'pointer',
-                  borderBottom: isActive ? '2px solid var(--tls-primary-500)' : '2px solid transparent',
-                  marginBottom: '-1px',
-                  transition: 'all var(--dur-2)',
-                  fontFamily: 'var(--font-body)',
-                  whiteSpace: 'nowrap',
-                }}
+                className="profile__tab"
               >
                 {tab.icon}
                 {tab.label}
@@ -322,7 +238,7 @@ export const Profile: React.FC = () => {
       </div>
 
       {/* ─ Tab content ──────────────────────────────────────────────────── */}
-      <main style={{ padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
+      <main className="profile__content">
 
         {/* ─ Overview ── */}
         {activeTab === 'overview' && (
@@ -330,11 +246,7 @@ export const Profile: React.FC = () => {
             {/* Top row: info + badges */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-5)' }}>
               {/* Info card */}
-              <div style={{
-                background: 'var(--surface)', border: '1px solid var(--border)',
-                borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-                boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
-              }}>
+              <div className="profile__card-surface">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-4)' }}>
                   <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
                     Informations
@@ -362,11 +274,7 @@ export const Profile: React.FC = () => {
               </div>
 
               {/* Roles & Badges card */}
-              <div style={{
-                background: 'var(--surface)', border: '1px solid var(--border)',
-                borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-                boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
-              }}>
+              <div className="profile__card-surface">
                 <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-4)' }}>
                   Rôles &amp; Badges
                 </h3>
@@ -391,11 +299,7 @@ export const Profile: React.FC = () => {
                   </div>
                 </div>
                 {/* Focus recommandé */}
-                <div style={{
-                  background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, rgba(255,255,255,0.7) 100%)',
-                  border: '1px solid rgba(85,161,180,0.18)',
-                  borderRadius: 'var(--r-xl)', padding: 'var(--s-4)',
-                }}>
+                <div className="profile__focus-box">
                   <p style={{ margin: '0 0 var(--s-1)', fontWeight: 700, fontSize: 'var(--t-caption)', color: 'var(--text)' }}>
                     🎯 Focus recommandé
                   </p>
@@ -407,27 +311,17 @@ export const Profile: React.FC = () => {
             </div>
 
             {/* Week progression card */}
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(85,161,180,0.08) 0%, rgba(248,176,68,0.05) 100%)',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-              boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.9)',
-            }}>
+            <div className="profile__week-card">
               <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-5)' }}>
                 Progression cette semaine
               </h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s-4)' }}>
                 {[
-                  { icon: <Target size={24} />, value: '3/5', label: 'Objectifs atteints', iconColor: 'var(--tls-primary-600)', bg: 'var(--surface)' },
-                  { icon: <Clock3 size={24} />,  value: '12h', label: "Temps d'étude",      iconColor: 'var(--tls-orange-600)',  bg: 'var(--surface)' },
-                  { icon: <Zap size={24} />,      value: '+450', label: 'Points XP gagnés',  iconColor: 'var(--tls-yellow-600)',  bg: 'var(--surface)' },
-                ].map(({ icon, value, label, iconColor, bg }) => (
-                  <div key={label} style={{
-                    background: bg, border: '1px solid var(--border)',
-                    borderRadius: 'var(--r-xl)', padding: 'var(--s-5)',
-                    textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s-2)',
-                    boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.95)',
-                  }}>
+                  { icon: <Target size={24} />, value: '3/5', label: 'Objectifs atteints', iconColor: 'var(--tls-primary-600)' },
+                  { icon: <Clock3 size={24} />,  value: '12h', label: "Temps d'étude",      iconColor: 'var(--tls-orange-600)' },
+                  { icon: <Zap size={24} />,      value: '+450', label: 'Points XP gagnés',  iconColor: 'var(--tls-yellow-600)' },
+                ].map(({ icon, value, label, iconColor }) => (
+                  <div key={label} className="profile__week-kpi">
                     <div style={{ color: iconColor }}>{icon}</div>
                     <span style={{ fontSize: 'var(--t-h3)', fontWeight: 800, color: iconColor, lineHeight: 1, letterSpacing: '-0.02em' }}>
                       {value}
@@ -448,19 +342,12 @@ export const Profile: React.FC = () => {
             {ACTIVITY.map((item) => {
               const s = ACTIVITY_STYLES[item.variant];
               return (
-                <div key={item.id} style={{
-                  background: 'var(--surface)', border: '1px solid var(--border)',
-                  borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)',
-                  display: 'flex', alignItems: 'center', gap: 'var(--s-4)',
-                  boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.9)',
-                  transition: 'transform var(--dur-2), box-shadow var(--dur-2)',
-                }}>
+                <div key={item.id} className="profile__activity-item">
                   {/* Tone-colored icon bubble */}
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 'var(--r-lg)',
-                    background: s.bg, border: `1px solid ${s.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: s.color, flexShrink: 0,
+                  <div className="profile__activity-icon" style={{
+                    background: s.bg,
+                    border: `1px solid ${s.border}`,
+                    color: s.color,
                   }}>
                     {item.icon}
                   </div>
@@ -483,17 +370,7 @@ export const Profile: React.FC = () => {
         {activeTab === 'badges' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--s-4)' }}>
             {BADGES.map((badge) => (
-              <div key={badge.id} style={{
-                background: badge.earned
-                  ? 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8))'
-                  : 'var(--surface-muted)',
-                border: badge.earned ? '1px solid rgba(85,161,180,0.18)' : '1px dashed var(--border)',
-                borderRadius: 'var(--r-2xl)', padding: 'var(--s-6)',
-                textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s-3)',
-                opacity: badge.earned ? 1 : 0.65,
-                boxShadow: badge.earned ? 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.95)' : 'none',
-                transition: 'all var(--dur-2)',
-              }}>
+              <div key={badge.id} className={`profile__badge-card ${badge.earned ? 'profile__badge-card--earned' : 'profile__badge-card--locked'}`}>
                 <span style={{ fontSize: '2.5rem' }}>{badge.emoji}</span>
                 <div>
                   <p style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
@@ -527,11 +404,7 @@ export const Profile: React.FC = () => {
         {activeTab === 'skills' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
             {/* Competency Matrix — visual overview of skill levels */}
-            <div style={{
-              background: 'var(--surface)', border: '1px solid var(--border)',
-              borderRadius: 'var(--r-xl)', padding: 'var(--s-5)',
-              boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.9)',
-            }}>
+            <div className="profile__matrix-card">
               <h3 style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-1)' }}>
                 Matrice de compétences
               </h3>
@@ -544,30 +417,30 @@ export const Profile: React.FC = () => {
               />
             </div>
 
-            {/* Existing progress bars */}
-            {SKILLS.map((skill) => (
-              <div key={skill.id} style={{
-                background: 'var(--surface)', border: '1px solid var(--border)',
-                borderRadius: 'var(--r-xl)', padding: 'var(--s-5)',
-                boxShadow: 'var(--shadow-xs), inset 0 1px 0 rgba(255,255,255,0.9)',
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-3)' }}>
-                  <span style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                    {skill.label}
-                  </span>
-                  <span style={{
-                    fontSize: 'var(--t-body-sm)', fontWeight: 800,
-                    color: skill.value >= 90 ? 'var(--tls-primary-700)' : 'var(--tls-orange-600)',
-                  }}>
-                    {skill.value}%
-                  </span>
+            {/* Skill bars */}
+            {SKILLS.map((skill) => {
+              const skillTone: 'brand' | 'warm' | 'sun' =
+                skill.fill === 'warm' ? 'warm' :
+                skill.fill === 'gradient' ? 'sun' :
+                'brand';
+              const levelLabel =
+                skill.value >= 90 ? 'Niveau expert' :
+                skill.value >= 75 ? 'Progression avancée' :
+                'En développement';
+              return (
+                <div key={skill.id} className="profile__skill-card">
+                  <SkillBar
+                    label={skill.label}
+                    value={skill.value}
+                    tone={skillTone}
+                    showValue
+                  />
+                  <p style={{ margin: 'var(--s-3) 0 0', fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>
+                    {levelLabel}
+                  </p>
                 </div>
-                <ProgressBar value={skill.value} size="md" fill={skill.fill} valueLabel={false} />
-                <p style={{ margin: 'var(--s-2) 0 0', fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>
-                  {skill.value >= 90 ? '🏆 Niveau expert' : skill.value >= 75 ? '📈 Progression avancée' : '📚 En développement'}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

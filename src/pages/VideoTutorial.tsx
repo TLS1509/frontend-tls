@@ -85,7 +85,7 @@ export const VideoTutorial: React.FC = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: "#fff",
+        background: "var(--surface)",
         fontFamily: "var(--font-body)",
         display: "flex",
         flexDirection: "column",
@@ -213,7 +213,7 @@ export const VideoTutorial: React.FC = () => {
                   padding: "var(--s-1) var(--s-3)",
                   borderRadius: "var(--r-pill)",
                   background: "var(--tls-primary-50)",
-                  border: "1px solid rgba(85,161,180,0.25)",
+                  border: "1px solid var(--overlay-brand-sm)",
                   color: "var(--tls-primary-700)",
                   fontSize: "var(--t-micro)",
                   fontWeight: 800,
@@ -253,7 +253,7 @@ export const VideoTutorial: React.FC = () => {
           <div
             style={{
               flex: 1,
-              background: "linear-gradient(160deg, #0f1623 0%, #1a2438 50%, #0d1a2e 100%)",
+              background: "var(--video-grad-brand)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -267,7 +267,7 @@ export const VideoTutorial: React.FC = () => {
                 position: "absolute",
                 inset: 0,
                 background:
-                  "radial-gradient(ellipse at 30% 40%, rgba(85,161,180,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, rgba(237,132,58,0.08) 0%, transparent 50%)",
+                  "radial-gradient(ellipse at 30% 40%, var(--overlay-brand-md) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, var(--overlay-brand-xs) 0%, transparent 50%)",
               }}
             />
 
@@ -278,7 +278,7 @@ export const VideoTutorial: React.FC = () => {
                   position: "absolute",
                   top: "var(--s-4)",
                   left: "var(--s-5)",
-                  background: "rgba(0,0,0,0.55)",
+                  background: "var(--overlay-black-sm)",
                   backdropFilter: "blur(8px)",
                   color: 'var(--text-inverse)',
                   fontSize: "var(--t-caption)",
@@ -302,7 +302,7 @@ export const VideoTutorial: React.FC = () => {
                 height: "72px",
                 borderRadius: "50%",
                 background: playing
-                  ? "rgba(255,255,255,0.15)"
+                  ? "var(--on-color-fill-sm)"
                   : "var(--tls-primary-500)",
                 border: "none",
                 display: "flex",
@@ -311,7 +311,7 @@ export const VideoTutorial: React.FC = () => {
                 cursor: "pointer",
                 boxShadow: playing
                   ? "none"
-                  : "0 0 0 12px rgba(85,161,180,0.18), 0 8px 32px rgba(85,161,180,0.4)",
+                  : "0 0 0 12px var(--overlay-brand-lg), var(--shadow-brand-md)",
                 transition: "all 0.3s cubic-bezier(0.2,0,0,1)",
               }}
               onMouseEnter={(e) => {
@@ -333,7 +333,7 @@ export const VideoTutorial: React.FC = () => {
                     style={{
                       width: "4px",
                       height: "22px",
-                      background: "#fff",
+                      background: "var(--on-color-text-main)",
                       borderRadius: "2px",
                     }}
                   />
@@ -341,13 +341,13 @@ export const VideoTutorial: React.FC = () => {
                     style={{
                       width: "4px",
                       height: "22px",
-                      background: "#fff",
+                      background: "var(--on-color-text-main)",
                       borderRadius: "2px",
                     }}
                   />
                 </div>
               ) : (
-                <Play size={28} color="#fff" fill="#fff" style={{ marginLeft: "3px" }} />
+                <Play size={28} color="var(--on-color-text-main)" fill="var(--on-color-text-main)" style={{ marginLeft: "3px" }} />
               )}
             </button>
 
@@ -357,7 +357,7 @@ export const VideoTutorial: React.FC = () => {
                 position: "absolute",
                 bottom: "var(--s-4)",
                 right: "var(--s-5)",
-                background: "rgba(0,0,0,0.6)",
+                background: "var(--overlay-black-md)",
                 backdropFilter: "blur(4px)",
                 color: 'var(--text-inverse)',
                 fontSize: "var(--t-caption)",
@@ -423,7 +423,7 @@ export const VideoTutorial: React.FC = () => {
                     gap: "var(--s-3)",
                     width: "100%",
                     padding: "var(--s-3) var(--s-5)",
-                    background: isActive ? "#fff" : "transparent",
+                    background: isActive ? "var(--surface)" : "transparent",
                     border: "none",
                     borderLeft: isActive
                       ? "3px solid var(--tls-primary-500)"
@@ -434,7 +434,7 @@ export const VideoTutorial: React.FC = () => {
                     transition: "all 0.15s",
                   }}
                   onMouseEnter={(e) => {
-                    if (!isActive) e.currentTarget.style.background = "rgba(0,0,0,0.03)";
+                    if (!isActive) e.currentTarget.style.background = "var(--overlay-dark-xs)";
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) e.currentTarget.style.background = "transparent";

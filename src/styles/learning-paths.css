@@ -388,7 +388,7 @@
 
 .parcours-filter-pill:hover {
   transform: translateY(-1px);
-  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
+  border-color: var(--overlay-brand-2xl); /* no direct token for 0.4 */
   color: var(--tls-primary-700);
 }
 
@@ -451,26 +451,26 @@
   border-radius: var(--r-2xl);
   color: var(--text-inverse);
   background: linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-700));
-  box-shadow: 0 12px 32px rgba(85, 161, 180, 0.28);
+  box-shadow: var(--shadow-brand-card);
   overflow: hidden;
 }
 
 .learning-path-detail-header.primary-color {
   background: linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-700));
-  box-shadow: 0 12px 32px rgba(85, 161, 180, 0.28);
+  box-shadow: var(--shadow-brand-card);
 }
 
 .learning-path-detail-header.warm-color,
 .learning-path-detail-header.secondary-color {
   background: linear-gradient(135deg, var(--secondary), var(--secondary-hover));
-  box-shadow: 0 12px 32px rgba(237, 132, 58, 0.28);
+  box-shadow: var(--shadow-warm-card);
 }
 
 .learning-path-detail-header.sun-color,
 .learning-path-detail-header.accent-color {
   background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   color: var(--text);
-  box-shadow: 0 12px 32px rgba(248, 176, 68, 0.3);
+  box-shadow: var(--shadow-sun-card);
 }
 
 .learning-path-detail-header::after {
@@ -770,13 +770,13 @@
 
 .learning-path-detail-container .learning-path-step-card.warm-color .learning-path-step-number {
   background: linear-gradient(135deg, var(--secondary), var(--secondary-hover));
-  box-shadow: 0 4px 12px rgba(237, 132, 58, 0.25);
+  box-shadow: var(--shadow-warm-sm);
 }
 
 .learning-path-detail-container .learning-path-step-card.sun-color .learning-path-step-number {
   background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   color: var(--text);
-  box-shadow: 0 4px 12px rgba(248, 176, 68, 0.25);
+  box-shadow: var(--shadow-warm-sm);
 }
 
 .learning-path-step-card.locked .learning-path-step-number {
@@ -861,7 +861,7 @@
 }
 
 .learning-path-step-toggle:hover:not(:disabled) {
-  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
+  border-color: var(--overlay-brand-2xl); /* no direct token for 0.4 */
   color: var(--tls-primary-700);
   background: var(--overlay-brand-sm);
 }
@@ -911,7 +911,7 @@
 }
 
 .learning-path-lesson-item:hover {
-  border-color: rgba(85, 161, 180, 0.4); /* no direct token for 0.4 */
+  border-color: var(--overlay-brand-2xl); /* no direct token for 0.4 */
 }
 
 .learning-path-lesson-item.completed {
@@ -1004,11 +1004,11 @@
 }
 
 .learning-path-step-card.warm-color .learning-path-lesson-item:hover {
-  border-color: rgba(237, 132, 58, 0.4);
+  border-color: var(--overlay-orange-xl);
 }
 
 .learning-path-step-card.sun-color .learning-path-lesson-item:hover {
-  border-color: rgba(248, 176, 68, 0.4);
+  border-color: var(--overlay-warm-2xl);
 }
 
 /* --- COMPLEMENTARY GRID --- */

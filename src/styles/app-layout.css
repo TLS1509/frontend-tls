@@ -178,7 +178,7 @@
     top: 0;
     height: 100vh;
     z-index: 200;
-    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-start-md);
   }
 
   .app-shell__sidebar-wrapper--closed {

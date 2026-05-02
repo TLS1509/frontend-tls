@@ -1,16 +1,30 @@
+/* MetaItem — Inline metadata: label + value row */
+
 .tls-meta-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: var(--s-3) 0;
   border-bottom: 1px solid var(--border);
+  gap: var(--s-4);
 }
 
 .tls-meta-item:last-child {
   border-bottom: none;
 }
 
+/* ── Icon inside label ── */
+.tls-meta-item__icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: var(--s-2);
+  color: var(--text-soft);
+}
+
+/* ── Label ── */
 .tls-meta-item__label {
+  display: flex;
+  align-items: center;
   font-size: var(--t-caption);
   font-weight: 600;
   color: var(--text-muted);
@@ -18,8 +32,41 @@
   letter-spacing: 0.05em;
 }
 
+/* ── Value ── */
 .tls-meta-item__value {
   font-size: var(--t-body-sm);
   color: var(--text);
   font-weight: 500;
+  text-align: right;
+}
+
+/* ── Size: sm ── */
+.tls-meta-item--sm {
+  padding: var(--s-2) 0;
+}
+
+.tls-meta-item--sm .tls-meta-item__label {
+  font-size: var(--t-micro);
+}
+
+.tls-meta-item--sm .tls-meta-item__value {
+  font-size: var(--t-caption);
+}
+
+/* ── Tone: brand ── */
+.tls-meta-item--brand .tls-meta-item__label {
+  color: var(--tls-primary-600);
+}
+
+.tls-meta-item--brand .tls-meta-item__icon {
+  color: var(--tls-primary-500);
+}
+
+/* ── Tone: warm ── */
+.tls-meta-item--warm .tls-meta-item__label {
+  color: var(--tls-orange-600);
+}
+
+.tls-meta-item--warm .tls-meta-item__icon {
+  color: var(--tls-orange-500);
 }

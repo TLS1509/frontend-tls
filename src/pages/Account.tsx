@@ -242,7 +242,7 @@ const SecurityTab: React.FC = () => {
               gap: 'var(--s-4)',
               padding: 'var(--s-5) 0',
               borderBottom: i < SESSIONS.length - 1 ? '1px solid var(--border-light)' : 'none',
-              background: session.current ? 'rgba(85,161,180,0.04)' : 'transparent',
+              background: session.current ? 'var(--tls-primary-50)' : 'transparent',
               marginLeft: '-var(--s-6)',
               marginRight: '-var(--s-6)',
               paddingLeft: 'var(--s-6)',
@@ -349,7 +349,7 @@ const BillingTab: React.FC = () => (
           background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
           border: '1.5px solid var(--tls-primary-200)',
           marginBottom: 'var(--s-6)',
-          boxShadow: 'var(--shadow-md), 0 8px 24px rgba(85,161,180,0.15)',
+          boxShadow: 'var(--shadow-md), var(--shadow-brand-xs)',
           transition: 'all var(--dur-2)'
         }}>
           <div>

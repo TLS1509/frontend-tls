@@ -52,7 +52,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     icon: <BookOpen size={28} strokeWidth={1.5} />,
     color: 'var(--tls-orange-500)',
     checkBg: 'var(--tls-orange-500)',
-    cardBgTint: 'linear-gradient(135deg, #fff 70%, #fff7f0 100%)',
+    cardBgTint: 'linear-gradient(135deg, var(--surface) 70%, var(--tls-orange-50) 100%)',
     question: "Qu'ai-je appris aujourd'hui ?",
     bodyPlaceholder: "Décrivez ce que vous avez découvert, compris ou expérimenté dans vos cours...",
   },
@@ -61,7 +61,7 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
     icon: <Target size={28} strokeWidth={1.5} />,
     color: 'var(--tls-orange-500)',
     checkBg: 'var(--tls-orange-500)',
-    cardBgTint: 'linear-gradient(135deg, #fff 70%, #fff7f0 100%)',
+    cardBgTint: 'linear-gradient(135deg, var(--surface) 70%, var(--tls-orange-50) 100%)',
     question: 'Quels insights ai-je tirés de ma session ?',
     bodyPlaceholder: 'Notez les prises de conscience, actions à mettre en place, objectifs clarifiés...',
   },
@@ -109,7 +109,7 @@ export const JournalNewEntry: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: 'var(--bg)',
         fontFamily: 'var(--font-body)',
         display: 'flex',
         flexDirection: 'column',
@@ -122,7 +122,7 @@ export const JournalNewEntry: React.FC = () => {
           alignItems: 'center',
           padding: 'var(--s-4) var(--s-6)',
           borderBottom: '1px solid var(--border)',
-          background: '#fff',
+          background: 'var(--surface)',
           position: 'sticky',
           top: 0,
           zIndex: 10,
@@ -271,24 +271,24 @@ export const JournalNewEntry: React.FC = () => {
                     gap: 'var(--s-3)',
                     padding: 'var(--s-4)',
                     borderRadius: 'var(--r-xl)',
-                    background: '#fff',
+                    background: 'var(--surface)',
                     border: isSelected
                       ? `1.5px solid ${tc.color}`
-                      : '1.5px solid rgba(0,0,0,0.08)',
+                      : '1.5px solid var(--border)',
                     cursor: 'pointer',
                     position: 'relative',
                     transition: 'all var(--dur-2)',
                     fontFamily: 'var(--font-body)',
                     textAlign: 'left',
                     boxShadow: isSelected
-                      ? `0 2px 12px rgba(0,0,0,0.06)`
-                      : '0 1px 4px rgba(0,0,0,0.04)',
+                      ? 'var(--shadow-sm)'
+                      : 'var(--shadow-xs)',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isSelected) e.currentTarget.style.borderColor = 'rgba(0,0,0,0.2)';
+                    if (!isSelected) e.currentTarget.style.borderColor = 'var(--border-strong)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isSelected) e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)';
+                    if (!isSelected) e.currentTarget.style.borderColor = 'var(--border)';
                   }}
                 >
                   {/* Checkmark badge */}
@@ -307,7 +307,7 @@ export const JournalNewEntry: React.FC = () => {
                         justifyContent: 'center',
                       }}
                     >
-                      <CheckCircle2 size={14} color="#fff" strokeWidth={2.5} />
+                      <CheckCircle2 size={14} color="var(--on-color-text-main)" strokeWidth={2.5} />
                     </div>
                   )}
 
@@ -344,7 +344,7 @@ export const JournalNewEntry: React.FC = () => {
               padding: 'var(--s-2) var(--s-4-5)',
               borderRadius: 'var(--r-full)',
               background: 'var(--tls-orange-50)',
-              border: '1px solid rgba(237,132,58,0.3)',
+              border: '1px solid var(--tls-orange-200)',
               color: 'var(--tls-orange-600)',
               fontSize: 'var(--t-sm)',
               fontWeight: 600,
@@ -363,11 +363,11 @@ export const JournalNewEntry: React.FC = () => {
         {/* ─ Writing area ──────────────────────────────────────────── */}
         <div
           style={{
-            background: cfg.cardBgTint || '#fff',
-            border: '1px solid rgba(0,0,0,0.07)',
+            background: cfg.cardBgTint || 'var(--surface)',
+            border: '1px solid var(--border)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-7)',
-            boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
           {/* Reflection question */}

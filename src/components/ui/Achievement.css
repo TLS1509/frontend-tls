@@ -6,12 +6,12 @@
 .tls-achievement {
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  border-radius: var(--tls-border-radius-lg, 8px);
-  border: 2px solid var(--tls-primary-200, #b3d9e6);
-  background-color: var(--tls-primary-50, #e8f5f9);
-  transition: all 0.2s ease;
+  gap: var(--s-6);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  border: 2px solid var(--tls-primary-200);
+  background-color: var(--tls-primary-50);
+  transition: all var(--dur-2) var(--ease-standard);
   cursor: default;
 }
 
@@ -29,11 +29,11 @@
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, var(--tls-primary-500, #55a1b4), var(--tls-primary-600, #3d7a8d));
+  width: var(--s-12);
+  height: var(--s-12);
+  background: linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-600));
   border-radius: 50%;
-  box-shadow: var(--tls-shadow-lg, 0 10px 25px rgba(0,0,0,0.1));
+  box-shadow: var(--shadow-brand-sm);
   color: white;
 }
 
@@ -44,12 +44,12 @@
   font-size: 1rem;
   background: white;
   border-radius: 50%;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: var(--s-6);
+  height: var(--s-6);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--tls-shadow-md, 0 4px 12px rgba(0,0,0,0.08));
+  box-shadow: var(--shadow-sm);
 }
 
 /* ============================================================================
@@ -66,14 +66,14 @@
   font-family: var(--typography-heading-font-family, 'League Spartan', sans-serif);
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--tls-ink-900, #1a1a1a);
+  color: var(--text);
   line-height: 1.2;
 }
 
 .tls-achievement__description {
   margin: 0 0 0.75rem 0;
   font-size: 0.875rem;
-  color: var(--tls-ink-600, #666);
+  color: var(--text-muted);
   line-height: 1.5;
 }
 
@@ -90,7 +90,7 @@
 .tls-achievement__progress-bar {
   flex: 1;
   height: 6px;
-  background-color: var(--tls-ink-100, #e5e5e5);
+  background-color: var(--tls-ink-100);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -99,16 +99,16 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    var(--tls-primary-500, #55a1b4),
-    var(--tls-secondary-500, #ed843a)
+    var(--tls-primary-500),
+    var(--tls-secondary-500, var(--tls-orange-500))
   );
-  transition: width 0.3s ease;
+  transition: width var(--dur-3) var(--ease-standard);
 }
 
 .tls-achievement__progress-text {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--tls-ink-600, #666);
+  color: var(--text-muted);
   white-space: nowrap;
   font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
@@ -120,7 +120,7 @@
 .tls-achievement__unlocked-date {
   margin: 0;
   font-size: 0.75rem;
-  color: var(--tls-primary-600, #3d7a8d);
+  color: var(--tls-primary-600);
   font-weight: 500;
 }
 
@@ -129,14 +129,14 @@
    ============================================================================ */
 
 .tls-achievement--sm {
-  padding: 1rem;
-  gap: 1rem;
+  padding: var(--s-4);
+  gap: var(--s-4);
 }
 
 .tls-achievement--sm .tls-achievement__icon {
   font-size: 1.75rem;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: var(--s-10);
+  height: var(--s-10);
 }
 
 .tls-achievement--sm .tls-achievement__title {
@@ -148,14 +148,14 @@
 }
 
 .tls-achievement--lg {
-  padding: 2rem;
-  gap: 2rem;
+  padding: var(--s-8);
+  gap: var(--s-8);
 }
 
 .tls-achievement--lg .tls-achievement__icon {
   font-size: 3.5rem;
-  width: 4rem;
-  height: 4rem;
+  width: var(--s-16);
+  height: var(--s-16);
 }
 
 .tls-achievement--lg .tls-achievement__title {
@@ -172,42 +172,42 @@
 
 /* UNLOCKED - Primary/Success state */
 .tls-achievement--unlocked {
-  border-color: var(--tls-primary-200, #b3d9e6);
-  background-color: var(--tls-primary-50, #e8f5f9);
+  border-color: var(--tls-primary-200);
+  background-color: var(--tls-primary-50);
 }
 
 .tls-achievement--unlocked .tls-achievement__icon {
-  background: linear-gradient(135deg, var(--tls-primary-500, #55a1b4), var(--tls-primary-600, #3d7a8d));
+  background: linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-600));
 }
 
 /* LOCKED - Disabled/Muted state */
 .tls-achievement--locked {
-  border-color: var(--tls-ink-100, #e5e5e5);
-  background-color: var(--tls-ink-50, #f9f9f9);
+  border-color: var(--tls-ink-100);
+  background-color: var(--tls-ink-50);
   opacity: 0.6;
 }
 
 .tls-achievement--locked .tls-achievement__icon {
   background: linear-gradient(135deg, var(--tls-ink-300, #d0d0d0), var(--tls-ink-400, #b0b0b0));
-  color: var(--tls-ink-600, #666);
+  color: var(--text-muted);
 }
 
 .tls-achievement--locked .tls-achievement__title {
-  color: var(--tls-ink-700, #444);
+  color: var(--text-soft);
 }
 
 .tls-achievement--locked .tls-achievement__description {
-  color: var(--tls-ink-500, #999);
+  color: var(--text-muted);
 }
 
 /* IN-PROGRESS - Warning/Progress state */
 .tls-achievement--in-progress {
-  border-color: var(--tls-secondary-200, #fdd9c2);
-  background-color: var(--tls-secondary-50, #fff8f3);
+  border-color: var(--tls-orange-200, var(--tls-secondary-200));
+  background-color: var(--tls-orange-50, var(--tls-secondary-50));
 }
 
 .tls-achievement--in-progress .tls-achievement__icon {
-  background: linear-gradient(135deg, var(--tls-secondary-500, #ed843a), var(--tls-secondary-600, #d46a1f));
+  background: linear-gradient(135deg, var(--tls-orange-500), var(--tls-orange-600));
 }
 
 /* ============================================================================
@@ -216,12 +216,12 @@
 
 .tls-achievement--clickable {
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--dur-2) var(--ease-standard);
 }
 
 .tls-achievement--clickable:hover {
   transform: translateY(-2px);
-  box-shadow: var(--tls-shadow-lg, 0 10px 25px rgba(0,0,0,0.1));
+  box-shadow: var(--shadow-brand-sm);
 }
 
 .tls-achievement--clickable:active {
@@ -229,7 +229,7 @@
 }
 
 .tls-achievement--clickable:focus-visible {
-  outline: 2px solid var(--tls-primary-500, #55a1b4);
+  outline: 2px solid var(--tls-primary-500);
   outline-offset: 2px;
 }
 
@@ -239,8 +239,8 @@
 
 @media (max-width: 480px) {
   .tls-achievement {
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--s-4);
+    gap: var(--s-4);
     flex-direction: column;
     text-align: center;
   }
@@ -250,8 +250,8 @@
   }
 
   .tls-achievement__icon {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: var(--s-10);
+    height: var(--s-10);
     font-size: 1.75rem;
   }
 

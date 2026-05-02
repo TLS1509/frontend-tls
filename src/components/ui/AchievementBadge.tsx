@@ -63,7 +63,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: isLocked ? 'none' : `0 8px 24px ${isLocked ? 'rgba(0,0,0,0.1)' : 'rgba(85, 161, 180, 0.25)'}`,
+          boxShadow: isLocked ? 'none' : 'var(--shadow-brand-sm)',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -148,22 +148,22 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
             marginTop: 'var(--s-4)',
             padding: 'var(--s-3) var(--s-5)',
             background: color,
-            color: 'white',
+            color: 'var(--text-inverse)',
             border: 'none',
             borderRadius: 'var(--r-md)',
             fontSize: 'var(--t-caption)',
             fontWeight: '600',
             cursor: 'pointer',
             transition: 'all var(--dur-2) var(--ease-standard)',
-            boxShadow: `0 4px 12px ${isLocked ? 'rgba(0,0,0,0.1)' : 'rgba(85, 161, 180, 0.3)'}`,
+            boxShadow: isLocked ? 'none' : 'var(--shadow-brand-sm)',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = `0 6px 16px rgba(85, 161, 180, 0.4)`;
+            e.currentTarget.style.boxShadow = 'var(--shadow-brand-md)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = `0 4px 12px rgba(85, 161, 180, 0.3)`;
+            e.currentTarget.style.boxShadow = 'var(--shadow-brand-sm)';
           }}
         >
           Share Achievement

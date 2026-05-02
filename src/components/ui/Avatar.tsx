@@ -1,16 +1,20 @@
 import React from 'react';
+import './Avatar.css';
 
 /**
  * Avatar — Source of truth: design-system/spec.json → components.Avatar
  *
  * User representation. Either image or initials. Never generic placeholder.
  * Sizes: xs/sm/md/lg/xl. Tints: brand (default), warm, sun, ink.
+ * Shape: circle (default) | square.
  * Optional status dot: online (default), busy, away.
+ * Optional level badge overlay via .avatar__level child.
  */
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarTint = 'brand' | 'warm' | 'sun' | 'ink';
 export type AvatarStatus = 'online' | 'busy' | 'away';
+export type AvatarShape = 'circle' | 'square';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   src?: string;
@@ -21,8 +25,11 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   initials?: string;
   size?: AvatarSize;
   tint?: AvatarTint;
+  shape?: AvatarShape;
   /** Show status dot at bottom-right */
   status?: AvatarStatus;
+  /** Optional numeric level badge overlay (e.g. 12) */
+  level?: number;
 }
 
 const TINTS: AvatarTint[] = ['brand', 'warm', 'sun', 'ink'];
@@ -49,7 +56,9 @@ export const Avatar: React.FC<AvatarProps> = ({
   initials,
   size = 'md',
   tint,
+  shape = 'circle',
   status,
+  level,
   className = '',
   ...rest
 }) => {
@@ -60,6 +69,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     'avatar',
     size !== 'md' && `avatar--${size}`,
     resolvedTint !== 'brand' && `avatar--${resolvedTint}`,
+    shape === 'square' && 'avatar--square',
     className,
   ]
     .filter(Boolean)
@@ -73,6 +83,11 @@ export const Avatar: React.FC<AvatarProps> = ({
           className={`avatar__dot${status !== 'online' ? ` avatar__dot--${status}` : ''}`}
           aria-label={status}
         />
+      )}
+      {level !== undefined && (
+        <span className="avatar__level" aria-hidden="true">
+          {level}
+        </span>
       )}
     </span>
   );

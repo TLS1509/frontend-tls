@@ -1,4 +1,5 @@
 import React from 'react';
+import './Breadcrumb.css';
 
 /**
  * Breadcrumb — Source of truth: design-system/spec.json → components.Breadcrumb
@@ -16,17 +17,19 @@ export interface BreadcrumbItem {
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   items: BreadcrumbItem[];
   separator?: React.ReactNode;
+  sticky?: boolean;
 }
 
 export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items,
   separator = '/',
+  sticky = false,
   className = '',
   ...rest
 }) => (
   <nav
     aria-label="Fil d'Ariane"
-    className={['breadcrumb', className].filter(Boolean).join(' ')}
+    className={['breadcrumb', sticky && 'breadcrumb--sticky', className].filter(Boolean).join(' ')}
     {...rest}
   >
     {items.map((item, idx) => {
@@ -38,7 +41,11 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
               {item.label}
             </span>
           ) : (
-            <a href={item.href ?? '#'} onClick={item.onClick}>
+            <a
+              className="breadcrumb__link"
+              href={item.href ?? '#'}
+              onClick={item.onClick}
+            >
               {item.label}
             </a>
           )}

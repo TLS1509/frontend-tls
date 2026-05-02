@@ -28,7 +28,8 @@
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--border);
+  border: 2px solid var(--tls-primary-200);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,7 +138,7 @@
 
 .tls-profile-card__social-link:hover {
   background: var(--tls-primary-500);
-  color: white;
+  color: var(--on-color-text-main);
   transform: translateY(-2px);
 }
 
@@ -155,7 +156,7 @@
 
 .tls-profile-card__cta--primary {
   background: var(--tls-primary-500);
-  color: white;
+  color: var(--on-color-text-main);
 }
 
 .tls-profile-card__cta--primary:hover {
@@ -210,6 +211,7 @@
   width: 96px;
   height: 96px;
   border: 3px solid var(--tls-primary-500);
+  box-shadow: var(--shadow-brand-xs);
 }
 
 .tls-profile-card--featured .tls-profile-card__name {

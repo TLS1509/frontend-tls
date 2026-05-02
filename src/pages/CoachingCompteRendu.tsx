@@ -166,7 +166,7 @@ export const CoachingCompteRendu: React.FC = () => {
         style={{
           background: 'linear-gradient(135deg, var(--tls-primary-800) 0%, var(--tls-primary-600) 60%, var(--tls-primary-500) 100%)',
           padding: 'var(--s-8)',
-          color: '#fff',
+          color: 'var(--on-color-text-main)',
         }}
       >
         {/* Back button */}
@@ -362,7 +362,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   <div style={{
                     flexShrink: 0,
                     width: 44, height: 44, borderRadius: '50%',
-                    background: 'var(--tls-primary-600)', color: '#fff',
+                    background: 'var(--tls-primary-600)', color: 'var(--on-color-text-main)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 'var(--t-body-sm)', fontWeight: 800,
                     boxShadow: 'var(--shadow-sm)',
@@ -400,7 +400,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   <div style={{
                     width: 52, height: 52, borderRadius: '50%', flexShrink: 0,
                     background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-700))',
-                    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'var(--on-color-text-main)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 'var(--t-body)', fontWeight: 800,
                     boxShadow: 'var(--shadow-md)',
                   }}>

@@ -267,8 +267,8 @@ export const WeeklyNewsletter: React.FC = () => {
               gridTemplateColumns: '1fr 1fr',
               borderRadius: 'var(--r-2xl)',
               overflow: 'hidden',
-              border: '1px solid rgba(0,0,0,0.08)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+              border: '1px solid var(--overlay-dark-md)',
+              boxShadow: 'var(--shadow-md)',
             }}
           >
             {/* Left: video thumbnail */}
@@ -289,8 +289,8 @@ export const WeeklyNewsletter: React.FC = () => {
                   width: '52px',
                   height: '52px',
                   borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.2)',
-                  border: '2px solid rgba(255,255,255,0.5)',
+                  background: 'var(--overlay-white-md)',
+                  border: '2px solid var(--overlay-white-lg)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -304,7 +304,7 @@ export const WeeklyNewsletter: React.FC = () => {
                   position: 'absolute',
                   bottom: '12px',
                   right: '12px',
-                  background: 'rgba(0,0,0,0.6)',
+                  background: 'var(--overlay-black-md)',
                   color: 'var(--text-inverse)',
                   fontSize: 'var(--t-caption)',
                   fontWeight: 700,
@@ -419,18 +419,18 @@ export const WeeklyNewsletter: React.FC = () => {
                 style={{
                   borderRadius: 'var(--r-2xl)',
                   overflow: 'hidden',
-                  border: '1px solid rgba(0,0,0,0.08)',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                  border: '1px solid var(--overlay-dark-md)',
+                  boxShadow: 'var(--shadow-sm)',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                 }}
                 onClick={() => navigate('/veille/weekly-news/1')}
               >
@@ -448,7 +448,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     style={{
                       padding: 'var(--s-1) var(--s-2-5)',
                       borderRadius: 'var(--r-full)',
-                      background: 'rgba(255,255,255,0.2)',
+                      background: 'var(--overlay-white-xs)',
                       color: 'var(--text-inverse)',
                       fontSize: 'var(--t-micro)',
                       fontWeight: 700,
@@ -517,15 +517,15 @@ export const WeeklyNewsletter: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 'var(--s-4)',
-                    boxShadow: '0 1px 6px rgba(0,0,0,0.04)',
+                    boxShadow: 'var(--shadow-xs)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)')
+                    (e.currentTarget.style.boxShadow = 'var(--shadow-md)')
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.boxShadow = '0 1px 6px rgba(0,0,0,0.04)')
+                    (e.currentTarget.style.boxShadow = 'var(--shadow-xs)')
                   }
                   onClick={() => navigate('/veille/weekly-news/1')}
                 >
@@ -592,7 +592,7 @@ export const WeeklyNewsletter: React.FC = () => {
                         borderRadius: 'var(--r-lg)',
                         background: isSaved ? 'var(--tls-primary-50)' : 'var(--surface-muted)',
                         border: isSaved
-                          ? '1px solid rgba(85,161,180,0.3)'
+                          ? '1px solid var(--overlay-brand-xl)'
                           : '1px solid var(--border)',
                         color: isSaved ? 'var(--tls-primary-600)' : 'var(--text-muted)',
                         display: 'flex',
@@ -627,7 +627,7 @@ export const WeeklyNewsletter: React.FC = () => {
               width: '52px',
               height: '52px',
               borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)',
+              background: 'var(--overlay-white-xs)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -649,7 +649,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <p
             style={{
               fontSize: 'var(--t-sm)',
-              color: 'rgba(255,255,255,0.8)',
+              color: 'var(--overlay-white-xl)',
               margin: '0 0 var(--s-5)',
             }}
           >
@@ -673,7 +673,7 @@ export const WeeklyNewsletter: React.FC = () => {
                 padding: 'var(--s-3) var(--s-4-5)',
                 borderRadius: 'var(--r-full)',
                 border: 'none',
-                background: 'rgba(255,255,255,0.95)',
+                background: 'var(--glass-fill-premium)',
                 fontSize: 'var(--t-sm)',
                 color: 'var(--text)',
                 outline: 'none',

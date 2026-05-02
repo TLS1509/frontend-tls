@@ -89,6 +89,9 @@ export type {
 export { ProgressBar } from './ui/ProgressBar';
 export type { ProgressBarProps, ProgressSize, ProgressFill } from './ui/ProgressBar';
 
+export { SkillBar } from './ui/SkillBar';
+export type { SkillBarProps } from './ui/SkillBar';
+
 export { ProgressRing } from './ui/ProgressRing';
 export type { ProgressRingProps } from './ui/ProgressRing';
 
@@ -137,6 +140,24 @@ export type {
 export { FloatingNavButton } from './FloatingNavButton';
 
 /* ============================================================================
+ * UI — Utilities & New Components
+ * ============================================================================ */
+export { Spinner } from './ui/Spinner';
+export type { SpinnerProps } from './ui/Spinner';
+
+export { NotificationBadge } from './ui/NotificationBadge';
+export type { NotificationBadgeProps } from './ui/NotificationBadge';
+
+export { Divider } from './ui/Divider';
+export type { DividerProps } from './ui/Divider';
+
+export { KPICard } from './ui/KPICard';
+export type { KPICardProps, KPICardTone, KPICardSize } from './ui/KPICard';
+
+export { StatusBadge } from './ui/StatusBadge';
+export type { StatusBadgeProps, StatusBadgeStatus } from './ui/StatusBadge';
+
+/* ============================================================================
  * Legacy UI Components (pre-spec, kept for backward compatibility)
  * ============================================================================ */
 export { Achievement } from './ui/Achievement';
@@ -178,3 +199,83 @@ export type { HeroSectionProps } from './patterns/HeroSection';
 
 export { ParcoursCard } from './patterns/ParcoursCard';
 export type { ParcoursCardProps, ParcoursTone, ParcoursStatus } from './patterns/ParcoursCard';
+
+export { SectionHeader } from './patterns/SectionHeader';
+
+export { PageHeader } from './patterns/PageHeader';
+
+export { ActivityFeed } from './patterns/ActivityFeed';
+export type { ActivityFeedProps } from './patterns/ActivityFeed';
+
+export { CoachCardGrid } from './patterns/CoachCardGrid';
+export type { CoachCardGridProps } from './patterns/CoachCardGrid';
+
+export { DashboardHero } from './patterns/DashboardHero';
+export type { DashboardHeroProps } from './patterns/DashboardHero';
+
+export { LearningPathGrid } from './patterns/LearningPathGrid';
+export type { LearningPathGridProps } from './patterns/LearningPathGrid';
+
+export { LearningPathHeader } from './patterns/LearningPathHeader';
+export type { LearningPathHeaderProps } from './patterns/LearningPathHeader';
+
+export { MultiStepForm } from './patterns/MultiStepForm';
+export type { MultiStepFormProps, FormStep } from './patterns/MultiStepForm';
+
+export { PageCard } from './patterns/PageCard';
+export type { PageCardItem, PageCardGridProps } from './patterns/PageCard';
+
+export { PageHeaderSimple } from './patterns/PageHeaderSimple';
+
+export { ResourceCardGrid } from './patterns/ResourceCardGrid';
+export type { ResourceCardGridProps } from './patterns/ResourceCardGrid';
+
+export { SettingsSection } from './patterns/SettingsSection';
+
+export { VeilleCardFeed } from './patterns/VeilleCardFeed';
+export type { VeilleCardFeedProps } from './patterns/VeilleCardFeed';
+
+/* ============================================================================
+ * NEW PATTERNS — Phase 3 Critical Patterns
+ * ============================================================================ */
+
+/* Tier 1: Essential Patterns */
+export { FormLayout } from './patterns/FormLayout';
+export type { FormLayoutProps, FormField, FormSection } from './patterns/FormLayout';
+
+export { DataTable } from './patterns/DataTable';
+export type {
+  DataTableProps,
+  DataTableColumn,
+  DataTableRow,
+  SortDirection,
+} from './patterns/DataTable';
+
+export { LessonCard } from './learning/LessonCard';
+export type { LessonCardProps, LessonDifficulty, LessonTone } from './learning/LessonCard';
+
+export { QuizQuestionCard } from './patterns/QuizQuestionCard';
+export type { QuizQuestionCardProps, QuizOption } from './patterns/QuizQuestionCard';
+
+export { TabsWithContent } from './patterns/TabsWithContent';
+export type { TabsWithContentProps, TabWithContent } from './patterns/TabsWithContent';
+
+/* Tier 2: Important Patterns */
+export { Flashcard } from './patterns/Flashcard';
+export type { FlashcardProps } from './patterns/Flashcard';
+
+export { RatingModal } from './patterns/RatingModal';
+export type { RatingModalProps } from './patterns/RatingModal';
+
+export { SearchWithFilters } from './patterns/SearchWithFilters';
+export type {
+  SearchWithFiltersProps,
+  FilterGroup,
+  FilterOption,
+} from './patterns/SearchWithFilters';
+
+export { BreadcrumbNav } from './patterns/BreadcrumbNav';
+export type { BreadcrumbNavProps } from './patterns/BreadcrumbNav';
+
+export { ActivityTimeline } from './patterns/ActivityTimeline';
+export type { ActivityTimelineProps, TimelineItem, TimelineTone } from './patterns/ActivityTimeline';

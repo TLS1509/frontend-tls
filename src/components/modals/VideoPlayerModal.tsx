@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Download, Share2, Clock } from 'lucide-react';
+import './modals.css';
 
 /**
  * VideoPlayerModal — Lecteur vidéo plein écran
@@ -87,26 +88,12 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
       {/* Backdrop */}
       <div
         onClick={handleClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 1010,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.85)',
-          backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-          animation: 'vpBdIn 0.2s ease both',
-        }}
+        className="modal__backdrop"
+        style={{ background: 'rgba(0,0,0,0.85)', animation: 'vpBdIn 0.2s ease both' }}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          style={{
-            position: 'relative', width: '100%', maxWidth: 860,
-            background: 'var(--tls-ink-950, #0f1117)',
-            borderRadius: 'var(--r-2xl)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
-            animation: 'vpIn 0.35s cubic-bezier(.34,1.56,.64,1) both',
-            overflow: 'hidden',
-          }}
+          className="modal--video modal__content"
         >
           {/* Close button */}
           <button
@@ -119,19 +106,14 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               cursor: 'pointer', color: '#fff', zIndex: 10,
               transition: 'all var(--dur-2)',
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.22)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.22)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
           >
             <X size={14} />
           </button>
 
           {/* Video area */}
-          <div style={{
-            position: 'relative',
-            aspectRatio: '16/9',
-            background: '#000',
-            overflow: 'hidden',
-          }}>
+          <div className="modal__video-container">
             {videoUrl ? (
               <video
                 ref={videoRef}
@@ -143,25 +125,10 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               />
             ) : (
               /* Demo poster / placeholder */
-              <div style={{
-                width: '100%', height: '100%',
-                background: 'linear-gradient(135deg, #0f1117 0%, #1a1f2e 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexDirection: 'column', gap: 'var(--s-4)',
-              }}>
+              <div className="modal__video-placeholder">
                 {/* Decorative glow */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'radial-gradient(ellipse at 50% 50%, rgba(85,161,180,0.12) 0%, transparent 70%)',
-                  pointerEvents: 'none',
-                }} />
-                <div style={{
-                  width: 80, height: 80, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  position: 'relative', zIndex: 1,
-                }}>
+                <div className="modal__video-glow" />
+                <div className="modal__video-play-btn">
                   {isPlaying
                     ? <Pause size={32} style={{ color: 'rgba(255,255,255,0.8)' }} />
                     : <Play size={32} style={{ color: 'rgba(255,255,255,0.8)', marginLeft: 4 }} />
@@ -186,45 +153,23 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
           </div>
 
           {/* Controls bar */}
-          <div style={{
-            background: 'rgba(0,0,0,0.6)',
-            backdropFilter: 'blur(12px)',
-            padding: 'var(--s-3) var(--s-4)',
-            display: 'flex', flexDirection: 'column', gap: 'var(--s-2)',
-          }}>
+          <div className="modal__video-controls">
             {/* Progress bar */}
             <div
               onClick={handleSeek}
-              style={{
-                width: '100%', height: 4,
-                background: 'rgba(255,255,255,0.15)',
-                borderRadius: 'var(--r-pill)',
-                cursor: 'pointer', position: 'relative', overflow: 'visible',
-              }}
+              className="modal__progress-bar"
             >
-              <div style={{
-                height: '100%',
-                width: `${progress}%`,
-                background: 'var(--tls-primary-400)',
-                borderRadius: 'var(--r-pill)',
-                transition: 'width 0.1s linear',
-                position: 'relative',
-              }}>
-                <div style={{
-                  position: 'absolute', right: -5, top: '50%', transform: 'translateY(-50%)',
-                  width: 10, height: 10, borderRadius: '50%',
-                  background: '#fff',
-                  boxShadow: '0 0 6px rgba(85,161,180,0.6)',
-                }} />
+              <div className="modal__progress-fill" style={{ width: `${progress}%` }}>
+                <div className="modal__progress-handle" />
               </div>
             </div>
 
             {/* Controls row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-              <button onClick={togglePlay} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center' }}>
+            <div className="modal__controls-row">
+              <button onClick={togglePlay} className="modal__control-btn" style={{ color: '#fff' }}>
                 {isPlaying ? <Pause size={18} /> : <Play size={18} />}
               </button>
-              <button onClick={toggleMute} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center' }}>
+              <button onClick={toggleMute} className="modal__control-btn">
                 {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
               </button>
               <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -232,14 +177,14 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
               </span>
               <div style={{ flex: 1 }} />
               {onDownload && (
-                <button onClick={onDownload} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center' }}>
+                <button onClick={onDownload} className="modal__control-btn">
                   <Download size={15} />
                 </button>
               )}
-              <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center' }}>
+              <button className="modal__control-btn">
                 <Share2 size={15} />
               </button>
-              <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center' }}>
+              <button className="modal__control-btn">
                 <Maximize size={15} />
               </button>
             </div>

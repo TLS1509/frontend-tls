@@ -17,6 +17,7 @@
 
 import React from 'react';
 import { X, Check, CheckCheck } from 'lucide-react';
+import './NotificationCard.css';
 
 export type NotificationType =
   | 'message'
@@ -66,154 +67,75 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 }) => {
   const config = typeConfig[type];
 
+  const cardClasses = [
+    'notification-card',
+    `notification-card--${type}`,
+    !isRead && 'notification-card--unread',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div
       onClick={onClick}
-      className={`group p-4 rounded-2xl cursor-pointer transition-all duration-200 ${className}`}
-      style={{
-        background: isRead ? 'var(--surface)' : config.bg,
-        border: `1px solid ${isRead ? 'var(--border-subtle)' : config.border}`,
-        boxShadow: 'var(--shadow-xs)',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
-      }}
+      className={cardClasses}
     >
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-        {/* Icon or Read Badge */}
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            minWidth: 40,
-            borderRadius: 'var(--r-lg)',
-            background: isRead ? 'var(--surface-muted)' : config.accent,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: isRead ? 'var(--text-muted)' : 'white',
-            fontSize: '1.25rem',
-          }}
-        >
-          {icon || '📬'}
-        </div>
+      {/* Icon or Read Badge */}
+      <div className="notification-card__icon">
+        {icon || '📬'}
+      </div>
 
-        {/* Content */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          {/* Title */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-1)' }}>
-            <h4
-              style={{
-                margin: 0,
-                fontSize: 'var(--t-body-sm)',
-                fontWeight: 600,
-                color: 'var(--text)',
-              }}
-            >
-              {title}
-            </h4>
-            {!isRead && (
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  background: config.accent,
-                  flexShrink: 0,
-                }}
-              />
-            )}
-          </div>
-
-          {/* Message */}
-          <p
-            style={{
-              margin: 0,
-              fontSize: 'var(--t-caption)',
-              color: 'var(--text-muted)',
-              lineHeight: 1.5,
-              marginBottom: 'var(--s-2)',
-            }}
-          >
-            {message}
-          </p>
-
-          {/* Timestamp */}
-          <p
-            style={{
-              margin: 0,
-              fontSize: '0.75rem',
-              color: 'var(--text-muted)',
-              opacity: 0.7,
-            }}
-          >
-            {timestamp}
-          </p>
-        </div>
-
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: 'var(--s-1)', opacity: 0, transition: 'opacity var(--dur-2)' }} className="group-hover:opacity-100">
-          {!isRead && onMarkAsRead && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onMarkAsRead();
-              }}
-              style={{
-                padding: 'var(--s-2)',
-                background: 'none',
-                border: 'none',
-                color: config.accent,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'color var(--dur-2)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = 'var(--tls-primary-500)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = config.accent;
-              }}
-              title="Mark as read"
-            >
-              <Check size={16} />
-            </button>
-          )}
-
-          {onDelete && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete();
-              }}
-              style={{
-                padding: 'var(--s-2)',
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'color var(--dur-2)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = 'var(--tls-danger-base)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
-              }}
-              title="Delete"
-            >
-              <X size={16} />
-            </button>
+      {/* Content */}
+      <div className="notification-card__content">
+        {/* Header with title and unread dot */}
+        <div className="notification-card__header">
+          <h4 className="notification-card__title">
+            {title}
+          </h4>
+          {!isRead && (
+            <div className="notification-card__unread-dot" />
           )}
         </div>
+
+        {/* Message */}
+        <p className="notification-card__message">
+          {message}
+        </p>
+
+        {/* Timestamp */}
+        <p className="notification-card__timestamp">
+          {timestamp}
+        </p>
+      </div>
+
+      {/* Actions */}
+      <div className="notification-card__actions">
+        {!isRead && onMarkAsRead && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onMarkAsRead();
+            }}
+            className="notification-card__action-btn"
+            title="Mark as read"
+          >
+            <Check size={16} />
+          </button>
+        )}
+
+        {onDelete && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="notification-card__action-btn notification-card__action-btn--delete"
+            title="Delete"
+          >
+            <X size={16} />
+          </button>
+        )}
       </div>
     </div>
   );

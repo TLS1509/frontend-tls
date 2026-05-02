@@ -18,6 +18,7 @@
 
 import React from 'react';
 import { BookOpen, Sparkles, BookMarked, Target, Lightbulb, Calendar, Clock } from 'lucide-react';
+import './JournalEntryCard.css';
 
 export type JournalEntryType = 'guided' | 'free' | 'learning' | 'coaching' | 'insight';
 
@@ -53,92 +54,42 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
   const config = typeConfig[type];
   const Icon = config.icon;
 
+  const cardClasses = [
+    'journal-entry-card',
+    `journal-entry-card--${type}`,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div
       onClick={onClick}
-      className={`group p-5 rounded-2xl cursor-pointer transition-all duration-200 ${className}`}
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border-default)',
-        boxShadow: 'var(--shadow-xs)',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
-        e.currentTarget.style.transform = 'translateY(0)';
-      }}
+      className={cardClasses}
     >
       {/* Type Badge */}
-      <div
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 'var(--s-1)',
-          padding: '4px 8px',
-          borderRadius: 'var(--r-md)',
-          background: config.bg,
-          color: config.text,
-          marginBottom: 'var(--s-3)',
-          fontSize: 'var(--t-caption)',
-          fontWeight: 600,
-        }}
-      >
+      <div className="journal-entry-card__badge">
         <Icon size={14} />
         {config.label}
       </div>
 
       {/* Title */}
-      <h3
-        style={{
-          margin: '0 0 var(--s-2)',
-          fontSize: 'var(--t-body)',
-          fontWeight: 600,
-          color: 'var(--text)',
-          lineHeight: 1.4,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-        }}
-      >
+      <h3 className="journal-entry-card__title">
         {title}
       </h3>
 
       {/* Excerpt */}
-      <p
-        style={{
-          margin: '0 0 var(--s-3)',
-          fontSize: 'var(--t-caption)',
-          color: 'var(--text-muted)',
-          lineHeight: 1.5,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-        }}
-      >
+      <p className="journal-entry-card__excerpt">
         {excerpt}
       </p>
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-3)' }}>
+        <div className="journal-entry-card__tags">
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '2px 6px',
-                borderRadius: 'var(--r-xs)',
-                background: 'var(--surface-muted)',
-                color: 'var(--text-muted)',
-                fontSize: '0.75rem',
-                fontWeight: 500,
-              }}
+              className="journal-entry-card__tag"
             >
               #{tag}
             </span>
@@ -147,23 +98,13 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       )}
 
       {/* Metadata */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--s-3)',
-          paddingTop: 'var(--s-3)',
-          borderTop: '1px solid var(--border-subtle)',
-          color: 'var(--text-muted)',
-          fontSize: 'var(--t-caption)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+      <div className="journal-entry-card__metadata">
+        <div className="journal-entry-card__meta-item">
           <Calendar size={14} />
           {date}
         </div>
         {time && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+          <div className="journal-entry-card__meta-item">
             <Clock size={14} />
             {time}
           </div>

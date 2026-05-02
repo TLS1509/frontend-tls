@@ -61,7 +61,7 @@ export const Modal: React.FC<ModalProps> = ({
       >
         {(title || description || showClose) && (
           <div className="modal__head">
-            <div style={{ flex: 1 }}>
+            <div className="modal__head-content">
               {title && (
                 <p id="modal-title" className="modal__title">
                   {title}

@@ -17,15 +17,15 @@ export interface ToneAwareCardProps {
 const TONE_STYLES: Record<Tone, React.CSSProperties> = {
   primary: {
     background: 'var(--tls-primary-50)',
-    border: '1px solid rgba(85, 161, 180, 0.2)',
+    border: '1px solid var(--border-primary)',
   },
   warm: {
     background: 'var(--tls-orange-50)',
-    border: '1px solid rgba(237, 132, 58, 0.2)',
+    border: '1px solid var(--border-warm)',
   },
   sun: {
     background: 'var(--tls-yellow-50)',
-    border: '1px solid rgba(248, 176, 68, 0.25)',
+    border: '1px solid var(--border-sun)',
   },
 };
 

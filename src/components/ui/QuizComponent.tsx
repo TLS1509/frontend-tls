@@ -65,64 +65,19 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
   if (isComplete) {
     const percentage = Math.round((correctCount / questions.length) * 100);
     return (
-      <div style={{ textAlign: 'center', padding: 'var(--s-8)' }}>
-        <h2
-          style={{
-            fontSize: 'var(--t-h2)',
-            fontFamily: 'var(--font-display)',
-            fontWeight: '600',
-            marginBottom: 'var(--s-4)',
-            color: percentage >= 80 ? 'var(--tls-success-base)' : 'var(--text)',
-          }}
-        >
-          {percentage >= 80 ? '🎉' : '📊'} Quiz Complete!
+      <div className="quiz__results">
+        <div className="quiz__results-emoji">{percentage >= 80 ? '🎉' : '📊'}</div>
+        <h2 className={`quiz__results-title${percentage >= 80 ? ' quiz__results-title--success' : ''}`}>
+          Quiz Complete!
         </h2>
-        <div
-          style={{
-            fontSize: '4rem',
-            fontWeight: '700',
-            background: 'linear-gradient(120deg, var(--tls-primary-500), var(--tls-orange-500))',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            marginBottom: 'var(--s-4)',
-          }}
-        >
-          {percentage}%
-        </div>
-        <p
-          style={{
-            fontSize: 'var(--t-body)',
-            color: 'var(--text-muted)',
-            marginBottom: 'var(--s-6)',
-          }}
-        >
+        <div className="quiz__results-score">{percentage}%</div>
+        <p className="quiz__results-text">
           You got {correctCount} out of {questions.length} questions correct.
         </p>
         <button
+          type="button"
+          className="quiz__button quiz__button--primary quiz__button--restart"
           onClick={handleRestart}
-          style={{
-            padding: 'var(--s-4) var(--s-8)',
-            background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-yellow-400))',
-            color: 'white',
-            border: 'none',
-            borderRadius: 'var(--r-lg)',
-            fontSize: 'var(--t-body-sm)',
-            fontWeight: '600',
-            cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(127, 86, 217, 0.2)',
-            transition: 'all var(--dur-2) var(--ease-standard)',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget;
-            el.style.transform = 'translateY(-2px)';
-            el.style.boxShadow = '0 6px 16px rgba(127, 86, 217, 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget;
-            el.style.transform = 'translateY(0)';
-            el.style.boxShadow = '0 4px 12px rgba(127, 86, 217, 0.2)';
-          }}
         >
           🔄 Retake Quiz
         </button>
@@ -131,59 +86,27 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
   }
 
   return (
-    <div>
-      <div style={{ marginBottom: 'var(--s-8)' }}>
-        {/* Question Counter and Emoji */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 'var(--s-6)',
-          }}
-        >
-          <span style={{ fontSize: 'var(--t-caption)', fontWeight: '600', color: 'var(--text-soft)' }}>
+    <div className="quiz-container">
+      <div className="quiz__progress-section">
+        <div className="quiz__counter">
+          <span className="quiz__counter-text">
             Question {current + 1} of {questions.length}
           </span>
-          {showEmojis && <div style={{ fontSize: '1.5rem' }}>{emojis[current % emojis.length]}</div>}
+          {showEmojis && <div className="quiz__emoji">{emojis[current % emojis.length]}</div>}
         </div>
 
-        {/* Progress Bar */}
-        <div
-          style={{
-            height: '6px',
-            width: '100%',
-            backgroundColor: 'var(--border)',
-            borderRadius: '3px',
-            overflow: 'hidden',
-            marginBottom: 'var(--s-8)',
-          }}
-        >
+        <div className="quiz__progress-bar">
           <div
-            style={{
-              height: '100%',
-              width: `${progress}%`,
-              background: 'linear-gradient(90deg, var(--tls-primary-500), var(--tls-yellow-400))',
-              transition: 'width var(--dur-3) var(--ease-standard)',
-            }}
+            className="quiz__progress-fill"
+            style={{ width: `${progress}%` }}
           />
         </div>
+      </div>
 
-        {/* Question Title */}
-        <h3
-          style={{
-            fontSize: 'var(--t-h3)',
-            fontFamily: 'var(--font-display)',
-            fontWeight: '600',
-            marginBottom: 'var(--s-6)',
-            color: 'var(--text)',
-          }}
-        >
-          {currentQuestion.question}
-        </h3>
+      <div className="quiz__question">
+        <h3 className="quiz__question-title">{currentQuestion.question}</h3>
 
-        {/* Options */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+        <div className="quiz__options">
           {currentQuestion.options.map((option, idx) => {
             const isSelected = answered === idx;
             const isCorrect = idx === currentQuestion.correct;
@@ -191,99 +114,44 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({
             return (
               <label
                 key={idx}
-                style={{
-                  padding: 'var(--s-4)',
-                  border: `2px solid ${isSelected ? 'var(--tls-primary-500)' : 'var(--border)'}`,
-                  borderRadius: 'var(--r-lg)',
-                  backgroundColor: isSelected ? 'var(--tls-primary-500)' + '11' : 'transparent',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  transition: 'all var(--dur-2) var(--ease-standard)',
-                  transform: isSelected ? 'scale(1.02)' : 'scale(1)',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isSelected) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-sunken)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isSelected) {
-                    (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
-                  }
-                }}
+                className={[
+                  'quiz__option-label',
+                  isSelected ? 'quiz__option-label--selected' : '',
+                ].filter(Boolean).join(' ')}
               >
                 <input
                   type="radio"
                   name="answer"
+                  className="quiz__option-input"
                   onChange={() => handleAnswer(idx)}
                   checked={isSelected}
-                  style={{
-                    marginRight: 'var(--s-4)',
-                    cursor: 'pointer',
-                    width: '18px',
-                    height: '18px',
-                  }}
                 />
-                <span style={{ fontSize: 'var(--t-body-sm)', fontWeight: '500', color: 'var(--text)', flex: 1 }}>
-                  {option}
-                </span>
-                {isSelected && <span style={{ marginLeft: 'auto', fontSize: '1.25rem' }}>{isCorrect ? '✅' : '❌'}</span>}
+                <span className="quiz__option-text">{option}</span>
+                {isSelected && (
+                  <span className="quiz__option-feedback">
+                    {isCorrect ? '✅' : '❌'}
+                  </span>
+                )}
               </label>
             );
           })}
         </div>
       </div>
 
-      {/* Navigation Buttons */}
-      <div style={{ display: 'flex', gap: 'var(--s-4)', justifyContent: 'space-between' }}>
+      <div className="quiz__navigation">
         <button
+          type="button"
           onClick={handlePrevious}
           disabled={current === 0}
-          style={{
-            padding: 'var(--s-3) var(--s-5)',
-            backgroundColor: 'var(--surface-sunken)',
-            border: `2px solid var(--border)`,
-            borderRadius: 'var(--r-lg)',
-            cursor: current === 0 ? 'not-allowed' : 'pointer',
-            opacity: current === 0 ? 0.5 : 1,
-            fontSize: 'var(--t-body-sm)',
-            fontWeight: '600',
-            transition: 'all var(--dur-2) var(--ease-standard)',
-          }}
+          className="quiz__button quiz__button--secondary"
         >
           ← Previous
         </button>
         <button
+          type="button"
           onClick={handleNext}
           disabled={answered === null}
-          style={{
-            padding: 'var(--s-3) var(--s-5)',
-            background: answered === null ? 'var(--surface-sunken)' : 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-yellow-400))',
-            color: answered === null ? 'var(--text-muted)' : '#fff',
-            border: 'none',
-            borderRadius: 'var(--r-lg)',
-            cursor: answered === null ? 'not-allowed' : 'pointer',
-            fontSize: 'var(--t-body-sm)',
-            fontWeight: '600',
-            opacity: answered === null ? 0.6 : 1,
-            boxShadow: answered === null ? 'none' : '0 4px 12px rgba(127, 86, 217, 0.3)',
-            transition: 'all var(--dur-2) var(--ease-standard)',
-          }}
-          onMouseEnter={(e) => {
-            if (answered !== null) {
-              const el = e.currentTarget;
-              el.style.transform = 'translateY(-2px)';
-              el.style.boxShadow = '0 6px 16px rgba(127, 86, 217, 0.3)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (answered !== null) {
-              const el = e.currentTarget;
-              el.style.transform = 'translateY(0)';
-              el.style.boxShadow = '0 4px 12px rgba(127, 86, 217, 0.3)';
-            }
-          }}
+          className={`quiz__button quiz__button--primary${answered === null ? ' quiz__button--disabled' : ''}`}
         >
           {current === questions.length - 1 ? '🎉 Submit' : 'Next →'}
         </button>

@@ -68,7 +68,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: 'var(--bg)',
         fontFamily: 'var(--font-body)',
         padding: 'var(--s-6) var(--s-8)',
       }}
@@ -155,11 +155,11 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               <div
                 style={{
                   flex: 1,
-                  background: '#fff',
-                  border: '1px solid rgba(0,0,0,0.09)',
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
                   borderRadius: 'var(--r-2xl)',
                   padding: 'var(--s-6)',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
+                  boxShadow: 'var(--shadow-sm)',
                 }}
               >
                 {/* Step label */}
@@ -231,7 +231,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               borderRadius: 'var(--r-full)',
               background: isComplete
                 ? 'var(--tls-primary-500)'
-                : 'rgba(85,161,180,0.35)',
+                : 'var(--tls-primary-200)',
               border: 'none',
               color: 'var(--text-inverse)',
               fontSize: 'var(--t-body)',
@@ -239,9 +239,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
               cursor: isComplete ? 'pointer' : 'not-allowed',
               fontFamily: 'var(--font-body)',
               transition: 'all var(--dur-2)',
-              boxShadow: isComplete
-                ? '0 4px 16px rgba(85,161,180,0.3)'
-                : 'none',
+              boxShadow: isComplete ? 'var(--shadow-brand-xs)' : 'none',
             }}
             onMouseEnter={(e) => {
               if (isComplete) e.currentTarget.style.background = 'var(--tls-primary-600)';

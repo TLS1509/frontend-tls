@@ -1,1 +1,91 @@
-/* Avatar styles are now centralized in /src/styles/tls-components.css (.avatar) */
+/**
+ * Avatar.css
+ *
+ * Extends the base .avatar styles in tls-components.css with:
+ * — Fix hardcoded dot color → use design token
+ * — Square shape variant
+ * — Level badge overlay support
+ * — Ring border on image avatars for polish
+ */
+
+/* ============================================================================
+   ONLINE DOT — fix hardcoded color
+   The default dot (online) was using a hardcoded hex. Use the success token.
+   ============================================================================ */
+
+.avatar__dot {
+  background: var(--tls-success-base); /* was hardcoded #9DBEBA */
+}
+
+/* ============================================================================
+   SHAPE VARIANTS
+   ============================================================================ */
+
+/* Square / rounded-square shape for org/team avatars */
+.avatar--square {
+  border-radius: var(--r-md);
+}
+
+.avatar--square.avatar--xs { border-radius: var(--r-xs); }
+.avatar--square.avatar--sm { border-radius: var(--r-sm); }
+.avatar--square.avatar--lg { border-radius: var(--r-lg); }
+.avatar--square.avatar--xl { border-radius: var(--r-xl); }
+
+/* ============================================================================
+   IMAGE RING — subtle definition around photo avatars
+   ============================================================================ */
+
+.avatar img {
+  box-shadow: inset 0 0 0 1px var(--overlay-dark-md);
+}
+
+/* ============================================================================
+   LEVEL BADGE OVERLAY
+   Rendered as an absolute child .avatar__level inside the avatar.
+   Positioning: bottom-right corner.
+   ============================================================================ */
+
+.avatar__level {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: var(--r-pill);
+  background: var(--tls-primary-600);
+  color: var(--text-inverse);
+  font-family: var(--font-body);
+  font-size: 0.5625rem; /* 9px */
+  font-weight: 800;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--surface);
+  z-index: 2;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.avatar--lg .avatar__level,
+.avatar--xl .avatar__level {
+  min-width: 20px;
+  height: 20px;
+  font-size: var(--t-micro);
+  bottom: -3px;
+  right: -3px;
+}
+
+/* ============================================================================
+   AVATAR GROUP — polish
+   ============================================================================ */
+
+.avatar-group > .avatar {
+  transition: transform var(--dur-1) var(--ease-standard);
+}
+
+.avatar-group > .avatar:hover {
+  transform: translateY(-2px);
+  z-index: 1;
+}

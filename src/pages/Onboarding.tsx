@@ -128,7 +128,7 @@ function StepObjectifs({
 
   return (
     <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'rgba(237, 132, 58, 0.1)', color: 'var(--tls-orange-600)' }}>
+      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)' }}>
         <Target size={28} />
       </div>
       <h2 className="onb-step__title">Vos objectifs d'apprentissage</h2>
@@ -170,7 +170,7 @@ function StepRythme({
 }) {
   return (
     <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'rgba(85, 161, 180, 0.1)', color: 'var(--tls-primary-700)' }}>
+      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)' }}>
         <Clock size={28} />
       </div>
       <h2 className="onb-step__title">Votre rythme d'apprentissage</h2>
@@ -331,15 +331,15 @@ export const Onboarding: React.FC = () => {
         /* Hero / header */
         .onb-hero {
           border-radius: var(--r-2xl);
-          border: 1px solid rgba(85, 161, 180, 0.2);
+          border: 1px solid var(--tls-primary-200);
           background: linear-gradient(135deg,
-            rgba(85, 161, 180, 0.14) 0%,
-            rgba(255, 255, 255, 0.92) 100%
+            var(--tls-primary-50) 0%,
+            var(--glass-fill-strong) 100%
           );
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: var(--glass-blur);
+          -webkit-backdrop-filter: var(--glass-blur);
           padding: var(--s-8) var(--s-8) var(--s-7);
-          box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.9);
+          box-shadow: var(--shadow-md), inset 0 1px 0 var(--overlay-white-xl);
           position: relative;
           overflow: hidden;
           animation: heroFadeIn var(--dur-300, 300ms) ease both;
@@ -352,7 +352,7 @@ export const Onboarding: React.FC = () => {
           width: 280px;
           height: 280px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(85,161,180,0.12) 0%, transparent 70%);
+          background: radial-gradient(circle, var(--tls-primary-100) 0%, transparent 70%);
           pointer-events: none;
         }
         .onb-hero__eyebrow {
@@ -432,7 +432,7 @@ export const Onboarding: React.FC = () => {
           width: 100%;
           box-sizing: border-box;
           padding: var(--s-3) var(--s-4);
-          border: 1px solid var(--border-strong, rgba(37,43,55,0.14));
+          border: 1px solid var(--border);
           border-radius: var(--r-lg, 10px);
           font-size: var(--t-body);
           font-family: var(--font-body);
@@ -444,7 +444,7 @@ export const Onboarding: React.FC = () => {
         }
         .tls-input:focus {
           border-color: var(--tls-primary-400);
-          box-shadow: 0 0 0 3px rgba(85, 161, 180, 0.18);
+          box-shadow: var(--shadow-brand-xs);
         }
 
         /* Goal chips */
@@ -456,7 +456,7 @@ export const Onboarding: React.FC = () => {
         .onb-chip {
           padding: var(--s-2) var(--s-4);
           border-radius: 99px;
-          border: 1.5px solid var(--border-strong, rgba(37,43,55,0.14));
+          border: 1.5px solid var(--border);
           background: var(--surface);
           color: var(--text);
           font-size: var(--t-body-sm);
@@ -473,12 +473,12 @@ export const Onboarding: React.FC = () => {
         .onb-chip--selected {
           background: var(--tls-primary-500);
           border-color: var(--tls-primary-500);
-          color: var(--text-inverse, #fff);
+          color: var(--on-color-text-main);
         }
         .onb-chip--selected:hover {
           background: var(--tls-primary-600);
           border-color: var(--tls-primary-600);
-          color: var(--text-inverse, #fff);
+          color: var(--on-color-text-main);
         }
         .onb-selection-hint {
           margin: 0;
@@ -514,8 +514,8 @@ export const Onboarding: React.FC = () => {
         }
         .onb-rhythm-card--selected {
           border-color: var(--tls-primary-500);
-          background: rgba(85, 161, 180, 0.06);
-          box-shadow: 0 0 0 3px rgba(85, 161, 180, 0.12);
+          background: var(--tls-primary-50);
+          box-shadow: var(--shadow-brand-xs);
         }
         .onb-rhythm-card__label {
           font-size: var(--t-body);
@@ -565,7 +565,7 @@ export const Onboarding: React.FC = () => {
           display: inline-flex;
           padding: var(--s-1) var(--s-3);
           border-radius: 99px;
-          background: rgba(85, 161, 180, 0.12);
+          background: var(--tls-primary-100);
           color: var(--tls-primary-700);
           font-size: var(--t-caption);
           font-weight: 700;

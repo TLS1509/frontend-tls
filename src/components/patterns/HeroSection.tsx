@@ -57,7 +57,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               width: '60px',
               height: '60px',
               borderRadius: 'var(--r-xl)',
-              background: 'rgba(255, 255, 255, 0.2)',
+              background: 'var(--glass-fill)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

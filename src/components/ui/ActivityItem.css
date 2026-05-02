@@ -1,14 +1,74 @@
+/* ActivityItem — Timeline item: avatar/icon + text + timestamp */
+
 .tls-activity-item {
   display: flex;
-  gap: var(--s-4);
-  padding: var(--s-4) 0;
-  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-2);
+  border-radius: var(--r-md);
+  transition: background var(--dur-2) var(--ease-standard);
+  position: relative;
 }
 
-.tls-activity-item:last-child {
-  border-bottom: none;
+.tls-activity-item:hover {
+  background: var(--surface-muted);
 }
 
+/* ── Timeline dot + connector line ── */
+.tls-activity-item__timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: var(--s-1);
+}
+
+.tls-activity-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-full, 999px);
+  background: var(--border);
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+  flex-shrink: 0;
+  transition: background var(--dur-2) var(--ease-standard);
+}
+
+.tls-activity-item__line {
+  width: 1px;
+  flex: 1;
+  min-height: var(--s-4);
+  background: var(--border);
+  margin-top: var(--s-1);
+}
+
+/* Hide connector line on last item */
+.tls-activity-item:last-child .tls-activity-item__line {
+  display: none;
+}
+
+/* ── Type-specific dot colors ── */
+.tls-activity-item--lesson .tls-activity-item__dot {
+  background: var(--tls-primary-500);
+  box-shadow: 0 0 0 1px var(--tls-primary-300);
+}
+
+.tls-activity-item--achievement .tls-activity-item__dot {
+  background: var(--tls-yellow-500);
+  box-shadow: 0 0 0 1px var(--tls-yellow-300);
+}
+
+.tls-activity-item--coach .tls-activity-item__dot {
+  background: var(--tls-orange-500);
+  box-shadow: 0 0 0 1px var(--tls-orange-300);
+}
+
+.tls-activity-item--journal .tls-activity-item__dot {
+  background: var(--tls-success-fg);
+  box-shadow: 0 0 0 1px var(--tls-success-base);
+}
+
+/* ── Icon container ── */
 .tls-activity-item__icon {
   flex-shrink: 0;
   width: 40px;
@@ -18,12 +78,34 @@
   justify-content: center;
   background-color: var(--tls-primary-100);
   border-radius: var(--r-md);
-  color: var(--tls-primary-500);
+  color: var(--tls-primary-600);
   font-size: 1.25rem;
 }
 
+.tls-activity-item--lesson .tls-activity-item__icon {
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-600);
+}
+
+.tls-activity-item--achievement .tls-activity-item__icon {
+  background: var(--tls-yellow-50);
+  color: var(--tls-yellow-600);
+}
+
+.tls-activity-item--coach .tls-activity-item__icon {
+  background: var(--tls-orange-50);
+  color: var(--tls-orange-600);
+}
+
+.tls-activity-item--journal .tls-activity-item__icon {
+  background: var(--tls-success-bg);
+  color: var(--tls-success-fg);
+}
+
+/* ── Content ── */
 .tls-activity-item__content {
   flex: 1;
+  padding-top: 2px;
 }
 
 .tls-activity-item__title {

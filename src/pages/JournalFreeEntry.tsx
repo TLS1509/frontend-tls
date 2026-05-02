@@ -195,7 +195,7 @@ export const JournalFreeEntry: React.FC = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-xs)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-micro)', fontWeight: 600, border: '1px solid rgba(85,161,180,0.2)' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-xs)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-micro)', fontWeight: 600, border: '1px solid var(--tls-primary-200)' }}
                 >
                   {tag}
                   <button
@@ -239,7 +239,7 @@ export const JournalFreeEntry: React.FC = () => {
         <aside style={{ position: 'sticky', top: 'calc(var(--s-4) + 58px)' }}>
 
           {/* Writing prompts */}
-          <div style={{ background: 'var(--tls-primary-50)', border: '1.5px solid rgba(85,161,180,0.2)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)', marginBottom: 'var(--s-4)' }}>
+          <div style={{ background: 'var(--tls-primary-50)', border: '1.5px solid var(--tls-primary-200)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)', marginBottom: 'var(--s-4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
               <PenLine size={15} color="var(--tls-primary-600)" />
               <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-primary-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide à l'écriture</span>
@@ -250,9 +250,9 @@ export const JournalFreeEntry: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', border: '1.5px solid rgba(85,161,180,0.15)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', border: '1.5px solid var(--tls-primary-100)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; e.currentTarget.style.background = 'var(--tls-primary-50)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(85,161,180,0.15)'; e.currentTarget.style.background = 'var(--surface)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-100)'; e.currentTarget.style.background = 'var(--surface)'; }}
                 >
                   <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0, marginTop: '1px' }}>{prompt.icon}</span>
                   <div>
@@ -265,7 +265,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Format libre tips */}
-          <div style={{ background: 'rgba(237,132,58,0.06)', border: '1.5px solid rgba(237,132,58,0.15)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)' }}>
+          <div style={{ background: 'var(--tls-orange-50)', border: '1.5px solid var(--tls-orange-200)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
               <Lightbulb size={15} color="var(--tls-orange-500)" />
               <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-orange-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide-mémoire</span>

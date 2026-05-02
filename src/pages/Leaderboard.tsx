@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { RankingCard } from '../components/learning/RankingCard';
@@ -26,6 +26,12 @@ const AVATAR_PALETTE = [
   { bg: 'var(--tls-yellow-100)',   color: 'var(--tls-yellow-700)' },
   { bg: 'var(--tls-success-bg)',   color: 'var(--tls-success-fg)' },
   { bg: 'var(--tls-primary-100)',  color: 'var(--tls-primary-700)' },
+];
+
+const PERIODS = [
+  { id: 'week' as const,  label: 'Cette semaine' },
+  { id: 'month' as const, label: 'Ce mois' },
+  { id: 'all' as const,   label: 'Tout temps' },
 ];
 
 const TREND_ICON: Record<'up' | 'same' | 'down', React.ReactNode> = {
@@ -66,6 +72,7 @@ const PODIUM = [
 
 export const Leaderboard: React.FC = () => {
   const navigate = useNavigate();
+  const [period, setPeriod] = useState<'week' | 'month' | 'all'>('week');
 
   return (
     <div className="tls-page">
@@ -115,6 +122,51 @@ export const Leaderboard: React.FC = () => {
           <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Meilleur streak</span>
         </div>
       </section>
+
+      {/* Period filter + section heading */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 'var(--s-8)',
+        flexWrap: 'wrap',
+        gap: 'var(--s-4)',
+      }}>
+        <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+          Classement
+        </h2>
+
+        <div style={{
+          display: 'flex',
+          gap: 'var(--s-1)',
+          padding: '4px',
+          borderRadius: 'var(--r-xl)',
+          background: 'var(--surface-muted)',
+          border: '1px solid var(--border)',
+        }}>
+          {PERIODS.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setPeriod(p.id)}
+              style={{
+                padding: 'var(--s-2) var(--s-4)',
+                borderRadius: 'var(--r-lg)',
+                border: 'none',
+                background: period === p.id ? 'var(--surface)' : 'transparent',
+                color: period === p.id ? 'var(--text)' : 'var(--text-muted)',
+                fontSize: 'var(--t-body-sm)',
+                fontWeight: period === p.id ? 700 : 400,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: period === p.id ? 'var(--shadow-sm)' : 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Podium Cards */}
       <section className="tls-grid tls-grid--wide">
@@ -226,6 +278,40 @@ export const Leaderboard: React.FC = () => {
 
       {/* Full ranking list */}
       <section>
+        {/* Votre position — highlighted current user banner */}
+        <div style={{
+          marginBottom: 'var(--s-6)',
+          padding: 'var(--s-4) var(--s-5)',
+          borderRadius: 'var(--r-xl)',
+          background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, var(--tls-primary-100) 100%)',
+          border: '2px solid var(--tls-primary-200)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--s-4)',
+        }}>
+          <div style={{
+            width: 40, height: 40,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, var(--tls-primary-400), var(--tls-orange-500))',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'var(--on-color-text-main)', fontWeight: 800, fontSize: 'var(--t-body-sm)',
+            flexShrink: 0,
+          }}>VT</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>Vous</div>
+            <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Niveau 7 · 2 240 XP</div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{
+              fontSize: 'var(--t-h3)',
+              fontWeight: 800,
+              color: 'var(--tls-primary-600)',
+              lineHeight: 1,
+            }}>#8</div>
+            <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>classement</div>
+          </div>
+        </div>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
           {FULL_RANKING.map((entry) => (
             <RankingCard
@@ -249,7 +335,7 @@ export const Leaderboard: React.FC = () => {
         backdropFilter: 'var(--glass-blur-light)',
         WebkitBackdropFilter: 'var(--glass-blur-light)',
         padding: 'var(--s-6)',
-        boxShadow: 'var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.95)',
+        boxShadow: 'var(--shadow-sm), inset 0 1px 0 var(--overlay-white-xl)',
         display: 'flex',
         flexDirection: 'column' as const,
         gap: 'var(--s-4)',

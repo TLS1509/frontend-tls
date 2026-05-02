@@ -4,7 +4,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  padding: 4px var(--s-3);
+  padding: var(--s-1) var(--s-3);
   background: var(--surface-muted);
   border: 1px solid var(--border);
   border-radius: var(--r-md);
@@ -46,13 +46,13 @@
 
 .tls-meta-pill--warm {
   background: var(--tls-orange-50);
-  border-color: rgba(237, 132, 58, 0.25);
+  border-color: var(--overlay-orange-sm);
   color: var(--tls-orange-700);
 }
 
 .tls-meta-pill--sun {
   background: var(--tls-yellow-50);
-  border-color: rgba(248, 176, 68, 0.3);
+  border-color: var(--overlay-warm-xl);
   color: var(--tls-yellow-700);
 }
 

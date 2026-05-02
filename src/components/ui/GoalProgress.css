@@ -1,0 +1,183 @@
+/**
+ * GoalProgress.css
+ * Learning goal tracking card with progress bar, time remaining, and on-track status.
+ * Tone variants: primary (teal), warm (orange), success (green), danger (red).
+ */
+
+/* ============================================================================
+   CONTAINER
+   ============================================================================ */
+
+.goal-progress {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  padding: var(--s-3) var(--s-4);
+  transition: all var(--dur-2) var(--ease-standard);
+  font-family: var(--font-body);
+}
+
+/* ============================================================================
+   TONE VARIANTS
+   ============================================================================ */
+
+.goal-progress--primary {
+  background: var(--tls-primary-50);
+  border-color: var(--tls-primary-200);
+}
+
+.goal-progress--warm {
+  background: var(--tls-orange-50);
+  border-color: var(--tls-orange-200);
+}
+
+.goal-progress--success {
+  background: var(--tls-success-light-bg);
+  border-color: var(--tls-success-border);
+}
+
+.goal-progress--danger {
+  background: var(--tls-danger-light);
+  border-color: var(--tls-danger-border);
+}
+
+/* ============================================================================
+   SIZE VARIANTS
+   ============================================================================ */
+
+.goal-progress--sm {
+  padding: var(--s-2) var(--s-3);
+}
+
+/* ============================================================================
+   HEADER ROW
+   ============================================================================ */
+
+.goal-progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-3);
+}
+
+.goal-progress__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1;
+}
+
+.goal-progress__icon {
+  flex-shrink: 0;
+}
+
+.goal-progress__title {
+  margin: 0;
+  font-size: var(--t-body);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.goal-progress--sm .goal-progress__title {
+  font-size: var(--t-body-sm);
+}
+
+.goal-progress__status-icon {
+  flex-shrink: 0;
+  margin-left: var(--s-2);
+}
+
+/* ============================================================================
+   PROGRESS BAR
+   ============================================================================ */
+
+.goal-progress__bar-track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--glass-fill-light);
+  border-radius: var(--r-xs);
+  overflow: hidden;
+  margin-bottom: var(--s-2);
+  border: 1px solid var(--border);
+}
+
+.goal-progress--sm .goal-progress__bar-track {
+  height: 6px;
+}
+
+.goal-progress__bar-fill {
+  height: 100%;
+  border-radius: var(--r-xs);
+  transition: width var(--dur-3) var(--ease-standard);
+}
+
+.goal-progress--primary .goal-progress__bar-fill {
+  background: var(--tls-primary-500);
+}
+
+.goal-progress--warm .goal-progress__bar-fill {
+  background: var(--tls-orange-500);
+}
+
+.goal-progress--success .goal-progress__bar-fill {
+  background: var(--tls-success-base);
+}
+
+.goal-progress--danger .goal-progress__bar-fill {
+  background: var(--tls-danger-base);
+}
+
+/* ============================================================================
+   DETAILS ROW
+   ============================================================================ */
+
+.goal-progress__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--t-body-sm);
+  color: var(--text-muted);
+}
+
+.goal-progress--sm .goal-progress__details {
+  font-size: var(--t-caption);
+}
+
+.goal-progress__percent {
+  font-weight: 500;
+}
+
+.goal-progress__time {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+/* ============================================================================
+   STATUS MESSAGES
+   ============================================================================ */
+
+.goal-progress__message {
+  margin-top: var(--s-2);
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--border);
+  font-size: var(--t-caption);
+  font-weight: 500;
+}
+
+.goal-progress__message--danger {
+  color: var(--tls-danger-base);
+}
+
+.goal-progress__message--success {
+  color: var(--tls-success-base);
+}
+
+/* ============================================================================
+   STATUS ICON COLORS — via tone on parent
+   ============================================================================ */
+
+.goal-progress--success .goal-progress__status-icon { color: var(--tls-success-base); }
+.goal-progress--danger .goal-progress__status-icon  { color: var(--tls-danger-base); }
+.goal-progress--primary .goal-progress__status-icon { color: var(--tls-primary-600); }
+.goal-progress--warm .goal-progress__status-icon    { color: var(--tls-orange-500); }

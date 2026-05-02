@@ -1,1 +1,59 @@
-/* Badge styles are now centralized in /src/styles/tls-components.css (.badge) */
+/**
+ * Badge.css
+ *
+ * Extends the base .badge styles in tls-components.css with:
+ * — Size variants: sm, md (default), lg
+ * — Border per variant for subtle definition
+ * — Improved spacing and visual clarity
+ */
+
+/* ============================================================================
+   SIZE VARIANTS
+   ============================================================================ */
+
+/* sm — 10px text, tighter padding */
+.badge--sm {
+  font-size: 0.625rem;  /* 10px */
+  padding: 1px var(--s-1-5);
+  letter-spacing: 0.05em;
+}
+
+/* md — default (defined in tls-components.css), re-asserted here */
+.badge--md {
+  font-size: var(--t-micro);
+  padding: 2px var(--s-2);
+}
+
+/* lg — larger badge for emphasis */
+.badge--lg {
+  font-size: var(--t-caption);
+  padding: var(--s-1) var(--s-3);
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================================
+   BORDERS — subtle per-variant border for definition on white surfaces
+   ============================================================================ */
+
+/* Base / brand — teal tint */
+.badge { border: 1px solid var(--overlay-brand-xl); }
+
+/* Neutral */
+.badge--neutral { border-color: var(--border-strong); }
+
+/* Warm — orange tint */
+.badge--warm { border-color: var(--tls-orange-200); }
+
+/* Sun — yellow tint */
+.badge--sun { border-color: var(--tls-yellow-200); }
+
+/* Success */
+.badge--success { border-color: var(--tls-success-base); }
+
+/* Danger */
+.badge--danger {
+  border-color: var(--tls-danger-base);
+}
+
+/* Info — same as brand */
+.badge--info { border-color: var(--overlay-brand-xl); }

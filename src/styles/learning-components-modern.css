@@ -125,7 +125,7 @@
   border-radius: var(--r-pill);
   overflow: hidden;
   position: relative;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-inset-base);
 }
 
 .progress-bar::before {
@@ -142,7 +142,7 @@
   border-radius: var(--r-pill);
   transition: width var(--dur-3) var(--ease-standard);
   position: relative;
-  box-shadow: 0 0 12px rgba(85, 161, 180, 0.4);
+  box-shadow: var(--shadow-brand-glow);
 }
 
 .progress-bar__fill::after {
@@ -183,7 +183,7 @@
   background: linear-gradient(135deg, var(--tls-yellow-50), var(--tls-orange-50));
   border: 2px solid var(--tls-yellow-200);
   border-radius: var(--r-2xl);
-  box-shadow: var(--shadow-brand), 0 8px 16px rgba(237, 132, 58, 0.2);
+  box-shadow: var(--shadow-brand), var(--shadow-warm-glow);
   position: relative;
   overflow: hidden;
   transition: var(--transition-elevation);
@@ -200,7 +200,7 @@
 
 .achievement-badge:hover {
   transform: scale(1.08);
-  box-shadow: var(--shadow-xl), 0 12px 24px rgba(237, 132, 58, 0.3);
+  box-shadow: var(--shadow-xl), var(--shadow-warm-glow-lg);
 }
 
 @keyframes achievement-pop {
@@ -269,7 +269,7 @@
   backdrop-filter: var(--glass-blur-ultra);
   -webkit-backdrop-filter: var(--glass-blur-ultra);
   background: linear-gradient(135deg, var(--glass-fill-premium), var(--glass-fill-strong));
-  border-color: rgba(255, 255, 255, 0.8);
+  border-color: var(--glass-border-strong);
   box-shadow: var(--shadow-lg), var(--glass-ring-strong);
   transform: translateY(-2px);
 }
@@ -343,7 +343,7 @@
 .step-indicator.completed {
   background: var(--tls-success-light);
   border-color: var(--tls-success-border);
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+  box-shadow: var(--shadow-success-glow);
 }
 
 .step-indicator.active {
@@ -415,21 +415,21 @@
   .stat-card,
   .stat-item {
     background: rgba(15, 23, 42, 0.3);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--on-color-border-2xs);
   }
 
   .coaching-card,
   .lesson-card,
   .course-card {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.4));
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--on-color-border-2xs);
   }
 
   .coaching-card:hover,
   .lesson-card:hover,
   .course-card:hover {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.6));
-    border-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--on-color-border-xs);
   }
 
   .progress-bar {
@@ -438,6 +438,6 @@
 
   .step-indicator {
     background: rgba(15, 23, 42, 0.3);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--on-color-border-2xs);
   }
 }

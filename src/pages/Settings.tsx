@@ -315,7 +315,7 @@ export const Settings: React.FC = () => {
                 padding: 'var(--s-4) var(--s-4)',
                 borderRadius: 'var(--r-lg)',
                 background: theme === 'dark'
-                  ? 'linear-gradient(135deg, var(--on-color-fill-2xs), rgba(255,255,255,0.02))'
+                  ? 'linear-gradient(135deg, var(--on-color-fill-2xs), var(--overlay-white-xs))'
                   : 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
                 border: `1px solid ${theme === 'dark' ? 'var(--on-color-border-sm)' : 'var(--tls-primary-200)'}`,
                 boxShadow: 'var(--shadow-xs)',

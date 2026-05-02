@@ -117,6 +117,11 @@
   --brand:          var(--tls-primary-500);
   --brand-ink:      var(--tls-primary-700);
 
+  /* Tone-aware border colors */
+  --border-primary: rgba(85, 161, 180, 0.2);
+  --border-warm:    rgba(237, 132, 58, 0.2);
+  --border-sun:     rgba(248, 176, 68, 0.25);
+
   /* ---------- TYPOGRAPHY ---------- */
   --font-display: "League Spartan", "Helvetica Neue", Arial, sans-serif;
   --font-body:    "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -224,13 +229,51 @@
   --shadow-lg: 0 16px 40px -12px rgba(18, 24, 28, 0.14), 0 4px 8px rgba(18, 24, 28, 0.04);
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
   --shadow-brand:    0 10px 30px -10px rgba(85, 161, 180, 0.45);
+  --shadow-brand-xs: 0 4px  12px rgba(85, 161, 180, 0.15);
   --shadow-brand-sm: 0 4px  12px rgba(85, 161, 180, 0.25);
+  --shadow-brand-md: 0 6px  16px rgba(85, 161, 180, 0.40);
   --shadow-brand-lg: 0 20px 50px rgba(85, 161, 180, 0.35);
+  --shadow-brand-xl: 0 12px 32px rgba(85, 161, 180, 0.50);
   --shadow-warm:     0 10px 30px -10px rgba(237, 132, 58, 0.35);
   --shadow-warm-sm:  0 4px  12px rgba(237, 132, 58, 0.20);
+  --shadow-warm-md:  0 2px   8px rgba(237, 132, 58, 0.40);
   --shadow-warm-lg:  0 20px 50px rgba(237, 132, 58, 0.28);
   --shadow-success: 0 6px 20px rgba(34, 197, 94, 0.25);
   --shadow-error: 0 4px 12px rgba(239, 68, 68, 0.15);
+
+  /* Inset highlight tokens — glass rim / surface lift effects */
+  --shadow-inset-glass-xs: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --shadow-inset-glass-sm: inset 0 1px 0 rgba(255, 255, 255, 0.20);
+  --shadow-inset-top-sm: inset 0 1px 0 rgba(255, 255, 255, 0.80);
+  --shadow-inset-top-md: inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --shadow-inset-top-lg: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --shadow-inset-base:   inset 0 1px 2px rgba(18, 24, 28, 0.05);
+
+  /* Focus ring shadows — for interactive element focus states */
+  --shadow-focus-brand:    0 0 0 4px rgba(85, 161, 180, 0.18);
+  --shadow-focus-brand-sm: 0 0 0 4px rgba(85, 161, 180, 0.14);
+  --shadow-focus-teal:     0 0 0 4px rgba(157, 190, 186, 0.25);
+  --shadow-focus-warm:     0 0 0 4px rgba(242, 133, 89, 0.18);
+
+  /* Glow effects — circular / radial shadow for active states */
+  --shadow-brand-glow:   0 0 12px rgba(85, 161, 180, 0.40);
+  --shadow-success-glow: 0 0 12px rgba(34, 197, 94, 0.20);
+  --shadow-white-glow:   0 0 12px rgba(255, 255, 255, 0.50);
+
+  /* Extended brand/warm tonal card shadows */
+  --shadow-brand-card:   0 12px 32px rgba(85, 161, 180, 0.28);
+  --shadow-warm-card:    0 12px 32px rgba(237, 132, 58, 0.28);
+  --shadow-sun-card:     0 12px 32px rgba(248, 176, 68, 0.30);
+  --shadow-sun-sm:       0 4px  12px rgba(255, 183, 77,  0.30);
+  --shadow-warm-glow:    0 8px  16px rgba(237, 132, 58, 0.20);
+  --shadow-warm-glow-lg: 0 12px 24px rgba(237, 132, 58, 0.30);
+
+  /* Overlay shadows — stronger neutral shadows for dark or overlay contexts */
+  --shadow-overlay-sm: 0 2px  8px rgba(18, 24, 28, 0.15);
+  --shadow-overlay-md: 0 4px 12px rgba(18, 24, 28, 0.20);
+
+  /* Directional shadow for side-panels (e.g. sidebar) */
+  --shadow-start-md: 2px 0 16px rgba(18, 24, 28, 0.12);
 
   /* =================================================================== */
   /* GLASS MORPHISM — Modern, Elevated, Sophisticated              */
@@ -257,9 +300,11 @@
   --glass-fill-premium: rgba(255, 255, 255, 0.85);    /* Premium cards, elevated surfaces */
 
   /* Glass border variants — for edge definition */
-  --glass-border-light: rgba(255, 255, 255, 0.35);
-  --glass-border-standard: rgba(255, 255, 255, 0.6);
-  --glass-border-strong: rgba(255, 255, 255, 0.8);
+  --glass-border-light:    rgba(255, 255, 255, 0.35);
+  --glass-border-medium:   rgba(255, 255, 255, 0.50);
+  --glass-border-standard: rgba(255, 255, 255, 0.60);
+  --glass-border-strong:   rgba(255, 255, 255, 0.80);
+  --glass-border-premium:  rgba(255, 255, 255, 0.90);
 
   /* Glass ring for inner light effect */
   --glass-ring-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -338,17 +383,27 @@
 
   /* ---------- OVERLAY COLORS (for complex backgrounds, CSS Grid borders, etc.) ---------- */
   /* Primary blue overlays */
-  --overlay-brand-xs: rgba(85, 161, 180, 0.05);
-  --overlay-brand-sm: rgba(85, 161, 180, 0.10);
-  --overlay-brand-md: rgba(85, 161, 180, 0.12);
-  --overlay-brand-lg: rgba(85, 161, 180, 0.18);
-  --overlay-brand-xl: rgba(85, 161, 180, 0.25);
+  --overlay-brand-xs:  rgba(85, 161, 180, 0.05);
+  --overlay-brand-sm:  rgba(85, 161, 180, 0.10);
+  --overlay-brand-md:  rgba(85, 161, 180, 0.12);
+  --overlay-brand-lg:  rgba(85, 161, 180, 0.18);
+  --overlay-brand-xl:  rgba(85, 161, 180, 0.25);
+  --overlay-brand-2xl: rgba(85, 161, 180, 0.40);
 
   /* Warm/Orange overlays */
-  --overlay-warm-xs: rgba(248, 176, 68, 0.05);
-  --overlay-warm-sm: rgba(248, 176, 68, 0.12);
-  --overlay-warm-md: rgba(248, 176, 68, 0.16);
-  --overlay-warm-lg: rgba(248, 176, 68, 0.18);
+  --overlay-warm-xs:   rgba(248, 176, 68, 0.05);
+  --overlay-warm-sm:   rgba(248, 176, 68, 0.12);
+  --overlay-warm-md:   rgba(248, 176, 68, 0.16);
+  --overlay-warm-lg:   rgba(248, 176, 68, 0.18);
+  --overlay-warm-xl:   rgba(248, 176, 68, 0.28);
+  --overlay-warm-2xl:  rgba(248, 176, 68, 0.40);
+
+  /* Orange (saturated warm) overlays — rgba(237, 132, 58) */
+  --overlay-orange-2xs: rgba(237, 132, 58, 0.12);
+  --overlay-orange-xs:  rgba(237, 132, 58, 0.15);
+  --overlay-orange-sm:  rgba(237, 132, 58, 0.20);
+  --overlay-orange-md:  rgba(237, 132, 58, 0.30);
+  --overlay-orange-xl:  rgba(237, 132, 58, 0.40);
 
   /* Ink/Dark overlays (for borders, subtle backgrounds) */
   --overlay-dark-xs: rgba(15, 23, 42, 0.04);
@@ -356,12 +411,32 @@
   --overlay-dark-md: rgba(15, 23, 42, 0.08);
   --overlay-dark-lg: rgba(15, 23, 42, 0.10);
 
+  /* Pure black scrim overlays — video player, immersive dark surfaces */
+  --overlay-black-2xs: rgba(0, 0, 0, 0.20); /* Hover tints on dark        */
+  --overlay-black-xs:  rgba(0, 0, 0, 0.30); /* Very light scrim            */
+  --overlay-black-sm:  rgba(0, 0, 0, 0.45); /* Glass button backgrounds    */
+  --overlay-black-md:  rgba(0, 0, 0, 0.55); /* Floating controls           */
+  --overlay-black-lg:  rgba(0, 0, 0, 0.65); /* Top/bottom video gradients  */
+  --overlay-black-xl:  rgba(0, 0, 0, 0.75); /* Hover state on dark buttons */
+  --overlay-black-2xl: rgba(0, 0, 0, 0.85); /* Bottom overlay on video     */
+
+  /* Video player tokens — deep dark background gradients per accent tone */
+  --video-bg: #050505;                        /* Full-black immersive background   */
+  --video-grad-brand:  linear-gradient(180deg, #0d1f26 0%, #0a1520 100%); /* Teal accent  */
+  --video-grad-warm:   linear-gradient(180deg, #1f1200 0%, #150d00 100%); /* Orange accent */
+  --video-grad-ocean:  linear-gradient(180deg, #0a1a26 0%, #071018 100%); /* Deep teal     */
+  --video-grad-earth:  linear-gradient(180deg, #1a0f00 0%, #120a00 100%); /* Burnt orange  */
+  --video-grad-slate:  linear-gradient(180deg, #0d1a20 0%, #091219 100%); /* Slate teal    */
+  --video-grad-violet: linear-gradient(180deg, #1a0d1a 0%, #120910 100%); /* Deep violet   */
+
   /* White glass overlays */
-  --overlay-white-xs: rgba(255, 255, 255, 0.20);
-  --overlay-white-sm: rgba(255, 255, 255, 0.25);
-  --overlay-white-md: rgba(255, 255, 255, 0.30);
-  --overlay-white-lg: rgba(255, 255, 255, 0.60);
-  --overlay-white-xl: rgba(255, 255, 255, 0.85);
+  --overlay-white-xs:  rgba(255, 255, 255, 0.20);
+  --overlay-white-sm:  rgba(255, 255, 255, 0.25);
+  --overlay-white-md:  rgba(255, 255, 255, 0.30);
+  --overlay-white-mid: rgba(255, 255, 255, 0.40); /* Mid-opacity white (nav borders, glass dividers) */
+  --overlay-white-lg:  rgba(255, 255, 255, 0.60);
+  --overlay-white-2xl: rgba(255, 255, 255, 0.70); /* Semi-opaque white (strong nav/glass borders) */
+  --overlay-white-xl:  rgba(255, 255, 255, 0.85);
 
   /* On-Color Glass Effects — for UI elements rendered ON colored hero backgrounds */
   /* Use these for buttons, badges, pills, and overlays placed on gradients          */
@@ -372,7 +447,9 @@
   --on-color-fill-lg:  rgba(255, 255, 255, 0.25);  /* Hover state on hero elements    */
   --on-color-fill-xl:  rgba(255, 255, 255, 0.35);  /* Strong glass fill               */
 
-  --on-color-border-sm:  rgba(255, 255, 255, 0.25); /* Subtle border on hero elements */
+  --on-color-border-2xs: rgba(255, 255, 255, 0.10); /* Minimal border on dark glass   */
+  --on-color-border-xs:  rgba(255, 255, 255, 0.15); /* Ghost border on dark surface   */
+  --on-color-border-sm:  rgba(255, 255, 255, 0.22); /* Subtle border on hero elements */
   --on-color-border-md:  rgba(255, 255, 255, 0.35); /* Standard hero border           */
   --on-color-border-lg:  rgba(255, 255, 255, 0.50); /* Strong hero border             */
 

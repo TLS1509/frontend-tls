@@ -1,4 +1,5 @@
 import React from 'react';
+import './Input.css';
 
 /**
  * Input — Source of truth: design-system/spec.json → components.Input

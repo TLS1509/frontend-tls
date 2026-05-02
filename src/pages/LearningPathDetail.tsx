@@ -294,7 +294,7 @@ export const LearningPathDetail: React.FC = () => {
                 Icon: TrendingUp,
                 label: 'Progression mesurable',
                 desc: 'Évaluez vos acquis via le quiz de positionnement et le projet final.',
-                bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'rgba(157, 190, 186, 0.4)',
+                bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'var(--tls-success-border)',
               },
             ].map(({ Icon, label, desc, bg, color, border }) => (
               <div
@@ -557,7 +557,7 @@ export const LearningPathDetail: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
             {/* Hero Section */}
             <div style={{ background: HERO_GRADIENT[tone], borderRadius: 'var(--r-2xl)', padding: 'var(--s-10)', color: 'var(--text-inverse)', textAlign: 'center' }}>
-              <div style={{ width: 80, height: 80, borderRadius: 'var(--r-xl)', background: 'rgba(255, 255, 255, 0.2)', margin: '0 auto var(--s-6)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)' }}>
+              <div style={{ width: 80, height: 80, borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-sm)', margin: '0 auto var(--s-6)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'var(--glass-blur-light)' }}>
                 <Award size={36} />
               </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h2)', fontWeight: 700, margin: '0 0 var(--s-3)' }}>
@@ -696,7 +696,7 @@ export const LearningPathDetail: React.FC = () => {
                         justifyContent: 'center',
                         fontSize: 'var(--t-caption)',
                         fontWeight: 600,
-                        color: i <= completedLessons / (totalLessons / 5) ? 'white' : 'var(--text-muted)',
+                        color: i <= completedLessons / (totalLessons / 5) ? 'var(--text-inverse)' : 'var(--text-muted)',
                       }}
                     >
                       {i}

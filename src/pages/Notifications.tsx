@@ -139,49 +139,49 @@ const TYPE_META: Record<NotifType, {
     icon: <FileText size={16} />,
     accent: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    border: 'rgba(85,161,180,0.25)',
+    border: 'var(--tls-primary-200)',
     label: 'Correction',
   },
   achievement: {
     icon: <Award size={16} />,
     accent: 'var(--tls-yellow-600)',
-    bg: 'rgba(234,192,74,0.12)',
-    border: 'rgba(234,192,74,0.3)',
+    bg: 'var(--tls-yellow-100)',
+    border: 'var(--tls-yellow-300)',
     label: 'Badge',
   },
   lesson: {
     icon: <BookOpen size={16} />,
     accent: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    border: 'rgba(85,161,180,0.2)',
+    border: 'var(--tls-primary-200)',
     label: 'Leçon',
   },
   completion: {
     icon: <CheckCircle2 size={16} />,
     accent: 'var(--tls-success-fg)',
-    bg: 'rgba(74,140,110,0.1)',
-    border: 'rgba(74,140,110,0.25)',
+    bg: 'var(--tls-success-bg)',
+    border: 'var(--tls-success-border)',
     label: 'Terminé',
   },
   report: {
     icon: <FileText size={16} />,
     accent: 'var(--tls-orange-600)',
-    bg: 'rgba(237,132,58,0.1)',
-    border: 'rgba(237,132,58,0.25)',
+    bg: 'var(--tls-orange-50)',
+    border: 'var(--tls-orange-200)',
     label: 'Rapport',
   },
   coaching: {
     icon: <CalendarDays size={16} />,
     accent: 'var(--tls-orange-600)',
-    bg: 'rgba(237,132,58,0.08)',
-    border: 'rgba(237,132,58,0.2)',
+    bg: 'var(--tls-orange-50)',
+    border: 'var(--tls-orange-200)',
     label: 'Coaching',
   },
   message: {
     icon: <MessageSquare size={16} />,
     accent: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    border: 'rgba(85,161,180,0.2)',
+    border: 'var(--tls-primary-200)',
     label: 'Message',
   },
   system: {
@@ -191,6 +191,17 @@ const TYPE_META: Record<NotifType, {
     border: 'var(--border)',
     label: 'Système',
   },
+};
+
+const TYPE_BORDER: Record<NotifType, string> = {
+  message:     'var(--tls-primary-400)',
+  lesson:      'var(--tls-primary-500)',
+  coaching:    'var(--tls-orange-500)',
+  achievement: 'var(--tls-yellow-500)',
+  correction:  'var(--tls-success-fg)',
+  completion:  'var(--tls-success-fg)',
+  report:      'var(--tls-primary-600)',
+  system:      'var(--text-muted)',
 };
 
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
@@ -239,7 +250,7 @@ export const Notifications: React.FC = () => {
               marginLeft: 'var(--s-2)',
               display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)',
               padding: '2px 10px', borderRadius: 'var(--r-pill)',
-              background: 'var(--tls-primary-600)', color: '#fff',
+              background: 'var(--tls-primary-600)', color: 'var(--text-inverse)',
               fontSize: 'var(--t-micro)', fontWeight: 700,
             }}>
               {unread} non lue{unread > 1 ? 's' : ''}
@@ -251,10 +262,10 @@ export const Notifications: React.FC = () => {
       {/* ── KPI row ───────────────────────────────────────────────── */}
       <section className="tls-kpi-row" style={{ marginBottom: 'var(--s-10)' }}>
         {[
-          { icon: <Bell size={20} />, value: items.length,                          label: 'Total',     color: 'var(--tls-primary-700)',  iconBg: 'var(--tls-primary-50)',         iconColor: 'var(--tls-primary-600)' },
-          { icon: <MessageSquare size={20} />, value: unread,                       label: 'Non lues',  color: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)', iconBg: unread > 0 ? 'rgba(237,132,58,0.1)' : 'var(--surface-muted)', iconColor: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)' },
-          { icon: <CheckCheck size={20} />, value: items.filter((n) => n.isRead).length, label: 'Traitées', color: 'var(--tls-success-fg)',  iconBg: 'rgba(74,140,110,0.1)',         iconColor: 'var(--tls-success-fg)' },
-          { icon: <BellOff size={20} />, value: 0,                                  label: 'Archivées', color: 'var(--tls-yellow-700)',    iconBg: 'rgba(234,192,74,0.15)',        iconColor: 'var(--tls-yellow-700)' },
+          { icon: <Bell size={20} />, value: items.length,                          label: 'Total',     color: 'var(--tls-primary-700)',  iconBg: 'var(--tls-primary-50)',  iconColor: 'var(--tls-primary-600)' },
+          { icon: <MessageSquare size={20} />, value: unread,                       label: 'Non lues',  color: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)', iconBg: unread > 0 ? 'var(--tls-orange-50)' : 'var(--surface-muted)', iconColor: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)' },
+          { icon: <CheckCheck size={20} />, value: items.filter((n) => n.isRead).length, label: 'Traitées', color: 'var(--tls-success-fg)',  iconBg: 'var(--tls-success-bg)', iconColor: 'var(--tls-success-fg)' },
+          { icon: <BellOff size={20} />, value: 0,                                  label: 'Archivées', color: 'var(--tls-yellow-700)',    iconBg: 'var(--tls-yellow-100)', iconColor: 'var(--tls-yellow-700)' },
         ].map(({ icon, value, label, color, iconBg, iconColor }) => (
           <div key={label} className="tls-kpi" style={{
             transition: 'all var(--dur-2)',
@@ -271,6 +282,19 @@ export const Notifications: React.FC = () => {
           </div>
         ))}
       </section>
+
+      {/* ── Summary bar ──────────────────────────────────────────── */}
+      <div className="notifications__header-bar">
+        <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
+          {unread} notification{unread !== 1 ? 's' : ''} non lue{unread !== 1 ? 's' : ''}
+        </span>
+        <button
+          onClick={markAllRead}
+          className="notifications__mark-all-btn"
+        >
+          <CheckCheck size={13} /> Tout marquer lu
+        </button>
+      </div>
 
       {/* ── Toolbar ───────────────────────────────────────────────── */}
       <div style={{
@@ -327,25 +351,17 @@ export const Notifications: React.FC = () => {
             return (
               <div
                 key={item.id}
+                className={`notifications__item${item.isRead ? '' : ' notifications__item--unread'}`}
                 style={{
-                  background: item.isRead ? 'var(--surface)' : 'linear-gradient(135deg, rgba(85,161,180,0.02), rgba(85,161,180,0.01))',
-                  border: `1px solid ${item.isRead ? 'var(--border)' : 'var(--tls-primary-200)'}`,
-                  borderLeft: `4px solid ${item.isRead ? 'var(--border)' : s.accent}`,
-                  borderRadius: 'var(--r-xl)',
-                  padding: 'var(--s-5)',
-                  boxShadow: item.isRead ? 'var(--shadow-xs)' : 'var(--shadow-sm)',
-                  opacity: item.isRead ? 0.85 : 1,
-                  transition: 'all var(--dur-2)',
-                  cursor: 'default'
+                  borderLeft: `4px solid ${TYPE_BORDER[item.type]}`,
                 }}
               >
                 <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'flex-start' }}>
                   {/* Icon bubble */}
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 'var(--r-lg)',
-                    background: s.bg, border: `1px solid ${s.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: s.accent, flexShrink: 0,
+                  <div className="notifications__icon" style={{
+                    background: s.bg,
+                    border: `1px solid ${s.border}`,
+                    color: s.accent,
                   }}>
                     {s.icon}
                   </div>
@@ -358,11 +374,7 @@ export const Notifications: React.FC = () => {
                           {item.title}
                         </h3>
                         {!item.isRead && (
-                          <span style={{
-                            display: 'inline-flex', padding: '1px 6px', borderRadius: 'var(--r-pill)',
-                            background: s.accent, color: '#fff',
-                            fontSize: '10px', fontWeight: 700,
-                          }}>
+                          <span className="notifications__new-badge" style={{ background: s.accent, color: 'var(--text-inverse)' }}>
                             {item.badge ?? 'Nouveau'}
                           </span>
                         )}
@@ -373,15 +385,7 @@ export const Notifications: React.FC = () => {
                           <button
                             title="Marquer comme lu"
                             onClick={() => markRead(item.id)}
-                            style={{
-                              width: 28, height: 28, borderRadius: 'var(--r-md)',
-                              background: 'transparent', border: '1px solid var(--border)',
-                              display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              cursor: 'pointer', color: 'var(--text-muted)',
-                              transition: 'all var(--dur-1)',
-                            }}
-                            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-primary-50)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--tls-primary-600)'; }}
-                            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)'; }}
+                            className="notifications__action-btn notifications__action-btn--read"
                           >
                             <CheckCircle2 size={13} />
                           </button>
@@ -389,15 +393,7 @@ export const Notifications: React.FC = () => {
                         <button
                           title="Supprimer"
                           onClick={() => deleteNotif(item.id)}
-                          style={{
-                            width: 28, height: 28, borderRadius: 'var(--r-md)',
-                            background: 'transparent', border: '1px solid var(--border)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            cursor: 'pointer', color: 'var(--text-muted)',
-                            transition: 'all var(--dur-1)',
-                          }}
-                          onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(237,132,58,0.08)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--tls-orange-600)'; }}
-                          onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)'; }}
+                          className="notifications__action-btn notifications__action-btn--delete"
                         >
                           <Trash2 size={13} />
                         </button>
@@ -412,42 +408,22 @@ export const Notifications: React.FC = () => {
                     {item.metadata && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
                         {item.metadata.projectTitle && (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 4,
-                            padding: '2px 8px', borderRadius: 'var(--r-pill)',
-                            background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                            fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500,
-                          }}>
+                          <span className="notifications__meta-chip">
                             <TrendingUp size={10} /> {item.metadata.projectTitle}
                           </span>
                         )}
                         {item.metadata.lessonTitle && (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 4,
-                            padding: '2px 8px', borderRadius: 'var(--r-pill)',
-                            background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                            fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500,
-                          }}>
+                          <span className="notifications__meta-chip">
                             <BookOpen size={10} /> {item.metadata.lessonTitle}
                           </span>
                         )}
                         {item.metadata.grade && (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 4,
-                            padding: '2px 8px', borderRadius: 'var(--r-pill)',
-                            background: s.bg, border: `1px solid ${s.border}`,
-                            fontSize: '11px', color: s.accent, fontWeight: 700,
-                          }}>
+                          <span className="notifications__meta-chip notifications__meta-chip--accent" style={{ background: s.bg, border: `1px solid ${s.border}`, color: s.accent }}>
                             <Trophy size={10} /> {item.metadata.grade}
                           </span>
                         )}
                         {item.metadata.badgeName && (
-                          <span style={{
-                            display: 'inline-flex', alignItems: 'center', gap: 4,
-                            padding: '2px 8px', borderRadius: 'var(--r-pill)',
-                            background: 'rgba(234,192,74,0.12)', border: '1px solid rgba(234,192,74,0.3)',
-                            fontSize: '11px', color: 'var(--tls-yellow-700)', fontWeight: 700,
-                          }}>
+                          <span className="notifications__meta-chip notifications__meta-chip--badge">
                             🏆 {item.metadata.badgeName}
                           </span>
                         )}
@@ -459,6 +435,11 @@ export const Notifications: React.FC = () => {
                       <Clock3 size={10} /> {item.time}
                     </span>
                   </div>
+
+                  {/* Unread dot indicator */}
+                  {!item.isRead && (
+                    <div className="notifications__unread-dot" />
+                  )}
                 </div>
               </div>
             );

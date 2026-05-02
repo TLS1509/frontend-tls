@@ -181,7 +181,7 @@ export const LearningPaths: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)', maxWidth: 1180, margin: '0 auto', padding: 'var(--s-8) var(--s-6) var(--s-12)' }}>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <header style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', padding: 'var(--s-8)', borderRadius: 'var(--r-2xl)', background: 'linear-gradient(135deg, var(--overlay-white-xl) 0%, rgba(255, 255, 255, 0.6) 100%)', backdropFilter: 'var(--glass-blur-heavy)', WebkitBackdropFilter: 'var(--glass-blur-heavy)', border: '1px solid rgba(255, 255, 255, 0.6)', boxShadow: 'var(--shadow-xs)', position: 'relative', overflow: 'hidden' }}>
+      <header style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', padding: 'var(--s-8)', borderRadius: 'var(--r-2xl)', background: 'linear-gradient(135deg, var(--overlay-white-xl) 0%, var(--overlay-white-lg) 100%)', backdropFilter: 'var(--glass-blur-heavy)', WebkitBackdropFilter: 'var(--glass-blur-heavy)', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-xs)', position: 'relative', overflow: 'hidden' }}>
 
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 0% 0%, var(--overlay-brand-lg) 0%, transparent 60%), radial-gradient(circle at 100% 100%, var(--overlay-warm-lg) 0%, transparent 60%)', pointerEvents: 'none' }} />
 
@@ -311,7 +311,7 @@ export const LearningPaths: React.FC = () => {
 
       {/* Empty state */}
       {filteredParcours.length === 0 && (
-        <div style={{ textAlign: 'center', padding: 'var(--s-12)', borderRadius: 'var(--r-2xl)', background: 'rgba(255, 255, 255, 0.7)', border: '1px dashed var(--overlay-dark-lg)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center', padding: 'var(--s-12)', borderRadius: 'var(--r-2xl)', background: 'var(--overlay-white-lg)', border: '1px dashed var(--overlay-dark-lg)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
           <p style={{ margin: 0, fontFamily: 'var(--font-body)', color: 'var(--text-soft)' }}>Aucun parcours ne correspond à vos filtres.</p>
           <Button variant="secondary" size="sm" onClick={resetFilters}>
             <RotateCcw size={12} />

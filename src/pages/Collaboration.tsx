@@ -17,8 +17,6 @@ import {
   Users,
   ArrowRight,
 } from 'lucide-react';
-import '../styles/feature-pages-modern.css';
-import '../styles/static-pages.css';
 
 interface TeamMember {
   id: string;
@@ -48,16 +46,16 @@ const STATUS_META: Record<
   CollaborativeProject['status'],
   { bg: string; color: string; border: string; fill: 'brand' | 'warm' | 'gradient' }
 > = {
-  planning:     { bg: 'rgba(237,132,58,0.08)',  color: 'var(--tls-orange-600)', border: 'var(--tls-orange-300)',  fill: 'warm' },
-  'in-progress': { bg: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', border: 'rgba(85,161,180,0.25)', fill: 'brand' },
-  completed:    { bg: 'rgba(74,140,110,0.08)',  color: 'var(--tls-success-fg)', border: 'rgba(74,140,110,0.25)', fill: 'gradient' },
+  planning:     { bg: 'var(--overlay-brand-xs)',  color: 'var(--tls-orange-600)', border: 'var(--tls-orange-300)',  fill: 'warm' },
+  'in-progress': { bg: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', border: 'var(--overlay-brand-sm)', fill: 'brand' },
+  completed:    { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)', border: 'var(--tls-success-border)', fill: 'gradient' },
 };
 
 const AVATAR_PALETTE = [
   { bg: 'var(--tls-primary-100)',   color: 'var(--tls-primary-700)' },
   { bg: 'var(--tls-orange-200)',    color: 'var(--tls-orange-700)' },
-  { bg: 'rgba(234,192,74,0.20)',    color: 'var(--tls-yellow-700)' },
-  { bg: 'rgba(74,140,110,0.12)',    color: 'var(--tls-success-fg)' },
+  { bg: 'var(--overlay-warm-md)',    color: 'var(--tls-yellow-700)' },
+  { bg: 'var(--tls-success-bg)',    color: 'var(--tls-success-fg)' },
   { bg: 'var(--tls-primary-50)',     color: 'var(--tls-primary-700)' },
 ];
 
@@ -276,7 +274,7 @@ export const Collaboration: React.FC = () => {
                             marginLeft: i > 0 ? '-7px' : 0,
                             position: 'relative',
                             zIndex: project.teamMembers.length - i,
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+                            boxShadow: 'var(--shadow-xs)',
                           }}
                         >
                           {initials(member.name)}

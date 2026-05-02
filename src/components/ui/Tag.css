@@ -1,0 +1,135 @@
+/**
+ * Tag.css
+ * Category label or active filter pill.
+ * Tone variants: neutral (default), primary, warm, sun.
+ * Removable variant for active filters.
+ */
+
+/* ============================================================================
+   BASE
+   ============================================================================ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  font-family: var(--font-body);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1;
+  vertical-align: middle;
+  transition:
+    background var(--dur-1) var(--ease-standard),
+    border-color var(--dur-1) var(--ease-standard),
+    color var(--dur-1) var(--ease-standard);
+}
+
+/* ============================================================================
+   TONE VARIANTS
+   ============================================================================ */
+
+.tag--primary {
+  background: var(--tls-primary-50);
+  border-color: var(--overlay-brand-xl);
+  color: var(--tls-primary-700);
+}
+
+.tag--primary:hover,
+.tag--primary.tag--removable:hover {
+  background: var(--tls-primary-100);
+  border-color: var(--tls-primary-300);
+}
+
+.tag--warm {
+  background: var(--tls-orange-50);
+  border-color: var(--tls-orange-200);
+  color: var(--tls-orange-700);
+}
+
+.tag--warm:hover,
+.tag--warm.tag--removable:hover {
+  background: var(--tls-orange-100);
+  border-color: var(--tls-orange-300);
+}
+
+.tag--sun {
+  background: var(--tls-yellow-50);
+  border-color: var(--tls-yellow-200);
+  color: var(--tls-yellow-800);
+}
+
+.tag--sun:hover,
+.tag--sun.tag--removable:hover {
+  background: var(--tls-yellow-100);
+  border-color: var(--tls-yellow-300);
+}
+
+/* ============================================================================
+   LEADING ICON
+   ============================================================================ */
+
+.tag__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+/* ============================================================================
+   REMOVABLE VARIANT
+   Active filter with a close button — uses teal tint (primary tone).
+   When combined with explicit tone, the tone styles take precedence.
+   ============================================================================ */
+
+.tag--removable {
+  background: var(--tls-primary-50);
+  border-color: var(--overlay-brand-xl);
+  color: var(--tls-primary-700);
+  padding-right: var(--s-1-5);
+}
+
+.tag--removable:hover {
+  background: var(--tls-primary-100);
+  border-color: var(--tls-primary-300);
+}
+
+/* ============================================================================
+   CLOSE BUTTON
+   ============================================================================ */
+
+.tag__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--s-4);
+  height: var(--s-4);
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  margin-left: var(--s-1);
+  opacity: 0.6;
+  transition:
+    opacity var(--dur-1) var(--ease-standard),
+    background var(--dur-1) var(--ease-standard);
+}
+
+.tag__close:hover {
+  opacity: 1;
+  background: var(--overlay-brand-sm);
+}
+
+.tag__close:focus-visible {
+  outline: 2px solid var(--tls-primary-500);
+  outline-offset: 1px;
+}

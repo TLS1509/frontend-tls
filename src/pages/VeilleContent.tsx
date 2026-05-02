@@ -111,7 +111,7 @@ export const VeilleContent: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#fff',
+        background: 'var(--surface)',
         fontFamily: 'var(--font-body)',
       }}
     >
@@ -140,7 +140,7 @@ export const VeilleContent: React.FC = () => {
       {/* ─ Hero header ──────────────────────────────────────────── */}
       <div
         style={{
-          background: 'linear-gradient(160deg, var(--tls-primary-50) 0%, #fff 50%)',
+          background: 'linear-gradient(160deg, var(--tls-primary-50) 0%, var(--surface) 50%)',
           padding: 'var(--s-10) var(--s-8) var(--s-8)',
         }}
       >
@@ -240,7 +240,7 @@ export const VeilleContent: React.FC = () => {
       <div style={{ maxWidth: 'var(--container-default)', margin: '0 auto', padding: '0 var(--s-8)' }}>
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)',
+            background: 'linear-gradient(135deg, var(--overlay-brand-xs) 0%, var(--tls-orange-50) 100%)',
             border: '1.5px solid var(--tls-orange-300)',
             borderLeft: '4px solid var(--tls-orange-500)',
             borderRadius: 'var(--r-xl)',
@@ -295,11 +295,11 @@ export const VeilleContent: React.FC = () => {
         <aside style={{ position: 'sticky', top: '24px' }}>
           <div
             style={{
-              background: '#fff',
-              border: '1px solid rgba(0,0,0,0.08)',
+              background: 'var(--surface)',
+              border: '1px solid var(--overlay-dark-md)',
               borderRadius: 'var(--r-2xl)',
               padding: 'var(--s-4)',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           >
             <div
@@ -542,11 +542,11 @@ export const VeilleContent: React.FC = () => {
                 <div
                   key={i}
                   style={{
-                    background: '#fff',
-                    border: '1px solid rgba(0,0,0,0.07)',
+                    background: 'var(--surface)',
+                    border: '1px solid var(--overlay-dark-xs)',
                     borderRadius: 'var(--r-xl)',
                     padding: 'var(--s-5)',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    boxShadow: 'var(--shadow-sm)',
                     textAlign: 'center',
                   }}
                 >
@@ -581,7 +581,7 @@ export const VeilleContent: React.FC = () => {
                       background: stat.trendUp
                         ? 'var(--tls-success-light)'
                         : 'var(--tls-danger-light)',
-                      color: stat.trendUp ? '#16a34a' : '#dc2626',
+                      color: stat.trendUp ? 'var(--tls-success-fg)' : 'var(--tls-danger-base)',
                       fontSize: 'var(--t-caption)',
                       fontWeight: 600,
                     }}
@@ -597,7 +597,7 @@ export const VeilleContent: React.FC = () => {
             <div
               style={{
                 background: 'var(--surface-muted)',
-                border: '1px dashed rgba(0,0,0,0.15)',
+                border: '1px dashed var(--border)',
                 borderRadius: 'var(--r-2xl)',
                 height: '200px',
                 display: 'flex',
@@ -647,12 +647,12 @@ export const VeilleContent: React.FC = () => {
                   marginBottom: 'var(--s-4)',
                 }}
               >
-                <CheckCircle2 size={20} color="rgba(255,255,255,0.8)" />
+                <CheckCircle2 size={20} color="var(--overlay-white-xl)" />
                 <span
                   style={{
                     fontSize: 'var(--t-caption)',
                     fontWeight: 700,
-                    color: 'rgba(255,255,255,0.8)',
+                    color: 'var(--overlay-white-xl)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
                   }}
@@ -689,8 +689,8 @@ export const VeilleContent: React.FC = () => {
                     marginBottom: 'var(--s-2)',
                   }}
                 >
-                  <ArrowRight size={14} color="rgba(255,255,255,0.7)" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: 'var(--t-sm)', color: 'rgba(255,255,255,0.9)' }}>
+                  <ArrowRight size={14} color="var(--overlay-white-md)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: 'var(--t-sm)', color: 'var(--on-color-text-main)' }}>
                     {rec}
                   </span>
                 </div>
@@ -711,7 +711,7 @@ export const VeilleContent: React.FC = () => {
       >
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(237,132,58,0.08) 0%, rgba(237,132,58,0.04) 100%)',
+            background: 'linear-gradient(135deg, var(--overlay-brand-xs) 0%, var(--tls-orange-50) 100%)',
             border: '1.5px solid var(--tls-orange-300)',
             borderRadius: 'var(--r-2xl)',
             padding: 'var(--s-8)',
@@ -730,7 +730,7 @@ export const VeilleContent: React.FC = () => {
               boxShadow: '0 4px 16px var(--tls-orange-300)',
             }}
           >
-            <Download size={24} color="#fff" />
+            <Download size={24} color="var(--on-color-text-main)" />
           </div>
           <h3
             style={{
@@ -766,7 +766,7 @@ export const VeilleContent: React.FC = () => {
               fontSize: 'var(--t-body)',
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
-              boxShadow: '0 4px 16px rgba(237,132,58,0.35)',
+              boxShadow: 'var(--shadow-md)',
               transition: 'all 0.2s',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-orange-600)')}

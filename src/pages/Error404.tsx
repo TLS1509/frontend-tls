@@ -73,7 +73,7 @@ export const Error404: React.FC = () => {
             justifyContent: 'center',
             margin: '0 auto var(--s-8)',
             color: 'var(--tls-primary-600)',
-            boxShadow: 'var(--shadow-md), 0 12px 32px rgba(85,161,180,0.2)',
+            boxShadow: 'var(--shadow-md), var(--shadow-brand-xs)',
             transition: 'all var(--dur-2)'
           }}
         >
@@ -82,6 +82,7 @@ export const Error404: React.FC = () => {
 
         {/* Error code */}
         <div
+          className="animate-float-404"
           style={{
             fontSize: 'clamp(4rem, 10vw, 6rem)',
             fontWeight: 900,
@@ -169,7 +170,7 @@ export const Error404: React.FC = () => {
                 width: '40px',
                 height: '40px',
                 borderRadius: 'var(--r-lg)',
-                background: idx === 0 ? 'var(--tls-primary-50)' : idx === 1 ? 'var(--tls-yellow-50)' : idx === 2 ? 'var(--tls-orange-50)' : 'rgba(85,161,180,0.1)',
+                background: idx === 0 ? 'var(--tls-primary-50)' : idx === 1 ? 'var(--tls-yellow-50)' : idx === 2 ? 'var(--tls-orange-50)' : 'var(--tls-primary-50)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

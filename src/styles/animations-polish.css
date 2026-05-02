@@ -306,6 +306,17 @@
   }
 }
 
+/* ─── 404 FLOAT ANIMATION ─────────────────────────────────────────────── */
+
+@keyframes float-404 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
+
+.animate-float-404 {
+  animation: float-404 3s var(--ease-standard) infinite;
+}
+
 /* ─── TRANSITION HELPERS ───────────────────────────────────────────────── */
 
 /* Smooth color transition */
