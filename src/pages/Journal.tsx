@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
+import './Journal.css';
 import { Button } from '../components/core/Button';
 import { HeroSection } from '../components/patterns/HeroSection';
 import {
@@ -21,7 +22,6 @@ import {
   ClipboardList,
   FileText,
 } from 'lucide-react';
-import '../styles/static-pages.css';
 
 /* ─── Template type system ──────────────────────────────────────────────────── */
 
@@ -79,7 +79,7 @@ const TYPE_META: Record<EntryType, {
   },
   'compte-rendu': {
     emoji: '📊', label: 'Compte rendu',
-    bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'rgba(157, 190, 186, 0.4)',
+    bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'var(--tls-success-border)',
     icon: FileText,
   },
 };
@@ -409,7 +409,7 @@ export const Journal: React.FC = () => {
   const selectedPeriodLabel = PERIOD_FILTERS.find((f) => f.key === periodFilter)?.label ?? 'Toute période';
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--surface)', display: 'flex', flexDirection: 'column' }}>
+    <div className="journal-page">
       {/* Hero Section */}
       <HeroSection
         icon={Sparkles}
@@ -418,10 +418,10 @@ export const Journal: React.FC = () => {
         gradient="primary"
       />
 
-      <div style={{ flex: 1, padding: 'var(--s-8)', maxWidth: 'var(--container-wide)', marginLeft: 'auto', marginRight: 'auto', width: '100%', boxSizing: 'border-box' }}>
+      <div className="journal-content">
         {/* KPI Cards — Enhanced with elevation and better spacing */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--s-4)', marginBottom: 'var(--s-10)' }}>
-          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '0ms' } as React.CSSProperties}>
+        <div className="journal-kpi-grid">
+          <div className="journal-kpi-grid__item">
             <KpiCard
               label="Entrées ce mois"
               value={String(thisMonthCount)}
@@ -430,7 +430,7 @@ export const Journal: React.FC = () => {
               iconColor="var(--tls-primary-600)"
             />
           </div>
-          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '80ms' } as React.CSSProperties}>
+          <div className="journal-kpi-grid__item">
             <KpiCard
               label="Thèmes explorés"
               value={String(uniqueTagsCount)}
@@ -439,7 +439,7 @@ export const Journal: React.FC = () => {
               iconColor="var(--tls-orange-600)"
             />
           </div>
-          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '160ms' } as React.CSSProperties}>
+          <div className="journal-kpi-grid__item">
             <KpiCard
               label="Sessions coaching"
               value={String(coachingCount)}
@@ -448,7 +448,7 @@ export const Journal: React.FC = () => {
               iconColor="var(--tls-yellow-600)"
             />
           </div>
-          <div style={{ animation: 'statCardStagger var(--dur-3) var(--ease-entrance) both', animationDelay: '240ms' } as React.CSSProperties}>
+          <div className="journal-kpi-grid__item">
             <KpiCard
               label="Insights captés"
               value={String(ENTRIES.filter((e) => e.type === 'insight').length)}
@@ -460,7 +460,7 @@ export const Journal: React.FC = () => {
         </div>
 
         {/* CTA row — Enhanced with better visual prominence */}
-        <div style={{ display: 'flex', gap: 'var(--s-3)', marginBottom: 'var(--s-10)', flexWrap: 'wrap', alignItems: 'center' }}>
+        <div className="journal-cta-row">
           {(['guided', 'free', 'insight'] as EntryType[]).map((type) => {
             const m = TYPE_META[type];
             return (
@@ -478,39 +478,29 @@ export const Journal: React.FC = () => {
           <Button
             leadingIcon={<PenSquare size={16} />}
             onClick={() => navigate('/journal/new-entry')}
-            style={{ marginLeft: 'auto' }}
+            className="journal-cta-row__new-entry"
           >
             Nouvelle entrée
           </Button>
         </div>
 
         {/* Toolbar — Enhanced with better visual separation */}
-        <Card variant="feature" style={{ marginBottom: 'var(--s-8)', boxShadow: 'var(--shadow-sm)', backgroundColor: 'var(--surface)' }}>
-          <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Card variant="feature" className="journal-toolbar">
+          <div className="journal-toolbar__flex">
             {/* Search */}
-            <div style={{
-              flex: 1, minWidth: 'min(100%, 200px)',
-              display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-              padding: 'var(--s-3)', background: 'var(--surface-muted)',
-              borderRadius: 'var(--r-md)', border: '1px solid transparent',
-              transition: 'border-color 0.15s',
-            }}>
-              <Search size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+            <div className="journal-toolbar__search">
+              <Search size={16} className="journal-toolbar__search-icon" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Rechercher titre, thème, tag…"
-                style={{
-                  flex: 1, background: 'transparent', border: 'none',
-                  fontSize: 'var(--t-body)', color: 'var(--text)',
-                  fontFamily: 'var(--font-body)', outline: 'none',
-                }}
+                className="journal-toolbar__search-input"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 0, display: 'flex' }}
+                  className="journal-toolbar__search-clear"
                   aria-label="Effacer la recherche"
                 >
                   <X size={14} />
@@ -519,46 +509,23 @@ export const Journal: React.FC = () => {
             </div>
 
             {/* Period dropdown */}
-            <div style={{ position: 'relative' }}>
+            <div className="journal-toolbar__period-dropdown">
               <button
                 type="button"
                 onClick={() => setShowPeriodMenu((v) => !v)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-                  padding: 'var(--s-3) var(--s-4)',
-                  background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                  borderRadius: 'var(--r-md)', cursor: 'pointer',
-                  fontSize: 'var(--t-body-sm)', fontWeight: 500,
-                  color: 'var(--text)', whiteSpace: 'nowrap',
-                  fontFamily: 'var(--font-body)',
-                }}
+                className="journal-toolbar__period-button"
               >
-                <Filter size={14} style={{ color: 'var(--text-muted)' }} />
+                <Filter size={14} className="journal-toolbar__period-icon" />
                 {selectedPeriodLabel}
-                <ChevronDown size={14} style={{ color: 'var(--text-muted)', transform: showPeriodMenu ? 'rotate(180deg)' : 'none', transition: 'transform var(--dur-2)' }} />
+                <ChevronDown size={14} className={`journal-toolbar__period-chevron ${showPeriodMenu ? 'journal-toolbar__period-chevron--open' : ''}`} />
               </button>
               {showPeriodMenu && (
-                <div style={{
-                  position: 'absolute', top: 'calc(100% + var(--s-1))', right: 0, zIndex: 50,
-                  background: 'var(--surface)', border: '1px solid var(--border)',
-                  borderRadius: 'var(--r-lg)', boxShadow: 'var(--shadow-md)',
-                  overflow: 'hidden', minWidth: 160,
-                  animation: 'periodMenuIn 0.18s ease both',
-                }}>
+                <div className="journal-toolbar__period-menu">
                   {PERIOD_FILTERS.map(({ key, label }) => (
                     <button
                       key={key}
                       onClick={() => { setPeriodFilter(key); setShowPeriodMenu(false); }}
-                      style={{
-                        display: 'block', width: '100%', textAlign: 'left',
-                        padding: 'var(--s-3) var(--s-4)',
-                        background: periodFilter === key ? 'var(--tls-primary-50)' : 'transparent',
-                        color: periodFilter === key ? 'var(--tls-primary-700)' : 'var(--text)',
-                        border: 'none', cursor: 'pointer',
-                        fontSize: 'var(--t-body-sm)', fontFamily: 'var(--font-body)',
-                        fontWeight: periodFilter === key ? 600 : 400,
-                        transition: 'background var(--dur-1)',
-                      }}
+                      className={`journal-toolbar__period-option ${periodFilter === key ? 'journal-toolbar__period-option--active' : ''}`}
                     >
                       {label}
                     </button>
@@ -569,7 +536,7 @@ export const Journal: React.FC = () => {
           </div>
 
           {/* Type filter pills */}
-          <div style={{ marginTop: 'var(--s-4)', display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }} role="tablist" aria-label="Filtrer par type">
+          <div className="journal-toolbar__type-filters" role="tablist" aria-label="Filtrer par type">
             {TYPE_FILTERS.map(({ key, label }) => (
               <button
                 key={key}
@@ -587,22 +554,13 @@ export const Journal: React.FC = () => {
 
         {/* Result count — Enhanced with better styling */}
         {(typeFilter !== 'all' || periodFilter !== 'all' || searchQuery) && (
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginBottom: 'var(--s-4)', padding: 'var(--s-3) var(--s-5)',
-            background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))', borderRadius: 'var(--r-lg)',
-            border: '1px solid var(--tls-primary-100)', boxShadow: 'var(--shadow-xs)',
-          }}>
-            <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--tls-primary-700)', fontWeight: 500 }}>
+          <div className="journal-result-count">
+            <span className="journal-result-count__text">
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
             </span>
             <button
               onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 'var(--s-1)',
-                fontSize: 'var(--t-caption)', color: 'var(--tls-primary-600)', fontWeight: 600,
-                background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)',
-              }}
+              className="journal-result-count__reset"
             >
               <X size={12} />
               Réinitialiser
@@ -612,28 +570,23 @@ export const Journal: React.FC = () => {
 
         {/* Entries List */}
         {filteredEntries.length === 0 ? (
-          <Card variant="feature" style={{ textAlign: 'center', padding: 'var(--s-12)' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--s-4)' }}>
-              <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--surface-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Search size={24} style={{ color: 'var(--text-muted)' }} />
-              </div>
-              <div>
-                <h3 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>Aucune entrée trouvée</h3>
-                <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>
-                  Essayez d'élargir votre recherche ou de modifier les filtres.
-                </p>
-              </div>
+          <Card variant="feature" className="journal-empty-state">
+            <div className="journal-empty-state__icon-container">
+              <Search size={24} className="journal-empty-state__icon" />
+            </div>
+            <div>
+              <h3 className="journal-empty-state__title">Aucune entrée trouvée</h3>
+              <p className="journal-empty-state__description">
+                Essayez d'élargir votre recherche ou de modifier les filtres.
+              </p>
             </div>
           </Card>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+          <div className="journal-entries-list">
             {filteredEntries.map((entry, index) => (
               <div
                 key={entry.id}
-                style={{
-                  animation: 'cardFadeInUp var(--dur-3) var(--ease-entrance) both',
-                  animationDelay: `${index * 60}ms`,
-                } as React.CSSProperties}
+                className="journal-entries-list__item"
               >
                 <EntryCard
                   entry={entry}
