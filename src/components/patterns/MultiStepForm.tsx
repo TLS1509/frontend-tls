@@ -8,13 +8,14 @@
  * - Navigation (next/back)
  * - Step content rendering
  *
- * Uses TLS design tokens throughout.
+ * Uses TLS design tokens throughout via CSS classes (BEM naming).
  */
 
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { Button } from '../core/Button';
 import { Card } from '../core/Card';
+import './MultiStepForm.css';
 
 export interface FormStep {
   id: number;
@@ -48,38 +49,19 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
   const step = steps[currentStep - 1];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+    <div className="multi-step-form">
       {/* Progress Bar */}
       {showProgressBar && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                height: '6px',
-                borderRadius: 'var(--r-pill)',
-                background: 'var(--surface-muted)',
-                overflow: 'hidden',
-              }}
-            >
+        <div className="multi-step-form__progress-section">
+          <div className="multi-step-form__progress-track-container">
+            <div className="multi-step-form__progress-track">
               <div
-                style={{
-                  height: '100%',
-                  background: 'var(--tls-primary-500)',
-                  width: `${progress}%`,
-                  transition: 'width var(--dur-3)',
-                }}
+                className="multi-step-form__progress-fill"
+                style={{ width: `${progress}%` }}
               />
             </div>
           </div>
-          <span
-            style={{
-              fontSize: 'var(--t-caption)',
-              fontWeight: 600,
-              color: 'var(--tls-primary-500)',
-              minWidth: '60px',
-              textAlign: 'right',
-            }}
-          >
+          <span className="multi-step-form__progress-label">
             {currentStep} / {steps.length}
           </span>
         </div>
@@ -87,61 +69,32 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
       {/* Step Indicators */}
       {showStepIndicators && (
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${steps.length}, 1fr)`, gap: 'var(--s-2)' }}>
+        <div
+          className="multi-step-form__indicators"
+          style={{ gridTemplateColumns: `repeat(${steps.length}, 1fr)` }}
+        >
           {steps.map((s) => {
             const isActive = s.id === currentStep;
             const isCompleted = s.id < currentStep;
+            const indicatorClasses = [
+              'multi-step-form__indicator',
+              isActive && 'multi-step-form__indicator--active',
+              isCompleted && 'multi-step-form__indicator--completed',
+              onStepClick && 'multi-step-form__indicator--interactive',
+            ]
+              .filter(Boolean)
+              .join(' ');
+
             return (
               <div
                 key={s.id}
+                className={indicatorClasses}
                 onClick={() => onStepClick?.(s.id)}
-                style={{
-                  padding: 'var(--s-3)',
-                  borderRadius: 'var(--r-lg)',
-                  border: isActive
-                    ? '2px solid var(--tls-primary-500)'
-                    : '1px solid var(--border)',
-                  background: isActive
-                    ? 'var(--tls-primary-50)'
-                    : isCompleted
-                      ? 'var(--tls-success-50)'
-                      : 'var(--surface)',
-                  cursor: onStepClick ? 'pointer' : 'default',
-                  textAlign: 'center',
-                  transition: 'all var(--dur-2)',
-                }}
-                onMouseEnter={(e) => {
-                  if (onStepClick)
-                    (e.currentTarget as HTMLDivElement).style.transform =
-                      'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  if (onStepClick)
-                    (e.currentTarget as HTMLDivElement).style.transform =
-                      'translateY(0)';
-                }}
               >
-                <div
-                  style={{
-                    fontSize: 'var(--t-h4)',
-                    fontWeight: 700,
-                    color: isActive
-                      ? 'var(--tls-primary-600)'
-                      : isCompleted
-                        ? 'var(--tls-success-600)'
-                        : 'var(--text-soft)',
-                  }}
-                >
+                <div className="multi-step-form__indicator-number">
                   {isCompleted ? <CheckCircle2 size={20} /> : s.id}
                 </div>
-                <span
-                  style={{
-                    fontSize: 'var(--t-micro)',
-                    color: 'var(--text-soft)',
-                    display: 'block',
-                    marginTop: 'var(--s-1)',
-                  }}
-                >
+                <span className="multi-step-form__indicator-label">
                   Étape {s.id}
                 </span>
               </div>
@@ -151,27 +104,14 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
       )}
 
       {/* Step Content */}
-      <Card style={{ padding: 'var(--s-8)' }}>
+      <Card className="multi-step-form__content">
         {step && (
           <>
-            <h2
-              style={{
-                fontSize: 'var(--t-h3)',
-                fontWeight: 700,
-                color: 'var(--text)',
-                margin: '0 0 var(--s-2)',
-              }}
-            >
+            <h2 className="multi-step-form__title">
               {step.title}
             </h2>
             {step.description && (
-              <p
-                style={{
-                  fontSize: 'var(--t-body-lg)',
-                  color: 'var(--text-soft)',
-                  margin: '0 0 var(--s-6)',
-                }}
-              >
+              <p className="multi-step-form__description">
                 {step.description}
               </p>
             )}
@@ -183,13 +123,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
       </Card>
 
       {/* Navigation */}
-      <div
-        style={{
-          display: 'flex',
-          gap: 'var(--s-4)',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div className="multi-step-form__navigation">
         <Button
           onClick={onBack}
           disabled={currentStep === 1}

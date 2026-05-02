@@ -1,0 +1,127 @@
+/* ============================================================================
+   MultiStepForm — Multi-step form pattern with progress tracking
+   ============================================================================ */
+
+.multi-step-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+/* Progress Bar Section */
+.multi-step-form__progress-section {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.multi-step-form__progress-track-container {
+  flex: 1;
+}
+
+.multi-step-form__progress-track {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--surface-muted);
+  overflow: hidden;
+}
+
+.multi-step-form__progress-fill {
+  height: 100%;
+  background: var(--tls-primary-500);
+  transition: width var(--dur-3);
+}
+
+.multi-step-form__progress-label {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--tls-primary-500);
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Step Indicators Grid */
+.multi-step-form__indicators {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.multi-step-form__indicator {
+  padding: var(--s-3);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: default;
+  text-align: center;
+  transition: all var(--dur-2);
+}
+
+/* State: Active step */
+.multi-step-form__indicator--active {
+  border: 2px solid var(--tls-primary-500);
+  border-width: 2px;
+  background: var(--tls-primary-50);
+}
+
+.multi-step-form__indicator--active .multi-step-form__indicator-number {
+  color: var(--tls-primary-600);
+}
+
+/* State: Completed step */
+.multi-step-form__indicator--completed {
+  background: var(--tls-success-50);
+}
+
+.multi-step-form__indicator--completed .multi-step-form__indicator-number {
+  color: var(--tls-success-600);
+}
+
+/* Interactive step indicator (clickable) */
+.multi-step-form__indicator--interactive {
+  cursor: pointer;
+}
+
+.multi-step-form__indicator--interactive:hover {
+  transform: translateY(-2px);
+}
+
+/* Indicator number/icon */
+.multi-step-form__indicator-number {
+  font-size: var(--t-h4);
+  font-weight: 700;
+  color: var(--text-soft);
+  transition: color var(--dur-2);
+}
+
+/* Indicator label */
+.multi-step-form__indicator-label {
+  font-size: var(--t-micro);
+  color: var(--text-soft);
+  display: block;
+  margin-top: var(--s-1);
+}
+
+/* Content Card */
+.multi-step-form__content {
+  padding: var(--s-8);
+}
+
+.multi-step-form__title {
+  font-size: var(--t-h3);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 var(--s-2);
+}
+
+.multi-step-form__description {
+  font-size: var(--t-body-lg);
+  color: var(--text-soft);
+  margin: 0 0 var(--s-6);
+}
+
+/* Navigation Footer */
+.multi-step-form__navigation {
+  display: flex;
+  gap: var(--s-4);
+  justify-content: space-between;
+}

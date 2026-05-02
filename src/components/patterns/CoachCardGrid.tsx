@@ -14,6 +14,7 @@
 import React from 'react';
 import { ProfileCard } from '../ui/ProfileCard';
 import type { ProfileCardVariant, ProfileMetadata, ProfileSocialLink } from '../ui/ProfileCard';
+import './CoachCardGrid.css';
 
 export interface CoachItem {
   id: string;
