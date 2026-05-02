@@ -395,4 +395,111 @@ Build reusable form components and refactor Settings page to use:
 4. Final testing and validation
 5. Prepare for deployment
 
-**End of Phase 5 Progress Summary**
+---
+
+## 🔄 Week 3 Update: Component Refactoring & Token Compliance
+
+**Date**: May 2, 2026  
+**Focus**: Core component refactoring, hardcoded value fixes, pattern establishment
+
+### Completed Work
+
+#### 1. Core CSS Token Fixes
+Fixed 7 hardcoded color values in `tls-components.css`:
+- ✅ Button text colors: `#fff` → `var(--on-color-text-main)` (4 instances)
+- ✅ Input/Select success borders: `#9DBEBA` → `var(--tls-success-base)` (2 instances)
+- ✅ Stat card delta colors: `#5A8A86` → `var(--tls-success-base)` (1 instance)
+- ✅ Destructive button hover: `#D16A41` → `var(--tls-orange-600)` (1 instance)
+
+**Result**: 100% design token compliance in core CSS
+
+#### 2. Component Refactoring (3 Major Cards)
+
+**SessionCard Refactoring**:
+- ✅ Removed 50+ lines of inline styles
+- ✅ Created SessionCard.css (77 lines, BEM naming)
+- ✅ Removed hover state DOM manipulation
+- ✅ Used semantic components (CardTitle, MetaPillGroup)
+- ✅ Replaced custom buttons with proper CSS classes
+
+**ArticleCard Refactoring**:
+- ✅ Removed 80+ lines of inline styles
+- ✅ Created ArticleCard.css (90 lines)
+- ✅ Tone-aware icon background colors in CSS
+- ✅ Proper save button styling with CSS states
+- ✅ Full design token compliance
+
+**VideoCard Refactoring**:
+- ✅ Removed 60+ lines of inline styles
+- ✅ Created VideoCard.css (108 lines)
+- ✅ Tone-aware thumbnail backgrounds (primary, warm, sun, brand)
+- ✅ Moved play button styling to CSS
+- ✅ Button action styling with proper states
+
+#### 3. Documentation & Refactoring Pattern
+
+Created `/src/COMPONENT_REFACTORING_GUIDE.md` (15KB):
+- ✅ Problem statement with before/after examples
+- ✅ Comprehensive refactoring checklist
+- ✅ Design token reference guide
+- ✅ BEM CSS naming conventions
+- ✅ Common mistakes to avoid
+- ✅ Priority refactoring queue (Tier 1-5)
+- ✅ Validation checklist
+
+### Statistics
+
+| Metric | Value |
+|--------|-------|
+| Components refactored | 3 |
+| CSS files created | 3 (275 lines total) |
+| Inline styles removed | 200+ |
+| Hardcoded values fixed | 7 |
+| Documentation | 15KB guide created |
+| Build status | ✅ Passing (1.0s build time) |
+| TypeScript errors | 0 |
+
+### Commits Made
+
+1. **4ae5ba9**: Phase 5 core component refactoring (7 CSS fixes + SessionCard + ArticleCard + guide)
+2. **786af44**: Refactor VideoCard (remove inline styles, full token compliance)
+
+### Validation Status
+
+- ✅ Build passes without errors: `npm run build` (1.0s)
+- ✅ No TypeScript errors
+- ✅ All changes on local main branch
+- ✅ 100% design token compliance in refactored components
+- ✅ BEM CSS naming consistent
+- ✅ No worktree artifacts
+
+### Next Steps (Priority Queue)
+
+**Phase 5.2 — Remaining Learning Cards** (8-10 hours):
+- ProjectCard, RankingCard, MagazineCard, MessageThreadCard, PromptCard
+
+**Phase 5.3 — Modal Components** (10-12 hours):
+- BookingModal, SessionFeedbackModal, StreakCelebrationModal, CancelSessionModal, VideoPlayerModal
+
+**Phase 5.4 — Pattern Components** (8-10 hours):
+- DataTable, SearchWithFilters, MultiStepForm, ActivityFeed, FormLayout
+
+**Phase 5.5 — Figma Comparison** (8-10 hours):
+- Compare with Learning App Figma designs
+- Verify token compliance across all components
+- Document design discrepancies
+
+### Refactoring Pattern Established
+
+The pattern is now proven and documented:
+1. ✅ Remove inline styles → CSS classes
+2. ✅ Use semantic components (Card, Button, Badge, MetaPill)
+3. ✅ Apply BEM naming convention
+4. ✅ Ensure 100% design token compliance
+5. ✅ Create companion CSS file
+
+**Ready for**: Rapid application to remaining 108+ components
+
+---
+
+**End of Phase 5 Progress Summary - Updated May 2, 2026**
