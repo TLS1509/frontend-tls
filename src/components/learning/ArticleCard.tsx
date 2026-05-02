@@ -26,6 +26,7 @@ import { Card, CardEyebrow, CardTitle, CardDesc, CardFooter } from '../core/Card
 import { Button } from '../core/Button';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
 import { Calendar, User, Clock, Bookmark, BookmarkCheck, ArrowRight } from 'lucide-react';
+import './ArticleCard.css';
 
 export interface ArticleCardProps {
   type: 'actu' | 'tutoriel' | 'dossier' | 'magazine';
@@ -90,34 +91,20 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <Card
       variant="feature"
-      className={className}
+      className={['article-card', className].filter(Boolean).join(' ')}
       onClick={onClick}
-      style={{ cursor: 'pointer' }}
     >
       {/* Header: Type icon + date + save button */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--s-3)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
+      <div className="article-card__header">
+        <div className="article-card__type-info">
           {icon && (
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 'var(--r-sm)',
-                background: getIconBg(),
-                color: getIconColor(),
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-              aria-hidden="true"
-            >
+            <div className={`article-card__icon article-card__icon--${tone}`} aria-hidden="true">
               {icon}
             </div>
           )}
           <div>
-            <CardEyebrow style={{ marginBottom: 0 }}>{typeLabel}</CardEyebrow>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>
+            <CardEyebrow className="article-card__type-label">{typeLabel}</CardEyebrow>
+            <span className="article-card__date">
               <Calendar size={11} />
               {publishedAt}
             </span>
@@ -126,23 +113,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         {onSave && (
           <button
             type="button"
+            className={['article-card__save-btn', isSaved && 'article-card__save-btn--saved'].filter(Boolean).join(' ')}
             onClick={(e) => {
               e.stopPropagation();
               onSave(itemId);
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: isSaved ? 'var(--tls-primary-600)' : 'var(--text-muted)',
-              transition: 'color var(--dur-2)',
-              padding: 'var(--s-1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = 'var(--tls-primary-600)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = isSaved ? 'var(--tls-primary-600)' : 'var(--text-muted)';
             }}
             aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
           >
@@ -152,28 +126,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       </div>
 
       {/* Category */}
-      <span
-        style={{
-          fontSize: 'var(--t-micro)',
-          color: 'var(--text-muted)',
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: '0.04em',
-          display: 'block',
-          marginBottom: 'var(--s-1)',
-        }}
-      >
-        {category}
-      </span>
+      <span className="article-card__category">{category}</span>
 
       {/* Title */}
-      <CardTitle style={{ marginBottom: 'var(--s-2)' }}>{title}</CardTitle>
+      <CardTitle className="article-card__title">{title}</CardTitle>
 
       {/* Summary */}
-      <CardDesc style={{ marginBottom: 'var(--s-3)' }}>{summary}</CardDesc>
+      <CardDesc className="article-card__summary">{summary}</CardDesc>
 
       {/* Footer: Author + read time + action */}
-      <CardFooter style={{ padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <CardFooter className="article-card__footer">
         <MetaPillGroup
           items={[
             { icon: <User size={12} />, text: author },

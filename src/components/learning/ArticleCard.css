@@ -1,0 +1,116 @@
+/* ============================================================================
+   ArticleCard — Article/content display card for Veille/Magazine feeds
+   ============================================================================ */
+
+.article-card {
+  cursor: pointer;
+}
+
+/* Header: Type icon + date + save button */
+.article-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-3);
+  gap: var(--s-2);
+}
+
+/* Type info section: icon + label + date */
+.article-card__type-info {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1;
+}
+
+/* Icon background — tone-aware */
+.article-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.article-card__icon--primary {
+  background: var(--tls-primary-50);
+  color: var(--tls-primary-600);
+}
+
+.article-card__icon--warm {
+  background: var(--tls-orange-100);
+  color: var(--tls-orange-600);
+}
+
+.article-card__icon--sun {
+  background: var(--tls-yellow-100);
+  color: var(--tls-yellow-600);
+}
+
+/* Type label (eyebrow) — remove default margin */
+.article-card__type-label {
+  margin-bottom: 0;
+}
+
+/* Date display with icon */
+.article-card__date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--t-micro);
+  color: var(--text-muted);
+}
+
+/* Save button */
+.article-card__save-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color var(--dur-2);
+  padding: var(--s-1);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.article-card__save-btn:hover {
+  color: var(--tls-primary-600);
+}
+
+.article-card__save-btn--saved {
+  color: var(--tls-primary-600);
+}
+
+/* Category label */
+.article-card__category {
+  font-size: var(--t-micro);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: var(--s-1);
+}
+
+/* Title */
+.article-card__title {
+  margin-bottom: var(--s-2);
+}
+
+/* Summary/description */
+.article-card__summary {
+  margin-bottom: var(--s-3);
+}
+
+/* Footer — override CardFooter default padding */
+.article-card__footer {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
