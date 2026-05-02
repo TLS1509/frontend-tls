@@ -21,6 +21,7 @@ import { Badge } from '../ui/Badge';
 import { Button } from '../core/Button';
 import { MetaPill } from '../ui/MetaPill';
 import { Play, Bookmark, BookmarkCheck, Clock } from 'lucide-react';
+import './VideoCard.css';
 
 export interface VideoCardProps {
   title: string;
@@ -45,120 +46,45 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   onSave,
   className = '',
 }) => {
-  const toneColors: Record<string, { bg: string; border: string; icon: string }> = {
-    primary: {
-      bg: 'var(--tls-primary-50)',
-      border: 'var(--tls-primary-200)',
-      icon: 'var(--tls-primary-700)',
-    },
-    warm: {
-      bg: 'var(--overlay-warm-xs)',
-      border: 'var(--tls-orange-200)',
-      icon: 'var(--tls-orange-700)',
-    },
-    sun: {
-      bg: 'var(--tls-yellow-50)',
-      border: 'var(--tls-yellow-200)',
-      icon: 'var(--tls-yellow-700)',
-    },
-    brand: {
-      bg: 'var(--surface-muted)',
-      border: 'var(--border-subtle)',
-      icon: 'var(--text-muted)',
-    },
-  };
-
-  const colors = toneColors[tone] || toneColors.primary;
-
   return (
-    <Card className={className}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-        {/* Video Thumbnail */}
-        <div
-          style={{
-            position: 'relative',
-            height: 180,
-            borderRadius: 'var(--r-lg)',
-            background: colors.bg,
-            border: `1px solid ${colors.border}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            overflow: 'hidden',
-            transition: 'all var(--dur-2)',
+    <Card className={['video-card', `video-card--${tone}`, className].filter(Boolean).join(' ')}>
+      {/* Video Thumbnail */}
+      <div className="video-card__thumbnail" onClick={onClick}>
+        <div className="video-card__play-btn" aria-hidden="true">
+          <Play size={24} fill="currentColor" />
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="video-card__content">
+        <h3 className="video-card__title">{title}</h3>
+        <div className="video-card__meta">
+          <Badge variant="neutral">{category}</Badge>
+          <MetaPill icon={<Clock size={12} />} text={duration} size="sm" />
+        </div>
+        {author && <p className="video-card__author">Par {author}</p>}
+      </div>
+
+      {/* Actions */}
+      <div className="video-card__actions">
+        <Button onClick={onClick} className="video-card__action-watch">
+          <Play size={14} />
+          Regarder
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSave?.();
           }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLDivElement;
-            el.style.boxShadow = 'var(--shadow-md)';
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLDivElement;
-            el.style.boxShadow = 'none';
-          }}
-          onClick={onClick}
+          className={['video-card__action-save', isSaved && 'video-card__action-save--saved'].filter(Boolean).join(' ')}
         >
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              background: colors.icon,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              transition: 'transform var(--dur-2)',
-            }}
-          >
-            <Play size={24} style={{ marginLeft: 2 }} fill="currentColor" />
-          </div>
-        </div>
-
-        {/* Content */}
-        <div>
-          <h3 style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, marginBottom: 'var(--s-2)' }}>
-            {title}
-          </h3>
-          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-2)' }}>
-            <Badge variant="neutral">{category}</Badge>
-            <MetaPill icon={<Clock size={12} />} text={duration} size="sm" />
-          </div>
-          {author && (
-            <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-              Par {author}
-            </p>
+          {isSaved ? (
+            <BookmarkCheck size={16} />
+          ) : (
+            <Bookmark size={16} />
           )}
-        </div>
-
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: 'var(--s-2)', paddingTop: 'var(--s-3)', borderTop: '1px solid var(--border-subtle)' }}>
-          <Button
-            onClick={onClick}
-            style={{ flex: 1, justifyContent: 'center' }}
-          >
-            <Play size={14} style={{ marginRight: 6 }} />
-            Regarder
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSave?.();
-            }}
-            style={{
-              padding: 'var(--s-2)',
-              minWidth: 44,
-              justifyContent: 'center',
-            }}
-          >
-            {isSaved ? (
-              <BookmarkCheck size={16} style={{ color: 'var(--tls-primary-500)' }} />
-            ) : (
-              <Bookmark size={16} />
-            )}
-          </Button>
-        </div>
+        </Button>
       </div>
     </Card>
   );
