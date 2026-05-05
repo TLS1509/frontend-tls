@@ -77,14 +77,29 @@ export default {
         xl: '3rem',    // 48px
         '2xl': '4rem', // 64px
       },
+      fontFamily: {
+        display: ['var(--font-display, "League Spartan", "Helvetica Neue", Arial, sans-serif)'],
+        body: ['var(--font-body, "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif)'],
+        mono: ['var(--font-mono, "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace)'],
+      },
       fontSize: {
+        // Display headings (large — Tailwind utility scale)
         'heading-1': ['3rem', { lineHeight: '3.5rem', fontWeight: '600' }],
         'heading-2': ['2.25rem', { lineHeight: '2.75rem', fontWeight: '600' }],
         'heading-3': ['1.875rem', { lineHeight: '2.25rem', fontWeight: '600' }],
         'heading-4': ['1.5rem', { lineHeight: '2rem', fontWeight: '600' }],
         'heading-5': ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],
-        'body': ['1rem', { lineHeight: '1.5rem' }],
-        'caption': ['0.875rem', { lineHeight: '1.25rem' }],
+        // Content headings (matches --t-h* tokens)
+        'h1': ['var(--t-h1, 2.25rem)', { lineHeight: '2.75rem', fontWeight: '700' }],
+        'h2': ['var(--t-h2, 1.75rem)', { lineHeight: '2.25rem', fontWeight: '700' }],
+        'h3': ['var(--t-h3, 1.375rem)', { lineHeight: '1.875rem', fontWeight: '600' }],
+        'h4': ['var(--t-h4, 1.125rem)', { lineHeight: '1.625rem', fontWeight: '600' }],
+        // Body scale (matches --t-body-* tokens)
+        'body-lg': ['var(--t-body-lg, 1.125rem)', { lineHeight: '1.75rem' }],
+        'body': ['var(--t-body, 1rem)', { lineHeight: '1.5rem' }],
+        'body-sm': ['var(--t-body-sm, 0.9375rem)', { lineHeight: '1.5rem' }],
+        'caption': ['var(--t-caption, 0.8125rem)', { lineHeight: '1.25rem' }],
+        'micro': ['var(--t-micro, 0.6875rem)', { lineHeight: '1rem' }],
       },
       boxShadow: {
         xs: 'var(--tls-shadow-xs, 0 1px 2px 0 rgba(0, 0, 0, 0.05))',
