@@ -54,6 +54,8 @@
    battent les utilities Tailwind à cause de la non-layered specificity. */
 @import './tls-components.css' layer(components);
 @import './components-modern.css' layer(components);
+/* Input.css : encore consommé par Settings.tsx (.switch__track) — sera retiré en Phase 8.6 */
+@import '../components/core/Input.css' layer(components);
 
 /* ── 6. LEARNING ────────────────────────────────────────────────────────── */
 /* learning-components-modern.css → composants spécifiques au parcours apprenant */

@@ -1,9 +1,8 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
-import './Input.css';
 
 /**
- * Select — Complete, self-contained dropdown field component
+ * Select — Self-contained dropdown field component (Tailwind v4)
  *
  * Includes everything needed for a form field:
  * - Label (with optional required indicator)
@@ -12,7 +11,6 @@ import './Input.css';
  *
  * Sizes: sm/md/lg
  * Status: default/success/error
- * Features: Custom options array or children elements, disabled, required
  */
 
 export type SelectSize = 'sm' | 'md' | 'lg';
@@ -26,42 +24,42 @@ export interface SelectOption {
 
 export interface SelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  /** Label text displayed above the control */
   label?: React.ReactNode;
-  /** Helper text displayed below the control */
   hint?: React.ReactNode;
-  /** Error message (displayed in place of hint, overrides when present) */
   error?: React.ReactNode;
-  /** Mark field as required (adds * to label) */
   required?: boolean;
-  /** Visual size of the select */
   size?: SelectSize;
-  /** Status variant: default/success/error */
   status?: SelectStatus;
-  /** Array of options */
   options?: SelectOption[];
-  /** Placeholder text when value is empty */
   placeholder?: string;
-  /** Show chevron icon (default: true) */
   showIcon?: boolean;
 }
 
-/**
- * Select — Self-contained dropdown field component
- *
- * Usage:
- * <Select
- *   label="Choose language"
- *   hint="Select your preferred language"
- *   options={[
- *     { value: 'fr', label: 'Français' },
- *     { value: 'en', label: 'English' },
- *   ]}
- *   value={selected}
- *   onChange={handleChange}
- *   required
- * />
- */
+const FIELD_BASE = 'flex flex-col gap-2 font-body';
+
+const CONTROL_BASE =
+  'inline-flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-colors duration-200';
+
+const SIZE_CLASSES: Record<SelectSize, string> = {
+  sm: 'h-9 px-3 text-caption',
+  md: 'h-11 px-3.5 text-body-sm',
+  lg: 'h-13 px-4 text-body',
+};
+
+const STATUS_CLASSES: Record<SelectStatus, string> = {
+  default: 'border-ink-300',
+  success:
+    'border-emerald-500 focus-within:outline-none focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200',
+  error:
+    'border-red-500 focus-within:outline-none focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-200',
+};
+
+const DISABLED_CLASSES =
+  'bg-ink-50 text-ink-500 cursor-not-allowed';
+
+const NATIVE_SELECT =
+  'flex-1 bg-transparent outline-none border-0 p-0 min-w-0 font-body text-inherit appearance-none cursor-pointer disabled:cursor-not-allowed focus:outline-none focus:shadow-none focus:bg-transparent focus-visible:outline-none';
+
 export const Select: React.FC<SelectProps> = ({
   label,
   hint,
@@ -78,45 +76,42 @@ export const Select: React.FC<SelectProps> = ({
   children,
   ...rest
 }) => {
-  // Generate ID if not provided
   const fieldId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
 
-  // Container classes for the entire field
-  const containerClasses = [
-    'field',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const containerClasses = [FIELD_BASE, className].filter(Boolean).join(' ');
 
-  // Control wrapper classes (using .input base class with modifiers)
   const controlClasses = [
-    'input',
-    size !== 'md' && `input--${size}`,
-    status === 'success' && 'input--success',
-    status === 'error' && 'input--error',
-    disabled && 'input--disabled',
+    CONTROL_BASE,
+    SIZE_CLASSES[size],
+    STATUS_CLASSES[status],
+    disabled && DISABLED_CLASSES,
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
     <div className={containerClasses}>
-      {/* Label */}
       {label && (
-        <label className="field__label" htmlFor={fieldId}>
+        <label
+          className="text-body-sm font-semibold text-ink-900"
+          htmlFor={fieldId}
+        >
           {label}
-          {required && <span className="required" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-600 ml-0.5" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
       )}
 
-      {/* Control: Select with optional icon */}
       <span className={controlClasses}>
         <select
           id={fieldId}
           disabled={disabled}
           aria-invalid={status === 'error' || undefined}
           aria-describedby={error || hint ? `${fieldId}-message` : undefined}
+          className={NATIVE_SELECT}
           {...rest}
         >
           {placeholder && (
@@ -133,17 +128,23 @@ export const Select: React.FC<SelectProps> = ({
             : children}
         </select>
         {showIcon && (
-          <span className="input__icon" aria-hidden="true">
+          <span
+            className="inline-flex items-center justify-center shrink-0 text-ink-500 pointer-events-none"
+            aria-hidden="true"
+          >
             <ChevronDown size={16} />
           </span>
         )}
       </span>
 
-      {/* Helper text or error message */}
       {(error || hint) && (
         <p
           id={`${fieldId}-message`}
-          className={error ? 'field__error' : 'field__hint'}
+          className={
+            error
+              ? 'text-caption text-red-700 flex items-center gap-1'
+              : 'text-caption text-ink-500'
+          }
           role={error ? 'alert' : undefined}
         >
           {error || hint}

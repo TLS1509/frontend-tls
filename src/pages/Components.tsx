@@ -39,6 +39,7 @@ import {
   Checkbox,
   Radio,
   Switch,
+  Select,
   // Identity
   Badge,
   Avatar,
@@ -537,6 +538,53 @@ const COMPONENTS: ComponentEntry[] = [
           <Input size="sm" placeholder="Small" />
           <Input size="md" placeholder="Medium" />
           <Input size="lg" placeholder="Large" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'Select',
+    codeName: 'Select.tsx',
+    cssBase: '.field / .input (select wrapper)',
+    category: 'Core',
+    description: 'Native dropdown with chevron icon. Sizes sm/md/lg, status default/success/error.',
+    keywords: ['form', 'dropdown', 'select', 'options'],
+    render: () => (
+      <div className="vstack" style={{ maxWidth: 480 }}>
+        <Select
+          label="Langue"
+          hint="Choisissez votre langue préférée"
+          options={[
+            { value: 'fr', label: 'Français' },
+            { value: 'en', label: 'English' },
+            { value: 'es', label: 'Español' },
+          ]}
+          defaultValue="fr"
+        />
+        <Select
+          label="Niveau"
+          error="Sélection requise"
+          status="error"
+          required
+          options={[
+            { value: 'beg', label: 'Débutant' },
+            { value: 'int', label: 'Intermédiaire' },
+            { value: 'adv', label: 'Avancé' },
+          ]}
+        />
+        <Select
+          label="Validé"
+          status="success"
+          options={[
+            { value: 'a', label: 'Option A' },
+            { value: 'b', label: 'Option B' },
+          ]}
+          defaultValue="a"
+        />
+        <div className="hstack">
+          <Select size="sm" placeholder="Small" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="md" placeholder="Medium" options={[{ value: 'a', label: 'A' }]} />
+          <Select size="lg" placeholder="Large" options={[{ value: 'a', label: 'A' }]} />
         </div>
       </div>
     ),
