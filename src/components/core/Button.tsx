@@ -44,6 +44,26 @@ export interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
 }
 
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-full font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 active:translate-y-0.5 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
+  primary: 'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
+  warm: 'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
+  secondary: 'bg-neutral-100 text-ink-900 border border-neutral-200 shadow-xs hover:bg-neutral-200 hover:border-primary-300',
+  ghost: 'bg-transparent text-ink-900 hover:bg-neutral-100',
+  'brand-ghost': 'bg-primary-50 text-primary-800 hover:bg-primary-100',
+  destructive: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+  glass: 'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/30',
+  link: 'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+};
+
+const SIZE_CLASSES: Record<ButtonSize, string> = {
+  sm: 'h-8 px-3.5 text-caption',
+  md: 'h-10 px-5 text-body-sm',
+  lg: 'h-12 px-6 text-body',
+  xl: 'h-14 px-7 text-body-lg',
+};
+
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
@@ -59,11 +79,11 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const classes = [
-    'btn',
-    `btn--${variant}`,
-    `btn--${size}`,
-    iconOnly && 'btn--icon-only',
-    fullWidth && 'btn--full-width',
+    BASE,
+    VARIANT_CLASSES[variant],
+    !iconOnly && SIZE_CLASSES[size],
+    iconOnly && `w-10 ${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-10'} aspect-square`,
+    fullWidth && 'w-full',
     className,
   ]
     .filter(Boolean)
@@ -78,10 +98,10 @@ export const Button: React.FC<ButtonProps> = ({
       aria-disabled={disabled || loading || undefined}
       {...rest}
     >
-      {leadingIcon && <span className="btn__icon">{leadingIcon}</span>}
+      {leadingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{leadingIcon}</span>}
       {!iconOnly && children}
       {iconOnly && children}
-      {trailingIcon && <span className="btn__icon">{trailingIcon}</span>}
+      {trailingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{trailingIcon}</span>}
     </button>
   );
 };

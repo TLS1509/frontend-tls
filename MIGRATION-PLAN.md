@@ -44,7 +44,7 @@
 
 | # | Composant | Fichier | Inline styles | CSS BEM | Statut |
 |---|-----------|---------|--------------|---------|--------|
-| 1.1 | Button | `src/components/core/Button.tsx` | ~0 | `.btn--*` (8 variants) | ⬜ |
+| 1.1 | Button | `src/components/core/Button.tsx` | ~0 | `.btn--*` (8 variants) | ✅ |
 | 1.2 | Card | `src/components/core/Card.tsx` | ~5 | `.card--*` (6 variants) | ⬜ |
 | 1.3 | Input | `src/components/core/Input.tsx` | ~8 | `.input--*` | ⬜ |
 | 1.4 | Select | `src/components/core/Select.tsx` | ~5 | `.select--*` | ⬜ |
