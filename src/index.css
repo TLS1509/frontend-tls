@@ -14,41 +14,41 @@
 @source "../**/*.{js,ts,jsx,tsx,html}";
 
 @theme {
-  /* ── Couleurs Primary (bleu-teal) ── */
-  --color-primary-50: #E8F5F9;
-  --color-primary-100: #D0E8F0;
-  --color-primary-200: #A2D1E8;
-  --color-primary-300: #73BAE0;
-  --color-primary-400: #64B1DB;
+  /* ── Couleurs Primary (bleu-teal) — synced with design-tokens.css ── */
+  --color-primary-50: #E8F4F7;
+  --color-primary-100: #DCEBEF;
+  --color-primary-200: #B9D7DF;
+  --color-primary-300: #96C3CF;
+  --color-primary-400: #73AFBF;
   --color-primary-500: #55A1B4;
-  --color-primary-600: #3D7A8A;
-  --color-primary-700: #2D5A66;
-  --color-primary-800: #1D3A42;
-  --color-primary-900: #1A3A42;
+  --color-primary-600: #4A8FA1;
+  --color-primary-700: #3D7786;
+  --color-primary-800: #2F5F6A;
+  --color-primary-900: #1F3E45;
 
-  /* ── Couleurs Secondary (orange) ── */
-  --color-secondary-50: #FEF4EA;
-  --color-secondary-100: #FEE8D5;
-  --color-secondary-200: #FDD1A3;
-  --color-secondary-300: #FCBB7A;
-  --color-secondary-400: #FCA95F;
+  /* ── Couleurs Secondary (orange) — synced with --tls-orange-* ── */
+  --color-secondary-50: #FFF3EB;
+  --color-secondary-100: #FDDCC7;
+  --color-secondary-200: #FCBB93;
+  --color-secondary-300: #F59A5F;
+  --color-secondary-400: #F18A4C;
   --color-secondary-500: #ED843A;
-  --color-secondary-600: #D6682A;
-  --color-secondary-700: #B84E1F;
-  --color-secondary-800: #9A3414;
-  --color-secondary-900: #7C1A0A;
+  --color-secondary-600: #C06920;
+  --color-secondary-700: #8F5017;
+  --color-secondary-800: #5E3710;
+  --color-secondary-900: #3B2109;
 
-  /* ── Couleurs Accent (jaune) ── */
-  --color-accent-50: #FFFAED;
-  --color-accent-100: #FFF3DB;
-  --color-accent-200: #FFE8B8;
-  --color-accent-300: #FFDD95;
-  --color-accent-400: #FCD272;
-  --color-accent-500: #F8B044;
-  --color-accent-600: #E69A2F;
-  --color-accent-700: #D4841A;
-  --color-accent-800: #B86F0B;
-  --color-accent-900: #9C5A00;
+  /* ── Couleurs Accent (jaune) — synced with --tls-yellow-* ── */
+  --color-accent-50: #FFF9EE;
+  --color-accent-100: #FFECC8;
+  --color-accent-200: #FFD791;
+  --color-accent-300: #FFC15A;
+  --color-accent-400: #F8B044;
+  --color-accent-500: #DF9E3D;
+  --color-accent-600: #C68D36;
+  --color-accent-700: #AE7B30;
+  --color-accent-800: #956A29;
+  --color-accent-900: #7C5822;
 
   /* ── Couleurs Ink (gris-noir) ── */
   --color-ink-0: #ffffff;
@@ -118,12 +118,14 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 
-  /* ── Rayons ── */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
+  /* ── Rayons — synced with --r-* in design-tokens.css ── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 999px;
 
   /* ── Opacité ── */
   --opacity-disabled: 0.5;
