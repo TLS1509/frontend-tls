@@ -44,7 +44,7 @@ export interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
 }
 
-const BASE = 'inline-flex items-center justify-center gap-2 rounded-full font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 active:translate-y-0.5 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 active:translate-y-0.5 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
