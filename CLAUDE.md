@@ -28,18 +28,67 @@ src/
 ## Stratégie de styling — Migration Tailwind (en cours)
 
 ### Objectif final
-Remplacer 100% des classes CSS BEM (`.btn`, `.card`, etc.) et des inline styles `style={{}}` par des **classes Tailwind mappées** depuis `tailwind.config.js`.
+Remplacer 100% des classes CSS BEM (`.btn`, `.card`, etc.) et des inline styles `style={{}}` par des **classes Tailwind mappées** depuis `src/index.css` (configuration CSS-first Tailwind v4).
+
+### Configuration Tailwind v4 — CSS-first
+
+Tailwind v4 utilise une approche **CSS-first** où les tokens sont définis directement dans `src/index.css` (et non dans un fichier JS).
+
+**Fichier clé : `src/index.css`**
+```css
+@import "tailwindcss";
+
+@source "../**/*.{js,ts,jsx,tsx,html}";
+
+@theme {
+  --color-primary-50: #E8F4F7;
+  --color-primary-100: #DCEBEF;
+  /* ... 50-900 ... */
+  --color-primary-600: #4A8FA1;
+  --color-primary-700: #3D7786;
+  /* ... */
+  
+  --color-secondary-500: #ED843A;
+  /* ... */
+  
+  --radius-pill: 999px;
+  --radius-2xl: 24px;
+  
+  --font-display: 'League Spartan', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  
+  --text-h1: 2.25rem;
+  --text-body: 1rem;
+  --text-caption: 0.8125rem;
+}
+```
+
+**Règle critique pour `src/styles/globals.css`** : Tous les sélecteurs d'éléments doivent être dans `@layer base` sinon les inline reset (`* { margin: 0; }`) bloqueront les utilities Tailwind :
+
+```css
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html { font-size: 16px; }
+  body { font-family: var(--font-body); }
+  a { color: inherit; text-decoration: none; }
+}
+```
 
 ### Règles absolues
 
 **1. Jamais de valeurs arbitraires avec `var()`**
 ```tsx
-// INTERDIT — fragile, JIT ne valide pas
+// INTERDIT — fragile, JIT ne valide pas, équivalent manquera
 className="bg-[var(--tls-primary-50)]"
 className="text-[length:var(--t-caption)]"
 className="font-[family-name:var(--font-display)]"
 
-// OBLIGATOIRE — tokens mappés dans tailwind.config.js
+// OBLIGATOIRE — tokens mappés dans index.css @theme
 className="bg-primary-50"
 className="text-caption"
 className="font-display"
@@ -77,42 +126,289 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 
 ## Référence Tailwind → Design Tokens
 
+### Couleurs
+| Token | Classe Tailwind | Hex |
+|---|---|---|
+| primary-50 | `bg-primary-50` / `text-primary-50` | #E8F4F7 |
+| primary-100 | `bg-primary-100` / `text-primary-100` | #DCEBEF |
+| primary-200 | `bg-primary-200` / `text-primary-200` | #B9D7DF |
+| primary-300 | `bg-primary-300` / `text-primary-300` | #96C3CF |
+| primary-400 | `bg-primary-400` / `text-primary-400` | #73AFBF |
+| primary-500 | `bg-primary-500` / `text-primary-500` | #55A1B4 |
+| primary-600 | `bg-primary-600` / `text-primary-600` | #4A8FA1 |
+| primary-700 | `bg-primary-700` / `text-primary-700` | #3D7786 |
+| primary-800 | `bg-primary-800` / `text-primary-800` | #2F5F6A |
+| primary-900 | `bg-primary-900` / `text-primary-900` | #1F3E45 |
+| secondary-50 | `bg-secondary-50` / `text-secondary-50` | #FFF3EB |
+| secondary-500 | `bg-secondary-500` / `text-secondary-500` | #ED843A |
+| secondary-600 | `bg-secondary-600` / `text-secondary-600` | #C06920 |
+| accent-50 | `bg-accent-50` / `text-accent-50` | #FFF9EE |
+| accent-500 | `bg-accent-500` / `text-accent-500` | #DF9E3D |
+| ink-50 | `bg-ink-50` / `text-ink-50` | #f9fafb |
+| ink-100 | `bg-ink-100` / `text-ink-100` | #f3f4f6 |
+| ink-900 | `bg-ink-900` / `text-ink-900` | #1a1a1a |
+
+(Liste complète dans `src/index.css` @theme — 50 couleurs)
+
+### Typographie
 | CSS Variable | Classe Tailwind |
 |---|---|
-| `--tls-primary-500` | `bg-primary-500` / `text-primary-500` |
-| `--tls-secondary-500` | `bg-secondary-500` / `text-secondary-500` |
-| `--tls-accent-500` | `bg-accent-500` / `text-accent-500` |
-| `--tls-ink-900` | `bg-ink-900` / `text-ink-900` |
-| `--shadow-sm` | `shadow-sm` |
-| `--shadow-md` | `shadow-md` |
-| `--t-h1` | `text-h1` |
-| `--t-body` | `text-body` |
-| `--t-caption` | `text-caption` |
-| `--t-micro` | `text-micro` |
-| `--font-display` | `font-display` |
-| `--font-body` | `font-body` |
-| `--font-mono` | `font-mono` |
-| `--r-lg` | `rounded-lg` |
-| `--r-xl` | `rounded-xl` |
-| `--r-2xl` | `rounded-2xl` |
+| --text-h1 | `text-h1` |
+| --text-h2 | `text-h2` |
+| --text-h3 | `text-h3` |
+| --text-h4 | `text-h4` |
+| --text-body | `text-body` |
+| --text-body-lg | `text-body-lg` |
+| --text-body-sm | `text-body-sm` |
+| --text-caption | `text-caption` |
+| --text-micro | `text-micro` |
+| --font-display | `font-display` |
+| --font-body | `font-body` |
+| --font-mono | `font-mono` |
 
-Fichier de référence complet : `tailwind.config.js`
+### Espaces & Rayons
+| Token | Classe Tailwind |
+|---|---|
+| --radius-xs | `rounded-xs` (4px) |
+| --radius-sm | `rounded-sm` (6px) |
+| --radius-md | `rounded-md` (10px) |
+| --radius-lg | `rounded-lg` (14px) |
+| --radius-xl | `rounded-xl` (20px) |
+| --radius-2xl | `rounded-2xl` (24px) |
+| --radius-pill | `rounded-pill` (999px) ⚠️ **NOT `rounded-full`** |
+
+### Ombres
+| Token | Classe Tailwind |
+|---|---|
+| --shadow-xs | `shadow-xs` |
+| --shadow-sm | `shadow-sm` |
+| --shadow-md | `shadow-md` |
+| --shadow-lg | `shadow-lg` |
+
+Fichier de référence complet : `src/index.css` (@theme block)
+
+---
+
+## Pattern de migration — Composants avec variants
+
+**Approche validée pour composants avec variants/sizes (Button, Card, Input, etc.)**
+
+Au lieu de construire des strings de classes, utiliser des **maps TypeScript** :
+
+```tsx
+// ✅ PATTERN CORRECT (Button.tsx validé)
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 disabled:opacity-disabled disabled:cursor-not-allowed';
+
+const VARIANT_CLASSES: Record<ButtonVariant, string> = {
+  primary: 'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
+  warm: 'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
+  secondary: 'bg-neutral-100 text-ink-900 border border-neutral-200 shadow-xs hover:bg-neutral-200 hover:border-primary-300',
+  ghost: 'bg-transparent text-ink-900 hover:bg-neutral-100',
+  'brand-ghost': 'bg-primary-50 text-primary-800 hover:bg-primary-100',
+  destructive: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+  glass: 'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/30',
+  link: 'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+};
+
+const SIZE_CLASSES: Record<ButtonSize, string> = {
+  sm: 'h-8 px-3.5 text-caption',
+  md: 'h-10 px-5 text-body-sm',
+  lg: 'h-12 px-6 text-body',
+  xl: 'h-14 px-7 text-body-lg',
+};
+
+export const Button: React.FC<ButtonProps> = ({
+  variant = 'primary',
+  size = 'md',
+  iconOnly = false,
+  leadingIcon,
+  trailingIcon,
+  loading = false,
+  fullWidth = false,
+  className = '',
+  children,
+  ...rest
+}) => {
+  const classes = [
+    BASE,
+    VARIANT_CLASSES[variant],
+    !iconOnly && SIZE_CLASSES[size],
+    iconOnly && `w-10 ${size === 'sm' ? 'w-8' : size === 'lg' ? 'w-12' : size === 'xl' ? 'w-14' : 'w-10'} aspect-square`,
+    fullWidth && 'w-full',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <button className={classes} {...rest}>
+      {leadingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{leadingIcon}</span>}
+      {!iconOnly && children}
+      {trailingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{trailingIcon}</span>}
+    </button>
+  );
+};
+```
+
+**Clés du pattern :**
+1. **BASE** = tous les styles communs (padding, font, transitions, focus, disabled)
+2. **VARIANT_CLASSES** = map variant → classes Tailwind complètes pour ce variant
+3. **SIZE_CLASSES** = map size → hauteur + padding + taille de font
+4. Assembler en array, filter(Boolean), join(' ')
+5. ✅ Les valeurs d'icon spacing restent en `style={{}}` si calcul (1em, lineHeight: 0)
+
+**Avantages :**
+- Chaque variant/size est isolé et facile à modifier
+- Les classes Tailwind sont vérifiées au build par `npm run dev` (Tailwind compile seulement ce qui existe dans le code)
+- Pas d'arbitraire, pas de calcul dynamique
 
 ---
 
 ## Workflow de migration — obligatoire
 
-Pour chaque composant ou page :
+Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet ordre. **Pas de commit avant la validation utilisateur sur les 4 checkpoints.**
 
 ```
-1. Lire le fichier
-2. Identifier tous les inline styles style={{}} et classes CSS BEM
-3. Remplacer par les classes Tailwind équivalentes (voir référence ci-dessus)
-4. npm run dev → vérifier visuellement dans le navigateur
-5. npx tsc --noEmit → 0 erreurs TypeScript
-6. DEMANDER VALIDATION à l'utilisateur avec screenshot
-7. Une fois validé : committer + mettre à jour MIGRATION-PLAN.md (cocher la case)
-8. Ne jamais passer au composant suivant sans validation
+ÉTAPE 1 — ANALYSE
+  1.1 Lire le fichier source (.tsx)
+  1.2 Lire le CSS BEM correspondant (dans tls-components.css, utilities.css, layouts.css)
+  1.3 Identifier tous les inline styles style={{}} et classes CSS BEM
+  1.4 Identifier les COLLISIONS potentielles entre classes Tailwind et CSS BEM
+      → grep -rn "^\.border\b\|^\.shadow-\|^\.rounded-\|^\.text-\|^\.bg-" src/styles/*.css
+      → Toute classe BEM qui porte le MÊME NOM qu'une utility Tailwind doit être
+        wrappée dans @layer components dans globals.css
+
+ÉTAPE 2 — IMPLÉMENTATION
+  2.1 Créer les maps VARIANT_CLASSES, SIZE_CLASSES, TONE_*_CLASSES selon pattern Button
+  2.2 Remplacer les références au BEM par les maps
+  2.3 npx tsc --noEmit → 0 erreurs TypeScript
+
+ÉTAPE 3 — AUDIT TAILWIND (à fournir à l'utilisateur)
+  3.1 Produire un TABLEAU MARKDOWN qui prouve que le composant est 100% Tailwind :
+
+  | Critère | Statut | Détails |
+  |---------|--------|---------|
+  | Pas d'inline styles `style={{}}` | ✅/❌ | (count) |
+  | Pas de classes BEM `.x--*` | ✅/❌ | (count) |
+  | Tokens Tailwind mappés | ✅/❌ | bg-primary-X, text-ink-X, etc. |
+  | Pas de `bg-[var(...)]` arbitraire | ✅/❌ | (count) |
+  | Pattern variant maps | ✅/❌ | VARIANT_CLASSES, SIZE_CLASSES |
+  | Hover/Active/Focus states | ✅/❌ | hover:, active:, focus-visible: |
+  | Classes statiques (pas de string concat) | ✅/❌ | |
+  | rounded-pill (pas rounded-full) | ✅/❌ | (si applicable) |
+
+  3.2 Si UN seul ❌ → corriger AVANT de passer à l'étape 4
+
+ÉTAPE 4 — VÉRIFICATION CASCADE CSS (ANTI-OVERRIDE BEM)
+  4.1 Vérifier qu'aucun fichier CSS legacy n'override les classes Tailwind utilisées :
+
+  ```js
+  // Test à exécuter via preview_eval (script type=module)
+  const card = document.querySelector('[data-test-target]'); // ou élément du composant
+  const matchingRules = [];
+  for (const sheet of document.styleSheets) {
+    for (const rule of sheet.cssRules || []) {
+      const sel = rule.selectorText;
+      if (sel && card.matches(sel) && (rule.style?.borderColor || rule.style?.boxShadow)) {
+        matchingRules.push({ selector: sel, ...rule.style });
+      }
+    }
+  }
+  // Si matchingRules contient des règles CSS BEM (`.border`, `.shadow-sm` non-Tailwind)
+  // → wrapper le fichier source dans @layer components
+  ```
+
+  4.2 Confirmer que `getComputedStyle()` retourne les valeurs Tailwind attendues
+      (ex. ink-200 = rgb(229, 231, 235), pas la valeur de var(--border))
+
+ÉTAPE 5 — VALIDATION UTILISATEUR (4 CHECKPOINTS OBLIGATOIRES)
+  Présenter à l'utilisateur les 4 questions suivantes EN UNE SEULE FOIS :
+
+  ☐ CHECKPOINT 1 — Affichage de base
+    "Vérifie que le composant s'affiche correctement sur /components.
+     URL : http://localhost:5173/components → section [Nom du composant]
+     Tous les variants/sizes sont-ils visibles ?"
+
+  ☐ CHECKPOINT 2 — Cascade CSS propre
+    "Voici l'audit des règles CSS qui s'appliquent au composant :
+     [matchingRules trouvées]
+     Confirmes-tu qu'aucune règle CSS BEM n'override Tailwind ?"
+
+  ☐ CHECKPOINT 3 — Hover/Active/Focus interactifs
+    "Survole chaque variant avec ta souris et confirme :
+     - Le curseur change si applicable (cursor-pointer)
+     - Les bordures/ombres/couleurs changent au hover
+     - L'effet active/focus fonctionne (clic, tab)
+     Tous les états interactifs sont-ils visibles ?"
+
+  ☐ CHECKPOINT 4 — Audit Tailwind
+    "Voici le tableau d'audit prouvant que le composant est 100% Tailwind :
+     [tableau de l'étape 3.1]
+     Approuves-tu ce tableau ?"
+
+ÉTAPE 6 — COMMIT (UNIQUEMENT après 4 ✅)
+  6.1 Format : `refactor: migrate [ComponentName] to Tailwind`
+  6.2 Ne JAMAIS commit avant les 4 checkpoints validés
+  6.3 Ne JAMAIS passer au composant suivant sans validation
+
+ÉTAPE 7 — MISE À JOUR DOCUMENTAIRE (à la fin de CHAQUE phase, obligatoire)
+  7.1 MIGRATION-PLAN.md → cocher la case ✅ + mettre à jour "Progrès global"
+  7.2 CLAUDE.md → ajouter tout nouveau pattern, piège, ou règle découvert
+      pendant cette phase (ex. nouvelle collision CSS, nouveau workaround Tailwind v4)
+  7.3 Si nouveau composant Core/UI ajouté : mettre à jour la section "Architecture"
+  7.4 Si nouveau token ajouté à index.css : mettre à jour la table "Référence Tailwind → Design Tokens"
+  7.5 Commit séparé pour la doc si plus de 2 fichiers de doc modifiés :
+      `docs: update CLAUDE.md/MIGRATION-PLAN.md after [Phase X] validation`
+```
+
+### ⚠️ Pièges connus à vérifier systématiquement
+
+1. **Collisions de classes** : `utilities.css` et `layouts.css` définissaient `.border`, `.shadow-sm`, `.rounded-md`, etc. **sans @layer** → écrasaient Tailwind. Solution : `@import './X.css' layer(components);`
+
+2. **Tailwind v4 + custom shadows en @theme** : Les utilities `.shadow-X` Tailwind v4 utilisent `--tw-shadow` qui ne fonctionne PAS avec des custom shadows définies en `@theme`. Solution : ajouter dans `@layer utilities` des classes `.shadow-X { box-shadow: var(--shadow-X); }` ET `.hover:shadow-X:hover { box-shadow: var(--shadow-X); }` (déjà fait dans index.css).
+
+3. **Tokens identiques entre @theme et design-tokens.css** : Une variable CSS définie aux deux endroits avec des valeurs différentes peut causer des bugs visuels subtils. Toujours vérifier `getComputedStyle()`.
+
+---
+
+## Points d'attention lors de la migration
+
+### ⚠️ Radius : `rounded-pill` vs `rounded-full`
+- **`rounded-full`** = `border-radius: 50%` — crée un cercle, non-idéal pour les boutons larges
+- **`rounded-pill`** = `border-radius: 999px` (défini dans index.css) — capsule shape, bon pour tous les largeurs
+- **Action** : Toujours utiliser `rounded-pill` pour les Button, pas `rounded-full`
+
+### ⚠️ Hover/Active/Focus states
+Tailwind génère les pseudo-classes : utiliser `hover:`, `active:`, `focus-visible:` directement dans la classe string :
+```tsx
+// ✅ BON
+className="bg-primary-600 hover:bg-primary-700 active:bg-primary-800 focus-visible:outline-2"
+
+// ❌ MAUVAIS
+style={{ background: isHover ? primaryHover : primaryBase }}
+```
+
+### ⚠️ Toujours tester `npm run dev` après migration
+Tailwind v4 compile en fonction des classes trouvées dans le code via `@source`. Si une classe n'apparaît pas dans un fichier `.tsx`, elle ne sera pas compilée :
+```
+npm run dev
+→ navigateur F12 → DevTools → Computed styles sur le composant
+→ vérifier que les classes Tailwind existent dans le CSS généré
+```
+
+Si une classe est manquante : elle n'a probablement pas été écrite dans le code (typo, ou utilisée dynamiquement via string concat).
+
+### ⚠️ GlobalsCss — TOUJOURS @layer base
+```css
+// ❌ MAUVAIS — réset non-layered override les utilities
+* { margin: 0; padding: 0; }
+body { font-family: var(--font-body); }
+
+// ✅ BON — reset dans @layer base
+@layer base {
+  * { margin: 0; padding: 0; }
+  body { font-family: var(--font-body); }
+}
 ```
 
 ---
@@ -122,15 +418,36 @@ Pour chaque composant ou page :
 - Format : `refactor: migrate [ComponentName] to Tailwind`
 - Un commit par composant/page
 - Jamais de commit sans validation visuelle
+- Message de commit peut inclure : `Closes #[MIGRATION-PLAN task number]` si applicable
 
 ---
 
 ## Ce qu'il NE FAUT PAS faire
 
+**Fichiers & structure**
 - Ne PAS supprimer `tls-components.css` avant que tous ses composants soient migrés et validés
-- Ne PAS utiliser `bg-[var(...)]` ou `text-[length:var(...)]`
-- Ne PAS créer de nouveaux fichiers CSS pour des composants
-- Ne PAS utiliser `!important`
-- Ne PAS hardcoder des couleurs hex (#55A1B4) — toujours utiliser les tokens
+- Ne PAS créer de nouveaux fichiers CSS pour des composants — tous les tokens doivent venir de index.css @theme
+- Ne PAS modifier `tailwind.config.js` (Tailwind v4 CSS-first ignore le JS config)
+
+**Tokens & classes**
+- Ne PAS utiliser `bg-[var(...)]` ou `text-[length:var(...)]` — jamais d'arbitraire avec var()
+- Ne PAS utiliser `rounded-full` pour les Button/Card (utiliser `rounded-pill`)
+- Ne PAS hardcoder des couleurs hex (#55A1B4) — toujours utiliser les tokens Tailwind (`bg-primary-500`)
+- Ne PAS utiliser `!important` — la cascade @layer est correcte si globals.css est dans @layer base
+
+**Styles inline**
+- Ne PAS utiliser `style={{}}` pour layout/couleur/spacing — utiliser `className` Tailwind
+- Ne PAS utiliser `style={{}}` pour les variants (jamais `style={{ background: isHovered ? ... : ... }}`)
+
+**Processus**
 - Ne PAS travailler sur plusieurs composants en même temps
-- Ne PAS passer au composant suivant sans avoir reçu la validation de l'utilisateur
+- Ne PAS passer au composant suivant sans avoir reçu la validation visuelle de l'utilisateur
+- Ne PAS committer sans les **4 checkpoints validés** (affichage, cascade CSS, hover, audit Tailwind)
+- Ne PAS skipper l'étape 4 (vérification cascade CSS) — c'est la cause #1 des bugs hover/border/shadow
+- Ne PAS présenter un composant comme "migré" sans le **tableau d'audit Tailwind** complet à l'utilisateur
+
+**Tailwind compilation**
+- Ne PAS oublier `@source` directive dans index.css — sans elle, Tailwind ne cherche pas les classes à compiler
+- Ne PAS créer dynamiquement des classe strings (ex. `${size}px` → toujours liste prédéfinie via maps)
+- Ne PAS importer un fichier CSS legacy SANS `@layer components` s'il définit des classes au même nom que Tailwind (`.border`, `.shadow-X`, `.rounded-X`, `.text-X`, etc.)
+- Ne PAS supposer que les hover Tailwind v4 fonctionnent out-of-the-box avec custom `@theme shadows` — il faut les classes manuelles dans `@layer utilities` (voir index.css)
