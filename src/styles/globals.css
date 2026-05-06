@@ -14,17 +14,21 @@
 /* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
 /* Toutes les variables CSS : couleurs, espacement, typographie, ombres, glass,
    animations, overlays, gradients, on-color effects (246+ tokens) */
-@import './design-tokens.css';
+/* layer(base) : les resets base (button { font: inherit }, h1-h6, p, a)
+   doivent être dans @layer base pour que les utilities Tailwind gagnent. */
+@import './design-tokens.css' layer(base);
 /* Overrides dark mode — scoped sous [data-theme="dark"] */
-@import './dark-mode-tokens.css';
+@import './dark-mode-tokens.css' layer(base);
 
 /* ── 2. LAYOUT ──────────────────────────────────────────────────────────── */
 /* layouts.css      → grilles, containers, flex/grid helpers + layout-helpers */
 /* app-layout.css   → AppLayout, shell principal, sidebar offset */
 /* page-layouts-modern.css → layouts de pages (2-col, avec sidebar, hero) */
-@import './layouts.css';
-@import './app-layout.css';
-@import './page-layouts-modern.css';
+/* layer(components) : layouts.css définit .shadow-sm, .rounded-sm, etc. qui
+   collisionnent avec Tailwind. En layer components, Tailwind utilities gagnent. */
+@import './layouts.css' layer(components);
+@import './app-layout.css' layer(components);
+@import './page-layouts-modern.css' layer(components);
 
 /* ── 3. NAVIGATION ──────────────────────────────────────────────────────── */
 /* floating-nav.css    → bouton flottant d'accès rapide */
@@ -36,14 +40,20 @@
 
 /* ── 4. UTILITIES ───────────────────────────────────────────────────────── */
 /* utilities.css → classes utilitaires + glass morphism (.glass, .glass-on-color...) */
-@import './utilities.css';
+/* layer(components) : critique — utilities.css définit .border, .shadow-sm, etc. qui
+   collisionnent avec Tailwind. En layer components, les utilities Tailwind (qui
+   sont dans @layer utilities, plus haut dans la cascade) gagnent automatiquement. */
+@import './utilities.css' layer(components);
 
 /* ── 5. COMPONENTS ──────────────────────────────────────────────────────── */
 /* tls-components.css    → tous les composants TLS : Button, Card, Badge, Modal,
                            Alert, Steps, Tabs, Toast, Medal... + card layouts + showcase */
 /* components-modern.css → variantes modernes (glass cards, gradients avancés) */
-@import './tls-components.css';
-@import './components-modern.css';
+/* layer(components) : permet aux utilities Tailwind de gagner dans la cascade.
+   Critique pendant la migration — sans ça, les selectors larges (.btn, [role="button"]…)
+   battent les utilities Tailwind à cause de la non-layered specificity. */
+@import './tls-components.css' layer(components);
+@import './components-modern.css' layer(components);
 
 /* ── 6. LEARNING ────────────────────────────────────────────────────────── */
 /* learning-components-modern.css → composants spécifiques au parcours apprenant */

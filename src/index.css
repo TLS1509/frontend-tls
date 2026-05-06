@@ -158,3 +158,21 @@
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ============================================
+   TAILWIND v4 SHADOW FIX (statique + hover)
+   ─────────────────────────────────────────────
+   Tailwind v4 utility shadow utilise un système --tw-shadow complexe qui ne
+   se cumule pas correctement avec nos custom shadows du @theme + design-tokens.
+   On force box-shadow direct via var(--shadow-X) pour un rendu fiable.
+   ============================================ */
+@layer utilities {
+  .shadow-xs { box-shadow: var(--shadow-xs); }
+  .shadow-sm { box-shadow: var(--shadow-sm); }
+  .shadow-md { box-shadow: var(--shadow-md); }
+  .shadow-lg { box-shadow: var(--shadow-lg); }
+  .hover\:shadow-xs:hover { box-shadow: var(--shadow-xs); }
+  .hover\:shadow-sm:hover { box-shadow: var(--shadow-sm); }
+  .hover\:shadow-md:hover { box-shadow: var(--shadow-md); }
+  .hover\:shadow-lg:hover { box-shadow: var(--shadow-lg); }
+}

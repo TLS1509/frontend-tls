@@ -1,29 +1,26 @@
 import React from 'react';
-import './Card.css';
 
 /**
- * Card — Self-contained content container (TLS Design System)
+ * Card — Source of truth: design-system/spec.json → components.Card
  *
- * Complete refactor: Props-based API, semantic HTML, single-level nesting
+ * Self-contained content container.
  *
  * Variants:
- *   - default: bordered, surface background
- *   - elevated: shadow-based elevation
+ *   - default: bordered, white background
+ *   - feature: highlighted, elevated shadow, no border
+ *   - elevated: shadow-based depth
+ *   - interactive: hover lift effect
  *   - glass: frosted glass effect
- *   - interactive: hover lift with shadow
- *   - minimal: borderless, transparent background
+ *   - minimal: borderless, transparent
  *
- * Tones: primary | warm | sun | brand (for colored accents)
- *
- * No wrapper components (CardTitle, CardDesc, CardFooter).
- * Use props instead: title, description, footer
+ * Tones (optional accent): primary | warm | sun | brand
+ * Sizes: sm | md | lg
  */
 
 export type CardVariant = 'default' | 'feature' | 'elevated' | 'interactive' | 'glass' | 'minimal';
 export type CardTone = 'primary' | 'warm' | 'sun' | 'brand';
 export type CardSize = 'sm' | 'md' | 'lg';
 
-/** Badge overlay config for card header */
 export interface CardBadgeConfig {
   label: string;
   tone?: CardTone;
@@ -33,57 +30,85 @@ export interface CardBadgeConfig {
 }
 
 export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** Content variant/style */
   variant?: CardVariant;
-  /** Tone for accent color (if applicable) */
   tone?: CardTone;
-  /** Size variant */
   size?: CardSize;
   /** Render as semantic element (article, section, div, etc.) */
   as?: keyof React.JSX.IntrinsicElements;
 
-  /* ── Props-based content (replaces sub-components) ── */
-  /** Eyebrow label above title */
+  /* ── Props-based content ── */
   eyebrow?: React.ReactNode;
-  /** Main title heading */
   title?: React.ReactNode;
-  /** Description text */
   description?: React.ReactNode;
-  /** Footer content (actions, metadata) */
   footer?: React.ReactNode;
-  /** Icon or image header */
   icon?: React.ReactNode;
-  /** Custom children (for flexibility) */
   children?: React.ReactNode;
 
   /* ── Interaction ── */
-  /** Make card clickable */
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-  /** Hover lift effect (only with interactive variant) */
+  /** Hover lift effect (additive — also enabled by variant="interactive") */
   interactive?: boolean;
 }
 
-/**
- * Card — Self-contained container with optional content sections
- *
- * Usage:
- *
- * 1. Props-based (recommended - clean, no nesting):
- *    <Card
- *      variant="elevated"
- *      tone="primary"
- *      eyebrow="FEATURED"
- *      title="Card Title"
- *      description="Card description"
- *      footer={<Button>Action</Button>}
- *    />
- *
- * 2. Children-based (for custom layouts):
- *    <Card variant="default">
- *      <h3>Custom title</h3>
- *      <p>Custom content</p>
- *    </Card>
- */
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200';
+
+const VARIANT_CLASSES: Record<CardVariant, string> = {
+  default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',
+  feature: 'bg-white shadow-md hover:shadow-lg',
+  elevated: 'bg-white shadow-md hover:shadow-lg',
+  interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 active:-translate-y-0.5',
+  glass: 'bg-white/20 backdrop-blur-md border border-white/30 shadow-xs hover:shadow-sm',
+  minimal: 'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+};
+
+const SIZE_CLASSES: Record<CardSize, string> = {
+  sm: 'p-4 gap-2',
+  md: 'p-6 gap-3',
+  lg: 'p-8 gap-4',
+};
+
+const TONE_BG_CLASSES: Record<CardTone, string> = {
+  primary: 'bg-primary-50 border-primary-200',
+  warm: 'bg-secondary-50 border-secondary-200',
+  sun: 'bg-accent-50 border-accent-200',
+  brand: 'bg-primary-50 border-primary-200',
+};
+
+const TONE_TITLE_CLASSES: Record<CardTone, string> = {
+  primary: 'text-primary-900',
+  warm: 'text-secondary-900',
+  sun: 'text-accent-900',
+  brand: 'text-primary-900',
+};
+
+const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
+  primary: 'text-primary-500',
+  warm: 'text-secondary-600',
+  sun: 'text-accent-600',
+  brand: 'text-primary-600',
+};
+
+const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 hover:shadow-lg active:translate-y-0';
+const CLICKABLE = 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+
+const TITLE_SIZE: Record<CardSize, string> = {
+  sm: 'text-h5',
+  md: 'text-h4',
+  lg: 'text-h3',
+};
+
+const DESC_SIZE: Record<CardSize, string> = {
+  sm: 'text-caption',
+  md: 'text-body-sm',
+  lg: 'text-body',
+};
+
+const ICON_SIZE: Record<CardSize, string> = {
+  sm: '[&>svg]:w-8 [&>svg]:h-8',
+  md: '[&>svg]:w-10 [&>svg]:h-10',
+  lg: '[&>svg]:w-14 [&>svg]:h-14',
+};
+
 export const Card: React.FC<CardProps> = ({
   variant = 'default',
   tone,
@@ -101,19 +126,25 @@ export const Card: React.FC<CardProps> = ({
   ...rest
 }) => {
   const classes = [
-    'card',
-    variant !== 'default' && `card--${variant}`,
-    tone && `card--tone-${tone}`,
-    size !== 'md' && `card--${size}`,
-    onClick && 'card--clickable',
-    interactive && 'card--interactive',
+    BASE,
+    VARIANT_CLASSES[variant],
+    SIZE_CLASSES[size],
+    tone && TONE_BG_CLASSES[tone],
+    interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
+    onClick && CLICKABLE,
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  // Use custom content OR props-based sections
   const hasPropsContent = eyebrow || title || description || footer || icon;
+
+  const eyebrowClass = `font-mono text-micro font-bold uppercase tracking-[0.08em] ${tone ? TONE_EYEBROW_CLASSES[tone] : 'text-ink-500'}`;
+  const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight tracking-tight ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
+  const descriptionClass = `m-0 p-0 ${DESC_SIZE[size]} leading-normal text-ink-600`;
+  const footerClass = 'flex items-center justify-between gap-3 mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
+  const iconClass = `flex items-center justify-center shrink-0 mb-2 ${ICON_SIZE[size]} [&>svg]:text-current`;
+  const headerClass = 'flex flex-col gap-1 mb-1';
 
   return React.createElement(
     as as string,
@@ -122,31 +153,26 @@ export const Card: React.FC<CardProps> = ({
       onClick,
       role: onClick ? 'button' : undefined,
       tabIndex: onClick ? 0 : undefined,
-      onKeyDown: onClick ? (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onClick(e as any);
-        }
-      } : undefined,
+      onKeyDown: onClick
+        ? (e: React.KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              onClick(e as any);
+            }
+          }
+        : undefined,
       ...rest,
     },
     hasPropsContent ? (
       <>
-        {/* Icon section */}
-        {icon && <div className="card__icon">{icon}</div>}
-
-        {/* Header section */}
+        {icon && <div className={iconClass}>{icon}</div>}
         {(eyebrow || title) && (
-          <div className="card__header">
-            {eyebrow && <div className="card__eyebrow">{eyebrow}</div>}
-            {title && <h3 className="card__title">{title}</h3>}
+          <div className={headerClass}>
+            {eyebrow && <div className={eyebrowClass}>{eyebrow}</div>}
+            {title && <h3 className={titleClass}>{title}</h3>}
           </div>
         )}
-
-        {/* Description section */}
-        {description && <p className="card__description">{description}</p>}
-
-        {/* Footer section */}
-        {footer && <div className="card__footer">{footer}</div>}
+        {description && <p className={descriptionClass}>{description}</p>}
+        {footer && <div className={footerClass}>{footer}</div>}
       </>
     ) : (
       children
@@ -156,27 +182,46 @@ export const Card: React.FC<CardProps> = ({
 
 /**
  * LEGACY EXPORTS (deprecated, kept for backward compatibility)
- * These will be removed in next major version
- * Use Card props instead: <Card title="..." description="..." />
+ * Prefer Card props: <Card title="..." description="..." />
  */
 export const CardEyebrow: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => <div className={`card__eyebrow ${className}`} {...rest} />;
+}) => (
+  <div
+    className={`font-mono text-micro font-bold uppercase tracking-[0.08em] text-ink-500 ${className}`}
+    {...rest}
+  />
+);
 
 export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   className = '',
   ...rest
-}) => <h3 className={`card__title ${className}`} {...rest} />;
+}) => (
+  <h3
+    className={`m-0 p-0 font-display text-h4 font-semibold leading-tight tracking-tight text-ink-900 ${className}`}
+    {...rest}
+  />
+);
 
 export const CardDesc: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   className = '',
   ...rest
-}) => <p className={`card__description ${className}`} {...rest} />;
+}) => (
+  <p
+    className={`m-0 p-0 text-body-sm leading-normal text-ink-600 ${className}`}
+    {...rest}
+  />
+);
 
 export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className = '',
   ...rest
-}) => <div className={`card__footer ${className}`} {...rest} />;
+}) => (
+  <div
+    className={`flex items-center justify-between gap-3 mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600 ${className}`}
+    {...rest}
+  />
+);
 
 export default Card;
