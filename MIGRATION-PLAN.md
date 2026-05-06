@@ -48,7 +48,7 @@
 | 1.2 | Card | `src/components/core/Card.tsx` | ~5 | `.card--*` (6 variants) | ✅ |
 | 1.3 | Input | `src/components/core/Input.tsx` | ~8 | `.input--*` | ✅ |
 | 1.4 | Select | `src/components/core/Select.tsx` | ~5 | `.select--*` | ✅ |
-| 1.5 | FormGroup | `src/components/core/FormGroup.tsx` | ~3 | `.form-group` | ⬜ |
+| 1.5 | FormGroup | `src/components/core/FormGroup.tsx` | ~3 | `.form-group` | ✅ |
 
 **Validation obligatoire après chaque composant** — screenshot + npm run dev + tsc
 
@@ -198,6 +198,6 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 4 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select)
+**Composants validés :** 5 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup)
 **Inline styles restants :** ~2 092 / 2 105
 **Dernière mise à jour :** 2026-05-06
