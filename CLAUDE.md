@@ -369,6 +369,58 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 
 3. **Tokens identiques entre @theme et design-tokens.css** : Une variable CSS définie aux deux endroits avec des valeurs différentes peut causer des bugs visuels subtils. Toujours vérifier `getComputedStyle()`.
 
+4. **CSS importés SANS `@layer` dans globals.css** : Tout fichier CSS importé sans `layer(...)` se retrouve dans la cascade NON-LAYERED, qui **gagne sur toutes les couches nommées** (utilities, components, base). Pendant la migration de Input.tsx, on a découvert que `animations-polish.css` était importé sans layer et ses `.transition-colors` / `.transition-all` / `.transition-shadow` / `.transition-transform` legacy écrasaient les versions Tailwind. Symptôme : transitions de couleur très lentes (~400 ms au lieu de 200 ms), focus border qui semble ne jamais s'activer en mesure synchrone. **Fix appliqué** : `@import './animations-polish.css' layer(components);` dans `globals.css`. **Action générale** : auditer tous les `@import` de `globals.css` et confirmer qu'ils ont `layer(...)` ou que leurs sélecteurs ne collisionnent pas avec Tailwind.
+
+5. **Sélecteurs d'éléments globaux non-layered** (ex. `:focus-visible`, `input:focus`, `textarea:focus`) : Si un sélecteur global (sans classe) qui matche un `<input>` ou `<textarea>` est défini en dehors d'un `@layer`, il bat toutes les utilities Tailwind, même `focus:outline-none`. Découvert en migrant `Input.tsx` : `globals.css:179` avait `:focus-visible { outline: 2px solid ... }` non layered, qui ajoutait un outline au `<textarea>` interne malgré `outline-none` sur le wrapper. **Fix appliqué** : envelopper la règle dans `@layer base { :focus-visible { ... } }`. **Action générale** : tout sélecteur d'élément (input, textarea, button, a) avec pseudo-classe focus/hover doit être en `@layer base` ou `@layer components`. Vérifier aussi `components-modern.css:198` (`input:focus, textarea:focus, select:focus { box-shadow: inset ... }`) qui injecte un inset shadow ; on l'écrase au niveau Input.tsx via `focus:outline-none focus:shadow-none focus:bg-transparent` sur la classe du `<input>`/`<textarea>` interne (specificity Tailwind > specificity element).
+
+6. **Border color split entre BASE et STATUS** : Si un composant a une `border-X-Y` dans la BASE (couleur par défaut) ET un override dans `STATUS_CLASSES` (couleur erreur/succès), Tailwind v4 émet les deux dans le même `@layer utilities` et la spécificité est identique (0,1,0). L'ordre dans la classe **n'importe pas** ; c'est l'ordre d'émission de Tailwind qui décide → souvent la couleur de base gagne. **Solution** : retirer la couleur de la BASE et la mettre dans `STATUS_CLASSES.default`, comme dans `Input.tsx`. Garder seulement `border` (largeur) dans BASE.
+
+### ⚠️ Piège n°7 : `sr-only` sur un `<input>` ancré dans un label sans `position: relative`
+
+`sr-only` applique `position: absolute`. Sans ancêtre positionné explicite, l'input absolute remonte jusqu'au premier parent `position: relative/absolute/fixed` — souvent `<body>` ou `#root`. Quand l'input reçoit le focus (par exemple via un clic sur le `<label>` qui le contient), le navigateur scrolle pour le rendre visible — et donc scrolle vers le coin haut-gauche de l'ancêtre lointain, **arrachant le viewport de plusieurs milliers de pixels** (~2000 px observé). L'utilisateur perçoit une "page blanche" alors que c'est juste un scroll involontaire vers une zone vide.
+
+**Symptôme** : clic sur Checkbox / Radio / Switch → l'écran devient blanc, le DOM est intact, aucune erreur console.
+
+**Fix** : ajouter `position: relative` (classe Tailwind `relative`) sur le `<label>` parent qui contient le `<input class="peer sr-only">`. L'input absolute est alors ancré au label, le focus scrolle vers le label = déjà visible.
+
+```tsx
+// ❌ MAUVAIS — focus scroll vers ancêtre lointain
+<label className="inline-flex items-center gap-2 cursor-pointer">
+  <input type="checkbox" className="peer sr-only" />
+  ...
+</label>
+
+// ✅ BON — focus reste sur le label
+<label className="relative inline-flex items-center gap-2 cursor-pointer">
+  <input type="checkbox" className="peer sr-only" />
+  ...
+</label>
+```
+
+### Pattern : contrôles custom (checkbox / radio / switch) avec `peer` + `after:`
+
+Pour les composants où l'`<input>` natif est masqué et un span stylé prend sa place (Input.tsx Checkbox/Radio/Switch), utiliser le pattern **`peer` + pseudo-élément `::after`** au lieu de keyframes ou state JS :
+
+```tsx
+<label className="inline-flex items-center gap-2 cursor-pointer">
+  <input type="checkbox" className="peer sr-only" {...rest}/>
+  <span aria-hidden className="
+    inline-flex w-5 h-5 border-2 border-ink-300 rounded-sm
+    peer-checked:bg-primary-500 peer-checked:border-primary-500
+    peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-primary-500
+    peer-disabled:bg-ink-50 peer-disabled:cursor-not-allowed
+    after:content-['✓'] after:text-white after:font-bold after:text-[12px] after:opacity-0
+    peer-checked:after:opacity-100
+  "/>
+</label>
+```
+
+Règles :
+- L'input doit être **frère immédiat** du span stylisé (sinon `peer` ne s'applique pas).
+- `sr-only` masque visuellement sans casser l'accessibilité.
+- `content-['✓']` ou `content-['']` est autorisé (chaîne littérale, pas `var()`).
+- Pour un Switch : préférer un `<span>` réel comme thumb avec `translate-x-N` plutôt qu'un `::after` avec `left:Npx` — Tailwind n'anime pas les valeurs `left` arbitraires.
+
 ---
 
 ## Points d'attention lors de la migration
