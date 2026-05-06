@@ -45,7 +45,7 @@
 | # | Composant | Fichier | Inline styles | CSS BEM | Statut |
 |---|-----------|---------|--------------|---------|--------|
 | 1.1 | Button | `src/components/core/Button.tsx` | ~0 | `.btn--*` (8 variants) | ✅ |
-| 1.2 | Card | `src/components/core/Card.tsx` | ~5 | `.card--*` (6 variants) | ⬜ |
+| 1.2 | Card | `src/components/core/Card.tsx` | ~5 | `.card--*` (6 variants) | ✅ |
 | 1.3 | Input | `src/components/core/Input.tsx` | ~8 | `.input--*` | ⬜ |
 | 1.4 | Select | `src/components/core/Select.tsx` | ~5 | `.select--*` | ⬜ |
 | 1.5 | FormGroup | `src/components/core/FormGroup.tsx` | ~3 | `.form-group` | ⬜ |
@@ -54,14 +54,19 @@
 
 ---
 
-## PHASE 2 — Dashboard (priorité visuelle haute)
+## PHASE 2 — Composants UI spécialisés (priorité moyenne)
 
-| # | Fichier | Inline styles | Actions | Statut |
-|---|---------|--------------|---------|--------|
-| 2.1 | Dashboard.tsx | 27 | Migrer hero gradient, KPIs, layout principal | ⬜ |
-| 2.2 | DashboardHero (pattern) | ~15 | Composant hero réutilisable | ⬜ |
+**⚠️ NOTE :** Dashboard a été déplacé à Phase 8 car elle dépend de beaucoup de composants Card spécialisés non migrés (CourseCard, ParcoursCard, KPICard, StatCard, SurfaceCard, ResourceCard, GlassCard, etc.). Migrer ces composants d'abord.
 
-**Validation** — hero visible avec gradient, stat chips colorés, mise en page correcte
+| # | Composant | Fichier | Inline styles | Statut |
+|---|-----------|---------|--------------|--------|
+| 2.1 | StatCard | `src/components/ui/StatCard.tsx` | ~15 | ⬜ |
+| 2.2 | GlassCard | `src/components/ui/GlassCard.tsx` | ~10 | ⬜ |
+| 2.3 | SurfaceCard | `src/components/ui/SurfaceCard.tsx` | ~8 | ⬜ |
+| 2.4 | CourseCard | `src/components/ui/CourseCard.tsx` | ~20 | ⬜ |
+| 2.5 | ParcoursCard | `src/components/patterns/ParcoursCard.tsx` | ~18 | ⬜ |
+
+**Validation** — chaque card affiche correctement avec tous ses variants et tones
 
 ---
 
@@ -152,25 +157,27 @@
 
 ---
 
-## PHASE 8 — Pages principales (49 pages restantes)
+## PHASE 8 — Pages principales (51 pages restantes, incluant Dashboard)
 
 Après phases 1-7, migrer les pages dans cet ordre :
 
-| # | Page | Inline styles | Statut |
-|---|------|--------------|--------|
-| 8.1 | Coaching | `src/pages/Coaching.tsx` | ⬜ |
-| 8.2 | CoachingCompteRendu | `src/pages/CoachingCompteRendu.tsx` | 70 | ⬜ |
-| 8.3 | Messages | `src/pages/Messages.tsx` | 67 | ⬜ |
-| 8.4 | Settings | `src/pages/Settings.tsx` | 57 | ⬜ |
-| 8.5 | Veille | `src/pages/Veille.tsx` | ~30 | ⬜ |
-| 8.6 | VeilleContent | `src/pages/VeilleContent.tsx` | 63 | ⬜ |
-| 8.7 | Dossier | `src/pages/Dossier.tsx` | 73 | ⬜ |
-| 8.8 | WeeklyNewsletter | `src/pages/WeeklyNewsletter.tsx` | 57 | ⬜ |
-| 8.9 | Journal | `src/pages/Journal.tsx` | ~40 | ⬜ |
-| 8.10 | JournalDetail | `src/pages/JournalDetail.tsx` | ~35 | ⬜ |
-| 8.11 | JournalNewEntry | `src/pages/JournalNewEntry.tsx` | ~30 | ⬜ |
-| 8.12 | JournalFreeEntry | `src/pages/JournalFreeEntry.tsx` | ~25 | ⬜ |
-| 8.13-8.49 | Pages restantes | `src/pages/[...].tsx` | ⬜ |
+| # | Page | Inline styles | Statut | Priorité |
+|---|------|--------------|--------|----------|
+| 8.1 | **Dashboard** | 27 | ⬜ | **HAUTE** — page d'accueil post-login |
+| 8.2 | DashboardHero (pattern) | ~15 | ⬜ | **HAUTE** — utilisé par Dashboard |
+| 8.3 | Coaching | `src/pages/Coaching.tsx` | ⬜ | Moyenne |
+| 8.4 | CoachingCompteRendu | `src/pages/CoachingCompteRendu.tsx` | 70 | ⬜ | Moyenne |
+| 8.5 | Messages | `src/pages/Messages.tsx` | 67 | ⬜ | Moyenne |
+| 8.6 | Settings | `src/pages/Settings.tsx` | 57 | ⬜ | Moyenne |
+| 8.7 | Veille | `src/pages/Veille.tsx` | ~30 | ⬜ | Moyenne |
+| 8.8 | VeilleContent | `src/pages/VeilleContent.tsx` | 63 | ⬜ | Moyenne |
+| 8.9 | Dossier | `src/pages/Dossier.tsx` | 73 | ⬜ | Moyenne |
+| 8.10 | WeeklyNewsletter | `src/pages/WeeklyNewsletter.tsx` | 57 | ⬜ | Moyenne |
+| 8.11 | Journal | `src/pages/Journal.tsx` | ~40 | ⬜ | Moyenne |
+| 8.12 | JournalDetail | `src/pages/JournalDetail.tsx` | ~35 | ⬜ | Moyenne |
+| 8.13 | JournalNewEntry | `src/pages/JournalNewEntry.tsx` | ~30 | ⬜ | Moyenne |
+| 8.14 | JournalFreeEntry | `src/pages/JournalFreeEntry.tsx` | ~25 | ⬜ | Moyenne |
+| 8.15-8.51 | Pages restantes | `src/pages/[...].tsx` | ⬜ | Faible |
 
 ---
 
@@ -191,6 +198,6 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 0 / ~120
+**Composants validés :** 2 / ~120 (Button, Card)
 **Inline styles restants :** 2 105 / 2 105
 **Dernière mise à jour :** 2026-05-05

@@ -546,8 +546,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Card.tsx',
     cssBase: '.card',
     category: 'Core',
-    description: 'Main content unit. 4 variants: default, feature (elevated), interactive (hover lift), glass.',
-    keywords: ['container', 'surface', 'feature', 'interactive', 'glass'],
+    description: 'Main content unit. 6 variants: default, feature, elevated, interactive (hover lift), glass, minimal.',
+    keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal'],
     render: () => (
       <div className="grid-2">
         <Card>
@@ -564,6 +564,11 @@ const COMPONENTS: ComponentEntry[] = [
             <Button size="sm" variant="ghost">Voir</Button>
           </CardFooter>
         </Card>
+        <Card variant="elevated">
+          <CardEyebrow>ELEVATED</CardEyebrow>
+          <CardTitle>Carte élevée</CardTitle>
+          <CardDesc>Ombre moyenne, profondeur accentuée. Pour les contenus importants.</CardDesc>
+        </Card>
         <Card variant="interactive" role="button" tabIndex={0}>
           <CardEyebrow>INTERACTIVE</CardEyebrow>
           <CardTitle>Hover pour voir</CardTitle>
@@ -576,6 +581,11 @@ const COMPONENTS: ComponentEntry[] = [
             <CardDesc>Utiliser seulement sur un fond coloré ou gradient.</CardDesc>
           </Card>
         </div>
+        <Card variant="minimal">
+          <CardEyebrow>MINIMAL</CardEyebrow>
+          <CardTitle>Carte minimale</CardTitle>
+          <CardDesc>Transparent avec bordure légère, hover discret. Contenu léger.</CardDesc>
+        </Card>
       </div>
     ),
   },
