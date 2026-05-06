@@ -40,6 +40,7 @@ import {
   Radio,
   Switch,
   Select,
+  FormGroup,
   // Identity
   Badge,
   Avatar,
@@ -586,6 +587,36 @@ const COMPONENTS: ComponentEntry[] = [
           <Select size="md" placeholder="Medium" options={[{ value: 'a', label: 'A' }]} />
           <Select size="lg" placeholder="Large" options={[{ value: 'a', label: 'A' }]} />
         </div>
+      </div>
+    ),
+  },
+  {
+    name: 'FormGroup',
+    codeName: 'FormGroup.tsx',
+    cssBase: '.form-group',
+    category: 'Core',
+    description: 'Wrapper combining label + control + hint/error. Layouts: vertical (default) and horizontal.',
+    keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
+    render: () => (
+      <div className="flex flex-col gap-4" style={{ maxWidth: 520 }}>
+        <FormGroup label="Prénom" hint="Tel qu'il apparaît sur votre profil" id="fg-firstname">
+          <Input placeholder="Ex. Marie" />
+        </FormGroup>
+        <FormGroup label="Email" error="Adresse email invalide" required id="fg-email">
+          <Input placeholder="marie@example.com" status="error" />
+        </FormGroup>
+        <FormGroup label="Niveau" id="fg-level">
+          <Select
+            options={[
+              { value: 'beg', label: 'Débutant' },
+              { value: 'int', label: 'Intermédiaire' },
+            ]}
+            placeholder="Choisir..."
+          />
+        </FormGroup>
+        <FormGroup label="Pays" layout="horizontal" hint="Affiché sur votre profil public" id="fg-country">
+          <Input placeholder="France" />
+        </FormGroup>
       </div>
     ),
   },

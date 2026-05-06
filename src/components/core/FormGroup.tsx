@@ -1,31 +1,22 @@
 import React from 'react';
-import './FormGroup.css';
-
-/**
- * FormGroup — Wrapper for form field + label + error/hint
- *
- * Combines with Input, Select, etc. for consistent form layout.
- * Provides consistent spacing, label positioning, and error display.
- */
 
 export interface FormGroupProps {
-  /** Label text displayed above the field */
   label?: React.ReactNode;
-  /** Helper text below field */
   hint?: React.ReactNode;
-  /** Error message (shows in red, overrides hint) */
   error?: React.ReactNode;
-  /** Marks field as required */
   required?: boolean;
-  /** Input id for label association */
   id?: string;
-  /** Form control element (Input, Select, etc.) */
   children: React.ReactNode;
-  /** Optional CSS class */
   className?: string;
-  /** Optional direction - stack vertically or horizontally */
   layout?: 'vertical' | 'horizontal';
 }
+
+const GROUP_BASE = 'flex flex-col gap-2 font-body';
+
+const LAYOUT_CLASSES: Record<'vertical' | 'horizontal', string> = {
+  vertical: '',
+  horizontal: 'sm:flex-row sm:items-start sm:gap-4',
+};
 
 export const FormGroup: React.FC<FormGroupProps> = ({
   label,
@@ -38,32 +29,40 @@ export const FormGroup: React.FC<FormGroupProps> = ({
   layout = 'vertical',
 }) => {
   const hasError = !!error;
-  const classes = [
-    'form-group',
-    layout === 'horizontal' && 'form-group--horizontal',
-    hasError && 'form-group--error',
-    className,
+
+  const groupClasses = [GROUP_BASE, LAYOUT_CLASSES[layout], className]
+    .filter(Boolean)
+    .join(' ');
+
+  const labelClasses = [
+    'text-body-sm font-semibold flex items-center gap-1',
+    hasError ? 'text-red-600' : 'text-ink-900',
+    layout === 'horizontal' && 'sm:shrink-0 sm:min-w-[150px]',
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={classes}>
+    <div className={groupClasses}>
       {label && (
-        <label htmlFor={id} className="form-group__label">
+        <label htmlFor={id} className={labelClasses}>
           {label}
-          {required && <span className="form-group__required" aria-hidden="true">*</span>}
+          {required && (
+            <span className="text-red-600 font-bold" aria-hidden="true">
+              *
+            </span>
+          )}
         </label>
       )}
 
-      <div className="form-group__control">{children}</div>
+      <div className="flex-1 flex flex-col gap-2">{children}</div>
 
       {hasError ? (
-        <p className="form-group__error" role="alert">
+        <p className="text-caption text-red-700 flex items-center gap-1" role="alert">
           {error}
         </p>
       ) : hint ? (
-        <p className="form-group__hint">{hint}</p>
+        <p className="text-caption text-ink-500">{hint}</p>
       ) : null}
     </div>
   );
