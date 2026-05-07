@@ -33,11 +33,11 @@ const ICON_BY_VARIANT: Record<AlertVariant, React.ComponentType<{ size?: number;
 };
 
 const BASE =
-  'flex items-start gap-3 rounded-lg border backdrop-blur-sm animate-alert-slide';
+  'flex gap-3 rounded-lg border backdrop-blur-sm animate-alert-slide';
 
 const PATTERN_CLASSES: Record<AlertPattern, string> = {
-  banner: 'py-4 px-5 text-body-sm leading-normal',
-  inline: 'py-2 px-3 text-caption leading-normal',
+  banner: 'items-start py-4 px-5 text-body-sm leading-normal',
+  inline: 'items-center py-2 px-3 text-caption leading-normal',
 };
 
 const VARIANT_CLASSES: Record<AlertVariant, string> = {
@@ -81,8 +81,15 @@ export const Alert: React.FC<AlertProps> = ({
 
   const IconComponent = ICON_BY_VARIANT[resolvedVariant];
   const iconSize = ICON_SIZE_BY_PATTERN[pattern];
-  // mt-px nudges the icon center to match the first text line baseline
-  const iconWrapperClasses = `shrink-0 mt-px ${ICON_TONE_CLASSES[resolvedVariant]}`;
+  // Banner with potentially multi-line content → align icon with first line via mt-0.5
+  // Inline (single line) → parent items-center handles it, no margin needed
+  const iconWrapperClasses = [
+    'shrink-0',
+    ICON_TONE_CLASSES[resolvedVariant],
+    pattern === 'banner' && 'mt-px',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={classes} role="alert" {...rest}>
