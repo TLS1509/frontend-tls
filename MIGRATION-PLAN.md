@@ -102,8 +102,8 @@
 
 | # | Composant | Fichier | Inline styles | Statut |
 |---|-----------|---------|--------------|--------|
-| 3.1 | BookingModal | `src/components/modals/BookingModal.tsx` | 36 | ⬜ |
-| 3.2 | PositionnementModal | `src/components/modals/PositionnementModal.tsx` | 34 | ⬜ |
+| 3.1 | BookingModal | `src/components/modals/BookingModal.tsx` | 36 | ✅ |
+| 3.2 | PositionnementModal | `src/components/modals/PositionnementModal.tsx` | 34 | ✅ |
 | 3.3 | SuccessModal | `src/components/modals/SuccessModal.tsx` | ~10 | ⬜ |
 | 3.4 | VideoPlayerModal | `src/components/modals/VideoPlayerModal.tsx` | 17 | ⬜ |
 | 3.5 | StreakCelebrationModal | `src/components/modals/StreakCelebrationModal.tsx` | 20 | ⬜ |

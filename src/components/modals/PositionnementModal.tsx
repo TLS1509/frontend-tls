@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, X, Sparkles } from 'lucide-react';
+import { Button } from '../core/Button';
 
 /**
  * PositionnementModal — Auto-évaluation des compétences avant un parcours
  * Design: Progressive Cards, 5 niveaux, auto-avancement, success screen
- * Tokens: TLS design system (--tls-primary-*, --s-*, --r-*, --shadow-*)
  */
 import './modals.css';
 
@@ -65,6 +65,12 @@ const LEVELS: Level[] = [
   { id: 'avance',        emoji: '🚀', label: 'Avancé',        description: "Très à l'aise",   value: 4, color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
   { id: 'expert',        emoji: '⭐', label: 'Expert',        description: 'Maîtrise totale',  value: 5, color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
 ];
+
+const SUCCESS_FEATURES = [
+  { icon: '📊', label: 'Compétences enregistrées', borderClass: 'border-primary-500/15' },
+  { icon: '🎯', label: 'Parcours personnalisé',    borderClass: 'border-accent-400/15'  },
+  { icon: '🚀', label: 'Progression optimisée',    borderClass: 'border-secondary-500/15' },
+] as const;
 
 export const PositionnementModal: React.FC<PositionnementModalProps> = ({
   isOpen,
@@ -127,241 +133,171 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
   };
 
   return (
-    <>
+    <div
+      className="fixed inset-0 flex items-center justify-center p-4 z-[1000] backdrop-blur bg-black/45 animate-modal-bd-in"
+      onClick={onClose}
+    >
+      {/* Modal container */}
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'var(--s-4)',
-          background: 'rgba(0,0,0,0.45)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-          animation: 'modalBdIn 0.22s ease both',
-        }}
-        onClick={onClose}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[880px] bg-gradient-to-br from-primary-50 to-accent-50/95 rounded-2xl border border-ink-200 shadow-modal overflow-hidden animate-modal-in"
       >
-        {/* Modal container */}
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="modal--positionement modal__content"
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-danger-bg hover:text-danger-fg transition-all z-10 p-0"
+          aria-label="Fermer"
         >
-          {/* Close */}
-          <button
-            onClick={onClose}
-            className="modal__close-btn"
-            style={{ top: 'var(--s-5)', right: 'var(--s-5)', width: 36, height: 36 }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--tls-danger-bg, rgba(220,38,38,0.08))';
-              e.currentTarget.style.color = '#dc2626';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--surface)';
-              e.currentTarget.style.color = 'var(--text-muted)';
-            }}
-            aria-label="Fermer"
-          >
-            <X size={16} />
-          </button>
+          <X size={16} />
+        </button>
 
-          <div style={{ padding: 'var(--s-8)' }}>
-            {!isCompleted ? (
-              <>
-                {/* Header + progress */}
-                <div style={{ marginBottom: 'var(--s-6)' }}>
-                  <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--tls-primary-600)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    {courseTitle}
-                  </p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-2)' }}>
-                    <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                      Question {currentIndex + 1} / {questions.length}
-                    </span>
-                    <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--tls-primary-600)' }}>
-                      {Math.round(progress)}%
-                    </span>
-                  </div>
-                  <div className="modal__progress-bar">
-                    <div
-                      className="modal__progress-fill"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
+        <div className="p-8">
+          {!isCompleted ? (
+            <>
+              {/* Header + progress */}
+              <div className="mb-6">
+                <p className="text-caption font-semibold text-primary-600 uppercase tracking-[0.06em] mb-1">
+                  {courseTitle}
+                </p>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-caption text-ink-600">
+                    Question {currentIndex + 1} / {questions.length}
+                  </span>
+                  <span className="text-caption font-bold text-primary-600">
+                    {Math.round(progress)}%
+                  </span>
                 </div>
-
-                {/* Question card */}
-                <div
-                  style={{
-                    background: 'var(--surface)',
-                    borderRadius: 'var(--r-xl)',
-                    padding: 'var(--s-6)',
-                    boxShadow: 'var(--shadow-md)',
-                    marginBottom: 'var(--s-6)',
-                    border: '1px solid var(--border)',
-                  }}
-                >
-                  <h2 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2 }}>
-                    {currentQuestion.title}
-                  </h2>
-                  <p style={{ margin: 0, fontSize: 'var(--t-body)', color: 'var(--text-muted)' }}>
-                    {currentQuestion.description}
-                  </p>
-                </div>
-
-                {/* Level selection */}
-                <div className="modal__level-grid">
-                  {LEVELS.map((level) => {
-                    const isSelected = selectedLevel === level.id;
-                    return (
-                      <button
-                        key={level.id}
-                        onClick={() => handleLevelSelect(level.id)}
-                        className={`modal__level-btn ${isSelected ? 'modal__level-btn--selected' : ''}`}
-                        style={{
-                          background: isSelected ? level.colorLight : 'var(--surface)',
-                          borderColor: isSelected ? level.color : 'var(--border)',
-                          boxShadow: isSelected ? `0 8px 24px ${level.glowColor}, var(--shadow-sm)` : 'var(--shadow-xs)',
-                          transform: isSelected ? 'translateY(-4px) scale(1.04)' : 'translateY(0) scale(1)',
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isSelected) {
-                            e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
-                            e.currentTarget.style.boxShadow = `0 8px 20px ${level.glowColor}`;
-                            e.currentTarget.style.borderColor = level.color;
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          if (!isSelected) {
-                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                            e.currentTarget.style.boxShadow = 'var(--shadow-xs)';
-                            e.currentTarget.style.borderColor = 'var(--border)';
-                          }
-                        }}
-                      >
-                        <span className="modal__level-emoji">{level.emoji}</span>
-                        <span className="modal__level-label" style={{ color: isSelected ? level.color : 'var(--text)' }}>
-                          {level.label}
-                        </span>
-                        <span style={{ fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center' }}>
-                          {level.description}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Next button */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button
-                    onClick={handleNext}
-                    disabled={!canProceed}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 'var(--s-2)',
-                      padding: 'var(--s-3) var(--s-6)',
-                      borderRadius: 'var(--r-xl)',
-                      background: canProceed ? 'var(--tls-primary-500)' : 'var(--border)',
-                      color: canProceed ? '#fff' : 'var(--text-muted)',
-                      border: 'none',
-                      fontWeight: 700,
-                      fontSize: 'var(--t-body)',
-                      cursor: canProceed ? 'pointer' : 'not-allowed',
-                      transition: 'all var(--dur-2)',
-                      opacity: canProceed ? 1 : 0.6,
-                      boxShadow: canProceed ? '0 4px 14px rgba(85,161,180,0.35)' : 'none',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (canProceed) {
-                        (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(3px)';
-                        (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(85,161,180,0.45)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (canProceed) {
-                        (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(0)';
-                        (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 14px rgba(85,161,180,0.35)';
-                      }
-                    }}
-                  >
-                    {isLastQuestion ? 'Terminer' : 'Suivant'}
-                    <ArrowRight size={18} />
-                  </button>
-                </div>
-              </>
-            ) : (
-              /* Success screen */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)', animation: 'modalIn 0.4s ease both' }}>
-                <div
-                  style={{
-                    background: 'var(--surface)',
-                    borderRadius: 'var(--r-xl)',
-                    padding: 'var(--s-8)',
-                    border: '1.5px solid rgba(85,161,180,0.2)',
-                    boxShadow: 'var(--shadow-lg)',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div style={{ display: 'inline-flex', gap: 'var(--s-2)', marginBottom: 'var(--s-5)', padding: 'var(--s-3)', borderRadius: 'var(--r-xl)', background: 'var(--surface-muted)' }}>
-                    {['🎯', '⭐', '🚀'].map((e) => (
-                      <div key={e} style={{ width: 44, height: 44, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>{e}</div>
-                    ))}
-                  </div>
-                  <h3 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--text)' }}>Votre profil est prêt !</h3>
-                  <p style={{ margin: '0 0 var(--s-6)', fontSize: 'var(--t-body)', color: 'var(--text-muted)' }}>
-                    Le parcours va maintenant s'adapter à votre niveau.
-                  </p>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 'var(--s-3)', marginBottom: 'var(--s-5)' }}>
-                    {[
-                      { icon: '📊', label: 'Compétences enregistrées', border: 'rgba(85,161,180,0.15)' },
-                      { icon: '🎯', label: 'Parcours personnalisé',    border: 'rgba(248,176,68,0.15)' },
-                      { icon: '🚀', label: 'Progression optimisée',    border: 'rgba(237,132,58,0.15)' },
-                    ].map((f) => (
-                      <div key={f.icon} style={{ padding: 'var(--s-4)', borderRadius: 'var(--r-lg)', background: 'var(--surface-muted)', border: `1px solid ${f.border}` }}>
-                        <div style={{ fontSize: '2rem', marginBottom: 'var(--s-2)' }}>{f.icon}</div>
-                        <p style={{ margin: 0, fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text)', lineHeight: 1.3 }}>{f.label}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ display: 'flex', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-50)', border: '1px solid rgba(85,161,180,0.2)', textAlign: 'left' }}>
-                    <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 'var(--r-md)', background: 'var(--tls-primary-500)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Sparkles size={18} style={{ color: '#fff' }} />
-                    </div>
-                    <div>
-                      <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--tls-primary-600)' }}>🔮 Prochainement : Adaptive Learning</p>
-                      <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                        Votre <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de votre progression.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ textAlign: 'center', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', background: 'rgba(85,161,180,0.06)', animation: 'tls-pulse 2s ease-in-out infinite' }}>
-                  <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                    Redirection vers votre parcours dans quelques instants… 🎓
-                  </p>
+                <div className="w-full h-1.5 bg-ink-200 rounded-pill overflow-hidden">
+                  <div
+                    className="h-full bg-primary-500 rounded-pill transition-all duration-500"
+                    style={{ width: `${progress}%` }}
+                  />
                 </div>
               </div>
-            )}
-          </div>
+
+              {/* Question card */}
+              <div className="bg-white rounded-xl p-6 shadow-md mb-6 border border-ink-200">
+                <h2 className="text-h3 font-extrabold text-ink-900 leading-snug mb-2">
+                  {currentQuestion.title}
+                </h2>
+                <p className="text-body text-ink-600">
+                  {currentQuestion.description}
+                </p>
+              </div>
+
+              {/* Level selection */}
+              <div className="grid grid-cols-5 gap-3 mb-6">
+                {LEVELS.map((level) => {
+                  const isSelected = selectedLevel === level.id;
+                  return (
+                    <button
+                      key={level.id}
+                      onClick={() => handleLevelSelect(level.id)}
+                      className={[
+                        'rounded-xl py-5 px-3 flex flex-col items-center gap-2 cursor-pointer transition-all border-2 text-center',
+                        isSelected
+                          ? '-translate-y-1 scale-[1.04]'
+                          : 'hover:-translate-y-[3px] hover:scale-[1.02]',
+                      ].join(' ')}
+                      style={{
+                        background: isSelected ? level.colorLight : 'white',
+                        borderColor: isSelected ? level.color : 'rgba(37,43,55,0.08)',
+                        boxShadow: isSelected
+                          ? `0 8px 24px ${level.glowColor}, 0 1px 3px 0 rgba(0, 0, 0, 0.1)`
+                          : '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.boxShadow = `0 8px 20px ${level.glowColor}`;
+                          e.currentTarget.style.borderColor = level.color;
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected) {
+                          e.currentTarget.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+                          e.currentTarget.style.borderColor = 'rgba(37,43,55,0.08)';
+                        }
+                      }}
+                    >
+                      <span className="text-[2.5rem] leading-none">{level.emoji}</span>
+                      <span
+                        className="text-caption font-bold text-center leading-tight text-ink-900"
+                        style={{ color: isSelected ? level.color : undefined }}
+                      >
+                        {level.label}
+                      </span>
+                      <span className="text-micro text-ink-600 text-center">
+                        {level.description}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Next button */}
+              <div className="flex justify-end">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  disabled={!canProceed}
+                  trailingIcon={<ArrowRight size={18} />}
+                  onClick={handleNext}
+                >
+                  {isLastQuestion ? 'Terminer' : 'Suivant'}
+                </Button>
+              </div>
+            </>
+          ) : (
+            /* Success screen */
+            <div className="flex flex-col gap-5 animate-modal-in">
+              <div className="bg-white rounded-xl p-8 border border-primary-500/20 shadow-lg text-center">
+                <div className="inline-flex gap-2 mb-5 p-3 rounded-xl bg-ink-50">
+                  {['🎯', '⭐', '🚀'].map((e) => (
+                    <div
+                      key={e}
+                      className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-[1.4rem]"
+                    >
+                      {e}
+                    </div>
+                  ))}
+                </div>
+                <h3 className="text-h3 font-extrabold text-ink-900 mb-2">Votre profil est prêt !</h3>
+                <p className="text-body text-ink-600 mb-6">
+                  Le parcours va maintenant s'adapter à votre niveau.
+                </p>
+
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  {SUCCESS_FEATURES.map((f) => (
+                    <div key={f.icon} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
+                      <div className="text-[2rem] mb-2">{f.icon}</div>
+                      <p className="text-caption font-semibold text-ink-900 leading-snug">{f.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex gap-3 p-4 rounded-lg bg-primary-50 border border-primary-500/20 text-left">
+                  <div className="shrink-0 w-9 h-9 rounded-md bg-primary-500 flex items-center justify-center">
+                    <Sparkles size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <p className="text-caption font-bold text-primary-600 mb-1">🔮 Prochainement : Adaptive Learning</p>
+                    <p className="text-caption text-ink-600 leading-relaxed">
+                      Votre <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de votre progression.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center p-3 rounded-lg bg-primary-500/6 animate-pulse">
+                <p className="text-caption text-ink-600">
+                  Redirection vers votre parcours dans quelques instants… 🎓
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      <style>{`
-        @keyframes modalBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes modalIn {
-          from { opacity: 0; transform: translateY(16px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes tls-pulse {
-          0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
 

@@ -2894,7 +2894,7 @@ const Components: React.FC = () => {
   }, [filteredTokens]);
 
   const componentsByCategory = useMemo(() => {
-    const order: Category[] = ['Core', 'Feedback', 'Patterns', 'Learning', 'Content', 'Navigation'];
+    const order: Category[] = ['Core', 'Feedback', 'Patterns', 'Learning', 'Content', 'Navigation', 'Modals'];
     return order
       .map((cat) => [cat, filteredComponents.filter((c) => c.category === cat)] as const)
       .filter(([, list]) => list.length > 0);
