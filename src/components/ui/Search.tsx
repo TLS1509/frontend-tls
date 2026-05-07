@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Search as SearchIcon, X } from 'lucide-react';
 
 /**
  * Search — Source of truth: design-system/spec.json → components.Search
@@ -17,19 +18,10 @@ export interface SearchProps
   wrapperClassName?: string;
 }
 
-const SEARCH_ICON = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="11" cy="11" r="8" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
-);
-
-const CLEAR_ICON = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
+const SIZE_CLASSES: Record<SearchSize, string> = {
+  default: 'py-2.5 px-4 rounded-xl',
+  lg:      'py-3.5 px-5 rounded-2xl',
+};
 
 export const Search: React.FC<SearchProps> = ({
   size = 'default',
@@ -54,7 +46,6 @@ export const Search: React.FC<SearchProps> = ({
 
   const handleClear = () => {
     if (!isControlled) setInternalValue('');
-    // Fire a synthetic change event for controlled usage
     if (inputRef.current) {
       const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
       nativeInputValueSetter?.call(inputRef.current, '');
@@ -66,8 +57,9 @@ export const Search: React.FC<SearchProps> = ({
   const hasValue = Boolean(currentValue);
 
   const classes = [
-    'search',
-    size === 'lg' && 'search--lg',
+    'flex items-center gap-3 bg-white border border-ink-300 transition-all',
+    'focus-within:border-primary-400 focus-within:shadow-brand-sm',
+    SIZE_CLASSES[size],
     wrapperClassName,
   ]
     .filter(Boolean)
@@ -75,27 +67,34 @@ export const Search: React.FC<SearchProps> = ({
 
   return (
     <label className={classes}>
-      <span className="search__icon">{leadingIcon ?? SEARCH_ICON}</span>
+      <span className="text-ink-500 inline-flex shrink-0">
+        {leadingIcon ?? <SearchIcon size={18} strokeWidth={2} />}
+      </span>
       <input
         ref={inputRef}
         type="search"
         placeholder={placeholder}
         value={isControlled ? value : internalValue}
         onChange={handleChange}
+        className="flex-1 bg-transparent border-0 outline-none font-body text-body-sm text-ink-900 min-w-0 p-0 h-auto placeholder:text-ink-500 focus:outline-none focus:bg-transparent focus:shadow-none"
         {...rest}
       />
       {hasValue && (
         <button
           type="button"
-          className="search__clear"
           onClick={handleClear}
           aria-label="Effacer la recherche"
           tabIndex={-1}
+          className="inline-flex items-center justify-center w-5 h-5 p-0 border-0 rounded-sm bg-ink-50 text-ink-600 cursor-pointer shrink-0 transition-all hover:bg-ink-200 hover:text-ink-900"
         >
-          {CLEAR_ICON}
+          <X size={14} strokeWidth={2.5} />
         </button>
       )}
-      {shortcut && !hasValue && <kbd className="search__shortcut">{shortcut}</kbd>}
+      {shortcut && !hasValue && (
+        <kbd className="font-mono text-[11px] py-0.5 px-2 bg-ink-50 rounded-sm text-ink-600 shrink-0 border border-ink-200">
+          {shortcut}
+        </kbd>
+      )}
     </label>
   );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Breadcrumb.css';
 
 /**
  * Breadcrumb — Source of truth: design-system/spec.json → components.Breadcrumb
@@ -20,6 +19,9 @@ export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   sticky?: boolean;
 }
 
+const BASE = 'flex items-center flex-wrap gap-2 text-body-sm font-body text-ink-600 m-0 p-0 list-none';
+const STICKY = 'sticky top-0 z-30 py-3 px-4 backdrop-blur-sm bg-white/85 border-b border-ink-200';
+
 export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items,
   separator = '/',
@@ -29,7 +31,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 }) => (
   <nav
     aria-label="Fil d'Ariane"
-    className={['breadcrumb', sticky && 'breadcrumb--sticky', className].filter(Boolean).join(' ')}
+    className={[BASE, sticky && STICKY, className].filter(Boolean).join(' ')}
     {...rest}
   >
     {items.map((item, idx) => {
@@ -37,12 +39,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
       return (
         <React.Fragment key={idx}>
           {isLast ? (
-            <span className="breadcrumb__current" aria-current="page">
+            <span className="text-ink-900 font-semibold cursor-default" aria-current="page">
               {item.label}
             </span>
           ) : (
             <a
-              className="breadcrumb__link"
+              className="text-ink-600 no-underline rounded-xs transition-colors hover:text-primary-600 hover:underline hover:underline-offset-[3px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               href={item.href ?? '#'}
               onClick={item.onClick}
             >
@@ -50,7 +52,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
             </a>
           )}
           {!isLast && (
-            <span className="breadcrumb__sep" aria-hidden="true">
+            <span className="text-ink-500 select-none shrink-0 text-caption" aria-hidden="true">
               {separator}
             </span>
           )}

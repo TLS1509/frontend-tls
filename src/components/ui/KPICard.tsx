@@ -1,12 +1,8 @@
 import React from 'react';
-import './KPICard.css';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 /**
  * KPICard — standalone KPI / statistic card
- *
- * Wraps the .tls-kpi + .tls-kpi-icon pattern into a reusable component.
- * Tone variants apply a color accent to the icon background and value text.
- *
  * Tones: default | brand | warm | sun | success
  * Sizes: sm | md
  */
@@ -15,28 +11,40 @@ export type KPICardTone = 'default' | 'brand' | 'warm' | 'sun' | 'success';
 export type KPICardSize = 'sm' | 'md';
 
 export interface KPICardProps {
-  /** Main metric value displayed prominently */
   value: string | number;
-  /** Descriptive label below the value */
   label: string;
-  /** Optional icon rendered above the value */
   icon?: React.ReactNode;
-  /** Optional trend indicator */
   trend?: {
     value: number;
     direction: 'up' | 'down';
     label?: string;
   };
-  /** Color tone */
   tone?: KPICardTone;
-  /** Card size */
   size?: KPICardSize;
-  /** Make card interactive */
   onClick?: () => void;
   className?: string;
 }
 
-// Tone variants are now handled by CSS classes (.tls-kpi--{tone})
+const SIZE_CLASSES: Record<KPICardSize, string> = {
+  sm: 'px-4 pt-4 pb-3',
+  md: 'py-5 px-4',
+};
+
+const TONE_ICON_CLASSES: Record<KPICardTone, string> = {
+  default: 'bg-ink-50 text-ink-500',
+  brand:   'bg-primary-50 text-primary-600',
+  warm:    'bg-secondary-50 text-secondary-600',
+  sun:     'bg-accent-50 text-accent-600',
+  success: 'bg-success-bg text-success-fg',
+};
+
+const TONE_VALUE_CLASSES: Record<KPICardTone, string> = {
+  default: 'text-primary-700',
+  brand:   'text-primary-700',
+  warm:    'text-secondary-600',
+  sun:     'text-accent-700',
+  success: 'text-success-fg',
+};
 
 export const KPICard: React.FC<KPICardProps> = ({
   value,
@@ -48,38 +56,39 @@ export const KPICard: React.FC<KPICardProps> = ({
   onClick,
   className = '',
 }) => {
+  const interactive = !!onClick;
   const classes = [
-    'tls-kpi',
-    size === 'sm' && 'tls-kpi--sm',
-    tone !== 'default' && `tls-kpi--${tone}`,
-    onClick && 'tls-kpi--clickable',
+    'flex flex-col gap-3 rounded-lg bg-white border border-ink-200 transition-all',
+    SIZE_CLASSES[size],
+    interactive && 'cursor-pointer hover:border-ink-300 hover:shadow-sm active:scale-[0.98]',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const trendSign = trend?.direction === 'up' ? '↑' : '↓';
+  const trendColor = trend?.direction === 'up' ? 'text-success-fg' : 'text-danger-fg';
+  const TrendIcon = trend?.direction === 'up' ? TrendingUp : TrendingDown;
 
   return (
     <div
       className={classes}
       onClick={onClick}
-      role={onClick ? 'button' : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); } : undefined}
+      role={interactive ? 'button' : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      onKeyDown={interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); } : undefined}
     >
       {icon && (
-        <div className="tls-kpi-icon">
+        <div className={`flex items-center justify-center w-10 h-10 rounded-md shrink-0 ${TONE_ICON_CLASSES[tone]}`}>
           {icon}
         </div>
       )}
-      <strong>
+      <strong className={`text-h2 font-bold leading-none ${TONE_VALUE_CLASSES[tone]}`}>
         {value}
       </strong>
-      <span>{label}</span>
+      <span className="text-body-sm text-ink-600 font-medium">{label}</span>
       {trend && (
-        <span className={`tls-kpi-trend ${trend.direction === 'up' ? 'tls-kpi-trend--up' : 'tls-kpi-trend--down'}`}>
-          {trendSign} {Math.abs(trend.value)}%{trend.label ? ` ${trend.label}` : ''}
+        <span className={`text-micro font-bold mt-1 inline-flex items-center gap-1 ${trendColor}`}>
+          <TrendIcon size={12} strokeWidth={2.5} /> {Math.abs(trend.value)}%{trend.label ? ` ${trend.label}` : ''}
         </span>
       )}
     </div>

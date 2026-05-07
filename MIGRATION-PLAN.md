@@ -131,23 +131,23 @@
 
 | # | Composant | Fichier | Statut |
 |---|-----------|---------|--------|
-| 5.6 | Medal | `src/components/ui/Medal.tsx` | ⬜ |
-| 5.7 | Toast | `src/components/ui/Toast.tsx` | ⬜ |
+| 5.6 | Medal | `src/components/ui/Medal.tsx` | ✅ |
+| 5.7 | Toast | `src/components/ui/Toast.tsx` | ✅ |
 | 5.8 | Modal | `src/components/ui/Modal.tsx` | ✅ |
-| 5.9 | EmptyState | `src/components/ui/EmptyState.tsx` | ⬜ |
+| 5.9 | EmptyState | `src/components/ui/EmptyState.tsx` | ✅ |
 | 5.12 | ParcoursCard (ui) | `src/components/ui/ParcoursCard.tsx` | ⬜ |
-| 5.13 | KPICard | `src/components/ui/KPICard.tsx` | ⬜ |
-| 5.14 | CompetenceBadge | `src/components/ui/CompetenceBadge.tsx` | ⬜ |
+| 5.13 | KPICard | `src/components/ui/KPICard.tsx` | ✅ |
+| 5.14 | CompetenceBadge | `src/components/ui/CompetenceBadge.tsx` | ✅ |
 | 5.15 | ProfileCard | `src/components/ui/ProfileCard.tsx` | ⬜ |
 | 5.17 | ResourceCard | `src/components/ui/ResourceCard.tsx` | ⬜ |
 | 5.18 | ActionCard | `src/components/ui/ActionCard.tsx` | ⬜ |
-| 5.19 | Tabs | `src/components/ui/Tabs.tsx` | ⬜ |
+| 5.19 | Tabs | `src/components/ui/Tabs.tsx` | ✅ |
 | 5.20 | Pagination | `src/components/ui/Pagination.tsx` | ⬜ |
 | 5.21 | Stepper | `src/components/ui/Stepper.tsx` | ⬜ |
 | 5.22 | Steps | `src/components/ui/Steps.tsx` | ⬜ |
-| 5.23 | FilterChip | `src/components/ui/FilterChip.tsx` | ⬜ |
-| 5.24 | Search | `src/components/ui/Search.tsx` | ⬜ |
-| 5.25 | Breadcrumb | `src/components/ui/Breadcrumb.tsx` | ⬜ |
+| 5.23 | FilterChip | `src/components/ui/FilterChip.tsx` | ✅ |
+| 5.24 | Search | `src/components/ui/Search.tsx` | ✅ |
+| 5.25 | Breadcrumb | `src/components/ui/Breadcrumb.tsx` | ✅ |
 | 5.26-5.48 | Composants UI restants | `src/components/ui/[...].tsx` | ⬜ |
 
 ---

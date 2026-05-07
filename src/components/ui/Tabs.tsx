@@ -19,11 +19,30 @@ export interface TabItem {
 export interface TabsProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   items: TabItem[];
-  /** Active tab id */
   value: string;
   onChange: (id: string) => void;
   variant?: TabsVariant;
 }
+
+const CONTAINER_VARIANT: Record<TabsVariant, string> = {
+  pill:      'inline-flex items-center gap-0.5 p-1 bg-ink-50 rounded-lg',
+  underline: 'inline-flex items-center gap-4 border-b border-ink-200',
+  boxed:     'inline-flex items-stretch border border-ink-200 rounded-lg overflow-hidden',
+};
+
+const TAB_BASE = 'bg-transparent border-0 font-body text-body-sm font-medium text-ink-600 cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 disabled:opacity-disabled disabled:cursor-not-allowed';
+
+const TAB_VARIANT: Record<TabsVariant, string> = {
+  pill:      'px-3.5 py-2 rounded-md hover:text-ink-900 hover:bg-white/60',
+  underline: 'px-0.5 py-2.5 rounded-none relative hover:text-ink-900',
+  boxed:     'px-4 py-2.5 rounded-none border-r border-ink-200 last:border-r-0 flex-1 justify-center hover:bg-ink-50',
+};
+
+const TAB_ACTIVE: Record<TabsVariant, string> = {
+  pill:      'bg-white text-ink-900 shadow-sm font-semibold',
+  underline: 'text-primary-700 after:content-[""] after:absolute after:left-0 after:right-0 after:-bottom-px after:h-0.5 after:bg-primary-600 after:rounded-t-sm',
+  boxed:     'bg-primary-600 text-white font-semibold hover:bg-primary-600',
+};
 
 export const Tabs: React.FC<TabsProps> = ({
   items,
@@ -33,15 +52,6 @@ export const Tabs: React.FC<TabsProps> = ({
   className = '',
   ...rest
 }) => {
-  const classes = [
-    'tabs',
-    variant === 'underline' && 'tabs--underline',
-    variant === 'boxed' && 'tabs--boxed',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, currentIdx: number) => {
@@ -68,7 +78,6 @@ export const Tabs: React.FC<TabsProps> = ({
 
     if (nextId) {
       onChange(nextId);
-      // Focus the button for the next tab
       const btn = containerRef.current?.querySelector<HTMLButtonElement>(
         `[data-tab-id="${nextId}"]`
       );
@@ -76,11 +85,19 @@ export const Tabs: React.FC<TabsProps> = ({
     }
   };
 
+  const containerClasses = [CONTAINER_VARIANT[variant], className].filter(Boolean).join(' ');
+
   return (
-    <div ref={containerRef} className={classes} role="tablist" {...rest}>
+    <div ref={containerRef} className={containerClasses} role="tablist" {...rest}>
       {items.map((item, idx) => {
         const active = item.id === value;
-        const tabClasses = ['tab', active && 'tab--active'].filter(Boolean).join(' ');
+        const tabClasses = [
+          TAB_BASE,
+          TAB_VARIANT[variant],
+          active && TAB_ACTIVE[variant],
+        ]
+          .filter(Boolean)
+          .join(' ');
         return (
           <button
             key={item.id}
