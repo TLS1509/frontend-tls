@@ -135,20 +135,36 @@
 | 5.7 | Toast | `src/components/ui/Toast.tsx` | ✅ |
 | 5.8 | Modal | `src/components/ui/Modal.tsx` | ✅ |
 | 5.9 | EmptyState | `src/components/ui/EmptyState.tsx` | ✅ |
-| 5.12 | ParcoursCard (ui) | `src/components/ui/ParcoursCard.tsx` | ⬜ |
+| 5.10 | IconFeatureCard | `src/components/ui/IconFeatureCard.tsx` | ✅ |
+| 5.12 | ParcoursCard (ui) | `src/components/ui/ParcoursCard.tsx` | ✅ |
 | 5.13 | KPICard | `src/components/ui/KPICard.tsx` | ✅ |
 | 5.14 | CompetenceBadge | `src/components/ui/CompetenceBadge.tsx` | ✅ |
-| 5.15 | ProfileCard | `src/components/ui/ProfileCard.tsx` | ⬜ |
-| 5.17 | ResourceCard | `src/components/ui/ResourceCard.tsx` | ⬜ |
-| 5.18 | ActionCard | `src/components/ui/ActionCard.tsx` | ⬜ |
+| 5.15 | ProfileCard | `src/components/ui/ProfileCard.tsx` | ✅ |
+| 5.17 | ResourceCard | `src/components/ui/ResourceCard.tsx` | ✅ |
+| 5.18 | ActionCard | `src/components/ui/ActionCard.tsx` | ✅ |
 | 5.19 | Tabs | `src/components/ui/Tabs.tsx` | ✅ |
-| 5.20 | Pagination | `src/components/ui/Pagination.tsx` | ⬜ |
-| 5.21 | Stepper | `src/components/ui/Stepper.tsx` | ⬜ |
-| 5.22 | Steps | `src/components/ui/Steps.tsx` | ⬜ |
+| 5.20 | Pagination | `src/components/ui/Pagination.tsx` | ✅ |
+| 5.21 | Stepper | `src/components/ui/Stepper.tsx` | ✅ |
+| 5.22 | Steps | `src/components/ui/Steps.tsx` | ✅ |
 | 5.23 | FilterChip | `src/components/ui/FilterChip.tsx` | ✅ |
 | 5.24 | Search | `src/components/ui/Search.tsx` | ✅ |
 | 5.25 | Breadcrumb | `src/components/ui/Breadcrumb.tsx` | ✅ |
-| 5.26-5.48 | Composants UI restants | `src/components/ui/[...].tsx` | ⬜ |
+| 5.26 | Divider | `src/components/ui/Divider.tsx` | ✅ |
+| 5.27 | Tag | `src/components/ui/Tag.tsx` | ✅ |
+| 5.28 | Spinner | `src/components/ui/Spinner.tsx` | ✅ |
+| 5.29 | SectionTitle | `src/components/ui/SectionTitle.tsx` | ✅ |
+| 5.30 | MetaItem | `src/components/ui/MetaItem.tsx` | ✅ |
+| 5.31 | StatusBadge | `src/components/ui/StatusBadge.tsx` | ✅ |
+| 5.32 | NotificationBadge | `src/components/ui/NotificationBadge.tsx` | ✅ |
+| 5.33 | TrendingBadge | `src/components/ui/TrendingBadge.tsx` | ✅ |
+| 5.34 | UserInfo | `src/components/ui/UserInfo.tsx` | ✅ |
+| 5.35 | Achievement | `src/components/ui/Achievement.tsx` | ⬜ |
+| 5.36 | AchievementBadge | `src/components/ui/AchievementBadge.tsx` | ⬜ |
+| 5.37 | MasteryBadge | `src/components/ui/MasteryBadge.tsx` | ⬜ |
+| 5.38 | ActivityItem | `src/components/ui/ActivityItem.tsx` | ⬜ |
+| 5.39 | CompetencyMatrix | `src/components/ui/CompetencyMatrix.tsx` | ⬜ |
+| 5.40 | QuizComponent | `src/components/ui/QuizComponent.tsx` | ⬜ |
+| 5.41-5.48 | Composants UI restants (Celebration, BackgroundBlobs, DropdownMenu, etc.) | `src/components/ui/[...].tsx` | ⬜ |
 
 ---
 
@@ -219,30 +235,37 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + Modal canonique (5.8) / 9
-**Composants validés :** 30 / ~120
+**Phases complètes :** 1 + 2 + 2.6 + 3 + Phase 5 (~80 %) / 9
+**Composants validés :** 56 / ~120
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
 - **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
 - **Modales (Phase 3)** : BookingModal, PositionnementModal, SuccessModal, VideoPlayerModal, StreakCelebrationModal, SessionFeedbackModal, CancelSessionModal, ConfirmModal
 - **UI canonique** : Modal (ui/Modal.tsx)
+- **Phase 5 (UI batch 1)** : Toast, EmptyState, Medal, KPICard, CompetenceBadge, Tabs, FilterChip, Search, Breadcrumb
+- **Phase 5 (UI batch 2 — Cards)** : ResourceCard, ProfileCard, ActionCard, ParcoursCard (ui), IconFeatureCard
+- **Phase 5 (UI batch 3 — Navigation)** : Pagination, Stepper, Steps
+- **Phase 5 (UI batch 4 — Atomes)** : Divider, Tag, Spinner, SectionTitle, MetaItem, StatusBadge, NotificationBadge, TrendingBadge, UserInfo
 
-**🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind. Tous les modals partagent maintenant le pattern flex-center sur scrim parent + animations dans `modals.css` ou `tls-components.css`.
+**🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind.
 
-**Audit Phase 3 (2026-05-07) :**
-- 9 modals migrés (~160 inline styles supprimés)
-- ~70 classes BEM supprimées du JSX
-- Tokens sémantiques brand-aligned validés pour ConfirmModal (success teal-green, danger coral-red, warning amber, info primary)
-- Pattern variant-maps appliqué (VARIANT_*, SUBMIT_*, CONFIRM_BTN_*)
-- `<Button>` réutilisé pour CTAs principaux
-- Custom SVG remplacés par Lucide (étoiles SessionFeedback, X close buttons)
+**Phase 5 — état actuel :** 26 / ~32 composants UI migrés (~80 %). Restants : Achievement, AchievementBadge, MasteryBadge, ActivityItem, CompetencyMatrix, QuizComponent, Celebration, BackgroundBlobs, DropdownMenu, ProgressRing.
 
-**Pièges découverts en Phase 3 :**
-- Piège #8 (déjà documenté) : `[role="button"]` global dans components-modern.css
-- Piège #9 (NEW) : Tailwind v4 utilise propriété CSS `translate` séparée → conflict avec `transform` des keyframes
-- Piège #10 (NEW) : `components-modern.css` impose `height: var(--input-height)` (40px) sur tous les `textarea`/`select` → utiliser `h-auto min-h-[X]`
+**Audit Phase 5 batch Cards (2026-05-07) :**
+- 2 composants étaient **visuellement cassés** (CSS orphelin non importé) : ResourceCard, ProfileCard
+- 1 CSS orphelin pur trouvé : StatCard.css (composant déjà migré, CSS supprimé)
+- 17 composants Phase 5 migrés en 4 commits (Cards · Navigation · Atomes)
+- ~22 fichiers `.css` BEM supprimés
+- Tous les SVG inline custom remplacés par Lucide (X, Check, Lock, Circle, Play, ChevronLeft/Right, Clock, BookOpen, TrendingUp, Star, Sparkles, Award, Zap, Mail, Globe, Link2, AlertTriangle…)
+- Lucide ne fournit pas `Linkedin`/`Twitter` dans la version installée → `<span>` stylé avec contenu textuel
 
-**Prochain jalon :** Phase 5 — Composants UI restants (Toast, EmptyState, Medal, KPICard, FilterChip, Tabs, Pagination, Stepper, etc.) avant d'attaquer Phase 4 (pages Learning).
+**Pièges découverts (cumul) :**
+- Piège #8 : `[role="button"]` global dans components-modern.css
+- Piège #9 : Tailwind v4 utilise propriété CSS `translate` séparée → conflict avec `transform` des keyframes
+- Piège #10 : `components-modern.css` impose `height: var(--input-height)` (40px) sur tous les `textarea`/`select` → utiliser `h-auto min-h-[X]`
+- Piège #11 (NEW) : CSS BEM orphelins (fichier `.css` non importé) → composants visuellement cassés sans message d'erreur (ResourceCard, ProfileCard, StatCard découverts pendant Phase 5). Action : à chaque migration, `grep -rn "ComponentName.css" src/` pour confirmer si CSS encore consommé avant suppression.
 
-**Inline styles restants :** ~1 900 / 2 105
+**Prochain jalon :** Finir Phase 5 (Achievement family, ActivityItem, CompetencyMatrix, QuizComponent, Celebration, etc.) puis Phase 4 (pages Learning) ou Phase 6 (Patterns) selon priorité.
+
+**Inline styles restants :** ~1 600 / 2 105 (estim.)
 **Dernière mise à jour :** 2026-05-07
