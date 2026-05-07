@@ -1,12 +1,11 @@
 import React from 'react';
-import './Alert.css';
 
 /**
  * Alert — Source of truth: design-system/spec.json → components.Alert
  *
- * Persistent, contextual message anchored in the page.
- * Four semantic intents: info, success, warning, danger.
- * Two sizing patterns: banner (default) | inline (compact).
+ * Persistent contextual message anchored in the page.
+ * 4 variants: info / success / warning / danger.
+ * 2 patterns: banner (default) | inline (compact).
  */
 
 export type AlertVariant = 'info' | 'success' | 'warning' | 'danger';
@@ -17,14 +16,11 @@ export interface AlertProps
   variant?: AlertVariant;
   pattern?: AlertPattern;
   title?: React.ReactNode;
-  /** Use custom icon. If omitted, default per-variant icon is rendered. */
   icon?: React.ReactNode;
-  /** Show close button (consumer controls visibility) */
   dismissible?: boolean;
   onDismiss?: () => void;
-  /** Optional action buttons/links rendered below description */
   actions?: React.ReactNode;
-  /** Legacy API support (use `variant` going forward) */
+  /** @deprecated Use `variant`. `error` maps to `danger`. */
   type?: AlertVariant | 'error';
 }
 
@@ -57,6 +53,33 @@ const DEFAULT_ICONS: Record<AlertVariant, React.ReactNode> = {
   ),
 };
 
+const BASE =
+  'grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-2 leading-normal border border-l-[3px] animate-alert-slide';
+
+const PATTERN_CLASSES: Record<AlertPattern, string> = {
+  banner: 'grid-rows-[auto_auto_auto] py-4 px-5 rounded-lg text-body-sm',
+  inline: 'grid-rows-1 py-2 px-3 rounded-md text-caption items-center',
+};
+
+const VARIANT_CLASSES: Record<AlertVariant, string> = {
+  info:    'bg-primary-500/10 text-primary-800 border-primary-500/[15%] border-l-primary-500',
+  success: 'bg-success-bg text-success-fg border-primary-500/25 border-l-success-base',
+  warning: 'bg-accent-50 text-accent-900 border-secondary-500/20 border-l-accent-400',
+  danger:  'bg-danger-bg text-danger-fg border-secondary-500/25 border-l-danger-base',
+};
+
+const ICON_TONE_CLASSES: Record<AlertVariant, string> = {
+  info:    'text-primary-600',
+  success: 'text-success-base',
+  warning: 'text-accent-400',
+  danger:  'text-danger-base',
+};
+
+const ICON_SIZE_CLASSES: Record<AlertPattern, string> = {
+  banner: 'w-6 h-6 [&>svg]:w-5 [&>svg]:h-5',
+  inline: 'w-[18px] h-[18px] [&>svg]:w-4 [&>svg]:h-4',
+};
+
 export const Alert: React.FC<AlertProps> = ({
   variant,
   type,
@@ -70,37 +93,41 @@ export const Alert: React.FC<AlertProps> = ({
   children,
   ...rest
 }) => {
-  // Legacy support: 'error' → 'danger'
   const resolvedVariant: AlertVariant =
     variant ?? (type === 'error' ? 'danger' : (type as AlertVariant)) ?? 'info';
 
-  const classes = [
-    'alert',
-    `alert--${resolvedVariant}`,
-    pattern === 'inline' && 'alert--inline',
-    className,
-  ]
+  const classes = [BASE, PATTERN_CLASSES[pattern], VARIANT_CLASSES[resolvedVariant], className]
     .filter(Boolean)
     .join(' ');
 
+  const iconClasses = [
+    'col-start-1 row-start-1 inline-flex items-center justify-center shrink-0',
+    ICON_SIZE_CLASSES[pattern],
+    ICON_TONE_CLASSES[resolvedVariant],
+  ].join(' ');
+
   return (
     <div className={classes} role="alert" {...rest}>
-      <span className={`alert__icon alert__icon--${resolvedVariant}`} aria-hidden="true">
+      <span className={iconClasses} aria-hidden="true">
         {icon ?? DEFAULT_ICONS[resolvedVariant]}
       </span>
 
-      <div className="alert__body">
-        {title && <p className="alert__title">{title}</p>}
-        {children && <p className="alert__desc">{children}</p>}
-        {actions && <div className="alert__actions">{actions}</div>}
+      <div className={`col-start-2 ${pattern === 'banner' ? 'row-start-1 row-span-3' : 'row-start-1'} flex flex-col gap-2 self-center`}>
+        {title && pattern === 'banner' && (
+          <p className="font-body font-bold m-0 leading-tight">{title}</p>
+        )}
+        {children && <p className="m-0">{children}</p>}
+        {actions && pattern === 'banner' && (
+          <div className="flex gap-2 mt-1">{actions}</div>
+        )}
       </div>
 
       {dismissible && (
         <button
           type="button"
-          className="alert__close"
           onClick={onDismiss}
           aria-label="Fermer"
+          className="col-start-3 row-start-1 self-start bg-transparent border-0 p-1 rounded-md cursor-pointer text-current opacity-50 transition-all duration-150 hover:opacity-100 hover:bg-black/[0.08] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 focus-visible:opacity-100"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18" />
