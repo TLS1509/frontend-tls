@@ -219,11 +219,22 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 0.5 / 9
+**Phases complètes :** 1 + 2 + 2.6 / 9
 **Composants validés :** 21 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton)
 
 **🎉 Phase 2.6 (primitives bottom-up) COMPLÈTE** — toutes les primitives partagées migrées, prêt à attaquer les composites de plus haut niveau (modales, learning cards, pages) avec une base Tailwind clean.
 
+**Audit final Phase 1 + 2 + 2.6 (2026-05-07) :**
+- Aucun import `.css` legacy dans les composants migrés (vérifié via grep)
+- 110 instances rendues sur `/components` sans regression visuelle
+- ParcoursCard composite hérite proprement d'InlineProgress + MetaPill migrés (height 367px vs 60px en bug initial)
+- Pourcentages en League Spartan + tabular-nums, couleurs tone-aware sur tous les composants progress
+- Glass texture cohérente entre GlassCard / SurfaceCard / Alert (backdrop-blur + gradient)
+- Lucide icons standardisés (Alert, Avatar, CourseCard, ParcoursCard)
+
 **📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
-**Inline styles restants :** ~2 077 / 2 105
+
+**Prochain jalon :** Phase 3 — Modales (8 composants haute visibilité, hériteront de Badge/Avatar/Alert clean).
+
+**Inline styles restants :** ~2 050 / 2 105
 **Dernière mise à jour :** 2026-05-07
