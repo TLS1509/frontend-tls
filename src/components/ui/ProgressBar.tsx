@@ -92,7 +92,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             </span>
           )}
           {showValueLabel && (
-            <span className={`font-mono font-bold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}>
+            <span className={`font-display font-semibold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}>
               {valueLabel ?? `${Math.round(pct)}%`}
             </span>
           )}

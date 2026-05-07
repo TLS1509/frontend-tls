@@ -57,7 +57,7 @@ export const InlineProgress: React.FC<InlineProgressProps> = ({
         />
       </div>
       {showLabel && (
-        <span className={`font-mono text-caption font-bold tabular-nums min-w-10 text-right ${LABEL_TONE_CLASSES[tone]}`}>
+        <span className={`font-display text-caption font-semibold tabular-nums min-w-10 text-right ${LABEL_TONE_CLASSES[tone]}`}>
           {Math.round(clampedValue)}%
         </span>
       )}
