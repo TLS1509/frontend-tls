@@ -64,7 +64,7 @@
 | 2.2 | GlassCard | `src/components/ui/GlassCard.tsx` | ~10 | ✅ |
 | 2.3 | SurfaceCard | `src/components/ui/SurfaceCard.tsx` | ~8 | ✅ |
 | 2.4 | CourseCard | `src/components/ui/CourseCard.tsx` | ~20 | ✅ |
-| 2.5 | ParcoursCard | `src/components/patterns/ParcoursCard.tsx` | ~18 | ⬜ |
+| 2.5 | ParcoursCard (patterns) | `src/components/patterns/ParcoursCard.tsx` | ~18 | ✅ |
 
 **Validation** — chaque card affiche correctement avec tous ses variants et tones
 
@@ -200,6 +200,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 9 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard)
+**Composants validés :** 10 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns)
+
+**📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
 **Inline styles restants :** ~2 077 / 2 105
 **Dernière mise à jour :** 2026-05-07
