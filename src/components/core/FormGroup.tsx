@@ -55,15 +55,16 @@ export const FormGroup: React.FC<FormGroupProps> = ({
         </label>
       )}
 
-      <div className="flex-1 flex flex-col gap-2">{children}</div>
-
-      {hasError ? (
-        <p className="text-caption text-red-700 flex items-center gap-1" role="alert">
-          {error}
-        </p>
-      ) : hint ? (
-        <p className="text-caption text-ink-500">{hint}</p>
-      ) : null}
+      <div className="flex-1 flex flex-col gap-2">
+        {children}
+        {hasError ? (
+          <p className="text-caption text-red-700 flex items-center gap-1" role="alert">
+            {error}
+          </p>
+        ) : hint ? (
+          <p className="text-caption text-ink-500">{hint}</p>
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -48,10 +48,8 @@ const SIZE_CLASSES: Record<SelectSize, string> = {
 
 const STATUS_CLASSES: Record<SelectStatus, string> = {
   default: 'border-ink-300',
-  success:
-    'border-emerald-500 focus-within:outline-none focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-200',
-  error:
-    'border-red-500 focus-within:outline-none focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-200',
+  success: 'border-emerald-500',
+  error: 'border-red-500',
 };
 
 const DISABLED_CLASSES =
