@@ -44,6 +44,7 @@ import {
   // Identity
   Badge,
   Avatar,
+  AvatarGroup,
   // Feedback
   Alert,
   EmptyState,
@@ -972,15 +973,15 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'User representation: image or initials. Stable hash-based tint. Status dot + AvatarGroup.',
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
-      <div className="vstack">
-        <div className="hstack" style={{ alignItems: 'center' }}>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-3">
           <Avatar size="xs" name="Jeanne Dupont" />
           <Avatar size="sm" name="Paul Martin" />
           <Avatar name="Claire Bernard" />
           <Avatar size="lg" name="Ahmed Ali" />
           <Avatar size="xl" name="Sofia Garcia" />
         </div>
-        <div className="hstack" style={{ alignItems: 'center' }}>
+        <div className="flex items-center gap-3">
           <Avatar name="Brand" tint="brand" />
           <Avatar name="Warm" tint="warm" />
           <Avatar name="Sun" tint="sun" />
@@ -988,6 +989,20 @@ const COMPONENTS: ComponentEntry[] = [
           <Avatar name="JD" status="online" />
           <Avatar name="PM" status="busy" />
           <Avatar name="AW" status="away" />
+        </div>
+        <div className="flex items-center gap-3">
+          <Avatar name="Org Acme" shape="square" tint="brand" size="sm" />
+          <Avatar name="Org TLS" shape="square" tint="warm" />
+          <Avatar name="Org Sun" shape="square" tint="sun" size="lg" />
+          <Avatar name="Léa K" tint="brand" level={12} />
+          <Avatar name="Marc D" tint="warm" size="lg" level={47} />
+          <AvatarGroup max={3} size="sm">
+            <Avatar name="Jeanne D" />
+            <Avatar name="Paul M" />
+            <Avatar name="Claire B" />
+            <Avatar name="Ahmed A" />
+            <Avatar name="Sofia G" />
+          </AvatarGroup>
         </div>
       </div>
     ),
