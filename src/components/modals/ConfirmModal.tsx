@@ -4,8 +4,7 @@ import './modals.css';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
- * Variantes: info | success | warning | danger
- * Tokens: TLS design system
+ * Variants brand-aligned : info (primary) | success (teal-green) | warning (amber) | danger (coral-red)
  */
 
 type ConfirmVariant = 'info' | 'success' | 'warning' | 'danger';
@@ -22,42 +21,42 @@ interface ConfirmModalProps {
   icon?: React.ReactNode;
 }
 
-const VARIANT_META: Record<ConfirmVariant, {
-  iconBg: string;
-  iconColor: string;
-  confirmBg: string;
-  confirmShadow: string;
-  defaultIcon: React.ReactNode;
-}> = {
-  info: {
-    iconBg: 'var(--tls-primary-50)',
-    iconColor: 'var(--tls-primary-600)',
-    confirmBg: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-400) 100%)',
-    confirmShadow: 'rgba(85,161,180,0.35)',
-    defaultIcon: <Info size={24} />,
-  },
-  success: {
-    iconBg: 'rgba(74,140,110,0.1)',
-    iconColor: 'var(--tls-success-fg)',
-    confirmBg: 'linear-gradient(135deg, var(--tls-success-fg) 0%, #5aa87a 100%)',
-    confirmShadow: 'rgba(74,140,110,0.35)',
-    defaultIcon: <CheckCircle2 size={24} />,
-  },
-  warning: {
-    iconBg: 'rgba(248,176,68,0.12)',
-    iconColor: 'var(--tls-yellow-600)',
-    confirmBg: 'linear-gradient(135deg, var(--tls-yellow-500) 0%, #e89a30 100%)',
-    confirmShadow: 'rgba(248,176,68,0.35)',
-    defaultIcon: <AlertCircle size={24} />,
-  },
-  danger: {
-    iconBg: 'rgba(220,38,38,0.08)',
-    iconColor: '#dc2626',
-    confirmBg: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-    confirmShadow: 'rgba(220,38,38,0.35)',
-    defaultIcon: <AlertTriangle size={24} />,
-  },
+const VARIANT_ICON_BG: Record<ConfirmVariant, string> = {
+  info: 'bg-primary-50',
+  success: 'bg-success-bg',
+  warning: 'bg-accent-400/12',
+  danger: 'bg-danger-bg',
 };
+
+const VARIANT_ICON_COLOR: Record<ConfirmVariant, string> = {
+  info: 'text-primary-600',
+  success: 'text-success-fg',
+  warning: 'text-accent-600',
+  danger: 'text-danger-fg',
+};
+
+const VARIANT_CONFIRM_BG: Record<ConfirmVariant, string> = {
+  info: 'bg-gradient-to-br from-primary-500 to-primary-400',
+  success: 'bg-gradient-to-br from-success-fg to-success-base',
+  warning: 'bg-gradient-to-br from-accent-400 to-accent-500',
+  danger: 'bg-gradient-to-br from-danger-fg to-danger-base',
+};
+
+const VARIANT_CONFIRM_SHADOW: Record<ConfirmVariant, string> = {
+  info: 'shadow-[0_4px_14px_rgba(85,161,180,0.35)] hover:shadow-[0_8px_20px_rgba(85,161,180,0.45)]',
+  success: 'shadow-[0_4px_14px_rgba(157,190,186,0.35)] hover:shadow-[0_8px_20px_rgba(157,190,186,0.45)]',
+  warning: 'shadow-[0_4px_14px_rgba(248,176,68,0.35)] hover:shadow-[0_8px_20px_rgba(248,176,68,0.45)]',
+  danger: 'shadow-[0_4px_14px_rgba(242,133,89,0.35)] hover:shadow-[0_8px_20px_rgba(242,133,89,0.45)]',
+};
+
+const DEFAULT_ICONS: Record<ConfirmVariant, React.ReactNode> = {
+  info:    <Info size={24} />,
+  success: <CheckCircle2 size={24} />,
+  warning: <AlertCircle size={24} />,
+  danger:  <AlertTriangle size={24} />,
+};
+
+const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body-sm cursor-pointer transition-all font-body';
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
@@ -72,90 +71,58 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const meta = VARIANT_META[variant];
-  const displayIcon = icon ?? meta.defaultIcon;
+  const displayIcon = icon ?? DEFAULT_ICONS[variant];
 
   return (
-    <>
+    <div
+      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-cm-bd-in"
+      onClick={onClose}
+    >
       <div
-        className="modal__backdrop"
-        style={{ background: 'rgba(0,0,0,0.45)', animation: 'cmBdIn 0.2s ease both' }}
-        onClick={onClose}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[440px] bg-white rounded-2xl border border-ink-200 shadow-xl p-8 animate-cm-in"
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="modal--confirm modal__content"
-          style={{ padding: 'var(--s-8)' }}
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
+          aria-label="Fermer"
         >
-          {/* Close */}
+          <X size={14} />
+        </button>
+
+        {/* Variant icon */}
+        <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 animate-cm-icon-in ${VARIANT_ICON_BG[variant]} ${VARIANT_ICON_COLOR[variant]}`}>
+          {displayIcon}
+        </div>
+
+        {/* Text */}
+        <div className="text-center mb-6">
+          <h2 className="text-h4 font-bold text-ink-900 mb-3">
+            {title}
+          </h2>
+          <p className="text-body text-ink-600 leading-relaxed">
+            {message}
+          </p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="modal__close-btn"
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
+            className={`${ACTION_BTN_BASE} font-semibold border-[1.5px] border-ink-200 bg-white text-ink-900 hover:bg-ink-50`}
           >
-            <X size={14} />
+            {cancelText}
           </button>
-
-          {/* Icon */}
-          <div className="modal__icon-circle" style={{ background: meta.iconBg, color: meta.iconColor }}>
-            {displayIcon}
-          </div>
-
-          {/* Text */}
-          <div style={{ textAlign: 'center', marginBottom: 'var(--s-6)' }}>
-            <h2 style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-              {title}
-            </h2>
-            <p style={{ margin: 0, fontSize: 'var(--t-body)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-              {message}
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="modal__actions">
-            <button
-              onClick={onClose}
-              className="modal__action-btn modal__action-btn--cancel"
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface)'; }}
-            >
-              {cancelText}
-            </button>
-            <button
-              onClick={() => { onConfirm(); onClose(); }}
-              className="modal__action-btn modal__action-btn--confirm"
-              style={{
-                background: meta.confirmBg,
-                boxShadow: `0 4px 14px ${meta.confirmShadow}`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = `0 8px 20px ${meta.confirmShadow}`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = `0 4px 14px ${meta.confirmShadow}`;
-              }}
-            >
-              {confirmText}
-            </button>
-          </div>
+          <button
+            onClick={() => { onConfirm(); onClose(); }}
+            className={`${ACTION_BTN_BASE} font-bold border-0 text-white hover:-translate-y-0.5 ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
+          >
+            {confirmText}
+          </button>
         </div>
       </div>
-
-      <style>{`
-        @keyframes cmBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes cmIn {
-          from { opacity: 0; transform: translateY(12px) scale(0.96); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes cmIconIn {
-          from { opacity: 0; transform: scale(0); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
 

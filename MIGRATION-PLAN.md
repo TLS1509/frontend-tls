@@ -108,8 +108,8 @@
 | 3.4 | VideoPlayerModal | `src/components/modals/VideoPlayerModal.tsx` | 17 | ✅ |
 | 3.5 | StreakCelebrationModal | `src/components/modals/StreakCelebrationModal.tsx` | 20 | ✅ |
 | 3.6 | SessionFeedbackModal | `src/components/modals/SessionFeedbackModal.tsx` | 13 | ✅ |
-| 3.7 | CancelSessionModal | `src/components/modals/CancelSessionModal.tsx` | 16 | ⬜ |
-| 3.8 | ConfirmModal | `src/components/modals/ConfirmModal.tsx` | ~5 | ⬜ |
+| 3.7 | CancelSessionModal | `src/components/modals/CancelSessionModal.tsx` | 16 | ✅ |
+| 3.8 | ConfirmModal | `src/components/modals/ConfirmModal.tsx` | ~5 | ✅ |
 
 ---
 

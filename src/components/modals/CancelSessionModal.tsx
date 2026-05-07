@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle, CalendarX, RefreshCcw } from 'lucide-react';
+import { Button } from '../core/Button';
 import './modals.css';
 
 /**
  * CancelSessionModal — Annulation ou reprogrammation d'une session de coaching
  * Options : annuler définitivement ou reprogrammer
- * Tokens: TLS design system
  */
 
 interface CancelSessionModalProps {
@@ -18,11 +18,11 @@ interface CancelSessionModalProps {
 }
 
 const REASONS = [
-  { value: 'conflict', label: 'Conflit d\'agenda' },
-  { value: 'personal', label: 'Raison personnelle' },
+  { value: 'conflict',     label: 'Conflit d\'agenda' },
+  { value: 'personal',     label: 'Raison personnelle' },
   { value: 'changed_mind', label: 'J\'ai changé d\'avis' },
-  { value: 'technical', label: 'Problème technique' },
-  { value: 'other', label: 'Autre raison' },
+  { value: 'technical',    label: 'Problème technique' },
+  { value: 'other',        label: 'Autre raison' },
 ];
 
 export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
@@ -55,145 +55,109 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     onClose();
   };
 
+  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-2 font-bold text-body-sm transition-all font-body';
+  const CONFIRM_BTN_ENABLED = 'border-secondary-500/40 bg-secondary-500/8 text-secondary-700 cursor-pointer hover:bg-secondary-500/14';
+  const CONFIRM_BTN_DISABLED = 'border-ink-200 bg-ink-50 text-ink-600 opacity-50 cursor-not-allowed';
+
   return (
-    <>
-      {/* Backdrop */}
+    <div
+      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-cso-bd-in"
+      onClick={handleClose}
+    >
       <div
-        className="modal__backdrop"
-        onClick={handleClose}
-        style={{ background: 'rgba(0,0,0,0.45)', animation: 'csoBdIn 0.2s ease both' }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[460px] bg-white rounded-2xl border border-ink-200 shadow-xl overflow-hidden p-8 animate-cso-in"
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="modal--cancel-session modal__content"
-          style={{ padding: 'var(--s-8)', overflow: 'hidden' }}
+        {/* Warning glow blob */}
+        <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-full bg-[radial-gradient(circle,rgba(237,132,58,0.18)_0%,transparent_70%)] blur-[30px] pointer-events-none" />
+
+        {/* Close */}
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-10 p-0"
+          aria-label="Fermer"
         >
-          {/* Warning glow blob */}
-          <div className="modal__warning-glow" />
+          <X size={13} />
+        </button>
 
-          {/* Close */}
-          <button
-            onClick={handleClose}
-            className="modal__close-btn"
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
-          >
-            <X size={13} />
-          </button>
+        {step === 'confirm' ? (
+          <>
+            {/* Warning icon */}
+            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={26} className="text-secondary-600" />
+            </div>
 
-          {step === 'confirm' ? (
-            <>
-              {/* Icon */}
-              <div className="modal__warning-icon">
-                <AlertTriangle size={26} style={{ color: 'var(--tls-orange-600)' }} />
-              </div>
+            <h2 className="text-h3 font-extrabold text-ink-900 text-center mb-2">
+              Annuler la session ?
+            </h2>
+            <p className="text-body-sm text-ink-600 text-center leading-relaxed mb-5">
+              Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
+            </p>
 
-              <h2 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--text)', textAlign: 'center' }}>
-                Annuler la session ?
-              </h2>
-              <p style={{ margin: '0 0 var(--s-5)', fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.55 }}>
-                Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
+            {/* Session summary */}
+            <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-5">
+              <p className="text-body-sm font-bold text-ink-900 mb-0.5">
+                {sessionTitle}
               </p>
-
-              {/* Session summary */}
-              <div className="modal__session-summary">
-                <p style={{ margin: '0 0 2px', fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                  {sessionTitle}
-                </p>
-                <p style={{ margin: 0, fontSize: 'var(--t-micro)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
-                  📅 {sessionDate}
-                </p>
-              </div>
-
-              {/* Reason dropdown */}
-              <div style={{ marginBottom: 'var(--s-6)' }}>
-                <label style={{ display: 'block', marginBottom: 'var(--s-2)', fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>
-                  Motif d'annulation <span style={{ color: 'var(--tls-orange-600)' }}>*</span>
-                </label>
-                <select
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  style={{
-                    width: '100%', padding: 'var(--s-3)',
-                    borderRadius: 'var(--r-lg)',
-                    border: `1.5px solid ${reason ? 'var(--border)' : 'var(--border)'}`,
-                    background: 'var(--surface-muted)',
-                    color: reason ? 'var(--text)' : 'var(--text-muted)',
-                    fontSize: 'var(--t-body-sm)',
-                    fontFamily: 'inherit',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    transition: 'border-color var(--dur-1)',
-                    boxSizing: 'border-box',
-                  }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--tls-orange-400)'; }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
-                >
-                  <option value="">Sélectionnez un motif…</option>
-                  {REASONS.map((r) => (
-                    <option key={r.value} value={r.value}>{r.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Action buttons */}
-              <div className="modal__action-buttons">
-                {/* Reschedule (primary action) */}
-                <button
-                  onClick={() => { onReschedule(); handleClose(); }}
-                  className="modal__btn-primary"
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(85,161,180,0.4)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(85,161,180,0.3)'; }}
-                >
-                  <RefreshCcw size={15} /> Reprogrammer plutôt
-                </button>
-
-                {/* Cancel (destructive) */}
-                <button
-                  onClick={handleCancel}
-                  disabled={!reason}
-                  className="modal__btn-secondary"
-                  style={{
-                    borderColor: reason ? 'rgba(237,132,58,0.4)' : 'var(--border)',
-                    background: reason ? 'rgba(237,132,58,0.08)' : 'var(--surface-muted)',
-                    color: reason ? 'var(--tls-orange-700)' : 'var(--text-muted)',
-                    opacity: reason ? 1 : 0.5,
-                    cursor: reason ? 'pointer' : 'not-allowed',
-                  }}
-                  onMouseEnter={(e) => { if (reason) e.currentTarget.style.background = 'rgba(237,132,58,0.14)'; }}
-                  onMouseLeave={(e) => { if (reason) e.currentTarget.style.background = 'rgba(237,132,58,0.08)'; }}
-                >
-                  <CalendarX size={15} /> Confirmer l'annulation
-                </button>
-              </div>
-            </>
-          ) : (
-            /* Done state */
-            <div style={{ textAlign: 'center', padding: 'var(--s-6) 0', animation: 'csoFadeIn 0.4s ease both' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 'var(--s-3)' }}>✅</div>
-              <h3 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Session annulée
-              </h3>
-              <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
-                Vous pouvez réserver une nouvelle session quand vous le souhaitez.
+              <p className="text-micro text-ink-600 flex items-center gap-1">
+                📅 {sessionDate}
               </p>
             </div>
-          )}
-        </div>
-      </div>
 
-      <style>{`
-        @keyframes csoBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes csoIn {
-          from { opacity: 0; transform: translateY(12px) scale(0.96); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes csoFadeIn {
-          from { opacity: 0; transform: scale(0.92); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
-    </>
+            {/* Reason dropdown */}
+            <div className="mb-6">
+              <label className="block mb-2 text-body-sm font-semibold text-ink-900">
+                Motif d'annulation <span className="text-secondary-600">*</span>
+              </label>
+              <select
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className={`w-full p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
+              >
+                <option value="">Sélectionnez un motif…</option>
+                {REASONS.map((r) => (
+                  <option key={r.value} value={r.value}>{r.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-col gap-3">
+              {/* Reschedule (primary action) */}
+              <Button
+                variant="primary"
+                size="lg"
+                fullWidth
+                leadingIcon={<RefreshCcw size={15} />}
+                onClick={() => { onReschedule(); handleClose(); }}
+              >
+                Reprogrammer plutôt
+              </Button>
+
+              {/* Cancel (destructive secondary) */}
+              <button
+                onClick={handleCancel}
+                disabled={!reason}
+                className={`${CONFIRM_BTN_BASE} ${reason ? CONFIRM_BTN_ENABLED : CONFIRM_BTN_DISABLED}`}
+              >
+                <CalendarX size={15} /> Confirmer l'annulation
+              </button>
+            </div>
+          </>
+        ) : (
+          /* Done state */
+          <div className="text-center py-6 animate-[csoFadeIn_0.4s_ease_both]">
+            <div className="text-[3rem] mb-3">✅</div>
+            <h3 className="text-h4 font-bold text-ink-900 mb-2">
+              Session annulée
+            </h3>
+            <p className="text-body-sm text-ink-600">
+              Vous pouvez réserver une nouvelle session quand vous le souhaitez.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
