@@ -2,6 +2,7 @@
 
 **Objectif :** Remplacer 2 105 inline styles + classes BEM par des classes Tailwind mappées
 **Approche :** 1 composant/page par commit · validation obligatoire après chaque étape
+**Stratégie (depuis Phase 2.6) :** **bottom-up** — migrer les primitives partagées (Badge, ProgressBar, Avatar…) AVANT les composites parents. Évite les regressions visuelles silencieuses dans les composants déjà migrés (ex. ParcoursCard avec InlineProgress encore BEM = progress bar cassée).
 **Légende :** ⬜ à faire · 🔄 en cours · ✅ validé · ❌ problème
 
 ---
@@ -72,6 +73,25 @@
 
 ---
 
+## PHASE 2.6 — Primitives partagées (bottom-up) ⭐ priorité
+
+**Pourquoi en priorité :** ces atomes sont consommés partout (cards, modales, pages). Les migrer en premier débloque visuellement tous les composites déjà migrés ET évite les regressions silencieuses dans la suite (Phase 3 modales hériteront de Badge/Avatar Tailwind clean).
+
+| # | Composant | Fichier | Consommé par | Statut |
+|---|-----------|---------|--------------|--------|
+| 2.6.1 | Badge | `src/components/ui/Badge.tsx` | Cards, modales, listes | ⬜ |
+| 2.6.2 | Pill | `src/components/ui/Pill.tsx` | MetaPillGroup, status indicators | ⬜ |
+| 2.6.3 | MetaPillGroup | `src/components/ui/MetaPillGroup.tsx` | ParcoursCard, learning cards | ⬜ |
+| 2.6.4 | ProgressBar | `src/components/ui/ProgressBar.tsx` | Dashboard, profil, learning | ⬜ |
+| 2.6.5 | InlineProgress | `src/components/patterns/InlineProgress.tsx` | ParcoursCard (fixe progress bar visible) | ⬜ |
+| 2.6.6 | Avatar | `src/components/ui/Avatar.tsx` | Modales, profils, instructeurs | ⬜ |
+| 2.6.7 | Alert | `src/components/ui/Alert.tsx` | Pages auth, settings, formulaires | ⬜ |
+| 2.6.8 | Skeleton | `src/components/ui/Skeleton.tsx` | Loading states partout | ⬜ |
+
+**Validation** — chaque primitive autonome (testable isolément) ; pas de revisit de parents nécessaire.
+
+---
+
 ## PHASE 3 — Modales (composants haute visibilité)
 
 | # | Composant | Fichier | Inline styles | Statut |
@@ -101,26 +121,18 @@
 
 ## PHASE 5 — Composants UI (par ordre de fréquence d'usage)
 
+> Note : Badge, Avatar, Alert, ProgressBar, InlineProgress, MetaPillGroup, Skeleton sont **déplacés en Phase 2.6** (priorité bottom-up). StatCard, GlassCard, ParcoursCard, CourseCard sont déjà faits en Phase 2.
+
 | # | Composant | Fichier | Statut |
 |---|-----------|---------|--------|
-| 5.1 | Badge | `src/components/ui/Badge.tsx` | ⬜ |
-| 5.2 | Avatar | `src/components/ui/Avatar.tsx` | ⬜ |
-| 5.3 | Alert | `src/components/ui/Alert.tsx` | ⬜ |
-| 5.4 | StatCard | `src/components/ui/StatCard.tsx` | ⬜ |
-| 5.5 | ProgressBar | `src/components/ui/ProgressBar.tsx` | ⬜ |
-| 5.5b | InlineProgress (patterns) | `src/components/patterns/InlineProgress.tsx` | ⬜ |
-| 5.5c | MetaPillGroup | `src/components/ui/MetaPillGroup.tsx` | ⬜ |
 | 5.6 | Medal | `src/components/ui/Medal.tsx` | ⬜ |
 | 5.7 | Toast | `src/components/ui/Toast.tsx` | ⬜ |
 | 5.8 | Modal | `src/components/ui/Modal.tsx` | ⬜ |
 | 5.9 | EmptyState | `src/components/ui/EmptyState.tsx` | ⬜ |
-| 5.10 | Skeleton | `src/components/ui/Skeleton.tsx` | ⬜ |
-| 5.11 | GlassCard | `src/components/ui/GlassCard.tsx` | ⬜ |
-| 5.12 | ParcoursCard | `src/components/ui/ParcoursCard.tsx` | ⬜ |
+| 5.12 | ParcoursCard (ui) | `src/components/ui/ParcoursCard.tsx` | ⬜ |
 | 5.13 | KPICard | `src/components/ui/KPICard.tsx` | ⬜ |
 | 5.14 | CompetenceBadge | `src/components/ui/CompetenceBadge.tsx` | ⬜ |
 | 5.15 | ProfileCard | `src/components/ui/ProfileCard.tsx` | ⬜ |
-| 5.16 | CourseCard | `src/components/ui/CourseCard.tsx` | ⬜ |
 | 5.17 | ResourceCard | `src/components/ui/ResourceCard.tsx` | ⬜ |
 | 5.18 | ActionCard | `src/components/ui/ActionCard.tsx` | ⬜ |
 | 5.19 | Tabs | `src/components/ui/Tabs.tsx` | ⬜ |

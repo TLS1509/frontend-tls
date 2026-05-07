@@ -264,6 +264,27 @@ export const Button: React.FC<ButtonProps> = ({
 
 ---
 
+## Stratégie d'ordre — bottom-up
+
+**Règle absolue depuis Phase 2.6 :** migrer les **primitives partagées AVANT les composites parents**.
+
+**Pourquoi :** un composite migré qui consomme un enfant encore BEM reste **visuellement cassé** (ex. ParcoursCard avec progress bar BEM clippée, malgré son shell Tailwind correct). Migrer top-down force à revisiter chaque parent quand on finit un enfant — perte de temps + risque de regressions silencieuses.
+
+**Ordre :**
+1. **Atomes** (Badge, Pill, Avatar, ProgressBar, Alert, Skeleton) — autonomes, testables isolément
+2. **Composites** (cards spécialisées, modales) — héritent automatiquement des atomes Tailwind
+3. **Pages** — assemblent le tout
+
+**Exception** : un atome utilisé par UN SEUL composite peut être migré dans le même commit que son parent. Mais dès qu'il y a 2+ consommateurs → migrer l'atome séparément en premier.
+
+**Dépendance check** : avant de migrer un composant, exécuter :
+```bash
+grep -rn "import.*<NomDuComposant>" src/ --include="*.tsx" | wc -l
+# Si > 1 et que le composant n'est pas migré → c'est lui qu'il faut migrer en premier.
+```
+
+---
+
 ## Workflow de migration — obligatoire
 
 Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet ordre. **Pas de commit avant la validation utilisateur sur les 4 checkpoints.**
