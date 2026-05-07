@@ -1,4 +1,5 @@
 import React from 'react';
+import { Clock, ChevronRight } from 'lucide-react';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
 
 export type ResourceCardVariant = 'default' | 'minimal' | 'with-badge';
@@ -23,6 +24,49 @@ export interface ResourceCardProps {
   className?: string;
 }
 
+const TONE_BORDER: Record<string, string> = {
+  primary: 'border-l-primary-500',
+  brand:   'border-l-primary-600',
+  warm:    'border-l-secondary-500',
+  sun:     'border-l-accent-500',
+  default: 'border-l-primary-500',
+};
+
+const TONE_ACCENT_TEXT: Record<string, string> = {
+  primary: 'text-primary-500',
+  brand:   'text-primary-600',
+  warm:    'text-secondary-500',
+  sun:     'text-accent-500',
+  default: 'text-primary-500',
+};
+
+const TONE_CTA_HOVER: Record<string, string> = {
+  primary: 'hover:bg-primary-50',
+  brand:   'hover:bg-primary-50',
+  warm:    'hover:bg-secondary-50',
+  sun:     'hover:bg-accent-50',
+  default: 'hover:bg-primary-50',
+};
+
+const ICON_SIZE: Record<ResourceCardIconSize, string> = {
+  sm: 'w-9 h-9',
+  md: 'w-10 h-10',
+  lg: 'w-12 h-12',
+};
+
+const BADGE_VARIANT: Record<string, string> = {
+  primary: 'bg-primary-50 text-primary-800',
+  warm:    'bg-secondary-50 text-secondary-700',
+  sun:     'bg-accent-50 text-accent-700',
+  success: 'bg-success-bg text-success-fg',
+  danger:  'bg-danger-bg text-danger-fg',
+};
+
+const BADGE_POSITION: Record<string, string> = {
+  'top-right': 'top-3 right-3',
+  'top-left':  'top-3 left-3',
+};
+
 export const ResourceCard: React.FC<ResourceCardProps> = ({
   icon,
   iconSize = 'md',
@@ -38,12 +82,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   variant = 'default',
   className = '',
 }) => {
+  const accentBorder = TONE_BORDER[tone] ?? TONE_BORDER.primary;
+  const accentText = TONE_ACCENT_TEXT[tone] ?? TONE_ACCENT_TEXT.primary;
+  const ctaHover = TONE_CTA_HOVER[tone] ?? TONE_CTA_HOVER.primary;
+
+  const padding = variant === 'minimal' ? 'p-4' : 'p-6';
+
   const classes = [
-    'tls-resource-card',
-    `tls-resource-card--${variant}`,
-    tone && `tls-resource-card--tone-${tone}`,
-    `tls-resource-card__icon--${iconSize}`,
-    badge && 'tls-resource-card--with-badge',
+    'relative bg-white border border-ink-200 rounded-xl border-l-4 flex flex-col gap-4 transition-all no-underline text-inherit',
+    'hover:-translate-y-0.5 hover:shadow-md',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+    accentBorder,
+    padding,
     className,
   ]
     .filter(Boolean)
@@ -52,49 +102,77 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const content = (
     <>
       {badge && (
-        <span className={`tls-resource-card__badge tls-resource-card__badge--${badge.variant} tls-resource-card__badge--${badge.position || 'top-right'}`}>
+        <span
+          className={[
+            'absolute z-10 px-3 py-1 rounded-pill text-caption font-bold whitespace-nowrap',
+            BADGE_VARIANT[badge.variant] ?? BADGE_VARIANT.primary,
+            BADGE_POSITION[badge.position || 'top-right'],
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           {badge.label}
         </span>
       )}
 
-      <div className="tls-resource-card__header">
-        {icon && <div className="tls-resource-card__icon">{icon}</div>}
-        {resourceType && <span className="tls-resource-card__type">{resourceType}</span>}
+      {(icon || resourceType) && (
+        <div className="flex items-center gap-3">
+          {icon && (
+            <div
+              className={[
+                'shrink-0 inline-flex items-center justify-center text-2xl',
+                ICON_SIZE[iconSize],
+                accentText,
+              ].join(' ')}
+            >
+              {icon}
+            </div>
+          )}
+          {resourceType && (
+            <span className={`text-caption font-bold uppercase tracking-wider ${accentText}`}>
+              {resourceType}
+            </span>
+          )}
+        </div>
+      )}
+
+      <div className="flex flex-col gap-2">
+        <h3 className="m-0 text-h4 font-semibold leading-snug text-ink-900">{title}</h3>
+        {variant !== 'minimal' && description && (
+          <p className="m-0 text-body-sm leading-relaxed text-ink-500">{description}</p>
+        )}
       </div>
 
-      {variant !== 'minimal' && (
-        <div className="tls-resource-card__content">
-          <h3 className="tls-resource-card__title">{title}</h3>
-          {description && <p className="tls-resource-card__description">{description}</p>}
-        </div>
-      )}
-
-      {variant === 'minimal' && (
-        <div className="tls-resource-card__content">
-          <h3 className="tls-resource-card__title">{title}</h3>
-        </div>
-      )}
-
-      {(duration || category || cta) && (
-        <footer className="tls-resource-card__footer">
-          <div className="tls-resource-card__meta">
-            {category && <span className="tls-resource-card__category">{category}</span>}
+      {variant !== 'minimal' && (duration || category || cta) && (
+        <footer className="flex items-center justify-between gap-3 mt-2 pt-3 border-t border-ink-200">
+          <div className="flex items-center gap-3 flex-wrap">
+            {category && (
+              <span className="text-caption font-semibold uppercase tracking-wider text-ink-500 px-2 py-0.5 bg-ink-50 rounded-sm">
+                {category}
+              </span>
+            )}
             {duration && (
-              <span className="tls-resource-card__duration">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
+              <span className="inline-flex items-center gap-1 text-caption text-ink-500">
+                <Clock size={12} strokeWidth={2} className="opacity-70" />
                 {duration}
               </span>
             )}
           </div>
           {cta && (
-            <button type="button" className="tls-resource-card__cta" onClick={cta.onClick}>
+            <button
+              type="button"
+              onClick={cta.onClick}
+              className={[
+                'inline-flex items-center gap-2 px-3 py-2 bg-transparent border-0 rounded-md',
+                'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-all',
+                'focus-visible:outline-2 focus-visible:outline-offset-2',
+                accentText,
+                ctaHover,
+                '[&>svg]:transition-transform hover:[&>svg]:translate-x-0.5',
+              ].join(' ')}
+            >
               <span>{cta.label}</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
+              <ChevronRight size={14} strokeWidth={2} />
             </button>
           )}
         </footer>
@@ -103,7 +181,11 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   );
 
   if (href) {
-    return <a className={classes} href={href}>{content}</a>;
+    return (
+      <a className={classes} href={href}>
+        {content}
+      </a>
+    );
   }
 
   return <div className={classes}>{content}</div>;
