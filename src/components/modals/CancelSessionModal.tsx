@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, AlertTriangle, CalendarX, RefreshCcw } from 'lucide-react';
+import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
 import { Button } from '../core/Button';
 import './modals.css';
 
@@ -109,16 +109,19 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               <label className="block mb-2 text-body-sm font-semibold text-ink-900">
                 Motif d'annulation <span className="text-secondary-600">*</span>
               </label>
-              <select
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className={`w-full px-3 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
-              >
-                <option value="">Sélectionnez un motif…</option>
-                {REASONS.map((r) => (
-                  <option key={r.value} value={r.value}>{r.label}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className={`w-full pl-3 pr-10 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border appearance-none focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
+                >
+                  <option value="">Sélectionnez un motif…</option>
+                  {REASONS.map((r) => (
+                    <option key={r.value} value={r.value}>{r.label}</option>
+                  ))}
+                </select>
+                <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-600 pointer-events-none" />
+              </div>
             </div>
 
             {/* Action buttons */}
