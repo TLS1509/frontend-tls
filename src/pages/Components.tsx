@@ -685,7 +685,7 @@ const ModalDemo: React.FC = () => {
           </>
         }
       >
-        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>
+        <p className="m-0 text-ink-600 text-body-sm">
           Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
         </p>
       </Modal>

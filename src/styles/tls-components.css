@@ -1560,6 +1560,12 @@
   }
 }
 
+/* Flat scale-in (centered via flex parent — no translate hack) */
+@keyframes modal-scale-in-flat {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .modal__head {
   display: grid;
   grid-template-columns: 1fr auto;
