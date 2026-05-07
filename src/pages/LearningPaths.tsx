@@ -1,11 +1,5 @@
 /**
  * LearningPaths Page — Mes Parcours
- *
- * Layout adapté du WIP ParcoursPageUpgraded :
- * - Titre + sous-titre
- * - KPI row (4 indicateurs)
- * - Filtres statut + recherche
- * - Grille 3 colonnes de ParcoursCard (design system pattern)
  */
 
 import React, { useMemo, useState } from 'react';
@@ -25,7 +19,6 @@ import type { ParcoursTone, ParcoursStatus } from '../components/patterns/Parcou
 import { CardGrid } from '../components/patterns/CardGrid';
 import { Button } from '../components/core/Button';
 
-/* ── Types ─────────────────────────────────────────────────── */
 interface Parcours {
   id: string;
   title: string;
@@ -39,7 +32,6 @@ interface Parcours {
   category: string;
 }
 
-/* ── Mock data ─────────────────────────────────────────────── */
 const MOCK_PARCOURS: Parcours[] = [
   {
     id: '1',
@@ -121,34 +113,56 @@ const MOCK_PARCOURS: Parcours[] = [
   },
 ];
 
-/* ── Tone rotation (primary / warm / sun) ──────────────────── */
 const TONES: ParcoursTone[] = ['primary', 'warm', 'sun'];
 
-/* ── Status filter config ──────────────────────────────────── */
 const STATUS_FILTERS: { id: ParcoursStatus; label: string }[] = [
   { id: 'en cours', label: 'En cours' },
   { id: 'complété', label: 'Terminés' },
   { id: 'non commencé', label: 'Pas commencés' },
 ];
 
-/* ── Component ─────────────────────────────────────────────── */
+interface KpiCardProps {
+  icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
+  value: React.ReactNode;
+  label: string;
+}
+
+const KpiCard: React.FC<KpiCardProps> = ({ icon, iconBg, iconColor, value, label }) => (
+  <div
+    role="listitem"
+    className="flex items-center gap-3 p-4 rounded-xl bg-white/85 border border-black/5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-sm"
+  >
+    <span
+      className={`w-10 h-10 rounded-lg inline-flex items-center justify-center shrink-0 ${iconBg} ${iconColor}`}
+    >
+      {icon}
+    </span>
+    <div>
+      <span className="block font-display text-h3 font-bold text-ink-900 leading-tight">
+        {value}
+      </span>
+      <span className="block font-body text-caption text-ink-500 mt-0.5">{label}</span>
+    </div>
+  </div>
+);
+
 export const LearningPaths: React.FC = () => {
   const navigate = useNavigate();
   const [selectedStatuses, setSelectedStatuses] = useState<Set<ParcoursStatus>>(new Set());
   const [query, setQuery] = useState('');
 
-  /* KPI calculations */
   const total = MOCK_PARCOURS.length;
   const inProgressCount = MOCK_PARCOURS.filter((p) => p.status === 'en cours').length;
   const completedCount = MOCK_PARCOURS.filter((p) => p.status === 'complété').length;
   const totalLessons = MOCK_PARCOURS.reduce((s, p) => s + p.lessons, 0);
   const completedLessons = MOCK_PARCOURS.reduce(
     (s, p) => s + Math.round((p.lessons * p.progress) / 100),
-    0
+    0,
   );
   const overallProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
-  /* Filtering */
   const filteredParcours = useMemo(() => {
     return MOCK_PARCOURS.filter((p) => {
       const matchStatus = selectedStatuses.size === 0 || selectedStatuses.has(p.status);
@@ -178,94 +192,96 @@ export const LearningPaths: React.FC = () => {
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)', maxWidth: 1180, margin: '0 auto', padding: 'var(--s-8) var(--s-6) var(--s-12)' }}>
+    <div className="flex flex-col gap-8 max-w-[1180px] mx-auto px-6 pt-8 pb-12">
+      <header className="relative overflow-hidden flex flex-col gap-6 p-8 rounded-2xl bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-md border border-white/40 shadow-xs">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_0%_0%,rgba(85,161,180,0.15)_0%,transparent_60%),radial-gradient(circle_at_100%_100%,rgba(237,132,58,0.15)_0%,transparent_60%)]"
+        />
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
-      <header style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)', padding: 'var(--s-8)', borderRadius: 'var(--r-2xl)', background: 'linear-gradient(135deg, var(--overlay-white-xl) 0%, var(--overlay-white-lg) 100%)', backdropFilter: 'var(--glass-blur-heavy)', WebkitBackdropFilter: 'var(--glass-blur-heavy)', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-xs)', position: 'relative', overflow: 'hidden' }}>
-
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 0% 0%, var(--overlay-brand-lg) 0%, transparent 60%), radial-gradient(circle at 100% 100%, var(--overlay-warm-lg) 0%, transparent 60%)', pointerEvents: 'none' }} />
-
-        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', maxWidth: 720 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-pill)', background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', alignSelf: 'flex-start' }}>
+        <div className="relative flex flex-col gap-2 max-w-[720px]">
+          <span className="self-start inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
             <GraduationCap size={14} /> Mon apprentissage
           </span>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h1)', fontWeight: 700, lineHeight: 1.1, margin: 0, color: 'var(--text)' }}>
+          <h1 className="font-display text-h1 font-bold leading-tight m-0 text-ink-900">
             Mes Parcours
           </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-lg)', color: 'var(--text-soft)', margin: 0 }}>
+          <p className="font-body text-body-lg text-ink-500 m-0">
             Explorez vos parcours de formation et suivez votre progression au fil des leçons.
           </p>
         </div>
 
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--s-4)' }} role="list">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
-            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)' }}>
-              <Sparkles size={18} />
-            </span>
-            <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{total}</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Parcours</span>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
-            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-warm-sm)', color: 'var(--tls-orange-600)' }}>
-              <Flame size={18} />
-            </span>
-            <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{inProgressCount}</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>En cours</span>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
-            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-warm-md)', color: 'var(--tls-yellow-600)' }}>
-              <CheckCircle2 size={18} />
-            </span>
-            <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>{completedCount}</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Terminés</span>
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', background: 'var(--overlay-white-xl)', border: '1px solid var(--overlay-dark-sm)', boxShadow: 'var(--shadow-xs)', transition: `transform var(--dur-2) var(--ease-standard), box-shadow var(--dur-2) var(--ease-standard)` }} role="listitem" onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; }}>
-            <span style={{ width: '40px', height: '40px', borderRadius: 'var(--r-lg)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'var(--overlay-brand-md)', color: 'var(--tls-primary-700)' }}>
-              <BookOpen size={18} />
-            </span>
-            <div>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', lineHeight: 1.1 }}>
+        <div
+          role="list"
+          className="relative grid gap-4 grid-cols-[repeat(auto-fit,minmax(180px,1fr))]"
+        >
+          <KpiCard
+            icon={<Sparkles size={18} />}
+            iconBg="bg-primary-100"
+            iconColor="text-primary-700"
+            value={total}
+            label="Parcours"
+          />
+          <KpiCard
+            icon={<Flame size={18} />}
+            iconBg="bg-secondary-50"
+            iconColor="text-secondary-600"
+            value={inProgressCount}
+            label="En cours"
+          />
+          <KpiCard
+            icon={<CheckCircle2 size={18} />}
+            iconBg="bg-accent-100"
+            iconColor="text-accent-700"
+            value={completedCount}
+            label="Terminés"
+          />
+          <KpiCard
+            icon={<BookOpen size={18} />}
+            iconBg="bg-primary-100"
+            iconColor="text-primary-700"
+            value={
+              <>
                 {completedLessons}
-                <span style={{ fontSize: 'var(--t-body)', color: 'var(--text-soft)', fontWeight: 500 }}>/{totalLessons}</span>
-              </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)', marginTop: '2px' }}>Leçons complétées</span>
-            </div>
-          </div>
+                <span className="text-body text-ink-500 font-medium">/{totalLessons}</span>
+              </>
+            }
+            label="Leçons complétées"
+          />
         </div>
 
         {overallProgress > 0 && (
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)', padding: 'var(--s-4) var(--s-5)', borderRadius: 'var(--r-xl)', background: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-700))', color: 'var(--text-inverse)', boxShadow: '0 8px 24px var(--overlay-brand-xl)' }} role="progressbar" aria-valuenow={overallProgress} aria-valuemin={0} aria-valuemax={100} aria-label="Progression globale">
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', fontFamily: 'var(--font-body)', fontWeight: 600 }}>
+          <div
+            role="progressbar"
+            aria-valuenow={overallProgress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Progression globale"
+            className="relative flex flex-col gap-2 px-5 py-4 rounded-xl text-white bg-gradient-to-br from-primary-500 to-primary-700 shadow-[0_8px_24px_rgba(85,161,180,0.25)]"
+          >
+            <div className="flex items-baseline justify-between font-body font-semibold">
               <span>Progression globale</span>
-              <strong style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)' }}>{overallProgress}%</strong>
+              <strong className="font-display text-h3">{overallProgress}%</strong>
             </div>
-            <div style={{ height: '8px', borderRadius: 'var(--r-pill)', background: 'var(--overlay-white-sm)', overflow: 'hidden' }}>
-              <div style={{ height: '100%', background: 'var(--text-inverse)', borderRadius: 'var(--r-pill)', transition: `width var(--dur-3) var(--ease-standard)`, width: `${overallProgress}%` }} />
+            <div className="h-2 rounded-pill bg-white/20 overflow-hidden">
+              <div
+                className="h-full bg-white rounded-pill transition-[width] duration-300"
+                style={{ width: `${overallProgress}%` }}
+              />
             </div>
           </div>
         )}
       </header>
 
-      {/* ── Filters ─────────────────────────────────────────── */}
-      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }} aria-label="Filtres">
-
-        {/* Search — premier élément, ancré à gauche */}
+      <section aria-label="Filtres" className="flex flex-col gap-3">
         <Search
           value={query}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
           placeholder="Rechercher un parcours…"
-          wrapperClassName="parcours-page__search"
           aria-label="Rechercher un parcours"
         />
 
-        {/* Status chips + count */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }} role="group" aria-label="Filtrer par statut">
+        <div role="group" aria-label="Filtrer par statut" className="flex flex-wrap items-center gap-2">
           {STATUS_FILTERS.map((f) => (
             <FilterChip
               key={f.id}
@@ -283,13 +299,12 @@ export const LearningPaths: React.FC = () => {
               aria-label="Réinitialiser les filtres"
             />
           )}
-          <span style={{ marginLeft: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)' }}>
+          <span className="font-body text-caption text-ink-500">
             {filteredParcours.length} sur {total}
           </span>
         </div>
       </section>
 
-      {/* ── Card grid — using CardGrid DS component ────────────────────────────────────────── */}
       <CardGrid layout="default" gapSize="md" aria-label="Liste des parcours">
         {filteredParcours.map((parcours, index) => (
           <ParcoursCard
@@ -308,10 +323,11 @@ export const LearningPaths: React.FC = () => {
         ))}
       </CardGrid>
 
-      {/* Empty state */}
       {filteredParcours.length === 0 && (
-        <div style={{ textAlign: 'center', padding: 'var(--s-12)', borderRadius: 'var(--r-2xl)', background: 'var(--overlay-white-lg)', border: '1px dashed var(--overlay-dark-lg)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
-          <p style={{ margin: 0, fontFamily: 'var(--font-body)', color: 'var(--text-soft)' }}>Aucun parcours ne correspond à vos filtres.</p>
+        <div className="flex flex-col items-center gap-3 text-center p-12 rounded-2xl bg-white/70 border border-dashed border-ink-300">
+          <p className="m-0 font-body text-ink-500">
+            Aucun parcours ne correspond à vos filtres.
+          </p>
           <Button variant="secondary" size="sm" onClick={resetFilters}>
             <RotateCcw size={12} />
             Réinitialiser les filtres
