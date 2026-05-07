@@ -1,10 +1,5 @@
 import React from 'react';
-
-/**
- * Stepper — Source of truth: design-system/spec.json → components.Stepper
- *
- * Linear sequential process. 3–5 steps max. Orientations: horizontal | vertical.
- */
+import { Check } from 'lucide-react';
 
 export type StepperState = 'done' | 'current' | 'upcoming';
 export type StepperOrientation = 'horizontal' | 'vertical';
@@ -20,11 +15,26 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
   orientation?: StepperOrientation;
 }
 
-const CHECK = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-);
+const CIRCLE_BASE =
+  'relative z-10 inline-flex items-center justify-center w-8 h-8 rounded-full border-2 font-body font-bold text-caption shrink-0 transition-colors';
+
+const CIRCLE_STATE: Record<StepperState, string> = {
+  done:     'bg-primary-600 border-transparent text-white',
+  current:  'bg-white border-primary-600 text-primary-700 shadow-[0_0_0_4px_rgba(85,161,180,0.18)]',
+  upcoming: 'bg-ink-100 border-transparent text-ink-500',
+};
+
+const LABEL_STATE: Record<StepperState, string> = {
+  done:     'text-ink-900',
+  current:  'text-ink-900',
+  upcoming: 'text-ink-500',
+};
+
+const LINE_STATE: Record<StepperState, string> = {
+  done:     'bg-primary-500',
+  current:  'bg-ink-200',
+  upcoming: 'bg-ink-200',
+};
 
 export const Stepper: React.FC<StepperProps> = ({
   items,
@@ -32,42 +42,55 @@ export const Stepper: React.FC<StepperProps> = ({
   className = '',
   ...rest
 }) => {
-  const classes = [
-    'stepper',
-    orientation === 'vertical' && 'stepper--vertical',
+  const isVertical = orientation === 'vertical';
+
+  const wrapperClasses = [
+    'flex w-full m-0 p-0 list-none',
+    isVertical ? 'flex-col items-stretch' : 'items-start',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
+  const stepClasses = isVertical
+    ? 'relative flex flex-row items-start gap-3 min-h-[52px] text-left'
+    : 'relative flex-1 flex flex-col items-center gap-2 text-center';
+
   return (
-    <ol className={classes} {...rest}>
+    <ol className={wrapperClasses} {...rest}>
       {items.map((item, idx) => {
-        const stateClass =
-          item.state === 'done'
-            ? 'stepper__step--done'
-            : item.state === 'current'
-            ? 'stepper__step--current'
-            : 'stepper__step--upcoming';
+        const isLast = idx === items.length - 1;
+
+        const lineClasses = isVertical
+          ? `absolute left-[15px] top-8 bottom-[-16px] w-0.5 ${LINE_STATE[item.state]}`
+          : `absolute top-4 left-[calc(50%+20px)] right-[calc(-50%+20px)] h-0.5 ${LINE_STATE[item.state]}`;
 
         return (
           <li
             key={idx}
-            className={['stepper__step', stateClass].filter(Boolean).join(' ')}
+            className={stepClasses}
             aria-current={item.state === 'current' ? 'step' : undefined}
           >
-            <div className="stepper__circle">
-              {item.state === 'done' ? CHECK : idx + 1}
+            <div className={`${CIRCLE_BASE} ${CIRCLE_STATE[item.state]}`}>
+              {item.state === 'done' ? <Check size={14} strokeWidth={3} /> : idx + 1}
             </div>
-            {orientation === 'vertical' ? (
-              <div className="stepper__body">
-                <p className="stepper__label">{item.label}</p>
-                {item.description && <p className="stepper__desc">{item.description}</p>}
+
+            {isVertical ? (
+              <div className="pt-1">
+                <p className={`m-0 text-caption font-semibold ${LABEL_STATE[item.state]}`}>
+                  {item.label}
+                </p>
+                {item.description && (
+                  <p className="m-0 text-micro text-ink-500">{item.description}</p>
+                )}
               </div>
             ) : (
-              <p className="stepper__label">{item.label}</p>
+              <p className={`m-0 text-caption font-semibold ${LABEL_STATE[item.state]}`}>
+                {item.label}
+              </p>
             )}
-            {idx < items.length - 1 && <span className="stepper__line" aria-hidden="true" />}
+
+            {!isLast && <span className={lineClasses} aria-hidden="true" />}
           </li>
         );
       })}

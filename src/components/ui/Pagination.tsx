@@ -1,21 +1,15 @@
 import React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 /**
- * Pagination — Source of truth: design-system/spec.json → components.Pagination
- *
- * Numbered navigation for long lists. Default pattern: first, prev, pages
- * (with dots collapse), next, last. Use loadMore for feeds, infinite for activity.
+ * Pagination — numbered navigation for long lists.
  */
 
 export interface PaginationProps {
-  /** 1-based current page */
   page: number;
-  /** Total number of pages */
   totalPages: number;
   onChange: (page: number) => void;
-  /** How many sibling pages to show around current */
   siblings?: number;
-  /** Informational text (e.g. "1–20 sur 240") — rendered below/beside */
   info?: React.ReactNode;
   className?: string;
 }
@@ -42,6 +36,17 @@ const buildPages = (page: number, totalPages: number, siblings: number): (number
   return pages;
 };
 
+const BTN_BASE =
+  'inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-md border text-body-sm font-medium font-body cursor-pointer transition-all ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 ' +
+  'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
+
+const BTN_DEFAULT =
+  'bg-white border-ink-200 text-ink-900 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
+
+const BTN_ACTIVE =
+  'bg-primary-600 border-primary-600 text-white font-semibold shadow-brand-xs cursor-default hover:bg-primary-600 hover:border-primary-600';
+
 export const Pagination: React.FC<PaginationProps> = ({
   page,
   totalPages,
@@ -57,21 +62,33 @@ export const Pagination: React.FC<PaginationProps> = ({
     if (p >= 1 && p <= totalPages && p !== page) onChange(p);
   };
 
+  const wrapperClasses = [
+    'flex items-center justify-center flex-wrap gap-2 font-body',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div className={['pager', className].filter(Boolean).join(' ')}>
+    <div className={wrapperClasses}>
       <nav aria-label="Pagination" style={{ display: 'contents' }}>
         <button
           type="button"
           onClick={go(page - 1)}
           disabled={page === 1}
           aria-label="Page précédente"
+          className={`${BTN_BASE} ${BTN_DEFAULT}`}
         >
-          ‹
+          <ChevronLeft size={16} strokeWidth={2.25} />
         </button>
 
         {pages.map((p, i) =>
           p === 'dots' ? (
-            <span key={`dots-${i}`} className="pager__dots" aria-hidden="true">
+            <span
+              key={`dots-${i}`}
+              aria-hidden="true"
+              className="inline-flex items-center justify-center min-w-10 h-10 text-body-sm text-ink-400 select-none"
+            >
               …
             </span>
           ) : (
@@ -81,6 +98,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               onClick={go(p)}
               aria-current={p === page ? 'page' : undefined}
               aria-label={`Page ${p}`}
+              className={`${BTN_BASE} ${p === page ? BTN_ACTIVE : BTN_DEFAULT}`}
             >
               {p}
             </button>
@@ -92,11 +110,14 @@ export const Pagination: React.FC<PaginationProps> = ({
           onClick={go(page + 1)}
           disabled={page === totalPages}
           aria-label="Page suivante"
+          className={`${BTN_BASE} ${BTN_DEFAULT}`}
         >
-          ›
+          <ChevronRight size={16} strokeWidth={2.25} />
         </button>
       </nav>
-      {info && <span className="pager-info">{info}</span>}
+      {info && (
+        <span className="w-full text-center text-caption text-ink-500 mt-2">{info}</span>
+      )}
     </div>
   );
 };
