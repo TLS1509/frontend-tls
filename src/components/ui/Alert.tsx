@@ -97,15 +97,16 @@ export const Alert: React.FC<AlertProps> = ({
         {icon ?? <IconComponent size={iconSize} strokeWidth={2} aria-hidden />}
       </span>
 
-      <div className="flex-1 flex flex-col gap-2 min-w-0">
+      <div className="flex-1 flex flex-col gap-1 min-w-0">
         {title && pattern === 'banner' && (
           <p className="font-body font-bold m-0 leading-tight">{title}</p>
         )}
         {children && <p className="m-0">{children}</p>}
-        {actions && pattern === 'banner' && (
-          <div className="flex gap-2 mt-1">{actions}</div>
-        )}
       </div>
+
+      {actions && pattern === 'banner' && (
+        <div className="shrink-0 flex items-center gap-2 self-center">{actions}</div>
+      )}
 
       {dismissible && (
         <button
