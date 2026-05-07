@@ -1,10 +1,10 @@
 import React from 'react';
+import { Trophy } from 'lucide-react';
 
 /**
  * Medal — Source of truth: design-system/spec.json → components.Medal
  *
  * Achievement representation: circle with inset dashed ring.
- * Rank medals: gold (1st), silver (2nd), bronze (3rd).
  * Rule: Warm gradient = unlocked. Brand deep = special/rare. Ink gray = locked.
  */
 
@@ -19,12 +19,29 @@ export interface MedalProps extends React.HTMLAttributes<HTMLSpanElement> {
   label?: string;
 }
 
-const DEFAULT_ICON = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="8" r="6" />
-    <polyline points="9 14 7 22 12 19 17 22 15 14" />
-  </svg>
-);
+const SIZE_CLASSES: Record<MedalSize, string> = {
+  sm: 'w-[72px] h-[72px]',
+  md: 'w-[120px] h-[120px]',
+  lg: 'w-[160px] h-[160px]',
+};
+
+const VARIANT_CLASSES: Record<MedalVariant, string> = {
+  default: 'bg-[linear-gradient(135deg,#ED843A_0%,#F8B044_100%)] text-white shadow-[0_10px_30px_-10px_rgba(237,132,58,0.35),inset_0_2px_6px_rgba(255,255,255,0.45),inset_0_-6px_18px_rgba(0,0,0,0.12)]',
+  brand:   'bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] text-white shadow-[0_10px_30px_-10px_rgba(85,161,180,0.45),inset_0_2px_6px_rgba(255,255,255,0.3),inset_0_-6px_18px_rgba(0,0,0,0.18)]',
+  locked:  'bg-ink-200 text-ink-500 shadow-none',
+  gold:    'bg-[linear-gradient(135deg,#FFD700_0%,#FFA500_100%)] text-white shadow-[0_10px_30px_-10px_rgba(255,165,0,0.45),inset_0_2px_6px_rgba(255,255,255,0.45),inset_0_-6px_18px_rgba(0,0,0,0.12)]',
+  silver:  'bg-[linear-gradient(135deg,#C0C0C0_0%,#A8A8A8_100%)] text-white shadow-[0_10px_30px_-10px_rgba(160,160,160,0.45),inset_0_2px_6px_rgba(255,255,255,0.45),inset_0_-6px_18px_rgba(0,0,0,0.12)]',
+  bronze:  'bg-[linear-gradient(135deg,#CD7F32_0%,#A06022_100%)] text-white shadow-[0_10px_30px_-10px_rgba(160,96,34,0.45),inset_0_2px_6px_rgba(255,255,255,0.45),inset_0_-6px_18px_rgba(0,0,0,0.12)]',
+};
+
+const RING_CLASSES: Record<MedalVariant, string> = {
+  default: 'before:border-white/40',
+  brand:   'before:border-white/40',
+  locked:  'before:border-ink-300',
+  gold:    'before:border-white/50',
+  silver:  'before:border-white/50',
+  bronze:  'before:border-white/50',
+};
 
 export const Medal: React.FC<MedalProps> = ({
   size = 'md',
@@ -35,9 +52,12 @@ export const Medal: React.FC<MedalProps> = ({
   ...rest
 }) => {
   const classes = [
-    'medal',
-    size !== 'md' && `medal--${size}`,
-    variant !== 'default' && `medal--${variant}`,
+    'relative rounded-full inline-flex items-center justify-center shrink-0',
+    'before:content-[""] before:absolute before:inset-1.5 before:border-2 before:border-dashed before:rounded-full',
+    '[&>svg]:relative [&>svg]:z-10 [&>svg]:w-[44%] [&>svg]:h-[44%]',
+    SIZE_CLASSES[size],
+    VARIANT_CLASSES[variant],
+    RING_CLASSES[variant],
     className,
   ]
     .filter(Boolean)
@@ -45,7 +65,7 @@ export const Medal: React.FC<MedalProps> = ({
 
   return (
     <span className={classes} role="img" aria-label={label} {...rest}>
-      {icon ?? DEFAULT_ICON}
+      {icon ?? <Trophy strokeWidth={2} />}
     </span>
   );
 };
