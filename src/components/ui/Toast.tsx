@@ -1,28 +1,36 @@
 import React from 'react';
-import { Check, Info, AlertTriangle, X, XCircle } from 'lucide-react';
+import { Info, CheckCircle2, AlertTriangle, XCircle, X } from 'lucide-react';
 
 /**
  * Toast — Source of truth: design-system/spec.json → components.Toast
  *
  * Transient confirmation, non-blocking. 4–6s display, bottom-right, max 3 stacked.
  * Variants: success/info/warning/danger.
- * Each variant gets a tone-colored icon background.
+ * Design aligned with Alert: tinted gradient bg, variant-colored border + icon,
+ * no circular icon background.
  */
 
 export type ToastVariant = 'success' | 'info' | 'warning' | 'danger';
 
-const TOAST_ICON_BG: Record<ToastVariant, string> = {
-  success: 'bg-success-base',
-  info:    'bg-primary-600',
-  warning: 'bg-accent-400',
-  danger:  'bg-danger-base',
+const ICON_BY_VARIANT: Record<ToastVariant, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
+  success: CheckCircle2,
+  info:    Info,
+  warning: AlertTriangle,
+  danger:  XCircle,
 };
 
-const DEFAULT_ICONS: Record<ToastVariant, React.ReactNode> = {
-  success: <Check size={18} strokeWidth={3} />,
-  info:    <Info size={18} strokeWidth={2.5} />,
-  warning: <AlertTriangle size={18} strokeWidth={2.5} />,
-  danger:  <XCircle size={18} strokeWidth={2.5} />,
+const VARIANT_CLASSES: Record<ToastVariant, string> = {
+  success: 'bg-gradient-to-br from-success-base/25 to-success-base/[8%] border-success-base/30 text-success-fg',
+  info:    'bg-gradient-to-br from-primary-500/15 to-primary-500/5 border-primary-500/25 text-primary-800',
+  warning: 'bg-gradient-to-br from-accent-400/20 to-accent-400/5 border-accent-400/30 text-accent-900',
+  danger:  'bg-gradient-to-br from-danger-base/20 to-danger-base/5 border-danger-base/30 text-danger-fg',
+};
+
+const ICON_TONE: Record<ToastVariant, string> = {
+  success: 'text-success-base',
+  info:    'text-primary-600',
+  warning: 'text-accent-400',
+  danger:  'text-danger-base',
 };
 
 export interface ToastProps
@@ -53,10 +61,12 @@ export const Toast: React.FC<ToastProps> = ({
   children,
   ...rest
 }) => {
+  const IconComponent = ICON_BY_VARIANT[variant];
+
   const classes = [
-    'grid grid-cols-[auto_1fr_auto_auto] gap-3 items-center',
-    'min-w-[320px] max-w-[440px] py-3 pl-3 pr-4',
-    'bg-white rounded-lg shadow-lg border border-ink-200 font-body',
+    'flex items-start gap-3 rounded-lg border backdrop-blur-sm shadow-lg',
+    'min-w-[320px] max-w-[440px] py-3 px-4 font-body text-body-sm leading-normal',
+    VARIANT_CLASSES[variant],
     dismissing
       ? 'animate-[toast-out_0.2s_ease_both]'
       : 'animate-[toast-in_0.3s_cubic-bezier(0.34,1.56,0.64,1)_both]',
@@ -67,21 +77,18 @@ export const Toast: React.FC<ToastProps> = ({
 
   return (
     <div className={classes} role="status" aria-live="polite" {...rest}>
-      <span
-        className={`w-8 h-8 rounded-full inline-flex items-center justify-center text-white shrink-0 ${TOAST_ICON_BG[variant]}`}
-        aria-hidden="true"
-      >
-        {icon ?? DEFAULT_ICONS[variant]}
+      <span className={`shrink-0 mt-px ${ICON_TONE[variant]}`} aria-hidden="true">
+        {icon ?? <IconComponent size={20} strokeWidth={2} />}
       </span>
-      <div className="min-w-0">
-        {title && <p className="font-bold text-body-sm text-ink-900 leading-tight m-0 mb-1">{title}</p>}
-        {children && <p className="text-caption text-ink-600 leading-snug m-0">{children}</p>}
+      <div className="flex-1 flex flex-col gap-0.5 min-w-0">
+        {title && <p className="font-bold m-0 leading-tight">{title}</p>}
+        {children && <p className="m-0 opacity-90">{children}</p>}
       </div>
       {actionLabel && (
         <button
           type="button"
           onClick={onAction}
-          className="bg-transparent border-0 text-primary-700 font-semibold text-caption cursor-pointer px-2.5 py-1.5 rounded-md transition-colors hover:bg-primary-50"
+          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 rounded-md transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           {actionLabel}
         </button>
@@ -91,9 +98,9 @@ export const Toast: React.FC<ToastProps> = ({
           type="button"
           onClick={onDismiss}
           aria-label="Fermer"
-          className="w-6 h-6 bg-transparent border-0 text-ink-400 rounded-sm cursor-pointer inline-flex items-center justify-center opacity-70 p-0 transition-all hover:opacity-100 hover:bg-ink-100"
+          className="shrink-0 -mr-1 p-1 rounded-md cursor-pointer text-current opacity-50 transition-all duration-150 hover:opacity-100 hover:bg-black/[0.08] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
-          <X size={14} strokeWidth={2.5} />
+          <X size={16} strokeWidth={2} />
         </button>
       )}
     </div>

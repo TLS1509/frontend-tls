@@ -34,15 +34,6 @@ const VARIANT_CLASSES: Record<MedalVariant, string> = {
   bronze:  'bg-[linear-gradient(135deg,#CD7F32_0%,#A06022_100%)] text-white shadow-[0_10px_30px_-10px_rgba(160,96,34,0.45),inset_0_2px_6px_rgba(255,255,255,0.45),inset_0_-6px_18px_rgba(0,0,0,0.12)]',
 };
 
-const RING_CLASSES: Record<MedalVariant, string> = {
-  default: 'before:border-white/40',
-  brand:   'before:border-white/40',
-  locked:  'before:border-ink-300',
-  gold:    'before:border-white/50',
-  silver:  'before:border-white/50',
-  bronze:  'before:border-white/50',
-};
-
 export const Medal: React.FC<MedalProps> = ({
   size = 'md',
   variant = 'default',
@@ -53,11 +44,9 @@ export const Medal: React.FC<MedalProps> = ({
 }) => {
   const classes = [
     'relative rounded-full inline-flex items-center justify-center shrink-0',
-    'before:content-[""] before:absolute before:inset-1.5 before:border-2 before:border-dashed before:rounded-full',
-    '[&>svg]:relative [&>svg]:z-10 [&>svg]:w-[44%] [&>svg]:h-[44%]',
+    '[&>svg]:relative [&>svg]:w-[44%] [&>svg]:h-[44%]',
     SIZE_CLASSES[size],
     VARIANT_CLASSES[variant],
-    RING_CLASSES[variant],
     className,
   ]
     .filter(Boolean)
