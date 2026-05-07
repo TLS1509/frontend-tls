@@ -1,50 +1,82 @@
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 
-interface SectionHeaderProps {
-  icon?: LucideIcon;
+/**
+ * SectionHeader — Canonical section-level heading within a page.
+ *
+ * Replaces both SectionHeader (patterns) and SectionTitle (ui — deprecated).
+ *
+ * - Optional icon (LucideIcon component OR ReactNode for emoji/custom)
+ * - Title (h2) + optional subtitle
+ * - Optional action slot (right side)
+ * - `divider` for separator below
+ * - `compact` mode for smaller pages
+ * - `iconClassName` for tone-coloring icon
+ */
+
+export interface SectionHeaderProps {
+  icon?: LucideIcon | React.ReactNode;
   title: string;
   subtitle?: string;
   action?: React.ReactNode;
+  divider?: boolean;
+  compact?: boolean;
   className?: string;
   iconClassName?: string;
-  compact?: boolean;
 }
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
-  icon: Icon,
+  icon,
   title,
   subtitle,
   action,
-  className = '',
-  iconClassName = 'text-primary-500',
+  divider = false,
   compact = false,
+  className = '',
+  iconClassName = 'text-primary-600',
 }) => {
+  const renderIcon = () => {
+    if (!icon) return null;
+
+    const bubbleClasses = [
+      'inline-flex items-center justify-center rounded-xl shrink-0 bg-primary-50',
+      compact ? 'w-9 h-9' : 'w-11 h-11',
+      iconClassName,
+    ].join(' ');
+
+    // Already-rendered ReactElement (e.g. <Zap size={12} />, "⚡", or string)
+    if (React.isValidElement(icon) || typeof icon === 'string' || typeof icon === 'number') {
+      return (
+        <span className={bubbleClasses} aria-hidden="true">
+          {icon}
+        </span>
+      );
+    }
+
+    // Otherwise treat as a component (LucideIcon = forwardRef object OR plain function)
+    const Icon = icon as LucideIcon;
+    return (
+      <span className={bubbleClasses}>
+        <Icon size={compact ? 18 : 20} strokeWidth={2} />
+      </span>
+    );
+  };
+
   return (
     <div
       className={[
-        'flex items-start justify-between gap-6',
-        compact ? 'mb-4' : 'mb-6',
+        'flex items-start justify-between gap-4',
+        compact ? 'mb-4' : 'mb-5',
+        divider ? (compact ? 'pb-3 border-b border-ink-200' : 'pb-4 border-b border-ink-200') : '',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      <div className={['flex items-start flex-1', Icon ? 'gap-3' : 'gap-0'].join(' ')}>
-        {Icon && (
-          <Icon
-            className={[
-              'block shrink-0 mt-0.5',
-              compact ? 'w-6 h-6' : 'w-7 h-7',
-              iconClassName,
-            ].join(' ')}
-            strokeWidth={2}
-          />
-        )}
+      <div className={['flex items-start flex-1 min-w-0', icon ? 'gap-3' : 'gap-0'].join(' ')}>
+        {renderIcon()}
 
-        <div
-          className={['flex flex-col flex-1 min-w-0', subtitle ? 'gap-1' : 'gap-0'].join(' ')}
-        >
+        <div className={['flex flex-col flex-1 min-w-0', subtitle ? 'gap-0.5' : 'gap-0'].join(' ')}>
           <h2
             className={[
               'font-display font-bold text-ink-900 leading-tight m-0',
@@ -55,14 +87,12 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           </h2>
 
           {subtitle && (
-            <p className="font-body text-body-sm font-normal text-ink-500 leading-relaxed m-0">
-              {subtitle}
-            </p>
+            <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0">{subtitle}</p>
           )}
         </div>
       </div>
 
-      {action && <div className="shrink-0">{action}</div>}
+      {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
     </div>
   );
 };

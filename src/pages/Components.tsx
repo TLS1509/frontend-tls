@@ -1170,17 +1170,15 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'SectionTitle',
-    codeName: 'SectionTitle.tsx',
-    cssBase: '.tls-section-title',
+    name: 'SectionTitle (deprecated)',
+    codeName: 'ui/SectionTitle.tsx',
+    cssBase: 'Alias rétrocompat → SectionHeader',
     category: 'Content',
-    description: 'En-tête de section. Icône optionnelle + titre + sous-titre + action à droite. Variante divider pour ligne de séparation.',
-    keywords: ['heading', 'section', 'title', 'subtitle', 'header', 'icon', 'action'],
+    description: 'DEPRECATED. Utilisez <SectionHeader /> depuis patterns/SectionHeader. Cet alias est conservé pour rétrocompatibilité.',
+    keywords: ['heading', 'section', 'title', 'deprecated'],
     render: () => (
       <div className="vstack">
-        <SectionTitle title="Actions rapides" subtitle="Accédez directement à vos fonctionnalités" icon="⚡" />
-        <SectionTitle title="Fil d'actualité" divider action={<button type="button" className="btn btn--secondary btn--sm">Voir tout</button>} />
-        <SectionTitle title="Parcours" />
+        <SectionTitle title="Actions rapides" subtitle="Utilisez SectionHeader à la place" icon="⚡" />
       </div>
     ),
   },
@@ -2231,15 +2229,16 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionHeader',
     codeName: 'patterns/SectionHeader.tsx',
-    cssBase: 'SectionHeader (tokens inline)',
+    cssBase: 'SectionHeader (canonical section heading)',
     category: 'Patterns',
-    description: 'En-tête de section réutilisable avec icône optionnelle, titre h2, sous-titre et action droite. Variante compact. Utilisée dans Coaching, Leaderboard, Journal.',
-    keywords: ['section', 'header', 'title', 'icon', 'h2', 'action', 'compact'],
+    description: 'En-tête de section CANONIQUE. Icône (LucideIcon ou ReactNode/emoji) dans bulle colorée, titre h2, sous-titre, action. Variants: compact, divider. Remplace SectionTitle.',
+    keywords: ['section', 'header', 'title', 'icon', 'h2', 'action', 'compact', 'divider', 'canonical'],
     render: () => (
-      <div className="vstack">
+      <div className="vstack gap-6">
         <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="btn btn--sm btn--outline">Voir tout</button>} />
         <SectionHeader icon={BookOpen} title="Ressources associées" compact />
-        <SectionHeader title="Sans icône" subtitle="Section sans icône avec sous-titre" />
+        <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
+        <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
       </div>
     ),
   },
@@ -2262,12 +2261,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PageHeader',
     codeName: 'patterns/PageHeader.tsx',
-    cssBase: 'PageHeader (tokens inline)',
+    cssBase: 'PageHeader (canonical page-level header)',
     category: 'Patterns',
-    description: 'En-tête de page complet. Eyebrow optionnel (icône + texte majuscule), titre h1, description, actions droite. Utilisé dans toutes les pages principales.',
-    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1'],
+    description: 'En-tête de page CANONIQUE. Eyebrow chip avec icône, titre h1 responsive (clamp), description, actions. Variants: default | tight. Align: left | center.',
+    keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
     render: () => (
-      <div className="vstack">
+      <div className="vstack gap-8">
         <PageHeader
           eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
           title="Fondamentaux du Leadership"
@@ -2275,6 +2274,11 @@ const COMPONENTS: ComponentEntry[] = [
           actions={<><button className="btn btn--sm btn--outline">Partager</button><button className="btn btn--sm btn--primary">Continuer</button></>}
         />
         <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
+        <PageHeader
+          variant="tight"
+          title="Réglages"
+          description="Compact (variant=tight) pour les pages secondaires."
+        />
       </div>
     ),
   },
@@ -2393,16 +2397,16 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'PageHeaderSimple',
+    name: 'PageHeaderSimple (deprecated)',
     codeName: 'patterns/PageHeaderSimple.tsx',
-    cssBase: 'PageHeaderSimple (simple header)',
+    cssBase: 'Alias rétrocompat → PageHeader variant="tight"',
     category: 'Patterns',
-    description: 'En-tête de page minimaliste. Titre seul ou avec description courte.',
-    keywords: ['header', 'simple', 'title', 'minimal'],
+    description: 'DEPRECATED. Utilisez <PageHeader variant="tight" /> directement. Cet alias est conservé pour rétrocompatibilité.',
+    keywords: ['header', 'simple', 'deprecated'],
     render: () => (
-      <div className="vstack">
-        <PageHeaderSimple title="Tableau de bord" />
-        <PageHeaderSimple title="Mon profil" description="Gérez vos informations personnelles" />
+      <div className="vstack gap-4">
+        <PageHeader title="Tableau de bord" variant="tight" />
+        <PageHeader title="Mon profil" description="Gérez vos informations personnelles" variant="tight" />
       </div>
     ),
   },

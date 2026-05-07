@@ -333,3 +333,42 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 **Inline styles restants :** ~600 / 2 105 (estim. — ~250+ supprimés ces 2 batches)
 **Dernière mise à jour :** 2026-05-07
+
+---
+
+## RATIONALISATION — Doublons identifiés et résolus (2026-05-07)
+
+### Headers (4 → 2 canoniques)
+
+| Composant | Statut | Remplacement |
+|-----------|--------|--------------|
+| `patterns/PageHeader` | ✅ **CANONIQUE** | Page-level (eyebrow + title + desc + actions). Variants: `default` / `tight`. Align: `left` / `center`. |
+| `patterns/PageHeaderSimple` | 🔄 Alias rétrocompat | `→ <PageHeader variant="tight" />`. À supprimer après migration des call sites. |
+| `patterns/SectionHeader` | ✅ **CANONIQUE** | Section-level (icon LucideIcon\|ReactNode + title + subtitle + action + divider + compact). |
+| `ui/SectionTitle` | 🔄 Alias rétrocompat | `→ <SectionHeader />`. À supprimer après migration des call sites. |
+
+**Polish PageHeader/SectionHeader :**
+- PageHeader : eyebrow chip avec border + bg-primary-50, titre `clamp(1.875rem, 3.5vw, 2.75rem)`, max-width 760/640, align center supporté
+- SectionHeader : icon bubble `w-11 h-11 rounded-xl bg-primary-50`, ReactNode/emoji/LucideIcon tous supportés via `React.isValidElement` detection (Piège : LucideIcon est un forwardRef OBJECT pas une function)
+
+### Breadcrumbs (2 — différents use cases, gardés)
+
+| Composant | Use case |
+|-----------|----------|
+| `ui/Breadcrumb` | Inline simple (séparateur "/", sticky variant) |
+| `patterns/BreadcrumbNav` | Avec icônes + ellipsis + collapse mobile + onNavigate callback |
+
+### KPICard vs StatCard (gardés — APIs différentes)
+
+| Composant | API | Use case |
+|-----------|-----|----------|
+| `ui/StatCard` | `value` + `sub` + `delta` + `deltaDirection` + variants (default/elevated/warm/brand/sun) + sizes (sm/md/lg) + `square` mode | Stats riches, dashboard hero |
+| `ui/KPICard` | `value` + `label` + `trend` (objet {value, direction, label}) + tones simples | KPIs simples, sidebars |
+
+→ Les deux gardés pour APIs distinctes. Documenté.
+
+### Restant à rationaliser (TODO Phase 9)
+
+- **GlassCard / SurfaceCard** → consolider dans Card.tsx avec `variant: glass | elevated`
+- **InlineProgress** → consolider dans ProgressBar avec `layout: 'stacked' | 'inline'`
+- **PageHeaderSimple / SectionTitle** → supprimer (les aliases) une fois tous les call sites migrés vers PageHeader/SectionHeader directement

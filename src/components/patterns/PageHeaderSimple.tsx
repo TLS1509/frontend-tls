@@ -1,5 +1,12 @@
 import React from 'react';
+import { PageHeader } from './PageHeader';
 
+/**
+ * @deprecated Use `PageHeader` directly with `variant="tight"` if you don't need an eyebrow.
+ *
+ * This component is kept as a thin alias for backward-compatibility.
+ * It renders <PageHeader variant="tight" /> under the hood.
+ */
 interface PageHeaderSimpleProps {
   title: string;
   description?: string;
@@ -12,16 +19,14 @@ export const PageHeaderSimple: React.FC<PageHeaderSimpleProps> = ({
   description,
   actions,
   className = '',
-}) => {
-  return (
-    <div className={`mb-8 ${className}`}>
-      <h1 className="font-display text-h1 font-bold text-ink-900 m-0 mb-2">{title}</h1>
-
-      {description && <p className="text-body text-ink-500 m-0 mb-4">{description}</p>}
-
-      {actions && <div className="flex gap-2 items-center">{actions}</div>}
-    </div>
-  );
-};
+}) => (
+  <PageHeader
+    title={title}
+    description={description}
+    actions={actions}
+    variant="tight"
+    className={className}
+  />
+);
 
 export default PageHeaderSimple;

@@ -1,5 +1,11 @@
 import React from 'react';
+import { SectionHeader } from '../patterns/SectionHeader';
 
+/**
+ * @deprecated Use `SectionHeader` from `patterns/SectionHeader` directly.
+ *
+ * This is a thin alias kept for backward-compatibility.
+ */
 interface SectionTitleProps {
   title: string;
   subtitle?: string;
@@ -16,40 +22,15 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
   action,
   divider = false,
   className = '',
-}) => {
-  const classes = [
-    'w-full',
-    divider && 'pb-4 border-b border-ink-200',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return (
-    <div className={classes}>
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          {icon && (
-            <span
-              className="inline-flex items-center justify-center text-2xl text-primary-600 shrink-0"
-              aria-hidden="true"
-            >
-              {icon}
-            </span>
-          )}
-          <div className="flex flex-col gap-0.5 min-w-0">
-            <h2 className="m-0 text-h3 font-display font-semibold text-ink-900 truncate">
-              {title}
-            </h2>
-            {subtitle && (
-              <p className="m-0 text-body-sm text-ink-500">{subtitle}</p>
-            )}
-          </div>
-        </div>
-        {action && <div className="shrink-0">{action}</div>}
-      </div>
-    </div>
-  );
-};
+}) => (
+  <SectionHeader
+    title={title}
+    subtitle={subtitle}
+    icon={icon}
+    action={action}
+    divider={divider}
+    className={className}
+  />
+);
 
 export default SectionTitle;
