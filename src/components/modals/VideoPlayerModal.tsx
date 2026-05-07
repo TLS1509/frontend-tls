@@ -5,7 +5,6 @@ import './modals.css';
 /**
  * VideoPlayerModal — Lecteur vidéo plein écran
  * Pour tutoriels, leçons vidéo et contenu Veille
- * Tokens: TLS design system
  */
 
 interface VideoPlayerModalProps {
@@ -41,7 +40,6 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
 
   const togglePlay = () => {
     if (!videoRef.current) {
-      // Demo mode (no actual video)
       setIsPlaying((p) => !p);
       return;
     }
@@ -83,144 +81,121 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
     onClose();
   };
 
+  const CONTROL_BTN_CLASS = 'bg-transparent border-0 cursor-pointer text-white/70 flex items-center p-0 hover:text-white transition-colors';
+
   return (
-    <>
-      {/* Backdrop */}
+    <div
+      onClick={handleClose}
+      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] bg-black/85 animate-vp-bd-in"
+    >
       <div
-        onClick={handleClose}
-        className="modal__backdrop"
-        style={{ background: 'rgba(0,0,0,0.85)', animation: 'vpBdIn 0.2s ease both' }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[860px] bg-[#0f1117] rounded-2xl border border-white/8 shadow-[0_40px_80px_rgba(0,0,0,0.6)] overflow-hidden animate-vp-in"
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="modal--video modal__content"
+        {/* Close button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/12 border border-white/15 flex items-center justify-center cursor-pointer text-white z-10 transition-all hover:bg-white/22 p-0"
+          aria-label="Fermer"
         >
-          {/* Close button */}
-          <button
-            onClick={handleClose}
-            style={{
-              position: 'absolute', top: 'var(--s-3)', right: 'var(--s-3)',
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: '#fff', zIndex: 10,
-              transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.22)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; }}
-          >
-            <X size={14} />
-          </button>
+          <X size={14} />
+        </button>
 
-          {/* Video area */}
-          <div className="modal__video-container">
-            {videoUrl ? (
-              <video
-                ref={videoRef}
-                src={videoUrl}
-                poster={posterUrl}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={() => setIsPlaying(false)}
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              />
-            ) : (
-              /* Demo poster / placeholder */
-              <div className="modal__video-placeholder">
-                {/* Decorative glow */}
-                <div className="modal__video-glow" />
-                <div className="modal__video-play-btn">
-                  {isPlaying
-                    ? <Pause size={32} style={{ color: 'rgba(255,255,255,0.8)' }} />
-                    : <Play size={32} style={{ color: 'rgba(255,255,255,0.8)', marginLeft: 4 }} />
-                  }
-                </div>
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'var(--t-caption)', position: 'relative', zIndex: 1 }}>
-                  {isPlaying ? '▶ Lecture en cours…' : 'Cliquez pour lancer la vidéo'}
-                </p>
-              </div>
-            )}
-
-            {/* Centered play overlay */}
-            <button
-              onClick={togglePlay}
-              style={{
-                position: 'absolute', inset: 0,
-                background: 'transparent', border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-              aria-label={isPlaying ? 'Pause' : 'Lecture'}
+        {/* Video area */}
+        <div className="relative aspect-video bg-black overflow-hidden">
+          {videoUrl ? (
+            <video
+              ref={videoRef}
+              src={videoUrl}
+              poster={posterUrl}
+              onTimeUpdate={handleTimeUpdate}
+              onEnded={() => setIsPlaying(false)}
+              className="w-full h-full object-contain"
             />
-          </div>
+          ) : (
+            /* Demo poster / placeholder */
+            <div className="w-full h-full bg-gradient-to-br from-[#0f1117] to-[#1a1f2e] flex items-center justify-center flex-col gap-4">
+              {/* Decorative glow */}
+              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_50%,rgba(85,161,180,0.12)_0%,transparent_70%)]" />
+              <div className="w-20 h-20 rounded-full bg-white/8 border border-white/12 flex items-center justify-center relative z-10 text-white/80">
+                {isPlaying
+                  ? <Pause size={32} />
+                  : <Play size={32} className="ml-1" />
+                }
+              </div>
+              <p className="text-white/40 text-caption relative z-10">
+                {isPlaying ? '▶ Lecture en cours…' : 'Cliquez pour lancer la vidéo'}
+              </p>
+            </div>
+          )}
 
-          {/* Controls bar */}
-          <div className="modal__video-controls">
-            {/* Progress bar */}
+          {/* Centered play overlay */}
+          <button
+            onClick={togglePlay}
+            className="absolute inset-0 bg-transparent border-0 cursor-pointer flex items-center justify-center"
+            aria-label={isPlaying ? 'Pause' : 'Lecture'}
+          />
+        </div>
+
+        {/* Controls bar */}
+        <div className="bg-black/60 backdrop-blur-md py-3 px-4 flex flex-col gap-2">
+          {/* Progress bar */}
+          <div
+            onClick={handleSeek}
+            className="w-full h-1 bg-white/15 rounded-pill cursor-pointer relative"
+          >
             <div
-              onClick={handleSeek}
-              className="modal__progress-bar"
+              className="h-full bg-primary-400 rounded-pill transition-[width] duration-100 relative"
+              style={{ width: `${progress}%` }}
             >
-              <div className="modal__progress-fill" style={{ width: `${progress}%` }}>
-                <div className="modal__progress-handle" />
-              </div>
-            </div>
-
-            {/* Controls row */}
-            <div className="modal__controls-row">
-              <button onClick={togglePlay} className="modal__control-btn" style={{ color: '#fff' }}>
-                {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-              </button>
-              <button onClick={toggleMute} className="modal__control-btn">
-                {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              </button>
-              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Clock size={11} /> {currentTime} / {duration}
-              </span>
-              <div style={{ flex: 1 }} />
-              {onDownload && (
-                <button onClick={onDownload} className="modal__control-btn">
-                  <Download size={15} />
-                </button>
-              )}
-              <button className="modal__control-btn">
-                <Share2 size={15} />
-              </button>
-              <button className="modal__control-btn">
-                <Maximize size={15} />
-              </button>
+              <div className="absolute -right-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_6px_rgba(85,161,180,0.6)]" />
             </div>
           </div>
 
-          {/* Info panel */}
-          <div style={{
-            padding: 'var(--s-5) var(--s-5)',
-            background: 'var(--surface)',
-            borderTop: '1px solid var(--border)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--s-4)' }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)' }}>
-                  {title}
-                </h3>
-                <p style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                  Par {instructor} · {duration}
-                </p>
-                <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  {description}
-                </p>
-              </div>
+          {/* Controls row */}
+          <div className="flex items-center gap-3 text-white/70">
+            <button onClick={togglePlay} className={`${CONTROL_BTN_CLASS} text-white`}>
+              {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            </button>
+            <button onClick={toggleMute} className={CONTROL_BTN_CLASS}>
+              {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+            </button>
+            <span className="text-[12px] text-white/50 flex items-center gap-1">
+              <Clock size={11} /> {currentTime} / {duration}
+            </span>
+            <div className="flex-1" />
+            {onDownload && (
+              <button onClick={onDownload} className={CONTROL_BTN_CLASS}>
+                <Download size={15} />
+              </button>
+            )}
+            <button className={CONTROL_BTN_CLASS}>
+              <Share2 size={15} />
+            </button>
+            <button className={CONTROL_BTN_CLASS}>
+              <Maximize size={15} />
+            </button>
+          </div>
+        </div>
+
+        {/* Info panel */}
+        <div className="p-5 bg-white border-t border-ink-200">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <h3 className="text-body font-bold text-ink-900 mb-1">
+                {title}
+              </h3>
+              <p className="text-caption text-ink-600 mb-2">
+                Par {instructor} · {duration}
+              </p>
+              <p className="text-caption text-ink-600 leading-relaxed">
+                {description}
+              </p>
             </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes vpBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes vpIn {
-          from { opacity: 0; transform: translateY(20px) scale(0.94); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
 
