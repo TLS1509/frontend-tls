@@ -132,6 +132,14 @@
 
   /* ── Spacing base (Tailwind v4 utilise --spacing pour calculer toutes les marges/paddings) ── */
   --spacing: 0.25rem;
+
+  /* ── Typographie spéciale — StatCard ── */
+  --text-stat-value: clamp(2rem, 3vw, 2.75rem);
+  --text-stat-value-lg: clamp(2.5rem, 4vw, 3.5rem);
+
+  /* ── Couleurs sémantiques — succès / danger ── */
+  --color-success-base: #9DBEBA;
+  --color-danger-fg: #8F2A0E;
 }
 
 /* ============================================

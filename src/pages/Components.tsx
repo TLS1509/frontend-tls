@@ -1060,14 +1060,30 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'StatCard.tsx',
     cssBase: '.stat-card',
     category: 'Learning',
-    description: 'Prominent metric. Display number + micro label + optional delta. 4 surface variants.',
-    keywords: ['metric', 'kpi', 'stat', 'dashboard'],
+    description: 'Prominent metric. Display number + micro label + optional delta. 5 variants · 3 sizes · square mode.',
+    keywords: ['metric', 'kpi', 'stat', 'dashboard', 'square', 'size'],
     render: () => (
-      <div className="grid-2">
-        <StatCard label="PARCOURS COMPLÉTÉS" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
-        <StatCard variant="elevated" label="HEURES D'APPRENTISSAGE" value="48" sub="h" />
-        <StatCard variant="warm" label="SÉRIE" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
-        <StatCard variant="brand" label="PROGRESSION MOYENNE" value={78} sub="%" />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {/* Variants */}
+        <div className="grid-2">
+          <StatCard label="PARCOURS COMPLÉTÉS" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
+          <StatCard variant="elevated" label="HEURES D'APPRENTISSAGE" value="48" sub="h" />
+          <StatCard variant="warm" label="SÉRIE" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
+          <StatCard variant="brand" label="PROGRESSION MOYENNE" value={78} sub="%" />
+        </div>
+        {/* Sizes */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', alignItems: 'start' }}>
+          <StatCard size="sm" label="PETITE" value={42} sub="pts" delta="+5" deltaDirection="up" />
+          <StatCard size="md" label="MOYENNE" value={42} sub="pts" delta="+5" deltaDirection="up" />
+          <StatCard size="lg" variant="brand" label="GRANDE" value={42} sub="pts" delta="+5" deltaDirection="up" />
+        </div>
+        {/* Square */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+          <StatCard square size="sm" label="STREAK" value={7} sub="j" />
+          <StatCard square variant="elevated" label="SCORE" value={94} sub="%" />
+          <StatCard square variant="warm" label="SÉRIE" value={12} />
+          <StatCard square size="lg" variant="brand" label="XP" value="1.2k" />
+        </div>
       </div>
     ),
   },
