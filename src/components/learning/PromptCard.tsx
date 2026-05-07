@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardDesc } from '../core/Card';
 import { Badge } from '../ui/Badge';
+import { ArrowRight } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
 
 export interface PromptCardProps {
@@ -29,13 +30,26 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       onKeyDown={onKeyDown}
       tabIndex={0}
       role="button"
-      className={['text-center cursor-pointer', className].filter(Boolean).join(' ')}
+      className={[
+        'group flex flex-col items-center gap-4 text-center cursor-pointer transition-all',
+        'hover:-translate-y-1 hover:shadow-md',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      <div className="mb-3">
-        <Badge variant={variant}>{label}</Badge>
+      <Badge variant={variant}>{label}</Badge>
+
+      <div className="inline-flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+        {icon}
       </div>
-      <div className="flex justify-center mb-3">{icon}</div>
-      <CardDesc className="text-center">{text}</CardDesc>
+
+      <CardDesc className="text-center text-balance">{text}</CardDesc>
+
+      <div className="inline-flex items-center gap-1 text-caption font-semibold text-ink-500 group-hover:text-primary-700 transition-colors">
+        Réfléchir
+        <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+      </div>
     </Card>
   );
 };

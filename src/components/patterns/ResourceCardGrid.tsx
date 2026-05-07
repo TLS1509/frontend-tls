@@ -47,15 +47,15 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
   tone = 'primary',
   variant = 'default',
   isLoading = false,
-  emptyMessage = 'No resources available',
+  emptyMessage = 'Aucune ressource disponible',
   className = '',
 }) => {
   if (isLoading) {
     return (
-      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+      <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-3 text-ink-500">
-          <div className="w-8 h-8 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body-sm">Loading resources...</p>
+          <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
       </div>
     );
@@ -63,17 +63,24 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
 
   if (!items || items.length === 0) {
     return (
-      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+      <div
+        className={[
+          'flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
-          <p className="m-0 text-3xl">📭</p>
-          <p className="m-0 text-body-sm">{emptyMessage}</p>
+          <p className="m-0 text-4xl">📭</p>
+          <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={['grid gap-4', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
+    <div className={['grid gap-5', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {items.map((item) => (
         <div key={item.id} role="gridcell">
           <ResourceCard
@@ -87,7 +94,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
             variant={variant}
             badge={item.badge}
             cta={{
-              label: 'Discover',
+              label: 'Découvrir',
               onClick: () => onCardClick?.(item.id),
             }}
             href={item.href}
