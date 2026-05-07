@@ -804,6 +804,90 @@
 }
 
 /* ============================================
+   PHASE 3 TAILWIND MIGRATION — Utilities & Components
+   ============================================ */
+
+@layer utilities {
+  /* Combined modal shadow (outer + inset highlight) */
+  .shadow-modal       { box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+  .shadow-celebration { box-shadow: 0 30px 60px rgba(255, 107, 53, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+  .shadow-success-modal { box-shadow: 0 25px 50px rgba(85, 161, 180, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9); }
+
+  /* Animation utilities — reference @keyframes defined below */
+  .animate-modal-bd-in  { animation: modalBdIn 0.22s ease both; }
+  .animate-modal-in     { animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-vp-bd-in     { animation: vpBdIn 0.2s ease both; }
+  .animate-vp-in        { animation: vpIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-sc-bd-in     { animation: scBdIn 0.22s ease both; }
+  .animate-sc-in        { animation: scIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-flame-in     { animation: scFlameIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both; }
+  .animate-ring         { animation: scRing 2s ease-out infinite; }
+  .animate-milestone-in { animation: scFadeUp 0.4s ease 0.4s both; }
+  .animate-fb-bd-in     { animation: fbBdIn 0.2s ease both; }
+  .animate-fb-in        { animation: fbIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-sm-bd-in     { animation: smBdIn 0.2s ease both; }
+  .animate-sm-in        { animation: smIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-sm-icon-in   { animation: smIconIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
+  .animate-sm-pulse     { animation: smPulse 1.8s ease-out infinite; }
+  .animate-cm-bd-in     { animation: cmBdIn 0.2s ease both; }
+  .animate-cm-in        { animation: cmIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .animate-cm-icon-in   { animation: cmIconIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
+  .animate-cso-bd-in    { animation: csoBdIn 0.2s ease both; }
+  .animate-cso-in       { animation: csoIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+}
+
+@layer components {
+  /* Gradient text — SuccessModal heading (primary-600 → primary-400) */
+  .modal-gradient-text {
+    background: linear-gradient(135deg, #4A8FA1 0%, #73AFBF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Fire gradient — StreakCelebrationModal (off-brand colors, no token) */
+  .modal-flame-bg {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFC107 100%);
+  }
+  .modal-flame-text {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFC107 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .modal-milestone-bg {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  }
+
+  /* Amber badge — SessionFeedbackModal rating label */
+  .modal-amber-badge {
+    background: linear-gradient(135deg, rgba(248, 176, 68, 0.1) 0%, rgba(248, 176, 68, 0.15) 100%);
+    border: 1.5px solid rgba(248, 176, 68, 0.25);
+    box-shadow: 0 4px 16px rgba(248, 176, 68, 0.12);
+  }
+
+  /* Amber submit btn — SessionFeedbackModal */
+  .modal-submit-enabled {
+    background: linear-gradient(135deg, #F8B044 0%, #e89a30 100%);
+    box-shadow: 0 6px 20px rgba(248, 176, 68, 0.3);
+  }
+  .modal-submit-enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(248, 176, 68, 0.4);
+  }
+
+  /* Cancel session secondary btn (off-brand semi-transparent orange border) */
+  .modal-cancel-secondary {
+    background: transparent;
+    border: 1.5px solid rgba(237, 132, 58, 0.3);
+    color: #C06920;
+  }
+  .modal-cancel-secondary:hover {
+    background: rgba(237, 132, 58, 0.06);
+  }
+}
+
+/* ============================================
    ANIMATIONS
    ============================================ */
 

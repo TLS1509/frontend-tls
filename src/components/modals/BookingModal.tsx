@@ -3,12 +3,7 @@ import {
   X, Calendar, Clock, ChevronLeft, ChevronRight,
   CheckCircle2, Video, FileText, AlertCircle,
 } from 'lucide-react';
-
-/**
- * BookingModal — Réservation de session coaching
- * 2 étapes : sélection date/heure → confirmation
- * Tokens: TLS design system
- */
+import { Button } from '../core/Button';
 import './modals.css';
 
 interface BookingModalProps {
@@ -47,7 +42,6 @@ function getDaysInMonth(date: Date): (number | null)[] {
   const month = date.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  // Adjust so week starts on Monday (0=Mon)
   const startOffset = (firstDay === 0 ? 6 : firstDay - 1);
   const days: (number | null)[] = Array(startOffset).fill(null);
   for (let i = 1; i <= daysInMonth; i++) days.push(i);
@@ -65,6 +59,25 @@ function formatDateLabel(dateKey: string): string {
   const [y, m, d] = dateKey.split('-');
   return `${d} ${MONTHS_FR[parseInt(m, 10) - 1]} ${y}`;
 }
+
+const PILL_BASE = 'px-3 py-1 rounded-pill text-micro font-bold';
+
+const getPillClass = (s: Step, step: Step): string => {
+  if (step === s) return `${PILL_BASE} bg-primary-500 text-white`;
+  if (step === 'confirmation' && s === 'datetime') return `${PILL_BASE} bg-success-bg text-success-fg`;
+  return `${PILL_BASE} bg-ink-200 text-ink-600`;
+};
+
+const getDayBtnClass = (hasSlots: boolean, isSelected: boolean): string => {
+  const base = 'aspect-square rounded-md border text-caption transition-all';
+  if (isSelected) return `${base} border-primary-500 bg-primary-500 text-white font-bold cursor-pointer`;
+  if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-700 font-bold cursor-pointer hover:bg-primary-100`;
+  return `${base} border-transparent bg-transparent text-ink-600 opacity-35 cursor-default`;
+};
+
+const TIME_SLOT_BASE = 'w-full py-3 rounded-lg font-semibold text-body-sm cursor-pointer transition-all text-center border';
+const TIME_SLOT_SELECTED = 'border-2 border-primary-500 bg-primary-50 text-primary-700';
+const TIME_SLOT_DEFAULT = 'border-ink-200 bg-white text-ink-900 hover:border-primary-300 hover:bg-primary-50';
 
 export const BookingModal: React.FC<BookingModalProps> = ({
   isOpen,
@@ -107,268 +120,189 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const handleClose = () => { reset(); onClose(); };
 
   return (
-    <>
+    <div
+      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-modal-bd-in"
+      onClick={handleClose}
+    >
       <div
-        className="modal__backdrop"
-        style={{ background: 'rgba(0,0,0,0.45)', animation: 'modalBdIn 0.22s ease both' }}
-        onClick={handleClose}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[760px] bg-white rounded-2xl border border-ink-200 shadow-modal overflow-hidden animate-modal-in"
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="modal--booking modal__content"
-          style={{ overflow: 'hidden' }}
-        >
-          {/* Header */}
-          <div className="modal__header">
-            <div style={{
-              width: 48, height: 48, borderRadius: '50%',
-              background: 'var(--tls-primary-100)', color: 'var(--tls-primary-700)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 800, fontSize: 'var(--t-body)', flexShrink: 0,
-            }}>
-              {coachInitials}
-            </div>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Réserver une session
-              </h2>
-              <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                avec {coachName} · Session de 45 min
-              </p>
-            </div>
-
-            {/* Step pills */}
-            <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
-              {(['datetime', 'confirmation'] as Step[]).map((s, i) => (
-                <div key={s} style={{
-                  padding: '4px 12px',
-                  borderRadius: 'var(--r-pill)',
-                  background: step === s ? 'var(--tls-primary-500)' : step === 'confirmation' && s === 'datetime' ? 'rgba(74,140,110,0.15)' : 'var(--border)',
-                  color: step === s ? '#fff' : step === 'confirmation' && s === 'datetime' ? 'var(--tls-success-fg)' : 'var(--text-muted)',
-                  fontSize: 'var(--t-micro)', fontWeight: 700,
-                }}>
-                  {i + 1}. {s === 'datetime' ? 'Date & Heure' : 'Confirmation'}
-                </div>
-              ))}
-            </div>
-
-            <button
-              onClick={handleClose}
-              className="modal__close-btn"
-              style={{ position: 'relative', flexShrink: 0 }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
-            >
-              <X size={14} />
-            </button>
+        {/* Header */}
+        <div className="px-6 py-6 border-b border-ink-200 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-display font-black text-body shrink-0">
+            {coachInitials}
           </div>
 
-          {/* Body */}
-          <div className="modal__body">
-            {step === 'datetime' ? (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 200px', gap: 'var(--s-6)' }}>
-                {/* Calendar */}
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--s-4)' }}>
-                    <button
-                      onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                      style={{ ...navBtnStyle }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--border)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-muted)'}
-                    >
-                      <ChevronLeft size={16} />
-                    </button>
-                    <span style={{ fontWeight: 700, fontSize: 'var(--t-body)', color: 'var(--text)' }}>
-                      {MONTHS_FR[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-                    </span>
-                    <button
-                      onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                      style={{ ...navBtnStyle }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--border)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-muted)'}
-                    >
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
+          <div className="flex-1">
+            <h2 className="m-0 text-h4 font-bold text-ink-900">
+              Réserver une session
+            </h2>
+            <p className="m-0 text-caption text-ink-600">
+              avec {coachName} · Session de 45 min
+            </p>
+          </div>
 
-                  {/* Day headers */}
-                  <div className="modal__day-header">
-                    {DAYS_FR.map((d) => (
-                      <div key={d} className="modal__day-label">
-                        {d}
-                      </div>
-                    ))}
-                  </div>
+          {/* Step pills */}
+          <div className="flex gap-2">
+            {(['datetime', 'confirmation'] as Step[]).map((s, i) => (
+              <div key={s} className={getPillClass(s, step)}>
+                {i + 1}. {s === 'datetime' ? 'Date & Heure' : 'Confirmation'}
+              </div>
+            ))}
+          </div>
 
-                  {/* Day grid */}
-                  <div className="modal__day-grid">
-                    {days.map((day, idx) => {
-                      if (day === null) return <div key={`e-${idx}`} />;
-                      const dateKey = formatDateKey(day, currentMonth);
-                      const hasSlots = Boolean(MONTH_SLOTS[dateKey]);
-                      const isSelected = selectedDate === dateKey;
+          <button
+            onClick={handleClose}
+            className="w-8 h-8 rounded-full bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all shrink-0"
+            aria-label="Fermer"
+          >
+            <X size={14} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="p-6">
+          {step === 'datetime' ? (
+            <div className="grid grid-cols-[1fr_200px] gap-6">
+              {/* Calendar */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <button
+                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
+                    className="w-8 h-8 rounded-md bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <span className="font-bold text-body text-ink-900">
+                    {MONTHS_FR[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+                  </span>
+                  <button
+                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
+                    className="w-8 h-8 rounded-md bg-ink-50 border border-ink-200 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+
+                {/* Day headers */}
+                <div className="grid grid-cols-7 gap-0.5 mb-2">
+                  {DAYS_FR.map((d) => (
+                    <div key={d} className="text-center text-[11px] font-bold text-ink-600 uppercase tracking-wide py-1.5">
+                      {d}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Day grid */}
+                <div className="grid grid-cols-7 gap-0.5">
+                  {days.map((day, idx) => {
+                    if (day === null) return <div key={`e-${idx}`} />;
+                    const dateKey = formatDateKey(day, currentMonth);
+                    const hasSlots = Boolean(MONTH_SLOTS[dateKey]);
+                    const isSelected = selectedDate === dateKey;
+                    return (
+                      <button
+                        key={dateKey}
+                        onClick={() => handleDateClick(day)}
+                        disabled={!hasSlots}
+                        className={getDayBtnClass(hasSlots, isSelected)}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Time slots */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Clock size={14} className="text-primary-500 shrink-0" />
+                  <span className="text-caption font-bold text-ink-900">
+                    {selectedDate ? formatDateLabel(selectedDate) : 'Sélectionnez une date'}
+                  </span>
+                </div>
+                {availableTimes.length > 0 ? (
+                  <div className="flex flex-col gap-2">
+                    {availableTimes.map((t) => {
+                      const isSel = selectedTime === t;
                       return (
                         <button
-                          key={dateKey}
-                          onClick={() => handleDateClick(day)}
-                          disabled={!hasSlots}
-                          className={`modal__day-btn ${hasSlots ? 'modal__day-btn--available' : ''} ${isSelected ? 'modal__day-btn--selected' : ''}`}
+                          key={t}
+                          onClick={() => setSelectedTime(t)}
+                          className={[TIME_SLOT_BASE, isSel ? TIME_SLOT_SELECTED : TIME_SLOT_DEFAULT].join(' ')}
                         >
-                          {day}
+                          {t}
                         </button>
                       );
                     })}
                   </div>
-                </div>
-
-                {/* Time slots */}
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
-                    <Clock size={14} style={{ color: 'var(--tls-primary-500)' }} />
-                    <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--text)' }}>
-                      {selectedDate ? formatDateLabel(selectedDate) : 'Sélectionnez une date'}
-                    </span>
+                ) : (
+                  <div className="p-4 text-center text-ink-600 text-caption rounded-lg bg-ink-50">
+                    {selectedDate ? 'Aucun créneau' : 'Choisissez une date bleue'}
                   </div>
-                  {availableTimes.length > 0 ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-                      {availableTimes.map((t) => {
-                        const isSel = selectedTime === t;
-                        return (
-                          <button
-                            key={t}
-                            onClick={() => setSelectedTime(t)}
-                            style={{
-                              padding: 'var(--s-3)',
-                              borderRadius: 'var(--r-lg)',
-                              border: isSel ? '2px solid var(--tls-primary-500)' : '1.5px solid var(--border)',
-                              background: isSel ? 'var(--tls-primary-50)' : 'var(--surface)',
-                              color: isSel ? 'var(--tls-primary-700)' : 'var(--text)',
-                              fontWeight: 600, fontSize: 'var(--t-body-sm)',
-                              cursor: 'pointer', transition: 'all var(--dur-1)',
-                              textAlign: 'center',
-                            }}
-                          >
-                            {t}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div style={{ padding: 'var(--s-4)', textAlign: 'center', color: 'var(--text-muted)', fontSize: 'var(--t-caption)', borderRadius: 'var(--r-lg)', background: 'var(--surface-muted)' }}>
-                      {selectedDate ? 'Aucun créneau' : 'Choisissez une date bleue'}
-                    </div>
-                  )}
-                </div>
+                )}
               </div>
-            ) : (
-              /* Confirmation step */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-                <div style={{ padding: 'var(--s-5)', borderRadius: 'var(--r-xl)', background: 'var(--tls-primary-50)', border: '1px solid rgba(85,161,180,0.2)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-4)' }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 'var(--r-md)', background: 'var(--tls-primary-500)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Calendar size={20} style={{ color: '#fff' }} />
-                    </div>
-                    <div>
-                      <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>Session confirmée</p>
-                      <p style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--tls-primary-600)' }}>
-                        {selectedDate && formatDateLabel(selectedDate)} à {selectedTime}
-                      </p>
-                    </div>
-                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--s-2)', padding: '4px 12px', borderRadius: 'var(--r-pill)', background: 'rgba(74,140,110,0.12)', color: 'var(--tls-success-fg)', fontSize: 'var(--t-caption)', fontWeight: 700 }}>
-                      <CheckCircle2 size={13} /> 45 min
-                    </div>
+            </div>
+          ) : (
+            /* Confirmation step */
+            <div className="flex flex-col gap-4">
+              <div className="p-5 rounded-xl bg-primary-50 border border-primary-500/20">
+                <div className="flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
+                    <Calendar size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <p className="m-0 text-body-sm font-bold text-ink-900">Session confirmée</p>
+                    <p className="m-0 text-body font-extrabold text-primary-600">
+                      {selectedDate && formatDateLabel(selectedDate)} à {selectedTime}
+                    </p>
+                  </div>
+                  <div className="ml-auto flex items-center gap-2 px-3 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold">
+                    <CheckCircle2 size={13} /> 45 min
                   </div>
                 </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 'var(--s-3)' }}>
-                  {[
-                    { icon: <FileText size={16} />, title: 'Questionnaire', body: 'Un questionnaire pré-séance vous sera envoyé 24h avant.' },
-                    { icon: <Video size={16} />, title: 'Lien visio', body: 'Le lien de connexion sera envoyé par email.' },
-                    { icon: <AlertCircle size={16} />, title: 'Annulation', body: 'Annulation possible jusqu\'à 24h avant la session.' },
-                  ].map((info) => (
-                    <div key={info.title} style={{ padding: 'var(--s-4)', borderRadius: 'var(--r-lg)', background: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-                      <div style={{ color: 'var(--tls-primary-500)', marginBottom: 'var(--s-2)' }}>{info.icon}</div>
-                      <p style={{ margin: '0 0 var(--s-1)', fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--text)' }}>{info.title}</p>
-                      <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.5 }}>{info.body}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
-            )}
-          </div>
 
-          {/* Footer */}
-          <div className="modal__footer">
-            {step === 'confirmation' ? (
-              <button
-                onClick={() => setStep('datetime')}
-                style={{ ...ghostBtnStyle }}
-              >
-                ← Modifier
-              </button>
-            ) : <div />}
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { icon: <FileText size={16} />, title: 'Questionnaire', body: 'Un questionnaire pré-séance vous sera envoyé 24h avant.' },
+                  { icon: <Video size={16} />, title: 'Lien visio', body: 'Le lien de connexion sera envoyé par email.' },
+                  { icon: <AlertCircle size={16} />, title: 'Annulation', body: "Annulation possible jusqu'à 24h avant la session." },
+                ].map((info) => (
+                  <div key={info.title} className="p-4 rounded-lg bg-ink-50 border border-ink-200">
+                    <div className="text-primary-500 mb-2">{info.icon}</div>
+                    <p className="m-0 mb-1 text-caption font-bold text-ink-900">{info.title}</p>
+                    <p className="m-0 text-micro text-ink-600 leading-relaxed">{info.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
-            {step === 'datetime' ? (
-              <button
-                onClick={() => setStep('confirmation')}
-                disabled={!canProceed}
-                style={{ ...primaryBtnStyle(!canProceed) }}
-              >
-                Confirmer le créneau →
-              </button>
-            ) : (
-              <button
-                onClick={handleConfirm}
-                style={{ ...primaryBtnStyle(false) }}
-              >
-                <CheckCircle2 size={16} /> Réserver la session
-              </button>
-            )}
-          </div>
+        {/* Footer */}
+        <div className="px-6 py-5 border-t border-ink-200 flex justify-between gap-3 bg-ink-50">
+          {step === 'confirmation' ? (
+            <Button variant="secondary" onClick={() => setStep('datetime')}>
+              ← Modifier
+            </Button>
+          ) : <div />}
+
+          {step === 'datetime' ? (
+            <Button variant="primary" onClick={() => setStep('confirmation')} disabled={!canProceed}>
+              Confirmer le créneau →
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={handleConfirm} leadingIcon={<CheckCircle2 size={16} />}>
+              Réserver la session
+            </Button>
+          )}
         </div>
       </div>
-
-      <style>{`
-        @keyframes modalBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes modalIn {
-          from { opacity: 0; transform: translateY(16px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
-
-// Style helpers
-const navBtnStyle: React.CSSProperties = {
-  width: 32, height: 32, borderRadius: 'var(--r-md)',
-  background: 'var(--surface-muted)', border: '1px solid var(--border)',
-  display: 'flex', alignItems: 'center', justifyContent: 'center',
-  cursor: 'pointer', color: 'var(--text-muted)', transition: 'background var(--dur-1)',
-};
-
-const ghostBtnStyle: React.CSSProperties = {
-  padding: 'var(--s-3) var(--s-5)',
-  borderRadius: 'var(--r-lg)',
-  background: 'transparent',
-  border: '1.5px solid var(--border)',
-  color: 'var(--text-muted)',
-  fontWeight: 600, fontSize: 'var(--t-body-sm)',
-  cursor: 'pointer', transition: 'all var(--dur-1)',
-};
-
-const primaryBtnStyle = (disabled: boolean): React.CSSProperties => ({
-  display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)',
-  padding: 'var(--s-3) var(--s-6)',
-  borderRadius: 'var(--r-lg)',
-  background: disabled ? 'var(--border)' : 'var(--tls-primary-500)',
-  border: 'none',
-  color: disabled ? 'var(--text-muted)' : '#fff',
-  fontWeight: 700, fontSize: 'var(--t-body-sm)',
-  cursor: disabled ? 'not-allowed' : 'pointer',
-  opacity: disabled ? 0.6 : 1,
-  transition: 'all var(--dur-2)',
-  boxShadow: disabled ? 'none' : '0 4px 14px rgba(85,161,180,0.35)',
-});
 
 export default BookingModal;
