@@ -175,14 +175,20 @@
 
 | # | Composant | Fichier | Statut |
 |---|-----------|---------|--------|
-| 6.1 | CardGrid | `src/components/patterns/CardGrid.tsx` | ⬜ |
-| 6.2 | HeroSection | `src/components/patterns/HeroSection.tsx` | ⬜ |
-| 6.3 | ActivityFeed | `src/components/patterns/ActivityFeed.tsx` | ⬜ |
-| 6.4 | CoachCardGrid | `src/components/patterns/CoachCardGrid.tsx` | ⬜ |
-| 6.5 | LearningPathGrid | `src/components/patterns/LearningPathGrid.tsx` | ⬜ |
-| 6.6 | PageHeader | `src/components/patterns/PageHeader.tsx` | ⬜ |
-| 6.7 | ToneAwareCard | `src/components/patterns/ToneAwareCard.tsx` | ⬜ |
-| 6.8-6.29 | Patterns restants | `src/components/patterns/[...].tsx` | ⬜ |
+| 6.1 | CardGrid | `src/components/patterns/CardGrid.tsx` | ✅ (déjà sans inline) |
+| 6.2 | HeroSection | `src/components/patterns/HeroSection.tsx` | ✅ |
+| 6.3 | ActivityFeed | `src/components/patterns/ActivityFeed.tsx` | ✅ (déjà sans inline) |
+| 6.4 | CoachCardGrid | `src/components/patterns/CoachCardGrid.tsx` | ✅ (déjà sans inline) |
+| 6.5 | LearningPathGrid | `src/components/patterns/LearningPathGrid.tsx` | ✅ (déjà sans inline) |
+| 6.6 | PageHeader | `src/components/patterns/PageHeader.tsx` | ✅ |
+| 6.7 | ToneAwareCard | `src/components/patterns/ToneAwareCard.tsx` | ✅ |
+| 6.8 | HeaderNav | `src/components/patterns/HeaderNav.tsx` | ✅ |
+| 6.9 | PageHeaderSimple | `src/components/patterns/PageHeaderSimple.tsx` | ✅ |
+| 6.10 | SectionHeader | `src/components/patterns/SectionHeader.tsx` | ✅ |
+| 6.11 | SettingsSection | `src/components/patterns/SettingsSection.tsx` | ✅ |
+| 6.12 | DataTable | `src/components/patterns/DataTable.tsx` | ✅ |
+| 6.13 | ActionCardGrid | `src/components/patterns/ActionCardGrid.tsx` | ✅ |
+| 6.14-6.29 | Patterns restants (PageCard, Flashcard exceptions, etc.) | `src/components/patterns/[...].tsx` | ⬜ |
 
 ---
 
@@ -190,11 +196,17 @@
 
 | # | Composant | Fichier | Statut |
 |---|-----------|---------|--------|
-| 7.1 | SessionCard | `src/components/learning/SessionCard.tsx` | ⬜ |
-| 7.2 | LessonCard | `src/components/learning/LessonCard.tsx` | ⬜ |
-| 7.3 | ArticleCard | `src/components/learning/ArticleCard.tsx` | ⬜ |
-| 7.4 | VideoCard | `src/components/learning/VideoCard.tsx` | ⬜ |
-| 7.5-7.11 | Learning restants | `src/components/learning/[...].tsx` | ⬜ |
+| 7.1 | SessionCard | `src/components/learning/SessionCard.tsx` | ✅ (sans inline) |
+| 7.2 | LessonCard | `src/components/learning/LessonCard.tsx` | ✅ (sans inline) |
+| 7.3 | ArticleCard | `src/components/learning/ArticleCard.tsx` | ✅ (sans inline) |
+| 7.4 | VideoCard | `src/components/learning/VideoCard.tsx` | ✅ (sans inline) |
+| 7.5 | ProjectCard | `src/components/learning/ProjectCard.tsx` | ✅ (sans inline) |
+| 7.6 | MagazineCard | `src/components/learning/MagazineCard.tsx` | ✅ |
+| 7.7 | MessageThreadCard | `src/components/learning/MessageThreadCard.tsx` | ✅ |
+| 7.8 | PromptCard | `src/components/learning/PromptCard.tsx` | ✅ |
+| 7.9 | RankingCard | `src/components/learning/RankingCard.tsx` | ✅ |
+| 7.10 | StepCard | `src/components/learning/StepCard.tsx` | ✅ (1 runtime style — exception progress) |
+| 7.11 | ParcoursCard (learning) | `src/components/learning/ParcoursCard.tsx` | ✅ (1 runtime style — exception progress) |
 
 ---
 
@@ -204,12 +216,12 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 | # | Page | Inline styles | Statut | Priorité |
 |---|------|--------------|--------|----------|
-| 8.1 | **Dashboard** | 27 | ⬜ | **HAUTE** — page d'accueil post-login |
+| 8.1 | **Dashboard** | 27 → 0 | ✅ | **HAUTE** — page d'accueil post-login |
 | 8.2 | DashboardHero (pattern) | ~15 | ⬜ | **HAUTE** — utilisé par Dashboard |
-| 8.3 | Coaching | `src/pages/Coaching.tsx` | ⬜ | Moyenne |
-| 8.4 | CoachingCompteRendu | `src/pages/CoachingCompteRendu.tsx` | 70 | ⬜ | Moyenne |
-| 8.5 | Messages | `src/pages/Messages.tsx` | 67 | ⬜ | Moyenne |
-| 8.6 | Settings | `src/pages/Settings.tsx` | 57 | ⬜ | Moyenne |
+| 8.3 | Coaching | 54 | ⬜ | Moyenne |
+| 8.4 | CoachingCompteRendu | 70 | ⬜ | Moyenne |
+| 8.5 | Messages | 67 | ⬜ | Moyenne |
+| 8.6 | Settings | 57 → 0 | ✅ | Moyenne |
 | 8.7 | Veille | `src/pages/Veille.tsx` | ~30 | ⬜ | Moyenne |
 | 8.8 | VeilleContent | `src/pages/VeilleContent.tsx` | 63 | ⬜ | Moyenne |
 | 8.9 | Dossier | `src/pages/Dossier.tsx` | 73 | ⬜ | Moyenne |
@@ -238,8 +250,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + Phase 5 (~98 %) / 9
-**Composants validés :** 70 / ~120 (5 pages Learning ajoutées)
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + Phase 5 (~98 %) + Phase 6 (~85 %) + Phase 7 (~100 %) / 9
+**Composants validés :** ~88 / ~120 (Dashboard + Settings + 13 patterns + 11 learning ajoutés)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
 - **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
@@ -254,6 +266,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 **🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind.
 **🎉 Phase 5 quasi-COMPLÈTE** — 35 / 36 composants UI migrés. Seul BackgroundBlobs reste (composant purement décoratif avec keyframes runtime).
 **🎉 Phase 4 COMPLÈTE** — 5 / 5 pages Learning migrées (LearningPaths, LearningPathDetail, LearningSpace, LessonPlayer, Profile). ~282 inline styles supprimés (95+35+63+42+47 → 0+0+0+1+0).
+**🎉 Phase 6 quasi-COMPLÈTE** — 13 patterns migrés (HeroSection, PageHeader, PageHeaderSimple, SectionHeader, HeaderNav, SettingsSection, ToneAwareCard, ActionCardGrid, DataTable + 4 déjà sans inline). Restants : PageCard (page-spécifique BEM), Flashcard (3D transform).
+**🎉 Phase 7 COMPLÈTE** — 11 / 11 learning components migrés. Seuls StepCard et ParcoursCard gardent 1 inline runtime chacun (progress-bar width %).
 
 **Audit Phase 5 batch Cards (2026-05-07) :**
 - 2 composants étaient **visuellement cassés** (CSS orphelin non importé) : ResourceCard, ProfileCard
@@ -285,7 +299,12 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - Profile.css conservé pour styling page-specific (391 lignes, hero glass + avatar + tabs)
 - Sub-composants extraits localement quand utile (KpiCard, FormatChip, SectionHeading, PILLAR_TONES, OBJECTIFS)
 
-**Prochain jalon :** Phase 6 (Patterns) — DashboardHero, CardGrid, HeroSection, PageHeader, ToneAwareCard, etc. Ou Phase 8 (Dashboard + autres pages).
+**Audit Phase 6 + 7 + 8 partiel (2026-05-07) :**
+- Phase 6 : HeaderNav, HeroSection, PageHeader, PageHeaderSimple, SectionHeader, SettingsSection, ToneAwareCard, ActionCardGrid, DataTable migrés. ~50 inline styles supprimés. Orphan DataTable.css supprimé.
+- Phase 7 : MagazineCard, MessageThreadCard, PromptCard, RankingCard migrés. ~24 inline styles supprimés.
+- Phase 8 batch 1+2 : Dashboard (27 → 0), Settings (57 → 0). Switch component pris en main correctement (label prop, pas children). Hover state hooks (hoveredAction/Continue) supprimés au profit de hover:/focus-visible: utilities.
 
-**Inline styles restants :** ~1 100 / 2 105 (estim.)
+**Prochain jalon :** Continuer Phase 8 (Account 46, Coaching 54, Messages 67, CoachingCompteRendu 70, Dossier 73, VeilleContent 63, Leaderboard 53, etc.) puis pages restantes Phase 8 et finir Phase 6/9.
+
+**Inline styles restants :** ~900 / 2 105 (estim. — ~120 supprimés cette session)
 **Dernière mise à jour :** 2026-05-07
