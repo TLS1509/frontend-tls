@@ -30,7 +30,7 @@ const categoryToneMap: Record<string, CourseCardTone> = {
 };
 
 const CARD_BASE =
-  'rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-all duration-300 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0';
+  'flex flex-col h-full rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-all duration-300 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0';
 
 const HERO_BASE = 'aspect-video relative overflow-hidden flex items-center justify-center';
 
@@ -86,26 +86,32 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <div className="opacity-90">{getCategoryIcon(category)}</div>
       </div>
 
-      <div className="p-6 max-sm:p-4">
-        <span className={`${BADGE_BASE} ${BADGE_TONE_CLASSES[resolvedTone]}`}>{category}</span>
+      <div className="flex flex-col flex-1 p-6 max-sm:p-4">
+        <span className={`${BADGE_BASE} ${BADGE_TONE_CLASSES[resolvedTone]} self-start`}>{category}</span>
 
-        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-2">{title}</h3>
+        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-2 line-clamp-2 min-h-[3.5rem]">
+          {title}
+        </h3>
 
-        <p className="text-caption text-ink-600 mb-4 leading-normal">
+        <p className="text-caption text-ink-600 mb-4 leading-normal line-clamp-2 min-h-[2.5rem]">
           Expand your skills with comprehensive, project-based learning...
         </p>
 
-        {enrolled && (
-          <div className="mb-6">
-            <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden mb-2">
-              <div
-                className={`${PROGRESS_FILL_BASE} ${PROGRESS_FILL_TONE_CLASSES[resolvedTone]}`}
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <p className="text-micro text-ink-500 m-0">{progress}% complete</p>
-          </div>
-        )}
+        <div className="flex-1" />
+
+        <div className="min-h-[2.25rem] mb-4">
+          {enrolled && (
+            <>
+              <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden mb-2">
+                <div
+                  className={`${PROGRESS_FILL_BASE} ${PROGRESS_FILL_TONE_CLASSES[resolvedTone]}`}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <p className="text-micro text-ink-500 m-0">{progress}% complete</p>
+            </>
+          )}
+        </div>
 
         <button
           onClick={enrolled ? onContinue : onEnroll}

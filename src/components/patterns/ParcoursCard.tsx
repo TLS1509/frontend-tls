@@ -94,26 +94,30 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
           style={GLOW_BG[tone]}
         />
 
-        <div className="relative p-6 flex flex-col gap-4 h-full min-h-[220px] max-md:p-5 max-md:min-h-[190px]">
-          <h3 className={`font-display text-h4 font-bold leading-tight m-0 break-words hyphens-auto max-md:text-body ${TITLE_TONE_CLASSES[tone]}`}>
+        <div className="relative p-6 flex flex-col gap-4 h-full min-h-[260px] max-md:p-5 max-md:min-h-[230px]">
+          <h3 className={`font-display text-h4 font-bold leading-tight m-0 break-words hyphens-auto max-md:text-body line-clamp-2 min-h-[3rem] ${TITLE_TONE_CLASSES[tone]}`}>
             {title}
           </h3>
 
-          {(duration || lessons || level) && (
-            <MetaPillGroup
-              items={[
-                ...(level ? [{ icon: <Zap size={13} />, text: level }] : []),
-                ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
-                ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
-              ]}
-              size="sm"
-              layout="horizontal"
-              gap="sm"
-              className="py-2 border-y border-ink-900/[6%]"
-            />
-          )}
+          <div className="min-h-[2.5rem]">
+            {(duration || lessons || level) && (
+              <MetaPillGroup
+                items={[
+                  ...(level ? [{ icon: <Zap size={13} />, text: level }] : []),
+                  ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
+                  ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
+                ]}
+                size="sm"
+                layout="horizontal"
+                gap="sm"
+                className="py-2 border-y border-ink-900/[6%]"
+              />
+            )}
+          </div>
 
-          <p className="font-body text-body-sm text-ink-600 leading-normal m-0">{description}</p>
+          <p className="font-body text-body-sm text-ink-600 leading-normal m-0 line-clamp-3 min-h-[3.75rem]">
+            {description}
+          </p>
 
           <div className="flex-1 min-h-2" />
 

@@ -54,7 +54,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   className = '',
 }) => {
   const classes = [
-    'bg-white border rounded-xl overflow-hidden flex flex-col cursor-pointer transition-all',
+    'bg-white border rounded-xl overflow-hidden flex flex-col h-full cursor-pointer transition-all',
     'hover:-translate-y-1 hover:shadow-lg hover:border-ink-300',
     STATUS_BORDER[status],
     className,
@@ -85,28 +85,28 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       </div>
 
       <div className="p-5 flex flex-col gap-3 flex-1">
-        <h3 className="m-0 text-h4 font-display font-semibold leading-tight text-ink-900">
+        <h3 className="m-0 text-h4 font-display font-semibold leading-tight text-ink-900 line-clamp-2 min-h-[3rem]">
           {title}
         </h3>
 
-        {description && (
-          <p className="m-0 text-body-sm leading-relaxed text-ink-500">{description}</p>
-        )}
+        <p className="m-0 text-body-sm leading-relaxed text-ink-500 line-clamp-3 min-h-[3.75rem]">
+          {description ?? ''}
+        </p>
 
-        {(lessonCount !== undefined || duration) && (
-          <div className="flex flex-wrap gap-2">
-            {lessonCount !== undefined && (
-              <span className="inline-flex items-center gap-1 text-caption font-medium text-ink-500 bg-ink-50 border border-ink-200 rounded-pill px-3 py-0.5">
-                <BookOpen size={12} strokeWidth={2} /> {lessonCount} leçons
-              </span>
-            )}
-            {duration && (
-              <span className="inline-flex items-center gap-1 text-caption font-medium text-ink-500 bg-ink-50 border border-ink-200 rounded-pill px-3 py-0.5">
-                <Clock size={12} strokeWidth={2} /> {duration}
-              </span>
-            )}
-          </div>
-        )}
+        <div className="flex flex-wrap gap-2 min-h-[1.5rem]">
+          {lessonCount !== undefined && (
+            <span className="inline-flex items-center gap-1 text-caption font-medium text-ink-500 bg-ink-50 border border-ink-200 rounded-pill px-3 py-0.5">
+              <BookOpen size={12} strokeWidth={2} /> {lessonCount} leçons
+            </span>
+          )}
+          {duration && (
+            <span className="inline-flex items-center gap-1 text-caption font-medium text-ink-500 bg-ink-50 border border-ink-200 rounded-pill px-3 py-0.5">
+              <Clock size={12} strokeWidth={2} /> {duration}
+            </span>
+          )}
+        </div>
+
+        <div className="flex-1" />
 
         {progress !== undefined && (
           <div className="flex items-center gap-3">
