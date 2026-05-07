@@ -1,42 +1,28 @@
 import React from 'react';
+import { Check, Info, AlertTriangle, X, XCircle } from 'lucide-react';
 
 /**
  * Toast — Source of truth: design-system/spec.json → components.Toast
  *
  * Transient confirmation, non-blocking. 4–6s display, bottom-right, max 3 stacked.
  * Variants: success/info/warning/danger.
- * Each variant gets a tone-colored left border and icon background.
+ * Each variant gets a tone-colored icon background.
  */
 
 export type ToastVariant = 'success' | 'info' | 'warning' | 'danger';
 
-const TOAST_ICONS: Record<ToastVariant, React.ReactNode> = {
-  success: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  ),
-  info: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="16" x2="12" y2="12" />
-      <line x1="12" y1="8" x2="12.01" y2="8" />
-    </svg>
-  ),
-  warning: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-      <line x1="12" y1="9" x2="12" y2="13" />
-      <line x1="12" y1="17" x2="12.01" y2="17" />
-    </svg>
-  ),
-  danger: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" />
-      <line x1="15" y1="9" x2="9" y2="15" />
-      <line x1="9" y1="9" x2="15" y2="15" />
-    </svg>
-  ),
+const TOAST_ICON_BG: Record<ToastVariant, string> = {
+  success: 'bg-success-base',
+  info:    'bg-primary-600',
+  warning: 'bg-accent-400',
+  danger:  'bg-danger-base',
+};
+
+const DEFAULT_ICONS: Record<ToastVariant, React.ReactNode> = {
+  success: <Check size={18} strokeWidth={3} />,
+  info:    <Info size={18} strokeWidth={2.5} />,
+  warning: <AlertTriangle size={18} strokeWidth={2.5} />,
+  danger:  <XCircle size={18} strokeWidth={2.5} />,
 };
 
 export interface ToastProps
@@ -68,9 +54,12 @@ export const Toast: React.FC<ToastProps> = ({
   ...rest
 }) => {
   const classes = [
-    'toast',
-    `toast--${variant}`,
-    dismissing && 'toast--dismissing',
+    'grid grid-cols-[auto_1fr_auto_auto] gap-3 items-center',
+    'min-w-[320px] max-w-[440px] py-3 pl-3 pr-4',
+    'bg-white rounded-lg shadow-lg border border-ink-200 font-body',
+    dismissing
+      ? 'animate-[toast-out_0.2s_ease_both]'
+      : 'animate-[toast-in_0.3s_cubic-bezier(0.34,1.56,0.64,1)_both]',
     className,
   ]
     .filter(Boolean)
@@ -78,29 +67,33 @@ export const Toast: React.FC<ToastProps> = ({
 
   return (
     <div className={classes} role="status" aria-live="polite" {...rest}>
-      <span className={`toast__icon toast__icon--${variant}`} aria-hidden="true">
-        {icon ?? TOAST_ICONS[variant]}
+      <span
+        className={`w-8 h-8 rounded-full inline-flex items-center justify-center text-white shrink-0 ${TOAST_ICON_BG[variant]}`}
+        aria-hidden="true"
+      >
+        {icon ?? DEFAULT_ICONS[variant]}
       </span>
-      <div className="toast__body">
-        {title && <p className="toast__title">{title}</p>}
-        {children && <p className="toast__desc">{children}</p>}
+      <div className="min-w-0">
+        {title && <p className="font-bold text-body-sm text-ink-900 leading-tight m-0 mb-1">{title}</p>}
+        {children && <p className="text-caption text-ink-600 leading-snug m-0">{children}</p>}
       </div>
       {actionLabel && (
-        <button type="button" className="toast__action" onClick={onAction}>
+        <button
+          type="button"
+          onClick={onAction}
+          className="bg-transparent border-0 text-primary-700 font-semibold text-caption cursor-pointer px-2.5 py-1.5 rounded-md transition-colors hover:bg-primary-50"
+        >
           {actionLabel}
         </button>
       )}
       {dismissible && (
         <button
           type="button"
-          className="toast__close"
           onClick={onDismiss}
           aria-label="Fermer"
+          className="w-6 h-6 bg-transparent border-0 text-ink-400 rounded-sm cursor-pointer inline-flex items-center justify-center opacity-70 p-0 transition-all hover:opacity-100 hover:bg-ink-100"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X size={14} strokeWidth={2.5} />
         </button>
       )}
     </div>
