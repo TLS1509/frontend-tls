@@ -35,7 +35,7 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
   return (
     <nav
       className={['flex items-center', className].filter(Boolean).join(' ')}
-      aria-label="Breadcrumb"
+      aria-label="Fil d'Ariane"
     >
       <ol className="list-none m-0 p-0 flex flex-wrap items-center gap-1 font-body text-body-sm">
         {displayItems.map((item, index) => {
@@ -45,25 +45,26 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
 
           const labelClasses = isCurrent
             ? 'font-semibold text-ink-900'
-            : 'text-ink-500 hover:text-primary-600';
+            : 'text-ink-500 hover:text-primary-700';
 
           return (
             <li key={index} className="inline-flex items-center gap-1">
               {isEllipsis ? (
-                <span className="text-ink-400 px-1" aria-label="More items">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-md text-ink-400 hover:bg-ink-50 cursor-default" aria-label="Plus d'éléments">
                   {item.label}
                 </span>
               ) : isClickable ? (
                 <button
                   className={[
-                    'inline-flex items-center gap-1 bg-transparent border-0 px-1 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm',
+                    'inline-flex items-center gap-1.5 bg-transparent border-0 px-2 py-1 cursor-pointer transition-all rounded-md',
+                    'hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     labelClasses,
                   ].join(' ')}
                   onClick={() => handleClick(index, item.href)}
                   aria-current={isCurrent ? 'page' : undefined}
                 >
                   {item.icon && (
-                    <span aria-hidden="true" className="inline-flex items-center">
+                    <span aria-hidden="true" className="inline-flex items-center text-current">
                       {item.icon}
                     </span>
                   )}
@@ -71,7 +72,10 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
                 </button>
               ) : (
                 <span
-                  className={['inline-flex items-center gap-1 px-1', labelClasses].join(' ')}
+                  className={[
+                    'inline-flex items-center gap-1.5 px-2 py-1 rounded-md',
+                    isCurrent ? 'bg-primary-50 ' + labelClasses : labelClasses,
+                  ].join(' ')}
                   aria-current={isCurrent ? 'page' : undefined}
                 >
                   {item.icon && (
@@ -84,7 +88,7 @@ export const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({
               )}
 
               {index < displayItems.length - 1 && (
-                <ChevronRight size={16} className="text-ink-400 shrink-0" aria-hidden="true" />
+                <ChevronRight size={14} className="text-ink-300 shrink-0 mx-0.5" aria-hidden="true" />
               )}
             </li>
           );

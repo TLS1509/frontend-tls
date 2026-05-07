@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Lock } from 'lucide-react';
+import { Clock, Lock, ArrowRight } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Badge } from '../ui/Badge';
 import type { BadgeVariant } from '../ui/Badge';
@@ -21,9 +21,9 @@ export interface LessonCardProps {
 }
 
 const DIFFICULTY_LABELS: Record<LessonDifficulty, string> = {
-  beginner: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
+  beginner: 'Débutant',
+  intermediate: 'Intermédiaire',
+  advanced: 'Avancé',
 };
 
 const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
@@ -36,6 +36,12 @@ const TONE_BORDER: Record<LessonTone, string> = {
   primary: 'border-l-primary-500',
   warm:    'border-l-secondary-500',
   sun:     'border-l-accent-500',
+};
+
+const TONE_HOVER_GLOW: Record<LessonTone, string> = {
+  primary: 'hover:shadow-[0_8px_24px_rgba(85,161,180,0.15)]',
+  warm:    'hover:shadow-[0_8px_24px_rgba(237,132,58,0.18)]',
+  sun:     'hover:shadow-[0_8px_24px_rgba(248,176,68,0.20)]',
 };
 
 export const LessonCard: React.FC<LessonCardProps> = ({
@@ -53,11 +59,11 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   return (
     <div
       className={[
-        'relative bg-white border border-ink-200 border-l-4 rounded-xl p-5 transition-all',
+        'group relative bg-white border border-ink-200 border-l-4 rounded-2xl p-5 transition-all duration-300',
         TONE_BORDER[tone],
         locked
           ? 'cursor-not-allowed'
-          : 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+          : `cursor-pointer hover:-translate-y-1 ${TONE_HOVER_GLOW[tone]} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`,
         className,
       ]
         .filter(Boolean)
@@ -74,39 +80,54 @@ export const LessonCard: React.FC<LessonCardProps> = ({
             }
           : undefined
       }
-      aria-label={`${title}${locked ? ' (locked)' : ''}`}
+      aria-label={`${title}${locked ? ' (verrouillé)' : ''}`}
     >
       {locked && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
-          <div className="w-12 h-12 rounded-full bg-ink-100 text-ink-500 flex items-center justify-center">
-            <Lock size={24} aria-label="Locked" />
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/85 backdrop-blur-sm">
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-14 h-14 rounded-full bg-ink-100 text-ink-500 flex items-center justify-center shadow-inner">
+              <Lock size={26} />
+            </div>
+            <span className="text-caption font-semibold text-ink-500">Verrouillée</span>
           </div>
         </div>
       )}
 
       <div className={['flex flex-col gap-3', locked ? 'opacity-50' : ''].filter(Boolean).join(' ')}>
         <div className="flex items-start justify-between gap-3">
-          <h3 className="m-0 text-h4 font-semibold text-ink-900 leading-snug">{title}</h3>
+          <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug line-clamp-2 flex-1">
+            {title}
+          </h3>
           <Badge variant={DIFFICULTY_VARIANTS[difficulty]}>{DIFFICULTY_LABELS[difficulty]}</Badge>
         </div>
 
-        <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>
+        <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
-        <div className="flex flex-wrap gap-3 text-caption text-ink-500">
-          <div className="inline-flex items-center gap-1">
-            <Clock size={14} aria-hidden="true" />
+        <div className="flex flex-wrap items-center gap-3 text-caption text-ink-500">
+          <div className="inline-flex items-center gap-1.5">
+            <Clock size={14} aria-hidden="true" className="text-ink-400" />
             <span>{duration}</span>
           </div>
           {instructor && (
-            <div className="inline-flex items-center gap-1">
+            <>
+              <span className="w-1 h-1 rounded-full bg-ink-300" aria-hidden="true" />
               <span>{instructor}</span>
-            </div>
+            </>
           )}
         </div>
 
         <div className="mt-1">
           <ProgressBar value={progress} size="sm" showLabel={true} />
         </div>
+
+        {!locked && (
+          <div className="flex items-center justify-between pt-2 border-t border-ink-100">
+            <span className="text-caption font-semibold text-ink-500">
+              {progress === 0 ? 'Commencer' : progress >= 100 ? 'Revoir' : 'Continuer'}
+            </span>
+            <ArrowRight size={16} className="text-ink-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" />
+          </div>
+        )}
       </div>
     </div>
   );

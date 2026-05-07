@@ -26,9 +26,15 @@ export interface ArticleCardProps {
 }
 
 const TONE_ICON: Record<ArticleTone, string> = {
-  primary: 'bg-primary-50 text-primary-600',
-  warm:    'bg-secondary-100 text-secondary-600',
-  sun:     'bg-accent-100 text-accent-700',
+  primary: 'bg-gradient-to-br from-primary-50 to-primary-100 text-primary-700 ring-1 ring-primary-200/50',
+  warm:    'bg-gradient-to-br from-secondary-50 to-secondary-100 text-secondary-700 ring-1 ring-secondary-200/50',
+  sun:     'bg-gradient-to-br from-accent-50 to-accent-100 text-accent-700 ring-1 ring-accent-200/50',
+};
+
+const TONE_CATEGORY: Record<ArticleTone, string> = {
+  primary: 'text-primary-600',
+  warm:    'text-secondary-600',
+  sun:     'text-accent-700',
 };
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -51,7 +57,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <Card
       variant="feature"
-      className={['flex flex-col gap-3', className].filter(Boolean).join(' ')}
+      className={['group flex flex-col gap-3 transition-all hover:-translate-y-1 hover:shadow-md', className]
+        .filter(Boolean)
+        .join(' ')}
       onClick={onClick}
     >
       <div className="flex items-start justify-between gap-3">
@@ -59,7 +67,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           {icon && (
             <div
               className={[
-                'inline-flex items-center justify-center w-10 h-10 rounded-lg shrink-0',
+                'inline-flex items-center justify-center w-12 h-12 rounded-2xl shrink-0 shadow-sm',
                 TONE_ICON[tone],
               ].join(' ')}
               aria-hidden="true"
@@ -69,7 +77,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           )}
           <div className="flex flex-col gap-0.5">
             <CardEyebrow>{typeLabel}</CardEyebrow>
-            <span className="inline-flex items-center gap-1 text-micro text-ink-500">
+            <span className="inline-flex items-center gap-1 text-micro text-ink-400 font-medium">
               <Calendar size={11} />
               {publishedAt}
             </span>
@@ -79,10 +87,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <button
             type="button"
             className={[
-              'inline-flex items-center justify-center w-9 h-9 rounded-md border border-ink-200 bg-white cursor-pointer transition-colors shrink-0',
+              'inline-flex items-center justify-center w-10 h-10 rounded-xl border cursor-pointer transition-all shrink-0',
               isSaved
-                ? 'text-primary-600 border-primary-200 bg-primary-50'
-                : 'text-ink-500 hover:bg-ink-50 hover:text-ink-900',
+                ? 'text-primary-600 border-primary-200 bg-primary-50 shadow-brand-xs'
+                : 'text-ink-400 border-ink-200 bg-white hover:bg-ink-50 hover:text-primary-600 hover:border-primary-200',
             ].join(' ')}
             onClick={(e) => {
               e.stopPropagation();
@@ -95,7 +103,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         )}
       </div>
 
-      <span className="inline-block text-caption font-semibold uppercase tracking-wider text-ink-500">
+      <span className={['inline-block text-caption font-bold uppercase tracking-wider', TONE_CATEGORY[tone]].join(' ')}>
         {category}
       </span>
 
@@ -103,7 +111,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
 
       <CardDesc>{summary}</CardDesc>
 
-      <CardFooter className="flex items-center justify-between flex-wrap gap-3">
+      <CardFooter className="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-ink-100">
         <MetaPillGroup
           items={[
             { icon: <User size={12} />, text: author },
@@ -120,7 +128,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               onRead();
             }}
           >
-            Lire <ArrowRight size={14} />
+            Lire <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
           </Button>
         )}
       </CardFooter>

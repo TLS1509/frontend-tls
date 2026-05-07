@@ -24,12 +24,12 @@ export interface SessionCardProps {
 }
 
 const ACTION_BTN_BASE =
-  'inline-flex items-center gap-1 px-3 py-1 rounded-pill text-caption font-body font-medium cursor-pointer border transition-colors';
+  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-all hover:-translate-y-px';
 
 const ACTION_BTN_TONES = {
-  primary:   'border-primary-200 bg-primary-50 text-primary-600 hover:bg-primary-100 active:bg-primary-200',
-  warm:      'border-secondary-200 bg-secondary-50 text-secondary-600 hover:bg-secondary-100 active:bg-secondary-200',
-  secondary: 'border-ink-200 bg-ink-50 text-ink-500 hover:bg-white hover:text-ink-900 active:bg-ink-50',
+  primary:   'border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 hover:border-primary-300 hover:shadow-brand-xs active:bg-primary-200',
+  warm:      'border-secondary-200 bg-secondary-50 text-secondary-700 hover:bg-secondary-100 hover:border-secondary-300 hover:shadow-sm active:bg-secondary-200',
+  secondary: 'border-ink-200 bg-ink-50 text-ink-600 hover:bg-white hover:border-ink-300 hover:text-ink-900 hover:shadow-xs',
 };
 
 export const SessionCard: React.FC<SessionCardProps> = ({
@@ -49,12 +49,17 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   className = '',
 }) => {
   const statusVariant: BadgeVariant = status === 'completed' ? 'success' : 'info';
-  const statusLabel = status === 'completed' ? 'Completée' : 'Planifiée';
+  const statusLabel = status === 'completed' ? 'Terminée' : 'Planifiée';
 
   return (
-    <Card variant="interactive" className={['flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <Card
+      variant="interactive"
+      className={['flex flex-col gap-4 transition-all hover:-translate-y-0.5 hover:shadow-md', className]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className="flex justify-between items-start gap-3">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="flex-1">{title}</CardTitle>
         <Badge variant={statusVariant}>{statusLabel}</Badge>
       </div>
 
@@ -69,7 +74,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         size="sm"
       />
 
-      <div className="flex flex-wrap gap-2 pt-2 border-t border-ink-200">
+      <div className="flex flex-wrap gap-2 pt-3 border-t border-ink-100">
         {questionnaire && (
           <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.primary}`} onClick={onViewQuestionnaire}>
             <FileText size={13} />
@@ -90,7 +95,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         )}
         {onOpen && (
           <div className="ml-auto flex">
-            <Button variant="secondary" size="sm" onClick={onOpen}>
+            <Button variant="primary" size="sm" onClick={onOpen}>
               Ouvrir <ArrowRight size={14} />
             </Button>
           </div>
