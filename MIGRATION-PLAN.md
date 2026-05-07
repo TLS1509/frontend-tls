@@ -369,6 +369,6 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ### Restant à rationaliser (TODO Phase 9)
 
-- **GlassCard / SurfaceCard** → consolider dans Card.tsx avec `variant: glass | elevated`
+- ✅ ~~PageHeaderSimple / SectionTitle~~ — **SUPPRIMÉS** (commit f680e2f). PageHeader + SectionHeader canoniques.
+- ✅ ~~GlassCard / SurfaceCard~~ — **CONVERTIS EN ALIAS** vers Card. Card étendu avec variants : `glass-brand`, `glass-warm`, `glass-dark`, `bordered`, `muted`, `sunken`. À supprimer définitivement après migration des call sites.
 - **InlineProgress** → consolider dans ProgressBar avec `layout: 'stacked' | 'inline'`
-- **PageHeaderSimple / SectionTitle** → supprimer (les aliases) une fois tous les call sites migrés vers PageHeader/SectionHeader directement

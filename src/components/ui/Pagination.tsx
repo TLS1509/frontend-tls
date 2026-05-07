@@ -1,10 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-/**
- * Pagination — numbered navigation for long lists.
- */
-
 export interface PaginationProps {
   page: number;
   totalPages: number;
@@ -37,15 +33,18 @@ const buildPages = (page: number, totalPages: number, siblings: number): (number
 };
 
 const BTN_BASE =
-  'inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-md border text-body-sm font-medium font-body cursor-pointer transition-all ' +
+  'inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-xl border text-body-sm font-semibold font-body cursor-pointer transition-all ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 const BTN_DEFAULT =
-  'bg-white border-ink-200 text-ink-900 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
+  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700 hover:-translate-y-px active:translate-y-0';
+
+const BTN_NAV =
+  'bg-white border-ink-200 text-ink-500 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';
 
 const BTN_ACTIVE =
-  'bg-primary-600 border-primary-600 text-white font-semibold shadow-brand-xs cursor-default hover:bg-primary-600 hover:border-primary-600';
+  'bg-gradient-to-br from-primary-600 to-primary-700 border-transparent text-white font-bold shadow-brand-sm cursor-default scale-105 ring-2 ring-primary-100';
 
 export const Pagination: React.FC<PaginationProps> = ({
   page,
@@ -63,7 +62,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const wrapperClasses = [
-    'flex items-center justify-center flex-wrap gap-2 font-body',
+    'flex flex-col items-center gap-3 font-body',
     className,
   ]
     .filter(Boolean)
@@ -71,13 +70,13 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={wrapperClasses}>
-      <nav aria-label="Pagination" style={{ display: 'contents' }}>
+      <nav aria-label="Pagination" className="flex items-center justify-center flex-wrap gap-1.5">
         <button
           type="button"
           onClick={go(page - 1)}
           disabled={page === 1}
           aria-label="Page précédente"
-          className={`${BTN_BASE} ${BTN_DEFAULT}`}
+          className={`${BTN_BASE} ${BTN_NAV}`}
         >
           <ChevronLeft size={16} strokeWidth={2.25} />
         </button>
@@ -87,7 +86,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             <span
               key={`dots-${i}`}
               aria-hidden="true"
-              className="inline-flex items-center justify-center min-w-10 h-10 text-body-sm text-ink-400 select-none"
+              className="inline-flex items-center justify-center min-w-10 h-10 text-body text-ink-400 select-none font-bold"
             >
               …
             </span>
@@ -110,14 +109,12 @@ export const Pagination: React.FC<PaginationProps> = ({
           onClick={go(page + 1)}
           disabled={page === totalPages}
           aria-label="Page suivante"
-          className={`${BTN_BASE} ${BTN_DEFAULT}`}
+          className={`${BTN_BASE} ${BTN_NAV}`}
         >
           <ChevronRight size={16} strokeWidth={2.25} />
         </button>
       </nav>
-      {info && (
-        <span className="w-full text-center text-caption text-ink-500 mt-2">{info}</span>
-      )}
+      {info && <span className="text-caption text-ink-500 font-medium">{info}</span>}
     </div>
   );
 };

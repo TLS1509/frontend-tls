@@ -1,21 +1,5 @@
 import React from 'react';
-
-/**
- * ActionCardGrid — Reusable component for action button card collections
- *
- * Used in Dashboard quick-actions, journal prompts, learning paths
- * Premium glass morphism style with centered icon + title + description
- *
- * Example:
- * <ActionCardGrid
- *   items={[
- *     { icon: <Zap size={40} />, title: 'Quick action', description: 'Daily prompt' },
- *     { icon: <BookOpen size={40} />, title: 'Learn more', description: 'Access materials' },
- *   ]}
- *   layout="3-col"
- *   onClick={(item) => console.log(item)}
- * />
- */
+import { ArrowRight } from 'lucide-react';
 
 export interface ActionCardItem {
   id?: string;
@@ -34,11 +18,17 @@ export interface ActionCardGridProps {
   onItemClick?: (item: ActionCardItem) => void;
 }
 
-const layoutClasses: Record<ActionCardLayout, string> = {
-  '2-col': 'grid-2-col',
-  '3-col': 'grid-3-col',
-  '4-col': 'grid-4-col',
-  'auto-fit': 'grid-auto-fit--sm',
+const LAYOUT_CLASSES: Record<ActionCardLayout, string> = {
+  '2-col':    'grid grid-cols-1 md:grid-cols-2',
+  '3-col':    'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  '4-col':    'grid grid-cols-2 lg:grid-cols-4',
+  'auto-fit': 'grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))]',
+};
+
+const GAP_CLASSES: Record<'sm' | 'md' | 'lg', string> = {
+  sm: 'gap-3',
+  md: 'gap-4',
+  lg: 'gap-6',
 };
 
 export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
@@ -48,11 +38,11 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
   onItemClick,
 }) => {
   return (
-    <div className={layoutClasses[layout]}>
+    <div className={[LAYOUT_CLASSES[layout], GAP_CLASSES[gapSize]].join(' ')}>
       {items.map((item, idx) => (
         <div
           key={item.id || idx}
-          className="card card--xs"
+          className="group relative flex flex-col items-center gap-3 text-center bg-white border border-ink-200 rounded-2xl p-6 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md hover:border-primary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           onClick={() => {
             item.onClick?.();
             onItemClick?.(item);
@@ -66,9 +56,17 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
             }
           }}
         >
-          <div className="flex justify-center">{item.icon}</div>
-          <h3 className="card__title">{item.title}</h3>
-          <p className="card__desc">{item.description}</p>
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100 text-primary-600 transition-transform group-hover:scale-110 shrink-0">
+            {item.icon}
+          </div>
+          <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug">
+            {item.title}
+          </h3>
+          <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{item.description}</p>
+          <ArrowRight
+            size={16}
+            className="absolute top-4 right-4 text-ink-300 group-hover:text-primary-600 group-hover:translate-x-0.5 transition-all"
+          />
         </div>
       ))}
     </div>

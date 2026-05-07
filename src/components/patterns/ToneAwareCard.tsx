@@ -15,9 +15,9 @@ export interface ToneAwareCardProps {
 }
 
 const TONE_CLASSES: Record<Tone, string> = {
-  primary: 'bg-primary-50 border border-primary-200',
-  warm:    'bg-secondary-50 border border-secondary-200',
-  sun:     'bg-accent-50 border border-accent-200',
+  primary: 'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border border-primary-200/60 shadow-xs',
+  warm:    'bg-gradient-to-br from-secondary-50/95 to-secondary-100/60 border border-secondary-200/60 shadow-xs',
+  sun:     'bg-gradient-to-br from-accent-50/95 to-accent-100/60 border border-accent-200/60 shadow-xs',
 };
 
 export const ToneAwareCard: React.FC<ToneAwareCardProps> = ({
@@ -37,9 +37,9 @@ export const ToneAwareCard: React.FC<ToneAwareCardProps> = ({
   };
 
   const classes = [
-    `tone-card--${tone}`,
+    `tone-card--${tone} rounded-2xl`,
     applyBackground ? TONE_CLASSES[tone] : '',
-    onClick ? 'cursor-pointer transition-all duration-200' : '',
+    onClick ? 'cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md' : '',
     className,
   ]
     .filter(Boolean)

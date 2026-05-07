@@ -17,7 +17,19 @@ import React from 'react';
  * Sizes: sm | md | lg
  */
 
-export type CardVariant = 'default' | 'feature' | 'elevated' | 'interactive' | 'glass' | 'minimal';
+export type CardVariant =
+  | 'default'
+  | 'feature'
+  | 'elevated'
+  | 'interactive'
+  | 'glass'
+  | 'glass-brand'
+  | 'glass-warm'
+  | 'glass-dark'
+  | 'minimal'
+  | 'bordered'
+  | 'muted'
+  | 'sunken';
 export type CardTone = 'primary' | 'warm' | 'sun' | 'brand';
 export type CardSize = 'sm' | 'md' | 'lg';
 
@@ -57,8 +69,14 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   feature: 'bg-white shadow-md hover:shadow-lg',
   elevated: 'bg-white shadow-md hover:shadow-lg',
   interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 active:-translate-y-0.5',
-  glass: 'bg-white/20 backdrop-blur-md border border-white/30 shadow-xs hover:shadow-sm',
-  minimal: 'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+  glass:       'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-white/70 to-white/35 border border-white/60 shadow-sm hover:shadow-md',
+  'glass-brand': 'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[22%] to-primary-500/[6%] border border-primary-500/25 shadow-sm hover:shadow-brand-sm',
+  'glass-warm':  'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-secondary-500/[12%] to-accent-400/5 border border-secondary-500/[15%] shadow-sm hover:shadow-warm-sm',
+  'glass-dark':  'backdrop-blur-[20px] backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
+  minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+  bordered: 'bg-white border-2 border-primary-200 shadow-xs hover:border-primary-400 hover:shadow-sm',
+  muted:    'bg-ink-50 border border-ink-200',
+  sunken:   'bg-ink-100 border border-ink-200',
 };
 
 const SIZE_CLASSES: Record<CardSize, string> = {
