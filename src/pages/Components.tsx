@@ -1203,20 +1203,15 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 400 }}>
+      <div className="flex flex-col gap-3 max-w-md">
         {[
           { label: 'Prompt Engineering', value: 92, tone: 'primary' as const },
           { label: 'Leadership',         value: 67, tone: 'warm' as const },
           { label: 'IA Générative',      value: 84, tone: 'sun' as const },
         ].map(({ label, value, tone }) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text)', fontWeight: 600, minWidth: 140 }}>{label}</span>
-            <div className={`inline-progress inline-progress--${tone} inline-progress--md`} style={{ flex: 1 }}>
-              <div className="inline-progress__track">
-                <div className="inline-progress__fill" style={{ width: `${value}%` }} />
-              </div>
-              <span className="inline-progress__label">{value}%</span>
-            </div>
+          <div key={label} className="flex items-center gap-3">
+            <span className="text-caption text-ink-900 font-semibold min-w-[140px]">{label}</span>
+            <InlineProgress value={value} tone={tone} size="md" className="flex-1" />
           </div>
         ))}
       </div>
