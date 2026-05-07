@@ -431,6 +431,74 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 
 **Action générale** : tout `<div role="button">` ou wrapper a11y doit annuler ces propriétés. Idéalement, narrow le sélecteur BEM en cleanup post-migration.
 
+### ⚠️ Piège n°9 : Tailwind v4 `translate` vs `transform` des keyframes
+
+Tailwind v4 utilise la propriété CSS **séparée** `translate` (et `scale`, `rotate`) pour les utilities `-translate-x-1/2`, `scale-110`, etc. — pas le `transform` shorthand. Quand un keyframe d'animation set `transform: translate(-50%, -50%) scale(1)`, les deux propriétés s'**additionnent** au lieu de se remplacer → translation doublée, élément hors viewport.
+
+**Symptôme découvert sur Modal** : pattern `top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2` + animation keyframe `transform: translate(-50%,-50%) scale(...)` → modal positionné à `left = 50% - 100% (de sa width)` au lieu de `50% - 50%`, donc complètement à gauche du viewport.
+
+**Fix** : ne JAMAIS combiner Tailwind `translate-*` et keyframe `transform: translate(...)`. Préférer un des deux patterns :
+- **Recommandé** : flex-center sur le parent scrim (`flex items-center justify-center`) + animation `scale-only` sur l'enfant
+- Ou : utiliser arbitrary `[transform:translate(-50%,-50%)]` (force le shorthand)
+
+```tsx
+// ❌ MAUVAIS — translate stack avec keyframe transform
+<div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[modal-in_0.25s]" />
+
+// ✅ BON — flex-center sur parent, scale-only animation
+<div className="fixed inset-0 flex items-center justify-center">
+  <div className="animate-[scale-in-flat_0.25s]" />
+</div>
+```
+
+### ⚠️ Piège n°10 : `components-modern.css` impose `height: var(--input-height)` sur tous les `<textarea>` / `<select>`
+
+`components-modern.css:178-190` définit une règle globale :
+```css
+input[type="text"], ..., textarea, select {
+  width: 100%;
+  padding: var(--input-padding);
+  height: var(--input-height);  /* = 40px */
+  ...
+}
+```
+
+Avec `Tailwind p-3` (12px padding all sides), le content area = `40px - 24px = 16px`, ce qui tronque verticalement le texte (font-size 15px + line-height 24px). Symptômes : texte coupé en bas dans les select/textarea, placeholder à moitié visible.
+
+**Fix** : sur tout `<textarea>` ou `<select>` Tailwind, override avec :
+```tsx
+<textarea className="... h-auto min-h-[120px]" rows={4} />
+<select className="... h-auto min-h-[44px] py-2.5" />
+```
+
+`h-auto` annule le `height: 40px` et `min-h-[X]` garantit la hauteur minimale.
+
+**Note pour `<select>`** : utiliser aussi `appearance-none` + custom `<ChevronDown>` Lucide positionné `absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none` pour un visuel cohérent avec le reste du DS (la flèche native est toujours collée au bord).
+
+### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
+
+`lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
+
+**Pourquoi** :
+- Cohérence visuelle (stroke width, line-cap, sizing)
+- Pas de risques de viewBox mal dimensionné qui clippe les pixels (cas découvert sur SessionFeedbackModal stars : viewBox 0-52 mais path jusqu'à Y=55.5 → bas du star clippé, drop-shadow rendu sur la forme tronquée)
+- Bundle déjà importé partout — coût zéro
+- Tailwind utilities native pour styling (`fill-accent-400 text-accent-400 stroke-2`)
+
+**Pattern** :
+```tsx
+// ❌ MAUVAIS — SVG inline custom
+<svg viewBox="0 0 52 52" fill="none">
+  <path d="M26 4L33.5 19.2..." fill={filled ? '#F8B044' : 'none'} stroke="..."/>
+</svg>
+
+// ✅ BON — Lucide + Tailwind classes
+import { Star } from 'lucide-react';
+<Star size={40} strokeWidth={1.75} className={filled ? 'fill-accent-400 text-accent-400' : 'fill-transparent text-ink-300'} />
+```
+
+**Exception** : SVG décoratifs purement custom (logos, illustrations one-off, formes complexes). Toute icône fonctionnelle (close, chevron, check, star, heart, alert, etc.) = Lucide.
+
 ### Pattern : contrôles custom (checkbox / radio / switch) avec `peer` + `after:`
 
 Pour les composants où l'`<input>` natif est masqué et un span stylé prend sa place (Input.tsx Checkbox/Radio/Switch), utiliser le pattern **`peer` + pseudo-élément `::after`** au lieu de keyframes ou state JS :

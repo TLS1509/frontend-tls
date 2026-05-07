@@ -133,7 +133,7 @@
 |---|-----------|---------|--------|
 | 5.6 | Medal | `src/components/ui/Medal.tsx` | ⬜ |
 | 5.7 | Toast | `src/components/ui/Toast.tsx` | ⬜ |
-| 5.8 | Modal | `src/components/ui/Modal.tsx` | ⬜ |
+| 5.8 | Modal | `src/components/ui/Modal.tsx` | ✅ |
 | 5.9 | EmptyState | `src/components/ui/EmptyState.tsx` | ⬜ |
 | 5.12 | ParcoursCard (ui) | `src/components/ui/ParcoursCard.tsx` | ⬜ |
 | 5.13 | KPICard | `src/components/ui/KPICard.tsx` | ⬜ |
@@ -219,22 +219,30 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 / 9
-**Composants validés :** 21 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton)
+**Phases complètes :** 1 + 2 + 2.6 + 3 + Modal canonique (5.8) / 9
+**Composants validés :** 30 / ~120
+- **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
+- **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
+- **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
+- **Modales (Phase 3)** : BookingModal, PositionnementModal, SuccessModal, VideoPlayerModal, StreakCelebrationModal, SessionFeedbackModal, CancelSessionModal, ConfirmModal
+- **UI canonique** : Modal (ui/Modal.tsx)
 
-**🎉 Phase 2.6 (primitives bottom-up) COMPLÈTE** — toutes les primitives partagées migrées, prêt à attaquer les composites de plus haut niveau (modales, learning cards, pages) avec une base Tailwind clean.
+**🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind. Tous les modals partagent maintenant le pattern flex-center sur scrim parent + animations dans `modals.css` ou `tls-components.css`.
 
-**Audit final Phase 1 + 2 + 2.6 (2026-05-07) :**
-- Aucun import `.css` legacy dans les composants migrés (vérifié via grep)
-- 110 instances rendues sur `/components` sans regression visuelle
-- ParcoursCard composite hérite proprement d'InlineProgress + MetaPill migrés (height 367px vs 60px en bug initial)
-- Pourcentages en League Spartan + tabular-nums, couleurs tone-aware sur tous les composants progress
-- Glass texture cohérente entre GlassCard / SurfaceCard / Alert (backdrop-blur + gradient)
-- Lucide icons standardisés (Alert, Avatar, CourseCard, ParcoursCard)
+**Audit Phase 3 (2026-05-07) :**
+- 9 modals migrés (~160 inline styles supprimés)
+- ~70 classes BEM supprimées du JSX
+- Tokens sémantiques brand-aligned validés pour ConfirmModal (success teal-green, danger coral-red, warning amber, info primary)
+- Pattern variant-maps appliqué (VARIANT_*, SUBMIT_*, CONFIRM_BTN_*)
+- `<Button>` réutilisé pour CTAs principaux
+- Custom SVG remplacés par Lucide (étoiles SessionFeedback, X close buttons)
 
-**📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
+**Pièges découverts en Phase 3 :**
+- Piège #8 (déjà documenté) : `[role="button"]` global dans components-modern.css
+- Piège #9 (NEW) : Tailwind v4 utilise propriété CSS `translate` séparée → conflict avec `transform` des keyframes
+- Piège #10 (NEW) : `components-modern.css` impose `height: var(--input-height)` (40px) sur tous les `textarea`/`select` → utiliser `h-auto min-h-[X]`
 
-**Prochain jalon :** Phase 3 — Modales (8 composants haute visibilité, hériteront de Badge/Avatar/Alert clean).
+**Prochain jalon :** Phase 5 — Composants UI restants (Toast, EmptyState, Medal, KPICard, FilterChip, Tabs, Pagination, Stepper, etc.) avant d'attaquer Phase 4 (pages Learning).
 
-**Inline styles restants :** ~2 050 / 2 105
+**Inline styles restants :** ~1 900 / 2 105
 **Dernière mise à jour :** 2026-05-07
