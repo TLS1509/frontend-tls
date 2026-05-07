@@ -1,18 +1,5 @@
 import React from 'react';
-import './StatusBadge.css';
-
-/**
- * StatusBadge — status indicator for learning paths, lessons, sessions, etc.
- *
- * 5 semantic states with distinct icon + color treatment:
- * - locked      → gray, lock icon
- * - available   → brand/teal, circle icon
- * - in-progress → brand glow, play icon
- * - completed   → success green, check icon
- * - failed      → error red, X icon
- *
- * Uses CSS classes for all visual logic (no inline styles).
- */
+import { Lock, Circle, Play, Check, X } from 'lucide-react';
 
 export type StatusBadgeStatus =
   | 'locked'
@@ -23,54 +10,9 @@ export type StatusBadgeStatus =
 
 export interface StatusBadgeProps {
   status: StatusBadgeStatus;
-  /** Show the text label alongside the icon */
   showLabel?: boolean;
-  /** Size variant */
   size?: 'sm' | 'md';
   className?: string;
-}
-
-/* ---- SVG icons per state ---- */
-
-function LockIcon({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <rect x="3" y="7" width="10" height="8" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CircleIcon({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
-  );
-}
-
-function PlayIcon({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-      <path d="M5 3.5l8 4.5-8 4.5V3.5z" />
-    </svg>
-  );
-}
-
-function CheckIcon({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M3 8l4 4 6-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function XIcon({ size }: { size: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 const STATUS_LABELS: Record<StatusBadgeStatus, string> = {
@@ -81,17 +23,31 @@ const STATUS_LABELS: Record<StatusBadgeStatus, string> = {
   failed: 'Échoué',
 };
 
-const ICON_SIZES = { sm: 10, md: 12 };
+const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
+  locked:        'bg-ink-100 text-ink-500 border-ink-200',
+  available:     'bg-primary-50 text-primary-700 border-primary-200',
+  'in-progress': 'bg-primary-100 text-primary-800 border-primary-300 shadow-brand-xs',
+  completed:     'bg-success-bg text-success-fg border-success-base/30',
+  failed:        'bg-danger-bg text-danger-fg border-danger-base/30',
+};
 
-function getIcon(status: StatusBadgeStatus, iconSize: number): React.ReactNode {
+const SIZE_CLASSES: Record<'sm' | 'md', string> = {
+  sm: 'text-micro px-1.5 py-0.5 gap-1',
+  md: 'text-caption px-2 py-1 gap-1.5',
+};
+
+const ICON_SIZE: Record<'sm' | 'md', number> = { sm: 10, md: 12 };
+
+const StatusIcon: React.FC<{ status: StatusBadgeStatus; size: number }> = ({ status, size }) => {
+  const props = { size, strokeWidth: 2 };
   switch (status) {
-    case 'locked':      return <LockIcon size={iconSize} />;
-    case 'available':   return <CircleIcon size={iconSize} />;
-    case 'in-progress': return <PlayIcon size={iconSize} />;
-    case 'completed':   return <CheckIcon size={iconSize} />;
-    case 'failed':      return <XIcon size={iconSize} />;
+    case 'locked':      return <Lock {...props} />;
+    case 'available':   return <Circle {...props} />;
+    case 'in-progress': return <Play size={size} fill="currentColor" strokeWidth={0} />;
+    case 'completed':   return <Check {...props} strokeWidth={2.5} />;
+    case 'failed':      return <X {...props} strokeWidth={2.5} />;
   }
-}
+};
 
 export const StatusBadge: React.FC<StatusBadgeProps> = ({
   status,
@@ -99,27 +55,22 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   size = 'md',
   className = '',
 }) => {
-  const iconSize = ICON_SIZES[size];
+  const iconSize = ICON_SIZE[size];
   const label = STATUS_LABELS[status];
-  const icon = getIcon(status, iconSize);
 
   const classes = [
-    'status-badge',
-    `status-badge--${size}`,
-    `status-badge--${status}`,
-    !showLabel && 'status-badge--icon-only',
+    'inline-flex items-center justify-center font-semibold border rounded-pill whitespace-nowrap',
+    SIZE_CLASSES[size],
+    STATUS_CLASSES[status],
+    !showLabel && 'aspect-square px-0',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
   return (
-    <span
-      className={classes}
-      role="status"
-      aria-label={label}
-    >
-      {icon}
+    <span className={classes} role="status" aria-label={label}>
+      <StatusIcon status={status} size={iconSize} />
       {showLabel && <span>{label}</span>}
     </span>
   );

@@ -1,5 +1,4 @@
 import React from 'react';
-import './SectionTitle.css';
 
 interface SectionTitleProps {
   title: string;
@@ -19,22 +18,35 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
   className = '',
 }) => {
   const classes = [
-    'tls-section-title',
-    divider ? 'tls-section-title--divider' : '',
+    'w-full',
+    divider && 'pb-4 border-b border-ink-200',
     className,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div className={classes}>
-      <div className="tls-section-title__row">
-        <div className="tls-section-title__left">
-          {icon && <span className="tls-section-title__icon" aria-hidden="true">{icon}</span>}
-          <div className="tls-section-title__text">
-            <h2 className="tls-section-title__heading">{title}</h2>
-            {subtitle && <p className="tls-section-title__subtitle">{subtitle}</p>}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3 min-w-0">
+          {icon && (
+            <span
+              className="inline-flex items-center justify-center text-2xl text-primary-600 shrink-0"
+              aria-hidden="true"
+            >
+              {icon}
+            </span>
+          )}
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <h2 className="m-0 text-h3 font-display font-semibold text-ink-900 truncate">
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="m-0 text-body-sm text-ink-500">{subtitle}</p>
+            )}
           </div>
         </div>
-        {action && <div className="tls-section-title__action">{action}</div>}
+        {action && <div className="shrink-0">{action}</div>}
       </div>
     </div>
   );

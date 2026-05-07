@@ -1,28 +1,18 @@
 import React from 'react';
-import './NotificationBadge.css';
-
-/**
- * NotificationBadge — count badge overlaid on icon buttons / avatars
- *
- * Wraps `children` in a relative container and renders a small pill
- * badge at the top-right corner.
- *
- * - Shows "99+" when count exceeds `max` (default 99)
- * - Pill shape when count > 9, circle when ≤ 9
- * - Tones: danger (default) | brand | warm
- */
 
 export interface NotificationBadgeProps {
-  /** Notification count to display */
   count: number;
-  /** Maximum value before showing "max+" (default: 99) */
   max?: number;
-  /** Color tone */
   tone?: 'danger' | 'brand' | 'warm';
-  /** The icon or button to overlay the badge on */
   children: React.ReactNode;
   className?: string;
 }
+
+const TONE_CLASSES: Record<'danger' | 'brand' | 'warm', string> = {
+  danger: 'bg-danger-base text-white',
+  brand:  'bg-primary-600 text-white',
+  warm:   'bg-secondary-500 text-white',
+};
 
 export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   count,
@@ -36,11 +26,15 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   }
 
   const displayCount = count > max ? `${max}+` : String(count);
+  const isWide = displayCount.length > 1;
 
-  const classes = [
-    'notif-badge',
-    `notif-badge--${tone}`,
-    className,
+  const classes = ['relative inline-flex shrink-0', className].filter(Boolean).join(' ');
+
+  const dotClasses = [
+    'absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill border-2 border-white',
+    'text-[10px] font-bold leading-none px-1',
+    isWide ? 'px-1.5' : 'aspect-square px-0',
+    TONE_CLASSES[tone],
   ]
     .filter(Boolean)
     .join(' ');
@@ -48,11 +42,7 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   return (
     <span className={classes}>
       {children}
-      <span
-        className="notif-badge__dot"
-        aria-label={`${count} notifications`}
-        role="status"
-      >
+      <span className={dotClasses} aria-label={`${count} notifications`} role="status">
         {displayCount}
       </span>
     </span>

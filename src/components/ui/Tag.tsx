@@ -1,22 +1,20 @@
 import React from 'react';
-import './Tag.css';
-
-/**
- * Tag — Source of truth: design-system/spec.json → components.Tag
- *
- * Category or active filter pill. Neutral by default, removable for
- * active filters. Supports tone variants: neutral (default), primary,
- * warm, sun.
- */
+import { X } from 'lucide-react';
 
 export type TagTone = 'neutral' | 'primary' | 'warm' | 'sun';
 
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** When provided, renders a close button and fires on click */
   onRemove?: () => void;
   leadingIcon?: React.ReactNode;
   tone?: TagTone;
 }
+
+const TONE_CLASSES: Record<TagTone, string> = {
+  neutral: 'bg-ink-50 text-ink-900 border-ink-200',
+  primary: 'bg-primary-50 text-primary-800 border-primary-200',
+  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
+  sun:     'bg-accent-50 text-accent-700 border-accent-200',
+};
 
 export const Tag: React.FC<TagProps> = ({
   onRemove,
@@ -27,9 +25,8 @@ export const Tag: React.FC<TagProps> = ({
   ...rest
 }) => {
   const classes = [
-    'tag',
-    tone !== 'neutral' && `tag--${tone}`,
-    onRemove && 'tag--removable',
+    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap',
+    TONE_CLASSES[tone],
     className,
   ]
     .filter(Boolean)
@@ -37,21 +34,19 @@ export const Tag: React.FC<TagProps> = ({
 
   return (
     <span className={classes} {...rest}>
-      {leadingIcon && <span className="tag__icon">{leadingIcon}</span>}
+      {leadingIcon && <span className="inline-flex items-center shrink-0">{leadingIcon}</span>}
       <span>{children}</span>
       {onRemove && (
         <button
           type="button"
-          className="tag__close"
           aria-label="Retirer"
           onClick={(e) => {
             e.stopPropagation();
             onRemove();
           }}
+          className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current opacity-60 hover:opacity-100 hover:bg-black/10 transition-all"
         >
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
-          </svg>
+          <X size={10} strokeWidth={2.25} />
         </button>
       )}
     </span>

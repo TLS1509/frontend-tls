@@ -1,6 +1,5 @@
 import React from 'react';
 import { Avatar } from './Avatar';
-import './UserInfo.css';
 
 export type UserInfoSize = 'sm' | 'md' | 'lg';
 export type UserInfoStatus = 'online' | 'offline' | 'away';
@@ -15,10 +14,34 @@ interface UserInfoProps {
   className?: string;
 }
 
-const avatarSizeMap: Record<UserInfoSize, 'sm' | 'md' | 'lg'> = {
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg',
+const SIZE_GAP: Record<UserInfoSize, string> = {
+  sm: 'gap-2',
+  md: 'gap-3',
+  lg: 'gap-4',
+};
+
+const NAME_SIZE: Record<UserInfoSize, string> = {
+  sm: 'text-body-sm',
+  md: 'text-body',
+  lg: 'text-h4',
+};
+
+const ROLE_SIZE: Record<UserInfoSize, string> = {
+  sm: 'text-micro',
+  md: 'text-caption',
+  lg: 'text-body-sm',
+};
+
+const STATUS_DOT_COLOR: Record<UserInfoStatus, string> = {
+  online:  'bg-success-base',
+  offline: 'bg-ink-300',
+  away:    'bg-accent-500',
+};
+
+const STATUS_DOT_SIZE: Record<UserInfoSize, string> = {
+  sm: 'w-2 h-2',
+  md: 'w-2.5 h-2.5',
+  lg: 'w-3 h-3',
 };
 
 export const UserInfo: React.FC<UserInfoProps> = ({
@@ -30,25 +53,29 @@ export const UserInfo: React.FC<UserInfoProps> = ({
   badge,
   className = '',
 }) => {
-  const classes = ['tls-user-info', `tls-user-info--${size}`, className].filter(Boolean).join(' ');
+  const classes = ['flex items-center', SIZE_GAP[size], className].filter(Boolean).join(' ');
 
   return (
     <div className={classes}>
-      <div className="tls-user-info__avatar-wrap">
-        <Avatar src={avatarUrl} name={name} size={avatarSizeMap[size]} />
+      <div className="relative inline-flex shrink-0">
+        <Avatar src={avatarUrl} name={name} size={size} />
         {status && (
           <span
-            className={`tls-user-info__status tls-user-info__status--${status}`}
+            className={[
+              'absolute bottom-0 right-0 rounded-full border-2 border-white',
+              STATUS_DOT_SIZE[size],
+              STATUS_DOT_COLOR[status],
+            ].join(' ')}
             aria-label={status}
           />
         )}
       </div>
-      <div className="tls-user-info__content">
-        <div className="tls-user-info__name-row">
-          <h4 className="tls-user-info__name">{name}</h4>
-          {badge && <span className="tls-user-info__badge">{badge}</span>}
+      <div className="flex flex-col min-w-0">
+        <div className="flex items-center gap-2 min-w-0">
+          <h4 className={`m-0 font-semibold text-ink-900 truncate ${NAME_SIZE[size]}`}>{name}</h4>
+          {badge && <span className="shrink-0 inline-flex items-center">{badge}</span>}
         </div>
-        {role && <p className="tls-user-info__role">{role}</p>}
+        {role && <p className={`m-0 text-ink-500 truncate ${ROLE_SIZE[size]}`}>{role}</p>}
       </div>
     </div>
   );
