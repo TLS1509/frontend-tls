@@ -14,8 +14,6 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   max?: number;
   size?: ProgressSize;
   fill?: ProgressFill;
-  /** Animated diagonal stripes overlay (currently no-op, reserved) */
-  striped?: boolean;
   label?: React.ReactNode;
   valueLabel?: React.ReactNode | false;
 
@@ -61,7 +59,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   max = 100,
   size = 'md',
   fill,
-  striped: _striped = false,
   label,
   valueLabel,
   percentage,

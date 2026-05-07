@@ -69,7 +69,10 @@
 
 **Validation** — chaque card affiche correctement avec tous ses variants et tones
 
-**📌 Post-migration TODO (Phase 9 cleanup) :** Consolider `GlassCard` et `SurfaceCard` dans `Card.tsx` (recouvrement total avec `variant: glass|elevated|...` + `tone: brand|warm|...`). À faire une fois que tous les call sites sont migrés et visibles.
+**📌 Post-migration TODO (Phase 9 cleanup) :**
+- Consolider `GlassCard` et `SurfaceCard` dans `Card.tsx` (recouvrement total avec `variant: glass|elevated|...` + `tone: brand|warm|...`).
+- Consolider `InlineProgress` dans `ProgressBar` avec `layout: 'stacked'|'inline'` (partagent ~70% de logique, séparés actuellement pour éviter API confuse).
+À faire une fois que tous les call sites sont migrés et visibles.
 
 ---
 
