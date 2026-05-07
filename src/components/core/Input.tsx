@@ -53,7 +53,7 @@ const DISABLED_CLASSES =
 const TEXTAREA_EXTRA = 'min-h-24 py-3 items-start';
 
 const NATIVE_FIELD =
-  'flex-1 bg-transparent outline-none border-0 p-0 min-w-0 font-body text-inherit placeholder:text-ink-500 disabled:cursor-not-allowed focus:outline-none focus:shadow-none focus:bg-transparent focus-visible:outline-none';
+  'flex-1 bg-transparent outline-none border-0 shadow-none p-0 min-w-0 font-body text-inherit placeholder:text-ink-500 disabled:cursor-not-allowed focus:outline-none focus:shadow-none focus:bg-transparent focus-visible:outline-none [appearance:textfield]';
 
 export const Input: React.FC<InputProps> = ({
   label,

@@ -453,6 +453,281 @@ const PAGE_TEMPLATES: PageTemplate[] = [
 ];
 
 /* ============================================================================
+ * DEMO WRAPPER COMPONENTS — isolate hooks so tab-filter changes don't crash
+ * (render functions called as {c.render()} are plain calls, not <Component />,
+ *  so any hook inside them belongs to the parent. Wrapping fixes the violation.)
+ * ============================================================================ */
+
+const PositionnementModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
+      <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+        S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
+      </p>
+      <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
+    </div>
+  );
+};
+
+const BookingModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
+      <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+        Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
+      </p>
+      <BookingModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onBookingConfirmed={({ date, time }) => { alert(`Session réservée le ${date} à ${time}`); setOpen(false); }}
+        coachName="Sophie Martin"
+        coachInitials="SM"
+      />
+    </div>
+  );
+};
+
+const ConfirmModalDemo: React.FC = () => {
+  const [variant, setVariant] = useState<'info' | 'success' | 'warning' | 'danger'>('info');
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+        {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
+          <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
+            {v}
+          </Button>
+        ))}
+      </div>
+      <ConfirmModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => console.log('Confirmed')}
+        title={variant === 'danger' ? 'Supprimer la session ?' : variant === 'warning' ? 'Attention' : variant === 'success' ? 'Confirmer' : 'Information'}
+        message="Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?"
+        variant={variant}
+        confirmText="Oui, continuer"
+      />
+    </div>
+  );
+};
+
+const SuccessModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
+      <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
+    </div>
+  );
+};
+
+const StreakCelebrationModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
+      <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
+    </div>
+  );
+};
+
+const SessionFeedbackModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
+      <SessionFeedbackModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onSubmit={(rating, comment) => { console.log('Feedback:', rating, comment); }}
+      />
+    </div>
+  );
+};
+
+const CancelSessionModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [showBooking, setShowBooking] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+      <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
+      <CancelSessionModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onCancel={(reason) => { console.log('Annulé, motif:', reason); setOpen(false); }}
+        onReschedule={() => { setOpen(false); setShowBooking(true); }}
+        sessionTitle="Session de coaching IA"
+        sessionDate="Mardi 30 avril 2026 — 14h00"
+      />
+      <BookingModal
+        isOpen={showBooking}
+        onClose={() => setShowBooking(false)}
+        onBookingConfirmed={({ date, time }) => { console.log('Réservé:', date, time); setShowBooking(false); }}
+        coachName="Sophie Martin"
+        coachInitials="SM"
+      />
+    </div>
+  );
+};
+
+const VideoPlayerModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
+      <VideoPlayerModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Introduction au Prompt Engineering"
+        duration="12:34"
+        instructor="Sophie Martin"
+        description="Découvrez les fondamentaux du prompt engineering."
+      />
+    </div>
+  );
+};
+
+const ToastDemo: React.FC = () => {
+  const { toasts, success, error, warning, info, removeToast } = useToast();
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-4)' }}>
+        <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
+        <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
+        <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
+        <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
+      </div>
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+        <Toast variant="success" title="Sauvegardé" dismissible={false}>Vos modifications ont été enregistrées.</Toast>
+        <Toast variant="danger" title="Erreur" dismissible={false}>Impossible de se connecter au serveur.</Toast>
+        <Toast variant="warning" title="Attention" dismissible={false}>Votre session expire dans 5 minutes.</Toast>
+        <Toast variant="info" title="Info" dismissible={false}>Nouvelle version disponible.</Toast>
+      </div>
+    </div>
+  );
+};
+
+const TabsDemo: React.FC = () => {
+  const [active1, setActive1] = useState('tab1');
+  const [active2, setActive2] = useState('a');
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+      <div>
+        <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Pill (défaut)</p>
+        <Tabs
+          items={[
+            { id: 'tab1', label: '📚 Étapes' },
+            { id: 'tab2', label: '🎯 Projet' },
+            { id: 'tab3', label: '📊 Stats' },
+          ]}
+          value={active1}
+          onChange={setActive1}
+          variant="pill"
+        />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Underline</p>
+        <Tabs
+          items={[
+            { id: 'a', label: 'Général' },
+            { id: 'b', label: 'Sécurité' },
+            { id: 'c', label: 'Notifications' },
+          ]}
+          value={active2}
+          onChange={setActive2}
+          variant="underline"
+        />
+      </div>
+    </div>
+  );
+};
+
+const FilterChipDemo: React.FC = () => {
+  const [active, setActive] = useState('all');
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+      {['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'].map((label, i) => {
+        const key = i === 0 ? 'all' : label.toLowerCase();
+        return (
+          <FilterChip
+            key={key}
+            label={label}
+            active={active === key}
+            onClick={() => setActive(key)}
+          />
+        );
+      })}
+      <FilterChip label="Réinitialiser" variant="reset" onClick={() => setActive('all')} />
+    </div>
+  );
+};
+
+const ModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+      <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Confirmer l'action"
+        description="Cette opération ne peut pas être annulée."
+        actions={
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button variant="primary" onClick={() => setOpen(false)}>Confirmer</Button>
+          </>
+        }
+      >
+        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>
+          Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
+        </p>
+      </Modal>
+    </div>
+  );
+};
+
+const PaginationDemo: React.FC = () => {
+  const [page, setPage] = useState(3);
+  return (
+    <div className="vstack">
+      <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
+    </div>
+  );
+};
+
+const MultiStepFormDemo: React.FC = () => {
+  const [step, setStep] = useState(1);
+  return (
+    <div style={{ maxWidth: 500 }}>
+      <MultiStepForm
+        steps={[
+          { id: 1, title: 'Informations', description: 'Vos données personnelles' },
+          { id: 2, title: 'Préférences', description: 'Vos préférences d\'apprentissage' },
+          { id: 3, title: 'Confirmation', description: 'Vérifiez et confirmez' },
+        ]}
+        currentStep={step}
+        onNext={() => setStep(s => Math.min(s + 1, 3))}
+        onBack={() => setStep(s => Math.max(s - 1, 1))}
+        showProgressBar
+        showStepIndicators
+      >
+        <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
+          {step === 1 && <p>Étape 1: Informations personnelles</p>}
+          {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
+          {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
+        </div>
+      </MultiStepForm>
+    </div>
+  );
+};
+
+/* ============================================================================
  * COMPONENT SHOWCASE ENTRIES — 21 components
  * ============================================================================ */
 
@@ -614,7 +889,7 @@ const COMPONENTS: ComponentEntry[] = [
             placeholder="Choisir..."
           />
         </FormGroup>
-        <FormGroup label="Pays" layout="horizontal" hint="Affiché sur votre profil public" id="fg-country">
+        <FormGroup label="Pays" hint="Affiché sur votre profil public" id="fg-country">
           <Input placeholder="France" />
         </FormGroup>
       </div>
@@ -1040,18 +1315,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Auto-évaluation des compétences apprenant avant de démarrer un parcours. 5 niveaux, barre de progression, écran de succès.',
     keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
-          <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-            S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
-          </p>
-          <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
-        </div>
-      );
-    },
+    render: () => <PositionnementModalDemo />,
   },
   {
     name: 'BookingModal',
@@ -1060,24 +1324,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Réservation de session coaching en 2 étapes : sélection date/heure via calendrier + confirmation.',
     keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
-          <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-            Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
-          </p>
-          <BookingModal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            onBookingConfirmed={({ date, time }) => { alert(`Session réservée le ${date} à ${time}`); setOpen(false); }}
-            coachName="Sophie Martin"
-            coachInitials="SM"
-          />
-        </div>
-      );
-    },
+    render: () => <BookingModalDemo />,
   },
   {
     name: 'ConfirmModal',
@@ -1086,30 +1333,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Dialog de confirmation générique. 4 variantes: info, success, warning, danger.',
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info'],
-    render: () => {
-      const [variant, setVariant] = useState<'info' | 'success' | 'warning' | 'danger'>('info');
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-            {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
-              <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
-                {v}
-              </Button>
-            ))}
-          </div>
-          <ConfirmModal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            onConfirm={() => console.log('Confirmed')}
-            title={variant === 'danger' ? 'Supprimer la session ?' : variant === 'warning' ? 'Attention' : variant === 'success' ? 'Confirmer' : 'Information'}
-            message="Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?"
-            variant={variant}
-            confirmText="Oui, continuer"
-          />
-        </div>
-      );
-    },
+    render: () => <ConfirmModalDemo />,
   },
   {
     name: 'SuccessModal',
@@ -1118,15 +1342,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Célébration de réussite générique. Icône check animée avec ring pulsé.',
     keywords: ['modal', 'success', 'celebration', 'achievement', 'check', 'completion'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
-          <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
-        </div>
-      );
-    },
+    render: () => <SuccessModalDemo />,
   },
   {
     name: 'StreakCelebrationModal',
@@ -1135,15 +1351,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Célébration de série quotidienne. Particules feu, streak count, stats semaines/XP.',
     keywords: ['modal', 'streak', 'flame', 'celebration', 'consecutive', 'days', 'gamification'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
-          <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
-        </div>
-      );
-    },
+    render: () => <StreakCelebrationModalDemo />,
   },
   {
     name: 'SessionFeedbackModal',
@@ -1152,19 +1360,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
     keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
-          <SessionFeedbackModal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            onSubmit={(rating, comment) => { console.log('Feedback:', rating, comment); }}
-          />
-        </div>
-      );
-    },
+    render: () => <SessionFeedbackModalDemo />,
   },
   {
     name: 'CancelSessionModal',
@@ -1173,30 +1369,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Annulation ou reprogrammation d\'une session coaching avec sélection du motif.',
     keywords: ['modal', 'cancel', 'session', 'coaching', 'reschedule', 'reason'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      const [showBooking, setShowBooking] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
-          <CancelSessionModal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            onCancel={(reason) => { console.log('Annulé, motif:', reason); setOpen(false); }}
-            onReschedule={() => { setOpen(false); setShowBooking(true); }}
-            sessionTitle="Session de coaching IA"
-            sessionDate="Mardi 30 avril 2026 — 14h00"
-          />
-          <BookingModal
-            isOpen={showBooking}
-            onClose={() => setShowBooking(false)}
-            onBookingConfirmed={({ date, time }) => { console.log('Réservé:', date, time); setShowBooking(false); }}
-            coachName="Sophie Martin"
-            coachInitials="SM"
-          />
-        </div>
-      );
-    },
+    render: () => <CancelSessionModalDemo />,
   },
   {
     name: 'VideoPlayerModal',
@@ -1205,22 +1378,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Modals',
     description: 'Lecteur vidéo plein écran pour tutoriels, leçons vidéo et contenu Veille.',
     keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
-          <VideoPlayerModal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            title="Introduction au Prompt Engineering"
-            duration="12:34"
-            instructor="Sophie Martin"
-            description="Découvrez les fondamentaux du prompt engineering."
-          />
-        </div>
-      );
-    },
+    render: () => <VideoPlayerModalDemo />,
   },
 
   /* ---- LEARNING SYSTEM COMPONENTS ----------------------------------------- */
@@ -1267,26 +1425,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Patterns',
     description: 'Notification toast avec hook useToast(). 4 variantes: success / info / warning / danger. Auto-dismiss configurable, dismissible, slot action.',
     keywords: ['toast', 'notification', 'alert', 'feedback', 'success', 'error', 'warning'],
-    render: () => {
-      const { toasts, success, error, warning, info, removeToast } = useToast();
-      return (
-        <div>
-          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-4)' }}>
-            <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
-            <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
-            <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
-            <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
-          </div>
-          <ToastContainer toasts={toasts} onRemove={removeToast} />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-            <Toast variant="success" title="Sauvegardé" dismissible={false}>Vos modifications ont été enregistrées.</Toast>
-            <Toast variant="danger" title="Erreur" dismissible={false}>Impossible de se connecter au serveur.</Toast>
-            <Toast variant="warning" title="Attention" dismissible={false}>Votre session expire dans 5 minutes.</Toast>
-            <Toast variant="info" title="Info" dismissible={false}>Nouvelle version disponible.</Toast>
-          </div>
-        </div>
-      );
-    },
+    render: () => <ToastDemo />,
   },
   {
     name: 'Tabs',
@@ -1295,40 +1434,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Navigation',
     description: 'Navigation par onglets. Variante pill (défaut) ou underline. 2–5 onglets, aria-selected + keyboard navigation. Utilisé dans Account, Profile, LearningPathDetail.',
     keywords: ['tab', 'navigation', 'pill', 'underline', 'switch'],
-    render: () => {
-      const [active1, setActive1] = useState('tab1');
-      const [active2, setActive2] = useState('a');
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
-          <div>
-            <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Pill (défaut)</p>
-            <Tabs
-              items={[
-                { id: 'tab1', label: '📚 Étapes' },
-                { id: 'tab2', label: '🎯 Projet' },
-                { id: 'tab3', label: '📊 Stats' },
-              ]}
-              value={active1}
-              onChange={setActive1}
-              variant="pill"
-            />
-          </div>
-          <div>
-            <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Underline</p>
-            <Tabs
-              items={[
-                { id: 'a', label: 'Général' },
-                { id: 'b', label: 'Sécurité' },
-                { id: 'c', label: 'Notifications' },
-              ]}
-              value={active2}
-              onChange={setActive2}
-              variant="underline"
-            />
-          </div>
-        </div>
-      );
-    },
+    render: () => <TabsDemo />,
   },
   {
     name: 'FilterChip',
@@ -1337,25 +1443,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Patterns',
     description: 'Chip de filtrage cliquable avec état actif. Supporte icon, variante reset. Accessibilité: focus ring WCAG AA.',
     keywords: ['filter', 'chip', 'tag', 'select', 'active'],
-    render: () => {
-      const [active, setActive] = useState('all');
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-          {['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'].map((label, i) => {
-            const key = i === 0 ? 'all' : label.toLowerCase();
-            return (
-              <FilterChip
-                key={key}
-                label={label}
-                active={active === key}
-                onClick={() => setActive(key)}
-              />
-            );
-          })}
-          <FilterChip label="Réinitialiser" variant="reset" onClick={() => setActive('all')} />
-        </div>
-      );
-    },
+    render: () => <FilterChipDemo />,
   },
   {
     name: 'Medal',
@@ -1510,30 +1598,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Feedback',
     description: 'Dialog bloquant pour décisions critiques. Scrim + blur en arrière-plan. Fermeture via Escape, bouton close, ou clic scrim. Slots: title, description, actions, body.',
     keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
-    render: () => {
-      const [open, setOpen] = useState(false);
-      return (
-        <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-          <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
-          <Modal
-            open={open}
-            onClose={() => setOpen(false)}
-            title="Confirmer l'action"
-            description="Cette opération ne peut pas être annulée."
-            actions={
-              <>
-                <Button variant="secondary" onClick={() => setOpen(false)}>Annuler</Button>
-                <Button variant="primary" onClick={() => setOpen(false)}>Confirmer</Button>
-              </>
-            }
-          >
-            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)' }}>
-              Voulez-vous vraiment supprimer cet élément ? Cette action est irréversible et toutes les données associées seront perdues.
-            </p>
-          </Modal>
-        </div>
-      );
-    },
+    render: () => <ModalDemo />,
   },
   {
     name: 'Celebration',
@@ -1605,14 +1670,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Navigation',
     description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
-    render: () => {
-      const [page, setPage] = useState(3);
-      return (
-        <div className="vstack">
-          <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
-        </div>
-      );
-    },
+    render: () => <PaginationDemo />,
   },
   {
     name: 'Steps',
@@ -2290,31 +2348,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Patterns',
     description: 'Formulaire multi-étapes avec indicateurs de progression et navigation.',
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
-    render: () => {
-      const [step, setStep] = React.useState(1);
-      return (
-        <div style={{ maxWidth: 500 }}>
-          <MultiStepForm
-            steps={[
-              { id: 1, title: 'Informations', description: 'Vos données personnelles' },
-              { id: 2, title: 'Préférences', description: 'Vos préférences d\'apprentissage' },
-              { id: 3, title: 'Confirmation', description: 'Vérifiez et confirmez' },
-            ]}
-            currentStep={step}
-            onNext={() => setStep(s => Math.min(s + 1, 3))}
-            onBack={() => setStep(s => Math.max(s - 1, 1))}
-            showProgressBar
-            showStepIndicators
-          >
-            <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
-              {step === 1 && <p>Étape 1: Informations personnelles</p>}
-              {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
-              {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
-            </div>
-          </MultiStepForm>
-        </div>
-      );
-    },
+    render: () => <MultiStepFormDemo />,
   },
   {
     name: 'PageCard',
