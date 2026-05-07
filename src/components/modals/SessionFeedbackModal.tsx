@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, Sparkles } from 'lucide-react';
+import { X, Send, Sparkles, Star } from 'lucide-react';
 import './modals.css';
 
 /**
@@ -106,7 +106,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                     onClick={() => setRating(star)}
                     onMouseEnter={() => setHover(star)}
                     onMouseLeave={() => setHover(0)}
-                    className={`bg-transparent border-0 cursor-pointer p-0 w-[52px] h-[52px] transition-transform ${selected ? '' : 'hover:scale-[1.15]'}`}
+                    className={`bg-transparent border-0 cursor-pointer p-0 w-12 h-12 inline-flex items-center justify-center transition-transform ${selected ? '' : 'hover:scale-[1.15]'}`}
                     style={{
                       filter: selected
                         ? 'drop-shadow(0 0 10px rgba(248,176,68,0.7))'
@@ -116,17 +116,11 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
                     }}
                     aria-label={`${star} étoile${star > 1 ? 's' : ''}`}
                   >
-                    <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="52">
-                      <path
-                        d="M26 4L33.5 19.2L50.5 21.7C51.2 21.8 51.7 22.3 52 22.9C52.3 23.5 52.2 24.2 51.8 24.8L39.8 36.5L42.6 53.5C42.7 54.2 42.4 54.9 41.9 55.3C41.4 55.7 40.7 55.8 40.1 55.5L26 47.6L11.9 55.5C11.3 55.8 10.6 55.7 10.1 55.3C9.6 54.9 9.3 54.2 9.4 53.5L12.2 36.5L0.2 24.8C-0.2 24.2 -0.3 23.5 0 22.9C0.3 22.3 0.8 21.8 1.5 21.7L18.5 19.2L26 4Z"
-                        fill={filled ? '#F8B044' : 'transparent'}
-                        stroke={filled ? '#F8B044' : 'rgba(0,0,0,0.15)'}
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        transform="translate(-0.5,-0.5)"
-                      />
-                    </svg>
+                    <Star
+                      size={40}
+                      strokeWidth={1.75}
+                      className={filled ? 'fill-accent-400 text-accent-400' : 'fill-transparent text-ink-300'}
+                    />
                   </button>
                 );
               })}
