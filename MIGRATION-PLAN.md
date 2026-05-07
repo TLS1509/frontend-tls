@@ -90,7 +90,7 @@
 | 2.6.5 | InlineProgress | `src/components/patterns/InlineProgress.tsx` | ParcoursCard (fixe progress bar visible) | ✅ |
 | 2.6.5b | SkillBar | `src/components/ui/SkillBar.tsx` | Profile, learning paths | ✅ |
 | 2.6.5c | GoalProgress | `src/components/ui/GoalProgress.tsx` | Profile, dashboard goals | ✅ |
-| 2.6.6 | Avatar | `src/components/ui/Avatar.tsx` | Modales, profils, instructeurs | ⬜ |
+| 2.6.6 | Avatar + AvatarGroup | `src/components/ui/Avatar.tsx` | Modales, profils, instructeurs | ✅ |
 | 2.6.7 | Alert | `src/components/ui/Alert.tsx` | Pages auth, settings, formulaires | ⬜ |
 | 2.6.8 | Skeleton | `src/components/ui/Skeleton.tsx` | Loading states partout | ⬜ |
 
@@ -220,7 +220,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 18 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress)
+**Composants validés :** 19 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup)
 
 **📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
 **Inline styles restants :** ~2 077 / 2 105

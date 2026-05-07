@@ -1,14 +1,11 @@
 import React from 'react';
-import './Avatar.css';
 
 /**
  * Avatar — Source of truth: design-system/spec.json → components.Avatar
  *
  * User representation. Either image or initials. Never generic placeholder.
  * Sizes: xs/sm/md/lg/xl. Tints: brand (default), warm, sun, ink.
- * Shape: circle (default) | square.
- * Optional status dot: online (default), busy, away.
- * Optional level badge overlay via .avatar__level child.
+ * Shape: circle (default) | square. Optional status dot + level badge overlay.
  */
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -19,22 +16,17 @@ export type AvatarShape = 'circle' | 'square';
 export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   src?: string;
   alt?: string;
-  /** User's display name — used to derive initials + stable tint */
   name?: string;
-  /** Explicit initials override (1–2 chars) */
   initials?: string;
   size?: AvatarSize;
   tint?: AvatarTint;
   shape?: AvatarShape;
-  /** Show status dot at bottom-right */
   status?: AvatarStatus;
-  /** Optional numeric level badge overlay (e.g. 12) */
   level?: number;
 }
 
 const TINTS: AvatarTint[] = ['brand', 'warm', 'sun', 'ink'];
 
-/** Stable hash for tint assignment — never random. */
 const hashTint = (name: string): AvatarTint => {
   let h = 0;
   for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
@@ -47,6 +39,49 @@ const getInitials = (name?: string, initials?: string): string => {
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
+const BASE =
+  'relative inline-flex items-center justify-center font-body font-semibold overflow-visible shrink-0 select-none';
+
+const SIZE_CLASSES: Record<AvatarSize, string> = {
+  xs: 'w-6 h-6 text-[10px]',
+  sm: 'w-8 h-8 text-xs',
+  md: 'w-10 h-10 text-sm',
+  lg: 'w-14 h-14 text-lg',
+  xl: 'w-20 h-20 text-[26px]',
+};
+
+const TINT_CLASSES: Record<AvatarTint, string> = {
+  brand: 'bg-primary-100 text-primary-800',
+  warm:  'bg-secondary-100 text-secondary-700',
+  sun:   'bg-accent-100 text-accent-800',
+  ink:   'bg-ink-200 text-ink-800',
+};
+
+const SHAPE_SIZE_CLASSES: Record<AvatarSize, string> = {
+  xs: 'rounded-xs',
+  sm: 'rounded-sm',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+};
+
+const DOT_BASE =
+  'absolute bottom-0 right-0 w-[28%] h-[28%] min-w-2 min-h-2 rounded-full border-2 border-white';
+
+const DOT_STATUS_CLASSES: Record<AvatarStatus, string> = {
+  online: 'bg-success-base',
+  busy:   'bg-danger-base',
+  away:   'bg-accent-400',
+};
+
+const LEVEL_BASE_SIZE_CLASSES: Record<AvatarSize, string> = {
+  xs: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
+  sm: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
+  md: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
+  lg: 'min-w-5 h-5 -bottom-[3px] -right-[3px] text-micro',
+  xl: 'min-w-5 h-5 -bottom-[3px] -right-[3px] text-micro',
 };
 
 export const Avatar: React.FC<AvatarProps> = ({
@@ -65,11 +100,13 @@ export const Avatar: React.FC<AvatarProps> = ({
   const resolvedTint: AvatarTint = tint ?? (name ? hashTint(name) : 'brand');
   const resolvedInitials = getInitials(name, initials);
 
+  const shapeClass = shape === 'circle' ? 'rounded-full' : SHAPE_SIZE_CLASSES[size];
+
   const classes = [
-    'avatar',
-    size !== 'md' && `avatar--${size}`,
-    resolvedTint !== 'brand' && `avatar--${resolvedTint}`,
-    shape === 'square' && 'avatar--square',
+    BASE,
+    SIZE_CLASSES[size],
+    TINT_CLASSES[resolvedTint],
+    shapeClass,
     className,
   ]
     .filter(Boolean)
@@ -77,15 +114,23 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <span className={classes} role="img" aria-label={alt || name} {...rest}>
-      {src ? <img src={src} alt={alt || name || ''} /> : <span>{resolvedInitials}</span>}
-      {status && (
-        <span
-          className={`avatar__dot${status !== 'online' ? ` avatar__dot--${status}` : ''}`}
-          aria-label={status}
+      {src ? (
+        <img
+          src={src}
+          alt={alt || name || ''}
+          className="w-full h-full object-cover rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(15,23,42,0.08)]"
         />
+      ) : (
+        <span>{resolvedInitials}</span>
+      )}
+      {status && (
+        <span className={`${DOT_BASE} ${DOT_STATUS_CLASSES[status]}`} aria-label={status} />
       )}
       {level !== undefined && (
-        <span className="avatar__level" aria-hidden="true">
+        <span
+          className={`absolute flex items-center justify-center px-[3px] rounded-pill bg-primary-600 text-white font-body font-extrabold leading-none border-2 border-white pointer-events-none whitespace-nowrap z-[2] ${LEVEL_BASE_SIZE_CLASSES[size]}`}
+          aria-hidden="true"
+        >
           {level}
         </span>
       )}
@@ -98,12 +143,13 @@ export const Avatar: React.FC<AvatarProps> = ({
 // ============================================================================
 
 export interface AvatarGroupProps {
-  /** Maximum avatars to render before showing +N */
   max?: number;
   size?: AvatarSize;
   children: React.ReactNode;
   className?: string;
 }
+
+const GROUP_MORE_SIZE_CLASSES: Record<AvatarSize, string> = SIZE_CLASSES;
 
 export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   max = 4,
@@ -116,7 +162,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const overflow = items.length - visible.length;
 
   return (
-    <span className={`avatar-group ${className}`}>
+    <span className={`inline-flex items-center [&>span]:border-2 [&>span]:border-white [&>span]:-ml-2.5 [&>span:first-child]:ml-0 [&>span]:transition-transform [&>span]:duration-150 [&>span:hover]:-translate-y-0.5 [&>span:hover]:z-[1] ${className}`}>
       {visible.map((child, i) => {
         if (React.isValidElement(child) && size) {
           return React.cloneElement(child as React.ReactElement<AvatarProps>, { size, key: i });
@@ -125,7 +171,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       })}
       {overflow > 0 && (
         <span
-          className={`avatar avatar-group__more${size && size !== 'md' ? ` avatar--${size}` : ''}`}
+          className={`relative inline-flex items-center justify-center font-body font-semibold overflow-visible shrink-0 select-none rounded-full bg-ink-200 text-ink-700 ${GROUP_MORE_SIZE_CLASSES[size ?? 'md']}`}
           aria-label={`${overflow} autres`}
         >
           +{overflow}
