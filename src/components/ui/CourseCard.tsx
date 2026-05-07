@@ -1,6 +1,5 @@
 import React from 'react';
 import { Palette, BookOpen, Grid3x3, User, Play, Zap } from 'lucide-react';
-import './CourseCard.css';
 
 export type CourseCardTone = 'brand' | 'warm' | 'sun';
 
@@ -9,22 +8,19 @@ export interface CourseCardProps {
   instructor?: string;
   category?: 'Design' | 'React' | 'Design Systems' | string;
   enrolled?: boolean;
-  progress?: number; // 0-100
+  progress?: number;
   tone?: CourseCardTone;
   onEnroll?: () => void;
   onContinue?: () => void;
 }
 
 const getCategoryIcon = (category: string) => {
+  const props = { size: 64, strokeWidth: 1.5, className: 'text-white' };
   switch (category) {
-    case 'Design':
-      return <Palette size={64} strokeWidth={1.5} className="course-card__hero-icon-svg" />;
-    case 'React':
-      return <Grid3x3 size={64} strokeWidth={1.5} className="course-card__hero-icon-svg" />;
-    case 'Design Systems':
-      return <BookOpen size={64} strokeWidth={1.5} className="course-card__hero-icon-svg" />;
-    default:
-      return <BookOpen size={64} strokeWidth={1.5} className="course-card__hero-icon-svg" />;
+    case 'Design': return <Palette {...props} />;
+    case 'React': return <Grid3x3 {...props} />;
+    case 'Design Systems': return <BookOpen {...props} />;
+    default: return <BookOpen {...props} />;
   }
 };
 
@@ -33,6 +29,46 @@ const categoryToneMap: Record<string, CourseCardTone> = {
   React: 'brand',
   'Design Systems': 'sun',
 };
+
+const CARD_BASE =
+  'rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-all duration-300 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0';
+
+const HERO_BASE = 'aspect-video relative overflow-hidden flex items-center justify-center';
+
+const HERO_TONE_CLASSES: Record<CourseCardTone, string> = {
+  brand: 'bg-gradient-to-br from-primary-600 to-primary-800',
+  warm:  'bg-gradient-to-br from-secondary-500 to-secondary-700',
+  sun:   'bg-gradient-to-br from-accent-400 to-accent-700',
+};
+
+const BADGE_BASE =
+  'inline-block px-3 py-1 rounded-pill text-caption font-semibold mb-4 border';
+
+const BADGE_TONE_CLASSES: Record<CourseCardTone, string> = {
+  brand: 'bg-primary-50 text-primary-700 border-primary-200',
+  warm:  'bg-secondary-50 text-secondary-700 border-secondary-200',
+  sun:   'bg-accent-50 text-accent-700 border-accent-200',
+};
+
+const PROGRESS_FILL_BASE = 'h-full transition-[width] duration-300';
+
+const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
+  brand: 'bg-gradient-to-r from-primary-500 to-accent-400',
+  warm:  'bg-gradient-to-r from-secondary-500 to-accent-400',
+  sun:   'bg-gradient-to-r from-accent-400 to-accent-600',
+};
+
+const BUTTON_BASE =
+  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5';
+
+const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
+  brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',
+  warm:  'text-white bg-gradient-to-br from-secondary-500 to-secondary-600 shadow-warm-sm hover:shadow-warm-md',
+  sun:   'text-white bg-gradient-to-br from-accent-400 to-accent-600 shadow-sun-sm hover:shadow-brand-md',
+};
+
+const BUTTON_ENROLLED =
+  'bg-ink-100 text-ink-900 hover:bg-ink-50 hover:translate-y-0';
 
 export const CourseCard: React.FC<CourseCardProps> = ({
   title,
@@ -47,62 +83,42 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const resolvedTone: CourseCardTone = tone ?? categoryToneMap[category] ?? 'brand';
 
   return (
-    <div className={`course-card course-card--${resolvedTone}`}>
-      {/* Course Hero with Gradient */}
-      <div className="course-card__hero">
-        <div className="course-card__hero-icon">
-          {getCategoryIcon(category)}
-        </div>
+    <div className={CARD_BASE}>
+      <div className={`${HERO_BASE} ${HERO_TONE_CLASSES[resolvedTone]}`}>
+        <div className="opacity-90">{getCategoryIcon(category)}</div>
       </div>
 
-      {/* Course Content */}
-      <div className="course-card__content">
-        {/* Category Badge */}
-        <span className="course-card__badge">{category}</span>
+      <div className="p-6 max-sm:p-4">
+        <span className={`${BADGE_BASE} ${BADGE_TONE_CLASSES[resolvedTone]}`}>{category}</span>
 
-        {/* Course Title */}
-        <h3 className="course-card__title">{title}</h3>
+        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-2">{title}</h3>
 
-        {/* Course Description */}
-        <p className="course-card__description">
+        <p className="text-caption text-ink-600 mb-4 leading-normal">
           Expand your skills with comprehensive, project-based learning...
         </p>
 
-        {/* Instructor Info */}
-        <div className="course-card__instructor">
-          <User size={14} strokeWidth={2} className="course-card__instructor-icon" />
-          <span className="course-card__instructor-name">{instructor}</span>
+        <div className="flex items-center gap-2 mb-4 text-caption">
+          <User size={14} strokeWidth={2} className="text-ink-600" />
+          <span className="font-medium text-ink-900">{instructor}</span>
         </div>
 
-        {/* Progress Bar (if enrolled) */}
         {enrolled && (
-          <div className="course-card__progress-section">
-            <div className="course-card__progress-bar">
+          <div className="mb-6">
+            <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden mb-2">
               <div
-                className="course-card__progress-fill"
+                className={`${PROGRESS_FILL_BASE} ${PROGRESS_FILL_TONE_CLASSES[resolvedTone]}`}
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="course-card__progress-label">{progress}% complete</p>
+            <p className="text-micro text-ink-500 m-0">{progress}% complete</p>
           </div>
         )}
 
-        {/* CTA Button */}
         <button
           onClick={enrolled ? onContinue : onEnroll}
-          className={`course-card__button ${enrolled ? 'course-card__button--enrolled' : 'course-card__button--enroll'}`}
+          className={`${BUTTON_BASE} ${enrolled ? BUTTON_ENROLLED : BUTTON_ENROLL_TONE_CLASSES[resolvedTone]}`}
         >
-          {enrolled ? (
-            <>
-              <Play size={16} />
-              Continue Learning
-            </>
-          ) : (
-            <>
-              <Zap size={16} />
-              Enroll Now
-            </>
-          )}
+          {enrolled ? <><Play size={16} />Continue Learning</> : <><Zap size={16} />Enroll Now</>}
         </button>
       </div>
     </div>

@@ -119,7 +119,10 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
   --shadow-brand-sm: 0 4px 12px rgba(85, 161, 180, 0.25);
+  --shadow-brand-md: 0 6px 16px rgba(85, 161, 180, 0.40);
   --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.20);
+  --shadow-warm-md: 0 2px 8px rgba(237, 132, 58, 0.40);
+  --shadow-sun-sm: 0 4px 12px rgba(255, 183, 77, 0.30);
 
   /* ── Rayons — synced with --r-* in design-tokens.css ── */
   --radius-xs: 4px;
@@ -184,12 +187,18 @@
   .shadow-lg { box-shadow: var(--shadow-lg); }
   .shadow-xl { box-shadow: var(--shadow-xl); }
   .shadow-brand-sm { box-shadow: var(--shadow-brand-sm); }
+  .shadow-brand-md { box-shadow: var(--shadow-brand-md); }
   .shadow-warm-sm { box-shadow: var(--shadow-warm-sm); }
+  .shadow-warm-md { box-shadow: var(--shadow-warm-md); }
+  .shadow-sun-sm { box-shadow: var(--shadow-sun-sm); }
   .hover\:shadow-xs:hover { box-shadow: var(--shadow-xs); }
   .hover\:shadow-sm:hover { box-shadow: var(--shadow-sm); }
   .hover\:shadow-md:hover { box-shadow: var(--shadow-md); }
   .hover\:shadow-lg:hover { box-shadow: var(--shadow-lg); }
   .hover\:shadow-xl:hover { box-shadow: var(--shadow-xl); }
   .hover\:shadow-brand-sm:hover { box-shadow: var(--shadow-brand-sm); }
+  .hover\:shadow-brand-md:hover { box-shadow: var(--shadow-brand-md); }
   .hover\:shadow-warm-sm:hover { box-shadow: var(--shadow-warm-sm); }
+  .hover\:shadow-warm-md:hover { box-shadow: var(--shadow-warm-md); }
+  .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
 }
