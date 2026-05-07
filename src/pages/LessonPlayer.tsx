@@ -308,59 +308,66 @@ export const LessonPlayer: React.FC = () => {
   const renderIntroduction = () => (
     <div>
       <h2 className="lesson-player__section-title">{lessonData.intro.heading}</h2>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body)', color: 'var(--text-soft)', lineHeight: 1.7, marginBottom: 'var(--s-6)' }}>
+      <p className="font-body text-body text-ink-500 leading-relaxed mb-6">
         {lessonData.intro.description}
       </p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-5)' }}>
-        <Target size={20} color="var(--tls-primary-500)" />
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
+      <div className="flex items-center gap-2 mb-5">
+        <Target size={20} className="text-primary-500" />
+        <h3 className="m-0 font-display text-h4 font-bold text-ink-900">
           Objectifs d'apprentissage
         </h3>
       </div>
       <div className="lesson-player__objectives">
         {lessonData.intro.objectives.map((obj, i) => (
           <div key={i} className="lesson-player__objective-item">
-            <CheckCircle2 size={18} color="var(--tls-success-base)" style={{ flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body)' }}>{obj}</span>
+            <CheckCircle2 size={18} className="text-success-base shrink-0" />
+            <span className="font-body text-body">{obj}</span>
           </div>
         ))}
       </div>
     </div>
   );
 
-  const renderEngagement = () => (
-    <div>
-      <h2 className="lesson-player__section-title">{lessonData.engagement.heading}</h2>
-      <div className="lesson-player__pillar-grid">
-        {lessonData.engagement.pillars.map((pillar, i) => {
-          const colors = [
-            { bg: 'var(--tls-primary-50)', accent: 'var(--tls-primary-500)' },
-            { bg: 'var(--tls-orange-50)', accent: 'var(--tls-orange-600)' },
-            { bg: 'var(--tls-yellow-50)', accent: 'var(--tls-yellow-600)' },
-            { bg: 'var(--tls-primary-50)', accent: 'var(--tls-primary-400)' },
-          ];
-          const c = colors[i % colors.length];
-          return (
-            <div key={i} style={{
-              background: c.bg, borderRadius: 'var(--r-xl)',
-              padding: 'var(--s-6)', border: '1px solid var(--border-subtle)',
-            }}>
-              <div style={{ width: 40, height: 40, borderRadius: 'var(--r-md)', background: `${c.accent}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'var(--s-4)' }}>
-                <div style={{ width: 16, height: 16, borderRadius: 4, background: c.accent }} />
+  const renderEngagement = () => {
+    const PILLAR_TONES = [
+      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-500',  square: 'bg-primary-500',  tag: 'bg-primary-100 text-primary-700' },
+      { card: 'bg-secondary-50 border-secondary-100', accent: 'bg-secondary-600', square: 'bg-secondary-600', tag: 'bg-secondary-100 text-secondary-700' },
+      { card: 'bg-accent-50 border-accent-100',       accent: 'bg-accent-600',   square: 'bg-accent-600',   tag: 'bg-accent-100 text-accent-700' },
+      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-400',  square: 'bg-primary-400',  tag: 'bg-primary-100 text-primary-600' },
+    ];
+
+    return (
+      <div>
+        <h2 className="lesson-player__section-title">{lessonData.engagement.heading}</h2>
+        <div className="lesson-player__pillar-grid">
+          {lessonData.engagement.pillars.map((pillar, i) => {
+            const t = PILLAR_TONES[i % PILLAR_TONES.length];
+            return (
+              <div key={i} className={`rounded-xl p-6 border ${t.card}`}>
+                <div className={`w-10 h-10 rounded-md flex items-center justify-center mb-4 ${t.accent}/20`}>
+                  <div className={`w-4 h-4 rounded-sm ${t.square}`} />
+                </div>
+                <h3 className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">{pillar.title}</h3>
+                <p className="m-0 mb-3 font-body text-body-sm text-ink-500 leading-relaxed">
+                  {pillar.description}
+                </p>
+                <div className="flex flex-wrap gap-1">
+                  {pillar.tags.map((tag, ti) => (
+                    <span
+                      key={ti}
+                      className={`text-micro px-2 py-0.5 rounded-pill font-semibold ${t.tag}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <h3 style={{ margin: '0 0 var(--s-2)', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>{pillar.title}</h3>
-              <p style={{ margin: '0 0 var(--s-3)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)', color: 'var(--text-soft)', lineHeight: 1.55 }}>{pillar.description}</p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-1)' }}>
-                {pillar.tags.map((tag, ti) => (
-                  <span key={ti} style={{ fontSize: 'var(--t-micro)', padding: '2px 8px', background: `${c.accent}15`, color: c.accent, borderRadius: 'var(--r-pill)', fontWeight: 600 }}>{tag}</span>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderDecouvrir = () => {
     const { decouvrir: d } = lessonData;
@@ -368,32 +375,32 @@ export const LessonPlayer: React.FC = () => {
       <div>
         <h2 className="lesson-player__section-title">{d.heading}</h2>
         <div className="lesson-player__example-bad">
-          <div style={{ marginBottom: 'var(--s-3)' }}>
-            <span style={{ background: 'var(--tls-danger-base)', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+          <div className="mb-3">
+            <span className="inline-flex items-center gap-1 bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
-          <h3 style={{ margin: '0 0 var(--s-1)', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>{d.bad.title}</h3>
-          <p style={{ margin: '0 0 var(--s-4)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)', color: 'var(--text-soft)' }}>{d.bad.description}</p>
+          <h3 className="m-0 mb-1 font-display text-h4 font-bold text-ink-900">{d.bad.title}</h3>
+          <p className="m-0 mb-4 font-body text-body-sm text-ink-500">{d.bad.description}</p>
           {d.bad.points.map((p, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-              <span style={{ fontSize: '1.1rem' }}>⚠️</span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)' }}>{p}</span>
+            <div key={i} className="flex items-center gap-2 mb-2">
+              <span className="text-lg">⚠️</span>
+              <span className="font-body text-body-sm">{p}</span>
             </div>
           ))}
         </div>
         <div className="lesson-player__example-good">
-          <div style={{ marginBottom: 'var(--s-3)' }}>
-            <span style={{ background: 'var(--tls-success-base)', color: 'white', padding: 'var(--s-1) var(--s-3)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+          <div className="mb-3">
+            <span className="inline-flex items-center gap-1 bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <CheckCircle2 size={14} /> {d.good.label}
             </span>
           </div>
-          <h3 style={{ margin: '0 0 var(--s-1)', fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>{d.good.title}</h3>
-          <p style={{ margin: '0 0 var(--s-4)', fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)', color: 'var(--text-soft)' }}>{d.good.description}</p>
+          <h3 className="m-0 mb-1 font-display text-h4 font-bold text-ink-900">{d.good.title}</h3>
+          <p className="m-0 mb-4 font-body text-body-sm text-ink-500">{d.good.description}</p>
           {d.good.points.map((p, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-              <CheckCircle2 size={16} color="var(--tls-success-base)" style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)' }}>{p}</span>
+            <div key={i} className="flex items-center gap-2 mb-2">
+              <CheckCircle2 size={16} className="text-success-base shrink-0" />
+              <span className="font-body text-body-sm">{p}</span>
             </div>
           ))}
         </div>
@@ -410,7 +417,6 @@ export const LessonPlayer: React.FC = () => {
     return (
       <QuizComponent
         questions={quizQuestions}
-        showEmojis={true}
         onComplete={(results) => console.log('Quiz done', results)}
       />
     );
@@ -421,7 +427,7 @@ export const LessonPlayer: React.FC = () => {
       <h2 className="lesson-player__section-title">{lessonData.reflechir.heading}</h2>
       {lessonData.reflechir.questions.map((question, i) => (
         <div key={i} className="lesson-player__reflection-block">
-          <h3 style={{ margin: 0, fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--t-body)' }}>{question}</h3>
+          <h3 className="m-0 font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
             className="lesson-player__reflection-textarea"
             value={reflections[`q${i}`] ?? ''}
@@ -436,10 +442,12 @@ export const LessonPlayer: React.FC = () => {
   const renderAppliquer = () => (
     <div>
       <h2 className="lesson-player__section-title">{lessonData.appliquer.heading}</h2>
-      <div style={{ background: 'var(--tls-primary-50)', borderRadius: 'var(--r-xl)', padding: 'var(--s-5)', marginBottom: 'var(--s-6)', border: '1px solid var(--tls-primary-200)' }}>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--t-body)', color: 'var(--text)', lineHeight: 1.6 }}>{lessonData.appliquer.instruction}</p>
+      <div className="bg-primary-50 rounded-xl p-5 mb-6 border border-primary-200">
+        <p className="m-0 font-body text-body text-ink-900 leading-relaxed">
+          {lessonData.appliquer.instruction}
+        </p>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+      <div className="flex flex-col gap-4">
         {[
           { key: 'objectif' as const, label: 'Objectif', placeholder: 'Ex: Améliorer l\'engagement de mon équipe de 20% en 30 jours' },
           { key: 'action1' as const, label: 'Action 1', placeholder: 'Première action concrète à mettre en place dès demain' },
@@ -464,26 +472,26 @@ export const LessonPlayer: React.FC = () => {
   const renderConclusion = () => (
     <div>
       <h2 className="lesson-player__section-title">{lessonData.conclusion.heading}</h2>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-4)' }}>
-        <CheckCircle2 size={18} color="var(--tls-success-base)" />
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>Points clés à retenir</h3>
+      <div className="flex items-center gap-2 mb-4">
+        <CheckCircle2 size={18} className="text-success-base" />
+        <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Points clés à retenir</h3>
       </div>
-      <div style={{ marginBottom: 'var(--s-8)' }}>
+      <div className="mb-8">
         {lessonData.conclusion.keyPoints.map((point, i) => (
           <div key={i} className="lesson-player__conclusion-point">
             <div className="lesson-player__conclusion-num">{i + 1}</div>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)' }}>{point}</span>
+            <span className="font-body text-body-sm">{point}</span>
           </div>
         ))}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-4)' }}>
-        <Zap size={18} color="var(--tls-primary-500)" />
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--t-h4)', fontWeight: 700 }}>Prochaines étapes</h3>
+      <div className="flex items-center gap-2 mb-4">
+        <Zap size={18} className="text-primary-500" />
+        <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Prochaines étapes</h3>
       </div>
       {lessonData.conclusion.nextSteps.map((step, i) => (
         <div key={i} className="lesson-player__next-step">
-          <ChevronRight size={18} color="var(--tls-primary-500)" style={{ flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)' }}>{step}</span>
+          <ChevronRight size={18} className="text-primary-500 shrink-0" />
+          <span className="font-body text-body-sm">{step}</span>
         </div>
       ))}
     </div>
@@ -579,14 +587,12 @@ export const LessonPlayer: React.FC = () => {
             <button
               onClick={handlePrev}
               disabled={isFirst}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-                padding: 'var(--s-3) var(--s-5)', borderRadius: 'var(--r-lg)',
-                background: 'transparent', border: 'none',
-                color: isFirst ? 'var(--tls-ink-200)' : 'var(--text-muted)',
-                cursor: isFirst ? 'not-allowed' : 'pointer',
-                fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', fontWeight: 500,
-              }}
+              className={[
+                'flex items-center gap-2 px-5 py-3 rounded-lg bg-transparent border-0 font-body text-caption font-medium transition-colors',
+                isFirst
+                  ? 'text-ink-300 cursor-not-allowed'
+                  : 'text-ink-500 cursor-pointer hover:text-ink-900',
+              ].join(' ')}
             >
               <ChevronLeft size={18} />
               Précédent
@@ -612,21 +618,14 @@ export const LessonPlayer: React.FC = () => {
 
             {/* Next / Terminer */}
             {isLast ? (
-              <Button variant="primary" size="md" onClick={handleNext} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
+              <Button variant="primary" size="md" onClick={handleNext} className="flex items-center gap-2">
                 <CheckCircle2 size={16} />
                 Terminer
               </Button>
             ) : (
               <button
                 onClick={handleNext}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-                  padding: 'var(--s-3) var(--s-6)', borderRadius: 'var(--r-lg)',
-                  background: 'var(--tls-primary-500)', border: 'none',
-                  color: 'white', cursor: 'pointer',
-                  fontFamily: 'var(--font-body)', fontSize: 'var(--t-caption)', fontWeight: 600,
-                  transition: 'background var(--dur-2)',
-                }}
+                className="flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 border-0 text-white cursor-pointer font-body text-caption font-semibold transition-colors hover:bg-primary-600"
               >
                 Suivant
                 <ChevronRight size={18} />
