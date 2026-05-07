@@ -112,7 +112,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               <select
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className={`w-full p-3 rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
+                className={`w-full px-3 py-2.5 h-auto min-h-[44px] rounded-lg border-[1.5px] border-ink-200 bg-ink-50 text-body-sm font-body outline-none cursor-pointer transition-colors box-border focus:border-secondary-400 ${reason ? 'text-ink-900' : 'text-ink-600'}`}
               >
                 <option value="">Sélectionnez un motif…</option>
                 {REASONS.map((r) => (

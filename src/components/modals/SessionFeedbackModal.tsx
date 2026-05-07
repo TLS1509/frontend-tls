@@ -132,14 +132,12 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
               })}
             </div>
 
-            {/* Rating label */}
-            {display > 0 && (
-              <div className="flex justify-center mb-5">
-                <div className="px-5 py-2 rounded-lg modal-amber-badge text-body font-bold text-accent-600">
-                  {RATING_LABELS[display]}
-                </div>
+            {/* Rating label — always rendered to reserve layout space */}
+            <div className={`flex justify-center mb-5 transition-opacity duration-150 ${display > 0 ? 'opacity-100' : 'opacity-0'}`}>
+              <div className="px-5 py-2 rounded-lg modal-amber-badge text-body font-bold text-accent-600">
+                {RATING_LABELS[display] || ' '}
               </div>
-            )}
+            </div>
 
             {/* Comment */}
             <div className="mb-5">
