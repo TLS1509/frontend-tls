@@ -88,7 +88,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         tabIndex={0}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(id)}
         aria-label={`${title} — ${status}`}
-        className="cursor-pointer"
+        className="block w-full h-auto p-0 overflow-visible cursor-pointer"
       >
         <div
           aria-hidden="true"

@@ -397,6 +397,19 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 </label>
 ```
 
+### ⚠️ Piège n°8 : sélecteur d'attribut global `[role="button"]`
+
+`components-modern.css:75` définit `.btn, [role="button"] { display:inline-flex; height:40px; overflow:hidden; ... }`. Ce sélecteur d'attribut large matche **tout** élément avec `role="button"`, y compris les `<div role="button" tabIndex={0}>` utilisés pour l'a11y sur des wrappers cliquables (ex. `patterns/ParcoursCard`). Résultat : le wrapper devient un mini-bouton de 40px de haut avec son contenu clippé par `overflow:hidden`.
+
+**Symptôme** : carte qui apparaît écrasée (~60px de haut) avec seulement la description visible en pill, titre/CTA invisibles.
+
+**Fix** : neutraliser au niveau du wrapper avec des utilities Tailwind (qui battent `@layer components`) :
+```tsx
+<div role="button" tabIndex={0} className="block w-full h-auto p-0 overflow-visible cursor-pointer">
+```
+
+**Action générale** : tout `<div role="button">` ou wrapper a11y doit annuler ces propriétés. Idéalement, narrow le sélecteur BEM en cleanup post-migration.
+
 ### Pattern : contrôles custom (checkbox / radio / switch) avec `peer` + `after:`
 
 Pour les composants où l'`<input>` natif est masqué et un span stylé prend sa place (Input.tsx Checkbox/Radio/Switch), utiliser le pattern **`peer` + pseudo-élément `::after`** au lieu de keyframes ou state JS :
