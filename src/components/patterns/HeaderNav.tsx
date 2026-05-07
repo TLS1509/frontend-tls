@@ -1,16 +1,3 @@
-/**
- * HeaderNav — Sticky navigation header with progress
- *
- * Used in multi-step pages (Project, Journal, etc.)
- * Features:
- * - Sticky positioning
- * - Back button
- * - Progress indicator
- * - Save button with feedback
- *
- * Uses TLS design tokens throughout.
- */
-
 import React from 'react';
 import { ChevronLeft, Save } from 'lucide-react';
 import { Button } from '../core/Button';
@@ -37,113 +24,41 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   showProgressBar = true,
 }) => {
   return (
-    <div
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-        padding: 'var(--s-4)',
-        background: 'var(--surface)',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      {/* Back Button */}
+    <div className="sticky top-0 z-10 p-4 bg-white border-b border-ink-200 flex items-center justify-between">
       <button
         onClick={onBack}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--s-2)',
-          background: 'var(--surface-muted)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--r-lg)',
-          padding: 'var(--s-2) var(--s-3)',
-          cursor: 'pointer',
-          color: 'var(--text)',
-          fontWeight: 500,
-          fontSize: 'var(--t-body-sm)',
-          transition: 'all var(--dur-2)',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.background =
-            'var(--surface)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLButtonElement).style.background =
-            'var(--surface-muted)';
-        }}
+        className="flex items-center gap-2 bg-ink-50 border border-ink-200 rounded-lg px-3 py-2 cursor-pointer text-ink-900 font-medium text-body-sm transition-all hover:bg-white hover:border-ink-300"
       >
         <ChevronLeft size={18} />
         {backLabel}
       </button>
 
-      {/* Right Section */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-4)' }}>
-        {/* Progress Indicator */}
+      <div className="flex items-center gap-4">
         {showProgressBar && progress !== undefined && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-soft)' }}>
-              Progression
-            </span>
+          <div className="flex items-center gap-2">
+            <span className="text-caption text-ink-500">Progression</span>
             {progressLabel && (
-              <span
-                style={{
-                  fontSize: 'var(--t-caption)',
-                  fontWeight: 600,
-                  color: 'var(--tls-primary-500)',
-                }}
-              >
+              <span className="text-caption font-semibold text-primary-500">
                 {progressLabel}
               </span>
             )}
-            <div
-              style={{
-                width: '120px',
-                height: '6px',
-                borderRadius: 'var(--r-pill)',
-                background: 'var(--surface-muted)',
-                overflow: 'hidden',
-              }}
-            >
+            <div className="w-[120px] h-1.5 rounded-pill bg-ink-100 overflow-hidden">
               <div
-                style={{
-                  height: '100%',
-                  background: 'var(--tls-primary-500)',
-                  width: `${progress}%`,
-                  transition: 'width var(--dur-3)',
-                }}
+                className="h-full bg-primary-500 transition-[width] duration-300"
+                style={{ width: `${progress}%` }}
               />
             </div>
           </div>
         )}
 
-        {/* Save Message */}
         {saveMessage && (
-          <span
-            style={{
-              fontSize: 'var(--t-caption)',
-              color: 'var(--tls-success-500)',
-              fontWeight: 600,
-            }}
-          >
+          <span className="text-caption text-success-base font-semibold">
             {saveMessage}
           </span>
         )}
 
-        {/* Save Button */}
         {onSave && (
-          <Button
-            onClick={onSave}
-            disabled={isSaving}
-            style={{
-              display: 'flex',
-              gap: 'var(--s-2)',
-              alignItems: 'center',
-            }}
-          >
+          <Button onClick={onSave} disabled={isSaving} className="flex gap-2 items-center">
             <Save size={16} />
             {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
           </Button>

@@ -1,25 +1,5 @@
-/**
- * DataTable — Design System Pattern
- *
- * Responsive sortable/paginated table with consistent styling.
- * Features: column sorting, pagination, hover effects, mobile stack.
- *
- * Usage:
- *   <DataTable
- *     columns={[
- *       { key: 'name', label: 'Name', sortable: true },
- *       { key: 'email', label: 'Email' }
- *     ]}
- *     rows={[
- *       { name: 'John', email: 'john@example.com' }
- *     ]}
- *     onSort={(key, direction) => console.log(key, direction)}
- *   />
- */
-
 import React, { useState } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import './DataTable.css';
 
 export interface DataTableColumn {
   key: string;
@@ -50,6 +30,17 @@ export interface DataTableProps {
   emptyMessage?: string;
   className?: string;
 }
+
+const ALIGN: Record<NonNullable<DataTableColumn['align']>, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+const PAG_BTN =
+  'px-3 py-2 rounded-md border border-ink-200 bg-white text-ink-900 text-body-sm font-medium ' +
+  'hover:bg-ink-50 hover:border-ink-300 transition-all cursor-pointer ' +
+  'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 export const DataTable: React.FC<DataTableProps> = ({
   columns,
@@ -91,34 +82,45 @@ export const DataTable: React.FC<DataTableProps> = ({
   const displayedRows = rows.slice(0, pageSize);
 
   return (
-    <div className={`datatable ${className}`}>
-      <div className="datatable__wrapper">
-        <table className="datatable__table">
-          <thead className="datatable__header">
-            <tr className="datatable__header-row">
+    <div className={['flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+      <div className="overflow-x-auto rounded-xl border border-ink-200 bg-white">
+        <table className="w-full border-collapse font-body text-body-sm">
+          <thead className="bg-ink-50 border-b border-ink-200">
+            <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`datatable__header-cell datatable__header-cell--${
-                    column.align || 'left'
-                  }${column.sortable ? ' datatable__header-cell--sortable' : ''}`}
-                  style={{ width: column.width }}
+                  className={[
+                    'px-4 py-3 font-semibold text-ink-700 select-none',
+                    ALIGN[column.align ?? 'left'],
+                    column.sortable
+                      ? 'cursor-pointer hover:bg-ink-100 transition-colors'
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  style={column.width ? { width: column.width } : undefined}
                   onClick={() => column.sortable && handleSort(column.key)}
                   role={column.sortable ? 'button' : undefined}
                   tabIndex={column.sortable ? 0 : undefined}
                   onKeyDown={(e) => {
-                    if (
-                      column.sortable &&
-                      (e.key === 'Enter' || e.key === ' ')
-                    ) {
+                    if (column.sortable && (e.key === 'Enter' || e.key === ' ')) {
                       handleSort(column.key);
                     }
                   }}
                 >
-                  <div className="datatable__header-content">
+                  <div
+                    className={[
+                      'inline-flex items-center gap-1',
+                      column.align === 'center' ? 'justify-center' : '',
+                      column.align === 'right' ? 'justify-end' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
                     <span>{column.label}</span>
                     {column.sortable && activeSort === column.key && (
-                      <span className="datatable__sort-indicator">
+                      <span className="inline-flex">
                         {activeDir === 'asc' ? (
                           <ChevronUp size={16} aria-label="Sort ascending" />
                         ) : (
@@ -132,32 +134,34 @@ export const DataTable: React.FC<DataTableProps> = ({
             </tr>
           </thead>
 
-          <tbody className="datatable__body">
+          <tbody>
             {loading ? (
-              <tr className="datatable__row datatable__row--loading">
-                <td colSpan={columns.length} className="datatable__cell">
-                  <div className="datatable__loading">Loading...</div>
+              <tr>
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-ink-500">
+                  Loading...
                 </td>
               </tr>
             ) : displayedRows.length === 0 ? (
-              <tr className="datatable__row datatable__row--empty">
-                <td colSpan={columns.length} className="datatable__cell">
-                  <div className="datatable__empty">{emptyMessage}</div>
+              <tr>
+                <td colSpan={columns.length} className="px-4 py-8 text-center text-ink-500">
+                  {emptyMessage}
                 </td>
               </tr>
             ) : (
               displayedRows.map((row, rowIdx) => (
                 <tr
                   key={rowIdx}
-                  className={`datatable__row${onRowClick ? ' datatable__row--clickable' : ''}`}
+                  className={[
+                    'border-b border-ink-200 last:border-b-0 transition-colors',
+                    onRowClick ? 'cursor-pointer hover:bg-ink-50' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                   onClick={() => onRowClick?.(row, rowIdx)}
                   role={onRowClick ? 'button' : undefined}
                   tabIndex={onRowClick ? 0 : undefined}
                   onKeyDown={(e) => {
-                    if (
-                      onRowClick &&
-                      (e.key === 'Enter' || e.key === ' ')
-                    ) {
+                    if (onRowClick && (e.key === 'Enter' || e.key === ' ')) {
                       onRowClick(row, rowIdx);
                     }
                   }}
@@ -165,9 +169,10 @@ export const DataTable: React.FC<DataTableProps> = ({
                   {columns.map((column) => (
                     <td
                       key={`${rowIdx}-${column.key}`}
-                      className={`datatable__cell datatable__cell--${
-                        column.align || 'left'
-                      }`}
+                      className={[
+                        'px-4 py-3 text-ink-900',
+                        ALIGN[column.align ?? 'left'],
+                      ].join(' ')}
                     >
                       {row[column.key]}
                     </td>
@@ -179,11 +184,10 @@ export const DataTable: React.FC<DataTableProps> = ({
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="datatable__pagination">
+        <div className="flex items-center justify-between gap-3">
           <button
-            className="datatable__pagination-button"
+            className={PAG_BTN}
             onClick={() => onPageChange?.(currentPage - 1)}
             disabled={currentPage <= 1}
             aria-label="Previous page"
@@ -191,12 +195,12 @@ export const DataTable: React.FC<DataTableProps> = ({
             Previous
           </button>
 
-          <div className="datatable__pagination-info">
+          <div className="text-caption text-ink-500">
             Page {currentPage} of {totalPages}
           </div>
 
           <button
-            className="datatable__pagination-button"
+            className={PAG_BTN}
             onClick={() => onPageChange?.(currentPage + 1)}
             disabled={currentPage >= totalPages}
             aria-label="Next page"

@@ -1,8 +1,3 @@
-/**
- * SectionHeader — Consistent section title with optional icon, subtitle, and action
- * Based on Figma reference design (SectionHeader component)
- * Uses only TLS design tokens
- */
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -12,7 +7,7 @@ interface SectionHeaderProps {
   subtitle?: string;
   action?: React.ReactNode;
   className?: string;
-  iconColor?: string;
+  iconClassName?: string;
   compact?: boolean;
 }
 
@@ -22,86 +17,52 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   subtitle,
   action,
   className = '',
-  iconColor = 'var(--tls-primary-500)',
+  iconClassName = 'text-primary-500',
   compact = false,
 }) => {
   return (
     <div
-      className={className}
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        gap: 'var(--s-6)',
-        marginBottom: compact ? 'var(--s-4)' : 'var(--s-6)',
-      }}
+      className={[
+        'flex items-start justify-between gap-6',
+        compact ? 'mb-4' : 'mb-6',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: Icon ? 'var(--s-3)' : 0,
-          flex: 1,
-        }}
-      >
+      <div className={['flex items-start flex-1', Icon ? 'gap-3' : 'gap-0'].join(' ')}>
         {Icon && (
           <Icon
-            style={{
-              width: compact ? '1.5rem' : '1.75rem',
-              height: compact ? '1.5rem' : '1.75rem',
-              color: iconColor,
-              flexShrink: 0,
-              strokeWidth: 2,
-              display: 'block',
-              marginTop: '2px',
-            }}
+            className={[
+              'block shrink-0 mt-0.5',
+              compact ? 'w-6 h-6' : 'w-7 h-7',
+              iconClassName,
+            ].join(' ')}
+            strokeWidth={2}
           />
         )}
 
         <div
-          style={{
-            flex: 1,
-            minWidth: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: subtitle ? 'var(--s-1)' : 0,
-          }}
+          className={['flex flex-col flex-1 min-w-0', subtitle ? 'gap-1' : 'gap-0'].join(' ')}
         >
           <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: compact ? 'var(--t-h4)' : 'var(--t-h3)',
-              fontWeight: 700,
-              color: 'var(--text)',
-              lineHeight: 1.1,
-              margin: 0,
-            }}
+            className={[
+              'font-display font-bold text-ink-900 leading-tight m-0',
+              compact ? 'text-h4' : 'text-h3',
+            ].join(' ')}
           >
             {title}
           </h2>
 
           {subtitle && (
-            <p
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 'var(--t-body-sm)',
-                fontWeight: 400,
-                color: 'var(--text-muted)',
-                lineHeight: 1.5,
-                margin: 0,
-              }}
-            >
+            <p className="font-body text-body-sm font-normal text-ink-500 leading-relaxed m-0">
               {subtitle}
             </p>
           )}
         </div>
       </div>
 
-      {action && (
-        <div style={{ flexShrink: 0 }}>
-          {action}
-        </div>
-      )}
+      {action && <div className="shrink-0">{action}</div>}
     </div>
   );
 };

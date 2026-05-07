@@ -1,28 +1,24 @@
-/**
- * HeroSection — Reusable hero component
- *
- * Generic hero section for pages with:
- * - Icon/badge
- * - Title
- * - Description
- * - Optional metadata
- * - Gradient background
- *
- * Uses TLS design tokens throughout.
- */
-
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
+
+export type HeroGradient = 'primary' | 'orange' | 'success' | 'danger';
 
 export interface HeroSectionProps {
   icon?: LucideIcon | React.ReactNode;
   title: string;
   description?: string;
   metadata?: Array<{ icon: React.ReactNode; text: string }>;
-  gradient?: 'primary' | 'orange' | 'success' | 'danger';
+  gradient?: HeroGradient;
   darkText?: boolean;
   children?: React.ReactNode;
 }
+
+const GRADIENT_CLASSES: Record<HeroGradient, string> = {
+  primary: 'bg-gradient-to-br from-primary-500 to-primary-600',
+  orange:  'bg-gradient-to-br from-secondary-500 to-accent-400',
+  success: 'bg-gradient-to-br from-success-base to-success-fg',
+  danger:  'bg-gradient-to-br from-danger-base to-secondary-500',
+};
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   icon: IconComponent,
@@ -33,93 +29,49 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   darkText = false,
   children,
 }) => {
-  const gradients = {
-    primary: 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-600))',
-    orange: 'linear-gradient(135deg, var(--tls-orange-500), var(--tls-yellow-400))',
-    success: 'linear-gradient(135deg, var(--tls-success-500), var(--tls-success-600))',
-    danger: 'linear-gradient(135deg, var(--tls-red-500), var(--tls-orange-500))',
-  };
-
   return (
     <div
-      style={{
-        background: gradients[gradient],
-        color: darkText ? 'var(--text)' : 'white',
-        padding: 'var(--s-12)',
-        textAlign: 'center',
-      }}
+      className={[
+        'p-12 text-center',
+        GRADIENT_CLASSES[gradient],
+        darkText ? 'text-ink-900' : 'text-white',
+      ].join(' ')}
     >
-      <div style={{ maxWidth: 800, margin: '0 auto' }}>
-        {/* Icon */}
+      <div className="max-w-[800px] mx-auto">
         {IconComponent && (
-          <div
-            style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: 'var(--r-xl)',
-              background: 'var(--glass-fill)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto var(--s-4)',
-              backdropFilter: 'blur(10px)',
-            }}
-          >
-            {React.isValidElement(IconComponent) ? (
-              IconComponent
-            ) : (
-              React.createElement(IconComponent as React.ComponentType<{ size: number }>, { size: 28 })
-            )}
+          <div className="w-[60px] h-[60px] rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-4">
+            {React.isValidElement(IconComponent)
+              ? IconComponent
+              : React.createElement(IconComponent as React.ComponentType<{ size: number }>, {
+                  size: 28,
+                })}
           </div>
         )}
 
-        {/* Title */}
-        <h1
-          style={{
-            fontSize: 'var(--t-h2)',
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            margin: '0 0 var(--s-2)',
-          }}
-        >
-          {title}
-        </h1>
+        <h1 className="text-h2 font-display font-bold m-0 mb-2">{title}</h1>
 
-        {/* Description */}
         {description && (
           <p
-            style={{
-              fontSize: 'var(--t-body-lg)',
-              margin: '0 0 var(--s-6)',
-              opacity: darkText ? 1 : 0.95,
-              lineHeight: 1.6,
-            }}
+            className={[
+              'text-body-lg m-0 mb-6 leading-relaxed',
+              darkText ? '' : 'opacity-95',
+            ].join(' ')}
           >
             {description}
           </p>
         )}
 
-        {/* Metadata */}
         {metadata && metadata.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-6)',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
+          <div className="flex items-center gap-6 justify-center flex-wrap">
             {metadata.map((item, idx) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
+              <div key={idx} className="flex items-center gap-2">
                 {item.icon}
-                <span style={{ fontSize: 'var(--t-body)' }}>{item.text}</span>
+                <span className="text-body">{item.text}</span>
               </div>
             ))}
           </div>
         )}
 
-        {/* Children */}
         {children}
       </div>
     </div>

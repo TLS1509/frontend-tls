@@ -1,23 +1,6 @@
-/**
- * SettingsSection
- *
- * Reusable settings section wrapper with title, description, content, and save/cancel actions.
- * Uses only design tokens and TLS components.
- *
- * Usage:
- * <SettingsSection
- *   title="Personal Information"
- *   description="Update your profile details"
- *   onSave={() => {}}
- *   onCancel={() => {}}
- * >
- *   <FormField label="Name" />
- * </SettingsSection>
- */
-
 import React from 'react';
 import { Button } from '../core/Button';
-import { Save, X } from 'lucide-react';
+import { Save } from 'lucide-react';
 
 interface SettingsSectionProps {
   title: string;
@@ -44,54 +27,22 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
 }) => {
   return (
     <div
-      className={`rounded-2xl p-6 ${className}`}
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border-default)',
-        boxShadow: 'var(--shadow-xs)',
-      }}
+      className={[
+        'rounded-2xl p-6 bg-white border border-ink-200 shadow-xs',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {/* Header */}
-      <div style={{ marginBottom: 'var(--s-6)' }}>
-        <h3
-          style={{
-            margin: 0,
-            fontSize: 'var(--t-h3)',
-            fontWeight: 700,
-            color: 'var(--text)',
-            marginBottom: 'var(--s-1)',
-          }}
-        >
-          {title}
-        </h3>
-        {description && (
-          <p
-            style={{
-              margin: 0,
-              fontSize: 'var(--t-body-sm)',
-              color: 'var(--text-muted)',
-            }}
-          >
-            {description}
-          </p>
-        )}
+      <div className="mb-6">
+        <h3 className="m-0 mb-1 text-h3 font-bold text-ink-900">{title}</h3>
+        {description && <p className="m-0 text-body-sm text-ink-500">{description}</p>}
       </div>
 
-      {/* Content */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)', marginBottom: 'var(--s-6)' }}>
-        {children}
-      </div>
+      <div className="flex flex-col gap-4 mb-6">{children}</div>
 
-      {/* Actions */}
       {(onSave || onCancel) && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 'var(--s-3)',
-            paddingTop: 'var(--s-6)',
-            borderTop: '1px solid var(--border-subtle)',
-          }}
-        >
+        <div className="flex gap-3 pt-6 border-t border-ink-200">
           {onSave && (
             <Button
               disabled={isSaving}
@@ -101,7 +52,11 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
               {isSaving ? 'Saving...' : saveLabel}
             </Button>
           )}
-          {onCancel && <Button variant="secondary" onClick={onCancel}>{cancelLabel}</Button>}
+          {onCancel && (
+            <Button variant="secondary" onClick={onCancel}>
+              {cancelLabel}
+            </Button>
+          )}
         </div>
       )}
     </div>

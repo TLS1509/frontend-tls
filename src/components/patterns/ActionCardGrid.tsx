@@ -66,9 +66,7 @@ export const ActionCardGrid: React.FC<ActionCardGridProps> = ({
             }
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            {item.icon}
-          </div>
+          <div className="flex justify-center">{item.icon}</div>
           <h3 className="card__title">{item.title}</h3>
           <p className="card__desc">{item.description}</p>
         </div>

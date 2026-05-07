@@ -1,18 +1,3 @@
-/**
- * PageHeader
- *
- * Full-featured page header with optional eyebrow text, title, description, and actions.
- * All values use design tokens — no hardcoded colors or sizes.
- *
- * Usage:
- * <PageHeader
- *   eyebrow={{ icon: <Zap size={14} />, text: "Section" }}
- *   title="Page Title"
- *   description="Longer description of the section content"
- *   actions={<Button>Action</Button>}
- * />
- */
-
 import React from 'react';
 
 interface EyebrowProps {
@@ -26,7 +11,6 @@ interface PageHeaderProps {
   description?: string;
   actions?: React.ReactNode;
   className?: string;
-  style?: React.CSSProperties;
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
@@ -35,89 +19,39 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   description,
   actions,
   className = '',
-  style,
 }) => {
+  const classes = [
+    'flex justify-between items-start gap-6 mb-10',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div
-      className={className}
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: 'var(--s-6)',
-        marginBottom: 'var(--s-10)',
-        ...style,
-      }}
-    >
-      {/* Left: eyebrow + title + description */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-        {/* Optional eyebrow */}
+    <div className={classes}>
+      <div className="flex flex-col gap-2">
         {eyebrow && (
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              fontSize: 'var(--t-caption)',
-              fontWeight: 600,
-              color: 'var(--text-muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.07em',
-            }}
-          >
+          <div className="inline-flex items-center gap-1 text-caption font-semibold text-ink-500 uppercase tracking-wider">
             {eyebrow.icon && (
-              <span style={{ display: 'flex', alignItems: 'center', color: 'var(--text-muted)' }}>
-                {eyebrow.icon}
-              </span>
+              <span className="flex items-center text-ink-500">{eyebrow.icon}</span>
             )}
             {eyebrow.text}
           </div>
         )}
 
-        {/* Title */}
-        <h1
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'var(--t-h1)',
-            fontWeight: 800,
-            color: 'var(--text)',
-            margin: 0,
-            lineHeight: 1.15,
-            letterSpacing: '-0.02em',
-          }}
-        >
+        <h1 className="font-display text-h1 font-extrabold text-ink-900 m-0 leading-tight tracking-tight">
           {title}
         </h1>
 
-        {/* Optional description */}
         {description && (
-          <p
-            style={{
-              fontSize: 'var(--t-body)',
-              color: 'var(--text-muted)',
-              margin: 0,
-              lineHeight: 1.6,
-              maxWidth: '600px',
-            }}
-          >
+          <p className="text-body text-ink-500 m-0 leading-relaxed max-w-[600px]">
             {description}
           </p>
         )}
       </div>
 
-      {/* Right: optional actions */}
       {actions && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 'var(--s-3)',
-            alignItems: 'center',
-            flexShrink: 0,
-            paddingTop: 'var(--s-1)',
-          }}
-        >
-          {actions}
-        </div>
+        <div className="flex gap-3 items-center shrink-0 pt-1">{actions}</div>
       )}
     </div>
   );
