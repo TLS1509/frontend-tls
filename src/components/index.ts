@@ -163,7 +163,6 @@ export { Achievement } from './ui/Achievement';
 export { ActionCard } from './ui/ActionCard';
 export { GlassCard } from './ui/GlassCard';
 export { SurfaceCard } from './ui/SurfaceCard';
-export { SectionTitle } from './ui/SectionTitle';
 export { MetaPill } from './ui/MetaPill';
 export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
@@ -223,8 +222,6 @@ export type { MultiStepFormProps, FormStep } from './patterns/MultiStepForm';
 
 export { PageCard } from './patterns/PageCard';
 export type { PageCardItem, PageCardGridProps } from './patterns/PageCard';
-
-export { PageHeaderSimple } from './patterns/PageHeaderSimple';
 
 export { ResourceCardGrid } from './patterns/ResourceCardGrid';
 export type { ResourceCardGridProps } from './patterns/ResourceCardGrid';

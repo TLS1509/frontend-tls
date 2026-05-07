@@ -80,7 +80,6 @@ import {
   // Content & Display
   ActionCard,
   ActivityItem,
-  SectionTitle,
   Tag,
   MetaPill,
   MetaItem,
@@ -110,7 +109,6 @@ import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
 import { LearningPathHeader } from '../components/patterns/LearningPathHeader';
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
-import { PageHeaderSimple } from '../components/patterns/PageHeaderSimple';
 import { ResourceCardGrid } from '../components/patterns/ResourceCardGrid';
 import { SettingsSection } from '../components/patterns/SettingsSection';
 import { VeilleCardFeed } from '../components/patterns/VeilleCardFeed';
@@ -1169,20 +1167,6 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
-  {
-    name: 'SectionTitle (deprecated)',
-    codeName: 'ui/SectionTitle.tsx',
-    cssBase: 'Alias rétrocompat → SectionHeader',
-    category: 'Content',
-    description: 'DEPRECATED. Utilisez <SectionHeader /> depuis patterns/SectionHeader. Cet alias est conservé pour rétrocompatibilité.',
-    keywords: ['heading', 'section', 'title', 'deprecated'],
-    render: () => (
-      <div className="vstack">
-        <SectionTitle title="Actions rapides" subtitle="Utilisez SectionHeader à la place" icon="⚡" />
-      </div>
-    ),
-  },
-
   /* ---- TLS APP PATTERNS ------------------------------------------------- */
   {
     name: 'CardGrid',
@@ -2394,20 +2378,6 @@ const COMPONENTS: ComponentEntry[] = [
         }}
         showThumbnail={true}
       />
-    ),
-  },
-  {
-    name: 'PageHeaderSimple (deprecated)',
-    codeName: 'patterns/PageHeaderSimple.tsx',
-    cssBase: 'Alias rétrocompat → PageHeader variant="tight"',
-    category: 'Patterns',
-    description: 'DEPRECATED. Utilisez <PageHeader variant="tight" /> directement. Cet alias est conservé pour rétrocompatibilité.',
-    keywords: ['header', 'simple', 'deprecated'],
-    render: () => (
-      <div className="vstack gap-4">
-        <PageHeader title="Tableau de bord" variant="tight" />
-        <PageHeader title="Mon profil" description="Gérez vos informations personnelles" variant="tight" />
-      </div>
     ),
   },
   {

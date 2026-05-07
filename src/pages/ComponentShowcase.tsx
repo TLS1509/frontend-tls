@@ -10,7 +10,7 @@ import {
   GlassCard,
   SurfaceCard,
   ParcoursCard,
-  SectionTitle,
+  SectionHeader,
   MetaPill,
   MetaPillGroup,
   MetaItem,
@@ -30,7 +30,7 @@ export const ComponentShowcase: React.FC = () => {
   return (
     <div style={{ padding: 'var(--s-8)', backgroundColor: 'var(--bg)' }}>
       {/* Header */}
-      <SectionTitle
+      <SectionHeader
         title="Component Library"
         subtitle="The Learning Society Design System - 16 React Components"
       />
