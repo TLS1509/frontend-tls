@@ -888,6 +888,16 @@
     box-shadow: 0 10px 28px rgba(248, 176, 68, 0.4);
   }
 
+  /* Fire gradient CTA — StreakCelebrationModal "Continuer ma série" button */
+  .modal-streak-cta {
+    background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.35);
+  }
+  .modal-streak-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255, 107, 53, 0.45);
+  }
+
   /* Cancel session secondary btn (off-brand semi-transparent orange border) */
   .modal-cancel-secondary {
     background: transparent;
@@ -1086,6 +1096,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes streakParticle {
+  0%   { opacity: 0; transform: rotate(45deg) translateY(0) scale(0); }
+  20%  { opacity: 1; transform: rotate(45deg) translateY(-40px) scale(1); }
+  80%  { opacity: 0.5; transform: rotate(45deg) translateY(-140px) scale(0.6); }
+  100% { opacity: 0; transform: rotate(45deg) translateY(-220px) scale(0); }
 }
 
 @keyframes cmBdIn {

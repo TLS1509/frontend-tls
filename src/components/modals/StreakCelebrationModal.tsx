@@ -5,7 +5,6 @@ import './modals.css';
 /**
  * StreakCelebrationModal — Célébration de série d'apprentissage
  * Animations CSS uniquement (pas de framer-motion)
- * Tokens: TLS design system
  */
 
 interface StreakCelebrationModalProps {
@@ -16,11 +15,10 @@ interface StreakCelebrationModalProps {
   encouragement?: string;
 }
 
-// Generates N particle specs once so they're stable per render
 function makeParticles(n: number) {
   return Array.from({ length: n }, (_, i) => ({
     id: i,
-    left: 30 + Math.random() * 40, // 30-70% horizontally
+    left: 30 + Math.random() * 40,
     delay: Math.random() * 1.2,
     duration: 1.6 + Math.random() * 1.2,
     size: 8 + Math.random() * 8,
@@ -36,12 +34,11 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
   milestone,
   encouragement = 'Continuez comme ça !',
 }) => {
-  const [visible, setVisible] = useState(false);
+  const [, setVisible] = useState(false);
   const isMilestone = milestone !== undefined && streakCount >= milestone;
 
   useEffect(() => {
     if (isOpen) {
-      // Tiny delay to trigger CSS animations
       const t = setTimeout(() => setVisible(true), 20);
       return () => clearTimeout(t);
     } else {
@@ -53,152 +50,99 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
 
   return (
     <>
-      {/* Floating flame particles */}
+      {/* Floating flame particles — random positions/sizes/delays kept inline (runtime values) */}
       {PARTICLES.map((p) => (
         <div
           key={p.id}
+          className="modal-flame-bg fixed bottom-[45%] z-[1001] pointer-events-none rounded-[50%_50%_50%_0]"
           style={{
-            position: 'fixed',
             left: `${p.left}%`,
-            bottom: '45%',
             width: p.size,
             height: p.size * 1.3,
-            borderRadius: '50% 50% 50% 0',
-            background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FFC107 100%)',
-            transform: 'rotate(45deg)',
-            pointerEvents: 'none',
-            zIndex: 1001,
-            animation: `streakParticle ${p.duration}s ${p.delay}s ease-out infinite`,
-            opacity: 0,
+            animation: `streakParticle ${p.duration}s ${p.delay}s ease-out infinite both`,
           }}
         />
       ))}
 
       {/* Backdrop */}
       <div
-        className="modal__backdrop"
-        style={{ background: 'rgba(0,0,0,0.55)', animation: 'scBdIn 0.22s ease both' }}
+        className="fixed inset-0 flex items-center justify-center p-4 z-[1001] bg-black/55 animate-sc-bd-in"
         onClick={onClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="modal--celebration modal__content"
-          style={{ padding: 'var(--s-10)', overflow: 'hidden' }}
+          className="relative w-full max-w-[520px] bg-white rounded-2xl border border-[rgba(255,107,53,0.2)] shadow-celebration overflow-hidden p-10 animate-sc-in"
         >
           {/* Orange header gradient */}
-          <div className="modal__celebration-header" />
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[rgba(237,132,58,0.12)] to-transparent pointer-events-none" />
 
           {/* Close */}
           <button
             onClick={onClose}
-            className="modal__close-btn"
-            style={{ zIndex: 2 }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--border)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--surface-muted)'; }}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-ink-50 border-0 flex items-center justify-center cursor-pointer text-ink-600 hover:bg-ink-200 transition-all z-20 p-0"
+            aria-label="Fermer"
           >
             <X size={14} />
           </button>
 
           {/* Flame icon */}
-          <div className="modal__flame-icon">
-            <Flame size={56} style={{ color: '#fff' }} />
-            <div className="modal__flame-ring" />
+          <div className="relative w-28 h-28 rounded-full modal-flame-bg flex items-center justify-center mx-auto mb-6 shadow-[0_20px_40px_rgba(255,107,53,0.4)] z-10 animate-flame-in">
+            <Flame size={56} className="text-white" />
+            <div className="absolute -inset-1.5 rounded-full border-[3px] border-[rgba(255,107,53,0.4)] animate-ring" />
           </div>
 
           {/* Streak count */}
-          <div style={{ textAlign: 'center', marginBottom: 'var(--s-5)', position: 'relative', zIndex: 1, animation: 'scFadeUp 0.4s ease 0.3s both' }}>
-            <div className="modal__streak-count">
+          <div className="text-center mb-5 relative z-10 animate-[scFadeUp_0.4s_ease_0.3s_both]">
+            <div className="text-[4.5rem] font-black leading-none modal-flame-text mb-1">
               {streakCount}
             </div>
-            <div style={{ fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <div className="text-body font-bold text-ink-900 uppercase tracking-[0.08em]">
               Jours Consécutifs
             </div>
           </div>
 
           {/* Milestone badge */}
           {isMilestone && (
-            <div className="modal__milestone-badge">
-              <TrendingUp size={14} /> Jalon {milestone} jours atteint !
+            <div className="flex justify-center mb-5 relative z-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-pill modal-milestone-bg text-white text-caption font-bold shadow-[0_4px_16px_rgba(255,215,0,0.4)] animate-milestone-in">
+                <TrendingUp size={14} /> Jalon {milestone} jours atteint !
+              </div>
             </div>
           )}
 
           {/* Title + message */}
-          <div style={{ textAlign: 'center', marginBottom: 'var(--s-6)', position: 'relative', zIndex: 1, animation: 'scFadeUp 0.4s ease 0.5s both' }}>
-            <h2 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--text)' }}>
+          <div className="text-center mb-6 relative z-10 animate-[scFadeUp_0.4s_ease_0.5s_both]">
+            <h2 className="text-h3 font-extrabold text-ink-900 mb-2">
               🔥 Série Enflammée !
             </h2>
-            <p style={{ margin: 0, fontSize: 'var(--t-body)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            <p className="text-body text-ink-600 leading-relaxed">
               {encouragement}
             </p>
           </div>
 
           {/* Stats grid */}
-          <div className="modal__stats-grid" style={{ animation: 'scFadeUp 0.4s ease 0.6s both' }}>
-            <div className="modal__stat-card modal__stat-card--primary" style={{ textAlign: 'center' }}>
-              <Calendar size={20} style={{ color: 'var(--tls-primary-500)', marginBottom: 'var(--s-2)' }} />
-              <div style={{ fontSize: 'var(--t-h4)', fontWeight: 800, color: 'var(--text)' }}>{Math.floor(streakCount / 7)}</div>
-              <div style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>Semaines</div>
+          <div className="grid grid-cols-2 gap-3 mb-6 relative z-10 animate-[scFadeUp_0.4s_ease_0.6s_both]">
+            <div className="p-4 rounded-lg bg-primary-50 border border-primary-500/15 text-center">
+              <Calendar size={20} className="mx-auto mb-2 text-primary-500" />
+              <div className="text-h4 font-extrabold text-ink-900">{Math.floor(streakCount / 7)}</div>
+              <div className="text-micro text-ink-600">Semaines</div>
             </div>
-            <div className="modal__stat-card modal__stat-card--warm" style={{ textAlign: 'center' }}>
-              <TrendingUp size={20} style={{ color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }} />
-              <div style={{ fontSize: 'var(--t-h4)', fontWeight: 800, color: 'var(--text)' }}>+{streakCount * 10}</div>
-              <div style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>XP Total</div>
+            <div className="p-4 rounded-lg bg-accent-400/8 border border-accent-400/15 text-center">
+              <TrendingUp size={20} className="mx-auto mb-2 text-accent-600" />
+              <div className="text-h4 font-extrabold text-ink-900">+{streakCount * 10}</div>
+              <div className="text-micro text-ink-600">XP Total</div>
             </div>
           </div>
 
           {/* CTA */}
           <button
             onClick={onClose}
-            style={{
-              width: '100%', padding: 'var(--s-4)',
-              borderRadius: 'var(--r-xl)', border: 'none',
-              background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)',
-              color: '#fff', fontWeight: 700, fontSize: 'var(--t-body)',
-              cursor: 'pointer', transition: 'all var(--dur-2)',
-              boxShadow: '0 8px 24px rgba(255,107,53,0.35)',
-              position: 'relative', zIndex: 1,
-              animation: 'scFadeUp 0.4s ease 0.7s both',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 12px 32px rgba(255,107,53,0.45)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,107,53,0.35)';
-            }}
+            className="w-full p-4 rounded-xl border-0 text-white font-bold text-body cursor-pointer transition-all relative z-10 modal-streak-cta animate-[scFadeUp_0.4s_ease_0.7s_both]"
           >
             Continuer ma série 🔥
           </button>
         </div>
       </div>
-
-      <style>{`
-        @keyframes scBdIn { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes scIn {
-          from { opacity: 0; transform: translateY(30px) scale(0.88); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes scFlameIn {
-          from { opacity: 0; transform: scale(0) rotate(-20deg); }
-          to   { opacity: 1; transform: scale(1) rotate(0deg); }
-        }
-        @keyframes scRing {
-          0%   { transform: scale(1); opacity: 0.6; }
-          70%  { transform: scale(1.4); opacity: 0; }
-          100% { transform: scale(1.4); opacity: 0; }
-        }
-        @keyframes scFadeUp {
-          from { opacity: 0; transform: translateY(12px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes streakParticle {
-          0%   { opacity: 0; transform: rotate(45deg) translateY(0) scale(0); }
-          20%  { opacity: 1; transform: rotate(45deg) translateY(-40px) scale(1); }
-          80%  { opacity: 0.5; transform: rotate(45deg) translateY(-140px) scale(0.6); }
-          100% { opacity: 0; transform: rotate(45deg) translateY(-220px) scale(0); }
-        }
-      `}</style>
     </>
   );
 };
