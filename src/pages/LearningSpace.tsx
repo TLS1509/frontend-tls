@@ -26,8 +26,6 @@ import {
 } from '../components';
 import './LearningSpace.css';
 
-/* ─── Types ─────────────────────────────────────────────────────────────── */
-
 type TabId = 'all' | 'parcours' | 'ressources' | 'live' | 'flashcards';
 
 const TAB_ITEMS = [
@@ -38,33 +36,13 @@ const TAB_ITEMS = [
   { id: 'flashcards', label: 'Flashcards' },
 ];
 
-/* ─── Sub-components ─────────────────────────────────────────────────────── */
-
-/* Inline section heading with optional CTA */
 const SectionHeading: React.FC<{
   title: string;
   icon?: React.ReactNode;
   action?: React.ReactNode;
 }> = ({ title, icon, action }) => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 'var(--s-4)',
-    }}
-  >
-    <h2
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--s-2)',
-        fontSize: 'var(--t-h3)',
-        fontWeight: 700,
-        color: 'var(--text)',
-        margin: 0,
-      }}
-    >
+  <div className="flex items-center justify-between mb-4">
+    <h2 className="flex items-center gap-2 text-h3 font-bold text-ink-900 m-0">
       {icon}
       {title}
     </h2>
@@ -72,65 +50,36 @@ const SectionHeading: React.FC<{
   </div>
 );
 
-/* Format chip — small pill for content type */
-const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({
-  label,
-  icon,
-}) => (
-  <span
-    style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 'var(--s-1)',
-      padding: 'var(--s-1) var(--s-2)',
-      background: 'var(--bg)',
-      border: '1px solid var(--border)',
-      borderRadius: 'var(--r-full)',
-      fontSize: 'var(--t-caption)',
-      color: 'var(--text-muted)',
-      fontWeight: 500,
-    }}
-  >
+const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label, icon }) => (
+  <span className="inline-flex items-center gap-1 px-2 py-1 bg-ink-50 border border-ink-200 rounded-pill text-caption text-ink-500 font-medium">
     {icon}
     {label}
   </span>
 );
 
-/* ─── Tab content sections ────────────────────────────────────────────────── */
+/* ─── Tab content ────────────────────────────────────────────────── */
 
 const TabAll: React.FC = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-8)' }}>
-    {/* En cours */}
+  <div className="flex flex-col gap-8">
     <section>
       <SectionHeading
         title="En cours"
-        icon={<Play size={18} color="var(--tls-primary-500)" />}
+        icon={<Play size={18} className="text-primary-500" />}
         action={
           <Button variant="ghost" size="sm">
             Voir tout <ChevronRight size={14} />
           </Button>
         }
       />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-        {/* Card 1 */}
+      <div className="flex flex-col gap-3">
         <Card variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: 'var(--s-4)',
-                marginBottom: 'var(--s-3)',
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <Badge variant="brand" style={{ marginBottom: 'var(--s-2)' }}>
+          <div className="p-5">
+            <div className="flex items-start justify-between gap-4 mb-3">
+              <div className="flex-1">
+                <Badge variant="brand" className="mb-2">
                   Parcours
                 </Badge>
-                <CardTitle style={{ marginBottom: 'var(--s-1)' }}>
-                  Fondamentaux du leadership
-                </CardTitle>
+                <CardTitle className="mb-1">Fondamentaux du leadership</CardTitle>
                 <CardDesc>
                   Prochaine leçon : Communication assertive — Module 4/7
                 </CardDesc>
@@ -141,28 +90,15 @@ const TabAll: React.FC = () => (
           </div>
         </Card>
 
-        {/* Card 2 */}
         <Card variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: 'var(--s-4)',
-                marginBottom: 'var(--s-3)',
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <Badge variant="warm" style={{ marginBottom: 'var(--s-2)' }}>
+          <div className="p-5">
+            <div className="flex items-start justify-between gap-4 mb-3">
+              <div className="flex-1">
+                <Badge variant="warm" className="mb-2">
                   Parcours
                 </Badge>
-                <CardTitle style={{ marginBottom: 'var(--s-1)' }}>
-                  Transformation digitale
-                </CardTitle>
-                <CardDesc>
-                  Prochaine leçon : Roadmap d'adoption — Module 2/8
-                </CardDesc>
+                <CardTitle className="mb-1">Transformation digitale</CardTitle>
+                <CardDesc>Prochaine leçon : Roadmap d'adoption — Module 2/8</CardDesc>
               </div>
               <Button size="sm">Continuer</Button>
             </div>
@@ -172,16 +108,11 @@ const TabAll: React.FC = () => (
       </div>
     </section>
 
-    {/* Recommandé pour vous */}
     <section>
-      <SectionHeading
-        title="Recommandé pour vous"
-        icon={<Star size={18} color="var(--tls-primary-500)" />}
-      />
+      <SectionHeading title="Recommandé pour vous" icon={<Star size={18} className="text-primary-500" />} />
       <div className="tls-grid">
-        {/* Reco 1 */}
         <Card variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+          <div className="p-5 flex flex-col gap-3">
             <Badge variant="brand">Vidéo</Badge>
             <CardTitle>Prompt structure en 5 étapes</CardTitle>
             <CardDesc>
@@ -191,9 +122,8 @@ const TabAll: React.FC = () => (
           </div>
         </Card>
 
-        {/* Reco 2 */}
         <Card variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+          <div className="p-5 flex flex-col gap-3">
             <Badge variant="sun">Masterclass</Badge>
             <CardTitle>IA et apprentissage hybride</CardTitle>
             <CardDesc>
@@ -203,9 +133,8 @@ const TabAll: React.FC = () => (
           </div>
         </Card>
 
-        {/* Reco 3 */}
         <Card variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)', display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+          <div className="p-5 flex flex-col gap-3">
             <Badge variant="success">Guide</Badge>
             <CardTitle>Manager à l'ère du numérique</CardTitle>
             <CardDesc>
@@ -217,27 +146,14 @@ const TabAll: React.FC = () => (
       </div>
     </section>
 
-    {/* À venir */}
     <section>
-      <SectionHeading
-        title="À venir"
-        icon={<Calendar size={18} color="var(--tls-primary-500)" />}
-      />
+      <SectionHeading title="À venir" icon={<Calendar size={18} className="text-primary-500" />} />
       <Card variant="feature" as="article">
-        <div
-          style={{
-            padding: 'var(--s-6)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 'var(--s-6)',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+        <div className="p-6 flex flex-wrap items-center justify-between gap-6">
+          <div className="flex flex-col gap-2">
             <Badge variant="danger">Live</Badge>
-            <CardTitle>Workshop : Feedback & culture apprenante</CardTitle>
-            <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+            <CardTitle>Workshop : Feedback &amp; culture apprenante</CardTitle>
+            <div className="flex flex-wrap gap-3">
               <FormatChip label="Jeudi 8 mai · 14h00" icon={<Calendar size={11} />} />
               <FormatChip label="Avec Sophie Martin" icon={<Users size={11} />} />
               <FormatChip label="12 places restantes" icon={<Star size={11} />} />
@@ -282,26 +198,18 @@ const TabParcours: React.FC = () => {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+    <div className="flex flex-col gap-4">
       {parcours.map((p) => (
         <Card key={p.title} variant="interactive" as="article">
-          <div style={{ padding: 'var(--s-5)' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: 'var(--s-4)',
-                marginBottom: 'var(--s-4)',
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <Badge variant={p.badge} style={{ marginBottom: 'var(--s-2)' }}>
+          <div className="p-5">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div className="flex-1">
+                <Badge variant={p.badge} className="mb-2">
                   Parcours
                 </Badge>
-                <CardTitle style={{ marginBottom: 'var(--s-1)' }}>{p.title}</CardTitle>
-                <CardDesc style={{ marginBottom: 'var(--s-3)' }}>{p.desc}</CardDesc>
-                <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+                <CardTitle className="mb-1">{p.title}</CardTitle>
+                <CardDesc className="mb-3">{p.desc}</CardDesc>
+                <div className="flex flex-wrap gap-3">
                   <FormatChip label={`${p.modules} modules`} icon={<Layers size={11} />} />
                   <FormatChip label={p.duration} icon={<Clock size={11} />} />
                 </div>
@@ -335,92 +243,48 @@ const TabRessources: React.FC = () => {
   ];
 
   const resources = [
-    {
-      type: 'articles',
-      icon: <FileText size={20} />,
-      badge: 'brand' as const,
-      title: 'Les 7 habitudes des leaders efficaces',
-      duration: 'Lecture 6 min',
-    },
-    {
-      type: 'videos',
-      icon: <Video size={20} />,
-      badge: 'warm' as const,
-      title: 'Maîtriser le feedback en 3 étapes',
-      duration: '14 min',
-    },
-    {
-      type: 'podcasts',
-      icon: <Headphones size={20} />,
-      badge: 'sun' as const,
-      title: 'Le futur du travail – épisode 12',
-      duration: '28 min',
-    },
-    {
-      type: 'guides',
-      icon: <Map size={20} />,
-      badge: 'success' as const,
-      title: 'Guide complet : Gestion de projet agile',
-      duration: 'Lecture 12 min',
-    },
+    { type: 'articles', icon: <FileText size={20} />, badge: 'brand' as const, title: 'Les 7 habitudes des leaders efficaces', duration: 'Lecture 6 min' },
+    { type: 'videos', icon: <Video size={20} />, badge: 'warm' as const, title: 'Maîtriser le feedback en 3 étapes', duration: '14 min' },
+    { type: 'podcasts', icon: <Headphones size={20} />, badge: 'sun' as const, title: 'Le futur du travail – épisode 12', duration: '28 min' },
+    { type: 'guides', icon: <Map size={20} />, badge: 'success' as const, title: 'Guide complet : Gestion de projet agile', duration: 'Lecture 12 min' },
   ];
 
   const filtered = filter === 'all' ? resources : resources.filter((r) => r.type === filter);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
-      {/* Filter chips */}
-      <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-        {filters.map((f) => (
-          <button
-            key={f.id}
-            type="button"
-            onClick={() => setFilter(f.id)}
-            className="tls-pill"
-            style={{
-              background: filter === f.id ? 'var(--tls-primary-500)' : undefined,
-              color: filter === f.id ? 'var(--text-inverse)' : undefined,
-              borderColor: filter === f.id ? 'var(--tls-primary-500)' : undefined,
-              cursor: 'pointer',
-              transition: 'background var(--dur-1), color var(--dur-1)',
-            }}
-          >
-            {f.label}
-          </button>
-        ))}
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-wrap gap-2">
+        {filters.map((f) => {
+          const isActive = filter === f.id;
+          return (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              className={[
+                'px-3 py-1 border rounded-pill text-caption font-medium cursor-pointer transition-colors',
+                isActive
+                  ? 'bg-primary-500 border-primary-500 text-white'
+                  : 'bg-white border-ink-200 text-ink-700 hover:bg-ink-50',
+              ].join(' ')}
+            >
+              {f.label}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Resource grid */}
       <div className="tls-grid">
         {filtered.map((r) => (
           <Card key={r.title} variant="interactive" as="article">
-            <div
-              style={{
-                padding: 'var(--s-5)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--s-3)',
-              }}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 'var(--r-lg)',
-                  background: 'var(--bg)',
-                  border: '1px solid var(--border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--tls-primary-500)',
-                }}
-              >
+            <div className="p-5 flex flex-col gap-3">
+              <div className="w-11 h-11 rounded-lg bg-ink-50 border border-ink-200 flex items-center justify-center text-primary-500">
                 {r.icon}
               </div>
-              <Badge variant={r.badge}>{r.type.charAt(0).toUpperCase() + r.type.slice(1, -1)}</Badge>
-              <CardTitle style={{ fontSize: 'var(--t-body)', fontWeight: 600 }}>
-                {r.title}
-              </CardTitle>
+              <Badge variant={r.badge}>
+                {r.type.charAt(0).toUpperCase() + r.type.slice(1, -1)}
+              </Badge>
+              <CardTitle className="text-body font-semibold">{r.title}</CardTitle>
               <FormatChip label={r.duration} icon={<Clock size={11} />} />
             </div>
           </Card>
@@ -431,21 +295,21 @@ const TabRessources: React.FC = () => {
 };
 
 const TabLive: React.FC = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
-    <SectionHeading title="Sessions à venir" icon={<Calendar size={18} color="var(--tls-primary-500)" />} />
+  <div className="flex flex-col gap-5">
+    <SectionHeading title="Sessions à venir" icon={<Calendar size={18} className="text-primary-500" />} />
 
-    {/* Upcoming 1 */}
     <Card variant="feature" as="article">
-      <div style={{ padding: 'var(--s-6)', display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+      <div className="p-6 flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="danger">Live · Jeudi 8 mai</Badge>
           <Badge variant="brand">12 places restantes</Badge>
         </div>
         <CardTitle>Workshop : Feedback &amp; culture apprenante</CardTitle>
         <CardDesc>
-          Apprenez à instaurer une culture du feedback bienveillant et à en faire un levier de performance collective.
+          Apprenez à instaurer une culture du feedback bienveillant et à en faire un levier de
+          performance collective.
         </CardDesc>
-        <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-3">
           <FormatChip label="14h00 – 15h30" icon={<Clock size={11} />} />
           <FormatChip label="Animé par Sophie Martin" icon={<Users size={11} />} />
         </div>
@@ -455,18 +319,18 @@ const TabLive: React.FC = () => (
       </div>
     </Card>
 
-    {/* Upcoming 2 */}
     <Card variant="feature" as="article">
-      <div style={{ padding: 'var(--s-6)', display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+      <div className="p-6 flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Badge variant="danger">Live · Mardi 13 mai</Badge>
           <Badge variant="warm">4 places restantes</Badge>
         </div>
         <CardTitle>Masterclass : Piloter avec les données</CardTitle>
         <CardDesc>
-          Intégrez la data dans votre management pour prendre de meilleures décisions et motiver vos équipes.
+          Intégrez la data dans votre management pour prendre de meilleures décisions et motiver vos
+          équipes.
         </CardDesc>
-        <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-3">
           <FormatChip label="10h00 – 11h30" icon={<Clock size={11} />} />
           <FormatChip label="Animé par Thomas Leroy" icon={<Users size={11} />} />
         </div>
@@ -476,13 +340,14 @@ const TabLive: React.FC = () => (
       </div>
     </Card>
 
-    {/* Past recording */}
-    <SectionHeading title="Replay disponible" icon={<Video size={18} color="var(--tls-primary-500)" />} />
+    <SectionHeading title="Replay disponible" icon={<Video size={18} className="text-primary-500" />} />
     <Card variant="interactive" as="article">
-      <div style={{ padding: 'var(--s-5)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
-        <div style={{ flex: 1 }}>
-          <Badge variant="success" style={{ marginBottom: 'var(--s-2)' }}>Replay</Badge>
-          <CardTitle style={{ marginBottom: 'var(--s-1)' }}>Intelligence émotionnelle au travail</CardTitle>
+      <div className="p-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex-1">
+          <Badge variant="success" className="mb-2">
+            Replay
+          </Badge>
+          <CardTitle className="mb-1">Intelligence émotionnelle au travail</CardTitle>
           <CardDesc>Session du 22 avril – 58 min</CardDesc>
         </div>
         <Button variant="secondary" size="sm">
@@ -495,47 +360,20 @@ const TabLive: React.FC = () => (
 
 const TabFlashcards: React.FC = () => {
   const decks = [
-    {
-      title: 'Leadership & management',
-      count: 48,
-      last: 'Il y a 2 jours',
-      badge: 'brand' as const,
-      color: 'brand' as const,
-    },
-    {
-      title: 'Transformation digitale',
-      count: 32,
-      last: 'Il y a 5 jours',
-      badge: 'warm' as const,
-      color: 'warm' as const,
-    },
-    {
-      title: 'Communication & soft skills',
-      count: 24,
-      last: 'Il y a 1 semaine',
-      badge: 'sun' as const,
-      color: 'gradient' as const,
-    },
+    { title: 'Leadership & management', count: 48, last: 'Il y a 2 jours', badge: 'brand' as const },
+    { title: 'Transformation digitale', count: 32, last: 'Il y a 5 jours', badge: 'warm' as const },
+    { title: 'Communication & soft skills', count: 24, last: 'Il y a 1 semaine', badge: 'sun' as const },
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+    <div className="flex flex-col gap-4">
       {decks.map((d) => (
         <Card key={d.title} variant="interactive" as="article">
-          <div
-            style={{
-              padding: 'var(--s-5)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 'var(--s-4)',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+          <div className="p-5 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex-1 flex flex-col gap-2">
               <Badge variant={d.badge}>Deck</Badge>
-              <CardTitle style={{ marginBottom: 0 }}>{d.title}</CardTitle>
-              <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+              <CardTitle className="mb-0">{d.title}</CardTitle>
+              <div className="flex flex-wrap gap-3">
                 <FormatChip label={`${d.count} cartes`} icon={<Layers size={11} />} />
                 <FormatChip label={`Révisé ${d.last}`} icon={<Clock size={11} />} />
               </div>
@@ -548,155 +386,55 @@ const TabFlashcards: React.FC = () => {
   );
 };
 
-/* ─── Page ───────────────────────────────────────────────────────────────── */
+const HERO_PILL =
+  'inline-flex items-center gap-2 px-3 py-1 bg-white/15 rounded-pill text-caption text-white font-medium';
 
 export const LearningSpace: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('all');
 
   return (
     <div className="feature-page">
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          borderRadius: 'var(--r-2xl)',
-          background: 'linear-gradient(135deg, var(--tls-primary-600) 0%, var(--tls-primary-400) 100%)',
-          padding: 'var(--s-8)',
-          boxShadow: 'var(--shadow-lg)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Decorative blob */}
+      <section className="relative overflow-hidden rounded-2xl p-8 shadow-lg bg-gradient-to-br from-primary-600 to-primary-400">
         <div
           aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '-30%',
-            right: '-8%',
-            width: 340,
-            height: 340,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, var(--overlay-white-xs) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }}
+          className="absolute -top-[30%] -right-[8%] w-[340px] h-[340px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,transparent_70%)]"
         />
 
-        <div style={{ position: 'relative' }}>
-          <p
-            style={{
-              fontSize: 'var(--t-caption)',
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              color: 'var(--on-color-text-muted)',
-              marginBottom: 'var(--s-2)',
-            }}
-          >
+        <div className="relative">
+          <p className="text-caption font-semibold uppercase tracking-wider text-white/70 mb-2">
             Bibliothèque IA
           </p>
-          <h1
-            style={{
-              fontSize: 'var(--t-h1)',
-              fontWeight: 800,
-              color: 'var(--text-inverse)',
-              margin: '0 0 var(--s-2)',
-            }}
-          >
+          <h1 className="text-h1 font-extrabold text-white m-0 mb-2">
             Mon Espace Apprentissage
           </h1>
-          <p
-            style={{
-              fontSize: 'var(--t-body)',
-              color: 'var(--on-color-text-soft)',
-              marginBottom: 'var(--s-5)',
-              maxWidth: 540,
-            }}
-          >
-            Votre IA a sélectionné du contenu sur mesure selon vos objectifs et votre rythme de la semaine.
+          <p className="text-body text-white/85 mb-5 max-w-[540px]">
+            Votre IA a sélectionné du contenu sur mesure selon vos objectifs et votre rythme de la
+            semaine.
           </p>
 
-          {/* Search bar */}
-          <label
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              background: 'var(--overlay-white-xs)',
-              border: '1px solid var(--overlay-white-sm)',
-              borderRadius: 'var(--r-full)',
-              padding: 'var(--s-2) var(--s-4)',
-              maxWidth: 400,
-              backdropFilter: 'var(--glass-blur)',
-              marginBottom: 'var(--s-5)',
-            }}
-          >
-            <Search size={16} color="var(--on-color-text-soft)" />
+          <label className="flex items-center gap-2 bg-white/10 border border-white/20 rounded-pill px-4 py-2 max-w-[400px] backdrop-blur-sm mb-5">
+            <Search size={16} className="text-white/70" />
             <input
               type="search"
               placeholder="Rechercher un contenu…"
-              style={{
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                fontSize: 'var(--t-body)',
-                color: 'var(--text-inverse)',
-                width: '100%',
-              }}
+              className="bg-transparent border-0 outline-none text-body text-white w-full placeholder:text-white/60"
             />
           </label>
 
-          {/* KPI pills */}
-          <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                padding: 'var(--s-1) var(--s-3)',
-                background: 'var(--overlay-white-sm)',
-                borderRadius: 'var(--r-full)',
-                fontSize: 'var(--t-caption)',
-                color: 'var(--text-inverse)',
-                fontWeight: 500,
-              }}
-            >
+          <div className="flex flex-wrap gap-3">
+            <span className={HERO_PILL}>
               <BookOpen size={12} /> 3 parcours actifs
             </span>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                padding: 'var(--s-1) var(--s-3)',
-                background: 'var(--overlay-white-sm)',
-                borderRadius: 'var(--r-full)',
-                fontSize: 'var(--t-caption)',
-                color: 'var(--text-inverse)',
-                fontWeight: 500,
-              }}
-            >
+            <span className={HERO_PILL}>
               <Clock size={12} /> 12h cette semaine
             </span>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                padding: 'var(--s-1) var(--s-3)',
-                background: 'var(--overlay-white-sm)',
-                borderRadius: 'var(--r-full)',
-                fontSize: 'var(--t-caption)',
-                color: 'var(--text-inverse)',
-                fontWeight: 500,
-              }}
-            >
+            <span className={HERO_PILL}>
               <Flame size={12} /> 7 jours de streak
             </span>
           </div>
         </div>
       </section>
 
-      {/* ── Filter tabs ──────────────────────────────────────────────────── */}
       <Tabs
         variant="pill"
         items={TAB_ITEMS}
@@ -704,7 +442,6 @@ export const LearningSpace: React.FC = () => {
         onChange={(id) => setActiveTab(id as TabId)}
       />
 
-      {/* ── Tab content ──────────────────────────────────────────────────── */}
       {activeTab === 'all' && <TabAll />}
       {activeTab === 'parcours' && <TabParcours />}
       {activeTab === 'ressources' && <TabRessources />}
