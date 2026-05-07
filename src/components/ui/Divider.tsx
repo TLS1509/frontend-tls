@@ -30,7 +30,11 @@ export const Divider: React.FC<DividerProps> = ({
       <div
         role="separator"
         aria-orientation="vertical"
-        className={['inline-block w-px self-stretch bg-ink-200', SPACING_V[spacing], className]
+        className={[
+          'inline-block w-px self-stretch bg-gradient-to-b from-transparent via-ink-200 to-transparent',
+          SPACING_V[spacing],
+          className,
+        ]
           .filter(Boolean)
           .join(' ')}
       />
@@ -45,11 +49,17 @@ export const Divider: React.FC<DividerProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex-1 h-px bg-ink-200" aria-hidden="true" />
-        <span className="text-caption font-medium text-ink-500 uppercase tracking-wider">
+        <div
+          className="flex-1 h-px bg-gradient-to-r from-transparent to-ink-200"
+          aria-hidden="true"
+        />
+        <span className="text-caption font-bold text-ink-500 uppercase tracking-[0.12em]">
           {label}
         </span>
-        <div className="flex-1 h-px bg-ink-200" aria-hidden="true" />
+        <div
+          className="flex-1 h-px bg-gradient-to-l from-transparent to-ink-200"
+          aria-hidden="true"
+        />
       </div>
     );
   }
@@ -57,7 +67,11 @@ export const Divider: React.FC<DividerProps> = ({
   return (
     <hr
       role="separator"
-      className={['border-0 h-px bg-ink-200', SPACING_H[spacing], className]
+      className={[
+        'border-0 h-px bg-gradient-to-r from-transparent via-ink-200 to-transparent',
+        SPACING_H[spacing],
+        className,
+      ]
         .filter(Boolean)
         .join(' ')}
     />

@@ -1,13 +1,5 @@
 import React from 'react';
 
-/**
- * Avatar — Source of truth: design-system/spec.json → components.Avatar
- *
- * User representation. Either image or initials. Never generic placeholder.
- * Sizes: xs/sm/md/lg/xl. Tints: brand (default), warm, sun, ink.
- * Shape: circle (default) | square. Optional status dot + level badge overlay.
- */
-
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarTint = 'brand' | 'warm' | 'sun' | 'ink';
 export type AvatarStatus = 'online' | 'busy' | 'away';
@@ -42,7 +34,7 @@ const getInitials = (name?: string, initials?: string): string => {
 };
 
 const BASE =
-  'relative inline-flex items-center justify-center font-body font-semibold overflow-visible shrink-0 select-none';
+  'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none ring-2 ring-white';
 
 const SIZE_CLASSES: Record<AvatarSize, string> = {
   xs: 'w-6 h-6 text-[10px]',
@@ -53,25 +45,25 @@ const SIZE_CLASSES: Record<AvatarSize, string> = {
 };
 
 const TINT_CLASSES: Record<AvatarTint, string> = {
-  brand: 'bg-primary-100 text-primary-800',
-  warm:  'bg-secondary-100 text-secondary-700',
-  sun:   'bg-accent-100 text-accent-800',
-  ink:   'bg-ink-200 text-ink-800',
+  brand: 'bg-gradient-to-br from-primary-100 to-primary-200 text-primary-800',
+  warm:  'bg-gradient-to-br from-secondary-100 to-secondary-200 text-secondary-700',
+  sun:   'bg-gradient-to-br from-accent-100 to-accent-200 text-accent-800',
+  ink:   'bg-gradient-to-br from-ink-100 to-ink-300 text-ink-800',
 };
 
 const SHAPE_SIZE_CLASSES: Record<AvatarSize, string> = {
-  xs: 'rounded-xs',
-  sm: 'rounded-sm',
-  md: 'rounded-md',
-  lg: 'rounded-lg',
-  xl: 'rounded-xl',
+  xs: 'rounded-md',
+  sm: 'rounded-md',
+  md: 'rounded-lg',
+  lg: 'rounded-xl',
+  xl: 'rounded-2xl',
 };
 
 const DOT_BASE =
-  'absolute bottom-0 right-0 w-[28%] h-[28%] min-w-2 min-h-2 rounded-full border-2 border-white';
+  'absolute bottom-0 right-0 w-[28%] h-[28%] min-w-2.5 min-h-2.5 rounded-full ring-2 ring-white';
 
 const DOT_STATUS_CLASSES: Record<AvatarStatus, string> = {
-  online: 'bg-success-base',
+  online: 'bg-success-base shadow-[0_0_8px_rgba(51,90,86,0.6)]',
   busy:   'bg-danger-base',
   away:   'bg-accent-400',
 };
@@ -79,9 +71,9 @@ const DOT_STATUS_CLASSES: Record<AvatarStatus, string> = {
 const LEVEL_BASE_SIZE_CLASSES: Record<AvatarSize, string> = {
   xs: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
   sm: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
-  md: 'min-w-4 h-4 -bottom-0.5 -right-0.5 text-[9px]',
-  lg: 'min-w-5 h-5 -bottom-[3px] -right-[3px] text-micro',
-  xl: 'min-w-5 h-5 -bottom-[3px] -right-[3px] text-micro',
+  md: 'min-w-[18px] h-[18px] -bottom-0.5 -right-0.5 text-[10px]',
+  lg: 'min-w-5 h-5 -bottom-1 -right-1 text-micro',
+  xl: 'min-w-6 h-6 -bottom-1 -right-1 text-caption',
 };
 
 export const Avatar: React.FC<AvatarProps> = ({
@@ -118,17 +110,17 @@ export const Avatar: React.FC<AvatarProps> = ({
         <img
           src={src}
           alt={alt || name || ''}
-          className="w-full h-full object-cover rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(15,23,42,0.08)]"
+          className="w-full h-full object-cover rounded-[inherit]"
         />
       ) : (
-        <span>{resolvedInitials}</span>
+        <span className="leading-none">{resolvedInitials}</span>
       )}
       {status && (
         <span className={`${DOT_BASE} ${DOT_STATUS_CLASSES[status]}`} aria-label={status} />
       )}
       {level !== undefined && (
         <span
-          className={`absolute flex items-center justify-center px-[3px] rounded-pill bg-primary-600 text-white font-body font-extrabold leading-none border-2 border-white pointer-events-none whitespace-nowrap z-[2] ${LEVEL_BASE_SIZE_CLASSES[size]}`}
+          className={`absolute flex items-center justify-center px-1 rounded-pill bg-gradient-to-br from-primary-500 to-primary-700 text-white font-body font-extrabold leading-none ring-2 ring-white pointer-events-none whitespace-nowrap z-[2] shadow-brand-xs ${LEVEL_BASE_SIZE_CLASSES[size]}`}
           aria-hidden="true"
         >
           {level}
@@ -149,8 +141,6 @@ export interface AvatarGroupProps {
   className?: string;
 }
 
-const GROUP_MORE_SIZE_CLASSES: Record<AvatarSize, string> = SIZE_CLASSES;
-
 export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   max = 4,
   size,
@@ -162,7 +152,17 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
   const overflow = items.length - visible.length;
 
   return (
-    <span className={`inline-flex items-center [&>span]:border-2 [&>span]:border-white [&>span]:-ml-2.5 [&>span:first-child]:ml-0 [&>span]:transition-transform [&>span]:duration-150 [&>span:hover]:-translate-y-0.5 [&>span:hover]:z-[1] ${className}`}>
+    <span
+      className={[
+        'inline-flex items-center',
+        '[&>span]:-ml-2.5 [&>span:first-child]:ml-0',
+        '[&>span]:transition-transform [&>span]:duration-200',
+        '[&>span:hover]:-translate-y-1 [&>span:hover]:z-[1]',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       {visible.map((child, i) => {
         if (React.isValidElement(child) && size) {
           return React.cloneElement(child as React.ReactElement<AvatarProps>, { size, key: i });
@@ -171,7 +171,10 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       })}
       {overflow > 0 && (
         <span
-          className={`relative inline-flex items-center justify-center font-body font-semibold overflow-visible shrink-0 select-none rounded-full bg-ink-200 text-ink-700 ${GROUP_MORE_SIZE_CLASSES[size ?? 'md']}`}
+          className={[
+            'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none rounded-full ring-2 ring-white bg-ink-100 text-ink-700',
+            SIZE_CLASSES[size ?? 'md'],
+          ].join(' ')}
           aria-label={`${overflow} autres`}
         >
           +{overflow}

@@ -10,10 +10,17 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const TONE_CLASSES: Record<TagTone, string> = {
-  neutral: 'bg-ink-50 text-ink-900 border-ink-200',
+  neutral: 'bg-ink-50 text-ink-700 border-ink-200',
   primary: 'bg-primary-50 text-primary-800 border-primary-200',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
   sun:     'bg-accent-50 text-accent-700 border-accent-200',
+};
+
+const REMOVE_HOVER: Record<TagTone, string> = {
+  neutral: 'hover:bg-ink-200 hover:text-ink-900',
+  primary: 'hover:bg-primary-100 hover:text-primary-900',
+  warm:    'hover:bg-secondary-100 hover:text-secondary-800',
+  sun:     'hover:bg-accent-100 hover:text-accent-900',
 };
 
 export const Tag: React.FC<TagProps> = ({
@@ -25,7 +32,7 @@ export const Tag: React.FC<TagProps> = ({
   ...rest
 }) => {
   const classes = [
-    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap',
+    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap transition-colors',
     TONE_CLASSES[tone],
     className,
   ]
@@ -34,7 +41,9 @@ export const Tag: React.FC<TagProps> = ({
 
   return (
     <span className={classes} {...rest}>
-      {leadingIcon && <span className="inline-flex items-center shrink-0">{leadingIcon}</span>}
+      {leadingIcon && (
+        <span className="inline-flex items-center shrink-0 opacity-75">{leadingIcon}</span>
+      )}
       <span>{children}</span>
       {onRemove && (
         <button
@@ -44,9 +53,12 @@ export const Tag: React.FC<TagProps> = ({
             e.stopPropagation();
             onRemove();
           }}
-          className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current opacity-60 hover:opacity-100 hover:bg-black/10 transition-all"
+          className={[
+            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors',
+            REMOVE_HOVER[tone],
+          ].join(' ')}
         >
-          <X size={10} strokeWidth={2.25} />
+          <X size={11} strokeWidth={2.5} />
         </button>
       )}
     </span>

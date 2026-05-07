@@ -24,10 +24,10 @@ const LEVEL_RING: Record<MasteryLevel, string> = {
 };
 
 const LEVEL_BG: Record<MasteryLevel, string> = {
-  beginner:     'bg-gradient-to-br from-success-bg to-white',
-  intermediate: 'bg-gradient-to-br from-primary-50 to-white',
-  advanced:     'bg-gradient-to-br from-secondary-50 to-white',
-  expert:       'bg-gradient-to-br from-accent-50 to-white',
+  beginner:     'bg-gradient-to-br from-success-bg to-white shadow-md',
+  intermediate: 'bg-gradient-to-br from-primary-50 to-white shadow-brand-sm',
+  advanced:     'bg-gradient-to-br from-secondary-50 to-white shadow-md',
+  expert:       'bg-gradient-to-br from-accent-50 to-white shadow-md',
 };
 
 const LEVEL_LABEL: Record<MasteryLevel, string> = {
@@ -35,6 +35,13 @@ const LEVEL_LABEL: Record<MasteryLevel, string> = {
   intermediate: 'text-primary-700',
   advanced:     'text-secondary-700',
   expert:       'text-accent-700',
+};
+
+const LEVEL_LABEL_BG: Record<MasteryLevel, string> = {
+  beginner:     'bg-success-bg border-success-base/20',
+  intermediate: 'bg-primary-50 border-primary-200',
+  advanced:     'bg-secondary-50 border-secondary-200',
+  expert:       'bg-accent-50 border-accent-200',
 };
 
 export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
@@ -47,34 +54,34 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
 }) => {
   const defaults = LEVEL_DEFAULTS[level];
   const pct = Math.min(Math.max(progress, 0), 100);
-  const radius = 36;
+  const radius = 38;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (pct / 100) * circumference;
 
-  const classes = ['inline-flex flex-col items-center gap-2', className]
+  const classes = ['inline-flex flex-col items-center gap-2.5', className]
     .filter(Boolean)
     .join(' ');
 
   return (
     <div className={classes} {...rest}>
-      <div className="relative w-[88px] h-[88px]">
+      <div className="relative w-[96px] h-[96px]">
         <svg
-          viewBox="0 0 88 88"
+          viewBox="0 0 96 96"
           className={`w-full h-full -rotate-90 ${LEVEL_RING[level]}`}
           aria-hidden="true"
         >
           <circle
-            cx="44"
-            cy="44"
+            cx="48"
+            cy="48"
             r={radius}
             fill="none"
             stroke="currentColor"
-            strokeOpacity="0.15"
+            strokeOpacity="0.12"
             strokeWidth="6"
           />
           <circle
-            cx="44"
-            cy="44"
+            cx="48"
+            cy="48"
             r={radius}
             fill="none"
             stroke="currentColor"
@@ -82,19 +89,25 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={dashOffset}
-            className="transition-[stroke-dashoffset] duration-500"
+            className="transition-[stroke-dashoffset] duration-700"
           />
         </svg>
         <div
           className={[
-            'absolute inset-2 rounded-full inline-flex items-center justify-center text-3xl shadow-sm',
+            'absolute inset-2 rounded-full inline-flex items-center justify-center text-3xl',
             LEVEL_BG[level],
           ].join(' ')}
         >
           {icon ?? defaults.icon}
         </div>
       </div>
-      <span className={`text-caption font-bold uppercase tracking-wider ${LEVEL_LABEL[level]}`}>
+      <span
+        className={[
+          'inline-flex items-center px-3 py-1 rounded-pill text-caption font-bold uppercase tracking-wider border',
+          LEVEL_LABEL[level],
+          LEVEL_LABEL_BG[level],
+        ].join(' ')}
+      >
         {label ?? defaults.label}
       </span>
     </div>
