@@ -79,7 +79,7 @@
 
 | # | Composant | Fichier | Consommé par | Statut |
 |---|-----------|---------|--------------|--------|
-| 2.6.1 | Badge | `src/components/ui/Badge.tsx` | Cards, modales, listes | ⬜ |
+| 2.6.1 | Badge | `src/components/ui/Badge.tsx` | Cards, modales, listes | ✅ |
 | 2.6.2 | Pill | `src/components/ui/Pill.tsx` | MetaPillGroup, status indicators | ⬜ |
 | 2.6.3 | MetaPillGroup | `src/components/ui/MetaPillGroup.tsx` | ParcoursCard, learning cards | ⬜ |
 | 2.6.4 | ProgressBar | `src/components/ui/ProgressBar.tsx` | Dashboard, profil, learning | ⬜ |
@@ -214,7 +214,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 10 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns)
+**Composants validés :** 11 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge)
 
 **📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
 **Inline styles restants :** ~2 077 / 2 105

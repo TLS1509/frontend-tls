@@ -143,9 +143,13 @@
   --text-stat-value: clamp(2rem, 3vw, 2.75rem);
   --text-stat-value-lg: clamp(2.5rem, 4vw, 3.5rem);
 
-  /* ── Couleurs sémantiques — succès / danger ── */
+  /* ── Couleurs sémantiques — succès / danger / info ── */
+  --color-success-bg: #E8F2F0;
+  --color-success-fg: #335A56;
   --color-success-base: #9DBEBA;
+  --color-danger-bg: #FEF4F0;
   --color-danger-fg: #8F2A0E;
+  --color-danger-base: #F28559;
 }
 
 /* ============================================

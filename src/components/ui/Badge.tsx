@@ -1,13 +1,11 @@
 import React from 'react';
-import './Badge.css';
 
 /**
  * Badge — Source of truth: design-system/spec.json → components.Badge
  *
- * Compact status indicator. Uppercase, 11px, 1–2 words max.
+ * Compact status indicator. Uppercase, micro size, 1–2 words max.
  * Variants: brand (default), neutral, warm, sun, success, danger, info.
- * Sizes: sm (10px text), md (default), lg (larger).
- * Optional status dot via `dot` prop.
+ * Sizes: sm / md / lg. Optional status dot via `dot` prop.
  */
 
 export type BadgeVariant =
@@ -23,19 +21,35 @@ export type BadgeSize = 'sm' | 'md' | 'lg';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
-  /** sm = 10px text / tight padding, md = default, lg = larger */
   size?: BadgeSize;
-  /** Show a small colored status dot before the label */
   dot?: boolean;
-  /** Legacy/simple API: text content */
   text?: React.ReactNode;
-  /** Legacy API: map color prop to variant */
+  /** @deprecated Use variant. `primary` maps to `brand`. */
   color?: BadgeVariant | 'primary';
 }
 
 const mapLegacyColor = (color?: BadgeVariant | 'primary'): BadgeVariant => {
   if (color === 'primary' || !color) return 'brand';
   return color;
+};
+
+const BASE =
+  'inline-flex items-center gap-1 rounded-sm font-body font-bold uppercase leading-tight whitespace-nowrap border';
+
+const SIZE_CLASSES: Record<BadgeSize, string> = {
+  sm: 'text-[10px] px-1.5 py-px tracking-[0.05em]',
+  md: 'text-micro px-2 py-0.5 tracking-[0.04em]',
+  lg: 'text-caption px-3 py-1 tracking-[0.03em]',
+};
+
+const VARIANT_CLASSES: Record<BadgeVariant, string> = {
+  brand:    'bg-primary-50 text-primary-800 border-primary-500/25',
+  neutral:  'bg-ink-50 text-ink-600 border-ink-900/[14%]',
+  warm:     'bg-secondary-50 text-secondary-700 border-secondary-200',
+  sun:      'bg-accent-100 text-accent-900 border-accent-200',
+  success:  'bg-success-bg text-success-fg border-success-base',
+  danger:   'bg-danger-bg text-danger-fg border-danger-base',
+  info:     'bg-primary-50 text-primary-900 border-primary-500/25',
 };
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -49,18 +63,13 @@ export const Badge: React.FC<BadgeProps> = ({
   ...rest
 }) => {
   const resolvedVariant: BadgeVariant = variant ?? mapLegacyColor(color);
-  const classes = [
-    'badge',
-    resolvedVariant !== 'brand' && `badge--${resolvedVariant}`,
-    `badge--${size}`,
-    dot && 'badge--dot',
-    className,
-  ]
+  const classes = [BASE, SIZE_CLASSES[size], VARIANT_CLASSES[resolvedVariant], className]
     .filter(Boolean)
     .join(' ');
 
   return (
     <span className={classes} {...rest}>
+      {dot && <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-current shrink-0" />}
       {children ?? text}
     </span>
   );
