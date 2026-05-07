@@ -301,7 +301,6 @@ export const LearningPaths: React.FC = () => {
             status={parcours.status}
             tone={TONES[index % TONES.length]}
             onClick={handleCardClick}
-            instructor={parcours.instructor}
             duration={parcours.duration}
             lessons={parcours.lessons}
             level={parcours.level}

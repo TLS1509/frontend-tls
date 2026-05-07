@@ -7,7 +7,6 @@ export type ParcoursStatus = 'not-started' | 'in-progress' | 'completed';
 interface ParcoursCardProps {
   title: string;
   description?: string;
-  instructor?: string;
   progress?: number;
   lessonCount?: number;
   duration?: string;
@@ -45,7 +44,6 @@ const STATUS_BORDER: Record<ParcoursStatus, string> = {
 export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   title,
   description,
-  instructor,
   progress = 0,
   lessonCount,
   duration,
@@ -90,8 +88,6 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         <h3 className="m-0 text-h4 font-display font-semibold leading-tight text-ink-900">
           {title}
         </h3>
-
-        {instructor && <p className="m-0 text-caption text-ink-500">{instructor}</p>}
 
         {description && (
           <p className="m-0 text-body-sm leading-relaxed text-ink-500">{description}</p>

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Palette, BookOpen, Grid3x3, User, Play, Zap } from 'lucide-react';
+import { Palette, BookOpen, Grid3x3, Play, Zap } from 'lucide-react';
 
 export type CourseCardTone = 'brand' | 'warm' | 'sun';
 
 export interface CourseCardProps {
   title: string;
-  instructor?: string;
   category?: 'Design' | 'React' | 'Design Systems' | string;
   enrolled?: boolean;
   progress?: number;
@@ -72,7 +71,6 @@ const BUTTON_ENROLLED =
 
 export const CourseCard: React.FC<CourseCardProps> = ({
   title,
-  instructor = 'Course Instructor',
   category = 'Other',
   enrolled = false,
   progress = 0,
@@ -96,11 +94,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <p className="text-caption text-ink-600 mb-4 leading-normal">
           Expand your skills with comprehensive, project-based learning...
         </p>
-
-        <div className="flex items-center gap-2 mb-4 text-caption">
-          <User size={14} strokeWidth={2} className="text-ink-600" />
-          <span className="font-medium text-ink-900">{instructor}</span>
-        </div>
 
         {enrolled && (
           <div className="mb-6">

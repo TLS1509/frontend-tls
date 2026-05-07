@@ -1892,7 +1892,6 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="grid-2">
         <CourseCard
           title="Prompt Engineering Avancé"
-          instructor="Sophie Martin"
           category="Design"
           tone="warm"
           enrolled={false}
@@ -1900,7 +1899,6 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <CourseCard
           title="React & Design Systems"
-          instructor="Paul Bernard"
           category="React"
           tone="brand"
           enrolled={true}
@@ -1926,7 +1924,6 @@ const COMPONENTS: ComponentEntry[] = [
           progress={65}
           status="en cours"
           tone="primary"
-          instructor="Sophie Martin"
           lessons={12}
           duration="6h"
           onClick={() => {}}
@@ -1938,7 +1935,6 @@ const COMPONENTS: ComponentEntry[] = [
           progress={0}
           status="non commencé"
           tone="warm"
-          instructor="Ahmed Ali"
           lessons={8}
           duration="4h"
           onClick={() => {}}

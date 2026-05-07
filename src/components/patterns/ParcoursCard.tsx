@@ -11,7 +11,7 @@
  */
 
 import React from 'react';
-import { ArrowRight, User, Zap, Clock3, BookOpen } from 'lucide-react';
+import { ArrowRight, Zap, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
 import { ToneAwareCard } from './ToneAwareCard';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
@@ -28,7 +28,6 @@ export interface ParcoursCardProps {
   tone?: ParcoursTone;
   onClick?: (id: string) => void;
   className?: string;
-  instructor?: string;
   duration?: string;
   lessons?: number;
   level?: 'débutant' | 'intermédiaire' | 'avancé';
@@ -70,7 +69,6 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   tone = 'primary',
   onClick,
   className = '',
-  instructor,
   duration,
   lessons,
   level,
@@ -101,10 +99,9 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
             {title}
           </h3>
 
-          {(instructor || duration || lessons || level) && (
+          {(duration || lessons || level) && (
             <MetaPillGroup
               items={[
-                ...(instructor ? [{ icon: <User size={13} />, text: instructor }] : []),
                 ...(level ? [{ icon: <Zap size={13} />, text: level }] : []),
                 ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
                 ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
