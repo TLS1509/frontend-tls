@@ -101,8 +101,6 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
             {title}
           </h3>
 
-          <p className="font-body text-body-sm text-ink-600 leading-normal m-0">{description}</p>
-
           {(instructor || duration || lessons || level) && (
             <MetaPillGroup
               items={[
@@ -117,6 +115,8 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
               className="py-2 border-y border-ink-900/[6%]"
             />
           )}
+
+          <p className="font-body text-body-sm text-ink-600 leading-normal m-0">{description}</p>
 
           <div className="flex-1 min-h-2" />
 

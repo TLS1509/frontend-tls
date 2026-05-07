@@ -108,6 +108,8 @@
 | 5.3 | Alert | `src/components/ui/Alert.tsx` | ⬜ |
 | 5.4 | StatCard | `src/components/ui/StatCard.tsx` | ⬜ |
 | 5.5 | ProgressBar | `src/components/ui/ProgressBar.tsx` | ⬜ |
+| 5.5b | InlineProgress (patterns) | `src/components/patterns/InlineProgress.tsx` | ⬜ |
+| 5.5c | MetaPillGroup | `src/components/ui/MetaPillGroup.tsx` | ⬜ |
 | 5.6 | Medal | `src/components/ui/Medal.tsx` | ⬜ |
 | 5.7 | Toast | `src/components/ui/Toast.tsx` | ⬜ |
 | 5.8 | Modal | `src/components/ui/Modal.tsx` | ⬜ |
