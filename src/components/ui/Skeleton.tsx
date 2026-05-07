@@ -4,7 +4,7 @@ import React from 'react';
  * Skeleton — Source of truth: design-system/spec.json → components.Skeleton
  *
  * Placeholder shimmer matching the shape of expected content.
- * Variants: text (1 line) / title (wide heading) / block (rect) / circle / card / button.
+ * Variants: text / title / block / circle / card / button.
  * Use when 1–3s load; for ≤1s use a spinner, ≥3s add a message.
  */
 
@@ -12,11 +12,21 @@ export type SkeletonVariant = 'text' | 'title' | 'block' | 'circle' | 'card' | '
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: SkeletonVariant;
-  /** Explicit width override (useful for text lines) */
   width?: number | string;
-  /** Explicit height override */
   height?: number | string;
 }
+
+const BASE =
+  'block bg-gradient-to-r from-ink-50 via-ink-100 to-ink-50 bg-[length:200%_100%] animate-skeleton-shimmer';
+
+const VARIANT_CLASSES: Record<SkeletonVariant, string> = {
+  text:   'h-3.5 rounded-pill',
+  title:  'h-6 w-3/5 rounded-sm',
+  block:  'h-30 rounded-lg',
+  circle: 'rounded-full aspect-square',
+  card:   'h-40 rounded-lg',
+  button: 'h-10 w-24 rounded-pill',
+};
 
 export const Skeleton: React.FC<SkeletonProps> = ({
   variant = 'text',
@@ -26,9 +36,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   style,
   ...rest
 }) => {
-  const classes = ['skeleton', `skeleton--${variant}`, className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = [BASE, VARIANT_CLASSES[variant], className].filter(Boolean).join(' ');
 
   const inlineStyle: React.CSSProperties = {
     ...style,
@@ -37,12 +45,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   };
 
   return (
-    <span
-      className={classes}
-      style={inlineStyle}
-      aria-hidden="true"
-      {...rest}
-    />
+    <span className={classes} style={inlineStyle} aria-hidden="true" {...rest} />
   );
 };
 

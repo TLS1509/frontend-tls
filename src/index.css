@@ -145,6 +145,7 @@
 
   /* ── Animations ── */
   --animate-alert-slide: alert-slide-down 200ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
+  --animate-skeleton-shimmer: skeleton-shimmer 1.6s infinite ease-in-out;
 
   /* ── Couleurs sémantiques — succès / danger / info ── */
   --color-success-bg: #E8F2F0;
@@ -161,6 +162,11 @@
 @keyframes alert-slide-down {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* ============================================
