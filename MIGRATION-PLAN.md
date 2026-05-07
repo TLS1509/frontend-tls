@@ -167,7 +167,8 @@
 | 5.41 | Celebration + InlineWin | `src/components/ui/Celebration.tsx` | ✅ |
 | 5.42 | DropdownMenu (Menu/Item/Label/Sep) | `src/components/ui/DropdownMenu.tsx` | ✅ |
 | 5.43 | ProgressRing | `src/components/ui/ProgressRing.tsx` | ✅ |
-| 5.44 | BackgroundBlobs (décoratif, animation runtime) | `src/components/ui/BackgroundBlobs.tsx` | ⬜ |
+| 5.44 | BackgroundBlobs (décoratif, animation runtime) | `src/components/ui/BackgroundBlobs.tsx` | ✅ |
+| 5.45 | ToastContainer | `src/components/ui/ToastContainer.tsx` | ✅ |
 
 ---
 
@@ -188,7 +189,22 @@
 | 6.11 | SettingsSection | `src/components/patterns/SettingsSection.tsx` | ✅ |
 | 6.12 | DataTable | `src/components/patterns/DataTable.tsx` | ✅ |
 | 6.13 | ActionCardGrid | `src/components/patterns/ActionCardGrid.tsx` | ✅ |
-| 6.14-6.29 | Patterns restants (PageCard, Flashcard exceptions, etc.) | `src/components/patterns/[...].tsx` | ⬜ |
+| 6.14 | DashboardHero | `src/components/patterns/DashboardHero.tsx` | ✅ |
+| 6.15 | ActivityFeed | `src/components/patterns/ActivityFeed.tsx` | ✅ |
+| 6.16 | ActivityTimeline | `src/components/patterns/ActivityTimeline.tsx` | ✅ |
+| 6.17 | BreadcrumbNav | `src/components/patterns/BreadcrumbNav.tsx` | ✅ |
+| 6.18 | CoachCardGrid | `src/components/patterns/CoachCardGrid.tsx` | ✅ |
+| 6.19 | FormLayout | `src/components/patterns/FormLayout.tsx` | ✅ |
+| 6.20 | LearningPathHeader | `src/components/patterns/LearningPathHeader.tsx` | ✅ |
+| 6.21 | LearningPathGrid | `src/components/patterns/LearningPathGrid.tsx` | ✅ |
+| 6.22 | MultiStepForm | `src/components/patterns/MultiStepForm.tsx` | ✅ |
+| 6.23 | ResourceCardGrid | `src/components/patterns/ResourceCardGrid.tsx` | ✅ |
+| 6.24 | SearchWithFilters | `src/components/patterns/SearchWithFilters.tsx` | ✅ |
+| 6.25 | VeilleCardFeed | `src/components/patterns/VeilleCardFeed.tsx` | ✅ |
+| 6.26 | QuizQuestionCard | `src/components/patterns/QuizQuestionCard.tsx` | ✅ |
+| 6.27 | RatingModal | `src/components/patterns/RatingModal.tsx` | ✅ |
+| 6.28 | TabsWithContent | `src/components/patterns/TabsWithContent.tsx` | ✅ |
+| 6.29 | PageCard / Flashcard | exceptions (BEM page-spécifique + 3D transform) | ⬜ |
 
 ---
 
@@ -207,6 +223,8 @@
 | 7.9 | RankingCard | `src/components/learning/RankingCard.tsx` | ✅ |
 | 7.10 | StepCard | `src/components/learning/StepCard.tsx` | ✅ (1 runtime style — exception progress) |
 | 7.11 | ParcoursCard (learning) | `src/components/learning/ParcoursCard.tsx` | ✅ (1 runtime style — exception progress) |
+
+**Note Phase 7 (2026-05-07) :** Tous les composants Learning étaient encore BEM avec CSS files dédiés malgré le statut "déjà sans inline" précédent. Migration complète Tailwind effectuée : SessionCard, LessonCard, ArticleCard, VideoCard, ProjectCard, StepCard, ParcoursCard. 7 fichiers `.css` BEM supprimés.
 
 ---
 
@@ -250,8 +268,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + Phase 5 (~98 %) + Phase 6 (~85 %) + Phase 7 (~100 %) / 9
-**Composants validés :** ~88 / ~120 (Dashboard + Settings + 13 patterns + 11 learning ajoutés)
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) / 9
+**Composants validés :** ~110 / ~120 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
 - **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
@@ -264,10 +282,10 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - **Phase 5 (UI batch 5 — Final)** : Achievement, AchievementBadge, MasteryBadge, ActivityItem, CompetencyMatrix, QuizComponent, Celebration + InlineWin, DropdownMenu (+ DropdownItem, DropdownLabel, DropdownSeparator), ProgressRing
 
 **🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind.
-**🎉 Phase 5 quasi-COMPLÈTE** — 35 / 36 composants UI migrés. Seul BackgroundBlobs reste (composant purement décoratif avec keyframes runtime).
+**🎉 Phase 5 COMPLÈTE** — 36/36 composants UI migrés (BackgroundBlobs et ToastContainer faits, keyframes déplacés vers tls-components.css).
 **🎉 Phase 4 COMPLÈTE** — 5 / 5 pages Learning migrées (LearningPaths, LearningPathDetail, LearningSpace, LessonPlayer, Profile). ~282 inline styles supprimés (95+35+63+42+47 → 0+0+0+1+0).
-**🎉 Phase 6 quasi-COMPLÈTE** — 13 patterns migrés (HeroSection, PageHeader, PageHeaderSimple, SectionHeader, HeaderNav, SettingsSection, ToneAwareCard, ActionCardGrid, DataTable + 4 déjà sans inline). Restants : PageCard (page-spécifique BEM), Flashcard (3D transform).
-**🎉 Phase 7 COMPLÈTE** — 11 / 11 learning components migrés. Seuls StepCard et ParcoursCard gardent 1 inline runtime chacun (progress-bar width %).
+**🎉 Phase 6 quasi-COMPLÈTE** — 28/29 patterns migrés. Seuls PageCard (page-spécifique BEM) et Flashcard (3D transform) restent en exception.
+**🎉 Phase 7 COMPLÈTE (2x)** — Toutes les 11 cards Learning maintenant fully Tailwind (CSS files BEM supprimés). Initialement marqués "sans inline" mais utilisaient encore BEM.
 
 **Audit Phase 5 batch Cards (2026-05-07) :**
 - 2 composants étaient **visuellement cassés** (CSS orphelin non importé) : ResourceCard, ProfileCard
@@ -304,7 +322,14 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - Phase 7 : MagazineCard, MessageThreadCard, PromptCard, RankingCard migrés. ~24 inline styles supprimés.
 - Phase 8 batch 1+2 : Dashboard (27 → 0), Settings (57 → 0). Switch component pris en main correctement (label prop, pas children). Hover state hooks (hoveredAction/Continue) supprimés au profit de hover:/focus-visible: utilities.
 
-**Prochain jalon :** Continuer Phase 8 (Account 46, Coaching 54, Messages 67, CoachingCompteRendu 70, Dossier 73, VeilleContent 63, Leaderboard 53, etc.) puis pages restantes Phase 8 et finir Phase 6/9.
+**Audit Phases 5+6+7 final (2026-05-07) :**
+- Phase 5 (UI components) : 36/36. BackgroundBlobs + ToastContainer migrés (keyframes via tls-components.css).
+- Phase 6 (patterns) : 28/29. Migration complète DashboardHero, ActivityFeed, ActivityTimeline, BreadcrumbNav, CoachCardGrid, FormLayout, LearningPathHeader, LearningPathGrid, MultiStepForm, ResourceCardGrid, SearchWithFilters, VeilleCardFeed, QuizQuestionCard, RatingModal, TabsWithContent.
+- Phase 7 (learning) : 11/11. Re-migration complète : tous les composants Learning étaient encore BEM avec CSS files dédiés.
+- Total cette session : ~26 composants migrés, ~16 fichiers CSS BEM supprimés, ~250+ inline styles transformés.
+- Pièges/exceptions : `style={{}}` runtime conservé pour progress bars % et grid-template-columns dynamique. PageCard + Flashcard skippés (BEM page-spécifique + 3D transform).
 
-**Inline styles restants :** ~900 / 2 105 (estim. — ~120 supprimés cette session)
+**Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, VeilleContent 63, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final.
+
+**Inline styles restants :** ~600 / 2 105 (estim. — ~250+ supprimés ces 2 batches)
 **Dernière mise à jour :** 2026-05-07
