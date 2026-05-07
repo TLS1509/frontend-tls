@@ -117,11 +117,11 @@
 
 | # | Page | Fichier | Inline styles | Statut |
 |---|------|---------|--------------|--------|
-| 4.1 | LearningPathDetail | `src/pages/LearningPathDetail.tsx` | 95 | ⬜ |
-| 4.2 | LearningPaths | `src/pages/LearningPaths.tsx` | ~20 | ⬜ |
-| 4.3 | LearningSpace | `src/pages/LearningSpace.tsx` | 63 | ⬜ |
-| 4.4 | LessonPlayer | `src/pages/LessonPlayer.tsx` | ~25 | ⬜ |
-| 4.5 | Réussites / Profile | `src/pages/Profile.tsx` | ~15 | ⬜ |
+| 4.1 | LearningPathDetail | `src/pages/LearningPathDetail.tsx` | 95 → 0 | ✅ |
+| 4.2 | LearningPaths | `src/pages/LearningPaths.tsx` | ~35 → 0 | ✅ |
+| 4.3 | LearningSpace | `src/pages/LearningSpace.tsx` | 63 → 0 | ✅ |
+| 4.4 | LessonPlayer | `src/pages/LessonPlayer.tsx` | 42 → 1 | ✅ |
+| 4.5 | Réussites / Profile | `src/pages/Profile.tsx` | 47 → 0 | ✅ |
 
 ---
 
@@ -238,8 +238,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + Phase 5 (~98 % — seul BackgroundBlobs restant) / 9
-**Composants validés :** 65 / ~120
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + Phase 5 (~98 %) / 9
+**Composants validés :** 70 / ~120 (5 pages Learning ajoutées)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
 - **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
@@ -253,6 +253,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 **🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind.
 **🎉 Phase 5 quasi-COMPLÈTE** — 35 / 36 composants UI migrés. Seul BackgroundBlobs reste (composant purement décoratif avec keyframes runtime).
+**🎉 Phase 4 COMPLÈTE** — 5 / 5 pages Learning migrées (LearningPaths, LearningPathDetail, LearningSpace, LessonPlayer, Profile). ~282 inline styles supprimés (95+35+63+42+47 → 0+0+0+1+0).
 
 **Audit Phase 5 batch Cards (2026-05-07) :**
 - 2 composants étaient **visuellement cassés** (CSS orphelin non importé) : ResourceCard, ProfileCard
@@ -276,7 +277,15 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - DropdownMenu : keyframe `dd-slide-up` ajouté à tls-components.css pour `animate-[dd-slide-up_0.2s_ease-out]`
 - 4 fichiers `.css` BEM supprimés (Achievement, ActivityItem, CompetencyMatrix, QuizComponent)
 
-**Prochain jalon :** Phase 4 (pages Learning : LearningPathDetail, LearningPaths, LearningSpace, LessonPlayer, Profile) ou Phase 6 (Patterns) selon priorité utilisateur.
+**Audit Phase 4 (2026-05-07) :**
+- 5 pages Learning migrées en 5 commits (LearningPaths, Profile, LessonPlayer, LearningSpace, LearningPathDetail)
+- ~282 inline styles supprimés
+- TONE maps converties depuis `var(--tls-...)` strings vers Tailwind class strings (TONE_TEXT, TONE_BG_50, TONE_BORDER_200, TONE_BG_500, TONE_HERO)
+- Cards alignées en grid avec `h-full` + `flex-1` spacers + `line-clamp` + `min-h` (CourseCard, ParcoursCard ui & patterns)
+- Profile.css conservé pour styling page-specific (391 lignes, hero glass + avatar + tabs)
+- Sub-composants extraits localement quand utile (KpiCard, FormatChip, SectionHeading, PILLAR_TONES, OBJECTIFS)
 
-**Inline styles restants :** ~1 400 / 2 105 (estim.)
+**Prochain jalon :** Phase 6 (Patterns) — DashboardHero, CardGrid, HeroSection, PageHeader, ToneAwareCard, etc. Ou Phase 8 (Dashboard + autres pages).
+
+**Inline styles restants :** ~1 100 / 2 105 (estim.)
 **Dernière mise à jour :** 2026-05-07
