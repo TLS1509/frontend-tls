@@ -158,13 +158,16 @@
 | 5.32 | NotificationBadge | `src/components/ui/NotificationBadge.tsx` | ✅ |
 | 5.33 | TrendingBadge | `src/components/ui/TrendingBadge.tsx` | ✅ |
 | 5.34 | UserInfo | `src/components/ui/UserInfo.tsx` | ✅ |
-| 5.35 | Achievement | `src/components/ui/Achievement.tsx` | ⬜ |
-| 5.36 | AchievementBadge | `src/components/ui/AchievementBadge.tsx` | ⬜ |
-| 5.37 | MasteryBadge | `src/components/ui/MasteryBadge.tsx` | ⬜ |
-| 5.38 | ActivityItem | `src/components/ui/ActivityItem.tsx` | ⬜ |
-| 5.39 | CompetencyMatrix | `src/components/ui/CompetencyMatrix.tsx` | ⬜ |
-| 5.40 | QuizComponent | `src/components/ui/QuizComponent.tsx` | ⬜ |
-| 5.41-5.48 | Composants UI restants (Celebration, BackgroundBlobs, DropdownMenu, etc.) | `src/components/ui/[...].tsx` | ⬜ |
+| 5.35 | Achievement | `src/components/ui/Achievement.tsx` | ✅ |
+| 5.36 | AchievementBadge | `src/components/ui/AchievementBadge.tsx` | ✅ |
+| 5.37 | MasteryBadge | `src/components/ui/MasteryBadge.tsx` | ✅ |
+| 5.38 | ActivityItem | `src/components/ui/ActivityItem.tsx` | ✅ |
+| 5.39 | CompetencyMatrix | `src/components/ui/CompetencyMatrix.tsx` | ✅ |
+| 5.40 | QuizComponent | `src/components/ui/QuizComponent.tsx` | ✅ |
+| 5.41 | Celebration + InlineWin | `src/components/ui/Celebration.tsx` | ✅ |
+| 5.42 | DropdownMenu (Menu/Item/Label/Sep) | `src/components/ui/DropdownMenu.tsx` | ✅ |
+| 5.43 | ProgressRing | `src/components/ui/ProgressRing.tsx` | ✅ |
+| 5.44 | BackgroundBlobs (décoratif, animation runtime) | `src/components/ui/BackgroundBlobs.tsx` | ⬜ |
 
 ---
 
@@ -235,8 +238,8 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + Phase 5 (~80 %) / 9
-**Composants validés :** 56 / ~120
+**Phases complètes :** 1 + 2 + 2.6 + 3 + Phase 5 (~98 % — seul BackgroundBlobs restant) / 9
+**Composants validés :** 65 / ~120
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
 - **Primitives (Phase 2.6)** : Badge, MetaPill, MetaPillGroup, Pill, ProgressBar, InlineProgress, SkillBar, GoalProgress, Avatar+AvatarGroup, Alert, Skeleton
@@ -246,10 +249,10 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - **Phase 5 (UI batch 2 — Cards)** : ResourceCard, ProfileCard, ActionCard, ParcoursCard (ui), IconFeatureCard
 - **Phase 5 (UI batch 3 — Navigation)** : Pagination, Stepper, Steps
 - **Phase 5 (UI batch 4 — Atomes)** : Divider, Tag, Spinner, SectionTitle, MetaItem, StatusBadge, NotificationBadge, TrendingBadge, UserInfo
+- **Phase 5 (UI batch 5 — Final)** : Achievement, AchievementBadge, MasteryBadge, ActivityItem, CompetencyMatrix, QuizComponent, Celebration + InlineWin, DropdownMenu (+ DropdownItem, DropdownLabel, DropdownSeparator), ProgressRing
 
 **🎉 Phase 3 COMPLÈTE** — toutes les modales (8 spec + 1 canonique) migrées Tailwind.
-
-**Phase 5 — état actuel :** 26 / ~32 composants UI migrés (~80 %). Restants : Achievement, AchievementBadge, MasteryBadge, ActivityItem, CompetencyMatrix, QuizComponent, Celebration, BackgroundBlobs, DropdownMenu, ProgressRing.
+**🎉 Phase 5 quasi-COMPLÈTE** — 35 / 36 composants UI migrés. Seul BackgroundBlobs reste (composant purement décoratif avec keyframes runtime).
 
 **Audit Phase 5 batch Cards (2026-05-07) :**
 - 2 composants étaient **visuellement cassés** (CSS orphelin non importé) : ResourceCard, ProfileCard
@@ -265,7 +268,15 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - Piège #10 : `components-modern.css` impose `height: var(--input-height)` (40px) sur tous les `textarea`/`select` → utiliser `h-auto min-h-[X]`
 - Piège #11 (NEW) : CSS BEM orphelins (fichier `.css` non importé) → composants visuellement cassés sans message d'erreur (ResourceCard, ProfileCard, StatCard découverts pendant Phase 5). Action : à chaque migration, `grep -rn "ComponentName.css" src/` pour confirmer si CSS encore consommé avant suppression.
 
-**Prochain jalon :** Finir Phase 5 (Achievement family, ActivityItem, CompetencyMatrix, QuizComponent, Celebration, etc.) puis Phase 4 (pages Learning) ou Phase 6 (Patterns) selon priorité.
+**Audit Phase 5 batch final (2026-05-07) :**
+- 9 composants migrés en un seul commit (ces 9 n'étaient consommés qu'à un endroit ou en démo, batch sans risque)
+- MasteryBadge utilisait des classes BEM **sans CSS associé** → composant 100 % cassé visuellement (Piège #11 confirmé)
+- AchievementBadge avait ~30 inline styles (le pire cas de la Phase 5) — converti en pattern variant-maps ('primary' | 'warm' | 'sun' | 'success')
+- ProgressRing : conic-gradient gardé en `style={{}}` (runtime % bind impossible en Tailwind)
+- DropdownMenu : keyframe `dd-slide-up` ajouté à tls-components.css pour `animate-[dd-slide-up_0.2s_ease-out]`
+- 4 fichiers `.css` BEM supprimés (Achievement, ActivityItem, CompetencyMatrix, QuizComponent)
 
-**Inline styles restants :** ~1 600 / 2 105 (estim.)
+**Prochain jalon :** Phase 4 (pages Learning : LearningPathDetail, LearningPaths, LearningSpace, LessonPlayer, Profile) ou Phase 6 (Patterns) selon priorité utilisateur.
+
+**Inline styles restants :** ~1 400 / 2 105 (estim.)
 **Dernière mise à jour :** 2026-05-07
