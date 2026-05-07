@@ -1,13 +1,19 @@
 import React from 'react';
 
 /**
- * ProgressBar — Source of truth: design-system/spec.json → components.Progress.subComponents.ProgressBar
+ * ProgressBar — linear progress tracking.
  *
- * Linear progress tracking. Sizes: xs/sm/md/lg. Fill variants: brand/warm/sun/success/danger/gradient.
+ * Layouts:
+ *   - 'stacked' (default) → label/value above, track full-width below
+ *   - 'inline' → label optional, track grows, value to the right of track
+ *
+ * Sizes: xs/sm/md/lg.
+ * Fill: brand/warm/sun/success/danger/gradient.
  */
 
 export type ProgressSize = 'xs' | 'sm' | 'md' | 'lg';
 export type ProgressFill = 'brand' | 'warm' | 'sun' | 'success' | 'danger' | 'gradient';
+export type ProgressLayout = 'stacked' | 'inline';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   value: number;
@@ -16,6 +22,8 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   fill?: ProgressFill;
   label?: React.ReactNode;
   valueLabel?: React.ReactNode | false;
+  /** Layout: 'stacked' (default — label above) or 'inline' (label and track on same line) */
+  layout?: ProgressLayout;
 
   /** @deprecated Use `value` */
   percentage?: number;
@@ -25,7 +33,7 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'primary' | 'secondary' | 'success' | 'warning';
 }
 
-const TRACK_BASE = 'bg-ink-50 rounded-pill overflow-hidden relative';
+const TRACK_BASE = 'bg-ink-100 rounded-pill overflow-hidden relative';
 
 const TRACK_SIZE_CLASSES: Record<ProgressSize, string> = {
   xs: 'h-0.5',
@@ -37,12 +45,12 @@ const TRACK_SIZE_CLASSES: Record<ProgressSize, string> = {
 const FILL_BASE = 'h-full rounded-[inherit] transition-[width] duration-700 ease-out';
 
 const FILL_VARIANT_CLASSES: Record<ProgressFill, string> = {
-  brand:    'bg-primary-600',
-  warm:     'bg-gradient-to-br from-secondary-500 to-accent-400',
-  sun:      'bg-accent-400',
-  success:  'bg-success-base',
-  danger:   'bg-danger-base',
-  gradient: 'bg-gradient-to-r from-primary-500 to-secondary-500',
+  brand:    'bg-gradient-to-r from-primary-500 to-primary-700',
+  warm:     'bg-gradient-to-r from-secondary-500 to-secondary-700',
+  sun:      'bg-gradient-to-r from-accent-300 to-accent-500',
+  success:  'bg-gradient-to-r from-success-base to-success-fg',
+  danger:   'bg-gradient-to-r from-danger-base to-danger-fg',
+  gradient: 'bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-400',
 };
 
 const VALUE_TONE_CLASSES: Record<ProgressFill, string> = {
@@ -61,6 +69,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   fill,
   label,
   valueLabel,
+  layout = 'stacked',
   percentage,
   showLabel,
   variant,
@@ -79,6 +88,35 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const trackClasses = [TRACK_BASE, TRACK_SIZE_CLASSES[size]].join(' ');
   const fillClasses = [FILL_BASE, FILL_VARIANT_CLASSES[resolvedFill]].join(' ');
 
+  if (layout === 'inline') {
+    return (
+      <div
+        className={`inline-flex items-center gap-3 w-full ${className}`}
+        {...rest}
+      >
+        {label && (
+          <span className="text-caption text-ink-600 font-medium whitespace-nowrap">{label}</span>
+        )}
+        <div
+          className={`${trackClasses} flex-1 min-w-20 shadow-inner`}
+          role="progressbar"
+          aria-valuenow={Math.round(pct)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div className={fillClasses} style={{ width: `${pct}%` }} />
+        </div>
+        {showValueLabel && (
+          <span
+            className={`font-display text-caption font-bold tabular-nums min-w-10 text-right ${VALUE_TONE_CLASSES[resolvedFill]}`}
+          >
+            {valueLabel ?? `${Math.round(pct)}%`}
+          </span>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className={`flex flex-col gap-2 ${className}`} {...rest}>
       {(label || showValueLabel) && (
@@ -89,14 +127,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             </span>
           )}
           {showValueLabel && (
-            <span className={`font-display font-semibold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}>
+            <span
+              className={`font-display font-bold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}
+            >
               {valueLabel ?? `${Math.round(pct)}%`}
             </span>
           )}
         </div>
       )}
       <div
-        className={trackClasses}
+        className={`${trackClasses} shadow-inner`}
         role="progressbar"
         aria-valuenow={Math.round(pct)}
         aria-valuemin={0}

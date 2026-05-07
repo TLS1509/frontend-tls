@@ -1,9 +1,3 @@
-/**
- * SkillBar — horizontal skill progress with label, percentage, and tone variants.
- *
- * <SkillBar label="Prompt Engineering" value={95} tone="brand" showValue />
- */
-
 import React from 'react';
 
 export interface SkillBarProps {
@@ -17,9 +11,9 @@ export interface SkillBarProps {
 type SkillTone = NonNullable<SkillBarProps['tone']>;
 
 const FILL_TONE_CLASSES: Record<SkillTone, string> = {
-  brand: 'bg-primary-500',
-  warm:  'bg-secondary-500',
-  sun:   'bg-accent-500',
+  brand: 'bg-gradient-to-r from-primary-500 to-primary-700',
+  warm:  'bg-gradient-to-r from-secondary-500 to-secondary-700',
+  sun:   'bg-gradient-to-r from-accent-300 to-accent-500',
 };
 
 const VALUE_TONE_CLASSES: Record<SkillTone, string> = {
@@ -39,10 +33,12 @@ export const SkillBar: React.FC<SkillBarProps> = ({
 
   return (
     <div className={`flex flex-col gap-2 ${className}`}>
-      <div className="flex justify-between items-center text-body-sm">
+      <div className="flex justify-between items-baseline text-body-sm">
         <span className="font-semibold text-ink-900">{label}</span>
         {showValue && (
-          <span className={`font-display font-semibold tabular-nums ${VALUE_TONE_CLASSES[tone]}`}>
+          <span
+            className={`font-display font-bold tabular-nums ${VALUE_TONE_CLASSES[tone]}`}
+          >
             {clampedValue}%
           </span>
         )}
@@ -54,7 +50,7 @@ export const SkillBar: React.FC<SkillBarProps> = ({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={`${label}: ${clampedValue}%`}
-        className="w-full h-1.5 rounded-pill bg-ink-50 overflow-hidden"
+        className="w-full h-2 rounded-pill bg-ink-100 overflow-hidden shadow-inner"
       >
         <div
           className={`h-full rounded-pill transition-[width] duration-700 ease-out ${FILL_TONE_CLASSES[tone]}`}

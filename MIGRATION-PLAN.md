@@ -371,4 +371,14 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 - ✅ ~~PageHeaderSimple / SectionTitle~~ — **SUPPRIMÉS** (commit f680e2f). PageHeader + SectionHeader canoniques.
 - ✅ ~~GlassCard / SurfaceCard~~ — **CONVERTIS EN ALIAS** vers Card. Card étendu avec variants : `glass-brand`, `glass-warm`, `glass-dark`, `bordered`, `muted`, `sunken`. À supprimer définitivement après migration des call sites.
-- **InlineProgress** → consolider dans ProgressBar avec `layout: 'stacked' | 'inline'`
+- ✅ ~~InlineProgress~~ — **CONVERTI EN ALIAS** vers `<ProgressBar layout="inline" />`. ProgressBar étendu avec `layout: 'stacked' | 'inline'`. À supprimer après migration.
+
+### Composants distincts gardés (APIs / use cases différents)
+
+| Famille | Composants | Distinction |
+|---------|-----------|-------------|
+| Pills | Pill, MetaPill, Tag, FilterChip | Pill (announcements/glass), MetaPill (info chips dans cards), Tag (removable filter), FilterChip (toggle) |
+| Badges | Badge, StatusBadge, NotificationBadge, TrendingBadge | Badge (status text), StatusBadge (5 lesson states), NotificationBadge (count overlay), TrendingBadge (animated promo) |
+| Achievement | Achievement, AchievementBadge, MasteryBadge, Medal | Different visuals : card horizontal vs medallion vertical vs ring vs trophy |
+| Cards stats | StatCard, KPICard | StatCard (rich, square mode, sub-units), KPICard (simple, trend object) |
+| Progress | ProgressBar, ProgressRing, SkillBar, GoalProgress | Linear vs circular vs labeled-skill vs goal-with-deadline |
