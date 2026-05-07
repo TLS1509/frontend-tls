@@ -1,33 +1,5 @@
-/**
- * FormLayout — Design System Pattern
- *
- * Structured form wrapper with consistent label/input/error layout.
- * Provides visual hierarchy, accessibility, and spacing consistency.
- *
- * Usage:
- *   <FormLayout
- *     title="Create Account"
- *     description="Enter your details below"
- *     sections={[
- *       {
- *         title: "Personal Info",
- *         fields: [
- *           {
- *             name: "name",
- *             label: "Full Name",
- *             required: true,
- *             input: <input type="text" />
- *           }
- *         ]
- *       }
- *     ]}
- *     onSubmit={() => console.log('submitted')}
- *   />
- */
-
 import React from 'react';
 import { Button } from '../core/Button';
-import './FormLayout.css';
 
 export interface FormField {
   name: string;
@@ -67,43 +39,45 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   className = '',
 }) => {
   return (
-    <form className={`form-layout ${className}`}>
-      {/* Header */}
+    <form
+      className={['flex flex-col gap-8 bg-white border border-ink-200 rounded-2xl p-8', className]
+        .filter(Boolean)
+        .join(' ')}
+    >
       {(title || description) && (
-        <div className="form-layout__header">
-          {title && <h2 className="form-layout__title">{title}</h2>}
-          {description && <p className="form-layout__description">{description}</p>}
+        <div className="flex flex-col gap-2 pb-6 border-b border-ink-200">
+          {title && <h2 className="m-0 text-h2 font-display font-bold text-ink-900">{title}</h2>}
+          {description && <p className="m-0 text-body text-ink-500">{description}</p>}
         </div>
       )}
 
-      {/* Sections */}
-      <div className="form-layout__content">
+      <div className="flex flex-col gap-8">
         {sections.map((section, sectionIdx) => (
-          <div key={sectionIdx} className="form-layout__section">
+          <div key={sectionIdx} className="flex flex-col gap-4">
             {section.title && (
-              <h3 className="form-layout__section-title">{section.title}</h3>
+              <h3 className="m-0 text-h4 font-display font-semibold text-ink-900">
+                {section.title}
+              </h3>
             )}
 
-            {/* Fields */}
-            <div className="form-layout__fields">
+            <div className="flex flex-col gap-4">
               {section.fields.map((field) => (
-                <div key={field.name} className="form-layout__field">
-                  <label htmlFor={field.name} className="form-layout__label">
+                <div key={field.name} className="flex flex-col gap-1.5">
+                  <label
+                    htmlFor={field.name}
+                    className="text-body-sm font-medium text-ink-900"
+                  >
                     {field.label}
-                    {field.required && <span className="form-layout__required">*</span>}
+                    {field.required && <span className="text-danger-base ml-1">*</span>}
                   </label>
 
-                  {/* Input wrapper */}
-                  <div className="form-layout__input-wrapper">
-                    {field.input}
-                  </div>
+                  <div>{field.input}</div>
 
-                  {/* Help text or error */}
                   {field.error && (
-                    <p className="form-layout__error">{field.error}</p>
+                    <p className="m-0 text-caption text-danger-fg">{field.error}</p>
                   )}
                   {field.helpText && !field.error && (
-                    <p className="form-layout__help-text">{field.helpText}</p>
+                    <p className="m-0 text-caption text-ink-500">{field.helpText}</p>
                   )}
                 </div>
               ))}
@@ -112,29 +86,18 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         ))}
       </div>
 
-      {/* Footer actions */}
       {(onSubmit || onCancel) && (
-        <div className="form-layout__footer">
-          <div className="form-layout__actions">
-            {onCancel && (
-              <Button
-                variant="secondary"
-                onClick={onCancel}
-                disabled={isSubmitting}
-              >
-                {cancelLabel}
-              </Button>
-            )}
-            {onSubmit && (
-              <Button
-                variant="primary"
-                onClick={onSubmit}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Submitting...' : submitLabel}
-              </Button>
-            )}
-          </div>
+        <div className="flex justify-end gap-3 pt-6 border-t border-ink-200">
+          {onCancel && (
+            <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
+              {cancelLabel}
+            </Button>
+          )}
+          {onSubmit && (
+            <Button variant="primary" onClick={onSubmit} disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : submitLabel}
+            </Button>
+          )}
         </div>
       )}
     </form>

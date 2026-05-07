@@ -1,61 +1,50 @@
-/**
- * DashboardHero Pattern
- *
- * Composite pattern for hero sections on dashboard-type pages
- * Wraps heading, description, and CTA with glassmorphic styling
- *
- * Reusable in:
- * - Dashboard main hero
- * - Section landing pages
- * - Feature introductions
- */
-
 import React from 'react';
 import type { CardTone } from '../core/Card';
 
 export interface DashboardHeroProps {
-  /** Main title/heading */
   title: string;
-
-  /** Subtitle or short description */
   subtitle?: string;
-
-  /** Longer description text */
   description?: string;
-
-  /** Array of highlighted stats/metrics */
   stats?: Array<{
     label: string;
     value: string | number;
     icon?: React.ReactNode;
     accent?: 'primary' | 'warm' | 'sun';
   }>;
-
-  /** Primary CTA button */
   primaryCta?: {
     label: string;
     onClick: () => void;
     icon?: React.ReactNode;
   };
-
-  /** Secondary CTA button (optional) */
   secondaryCta?: {
     label: string;
     onClick: () => void;
   };
-
-  /** Tone/color variant */
   tone?: CardTone;
-
-  /** Background image or gradient decoration */
   backgroundImage?: string;
-
-  /** Whether to show decorative gradient glow */
   showGlow?: boolean;
-
-  /** Custom className */
   className?: string;
 }
+
+const TONE_HERO: Record<string, string> = {
+  primary: 'bg-gradient-to-br from-primary-500 to-primary-700 text-white',
+  brand:   'bg-gradient-to-br from-primary-600 to-primary-800 text-white',
+  warm:    'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white',
+  sun:     'bg-gradient-to-br from-accent-400 to-accent-600 text-accent-900',
+  default: 'bg-gradient-to-br from-primary-500 to-primary-700 text-white',
+};
+
+const STAT_ACCENT: Record<'primary' | 'warm' | 'sun', string> = {
+  primary: 'bg-white/15 text-white',
+  warm:    'bg-secondary-500/30 text-white',
+  sun:     'bg-accent-400/30 text-white',
+};
+
+const CTA_PRIMARY =
+  'inline-flex items-center gap-2 px-6 py-3 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
+
+const CTA_SECONDARY =
+  'inline-flex items-center gap-2 px-6 py-3 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer transition-all hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white';
 
 export const DashboardHero: React.FC<DashboardHeroProps> = ({
   title,
@@ -71,64 +60,71 @@ export const DashboardHero: React.FC<DashboardHeroProps> = ({
 }) => {
   return (
     <section
-      className={`dashboard-hero dashboard-hero--tone-${tone} ${showGlow ? 'dashboard-hero--with-glow' : ''} ${className}`}
-      style={
-        backgroundImage
-          ? {
-              backgroundImage: `url(${backgroundImage})`,
-            }
-          : undefined
-      }
+      className={[
+        'relative overflow-hidden rounded-2xl p-10',
+        TONE_HERO[tone] ?? TONE_HERO.default,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      style={backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
     >
-      {/* Decorative glow background */}
-      {showGlow && <div className="dashboard-hero__glow" />}
+      {showGlow && (
+        <div
+          aria-hidden="true"
+          className="absolute -top-1/3 -right-[10%] w-[60%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,transparent_70%)] pointer-events-none"
+        />
+      )}
 
-      {/* Content container */}
-      <div className="dashboard-hero__content">
-        {/* Heading section */}
-        <header className="dashboard-hero__header">
-          {subtitle && <p className="dashboard-hero__subtitle">{subtitle}</p>}
-          <h1 className="dashboard-hero__title">{title}</h1>
-          {description && <p className="dashboard-hero__description">{description}</p>}
+      <div className="relative z-10 flex flex-col gap-6">
+        <header className="flex flex-col gap-2">
+          {subtitle && (
+            <p className="m-0 text-caption font-semibold uppercase tracking-wider opacity-80">
+              {subtitle}
+            </p>
+          )}
+          <h1 className="m-0 font-display text-h1 font-bold leading-tight tracking-tight">
+            {title}
+          </h1>
+          {description && (
+            <p className="m-0 text-body-lg opacity-90 max-w-[640px] leading-relaxed">
+              {description}
+            </p>
+          )}
         </header>
 
-        {/* Stats row */}
         {stats.length > 0 && (
-          <div className="dashboard-hero__stats">
+          <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
             {stats.map((stat, idx) => (
               <div
                 key={idx}
-                className={`dashboard-hero__stat dashboard-hero__stat--${stat.accent || 'primary'}`}
+                className={[
+                  'flex items-center gap-3 p-4 rounded-xl backdrop-blur-sm',
+                  STAT_ACCENT[stat.accent || 'primary'],
+                ].join(' ')}
               >
-                {stat.icon && <span className="dashboard-hero__stat-icon">{stat.icon}</span>}
-                <div className="dashboard-hero__stat-content">
-                  <p className="dashboard-hero__stat-value">{stat.value}</p>
-                  <p className="dashboard-hero__stat-label">{stat.label}</p>
+                {stat.icon && (
+                  <span className="inline-flex items-center shrink-0">{stat.icon}</span>
+                )}
+                <div>
+                  <p className="m-0 font-display text-h3 font-bold leading-none">{stat.value}</p>
+                  <p className="m-0 mt-1 text-caption opacity-80">{stat.label}</p>
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* CTA buttons */}
         {(primaryCta || secondaryCta) && (
-          <div className="dashboard-hero__ctas">
+          <div className="flex flex-wrap gap-3">
             {primaryCta && (
-              <button
-                type="button"
-                className="dashboard-hero__cta dashboard-hero__cta--primary"
-                onClick={primaryCta.onClick}
-              >
-                {primaryCta.icon && <span className="dashboard-hero__cta-icon">{primaryCta.icon}</span>}
+              <button type="button" className={CTA_PRIMARY} onClick={primaryCta.onClick}>
+                {primaryCta.icon && <span className="inline-flex items-center">{primaryCta.icon}</span>}
                 <span>{primaryCta.label}</span>
               </button>
             )}
             {secondaryCta && (
-              <button
-                type="button"
-                className="dashboard-hero__cta dashboard-hero__cta--secondary"
-                onClick={secondaryCta.onClick}
-              >
+              <button type="button" className={CTA_SECONDARY} onClick={secondaryCta.onClick}>
                 <span>{secondaryCta.label}</span>
               </button>
             )}

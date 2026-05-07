@@ -1,26 +1,5 @@
-/**
- * QuizQuestionCard — Assessment Pattern
- *
- * Individual quiz question with multiple choice options.
- * Shows selection state, correct/incorrect feedback.
- *
- * Usage:
- *   <QuizQuestionCard
- *     question="What is the capital of France?"
- *     options={[
- *       { id: '1', label: 'London' },
- *       { id: '2', label: 'Paris', isCorrect: true }
- *     ]}
- *     selectedId="2"
- *     answered={true}
- *     showCorrectAnswer={true}
- *     onSelectOption={(id) => setSelected(id)}
- *   />
- */
-
 import React from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
-import './QuizQuestionCard.css';
 
 export interface QuizOption {
   id: string;
@@ -52,63 +31,69 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
   const isCorrectAnswer = selectedId && options.find((opt) => opt.id === selectedId)?.isCorrect;
 
   return (
-    <div className={`quiz-question-card ${className}`}>
-      {/* Question */}
-      <h2 className="quiz-question-card__question">{question}</h2>
+    <div
+      className={[
+        'flex flex-col gap-5 bg-white border border-ink-200 rounded-2xl p-6',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <h2 className="m-0 text-h3 font-display font-semibold text-ink-900 leading-snug">
+        {question}
+      </h2>
 
-      {/* Options */}
-      <div className="quiz-question-card__options">
+      <div className="flex flex-col gap-2" role="radiogroup">
         {options.map((option) => {
           const isSelected = selectedId === option.id;
           const isCorrect = option.isCorrect;
           const showCorrect = answered && showCorrectAnswer && isCorrect;
           const showIncorrect = answered && showCorrectAnswer && isSelected && !isCorrect;
 
+          let optionClasses = 'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50 text-ink-900';
+          if (showCorrect) {
+            optionClasses = 'border-success-base bg-success-bg text-success-fg';
+          } else if (showIncorrect) {
+            optionClasses = 'border-danger-base bg-danger-bg text-danger-fg';
+          } else if (isSelected) {
+            optionClasses = 'border-primary-500 bg-primary-50 text-primary-700';
+          }
+
           return (
             <button
               key={option.id}
-              className={`quiz-question-card__option${isSelected ? ' quiz-question-card__option--selected' : ''}${
-                showCorrect ? ' quiz-question-card__option--correct' : ''
-              }${showIncorrect ? ' quiz-question-card__option--incorrect' : ''}`}
+              className={[
+                'flex items-center justify-between gap-3 px-4 py-3 rounded-lg border-2 cursor-pointer transition-colors text-left',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                'disabled:cursor-not-allowed disabled:opacity-60',
+                optionClasses,
+              ].join(' ')}
               onClick={() => !disabled && !answered && onSelectOption(option.id)}
               disabled={disabled || (answered && !isSelected)}
               aria-pressed={isSelected}
               role="radio"
             >
-              <div className="quiz-question-card__option-content">
-                <span className="quiz-question-card__option-label">{option.label}</span>
+              <span className="flex-1 text-body-sm font-medium">{option.label}</span>
 
-                {/* Feedback icons */}
-                {answered && (
-                  <>
-                    {showCorrect && (
-                      <CheckCircle
-                        size={20}
-                        className="quiz-question-card__option-icon quiz-question-card__option-icon--correct"
-                        aria-label="Correct"
-                      />
-                    )}
-                    {showIncorrect && (
-                      <XCircle
-                        size={20}
-                        className="quiz-question-card__option-icon quiz-question-card__option-icon--incorrect"
-                        aria-label="Incorrect"
-                      />
-                    )}
-                  </>
-                )}
-              </div>
+              {answered && showCorrect && (
+                <CheckCircle size={20} className="text-success-base shrink-0" aria-label="Correct" />
+              )}
+              {answered && showIncorrect && (
+                <XCircle size={20} className="text-danger-base shrink-0" aria-label="Incorrect" />
+              )}
             </button>
           );
         })}
       </div>
 
-      {/* Feedback message */}
       {answered && (
         <div
-          className={`quiz-question-card__feedback${
-            isCorrectAnswer ? ' quiz-question-card__feedback--correct' : ' quiz-question-card__feedback--incorrect'
-          }`}
+          className={[
+            'p-4 rounded-md text-body-sm font-medium',
+            isCorrectAnswer
+              ? 'bg-success-bg text-success-fg border border-success-base/30'
+              : 'bg-danger-bg text-danger-fg border border-danger-base/30',
+          ].join(' ')}
         >
           {isCorrectAnswer
             ? 'Correct! Great job!'

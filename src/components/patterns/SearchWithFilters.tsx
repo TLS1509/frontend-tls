@@ -1,25 +1,5 @@
-/**
- * SearchWithFilters — Search Pattern
- *
- * Search input with filter chip pills.
- * Supports category, difficulty, duration, and custom filters.
- *
- * Usage:
- *   <SearchWithFilters
- *     placeholder="Search lessons..."
- *     onSearch={(query) => console.log(query)}
- *     onFilterChange={(filters) => console.log(filters)}
- *     filters={[
- *       { id: 'difficulty', label: 'Difficulty', values: ['beginner', 'advanced'] },
- *       { id: 'duration', label: 'Duration', values: ['< 1h', '1-2h'] }
- *     ]}
- *   />
- */
-
 import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
-import { Input } from '../core/Input';
-import './SearchWithFilters.css';
+import { Search, X, ChevronDown } from 'lucide-react';
 
 export interface FilterOption {
   id: string;
@@ -68,10 +48,7 @@ export const SearchWithFilters: React.FC<SearchWithFiltersProps> = ({
         ? groupFilters.filter((id) => id !== optionId)
         : [...groupFilters, optionId];
 
-      const newState: Record<string, string[]> = {
-        ...prev,
-      };
-
+      const newState: Record<string, string[]> = { ...prev };
       if (newFilters.length > 0) {
         newState[groupId] = newFilters;
       } else {
@@ -107,73 +84,71 @@ export const SearchWithFilters: React.FC<SearchWithFiltersProps> = ({
   const hasActiveFilters = activeFilterCount > 0;
 
   return (
-    <div className={`search-with-filters ${className}`}>
-      {/* Search input */}
-      <div className="search-with-filters__search">
-        <Search size={18} className="search-with-filters__search-icon" aria-hidden="true" />
+    <div className={['flex flex-col gap-3', className].filter(Boolean).join(' ')}>
+      <div className="relative flex items-center bg-white border border-ink-300 rounded-xl focus-within:border-primary-400 focus-within:shadow-brand-sm transition-all">
+        <Search size={18} className="ml-3 text-ink-500 shrink-0" aria-hidden="true" />
         <input
           type="text"
           placeholder={placeholder}
           value={query}
           onChange={handleSearch}
-          className="search-with-filters__input"
+          className="flex-1 bg-transparent border-0 outline-none px-3 py-2.5 font-body text-body-sm text-ink-900 h-auto placeholder:text-ink-500 focus:outline-none focus:bg-transparent focus:shadow-none"
         />
         {query && (
           <button
-            className="search-with-filters__clear-btn"
+            className="mr-2 inline-flex items-center justify-center w-7 h-7 rounded-md bg-ink-50 hover:bg-ink-200 text-ink-500 hover:text-ink-900 cursor-pointer border-0 transition-colors"
             onClick={handleClearSearch}
             aria-label="Clear search"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
         )}
       </div>
 
-      {/* Filters */}
       {filterGroups.length > 0 && (
-        <div className="search-with-filters__filters">
+        <div className="flex flex-wrap gap-2 items-start">
           {filterGroups.map((group) => {
             const isExpanded = expandedGroups.has(group.id);
             const activeCount = (filters[group.id] || []).length;
 
             return (
-              <div key={group.id} className="search-with-filters__filter-group">
+              <div key={group.id} className="relative">
                 <button
-                  className="search-with-filters__filter-header"
+                  className={[
+                    'inline-flex items-center gap-2 px-3 py-1.5 rounded-pill border text-caption font-medium cursor-pointer transition-colors',
+                    activeCount > 0
+                      ? 'border-primary-500 bg-primary-50 text-primary-700'
+                      : 'border-ink-200 bg-white text-ink-700 hover:bg-ink-50',
+                  ].join(' ')}
                   onClick={() => toggleGroup(group.id)}
                   aria-expanded={isExpanded}
                 >
-                  <span className="search-with-filters__filter-label">{group.label}</span>
+                  <span>{group.label}</span>
                   {activeCount > 0 && (
-                    <span className="search-with-filters__filter-badge">
+                    <span className="inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-pill bg-primary-500 text-white text-micro font-bold leading-none">
                       {activeCount}
                     </span>
                   )}
-                  <span
-                    className={`search-with-filters__filter-arrow${
-                      isExpanded ? ' search-with-filters__filter-arrow--open' : ''
-                    }`}
-                  >
-                    ▼
-                  </span>
+                  <ChevronDown
+                    size={14}
+                    className={['transition-transform', isExpanded ? 'rotate-180' : ''].join(' ')}
+                  />
                 </button>
 
                 {isExpanded && (
-                  <div className="search-with-filters__filter-options">
+                  <div className="absolute top-full left-0 mt-1 z-20 min-w-[220px] bg-white border border-ink-200 rounded-lg shadow-lg p-2 flex flex-col gap-1">
                     {group.options.map((option) => {
                       const isChecked = (filters[group.id] || []).includes(option.id);
                       return (
                         <label
                           key={option.id}
-                          className="search-with-filters__filter-option"
+                          className="inline-flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-ink-50 cursor-pointer text-body-sm text-ink-900"
                         >
                           <input
                             type="checkbox"
                             checked={isChecked}
-                            onChange={() =>
-                              handleFilterToggle(group.id, option.id)
-                            }
-                            className="search-with-filters__filter-checkbox"
+                            onChange={() => handleFilterToggle(group.id, option.id)}
+                            className="w-4 h-4 accent-primary-500"
                           />
                           <span>{option.label}</span>
                         </label>
@@ -187,7 +162,7 @@ export const SearchWithFilters: React.FC<SearchWithFiltersProps> = ({
 
           {hasActiveFilters && (
             <button
-              className="search-with-filters__clear-filters"
+              className="inline-flex items-center px-3 py-1.5 rounded-pill border border-ink-200 bg-transparent text-caption text-ink-500 hover:bg-ink-50 hover:text-ink-900 cursor-pointer transition-colors"
               onClick={handleClearFilters}
             >
               Clear all ({activeFilterCount})

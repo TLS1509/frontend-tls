@@ -2703,6 +2703,48 @@
   }
 }
 
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateX(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+/* BackgroundBlobs decorative animations */
+@keyframes float-blob-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 40px) scale(0.9); }
+}
+@keyframes float-blob-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(0.95); }
+  66% { transform: translate(50px, -30px) scale(1.05); }
+}
+@keyframes float-blob-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, 50px) scale(1.05); }
+  66% { transform: translate(-50px, -20px) scale(0.95); }
+}
+.tls-blob {
+  position: absolute;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  mix-blend-mode: multiply;
+}
+.tls-blob--1 {
+  width: 400px; height: 400px; top: -100px; left: -100px;
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700));
+  animation: float-blob-1 20s ease-in-out infinite;
+}
+.tls-blob--2 {
+  width: 350px; height: 350px; top: 100px; right: -50px;
+  background: linear-gradient(135deg, var(--color-secondary-500), var(--color-secondary-600));
+  animation: float-blob-2 25s ease-in-out infinite;
+}
+.tls-blob--3 {
+  width: 300px; height: 300px; bottom: -50px; left: 50%;
+  background: linear-gradient(135deg, var(--color-accent-400), var(--color-secondary-500));
+  animation: float-blob-3 22s ease-in-out infinite;
+}
+
 @keyframes dd-slide-up {
   from {
     opacity: 0;

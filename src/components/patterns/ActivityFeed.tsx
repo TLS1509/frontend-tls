@@ -1,18 +1,4 @@
-/**
- * ActivityFeed Pattern
- *
- * Composite pattern for displaying user activities, events, or notifications
- * in a chronological timeline or list format
- *
- * Reusable in:
- * - Dashboard activity section
- * - User profile activity history
- * - Course progress tracking
- * - Collaboration feeds
- */
-
 import React from 'react';
-import './ActivityFeed.css';
 
 export type ActivityType =
   | 'start'
@@ -23,6 +9,8 @@ export type ActivityType =
   | 'message'
   | 'comment'
   | 'share';
+
+export type ActivityTone = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
 
 export interface ActivityItem {
   id: string;
@@ -35,52 +23,40 @@ export interface ActivityItem {
     avatar?: string;
   };
   icon?: React.ReactNode;
-  tone?: 'primary' | 'warm' | 'sun' | 'success' | 'danger';
+  tone?: ActivityTone;
   actionLabel?: string;
   onActionClick?: () => void;
 }
 
 export interface ActivityFeedProps {
-  /** Array of activity items */
   items: ActivityItem[];
-
-  /** Whether to show timeline layout (with connector lines) */
   useTimeline?: boolean;
-
-  /** Maximum items to show initially (pagination) */
   itemsPerPage?: number;
-
-  /** Format for timestamps */
-  timeFormat?: 'relative' | 'absolute'; // "2 hours ago" vs "2024-04-29 10:30 AM"
-
-  /** Loading state */
+  timeFormat?: 'relative' | 'absolute';
   isLoading?: boolean;
-
-  /** Empty state message */
   emptyMessage?: string;
-
-  /** Callback to load more items */
   onLoadMore?: () => void;
-
-  /** Whether more items are available */
   hasMore?: boolean;
-
-  /** Custom className */
   className?: string;
 }
 
-const getIconForType = (type: ActivityType): string => {
-  const icons: Record<ActivityType, string> = {
-    start: '🚀',
-    complete: '✅',
-    progress: '📈',
-    achievement: '🏆',
-    feedback: '💬',
-    message: '💭',
-    comment: '📝',
-    share: '📤',
-  };
-  return icons[type] || '📌';
+const TONE_DOT: Record<ActivityTone, string> = {
+  primary: 'bg-primary-500 text-white',
+  warm:    'bg-secondary-500 text-white',
+  sun:     'bg-accent-400 text-accent-900',
+  success: 'bg-success-base text-white',
+  danger:  'bg-danger-base text-white',
+};
+
+const ICON_FOR_TYPE: Record<ActivityType, string> = {
+  start: '🚀',
+  complete: '✅',
+  progress: '📈',
+  achievement: '🏆',
+  feedback: '💬',
+  message: '💭',
+  comment: '📝',
+  share: '📤',
 };
 
 const formatTimestamp = (date: Date, format: 'relative' | 'absolute'): string => {
@@ -114,7 +90,6 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   className = '',
 }) => {
   const [displayCount, setDisplayCount] = React.useState(itemsPerPage);
-
   const displayedItems = items.slice(0, displayCount);
 
   const handleLoadMore = () => {
@@ -122,99 +97,111 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     onLoadMore?.();
   };
 
-  // Loading state
   if (isLoading) {
     return (
-      <div className={`activity-feed activity-feed--loading ${className}`}>
-        <div className="activity-feed__loader">
-          <div className="activity-feed__spinner" />
-          <p>Loading activities...</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <div className="w-8 h-8 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <p className="m-0 text-body-sm">Loading activities...</p>
         </div>
       </div>
     );
   }
 
-  // Empty state
   if (!items || items.length === 0) {
     return (
-      <div className={`activity-feed activity-feed--empty ${className}`}>
-        <div className="activity-feed__empty">
-          <p className="activity-feed__empty-icon">📭</p>
-          <p className="activity-feed__empty-message">{emptyMessage}</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <p className="m-0 text-3xl">📭</p>
+          <p className="m-0 text-body-sm">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`activity-feed ${useTimeline ? 'activity-feed--timeline' : ''} ${className}`}>
-      {useTimeline && <div className="activity-feed__timeline-line" />}
+    <div className={['relative', className].filter(Boolean).join(' ')}>
+      <div className="flex flex-col gap-4">
+        {displayedItems.map((item, idx) => {
+          const tone = item.tone || 'primary';
+          const isLast = idx === displayedItems.length - 1;
 
-      <div className="activity-feed__items">
-        {displayedItems.map((item, idx) => (
-          <article
-            key={item.id}
-            className={`activity-feed__item activity-feed__item--${item.type} activity-feed__item--tone-${item.tone || 'primary'}`}
-          >
-            {useTimeline && (
-              <div className="activity-feed__timeline-dot">
-                <span className="activity-feed__timeline-icon">
-                  {item.icon || getIconForType(item.type)}
-                </span>
-              </div>
-            )}
-
-            {!useTimeline && (
-              <div className="activity-feed__item-icon">
-                {item.icon || getIconForType(item.type)}
-              </div>
-            )}
-
-            <div className="activity-feed__item-content">
-              <header className="activity-feed__item-header">
-                <h3 className="activity-feed__item-title">{item.title}</h3>
-                <time className="activity-feed__item-time">
-                  {formatTimestamp(item.timestamp, timeFormat)}
-                </time>
-              </header>
-
-              {item.description && (
-                <p className="activity-feed__item-description">{item.description}</p>
-              )}
-
-              {item.actor && (
-                <div className="activity-feed__item-actor">
-                  {item.actor.avatar && (
-                    <img
-                      src={item.actor.avatar}
-                      alt={item.actor.name}
-                      className="activity-feed__actor-avatar"
-                    />
+          return (
+            <article key={item.id} className="relative flex items-start gap-3">
+              {useTimeline && (
+                <div className="relative flex flex-col items-center shrink-0">
+                  <span
+                    className={[
+                      'inline-flex items-center justify-center w-9 h-9 rounded-full ring-4 ring-white z-10 text-base',
+                      TONE_DOT[tone],
+                    ].join(' ')}
+                  >
+                    {item.icon || ICON_FOR_TYPE[item.type]}
+                  </span>
+                  {!isLast && (
+                    <span aria-hidden="true" className="absolute top-9 bottom-[-1rem] w-px bg-ink-200" />
                   )}
-                  <span className="activity-feed__actor-name">{item.actor.name}</span>
                 </div>
               )}
 
-              {item.actionLabel && item.onActionClick && (
-                <button
-                  type="button"
-                  className="activity-feed__item-action"
-                  onClick={item.onActionClick}
+              {!useTimeline && (
+                <div
+                  className={[
+                    'shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-lg text-xl',
+                    TONE_DOT[tone],
+                  ].join(' ')}
                 >
-                  {item.actionLabel}
-                </button>
+                  {item.icon || ICON_FOR_TYPE[item.type]}
+                </div>
               )}
-            </div>
-          </article>
-        ))}
+
+              <div className="flex-1 min-w-0">
+                <header className="flex items-center justify-between gap-3 flex-wrap">
+                  <h3 className="m-0 text-body-sm font-semibold text-ink-900">{item.title}</h3>
+                  <time className="text-micro text-ink-500">
+                    {formatTimestamp(item.timestamp, timeFormat)}
+                  </time>
+                </header>
+
+                {item.description && (
+                  <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
+                    {item.description}
+                  </p>
+                )}
+
+                {item.actor && (
+                  <div className="inline-flex items-center gap-2 mt-2">
+                    {item.actor.avatar && (
+                      <img
+                        src={item.actor.avatar}
+                        alt={item.actor.name}
+                        className="w-5 h-5 rounded-full object-cover"
+                      />
+                    )}
+                    <span className="text-caption text-ink-500">{item.actor.name}</span>
+                  </div>
+                )}
+
+                {item.actionLabel && item.onActionClick && (
+                  <button
+                    type="button"
+                    className="mt-2 inline-flex items-center px-3 py-1 rounded-pill bg-primary-50 text-primary-700 text-caption font-semibold hover:bg-primary-100 transition-colors"
+                    onClick={item.onActionClick}
+                  >
+                    {item.actionLabel}
+                  </button>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </div>
 
-      {/* Load more button */}
       {hasMore && displayCount < items.length && (
-        <div className="activity-feed__footer">
+        <div className="flex justify-center mt-4">
           <button
             type="button"
-            className="activity-feed__load-more"
+            className="px-4 py-2 rounded-pill border border-ink-200 bg-white text-body-sm font-medium text-ink-900 cursor-pointer hover:bg-ink-50 transition-colors"
             onClick={handleLoadMore}
           >
             Load more activities

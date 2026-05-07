@@ -1,15 +1,3 @@
-/**
- * LearningPathGrid Pattern
- * 
- * Composite pattern for displaying learning paths/courses
- * Wraps StepCard with learning-specific logic
- * 
- * Reusable in:
- * - Learning Paths listing page
- * - Search results
- * - Learning recommendations
- */
-
 import React from 'react';
 import { StepCard } from '../learning/StepCard';
 
@@ -31,83 +19,62 @@ export interface LearningPathGridItem {
 }
 
 export interface LearningPathGridProps {
-  /** Array of learning paths to display */
   paths: LearningPathGridItem[];
-  
-  /** Callback when user clicks on a path */
   onPathClick?: (id: string) => void;
-  
-  /** Filter by status */
   filterStatus?: 'all' | 'not-started' | 'in-progress' | 'completed' | 'locked';
-  
-  /** Default tone for all cards */
   defaultTone?: 'primary' | 'warm' | 'sun';
-  
-  /** Number of columns (responsive) */
   columns?: 1 | 2 | 3;
-  
-  /** Show/hide lesson expansion toggle */
   showLessons?: boolean;
-  
-  /** Loading state */
   isLoading?: boolean;
-  
-  /** Empty state message */
   emptyMessage?: string;
-  
-  /** Custom className */
   className?: string;
 }
+
+const COLS: Record<1 | 2 | 3, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 md:grid-cols-2',
+  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+};
 
 export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
   paths,
   onPathClick,
   filterStatus = 'all',
-  defaultTone = 'primary',
   columns = 3,
   showLessons = true,
   isLoading = false,
   emptyMessage = 'No learning paths available',
   className = '',
 }) => {
-  // Filter paths by status
   const filteredPaths =
-    filterStatus === 'all'
-      ? paths
-      : paths.filter((p) => p.status === filterStatus);
+    filterStatus === 'all' ? paths : paths.filter((p) => p.status === filterStatus);
 
-  // Loading state
   if (isLoading) {
     return (
-      <div className={`learning-path-grid learning-path-grid--loading ${className}`}>
-        <div className="learning-path-grid__loader">
-          <div className="learning-path-grid__spinner" />
-          <p>Loading learning paths...</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <div className="w-8 h-8 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <p className="m-0 text-body-sm">Loading learning paths...</p>
         </div>
       </div>
     );
   }
 
-  // Empty state
   if (!filteredPaths || filteredPaths.length === 0) {
     return (
-      <div className={`learning-path-grid learning-path-grid--empty ${className}`}>
-        <div className="learning-path-grid__empty">
-          <p className="learning-path-grid__empty-icon">🎯</p>
-          <p className="learning-path-grid__empty-message">{emptyMessage}</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+          <p className="m-0 text-3xl">🎯</p>
+          <p className="m-0 text-body-sm">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`learning-path-grid learning-path-grid--${columns}col ${className}`}>
+    <div className={['grid gap-4', COLS[columns], className].filter(Boolean).join(' ')}>
       {filteredPaths.map((path, idx) => (
-        <div
-          key={path.id}
-          className="learning-path-grid__item"
-          onClick={() => onPathClick?.(path.id)}
-        >
+        <div key={path.id} onClick={() => onPathClick?.(path.id)} className="cursor-pointer">
           <StepCard
             stepNumber={path.stepNumber ?? idx + 1}
             title={path.title}
@@ -116,7 +83,6 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
             lessonsGrid={showLessons ? path.lessons : undefined}
             progress={path.progress}
             status={path.status}
-            className="learning-path-grid__card"
           />
         </div>
       ))}

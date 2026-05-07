@@ -1,25 +1,11 @@
-/**
- * CoachCardGrid Pattern
- *
- * Composite pattern for displaying coach/mentor/instructor profiles in a grid
- * Wraps ProfileCard with grid layout and filtering logic
- *
- * Reusable in:
- * - Coaching page (available coaches)
- * - Mentor directory
- * - Team page
- * - Expert profiles
- */
-
 import React from 'react';
 import { ProfileCard } from '../ui/ProfileCard';
 import type { ProfileCardVariant, ProfileMetadata, ProfileSocialLink } from '../ui/ProfileCard';
-import './CoachCardGrid.css';
 
 export interface CoachItem {
   id: string;
   name: string;
-  role: string; // "Coach", "Mentor", "Instructor"
+  role: string;
   avatar?: string;
   bio?: string;
   metadata?: ProfileMetadata[];
@@ -32,30 +18,22 @@ export interface CoachItem {
 }
 
 export interface CoachCardGridProps {
-  /** Array of coach items */
   coaches: CoachItem[];
-
-  /** Number of columns: 2, 3, or 4 */
   columns?: 1 | 2 | 3 | 4;
-
-  /** Filter by specialty */
   specialtyFilter?: string;
-
-  /** Filter by availability */
   availabilityFilter?: boolean;
-
-  /** Loading state */
   isLoading?: boolean;
-
-  /** Empty state message */
   emptyMessage?: string;
-
-  /** Callback when coach is selected */
   onCoachSelect?: (id: string) => void;
-
-  /** Custom className */
   className?: string;
 }
+
+const COLS: Record<1 | 2 | 3 | 4, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 md:grid-cols-2',
+  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+};
 
 export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   coaches,
@@ -67,7 +45,6 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   onCoachSelect,
   className = '',
 }) => {
-  // Filter coaches based on criteria
   const filteredCoaches = React.useMemo(() => {
     return coaches.filter((coach) => {
       if (specialtyFilter && !coach.specialties?.includes(specialtyFilter)) {
@@ -80,45 +57,33 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
     });
   }, [coaches, specialtyFilter, availabilityFilter]);
 
-  // Loading state
   if (isLoading) {
     return (
-      <div className={`coach-card-grid coach-card-grid--loading ${className}`}>
-        <div className="coach-card-grid__loader">
-          <div className="coach-card-grid__spinner" />
-          <p>Loading coaches...</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <div className="w-8 h-8 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <p className="m-0 text-body-sm">Loading coaches...</p>
         </div>
       </div>
     );
   }
 
-  // Empty state
   if (!filteredCoaches || filteredCoaches.length === 0) {
     return (
-      <div className={`coach-card-grid coach-card-grid--empty ${className}`}>
-        <div className="coach-card-grid__empty">
-          <p className="coach-card-grid__empty-icon">👥</p>
-          <p className="coach-card-grid__empty-message">{emptyMessage}</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+          <p className="m-0 text-3xl">👥</p>
+          <p className="m-0 text-body-sm">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div
-      className={`coach-card-grid coach-card-grid--${columns}col ${className}`}
-      role="grid"
-    >
+    <div className={['grid gap-4', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {filteredCoaches.map((coach) => (
-        <div
-          key={coach.id}
-          className="coach-card-grid__item"
-          role="gridcell"
-        >
-          <div
-            className="coach-card-grid__card-wrapper"
-            onClick={() => onCoachSelect?.(coach.id)}
-          >
+        <div key={coach.id} role="gridcell" className="flex flex-col gap-3">
+          <div onClick={() => onCoachSelect?.(coach.id)} className="cursor-pointer">
             <ProfileCard
               name={coach.name}
               role={coach.role}
@@ -136,25 +101,35 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
                     }
                   : undefined
               }
-              className="coach-card-grid__card"
             />
           </div>
 
-          {/* Specialties badges */}
           {coach.specialties && coach.specialties.length > 0 && (
-            <div className="coach-card-grid__specialties">
+            <div className="flex flex-wrap gap-1.5 justify-center">
               {coach.specialties.map((specialty) => (
-                <span key={specialty} className="coach-card-grid__specialty-badge">
+                <span
+                  key={specialty}
+                  className="inline-flex items-center px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-medium"
+                >
                   {specialty}
                 </span>
               ))}
             </div>
           )}
 
-          {/* Availability indicator */}
           {coach.availability !== undefined && (
-            <div className={`coach-card-grid__availability ${coach.availability ? 'coach-card-grid__availability--available' : 'coach-card-grid__availability--unavailable'}`}>
-              <span className="coach-card-grid__availability-dot" />
+            <div
+              className={[
+                'inline-flex items-center justify-center gap-2 text-caption font-medium',
+                coach.availability ? 'text-success-fg' : 'text-ink-500',
+              ].join(' ')}
+            >
+              <span
+                className={[
+                  'w-2 h-2 rounded-full',
+                  coach.availability ? 'bg-success-base' : 'bg-ink-300',
+                ].join(' ')}
+              />
               {coach.availability ? 'Available' : 'Unavailable'}
             </div>
           )}

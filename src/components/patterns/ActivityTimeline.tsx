@@ -1,26 +1,4 @@
-/**
- * ActivityTimeline — Timeline Pattern
- *
- * Vertical timeline for displaying chronological activity/progress.
- * Shows timeline items with icons, timestamps, and descriptions.
- *
- * Usage:
- *   <ActivityTimeline
- *     items={[
- *       {
- *         id: '1',
- *         title: 'Course Started',
- *         description: 'You started React 101',
- *         timestamp: '2 days ago',
- *         icon: <BookOpen />,
- *         tone: 'primary'
- *       }
- *     ]}
- *   />
- */
-
 import React from 'react';
-import './ActivityTimeline.css';
 
 export type TimelineTone = 'primary' | 'warm' | 'sun' | 'success' | 'warning';
 
@@ -40,46 +18,67 @@ export interface ActivityTimelineProps {
   showConnector?: boolean;
 }
 
+const TONE_DOT: Record<TimelineTone, string> = {
+  primary: 'bg-primary-500 text-white',
+  warm:    'bg-secondary-500 text-white',
+  sun:     'bg-accent-400 text-accent-900',
+  success: 'bg-success-base text-white',
+  warning: 'bg-accent-500 text-white',
+};
+
 export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
   items,
   className = '',
   showConnector = true,
 }) => {
   return (
-    <div className={`activity-timeline ${className}`}>
-      <ol className="activity-timeline__list">
+    <div className={['relative', className].filter(Boolean).join(' ')}>
+      <ol className="list-none m-0 p-0 flex flex-col gap-5">
         {items.map((item, index) => {
-          const toneClass = item.tone ? `activity-timeline__item--${item.tone}` : '';
-          const statusClass = item.status ? `activity-timeline__item--${item.status}` : '';
+          const tone = item.tone || 'primary';
+          const isLast = index >= items.length - 1;
+          const isPending = item.status === 'pending';
 
           return (
-            <li
-              key={item.id}
-              className={`activity-timeline__item ${toneClass} ${statusClass}`}
-            >
-              {/* Connector line */}
-              {showConnector && index < items.length - 1 && (
-                <div className="activity-timeline__connector" aria-hidden="true" />
+            <li key={item.id} className="relative flex items-start gap-3">
+              {showConnector && !isLast && (
+                <div
+                  aria-hidden="true"
+                  className="absolute left-[18px] top-10 bottom-[-1.25rem] w-px bg-ink-200"
+                />
               )}
 
-              {/* Timeline dot with icon */}
-              <div className="activity-timeline__dot">
+              <div className="relative z-10 shrink-0">
                 {item.icon ? (
-                  <div className="activity-timeline__icon">{item.icon}</div>
+                  <div
+                    className={[
+                      'inline-flex items-center justify-center w-9 h-9 rounded-full ring-4 ring-white',
+                      isPending ? 'bg-ink-200 text-ink-500' : TONE_DOT[tone],
+                    ].join(' ')}
+                  >
+                    {item.icon}
+                  </div>
                 ) : (
-                  <div className="activity-timeline__dot-inner" aria-hidden="true" />
+                  <div
+                    aria-hidden="true"
+                    className={[
+                      'w-3 h-3 rounded-full ring-4 ring-white mt-3 ml-3',
+                      isPending ? 'bg-ink-300' : TONE_DOT[tone],
+                    ].join(' ')}
+                  />
                 )}
               </div>
 
-              {/* Content */}
-              <div className="activity-timeline__content">
-                <div className="activity-timeline__header">
-                  <h3 className="activity-timeline__title">{item.title}</h3>
-                  <time className="activity-timeline__timestamp">{item.timestamp}</time>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                  <h3 className="m-0 text-body-sm font-semibold text-ink-900">{item.title}</h3>
+                  <time className="text-micro text-ink-500">{item.timestamp}</time>
                 </div>
 
                 {item.description && (
-                  <p className="activity-timeline__description">{item.description}</p>
+                  <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
+                    {item.description}
+                  </p>
                 )}
               </div>
             </li>

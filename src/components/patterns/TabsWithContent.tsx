@@ -1,26 +1,4 @@
-/**
- * TabsWithContent — Navigation Pattern
- *
- * Tabs component with coupled content display.
- * Enhances existing Tabs with built-in content management.
- *
- * Usage:
- *   <TabsWithContent
- *     tabs={[
- *       {
- *         id: 'overview',
- *         label: 'Overview',
- *         icon: <Eye />,
- *         content: <OverviewPanel />
- *       }
- *     ]}
- *     variant="underline"
- *     defaultTab="overview"
- *   />
- */
-
 import React, { useState } from 'react';
-import './TabsWithContent.css';
 
 export interface TabWithContent {
   id: string;
@@ -39,6 +17,26 @@ export interface TabsWithContentProps {
   onTabChange?: (tabId: string) => void;
   className?: string;
 }
+
+const TAB_BASE =
+  'inline-flex items-center gap-2 px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body-sm font-medium transition-colors ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
+  'disabled:cursor-not-allowed disabled:opacity-50';
+
+const VARIANT_LIST: Record<TabsVariant, string> = {
+  underline: 'flex border-b border-ink-200 gap-1',
+  boxed:     'flex border border-ink-200 rounded-lg overflow-hidden',
+};
+
+const VARIANT_TAB: Record<TabsVariant, string> = {
+  underline: 'rounded-t-md text-ink-500 hover:text-ink-900 relative -mb-px border-b-2 border-transparent',
+  boxed:     'flex-1 justify-center text-ink-500 hover:bg-ink-50 hover:text-ink-900 border-r border-ink-200 last:border-r-0',
+};
+
+const VARIANT_TAB_ACTIVE: Record<TabsVariant, string> = {
+  underline: 'text-primary-700 border-b-2 border-primary-600 font-semibold',
+  boxed:     'bg-primary-600 text-white font-semibold hover:bg-primary-600 hover:text-white',
+};
 
 export const TabsWithContent: React.FC<TabsWithContentProps> = ({
   tabs,
@@ -59,38 +57,38 @@ export const TabsWithContent: React.FC<TabsWithContentProps> = ({
   const activeTabContent = tabs.find((t) => t.id === activeTab)?.content;
 
   return (
-    <div className={`tabs-with-content tabs-with-content--${variant} ${className}`}>
-      {/* Tab list */}
-      <div className="tabs-with-content__list" role="tablist">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            className={`tabs-with-content__tab${
-              activeTab === tab.id ? ' tabs-with-content__tab--active' : ''
-            }${tab.disabled ? ' tabs-with-content__tab--disabled' : ''}`}
-            onClick={() => handleTabChange(tab.id)}
-            disabled={tab.disabled}
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            aria-controls={`tabpanel-${tab.id}`}
-          >
-            {tab.icon && (
-              <span className="tabs-with-content__tab-icon" aria-hidden="true">
-                {tab.icon}
-              </span>
-            )}
-            <span className="tabs-with-content__tab-label">{tab.label}</span>
-          </button>
-        ))}
+    <div className={['flex flex-col gap-5', className].filter(Boolean).join(' ')}>
+      <div className={VARIANT_LIST[variant]} role="tablist">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              className={[
+                TAB_BASE,
+                VARIANT_TAB[variant],
+                isActive ? VARIANT_TAB_ACTIVE[variant] : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onClick={() => handleTabChange(tab.id)}
+              disabled={tab.disabled}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`tabpanel-${tab.id}`}
+            >
+              {tab.icon && (
+                <span aria-hidden="true" className="inline-flex items-center">
+                  {tab.icon}
+                </span>
+              )}
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Tab content */}
-      <div
-        className="tabs-with-content__content"
-        id={`tabpanel-${activeTab}`}
-        role="tabpanel"
-        aria-labelledby={`tab-${activeTab}`}
-      >
+      <div id={`tabpanel-${activeTab}`} role="tabpanel" aria-labelledby={`tab-${activeTab}`}>
         {activeTabContent}
       </div>
     </div>

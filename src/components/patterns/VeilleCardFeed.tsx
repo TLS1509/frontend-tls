@@ -1,16 +1,5 @@
-/**
- * VeilleCardFeed Pattern
- * 
- * Composite pattern for displaying a feed of learning resources/content
- * Wraps ResourceCard with Veille-specific logic and styling
- * 
- * Reusable in:
- * - Veille page (main feed)
- * - Magazine page (article recommendations)
- * - Content discovery sections
- */
-
 import React from 'react';
+import { Heart } from 'lucide-react';
 import { ResourceCard } from '../ui/ResourceCard';
 import type { CardTone } from '../core/Card';
 
@@ -29,43 +18,23 @@ export interface VeilleItem {
 }
 
 export interface VeilleCardFeedProps {
-  /** Array of content items to display */
   items: VeilleItem[];
-  
-  /** Callback when user saves/unsaves an item */
   onSave?: (id: string, saved: boolean) => void;
-  
-  /** Callback when user clicks on an item */
   onItemClick?: (id: string) => void;
-  
-  /** Array of saved item IDs */
   savedIds?: string[];
-  
-  /** Tone for all cards */
   tone?: CardTone;
-  
-  /** Show/hide save buttons */
   showSaveButton?: boolean;
-  
-  /** Loading state */
   isLoading?: boolean;
-  
-  /** Empty state message */
   emptyMessage?: string;
-  
-  /** Custom className */
   className?: string;
 }
 
-const getIconForType = (type: string): string => {
-  const icons: Record<string, string> = {
-    GUIDE: '📖',
-    VIDEO: '🎬',
-    PODCAST: '🎙️',
-    ARTICLE: '📰',
-    TUTORIAL: '🎓',
-  };
-  return icons[type] || '📚';
+const TYPE_ICON: Record<string, string> = {
+  GUIDE: '📖',
+  VIDEO: '🎬',
+  PODCAST: '🎙️',
+  ARTICLE: '📰',
+  TUTORIAL: '🎓',
 };
 
 export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
@@ -79,75 +48,71 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
   emptyMessage = 'No content available',
   className = '',
 }) => {
-  // Loading state
   if (isLoading) {
     return (
-      <div className={`veille-card-feed veille-card-feed--loading ${className}`}>
-        <div className="veille-card-feed__loader">
-          <div className="veille-card-feed__spinner" />
-          <p>Loading content...</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <div className="w-8 h-8 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
+          <p className="m-0 text-body-sm">Loading content...</p>
         </div>
       </div>
     );
   }
 
-  // Empty state
   if (!items || items.length === 0) {
     return (
-      <div className={`veille-card-feed veille-card-feed--empty ${className}`}>
-        <div className="veille-card-feed__empty">
-          <p className="veille-card-feed__empty-icon">📭</p>
-          <p className="veille-card-feed__empty-message">{emptyMessage}</p>
+      <div className={['flex items-center justify-center p-8', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+          <p className="m-0 text-3xl">📭</p>
+          <p className="m-0 text-body-sm">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
+  const tonePillVariant: 'primary' | 'warm' | 'sun' =
+    tone === 'warm' ? 'warm' : tone === 'sun' ? 'sun' : 'primary';
+
   return (
-    <div className={`veille-card-feed ${className}`}>
+    <div className={['grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3', className].filter(Boolean).join(' ')}>
       {items.map((item) => {
         const isSaved = savedIds.includes(item.id);
 
         return (
-          <article
-            key={item.id}
-            className="veille-card-feed__item"
-            role="article"
-          >
-            {/* Card container */}
-            <div className="veille-card-feed__card-wrapper">
-              <ResourceCard
-                icon={item.icon || getIconForType(item.type)}
-                iconSize="md"
-                resourceType={item.type}
-                title={item.title}
-                description={item.description || item.summary}
-                duration={item.duration}
-                category={item.category}
-                tone={tone}
-                variant="default"
-                badge={
-                  item.isNew
-                    ? {
-                        label: 'NEW',
-                        variant:
-                          tone === 'warm' ? 'warm' : tone === 'sun' ? 'sun' : 'primary',
-                        position: 'top-right',
-                      }
-                    : undefined
-                }
-                cta={{
-                  label: 'Discover',
-                  onClick: () => onItemClick?.(item.id),
-                }}
-                className="veille-card-feed__card"
-              />
-            </div>
+          <article key={item.id} className="relative" role="article">
+            <ResourceCard
+              icon={item.icon || TYPE_ICON[item.type] || '📚'}
+              iconSize="md"
+              resourceType={item.type}
+              title={item.title}
+              description={item.description || item.summary}
+              duration={item.duration}
+              category={item.category}
+              tone={tone}
+              variant="default"
+              badge={
+                item.isNew
+                  ? {
+                      label: 'NEW',
+                      variant: tonePillVariant,
+                      position: 'top-right',
+                    }
+                  : undefined
+              }
+              cta={{
+                label: 'Discover',
+                onClick: () => onItemClick?.(item.id),
+              }}
+            />
 
-            {/* Save button overlay (positioned absolute) */}
             {showSaveButton && (
               <button
-                className={`veille-card-feed__save ${isSaved ? 'veille-card-feed__save--saved' : ''}`}
+                className={[
+                  'absolute top-3 right-3 z-10 inline-flex items-center justify-center w-9 h-9 rounded-full backdrop-blur-sm border cursor-pointer transition-all',
+                  isSaved
+                    ? 'bg-danger-bg text-danger-fg border-danger-base/30 hover:bg-danger-base hover:text-white'
+                    : 'bg-white/90 text-ink-500 border-ink-200 hover:text-danger-base hover:border-danger-base/30',
+                ].join(' ')}
                 onClick={(e) => {
                   e.stopPropagation();
                   onSave?.(item.id, !isSaved);
@@ -155,7 +120,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
                 title={isSaved ? 'Remove from saved' : 'Save for later'}
                 aria-label={isSaved ? 'Remove from saved' : 'Save for later'}
               >
-                {isSaved ? '❤️' : '🤍'}
+                <Heart size={16} fill={isSaved ? 'currentColor' : 'none'} />
               </button>
             )}
           </article>

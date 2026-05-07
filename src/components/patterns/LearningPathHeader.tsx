@@ -1,11 +1,7 @@
-/**
- * LearningPathHeader Pattern
- * 
- * Header section for learning path detail pages
- * Shows title, category, description, progress, and KPIs
- */
-
 import React from 'react';
+import { ArrowLeft } from 'lucide-react';
+
+export type LearningPathHeaderTone = 'primary' | 'warm' | 'sun';
 
 export interface LearningPathKPI {
   label: string;
@@ -14,33 +10,22 @@ export interface LearningPathKPI {
 }
 
 export interface LearningPathHeaderProps {
-  /** Path title */
   title: string;
-  
-  /** Category/topic */
   category?: string;
-  
-  /** Full description */
   description?: string;
-  
-  /** Progress percentage (0-100) */
   progress?: number;
-  
-  /** KPIs to display (lessons, duration, students, etc) */
   kpis?: LearningPathKPI[];
-  
-  /** Tone for styling */
-  tone?: 'primary' | 'warm' | 'sun';
-  
-  /** Callback when back button is clicked */
+  tone?: LearningPathHeaderTone;
   onBack?: () => void;
-  
-  /** Show back button */
   showBackButton?: boolean;
-  
-  /** Custom className */
   className?: string;
 }
+
+const TONE_BG: Record<LearningPathHeaderTone, string> = {
+  primary: 'bg-gradient-to-br from-primary-500 to-primary-700',
+  warm:    'bg-gradient-to-br from-secondary-500 to-secondary-700',
+  sun:     'bg-gradient-to-br from-accent-400 to-accent-600',
+};
 
 export const LearningPathHeader: React.FC<LearningPathHeaderProps> = ({
   title,
@@ -53,72 +38,77 @@ export const LearningPathHeader: React.FC<LearningPathHeaderProps> = ({
   showBackButton = true,
   className = '',
 }) => {
-  return (
-    <div className={`learning-path-header learning-path-header--${tone} ${className}`}>
-      {/* Background glow effect */}
-      <div className="learning-path-header__glow" />
+  const isLightText = tone !== 'sun';
+  const textColor = isLightText ? 'text-white' : 'text-accent-900';
+  const mutedText = isLightText ? 'text-white/85' : 'text-accent-900/85';
 
-      {/* Back button */}
+  return (
+    <div
+      className={[
+        'relative overflow-hidden rounded-2xl p-10',
+        TONE_BG[tone],
+        textColor,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute -top-1/3 -right-[10%] w-[60%] aspect-square rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18)_0%,transparent_70%)] pointer-events-none"
+      />
+
       {showBackButton && (
         <button
-          className="learning-path-header__back"
+          className={[
+            'relative z-10 inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-pill bg-white/15 hover:bg-white/25 backdrop-blur-sm cursor-pointer transition-colors text-caption font-semibold border-0',
+            textColor,
+          ].join(' ')}
           onClick={onBack}
           aria-label="Go back"
         >
-          ← Back
+          <ArrowLeft size={14} /> Back
         </button>
       )}
 
-      {/* Main content */}
-      <div className="learning-path-header__content">
-        {/* Category */}
+      <div className="relative z-10 flex flex-col gap-3 mb-6">
         {category && (
-          <span className="learning-path-header__category">
+          <span className={['text-caption font-bold uppercase tracking-wider', mutedText].join(' ')}>
             {category.toUpperCase()}
           </span>
         )}
 
-        {/* Title */}
-        <h1 className="learning-path-header__title">{title}</h1>
+        <h1 className="m-0 font-display text-h1 font-bold leading-tight tracking-tight">{title}</h1>
 
-        {/* Description */}
         {description && (
-          <p className="learning-path-header__description">{description}</p>
+          <p className={['m-0 text-body leading-relaxed max-w-[640px]', mutedText].join(' ')}>
+            {description}
+          </p>
         )}
 
-        {/* Progress bar */}
         {progress !== undefined && (
-          <div className="learning-path-header__progress">
-            <div className="learning-path-header__progress-track">
+          <div className="flex items-center gap-3 mt-2">
+            <div className="flex-1 h-2 rounded-pill bg-white/20 overflow-hidden">
               <div
-                className="learning-path-header__progress-fill"
+                className="h-full bg-white rounded-pill transition-[width] duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <span className="learning-path-header__progress-text">
+            <span className="text-caption font-semibold whitespace-nowrap">
               {progress}% Complete
             </span>
           </div>
         )}
       </div>
 
-      {/* KPIs */}
       {kpis && kpis.length > 0 && (
-        <div className="learning-path-header__kpis">
+        <div className="relative z-10 grid gap-4 grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
           {kpis.map((kpi, idx) => (
-            <div key={idx} className="learning-path-header__kpi">
-              {kpi.icon && (
-                <span className="learning-path-header__kpi-icon">
-                  {kpi.icon}
-                </span>
-              )}
-              <div className="learning-path-header__kpi-content">
-                <span className="learning-path-header__kpi-value">
-                  {kpi.value}
-                </span>
-                <span className="learning-path-header__kpi-label">
-                  {kpi.label}
-                </span>
+            <div key={idx} className="flex items-center gap-3 p-4 rounded-xl bg-white/15 backdrop-blur-sm">
+              {kpi.icon && <span className="inline-flex items-center shrink-0">{kpi.icon}</span>}
+              <div>
+                <span className="block font-display text-h3 font-bold leading-none">{kpi.value}</span>
+                <span className={['block text-caption mt-1', mutedText].join(' ')}>{kpi.label}</span>
               </div>
             </div>
           ))}
