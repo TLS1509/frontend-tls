@@ -81,6 +81,7 @@
 |---|-----------|---------|--------------|--------|
 | 2.6.1 | Badge | `src/components/ui/Badge.tsx` | Cards, modales, listes | ✅ |
 | 2.6.2 | MetaPill | `src/components/ui/MetaPill.tsx` | MetaPillGroup, status indicators | ✅ |
+| 2.6.2b | Pill (nouveau) | `src/components/ui/Pill.tsx` | À adopter par Login/Signup/Help/LearningPathDetail/VideoReels (consolide `tls-pill`, `learning-path-hero-pill`, `video-reels__counter-pill`) | ✅ |
 | 2.6.3 | MetaPillGroup | `src/components/ui/MetaPillGroup.tsx` | ParcoursCard, learning cards | ✅ |
 | 2.6.4 | ProgressBar | `src/components/ui/ProgressBar.tsx` | Dashboard, profil, learning | ⬜ |
 | 2.6.5 | InlineProgress | `src/components/patterns/InlineProgress.tsx` | ParcoursCard (fixe progress bar visible) | ⬜ |
@@ -214,7 +215,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 13 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup)
+**Composants validés :** 14 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns, Badge, MetaPill, MetaPillGroup, Pill)
 
 **📌 Note Phase 2.5 :** Il existe 2 autres `ParcoursCard.tsx` (dans `ui/` et `learning/`) — composants séparés à migrer dans des phases ultérieures.
 **Inline styles restants :** ~2 077 / 2 105
