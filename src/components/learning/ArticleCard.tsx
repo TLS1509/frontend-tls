@@ -1,32 +1,10 @@
-/**
- * ArticleCard
- *
- * Card component for displaying articles/content items in Veille/Magazine feeds.
- * Shows type badge, title, summary, author, read time, and save action.
- * Uses only design tokens and TLS components.
- *
- * Usage:
- * <ArticleCard
- *   type="actu"
- *   title="IA générative en formation"
- *   summary="Tour d'horizon des nouveaux usages..."
- *   category="IA & Pédagogie"
- *   author="The Learning Society"
- *   publishedAt="Aujourd'hui"
- *   readTime="6 min"
- *   tone="primary"
- *   isSaved={false}
- *   onSave={() => {}}
- *   onClick={() => navigate('/article/1')}
- * />
- */
-
 import React from 'react';
 import { Card, CardEyebrow, CardTitle, CardDesc, CardFooter } from '../core/Card';
 import { Button } from '../core/Button';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
 import { Calendar, User, Clock, Bookmark, BookmarkCheck, ArrowRight } from 'lucide-react';
-import './ArticleCard.css';
+
+export type ArticleTone = 'primary' | 'warm' | 'sun';
 
 export interface ArticleCardProps {
   type: 'actu' | 'tutoriel' | 'dossier' | 'magazine';
@@ -37,7 +15,7 @@ export interface ArticleCardProps {
   author: string;
   publishedAt: string;
   readTime: string;
-  tone?: 'primary' | 'warm' | 'sun';
+  tone?: ArticleTone;
   isSaved?: boolean;
   icon?: React.ReactNode;
   onSave?: (id: string) => void;
@@ -47,8 +25,13 @@ export interface ArticleCardProps {
   className?: string;
 }
 
+const TONE_ICON: Record<ArticleTone, string> = {
+  primary: 'bg-primary-50 text-primary-600',
+  warm:    'bg-secondary-100 text-secondary-600',
+  sun:     'bg-accent-100 text-accent-700',
+};
+
 export const ArticleCard: React.FC<ArticleCardProps> = ({
-  type,
   typeLabel,
   title,
   summary,
@@ -65,46 +48,28 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   itemId = '',
   className = '',
 }) => {
-  // Determine icon background color based on tone
-  const getIconBg = () => {
-    switch (tone) {
-      case 'warm':
-        return 'var(--tls-orange-100)';
-      case 'sun':
-        return 'var(--tls-yellow-100)';
-      default:
-        return 'var(--tls-primary-50)';
-    }
-  };
-
-  const getIconColor = () => {
-    switch (tone) {
-      case 'warm':
-        return 'var(--tls-orange-600)';
-      case 'sun':
-        return 'var(--tls-yellow-600)';
-      default:
-        return 'var(--tls-primary-600)';
-    }
-  };
-
   return (
     <Card
       variant="feature"
-      className={['article-card', className].filter(Boolean).join(' ')}
+      className={['flex flex-col gap-3', className].filter(Boolean).join(' ')}
       onClick={onClick}
     >
-      {/* Header: Type icon + date + save button */}
-      <div className="article-card__header">
-        <div className="article-card__type-info">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
           {icon && (
-            <div className={`article-card__icon article-card__icon--${tone}`} aria-hidden="true">
+            <div
+              className={[
+                'inline-flex items-center justify-center w-10 h-10 rounded-lg shrink-0',
+                TONE_ICON[tone],
+              ].join(' ')}
+              aria-hidden="true"
+            >
               {icon}
             </div>
           )}
-          <div>
-            <CardEyebrow className="article-card__type-label">{typeLabel}</CardEyebrow>
-            <span className="article-card__date">
+          <div className="flex flex-col gap-0.5">
+            <CardEyebrow>{typeLabel}</CardEyebrow>
+            <span className="inline-flex items-center gap-1 text-micro text-ink-500">
               <Calendar size={11} />
               {publishedAt}
             </span>
@@ -113,7 +78,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         {onSave && (
           <button
             type="button"
-            className={['article-card__save-btn', isSaved && 'article-card__save-btn--saved'].filter(Boolean).join(' ')}
+            className={[
+              'inline-flex items-center justify-center w-9 h-9 rounded-md border border-ink-200 bg-white cursor-pointer transition-colors shrink-0',
+              isSaved
+                ? 'text-primary-600 border-primary-200 bg-primary-50'
+                : 'text-ink-500 hover:bg-ink-50 hover:text-ink-900',
+            ].join(' ')}
             onClick={(e) => {
               e.stopPropagation();
               onSave(itemId);
@@ -125,17 +95,15 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         )}
       </div>
 
-      {/* Category */}
-      <span className="article-card__category">{category}</span>
+      <span className="inline-block text-caption font-semibold uppercase tracking-wider text-ink-500">
+        {category}
+      </span>
 
-      {/* Title */}
-      <CardTitle className="article-card__title">{title}</CardTitle>
+      <CardTitle>{title}</CardTitle>
 
-      {/* Summary */}
-      <CardDesc className="article-card__summary">{summary}</CardDesc>
+      <CardDesc>{summary}</CardDesc>
 
-      {/* Footer: Author + read time + action */}
-      <CardFooter className="article-card__footer">
+      <CardFooter className="flex items-center justify-between flex-wrap gap-3">
         <MetaPillGroup
           items={[
             { icon: <User size={12} />, text: author },

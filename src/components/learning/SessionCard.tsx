@@ -1,23 +1,3 @@
-/**
- * SessionCard
- *
- * Card component for displaying coaching session info.
- * Shows title, coach, date, duration, status and related actions.
- * Uses only design tokens, CSS classes, and TLS components (no inline styles).
- *
- * Usage:
- * <SessionCard
- *   title="Introduction au prompt engineering"
- *   coachName="Sophie Martin"
- *   description="Fondamentaux ROLE-CONTEXT-TASK..."
- *   dateLabel="15 decembre 2025"
- *   durationLabel="1h"
- *   status="completed"
- *   onViewQuestionnaire={() => {}}
- *   onViewReport={() => {}}
- * />
- */
-
 import React from 'react';
 import { Card, CardTitle, CardDesc } from '../core/Card';
 import { Badge } from '../ui/Badge';
@@ -25,7 +5,6 @@ import { Button } from '../core/Button';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
 import { UserRound, CalendarClock, Clock3, FileText, Notebook, ArrowRight } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
-import './SessionCard.css';
 
 export interface SessionCardProps {
   title: string;
@@ -43,6 +22,15 @@ export interface SessionCardProps {
   onOpen?: () => void;
   className?: string;
 }
+
+const ACTION_BTN_BASE =
+  'inline-flex items-center gap-1 px-3 py-1 rounded-pill text-caption font-body font-medium cursor-pointer border transition-colors';
+
+const ACTION_BTN_TONES = {
+  primary:   'border-primary-200 bg-primary-50 text-primary-600 hover:bg-primary-100 active:bg-primary-200',
+  warm:      'border-secondary-200 bg-secondary-50 text-secondary-600 hover:bg-secondary-100 active:bg-secondary-200',
+  secondary: 'border-ink-200 bg-ink-50 text-ink-500 hover:bg-white hover:text-ink-900 active:bg-ink-50',
+};
 
 export const SessionCard: React.FC<SessionCardProps> = ({
   title,
@@ -64,17 +52,14 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   const statusLabel = status === 'completed' ? 'Completée' : 'Planifiée';
 
   return (
-    <Card variant="interactive" className={['session-card', className].filter(Boolean).join(' ')}>
-      {/* Header with title and status */}
-      <div className="session-card__header">
+    <Card variant="interactive" className={['flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+      <div className="flex justify-between items-start gap-3">
         <CardTitle>{title}</CardTitle>
         <Badge variant={statusVariant}>{statusLabel}</Badge>
       </div>
 
-      {/* Description */}
       <CardDesc>{description}</CardDesc>
 
-      {/* Metadata pills */}
       <MetaPillGroup
         items={[
           { icon: <UserRound size={14} />, text: coachName },
@@ -84,28 +69,27 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         size="sm"
       />
 
-      {/* Actions — distinct colors per action type */}
-      <div className="session-card__actions">
+      <div className="flex flex-wrap gap-2 pt-2 border-t border-ink-200">
         {questionnaire && (
-          <button className="session-card__action-btn session-card__action-btn--primary" onClick={onViewQuestionnaire}>
+          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.primary}`} onClick={onViewQuestionnaire}>
             <FileText size={13} />
             Questionnaire
           </button>
         )}
         {report && (
-          <button className="session-card__action-btn session-card__action-btn--warm" onClick={onViewReport}>
+          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.warm}`} onClick={onViewReport}>
             <FileText size={13} />
             Compte-rendu
           </button>
         )}
         {(questionnaire || report) && (
-          <button className="session-card__action-btn session-card__action-btn--secondary" onClick={onAddNote}>
+          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.secondary}`} onClick={onAddNote}>
             <Notebook size={13} />
             {journal ? 'Voir ma note' : 'Ajouter une note'}
           </button>
         )}
         {onOpen && (
-          <div className="session-card__action-primary">
+          <div className="ml-auto flex">
             <Button variant="secondary" size="sm" onClick={onOpen}>
               Ouvrir <ArrowRight size={14} />
             </Button>
