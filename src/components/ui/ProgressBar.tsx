@@ -47,6 +47,15 @@ const FILL_VARIANT_CLASSES: Record<ProgressFill, string> = {
   gradient: 'bg-gradient-to-r from-primary-500 to-secondary-500',
 };
 
+const VALUE_TONE_CLASSES: Record<ProgressFill, string> = {
+  brand:    'text-primary-700',
+  warm:     'text-secondary-700',
+  sun:      'text-accent-700',
+  success:  'text-success-fg',
+  danger:   'text-danger-fg',
+  gradient: 'text-primary-700',
+};
+
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   value,
   max = 100,
@@ -83,7 +92,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             </span>
           )}
           {showValueLabel && (
-            <span className="font-mono font-bold text-ink-900 text-caption">
+            <span className={`font-mono font-bold tabular-nums text-caption ${VALUE_TONE_CLASSES[resolvedFill]}`}>
               {valueLabel ?? `${Math.round(pct)}%`}
             </span>
           )}

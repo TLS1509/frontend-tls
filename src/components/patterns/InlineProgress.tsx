@@ -26,6 +26,12 @@ const FILL_TONE_CLASSES: Record<InlineProgressTone, string> = {
   sun:     'bg-accent-600',
 };
 
+const LABEL_TONE_CLASSES: Record<InlineProgressTone, string> = {
+  primary: 'text-primary-700',
+  warm:    'text-secondary-700',
+  sun:     'text-accent-700',
+};
+
 /**
  * InlineProgress — Embedded progress bar for use within cards, steps, or inline displays.
  */
@@ -51,7 +57,7 @@ export const InlineProgress: React.FC<InlineProgressProps> = ({
         />
       </div>
       {showLabel && (
-        <span className="text-caption font-semibold min-w-8 text-right text-ink-900">
+        <span className={`font-mono text-caption font-bold tabular-nums min-w-10 text-right ${LABEL_TONE_CLASSES[tone]}`}>
           {Math.round(clampedValue)}%
         </span>
       )}
