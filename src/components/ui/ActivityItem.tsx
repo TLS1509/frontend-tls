@@ -1,5 +1,4 @@
 import React from 'react';
-import './ActivityItem.css';
 
 export type ActivityItemType = 'lesson' | 'achievement' | 'coach' | 'journal' | 'default';
 
@@ -12,6 +11,22 @@ interface ActivityItemProps {
   className?: string;
 }
 
+const TYPE_DOT: Record<ActivityItemType, string> = {
+  default:     'bg-ink-300',
+  lesson:      'bg-primary-500',
+  achievement: 'bg-accent-500',
+  coach:       'bg-secondary-500',
+  journal:     'bg-success-base',
+};
+
+const TYPE_ICON: Record<ActivityItemType, string> = {
+  default:     'bg-ink-50 text-ink-500',
+  lesson:      'bg-primary-50 text-primary-600',
+  achievement: 'bg-accent-50 text-accent-700',
+  coach:       'bg-secondary-50 text-secondary-600',
+  journal:     'bg-success-bg text-success-fg',
+};
+
 export const ActivityItem: React.FC<ActivityItemProps> = ({
   icon,
   title,
@@ -21,8 +36,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
   className = '',
 }) => {
   const classes = [
-    'tls-activity-item',
-    type !== 'default' && `tls-activity-item--${type}`,
+    'group relative flex items-start gap-3 pb-5 last:pb-0',
     className,
   ]
     .filter(Boolean)
@@ -30,20 +44,41 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
 
   return (
     <div className={classes}>
-      <div className="tls-activity-item__timeline">
-        <div className="tls-activity-item__dot" />
-        <div className="tls-activity-item__line" aria-hidden="true" />
+      <div className="relative flex flex-col items-center shrink-0 pt-1">
+        <span
+          className={[
+            'block w-2.5 h-2.5 rounded-full ring-4 ring-white z-10 shrink-0',
+            TYPE_DOT[type],
+          ].join(' ')}
+        />
+        <span
+          aria-hidden="true"
+          className="absolute top-3 bottom-0 w-px bg-ink-200 group-last:hidden"
+        />
       </div>
-      {icon && <div className="tls-activity-item__icon">{icon}</div>}
-      <div className="tls-activity-item__content">
-        <h4 className="tls-activity-item__title">{title}</h4>
+
+      {icon && (
+        <div
+          className={[
+            'shrink-0 w-9 h-9 rounded-full inline-flex items-center justify-center',
+            TYPE_ICON[type],
+          ].join(' ')}
+        >
+          {icon}
+        </div>
+      )}
+
+      <div className="flex-1 min-w-0">
+        <h4 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
         {description && (
-          <p className="tls-activity-item__description">{description}</p>
+          <p className="m-0 mt-0.5 text-caption text-ink-500 leading-relaxed">{description}</p>
         )}
         {timestamp && (
-          <span className="tls-activity-item__timestamp">{timestamp}</span>
+          <span className="inline-block mt-1 text-micro text-ink-400">{timestamp}</span>
         )}
       </div>
     </div>
   );
 };
+
+export default ActivityItem;

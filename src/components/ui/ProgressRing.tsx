@@ -1,37 +1,32 @@
 import React from 'react';
 
-/**
- * ProgressRing — Source of truth: design-system/spec.json → components.Progress.subComponents.Ring
- *
- * Circular progress with prominent % center. Implemented with conic-gradient.
- * Tone variants: brand (default) / warm / sun / success / danger.
- */
-
 export type ProgressRingTone = 'brand' | 'warm' | 'sun' | 'success' | 'danger';
 
 export interface ProgressRingProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** 0–100 percentage */
   value: number;
-  /** Ring diameter in px (default: 120) */
   size?: number;
-  /** Stroke thickness in px (default: 10) */
   thickness?: number;
-  /** Tone variant — sets ring color from CSS token */
   tone?: ProgressRingTone;
   /** @deprecated Use `tone`. Direct color override still accepted. */
   color?: string;
-  /** Label under the numeric value */
   label?: React.ReactNode;
-  /** Override the centered value text */
   valueLabel?: React.ReactNode;
 }
 
-const TONE_COLORS: Record<ProgressRingTone, string> = {
-  brand:   'var(--tls-primary-600)',
-  warm:    'var(--tls-orange-500)',
-  sun:     'var(--tls-yellow-400)',
-  success: 'var(--tls-success-base)',
-  danger:  'var(--tls-danger-base)',
+const TONE_COLOR_VAR: Record<ProgressRingTone, string> = {
+  brand:   'var(--color-primary-600)',
+  warm:    'var(--color-secondary-500)',
+  sun:     'var(--color-accent-400)',
+  success: 'var(--color-success-base)',
+  danger:  'var(--color-danger-base)',
+};
+
+const TONE_VALUE_TEXT: Record<ProgressRingTone, string> = {
+  brand:   'text-ink-900',
+  warm:    'text-ink-900',
+  sun:     'text-ink-900',
+  success: 'text-success-fg',
+  danger:  'text-danger-fg',
 };
 
 export const ProgressRing: React.FC<ProgressRingProps> = ({
@@ -47,35 +42,52 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   ...rest
 }) => {
   const pct = Math.min(Math.max(value, 0), 100);
+  const ringColor = color ?? TONE_COLOR_VAR[tone];
 
-  // color prop takes priority over tone (backward compat)
-  const ringColor = color ?? TONE_COLORS[tone];
-
-  const ringStyle = {
+  const wrapperStyle: React.CSSProperties = {
     ...style,
-    ['--ring-size' as string]: `${size}px`,
-    ['--ring-pct' as string]: `${pct}`,
-    ['--ring-thickness' as string]: `${thickness}px`,
-    ['--ring-color' as string]: ringColor,
-  } as React.CSSProperties;
+    width: `${size}px`,
+    height: `${size}px`,
+    background: `conic-gradient(${ringColor} ${pct}%, var(--color-ink-100) 0)`,
+  };
 
-  const classes = ['ring', tone !== 'brand' && `ring--${tone}`, className]
-    .filter(Boolean)
-    .join(' ');
+  const innerStyle: React.CSSProperties = {
+    inset: `${thickness}px`,
+  };
+
+  const valueFontSize = `${size / 4.5}px`;
 
   return (
     <div
-      className={classes}
-      style={ringStyle}
+      className={[
+        'relative inline-flex items-center justify-center rounded-full',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      style={wrapperStyle}
       role="progressbar"
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
       aria-valuemax={100}
       {...rest}
     >
-      <div className="ring__content">
-        <span className="ring__value">{valueLabel ?? `${Math.round(pct)}%`}</span>
-        {label && <span className="ring__label">{label}</span>}
+      <div className="absolute bg-white rounded-full" style={innerStyle} />
+      <div className="relative flex flex-col items-center gap-0.5">
+        <span
+          className={[
+            'font-display font-semibold tracking-tight leading-none',
+            TONE_VALUE_TEXT[tone],
+          ].join(' ')}
+          style={{ fontSize: valueFontSize }}
+        >
+          {valueLabel ?? `${Math.round(pct)}%`}
+        </span>
+        {label && (
+          <span className="text-micro font-mono uppercase tracking-wider text-ink-500 font-semibold">
+            {label}
+          </span>
+        )}
       </div>
     </div>
   );

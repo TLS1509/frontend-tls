@@ -1,6 +1,8 @@
 import React from 'react';
 import { Sparkles, Lock } from 'lucide-react';
 
+export type AchievementBadgeColor = 'primary' | 'warm' | 'sun' | 'success';
+
 export interface AchievementBadgeProps {
   title: string;
   description?: string;
@@ -8,21 +10,50 @@ export interface AchievementBadgeProps {
   unlockedDate?: string;
   isLocked?: boolean;
   onShare?: () => void;
-  color?: string;
+  color?: AchievementBadgeColor;
   size?: 'sm' | 'md' | 'lg';
 }
 
-const sizeConfig = {
-  sm: { iconRadius: 60, iconSize: 28, padding: 16 },
-  md: { iconRadius: 100, iconSize: 48, padding: 24 },
-  lg: { iconRadius: 140, iconSize: 64, padding: 32 },
+const SIZE_PADDING: Record<'sm' | 'md' | 'lg', string> = {
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
 };
 
-const colorGradients: Record<string, string> = {
-  'var(--tls-primary-500)': 'linear-gradient(135deg, var(--tls-primary-500), var(--tls-primary-600))',
-  'var(--tls-orange-500)': 'linear-gradient(135deg, var(--tls-orange-500), var(--tls-orange-600))',
-  'var(--tls-yellow-400)': 'linear-gradient(135deg, var(--tls-yellow-400), var(--tls-orange-500))',
-  'var(--tls-success-base)': 'linear-gradient(135deg, var(--tls-success-base), var(--tls-primary-500))',
+const ICON_CIRCLE: Record<'sm' | 'md' | 'lg', string> = {
+  sm: 'w-[60px] h-[60px] mb-4',
+  md: 'w-[100px] h-[100px] mb-6',
+  lg: 'w-[140px] h-[140px] mb-8',
+};
+
+const ICON_INNER_PX: Record<'sm' | 'md' | 'lg', number> = { sm: 28, md: 48, lg: 64 };
+
+const COLOR_GRADIENT: Record<AchievementBadgeColor, string> = {
+  primary: 'bg-gradient-to-br from-primary-500 to-primary-600',
+  warm:    'bg-gradient-to-br from-secondary-500 to-secondary-600',
+  sun:     'bg-gradient-to-br from-accent-400 to-secondary-500',
+  success: 'bg-gradient-to-br from-success-base to-primary-500',
+};
+
+const COLOR_BORDER: Record<AchievementBadgeColor, string> = {
+  primary: 'border-primary-500',
+  warm:    'border-secondary-500',
+  sun:     'border-accent-400',
+  success: 'border-success-base',
+};
+
+const COLOR_TEXT: Record<AchievementBadgeColor, string> = {
+  primary: 'text-primary-700',
+  warm:    'text-secondary-600',
+  sun:     'text-accent-700',
+  success: 'text-success-fg',
+};
+
+const COLOR_BTN: Record<AchievementBadgeColor, string> = {
+  primary: 'bg-primary-500 hover:bg-primary-600 shadow-brand-sm hover:shadow-brand-md',
+  warm:    'bg-secondary-500 hover:bg-secondary-600 shadow-sm hover:shadow-md',
+  sun:     'bg-accent-500 hover:bg-accent-600 shadow-sm hover:shadow-md',
+  success: 'bg-success-base hover:bg-success-fg shadow-sm hover:shadow-md',
 };
 
 export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
@@ -32,150 +63,74 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
   unlockedDate,
   isLocked = false,
   onShare,
-  color = 'var(--tls-primary-500)',
+  color = 'primary',
   size = 'md',
 }) => {
-  const gradient = colorGradients[color] || `linear-gradient(135deg, ${color}, var(--tls-orange-500))`;
-  const borderColor = isLocked ? 'var(--border)' : color;
-  const config = sizeConfig[size];
+  const innerIconSize = ICON_INNER_PX[size];
+
+  const cardClasses = [
+    'bg-white rounded-lg border-2 text-center transition-all duration-300',
+    SIZE_PADDING[size],
+    isLocked ? 'border-ink-200 opacity-60 scale-95' : COLOR_BORDER[color],
+  ].join(' ');
+
+  const circleClasses = [
+    'relative inline-flex items-center justify-center mx-auto rounded-full overflow-hidden',
+    ICON_CIRCLE[size],
+    isLocked ? 'bg-ink-100' : `${COLOR_GRADIENT[color]} shadow-brand-sm`,
+  ].join(' ');
 
   return (
-    <div
-      style={{
-        padding: `var(--s-${config.padding === 16 ? '4' : config.padding === 24 ? '6' : '8'})`,
-        backgroundColor: isLocked ? 'var(--surface)' : 'var(--surface)',
-        borderRadius: 'var(--r-lg)',
-        border: `2px solid ${borderColor}`,
-        textAlign: 'center',
-        transition: 'all var(--dur-3) var(--ease-standard)',
-        opacity: isLocked ? 0.6 : 1,
-        transform: isLocked ? 'scale(0.95)' : 'scale(1)',
-      }}
-    >
-      {/* Badge Icon Circle */}
-      <div
-        style={{
-          width: `${config.iconRadius}px`,
-          height: `${config.iconRadius}px`,
-          margin: `0 auto var(--s-8)`,
-          borderRadius: '50%',
-          background: isLocked ? 'var(--surface-sunken)' : gradient,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: isLocked ? 'none' : 'var(--shadow-brand-sm)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
+    <div className={cardClasses}>
+      <div className={circleClasses}>
         {icon && typeof icon === 'object' && 'props' in icon
-          ? React.cloneElement(icon as React.ReactElement, { size: config.iconSize } as any)
+          ? React.cloneElement(icon as React.ReactElement, { size: innerIconSize } as any)
           : icon}
         {!isLocked && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '-8px',
-              right: '-8px',
-              animation: 'sparkle 2s ease-in-out infinite',
-              color: 'white',
-            }}
-          >
-            <Sparkles size={Math.round(config.iconSize * 0.5)} />
-          </div>
+          <span className="absolute -top-2 -right-2 text-white animate-pulse">
+            <Sparkles size={Math.round(innerIconSize * 0.5)} />
+          </span>
         )}
         {isLocked && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '-8px',
-              right: '-8px',
-              background: 'var(--surface)',
-              borderRadius: '50%',
-              padding: '4px',
-              color: 'var(--text-muted)',
-            }}
-          >
-            <Lock size={Math.round(config.iconSize * 0.4)} />
-          </div>
+          <span className="absolute -bottom-2 -right-2 inline-flex items-center justify-center w-7 h-7 rounded-full bg-white text-ink-500 border border-ink-200">
+            <Lock size={Math.round(innerIconSize * 0.4)} />
+          </span>
         )}
       </div>
 
-      {/* Badge Title */}
-      <h3
-        style={{
-          margin: `0 0 var(--s-2) 0`,
-          fontSize: 'var(--t-h4)',
-          fontWeight: '600',
-          color: 'var(--text)',
-          fontFamily: 'var(--font-display)',
-        }}
-      >
-        {title}
-      </h3>
+      <h3 className="m-0 mb-2 text-h4 font-display font-semibold text-ink-900">{title}</h3>
 
-      {/* Badge Description */}
       {description && (
-        <p
-          style={{
-            fontSize: 'var(--t-body-sm)',
-            color: 'var(--text-muted)',
-            marginBottom: 'var(--s-4)',
-            lineHeight: '1.5',
-          }}
-        >
-          {description}
-        </p>
+        <p className="m-0 mb-4 text-body-sm text-ink-500 leading-relaxed">{description}</p>
       )}
 
-      {/* Unlock Status */}
       <p
-        style={{
-          fontSize: 'var(--t-caption)',
-          color: isLocked ? 'var(--text-muted)' : color,
-          marginBottom: onShare ? 'var(--s-4)' : 0,
-          fontWeight: '500',
-        }}
+        className={[
+          'm-0 text-caption font-medium',
+          isLocked ? 'text-ink-500' : COLOR_TEXT[color],
+          onShare && !isLocked ? 'mb-4' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
-        {isLocked ? 'Complete prerequisites to unlock' : `Unlocked ${unlockedDate ? `on ${unlockedDate}` : 'today'}`}
+        {isLocked
+          ? 'Complete prerequisites to unlock'
+          : `Unlocked ${unlockedDate ? `on ${unlockedDate}` : 'today'}`}
       </p>
 
-      {/* Action Button */}
       {onShare && !isLocked && (
         <button
+          type="button"
           onClick={onShare}
-          style={{
-            marginTop: 'var(--s-4)',
-            padding: 'var(--s-3) var(--s-5)',
-            background: color,
-            color: 'var(--text-inverse)',
-            border: 'none',
-            borderRadius: 'var(--r-md)',
-            fontSize: 'var(--t-caption)',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all var(--dur-2) var(--ease-standard)',
-            boxShadow: isLocked ? 'none' : 'var(--shadow-brand-sm)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-brand-md)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-brand-sm)';
-          }}
+          className={[
+            'mt-4 px-5 py-3 text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
+            'hover:-translate-y-0.5',
+            COLOR_BTN[color],
+          ].join(' ')}
         >
           Share Achievement
         </button>
       )}
-
-      <style>{`
-        @keyframes sparkle {
-          0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-          50% { transform: scale(1.2) rotate(20deg); opacity: 0.8; }
-        }
-      `}</style>
     </div>
   );
 };

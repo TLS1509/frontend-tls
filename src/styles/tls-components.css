@@ -2703,6 +2703,17 @@
   }
 }
 
+@keyframes dd-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .dd__label {
   font-family: var(--font-mono);
   font-size: var(--t-micro);

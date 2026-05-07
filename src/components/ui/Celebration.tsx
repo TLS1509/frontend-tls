@@ -1,21 +1,20 @@
 import React from 'react';
-
-/**
- * Celebration — Source of truth: design-system/spec.json → components.Celebration
- *
- * Moments of victory. Three forms: banner (full), inline-win, toast (use Toast).
- * Rule: Rare = precious. Celebrate real milestones only.
- */
+import { Star } from 'lucide-react';
 
 export interface CelebrationProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title: React.ReactNode;
   description?: React.ReactNode;
-  /** Action buttons (Button components) rendered below copy */
   actions?: React.ReactNode;
-  /** Confetti-style decorative element rendered at the top */
   confetti?: React.ReactNode;
 }
+
+const CARD_CLASSES =
+  'relative bg-gradient-to-br from-secondary-50 to-accent-50 border border-secondary-500/15 rounded-2xl px-12 py-10 text-center overflow-hidden';
+
+const CONFETTI_BG_CLASSES =
+  'absolute inset-0 pointer-events-none ' +
+  'bg-[radial-gradient(at_20%_30%,rgba(237,132,58,0.2),transparent_50%),radial-gradient(at_80%_70%,rgba(248,176,68,0.18),transparent_50%)]';
 
 export const Celebration: React.FC<CelebrationProps> = ({
   title,
@@ -27,25 +26,33 @@ export const Celebration: React.FC<CelebrationProps> = ({
   ...rest
 }) => (
   <div
-    className={['celebration', className].filter(Boolean).join(' ')}
+    className={[CARD_CLASSES, className].filter(Boolean).join(' ')}
     role="status"
     aria-live="polite"
     {...rest}
   >
     {confetti !== undefined ? (
-      confetti && <div className="celebration__confetti">{confetti}</div>
+      confetti && <div className={CONFETTI_BG_CLASSES}>{confetti}</div>
     ) : (
-      <div className="celebration__confetti" aria-hidden="true">🎉</div>
+      <div className={`${CONFETTI_BG_CLASSES} flex items-center justify-center text-5xl`} aria-hidden="true">
+        🎉
+      </div>
     )}
-    <h2 className="celebration__title">{title}</h2>
-    {description && <p className="celebration__desc">{description}</p>}
+    <h2 className="relative m-0 mb-3 font-display text-h1 font-semibold tracking-tight text-secondary-700">
+      {title}
+    </h2>
+    {description && (
+      <p className="relative m-0 mx-auto mb-5 max-w-[520px] text-body-lg text-ink-900">{description}</p>
+    )}
     {children}
-    {actions && <div style={{ marginTop: 'var(--s-5)', display: 'flex', gap: 'var(--s-3)', justifyContent: 'center' }}>{actions}</div>}
+    {actions && (
+      <div className="relative mt-5 flex gap-3 justify-center">{actions}</div>
+    )}
   </div>
 );
 
 // ============================================================================
-// INLINE WIN — compact inline celebration
+// INLINE WIN
 // ============================================================================
 
 export interface InlineWinProps
@@ -55,12 +62,6 @@ export interface InlineWinProps
   description?: React.ReactNode;
 }
 
-const DEFAULT_SPARK = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9 12 2" />
-  </svg>
-);
-
 export const InlineWin: React.FC<InlineWinProps> = ({
   icon,
   title,
@@ -68,17 +69,25 @@ export const InlineWin: React.FC<InlineWinProps> = ({
   className = '',
   ...rest
 }) => (
-  <div className={['inline-win', className].filter(Boolean).join(' ')} {...rest}>
-    <span className="inline-win__spark" aria-hidden="true">
-      {icon ?? DEFAULT_SPARK}
+  <div
+    className={[
+      'flex items-center gap-4 px-5 py-4 rounded-lg border border-secondary-500/20',
+      'bg-gradient-to-br from-secondary-50 to-accent-50',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')}
+    {...rest}
+  >
+    <span
+      aria-hidden="true"
+      className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-secondary-500 to-accent-500 text-white shrink-0 shadow-md"
+    >
+      {icon ?? <Star size={18} strokeWidth={2} fill="currentColor" />}
     </span>
-    <div className="inline-win__body">
-      <p style={{ fontWeight: 600, margin: 0 }}>{title}</p>
-      {description && (
-        <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-          {description}
-        </p>
-      )}
+    <div className="flex-1 min-w-0">
+      <p className="m-0 text-body-sm font-bold text-secondary-700">{title}</p>
+      {description && <p className="m-0 mt-0.5 text-caption text-ink-500">{description}</p>}
     </div>
   </div>
 );
