@@ -1,13 +1,5 @@
 /**
  * Settings Page - User preferences and settings
- *
- * Features:
- * - Notification preferences with toggles
- * - Privacy/confidentiality controls
- * - Interface preferences (animations, contrast, layout)
- * - Account settings with language and security level selection
- * - Dark mode support via CSS tokens
- * - Accessible form components with labels and descriptions
  */
 
 import React, { useState } from 'react';
@@ -18,27 +10,55 @@ import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Switch } from '../components/core/Input';
 import { useTheme } from '../hooks/useTheme';
-import { BellRing, LockKeyhole, SlidersHorizontal, Shield, Palette, Settings2, Moon, Sun } from 'lucide-react';
+import {
+  BellRing,
+  LockKeyhole,
+  SlidersHorizontal,
+  Shield,
+  Palette,
+  Settings2,
+  Moon,
+  Sun,
+} from 'lucide-react';
+
+const KPI_CARD =
+  'flex flex-col items-start gap-1 p-4 rounded-lg bg-white border border-ink-200 shadow-sm';
+
+const SETTINGS_CARD =
+  'transition-all hover:-translate-y-1 hover:shadow-lg';
+
+const SECTION_HEAD =
+  'flex items-center gap-3 mb-4 pb-4 border-b border-ink-200';
+
+const ICON_BUBBLE = 'flex items-center justify-center w-10 h-10 rounded-lg shrink-0';
+
+const ToggleRow: React.FC<{
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}> = ({ checked, onChange, label }) => (
+  <Switch
+    checked={checked}
+    onChange={(e) => onChange(e.target.checked)}
+    label={<span className="text-body-sm text-ink-900">{label}</span>}
+  />
+);
 
 export const Settings: React.FC = () => {
   const { theme, toggle: toggleTheme } = useTheme();
 
-  // Notification preferences
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(true);
   const [dailyDigest, setDailyDigest] = useState(false);
 
-  // Privacy preferences
   const [shareStats, setShareStats] = useState(false);
   const [sysNotifs, setSysNotifs] = useState(true);
   const [loginHistory, setLoginHistory] = useState(true);
 
-  // Interface preferences
   const [smoothAnimations, setSmoothAnimations] = useState(true);
   const [highContrast, setHighContrast] = useState(false);
   const [compactNav, setCompactNav] = useState(true);
 
-  // Account settings
   const [language, setLanguage] = useState('fr');
   const [securityLevel, setSecurityLevel] = useState('standard');
 
@@ -57,7 +77,6 @@ export const Settings: React.FC = () => {
   ];
 
   const handleSaveAll = () => {
-    // In a real app, this would save to an API
     console.log('Settings saved:', {
       notifications: { emailNotifs, pushNotifs, dailyDigest },
       privacy: { shareStats, sysNotifs, loginHistory },
@@ -68,319 +87,139 @@ export const Settings: React.FC = () => {
 
   return (
     <div className="tls-page">
-      {/* Glass Hero */}
       <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Settings2 size={12} /> Compte &amp; Préférences</span>
+        <span className="tls-editorial-eyebrow">
+          <Settings2 size={12} /> Compte &amp; Préférences
+        </span>
         <h1>Paramètres</h1>
         <p className="tls-editorial-summary">
           Contrôlez vos préférences de notifications, confidentialité et expérience utilisateur.
         </p>
       </section>
 
-      {/* KPI Summary row */}
-      <section className="tls-kpi-row" style={{ marginBottom: 'var(--s-10)' }}>
-        <div className="tls-kpi" style={{
-          transition: 'all var(--dur-2)',
-          cursor: 'default',
-          boxShadow: 'var(--shadow-sm)',
-          padding: 'var(--s-4)',
-          borderRadius: 'var(--r-lg)',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)'
-        }}>
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
+      <section className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))] mb-10">
+        <div className={KPI_CARD}>
+          <div className={`${ICON_BUBBLE} bg-primary-50 text-primary-600 mb-2`}>
             <BellRing size={20} />
           </div>
-          <strong style={{ color: 'var(--tls-primary-700)' }}>2</strong>
-          <span>Canaux actifs</span>
+          <strong className="text-primary-700 text-h3 font-bold">2</strong>
+          <span className="text-caption text-ink-500">Canaux actifs</span>
         </div>
-        <div className="tls-kpi" style={{
-          transition: 'all var(--dur-2)',
-          cursor: 'default',
-          boxShadow: 'var(--shadow-sm)',
-          padding: 'var(--s-4)',
-          borderRadius: 'var(--r-lg)',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)'
-        }}>
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
+        <div className={KPI_CARD}>
+          <div className={`${ICON_BUBBLE} bg-secondary-50 text-secondary-600 mb-2`}>
             <Shield size={20} />
           </div>
-          <strong style={{ color: 'var(--tls-orange-600)' }}>Standard</strong>
-          <span>Niveau sécurité</span>
+          <strong className="text-secondary-600 text-h3 font-bold">Standard</strong>
+          <span className="text-caption text-ink-500">Niveau sécurité</span>
         </div>
-        <div className="tls-kpi" style={{
-          transition: 'all var(--dur-2)',
-          cursor: 'default',
-          boxShadow: 'var(--shadow-sm)',
-          padding: 'var(--s-4)',
-          borderRadius: 'var(--r-lg)',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)'
-        }}>
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
+        <div className={KPI_CARD}>
+          <div className={`${ICON_BUBBLE} bg-accent-50 text-accent-700 mb-2`}>
             {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
           </div>
-          <strong style={{ color: 'var(--tls-yellow-600)' }}>{theme === 'dark' ? 'Sombre' : 'Clair'}</strong>
-          <span>Thème actif</span>
+          <strong className="text-accent-700 text-h3 font-bold">
+            {theme === 'dark' ? 'Sombre' : 'Clair'}
+          </strong>
+          <span className="text-caption text-ink-500">Thème actif</span>
         </div>
       </section>
 
-      {/* Settings Grid */}
       <section>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: 'var(--s-6)' }}>
-
-          {/* Notifications Card */}
-          <Card variant="feature" style={{
-            background: 'var(--surface)',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all var(--dur-2)',
-            cursor: 'default'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', paddingBottom: 'var(--s-4)', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-50)' }}>
-                <BellRing size={20} style={{ color: 'var(--tls-primary-600)' }} />
+        <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(350px,1fr))]">
+          <Card variant="feature" className={SETTINGS_CARD}>
+            <div className={SECTION_HEAD}>
+              <div className={`${ICON_BUBBLE} bg-primary-50`}>
+                <BellRing size={20} className="text-primary-600" />
               </div>
-              <h2 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Notifications
-              </h2>
+              <h2 className="m-0 text-h4 font-bold text-ink-900">Notifications</h2>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={emailNotifs}
-                  onChange={(e) => setEmailNotifs(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Notifications par email</span>
-              </label>
+            <div className="flex flex-col gap-4">
+              <ToggleRow checked={emailNotifs} onChange={setEmailNotifs} label="Notifications par email" />
+              <ToggleRow checked={pushNotifs} onChange={setPushNotifs} label="Notifications push navigateur" />
+              <ToggleRow checked={dailyDigest} onChange={setDailyDigest} label="Resume quotidien" />
 
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={pushNotifs}
-                  onChange={(e) => setPushNotifs(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Notifications push navigateur</span>
-              </label>
-
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={dailyDigest}
-                  onChange={(e) => setDailyDigest(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Resume quotidien</span>
-              </label>
-
-              <p style={{ margin: 'var(--s-2) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              <p className="m-0 mt-2 text-caption text-ink-500 leading-relaxed">
                 Activez uniquement les canaux utiles pour eviter la surcharge.
               </p>
             </div>
           </Card>
 
-          {/* Privacy Card */}
-          <Card variant="feature" style={{
-            background: 'var(--surface)',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all var(--dur-2)',
-            cursor: 'default'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', paddingBottom: 'var(--s-4)', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 'var(--r-lg)', background: 'var(--tls-orange-50)' }}>
-                <LockKeyhole size={20} style={{ color: 'var(--tls-orange-600)' }} />
+          <Card variant="feature" className={SETTINGS_CARD}>
+            <div className={SECTION_HEAD}>
+              <div className={`${ICON_BUBBLE} bg-secondary-50`}>
+                <LockKeyhole size={20} className="text-secondary-600" />
               </div>
-              <h2 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Confidentialite
-              </h2>
+              <h2 className="m-0 text-h4 font-bold text-ink-900">Confidentialite</h2>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={shareStats}
-                  onChange={(e) => setShareStats(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Partager mes statistiques anonymisees</span>
-              </label>
+            <div className="flex flex-col gap-4">
+              <ToggleRow checked={shareStats} onChange={setShareStats} label="Partager mes statistiques anonymisees" />
+              <ToggleRow checked={sysNotifs} onChange={setSysNotifs} label="Autoriser les notifications systeme" />
+              <ToggleRow checked={loginHistory} onChange={setLoginHistory} label="Historique de connexions actif" />
 
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={sysNotifs}
-                  onChange={(e) => setSysNotifs(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Autoriser les notifications systeme</span>
-              </label>
-
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={loginHistory}
-                  onChange={(e) => setLoginHistory(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Historique de connexions actif</span>
-              </label>
-
-              <Button style={{ marginTop: 'var(--s-2)' }} onClick={handleSaveAll}>
+              <Button className="mt-2" onClick={handleSaveAll}>
                 Enregistrer preferences
               </Button>
             </div>
           </Card>
 
-          {/* Interface Card */}
-          <Card variant="feature" style={{
-            background: 'var(--surface)',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all var(--dur-2)',
-            cursor: 'default'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', paddingBottom: 'var(--s-4)', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 'var(--r-lg)', background: 'var(--tls-primary-50)' }}>
-                <Palette size={20} style={{ color: 'var(--tls-primary-600)' }} />
+          <Card variant="feature" className={SETTINGS_CARD}>
+            <div className={SECTION_HEAD}>
+              <div className={`${ICON_BUBBLE} bg-primary-50`}>
+                <Palette size={20} className="text-primary-600" />
               </div>
-              <h2 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Interface
-              </h2>
+              <h2 className="m-0 text-h4 font-bold text-ink-900">Interface</h2>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={smoothAnimations}
-                  onChange={(e) => setSmoothAnimations(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Activer animations fluides</span>
-              </label>
+            <div className="flex flex-col gap-4">
+              <ToggleRow checked={smoothAnimations} onChange={setSmoothAnimations} label="Activer animations fluides" />
+              <ToggleRow checked={highContrast} onChange={setHighContrast} label="Mode contraste renforce" />
+              <ToggleRow checked={compactNav} onChange={setCompactNav} label="Navigation compacte" />
 
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={highContrast}
-                  onChange={(e) => setHighContrast(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Mode contraste renforce</span>
-              </label>
-
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={compactNav}
-                  onChange={(e) => setCompactNav(e.target.checked)}
-                />
-                <span className="switch__track" />
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text)' }}>Navigation compacte</span>
-              </label>
-
-              {/* Dark mode toggle — wired to useTheme hook */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: 'var(--s-4) var(--s-4)',
-                borderRadius: 'var(--r-lg)',
-                background: theme === 'dark'
-                  ? 'linear-gradient(135deg, var(--on-color-fill-2xs), var(--overlay-white-xs))'
-                  : 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
-                border: `1px solid ${theme === 'dark' ? 'var(--on-color-border-sm)' : 'var(--tls-primary-200)'}`,
-                boxShadow: 'var(--shadow-xs)',
-                transition: 'all var(--dur-2)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: 'var(--r-md)',
-                    background: theme === 'dark' ? 'var(--tls-yellow-100)' : 'var(--tls-primary-100)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: theme === 'dark' ? 'var(--tls-yellow-500)' : 'var(--tls-primary-600)',
-                    flexShrink: 0,
-                  }}>
+              <div
+                className={[
+                  'flex items-center justify-between p-4 rounded-lg border shadow-xs transition-all',
+                  theme === 'dark'
+                    ? 'bg-gradient-to-br from-ink-200/30 to-white/10 border-white/15'
+                    : 'bg-gradient-to-br from-primary-50 to-primary-50/50 border-primary-200',
+                ].join(' ')}
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className={[
+                      'w-8 h-8 rounded-md flex items-center justify-center shrink-0',
+                      theme === 'dark'
+                        ? 'bg-accent-100 text-accent-500'
+                        : 'bg-primary-100 text-primary-600',
+                    ].join(' ')}
+                  >
                     {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
                   </div>
                   <div>
-                    <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>
-                      Mode sombre
-                    </p>
-                    <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+                    <p className="m-0 text-body-sm font-semibold text-ink-900">Mode sombre</p>
+                    <p className="m-0 mt-0.5 text-caption text-ink-500">
                       {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
                     </p>
                   </div>
                 </div>
-                <label className="switch" style={{ margin: 0 }}>
-                  <input
-                    type="checkbox"
-                    checked={theme === 'dark'}
-                    onChange={toggleTheme}
-                  />
-                  <span className="switch__track" />
-                </label>
+                <Switch checked={theme === 'dark'} onChange={toggleTheme} />
               </div>
 
-              <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
                 Ces préférences sont synchronisées avec votre profil utilisateur.
               </p>
             </div>
           </Card>
 
-          {/* Account Card */}
-          <Card variant="feature" style={{
-            background: 'var(--surface)',
-            boxShadow: 'var(--shadow-sm)',
-            transition: 'all var(--dur-2)',
-            cursor: 'default'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', paddingBottom: 'var(--s-4)', borderBottom: '1px solid var(--border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 'var(--r-lg)', background: 'var(--tls-yellow-50)' }}>
-                <SlidersHorizontal size={20} style={{ color: 'var(--tls-yellow-600)' }} />
+          <Card variant="feature" className={SETTINGS_CARD}>
+            <div className={SECTION_HEAD}>
+              <div className={`${ICON_BUBBLE} bg-accent-50`}>
+                <SlidersHorizontal size={20} className="text-accent-700" />
               </div>
-              <h2 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Compte
-              </h2>
+              <h2 className="m-0 text-h4 font-bold text-ink-900">Compte</h2>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+            <div className="flex flex-col gap-4">
               <FormGroup label="Langue" id="language">
                 <Select
                   id="language"
@@ -401,7 +240,7 @@ export const Settings: React.FC = () => {
                 />
               </FormGroup>
 
-              <div style={{ display: 'flex', gap: 'var(--s-3)', paddingTop: 'var(--s-2)' }}>
+              <div className="flex gap-3 pt-2">
                 <Button variant="secondary">Exporter mes donnees</Button>
                 <Button variant="ghost">Gerer mon compte</Button>
               </div>
@@ -409,25 +248,16 @@ export const Settings: React.FC = () => {
           </Card>
         </div>
 
-        {/* Best Practices Callout */}
-        <div style={{
-          maxWidth: 'var(--container-wide)',
-          margin: 'var(--s-10) auto 0',
-          padding: 'var(--s-6)',
-          background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
-          border: '1.5px solid var(--tls-primary-200)',
-          borderRadius: 'var(--r-lg)',
-          boxShadow: 'var(--shadow-sm)',
-          transition: 'all var(--dur-2)'
-        }}>
-          <p style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--tls-primary-700)' }}>
-            💡 Bonne pratique
-          </p>
-          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text)', lineHeight: 1.6 }}>
-            Conserver les alertes critiques actives et limiter les résumés pour réduire la surcharge d'informations.
+        <div className="max-w-[1280px] mx-auto mt-10 p-6 rounded-lg bg-gradient-to-br from-primary-50 to-primary-50/50 border-[1.5px] border-primary-200 shadow-sm">
+          <p className="m-0 mb-2 text-body-sm font-bold text-primary-700">💡 Bonne pratique</p>
+          <p className="m-0 text-body-sm text-ink-900 leading-relaxed">
+            Conserver les alertes critiques actives et limiter les résumés pour réduire la
+            surcharge d'informations.
           </p>
         </div>
       </section>
     </div>
   );
 };
+
+export default Settings;
