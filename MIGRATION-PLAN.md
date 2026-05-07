@@ -60,7 +60,7 @@
 
 | # | Composant | Fichier | Inline styles | Statut |
 |---|-----------|---------|--------------|--------|
-| 2.1 | StatCard | `src/components/ui/StatCard.tsx` | ~15 | ⬜ |
+| 2.1 | StatCard | `src/components/ui/StatCard.tsx` | ~15 | ✅ |
 | 2.2 | GlassCard | `src/components/ui/GlassCard.tsx` | ~10 | ⬜ |
 | 2.3 | SurfaceCard | `src/components/ui/SurfaceCard.tsx` | ~8 | ⬜ |
 | 2.4 | CourseCard | `src/components/ui/CourseCard.tsx` | ~20 | ⬜ |
@@ -198,6 +198,6 @@ Après phases 1-7, migrer les pages dans cet ordre :
 ## Progrès global
 
 **Phases complètes :** 0.5 / 9
-**Composants validés :** 5 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup)
-**Inline styles restants :** ~2 092 / 2 105
-**Dernière mise à jour :** 2026-05-06
+**Composants validés :** 6 / ~120 (Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup, StatCard)
+**Inline styles restants :** ~2 077 / 2 105
+**Dernière mise à jour :** 2026-05-07
