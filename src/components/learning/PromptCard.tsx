@@ -1,20 +1,3 @@
-/**
- * PromptCard
- *
- * Card component for displaying reflection prompts.
- * Used in Dashboard and reflection sections.
- * Uses only design tokens and TLS components.
- *
- * Usage:
- * <PromptCard
- *   label="Apprentissage"
- *   icon={<BookOpen size={34} />}
- *   text="Quelle a été ma plus grande découverte aujourd'hui ?"
- *   variant="info"
- *   onClick={() => navigate('/journal/new')}
- * />
- */
-
 import React from 'react';
 import { Card, CardDesc } from '../core/Card';
 import { Badge } from '../ui/Badge';
@@ -28,7 +11,6 @@ export interface PromptCardProps {
   onClick?: () => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   className?: string;
-  cardStyle?: React.CSSProperties;
 }
 
 export const PromptCard: React.FC<PromptCardProps> = ({
@@ -39,7 +21,6 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   onClick,
   onKeyDown,
   className = '',
-  cardStyle,
 }) => {
   return (
     <Card
@@ -48,16 +29,13 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       onKeyDown={onKeyDown}
       tabIndex={0}
       role="button"
-      className={className}
-      style={{ textAlign: 'center', cursor: 'pointer', ...cardStyle }}
+      className={['text-center cursor-pointer', className].filter(Boolean).join(' ')}
     >
-      <div style={{ marginBottom: 'var(--s-3)' }}>
+      <div className="mb-3">
         <Badge variant={variant}>{label}</Badge>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--s-3)' }}>
-        {icon}
-      </div>
-      <CardDesc style={{ textAlign: 'center' }}>{text}</CardDesc>
+      <div className="flex justify-center mb-3">{icon}</div>
+      <CardDesc className="text-center">{text}</CardDesc>
     </Card>
   );
 };

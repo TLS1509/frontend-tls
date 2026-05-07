@@ -1,40 +1,29 @@
-/**
- * MagazineCard
- *
- * Card component for displaying magazine editions.
- * Shows magazine cover, title, article count, and call-to-action.
- *
- * Usage:
- * <MagazineCard
- *   title="Édition #15 - Tendances EdTech 2026"
- *   description="Notre sélection des innovations clés en éducation"
- *   issueNumber={15}
- *   articleCount={8}
- *   tone="primary"
- *   onClick={() => navigate('/veille/magazine/15')}
- *   onSave={() => {}}
- *   isSaved={false}
- * />
- */
-
 import React from 'react';
 import { Card } from '../core/Card';
-import { Badge } from '../ui/Badge';
 import { Button } from '../core/Button';
 import { MetaPill } from '../ui/MetaPill';
 import { Bookmark, BookmarkCheck, ArrowRight, FileText } from 'lucide-react';
+
+export type MagazineCardTone = 'primary' | 'warm' | 'sun' | 'brand';
 
 export interface MagazineCardProps {
   title: string;
   description: string;
   issueNumber: number;
   articleCount: number;
-  tone?: 'primary' | 'warm' | 'sun' | 'brand';
+  tone?: MagazineCardTone;
   isSaved?: boolean;
   onClick?: () => void;
   onSave?: () => void;
   className?: string;
 }
+
+const TONE_COVER: Record<MagazineCardTone, string> = {
+  primary: 'bg-primary-50 border-primary-200 text-primary-700',
+  warm:    'bg-secondary-50 border-secondary-200 text-secondary-700',
+  sun:     'bg-accent-50 border-accent-200 text-accent-700',
+  brand:   'bg-ink-50 border-ink-200 text-ink-900',
+};
 
 export const MagazineCard: React.FC<MagazineCardProps> = ({
   title,
@@ -47,75 +36,31 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
   onSave,
   className = '',
 }) => {
-  const toneColors: Record<string, { bg: string; border: string; text: string }> = {
-    primary: {
-      bg: 'var(--tls-primary-50)',
-      border: 'var(--tls-primary-200)',
-      text: 'var(--tls-primary-700)',
-    },
-    warm: {
-      bg: 'var(--overlay-warm-xs)',
-      border: 'var(--tls-orange-200)',
-      text: 'var(--tls-orange-700)',
-    },
-    sun: {
-      bg: 'var(--tls-yellow-50)',
-      border: 'var(--tls-yellow-200)',
-      text: 'var(--tls-yellow-700)',
-    },
-    brand: {
-      bg: 'var(--surface-muted)',
-      border: 'var(--border-subtle)',
-      text: 'var(--text)',
-    },
-  };
-
-  const colors = toneColors[tone] || toneColors.primary;
-
   return (
     <Card className={className}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-        {/* Magazine Cover Placeholder */}
+      <div className="flex flex-col gap-3">
         <div
-          style={{
-            height: 200,
-            borderRadius: 'var(--r-lg)',
-            background: colors.bg,
-            border: `1px solid ${colors.border}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: colors.text,
-            fontSize: 'var(--t-h3)',
-            fontWeight: 600,
-          }}
+          className={[
+            'h-[200px] rounded-lg border flex items-center justify-center text-h3 font-semibold',
+            TONE_COVER[tone],
+          ].join(' ')}
         >
           {`N°${issueNumber}`}
         </div>
 
-        {/* Content */}
         <div>
-          <h3 style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 600, marginBottom: 'var(--s-2)' }}>
-            {title}
-          </h3>
-          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 'var(--s-3)' }}>
-            {description}
-          </p>
+          <h3 className="m-0 mb-2 text-body font-semibold text-ink-900">{title}</h3>
+          <p className="m-0 mb-3 text-body-sm text-ink-500 leading-relaxed">{description}</p>
         </div>
 
-        {/* Metadata */}
-        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-2">
           <MetaPill icon={<FileText size={14} />} text={`${articleCount} articles`} size="sm" />
         </div>
 
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: 'var(--s-2)', paddingTop: 'var(--s-3)', borderTop: '1px solid var(--border-subtle)' }}>
-          <Button
-            onClick={onClick}
-            style={{ flex: 1, justifyContent: 'center' }}
-          >
+        <div className="flex gap-2 pt-3 border-t border-ink-200">
+          <Button onClick={onClick} className="flex-1 justify-center">
             Ouvrir
-            <ArrowRight size={14} style={{ marginLeft: 6 }} />
+            <ArrowRight size={14} className="ml-1.5" />
           </Button>
           <Button
             variant="ghost"
@@ -123,14 +68,10 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
               e.stopPropagation();
               onSave?.();
             }}
-            style={{
-              padding: 'var(--s-2)',
-              minWidth: 44,
-              justifyContent: 'center',
-            }}
+            className="p-2 min-w-[44px] justify-center"
           >
             {isSaved ? (
-              <BookmarkCheck size={16} style={{ color: 'var(--tls-primary-500)' }} />
+              <BookmarkCheck size={16} className="text-primary-500" />
             ) : (
               <Bookmark size={16} />
             )}

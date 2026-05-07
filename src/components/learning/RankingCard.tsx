@@ -1,20 +1,3 @@
-/**
- * RankingCard
- *
- * Card component for displaying ranking/leaderboard entries.
- * Shows rank, name, points, streak and actions.
- * Uses only design tokens and TLS components.
- *
- * Usage:
- * <RankingCard
- *   rank={1}
- *   name="Sophie Martin"
- *   points={1240}
- *   streak={18}
- *   onViewProfile={() => navigate(`/profile/${id}`)}
- * />
- */
-
 import React from 'react';
 import { Card } from '../core/Card';
 import { Badge } from '../ui/Badge';
@@ -41,43 +24,27 @@ export const RankingCard: React.FC<RankingCardProps> = ({
   onViewProfile,
   className = '',
 }) => {
-  // Top 3 ranks get special badge variants
-  const badgeVariant: BadgeVariant = rank === 1 ? 'sun' : rank === 2 ? 'warm' : variant || 'neutral';
+  const badgeVariant: BadgeVariant =
+    rank === 1 ? 'sun' : rank === 2 ? 'warm' : variant || 'neutral';
 
   return (
-    <Card className={`tls-section-card ${className}`}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-        {/* Header with rank and name */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <h3 style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 600 }}>
+    <Card className={['tls-section-card', className].filter(Boolean).join(' ')}>
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-start">
+          <h3 className="m-0 text-body font-semibold text-ink-900">
             #{rank} {name}
           </h3>
           <Badge variant={badgeVariant}>{points} pts</Badge>
         </div>
 
-        {/* Streak badge if available */}
         {streak !== undefined && (
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              padding: 'var(--s-2) var(--s-3)',
-              borderRadius: 'var(--r-md)',
-              background: 'var(--surface-muted)',
-              color: 'var(--text-muted)',
-              fontSize: 'var(--t-caption)',
-              fontWeight: 500,
-              width: 'fit-content',
-            }}
-          >
+          <div className="inline-flex items-center gap-1 px-3 py-2 rounded-md bg-ink-50 text-ink-500 text-caption font-medium w-fit">
             <Target size={14} /> Streak {streak} jours
           </div>
         )}
 
-        {/* Action button */}
         {onViewProfile && (
-          <div style={{ display: 'flex', gap: 'var(--s-2)', paddingTop: 'var(--s-2)' }}>
+          <div className="flex gap-2 pt-2">
             <Button size="sm" variant="secondary" onClick={onViewProfile}>
               <Medal size={14} /> Voir profil
             </Button>
