@@ -29,7 +29,10 @@ export type CardVariant =
   | 'minimal'
   | 'bordered'
   | 'muted'
-  | 'sunken';
+  | 'sunken'
+  /** Tinted gradient — REQUIRES the `tone` prop to render properly.
+      Used as the surface for ParcoursCard / learning hubs. */
+  | 'tinted';
 export type CardTone = 'primary' | 'warm' | 'sun' | 'brand';
 export type CardSize = 'sm' | 'md' | 'lg';
 
@@ -83,6 +86,22 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   bordered: 'bg-white border-2 border-primary-200 shadow-xs hover:border-primary-400 hover:shadow-sm',
   muted:    'bg-ink-50 border border-ink-200',
   sunken:   'bg-ink-100 border border-ink-200',
+  // `tinted` provides only the border + shadow defaults — the actual gradient
+  // bg is supplied by TONE_GRADIENT_BG_CLASSES via the `tone` prop. Falls back
+  // to a neutral white surface if no tone is set.
+  tinted:   'bg-white border shadow-xs',
+};
+
+/**
+ * Gradient tone backgrounds — applied when variant="tinted" combined with a
+ * tone. Replaces the standalone ToneAwareCard's TONE_CLASSES to keep the
+ * styling in one place.
+ */
+const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
+  primary: 'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border-primary-200/60',
+  warm:    'bg-gradient-to-br from-secondary-50/95 to-secondary-100/60 border-secondary-200/60',
+  sun:     'bg-gradient-to-br from-accent-50/95 to-accent-100/60 border-accent-200/60',
+  brand:   'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border-primary-200/60',
 };
 
 const SIZE_CLASSES: Record<CardSize, string> = {
@@ -149,11 +168,19 @@ export const Card: React.FC<CardProps> = ({
   interactive = false,
   ...rest
 }) => {
+  // tinted variant uses the gradient tone map; other variants use the flat
+  // tone bg map (existing behavior).
+  const toneBgClasses = tone
+    ? variant === 'tinted'
+      ? TONE_GRADIENT_BG_CLASSES[tone]
+      : TONE_BG_CLASSES[tone]
+    : '';
+
   const classes = [
     BASE,
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
-    tone && TONE_BG_CLASSES[tone],
+    toneBgClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
     onClick && CLICKABLE,
     className,

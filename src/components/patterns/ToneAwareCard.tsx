@@ -1,11 +1,27 @@
 import React from 'react';
+import { Card } from '../core/Card';
+import type { CardTone } from '../core/Card';
+
+/**
+ * ToneAwareCard — DEPRECATED thin alias of Card.
+ *
+ * Kept for backward compatibility. New code should use Card directly:
+ *   <Card variant="tinted" tone="primary">…</Card>
+ *
+ * Maps:
+ *   tone='primary'/'warm'/'sun' → forwarded as-is
+ *   applyBackground=false       → variant='default' (no gradient bg)
+ *   applyBackground=true        → variant='tinted'
+ *   borderRadius / padding      → forwarded via inline style (runtime values)
+ *   onClick                     → forwarded
+ */
 
 export type Tone = 'primary' | 'warm' | 'sun';
 
 export interface ToneAwareCardProps {
   children: React.ReactNode;
   tone: Tone;
-  /** Apply background + border automatically (default true) */
+  /** Apply gradient background + border (default: true). */
   applyBackground?: boolean;
   borderRadius?: string;
   padding?: string;
@@ -14,10 +30,10 @@ export interface ToneAwareCardProps {
   onClick?: () => void;
 }
 
-const TONE_CLASSES: Record<Tone, string> = {
-  primary: 'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border border-primary-200/60 shadow-xs',
-  warm:    'bg-gradient-to-br from-secondary-50/95 to-secondary-100/60 border border-secondary-200/60 shadow-xs',
-  sun:     'bg-gradient-to-br from-accent-50/95 to-accent-100/60 border border-accent-200/60 shadow-xs',
+const TONE_MAP: Record<Tone, CardTone> = {
+  primary: 'primary',
+  warm:    'warm',
+  sun:     'sun',
 };
 
 export const ToneAwareCard: React.FC<ToneAwareCardProps> = ({
@@ -36,19 +52,16 @@ export const ToneAwareCard: React.FC<ToneAwareCardProps> = ({
     ...style,
   };
 
-  const classes = [
-    `tone-card--${tone} rounded-2xl`,
-    applyBackground ? TONE_CLASSES[tone] : '',
-    onClick ? 'cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md' : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <div className={classes} style={wrapperStyle} onClick={onClick}>
+    <Card
+      variant={applyBackground ? 'tinted' : 'default'}
+      tone={TONE_MAP[tone]}
+      className={[`tone-card--${tone}`, className].filter(Boolean).join(' ')}
+      style={wrapperStyle}
+      onClick={onClick}
+    >
       {children}
-    </div>
+    </Card>
   );
 };
 
