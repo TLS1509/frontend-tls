@@ -27,13 +27,20 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
 
   const displayCount = count > max ? `${max}+` : String(count);
   const isWide = displayCount.length > 1;
+  const isVeryWide = displayCount.length >= 3; // "99+", "100", etc.
 
   const classes = ['relative inline-flex shrink-0', className].filter(Boolean).join(' ');
 
+  // ring-2 ring-white sits OUTSIDE the box (vs border-2 which eats into it),
+  // so a 16×16 badge keeps its full visible area. tabular-nums prevents the
+  // pill from breathing in/out as digits change.
   const dotClasses = [
-    'absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill border-2 border-white',
-    'text-[10px] font-bold leading-none px-1',
-    isWide ? 'px-1.5' : 'aspect-square px-0',
+    'absolute -top-1 -right-1 inline-flex items-center justify-center h-[16px] min-w-[16px] rounded-pill ring-2 ring-white font-bold leading-none tabular-nums shadow-xs',
+    isVeryWide
+      ? 'px-1 text-[9px]'
+      : isWide
+        ? 'px-1 text-[10px]'
+        : 'aspect-square px-0 text-[10px]',
     TONE_CLASSES[tone],
   ]
     .filter(Boolean)
