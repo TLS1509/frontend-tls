@@ -1,10 +1,29 @@
 import React from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { StatCard } from './StatCard';
+import type { StatCardSize, StatCardVariant } from './StatCard';
 
 /**
- * KPICard — standalone KPI / statistic card
- * Tones: default | brand | warm | sun | success
- * Sizes: sm | md
+ * KPICard — DEPRECATED thin alias of StatCard.
+ *
+ * Kept for backward compatibility. New code should use StatCard directly:
+ *   <StatCard
+ *     icon={...}
+ *     value="12"
+ *     label="Cours terminés"
+ *     variant="brand"
+ *     delta="+2% ce mois"
+ *     deltaDirection="up"
+ *   />
+ *
+ * Maps:
+ *   tone='default'  → variant='default'
+ *   tone='brand'    → variant='brand'
+ *   tone='warm'     → variant='warm'
+ *   tone='sun'      → variant='sun'
+ *   tone='success'  → variant='default' (StatCard has no success variant —
+ *                      we layer a subtle success bg via className)
+ *   trend.value+direction → delta + deltaDirection (with TrendIcon prefix)
  */
 
 export type KPICardTone = 'default' | 'brand' | 'warm' | 'sun' | 'success';
@@ -25,26 +44,15 @@ export interface KPICardProps {
   className?: string;
 }
 
-const SIZE_CLASSES: Record<KPICardSize, string> = {
-  sm: 'px-4 pt-4 pb-3',
-  md: 'py-5 px-4',
+const TONE_TO_VARIANT: Record<KPICardTone, StatCardVariant> = {
+  default: 'default',
+  brand:   'brand',
+  warm:    'warm',
+  sun:     'sun',
+  success: 'default', // StatCard has no success variant; class override below
 };
 
-const TONE_ICON_CLASSES: Record<KPICardTone, string> = {
-  default: 'bg-ink-50 text-ink-500',
-  brand:   'bg-primary-50 text-primary-600',
-  warm:    'bg-secondary-50 text-secondary-600',
-  sun:     'bg-accent-50 text-accent-600',
-  success: 'bg-success-bg text-success-fg',
-};
-
-const TONE_VALUE_CLASSES: Record<KPICardTone, string> = {
-  default: 'text-primary-700',
-  brand:   'text-primary-700',
-  warm:    'text-secondary-600',
-  sun:     'text-accent-700',
-  success: 'text-success-fg',
-};
+const SIZE_MAP: Record<KPICardSize, StatCardSize> = { sm: 'sm', md: 'md' };
 
 export const KPICard: React.FC<KPICardProps> = ({
   value,
@@ -56,42 +64,42 @@ export const KPICard: React.FC<KPICardProps> = ({
   onClick,
   className = '',
 }) => {
-  const interactive = !!onClick;
-  const classes = [
-    'flex flex-col gap-3 rounded-lg bg-white border border-ink-200 transition-all',
-    SIZE_CLASSES[size],
-    interactive && 'cursor-pointer hover:border-ink-300 hover:shadow-sm active:scale-[0.98]',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const trendColor = trend?.direction === 'up' ? 'text-success-fg' : 'text-danger-fg';
+  const variant = TONE_TO_VARIANT[tone];
   const TrendIcon = trend?.direction === 'up' ? TrendingUp : TrendingDown;
 
+  const delta = trend ? (
+    <span className="inline-flex items-center gap-1">
+      <TrendIcon size={12} strokeWidth={2.5} />
+      {Math.abs(trend.value)}%{trend.label ? ` ${trend.label}` : ''}
+    </span>
+  ) : undefined;
+
+  // Layer a subtle success bg if the legacy tone='success' was used
+  const extraClass = tone === 'success' ? 'bg-success-bg border-success-base/30' : '';
+  const interactiveClass = onClick
+    ? 'cursor-pointer hover:border-ink-300 hover:shadow-sm active:scale-[0.98] transition-all'
+    : '';
+
   return (
-    <div
-      className={classes}
+    <StatCard
+      icon={icon}
+      label={label}
+      value={value}
+      delta={delta}
+      deltaDirection={trend?.direction}
+      variant={variant}
+      size={SIZE_MAP[size]}
+      className={[extraClass, interactiveClass, className].filter(Boolean).join(' ')}
       onClick={onClick}
-      role={interactive ? 'button' : undefined}
-      tabIndex={interactive ? 0 : undefined}
-      onKeyDown={interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); } : undefined}
-    >
-      {icon && (
-        <div className={`flex items-center justify-center w-10 h-10 rounded-md shrink-0 ${TONE_ICON_CLASSES[tone]}`}>
-          {icon}
-        </div>
-      )}
-      <strong className={`text-h2 font-bold leading-none ${TONE_VALUE_CLASSES[tone]}`}>
-        {value}
-      </strong>
-      <span className="text-body-sm text-ink-600 font-medium">{label}</span>
-      {trend && (
-        <span className={`text-micro font-bold mt-1 inline-flex items-center gap-1 ${trendColor}`}>
-          <TrendIcon size={12} strokeWidth={2.5} /> {Math.abs(trend.value)}%{trend.label ? ` ${trend.label}` : ''}
-        </span>
-      )}
-    </div>
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      } : undefined}
+    />
   );
 };
 

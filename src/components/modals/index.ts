@@ -6,3 +6,5 @@ export { StreakCelebrationModal } from './StreakCelebrationModal';
 export { SessionFeedbackModal } from './SessionFeedbackModal';
 export { CancelSessionModal } from './CancelSessionModal';
 export { VideoPlayerModal } from './VideoPlayerModal';
+export { CelebrationModal } from './CelebrationModal';
+export type { CelebrationModalProps } from './CelebrationModal';

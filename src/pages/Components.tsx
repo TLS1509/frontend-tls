@@ -26,6 +26,7 @@ import {
   SessionFeedbackModal,
   CancelSessionModal,
   VideoPlayerModal,
+  CelebrationModal,
 } from '../components/modals';
 import {
   // Core
@@ -64,7 +65,7 @@ import {
   GlassCard,
   FilterChip,
   Steps,
-  Celebration,
+  InlineWin,
   // Navigation
   Sidebar,
   NavItem,
@@ -697,6 +698,29 @@ const PaginationDemo: React.FC = () => {
     <div className="vstack">
       <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
     </div>
+  );
+};
+
+const CelebrationModalDemo: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="secondary" onClick={() => setOpen(true)}>
+        Ouvrir CelebrationModal
+      </Button>
+      <CelebrationModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        title="Parcours complété !"
+        description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
+        actions={
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Voir mon badge</Button>
+            <Button variant="ghost" onClick={() => setOpen(false)}>Partager</Button>
+          </>
+        }
+      />
+    </>
   );
 };
 
@@ -1673,25 +1697,26 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => <ModalDemo />,
   },
   {
-    name: 'Celebration',
-    codeName: 'Celebration.tsx',
-    cssBase: '.celebration / .inline-win',
+    name: 'CelebrationModal',
+    codeName: 'modals/CelebrationModal.tsx',
+    cssBase: 'Tailwind + modals.css animations',
+    category: 'Modals',
+    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). Remplace l\'ancien composant `Celebration` (full card) — uniformisé avec les autres modals (BookingModal, StreakCelebrationModal, etc.). Sparkles aux 4 coins, gradient bg + text, scrim avec backdrop-blur.',
+    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
+    render: () => <CelebrationModalDemo />,
+  },
+  {
+    name: 'InlineWin',
+    codeName: 'ui/Celebration.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Feedback',
-    description: 'Moments de victoire. Deux formes: banner (plein) et inline-win (compact). Règle: rare = précieux, célébrer les vrais jalons uniquement.',
-    keywords: ['celebration', 'win', 'achievement', 'confetti', 'success', 'milestone', 'reward'],
+    description: 'Bandeau compact in-flow pour célébration discrète (lesson terminée, milestone intermédiaire). Différent de CelebrationModal qui est interruptif.',
+    keywords: ['inline-win', 'win', 'compact', 'banner', 'achievement'],
     render: () => (
-      <div className="vstack">
-        <Celebration
-          title="Parcours complété !"
-          description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
-          actions={
-            <>
-              <Button variant="warm">Voir mon badge</Button>
-              <Button variant="ghost">Partager</Button>
-            </>
-          }
-        />
-      </div>
+      <InlineWin
+        title="Lesson terminée !"
+        description="Continuez sur votre lancée — il vous reste 3 leçons dans ce module."
+      />
     ),
   },
 

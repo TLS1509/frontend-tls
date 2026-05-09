@@ -97,8 +97,10 @@ export type { ProgressRingProps } from './ui/ProgressRing';
 export { Steps } from './ui/Steps';
 export type { StepsProps, StepItem, StepState } from './ui/Steps';
 
-export { Celebration, InlineWin } from './ui/Celebration';
-export type { CelebrationProps, InlineWinProps } from './ui/Celebration';
+// Celebration (full card) → replaced by CelebrationModal in components/modals/.
+// InlineWin remains as a compact in-flow celebration strip.
+export { InlineWin } from './ui/Celebration';
+export type { InlineWinProps } from './ui/Celebration';
 
 /* ============================================================================
  * UI — Navigation
