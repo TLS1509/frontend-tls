@@ -38,17 +38,24 @@
   --color-secondary-800: #5E3710;
   --color-secondary-900: #3B2109;
 
-  /* ── Couleurs Accent (jaune) — synced with --tls-yellow-* ── */
-  --color-accent-50: #FFF9EE;
+  /* ── Couleurs Accent (jaune TLS) — synced with --tls-yellow-* ──
+     Base canonique = accent-400 (#F8B044, "TLS Yellow"). Tailwind step
+     500 reste le ton classique mais accent-400 est le vrai jaune brand
+     utilisé en CTA et indicateurs. Les composants Button/Badge/etc.
+     doivent privilégier `accent-400` au repos pour rester fidèles au DS. */
+  --color-accent-50:  #FFF9EE;
   --color-accent-100: #FFECC8;
   --color-accent-200: #FFD791;
   --color-accent-300: #FFC15A;
-  --color-accent-400: #F8B044;
+  --color-accent-400: #F8B044;  /* ⭐ Base canonique TLS Yellow */
   --color-accent-500: #DF9E3D;
   --color-accent-600: #C68D36;
   --color-accent-700: #AE7B30;
   --color-accent-800: #956A29;
   --color-accent-900: #7C5822;
+  /* Semantic alias — point to the canonical Base. Allows `bg-accent` /
+     `text-accent` shorthand without specifying a step. */
+  --color-accent: var(--color-accent-400);
 
   /* ── Couleurs Ink (gris-noir) ── */
   --color-ink-0: #ffffff;
