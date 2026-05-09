@@ -173,12 +173,35 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 | secondary-500 | `bg-secondary-500` / `text-secondary-500` | #ED843A |
 | secondary-600 | `bg-secondary-600` / `text-secondary-600` | #C06920 |
 | accent-50 | `bg-accent-50` / `text-accent-50` | #FFF9EE |
-| accent-500 | `bg-accent-500` / `text-accent-500` | #DF9E3D |
+| **accent-400** ⭐ | `bg-accent-400` / `text-accent-400` | **#F8B044 — TLS Yellow Base canonique** |
+| accent-500 | `bg-accent-500` / `text-accent-500` | #DF9E3D (legacy step) |
 | ink-50 | `bg-ink-50` / `text-ink-50` | #f9fafb |
 | ink-100 | `bg-ink-100` / `text-ink-100` | #f3f4f6 |
 | ink-900 | `bg-ink-900` / `text-ink-900` | #1a1a1a |
 
 (Liste complète dans `src/index.css` @theme — 50 couleurs)
+
+### Couleurs sémantiques (états : success / danger / warning / info)
+
+⚠️ **Important** : la palette semantic a été migrée vers des tons **muted/coral** alignés avec la palette TLS — **NE PAS** utiliser le green Tailwind brut (#22C55E) ou le red brut (#EF4444). Tous les tokens `*-light` / `*-border` ont été mis à jour pour dériver de la `*-base` canonique (commit 2026-05-09).
+
+| État | bg | fg | base | Hex base | Notes |
+|---|---|---|---|---|---|
+| **success** | `bg-success-bg` | `text-success-fg` | `bg-success-base` | **#9DBEBA** | muted teal-green (PAS bright green) |
+| **danger**  | `bg-danger-bg`  | `text-danger-fg`  | `bg-danger-base`  | **#F28559** | soft coral (PAS bright red) |
+| **warning** | `bg-warning-bg` | `text-warning-fg` | `bg-warning-base` | **#F8B044** | TLS Yellow (= accent-400) |
+| **info**    | `bg-info-bg`    | `text-info-fg`    | `bg-info-base`    | **#55A1B4** | TLS Primary (= primary-500) |
+
+Pour les **overlays diffus** (lesson cards, error states, completion borders), utiliser les tokens legacy `--tls-*-light`, `--tls-*-light-bg`, `--tls-*-border` (définis dans `design-tokens.css`) — ils dérivent désormais des bases ci-dessus :
+- `--tls-success-light: rgba(157, 190, 186, 0.08)`
+- `--tls-success-light-bg: rgba(157, 190, 186, 0.18)`
+- `--tls-success-border: rgba(157, 190, 186, 0.30)`
+- `--tls-danger-light: rgba(242, 133, 89, 0.06)`
+- `--tls-danger-border: rgba(242, 133, 89, 0.25)`
+- `--tls-warning-light: rgba(248, 176, 68, 0.08)`
+- `--tls-warning-border: rgba(248, 176, 68, 0.30)`
+- `--tls-info-light: rgba(85, 161, 180, 0.08)`
+- `--tls-info-border: rgba(85, 161, 180, 0.25)`
 
 ### Typographie
 | CSS Variable | Classe Tailwind |

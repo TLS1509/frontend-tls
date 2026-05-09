@@ -154,13 +154,33 @@
   --animate-alert-slide: alert-slide-down 200ms cubic-bezier(0.05, 0.7, 0.1, 1) both;
   --animate-skeleton-shimmer: skeleton-shimmer 1.6s infinite ease-in-out;
 
-  /* ── Couleurs sémantiques — succès / danger / info ── */
-  --color-success-bg: #E8F2F0;
-  --color-success-fg: #335A56;
+  /* ── Couleurs sémantiques — synced with --tls-{success,danger,warning,info}-*
+     Convention :
+       *-bg   : surface tintée légère pour Alert/Badge fond
+       *-fg   : texte foncé contrasté (titres, icônes, borders fortes)
+       *-base : couleur "moyenne" pour dots, fills, accents subtils
+     Pour les overlays diffus (border-left-3 sur cards, glow d'état),
+     utiliser color-mix() ou rgba sur la base — voir design-tokens.css. */
+
+  /* Success — muted teal-green (NOT bright #22C55E green) */
+  --color-success-bg:   #E8F2F0;
+  --color-success-fg:   #335A56;
   --color-success-base: #9DBEBA;
-  --color-danger-bg: #FEF4F0;
-  --color-danger-fg: #8F2A0E;
-  --color-danger-base: #F28559;
+
+  /* Danger — soft coral (NOT bright #EF4444 red) */
+  --color-danger-bg:    #FEF4F0;
+  --color-danger-fg:    #8F2A0E;
+  --color-danger-base:  #F28559;
+
+  /* Warning — synced with TLS Yellow base */
+  --color-warning-bg:   #FFF9EE;
+  --color-warning-fg:   #7C5822;
+  --color-warning-base: #F8B044;
+
+  /* Info — synced with TLS Primary (teal) */
+  --color-info-bg:      #E8F4F7;
+  --color-info-fg:      #1F3E45;
+  --color-info-base:    #55A1B4;
 }
 
 /* ============================================

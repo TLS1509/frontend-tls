@@ -81,27 +81,48 @@
   --tls-ink-900: #252B37;   /* Body text */
   --tls-ink-950: #12181C;
 
-  /* ---------- SEMANTIC (map to brand) ---------- */
-  --tls-success-bg:     #E8F2F0;
-  --tls-success-fg:     #335A56;
-  --tls-success-base:   #9DBEBA;
-  --tls-success-light:  rgba(34, 197, 94, 0.05);  /* Lighter overlay for lessons */
-  --tls-success-light-bg: rgba(34, 197, 94, 0.15); /* Light background for completed elements */
-  --tls-success-border: rgba(34, 197, 94, 0.20); /* Completion state highlight */
+  /* ---------- SEMANTIC (map to brand) ----------
+     Convention :
+       *-bg    : surface tintée légère (Alert/Badge background)
+       *-fg    : texte foncé contrasté (titres, icônes, borders fortes)
+       *-base  : couleur "moyenne" (dots, fills, accents subtils)
+       *-light : overlay très diffus (lesson cards idle, hover states)
+       *-light-bg : background light pour completed/active states
+       *-border : border léger pour state highlight
 
-  --tls-warning-bg:   #FFF9EE;
-  --tls-warning-fg:   #7C5822;
-  --tls-warning-base: #F8B044;
+     IMPORTANT — Les overlays *-light/border dérivent désormais de la BASE
+     canonique (success-base #9DBEBA, danger-base #F28559) et non plus des
+     anciennes couleurs Tailwind brutes (#22C55E green, #EF4444 red).
+     Cette mise à jour aligne tous les states avec la palette TLS muted. */
 
-  --tls-danger-bg:    #FEF4F0;
-  --tls-danger-fg:    #8F2A0E;
-  --tls-danger-base:  #F28559;
-  --tls-danger-light: rgba(239, 68, 68, 0.04);  /* Lighter overlay */
-  --tls-danger-border: rgba(239, 68, 68, 0.15); /* Error state highlight */
+  /* Success — muted teal-green */
+  --tls-success-bg:       #E8F2F0;
+  --tls-success-fg:       #335A56;
+  --tls-success-base:     #9DBEBA;
+  --tls-success-light:    rgba(157, 190, 186, 0.08);  /* idle / lesson overlay */
+  --tls-success-light-bg: rgba(157, 190, 186, 0.18);  /* completed element bg */
+  --tls-success-border:   rgba(157, 190, 186, 0.30);  /* completion-state border */
 
-  --tls-info-bg:      #E8F4F7;
-  --tls-info-fg:      #1F3E45;
-  --tls-info-base:    #55A1B4;
+  /* Warning — TLS Yellow base */
+  --tls-warning-bg:     #FFF9EE;
+  --tls-warning-fg:     #7C5822;
+  --tls-warning-base:   #F8B044;
+  --tls-warning-light:  rgba(248, 176, 68, 0.08);
+  --tls-warning-border: rgba(248, 176, 68, 0.30);
+
+  /* Danger — soft coral */
+  --tls-danger-bg:      #FEF4F0;
+  --tls-danger-fg:      #8F2A0E;
+  --tls-danger-base:    #F28559;
+  --tls-danger-light:   rgba(242, 133, 89, 0.06);   /* idle error overlay */
+  --tls-danger-border:  rgba(242, 133, 89, 0.25);   /* error-state border */
+
+  /* Info — TLS Primary teal */
+  --tls-info-bg:        #E8F4F7;
+  --tls-info-fg:        #1F3E45;
+  --tls-info-base:      #55A1B4;
+  --tls-info-light:     rgba(85, 161, 180, 0.08);
+  --tls-info-border:    rgba(85, 161, 180, 0.25);
 
   /* ---------- ROLES (what to reach for in components) ---------- */
   --bg:             var(--tls-ink-25);
