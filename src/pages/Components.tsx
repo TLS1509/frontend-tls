@@ -2968,20 +2968,31 @@ const Components: React.FC = () => {
 
   return (
     <div className="ds-showcase">
-      {/* -------------------------------- HERO -------------------------------- */}
-      <header className="ds-hero">
-        <p className="ds-hero__eyebrow">Design System · v1.0.0 · 2026-04-24</p>
-        <h1 className="ds-hero__title">The Learning Society — Components</h1>
-        <p className="ds-hero__desc">
-          Source of truth: <code>src/components/</code>. {COMPONENTS.length} composants React
-          + tous les tokens du système. Tout est copiable — cliquez sur une puce pour
-          copier le nom de code ou la variable CSS.
-        </p>
-        <div className="ds-hero__stats">
-          <div><strong>{COMPONENTS.length}</strong><span>composants</span></div>
-          <div><strong>{ALL_TOKENS.length}</strong><span>tokens</span></div>
-          <div><strong>5</strong><span>catégories</span></div>
-          <div><strong>3</strong><span>fontes</span></div>
+      {/* -------------------------------- HERO (compact card) ----------------- */}
+      <header className="rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 via-white to-primary-50/60 px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <p className="text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
+            Design System · v1.0.0 · 2026-04-24
+          </p>
+          <h1 className="font-display font-bold text-h2 text-primary-900 m-0 mt-1 leading-tight">
+            Components
+          </h1>
+          <p className="text-body-sm text-ink-600 m-0 mt-1.5 max-w-[60ch]">
+            Source : <code className="font-mono text-[0.9em] bg-white/70 px-1.5 py-0.5 rounded-sm">src/components/</code> — {COMPONENTS.length} composants React + tous les tokens. Cliquez sur une puce pour copier.
+          </p>
+        </div>
+        <div className="flex gap-4 sm:gap-5 shrink-0 sm:border-l sm:border-primary-100 sm:pl-5">
+          {[
+            [COMPONENTS.length, 'composants'],
+            [ALL_TOKENS.length, 'tokens'],
+            [5, 'catégories'],
+            [3, 'fontes'],
+          ].map(([n, label]) => (
+            <div key={label as string} className="flex flex-col">
+              <strong className="font-display font-bold text-h3 leading-none text-primary-800 tabular-nums">{n}</strong>
+              <span className="text-[10px] font-bold uppercase tracking-[0.06em] text-primary-700/80 mt-1">{label}</span>
+            </div>
+          ))}
         </div>
       </header>
 
