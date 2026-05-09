@@ -82,17 +82,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
         </div>
 
-        {/* Collapse / expand toggle — anchored to the right edge of the
-            sidebar at the same vertical level as the logo (top-7). In
-            collapsed mode the toggle is pushed further out (-right-4) so
-            it never touches the centered logo on the narrow 72px column.
-            Glass style; sits half-outside for a "tab" affordance. */}
+        {/* Collapse / expand toggle — desktop only. On mobile the hamburger
+            button drives open/close, so we hide this tab via max-md:hidden
+            (otherwise its -right-X offset peeks back into the viewport when
+            the sidebar is translated off-screen). */}
         {onToggleCollapse && (
           <button
             type="button"
             onClick={onToggleCollapse}
             className={[
-              'absolute top-7 z-10 inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-md text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'absolute top-7 z-10 max-md:hidden inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-md text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               collapsed ? '-right-5' : '-right-3',
             ].join(' ')}
             aria-label={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
