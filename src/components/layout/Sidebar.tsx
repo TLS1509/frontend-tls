@@ -78,7 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {...rest}
       >
         {/* Brand row */}
-        <div className={['flex items-center gap-2 px-4 pt-5 pb-4', collapsed && 'justify-center px-3'].filter(Boolean).join(' ')}>
+        <div className={['flex items-center gap-2 px-4 pt-5 pb-8', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
         </div>
 
@@ -157,7 +157,7 @@ export const NavItem: React.FC<NavItemProps> = ({
 }) => {
   const sizeClasses = collapsed
     ? 'w-12 h-12 mx-auto justify-center px-0'
-    : 'h-11 px-3.5';
+    : 'h-12 px-3.5 gap-3.5';
 
   const classes = [
     NAV_BASE,
@@ -177,7 +177,7 @@ export const NavItem: React.FC<NavItemProps> = ({
       {...rest}
     >
       {icon && (
-        <span className="inline-flex items-center justify-center shrink-0 w-5 h-5">
+        <span className="inline-flex items-center justify-center shrink-0 w-6 h-6 [&>svg]:w-[22px] [&>svg]:h-[22px]">
           {icon}
         </span>
       )}
