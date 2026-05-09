@@ -19,11 +19,13 @@ const ICON_BY_VARIANT: Record<ToastVariant, React.ComponentType<{ size?: number;
   danger:  XCircle,
 };
 
+// Solid tinted bg using the semantic *-bg tokens (opaque) + a subtle white
+// gradient sheen for depth. Stronger border for visibility on busy pages.
 const VARIANT_CLASSES: Record<ToastVariant, string> = {
-  success: 'bg-gradient-to-br from-success-base/25 to-success-base/[8%] border-success-base/30 text-success-fg',
-  info:    'bg-gradient-to-br from-primary-500/15 to-primary-500/5 border-primary-500/25 text-primary-800',
-  warning: 'bg-gradient-to-br from-accent-400/20 to-accent-400/5 border-accent-400/30 text-accent-900',
-  danger:  'bg-gradient-to-br from-danger-base/20 to-danger-base/5 border-danger-base/30 text-danger-fg',
+  success: 'bg-success-bg bg-gradient-to-br from-white/40 to-success-base/[12%] border-success-base/45 text-success-fg',
+  info:    'bg-info-bg bg-gradient-to-br from-white/40 to-primary-500/[10%] border-primary-500/40 text-primary-800',
+  warning: 'bg-warning-bg bg-gradient-to-br from-white/50 to-accent-400/[12%] border-accent-400/50 text-accent-900',
+  danger:  'bg-danger-bg bg-gradient-to-br from-white/40 to-danger-base/[12%] border-danger-base/45 text-danger-fg',
 };
 
 const ICON_TONE: Record<ToastVariant, string> = {
