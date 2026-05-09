@@ -415,7 +415,8 @@ export const Journal: React.FC = () => {
         icon={Sparkles}
         title="Journal d'apprentissage"
         description="Capitalisez vos prises de conscience, structurez vos réflexions et suivez votre progression avec un espace de journaling adapté à votre parcours."
-        gradient="primary"
+        variant="gradient"
+        tone="primary"
       />
 
       <div className="journal-content">

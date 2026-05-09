@@ -2159,22 +2159,46 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'HeroSection',
     codeName: 'patterns/HeroSection.tsx',
-    cssBase: 'HeroSection (inline styles)',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Section hero réutilisable avec icône, titre, description, métadonnées et gradient de fond. Gradients: primary/orange. Utilisée dans Veille, Parcours, Settings.',
-    keywords: ['hero', 'section', 'header', 'gradient', 'icon', 'title', 'landing'],
+    description: 'Hero réutilisable. 4 variants : gradient (saturé + texte blanc), glass (frosted glass + texte sombre), minimal (soft bg + outline + texte sombre), media (gradient + sparkles décoratives). 5 tones, 3 sizes, alignment left/center.',
+    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants'],
     render: () => (
       <div className="vstack">
         <HeroSection
+          icon={BookOpen}
+          eyebrow="Catalogue"
           title="Veille & Ressources"
           description="Restez à la pointe de votre domaine avec notre sélection éditoriale."
-          gradient="primary"
-          metadata={[{ icon: I.book, text: '240 ressources' }, { icon: I.heart, text: 'Mise à jour hebdomadaire' }]}
+          variant="gradient"
+          tone="primary"
+          metadata={[{ icon: I.book, text: '240 ressources' }, { icon: I.heart, text: 'Hebdo' }]}
         />
         <HeroSection
+          icon={Trophy}
+          eyebrow="Milestone"
+          title="Parcours complété"
+          description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
+          variant="media"
+          tone="warm"
+          align="center"
+        />
+        <HeroSection
+          icon={GraduationCap}
+          title="Mon parcours"
+          description="Reprenez là où vous vous êtes arrêté(e)."
+          variant="glass"
+          tone="primary"
+          size="sm"
+        />
+        <HeroSection
+          icon={Lightbulb}
+          eyebrow="Tip"
           title="Coaching 1-to-1"
           description="Sessions personnalisées avec des experts certifiés."
-          gradient="orange"
+          variant="minimal"
+          tone="sun"
+          size="sm"
         />
       </div>
     ),
@@ -2182,20 +2206,31 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
-    cssBase: 'ActivityFeed (inline styles)',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Feed d\'activités chronologique avec timeline optionnelle. Types: start, complete, progress, achievement, feedback, message. Pagination interne.',
+    description: 'Feed d\'activités chronologique. Lucide icons par type, Avatar pour actor, 2 layouts (timeline / cards), groupByDate optionnel. Empty state + load more.',
     keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
-    render: () => (
-      <ActivityFeed
-        useTimeline
-        items={[
-          { id: '1', type: 'complete', title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: new Date(Date.now() - 7200000), tone: 'primary' },
-          { id: '2', type: 'achievement', title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: new Date(Date.now() - 86400000), tone: 'warm' },
-          { id: '3', type: 'feedback', title: 'Feedback reçu', description: 'Sophie Martin a commenté votre dernière session', timestamp: new Date(Date.now() - 172800000), tone: 'sun' },
-        ]}
-      />
-    ),
+    render: () => {
+      const items = [
+        { id: '1', type: 'complete' as const, title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: new Date(Date.now() - 7200000) },
+        { id: '2', type: 'achievement' as const, title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: new Date(Date.now() - 86400000) },
+        { id: '3', type: 'feedback' as const, title: 'Feedback reçu', description: 'Sophie Martin a commenté votre session', timestamp: new Date(Date.now() - 172800000), actor: { name: 'Sophie Martin' }, actionLabel: 'Voir', onActionClick: () => {} },
+        { id: '4', type: 'progress' as const, title: 'Objectif atteint', description: '5 leçons complétées cette semaine', timestamp: new Date(Date.now() - 86400000 * 5) },
+        { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership & Communication', timestamp: new Date(Date.now() - 86400000 * 10) },
+      ];
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: timeline + groupByDate</p>
+            <ActivityFeed items={items} layout="timeline" groupByDate />
+          </div>
+          <div>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: cards</p>
+            <ActivityFeed items={items.slice(0, 3)} layout="cards" />
+          </div>
+        </div>
+      );
+    },
   },
   {
     name: 'DashboardHero',

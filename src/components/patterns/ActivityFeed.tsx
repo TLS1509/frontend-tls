@@ -1,4 +1,29 @@
 import React from 'react';
+import {
+  Rocket,
+  CheckCircle2,
+  TrendingUp,
+  Trophy,
+  MessageCircle,
+  MessageSquare,
+  Pencil,
+  Share2,
+  Inbox,
+  Loader2,
+  ArrowRight,
+} from 'lucide-react';
+import { Avatar } from '../ui/Avatar';
+
+/**
+ * ActivityFeed — chronological list of user activities.
+ *
+ * Redesign:
+ *   - Lucide icons replace emoji (cleaner, on-brand colors)
+ *   - Avatar component for actor cards
+ *   - Smaller, gradient timeline rail
+ *   - Optional date grouping (groupByDate)
+ *   - 2 layouts: timeline (default) | cards
+ */
 
 export type ActivityType =
   | 'start'
@@ -11,17 +36,19 @@ export type ActivityType =
   | 'share';
 
 export type ActivityTone = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
+export type ActivityLayout = 'timeline' | 'cards';
 
 export interface ActivityItem {
   id: string;
   type: ActivityType;
-  title: string;
-  description?: string;
+  title: React.ReactNode;
+  description?: React.ReactNode;
   timestamp: Date;
   actor?: {
     name: string;
     avatar?: string;
   };
+  /** Override the default icon for the activity type. */
   icon?: React.ReactNode;
   tone?: ActivityTone;
   actionLabel?: string;
@@ -30,7 +57,10 @@ export interface ActivityItem {
 
 export interface ActivityFeedProps {
   items: ActivityItem[];
-  useTimeline?: boolean;
+  /** Layout: 'timeline' (default, vertical rail) or 'cards' (separated cards). */
+  layout?: ActivityLayout;
+  /** Group items by relative date (Today / Yesterday / This week / Earlier). */
+  groupByDate?: boolean;
   itemsPerPage?: number;
   timeFormat?: 'relative' | 'absolute';
   isLoading?: boolean;
@@ -38,70 +68,204 @@ export interface ActivityFeedProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   className?: string;
+  /** @deprecated Use `layout="timeline"` (default) or `layout="cards"`. */
+  useTimeline?: boolean;
 }
+
+// ─── Mappings ───────────────────────────────────────────────────────────────
+
+const ICON_FOR_TYPE: Record<ActivityType, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
+  start:       Rocket,
+  complete:    CheckCircle2,
+  progress:    TrendingUp,
+  achievement: Trophy,
+  feedback:    MessageCircle,
+  message:     MessageSquare,
+  comment:     Pencil,
+  share:       Share2,
+};
+
+const DEFAULT_TONE_FOR_TYPE: Record<ActivityType, ActivityTone> = {
+  start:       'primary',
+  complete:    'success',
+  progress:    'primary',
+  achievement: 'sun',
+  feedback:    'warm',
+  message:     'primary',
+  comment:     'primary',
+  share:       'warm',
+};
 
 const TONE_DOT: Record<ActivityTone, string> = {
   primary: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white shadow-md',
-  sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-md',
-  success: 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md',
-  danger:  'bg-gradient-to-br from-danger-base to-danger-fg text-white shadow-md',
+  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white shadow-warm-sm',
+  sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-sun-sm',
+  success: 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-sm',
+  danger:  'bg-gradient-to-br from-danger-base to-danger-fg text-white shadow-sm',
 };
 
-const TONE_BG_HOVER: Record<ActivityTone, string> = {
-  primary: 'group-hover:bg-primary-50/50',
-  warm:    'group-hover:bg-secondary-50/50',
-  sun:     'group-hover:bg-accent-50/50',
-  success: 'group-hover:bg-success-bg/50',
-  danger:  'group-hover:bg-danger-bg/50',
+const TONE_HOVER_BG: Record<ActivityTone, string> = {
+  primary: 'group-hover/item:bg-primary-50/60',
+  warm:    'group-hover/item:bg-secondary-50/60',
+  sun:     'group-hover/item:bg-accent-50/60',
+  success: 'group-hover/item:bg-success-bg/60',
+  danger:  'group-hover/item:bg-danger-bg/60',
 };
 
-const ICON_FOR_TYPE: Record<ActivityType, string> = {
-  start: '🚀',
-  complete: '✅',
-  progress: '📈',
-  achievement: '🏆',
-  feedback: '💬',
-  message: '💭',
-  comment: '📝',
-  share: '📤',
+const TONE_ACTION: Record<ActivityTone, string> = {
+  primary: 'bg-primary-50 text-primary-700 border-primary-200 hover:bg-primary-100',
+  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200 hover:bg-secondary-100',
+  sun:     'bg-accent-50 text-accent-800 border-accent-200 hover:bg-accent-100',
+  success: 'bg-success-bg text-success-fg border-success-base/30 hover:bg-success-base/20',
+  danger:  'bg-danger-bg text-danger-fg border-danger-base/30 hover:bg-danger-base/20',
 };
+
+// ─── Time helpers ───────────────────────────────────────────────────────────
 
 const formatTimestamp = (date: Date, format: 'relative' | 'absolute'): string => {
-  if (format === 'relative') {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-
-    return date.toLocaleDateString();
-  }
-
-  return date.toLocaleString();
+  if (format === 'absolute') return date.toLocaleString();
+  const diffMs = Date.now() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  if (diffMins < 1) return 'à l’instant';
+  if (diffMins < 60) return `il y a ${diffMins} min`;
+  if (diffHours < 24) return `il y a ${diffHours} h`;
+  if (diffDays < 7) return `il y a ${diffDays} j`;
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 };
+
+const groupKey = (date: Date): string => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const itemDay = new Date(date);
+  itemDay.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((today.getTime() - itemDay.getTime()) / 86400000);
+  if (diffDays === 0) return "Aujourd'hui";
+  if (diffDays === 1) return 'Hier';
+  if (diffDays < 7) return 'Cette semaine';
+  if (diffDays < 30) return 'Ce mois-ci';
+  return 'Plus ancien';
+};
+
+// ─── Subcomponents ──────────────────────────────────────────────────────────
+
+const ActivityIcon: React.FC<{ item: ActivityItem; tone: ActivityTone; layout: ActivityLayout }> = ({ item, tone, layout }) => {
+  const IconComponent = ICON_FOR_TYPE[item.type];
+  const shape = layout === 'timeline' ? 'rounded-full w-9 h-9' : 'rounded-xl w-10 h-10';
+  return (
+    <span
+      className={[
+        'inline-flex items-center justify-center shrink-0 transition-transform group-hover/item:scale-105',
+        layout === 'timeline' ? 'ring-4 ring-white' : '',
+        shape,
+        TONE_DOT[tone],
+      ].join(' ')}
+      aria-hidden="true"
+    >
+      {item.icon ?? <IconComponent size={layout === 'timeline' ? 16 : 18} strokeWidth={2.25} />}
+    </span>
+  );
+};
+
+const ActivityRow: React.FC<{
+  item: ActivityItem;
+  layout: ActivityLayout;
+  isLast: boolean;
+  timeFormat: 'relative' | 'absolute';
+}> = ({ item, layout, isLast, timeFormat }) => {
+  const tone = item.tone ?? DEFAULT_TONE_FOR_TYPE[item.type];
+
+  return (
+    <article
+      className={[
+        'group/item relative flex items-start gap-3 rounded-xl transition-colors duration-200',
+        layout === 'cards'
+          ? 'p-4 bg-white border border-ink-200 hover:border-primary-300 hover:shadow-sm'
+          : `p-3 ${TONE_HOVER_BG[tone]}`,
+      ].join(' ')}
+    >
+      {/* Icon + optional rail */}
+      <div className="relative flex flex-col items-center shrink-0">
+        <ActivityIcon item={item} tone={tone} layout={layout} />
+        {layout === 'timeline' && !isLast && (
+          <span
+            aria-hidden="true"
+            className="absolute top-9 bottom-[-1.25rem] w-px bg-gradient-to-b from-ink-200 via-ink-200 to-ink-200/0"
+          />
+        )}
+      </div>
+
+      <div className="flex-1 min-w-0 pt-1 pb-1">
+        <header className="flex items-start justify-between gap-3 flex-wrap">
+          <h3 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
+          <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+            {formatTimestamp(item.timestamp, timeFormat)}
+          </time>
+        </header>
+
+        {item.description && (
+          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{item.description}</p>
+        )}
+
+        {(item.actor || (item.actionLabel && item.onActionClick)) && (
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            {item.actor && (
+              <span className="inline-flex items-center gap-2 px-1.5 py-1 pr-2.5 rounded-pill bg-ink-50 border border-ink-200">
+                <Avatar
+                  size="xs"
+                  name={item.actor.name}
+                  src={item.actor.avatar}
+                  shape="circle"
+                  className="!ring-1 !ring-white"
+                />
+                <span className="text-caption text-ink-700 font-medium">{item.actor.name}</span>
+              </span>
+            )}
+            {item.actionLabel && item.onActionClick && (
+              <button
+                type="button"
+                onClick={item.onActionClick}
+                className={[
+                  'inline-flex items-center gap-1 px-3 py-1 rounded-pill text-caption font-semibold border cursor-pointer transition-colors',
+                  TONE_ACTION[tone],
+                ].join(' ')}
+              >
+                {item.actionLabel}
+                <ArrowRight size={13} strokeWidth={2.25} />
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </article>
+  );
+};
+
+// ─── Main ───────────────────────────────────────────────────────────────────
 
 export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   items,
-  useTimeline = true,
+  layout: layoutProp,
+  groupByDate = false,
   itemsPerPage = 10,
   timeFormat = 'relative',
   isLoading = false,
-  emptyMessage = 'No activities yet',
+  emptyMessage = 'Aucune activité pour le moment',
   onLoadMore,
   hasMore = false,
   className = '',
+  useTimeline,
 }) => {
+  // Backward compat: useTimeline (boolean) → layout
+  const layout: ActivityLayout =
+    layoutProp ?? (useTimeline === false ? 'cards' : 'timeline');
+
   const [displayCount, setDisplayCount] = React.useState(itemsPerPage);
   const displayedItems = items.slice(0, displayCount);
 
   const handleLoadMore = () => {
-    setDisplayCount((prev) => prev + itemsPerPage);
+    setDisplayCount((p) => p + itemsPerPage);
     onLoadMore?.();
   };
 
@@ -109,8 +273,8 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-3 text-ink-500">
-          <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body-sm font-medium">Loading activities...</p>
+          <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
+          <p className="m-0 text-body-sm font-medium">Chargement des activités…</p>
         </div>
       </div>
     );
@@ -118,110 +282,69 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
   if (!items || items.length === 0) {
     return (
-      <div className={['flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
-          <p className="m-0 text-4xl">📭</p>
-          <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
+      <div
+        className={[
+          'flex items-center justify-center px-6 py-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
+            <Inbox size={26} strokeWidth={2} />
+          </span>
+          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
+          <p className="m-0 text-caption text-ink-400 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
         </div>
       </div>
     );
   }
 
+  // Group by date (or single bucket)
+  const buckets: Array<{ label: string | null; items: ActivityItem[] }> = (() => {
+    if (!groupByDate) return [{ label: null, items: displayedItems }];
+    const map = new Map<string, ActivityItem[]>();
+    displayedItems.forEach((item) => {
+      const key = groupKey(item.timestamp);
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(item);
+    });
+    return Array.from(map.entries()).map(([label, items]) => ({ label, items }));
+  })();
+
   return (
     <div className={['relative', className].filter(Boolean).join(' ')}>
-      <div className="flex flex-col gap-1">
-        {displayedItems.map((item, idx) => {
-          const tone = item.tone || 'primary';
-          const isLast = idx === displayedItems.length - 1;
-
-          return (
-            <article
-              key={item.id}
-              className={[
-                'group relative flex items-start gap-4 p-3 rounded-xl transition-colors duration-200',
-                TONE_BG_HOVER[tone],
-              ].join(' ')}
-            >
-              {useTimeline && (
-                <div className="relative flex flex-col items-center shrink-0">
-                  <span
-                    className={[
-                      'inline-flex items-center justify-center w-10 h-10 rounded-full ring-4 ring-white z-10 text-lg transition-transform group-hover:scale-110',
-                      TONE_DOT[tone],
-                    ].join(' ')}
-                  >
-                    {item.icon || ICON_FOR_TYPE[item.type]}
-                  </span>
-                  {!isLast && (
-                    <span aria-hidden="true" className="absolute top-10 bottom-[-0.25rem] w-0.5 bg-gradient-to-b from-ink-200 to-ink-200/0" />
-                  )}
-                </div>
-              )}
-
-              {!useTimeline && (
-                <div
-                  className={[
-                    'shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-xl text-lg transition-transform group-hover:scale-105',
-                    TONE_DOT[tone],
-                  ].join(' ')}
-                >
-                  {item.icon || ICON_FOR_TYPE[item.type]}
-                </div>
-              )}
-
-              <div className="flex-1 min-w-0 pt-0.5">
-                <header className="flex items-start justify-between gap-3 flex-wrap">
-                  <h3 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">
-                    {item.title}
-                  </h3>
-                  <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5">
-                    {formatTimestamp(item.timestamp, timeFormat)}
-                  </time>
-                </header>
-
-                {item.description && (
-                  <p className="m-0 mt-1 text-caption text-ink-500 leading-relaxed">
-                    {item.description}
-                  </p>
-                )}
-
-                {item.actor && (
-                  <div className="inline-flex items-center gap-2 mt-2 px-2 py-1 rounded-pill bg-ink-50">
-                    {item.actor.avatar && (
-                      <img
-                        src={item.actor.avatar}
-                        alt={item.actor.name}
-                        className="w-5 h-5 rounded-full object-cover ring-1 ring-white"
-                      />
-                    )}
-                    <span className="text-caption text-ink-700 font-medium">{item.actor.name}</span>
-                  </div>
-                )}
-
-                {item.actionLabel && item.onActionClick && (
-                  <button
-                    type="button"
-                    className="mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-pill bg-primary-50 text-primary-700 text-caption font-semibold hover:bg-primary-100 transition-colors border border-primary-100"
-                    onClick={item.onActionClick}
-                  >
-                    {item.actionLabel}
-                    <span aria-hidden="true">→</span>
-                  </button>
-                )}
-              </div>
-            </article>
-          );
-        })}
-      </div>
+      {buckets.map((bucket, bIdx) => (
+        <div key={bucket.label ?? bIdx} className={bIdx > 0 ? 'mt-6' : ''}>
+          {bucket.label && (
+            <p className="m-0 mb-3 text-caption font-bold uppercase tracking-[0.08em] text-ink-500">
+              {bucket.label}
+            </p>
+          )}
+          <div className={layout === 'cards' ? 'flex flex-col gap-2' : 'flex flex-col gap-1'}>
+            {bucket.items.map((item, idx) => (
+              <ActivityRow
+                key={item.id}
+                item={item}
+                layout={layout}
+                isLast={idx === bucket.items.length - 1}
+                timeFormat={timeFormat}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
 
       {hasMore && displayCount < items.length && (
         <div className="flex justify-center mt-5">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-ink-300 hover:-translate-y-0.5 hover:shadow-sm transition-all"
             onClick={handleLoadMore}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-all"
           >
-            Load more activities
+            Voir plus d’activités
+            <ArrowRight size={15} strokeWidth={2.25} />
           </button>
         </div>
       )}

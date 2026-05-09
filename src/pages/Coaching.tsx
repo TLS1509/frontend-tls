@@ -103,7 +103,9 @@ export const Coaching: React.FC = () => {
         icon={CalendarClock}
         title="Coaching 1:1"
         description="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels"
-        gradient="primary"
+        variant="gradient"
+        tone="primary"
+        align="center"
       />
 
       {/* Content Section */}
