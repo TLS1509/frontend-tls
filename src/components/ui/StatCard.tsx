@@ -43,30 +43,31 @@ export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
   trend?: number;
 }
 
-const BASE = 'relative flex flex-col justify-center rounded-xl';
+const BASE = 'relative flex flex-col rounded-xl';
 
 const VARIANT_CLASSES: Record<StatCardVariant, string> = {
-  default: 'bg-white border border-ink-200',
+  default:  'bg-white border border-ink-200',
   elevated: 'bg-white shadow-sm border-0',
-  warm: 'bg-gradient-to-b from-secondary-50 to-white border-0',
-  brand: 'bg-gradient-to-b from-primary-50 to-white border-0',
-  sun: 'bg-gradient-to-b from-accent-50 to-white border-0',
+  warm:     'bg-gradient-to-b from-secondary-50 to-white border-0',
+  brand:    'bg-gradient-to-b from-primary-50 to-white border-0',
+  sun:      'bg-gradient-to-b from-accent-50 to-white border-0',
 };
 
 const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'p-4 gap-1',
-  md: 'p-6 gap-2',
-  lg: 'p-8 gap-3',
+  sm: 'p-4 gap-2',
+  md: 'p-5 gap-2.5',
+  lg: 'p-6 gap-3',
 };
 
-const LABEL_BASE = 'font-mono font-bold uppercase tracking-[0.08em] text-ink-600';
+// Label below value — regular sans font, NOT font-mono. Slightly muted color.
+const LABEL_BASE = 'font-body font-medium text-ink-500 leading-snug';
 const LABEL_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'text-micro',
-  md: 'text-micro',
-  lg: 'text-caption',
+  sm: 'text-caption',
+  md: 'text-body-sm',
+  lg: 'text-body-sm',
 };
 
-const VALUE_BASE = 'font-display font-semibold tracking-tight leading-none inline-flex items-baseline gap-1';
+const VALUE_BASE = 'font-display font-bold tracking-tight leading-none inline-flex items-baseline gap-1';
 const VALUE_SIZE_CLASSES: Record<StatCardSize, string> = {
   sm: 'text-2xl',
   md: 'text-stat-value',
@@ -75,24 +76,35 @@ const VALUE_SIZE_CLASSES: Record<StatCardSize, string> = {
 
 const VALUE_COLOR_CLASSES: Record<StatValueColor, string> = {
   default: 'text-ink-900',
-  warm: 'text-secondary-600',
-  brand: 'text-primary-700',
+  warm:    'text-secondary-700',
+  brand:   'text-primary-700',
 };
 
-const ICON_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'text-lg',
-  md: 'text-2xl',
-  lg: 'text-3xl',
+// Icon bubble — light fill (variant-aware), rounded-xl, smaller than the value
+const ICON_BUBBLE_BASE = 'inline-flex items-center justify-center rounded-xl shrink-0 [&>svg]:opacity-90';
+
+const ICON_BUBBLE_VARIANT: Record<StatCardVariant, string> = {
+  default:  'bg-ink-50 text-ink-600 border border-ink-200/60',
+  elevated: 'bg-ink-50 text-ink-600 border border-ink-200/60',
+  brand:    'bg-primary-100 text-primary-700',
+  warm:     'bg-secondary-100 text-secondary-700',
+  sun:      'bg-accent-100 text-accent-800',
+};
+
+const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
+  sm: 'w-9 h-9 [&>svg]:w-4 [&>svg]:h-4',
+  md: 'w-11 h-11 [&>svg]:w-5 [&>svg]:h-5',
+  lg: 'w-12 h-12 [&>svg]:w-5 [&>svg]:h-5',
 };
 
 const DELTA_BASE = 'absolute inline-flex items-center gap-1 text-caption font-semibold';
 const DELTA_POSITION_CLASSES: Record<StatCardSize, string> = {
-  sm: 'top-4 right-4',
-  md: 'top-6 right-6',
-  lg: 'top-8 right-8',
+  sm: 'top-3 right-3',
+  md: 'top-4 right-4',
+  lg: 'top-5 right-5',
 };
 const DELTA_DIRECTION_CLASSES: Record<StatDeltaDirection, string> = {
-  up: 'text-success-base',
+  up: 'text-success-fg',
   down: 'text-danger-fg',
 };
 
@@ -152,14 +164,19 @@ export const StatCard: React.FC<StatCardProps> = ({
     .filter(Boolean)
     .join(' ');
 
+  const iconBubbleClasses = [
+    ICON_BUBBLE_BASE,
+    ICON_BUBBLE_VARIANT[variant],
+    ICON_BUBBLE_SIZE[size],
+  ].join(' ');
+
   return (
     <div className={classes} {...rest}>
       {icon && (
-        <div className={ICON_SIZE_CLASSES[size]}>
+        <div className={iconBubbleClasses} aria-hidden="true">
           {icon}
         </div>
       )}
-      {resolvedLabel && <p className={labelClasses}>{resolvedLabel}</p>}
       <p className={valueClasses}>
         {value}
         {resolvedSub && (
@@ -168,6 +185,7 @@ export const StatCard: React.FC<StatCardProps> = ({
           </span>
         )}
       </p>
+      {resolvedLabel && <p className={labelClasses}>{resolvedLabel}</p>}
       {resolvedDelta && <p className={deltaClasses}>{resolvedDelta}</p>}
       {children}
     </div>
