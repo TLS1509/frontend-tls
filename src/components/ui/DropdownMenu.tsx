@@ -1,17 +1,32 @@
 import React from 'react';
 
-export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type DropdownMenuVariant = 'solid' | 'glass';
 
-const MENU_CLASSES =
-  'min-w-[220px] p-1.5 bg-white border border-ink-200 rounded-xl shadow-lg flex flex-col gap-0.5 font-body ' +
-  'animate-[dd-slide-up_0.2s_ease-out]';
+export interface DropdownMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: DropdownMenuVariant;
+}
+
+const MENU_BASE =
+  'min-w-[220px] p-1.5 rounded-xl flex flex-col gap-0.5 font-body animate-[dd-slide-up_0.2s_ease-out]';
+
+const MENU_VARIANTS: Record<DropdownMenuVariant, string> = {
+  solid:
+    'bg-white border border-ink-200 shadow-lg',
+  glass:
+    'bg-white/80 backdrop-blur-2xl backdrop-saturate-150 border border-white/60 ring-1 ring-primary-100/50 shadow-[0_20px_60px_-15px_rgba(85,161,180,0.35),0_8px_25px_-8px_rgba(85,161,180,0.15)]',
+};
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  variant = 'solid',
   className = '',
   children,
   ...rest
 }) => (
-  <div className={[MENU_CLASSES, className].filter(Boolean).join(' ')} role="menu" {...rest}>
+  <div
+    className={[MENU_BASE, MENU_VARIANTS[variant], className].filter(Boolean).join(' ')}
+    role="menu"
+    {...rest}
+  >
     {children}
   </div>
 );

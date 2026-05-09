@@ -723,31 +723,34 @@ const SidebarDemo: React.FC = () => {
         </button>
         <span>← cliquer pour basculer collapsed/expanded</span>
       </div>
-      <div className="h-[480px] rounded-xl overflow-hidden border border-ink-200 flex bg-white">
+      <div className="h-[480px] rounded-xl border border-ink-200 flex bg-white relative">
+        {/* Glass dropdown — floats to the right of the sidebar */}
+        {menuOpen && (
+          <DropdownMenu
+            variant="glass"
+            className="absolute bottom-3 z-50 min-w-[240px]"
+            style={{ left: collapsed ? 80 : 268 }}
+          >
+            <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
+            <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
+            <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
+            <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
+            <DropdownSeparator />
+            <DropdownItem icon={<LogOut size={16} />} danger>Déconnexion</DropdownItem>
+          </DropdownMenu>
+        )}
         <Sidebar
           collapsed={collapsed}
           onToggleCollapse={() => setCollapsed(p => !p)}
           userCard={
-            <div className="relative">
-              {menuOpen && (
-                <DropdownMenu className={['absolute bottom-full mb-2 z-50 shadow-xl', collapsed ? 'left-1/2 -translate-x-1/2 min-w-[220px]' : 'left-0 right-0'].join(' ')}>
-                  <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
-                  <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
-                  <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
-                  <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
-                  <DropdownSeparator />
-                  <DropdownItem icon={<LogOut size={16} />} danger>Déconnexion</DropdownItem>
-                </DropdownMenu>
-              )}
-              <SidebarUserCard
-                avatar={<Avatar initials="J" size="md" tone="brand" />}
-                name="Jeanne Dupont"
-                subtitle="jeanne@tls.fr"
-                menuOpen={menuOpen}
-                onClick={() => setMenuOpen(p => !p)}
-                collapsed={collapsed}
-              />
-            </div>
+            <SidebarUserCard
+              avatar={<Avatar initials="J" size="md" tone="brand" />}
+              name="Jeanne Dupont"
+              subtitle="jeanne@tls.fr"
+              menuOpen={menuOpen}
+              onClick={() => setMenuOpen(p => !p)}
+              collapsed={collapsed}
+            />
           }
         >
           {items.map(item => (
@@ -762,9 +765,9 @@ const SidebarDemo: React.FC = () => {
             />
           ))}
         </Sidebar>
-        <div className="flex-1 p-6 bg-gradient-to-br from-ink-50 to-white">
+        <div className="flex-1 p-6 bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
           <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
-          <p className="text-caption text-ink-400 mt-1">Mobile : drawer + hamburger (auto via media query md:)</p>
+          <p className="text-caption text-ink-400 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
       </div>
     </div>

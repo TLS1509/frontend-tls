@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import { TlsLogo } from '../ui/TlsLogo';
 
 /**
  * Sidebar — primary app navigation.
@@ -120,9 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
   <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
-    <div className="w-9 h-9 shrink-0 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 flex items-center justify-center shadow-brand-sm">
-      <Sparkles size={18} className="text-white" fill="currentColor" strokeWidth={1.5} />
-    </div>
+    <TlsLogo size={collapsed ? 40 : 38} />
     {!collapsed && (
       <span className="font-display font-bold text-body-lg leading-tight text-primary-800">
         The Learning<br />Society

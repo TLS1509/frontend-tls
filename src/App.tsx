@@ -150,7 +150,38 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </button>
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
-      <div className="sticky top-0 self-start h-screen z-30 max-md:static max-md:h-auto max-md:z-auto">
+      <div className="sticky top-0 self-start h-screen z-30 max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
+      {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
+      {isUserMenuOpen && user && (
+        <DropdownMenu
+          variant="glass"
+          className="absolute bottom-3 left-full ml-3 z-50 min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
+        >
+          <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
+          <DropdownItem icon={<Settings2 size={16} />} onClick={goTo('/settings')}>Paramètres</DropdownItem>
+          <DropdownItem icon={<Bell size={16} />} onClick={goTo('/notifications')}>Notifications</DropdownItem>
+          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Positionnement</DropdownItem>
+          <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
+          <DropdownItem
+            icon={theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            onClick={(e) => { e.preventDefault(); toggleTheme(); }}
+          >
+            {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+          </DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem
+            icon={<LogOut size={16} />}
+            danger
+            onClick={() => {
+              logout();
+              window.location.href = 'http://localhost:8888/app/wp-login.php';
+            }}
+          >
+            Déconnexion
+          </DropdownItem>
+        </DropdownMenu>
+      )}
+
       <Sidebar
         className="h-full"
         collapsed={collapsed}
@@ -159,55 +190,20 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         onMobileClose={() => setIsMobileOpen(false)}
         userCard={
           user && (
-            <div className="relative" ref={userMenuRef}>
-              {/* Dropdown menu (anchored above the user card) */}
-              {isUserMenuOpen && (
-                <DropdownMenu
-                  className={[
-                    'absolute bottom-full mb-2 z-50 shadow-xl',
-                    collapsed ? 'left-1/2 -translate-x-1/2 min-w-[240px]' : 'left-0 right-0',
-                  ].join(' ')}
-                >
-                  <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
-                  <DropdownItem icon={<Settings2 size={16} />} onClick={goTo('/settings')}>Paramètres</DropdownItem>
-                  <DropdownItem icon={<Bell size={16} />} onClick={goTo('/notifications')}>Notifications</DropdownItem>
-                  <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Positionnement</DropdownItem>
-                  <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
-                  <DropdownItem
-                    icon={theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                    onClick={(e) => { e.preventDefault(); toggleTheme(); }}
-                  >
-                    {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
-                  </DropdownItem>
-                  <DropdownSeparator />
-                  <DropdownItem
-                    icon={<LogOut size={16} />}
-                    danger
-                    onClick={() => {
-                      logout();
-                      window.location.href = 'http://localhost:8888/app/wp-login.php';
-                    }}
-                  >
-                    Déconnexion
-                  </DropdownItem>
-                </DropdownMenu>
-              )}
-
-              <SidebarUserCard
-                avatar={
-                  <Avatar
-                    initials={user.name?.charAt(0).toUpperCase()}
-                    size="md"
-                    tone="brand"
-                  />
-                }
-                name={user.name || 'Utilisateur'}
-                subtitle={user.email}
-                menuOpen={isUserMenuOpen}
-                onClick={() => setIsUserMenuOpen((p) => !p)}
-                collapsed={collapsed}
-              />
-            </div>
+            <SidebarUserCard
+              avatar={
+                <Avatar
+                  initials={user.name?.charAt(0).toUpperCase()}
+                  size="md"
+                  tone="brand"
+                />
+              }
+              name={user.name || 'Utilisateur'}
+              subtitle={user.email}
+              menuOpen={isUserMenuOpen}
+              onClick={() => setIsUserMenuOpen((p) => !p)}
+              collapsed={collapsed}
+            />
           )
         }
       >
