@@ -1536,18 +1536,25 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'TrendingBadge',
-    codeName: 'TrendingBadge.tsx',
+    codeName: 'ui/Badge.tsx (merged)',
     cssBase: '.trending-badge',
     category: 'Learning',
-    description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Animations subtiles. Utilisé sur les cartes de cours/veille.',
-    keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof'],
+    description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Gradient + pulse animation. Param `count` optionnel. Implémenté dans Badge.tsx — TrendingBadge.tsx = thin re-export.',
+    keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof', 'promo'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-        <TrendingBadge type="trending" />
-        <TrendingBadge type="popular" />
-        <TrendingBadge type="recommended" />
-        <TrendingBadge type="featured" />
-        <TrendingBadge type="new" />
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap gap-3">
+          <TrendingBadge type="trending" />
+          <TrendingBadge type="popular" />
+          <TrendingBadge type="recommended" />
+          <TrendingBadge type="featured" />
+          <TrendingBadge type="new" />
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <TrendingBadge type="trending" count={42} />
+          <TrendingBadge type="popular" count={128} animated={false} />
+          <TrendingBadge type="new" size="sm" />
+        </div>
       </div>
     ),
   },
@@ -1634,30 +1641,61 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- NAVIGATION (additional) ----------------------------------------- */
   {
     name: 'Breadcrumb',
-    codeName: 'Breadcrumb.tsx',
+    codeName: 'ui/Breadcrumb.tsx (canonical, BreadcrumbNav merged)',
     cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
     category: 'Navigation',
-    description: 'Fil d\'Ariane pour hiérarchies ≥ 3 niveaux. Dernier élément non cliquable (bold). Hover: tls-primary-600. Variante sticky: blur + border-bottom.',
-    keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky'],
+    description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes). BreadcrumbNav.tsx = thin re-export.',
+    keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
-      <div className="vstack">
-        <Breadcrumb
-          items={[
-            { label: 'Accueil', href: '#' },
-            { label: 'Parcours', href: '#' },
-            { label: 'Prompt Engineering', href: '#' },
-            { label: 'Module 3' },
-          ]}
-        />
-        <Breadcrumb
-          separator="›"
-          items={[
-            { label: 'Veille', href: '#' },
-            { label: 'Dossiers', href: '#' },
-            { label: 'IA & Travail' },
-          ]}
-        />
-        <div style={{ background: 'var(--bg)', borderRadius: 'var(--r-md)', overflow: 'hidden' }}>
+      <div className="flex flex-col gap-6">
+        <div>
+          <div className="text-caption text-ink-500 mb-2 uppercase tracking-wider">variant="simple" (anchors)</div>
+          <Breadcrumb
+            items={[
+              { label: 'Accueil', href: '#' },
+              { label: 'Parcours', href: '#' },
+              { label: 'Prompt Engineering', href: '#' },
+              { label: 'Module 3' },
+            ]}
+          />
+          <Breadcrumb
+            separator="›"
+            items={[
+              { label: 'Veille', href: '#' },
+              { label: 'Dossiers', href: '#' },
+              { label: 'IA & Travail' },
+            ]}
+            className="mt-2"
+          />
+        </div>
+
+        <div>
+          <div className="text-caption text-ink-500 mb-2 uppercase tracking-wider">variant="nav" (boutons + icônes + ChevronRight)</div>
+          <Breadcrumb
+            variant="nav"
+            items={[
+              { label: 'Accueil', icon: <BookOpen size={14} />, href: '#' },
+              { label: 'Parcours', icon: <GraduationCap size={14} />, href: '#' },
+              { label: 'Module 3' },
+            ]}
+          />
+          <Breadcrumb
+            variant="nav"
+            maxVisible={3}
+            items={[
+              { label: 'Accueil', href: '#' },
+              { label: 'Catégorie', href: '#' },
+              { label: 'Sous-catégorie', href: '#' },
+              { label: 'Section', href: '#' },
+              { label: 'Page courante' },
+            ]}
+            onNavigate={(i) => console.log('navigate', i)}
+            className="mt-2"
+          />
+          <div className="text-micro text-ink-400 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
+        </div>
+
+        <div className="bg-ink-50 rounded-md overflow-hidden">
           <Breadcrumb
             sticky
             items={[
@@ -1666,7 +1704,7 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Article courant' },
             ]}
           />
-          <div style={{ padding: 'var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-soft)' }}>sticky — blur + border-bottom</div>
+          <div className="p-4 text-caption text-ink-500">sticky — blur + border-bottom</div>
         </div>
       </div>
     ),
@@ -2151,10 +2189,10 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'StatusBadge',
-    codeName: 'ui/StatusBadge.tsx',
+    codeName: 'ui/Badge.tsx (merged)',
     cssBase: '.status-badge / .status-badge--{state}',
     category: 'Feedback',
-    description: 'Badge d\'état d\'apprentissage. 5 états : locked, available, in-progress, completed, failed. Avec ou sans label.',
+    description: 'Badge d\'état d\'apprentissage. 5 états : locked, available, in-progress, completed, failed. Avec ou sans label. Implémenté dans Badge.tsx — StatusBadge.tsx = thin re-export.',
     keywords: ['status', 'badge', 'state', 'progress', 'locked', 'completed', 'learning'],
     render: () => (
       <div className="vstack" style={{ gap: 'var(--s-4)' }}>
