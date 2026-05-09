@@ -13,8 +13,8 @@ Stack : React 19 · TypeScript 6 · Vite 8 · **Tailwind CSS 4** · React Router
 src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
-│   ├── ui/          Badge, Alert, Avatar, Modal, Toast, StatCard… (48 composants)
-│   ├── patterns/    DashboardHero, ParcoursCard, CardGrid, HeroSection…
+│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard… (51 composants)
+│   ├── patterns/    DashboardHero, ParcoursCard, CardGrid, SectionHeader, PageHeader…
 │   ├── learning/    LessonCard, ArticleCard, SessionCard…
 │   ├── modals/      BookingModal, SuccessModal, VideoPlayerModal…
 │   └── layout/      Sidebar, NavItem
@@ -22,6 +22,36 @@ src/
 ├── styles/          design-tokens.css (source vérité), tls-components.css (CSS BEM actuel)
 └── design-system/   spec.json (spécification officielle)
 ```
+
+## Familles de composants — Décisions de rationalisation (2026-05-09)
+
+### Badges — Badge.tsx est le fichier canonique
+`Badge` contient maintenant 3 exports publics :
+- `Badge` — text status badge (variant: brand/neutral/warm/sun/success/danger/info)
+- `StatusBadge` — lesson state indicator avec icône (locked/available/in-progress/completed/failed)
+- `TrendingBadge` — gradient promo badge animé (trending/popular/recommended/featured/new)
+
+`StatusBadge.tsx` et `TrendingBadge.tsx` sont des thin re-exports depuis `Badge.tsx` (rétrocompat).
+**Ne jamais créer de nouveaux fichiers badge séparés** — étendre `Badge.tsx` à la place.
+
+### Breadcrumb — ui/Breadcrumb.tsx est le fichier canonique
+`Breadcrumb` supporte `variant: 'simple' | 'nav'` :
+- `simple` (défaut) : `<a>` links, séparateur texte custom, sticky optionnel
+- `nav` : `<button>` interactifs, ChevronRight, ellipsis collapse (`maxVisible`), `onNavigate` callback, `current` prop, `icon` sur items
+
+`BreadcrumbNav.tsx` = thin re-export `export { Breadcrumb as BreadcrumbNav }`.
+**Utiliser `<Breadcrumb variant="nav">` pour les nouveaux usages.**
+
+### Famille Pills — 5 composants distincts (garder séparés)
+| Composant | Usage |
+|-----------|-------|
+| `Pill` | glass/surface chip — hero overlays, compteurs. `children: ReactNode`, pas de tone. |
+| `MetaPill` | metadata chip — cards. `text: string`, `tone: semantic`. Clickable optionnel. |
+| `MetaPillGroup` | layout wrapper pour tableaux de MetaPills. |
+| `Tag` | removable filter chip avec X button. |
+| `FilterChip` | toggle interactif avec active state gradient. |
+
+**Ne pas fusionner** — APIs fondamentalement différentes (ReactNode vs string, glass vs tones).
 
 ---
 

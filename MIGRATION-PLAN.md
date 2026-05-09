@@ -351,12 +351,14 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - PageHeader : eyebrow chip avec border + bg-primary-50, titre `clamp(1.875rem, 3.5vw, 2.75rem)`, max-width 760/640, align center supporté
 - SectionHeader : icon bubble `w-11 h-11 rounded-xl bg-primary-50`, ReactNode/emoji/LucideIcon tous supportés via `React.isValidElement` detection (Piège : LucideIcon est un forwardRef OBJECT pas une function)
 
-### Breadcrumbs (2 — différents use cases, gardés)
+### Breadcrumbs (2 → 1 canonique) ✅ FUSIONNÉ (2026-05-09)
 
-| Composant | Use case |
-|-----------|----------|
-| `ui/Breadcrumb` | Inline simple (séparateur "/", sticky variant) |
-| `patterns/BreadcrumbNav` | Avec icônes + ellipsis + collapse mobile + onNavigate callback |
+| Composant | Statut | Notes |
+|-----------|--------|-------|
+| `ui/Breadcrumb` | ✅ **CANONIQUE** | Supporte `variant: 'simple' \| 'nav'`, `maxVisible`, `onNavigate`, `current`, `icon` sur items, `sticky` |
+| `patterns/BreadcrumbNav` | 🔄 Thin re-export | `export { Breadcrumb as BreadcrumbNav }` — backward compat. 0 call sites actifs. |
+
+**Résumé fusion :** BreadcrumbNav (101 lignes) absorbé dans Breadcrumb. `variant="nav"` active ChevronRight, pill highlight, ellipsis collapse, boutons interactifs. `variant="simple"` (défaut) garde le comportement anchor + séparateur texte.
 
 ### KPICard vs StatCard (gardés — APIs différentes)
 
@@ -372,13 +374,28 @@ Après phases 1-7, migrer les pages dans cet ordre :
 - ✅ ~~PageHeaderSimple / SectionTitle~~ — **SUPPRIMÉS** (commit f680e2f). PageHeader + SectionHeader canoniques.
 - ✅ ~~GlassCard / SurfaceCard~~ — **CONVERTIS EN ALIAS** vers Card. Card étendu avec variants : `glass-brand`, `glass-warm`, `glass-dark`, `bordered`, `muted`, `sunken`. À supprimer définitivement après migration des call sites.
 - ✅ ~~InlineProgress~~ — **CONVERTI EN ALIAS** vers `<ProgressBar layout="inline" />`. ProgressBar étendu avec `layout: 'stacked' | 'inline'`. À supprimer après migration.
+- ✅ ~~StatusBadge / TrendingBadge~~ — **FUSIONNÉS DANS Badge.tsx** (2026-05-09). `StatusBadge` et `TrendingBadge` re-exportés depuis Badge.tsx pour rétrocompat. `PromoType` = nouveau type pour les variants gradient animés.
+- ✅ ~~BreadcrumbNav~~ — **FUSIONNÉ DANS Breadcrumb.tsx** (2026-05-09). `variant="nav"` activé. BreadcrumbNav = thin re-export.
+
+### Décisions finales famille Pill (2026-05-09)
+
+| Composant | Décision | Raison |
+|-----------|----------|--------|
+| `ui/Pill` | ✅ GARDER | glass/surface chips — contenu ReactNode, variants contextuels (hero, overlay) |
+| `ui/MetaPill` | ✅ GARDER | metadata chips — text string, tones sémantiques (bg-50), clickable optionnel |
+| `ui/MetaPillGroup` | ✅ GARDER | layout companion (30 lignes) — flex wrapper pour arrays de MetaPills |
+| `ui/Tag` | ✅ GARDER | removable filter chip — X button, onClick, tone |
+| `ui/FilterChip` | ✅ GARDER | toggle interactif — active state gradient, count bubble |
+
+→ APIs et use cases fondamentalement différents (children vs text, glass vs tones). Aucune fusion possible sans dégrader l'ergonomie.
 
 ### Composants distincts gardés (APIs / use cases différents)
 
 | Famille | Composants | Distinction |
 |---------|-----------|-------------|
-| Pills | Pill, MetaPill, Tag, FilterChip | Pill (announcements/glass), MetaPill (info chips dans cards), Tag (removable filter), FilterChip (toggle) |
-| Badges | Badge, StatusBadge, NotificationBadge, TrendingBadge | Badge (status text), StatusBadge (5 lesson states), NotificationBadge (count overlay), TrendingBadge (animated promo) |
-| Achievement | Achievement, AchievementBadge, MasteryBadge, Medal | Different visuals : card horizontal vs medallion vertical vs ring vs trophy |
+| Pills | Pill, MetaPill, MetaPillGroup, Tag, FilterChip | glass/overlay · metadata · layout · removable · toggle |
+| Badges | Badge (incl. StatusBadge + TrendingBadge), NotificationBadge | text status · lesson state + promo animé (dans Badge) · count overlay |
+| Breadcrumbs | Breadcrumb (variant simple\|nav) | un seul composant canonique, BreadcrumbNav = alias |
+| Achievement | Achievement, AchievementBadge, MasteryBadge, Medal | card horizontal vs médaillon vertical vs ring SVG vs trophée |
 | Cards stats | StatCard, KPICard | StatCard (rich, square mode, sub-units), KPICard (simple, trend object) |
 | Progress | ProgressBar, ProgressRing, SkillBar, GoalProgress | Linear vs circular vs labeled-skill vs goal-with-deadline |
