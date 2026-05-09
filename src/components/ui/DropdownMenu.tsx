@@ -42,9 +42,13 @@ export const DropdownLabel: React.FC<React.HTMLAttributes<HTMLParagraphElement>>
 // DROPDOWN ITEM
 // ============================================================================
 
+export type DropdownItemBadge = 'demo' | 'pro' | 'new' | 'beta';
+
 export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactNode;
   shortcut?: string;
+  /** Trailing badge chip — e.g. 'DEMO', 'PRO', 'NEW' */
+  badge?: DropdownItemBadge | React.ReactNode;
   danger?: boolean;
 }
 
@@ -58,9 +62,26 @@ const ITEM_DEFAULT =
 const ITEM_DANGER =
   'text-danger-fg hover:bg-danger-bg focus-visible:outline-danger-base';
 
+const BADGE_CLASSES: Record<DropdownItemBadge, string> = {
+  demo: 'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
+  pro:  'bg-gradient-to-br from-secondary-500 to-secondary-700 text-white',
+  new:  'bg-gradient-to-br from-success-base to-success-fg text-white',
+  beta: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+};
+
+const BADGE_LABELS: Record<DropdownItemBadge, string> = {
+  demo: 'DEMO',
+  pro: 'PRO',
+  new: 'NEW',
+  beta: 'BETA',
+};
+
+const BUILTIN_BADGES = new Set<string>(['demo', 'pro', 'new', 'beta']);
+
 export const DropdownItem: React.FC<DropdownItemProps> = ({
   icon,
   shortcut,
+  badge,
   danger = false,
   className = '',
   children,
@@ -69,6 +90,8 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
   const classes = [ITEM_BASE, danger ? ITEM_DANGER : ITEM_DEFAULT, className]
     .filter(Boolean)
     .join(' ');
+
+  const isBuiltinBadge = typeof badge === 'string' && BUILTIN_BADGES.has(badge);
 
   return (
     <button type="button" className={classes} role="menuitem" {...rest}>
@@ -83,6 +106,19 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
         </span>
       )}
       <span className="flex-1">{children}</span>
+      {badge != null && isBuiltinBadge && (
+        <span
+          className={[
+            'inline-flex items-center justify-center px-2 py-0.5 rounded-pill text-[10px] font-extrabold tracking-wider shadow-sm shrink-0',
+            BADGE_CLASSES[badge as DropdownItemBadge],
+          ].join(' ')}
+        >
+          {BADGE_LABELS[badge as DropdownItemBadge]}
+        </span>
+      )}
+      {badge != null && !isBuiltinBadge && (
+        <span className="shrink-0">{badge}</span>
+      )}
       {shortcut && (
         <kbd className="font-mono text-[11px] px-1.5 py-0.5 bg-primary-50 text-ink-500 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
           {shortcut}

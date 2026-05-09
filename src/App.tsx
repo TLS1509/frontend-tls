@@ -13,25 +13,25 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import { useTheme } from './hooks/useTheme';
-import { Sidebar, SidebarGroup, NavItem } from './components/layout/Sidebar';
+import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
+import { DropdownMenu, DropdownItem, DropdownSeparator } from './components/ui/DropdownMenu';
+import { Avatar } from './components/ui/Avatar';
 import {
   LayoutDashboard,
-  GraduationCap,
-  Handshake,
-  Trophy,
-  Search,
-  BookOpenText,
-  MessagesSquare,
+  Map as MapIcon,
+  PenLine,
+  Video,
+  Sparkles as SparklesIcon,
   UserRound,
   Settings2,
-  LogOut,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Building2,
   Bell,
+  Target,
+  BarChart3,
+  LogOut,
+  Menu,
   Moon,
   Sun,
 } from 'lucide-react';
@@ -90,206 +90,176 @@ import { FloatingNavButton } from './components/FloatingNavButton';
 // CSS is centrally managed in globals.css — no direct imports needed here
 
 /**
- * AppLayout - Main layout wrapper with navigation and sidebar (design system)
+ * AppLayout - Main layout wrapper with sidebar navigation (Tailwind, redesigned)
  */
 const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
   const { theme, toggle: toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
+  const [isMobileOpen, setIsMobileOpen] = React.useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState<boolean>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+  );
+  const userMenuRef = React.useRef<HTMLDivElement>(null);
 
-  // Determine active nav item
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  // On mobile, the drawer always renders expanded content
+  const collapsed = !isMobile && isSidebarCollapsed;
+
+  // Close user menu on outside click / route change
+  React.useEffect(() => { setIsUserMenuOpen(false); }, [location.pathname]);
+  React.useEffect(() => {
+    if (!isUserMenuOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [isUserMenuOpen]);
+
   const isActive = (path: string) => location.pathname === path || location.pathname === path + '/';
 
+  const goTo = (path: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsMobileOpen(false);
+    navigate(path);
+  };
+
   return (
-    <div className="app-shell">
-      {/* Sidebar Navigation */}
-      <div
-        className={`app-shell__sidebar-wrapper app-shell__sidebar-wrapper--open ${
-          isSidebarCollapsed
-            ? 'app-shell__sidebar-wrapper--collapsed'
-            : 'app-shell__sidebar-wrapper--expanded'
-        }`}
+    <div className="flex min-h-screen bg-white">
+      {/* Mobile hamburger (top-left, only visible < md) */}
+      <button
+        type="button"
+        onClick={() => setIsMobileOpen(true)}
+        aria-label="Ouvrir la navigation"
+        className="md:hidden fixed top-3 left-3 z-30 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
       >
-        <Sidebar
-          brand={
-            <div className="app-shell__sidebar-brand-row">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--tls-primary-600)' }}>TLS</span>
-                <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>The Learning Society</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
-                <button
-                  type="button"
-                  className="app-shell__sidebar-toggle"
-                  onClick={toggleTheme}
-                  title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
-                  aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
-                  style={{ color: theme === 'dark' ? 'var(--tls-yellow-500)' : 'var(--tls-primary-500)' }}
+        <Menu size={18} />
+      </button>
+
+      {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
+      <div className="sticky top-0 self-start h-screen z-30 max-md:static max-md:h-auto max-md:z-auto">
+      <Sidebar
+        className="h-full"
+        collapsed={collapsed}
+        onToggleCollapse={isMobile ? undefined : () => setIsSidebarCollapsed((p) => !p)}
+        mobileOpen={isMobileOpen}
+        onMobileClose={() => setIsMobileOpen(false)}
+        userCard={
+          user && (
+            <div className="relative" ref={userMenuRef}>
+              {/* Dropdown menu (anchored above the user card) */}
+              {isUserMenuOpen && (
+                <DropdownMenu
+                  className={[
+                    'absolute bottom-full mb-2 z-50 shadow-xl',
+                    collapsed ? 'left-1/2 -translate-x-1/2 min-w-[240px]' : 'left-0 right-0',
+                  ].join(' ')}
                 >
-                  {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                </button>
-                <button
-                  type="button"
-                  className="app-shell__sidebar-toggle"
-                  onClick={() => setIsSidebarCollapsed((prev) => !prev)}
-                  title={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
-                  aria-label={isSidebarCollapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
-                >
-                  {isSidebarCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
-                </button>
-              </div>
-            </div>
-          }
-          user={
-            user && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3, 1rem)' }}>
-                <div
-                  style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--tls-primary-100)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.875rem',
-                    fontWeight: 700,
-                    color: 'var(--tls-primary-700)',
-                    flexShrink: 0,
-                  }}
-                >
-                  {user.name?.charAt(0).toUpperCase()}
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>{user.name}</div>
-                  <a
-                    href="/profile"
-                    style={{
-                      fontSize: '11px',
-                      color: 'var(--text-soft)',
-                      textDecoration: 'none',
-                      cursor: 'pointer',
+                  <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
+                  <DropdownItem icon={<Settings2 size={16} />} onClick={goTo('/settings')}>Paramètres</DropdownItem>
+                  <DropdownItem icon={<Bell size={16} />} onClick={goTo('/notifications')}>Notifications</DropdownItem>
+                  <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Positionnement</DropdownItem>
+                  <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
+                  <DropdownItem
+                    icon={theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                    onClick={(e) => { e.preventDefault(); toggleTheme(); }}
+                  >
+                    {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                  </DropdownItem>
+                  <DropdownSeparator />
+                  <DropdownItem
+                    icon={<LogOut size={16} />}
+                    danger
+                    onClick={() => {
+                      logout();
+                      window.location.href = 'http://localhost:8888/app/wp-login.php';
                     }}
                   >
-                    Voir le profil
-                  </a>
-                </div>
-              </div>
-            )
-          }
-        >
-          {/* Learning Section */}
-          <SidebarGroup label="Parcours">
-            <NavItem
-              href="/"
-              icon={<LayoutDashboard size={18} />}
-              label="Tableau de bord"
-              title="Tableau de bord"
-              active={isActive('/')}
-            />
-            <NavItem
-              href="/learning-paths"
-              icon={<GraduationCap size={18} />}
-              label="Mon parcours"
-              count="3"
-              title="Mon parcours"
-              active={isActive('/learning-paths')}
-            />
-            <NavItem
-              href="/coaching"
-              icon={<Handshake size={18} />}
-              label="Sessions coaching"
-              title="Sessions coaching"
-              active={isActive('/coaching')}
-            />
-            <NavItem
-              href="/leaderboard"
-              icon={<Trophy size={18} />}
-              label="Réussites"
-              count="2"
-              title="Réussites"
-              active={isActive('/leaderboard')}
-            />
-          </SidebarGroup>
+                    Déconnexion
+                  </DropdownItem>
+                </DropdownMenu>
+              )}
 
-          {/* Explore Section */}
-          <SidebarGroup label="Explorer">
-            <NavItem
-              href="/veille"
-              icon={<Search size={18} />}
-              label="Veille"
-              title="Veille"
-              active={isActive('/veille')}
-            />
-            <NavItem
-              href="/journal"
-              icon={<BookOpenText size={18} />}
-              label="Journal"
-              title="Journal"
-              active={isActive('/journal')}
-            />
-            <NavItem
-              href="/notifications"
-              icon={<Bell size={18} />}
-              label="Notifications"
-              title="Notifications"
-              active={isActive('/notifications')}
-            />
-            <NavItem
-              href="/collaboration"
-              icon={<MessagesSquare size={18} />}
-              label="Communauté"
-              count="12"
-              title="Communauté"
-              active={isActive('/collaboration')}
-            />
-          </SidebarGroup>
-
-          {/* Settings Section */}
-          <SidebarGroup label="Compte">
-            <NavItem
-              href="/profile"
-              icon={<UserRound size={18} />}
-              label="Profil"
-              title="Profil"
-              active={isActive('/profile')}
-            />
-            <NavItem
-              href="/settings"
-              icon={<Settings2 size={18} />}
-              label="Paramètres"
-              title="Paramètres"
-              active={isActive('/settings')}
-            />
-            <NavItem
-              href="/enterprise"
-              icon={<Building2 size={18} />}
-              label="Entreprise"
-              title="Gestion Entreprise"
-              active={isActive('/enterprise')}
-            />
-            <NavItem
-              onClick={() => {
-                logout();
-                window.location.href = 'http://localhost:8888/app/wp-login.php';
-              }}
-              icon={<LogOut size={18} />}
-              label="Déconnexion"
-              title="Déconnexion"
-              href="#"
-            />
-          </SidebarGroup>
-        </Sidebar>
+              <SidebarUserCard
+                avatar={
+                  <Avatar
+                    initials={user.name?.charAt(0).toUpperCase()}
+                    size="md"
+                    tone="brand"
+                  />
+                }
+                name={user.name || 'Utilisateur'}
+                subtitle={user.email}
+                menuOpen={isUserMenuOpen}
+                onClick={() => setIsUserMenuOpen((p) => !p)}
+                collapsed={collapsed}
+              />
+            </div>
+          )
+        }
+      >
+        <NavItem
+          href="/"
+          onClick={goTo('/')}
+          icon={<LayoutDashboard size={18} />}
+          label="Tableau de bord"
+          active={isActive('/') || isActive('/dashboard')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/learning-paths"
+          onClick={goTo('/learning-paths')}
+          icon={<MapIcon size={18} />}
+          label="Parcours"
+          count="3"
+          active={isActive('/learning-paths')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/journal"
+          onClick={goTo('/journal')}
+          icon={<PenLine size={18} />}
+          label="Journal de bord"
+          active={isActive('/journal')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/coaching"
+          onClick={goTo('/coaching')}
+          icon={<Video size={18} />}
+          label="Coaching"
+          active={isActive('/coaching')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/veille"
+          onClick={goTo('/veille')}
+          icon={<SparklesIcon size={18} />}
+          label="Veille"
+          active={isActive('/veille')}
+          collapsed={collapsed}
+        />
+      </Sidebar>
       </div>
 
-      {/* Main Content Area */}
-      <div className="app-shell__content">
-        {/* Page Content */}
-        <main className="app-shell__main">{children}</main>
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <main className="flex-1 min-w-0 overflow-x-hidden">{children}</main>
 
-        {/* Footer */}
-        <footer className="app-shell__footer">
+        <footer className="px-6 py-4 text-caption text-ink-500 border-t border-ink-200/70 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
         </footer>
       </div>

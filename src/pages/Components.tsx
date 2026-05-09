@@ -67,7 +67,6 @@ import {
   Celebration,
   // Navigation
   Sidebar,
-  SidebarGroup,
   NavItem,
   Tabs,
   Stepper,
@@ -120,7 +119,8 @@ import { SkillBar } from '../components/ui/SkillBar';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageHeader } from '../components/patterns/PageHeader';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2 } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut } from 'lucide-react';
+import { SidebarUserCard } from '../components/layout/Sidebar';
 
 /* ============================================================================
  * TYPES
@@ -696,6 +696,77 @@ const PaginationDemo: React.FC = () => {
   return (
     <div className="vstack">
       <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
+    </div>
+  );
+};
+
+const SidebarDemo: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const [active, setActive] = useState('dashboard');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const items = [
+    { id: 'dashboard', label: 'Tableau de bord', icon: <LayoutDashboard size={18} /> },
+    { id: 'paths',     label: 'Parcours',         icon: <MapIcon size={18} />, count: '3' },
+    { id: 'journal',   label: 'Journal de bord',  icon: <PenLine size={18} /> },
+    { id: 'coaching',  label: 'Coaching',         icon: <Video size={18} /> },
+    { id: 'veille',    label: 'Veille',           icon: <SparklesIcon size={18} /> },
+  ];
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center gap-2 text-caption text-ink-500">
+        <button
+          type="button"
+          onClick={() => setCollapsed(p => !p)}
+          className="px-3 py-1 rounded-pill bg-primary-50 text-primary-700 font-semibold border border-primary-200 hover:bg-primary-100"
+        >
+          {collapsed ? 'Étendre' : 'Réduire'}
+        </button>
+        <span>← cliquer pour basculer collapsed/expanded</span>
+      </div>
+      <div className="h-[480px] rounded-xl overflow-hidden border border-ink-200 flex bg-white">
+        <Sidebar
+          collapsed={collapsed}
+          onToggleCollapse={() => setCollapsed(p => !p)}
+          userCard={
+            <div className="relative">
+              {menuOpen && (
+                <DropdownMenu className={['absolute bottom-full mb-2 z-50 shadow-xl', collapsed ? 'left-1/2 -translate-x-1/2 min-w-[220px]' : 'left-0 right-0'].join(' ')}>
+                  <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
+                  <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
+                  <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
+                  <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
+                  <DropdownSeparator />
+                  <DropdownItem icon={<LogOut size={16} />} danger>Déconnexion</DropdownItem>
+                </DropdownMenu>
+              )}
+              <SidebarUserCard
+                avatar={<Avatar initials="J" size="md" tone="brand" />}
+                name="Jeanne Dupont"
+                subtitle="jeanne@tls.fr"
+                menuOpen={menuOpen}
+                onClick={() => setMenuOpen(p => !p)}
+                collapsed={collapsed}
+              />
+            </div>
+          }
+        >
+          {items.map(item => (
+            <NavItem
+              key={item.id}
+              icon={item.icon}
+              label={item.label}
+              count={item.count}
+              active={active === item.id}
+              collapsed={collapsed}
+              onClick={(e) => { e.preventDefault(); setActive(item.id); }}
+            />
+          ))}
+        </Sidebar>
+        <div className="flex-1 p-6 bg-gradient-to-br from-ink-50 to-white">
+          <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
+          <p className="text-caption text-ink-400 mt-1">Mobile : drawer + hamburger (auto via media query md:)</p>
+        </div>
+      </div>
     </div>
   );
 };
@@ -1291,28 +1362,12 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- NAVIGATION ------------------------------------------------------- */
   {
     name: 'Sidebar',
-    codeName: 'Sidebar.tsx',
-    cssBase: '.sidebar / .nav-item',
+    codeName: 'layout/Sidebar.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Navigation',
-    description: 'Primary app navigation. Grouped sections, active state with 3px left bar.',
-    keywords: ['sidebar', 'nav', 'menu', 'shell'],
-    render: () => (
-      <div style={{ height: 380, background: 'var(--surface-muted)', borderRadius: 'var(--r-xl)', padding: 12, display: 'flex' }}>
-        <Sidebar
-          brand={<><span style={{ width: 24, height: 24, borderRadius: 6, background: 'var(--tls-primary-500)' }} /> <span>TLS</span></>}
-          user={<><Avatar size="sm" name="Jeanne Dupont" /><div><p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--t-caption)' }}>Jeanne D.</p><p style={{ margin: 0, fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>Apprenante</p></div></>}
-        >
-          <SidebarGroup label="Principal">
-            <NavItem icon={I.home} label="Tableau de bord" active />
-            <NavItem icon={I.book} label="Parcours" count={3} />
-            <NavItem icon={I.trophy} label="Récompenses" />
-          </SidebarGroup>
-          <SidebarGroup label="Paramètres">
-            <NavItem icon={I.settings} label="Préférences" />
-          </SidebarGroup>
-        </Sidebar>
-      </div>
-    ),
+    description: 'Primary app navigation — flat list (no group labels), active state via teal gradient pill, collapsible (icons only), responsive mobile drawer with backdrop. Bottom user card with optional dropdown trigger.',
+    keywords: ['sidebar', 'nav', 'menu', 'shell', 'collapsible', 'drawer'],
+    render: () => <SidebarDemo />,
   },
 
   /* ---- MODALS ---------------------------------------------------------------- */

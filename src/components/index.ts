@@ -128,12 +128,13 @@ export type {
 export { Breadcrumb } from './ui/Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItem } from './ui/Breadcrumb';
 
-/* Sidebar + NavItem live in layout/ because they structure the app shell */
-export { Sidebar, SidebarGroup, NavItem } from './layout/Sidebar';
+/* Sidebar + NavItem + SidebarUserCard live in layout/ — they structure the app shell */
+export { Sidebar, SidebarGroup, NavItem, SidebarUserCard } from './layout/Sidebar';
 export type {
   SidebarProps,
   SidebarGroupProps,
   NavItemProps,
+  SidebarUserCardProps,
 } from './layout/Sidebar';
 
 export { FloatingNavButton } from './FloatingNavButton';
