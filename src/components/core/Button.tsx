@@ -49,19 +49,23 @@ export interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
 }
 
-const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 active:translate-y-0.5 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
 
+// Hover strategy for filled variants: keep the base color (no aggressive
+// darkening) and add a colored glow shadow + subtle lift via translate-y
+// in BASE. The active state still darkens for tactile feedback. Less
+// "saturated to death" than hover:bg-X-700.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary:     'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
-  secondary:   'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
-  accent:      'bg-accent-500 text-white shadow-sm hover:bg-accent-600 active:bg-accent-700',
-  ghost:       'bg-primary-50 text-primary-800 hover:bg-primary-100',
-  destructive: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
-  glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/30',
-  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
-  // Deprecated aliases — point to the new mapping
-  warm:           'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
-  'brand-ghost':  'bg-primary-50 text-primary-800 hover:bg-primary-100',
+  primary:     'bg-primary-600 text-white shadow-sm hover:shadow-brand-md hover:bg-primary-500 active:bg-primary-800 active:shadow-sm',
+  secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
+  accent:      'bg-accent-500 text-white shadow-sm hover:shadow-sun-sm hover:bg-accent-400 active:bg-accent-700 active:shadow-sm',
+  ghost:       'bg-primary-50 text-primary-800 shadow-xs hover:bg-primary-100 hover:shadow-sm active:bg-primary-200',
+  destructive: 'bg-red-600 text-white shadow-sm hover:bg-red-500 hover:shadow-[0_6px_16px_-2px_rgba(220,38,38,0.4)] active:bg-red-800 active:shadow-sm',
+  glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50',
+  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 hover:translate-y-0 p-0 h-auto',
+  // Deprecated aliases — point to the new mapping (same hover logic)
+  warm:           'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
+  'brand-ghost':  'bg-primary-50 text-primary-800 shadow-xs hover:bg-primary-100 hover:shadow-sm active:bg-primary-200',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
