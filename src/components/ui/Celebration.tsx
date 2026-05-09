@@ -1,20 +1,48 @@
 import React from 'react';
-import { Star } from 'lucide-react';
+import { Star, Sparkles } from 'lucide-react';
 
 export interface CelebrationProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   title: React.ReactNode;
   description?: React.ReactNode;
   actions?: React.ReactNode;
-  confetti?: React.ReactNode;
+  /** Custom decorative overlay. Pass `false` to disable corner sparkles. */
+  confetti?: React.ReactNode | false;
 }
 
 const CARD_CLASSES =
-  'relative bg-gradient-to-br from-secondary-50 to-accent-50 border border-secondary-500/15 rounded-2xl px-12 py-10 text-center overflow-hidden';
+  'relative bg-gradient-to-br from-secondary-50 via-accent-50/70 to-secondary-50 ' +
+  'border border-secondary-500/20 rounded-2xl px-12 py-10 text-center overflow-hidden ' +
+  'shadow-warm-sm hover:shadow-warm-md transition-shadow duration-300';
 
-const CONFETTI_BG_CLASSES =
+// Diffuse radial glow (top-left orange + bottom-right amber) — soft scenic
+// background, no centered emoji that overlaps the heading.
+const GLOW_BG_CLASSES =
   'absolute inset-0 pointer-events-none ' +
-  'bg-[radial-gradient(at_20%_30%,rgba(237,132,58,0.2),transparent_50%),radial-gradient(at_80%_70%,rgba(248,176,68,0.18),transparent_50%)]';
+  'bg-[radial-gradient(at_15%_20%,rgba(237,132,58,0.22),transparent_55%),radial-gradient(at_85%_80%,rgba(248,176,68,0.20),transparent_55%)]';
+
+const CornerSparkles: React.FC = () => (
+  <>
+    <span aria-hidden="true" className="pointer-events-none absolute top-4 left-5 text-secondary-500/70 [animation:cel-twinkle_2.4s_ease-in-out_infinite]">
+      <Sparkles size={20} fill="currentColor" />
+    </span>
+    <span aria-hidden="true" className="pointer-events-none absolute top-8 right-6 text-accent-500/70 [animation:cel-twinkle_2.4s_ease-in-out_infinite_0.6s]">
+      <Star size={14} fill="currentColor" />
+    </span>
+    <span aria-hidden="true" className="pointer-events-none absolute bottom-6 left-10 text-accent-500/60 [animation:cel-twinkle_2.4s_ease-in-out_infinite_1s]">
+      <Star size={12} fill="currentColor" />
+    </span>
+    <span aria-hidden="true" className="pointer-events-none absolute bottom-5 right-8 text-secondary-500/70 [animation:cel-twinkle_2.4s_ease-in-out_infinite_1.4s]">
+      <Sparkles size={18} fill="currentColor" />
+    </span>
+    <style>{`
+      @keyframes cel-twinkle {
+        0%, 100% { opacity: 0.45; transform: scale(0.85) rotate(-4deg); }
+        50%      { opacity: 1;    transform: scale(1.1)  rotate(6deg); }
+      }
+    `}</style>
+  </>
+);
 
 export const Celebration: React.FC<CelebrationProps> = ({
   title,
@@ -31,22 +59,25 @@ export const Celebration: React.FC<CelebrationProps> = ({
     aria-live="polite"
     {...rest}
   >
-    {confetti !== undefined ? (
-      confetti && <div className={CONFETTI_BG_CLASSES}>{confetti}</div>
+    {/* Diffuse glow — always rendered, doesn't overlap content */}
+    <div className={GLOW_BG_CLASSES} aria-hidden="true" />
+
+    {/* Decorative content layer */}
+    {confetti === false ? null : confetti != null ? (
+      <div className="absolute inset-0 pointer-events-none">{confetti}</div>
     ) : (
-      <div className={`${CONFETTI_BG_CLASSES} flex items-center justify-center text-5xl`} aria-hidden="true">
-        🎉
-      </div>
+      <CornerSparkles />
     )}
-    <h2 className="relative m-0 mb-3 font-display text-h1 font-semibold tracking-tight text-secondary-700">
+
+    <h2 className="relative m-0 mb-3 font-display text-h1 font-bold tracking-tight bg-gradient-to-br from-secondary-700 via-secondary-600 to-accent-700 bg-clip-text text-transparent">
       {title}
     </h2>
     {description && (
-      <p className="relative m-0 mx-auto mb-5 max-w-[520px] text-body-lg text-ink-900">{description}</p>
+      <p className="relative m-0 mx-auto mb-5 max-w-[520px] text-body-lg text-ink-700 leading-relaxed">{description}</p>
     )}
     {children}
     {actions && (
-      <div className="relative mt-5 flex gap-3 justify-center">{actions}</div>
+      <div className="relative mt-5 flex gap-3 justify-center flex-wrap">{actions}</div>
     )}
   </div>
 );

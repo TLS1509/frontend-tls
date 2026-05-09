@@ -24,12 +24,15 @@ export interface ResourceCardProps {
   className?: string;
 }
 
-const TONE_BORDER: Record<string, string> = {
-  primary: 'border-l-primary-500',
-  brand:   'border-l-primary-600',
-  warm:    'border-l-secondary-500',
-  sun:     'border-l-accent-500',
-  default: 'border-l-primary-500',
+// Background tint per tone — replaces the previous border-l-4 accent stripe.
+// Uses a soft alpha gradient (top-left lighter → bottom-right transparent)
+// + matching outline border in the same tone.
+const TONE_BG: Record<string, string> = {
+  primary: 'bg-gradient-to-br from-primary-50 to-white border-primary-200',
+  brand:   'bg-gradient-to-br from-primary-50 to-white border-primary-200',
+  warm:    'bg-gradient-to-br from-secondary-50 to-white border-secondary-200',
+  sun:     'bg-gradient-to-br from-accent-50 to-white border-accent-200',
+  default: 'bg-gradient-to-br from-primary-50 to-white border-primary-200',
 };
 
 const TONE_ACCENT_TEXT: Record<string, string> = {
@@ -82,17 +85,17 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   variant = 'default',
   className = '',
 }) => {
-  const accentBorder = TONE_BORDER[tone] ?? TONE_BORDER.primary;
+  const toneBg = TONE_BG[tone] ?? TONE_BG.primary;
   const accentText = TONE_ACCENT_TEXT[tone] ?? TONE_ACCENT_TEXT.primary;
   const ctaHover = TONE_CTA_HOVER[tone] ?? TONE_CTA_HOVER.primary;
 
   const padding = variant === 'minimal' ? 'p-4' : 'p-6';
 
   const classes = [
-    'relative bg-white border border-ink-200 rounded-xl border-l-4 flex flex-col gap-4 transition-all no-underline text-inherit',
+    'relative border rounded-xl flex flex-col gap-4 transition-all no-underline text-inherit',
     'hover:-translate-y-0.5 hover:shadow-md',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-    accentBorder,
+    toneBg,
     padding,
     className,
   ]
