@@ -28,7 +28,14 @@ export interface SidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'c
 }
 
 const SIDEBAR_BASE =
-  'group/sidebar flex flex-col self-stretch min-h-0 bg-gradient-to-b from-primary-50/60 via-white to-white border-r border-ink-200/70 transition-[width] duration-300 ease-out';
+  'group/sidebar relative flex flex-col self-stretch min-h-0 ' +
+  // Glass elevated background : white/translucent with blur, subtle teal glow
+  'bg-gradient-to-b from-white/95 via-primary-50/50 to-white/90 ' +
+  'backdrop-blur-xl backdrop-saturate-150 ' +
+  // Right edge: subtle inner border + soft outer drop shadow (teal-tinted)
+  'border-r border-white/70 ring-1 ring-inset ring-primary-100/40 ' +
+  'shadow-[8px_0_32px_-12px_rgba(85,161,180,0.18),2px_0_8px_-2px_rgba(85,161,180,0.08)] ' +
+  'transition-[width] duration-300 ease-out';
 
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed = false,
@@ -73,32 +80,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Brand row */}
         <div className={['flex items-center gap-2 px-4 pt-5 pb-4', collapsed && 'justify-center px-3'].filter(Boolean).join(' ')}>
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
-          {onToggleCollapse && !collapsed && (
-            <button
-              type="button"
-              onClick={onToggleCollapse}
-              className="ml-auto inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-500 text-white shadow-sm hover:bg-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-              aria-label="Réduire la sidebar"
-              title="Réduire la sidebar"
-            >
-              <ChevronLeft size={16} strokeWidth={2.5} />
-            </button>
-          )}
         </div>
 
-        {/* Collapsed-only expand button (positioned next to logo) */}
-        {onToggleCollapse && collapsed && (
-          <div className="px-3 -mt-2 mb-2">
-            <button
-              type="button"
-              onClick={onToggleCollapse}
-              className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-500 text-white shadow-sm hover:bg-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 mx-auto"
-              aria-label="Étendre la sidebar"
-              title="Étendre la sidebar"
-            >
-              <ChevronRight size={14} strokeWidth={2.5} />
-            </button>
-          </div>
+        {/* Collapse / expand toggle — always anchored to the right edge of the
+            sidebar at the brand row's vertical center, both collapsed and
+            expanded. Sits half-outside for a "tab" look. */}
+        {onToggleCollapse && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="absolute top-7 -right-3 z-10 inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-500 text-white shadow-md ring-2 ring-white hover:bg-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            aria-label={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
+            title={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
+          >
+            {collapsed ? <ChevronRight size={14} strokeWidth={2.5} /> : <ChevronLeft size={14} strokeWidth={2.5} />}
+          </button>
         )}
 
         {/* Navigation */}
