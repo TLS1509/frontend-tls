@@ -57,7 +57,9 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
     <span
       className={[
         'relative inline-flex items-center justify-center shrink-0',
-        'rounded-2xl',
+        // Rounded square (smaller radius than rounded-2xl so corners read clearly,
+        // not circle-like on small bubbles)
+        'rounded-xl',
         'bg-gradient-to-br from-white via-primary-50/90 to-primary-100',
         'ring-1 ring-primary-200/60',
         'shadow-[0_8px_20px_-6px_rgba(85,161,180,0.45),0_3px_8px_-2px_rgba(85,161,180,0.25),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_2px_rgba(85,161,180,0.08)]',
@@ -71,7 +73,7 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
     >
       {/* Top highlight gloss */}
       <span
-        className="absolute inset-x-1 top-1 h-1/2 rounded-xl bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none"
+        className="absolute inset-x-1 top-1 h-1/2 rounded-lg bg-gradient-to-b from-white/80 via-white/20 to-transparent pointer-events-none"
         aria-hidden="true"
       />
       <span className="relative inline-flex">{inner}</span>

@@ -93,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             onClick={onToggleCollapse}
             className={[
               'absolute top-7 z-10 inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-md text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-              collapsed ? '-right-4' : '-right-3',
+              collapsed ? '-right-5' : '-right-3',
             ].join(' ')}
             aria-label={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
             title={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
@@ -122,7 +122,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
   <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
-    <TlsLogo size={collapsed ? 40 : 38} />
+    <TlsLogo size={collapsed ? 44 : 48} />
     {!collapsed && (
       <span className="font-display font-bold text-body-lg leading-tight text-primary-800">
         The Learning<br />Society
