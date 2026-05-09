@@ -4,25 +4,30 @@ import React from 'react';
  * Button — Source of truth: design-system/spec.json → components.Button
  *
  * A single action trigger. Pill shape, clear hierarchy:
- *   - primary: one per screen, main task
- *   - warm: post-success / celebration CTA
- *   - secondary: alternative actions
- *   - ghost: tertiary (cancel, dismiss)
- *   - brand-ghost: soft brand action
+ *   - primary:     one per screen, main task (teal #4A8FA1)
+ *   - secondary:   alternative actions / warm CTA (orange #ED843A)
+ *   - accent:      celebration / highlight (yellow #DF9E3D)
+ *   - ghost:       soft brand action (light teal bg)
  *   - destructive: delete / irreversible
- *   - glass: on tinted/gradient surfaces only
- *   - link: inline text links
+ *   - glass:       on tinted/gradient surfaces only
+ *   - link:        inline text links
+ *
+ * Deprecated aliases (backward compat):
+ *   - warm        → use 'secondary'
+ *   - brand-ghost → use 'ghost'
  */
 
 export type ButtonVariant =
   | 'primary'
-  | 'warm'
   | 'secondary'
+  | 'accent'
   | 'ghost'
-  | 'brand-ghost'
   | 'destructive'
   | 'glass'
-  | 'link';
+  | 'link'
+  // Deprecated — kept as aliases for backward compatibility
+  | 'warm'
+  | 'brand-ghost';
 
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -47,14 +52,16 @@ export interface ButtonProps
 const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 active:translate-y-0.5 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary: 'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
-  warm: 'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
-  secondary: 'bg-neutral-100 text-ink-900 border border-neutral-200 shadow-xs hover:bg-neutral-200 hover:border-primary-300',
-  ghost: 'bg-transparent text-ink-900 hover:bg-neutral-100',
-  'brand-ghost': 'bg-primary-50 text-primary-800 hover:bg-primary-100',
+  primary:     'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
+  secondary:   'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
+  accent:      'bg-accent-500 text-white shadow-sm hover:bg-accent-600 active:bg-accent-700',
+  ghost:       'bg-primary-50 text-primary-800 hover:bg-primary-100',
   destructive: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
-  glass: 'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/30',
-  link: 'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+  glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/30',
+  link:        'bg-transparent text-primary-700 underline underline-offset-4 hover:text-primary-800 p-0 h-auto',
+  // Deprecated aliases — point to the new mapping
+  warm:           'bg-secondary-500 text-white shadow-sm hover:bg-secondary-600 active:bg-secondary-700',
+  'brand-ghost':  'bg-primary-50 text-primary-800 hover:bg-primary-100',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {

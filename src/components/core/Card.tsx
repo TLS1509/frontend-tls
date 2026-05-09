@@ -62,7 +62,13 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   interactive?: boolean;
 }
 
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200';
+// [&[role=button]] arbitrary variants neutralize the legacy BEM rule in
+// components-modern.css (`[role="button"] { height:40px; overflow:hidden }`)
+// so a Card with role="button" doesn't get clipped to a 40px tall
+// mini-button. Padding/border-radius/display are already set by BASE +
+// SIZE_CLASSES in @layer utilities and beat the @layer components rule.
+// See CLAUDE.md piège #8.
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:overflow-visible';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',

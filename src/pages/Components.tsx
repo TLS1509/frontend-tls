@@ -811,16 +811,15 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Button.tsx',
     cssBase: '.btn',
     category: 'Core',
-    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen.',
-    keywords: ['cta', 'action', 'primary', 'warm', 'ghost', 'destructive', 'link'],
+    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 7 variants : primary, secondary (orange), accent (yellow), ghost (light teal), destructive, glass, link.',
+    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'destructive', 'link'],
     render: () => (
       <div className="vstack">
         <div className="hstack">
           <Button variant="primary">Primary</Button>
-          <Button variant="warm">Warm</Button>
           <Button variant="secondary">Secondary</Button>
+          <Button variant="accent">Accent</Button>
           <Button variant="ghost">Ghost</Button>
-          <Button variant="brand-ghost">Brand ghost</Button>
           <Button variant="destructive">Destructive</Button>
           <Button variant="link">Link</Button>
         </div>
@@ -832,8 +831,8 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         <div className="hstack">
           <Button leadingIcon={I.plus}>With leading icon</Button>
-          <Button trailingIcon={I.arrow} variant="warm">Continue</Button>
-          <Button iconOnly aria-label="Add" variant="secondary">{I.plus}</Button>
+          <Button trailingIcon={I.arrow} variant="secondary">Continue</Button>
+          <Button iconOnly aria-label="Add" variant="accent">{I.plus}</Button>
           <Button loading>Loading</Button>
           <Button disabled>Disabled</Button>
         </div>
