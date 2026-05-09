@@ -744,7 +744,7 @@ const SidebarDemo: React.FC = () => {
           onToggleCollapse={() => setCollapsed(p => !p)}
           userCard={
             <SidebarUserCard
-              avatar={<Avatar initials="J" size="md" tone="brand" />}
+              avatar={<Avatar initials="J" size="md" shape="square" tint="brand" />}
               name="Jeanne Dupont"
               subtitle="jeanne@tls.fr"
               menuOpen={menuOpen}

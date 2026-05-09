@@ -137,13 +137,15 @@ export interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorEleme
 }
 
 const NAV_BASE =
-  'group/nav relative flex items-center gap-3 rounded-pill font-body font-semibold text-body-sm no-underline transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative flex items-center gap-3 font-body font-semibold text-body-sm no-underline transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
+// Inactive items keep the soft pill shape; active items snap to a rounded
+// square ("anchored" feel) with brand gradient + shadow.
 const NAV_INACTIVE =
-  'text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
+  'rounded-pill text-ink-700 hover:bg-primary-100/60 hover:text-primary-800';
 
 const NAV_ACTIVE =
-  'bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';
+  'rounded-xl bg-gradient-to-r from-primary-500 to-primary-700 text-white shadow-brand-sm';
 
 export const NavItem: React.FC<NavItemProps> = ({
   icon,
@@ -229,7 +231,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
         aria-label={`Menu ${name}`}
         aria-expanded={menuOpen}
         className={[
-          'flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          'flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]
