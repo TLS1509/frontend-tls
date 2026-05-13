@@ -518,7 +518,7 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 |------|-----------------|--------|--------|
 | Account | `EditorialHero` (neutral) + `SettingsSection` blocks + `FormLayout` | M | ✅ |
 | Leaderboard | `EditorialHero` (sun) + `RankingCard` list + podium + `Tabs` (period) | M | ✅ |
-| Help | `EditorialHero` + `SectionCard` FAQ accordion + search + `RelatedItemList` articles populaires | M | ⬜ |
+| Help | `EditorialHero` + `SectionCard` FAQ accordion + search + `RelatedItemList` articles populaires | M | ✅ |
 | JournalDetail | `EditorialLayout` (main entry + aside meta) + chat-bubble `EntryCard` | S | ✅ |
 | JournalFreeEntry | `FormLayout` + `EditorialHero` (warm) | S | ⬜ |
 | JournalNewEntry | `MultiStepForm` + prompt selector cards | M | ⬜ |
