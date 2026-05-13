@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { Card } from '../components/core/Card';
+import { StatCard } from '../components/ui/StatCard';
+import { Badge } from '../components/ui/Badge';
 import { RankingCard } from '../components/learning/RankingCard';
-import { Flame, Medal, Sparkles, Trophy, TrendingUp, Users, Zap, ArrowUp, Minus, ArrowDown, Star } from 'lucide-react';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Flame, Medal, Sparkles, Trophy, Users, Zap, ArrowUp, Minus, ArrowDown, Star } from 'lucide-react';
 
 const PODIUM_USERS = [
   { name: 'Sophie Martin',  points: 1240, streak: 18, initials: 'SM', rank: 1, level: 12, xp: 4820, badges: 9 },
@@ -20,53 +24,46 @@ const FULL_RANKING = [
   { rank: 10, name: 'Antoine Garnier',  initials: 'AG', points: 600, trend: 'down' as const, level: 6,  xp: 1980, badges: 2, isCurrentUser: false },
 ];
 
-const AVATAR_PALETTE = [
-  { bg: 'var(--tls-primary-100)',  color: 'var(--tls-primary-700)' },
-  { bg: 'var(--tls-orange-100)',   color: 'var(--tls-orange-700)' },
-  { bg: 'var(--tls-yellow-100)',   color: 'var(--tls-yellow-700)' },
-  { bg: 'var(--tls-success-bg)',   color: 'var(--tls-success-fg)' },
-  { bg: 'var(--tls-primary-100)',  color: 'var(--tls-primary-700)' },
-];
-
 const PERIODS = [
-  { id: 'week' as const,  label: 'Cette semaine' },
+  { id: 'week'  as const, label: 'Cette semaine' },
   { id: 'month' as const, label: 'Ce mois' },
-  { id: 'all' as const,   label: 'Tout temps' },
+  { id: 'all'   as const, label: 'Tout temps' },
 ];
 
 const TREND_ICON: Record<'up' | 'same' | 'down', React.ReactNode> = {
-  up:   <ArrowUp   size={11} style={{ color: 'var(--tls-success-fg)' }} />,
-  same: <Minus     size={11} style={{ color: 'var(--text-muted)' }} />,
-  down: <ArrowDown size={11} style={{ color: 'var(--tls-orange-600)' }} />,
+  up:   <ArrowUp   size={11} className="text-success-fg" />,
+  same: <Minus     size={11} className="text-ink-400" />,
+  down: <ArrowDown size={11} className="text-secondary-600" />,
 };
 
-const PODIUM = [
+// Per-rank visual config — Tailwind classes only
+const PODIUM_CONFIG = [
   {
     label: '1er',
     emoji: '🥇',
-    gradient: 'linear-gradient(135deg, var(--tls-yellow-100) 0%, var(--tls-ink-0) 100%)',
-    border: 'var(--tls-yellow-300)',
-    accent: 'var(--tls-yellow-600)',
-    accentBg: 'var(--tls-yellow-100)',
-    shadow: 'var(--shadow-warm)',
+    cardClasses: 'bg-gradient-to-br from-accent-100 to-white border border-accent-300',
+    avatarClasses: 'bg-accent-100 border-2 border-accent-300 text-accent-800',
+    pillClasses: 'bg-accent-100 text-accent-800',
+    badgeClasses: 'bg-accent-100 text-accent-800 border border-accent-300 rounded-pill px-3 py-1',
+    iconClasses: 'text-accent-600',
   },
   {
     label: '2ème',
     emoji: '🥈',
-    gradient: 'linear-gradient(135deg, var(--tls-ink-100) 0%, var(--tls-ink-0) 100%)',
-    border: 'var(--tls-ink-300)',
-    accent: 'var(--tls-ink-500)',
-    accentBg: 'var(--tls-ink-100)',
-    shadow: 'var(--shadow-sm)',
+    cardClasses: 'bg-gradient-to-br from-ink-100 to-white border border-ink-300',
+    avatarClasses: 'bg-ink-100 border-2 border-ink-300 text-ink-600',
+    pillClasses: 'bg-ink-100 text-ink-600',
+    badgeClasses: 'bg-ink-100 text-ink-600 border border-ink-300 rounded-pill px-3 py-1',
+    iconClasses: 'text-ink-500',
   },
   {
     label: '3ème',
     emoji: '🥉',
-    gradient: 'linear-gradient(135deg, var(--tls-orange-100) 0%, var(--tls-ink-0) 100%)',
-    border: 'var(--tls-orange-300)',
-    accent: 'var(--tls-orange-600)',
-    accentBg: 'var(--tls-orange-100)',
-    shadow: 'var(--shadow-lg)',
+    cardClasses: 'bg-gradient-to-br from-secondary-100 to-white border border-secondary-300',
+    avatarClasses: 'bg-secondary-100 border-2 border-secondary-300 text-secondary-700',
+    pillClasses: 'bg-secondary-100 text-secondary-700',
+    badgeClasses: 'bg-secondary-100 text-secondary-700 border border-secondary-300 rounded-pill px-3 py-1',
+    iconClasses: 'text-secondary-600',
   },
 ];
 
@@ -75,288 +72,175 @@ export const Leaderboard: React.FC = () => {
   const [period, setPeriod] = useState<'week' | 'month' | 'all'>('week');
 
   return (
-    <div className="tls-page">
-      {/* Hero */}
-      <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Trophy size={12} /> Progression communauté</span>
-        <h1>Leaderboard</h1>
-        <p className="tls-editorial-summary">Classement communautaire hebdomadaire — les apprenants les plus engagés mis à l'honneur.</p>
-      </section>
+    <div className="min-h-screen bg-surface flex flex-col">
+      <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
 
-      {/* KPI Row */}
-      <section className="tls-kpi-row">
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)' }}>
-            <Users size={20} />
-          </div>
-          <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color: 'var(--tls-primary-700)', letterSpacing: '-0.03em' }}>
-            {PODIUM_USERS.length + FULL_RANKING.length}
+        {/* ── Hero ─────────────────────────────────────────────── */}
+        <EditorialHero
+          tone="sun"
+          eyebrow={{ icon: <Trophy size={12} />, label: 'Progression communauté' }}
+          title="Leaderboard"
+          summary="Classement communautaire hebdomadaire — les apprenants les plus engagés mis à l'honneur."
+        />
+
+        {/* KPI Row */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
+          <StatCard
+            variant="brand"
+            size="sm"
+            icon={<Users strokeWidth={1.8} />}
+            value={PODIUM_USERS.length + FULL_RANKING.length}
+            label="Participants"
+          />
+          <StatCard
+            variant="warm"
+            size="sm"
+            icon={<Trophy strokeWidth={1.8} />}
+            value="#8"
+            label="Votre classement"
+          />
+          <StatCard
+            variant="sun"
+            size="sm"
+            icon={<Zap strokeWidth={1.8} />}
+            value="2 240"
+            label="Votre XP total"
+          />
+          <StatCard
+            variant="sun"
+            size="sm"
+            icon={<Flame strokeWidth={1.8} />}
+            value="18j"
+            label="Meilleur streak"
+          />
+        </div>
+
+        {/* Section heading + period filter */}
+        <div className="flex items-baseline justify-between gap-3 flex-wrap">
+          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+            Classement
           </h2>
-          <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Participants</span>
-        </div>
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)' }}>
-            <Trophy size={20} />
+          <div className="flex gap-1 p-1 rounded-pill bg-ink-100">
+            {PERIODS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setPeriod(p.id)}
+                className={[
+                  'px-3 py-1.5 rounded-pill border-0 font-body text-caption cursor-pointer transition-colors duration-base whitespace-nowrap',
+                  period === p.id
+                    ? 'bg-white text-ink-900 font-bold shadow-xs'
+                    : 'bg-transparent text-ink-600 font-medium hover:text-ink-900',
+                ].join(' ')}
+              >
+                {p.label}
+              </button>
+            ))}
           </div>
-          <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color: 'var(--tls-orange-600)', letterSpacing: '-0.03em' }}>
-            #8
-          </h2>
-          <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Votre classement</span>
         </div>
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)' }}>
-            <Zap size={20} />
-          </div>
-          <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color: 'var(--tls-yellow-600)', letterSpacing: '-0.03em' }}>
-            2 240
-          </h2>
-          <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Votre XP total</span>
-        </div>
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-yellow-50)', color: 'var(--tls-yellow-600)' }}>
-            <Flame size={20} />
-          </div>
-          <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color: 'var(--tls-yellow-600)', letterSpacing: '-0.03em' }}>
-            18j
-          </h2>
-          <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Meilleur streak</span>
-        </div>
-      </section>
 
-      {/* Period filter + section heading */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 'var(--s-8)',
-        flexWrap: 'wrap',
-        gap: 'var(--s-4)',
-      }}>
-        <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--text)', margin: 0 }}>
-          Classement
-        </h2>
-
-        <div style={{
-          display: 'flex',
-          gap: 'var(--s-1)',
-          padding: '4px',
-          borderRadius: 'var(--r-xl)',
-          background: 'var(--surface-muted)',
-          border: '1px solid var(--border)',
-        }}>
-          {PERIODS.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => setPeriod(p.id)}
-              style={{
-                padding: 'var(--s-2) var(--s-4)',
-                borderRadius: 'var(--r-lg)',
-                border: 'none',
-                background: period === p.id ? 'var(--surface)' : 'transparent',
-                color: period === p.id ? 'var(--text)' : 'var(--text-muted)',
-                fontSize: 'var(--t-body-sm)',
-                fontWeight: period === p.id ? 700 : 400,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: period === p.id ? 'var(--shadow-sm)' : 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Podium Cards */}
-      <section className="tls-grid tls-grid--wide">
-        {PODIUM_USERS.map((entry, index) => {
-          const pod = PODIUM[index];
-          return (
-            <div
-              key={entry.name}
-              style={{
-                borderRadius: 'var(--r-2xl)',
-                border: `1px solid ${pod.border}`,
-                background: pod.gradient,
-                backdropFilter: 'var(--glass-blur-light)',
-                WebkitBackdropFilter: 'var(--glass-blur-light)',
-                boxShadow: pod.shadow,
-                padding: 'var(--s-6)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--s-4)',
-                position: 'relative' as const,
-                overflow: 'hidden',
-                transition: 'transform var(--dur-2), box-shadow var(--dur-2)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-              }}
-            >
-              {/* Rank badge */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{
-                  fontSize: '2rem',
-                  lineHeight: 1,
-                }}>
-                  {pod.emoji}
-                </span>
-                <span style={{
-                  padding: 'var(--s-1) var(--s-3)',
-                  borderRadius: 'var(--r-pill)',
-                  background: pod.accentBg,
-                  color: pod.accent,
-                  fontSize: 'var(--t-caption)',
-                  fontWeight: 700,
-                  border: `1px solid ${pod.border}`,
-                }}>
-                  {entry.points} pts
-                </span>
-              </div>
-
-              {/* Avatar + name */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-                <div style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: '50%',
-                  background: pod.accentBg,
-                  border: `2px solid ${pod.border}`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 'var(--t-body-sm)',
-                  fontWeight: 800,
-                  color: pod.accent,
-                  flexShrink: 0,
-                }}>
-                  {entry.initials}
+        {/* Podium Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {PODIUM_USERS.map((entry, index) => {
+            const pod = PODIUM_CONFIG[index];
+            return (
+              <Card
+                key={entry.name}
+                className={`p-6 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200 cursor-default ${pod.cardClasses}`}
+              >
+                {/* Rank badge + points */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[2rem] leading-none">{pod.emoji}</span>
+                  <span className={`text-caption font-bold ${pod.badgeClasses}`}>
+                    {entry.points} pts
+                  </span>
                 </div>
-                <div>
-                  <p style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 700, color: 'var(--text)' }}>
-                    {entry.name}
-                  </p>
-                  <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                    {pod.label} du classement
-                  </p>
-                </div>
-              </div>
 
-              {/* Stats row: streak + level */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', background: pod.accentBg, width: 'fit-content' }}>
-                  <Flame size={13} style={{ color: pod.accent }} />
-                  <span style={{ fontSize: 'var(--t-caption)', fontWeight: 600, color: pod.accent }}>
+                {/* Avatar + name */}
+                <div className="flex items-center gap-3">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-body-sm font-extrabold shrink-0 ${pod.avatarClasses}`}>
+                    {entry.initials}
+                  </div>
+                  <div>
+                    <p className="m-0 font-body text-body font-bold text-ink-900">{entry.name}</p>
+                    <p className="m-0 font-body text-caption text-ink-500">{pod.label} du classement</p>
+                  </div>
+                </div>
+
+                {/* Stats pills */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                    <Flame size={13} className={pod.iconClasses} />
                     {entry.streak}j streak
                   </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', background: pod.accentBg, width: 'fit-content' }}>
-                  <Star size={12} style={{ color: pod.accent }} />
-                  <span style={{ fontSize: 'var(--t-caption)', fontWeight: 600, color: pod.accent }}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                    <Star size={12} className={pod.iconClasses} />
                     Niv.&nbsp;{entry.level}
                   </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-2) var(--s-3)', borderRadius: 'var(--r-pill)', background: pod.accentBg, width: 'fit-content' }}>
-                  <Zap size={12} style={{ color: pod.accent }} />
-                  <span style={{ fontSize: 'var(--t-caption)', fontWeight: 600, color: pod.accent }}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                    <Zap size={12} className={pod.iconClasses} />
                     {entry.xp.toLocaleString()} XP
                   </span>
                 </div>
-              </div>
 
-              <Button size="sm" variant="secondary" style={{ alignSelf: 'flex-start' }}>
-                <Medal size={13} /> Voir le profil
-              </Button>
+                <Button size="sm" variant="secondary" className="self-start">
+                  <Medal size={13} /> Voir le profil
+                </Button>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Full ranking list */}
+        <div className="flex flex-col gap-4">
+          {/* Current user banner */}
+          <Card variant="tinted" tone="primary" className="flex items-center gap-4 p-4">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
+              VT
             </div>
-          );
-        })}
-      </section>
+            <div className="flex-1">
+              <div className="font-body text-body-sm font-bold text-ink-900">Vous</div>
+              <div className="font-body text-caption text-ink-500">Niveau 7 · 2 240 XP</div>
+            </div>
+            <div className="text-right">
+              <div className="font-display text-h3 font-extrabold text-primary-600 leading-none">#8</div>
+              <div className="font-body text-caption text-ink-500">classement</div>
+            </div>
+          </Card>
 
-      {/* Full ranking list */}
-      <section>
-        {/* Votre position — highlighted current user banner */}
-        <div style={{
-          marginBottom: 'var(--s-6)',
-          padding: 'var(--s-4) var(--s-5)',
-          borderRadius: 'var(--r-xl)',
-          background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, var(--tls-primary-100) 100%)',
-          border: '2px solid var(--tls-primary-200)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--s-4)',
-        }}>
-          <div style={{
-            width: 40, height: 40,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, var(--tls-primary-400), var(--tls-orange-500))',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'var(--on-color-text-main)', fontWeight: 800, fontSize: 'var(--t-body-sm)',
-            flexShrink: 0,
-          }}>VT</div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>Vous</div>
-            <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Niveau 7 · 2 240 XP</div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{
-              fontSize: 'var(--t-h3)',
-              fontWeight: 800,
-              color: 'var(--tls-primary-600)',
-              lineHeight: 1,
-            }}>#8</div>
-            <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>classement</div>
+          <div className="flex flex-col gap-3">
+            {FULL_RANKING.map((entry) => (
+              <RankingCard
+                key={entry.rank}
+                rank={entry.rank}
+                name={entry.name}
+                points={entry.points}
+                streak={undefined}
+                variant={entry.isCurrentUser ? 'brand' : 'neutral'}
+                onViewProfile={() => navigate(`/profile/${entry.rank}`)}
+              />
+            ))}
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-          {FULL_RANKING.map((entry) => (
-            <RankingCard
-              key={entry.rank}
-              rank={entry.rank}
-              name={entry.name}
-              points={entry.points}
-              streak={undefined}
-              variant={entry.isCurrentUser ? 'brand' : 'neutral'}
-              onViewProfile={() => navigate(`/profile/${entry.rank}`)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Weekly goal */}
-      <div style={{
-        borderRadius: 'var(--r-2xl)',
-        border: '1px solid var(--tls-primary-200)',
-        background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, var(--surface) 100%)',
-        backdropFilter: 'var(--glass-blur-light)',
-        WebkitBackdropFilter: 'var(--glass-blur-light)',
-        padding: 'var(--s-6)',
-        boxShadow: 'var(--shadow-sm), inset 0 1px 0 var(--overlay-white-xl)',
-        display: 'flex',
-        flexDirection: 'column' as const,
-        gap: 'var(--s-4)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)' }}>
-            <Zap size={20} />
+        {/* Weekly goal */}
+        <Card variant="tinted" tone="primary" className="p-6 flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
+              <Zap size={20} strokeWidth={1.8} />
+            </div>
+            <div>
+              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 flex items-center gap-2">
+                <Sparkles size={16} className="text-primary-500" />
+                Objectif de la semaine
+              </h3>
+              <p className="m-0 font-body text-body-sm text-ink-500">
+                Complétez 3 activités réflexives et 2 modules pour intégrer le top 3.
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-              <Sparkles size={16} style={{ color: 'var(--tls-primary-500)' }} />
-              Objectif de la semaine
-            </h3>
-            <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
-              Complétez 3 activités réflexives et 2 modules pour intégrer le top 3.
-            </p>
-          </div>
-        </div>
-        <div>
           <Button onClick={() => navigate('/learning-paths')}>Continuer mon parcours</Button>
-        </div>
+        </Card>
       </div>
     </div>
   );
