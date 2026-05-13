@@ -532,7 +532,7 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | LearningSpace | Déjà migré partiellement — audit consistance spacing semantic + tone | S | ✅ |
 | Enterprise | `EditorialHero` (brand) + `IconFeatureCard` grid + `SectionCard` blocks | M | ✅ |
 | PagesIndex | `EditorialHero` (neutral) + grouped `ActionCard` grid via `ActionCardGrid` | S | ✅ |
-| PreCoachingQuestionnaire | `MultiStepForm` + `QuizQuestionCard` items | M | ⬜ |
+| PreCoachingQuestionnaire | `MultiStepForm` + `QuizQuestionCard` items | M | ✅ |
 | CoachingCompteRendu | `EditorialLayout` + `SectionCard` sections + `RelatedItemList` next steps | M | ⬜ |
 
 ### Tier 3 — Edge cases / viewers

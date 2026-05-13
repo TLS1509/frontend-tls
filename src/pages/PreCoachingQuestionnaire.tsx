@@ -1,9 +1,7 @@
 /**
  * Pre-Coaching Questionnaire
  *
- * Design exact d'après screenshots : "Préparez votre session"
- * 3 étapes verticales avec cercle icon + carte blanche + textarea
- * Bouton "Envoyer mes réponses" centré en bas
+ * "Préparez votre session" — 3 vertical steps with icon + card + textarea
  */
 
 import React, { useState } from 'react';
@@ -15,6 +13,8 @@ import {
   Compass,
   Send,
 } from 'lucide-react';
+import { useToastContext } from '../contexts/ToastContext';
+import { Button } from '../components/core/Button';
 
 /* ─── Step config ────────────────────────────────────────────────────────── */
 
@@ -59,159 +59,67 @@ export const PreCoachingQuestionnaire: React.FC = () => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
 
   const isComplete = Object.values(answers).some((v) => v.trim().length > 0);
+  const toast = useToastContext();
 
   const handleSubmit = () => {
-    navigate('/coaching/pre-questionnaire/response');
+    if (!isComplete) {
+      toast.warning('Renseignez au moins une réponse avant d\'envoyer', 'Formulaire incomplet');
+      return;
+    }
+    toast.success('Vos réponses ont été transmises à votre coach', 'Questionnaire envoyé');
+    setTimeout(() => navigate('/coaching/pre-questionnaire/response'), 800);
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg)',
-        fontFamily: 'var(--font-body)',
-        padding: 'var(--s-6) var(--s-8)',
-      }}
-    >
-      <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto' }}>
+    <div className="min-h-screen bg-surface font-body py-section px-6">
+      <div className="max-w-[640px] mx-auto">
 
         {/* ─ Back button ─────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-8)' }}>
-          <button
-            type="button"
+        <div className="mb-section">
+          <Button
+            variant="secondary"
+            size="sm"
+            leadingIcon={<ChevronLeft size={14} />}
             onClick={() => navigate('/coaching')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              padding: 'var(--btn-padding-sm)',
-              borderRadius: 'var(--r-full)',
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              color: 'var(--text)',
-              fontSize: 'var(--t-sm)',
-              fontWeight: 500,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-muted)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
           >
-            <ChevronLeft size={16} />
             Retour
-          </button>
+          </Button>
         </div>
 
         {/* ─ Header ──────────────────────────────────────────────────── */}
-        <div style={{ textAlign: 'center', marginBottom: 'var(--s-10)' }}>
-          <h1
-            style={{
-              fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
-              fontWeight: 800,
-              color: 'var(--text)',
-              margin: '0 0 var(--s-2)',
-              letterSpacing: '-0.02em',
-            }}
-          >
+        <div className="text-center mb-section-lg">
+          <h1 className="font-display text-h1 font-extrabold text-ink-900 m-0 mb-2 tracking-tight">
             Préparez votre session
           </h1>
-          <p style={{ fontSize: 'var(--t-body)', color: 'var(--text-muted)', margin: 0 }}>
+          <p className="font-body text-body text-ink-500 m-0">
             Répondez à ces 3 questions pour une session sur-mesure
           </p>
         </div>
 
         {/* ─ Steps ───────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-5)' }}>
+        <div className="flex flex-col gap-stack-lg">
           {STEPS.map((step) => (
-            <div
-              key={step.id}
-              style={{
-                display: 'flex',
-                gap: 'var(--s-4)',
-                alignItems: 'flex-start',
-              }}
-            >
+            <div key={step.id} className="flex gap-4 items-start">
+
               {/* Circle icon */}
-              <div
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '50%',
-                  background: 'var(--surface-muted)',
-                  border: '1.5px solid var(--border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-muted)',
-                  flexShrink: 0,
-                  marginTop: 'var(--s-4)',
-                }}
-              >
+              <div className="w-12 h-12 rounded-full bg-ink-50 border border-ink-200 text-ink-400 flex items-center justify-center shrink-0 mt-4">
                 {step.icon}
               </div>
 
               {/* Card */}
-              <div
-                style={{
-                  flex: 1,
-                  background: 'var(--surface)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--r-2xl)',
-                  padding: 'var(--s-6)',
-                  boxShadow: 'var(--shadow-sm)',
-                }}
-              >
-                {/* Step label */}
-                <p
-                  style={{
-                    margin: '0 0 var(--s-1)',
-                    fontSize: 'var(--t-caption)',
-                    fontWeight: 700,
-                    color: 'var(--tls-primary-600)',
-                    letterSpacing: '0.07em',
-                    textTransform: 'uppercase',
-                  }}
-                >
+              <div className="flex-1 bg-white border border-ink-200 rounded-2xl p-6 shadow-sm">
+                <p className="font-body text-caption font-bold text-primary-600 uppercase tracking-wider m-0 mb-1">
                   {step.step} • {step.label}
                 </p>
-
-                {/* Question */}
-                <p
-                  style={{
-                    margin: '0 0 var(--s-4)',
-                    fontSize: 'var(--t-body)',
-                    fontWeight: 700,
-                    color: 'var(--text)',
-                    lineHeight: 1.4,
-                  }}
-                >
+                <p className="font-body text-body font-bold text-ink-900 leading-snug m-0 mb-4">
                   {step.question}
                 </p>
-
-                {/* Textarea */}
                 <textarea
                   rows={5}
                   value={answers[step.id]}
                   onChange={(e) => setAnswer(step.id, e.target.value)}
                   placeholder={step.placeholder}
-                  style={{
-                    width: '100%',
-                    padding: 'var(--s-4)',
-                    borderRadius: 'var(--r-xl)',
-                    border: '1px solid var(--border)',
-                    background: 'var(--surface-muted)',
-                    color: 'var(--text)',
-                    fontSize: 'var(--t-sm)',
-                    lineHeight: 1.65,
-                    resize: 'vertical',
-                    outline: 'none',
-                    fontFamily: 'var(--font-body)',
-                    boxSizing: 'border-box',
-                    transition: 'border-color var(--dur-2)',
-                  }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--tls-primary-400)')}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+                  className="w-full h-auto py-4 px-4 rounded-xl border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
                 />
               </div>
             </div>
@@ -219,38 +127,16 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         </div>
 
         {/* ─ Submit button ────────────────────────────────────────────── */}
-        <div style={{ textAlign: 'center', marginTop: 'var(--s-10)' }}>
-          <button
-            type="button"
+        <div className="text-center mt-section-lg">
+          <Button
+            variant="primary"
+            size="lg"
+            leadingIcon={<Send size={16} />}
+            disabled={!isComplete}
             onClick={handleSubmit}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              padding: 'var(--btn-padding-lg)',
-              borderRadius: 'var(--r-full)',
-              background: isComplete
-                ? 'var(--tls-primary-500)'
-                : 'var(--tls-primary-200)',
-              border: 'none',
-              color: 'var(--text-inverse)',
-              fontSize: 'var(--t-body)',
-              fontWeight: 700,
-              cursor: isComplete ? 'pointer' : 'not-allowed',
-              fontFamily: 'var(--font-body)',
-              transition: 'all var(--dur-2)',
-              boxShadow: isComplete ? 'var(--shadow-brand-xs)' : 'none',
-            }}
-            onMouseEnter={(e) => {
-              if (isComplete) e.currentTarget.style.background = 'var(--tls-primary-600)';
-            }}
-            onMouseLeave={(e) => {
-              if (isComplete) e.currentTarget.style.background = 'var(--tls-primary-500)';
-            }}
           >
-            <Send size={18} />
             Envoyer mes réponses
-          </button>
+          </Button>
         </div>
 
       </div>
