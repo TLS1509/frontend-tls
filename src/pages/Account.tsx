@@ -1,15 +1,17 @@
 /**
  * Account Page — Paramètres du compte
- *
- * 4-tab layout: Général / Sécurité / Notifications / Facturation
- * Uses TLS design system: Tabs, Switch, Button, Card, Input components
  */
 
 import React, { useState } from 'react';
-import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Switch, Input } from '../components/core/Input';
+import { Select } from '../components/core/Select';
+import type { SelectOption } from '../components/core/Select';
 import { Tabs } from '../components/ui/Tabs';
+import { Badge } from '../components/ui/Badge';
+import { useToastContext } from '../contexts/ToastContext';
+import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import { EditorialHero } from '../components/patterns/EditorialHero';
 import {
   UserRound,
   ShieldCheck,
@@ -30,8 +32,6 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-/* ─── Types ─────────────────────────────────────────────────────────────────── */
-
 type TabId = 'general' | 'security' | 'notifications' | 'billing';
 
 interface NotifPref {
@@ -49,15 +49,13 @@ interface Session {
   current: boolean;
 }
 
-/* ─── Mock data ─────────────────────────────────────────────────────────────── */
-
 const SESSIONS: Session[] = [
-  { id: 's1', device: 'Chrome · macOS', location: 'Paris, France', lastSeen: 'En cours', current: true },
-  { id: 's2', device: 'Safari · iPhone 15', location: 'Lyon, France', lastSeen: 'Il y a 2 heures', current: false },
-  { id: 's3', device: 'Firefox · Windows 11', location: 'Bordeaux, France', lastSeen: 'Il y a 3 jours', current: false },
+  { id: 's1', device: 'Chrome · macOS',        location: 'Paris, France',    lastSeen: 'En cours',       current: true },
+  { id: 's2', device: 'Safari · iPhone 15',    location: 'Lyon, France',     lastSeen: 'Il y a 2 heures', current: false },
+  { id: 's3', device: 'Firefox · Windows 11',  location: 'Bordeaux, France', lastSeen: 'Il y a 3 jours', current: false },
 ];
 
-/* ─── Sub-tabs ──────────────────────────────────────────────────────────────── */
+/* ─── Sub-components ──────────────────────────────────────────────────────── */
 
 const SettingRow: React.FC<{
   icon: React.ReactNode;
@@ -66,26 +64,17 @@ const SettingRow: React.FC<{
   children?: React.ReactNode;
   danger?: boolean;
 }> = ({ icon, label, description, children, danger }) => (
-  <div style={{
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    gap: 'var(--s-4)', padding: 'var(--s-5) 0',
-    borderBottom: '1px solid var(--border-light)',
-  }}>
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-3)', flex: 1, minWidth: 0 }}>
-      <div style={{
-        width: 36, height: 36, borderRadius: 'var(--r-md)', flexShrink: 0,
-        background: danger ? 'var(--tls-danger-subtle)' : 'var(--surface-muted)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: danger ? 'var(--tls-danger-base)' : 'var(--text-muted)',
-      }}>
+  <div className="flex items-center justify-between gap-4 py-5 border-b border-ink-100 last:border-0">
+    <div className="flex items-start gap-3 flex-1 min-w-0">
+      <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-500'}`}>
         {icon}
       </div>
       <div>
-        <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: danger ? 'var(--tls-danger-base)' : 'var(--text)' }}>
+        <p className={`m-0 font-body text-body-sm font-semibold ${danger ? 'text-danger-fg' : 'text-ink-900'}`}>
           {label}
         </p>
         {description && (
-          <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+          <p className="m-0 mt-0.5 font-body text-caption text-ink-500 leading-snug">
             {description}
           </p>
         )}
@@ -95,109 +84,83 @@ const SettingRow: React.FC<{
   </div>
 );
 
-const SectionCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div style={{
-    borderRadius: 'var(--r-xl)',
-    border: '1px solid var(--border)',
-    background: 'var(--surface)',
-    overflow: 'hidden',
-    marginBottom: 'var(--s-8)',
-    boxShadow: 'var(--shadow-sm)',
-    transition: 'all var(--dur-2)'
-  }}>
-    <div style={{
-      padding: 'var(--s-5) var(--s-6)',
-      borderBottom: '1px solid var(--border)',
-      background: 'var(--surface-muted)',
-    }}>
-      <h3 style={{
-        margin: 0,
-        fontSize: 'var(--t-body-sm)',
-        fontWeight: 700,
-        color: 'var(--text)',
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em'
-      }}>
+const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
+  <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
+    <div className="px-6 py-4 border-b border-ink-100">
+      <h3 className="m-0 font-display text-body font-bold text-ink-900 tracking-tight">
         {title}
       </h3>
     </div>
-    <div style={{ padding: '0 var(--s-6)' }}>
+    <div className="px-6">
       {children}
     </div>
   </div>
 );
 
-/* ─── Tab panels ─────────────────────────────────────────────────────────────── */
+const LANG_OPTIONS: SelectOption[] = [
+  { value: 'fr', label: 'Français' },
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
+];
+
+/* ─── Tab panels ──────────────────────────────────────────────────────────── */
 
 const GeneralTab: React.FC = () => {
-  const [name, setName] = useState('Claire Fontaine');
+  const [name,  setName]  = useState('Claire Fontaine');
   const [email, setEmail] = useState('claire.fontaine@example.com');
-  const [lang, setLang] = useState('fr');
+  const [lang,  setLang]  = useState('fr');
+  const [isSaving, setIsSaving] = useState(false);
+  const toast = useToastContext();
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    // eslint-disable-next-line no-console
+    console.log('Saving account info', { name, email, lang });
+    await new Promise((res) => setTimeout(res, 700));
+    setIsSaving(false);
+    toast.success('Informations enregistrées', 'Compte mis à jour');
+  };
 
   return (
-    <div>
-      <SectionCard title="Informations personnelles">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-5)', paddingTop: 'var(--s-5)', paddingBottom: 'var(--s-5)' }}>
-          <Input
-            label="Nom complet"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Input
-            label="Adresse email"
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Input
-            label="Poste"
-            id="poste"
-            defaultValue="Responsable Formation"
-          />
-          <Input
-            label="Entreprise"
-            id="company"
-            defaultValue="TLS Learning Society"
-          />
+    <div className="flex flex-col gap-stack-lg">
+      <SettingCard title="Informations personnelles">
+        <div className="grid grid-cols-2 gap-5 pt-5 pb-5">
+          <Input label="Nom complet"     id="name"    value={name}  onChange={(e) => setName(e.target.value)} />
+          <Input label="Adresse email"   id="email"   type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
+          <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
         </div>
-        <div style={{ paddingBottom: 'var(--s-5)', display: 'flex', gap: 'var(--s-3)' }}>
-          <Button>Enregistrer les modifications</Button>
-          <Button variant="secondary">Annuler</Button>
+        <div className="pb-5 flex gap-3">
+          <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
+          <Button variant="secondary" disabled={isSaving}>Annuler</Button>
         </div>
-      </SectionCard>
+      </SettingCard>
 
-      <SectionCard title="Préférences">
+      <SettingCard title="Préférences">
         <SettingRow icon={<Globe size={16} />} label="Langue de l'interface" description="Actuellement : Français">
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            className="select"
-            style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--t-body-sm)' }}
-          >
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-            <option value="es">Español</option>
-          </select>
+          <div className="w-[180px]">
+            <Select
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              options={LANG_OPTIONS}
+            />
+          </div>
         </SettingRow>
         <SettingRow icon={<Clock size={16} />} label="Fuseau horaire" description="Europe/Paris (UTC+2)">
-          <button style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--tls-primary-600)', fontSize: 'var(--t-caption)', fontWeight: 600, fontFamily: 'var(--font-body)' }}>
-            Modifier <ChevronRight size={14} />
-          </button>
+          <Button variant="link" size="sm" trailingIcon={<ChevronRight size={14} />}>Modifier</Button>
         </SettingRow>
-      </SectionCard>
+      </SettingCard>
 
-      <SectionCard title="Zone de danger">
-        <SettingRow icon={<Download size={16} />} label="Exporter mes données" description="Télécharger toutes vos données de progression et journaux" danger={false}>
-          <Button variant="secondary" size="sm"><Download size={13} /> Exporter</Button>
+      <SettingCard title="Zone de danger">
+        <SettingRow icon={<Download size={16} />} label="Exporter mes données" description="Télécharger toutes vos données de progression et journaux">
+          <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />}>Exporter</Button>
         </SettingRow>
         <SettingRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
-          <Button variant="secondary" size="sm" style={{ borderColor: 'var(--tls-danger-base)', color: 'var(--tls-danger-base)' }}>
-            <Trash2 size={13} /> Supprimer
+          <Button variant="secondary" size="sm" className="border-danger-base text-danger-fg hover:bg-danger-bg" leadingIcon={<Trash2 size={13} />}>
+            Supprimer
           </Button>
         </SettingRow>
-      </SectionCard>
+      </SettingCard>
     </div>
   );
 };
@@ -206,8 +169,8 @@ const SecurityTab: React.FC = () => {
   const [twoFA, setTwoFA] = useState(false);
 
   return (
-    <div>
-      <SectionCard title="Authentification">
+    <div className="flex flex-col gap-stack-lg">
+      <SettingCard title="Authentification">
         <SettingRow icon={<Lock size={16} />} label="Mot de passe" description="Dernière modification il y a 3 mois">
           <Button variant="secondary" size="sm">Changer</Button>
         </SettingRow>
@@ -216,9 +179,9 @@ const SecurityTab: React.FC = () => {
           label="Double authentification (2FA)"
           description={twoFA ? "Activée — votre compte est protégé" : "Désactivée — recommandé pour plus de sécurité"}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
+          <div className="flex items-center gap-3">
             {twoFA && (
-              <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--tls-success-fg)', fontWeight: 600 }}>
+              <span className="flex items-center gap-1 font-body text-caption text-success-fg font-semibold">
                 <CheckCircle2 size={13} /> Activée
               </span>
             )}
@@ -229,95 +192,78 @@ const SecurityTab: React.FC = () => {
             />
           </div>
         </SettingRow>
-      </SectionCard>
+      </SettingCard>
 
-      <SectionCard title="Sessions actives">
+      <SettingCard title="Sessions actives">
         {SESSIONS.map((session, i) => (
           <div
             key={session.id}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              gap: 'var(--s-4)',
-              padding: 'var(--s-5) 0',
-              borderBottom: i < SESSIONS.length - 1 ? '1px solid var(--border-light)' : 'none',
-              background: session.current ? 'var(--tls-primary-50)' : 'transparent',
-              marginLeft: '-var(--s-6)',
-              marginRight: '-var(--s-6)',
-              paddingLeft: 'var(--s-6)',
-              paddingRight: 'var(--s-6)',
-              transition: 'all var(--dur-2)'
-            }}
+            className={[
+              'flex items-center justify-between gap-4 py-5 px-6 -mx-6 transition-colors',
+              i < SESSIONS.length - 1 ? 'border-b border-ink-100' : '',
+              session.current ? 'bg-primary-50' : '',
+            ].join(' ')}
           >
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-3)' }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: 'var(--r-md)', flexShrink: 0,
-                background: session.current ? 'var(--tls-primary-50)' : 'var(--surface-muted)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: session.current ? 'var(--tls-primary-600)' : 'var(--text-muted)',
-              }}>
+            <div className="flex items-start gap-3">
+              <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${session.current ? 'bg-primary-100 text-primary-600' : 'bg-ink-100 text-ink-500'}`}>
                 <Smartphone size={16} />
               </div>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-                  <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>
+                <div className="flex items-center gap-2">
+                  <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
                     {session.device}
                   </p>
-                  {session.current && (
-                    <span style={{ fontSize: '10px', fontWeight: 700, padding: '1px 6px', borderRadius: 'var(--r-pill)', background: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: '1px solid var(--tls-success-border)' }}>
-                      session actuelle
-                    </span>
-                  )}
+                  {session.current && <Badge variant="success">session actuelle</Badge>}
                 </div>
-                <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
+                <p className="m-0 mt-0.5 font-body text-caption text-ink-500 flex items-center gap-2">
                   <MapPin size={11} /> {session.location} · {session.lastSeen}
                 </p>
               </div>
             </div>
             {!session.current && (
-              <Button variant="secondary" size="sm" style={{ flexShrink: 0 }}>
-                <LogOut size={13} /> Révoquer
+              <Button variant="secondary" size="sm" className="shrink-0" leadingIcon={<LogOut size={13} />}>
+                Révoquer
               </Button>
             )}
           </div>
         ))}
-        <div style={{ paddingBottom: 'var(--s-5)', paddingTop: 'var(--s-3)' }}>
-          <Button variant="ghost" size="sm" style={{ color: 'var(--tls-danger-base)' }}>
-            <LogOut size={13} /> Déconnecter toutes les autres sessions
+        <div className="pb-5 pt-3">
+          <Button variant="ghost" size="sm" className="text-danger-fg hover:bg-danger-bg" leadingIcon={<LogOut size={13} />}>
+            Déconnecter toutes les autres sessions
           </Button>
         </div>
-      </SectionCard>
+      </SettingCard>
     </div>
   );
 };
 
 const NotificationsTab: React.FC = () => {
   const [prefs, setPrefs] = useState<NotifPref[]>([
-    { id: 'coaching', label: 'Rappels de coaching', description: "Rappels 24h avant vos sessions programmées", enabled: true },
-    { id: 'lesson',   label: 'Nouvelles leçons', description: "Quand un nouveau contenu est disponible dans votre parcours", enabled: true },
-    { id: 'streak',   label: 'Streak & gamification', description: "Alertes de streak, badges débloqués, progression", enabled: true },
-    { id: 'journal',  label: 'Prompts journal', description: "Suggestions de réflexion quotidiennes", enabled: false },
-    { id: 'veille',   label: 'Veille hebdomadaire', description: "La sélection éditoriale TLS chaque vendredi", enabled: true },
-    { id: 'report',   label: 'Rapport mensuel', description: "Synthèse mensuelle de votre progression", enabled: false },
+    { id: 'coaching', label: 'Rappels de coaching',    description: "Rappels 24h avant vos sessions programmées",                    enabled: true },
+    { id: 'lesson',   label: 'Nouvelles leçons',       description: "Quand un nouveau contenu est disponible dans votre parcours",    enabled: true },
+    { id: 'streak',   label: 'Streak & gamification',  description: "Alertes de streak, badges débloqués, progression",               enabled: true },
+    { id: 'journal',  label: 'Prompts journal',         description: "Suggestions de réflexion quotidiennes",                          enabled: false },
+    { id: 'veille',   label: 'Veille hebdomadaire',     description: "La sélection éditoriale TLS chaque vendredi",                    enabled: true },
+    { id: 'report',   label: 'Rapport mensuel',         description: "Synthèse mensuelle de votre progression",                        enabled: false },
   ]);
-
   const toggle = (id: string) =>
     setPrefs((prev) => prev.map((p) => (p.id === id ? { ...p, enabled: !p.enabled } : p)));
 
   const [emailNotif, setEmailNotif] = useState(true);
-  const [pushNotif, setPushNotif] = useState(false);
+  const [pushNotif,  setPushNotif]  = useState(false);
 
   return (
-    <div>
-      <SectionCard title="Canaux de notification">
+    <div className="flex flex-col gap-stack-lg">
+      <SettingCard title="Canaux de notification">
         <SettingRow icon={<Mail size={16} />} label="Notifications email" description="Reçues sur claire.fontaine@example.com">
           <Switch checked={emailNotif} onChange={(e) => setEmailNotif(e.target.checked)} />
         </SettingRow>
         <SettingRow icon={<Smartphone size={16} />} label="Notifications push" description="Notifications sur votre navigateur ou application mobile">
           <Switch checked={pushNotif} onChange={(e) => setPushNotif(e.target.checked)} />
         </SettingRow>
-      </SectionCard>
+      </SettingCard>
 
-      <SectionCard title="Préférences par type">
+      <SettingCard title="Préférences par type">
         {prefs.map((pref) => (
           <SettingRow
             key={pref.id}
@@ -325,104 +271,73 @@ const NotificationsTab: React.FC = () => {
             label={pref.label}
             description={pref.description}
           >
-            <Switch
-              checked={pref.enabled}
-              onChange={() => toggle(pref.id)}
-              aria-label={pref.label}
-            />
+            <Switch checked={pref.enabled} onChange={() => toggle(pref.id)} aria-label={pref.label} />
           </SettingRow>
         ))}
-      </SectionCard>
+      </SettingCard>
     </div>
   );
 };
 
 const BillingTab: React.FC = () => (
-  <div>
-    <SectionCard title="Abonnement actuel">
-      <div style={{ padding: 'var(--s-5) 0' }}>
-        <div style={{
-          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--s-4)',
-          padding: 'var(--s-6)', borderRadius: 'var(--r-xl)',
-          background: 'linear-gradient(135deg, var(--tls-primary-50), var(--tls-primary-25))',
-          border: '1.5px solid var(--tls-primary-200)',
-          marginBottom: 'var(--s-6)',
-          boxShadow: 'var(--shadow-md), var(--shadow-brand-xs)',
-          transition: 'all var(--dur-2)'
-        }}>
+  <div className="flex flex-col gap-stack-lg">
+    <SettingCard title="Abonnement actuel">
+      <div className="pt-5 pb-5">
+        <div className="flex items-start justify-between gap-4 p-6 rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-6 shadow-md">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-              <Sparkles size={16} style={{ color: 'var(--tls-primary-500)' }} />
-              <h3 style={{ margin: 0, fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
-                Plan Pro
-              </h3>
-              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-pill)', background: 'var(--tls-primary-100)', color: 'var(--tls-primary-700)', border: '1px solid var(--tls-primary-200)' }}>
-                Actif
-              </span>
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles size={16} className="text-primary-500" />
+              <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Plan Pro</h3>
+              <Badge variant="brand">Actif</Badge>
             </div>
-            <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
+            <p className="m-0 font-body text-body-sm text-ink-500">
               Accès illimité aux parcours, coaching mensuel inclus · Renouvellement le 1er juin 2026
             </p>
           </div>
-          <div style={{ textAlign: 'right', flexShrink: 0 }}>
-            <p style={{ margin: 0, fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--tls-primary-700)' }}>
-              89 €
-            </p>
-            <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>/ mois</p>
+          <div className="text-right shrink-0">
+            <p className="m-0 font-display text-h3 font-extrabold text-primary-700">89 €</p>
+            <p className="m-0 mt-0.5 font-body text-caption text-ink-400">/ mois</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--s-3)' }}>
+        <div className="flex gap-3">
           <Button>Gérer l'abonnement</Button>
           <Button variant="secondary">Voir les plans</Button>
         </div>
       </div>
-    </SectionCard>
+    </SettingCard>
 
-    <SectionCard title="Moyen de paiement">
-      <SettingRow
-        icon={<CreditCard size={16} />}
-        label="Visa •••• 6411"
-        description="Expire le 04/2027 · Carte principale"
-      >
+    <SettingCard title="Moyen de paiement">
+      <SettingRow icon={<CreditCard size={16} />} label="Visa •••• 6411" description="Expire le 04/2027 · Carte principale">
         <Button variant="secondary" size="sm">Modifier</Button>
       </SettingRow>
-    </SectionCard>
+    </SettingCard>
 
-    <SectionCard title="Historique de facturation">
+    <SettingCard title="Historique de facturation">
       {[
-        { date: '1 mai 2026', desc: 'Plan Pro — mai', amount: '89,00 €', status: 'Payé' },
-        { date: '1 avr. 2026', desc: 'Plan Pro — avril', amount: '89,00 €', status: 'Payé' },
-        { date: '1 mars 2026', desc: 'Plan Pro — mars', amount: '89,00 €', status: 'Payé' },
+        { date: '1 mai 2026',   desc: 'Plan Pro — mai',    amount: '89,00 €', status: 'Payé' },
+        { date: '1 avr. 2026',  desc: 'Plan Pro — avril',  amount: '89,00 €', status: 'Payé' },
+        { date: '1 mars 2026',  desc: 'Plan Pro — mars',   amount: '89,00 €', status: 'Payé' },
       ].map((inv, i, arr) => (
         <div
           key={inv.date}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--s-4)',
-            padding: 'var(--s-5) 0',
-            borderBottom: i < arr.length - 1 ? '1px solid var(--border-light)' : 'none',
-            transition: 'all var(--dur-2)'
-          }}
+          className={`flex items-center justify-between gap-4 py-5 transition-colors ${i < arr.length - 1 ? 'border-b border-ink-100' : ''}`}
         >
           <div>
-            <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--text)' }}>{inv.desc}</p>
-            <p style={{ margin: '2px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{inv.date}</p>
+            <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{inv.desc}</p>
+            <p className="m-0 mt-0.5 font-body text-caption text-ink-400">{inv.date}</p>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-            <span style={{ fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>{inv.amount}</span>
-            <span style={{ fontSize: 'var(--t-caption)', fontWeight: 600, padding: '2px 8px', borderRadius: 'var(--r-pill)', background: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)' }}>
-              {inv.status}
-            </span>
-            <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--tls-primary-600)', fontSize: 'var(--t-caption)', fontWeight: 600, fontFamily: 'var(--font-body)', display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Download size={12} /> PDF
-            </button>
+          <div className="flex items-center gap-3">
+            <span className="font-body text-body-sm font-bold text-ink-900">{inv.amount}</span>
+            <Badge variant="success">{inv.status}</Badge>
+            <Button variant="link" size="sm" leadingIcon={<Download size={12} />}>PDF</Button>
           </div>
         </div>
       ))}
-    </SectionCard>
+    </SettingCard>
   </div>
 );
 
-/* ─── Main component ─────────────────────────────────────────────────────────── */
+/* ─── Main component ──────────────────────────────────────────────────────── */
 
 const TAB_ITEMS = [
   { id: 'general',       label: <><UserRound size={14} /> Général</> },
@@ -435,36 +350,39 @@ export const Account: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('general');
 
   return (
-    <div className="tls-page">
-      {/* Hero */}
-      <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Paramètres du compte</span>
-        <h1>Mon compte</h1>
-        <p className="tls-editorial-summary">
-          Gérez vos informations personnelles, la sécurité, les notifications et votre abonnement.
-        </p>
-        <div className="tls-editorial-meta">
-          <span><UserRound size={12} /> Claire Fontaine</span>
-          <span>·</span>
-          <span>Plan Pro · Actif</span>
+    <div className="min-h-screen bg-surface">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+
+        {/* ── Account family sub-nav ───────────────────────────── */}
+        <AccountFamilyNav active="account" />
+
+        {/* ── Hero ─────────────────────────────────────────────── */}
+        <EditorialHero
+          tone="default"
+          eyebrow={{ icon: <Sparkles size={12} />, label: 'Paramètres du compte' }}
+          title="Mon compte"
+          summary="Gérez vos informations personnelles, la sécurité, les notifications et votre abonnement."
+          meta={[{ icon: <UserRound size={12} />, label: 'Claire Fontaine' }]}
+          trailing={<Badge variant="brand">Plan Pro · Actif</Badge>}
+        />
+
+        {/* ── Tabs ─────────────────────────────────────────────── */}
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <Tabs
+            items={TAB_ITEMS}
+            value={activeTab}
+            onChange={(id) => setActiveTab(id as TabId)}
+            variant="underline"
+          />
         </div>
-      </section>
 
-      {/* Tabs */}
-      <Tabs
-        items={TAB_ITEMS}
-        value={activeTab}
-        onChange={(id) => setActiveTab(id as TabId)}
-        variant="underline"
-        style={{ marginBottom: 'var(--s-8)' }}
-      />
-
-      {/* Tab panels */}
-      <div style={{ maxWidth: 780, margin: '0 auto' }}>
-        {activeTab === 'general'       && <GeneralTab />}
-        {activeTab === 'security'      && <SecurityTab />}
-        {activeTab === 'notifications' && <NotificationsTab />}
-        {activeTab === 'billing'       && <BillingTab />}
+        {/* ── Tab panels ────────────────────────────────────────── */}
+        <div>
+          {activeTab === 'general'       && <GeneralTab />}
+          {activeTab === 'security'      && <SecurityTab />}
+          {activeTab === 'notifications' && <NotificationsTab />}
+          {activeTab === 'billing'       && <BillingTab />}
+        </div>
       </div>
     </div>
   );
