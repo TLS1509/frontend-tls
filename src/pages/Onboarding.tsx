@@ -1,32 +1,45 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserRound, Target, Clock, CheckCircle2, Sparkles, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
-import { Card, Button, Badge, Stepper, Input, Select } from '../components';
+import {
+  UserRound,
+  Target,
+  Clock,
+  CheckCircle2,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Brain,
+  Briefcase,
+  GraduationCap,
+  Users,
+  Zap,
+  BookOpen,
+  Award,
+  Code2,
+  HeartHandshake,
+  TrendingUp,
+  Building2,
+  Stethoscope,
+  Wallet,
+} from 'lucide-react';
+import { Card, Button, Badge, Stepper, Input } from '../components';
+import { EditorialHero } from '../components/patterns/EditorialHero';
 
-/* ============================================================================
-   Types
-   ============================================================================ */
+/* ─── Types ──────────────────────────────────────────────────────────────── */
+
 interface OnboardingAnswers {
   firstName: string;
-  role: string;
-  sector: string;
-  goals: string[];
-  rhythm: string;
+  role:      string;
+  sector:    string;
+  goals:     string[];
+  rhythm:    string;
 }
 
-/* ============================================================================
-   Constants
-   ============================================================================ */
+/* ─── Constants ──────────────────────────────────────────────────────────── */
+
 const STEP_LABELS = ['Profil', 'Objectifs', 'Rythme', 'Confirmation'];
 
-const GOAL_OPTIONS = [
-  'Leadership',
-  'Communication',
-  'IA & Tech',
-  'Gestion de projet',
-  'Coaching',
-  'Productivité',
-];
+const GOAL_OPTIONS = ['Leadership', 'Communication', 'IA & Tech', 'Gestion de projet', 'Coaching', 'Productivité'];
 
 const RHYTHM_OPTIONS = [
   { id: '15min', label: '15 min / jour', description: 'Micro-apprentissage quotidien' },
@@ -35,27 +48,42 @@ const RHYTHM_OPTIONS = [
   { id: 'flex',  label: 'Flexible',      description: "À mon rythme, sans contrainte" },
 ];
 
-const ROLE_OPTIONS = ['Manager', 'Formateur', 'Coach', 'Apprenant', 'Autre'];
-const SECTOR_OPTIONS = ['Tech', 'RH', 'Formation', 'Santé', 'Finance', 'Autre'];
+const ROLE_OPTIONS: Array<{ id: string; label: string; Icon: React.ComponentType<{ size?: number }> }> = [
+  { id: 'Manager',    label: 'Manager',    Icon: Briefcase },
+  { id: 'Formateur',  label: 'Formateur',  Icon: GraduationCap },
+  { id: 'Coach',      label: 'Coach',      Icon: HeartHandshake },
+  { id: 'Apprenant',  label: 'Apprenant',  Icon: BookOpen },
+  { id: 'Consultant', label: 'Consultant', Icon: Zap },
+  { id: 'Autre',      label: 'Autre',      Icon: UserRound },
+];
 
-/* ============================================================================
-   Helpers
-   ============================================================================ */
+const SECTOR_OPTIONS: Array<{ id: string; label: string; Icon: React.ComponentType<{ size?: number }> }> = [
+  { id: 'Tech',       label: 'Tech',       Icon: Code2 },
+  { id: 'RH',         label: 'RH',         Icon: Users },
+  { id: 'Formation',  label: 'Formation',  Icon: GraduationCap },
+  { id: 'Santé',      label: 'Santé',      Icon: Stethoscope },
+  { id: 'Finance',    label: 'Finance',    Icon: Wallet },
+  { id: 'Autre',      label: 'Autre',      Icon: Building2 },
+];
+
+const GOAL_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
+  'Leadership':        TrendingUp,
+  'Communication':     Users,
+  'IA & Tech':         Brain,
+  'Gestion de projet': Target,
+  'Coaching':          HeartHandshake,
+  'Productivité':      Zap,
+};
+
 function buildStepperItems(currentStep: number) {
   return STEP_LABELS.map((label, i) => ({
     label,
-    state:
-      i < currentStep ? 'done'
-      : i === currentStep ? 'current'
-      : 'upcoming',
+    state: i < currentStep ? 'done' : i === currentStep ? 'current' : 'upcoming',
   })) as { label: string; state: 'done' | 'current' | 'upcoming' }[];
 }
 
-/* ============================================================================
-   Step Components
-   ============================================================================ */
+/* ─── Step 0 — Profil ────────────────────────────────────────────────────── */
 
-/** Step 0 — Profil */
 function StepProfil({
   answers,
   onChange,
@@ -64,47 +92,120 @@ function StepProfil({
   onChange: (patch: Partial<OnboardingAnswers>) => void;
 }) {
   return (
-    <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)' }}>
+    <div className="flex flex-col gap-stack-lg">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-primary-50 text-primary-600">
         <UserRound size={28} />
       </div>
-      <h2 className="onb-step__title">Dites-nous qui vous êtes</h2>
-      <p className="onb-step__sub">Ces informations nous permettent de personnaliser vos recommandations.</p>
+      <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+        Dites-nous qui vous êtes
+      </h2>
+      <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
+        Ces informations nous permettent de personnaliser vos recommandations.
+      </p>
 
-      <div className="onb-fields">
-        <Input
-          id="firstName"
-          label="Votre prénom"
-          required
-          type="text"
-          placeholder="Ex : Sophie"
-          value={answers.firstName}
-          onChange={e => onChange({ firstName: e.target.value })}
-        />
+      {/* Prénom */}
+      <Input
+        id="firstName"
+        label="Votre prénom"
+        required
+        type="text"
+        placeholder="Ex : Sophie"
+        value={answers.firstName}
+        onChange={e => onChange({ firstName: e.target.value })}
+      />
 
-        <Select
-          id="role"
-          label="Votre rôle"
-          required
-          options={ROLE_OPTIONS.map(r => ({ value: r, label: r }))}
-          value={answers.role}
-          onChange={e => onChange({ role: e.target.value })}
-        />
+      {/* Rôle — grille cards */}
+      <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
+        <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
+          Votre rôle <span className="text-danger-fg">*</span>
+        </legend>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          {ROLE_OPTIONS.map(({ id, label, Icon }) => {
+            const selected = answers.role === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onChange({ role: id })}
+                aria-pressed={selected}
+                className={[
+                  'flex flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl border-[1.5px] text-center cursor-pointer transition-all duration-base',
+                  selected
+                    ? 'bg-primary-50 border-primary-500 shadow-sm'
+                    : 'bg-white border-ink-200 hover:border-primary-300 hover:bg-primary-50/40',
+                ].join(' ')}
+              >
+                <span
+                  className={[
+                    'inline-flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-base',
+                    selected ? 'bg-primary-500 text-white' : 'bg-ink-100 text-ink-600',
+                  ].join(' ')}
+                >
+                  <Icon size={18} />
+                </span>
+                <span
+                  className={[
+                    'font-body text-caption font-semibold leading-tight',
+                    selected ? 'text-primary-700' : 'text-ink-900',
+                  ].join(' ')}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
 
-        <Select
-          id="sector"
-          label="Votre secteur"
-          required
-          options={SECTOR_OPTIONS.map(s => ({ value: s, label: s }))}
-          value={answers.sector}
-          onChange={e => onChange({ sector: e.target.value })}
-        />
-      </div>
+      {/* Secteur — grille cards */}
+      <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
+        <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
+          Votre secteur <span className="text-danger-fg">*</span>
+        </legend>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          {SECTOR_OPTIONS.map(({ id, label, Icon }) => {
+            const selected = answers.sector === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onChange({ sector: id })}
+                aria-pressed={selected}
+                className={[
+                  'flex flex-col items-center justify-center gap-2 px-3 py-4 rounded-xl border-[1.5px] text-center cursor-pointer transition-all duration-base',
+                  selected
+                    ? 'bg-secondary-50 border-secondary-500 shadow-sm'
+                    : 'bg-white border-ink-200 hover:border-secondary-300 hover:bg-secondary-50/40',
+                ].join(' ')}
+              >
+                <span
+                  className={[
+                    'inline-flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-base',
+                    selected ? 'bg-secondary-500 text-white' : 'bg-ink-100 text-ink-600',
+                  ].join(' ')}
+                >
+                  <Icon size={18} />
+                </span>
+                <span
+                  className={[
+                    'font-body text-caption font-semibold leading-tight',
+                    selected ? 'text-secondary-700' : 'text-ink-900',
+                  ].join(' ')}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
     </div>
   );
 }
 
-/** Step 1 — Objectifs */
+/* ─── Step 1 — Objectifs ─────────────────────────────────────────────────── */
+
 function StepObjectifs({
   answers,
   onChange,
@@ -120,32 +221,41 @@ function StepObjectifs({
   }
 
   return (
-    <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-orange-50)', color: 'var(--tls-orange-600)' }}>
+    <div className="flex flex-col gap-stack-lg">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-secondary-50 text-secondary-600">
         <Target size={28} />
       </div>
-      <h2 className="onb-step__title">Vos objectifs d'apprentissage</h2>
-      <p className="onb-step__sub">Sélectionnez tout ce qui vous correspond — plusieurs choix possibles.</p>
-
-      <div className="onb-chips">
+      <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+        Vos objectifs d'apprentissage
+      </h2>
+      <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
+        Sélectionnez tout ce qui vous correspond — plusieurs choix possibles.
+      </p>
+      <div className="flex flex-wrap gap-2.5">
         {GOAL_OPTIONS.map(goal => {
           const selected = answers.goals.includes(goal);
+          const Icon = GOAL_ICONS[goal] ?? Sparkles;
           return (
             <button
               key={goal}
               type="button"
-              className={['onb-chip', selected ? 'onb-chip--selected' : ''].filter(Boolean).join(' ')}
               onClick={() => toggle(goal)}
               aria-pressed={selected}
+              className={[
+                'inline-flex items-center gap-1.5 px-4 py-2 rounded-pill border-[1.5px] font-body text-body-sm font-semibold cursor-pointer transition-all duration-base',
+                selected
+                  ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600 hover:border-primary-600'
+                  : 'bg-white border-ink-200 text-ink-900 hover:border-primary-400 hover:text-primary-600 hover:bg-primary-50',
+              ].join(' ')}
             >
+              <Icon size={14} />
               {goal}
             </button>
           );
         })}
       </div>
-
       {answers.goals.length > 0 && (
-        <p className="onb-selection-hint">
+        <p className="font-body text-caption text-primary-600 font-semibold m-0">
           {answers.goals.length} objectif{answers.goals.length > 1 ? 's' : ''} sélectionné{answers.goals.length > 1 ? 's' : ''}
         </p>
       )}
@@ -153,7 +263,8 @@ function StepObjectifs({
   );
 }
 
-/** Step 2 — Rythme */
+/* ─── Step 2 — Rythme ────────────────────────────────────────────────────── */
+
 function StepRythme({
   answers,
   onChange,
@@ -162,26 +273,36 @@ function StepRythme({
   onChange: (patch: Partial<OnboardingAnswers>) => void;
 }) {
   return (
-    <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)' }}>
+    <div className="flex flex-col gap-stack-lg">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-primary-50 text-primary-700">
         <Clock size={28} />
       </div>
-      <h2 className="onb-step__title">Votre rythme d'apprentissage</h2>
-      <p className="onb-step__sub">Combien de temps souhaitez-vous consacrer à votre développement ?</p>
-
-      <div className="onb-rhythm-grid">
+      <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
+        Votre rythme d'apprentissage
+      </h2>
+      <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
+        Combien de temps souhaitez-vous consacrer à votre développement ?
+      </p>
+      <div className="grid grid-cols-2 gap-3">
         {RHYTHM_OPTIONS.map(opt => {
           const selected = answers.rhythm === opt.id;
           return (
             <button
               key={opt.id}
               type="button"
-              className={['onb-rhythm-card', selected ? 'onb-rhythm-card--selected' : ''].filter(Boolean).join(' ')}
               onClick={() => onChange({ rhythm: opt.id })}
               aria-pressed={selected}
+              className={[
+                'flex flex-col gap-1 px-5 py-4 rounded-xl border-[1.5px] text-left cursor-pointer transition-all duration-200',
+                selected
+                  ? 'border-primary-500 bg-primary-50'
+                  : 'border-ink-200 bg-white hover:border-primary-300 hover:bg-primary-50',
+              ].join(' ')}
             >
-              <span className="onb-rhythm-card__label">{opt.label}</span>
-              <span className="onb-rhythm-card__desc">{opt.description}</span>
+              <span className={['font-body text-body font-bold', selected ? 'text-primary-700' : 'text-ink-900'].join(' ')}>
+                {opt.label}
+              </span>
+              <span className="font-body text-caption text-ink-500">{opt.description}</span>
             </button>
           );
         })}
@@ -190,76 +311,70 @@ function StepRythme({
   );
 }
 
-/** Step 3 — Confirmation */
+/* ─── Step 3 — Confirmation ──────────────────────────────────────────────── */
+
 function StepConfirmation({
   answers,
-  onStart,
 }: {
   answers: OnboardingAnswers;
   onStart: () => void;
 }) {
   const rhythmLabel = RHYTHM_OPTIONS.find(r => r.id === answers.rhythm)?.label ?? '—';
 
+  const summaryRows = [
+    { key: 'Rôle',      val: answers.role   || '—' },
+    { key: 'Secteur',   val: answers.sector || '—' },
+    { key: 'Objectifs', val: answers.goals.length > 0 ? answers.goals.join(', ') : '—' },
+    { key: 'Rythme',    val: rhythmLabel },
+  ];
+
+  const aiText = answers.goals.includes('Leadership') || answers.goals.includes('Coaching')
+    ? "Leadership & Impact — Développez vos compétences de pilotage et d'influence"
+    : answers.goals.includes('IA & Tech')
+    ? "Tech & Innovation — Maîtrisez les outils IA pour gagner en productivité"
+    : "Développement professionnel personnalisé — basé sur vos objectifs déclarés";
+
+  const previewTags = answers.goals.length > 0 ? answers.goals.slice(0, 3) : ['Compétences clés'];
+
   return (
-    <div className="onb-step">
-      <div className="onb-step__icon-wrap" style={{ background: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)' }}>
+    <div className="flex flex-col gap-stack-lg">
+      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-success-bg text-success-fg">
         <CheckCircle2 size={28} />
       </div>
-      <h2 className="onb-step__title">
+      <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
         {answers.firstName ? `Parfait, ${answers.firstName} !` : 'Votre profil est prêt !'}
       </h2>
-      <p className="onb-step__sub">Voici un résumé de vos préférences et votre parcours suggéré.</p>
+      <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
+        Voici un résumé de vos préférences et votre parcours suggéré.
+      </p>
 
-      {/* Summary */}
-      <div className="onb-summary">
-        <div className="onb-summary__row">
-          <span className="onb-summary__key">Rôle</span>
-          <span className="onb-summary__val">{answers.role || '—'}</span>
-        </div>
-        <div className="onb-summary__row">
-          <span className="onb-summary__key">Secteur</span>
-          <span className="onb-summary__val">{answers.sector || '—'}</span>
-        </div>
-        <div className="onb-summary__row">
-          <span className="onb-summary__key">Objectifs</span>
-          <span className="onb-summary__val">
-            {answers.goals.length > 0 ? answers.goals.join(', ') : '—'}
-          </span>
-        </div>
-        <div className="onb-summary__row">
-          <span className="onb-summary__key">Rythme</span>
-          <span className="onb-summary__val">{rhythmLabel}</span>
-        </div>
+      {/* Summary table */}
+      <div className="rounded-xl border border-ink-200 bg-ink-50 overflow-hidden">
+        {summaryRows.map((row) => (
+          <div key={row.key} className="flex justify-between items-start gap-4 px-5 py-3 border-b border-ink-200 last:border-b-0">
+            <span className="font-body text-body-sm font-bold text-ink-500 whitespace-nowrap">{row.key}</span>
+            <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
+          </div>
+        ))}
       </div>
 
-      {/* AI suggestion preview */}
-      <Card style={{
-        marginTop: 'var(--s-6)',
-        background: 'linear-gradient(135deg, var(--tls-primary-50) 0%, var(--surface) 100%)',
-        border: '1px solid var(--tls-primary-200)',
-        padding: 'var(--s-5)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-3)', marginBottom: 'var(--s-3)' }}>
-          <Brain size={20} style={{ color: 'var(--tls-primary-600)', flexShrink: 0, marginTop: 2 }} />
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-1)' }}>
-              <span style={{ fontWeight: 700, fontSize: 'var(--t-body)', color: 'var(--text)' }}>
-                Parcours recommandé
-              </span>
+      {/* AI suggestion card */}
+      <Card className="mt-2 p-5 border border-primary-200 flex flex-col gap-3 bg-gradient-to-br from-primary-50 to-white">
+        <div className="flex items-start gap-3">
+          <Brain size={20} className="text-primary-600 shrink-0 mt-0.5" />
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <span className="font-body text-body font-bold text-ink-900">Parcours recommandé</span>
               <Badge variant="brand">IA</Badge>
             </div>
-            <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-              {answers.goals.includes('Leadership') || answers.goals.includes('Coaching')
-                ? "Leadership & Impact — Développez vos compétences de pilotage et d'influence"
-                : answers.goals.includes('IA & Tech')
-                ? "Tech & Innovation — Maîtrisez les outils IA pour gagner en productivité"
-                : "Développement professionnel personnalisé — basé sur vos objectifs déclarés"}
-            </p>
+            <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0">{aiText}</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-          {(answers.goals.length > 0 ? answers.goals.slice(0, 3) : ['Compétences clés']).map(g => (
-            <span key={g} className="onb-tag">{g}</span>
+        <div className="flex flex-wrap gap-2">
+          {previewTags.map(g => (
+            <span key={g} className="inline-flex px-3 py-1 rounded-pill bg-primary-100 text-primary-700 font-body text-caption font-bold">
+              {g}
+            </span>
           ))}
         </div>
       </Card>
@@ -267,18 +382,17 @@ function StepConfirmation({
   );
 }
 
-/* ============================================================================
-   Main Page
-   ============================================================================ */
+/* ─── Main Page ──────────────────────────────────────────────────────────── */
+
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<OnboardingAnswers>({
     firstName: '',
-    role: '',
-    sector: '',
-    goals: [],
-    rhythm: '',
+    role:      '',
+    sector:    '',
+    goals:     [],
+    rhythm:    '',
   });
 
   function patch(updates: Partial<OnboardingAnswers>) {
@@ -291,371 +405,62 @@ export const Onboarding: React.FC = () => {
   const isLast = step === 3;
 
   const stepComponents = [
-    <StepProfil    key={0} answers={answers} onChange={patch} />,
-    <StepObjectifs key={1} answers={answers} onChange={patch} />,
-    <StepRythme    key={2} answers={answers} onChange={patch} />,
-    <StepConfirmation key={3} answers={answers} onStart={() => navigate('/')} />,
+    <StepProfil       key={0} answers={answers} onChange={patch} />,
+    <StepObjectifs    key={1} answers={answers} onChange={patch} />,
+    <StepRythme       key={2} answers={answers} onChange={patch} />,
+    <StepConfirmation key={3} answers={answers} onStart={() => navigate('/onboarding/payment')} />,
   ];
 
   return (
-    <>
-      {/* ── Embedded styles ─────────────────────────────────────────────── */}
-      <style>{`
-        /* Animation */
-        @keyframes stepIn {
-          from { opacity: 0; transform: translateX(20px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes heroFadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
+    <main className="min-h-screen bg-surface">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
-        /* Page shell */
-        .onb-page {
-          max-width: 760px;
-          margin: 0 auto;
-          padding: var(--s-8) var(--s-6) var(--s-12);
-          display: flex;
-          flex-direction: column;
-          gap: var(--s-6);
-        }
+        {/* ── Hero éditorial DS ───────────────────────────────── */}
+        <EditorialHero
+          tone="default"
+          eyebrow={{ icon: <Sparkles size={12} />, label: 'Démarrage personnalisé' }}
+          title="Personnalisons votre expérience"
+          summary="4 étapes pour démarrer avec des recommandations adaptées à vos objectifs."
+          trailing={<Stepper items={buildStepperItems(step)} orientation="horizontal" />}
+        />
 
-        /* Hero / header */
-        .onb-hero {
-          border-radius: var(--r-2xl);
-          border: 1px solid var(--tls-primary-200);
-          background: linear-gradient(135deg,
-            var(--tls-primary-50) 0%,
-            var(--glass-fill-strong) 100%
-          );
-          backdrop-filter: var(--glass-blur);
-          -webkit-backdrop-filter: var(--glass-blur);
-          padding: var(--s-8) var(--s-8) var(--s-7);
-          box-shadow: var(--shadow-md), inset 0 1px 0 var(--overlay-white-xl);
-          position: relative;
-          overflow: hidden;
-          animation: heroFadeIn var(--dur-300, 300ms) ease both;
-        }
-        .onb-hero::after {
-          content: '';
-          position: absolute;
-          top: -40%;
-          right: -10%;
-          width: 280px;
-          height: 280px;
-          border-radius: 50%;
-          background: radial-gradient(circle, var(--tls-primary-100) 0%, transparent 70%);
-          pointer-events: none;
-        }
-        .onb-hero__eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: var(--s-1-5);
-          font-size: var(--t-caption);
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--tls-primary-600);
-          margin-bottom: var(--s-3);
-        }
-        .onb-hero h1 {
-          font-size: var(--t-h1);
-          font-weight: 800;
-          color: var(--text);
-          margin: 0 0 var(--s-2);
-          line-height: var(--lh-tight, 1.2);
-        }
-        .onb-hero p {
-          margin: 0 0 var(--s-6);
-          color: var(--text-muted);
-          font-size: var(--t-body);
-        }
+        {/* ── Step card ──────────────────────────────────────────── */}
+        <div className="rounded-2xl bg-white border border-ink-200 overflow-hidden">
 
-        /* Card wrapper */
-        .onb-card {
-          border-radius: var(--r-2xl);
-          background: var(--surface);
-          border: 1px solid var(--border);
-          box-shadow: var(--shadow-sm);
-          overflow: hidden;
-        }
-
-        /* Animated step content */
-        .onb-step-anim {
-          padding: var(--s-8);
-          animation: stepIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-
-        /* Step inner layout */
-        .onb-step {
-          display: flex;
-          flex-direction: column;
-          gap: var(--s-5);
-        }
-        .onb-step__icon-wrap {
-          width: 56px;
-          height: 56px;
-          border-radius: var(--r-xl, 16px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .onb-step__title {
-          font-size: var(--t-h2);
-          font-weight: 800;
-          color: var(--text);
-          margin: 0;
-          line-height: var(--lh-tight, 1.2);
-        }
-        .onb-step__sub {
-          margin: 0;
-          color: var(--text-muted);
-          font-size: var(--t-body);
-          line-height: 1.6;
-        }
-
-        /* Fields */
-        .onb-fields {
-          display: flex;
-          flex-direction: column;
-          gap: var(--s-4);
-        }
-        .tls-input {
-          width: 100%;
-          box-sizing: border-box;
-          padding: var(--s-3) var(--s-4);
-          border: 1px solid var(--border);
-          border-radius: var(--r-lg, 10px);
-          font-size: var(--t-body);
-          font-family: var(--font-body);
-          color: var(--text);
-          background: var(--surface);
-          outline: none;
-          transition: border-color 160ms ease, box-shadow 160ms ease;
-          appearance: none;
-        }
-        .tls-input:focus {
-          border-color: var(--tls-primary-400);
-          box-shadow: var(--shadow-brand-xs);
-        }
-
-        /* Goal chips */
-        .onb-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--s-2-5);
-        }
-        .onb-chip {
-          padding: var(--s-2) var(--s-4);
-          border-radius: 99px;
-          border: 1.5px solid var(--border);
-          background: var(--surface);
-          color: var(--text);
-          font-size: var(--t-body-sm);
-          font-family: var(--font-body);
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 180ms ease;
-        }
-        .onb-chip:hover {
-          border-color: var(--tls-primary-400);
-          color: var(--tls-primary-600);
-          background: var(--tls-primary-50);
-        }
-        .onb-chip--selected {
-          background: var(--tls-primary-500);
-          border-color: var(--tls-primary-500);
-          color: var(--on-color-text-main);
-        }
-        .onb-chip--selected:hover {
-          background: var(--tls-primary-600);
-          border-color: var(--tls-primary-600);
-          color: var(--on-color-text-main);
-        }
-        .onb-selection-hint {
-          margin: 0;
-          font-size: var(--t-caption);
-          color: var(--tls-primary-600);
-          font-weight: 600;
-        }
-
-        /* Rhythm cards */
-        .onb-rhythm-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--s-3);
-        }
-        @media (max-width: 520px) {
-          .onb-rhythm-grid { grid-template-columns: 1fr; }
-        }
-        .onb-rhythm-card {
-          display: flex;
-          flex-direction: column;
-          gap: var(--s-1);
-          padding: var(--s-4) var(--s-5);
-          border-radius: var(--r-xl, 16px);
-          border: 1.5px solid var(--border);
-          background: var(--surface);
-          text-align: left;
-          cursor: pointer;
-          transition: all 180ms ease;
-        }
-        .onb-rhythm-card:hover {
-          border-color: var(--tls-primary-300);
-          background: var(--tls-primary-50);
-        }
-        .onb-rhythm-card--selected {
-          border-color: var(--tls-primary-500);
-          background: var(--tls-primary-50);
-          box-shadow: var(--shadow-brand-xs);
-        }
-        .onb-rhythm-card__label {
-          font-size: var(--t-body);
-          font-weight: 700;
-          color: var(--text);
-          font-family: var(--font-body);
-        }
-        .onb-rhythm-card--selected .onb-rhythm-card__label {
-          color: var(--tls-primary-700);
-        }
-        .onb-rhythm-card__desc {
-          font-size: var(--t-caption);
-          color: var(--text-muted);
-          font-family: var(--font-body);
-        }
-
-        /* Summary */
-        .onb-summary {
-          border-radius: var(--r-xl, 16px);
-          border: 1px solid var(--border);
-          background: var(--surface-muted, var(--tls-ink-50));
-          overflow: hidden;
-        }
-        .onb-summary__row {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: var(--s-4);
-          padding: var(--s-3) var(--s-5);
-          border-bottom: 1px solid var(--border);
-        }
-        .onb-summary__row:last-child { border-bottom: none; }
-        .onb-summary__key {
-          font-size: var(--t-body-sm);
-          font-weight: 700;
-          color: var(--text-muted);
-          white-space: nowrap;
-        }
-        .onb-summary__val {
-          font-size: var(--t-body-sm);
-          color: var(--text);
-          text-align: right;
-        }
-
-        /* Tags inside preview card */
-        .onb-tag {
-          display: inline-flex;
-          padding: var(--s-1) var(--s-3);
-          border-radius: 99px;
-          background: var(--tls-primary-100);
-          color: var(--tls-primary-700);
-          font-size: var(--t-caption);
-          font-weight: 700;
-        }
-
-        /* Footer nav */
-        .onb-footer {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: var(--s-5) var(--s-8);
-          border-top: 1px solid var(--border);
-          background: var(--surface-muted, var(--tls-ink-50));
-        }
-        .onb-footer__skip {
-          background: none;
-          border: none;
-          color: var(--text-muted);
-          font-size: var(--t-body-sm);
-          cursor: pointer;
-          padding: 0;
-          font-family: var(--font-body);
-          text-decoration: underline;
-          text-underline-offset: 3px;
-        }
-        .onb-footer__skip:hover { color: var(--text); }
-        .onb-footer__actions {
-          display: flex;
-          gap: var(--s-3);
-          align-items: center;
-        }
-      `}</style>
-
-      <main className="onb-page">
-        {/* ── Hero ───────────────────────────────────────────────────── */}
-        <header className="onb-hero">
-          <p className="onb-hero__eyebrow">
-            <Sparkles size={12} />
-            Démarrage personnalisé
-          </p>
-          <h1>Personnalisons votre expérience</h1>
-          <p>4 étapes pour démarrer avec des recommandations adaptées à vos objectifs.</p>
-
-          <Stepper
-            items={buildStepperItems(step)}
-            orientation="horizontal"
-          />
-        </header>
-
-        {/* ── Step card ──────────────────────────────────────────────── */}
-        <div className="onb-card">
-          {/* Animated content */}
-          <div className="onb-step-anim" key={step}>
+          {/* Step content — Tailwind fade-in via key change */}
+          <div className="p-6 sm:p-8 animate-in fade-in slide-in-from-right-2 duration-300" key={step}>
             {stepComponents[step]}
           </div>
 
-          {/* Navigation footer */}
-          <div className="onb-footer">
+          {/* Footer nav */}
+          <div className="flex justify-between items-center px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
             {step === 0 ? (
-              <button
-                className="onb-footer__skip"
-                onClick={() => navigate('/dashboard')}
-                type="button"
-              >
+              <Button variant="link" size="sm" onClick={() => navigate('/dashboard')}>
                 Passer pour l'instant
-              </button>
+              </Button>
             ) : (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={prev}
-              >
-                <ChevronLeft size={16} />
+              <Button variant="secondary" size="sm" leadingIcon={<ChevronLeft size={14} />} onClick={prev}>
                 Retour
               </Button>
             )}
 
-            <div className="onb-footer__actions">
-              <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+            <div className="flex items-center gap-3">
+              <span className="font-body text-caption text-ink-500 tabular-nums">
                 Étape {step + 1} / {STEP_LABELS.length}
               </span>
-
               {isLast ? (
-                <Button variant="primary" onClick={() => navigate('/')}>
-                  Commencer mon parcours
-                  <ChevronRight size={16} />
+                <Button variant="primary" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/onboarding/payment')}>
+                  Choisir ma formule
                 </Button>
               ) : (
-                <Button variant="primary" onClick={next}>
+                <Button variant="primary" trailingIcon={<ChevronRight size={14} />} onClick={next}>
                   Continuer
-                  <ChevronRight size={16} />
                 </Button>
               )}
             </div>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 };
