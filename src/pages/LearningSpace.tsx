@@ -24,7 +24,10 @@ import {
   Tabs,
   ProgressBar,
 } from '../components';
-import './LearningSpace.css';
+import { Search as SearchInput } from '../components/ui/Search';
+import { FilterChip } from '../components/ui/FilterChip';
+import { StatCard } from '../components/ui/StatCard';
+import { EditorialHero } from '../components/patterns/EditorialHero';
 
 type TabId = 'all' | 'parcours' | 'ressources' | 'live' | 'flashcards';
 
@@ -60,7 +63,7 @@ const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label
 /* ─── Tab content ────────────────────────────────────────────────── */
 
 const TabAll: React.FC = () => (
-  <div className="flex flex-col gap-8">
+  <div className="flex flex-col gap-section">
     <section>
       <SectionHeading
         title="En cours"
@@ -110,7 +113,7 @@ const TabAll: React.FC = () => (
 
     <section>
       <SectionHeading title="Recommandé pour vous" icon={<Star size={18} className="text-primary-500" />} />
-      <div className="tls-grid">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
         <Card variant="interactive" as="article">
           <div className="p-5 flex flex-col gap-3">
             <Badge variant="brand">Vidéo</Badge>
@@ -198,7 +201,7 @@ const TabParcours: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-stack">
       {parcours.map((p) => (
         <Card key={p.title} variant="interactive" as="article">
           <div className="p-5">
@@ -252,29 +255,19 @@ const TabRessources: React.FC = () => {
   const filtered = filter === 'all' ? resources : resources.filter((r) => r.type === filter);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-stack-lg">
       <div className="flex flex-wrap gap-2">
-        {filters.map((f) => {
-          const isActive = filter === f.id;
-          return (
-            <button
-              key={f.id}
-              type="button"
-              onClick={() => setFilter(f.id)}
-              className={[
-                'px-3 py-1 border rounded-pill text-caption font-medium cursor-pointer transition-colors',
-                isActive
-                  ? 'bg-primary-500 border-primary-500 text-white'
-                  : 'bg-white border-ink-200 text-ink-700 hover:bg-ink-50',
-              ].join(' ')}
-            >
-              {f.label}
-            </button>
-          );
-        })}
+        {filters.map((f) => (
+          <FilterChip
+            key={f.id}
+            label={f.label}
+            active={filter === f.id}
+            onClick={() => setFilter(f.id)}
+          />
+        ))}
       </div>
 
-      <div className="tls-grid">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-stack">
         {filtered.map((r) => (
           <Card key={r.title} variant="interactive" as="article">
             <div className="p-5 flex flex-col gap-3">
@@ -295,7 +288,7 @@ const TabRessources: React.FC = () => {
 };
 
 const TabLive: React.FC = () => (
-  <div className="flex flex-col gap-5">
+  <div className="flex flex-col gap-stack-lg">
     <SectionHeading title="Sessions à venir" icon={<Calendar size={18} className="text-primary-500" />} />
 
     <Card variant="feature" as="article">
@@ -366,7 +359,7 @@ const TabFlashcards: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-stack">
       {decks.map((d) => (
         <Card key={d.title} variant="interactive" as="article">
           <div className="p-5 flex flex-wrap items-center justify-between gap-4">
@@ -386,67 +379,53 @@ const TabFlashcards: React.FC = () => {
   );
 };
 
-const HERO_PILL =
-  'inline-flex items-center gap-2 px-3 py-1 bg-white/15 rounded-pill text-caption text-white font-medium';
-
 export const LearningSpace: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('all');
+  const [query, setQuery] = useState('');
 
   return (
-    <div className="feature-page">
-      <section className="relative overflow-hidden rounded-2xl p-8 shadow-lg bg-gradient-to-br from-primary-600 to-primary-400">
-        <div
-          aria-hidden="true"
-          className="absolute -top-[30%] -right-[8%] w-[340px] h-[340px] rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(255,255,255,0.12)_0%,transparent_70%)]"
+    <div className="min-h-screen bg-surface">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+
+        {/* ── Hero ────────────────────────────────────────────── */}
+        <EditorialHero
+          tone="brand"
+          eyebrow={{ icon: <BookOpen size={12} />, label: 'Bibliothèque IA' }}
+          title="Mon Espace Apprentissage"
+          summary="Votre IA a sélectionné du contenu sur mesure selon vos objectifs et votre rythme de la semaine."
         />
 
-        <div className="relative">
-          <p className="text-caption font-semibold uppercase tracking-wider text-white/70 mb-2">
-            Bibliothèque IA
-          </p>
-          <h1 className="text-h1 font-extrabold text-white m-0 mb-2">
-            Mon Espace Apprentissage
-          </h1>
-          <p className="text-body text-white/85 mb-5 max-w-[540px]">
-            Votre IA a sélectionné du contenu sur mesure selon vos objectifs et votre rythme de la
-            semaine.
-          </p>
-
-          <label className="flex items-center gap-2 bg-white/10 border border-white/20 rounded-pill px-4 py-2 max-w-[400px] backdrop-blur-sm mb-5">
-            <Search size={16} className="text-white/70" />
-            <input
-              type="search"
-              placeholder="Rechercher un contenu…"
-              className="bg-transparent border-0 outline-none text-body text-white w-full placeholder:text-white/60"
-            />
-          </label>
-
-          <div className="flex flex-wrap gap-3">
-            <span className={HERO_PILL}>
-              <BookOpen size={12} /> 3 parcours actifs
-            </span>
-            <span className={HERO_PILL}>
-              <Clock size={12} /> 12h cette semaine
-            </span>
-            <span className={HERO_PILL}>
-              <Flame size={12} /> 7 jours de streak
-            </span>
+        {/* ── Search + KPI row ───────────────────────────────── */}
+        <section aria-label="Recherche et indicateurs" className="flex flex-col gap-stack-lg">
+          <SearchInput
+            placeholder="Rechercher un parcours, une ressource, un workshop…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+            <StatCard tone="brand" surface="tinted" size="sm" icon={<BookOpen size={18} />} label="Parcours actifs" value="3" />
+            <StatCard tone="warm"  surface="tinted" size="sm" icon={<Clock size={18} />}    label="Temps cette semaine" value="12" sub="h" />
+            <StatCard tone="sun"   surface="tinted" size="sm" icon={<Flame size={18} />}    label="Streak en cours" value="7" sub="j" />
           </div>
+        </section>
+
+        {/* ── Tabs ─────────────────────────────────────────────── */}
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <Tabs
+            variant="pill"
+            items={TAB_ITEMS}
+            value={activeTab}
+            onChange={(id) => setActiveTab(id as TabId)}
+          />
         </div>
-      </section>
 
-      <Tabs
-        variant="pill"
-        items={TAB_ITEMS}
-        value={activeTab}
-        onChange={(id) => setActiveTab(id as TabId)}
-      />
-
-      {activeTab === 'all' && <TabAll />}
-      {activeTab === 'parcours' && <TabParcours />}
-      {activeTab === 'ressources' && <TabRessources />}
-      {activeTab === 'live' && <TabLive />}
-      {activeTab === 'flashcards' && <TabFlashcards />}
+        {/* ── Tab content ──────────────────────────────────────── */}
+        {activeTab === 'all' && <TabAll />}
+        {activeTab === 'parcours' && <TabParcours />}
+        {activeTab === 'ressources' && <TabRessources />}
+        {activeTab === 'live' && <TabLive />}
+        {activeTab === 'flashcards' && <TabFlashcards />}
+      </div>
     </div>
   );
 };
