@@ -1,16 +1,10 @@
 /**
  * Messages Page — two-pane chat interface
- *
- * Left panel : conversation list with search, filter pills, star toggle, unread badge
- * Right panel: full message thread (role-based bubbles) + compose bar
- * Design system TLS: no Tailwind, no framer-motion, CSS tokens only
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '../components/core/Button';
 import {
   MessageSquare,
-  Search,
   Send,
   Star,
   Clock3,
@@ -22,9 +16,12 @@ import {
   ArrowLeft,
   MessageSquarePlus,
 } from 'lucide-react';
-import './Messages.css';
+import { Search as SearchInput } from '../components/ui/Search';
+import { FilterBar } from '../components/forms/FilterBar';
+import { Avatar } from '../components/ui/Avatar';
+import { Button } from '../components/core/Button';
+import { EmptyState } from '../components/ui/EmptyState';
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
 type FilterType = 'all' | 'coach' | 'support' | 'starred';
 type MessageRole = 'user' | 'coach' | 'support';
 type ContextType = 'lesson' | 'project' | 'coaching' | 'general';
@@ -59,7 +56,6 @@ interface Conversation {
   messages: Message[];
 }
 
-/* ─── Static data ────────────────────────────────────────────────────────── */
 const INITIAL_CONVERSATIONS: Conversation[] = [
   {
     id: '1',
@@ -150,24 +146,29 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
   },
 ];
 
-/* ─── Helper ─────────────────────────────────────────────────────────────── */
-function getAvatarColors(role: 'coach' | 'support' | 'admin'): { bg: string; color: string } {
-  if (role === 'coach') return { bg: 'var(--tls-primary-50)',    color: 'var(--tls-primary-700)' };
-  if (role === 'support') return { bg: 'var(--tls-success-bg)',  color: 'var(--tls-success-fg)' };
-  return { bg: 'var(--overlay-warm-xs)', color: 'var(--tls-yellow-700)' };
-}
+const AVATAR_CLASSES: Record<'coach' | 'support' | 'admin', string> = {
+  coach:   'bg-primary-50 text-primary-700 border border-primary-200',
+  support: 'bg-success-bg text-success-fg',
+  admin:   'bg-accent-50 text-accent-700',
+};
 
 const CONTEXT_ICONS: Record<ContextType, string> = {
   lesson: '📚', project: '🗂️', coaching: '🎯', general: '💬',
 };
 
-/* ─── Component ──────────────────────────────────────────────────────────── */
+const FILTERS: { id: FilterType; label: string }[] = [
+  { id: 'all',     label: 'Tous' },
+  { id: 'coach',   label: 'Coach' },
+  { id: 'support', label: 'Support' },
+  { id: 'starred', label: '⭐ Favoris' },
+];
+
 export const Messages: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>(INITIAL_CONVERSATIONS);
-  const [selectedId, setSelectedId] = useState<string | null>('1');
-  const [filterType, setFilterType] = useState<FilterType>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [messageInput, setMessageInput] = useState('');
+  const [selectedId, setSelectedId]       = useState<string | null>('1');
+  const [filterType, setFilterType]       = useState<FilterType>('all');
+  const [searchQuery, setSearchQuery]     = useState('');
+  const [messageInput, setMessageInput]   = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const filteredConversations = conversations.filter((conv) => {
@@ -178,24 +179,20 @@ export const Messages: React.FC = () => {
     const matchesFilter =
       filterType === 'all' ||
       (filterType === 'starred' && conv.isStarred) ||
-      (filterType === 'coach' && conv.participantRole === 'coach') ||
+      (filterType === 'coach'   && conv.participantRole === 'coach') ||
       (filterType === 'support' && conv.participantRole === 'support');
     return matchesSearch && matchesFilter;
   });
 
   const currentConversation = conversations.find((c) => c.id === selectedId) ?? null;
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [currentConversation?.messages]);
 
   const handleSelectConversation = (id: string) => {
     setSelectedId(id);
-    // mark as read
-    setConversations((prev) => prev.map((c) =>
-      c.id === id ? { ...c, unreadCount: 0 } : c,
-    ));
+    setConversations((prev) => prev.map((c) => c.id === id ? { ...c, unreadCount: 0 } : c));
   };
 
   const handleToggleStar = (e: React.MouseEvent, convId: string) => {
@@ -209,12 +206,9 @@ export const Messages: React.FC = () => {
     if (!messageInput.trim() || !selectedId) return;
     const newMsg: Message = {
       id: `m${Date.now()}`,
-      senderId: 'user',
-      senderName: 'Vous',
-      role: 'user',
+      senderId: 'user', senderName: 'Vous', role: 'user',
       content: messageInput.trim(),
-      timestamp: "À l'instant",
-      isRead: true,
+      timestamp: "À l'instant", isRead: true,
     };
     setConversations((prev) => prev.map((c) =>
       c.id === selectedId
@@ -225,220 +219,121 @@ export const Messages: React.FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
   const totalUnread = conversations.reduce((acc, c) => acc + c.unreadCount, 0);
 
   return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      background: 'var(--bg)',
-      fontFamily: 'var(--font-body)',
-      overflow: 'hidden',
-    }} className="messages-container">
+    <div className="h-screen flex bg-ink-50 font-body overflow-hidden">
 
-      {/* ─── Left Panel: Conversation list ─────────────────────────────── */}
-      <div style={{
-        width: 360,
-        minWidth: 280,
-        flexShrink: 0,
-        display: selectedId ? undefined : 'flex',
-        flexDirection: 'column',
-        borderRight: '1px solid var(--border)',
-        background: 'var(--surface)',
-        overflow: 'hidden',
-      }}>
+      {/* Left Panel: Conversation list */}
+      <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">
+
         {/* Header */}
-        <div style={{
-          padding: 'var(--s-5) var(--s-5) var(--s-4)',
-          borderBottom: '1px solid var(--border)',
-          background: 'var(--surface)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--s-4)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-              <h2 style={{ fontSize: 'var(--t-h3)', fontWeight: 800, color: 'var(--text)', margin: 0, letterSpacing: '-0.02em' }}>
+        <div className="px-5 pt-5 pb-4 border-b border-ink-200 bg-white">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 tracking-tight">
                 Messages
               </h2>
               {totalUnread > 0 && (
-                <span style={{
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  minWidth: 20, height: 20, borderRadius: 'var(--r-pill)',
-                  background: 'var(--tls-primary-500)', color: 'var(--text-inverse)',
-                  fontSize: '11px', fontWeight: 700, padding: '0 6px',
-                }}>
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 rounded-pill bg-primary-500 text-white font-body text-[11px] font-bold px-1.5">
                   {totalUnread}
                 </span>
               )}
             </div>
-            <button style={{
-              width: 34, height: 34, borderRadius: 'var(--r-lg)',
-              background: 'var(--tls-primary-500)', border: 'none',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-inverse)', transition: 'all var(--dur-2)',
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-primary-600)'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-primary-500)'; }}
-              title="Nouveau message"
-            >
+            <Button variant="primary" size="sm" iconOnly aria-label="Nouveau message">
               <MessageSquarePlus size={16} />
-            </button>
+            </Button>
           </div>
 
           {/* Search bar */}
-          <label style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-            padding: 'var(--s-2) var(--s-3)',
-            borderRadius: 'var(--r-lg)',
-            border: '1.5px solid var(--border)',
-            background: 'var(--surface-muted)',
-            marginBottom: 'var(--s-3)',
-            transition: 'border-color var(--dur-1)',
-          }}
-            onFocusCapture={(e) => { (e.currentTarget as HTMLLabelElement).style.borderColor = 'var(--tls-primary-400)'; (e.currentTarget as HTMLLabelElement).style.background = 'var(--surface)'; }}
-            onBlurCapture={(e) => { (e.currentTarget as HTMLLabelElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLLabelElement).style.background = 'var(--surface-muted)'; }}
-          >
-            <Search size={14} color="var(--text-muted)" />
-            <input
-              type="search"
-              placeholder="Rechercher une conversation…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                flex: 1, border: 'none', background: 'transparent', outline: 'none',
-                fontSize: 'var(--t-body-sm)', color: 'var(--text)', fontFamily: 'inherit',
-              }}
-            />
-          </label>
+          <SearchInput
+            size="sm"
+            variant="filled"
+            placeholder="Rechercher une conversation…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            wrapperClassName="mb-3"
+          />
 
           {/* Filter pills */}
-          <div role="tablist" style={{ display: 'flex', gap: 'var(--s-2)' }}>
-            {([
-              { id: 'all',     label: 'Tous' },
-              { id: 'coach',   label: 'Coach' },
-              { id: 'support', label: 'Support' },
-              { id: 'starred', label: '⭐ Favoris' },
-            ] as { id: FilterType; label: string }[]).map(({ id, label }) => {
-              const active = filterType === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setFilterType(id)}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: 'var(--r-pill)',
-                    border: active ? 'none' : '1px solid var(--border)',
-                    background: active ? 'var(--tls-primary-500)' : 'transparent',
-                    color: active ? 'var(--text-inverse)' : 'var(--text-muted)',
-                    fontSize: 'var(--t-micro)', fontWeight: active ? 700 : 500,
-                    cursor: 'pointer', transition: 'all var(--dur-1)',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
+          <FilterBar
+            size="sm"
+            multiSelect={false}
+            showClearAll={false}
+            options={FILTERS.map(({ id, label }) => ({ id, label }))}
+            selected={[filterType]}
+            onChange={(ids) => setFilterType((ids[0] as FilterType) ?? 'all')}
+          />
         </div>
 
         {/* Conversation items */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--s-2)' }}>
+        <div className="flex-1 overflow-y-auto p-2">
           {filteredConversations.length === 0 ? (
-            <div style={{ padding: 'var(--s-8)', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <MessageSquare size={28} style={{ opacity: 0.3, marginBottom: 'var(--s-2)' }} />
-              <p style={{ margin: 0, fontSize: 'var(--t-caption)' }}>Aucune conversation trouvée</p>
-            </div>
+            <EmptyState
+              icon={<MessageSquare size={28} />}
+              title="Aucune conversation"
+              description={searchQuery ? 'Aucun résultat pour cette recherche.' : 'Aucune conversation dans cette catégorie.'}
+            />
           ) : (
             filteredConversations.map((conv) => {
               const isSelected = conv.id === selectedId;
-              const { bg, color } = getAvatarColors(conv.participantRole);
               return (
                 <button
                   key={conv.id}
                   type="button"
                   onClick={() => handleSelectConversation(conv.id)}
-                  style={{
-                    display: 'flex', alignItems: 'flex-start', gap: 'var(--s-3)',
-                    width: '100%', padding: 'var(--s-3)',
-                    borderRadius: 'var(--r-xl)',
-                    border: 'none', textAlign: 'left', cursor: 'pointer',
-                    background: isSelected ? 'var(--tls-primary-50)' : 'transparent',
-                    borderLeft: isSelected ? `3px solid var(--tls-primary-500)` : '3px solid transparent',
-                    marginBottom: '2px', transition: 'all var(--dur-1)',
-                    fontFamily: 'inherit',
-                  }}
-                  onMouseEnter={(e) => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
-                  onMouseLeave={(e) => { if (!isSelected) (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                  data-selected={isSelected}
+                  className={[
+                    'flex items-start gap-3 w-full p-3 rounded-xl border-l-[3px] text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
+                    isSelected
+                      ? 'bg-primary-50 border-l-primary-500'
+                      : 'bg-transparent border-l-transparent hover:bg-ink-50',
+                  ].join(' ')}
                 >
                   {/* Avatar */}
-                  <div style={{
-                    width: 44, height: 44, borderRadius: '50%',
-                    background: bg, color,
-                    border: `1.5px solid ${conv.participantRole === 'coach' ? 'var(--tls-primary-200)' : 'transparent'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '13px', fontWeight: 800, flexShrink: 0,
-                  }}>
-                    {conv.participantInitials}
-                  </div>
+                  <Avatar
+                    name={conv.participantName}
+                    initials={conv.participantInitials}
+                    size="md"
+                    tint={conv.participantRole === 'coach' ? 'brand' : conv.participantRole === 'support' ? 'warm' : 'ink'}
+                  />
 
                   {/* Content */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', marginBottom: '2px' }}>
-                      <span style={{
-                        fontSize: 'var(--t-body-sm)', fontWeight: conv.unreadCount > 0 ? 700 : 600,
-                        color: 'var(--text)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1 mb-0.5">
+                      <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
                         {conv.participantName}
                       </span>
                       <button
                         type="button"
                         onClick={(e) => handleToggleStar(e, conv.id)}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, flexShrink: 0 }}
+                        className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0"
                       >
                         <Star
                           size={13}
-                          style={{
-                            color: conv.isStarred ? 'var(--tls-yellow-500)' : 'var(--text-muted)',
-                            fill: conv.isStarred ? 'var(--tls-yellow-500)' : 'none',
-                          }}
+                          className={conv.isStarred ? 'text-accent-400 fill-accent-400' : 'text-ink-300 fill-transparent'}
                         />
                       </button>
                       {conv.unreadCount > 0 && (
-                        <span style={{
-                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                          minWidth: 18, height: 18, borderRadius: 'var(--r-pill)',
-                          background: 'var(--tls-primary-500)', color: 'var(--text-inverse)',
-                          fontSize: '10px', fontWeight: 700, padding: '0 5px', flexShrink: 0,
-                        }}>
+                        <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-pill bg-primary-500 text-white font-body text-[10px] font-bold px-1 shrink-0">
                           {conv.unreadCount}
                         </span>
                       )}
                     </div>
 
-                    {/* Context tag */}
                     {conv.context && (
-                      <p style={{ margin: '0 0 2px', fontSize: '11px', color: 'var(--tls-primary-600)', fontWeight: 600 }}>
+                      <p className="m-0 mb-0.5 font-body text-[11px] text-primary-600 font-semibold">
                         {CONTEXT_ICONS[conv.context.type]} {conv.context.title}
                       </p>
                     )}
 
-                    <p style={{
-                      margin: '0 0 2px', fontSize: 'var(--t-caption)',
-                      color: conv.unreadCount > 0 ? 'var(--text)' : 'var(--text-muted)',
-                      fontWeight: conv.unreadCount > 0 ? 600 : 400,
-                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    }}>
+                    <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
                       {conv.lastMessage}
                     </p>
-                    <span style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <span className="font-body text-micro text-ink-400 flex items-center gap-1">
                       <Clock3 size={10} /> {conv.lastMessageTime}
                     </span>
                   </div>
@@ -449,151 +344,88 @@ export const Messages: React.FC = () => {
         </div>
       </div>
 
-      {/* ─── Right Panel: Message thread ───────────────────────────────── */}
+      {/* Right Panel: Message thread */}
       {currentConversation ? (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div className="flex-1 flex flex-col overflow-hidden">
+
           {/* Thread header */}
-          <div style={{
-            padding: 'var(--s-4) var(--s-5)',
-            borderBottom: '1px solid var(--border)',
-            background: 'var(--surface)',
-            display: 'flex', alignItems: 'center', gap: 'var(--s-3)',
-          }}>
-            {/* Mobile back */}
-            <button
-              onClick={() => setSelectedId(null)}
-              style={{
-                width: 32, height: 32, borderRadius: 'var(--r-lg)',
-                background: 'var(--surface-muted)', border: '1px solid var(--border)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', color: 'var(--text-muted)', flexShrink: 0,
-              }}
-            >
+          <div className="px-5 py-4 border-b border-ink-200 bg-white flex items-center gap-3">
+            <Button variant="secondary" size="sm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={15} />
-            </button>
+            </Button>
 
-            {/* Avatar */}
-            {(() => {
-              const { bg, color } = getAvatarColors(currentConversation.participantRole);
-              return (
-                <div style={{
-                  width: 40, height: 40, borderRadius: '50%',
-                  background: bg, color,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '13px', fontWeight: 800, flexShrink: 0,
-                }}>
-                  {currentConversation.participantInitials}
-                </div>
-              );
-            })()}
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-extrabold shrink-0 ${AVATAR_CLASSES[currentConversation.participantRole]}`}>
+              {currentConversation.participantInitials}
+            </div>
 
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <h3 style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
+            <div className="flex-1 min-w-0">
+              <h3 className="m-0 font-body text-body-sm font-bold text-ink-900">
                 {currentConversation.participantName}
               </h3>
-              <p style={{ margin: 0, fontSize: 'var(--t-micro)', color: 'var(--text-muted)' }}>
+              <p className="m-0 font-body text-micro text-ink-500">
                 {currentConversation.participantRole === 'coach' ? '🎓 Coach IA' : '💬 Support'}
               </p>
             </div>
 
-            {/* Context tag in header */}
             {currentConversation.context && (
-              <div style={{
-                padding: '4px 10px',
-                borderRadius: 'var(--r-pill)',
-                background: 'var(--tls-primary-50)',
-                border: '1px solid var(--tls-primary-100)',
-                flexShrink: 0,
-              }}>
-                <span style={{ fontSize: 'var(--t-micro)', color: 'var(--tls-primary-700)', fontWeight: 600 }}>
-                  {currentConversation.context && CONTEXT_ICONS[currentConversation.context.type]} {currentConversation.context.title}
+              <div className="px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100 shrink-0">
+                <span className="font-body text-micro text-primary-700 font-semibold">
+                  {CONTEXT_ICONS[currentConversation.context.type]} {currentConversation.context.title}
                 </span>
               </div>
             )}
           </div>
 
           {/* Messages area */}
-          <div style={{
-            flex: 1, overflowY: 'auto',
-            padding: 'var(--s-6)',
-            background: 'var(--surface-muted)',
-            display: 'flex', flexDirection: 'column', gap: 'var(--s-3)',
-          }}>
+          <div className="flex-1 overflow-y-auto p-6 bg-ink-50 flex flex-col gap-3">
             {currentConversation.messages.map((msg) => {
               const isUser = msg.role === 'user';
-              const { bg, color } = getAvatarColors(msg.role === 'coach' ? 'coach' : 'support');
               return (
                 <div
                   key={msg.id}
-                  style={{
-                    display: 'flex', alignItems: 'flex-end', gap: 'var(--s-2)',
-                    flexDirection: isUser ? 'row-reverse' : 'row',
-                  }}
+                  className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
                 >
-                  {/* Coach/Support avatar */}
                   {!isUser && (
-                    <div style={{
-                      width: 32, height: 32, borderRadius: '50%',
-                      background: bg, color,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '11px', fontWeight: 800, flexShrink: 0,
-                    }}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-extrabold shrink-0 ${AVATAR_CLASSES[msg.role === 'coach' ? 'coach' : 'support']}`}>
                       {currentConversation.participantInitials}
                     </div>
                   )}
 
-                  <div style={{ maxWidth: '68%', display: 'flex', flexDirection: 'column', gap: 4, alignItems: isUser ? 'flex-end' : 'flex-start' }}>
+                  <div className={`max-w-[68%] flex flex-col gap-1 ${isUser ? 'items-end' : 'items-start'}`}>
                     {!isUser && (
-                      <span style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', fontWeight: 600, paddingLeft: 4 }}>
+                      <span className="font-body text-micro text-ink-500 font-semibold pl-1">
                         {msg.senderName}
                       </span>
                     )}
 
                     {/* Bubble */}
-                    <div style={{
-                      padding: 'var(--s-3) var(--s-4)',
-                      borderRadius: 'var(--r-xl)',
-                      borderBottomRightRadius: isUser ? '4px' : 'var(--r-xl)',
-                      borderBottomLeftRadius: isUser ? 'var(--r-xl)' : '4px',
-                      background: isUser ? 'var(--tls-primary-500)' : 'var(--surface)',
-                      color: isUser ? 'var(--text-inverse)' : 'var(--text)',
-                      boxShadow: isUser ? 'var(--shadow-md)' : 'var(--shadow-xs)',
-                      border: isUser ? 'none' : '1px solid var(--border)',
-                    }}>
-                      <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', lineHeight: 1.55 }}>
-                        {msg.content}
-                      </p>
+                    <div className={[
+                      'px-4 py-3 rounded-xl',
+                      isUser
+                        ? 'bg-primary-500 text-white shadow-md rounded-br-[4px]'
+                        : 'bg-white text-ink-900 border border-ink-200 shadow-xs rounded-bl-[4px]',
+                    ].join(' ')}>
+                      <p className="m-0 font-body text-body-sm leading-relaxed">{msg.content}</p>
 
-                      {/* Attachments */}
                       {msg.attachments && msg.attachments.length > 0 && (
-                        <div style={{ marginTop: 'var(--s-2)', display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
+                        <div className="mt-2 flex flex-col gap-2">
                           {msg.attachments.map((att, i) => (
                             <div
                               key={i}
-                              style={{
-                                display: 'flex', alignItems: 'center', gap: 'var(--s-2)',
-                                padding: 'var(--s-2) var(--s-3)',
-                                borderRadius: 'var(--r-lg)',
-                                background: isUser ? 'var(--overlay-white-xs)' : 'var(--surface-muted)',
-                              }}
+                              className={`flex items-center gap-2 px-3 py-2 rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
                             >
-                              <div style={{
-                                width: 30, height: 30, borderRadius: 'var(--r-md)',
-                                background: isUser ? 'var(--overlay-white-sm)' : 'var(--tls-primary-50)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                flexShrink: 0,
-                              }}>
+                              <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
                                 {att.type === 'image'
-                                  ? <ImageIcon size={14} style={{ color: isUser ? 'var(--text-inverse)' : 'var(--tls-primary-500)' }} />
-                                  : <File size={14} style={{ color: isUser ? 'var(--text-inverse)' : 'var(--tls-primary-500)' }} />
+                                  ? <ImageIcon size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
+                                  : <File size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
                                 }
                               </div>
-                              <div style={{ flex: 1, minWidth: 0 }}>
-                                <p style={{ margin: 0, fontSize: '11px', fontWeight: 600, color: isUser ? 'var(--text-inverse)' : 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <div className="flex-1 min-w-0">
+                                <p className={`m-0 font-body text-[11px] font-semibold overflow-hidden text-ellipsis whitespace-nowrap ${isUser ? 'text-white' : 'text-ink-900'}`}>
                                   {att.name}
                                 </p>
                                 {att.size && (
-                                  <p style={{ margin: 0, fontSize: '10px', color: isUser ? 'var(--on-color-text-muted)' : 'var(--text-muted)' }}>
+                                  <p className={`m-0 font-body text-[10px] ${isUser ? 'text-white/70' : 'text-ink-400'}`}>
                                     {att.size}
                                   </p>
                                 )}
@@ -604,15 +436,9 @@ export const Messages: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Timestamp + read check */}
-                    <span style={{
-                      fontSize: 'var(--t-micro)', color: 'var(--text-muted)',
-                      display: 'flex', alignItems: 'center', gap: 4, paddingInline: 4,
-                    }}>
+                    <span className="font-body text-micro text-ink-400 flex items-center gap-1 px-1">
                       {msg.timestamp}
-                      {isUser && (
-                        <CheckCheck size={11} style={{ color: 'var(--tls-primary-400)' }} />
-                      )}
+                      {isUser && <CheckCheck size={11} className="text-primary-400" />}
                     </span>
                   </div>
                 </div>
@@ -622,25 +448,11 @@ export const Messages: React.FC = () => {
           </div>
 
           {/* Compose bar */}
-          <div style={{
-            padding: 'var(--s-4) var(--s-5)',
-            borderTop: '1px solid var(--border)',
-            background: 'var(--surface)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--s-2)' }}>
-              <button
-                style={{
-                  width: 36, height: 36, borderRadius: 'var(--r-lg)', border: '1px solid var(--border)',
-                  background: 'var(--surface-muted)', cursor: 'pointer', flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--text-muted)', transition: 'all var(--dur-1)',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--border)'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)'; }}
-                title="Pièce jointe"
-              >
+          <div className="px-5 py-4 border-t border-ink-200 bg-white">
+            <div className="flex items-end gap-2">
+              <Button variant="secondary" size="sm" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={15} />
-              </button>
+              </Button>
 
               <textarea
                 value={messageInput}
@@ -648,74 +460,43 @@ export const Messages: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message… (Entrée pour envoyer)"
                 rows={1}
-                style={{
-                  flex: 1,
-                  padding: 'var(--s-2) var(--s-3)',
-                  borderRadius: 'var(--r-lg)',
-                  border: '1.5px solid var(--border)',
-                  background: 'var(--surface-muted)',
-                  color: 'var(--text)',
-                  fontSize: 'var(--t-body-sm)', lineHeight: 1.55,
-                  fontFamily: 'inherit',
-                  resize: 'none', outline: 'none',
-                  minHeight: 38, maxHeight: 120,
-                  transition: 'border-color var(--dur-1)',
-                }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-400)'; e.currentTarget.style.background = 'var(--surface)'; }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--surface-muted)'; }}
+                className="flex-1 px-3 py-2 rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
               />
 
-              <button
-                onClick={handleSend}
+              <Button
+                variant="primary"
+                size="sm"
+                iconOnly
+                aria-label="Envoyer"
+                className="shrink-0"
                 disabled={!messageInput.trim()}
-                style={{
-                  width: 36, height: 36, borderRadius: 'var(--r-lg)', border: 'none',
-                  background: messageInput.trim() ? 'var(--tls-primary-500)' : 'var(--border)',
-                  cursor: messageInput.trim() ? 'pointer' : 'not-allowed',
-                  flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: messageInput.trim() ? 'var(--text-inverse)' : 'var(--text-muted)',
-                  transition: 'all var(--dur-1)',
-                }}
-                onMouseEnter={(e) => { if (messageInput.trim()) (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-primary-600)'; }}
-                onMouseLeave={(e) => { if (messageInput.trim()) (e.currentTarget as HTMLButtonElement).style.background = 'var(--tls-primary-500)'; }}
-                title="Envoyer (Entrée)"
+                onClick={handleSend}
               >
                 <Send size={15} />
-              </button>
+              </Button>
             </div>
 
-            <p style={{ margin: 'var(--s-2) 0 0', fontSize: '11px', color: 'var(--text-muted)', textAlign: 'center' }}>
-              <kbd style={{ padding: '1px 5px', borderRadius: 'var(--r-xs)', background: 'var(--surface-muted)', border: '1px solid var(--border)', fontSize: '10px' }}>Entrée</kbd> pour envoyer &nbsp;·&nbsp;
-              <kbd style={{ padding: '1px 5px', borderRadius: 'var(--r-xs)', background: 'var(--surface-muted)', border: '1px solid var(--border)', fontSize: '10px' }}>Shift+Entrée</kbd> pour un saut de ligne
+            <p className="m-0 mt-2 font-body text-[11px] text-ink-400 text-center">
+              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Entrée</kbd> pour envoyer &nbsp;·&nbsp;
+              <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Shift+Entrée</kbd> pour un saut de ligne
             </p>
           </div>
         </div>
       ) : (
         /* Empty state */
-        <div style={{
-          flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'var(--surface-muted)',
-        }}>
-          <div style={{ textAlign: 'center', maxWidth: 320 }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: '50%',
-              background: 'var(--tls-primary-50)',
-              border: '1.5px solid var(--tls-primary-100)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              margin: '0 auto var(--s-4)',
-              color: 'var(--tls-primary-400)',
-            }}>
+        <div className="flex-1 flex items-center justify-center bg-ink-50">
+          <div className="text-center max-w-xs px-6">
+            <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-4 text-primary-400">
               <MessageSquarePlus size={30} />
             </div>
-            <h3 style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)' }}>
+            <h3 className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">
               Sélectionnez une conversation
             </h3>
-            <p style={{ margin: '0 0 var(--s-4)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            <p className="m-0 mb-4 font-body text-caption text-ink-500 leading-relaxed">
               Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
-            <Button variant="secondary" style={{ width: '100%', justifyContent: 'center' }}>
-              <Pencil size={14} /> Nouveau message
+            <Button variant="secondary" fullWidth leadingIcon={<Pencil size={14} />}>
+              Nouveau message
             </Button>
           </div>
         </div>
