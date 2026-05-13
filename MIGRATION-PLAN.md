@@ -525,7 +525,7 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | Magazine | `EditorialHero` (sun) + `MagazineCard` grid + filter `Tabs` | M | ✅ |
 | VeilleContent | `EditorialLayout` + `SectionCard` body + `RelatedItemList` veille connexe | M | ✅ |
 | Dossier | `EditorialHero` + `ResourceCard` grid via `ResourceCardGrid` + `SectionCard` blocks | L | ✅ |
-| Collaboration | `EditorialHero` (warm) + `ProfileCard` partners + `SectionCard` projects | L | ⬜ |
+| Collaboration | `EditorialHero` (warm) + `ProfileCard` partners + `SectionCard` projects | L | ✅ |
 | Messages | Conv list (gauche) + thread (droite) — refonte chat-bubble + `MessageThreadCard` | L | ⬜ |
 | WeeklyNewsletter | `EditorialLayout` + `SectionCard` rubriques + `RelatedItemList` past issues | M | ✅ |
 | Onboarding | `MultiStepForm` + `EditorialHero` (brand) + progress `Stepper` | M | ✅ |
