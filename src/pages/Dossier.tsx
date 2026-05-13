@@ -1,890 +1,347 @@
 /**
- * Dossier — Sous-page dossier thématique
+ * Dossier — Phase 10 Tier 2 refonte.
  *
- * Design identique à VeilleContent (Étude de Marché) :
- * - Breadcrumb "Veille & Apprentissage > Dossier"
- * - Icône BarChart teal + tag orange "DOSSIER"
- * - Grand titre + méta auteur/date/pages/téléchargements
- * - Callout orange "Résumé Exécutif" avec bordure gauche
- * - Layout 2 colonnes : sommaire sticky + contenu
- * - Points clés 2×2 cards oranges
- * - Données & Analyses grands chiffres + graphique placeholder
- * - Conclusion card teal gradient
- * - CTA téléchargement orange centré
+ * Page dossier thématique long-form, tone warm.
+ *
+ * Structure (per Figma audit) :
+ *  1. ReadingProgressBar fixed top + sticky glass header (back, ring, download CTA)
+ *  2. Hero warm bounded (gradient subtle bg, breadcrumb 2-niveaux, emoji-bubble, h1, meta)
+ *  3. IntroCallout (résumé exécutif, tone warm, quote icon)
+ *  4. EditorialLayout asideFirst — TOC sticky gauche + sections numérotées
+ *  5. KeyFindingCard grid 2-cols (Points clés)
+ *  6. Conclusion brand gradient card
+ *  7. Download CTA centered
  */
 
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useBookmarksStore, useReadingProgressSync } from '../stores/persistence';
 import {
   ChevronRight,
-  BarChart2,
-  UserRound,
-  CalendarDays,
-  FileText,
+  ArrowLeft,
+  ArrowRight,
+  Bookmark,
+  Share2,
   Download,
+  CalendarDays,
+  UserRound,
+  FileText,
   TrendingUp,
   Users,
   Zap,
   Star,
   CheckCircle2,
-  BookOpen,
-  ArrowUpRight,
-  ArrowRight,
-  ArrowLeft,
-  Bookmark,
-  BookmarkCheck,
-  Share2,
-} from "lucide-react";
+  BarChart2,
+} from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { EditorialLayout } from '../components/patterns/EditorialLayout';
+import { TableOfContents } from '../components/patterns/TableOfContents';
+import type { TocItem } from '../components/patterns/TableOfContents';
+import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
+import { IntroCallout } from '../components/patterns/IntroCallout';
+import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import {
+  ReadingProgressBar,
+  ReadingProgressRing,
+  useReadingProgress,
+} from '../components/patterns/ReadingProgress';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
-const SOMMAIRE = [
-  { id: "s1", num: "01", title: "Contexte & enjeux 2026" },
-  { id: "s2", num: "02", title: "Transformation par l'IA" },
-  { id: "s3", num: "03", title: "Points clés & enseignements" },
-  { id: "s4", num: "04", title: "Données & Analyses" },
-  { id: "s5", num: "05", title: "Conclusions & recommandations" },
+const TOC: TocItem[] = [
+  { id: 'sec-contexte',     label: 'Contexte & enjeux 2026' },
+  { id: 'sec-transfo',      label: "Transformation par l'IA" },
+  { id: 'sec-points',       label: 'Points clés & enseignements' },
+  { id: 'sec-data',         label: 'Données & Analyses' },
+  { id: 'sec-conclusion',   label: 'Conclusions & recommandations' },
 ];
 
-const POINTS_CLES = [
-  {
-    icon: <TrendingUp size={20} />,
-    label: "Croissance de l'adoption",
-    value: "+34%",
-    desc: "d'organisations ayant intégré l'IA dans leurs parcours formation en 12 mois",
-  },
-  {
-    icon: <Users size={20} />,
-    label: "Formateurs impliqués",
-    value: "78%",
-    desc: "utilisent au moins 1 outil IA hebdomadairement dans leur pratique",
-  },
-  {
-    icon: <Zap size={20} />,
-    label: "Gain de productivité",
-    value: "3.2×",
-    desc: "plus rapide pour créer des contenus pédagogiques avec l'IA",
-  },
-  {
-    icon: <Star size={20} />,
-    label: "Engagement apprenant",
-    value: "+41%",
-    desc: "sur les parcours IA-augmentés vs parcours traditionnels",
-  },
+const KEY_FINDINGS = [
+  { icon: <TrendingUp size={20} />, tone: 'warm' as const,    title: "Croissance de l'adoption", metric: { value: '+34 %', label: 'en 12 mois' },             desc: "d'organisations ayant intégré l'IA dans leurs parcours formation." },
+  { icon: <Users size={20} />,      tone: 'brand' as const,   title: 'Formateurs impliqués',     metric: { value: '78 %', label: 'des formateurs' },          desc: 'utilisent au moins 1 outil IA hebdomadairement dans leur pratique.' },
+  { icon: <Zap size={20} />,        tone: 'sun' as const,     title: 'Gain de productivité',     metric: { value: '3,2×', label: 'plus rapide' },             desc: 'pour créer des contenus pédagogiques avec l\'IA.' },
+  { icon: <Star size={20} />,       tone: 'success' as const, title: 'Engagement apprenant',     metric: { value: '+41 %', label: 'd\'engagement' },           desc: 'sur les parcours IA-augmentés vs parcours traditionnels.' },
 ];
 
 const BIG_STATS = [
-  {
-    value: "72%",
-    label: "des DRH priorisent la formation IA",
-    trend: "Top 3 priorités 2026",
-    trendUp: true,
-    color: "var(--tls-primary-500)",
-  },
-  {
-    value: "3.2×",
-    label: "gain productivité contenu",
-    trend: "Mesuré sur 6 mois",
-    trendUp: true,
-    color: "var(--tls-orange-500)",
-  },
-  {
-    value: "+41%",
-    label: "engagement apprenant",
-    trend: "Parcours IA-augmentés",
-    trendUp: true,
-    color: "var(--tls-primary-600)",
-  },
-  {
-    value: "280%",
-    label: "ROI moyen sur 18 mois",
-    trend: "Organisations pionnières",
-    trendUp: true,
-    color: "var(--tls-orange-600)",
-  },
+  { value: '72 %',  label: 'des DRH priorisent la formation IA',  trend: 'Top 3 priorités 2026',     tone: 'brand' as const },
+  { value: '3,2×',  label: 'gain productivité contenu',           trend: 'Mesuré sur 6 mois',         tone: 'warm'  as const },
+  { value: '+41 %', label: 'engagement apprenant',                trend: 'Parcours IA-augmentés',     tone: 'sun'   as const },
+  { value: '280 %', label: 'ROI moyen sur 18 mois',               trend: 'Organisations pionnières',  tone: 'warm'  as const },
 ];
+
+const RECOMMENDATIONS = [
+  'Déployer un diagnostic de maturité IA pour votre organisation',
+  'Former les managers de premier niveau avant les équipes',
+  'Mettre en place des boucles de feedback hebdomadaires sur les usages IA',
+];
+
+const STAT_TONE: Record<'brand' | 'warm' | 'sun', { value: string; trend: string }> = {
+  brand: { value: 'text-primary-700',   trend: 'bg-primary-100 text-primary-700' },
+  warm:  { value: 'text-secondary-700', trend: 'bg-secondary-100 text-secondary-700' },
+  sun:   { value: 'text-accent-700',    trend: 'bg-accent-100 text-accent-800' },
+};
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const Dossier: React.FC = () => {
   const navigate = useNavigate();
-  const [activeSommaire, setActiveSommaire] = useState("s1");
-  const [saved, setSaved] = useState(false);
+  const { id = '1' } = useParams<{ id: string }>();
+  const articleRef = useRef<HTMLElement>(null);
+  const bookmarkKey = `dossier-${id}`;
+  const saved = useBookmarksStore((s) => s.ids.includes(bookmarkKey));
+  const toggleBookmark = useBookmarksStore((s) => s.toggle);
+  const progressPercent = useReadingProgress(articleRef);
+  useReadingProgressSync(bookmarkKey, progressPercent);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--surface)",
-        fontFamily: "var(--font-body)",
-      }}
-    >
-      {/* ─ Top action bar ─────────────────────────────────────────── */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "var(--s-4) var(--s-6)",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        {/* Breadcrumb */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--s-2)",
-            fontSize: "var(--t-sm)",
-            color: "var(--text-muted)",
-          }}
-        >
-          <span
-            style={{ cursor: "pointer", color: "var(--tls-primary-600)", fontWeight: 500 }}
-            onClick={() => navigate("/veille")}
-          >
-            <ArrowLeft size={13} style={{ display: "inline", marginRight: "4px", verticalAlign: "middle" }} />
-            Veille &amp; Apprentissage
-          </span>
-          <ChevronRight size={14} />
-          <span style={{ color: "var(--tls-orange-600)", fontWeight: 600 }}>Dossier</span>
-        </div>
+    <div className="min-h-screen bg-surface">
+      <ReadingProgressBar targetRef={articleRef} tone="warm" />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--s-2)" }}>
-          <button
-            type="button"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--s-2)",
-              padding: "var(--btn-padding-md-sm)",
-              borderRadius: "var(--r-full)",
-              border: "none",
-              background: "var(--tls-orange-500)",
-              color: 'var(--text-inverse)',
-              fontSize: "var(--t-body-sm)",
-              fontWeight: 700,
-              cursor: "pointer",
-              fontFamily: "var(--font-body)",
-              boxShadow: "var(--shadow-warm)",
-            }}
+      {/* Sticky glass header */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            leadingIcon={<ArrowLeft size={14} />}
+            onClick={() => navigate('/veille/dossiers')}
           >
-            <Download size={14} /> Télécharger PDF
-          </button>
-          <button
-            type="button"
-            onClick={() => setSaved(!saved)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "38px",
-              height: "38px",
-              borderRadius: "var(--r-full)",
-              border: "1.5px solid var(--border)",
-              background: "transparent",
-              color: saved ? "var(--tls-primary-500)" : "var(--text-muted)",
-              cursor: "pointer",
-            }}
-          >
-            {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
-          </button>
-          <button
-            type="button"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "38px",
-              height: "38px",
-              borderRadius: "var(--r-full)",
-              border: "1.5px solid var(--border)",
-              background: "transparent",
-              color: "var(--text-muted)",
-              cursor: "pointer",
-            }}
-          >
-            <Share2 size={16} />
-          </button>
-        </div>
-      </div>
+            Tous les dossiers
+          </Button>
 
-      {/* ─ Hero header ──────────────────────────────────────────────── */}
-      <div
-        style={{
-          background: "linear-gradient(160deg, var(--tls-primary-50) 0%, var(--surface) 50%)",
-          padding: "var(--s-10) var(--s-8) var(--s-8)",
-        }}
-      >
-        <div style={{ maxWidth: "var(--container-default)", margin: "0 auto" }}>
-          {/* Icon + tag row */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--s-3)",
-              marginBottom: "var(--s-5)",
-            }}
-          >
-            <div
-              style={{
-                width: "56px",
-                height: "56px",
-                borderRadius: "var(--r-2xl)",
-                background: "var(--tls-orange-100)",
-                border: "1px solid var(--tls-orange-300)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--tls-orange-600)",
-                flexShrink: 0,
-              }}
+          <div className="flex items-center gap-2">
+            <ReadingProgressRing targetRef={articleRef} tone="warm" size={36} />
+            <Button variant="warm" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
+              Télécharger
+            </Button>
+            <Button
+              variant={saved ? 'primary' : 'ghost'}
+              size="sm"
+              iconOnly
+              aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
+              onClick={() => toggleBookmark(bookmarkKey)}
             >
-              <BarChart2 size={26} />
-            </div>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "var(--chip-padding-sm)",
-                borderRadius: "var(--r-full)",
-                background: "var(--tls-orange-50)",
-                border: "1px solid var(--tls-orange-300)",
-                color: "var(--tls-orange-600)",
-                fontSize: "var(--t-micro)",
-                fontWeight: 800,
-                letterSpacing: "0.08em",
-              }}
-            >
-              DOSSIER THÉMATIQUE
-            </span>
-          </div>
-
-          {/* Title */}
-          <h1
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 900,
-              color: "var(--text)",
-              margin: "0 0 var(--s-5)",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              maxWidth: "var(--container-narrow)",
-            }}
-          >
-            Transformation IA des parcours de formation professionnelle
-          </h1>
-
-          {/* Meta row */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--s-5)",
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              { icon: <UserRound size={14} />, label: "The Learning Society" },
-              { icon: <CalendarDays size={14} />, label: "15 janvier 2026" },
-              { icon: <FileText size={14} />, label: "38 pages" },
-              { icon: <Download size={14} />, label: "2 847 téléchargements" },
-            ].map((meta, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--s-1-5)",
-                  color: "var(--text-muted)",
-                  fontSize: "var(--t-sm)",
-                }}
-              >
-                {meta.icon}
-                {meta.label}
-              </div>
-            ))}
+              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+            </Button>
+            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+              <Share2 size={15} />
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* ─ Résumé Exécutif callout ────────────────────────────────── */}
-      <div style={{ maxWidth: "var(--container-default)", margin: "0 auto", padding: "0 var(--s-8)" }}>
-        <div
-          style={{
-            background: "linear-gradient(135deg, var(--overlay-brand-xs) 0%, var(--tls-orange-50) 100%)",
-            border: "1.5px solid var(--tls-orange-300)",
-            borderLeft: "4px solid var(--tls-orange-500)",
-            borderRadius: "var(--r-xl)",
-            padding: "var(--s-5) var(--s-6)",
-            margin: "var(--s-6) 0",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "var(--t-micro)",
-              fontWeight: 800,
-              color: "var(--tls-orange-600)",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              marginBottom: "var(--s-2)",
-            }}
-          >
-            Résumé Exécutif
-          </div>
-          <p
-            style={{
-              fontSize: "var(--t-sm)",
-              color: "var(--text)",
-              lineHeight: 1.7,
-              margin: 0,
-              fontWeight: 500,
-            }}
-          >
-            Ce dossier analyse en profondeur la transformation des parcours de formation sous l'impulsion
-            de l'intelligence artificielle. Basé sur une étude menée auprès de 1 800 responsables formation
-            et 12 000 apprenants dans 8 pays européens, il documente les pratiques émergentes, les freins
-            identifiés et les leviers d'accélération pour les organisations qui souhaitent piloter cette
-            transformation de façon structurée et mesurable.
-          </p>
-        </div>
-      </div>
+      <main ref={articleRef}>
+        {/* Hero warm bounded */}
+        <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-stack-lg">
+            <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
+              <button type="button" onClick={() => navigate('/veille')} className="hover:text-secondary-700 bg-transparent border-0 cursor-pointer p-0">
+                Veille
+              </button>
+              <ChevronRight size={10} aria-hidden />
+              <button type="button" onClick={() => navigate('/veille/dossiers')} className="hover:text-secondary-700 bg-transparent border-0 cursor-pointer p-0">
+                Dossiers
+              </button>
+              <ChevronRight size={10} aria-hidden />
+              <span className="text-ink-700">Transformation IA</span>
+            </nav>
 
-      {/* ─ 2-column layout ────────────────────────────────────────── */}
-      <div
-        style={{
-          maxWidth: "var(--container-default)",
-          margin: "0 auto",
-          padding: "0 var(--s-8) var(--s-12)",
-          display: "grid",
-          gridTemplateColumns: "220px 1fr",
-          gap: "var(--s-8)",
-          alignItems: "start",
-        }}
-      >
-        {/* ─ Sidebar sommaire ─────────────────────────────────────── */}
-        <aside style={{ position: "sticky", top: "24px" }}>
-          <div
-            style={{
-              background: "var(--surface)",
-              border: "1px solid var(--overlay-dark-md)",
-              borderRadius: "var(--r-2xl)",
-              padding: "var(--s-4)",
-              boxShadow: "var(--shadow-sm)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "var(--s-2)",
-                marginBottom: "var(--s-3)",
-                padding: "0 var(--s-2)",
-              }}
-            >
-              <BookOpen size={14} style={{ color: "var(--tls-primary-500)" }} />
-              <span
-                style={{
-                  fontSize: "var(--t-micro)",
-                  fontWeight: 700,
-                  color: "var(--tls-primary-600)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                Sommaire
+            <div className="flex items-start gap-4 sm:gap-stack-lg">
+              <span aria-hidden className="shrink-0 inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-secondary-100 border border-secondary-200 text-3xl sm:text-4xl">
+                🧠
               </span>
-            </div>
-
-            {SOMMAIRE.map((item) => {
-              const isActive = activeSommaire === item.id;
-              return (
-                <div
-                  key={item.id}
-                  onClick={() => setActiveSommaire(item.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: "var(--s-2)",
-                    padding: "var(--s-2)",
-                    borderRadius: "var(--r-lg)",
-                    cursor: "pointer",
-                    background: isActive ? "var(--tls-primary-50)" : "transparent",
-                    transition: "all 0.15s",
-                    marginBottom: "var(--s-1)",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) e.currentTarget.style.background = "var(--surface-muted)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) e.currentTarget.style.background = "transparent";
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "var(--t-micro)",
-                      fontWeight: 800,
-                      color: isActive ? "var(--tls-primary-600)" : "var(--text-muted)",
-                      minWidth: "20px",
-                      fontVariantNumeric: "tabular-nums",
-                      marginTop: "1px",
-                    }}
-                  >
-                    {item.num}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "var(--t-caption)",
-                      fontWeight: isActive ? 600 : 500,
-                      color: isActive ? "var(--tls-primary-700)" : "var(--text)",
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {item.title}
-                  </span>
+              <div className="flex-1 min-w-0 flex flex-col gap-stack">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
+                  Dossier thématique
+                </span>
+                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-3xl">
+                  Transformation IA des parcours de formation professionnelle
+                </h1>
+                <div className="flex items-center gap-4 flex-wrap font-body text-caption text-ink-600">
+                  <span className="inline-flex items-center gap-1.5"><UserRound size={13} /> The Learning Society</span>
+                  <span aria-hidden className="text-ink-300">·</span>
+                  <span className="inline-flex items-center gap-1.5"><CalendarDays size={13} /> 15 janvier 2026</span>
+                  <span aria-hidden className="text-ink-300">·</span>
+                  <span className="inline-flex items-center gap-1.5"><FileText size={13} /> 38 pages</span>
+                  <span aria-hidden className="text-ink-300">·</span>
+                  <span className="inline-flex items-center gap-1.5"><Download size={13} /> 2 847 téléchargements</span>
                 </div>
-              );
-            })}
+              </div>
+            </div>
           </div>
-        </aside>
+        </header>
 
-        {/* ─ Main content ────────────────────────────────────────── */}
-        <main>
-          {/* Section 1 */}
-          <section style={{ marginBottom: "var(--s-10)" }}>
-            <h2
-              style={{
-                fontSize: "var(--t-h3)",
-                fontWeight: 800,
-                color: "var(--text)",
-                margin: "0 0 var(--s-4)",
-                paddingBottom: "var(--s-3)",
-                borderBottom: "2px solid var(--tls-primary-100)",
-              }}
-            >
-              01 — Contexte &amp; enjeux 2026
-            </h2>
-            <p
-              style={{
-                fontSize: "var(--t-sm)",
-                color: "var(--text-muted)",
-                lineHeight: 1.75,
-                margin: "0 0 var(--s-4)",
-              }}
-            >
-              La transformation des organisations par l'IA générative est désormais un fait structurel, pas
-              une tendance conjoncturelle. En 2026, 72% des DRH interrogés placent la montée en compétences
-              IA dans leur top 3 des priorités stratégiques. Cette pression crée un besoin massif de refonte
-              des dispositifs de formation : les parcours longs et standardisés cèdent la place à des modules
-              courts, personnalisés et disponibles en flux continu.
-            </p>
-            <p
-              style={{
-                fontSize: "var(--t-sm)",
-                color: "var(--text-muted)",
-                lineHeight: 1.75,
-                margin: 0,
-              }}
-            >
-              Les équipes Formation &amp; Talent doivent non seulement former aux nouveaux outils, mais repenser
-              fondamentalement leur rôle et leur valeur ajoutée dans l'organisation. Le formateur de demain
-              est avant tout un architecte de parcours et un curateur d'expériences.
-            </p>
-          </section>
+        {/* Body — EditorialLayout aside-left (TOC) + main */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+          <EditorialLayout
+            asideFirst
+            aside={
+              <div className="flex flex-col gap-stack-lg pt-2">
+                <TableOfContents
+                  tone="warm"
+                  items={TOC}
+                  scrollOffset={80}
+                />
+                <AuthorStrip
+                  variant="compact"
+                  name="The Learning Society"
+                  role="Équipe Research"
+                />
+              </div>
+            }
+            main={
+              <div className="flex flex-col gap-section">
+                {/* Résumé Exécutif callout */}
+                <IntroCallout tone="warm" eyebrow="Résumé exécutif" withQuoteIcon>
+                  Ce dossier analyse en profondeur la transformation des parcours de formation sous
+                  l'impulsion de l'intelligence artificielle. Basé sur une étude menée auprès de 1 800
+                  responsables formation et 12 000 apprenants dans 8 pays européens, il documente les
+                  pratiques émergentes, les freins identifiés et les leviers d'accélération.
+                </IntroCallout>
 
-          {/* Section 2 */}
-          <section style={{ marginBottom: "var(--s-10)" }}>
-            <h2
-              style={{
-                fontSize: "var(--t-h3)",
-                fontWeight: 800,
-                color: "var(--text)",
-                margin: "0 0 var(--s-4)",
-                paddingBottom: "var(--s-3)",
-                borderBottom: "2px solid var(--tls-primary-100)",
-              }}
-            >
-              02 — Transformation par l'IA
-            </h2>
-            <p
-              style={{
-                fontSize: "var(--t-sm)",
-                color: "var(--text-muted)",
-                lineHeight: 1.75,
-                margin: "0 0 var(--s-4)",
-              }}
-            >
-              Notre enquête terrain révèle une polarisation nette entre les organisations qui ont engagé une
-              transformation structurée et celles qui expérimentent encore de façon isolée. Les premières — 34%
-              de notre panel — ont mis en place des cellules dédiées, des indicateurs de maturité IA et des
-              budgets sanctuarisés.
-            </p>
-            <p
-              style={{
-                fontSize: "var(--t-sm)",
-                color: "var(--text-muted)",
-                lineHeight: 1.75,
-                margin: 0,
-              }}
-            >
-              Le facteur différenciant n'est pas technologique : c'est la gouvernance. Les organisations
-              performantes ont systématiquement nommé un pilote formation IA avec un mandat clair et un accès
-              direct au CODIR.
-            </p>
-          </section>
+                {/* Section 1 */}
+                <section id="sec-contexte" className="flex flex-col gap-stack scroll-mt-24">
+                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                    01 — Contexte & enjeux 2026
+                  </h2>
+                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                    La transformation des organisations par l'IA générative est désormais un fait structurel,
+                    pas une tendance conjoncturelle. En 2026, 72 % des DRH interrogés placent la montée en
+                    compétences IA dans leur top 3 des priorités stratégiques. Cette pression crée un besoin
+                    massif de refonte des dispositifs de formation : les parcours longs et standardisés
+                    cèdent la place à des modules courts, personnalisés et disponibles en flux continu.
+                  </p>
+                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                    Les équipes Formation & Talent doivent non seulement former aux nouveaux outils, mais
+                    repenser fondamentalement leur rôle et leur valeur ajoutée. Le formateur de demain est
+                    avant tout un architecte de parcours et un curateur d'expériences.
+                  </p>
+                </section>
 
-          {/* Section 3 — Points clés 2×2 */}
-          <section style={{ marginBottom: "var(--s-10)" }}>
-            <h2
-              style={{
-                fontSize: "var(--t-h3)",
-                fontWeight: 800,
-                color: "var(--text)",
-                margin: "0 0 var(--s-5)",
-                paddingBottom: "var(--s-3)",
-                borderBottom: "2px solid var(--tls-primary-100)",
-              }}
-            >
-              03 — Points clés &amp; enseignements
-            </h2>
+                {/* Section 2 */}
+                <section id="sec-transfo" className="flex flex-col gap-stack scroll-mt-24">
+                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                    02 — Transformation par l'IA
+                  </h2>
+                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                    Notre enquête terrain révèle une polarisation nette entre les organisations qui ont engagé
+                    une transformation structurée et celles qui expérimentent encore de façon isolée. Les
+                    premières — 34 % de notre panel — ont mis en place des cellules dédiées, des indicateurs
+                    de maturité IA et des budgets sanctuarisés.
+                  </p>
+                  <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
+                    Le facteur différenciant n'est pas technologique : c'est la gouvernance. Les organisations
+                    performantes ont systématiquement nommé un pilote formation IA avec un mandat clair et un
+                    accès direct au CODIR.
+                  </p>
+                </section>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "var(--s-4)",
-              }}
-            >
-              {POINTS_CLES.map((point, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: "var(--tls-orange-50)",
-                    border: "1px solid var(--tls-orange-200)",
-                    borderRadius: "var(--r-xl)",
-                    padding: "var(--s-5)",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "var(--s-2)",
-                      marginBottom: "var(--s-3)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "36px",
-                        height: "36px",
-                        borderRadius: "var(--r-lg)",
-                        background: "var(--tls-orange-200)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "var(--tls-orange-600)",
-                        flexShrink: 0,
-                      }}
-                    >
-                      {point.icon}
-                    </div>
-                    <span
-                      style={{
-                        fontSize: "var(--t-caption)",
-                        fontWeight: 700,
-                        color: "var(--tls-orange-600)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                      }}
-                    >
-                      {point.label}
+                {/* Section 3 — KeyFinding grid */}
+                <section id="sec-points" className="flex flex-col gap-stack scroll-mt-24">
+                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                    03 — Points clés & enseignements
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
+                    {KEY_FINDINGS.map((k, i) => (
+                      <KeyFindingCard
+                        key={i}
+                        tone={k.tone}
+                        icon={k.icon}
+                        title={k.title}
+                        metric={k.metric}
+                        description={k.desc}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                {/* Section 4 — Big stats */}
+                <section id="sec-data" className="flex flex-col gap-stack scroll-mt-24">
+                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                    04 — Données & Analyses
+                  </h2>
+
+                  <div className="grid grid-cols-2 gap-stack">
+                    {BIG_STATS.map((stat, i) => (
+                      <div key={i} className="flex flex-col items-center text-center p-5 rounded-2xl border border-ink-100 bg-white">
+                        <div className={`font-display text-h1 font-extrabold leading-none mb-2 ${STAT_TONE[stat.tone].value}`}>
+                          {stat.value}
+                        </div>
+                        <p className="m-0 font-body text-body-sm font-semibold text-ink-900 mb-2">
+                          {stat.label}
+                        </p>
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-pill font-body text-micro font-semibold ${STAT_TONE[stat.tone].trend}`}>
+                          {stat.trend}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-2 text-ink-400">
+                    <BarChart2 size={32} className="opacity-50" />
+                    <span className="font-body text-body-sm">
+                      Graphique — Évolution de l'adoption IA en formation (2023–2026)
                     </span>
                   </div>
-                  <div
-                    style={{
-                      fontSize: "2rem",
-                      fontWeight: 900,
-                      color: "var(--tls-orange-600)",
-                      lineHeight: 1,
-                      marginBottom: "var(--s-1)",
-                    }}
-                  >
-                    {point.value}
+                </section>
+
+                {/* Section 5 — Conclusion brand card */}
+                <section id="sec-conclusion" className="flex flex-col gap-stack scroll-mt-24">
+                  <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
+                    05 — Conclusions & recommandations
+                  </h2>
+
+                  <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-6 sm:p-8 text-white">
+                    <div className="flex items-center gap-2 mb-4">
+                      <CheckCircle2 size={20} className="text-white/80" />
+                      <span className="font-body text-caption font-bold text-white/80 uppercase tracking-wider">
+                        Conclusion principale
+                      </span>
+                    </div>
+                    <p className="m-0 mb-stack-lg font-display text-h4 font-semibold text-white leading-relaxed">
+                      La transformation IA des parcours de formation n'est plus optionnelle. Les organisations
+                      qui agissent maintenant, avec méthode et gouvernance, bâtissent un avantage durable sur
+                      l'acquisition et la rétention des talents.
+                    </p>
+
+                    <ul className="m-0 p-0 list-none flex flex-col gap-2">
+                      {RECOMMENDATIONS.map((rec, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <ArrowRight size={14} className="text-white/60 shrink-0 mt-1" />
+                          <span className="font-body text-body-sm text-white/95">{rec}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p
-                    style={{
-                      fontSize: "var(--t-sm)",
-                      color: "var(--text-muted)",
-                      margin: 0,
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {point.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Section 4 — Données & Analyses */}
-          <section style={{ marginBottom: "var(--s-10)" }}>
-            <h2
-              style={{
-                fontSize: "var(--t-h3)",
-                fontWeight: 800,
-                color: "var(--text)",
-                margin: "0 0 var(--s-5)",
-                paddingBottom: "var(--s-3)",
-                borderBottom: "2px solid var(--tls-primary-100)",
-              }}
-            >
-              04 — Données &amp; Analyses
-            </h2>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "var(--s-4)",
-                marginBottom: "var(--s-6)",
-              }}
-            >
-              {BIG_STATS.map((stat, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: "var(--surface)",
-                    border: "1px solid var(--overlay-dark-xs)",
-                    borderRadius: "var(--r-xl)",
-                    padding: "var(--s-5)",
-                    boxShadow: "var(--shadow-sm)",
-                    textAlign: "center",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "3rem",
-                      fontWeight: 900,
-                      color: stat.color,
-                      lineHeight: 1,
-                      marginBottom: "var(--s-2)",
-                    }}
-                  >
-                    {stat.value}
-                  </div>
-                  <p
-                    style={{
-                      fontSize: "var(--t-sm)",
-                      fontWeight: 600,
-                      color: "var(--text)",
-                      margin: "0 0 var(--s-2)",
-                    }}
-                  >
-                    {stat.label}
-                  </p>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "var(--s-1)",
-                      padding: "var(--s-1) var(--s-2-5)",
-                      borderRadius: "var(--r-full)",
-                      background: stat.trendUp ? "var(--tls-success-light)" : "var(--tls-danger-light)",
-                      color: stat.trendUp ? "var(--tls-success-base)" : "var(--tls-danger-base)",
-                      fontSize: "var(--t-micro)",
-                      fontWeight: 600,
-                    }}
-                  >
-                    <ArrowUpRight size={12} />
-                    {stat.trend}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Chart placeholder */}
-            <div
-              style={{
-                background: "var(--surface-muted)",
-                border: "1px dashed var(--border)",
-                borderRadius: "var(--r-2xl)",
-                height: "200px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-muted)",
-                gap: "var(--s-2)",
-              }}
-            >
-              <BarChart2 size={36} style={{ opacity: 0.4 }} />
-              <span style={{ fontSize: "var(--t-sm)", fontWeight: 500 }}>
-                Graphique : Évolution de l'adoption IA en formation (2023–2026)
-              </span>
-            </div>
-          </section>
-
-          {/* Section 5 — Conclusion teal card */}
-          <section style={{ marginBottom: "var(--s-8)" }}>
-            <h2
-              style={{
-                fontSize: "var(--t-h3)",
-                fontWeight: 800,
-                color: "var(--text)",
-                margin: "0 0 var(--s-5)",
-                paddingBottom: "var(--s-3)",
-                borderBottom: "2px solid var(--tls-primary-100)",
-              }}
-            >
-              05 — Conclusions &amp; recommandations
-            </h2>
-
-            <div
-              style={{
-                background: "linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%)",
-                borderRadius: "var(--r-2xl)",
-                padding: "var(--s-7)",
-                color: 'var(--text-inverse)',
-                marginBottom: "var(--s-5)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--s-2)",
-                  marginBottom: "var(--s-4)",
-                }}
-              >
-                <CheckCircle2 size={20} color="var(--overlay-white-xl)" />
-                <span
-                  style={{
-                    fontSize: "var(--t-caption)",
-                    fontWeight: 700,
-                    color: "var(--overlay-white-xl)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  Conclusion principale
-                </span>
+                </section>
               </div>
-              <p
-                style={{
-                  fontSize: "var(--t-body)",
-                  fontWeight: 600,
-                  lineHeight: 1.6,
-                  margin: "0 0 var(--s-5)",
-                  color: 'var(--text-inverse)',
-                }}
-              >
-                La transformation IA des parcours de formation n'est plus optionnelle. Les organisations
-                qui agissent maintenant, avec méthode et gouvernance, bâtissent un avantage durable sur
-                l'acquisition et la rétention des talents.
-              </p>
-
-              {[
-                "Déployer un diagnostic de maturité IA pour votre organisation",
-                "Former les managers de premier niveau avant les équipes",
-                "Mettre en place des boucles de feedback hebdomadaires sur les usages IA",
-              ].map((rec, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--s-2)",
-                    marginBottom: "var(--s-2)",
-                  }}
-                >
-                  <ArrowRight size={14} color="var(--overlay-white-md)" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: "var(--t-sm)", color: "var(--on-color-text-main)" }}>
-                    {rec}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-        </main>
-      </div>
-
-      {/* ─ Download CTA ─────────────────────────────────────────────── */}
-      <div
-        style={{
-          maxWidth: "var(--container-narrow)",
-          margin: "0 auto",
-          padding: "0 var(--s-8) var(--s-12)",
-          textAlign: "center",
-        }}
-      >
-        <div
-          style={{
-            background: "linear-gradient(135deg, var(--overlay-brand-xs) 0%, var(--tls-orange-50) 100%)",
-            border: "1.5px solid var(--tls-orange-300)",
-            borderRadius: "var(--r-2xl)",
-            padding: "var(--s-8)",
-          }}
-        >
-          <div
-            style={{
-              width: "56px",
-              height: "56px",
-              borderRadius: "50%",
-              background: "var(--tls-orange-500)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto var(--s-4)",
-              boxShadow: "0 4px 16px var(--tls-orange-300)",
-            }}
-          >
-            <Download size={24} color="var(--on-color-text-main)" />
-          </div>
-          <h3
-            style={{
-              fontSize: "var(--t-h3)",
-              fontWeight: 800,
-              color: "var(--text)",
-              margin: "0 0 var(--s-2)",
-            }}
-          >
-            Télécharger le dossier complet
-          </h3>
-          <p
-            style={{
-              fontSize: "var(--t-sm)",
-              color: "var(--text-muted)",
-              margin: "0 0 var(--s-5)",
-            }}
-          >
-            PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
-          </p>
-          <button
-            type="button"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--s-2)",
-              padding: "var(--s-3-5) var(--s-8)",
-              borderRadius: "var(--r-full)",
-              background: "var(--tls-orange-500)",
-              border: "none",
-              color: 'var(--text-inverse)',
-              fontWeight: 700,
-              fontSize: "var(--t-body)",
-              cursor: "pointer",
-              fontFamily: "var(--font-body)",
-              boxShadow: "var(--shadow-warm)",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--tls-orange-600)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--tls-orange-500)")}
-          >
-            <Download size={18} />
-            Télécharger le PDF gratuit
-          </button>
+            }
+          />
         </div>
-      </div>
+
+        {/* Download CTA centered */}
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-10 pb-section">
+          <div className="rounded-3xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-8 text-center flex flex-col items-center gap-stack">
+            <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-secondary-500 text-white shadow-md">
+              <Download size={22} />
+            </span>
+            <div className="flex flex-col gap-tight">
+              <h3 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+                Télécharger le dossier complet
+              </h3>
+              <p className="m-0 font-body text-body-sm text-ink-600">
+                PDF de 38 pages · Données exclusives · Mise à jour janvier 2026
+              </p>
+            </div>
+            <Button variant="warm" size="lg" leadingIcon={<Download size={16} />}>
+              Télécharger le PDF gratuit
+            </Button>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
+
+export default Dossier;
