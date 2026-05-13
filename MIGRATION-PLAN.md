@@ -520,8 +520,8 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | Leaderboard | `EditorialHero` (sun) + `RankingCard` list + podium + `Tabs` (period) | M | ✅ |
 | Help | `EditorialHero` + `SectionCard` FAQ accordion + search + `RelatedItemList` articles populaires | M | ✅ |
 | JournalDetail | `EditorialLayout` (main entry + aside meta) + chat-bubble `EntryCard` | S | ✅ |
-| JournalFreeEntry | `FormLayout` + `EditorialHero` (warm) | S | ⬜ |
-| JournalNewEntry | `MultiStepForm` + prompt selector cards | M | ⬜ |
+| JournalFreeEntry | `FormLayout` + `EditorialHero` (warm) | S | ✅ |
+| JournalNewEntry | `MultiStepForm` + prompt selector cards | M | ✅ |
 | Magazine | `EditorialHero` (sun) + `MagazineCard` grid + filter `Tabs` | M | ✅ |
 | VeilleContent | `EditorialLayout` + `SectionCard` body + `RelatedItemList` veille connexe | M | ✅ |
 | Dossier | `EditorialHero` + `ResourceCard` grid via `ResourceCardGrid` + `SectionCard` blocks | L | ⬜ |

@@ -1,20 +1,16 @@
 /**
  * JournalNewEntry Page
- *
- * Design exact d'après screenshots :
- * - Header sticky : back arrow + "Nouvelle entrée" + date + word count + Publier
- * - Sélecteur de type : 4 cards (Réflexion Libre, Apprentissage, Session Coaching, Moment Eurêka)
- * - Chaque type a sa propre couleur, icône, question de réflexion, et placeholder
- * - "Besoin d'inspiration ?" pill
- * - Zone d'écriture : question colorée + input titre + textarea corps
  */
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from '../components/core/Button';
+import { useToastContext } from '../contexts/ToastContext';
 import {
   ArrowLeft,
   Sparkles,
   BookOpen,
+  Briefcase,
   Target,
   Lightbulb,
   CheckCircle2,
@@ -23,16 +19,21 @@ import {
   Clock,
 } from 'lucide-react';
 
-/* ─── Type config ────────────────────────────────────────────────────────── */
-
-type EntryType = 'reflexion-libre' | 'apprentissage' | 'session-coaching' | 'moment-eureka';
+export type EntryType =
+  | 'reflexion-libre'
+  | 'apprentissage'
+  | 'pratique-pro'
+  | 'session-coaching'
+  | 'moment-eureka';
 
 interface TypeConfig {
   label: string;
   icon: React.ReactNode;
-  color: string;         // border + checkmark + question color
-  checkBg: string;       // checkmark circle bg
-  cardBgTint: string;    // subtle tint on writing area
+  iconSelected: string;
+  borderSelected: string;
+  checkBg: string;
+  questionClass: string;
+  writingBg: string;
   question: string;
   bodyPlaceholder: string;
 }
@@ -41,36 +42,55 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
   'reflexion-libre': {
     label: 'Réflexion Libre',
     icon: <Sparkles size={28} strokeWidth={1.5} />,
-    color: 'var(--tls-primary-500)',
-    checkBg: 'var(--tls-primary-500)',
-    cardBgTint: 'transparent',
+    iconSelected: 'text-primary-500',
+    borderSelected: 'border-primary-500',
+    checkBg: 'bg-primary-500',
+    questionClass: 'text-primary-600',
+    writingBg: '',
     question: "Qu'est-ce qui occupe mon esprit aujourd'hui ?",
     bodyPlaceholder: 'Écrivez librement vos pensées, réflexions, découvertes du jour...',
   },
   'apprentissage': {
     label: 'Apprentissage',
     icon: <BookOpen size={28} strokeWidth={1.5} />,
-    color: 'var(--tls-orange-500)',
-    checkBg: 'var(--tls-orange-500)',
-    cardBgTint: 'linear-gradient(135deg, var(--surface) 70%, var(--tls-orange-50) 100%)',
-    question: "Qu'ai-je appris aujourd'hui ?",
-    bodyPlaceholder: "Décrivez ce que vous avez découvert, compris ou expérimenté dans vos cours...",
+    iconSelected: 'text-primary-500',
+    borderSelected: 'border-primary-500',
+    checkBg: 'bg-primary-500',
+    questionClass: 'text-primary-600',
+    writingBg: 'bg-gradient-to-br from-white to-primary-50',
+    question: 'Quelle idée vais-je retenir de ma dernière leçon — et pourquoi ?',
+    bodyPlaceholder: "Décris ce que tu as découvert, compris ou expérimenté dans tes leçons / parcours / projets / lectures veille...",
+  },
+  'pratique-pro': {
+    label: 'Pratique pro',
+    icon: <Briefcase size={28} strokeWidth={1.5} />,
+    iconSelected: 'text-secondary-500',
+    borderSelected: 'border-secondary-500',
+    checkBg: 'bg-secondary-500',
+    questionClass: 'text-secondary-600',
+    writingBg: 'bg-gradient-to-br from-white to-secondary-50',
+    question: 'Comment vais-je activer cet apprentissage dans mon travail cette semaine ?',
+    bodyPlaceholder: 'Note les actions concrètes, les changements de posture, les expérimentations à mener avec ton équipe...',
   },
   'session-coaching': {
-    label: 'Session Coaching',
+    label: 'Coaching',
     icon: <Target size={28} strokeWidth={1.5} />,
-    color: 'var(--tls-orange-500)',
-    checkBg: 'var(--tls-orange-500)',
-    cardBgTint: 'linear-gradient(135deg, var(--surface) 70%, var(--tls-orange-50) 100%)',
-    question: 'Quels insights ai-je tirés de ma session ?',
-    bodyPlaceholder: 'Notez les prises de conscience, actions à mettre en place, objectifs clarifiés...',
+    iconSelected: 'text-accent-700',
+    borderSelected: 'border-accent-500',
+    checkBg: 'bg-accent-500',
+    questionClass: 'text-accent-700',
+    writingBg: 'bg-gradient-to-br from-white to-accent-50',
+    question: 'Quelle question veux-tu apporter à ta prochaine session ?',
+    bodyPlaceholder: 'Prépare ta prochaine session OU note ce que tu retiens de la dernière : prises de conscience, actions à mener, objectifs clarifiés...',
   },
   'moment-eureka': {
     label: 'Moment Eurêka',
     icon: <Lightbulb size={28} strokeWidth={1.5} />,
-    color: 'var(--tls-primary-500)',
-    checkBg: 'var(--tls-primary-500)',
-    cardBgTint: 'transparent',
+    iconSelected: 'text-primary-500',
+    borderSelected: 'border-primary-500',
+    checkBg: 'bg-primary-500',
+    questionClass: 'text-primary-600',
+    writingBg: '',
     question: "Quelle idée m'a illuminé ?",
     bodyPlaceholder: "Capturez cette idée brillante avant qu'elle ne s'envole...",
   },
@@ -79,9 +99,13 @@ const TYPE_CONFIG: Record<EntryType, TypeConfig> = {
 const TYPE_ORDER: EntryType[] = [
   'reflexion-libre',
   'apprentissage',
+  'pratique-pro',
   'session-coaching',
   'moment-eureka',
 ];
+
+/** Valid entry types accepted via `?type=...` URL param. */
+const VALID_URL_TYPES = new Set<EntryType>(TYPE_ORDER);
 
 const TODAY = new Date().toLocaleDateString('fr-FR', {
   weekday: 'long',
@@ -89,11 +113,15 @@ const TODAY = new Date().toLocaleDateString('fr-FR', {
   month: 'long',
 });
 
-/* ─── Component ──────────────────────────────────────────────────────────── */
-
 export const JournalNewEntry: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedType, setSelectedType] = useState<EntryType>('reflexion-libre');
+  const [searchParams] = useSearchParams();
+  // Pre-select entry type from URL `?type=...` (used when navigating from Dashboard JournalPromptCards)
+  const initialType = useMemo<EntryType>(() => {
+    const urlType = searchParams.get('type') as EntryType | null;
+    return urlType && VALID_URL_TYPES.has(urlType) ? urlType : 'reflexion-libre';
+  }, [searchParams]);
+  const [selectedType, setSelectedType] = useState<EntryType>(initialType);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
@@ -105,157 +133,60 @@ export const JournalNewEntry: React.FC = () => {
 
   const cfg = TYPE_CONFIG[selectedType];
 
+  const toast = useToastContext();
+  const handlePublish = () => {
+    if (!title.trim() && !body.trim()) {
+      toast.warning('Ajoutez un titre ou du contenu avant de publier', 'Brouillon vide');
+      return;
+    }
+    toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
+    setTimeout(() => navigate('/journal'), 800);
+  };
+
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg)',
-        fontFamily: 'var(--font-body)',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* ─ Top bar ──────────────────────────────────────────────────── */}
-      <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          padding: 'var(--s-4) var(--s-6)',
-          borderBottom: '1px solid var(--border)',
-          background: 'var(--surface)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 10,
-          gap: 'var(--s-3)',
-        }}
-      >
-        {/* Back */}
-        <button
-          type="button"
+    <div className="min-h-screen bg-surface font-body flex flex-col">
+
+      {/* Top bar */}
+      <header className="flex items-center px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
+        <Button
+          variant="ghost"
+          size="sm"
+          iconOnly
+          aria-label="Retour au journal"
           onClick={() => navigate('/journal')}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '36px',
-            height: '36px',
-            borderRadius: 'var(--r-lg)',
-            background: 'transparent',
-            border: 'none',
-            color: 'var(--text-muted)',
-            cursor: 'pointer',
-            flexShrink: 0,
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-muted)')}
-          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+          className="shrink-0"
         >
           <ArrowLeft size={20} />
-        </button>
+        </Button>
 
-        {/* Title + date */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div
-            style={{
-              fontSize: 'var(--t-body)',
-              fontWeight: 700,
-              color: 'var(--text)',
-              lineHeight: 1.2,
-            }}
-          >
-            Nouvelle entrée
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              color: 'var(--text-muted)',
-              fontSize: 'var(--t-caption)',
-            }}
-          >
+        <div className="flex-1 min-w-0">
+          <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
+          <div className="flex items-center gap-1 text-ink-500 font-body text-caption">
             <Clock size={12} />
             {TODAY}
           </div>
         </div>
 
-        {/* Word count */}
-        <span
-          style={{
-            fontSize: 'var(--t-caption)',
-            color: 'var(--text-muted)',
-            fontWeight: 500,
-            flexShrink: 0,
-          }}
-        >
+        <span className="font-body text-caption text-ink-500 font-medium shrink-0">
           {wordCount} mot{wordCount !== 1 ? 's' : ''}
         </span>
 
-        {/* Publish button */}
-        <button
-          type="button"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'var(--s-2)',
-            padding: 'var(--s-2-5) var(--s-5)',
-            borderRadius: 'var(--r-xl)',
-            background: 'var(--tls-primary-500)',
-            border: 'none',
-            color: 'var(--text-inverse)',
-            fontWeight: 700,
-            fontSize: 'var(--t-sm)',
-            cursor: 'pointer',
-            fontFamily: 'var(--font-body)',
-            transition: 'background var(--dur-2)',
-            flexShrink: 0,
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-primary-600)')}
-          onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-primary-500)')}
-        >
-          <Save size={15} />
+        <Button leadingIcon={<Save size={15} />} size="sm" className="shrink-0" onClick={handlePublish}>
           Publier
-        </button>
+        </Button>
       </header>
 
-      {/* ─ Content ──────────────────────────────────────────────────── */}
-      <main
-        style={{
-          flex: 1,
-          maxWidth: 'var(--container-narrow)',
-          width: '100%',
-          margin: '0 auto',
-          padding: 'var(--s-8) var(--s-6)',
-        }}
-      >
-        {/* ─ Type selector ─────────────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-6)' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              marginBottom: 'var(--s-4)',
-            }}
-          >
-            <Wand2 size={16} style={{ color: 'var(--tls-primary-500)' }} />
-            <span
-              style={{
-                fontSize: 'var(--t-sm)',
-                fontWeight: 600,
-                color: 'var(--text)',
-              }}
-            >
-              Type d'entrée
-            </span>
+      {/* Content */}
+      <main className="flex-1 max-w-3xl w-full mx-auto px-6 py-8">
+
+        {/* Type selector */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Wand2 size={16} className="text-primary-500" />
+            <span className="font-body text-body-sm font-semibold text-ink-900">Type d'entrée</span>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: 'var(--s-3)',
-            }}
-          >
+          <div className="grid grid-cols-4 gap-3 max-sm:grid-cols-2">
             {TYPE_ORDER.map((type) => {
               const tc = TYPE_CONFIG[type];
               const isSelected = selectedType === type;
@@ -264,67 +195,24 @@ export const JournalNewEntry: React.FC = () => {
                   key={type}
                   type="button"
                   onClick={() => setSelectedType(type)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: 'var(--s-3)',
-                    padding: 'var(--s-4)',
-                    borderRadius: 'var(--r-xl)',
-                    background: 'var(--surface)',
-                    border: isSelected
-                      ? `1.5px solid ${tc.color}`
-                      : '1.5px solid var(--border)',
-                    cursor: 'pointer',
-                    position: 'relative',
-                    transition: 'all var(--dur-2)',
-                    fontFamily: 'var(--font-body)',
-                    textAlign: 'left',
-                    boxShadow: isSelected
-                      ? 'var(--shadow-sm)'
-                      : 'var(--shadow-xs)',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isSelected) e.currentTarget.style.borderColor = 'var(--border-strong)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isSelected) e.currentTarget.style.borderColor = 'var(--border)';
-                  }}
+                  className={[
+                    'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body',
+                    isSelected
+                      ? `${tc.borderSelected} shadow-sm`
+                      : 'border-ink-200 shadow-xs hover:border-ink-400',
+                  ].join(' ')}
                 >
-                  {/* Checkmark badge */}
                   {isSelected && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        width: '22px',
-                        height: '22px',
-                        borderRadius: '50%',
-                        background: tc.checkBg,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <CheckCircle2 size={14} color="var(--on-color-text-main)" strokeWidth={2.5} />
+                    <div className={`absolute top-2.5 right-2.5 w-[22px] h-[22px] rounded-full ${tc.checkBg} flex items-center justify-center`}>
+                      <CheckCircle2 size={14} className="text-white" strokeWidth={2.5} />
                     </div>
                   )}
 
-                  {/* Icon */}
-                  <span style={{ color: isSelected ? tc.color : 'var(--text-muted)' }}>
+                  <span className={isSelected ? tc.iconSelected : 'text-ink-400'}>
                     {tc.icon}
                   </span>
 
-                  {/* Label */}
-                  <span
-                    style={{
-                      fontSize: 'var(--t-sm)',
-                      fontWeight: isSelected ? 600 : 500,
-                      color: isSelected ? 'var(--text)' : 'var(--text-muted)',
-                      lineHeight: 1.3,
-                    }}
-                  >
+                  <span className={`font-body text-body-sm leading-snug ${isSelected ? 'font-semibold text-ink-900' : 'font-medium text-ink-500'}`}>
                     {tc.label}
                   </span>
                 </button>
@@ -333,76 +221,31 @@ export const JournalNewEntry: React.FC = () => {
           </div>
         </div>
 
-        {/* ─ Inspiration button ─────────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-6)' }}>
+        {/* Inspiration button */}
+        <div className="mb-6">
           <button
             type="button"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              padding: 'var(--s-2) var(--s-4-5)',
-              borderRadius: 'var(--r-full)',
-              background: 'var(--tls-orange-50)',
-              border: '1px solid var(--tls-orange-200)',
-              color: 'var(--tls-orange-600)',
-              fontSize: 'var(--t-sm)',
-              fontWeight: 600,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              transition: 'all var(--dur-2)',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-orange-100)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-orange-50)')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
           >
             <Sparkles size={15} />
             Besoin d'inspiration ?
           </button>
         </div>
 
-        {/* ─ Writing area ──────────────────────────────────────────── */}
-        <div
-          style={{
-            background: cfg.cardBgTint || 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-7)',
-            boxShadow: 'var(--shadow-sm)',
-          }}
-        >
+        {/* Writing area */}
+        <div className={`border border-ink-200 rounded-2xl p-7 shadow-sm ${cfg.writingBg || 'bg-white'}`}>
+
           {/* Reflection question */}
-          <div style={{ marginBottom: 'var(--s-6)' }}>
-            <p
-              style={{
-                margin: '0 0 var(--s-1)',
-                fontSize: 'var(--t-caption)',
-                color: 'var(--text-muted)',
-                fontWeight: 500,
-              }}
-            >
+          <div className="mb-6">
+            <p className="m-0 mb-1 font-body text-caption text-ink-500 font-medium">
               Question de réflexion
             </p>
-            <p
-              style={{
-                margin: 0,
-                fontSize: 'var(--t-body)',
-                fontWeight: 600,
-                color: cfg.color,
-                lineHeight: 1.4,
-              }}
-            >
+            <p className={`m-0 font-body text-body font-semibold leading-snug ${cfg.questionClass}`}>
               {cfg.question}
             </p>
           </div>
 
-          {/* Divider */}
-          <div
-            style={{
-              height: '1px',
-              background: 'var(--border)',
-              marginBottom: 'var(--s-5)',
-            }}
-          />
+          <hr className="border-ink-200 mb-5" />
 
           {/* Title input */}
           <input
@@ -410,28 +253,10 @@ export const JournalNewEntry: React.FC = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Donnez un titre à votre entrée..."
-            style={{
-              width: '100%',
-              border: 'none',
-              outline: 'none',
-              background: 'transparent',
-              fontSize: '1.5rem',
-              fontWeight: 600,
-              color: 'var(--text)',
-              fontFamily: 'var(--font-body)',
-              marginBottom: 'var(--s-3)',
-              boxSizing: 'border-box',
-            }}
+            className="w-full border-0 outline-none bg-transparent text-2xl font-semibold text-ink-900 font-body mb-3 h-auto block placeholder:text-ink-300"
           />
 
-          {/* Thin separator */}
-          <div
-            style={{
-              height: '1px',
-              background: 'var(--border)',
-              marginBottom: 'var(--s-5)',
-            }}
-          />
+          <hr className="border-ink-200 mb-5" />
 
           {/* Body textarea */}
           <textarea
@@ -439,18 +264,7 @@ export const JournalNewEntry: React.FC = () => {
             onChange={(e) => setBody(e.target.value)}
             placeholder={cfg.bodyPlaceholder}
             rows={12}
-            style={{
-              width: '100%',
-              border: 'none',
-              outline: 'none',
-              background: 'transparent',
-              fontSize: 'var(--t-body)',
-              color: 'var(--text)',
-              fontFamily: 'var(--font-body)',
-              lineHeight: 1.7,
-              resize: 'none',
-              boxSizing: 'border-box',
-            }}
+            className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 leading-relaxed resize-none h-auto block placeholder:text-ink-300"
           />
         </div>
       </main>

@@ -1,37 +1,28 @@
 /**
  * JournalFreeEntry — interface de saisie libre dans le journal
- *
- * Design : éditeur épuré avec champ titre, grande textarea,
- * sélecteur de catégorie, chips tags, indicateur de mood,
- * boutons Publier / Brouillon. Sidebar aide-mémoire.
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../components/core/Button';
 import {
   ArrowLeft,
   PenLine,
   Save,
   Send,
   CalendarDays,
-  Tag,
   Sparkles,
-  BookOpen,
   Lightbulb,
   Target,
   Eye,
-  Smile,
-  Zap,
-  Heart,
-  AlertCircle,
 } from 'lucide-react';
 
 const CATEGORIES = [
-  { id: 'leadership', label: 'Leadership', icon: '🎯' },
-  { id: 'apprentissage', label: 'Apprentissage', icon: '📚' },
-  { id: 'collaboration', label: 'Collaboration', icon: '🤝' },
-  { id: 'reflexion', label: 'Réflexion', icon: '💭' },
-  { id: 'action', label: 'Action', icon: '⚡' },
+  { id: 'leadership',    label: 'Leadership',    icon: '🎯' },
+  { id: 'apprentissage', label: 'Apprentissage',  icon: '📚' },
+  { id: 'collaboration', label: 'Collaboration',  icon: '🤝' },
+  { id: 'reflexion',     label: 'Réflexion',      icon: '💭' },
+  { id: 'action',        label: 'Action',         icon: '⚡' },
 ];
 
 const MOODS = [
@@ -44,19 +35,27 @@ const MOODS = [
 ];
 
 const PROMPTS = [
-  { icon: <Eye size={14} />, label: 'Observation', hint: "Qu'avez-vous observé cette semaine ?" },
-  { icon: <Lightbulb size={14} />, label: 'Prise de recul', hint: "Qu'est-ce que cela vous apprend ?" },
-  { icon: <Target size={14} />, label: 'Action', hint: "Que voulez-vous faire différemment ?" },
+  { icon: <Eye size={14} />,       label: 'Observation',     hint: "Qu'avez-vous observé cette semaine ?" },
+  { icon: <Lightbulb size={14} />, label: 'Prise de recul',  hint: "Qu'est-ce que cela vous apprend ?" },
+  { icon: <Target size={14} />,    label: 'Action',          hint: "Que voulez-vous faire différemment ?" },
+];
+
+const TIPS = [
+  "Une idée reçue aujourd'hui",
+  "Un feedback qui m'a surpris",
+  "Une action testée et son résultat",
+  "Une question encore ouverte",
+  "Ce que je veux ne pas oublier",
 ];
 
 export const JournalFreeEntry: React.FC = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle]                       = useState('');
+  const [content, setContent]                   = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
+  const [selectedMood, setSelectedMood]         = useState<string | null>(null);
+  const [tags, setTags]                         = useState<string[]>([]);
+  const [tagInput, setTagInput]                 = useState('');
 
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
 
@@ -64,9 +63,7 @@ export const JournalFreeEntry: React.FC = () => {
     if ((e.key === 'Enter' || e.key === ',') && tagInput.trim()) {
       e.preventDefault();
       const newTag = tagInput.trim().replace(/,$/, '');
-      if (newTag && !tags.includes(newTag)) {
-        setTags([...tags, newTag]);
-      }
+      if (newTag && !tags.includes(newTag)) setTags([...tags, newTag]);
       setTagInput('');
     }
   };
@@ -74,46 +71,41 @@ export const JournalFreeEntry: React.FC = () => {
   const removeTag = (tag: string) => setTags(tags.filter((t) => t !== tag));
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--surface)', fontFamily: 'var(--font-body)' }}>
+    <div className="min-h-screen bg-surface font-body flex flex-col">
 
-      {/* ─ Top bar ────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--s-4) var(--s-8)', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, background: 'var(--surface)', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)' }}>
-          <button
-            type="button"
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-8 py-4 border-b border-ink-200 sticky top-0 bg-white z-sticky">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/journal')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
           >
-            <ArrowLeft size={14} /> Retour
-          </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-            <Sparkles size={16} color="var(--tls-primary-500)" />
-            <span style={{ fontWeight: 700, color: 'var(--text)', fontSize: 'var(--t-body)' }}>Nouvelle entrée libre</span>
+            Retour
+          </Button>
+          <div className="flex items-center gap-2">
+            <Sparkles size={16} className="text-primary-500" />
+            <span className="font-body text-body font-bold text-ink-900">Nouvelle entrée libre</span>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
-          <button
-            type="button"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm-lg)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-          >
-            <Save size={14} /> Brouillon
-          </button>
-          <button
-            type="button"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-md-sm)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-body-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-          >
-            <Send size={14} /> Publier
-          </button>
+        <div className="flex gap-2">
+          <Button variant="secondary" size="sm" leadingIcon={<Save size={14} />}>
+            Brouillon
+          </Button>
+          <Button size="sm" leadingIcon={<Send size={14} />}>
+            Publier
+          </Button>
         </div>
       </div>
 
-      {/* ─ Layout (2 col) ─────────────────────────────────────── */}
-      <div style={{ maxWidth: 'var(--container-wide)', margin: '0 auto', padding: 'var(--s-6) var(--s-8)', display: 'grid', gridTemplateColumns: '1fr 280px', gap: 'var(--s-8)', alignItems: 'start' }}>
+      {/* Two-column layout */}
+      <div className="flex-1 max-w-5xl mx-auto w-full px-8 py-6 grid grid-cols-[1fr_280px] gap-section items-start">
 
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', marginBottom: 'var(--s-4)', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
+          <div className="flex items-center gap-1.5 mb-4 text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
             <span>1 mai 2026</span>
           </div>
@@ -124,13 +116,15 @@ export const JournalFreeEntry: React.FC = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Titre de votre entrée..."
-            style={{ width: '100%', border: 'none', outline: 'none', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 900, color: 'var(--text)', fontFamily: 'var(--font-body)', background: 'transparent', marginBottom: 'var(--s-5)', letterSpacing: '-0.02em', boxSizing: 'border-box' }}
+            className="w-full border-0 outline-none text-3xl font-black text-ink-900 font-display bg-transparent mb-5 tracking-tight h-auto block placeholder:text-ink-200"
           />
 
           {/* Category selector */}
-          <div style={{ marginBottom: 'var(--s-4)' }}>
-            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Catégorie</div>
-            <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+          <div className="mb-4">
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+              Catégorie
+            </div>
+            <div className="flex gap-2 flex-wrap">
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat.id;
                 return (
@@ -138,7 +132,12 @@ export const JournalFreeEntry: React.FC = () => {
                     key={cat.id}
                     type="button"
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--chip-padding-sm)', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: 'var(--t-caption)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                    className={[
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
+                      active
+                        ? 'border-primary-400 bg-primary-50 text-primary-700'
+                        : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
+                    ].join(' ')}
                   >
                     <span>{cat.icon}</span> {cat.label}
                   </button>
@@ -148,9 +147,11 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Mood selector */}
-          <div style={{ marginBottom: 'var(--s-5)' }}>
-            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Comment vous sentez-vous ?</div>
-            <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+          <div className="mb-5">
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+              Comment vous sentez-vous ?
+            </div>
+            <div className="flex gap-2 flex-wrap">
               {MOODS.map((mood) => {
                 const active = selectedMood === mood.label;
                 return (
@@ -158,7 +159,12 @@ export const JournalFreeEntry: React.FC = () => {
                     key={mood.label}
                     type="button"
                     onClick={() => setSelectedMood(active ? null : mood.label)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-md)', borderRadius: 'var(--r-full)', border: `1.5px solid ${active ? 'var(--tls-primary-400)' : 'var(--border)'}`, background: active ? 'var(--tls-primary-50)' : 'transparent', color: active ? 'var(--tls-primary-700)' : 'var(--text-muted)', fontSize: 'var(--t-micro)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
+                    className={[
+                      'inline-flex items-center gap-1 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-semibold transition-all duration-150',
+                      active
+                        ? 'border-primary-400 bg-primary-50 text-primary-700'
+                        : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
+                    ].join(' ')}
                   >
                     {mood.emoji} {mood.label}
                   </button>
@@ -167,41 +173,40 @@ export const JournalFreeEntry: React.FC = () => {
             </div>
           </div>
 
-          {/* Divider */}
-          <div style={{ height: '1px', background: 'var(--border)', marginBottom: 'var(--s-5)' }} />
+          <hr className="border-ink-200 mb-5" />
 
           {/* Content textarea */}
-          <div style={{ position: 'relative' }}>
+          <div className="relative">
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Commencez à écrire... Qu'avez-vous observé ? Qu'avez-vous appris ? Que voulez-vous faire différemment ?"
               rows={18}
-              style={{ width: '100%', border: 'none', outline: 'none', resize: 'none', fontSize: 'var(--t-body)', color: 'var(--text)', fontFamily: 'var(--font-body)', lineHeight: 1.85, background: 'transparent', boxSizing: 'border-box', padding: 0 }}
+              className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 leading-relaxed bg-transparent h-auto block placeholder:text-ink-300"
             />
-            {/* Word count */}
-            <div style={{ textAlign: 'right', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', marginTop: 'var(--s-2)' }}>
+            <div className="text-right font-body text-caption text-ink-400 mt-2">
               {wordCount} mot{wordCount > 1 ? 's' : ''}
             </div>
           </div>
 
-          {/* Divider */}
-          <div style={{ height: '1px', background: 'var(--border)', margin: 'var(--s-5) 0' }} />
+          <hr className="border-ink-200 my-5" />
 
           {/* Tags */}
           <div>
-            <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--s-2)' }}>Tags</div>
-            <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+              Tags
+            </div>
+            <div className="flex gap-2 flex-wrap items-center">
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: 'var(--chip-padding-xs)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-micro)', fontWeight: 600, border: '1px solid var(--tls-primary-200)' }}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 font-body text-micro font-semibold border border-primary-200"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--tls-primary-400)', padding: 0, lineHeight: 1, fontSize: 'var(--t-body-sm)', fontFamily: 'var(--font-body)' }}
+                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 leading-none text-body-sm"
                   >
                     ×
                   </button>
@@ -213,74 +218,66 @@ export const JournalFreeEntry: React.FC = () => {
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
                 placeholder="Ajouter un tag..."
-                style={{ border: 'none', outline: 'none', fontSize: 'var(--t-caption)', color: 'var(--text)', fontFamily: 'var(--font-body)', background: 'transparent', minWidth: '120px' }}
+                className="border-0 outline-none font-body text-caption text-ink-700 bg-transparent min-w-[120px] h-auto"
               />
             </div>
           </div>
 
           {/* Bottom actions */}
-          <div style={{ display: 'flex', gap: 'var(--s-2)', marginTop: 'var(--s-6)' }}>
-            <button
-              type="button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-lg-md)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-body-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-            >
-              <Send size={15} /> Publier l'entrée
-            </button>
-            <button
-              type="button"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-lg-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-body-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-            >
-              <Save size={14} /> Sauvegarder en brouillon
-            </button>
+          <div className="flex gap-2 mt-6">
+            <Button leadingIcon={<Send size={15} />}>Publier l'entrée</Button>
+            <Button variant="secondary" leadingIcon={<Save size={14} />}>
+              Sauvegarder en brouillon
+            </Button>
           </div>
         </div>
 
         {/* Sidebar */}
-        <aside style={{ position: 'sticky', top: 'calc(var(--s-4) + 58px)' }}>
+        <aside className="sticky top-[72px] flex flex-col gap-stack">
 
           {/* Writing prompts */}
-          <div style={{ background: 'var(--tls-primary-50)', border: '1.5px solid var(--tls-primary-200)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)', marginBottom: 'var(--s-4)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
-              <PenLine size={15} color="var(--tls-primary-600)" />
-              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-primary-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide à l'écriture</span>
+          <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 px-5">
+            <div className="flex items-center gap-2 mb-3">
+              <PenLine size={15} className="text-primary-600" />
+              <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
+                Aide à l'écriture
+              </span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+            <div className="flex flex-col gap-3">
               {PROMPTS.map((prompt, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', padding: 'var(--s-3)', borderRadius: 'var(--r-lg)', border: '1.5px solid var(--tls-primary-100)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)', transition: 'all 0.15s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; e.currentTarget.style.background = 'var(--tls-primary-50)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-100)'; e.currentTarget.style.background = 'var(--surface)'; }}
+                  className="flex items-start gap-2 p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50"
                 >
-                  <span style={{ color: 'var(--tls-primary-500)', flexShrink: 0, marginTop: '1px' }}>{prompt.icon}</span>
+                  <span className="text-primary-500 shrink-0 mt-px">{prompt.icon}</span>
                   <div>
-                    <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--tls-primary-600)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{prompt.label}</div>
-                    <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.4 }}>{prompt.hint}</div>
+                    <div className="font-body text-micro font-bold text-primary-600 uppercase tracking-widest mb-0.5">
+                      {prompt.label}
+                    </div>
+                    <div className="font-body text-caption text-ink-500 leading-snug">
+                      {prompt.hint}
+                    </div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Format libre tips */}
-          <div style={{ background: 'var(--tls-orange-50)', border: '1.5px solid var(--tls-orange-200)', borderRadius: 'var(--r-xl)', padding: 'var(--s-4) var(--s-5)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
-              <Lightbulb size={15} color="var(--tls-orange-500)" />
-              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: 'var(--tls-orange-700)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Aide-mémoire</span>
+          {/* Tips */}
+          <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-4 px-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Lightbulb size={15} className="text-secondary-500" />
+              <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">
+                Aide-mémoire
+              </span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-              {[
-                'Une idée reçue aujourd\'hui',
-                'Un feedback qui m\'a surpris',
-                'Une action testée et son résultat',
-                'Une question encore ouverte',
-                'Ce que je veux ne pas oublier',
-              ].map((tip, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)' }}>
-                  <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--tls-orange-400)', flexShrink: 0, marginTop: '7px' }} />
-                  <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.5 }}>{tip}</span>
+            <div className="flex flex-col gap-2">
+              {TIPS.map((tip, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-secondary-400 shrink-0 mt-[7px]" />
+                  <span className="font-body text-caption text-ink-500 leading-relaxed">{tip}</span>
                 </div>
               ))}
             </div>
