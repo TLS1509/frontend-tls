@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, AlertTriangle, CheckCircle2, Info, AlertCircle } from 'lucide-react';
-import './modals.css';
 
 /**
  * ConfirmModal — Dialog de confirmation générique
@@ -75,7 +74,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-cm-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-cm-bd-in"
       onClick={onClose}
     >
       <div

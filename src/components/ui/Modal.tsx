@@ -52,7 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[1000] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-[scrim-in_0.2s_ease_both]"
+      className="fixed inset-0 z-overlay bg-black/40 backdrop-blur-glass-light flex items-center justify-center p-4 animate-[scrim-in_0.2s_ease_both]"
       onClick={closeOnScrim ? onClose : undefined}
     >
       <div

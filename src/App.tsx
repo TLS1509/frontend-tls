@@ -14,13 +14,18 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import { ToastProvider } from './contexts/ToastContext';
+import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
+import { ScrollToTop } from './components/ScrollToTop';
+import { useNotificationsStore } from './stores/persistence';
 import { useAuth } from './hooks/useAuth';
 import { useTheme } from './hooks/useTheme';
 import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
-import { DropdownMenu, DropdownItem, DropdownSeparator } from './components/ui/DropdownMenu';
+import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './components/ui/DropdownMenu';
 import { Avatar } from './components/ui/Avatar';
 import {
   LayoutDashboard,
+  Search as SearchIcon,
   Map as MapIcon,
   PenLine,
   Video,
@@ -34,6 +39,14 @@ import {
   Menu,
   Moon,
   Sun,
+  Trophy,
+  MessageSquare,
+  Users,
+  Palette,
+  BookOpenText,
+  Layers,
+  KeyRound,
+  HelpCircle,
 } from 'lucide-react';
 import {
   Dashboard,
@@ -42,6 +55,12 @@ import {
   Components,
   LearningPaths,
   LearningPathDetail,
+  Positionnement,
+  Recherche,
+  Billing,
+  SubscriptionPayment,
+  VerifyEmail,
+  MagicLink,
   Coaching,
   Collaboration,
   Login,
@@ -51,6 +70,9 @@ import {
   Messages,
   Leaderboard,
   Veille,
+  VeilleActus,
+  VeilleTutoriels,
+  VeilleDossiers,
   Journal,
   VeilleContent,
   ArticleDetail,
@@ -100,10 +122,41 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
+  // Notifications unread count — synced from useNotificationsStore (live)
+  const unreadNotifications = useNotificationsStore((s) => s.unreadCount);
+  const setInitialUnread = useNotificationsStore((s) => s.setUnreadCount);
+  // Prime initial unread count (mocked since no real API yet)
+  React.useEffect(() => {
+    if (unreadNotifications === 0) setInitialUnread(3);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [isMobile, setIsMobile] = React.useState<boolean>(() =>
     typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
   );
   const userMenuRef = React.useRef<HTMLDivElement>(null);
+  // Hover-peek timers — 200ms hover-in delay (avoid accidental open),
+  // 400ms hover-out delay (allow re-cross into sidebar without closing).
+  const hoverOpenTimer = React.useRef<number | null>(null);
+  const hoverCloseTimer = React.useRef<number | null>(null);
+
+  const clearHoverTimers = () => {
+    if (hoverOpenTimer.current) window.clearTimeout(hoverOpenTimer.current);
+    if (hoverCloseTimer.current) window.clearTimeout(hoverCloseTimer.current);
+    hoverOpenTimer.current = null;
+    hoverCloseTimer.current = null;
+  };
+
+  const scheduleHoverOpen = () => {
+    clearHoverTimers();
+    hoverOpenTimer.current = window.setTimeout(() => setIsMobileOpen(true), 200);
+  };
+
+  const scheduleHoverClose = () => {
+    clearHoverTimers();
+    hoverCloseTimer.current = window.setTimeout(() => setIsMobileOpen(false), 400);
+  };
+
+  React.useEffect(() => () => clearHoverTimers(), []);
 
   React.useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
@@ -139,29 +192,50 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Mobile hamburger (top-left, only visible < md) */}
+      {/* Mobile hamburger (top-left, only visible < md) — click immédiat OU hover (200ms delay) */}
       <button
         type="button"
-        onClick={() => setIsMobileOpen(true)}
+        onClick={() => {
+          clearHoverTimers();
+          setIsMobileOpen(true);
+        }}
+        onMouseEnter={scheduleHoverOpen}
+        onMouseLeave={scheduleHoverClose}
         aria-label="Ouvrir la navigation"
-        className="md:hidden fixed top-3 left-3 z-30 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
+        className="md:hidden fixed top-2 left-2 z-dropdown inline-flex items-center justify-center w-touch h-touch rounded-full bg-white border border-ink-200 shadow-md text-ink-700 hover:bg-primary-50 transition-colors"
       >
         <Menu size={18} />
       </button>
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
-      <div className="sticky top-0 self-start h-screen z-30 max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
+      <div className="sticky top-0 self-start h-screen z-sticky max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
       {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
       {isUserMenuOpen && user && (
         <DropdownMenu
           variant="glass"
-          className="absolute bottom-3 left-full ml-3 z-50 min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
+          onClose={() => setIsUserMenuOpen(false)}
+          className="absolute bottom-3 left-full ml-3 z-dropdown min-w-[260px] max-md:left-auto max-md:right-3 max-md:bottom-[80px] max-md:ml-0"
         >
           <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
+          <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
           <DropdownItem icon={<Settings2 size={16} />} onClick={goTo('/settings')}>Paramètres</DropdownItem>
-          <DropdownItem icon={<Bell size={16} />} onClick={goTo('/notifications')}>Notifications</DropdownItem>
-          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Positionnement</DropdownItem>
+          <DropdownItem
+            icon={<Bell size={16} />}
+            badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
+            onClick={goTo('/notifications')}
+          >
+            Notifications
+          </DropdownItem>
+          <DropdownItem icon={<Target size={16} />} badge="demo" onClick={goTo('/onboarding')}>Onboarding</DropdownItem>
           <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
+          <DropdownSeparator />
+          <DropdownLabel>Communauté</DropdownLabel>
+          <DropdownItem icon={<Trophy size={16} />} onClick={goTo('/leaderboard')}>Leaderboard</DropdownItem>
+          <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
+          <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
+          <DropdownSeparator />
+          <DropdownItem icon={<HelpCircle size={16} />} onClick={goTo('/help')}>Centre d'aide</DropdownItem>
+          <DropdownSeparator />
           <DropdownItem
             icon={theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             onClick={(e) => { e.preventDefault(); toggleTheme(); }}
@@ -188,6 +262,8 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         onToggleCollapse={isMobile ? undefined : () => setIsSidebarCollapsed((p) => !p)}
         mobileOpen={isMobileOpen}
         onMobileClose={() => setIsMobileOpen(false)}
+        onMouseEnter={isMobile ? clearHoverTimers : undefined}
+        onMouseLeave={isMobile ? scheduleHoverClose : undefined}
         userCard={
           user && (
             <SidebarUserCard
@@ -204,6 +280,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               menuOpen={isUserMenuOpen}
               onClick={() => setIsUserMenuOpen((p) => !p)}
               collapsed={collapsed}
+              notificationCount={unreadNotifications}
             />
           )
         }
@@ -214,6 +291,14 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           icon={<LayoutDashboard size={18} />}
           label="Tableau de bord"
           active={isActive('/') || isActive('/dashboard')}
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/search"
+          onClick={goTo('/search')}
+          icon={<SearchIcon size={18} />}
+          label="Recherche"
+          active={isActive('/search')}
           collapsed={collapsed}
         />
         <NavItem
@@ -249,20 +334,36 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           active={isActive('/veille')}
           collapsed={collapsed}
         />
+        <NavItem
+          href="/learning-space"
+          onClick={goTo('/learning-space')}
+          icon={<Layers size={18} />}
+          label="Espace Apprentissage"
+          active={isActive('/learning-space')}
+          collapsed={collapsed}
+        />
       </Sidebar>
       </div>
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 min-w-0 overflow-x-hidden">{children}</main>
+        <AppBreadcrumb className="pl-[68px] pr-4 sm:px-6 lg:px-10" />
+        <main className="flex-1 min-w-0 [overflow-x:clip]">{children}</main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 border-t border-ink-200/70 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
         </footer>
       </div>
 
-      {/* Floating Navigation Button */}
-      <FloatingNavButton />
+      {/* FloatingNavButton — DEV shortcut pour accès rapide /components + /pages-index.
+          À remplacer par un chatbot / agent / FAQ widget en prod ultérieurement. */}
+      <FloatingNavButton
+        tone="brand"
+        actions={[
+          { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
+          { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
+        ]}
+      />
     </div>
   );
 };
@@ -276,32 +377,10 @@ function App() {
   // Loading state
   if (loading) {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          backgroundColor: 'var(--bg)',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '1.25rem', marginBottom: '1rem' }}>Loading...</p>
-          <div
-            style={{
-              width: '40px',
-              height: '40px',
-              border: '3px solid var(--border)',
-              borderTop: '3px solid var(--tls-primary-500)',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-            }}
-          />
-          <style>{`
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
+      <div className="flex items-center justify-center h-screen bg-surface">
+        <div className="text-center">
+          <p className="text-body-lg mb-4">Loading...</p>
+          <div className="w-10 h-10 border-2 border-ink-200 border-t-primary-500 rounded-full animate-spin mx-auto" />
         </div>
       </div>
     );
@@ -310,6 +389,8 @@ function App() {
   // Render routes
   return (
     <Router>
+      <ToastProvider>
+      <ScrollToTop />
       <Routes>
         {isAuthenticated ? (
           // Authenticated routes
@@ -325,6 +406,8 @@ function App() {
                   <Route path="/components" element={<Components />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
+                  <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
+                  <Route path="/search" element={<Recherche />} />
                   <Route path="/coaching" element={<Coaching />} />
                   <Route path="/collaboration" element={<Collaboration />} />
                   {/* /monitoring -> /veille (renamed) */}
@@ -334,6 +417,9 @@ function App() {
                   <Route path="/messages" element={<Messages />} />
                   <Route path="/leaderboard" element={<Leaderboard />} />
                   <Route path="/veille" element={<Veille />} />
+                  <Route path="/veille/actus" element={<VeilleActus />} />
+                  <Route path="/veille/tutoriels" element={<VeilleTutoriels />} />
+                  <Route path="/veille/dossiers" element={<VeilleDossiers />} />
                   <Route path="/veille/content" element={<VeilleContent />} />
                   <Route path="/veille/article/:id" element={<ArticleDetail />} />
                   <Route path="/veille/dossier/:id" element={<Dossier />} />
@@ -351,15 +437,19 @@ function App() {
                   <Route path="/project/:id" element={<Project />} />
                   <Route path="/learning-space" element={<LearningSpace />} />
                   <Route path="/onboarding" element={<Onboarding />} />
+                  <Route path="/onboarding/payment" element={<SubscriptionPayment />} />
                   <Route path="/coaching/booking" element={<CoachingBookingFlow />} />
                   <Route path="/coaching/pre-questionnaire" element={<PreCoachingQuestionnaire />} />
                   <Route path="/coaching/pre-questionnaire/response" element={<PreCoachingQuestionnaireResponse />} />
                   <Route path="/coaching/compte-rendu/:id" element={<CoachingCompteRendu />} />
                   <Route path="/account" element={<Account />} />
+                  <Route path="/account/billing" element={<Billing />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                   <Route path="/auth/reset-password" element={<ResetPassword />} />
+                  <Route path="/auth/verify-email" element={<VerifyEmail />} />
+                  <Route path="/auth/magic-link" element={<MagicLink />} />
                   <Route path="/error/404" element={<Error404 />} />
                   <Route path="/error/500" element={<Error500 />} />
                   <Route path="/help" element={<Help />} />
@@ -381,10 +471,13 @@ function App() {
             <Route path="/auth/signup" element={<Signup />} />
             <Route path="/auth/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/verify-email" element={<VerifyEmail />} />
+            <Route path="/auth/magic-link" element={<MagicLink />} />
             <Route path="*" element={<Navigate to="/auth/login" replace />} />
           </>
         )}
       </Routes>
+      </ToastProvider>
     </Router>
   );
 }

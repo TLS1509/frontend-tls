@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type MetaPillTone = 'default' | 'primary' | 'warm' | 'sun' | 'brand';
+export type MetaPillTone = 'default' | 'primary' | 'warm' | 'sun' | 'brand' | 'glass' | 'glass-dark';
 export type MetaPillSize = 'sm' | 'md' | 'lg';
 
 export interface MetaPillProps {
@@ -27,6 +27,10 @@ const TONE_CLASSES: Record<MetaPillTone, string> = {
   brand:   'bg-primary-50 text-primary-700 border-primary-200',
   warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
   sun:     'bg-accent-50 text-accent-700 border-accent-200',
+  // Frosted glass — for use on light/tinted backgrounds (cards, surfaces)
+  glass:   'bg-white/55 text-ink-700 border-white/60 backdrop-blur-glass-light shadow-xs',
+  // Frosted glass on dark/saturated bg (gradient heroes — white text)
+  'glass-dark': 'bg-white/15 text-white border-white/25 backdrop-blur-glass-light shadow-xs',
 };
 
 const CLICKABLE =

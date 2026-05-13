@@ -1,13 +1,7 @@
 /**
  * ComplementaryContentViewer Page
  *
- * Displays supplementary learning materials related to a lesson:
- * - External resources (articles, videos, tools)
- * - Further reading recommendations
- * - Related topics
- * - Quick reference guides
- *
- * Uses TLS design system components and tokens.
+ * Displays supplementary learning materials related to a lesson.
  */
 
 import React, { useState } from 'react';
@@ -16,7 +10,8 @@ import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
-import { X, ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight } from 'lucide-react';
+import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight } from 'lucide-react';
+import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
 
 interface ComplementaryResource {
   id: number;
@@ -32,7 +27,7 @@ const RESOURCES: ComplementaryResource[] = [
   {
     id: 1,
     title: 'Deep Work: Focus et concentration',
-    description: 'Un guide complet sur la création d\'un environnement propice au travail profond et à la concentration.',
+    description: "Un guide complet sur la création d'un environnement propice au travail profond et à la concentration.",
     type: 'article',
     duration: '8 min de lecture',
     url: '#',
@@ -40,7 +35,7 @@ const RESOURCES: ComplementaryResource[] = [
   },
   {
     id: 2,
-    title: 'Théorie de l\'autodétermination (Deci & Ryan)',
+    title: "Théorie de l'autodétermination (Deci & Ryan)",
     description: 'Regardez cette conférence sur les fondements de la motivation intrinsèque en milieu professionnel.',
     type: 'video',
     duration: '24 min',
@@ -49,8 +44,8 @@ const RESOURCES: ComplementaryResource[] = [
   },
   {
     id: 3,
-    title: 'Template: Plan de motivation d\'équipe',
-    description: 'Un template réutilisable pour planifier et suivre les initiatives de motivation en équipe.',
+    title: "Template: Plan de motivation d'équipe",
+    description: "Un template réutilisable pour planifier et suivre les initiatives de motivation en équipe.",
     type: 'guide',
     url: '#',
     tags: ['template', 'équipe'],
@@ -58,7 +53,7 @@ const RESOURCES: ComplementaryResource[] = [
   {
     id: 4,
     title: 'Outil: Diagnostic SCARF interactif',
-    description: 'Outil d\'auto-diagnostic pour évaluer les dimensions SCARF dans votre environnement de travail.',
+    description: "Outil d'auto-diagnostic pour évaluer les dimensions SCARF dans votre environnement de travail.",
     type: 'tool',
     duration: '5-10 min',
     url: '#',
@@ -66,125 +61,95 @@ const RESOURCES: ComplementaryResource[] = [
   },
 ];
 
+const RELATED_TOPICS = [
+  "Engagement d'équipe",
+  'Management positif',
+  'Intelligence émotionnelle',
+  'Psychologie du travail',
+];
+
 const getResourceIcon = (type: string) => {
   switch (type) {
-    case 'article':
-      return <FileText size={18} />;
-    case 'video':
-      return <Video size={18} />;
-    case 'tool':
-      return <Wrench size={18} />;
-    case 'guide':
-      return <BookOpen size={18} />;
-    default:
-      return <ExternalLink size={18} />;
+    case 'article': return <FileText size={18} />;
+    case 'video':   return <Video size={18} />;
+    case 'tool':    return <Wrench size={18} />;
+    case 'guide':   return <BookOpen size={18} />;
+    default:        return <ExternalLink size={18} />;
   }
 };
 
 const getResourceBadge = (type: string) => {
   switch (type) {
-    case 'article':
-      return 'Article';
-    case 'video':
-      return 'Vidéo';
-    case 'tool':
-      return 'Outil';
-    case 'guide':
-      return 'Guide';
-    default:
-      return 'Ressource';
+    case 'article': return 'Article';
+    case 'video':   return 'Vidéo';
+    case 'tool':    return 'Outil';
+    case 'guide':   return 'Guide';
+    default:        return 'Ressource';
   }
 };
 
 export const ComplementaryContentViewer: React.FC = () => {
   const navigate = useNavigate();
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [, setExpandedId] = useState<number | null>(null);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--background)',
-        padding: 'var(--s-6)',
-      }}
+    <ViewerOverlay
+      title="Contenus complémentaires"
+      subtitle="Ressources pour approfondir votre apprentissage"
+      tone="brand"
+      onClose={() => navigate(-1)}
     >
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--s-6)' }}>
-        <div>
-          <h1 style={{ margin: '0 0 var(--s-2) 0', fontSize: 'var(--t-h2)', fontWeight: 600 }}>Contenus complémentaires</h1>
-          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
-            Ressources pour approfondir votre apprentissage
-          </p>
-        </div>
-        <Button variant="ghost" onClick={() => navigate(-1)}>
-          <X size={20} />
-        </Button>
-      </div>
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
 
-      {/* Main Content */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 'var(--s-6)', marginBottom: 'var(--s-6)' }}>
-        {/* Resources Grid */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+      {/* Main 2-column grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mb-6">
+
+        {/* Resources list */}
+        <div className="flex flex-col gap-4">
           {RESOURCES.map((resource) => (
             <Card
               key={resource.id}
-              style={{
-                cursor: 'pointer',
-                transition: 'all var(--dur-2)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.boxShadow = 'var(--shadow-md)';
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.boxShadow = 'var(--shadow-sm)';
-                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-              }}
+              className="cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+              onClick={() => setExpandedId((id) => id === resource.id ? null : resource.id)}
             >
-              <div style={{ display: 'flex', gap: 'var(--s-4)' }}>
+              <div className="flex gap-4">
                 {/* Icon */}
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 'var(--r-lg)',
-                    background: 'var(--surface-muted)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--tls-primary-500)',
-                    flexShrink: 0,
-                  }}
-                >
+                <div className="w-14 h-14 rounded-lg bg-ink-50 text-primary-500 flex items-center justify-center shrink-0">
                   {getResourceIcon(resource.type)}
                 </div>
 
                 {/* Content */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-                    <h3 style={{ margin: 0, fontSize: 'var(--t-body)', fontWeight: 600, flex: 1 }}>{resource.title}</h3>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start gap-2 mb-2">
+                    <h3 className="font-display text-body font-semibold text-ink-900 m-0 flex-1">
+                      {resource.title}
+                    </h3>
                     <Badge variant="brand">{getResourceBadge(resource.type)}</Badge>
                   </div>
 
-                  <p style={{ margin: '0 0 var(--s-2) 0', fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                  <p className="font-body text-body-sm text-ink-500 m-0 mb-2 leading-relaxed">
                     {resource.description}
                   </p>
 
-                  <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', flexWrap: 'wrap' }}>
-                    {resource.duration && <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />}
-                    <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+                  <div className="flex gap-3 items-center flex-wrap">
+                    {resource.duration && (
+                      <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />
+                    )}
+                    <div className="flex gap-2 flex-wrap">
                       {resource.tags.map((tag) => (
-                        <Badge key={tag} variant="brand" style={{ fontSize: 'var(--t-caption)' }}>
-                          {tag}
-                        </Badge>
+                        <Badge key={tag} variant="neutral">{tag}</Badge>
                       ))}
                     </div>
                   </div>
 
-                  {/* CTA */}
-                  <div style={{ marginTop: 'var(--s-3)' }}>
-                    <Button variant="ghost" size="sm" onClick={() => window.open(resource.url, '_blank')}>
-                      Accéder à la ressource <ExternalLink size={14} />
+                  <div className="mt-3">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      trailingIcon={<ExternalLink size={14} />}
+                      onClick={(e) => { e.stopPropagation(); window.open(resource.url, '_blank'); }}
+                    >
+                      Accéder à la ressource
                     </Button>
                   </div>
                 </div>
@@ -194,55 +159,43 @@ export const ComplementaryContentViewer: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+        <div className="flex flex-col gap-4">
+
           {/* Quick Stats */}
           <Card>
-            <h4 style={{ margin: '0 0 var(--s-3) 0', fontSize: 'var(--t-body)', fontWeight: 600 }}>Ressources disponibles</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--s-2)', background: 'var(--surface-muted)', borderRadius: 'var(--r-md)' }}>
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Articles</span>
-                <span style={{ fontSize: 'var(--t-body)', fontWeight: 600, color: 'var(--text)' }}>2</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--s-2)', background: 'var(--surface-muted)', borderRadius: 'var(--r-md)' }}>
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Vidéos</span>
-                <span style={{ fontSize: 'var(--t-body)', fontWeight: 600, color: 'var(--text)' }}>1</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--s-2)', background: 'var(--surface-muted)', borderRadius: 'var(--r-md)' }}>
-                <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>Outils</span>
-                <span style={{ fontSize: 'var(--t-body)', fontWeight: 600, color: 'var(--text)' }}>1</span>
-              </div>
+            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+              Ressources disponibles
+            </h4>
+            <div className="flex flex-col gap-2">
+              {[
+                { label: 'Articles', count: 2 },
+                { label: 'Vidéos',   count: 1 },
+                { label: 'Outils',   count: 1 },
+              ].map((stat) => (
+                <div key={stat.label} className="flex justify-between items-center p-2 bg-ink-50 rounded-md">
+                  <span className="font-body text-body-sm text-ink-500">{stat.label}</span>
+                  <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
+                </div>
+              ))}
             </div>
           </Card>
 
-          {/* Topics */}
+          {/* Related Topics */}
           <Card>
-            <h4 style={{ margin: '0 0 var(--s-3) 0', fontSize: 'var(--t-body)', fontWeight: 600 }}>Sujets connexes</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-              {['Engagement d\'équipe', 'Management positif', 'Intelligence émotionnelle', 'Psychologie du travail'].map((topic) => (
+            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+              Sujets connexes
+            </h4>
+            <div className="flex flex-col gap-2">
+              {RELATED_TOPICS.map((topic) => (
                 <button
                   key={topic}
+                  type="button"
                   onClick={() => {}}
-                  style={{
-                    padding: 'var(--s-2)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--r-md)',
-                    background: 'var(--surface)',
-                    color: 'var(--text)',
-                    cursor: 'pointer',
-                    fontSize: 'var(--t-body-sm)',
-                    transition: 'all var(--dur-2)',
-                    textAlign: 'left',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface)';
-                  }}
+                  className="w-full px-2 py-2 border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-200 hover:bg-ink-50"
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div className="flex justify-between items-center">
                     <span>{topic}</span>
-                    <ArrowRight size={14} />
+                    <ArrowRight size={14} className="text-ink-400 shrink-0" />
                   </div>
                 </button>
               ))}
@@ -251,6 +204,7 @@ export const ComplementaryContentViewer: React.FC = () => {
         </div>
       </div>
     </div>
+    </ViewerOverlay>
   );
 };
 

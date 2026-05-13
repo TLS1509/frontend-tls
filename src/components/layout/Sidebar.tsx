@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { TlsLogo } from '../ui/TlsLogo';
 
 /**
@@ -31,7 +31,7 @@ const SIDEBAR_BASE =
   'group/sidebar relative flex flex-col self-stretch min-h-0 ' +
   // Glass elevated background : white/translucent with blur, subtle teal glow
   'bg-gradient-to-b from-white/95 via-primary-50/50 to-white/90 ' +
-  'backdrop-blur-xl backdrop-saturate-150 ' +
+  'backdrop-blur-glass-heavy backdrop-saturate-150 ' +
   // Right edge: subtle inner border + soft outer drop shadow (teal-tinted)
   'border-r border-white/70 ring-1 ring-inset ring-primary-100/40 ' +
   'shadow-[8px_0_32px_-12px_rgba(85,161,180,0.18),2px_0_8px_-2px_rgba(85,161,180,0.08)] ' +
@@ -48,11 +48,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   className = '',
   ...rest
 }) => {
-  const widthClasses = collapsed ? 'w-[72px]' : 'w-[260px]';
+  // Width progressive : 220px tablet (768-1023), 260px desktop (1024+).
+  // Sur mobile drawer, la classe `max-md:w-[280px]` override prend le dessus.
+  const widthClasses = collapsed ? 'w-[72px]' : 'w-[220px] lg:w-[260px]';
 
   return (
     <>
-      {/* Mobile backdrop */}
+      {/* Mobile backdrop — z-40 (scrim under modal) */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
@@ -66,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         className={[
           SIDEBAR_BASE,
           widthClasses,
-          // Mobile: fixed drawer, hidden by default
+          // Mobile: fixed drawer, hidden by default (z-50 above backdrop)
           'max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:w-[280px] max-md:shadow-xl',
           mobileOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full',
           'max-md:transition-transform max-md:duration-300',
@@ -77,21 +79,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
         aria-label="Navigation principale"
         {...rest}
       >
-        {/* Brand row */}
-        <div className={['flex items-center gap-2 px-4 pt-5 pb-8', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
+        {/* Brand row + mobile close button */}
+        <div className={['flex items-center justify-between gap-2 px-4 pt-5 pb-8', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
+          {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
+          {onMobileClose && (
+            <button
+              type="button"
+              onClick={onMobileClose}
+              aria-label="Fermer la navigation"
+              className="md:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              <X size={18} strokeWidth={2.25} />
+            </button>
+          )}
         </div>
 
-        {/* Collapse / expand toggle — desktop only. On mobile the hamburger
-            button drives open/close, so we hide this tab via max-md:hidden
-            (otherwise its -right-X offset peeks back into the viewport when
-            the sidebar is translated off-screen). */}
+        {/* Collapse / expand toggle — visible sur tablet (md+) ET desktop. Sur mobile (<md)
+            la sidebar est en mode drawer et le bouton est caché car redondant avec le X close. */}
         {onToggleCollapse && (
           <button
             type="button"
             onClick={onToggleCollapse}
             className={[
-              'absolute top-7 z-10 max-md:hidden inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-md text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'absolute top-7 z-10 max-md:hidden inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/85 backdrop-blur-glass-light text-primary-700 ring-1 ring-primary-200/70 shadow-[0_4px_12px_-2px_rgba(85,161,180,0.3),0_2px_4px_-1px_rgba(85,161,180,0.15),inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               collapsed ? '-right-5' : '-right-3',
             ].join(' ')}
             aria-label={collapsed ? 'Étendre la sidebar' : 'Réduire la sidebar'}
@@ -135,10 +146,17 @@ const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
 export interface NavItemProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   icon?: React.ReactNode;
   label: React.ReactNode;
+  /** Number or label displayed as count badge. Numbers >99 are displayed as "99+". */
   count?: React.ReactNode;
   active?: boolean;
   collapsed?: boolean;
 }
+
+/** Format a count value : numbers > 99 become "99+". Strings/nodes passed through. */
+const formatCount = (count: React.ReactNode): React.ReactNode => {
+  if (typeof count === 'number' && count > 99) return '99+';
+  return count;
+};
 
 const NAV_BASE =
   'group/nav relative flex items-center gap-3 font-body font-semibold text-body-sm no-underline transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
@@ -197,7 +215,7 @@ export const NavItem: React.FC<NavItemProps> = ({
               : 'bg-primary-100 text-primary-700 group-hover/nav:bg-primary-200',
           ].join(' ')}
         >
-          {count}
+          {formatCount(count)}
         </span>
       )}
     </a>
@@ -215,6 +233,8 @@ export interface SidebarUserCardProps {
   menuOpen?: boolean;
   onClick?: () => void;
   collapsed?: boolean;
+  /** Unread notification count — shown as red dot badge top-right of avatar */
+  notificationCount?: number;
   className?: string;
 }
 
@@ -225,24 +245,42 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
   menuOpen = false,
   onClick,
   collapsed = false,
+  notificationCount = 0,
   className = '',
 }) => {
+  const badge =
+    notificationCount > 0 ? (
+      <span
+        aria-label={`${notificationCount} notification${notificationCount > 1 ? 's' : ''} non lue${notificationCount > 1 ? 's' : ''}`}
+        className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-pill bg-danger-fg text-white font-body text-[10px] font-bold border-2 border-white shadow-sm"
+      >
+        {notificationCount > 9 ? '9+' : notificationCount}
+      </span>
+    ) : null;
+
+  const avatarWithBadge = (
+    <span className="relative inline-flex">
+      {avatar}
+      {badge}
+    </span>
+  );
+
   if (collapsed) {
     return (
       <button
         type="button"
         onClick={onClick}
-        aria-label={`Menu ${name}`}
+        aria-label={`Menu ${name}${notificationCount > 0 ? ` · ${notificationCount} notifications non lues` : ''}`}
         aria-expanded={menuOpen}
         className={[
-          'flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]
           .filter(Boolean)
           .join(' ')}
       >
-        {avatar}
+        {avatarWithBadge}
       </button>
     );
   }
@@ -260,7 +298,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      <span className="shrink-0">{avatar}</span>
+      <span className="shrink-0">{avatarWithBadge}</span>
       <span className="flex-1 min-w-0 text-left">
         <span className="block text-body-sm font-bold text-ink-900 truncate">{name}</span>
         {subtitle && <span className="block text-caption text-ink-500 truncate">{subtitle}</span>}

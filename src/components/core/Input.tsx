@@ -37,7 +37,7 @@ const CONTROL_BASE =
 
 const SIZE_CLASSES: Record<InputSize, string> = {
   sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body-sm',
+  md: 'h-touch px-3.5 text-body-sm',
   lg: 'h-13 px-4 text-body',
 };
 

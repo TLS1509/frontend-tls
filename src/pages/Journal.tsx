@@ -1,200 +1,116 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
-import './Journal.css';
 import { Button } from '../components/core/Button';
-import { HeroSection } from '../components/patterns/HeroSection';
+import { FilterChip } from '../components/ui/FilterChip';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Search } from '../components/ui/Search';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import {
-  CalendarDays,
   PenSquare,
   BookOpen,
   ArrowRight,
-  Search,
   Sparkles,
-  Clock3,
-  TrendingUp,
   X,
   Lightbulb,
-  Zap,
   GraduationCap,
-  Filter,
-  ChevronDown,
   ClipboardList,
   FileText,
+  Zap,
+  Send,
+  SlidersHorizontal,
 } from 'lucide-react';
 
-/* ─── Template type system ──────────────────────────────────────────────────── */
+/* ─── Types ──────────────────────────────────────────────────────────────── */
 
 type EntryType = 'guided' | 'free' | 'learning' | 'coaching' | 'insight' | 'questionnaire' | 'compte-rendu';
 type PeriodFilter = 'all' | 'week' | 'month' | '3months';
+type TypeFilter = 'all' | EntryType;
 
 interface JournalEntry {
   id: string;
   type: EntryType;
   title: string;
   excerpt: string;
-  date: string;      // display string
-  dateMs: number;    // for sorting / filtering
+  date: string;
+  dateMs: number;
   readingTime: string;
   tags: string[];
 }
 
-const TYPE_META: Record<EntryType, {
-  emoji: string;
-  label: string;
-  bg: string;
-  color: string;
-  border: string;
-  icon: React.ComponentType<{ size?: number }>;
-}> = {
-  guided: {
-    emoji: '🧭', label: 'Guidé',
-    bg: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', border: 'var(--tls-primary-200)',
-    icon: GraduationCap,
-  },
-  free: {
-    emoji: '✍️', label: 'Libre',
-    bg: 'var(--tls-ink-50)', color: 'var(--tls-ink-700)', border: 'var(--tls-ink-200)',
-    icon: PenSquare,
-  },
-  learning: {
-    emoji: '📖', label: 'Apprentissage',
-    bg: 'var(--tls-primary-100)', color: 'var(--tls-primary-800)', border: 'var(--tls-primary-300)',
-    icon: BookOpen,
-  },
-  coaching: {
-    emoji: '🎯', label: 'Coaching',
-    bg: 'var(--tls-orange-100)', color: 'var(--tls-orange-700)', border: 'var(--tls-orange-300)',
-    icon: Zap,
-  },
-  insight: {
-    emoji: '💡', label: 'Insight',
-    bg: 'var(--tls-yellow-100)', color: 'var(--tls-yellow-800)', border: 'var(--tls-yellow-300)',
-    icon: Lightbulb,
-  },
-  questionnaire: {
-    emoji: '📋', label: 'Questionnaire',
-    bg: 'var(--tls-primary-100)', color: 'var(--tls-primary-700)', border: 'var(--tls-primary-200)',
-    icon: ClipboardList,
-  },
-  'compte-rendu': {
-    emoji: '📊', label: 'Compte rendu',
-    bg: 'var(--tls-success-bg)', color: 'var(--tls-success-fg)', border: 'var(--tls-success-border)',
-    icon: FileText,
-  },
+/* ─── Style maps — Tailwind only ─────────────────────────────────────────── */
+
+/**
+ * Badge pill colors per entry type — affiché top-right de l'EntryCard
+ * pour rapidement identifier le type (en complément de la surface tinted).
+ */
+const TYPE_BADGE: Record<EntryType, string> = {
+  guided:        'bg-primary-100 text-primary-700 border border-primary-200',
+  free:          'bg-ink-100 text-ink-700 border border-ink-200',
+  learning:      'bg-secondary-100 text-secondary-700 border border-secondary-200',
+  coaching:      'bg-secondary-100 text-secondary-700 border border-secondary-200',
+  insight:       'bg-accent-100 text-accent-700 border border-accent-200',
+  questionnaire: 'bg-primary-100 text-primary-700 border border-primary-200',
+  'compte-rendu':'bg-success-bg text-success-fg border border-success-base/30',
 };
 
-/* ─── Mock data ─────────────────────────────────────────────────────────────── */
+/**
+ * Surface tinted per entry type — convey le type d'entrée via le ton de fond.
+ * 'free' reste en surface card (white) pour distinguer les notes libres.
+ */
+const TYPE_SURFACE: Record<EntryType, string> = {
+  guided:        'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
+  free:          'bg-white border-ink-200 hover:border-ink-300',
+  learning:      'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
+  coaching:      'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
+  insight:       'bg-accent-50/70 border-accent-100 hover:border-accent-200 hover:bg-accent-50',
+  questionnaire: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
+  'compte-rendu':'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
+};
+
+/**
+ * Speech bubble tail color — matches the type surface bg (so tail blends seamlessly).
+ */
+const TYPE_TAIL: Record<EntryType, string> = {
+  guided:        'bg-primary-50/70 border-primary-100',
+  free:          'bg-white border-ink-200',
+  learning:      'bg-secondary-50/70 border-secondary-100',
+  coaching:      'bg-secondary-50/70 border-secondary-100',
+  insight:       'bg-accent-50/70 border-accent-100',
+  questionnaire: 'bg-primary-50/70 border-primary-100',
+  'compte-rendu':'bg-primary-50/70 border-primary-100',
+};
+
+const TYPE_META: Record<EntryType, { emoji: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
+  guided:        { emoji: '🧭', label: 'Guidé',         icon: GraduationCap },
+  free:          { emoji: '✍️', label: 'Libre',          icon: PenSquare },
+  learning:      { emoji: '📖', label: 'Apprentissage',  icon: BookOpen },
+  coaching:      { emoji: '🎯', label: 'Coaching',       icon: Zap },
+  insight:       { emoji: '💡', label: 'Insight',        icon: Lightbulb },
+  questionnaire: { emoji: '📋', label: 'Questionnaire',  icon: ClipboardList },
+  'compte-rendu':{ emoji: '📊', label: 'Compte rendu',   icon: FileText },
+};
+
+/* ─── Mock data ──────────────────────────────────────────────────────────── */
 
 const now = Date.now();
 const daysAgo = (n: number) => now - n * 24 * 3600 * 1000;
 
 const ENTRIES: JournalEntry[] = [
-  {
-    id: 'j1',
-    type: 'guided',
-    title: 'Semaine 14 — Leadership & délégation',
-    excerpt: "J'ai identifié mes points de friction en délégation : la peur de perdre le contrôle freine ma capacité à faire confiance. Exercice : planifier 3 délégations concrètes avant vendredi.",
-    date: '14 avril 2026',
-    dateMs: daysAgo(2),
-    readingTime: '4 min',
-    tags: ['Leadership', 'Délégation', 'Confiance'],
-  },
-  {
-    id: 'j2',
-    type: 'coaching',
-    title: 'Feedback équipe — Session avec Sophie',
-    excerpt: 'Les retours ont mis en avant la clarté des attentes. Sophie a souligné que je tends à retenir des informations clés trop longtemps. Action : créer un canal partagé de décisions.',
-    date: '12 avril 2026',
-    dateMs: daysAgo(4),
-    readingTime: '6 min',
-    tags: ['Feedback', 'Communication', 'Équipe'],
-  },
-  {
-    id: 'j3',
-    type: 'insight',
-    title: 'Le modèle SCARF en action',
-    excerpt: "Après la réunion de lundi, j'ai eu une révélation : la tension venait d'une menace perçue sur le statut. En le nommant, la conversation a changé. L'insight : nommer le domaine social dès le début.",
-    date: '8 avril 2026',
-    dateMs: daysAgo(8),
-    readingTime: '3 min',
-    tags: ['SCARF', 'Neuroleadership', 'Insight'],
-  },
-  {
-    id: 'j4',
-    type: 'learning',
-    title: 'Motivation intrinsèque : points clés',
-    excerpt: 'Notes post-leçon "Motivation et Engagement". La distinction clé : la motivation extrinsèque produit des résultats à court terme mais détruit la confiance. Action : identifier 2 leviers intrinsèques par collaborateur.',
-    date: '3 avril 2026',
-    dateMs: daysAgo(13),
-    readingTime: '5 min',
-    tags: ['Motivation', 'Engagement', 'Psychologie'],
-  },
-  {
-    id: 'j5',
-    type: 'free',
-    title: 'Réflexion libre — Quelle manager suis-je ?',
-    excerpt: "Exercice de positionnement : sur une échelle de 1 à 10, comment j'évalue ma capacité à créer du sens pour mon équipe ? Je me donne un 6,5. Les lacunes : je partage peu mes propres doutes.",
-    date: '28 mars 2026',
-    dateMs: daysAgo(19),
-    readingTime: '7 min',
-    tags: ['Identité', 'Posture', 'Authenticité'],
-  },
-  {
-    id: 'j6',
-    type: 'coaching',
-    title: 'Bilan mi-parcours — Mois 2',
-    excerpt: "Sophie a noté des progrès réels sur l'écoute active. Ce qui reste difficile : interrompre moins, surtout dans les situations de stress. Objectif mois 3 : pause de 2 secondes avant toute réponse.",
-    date: '20 mars 2026',
-    dateMs: daysAgo(27),
-    readingTime: '8 min',
-    tags: ['Bilan', 'Écoute', 'Progression'],
-  },
-  {
-    id: 'j7',
-    type: 'guided',
-    title: 'Mon plan d\'action — Leadership transformationnel',
-    excerpt: "Après la leçon sur le leadership transformationnel, j'ai défini 4 actions concrètes pour ce mois : rituels 1:1, partage de la vision, délégation de décisions opérationnelles, reconnaissance publique.",
-    date: '10 mars 2026',
-    dateMs: daysAgo(37),
-    readingTime: '6 min',
-    tags: ['Plan d\'action', 'Transformationnel', 'Vision'],
-  },
-  {
-    id: 'j8',
-    type: 'insight',
-    title: 'L\'effet miroir — Quand je projette sur l\'équipe',
-    excerpt: "Prise de conscience : quand je dis 'mon équipe manque de proactivité', je projetais ma propre anxiété sur eux. En posant la question directement, j'ai découvert qu'ils manquaient d'informations, pas de motivation.",
-    date: '2 mars 2026',
-    dateMs: daysAgo(45),
-    readingTime: '4 min',
-    tags: ['Projection', 'Biais', 'Communication'],
-  },
-  {
-    id: 'j9',
-    type: 'questionnaire',
-    title: 'Questionnaire pré-session — Mois 3',
-    excerpt: "Réponses au questionnaire préparatoire de Sophie : objectifs de la session, points de blocage actuels, niveau de stress ressenti cette semaine. J'ai identifié 2 freins prioritaires à explorer.",
-    date: '26 avril 2026',
-    dateMs: daysAgo(5),
-    readingTime: '3 min',
-    tags: ['Préparation', 'Coaching', 'Introspection'],
-  },
-  {
-    id: 'j10',
-    type: 'compte-rendu',
-    title: 'Compte rendu — Session 3 avec Sophie',
-    excerpt: "Synthèse de la session du 28 avril : progression sur l'écoute active, clarté des objectifs, gestion du stress situationnel. Plan d'action en 4 étapes engagé jusqu'au 12 mai.",
-    date: '28 avril 2026',
-    dateMs: daysAgo(3),
-    readingTime: '6 min',
-    tags: ['Bilan', 'Leadership', 'Plan d\'action'],
-  },
+  { id: 'j1',  type: 'guided',        title: 'Semaine 14 — Leadership & délégation',       excerpt: "J'ai identifié mes points de friction en délégation : la peur de perdre le contrôle freine ma capacité à faire confiance. Exercice : planifier 3 délégations concrètes avant vendredi.", date: '14 avril 2026', dateMs: daysAgo(2),  readingTime: '4 min', tags: ['Leadership', 'Délégation', 'Confiance'] },
+  { id: 'j2',  type: 'coaching',      title: 'Feedback équipe — Session avec Sophie',       excerpt: 'Les retours ont mis en avant la clarté des attentes. Sophie a souligné que je tends à retenir des informations clés trop longtemps. Action : créer un canal partagé de décisions.', date: '12 avril 2026', dateMs: daysAgo(4),  readingTime: '6 min', tags: ['Feedback', 'Communication', 'Équipe'] },
+  { id: 'j3',  type: 'insight',       title: 'Le modèle SCARF en action',                  excerpt: "Après la réunion de lundi, j'ai eu une révélation : la tension venait d'une menace perçue sur le statut. En le nommant, la conversation a changé.", date: '8 avril 2026',  dateMs: daysAgo(8),  readingTime: '3 min', tags: ['SCARF', 'Neuroleadership', 'Insight'] },
+  { id: 'j4',  type: 'learning',      title: 'Motivation intrinsèque : points clés',        excerpt: 'Notes post-leçon "Motivation et Engagement". La distinction clé : la motivation extrinsèque produit des résultats à court terme mais détruit la confiance.', date: '3 avril 2026',  dateMs: daysAgo(13), readingTime: '5 min', tags: ['Motivation', 'Engagement', 'Psychologie'] },
+  { id: 'j5',  type: 'free',          title: 'Réflexion libre — Quelle manager suis-je ?', excerpt: "Exercice de positionnement : sur une échelle de 1 à 10, comment j'évalue ma capacité à créer du sens pour mon équipe ? Je me donne un 6,5.", date: '28 mars 2026', dateMs: daysAgo(19), readingTime: '7 min', tags: ['Identité', 'Posture', 'Authenticité'] },
+  { id: 'j6',  type: 'coaching',      title: 'Bilan mi-parcours — Mois 2',                 excerpt: "Sophie a noté des progrès réels sur l'écoute active. Ce qui reste difficile : interrompre moins, surtout dans les situations de stress.", date: '20 mars 2026', dateMs: daysAgo(27), readingTime: '8 min', tags: ['Bilan', 'Écoute', 'Progression'] },
+  { id: 'j7',  type: 'guided',        title: "Mon plan d'action — Leadership transformationnel", excerpt: "Après la leçon sur le leadership transformationnel, j'ai défini 4 actions concrètes pour ce mois.", date: '10 mars 2026', dateMs: daysAgo(37), readingTime: '6 min', tags: ["Plan d'action", 'Transformationnel', 'Vision'] },
+  { id: 'j8',  type: 'insight',       title: "L'effet miroir — Quand je projette sur l'équipe", excerpt: "Prise de conscience : quand je dis 'mon équipe manque de proactivité', je projetais ma propre anxiété sur eux.", date: '2 mars 2026',  dateMs: daysAgo(45), readingTime: '4 min', tags: ['Projection', 'Biais', 'Communication'] },
+  { id: 'j9',  type: 'questionnaire', title: 'Questionnaire pré-session — Mois 3',         excerpt: "Réponses au questionnaire préparatoire de Sophie : objectifs de la session, points de blocage actuels, niveau de stress ressenti cette semaine.", date: '26 avril 2026', dateMs: daysAgo(5), readingTime: '3 min', tags: ['Préparation', 'Coaching', 'Introspection'] },
+  { id: 'j10', type: 'compte-rendu',  title: 'Compte rendu — Session 3 avec Sophie',       excerpt: "Synthèse de la session du 28 avril : progression sur l'écoute active, clarté des objectifs, gestion du stress situationnel.", date: '28 avril 2026', dateMs: daysAgo(3), readingTime: '6 min', tags: ['Bilan', 'Leadership', "Plan d'action"] },
 ];
 
-/* ─── Filter definitions ────────────────────────────────────────────────────── */
-
-type TypeFilter = 'all' | EntryType | 'questionnaire' | 'compte-rendu';
+/* ─── Filter config ──────────────────────────────────────────────────────── */
 
 const TYPE_FILTERS: { key: TypeFilter; label: string }[] = [
   { key: 'all',           label: 'Toutes' },
@@ -208,58 +124,17 @@ const TYPE_FILTERS: { key: TypeFilter; label: string }[] = [
 ];
 
 const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
-  { key: 'all',     label: 'Toute période' },
-  { key: 'week',    label: 'Cette semaine' },
-  { key: 'month',   label: 'Ce mois' },
-  { key: '3months', label: '3 mois' },
+  { key: 'all',      label: 'Toute période' },
+  { key: 'week',     label: 'Cette semaine' },
+  { key: 'month',    label: 'Ce mois' },
+  { key: '3months',  label: '3 mois' },
 ];
 
 const PERIOD_MS: Record<PeriodFilter, number> = {
-  all:     0,
-  week:    7  * 24 * 3600 * 1000,
-  month:   30 * 24 * 3600 * 1000,
-  '3months': 90 * 24 * 3600 * 1000,
+  all: 0, week: 7 * 86_400_000, month: 30 * 86_400_000, '3months': 90 * 86_400_000,
 };
 
-/* ─── Sub-components ─────────────────────────────────────────────────────────── */
-
-const KpiCard: React.FC<{
-  label: string;
-  value: string;
-  icon?: React.ReactNode;
-  iconBg?: string;
-  iconColor?: string;
-}> = ({ label, value, icon, iconBg = 'var(--tls-primary-50)', iconColor = 'var(--tls-primary-600)' }) => {
-  const [hovered, setHovered] = React.useState(false);
-  return (
-    <Card
-      variant="feature"
-      style={{
-        textAlign: 'center',
-        transition: 'all var(--dur-2)',
-        boxShadow: hovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
-        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
-        cursor: 'default'
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'center' }}>
-        {icon && (
-          <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>
-            {icon}
-          </div>
-        )}
-        <p style={{ fontSize: 'var(--t-h3)', fontWeight: 700, color: iconColor ?? 'var(--tls-primary-500)', margin: 0 }}>
-          {value}
-        </p>
-        <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', margin: 0 }}>
-          {label}
-        </p>
-      </div>
-    </Card>
-  );
-};
+/* ─── EntryCard ──────────────────────────────────────────────────────────── */
 
 interface EntryCardProps {
   entry: JournalEntry;
@@ -268,350 +143,329 @@ interface EntryCardProps {
 }
 
 const EntryCard: React.FC<EntryCardProps> = ({ entry, onNavigate, onCoachingAction }) => {
-  const [hovered, setHovered] = useState(false);
-  const meta = TYPE_META[entry.type];
+  const meta     = TYPE_META[entry.type];
   const TypeIcon = meta.icon;
 
   return (
-    <Card
-      variant="feature"
-      style={{
-        transition: 'all var(--dur-2)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
-        boxShadow: hovered ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
-        cursor: 'default',
-        borderLeft: `4px solid ${meta.border}`,
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <div
+      className={[
+        // Apple Messages chat bubble : very rounded + visible overflow for the tail
+        'relative !overflow-visible rounded-3xl border p-5 flex flex-col gap-stack',
+        'transition-all duration-base hover:-translate-y-1 hover:shadow-md',
+        // Surface tinted tone-aware par type
+        TYPE_SURFACE[entry.type],
+      ].join(' ')}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 'var(--s-4)' }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 style={{ fontSize: 'var(--t-h4)', fontWeight: 700, color: 'var(--text)', margin: '0 0 var(--s-2)', lineHeight: 1.35 }}>
-              {entry.title}
-            </h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-              <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
-                <CalendarDays size={12} />
-                {entry.date}
-              </p>
-              <p style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
-                <Clock3 size={12} />
-                {entry.readingTime}
-              </p>
-            </div>
-          </div>
-          {/* Type badge */}
-          <span
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)',
-              padding: 'var(--s-1) var(--s-3)',
-              borderRadius: 'var(--r-pill)',
-              background: meta.bg,
-              color: meta.color,
-              border: `1px solid ${meta.border}`,
-              fontSize: 'var(--t-caption)',
-              fontWeight: 600,
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            <TypeIcon size={12} />
-            {meta.label}
+      {/* Speech bubble tail — bottom-right (color matches surface for seamless blend) */}
+      <span
+        aria-hidden="true"
+        className={[
+          'absolute -bottom-2 right-8 w-5 h-5 rotate-45 rounded-br-[6px]',
+          'border-r border-b transition-colors duration-200',
+          TYPE_TAIL[entry.type],
+        ].join(' ')}
+      />
+
+      {/* Header — title + date inline + TYPE_BADGE pill top-right. */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-snug">{entry.title}</h3>
+          <span className="font-body text-caption text-ink-500 leading-tight">
+            {entry.date} · {entry.readingTime}
           </span>
         </div>
-
-        {/* Content */}
-        <p style={{ fontSize: 'var(--t-body)', color: 'var(--text-muted)', lineHeight: 1.65, margin: 0 }}>
-          {entry.excerpt}
-        </p>
-
-        {/* Tags */}
-        {entry.tags.length > 0 && (
-          <div style={{ display: 'flex', gap: 'var(--s-1)', flexWrap: 'wrap' }}>
-            {entry.tags.map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  fontSize: 'var(--t-micro)', padding: '2px 8px',
-                  borderRadius: 'var(--r-pill)',
-                  background: 'var(--surface-muted)',
-                  color: 'var(--text-muted)',
-                  border: '1px solid var(--border)',
-                  fontWeight: 500,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Coaching quick actions */}
-        {(entry.type === 'questionnaire' || entry.type === 'compte-rendu') && onCoachingAction && (
-          <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-            <Button
-              variant="ghost"
-              size="sm"
-              trailingIcon={<ArrowRight size={13} />}
-              onClick={onCoachingAction}
-              style={{ fontSize: 'var(--t-caption)', color: 'var(--tls-primary-600)' }}
-            >
-              {entry.type === 'questionnaire' ? 'Voir les réponses' : 'Voir le rapport complet'}
-            </Button>
-          </div>
-        )}
-
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: 'var(--s-3)', paddingTop: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>
-          <Button variant="secondary" size="sm" leadingIcon={<BookOpen size={14} />} onClick={() => onNavigate(entry.id)}>
-            Lire
-          </Button>
-          <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} onClick={() => onNavigate(entry.id)}>
-            Continuer
-          </Button>
-        </div>
+        <span
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill font-body text-caption font-semibold shrink-0 whitespace-nowrap ${TYPE_BADGE[entry.type]}`}
+        >
+          <TypeIcon size={12} />
+          {meta.label}
+        </span>
       </div>
-    </Card>
+
+      {/* Excerpt */}
+      <p className="font-body text-body text-ink-700 leading-relaxed m-0">{entry.excerpt}</p>
+
+      {/* Coaching quick action */}
+      {(entry.type === 'questionnaire' || entry.type === 'compte-rendu') && onCoachingAction && (
+        <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={13} />} onClick={onCoachingAction}>
+          {entry.type === 'questionnaire' ? 'Voir les réponses' : 'Voir le rapport complet'}
+        </Button>
+      )}
+
+      {/* Actions — boutons glassy DS (variant glass-light filled + glass-light-ghost) */}
+      <div className="flex gap-stack-xs pt-stack-xs border-t border-white/60">
+        <Button
+          variant="glass-light"
+          size="md"
+          leadingIcon={<BookOpen size={16} />}
+          onClick={() => onNavigate(entry.id)}
+        >
+          Lire
+        </Button>
+        <Button
+          variant="glass-light-ghost"
+          size="md"
+          trailingIcon={<ArrowRight size={16} />}
+          onClick={() => onNavigate(entry.id)}
+        >
+          Continuer
+        </Button>
+      </div>
+    </div>
   );
 };
 
-/* ─── Main page ──────────────────────────────────────────────────────────────── */
+/* ─── Main page ──────────────────────────────────────────────────────────── */
 
 export const Journal: React.FC = () => {
   const navigate = useNavigate();
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
+  const [typeFilter,   setTypeFilter]   = useState<TypeFilter>('all');
   const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showPeriodMenu, setShowPeriodMenu] = useState(false);
+  const [searchQuery,  setSearchQuery]  = useState('');
 
   const filteredEntries = useMemo(() => {
-    const periodCutoff = PERIOD_MS[periodFilter] > 0 ? now - PERIOD_MS[periodFilter] : 0;
+    const cutoff = PERIOD_MS[periodFilter] > 0 ? now - PERIOD_MS[periodFilter] : 0;
     const q = searchQuery.trim().toLowerCase();
-
     return ENTRIES.filter((e) => {
       const matchType   = typeFilter === 'all' || e.type === typeFilter;
-      const matchPeriod = periodCutoff === 0 || e.dateMs >= periodCutoff;
-      const matchSearch = q === '' ||
-        e.title.toLowerCase().includes(q) ||
-        e.excerpt.toLowerCase().includes(q) ||
-        e.tags.some((t) => t.toLowerCase().includes(q));
+      const matchPeriod = cutoff === 0 || e.dateMs >= cutoff;
+      const matchSearch = q === '' || e.title.toLowerCase().includes(q) || e.excerpt.toLowerCase().includes(q) || e.tags.some((t) => t.toLowerCase().includes(q));
       return matchType && matchPeriod && matchSearch;
     });
   }, [typeFilter, periodFilter, searchQuery]);
 
-  const thisMonthCount = ENTRIES.filter((e) => e.dateMs >= daysAgo(30)).length;
-  const uniqueTagsCount = new Set(ENTRIES.flatMap((e) => e.tags)).size;
-  const coachingCount = ENTRIES.filter((e) => e.type === 'coaching' || e.type === 'questionnaire' || e.type === 'compte-rendu').length;
+  const hasActiveFilter = typeFilter !== 'all' || periodFilter !== 'all' || searchQuery !== '';
 
-  const selectedPeriodLabel = PERIOD_FILTERS.find((f) => f.key === periodFilter)?.label ?? 'Toute période';
+  /* Compose state — quick-prompt chat input qui s'expand. */
+  const [composeText, setComposeText] = useState('');
+
+  /* Filters panel collapsible — hidden par défaut, toggle via icon button trailing du Search. */
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const activeFilterCount =
+    (typeFilter !== 'all' ? 1 : 0) + (periodFilter !== 'all' ? 1 : 0);
+
+  /* Types user-initiables (les 4 disponibles depuis la section "Compose new entry").
+     Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
+  const COMPOSE_TYPES: { type: EntryType; emoji: string; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
+    { type: 'guided',       emoji: '🧭', label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
+    { type: 'free',         emoji: '✍️', label: 'Libre',          tone: 'brand', subtitle: 'Écris comme tu veux' },
+    { type: 'insight',      emoji: '💡', label: 'Insight',        tone: 'sun',   subtitle: 'Une prise de conscience' },
+    { type: 'learning',     emoji: '📖', label: 'Apprentissage',  tone: 'warm',  subtitle: 'Notes post-leçon' },
+  ];
+
+  const TONE_BG: Record<'brand' | 'warm' | 'sun', string> = {
+    brand: 'bg-primary-50 hover:bg-primary-100 border-primary-100 hover:border-primary-300',
+    warm:  'bg-secondary-50 hover:bg-secondary-100 border-secondary-100 hover:border-secondary-300',
+    sun:   'bg-accent-50 hover:bg-accent-100 border-accent-100 hover:border-accent-300',
+  };
+
+  const handleComposeSubmit = () => {
+    if (composeText.trim().length > 0) {
+      // Pass text via query param (URLEncoded) — picked up by NewEntry page
+      navigate(`/journal/new-entry?type=free&draft=${encodeURIComponent(composeText)}`);
+    } else {
+      navigate('/journal/new-entry?type=free');
+    }
+  };
 
   return (
-    <div className="journal-page">
-      {/* Hero Section */}
-      <HeroSection
-        icon={Sparkles}
-        title="Journal d'apprentissage"
-        description="Capitalisez vos prises de conscience, structurez vos réflexions et suivez votre progression avec un espace de journaling adapté à votre parcours."
-        variant="gradient"
-        tone="primary"
-      />
+    <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20 flex flex-col">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section w-full">
 
-      <div className="journal-content">
-        {/* KPI Cards — Enhanced with elevation and better spacing */}
-        <div className="journal-kpi-grid">
-          <div className="journal-kpi-grid__item">
-            <KpiCard
-              label="Entrées ce mois"
-              value={String(thisMonthCount)}
-              icon={<PenSquare size={20} />}
-              iconBg="var(--tls-primary-50)"
-              iconColor="var(--tls-primary-600)"
-            />
-          </div>
-          <div className="journal-kpi-grid__item">
-            <KpiCard
-              label="Thèmes explorés"
-              value={String(uniqueTagsCount)}
-              icon={<Sparkles size={20} />}
-              iconBg="var(--tls-orange-50)"
-              iconColor="var(--tls-orange-600)"
-            />
-          </div>
-          <div className="journal-kpi-grid__item">
-            <KpiCard
-              label="Sessions coaching"
-              value={String(coachingCount)}
-              icon={<TrendingUp size={20} />}
-              iconBg="var(--tls-yellow-50)"
-              iconColor="var(--tls-yellow-600)"
-            />
-          </div>
-          <div className="journal-kpi-grid__item">
-            <KpiCard
-              label="Insights captés"
-              value={String(ENTRIES.filter((e) => e.type === 'insight').length)}
-              icon={<Lightbulb size={20} />}
-              iconBg="var(--tls-primary-50)"
-              iconColor="var(--tls-primary-700)"
-            />
-          </div>
-        </div>
+        {/* Hero — EditorialHero brand standalone (sans trailing) */}
+        <EditorialHero
+          tone="brand"
+          eyebrow={{ icon: <Sparkles size={12} />, label: 'Mon apprentissage' }}
+          title="Journal d'apprentissage"
+          summary="Capitalise tes prises de conscience, structure tes réflexions et suis ta progression."
+        />
 
-        {/* CTA row — Enhanced with better visual prominence */}
-        <div className="journal-cta-row">
-          {(['guided', 'free', 'insight'] as EntryType[]).map((type) => {
-            const m = TYPE_META[type];
-            return (
+        {/* ⭐ Compose new entry — section engageante avec :
+            (1) chat-style prompt input qui ouvre NewEntry en mode 'free' avec draft pré-rempli
+            (2) 4 emoji buttons (types user-initiables) pour démarrer un format spécifique */}
+        <section aria-label="Nouvelle entrée" className="flex flex-col gap-stack-lg">
+          <SectionHeader
+            variant="default"
+            size="md"
+            tone="primary"
+            icon={<PenSquare size={20} />}
+            title="Quoi écrire aujourd'hui ?"
+            subtitle="Démarre une entrée libre ou choisis un format guidé"
+          />
+
+          {/* Chat-style prompt card — input qui ressemble à une bulle de messagerie */}
+          <Card className="!p-0 !rounded-3xl !gap-0 !overflow-visible relative bg-white border border-primary-100 shadow-sm hover:shadow-md transition-shadow">
+            {/* Speech bubble tail */}
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100"
+            />
+            <div className="flex items-end gap-3 p-4">
+              <span className="text-h2 leading-none shrink-0 select-none" aria-hidden="true">✍️</span>
+              <div className="flex-1 min-w-0">
+                <label className="sr-only" htmlFor="journal-compose">Écris une pensée du jour</label>
+                <textarea
+                  id="journal-compose"
+                  rows={2}
+                  value={composeText}
+                  onChange={(e) => setComposeText(e.target.value)}
+                  placeholder="Tape une pensée, un insight, une question qui t'a traversé(e)…"
+                  className="w-full resize-none border-0 outline-0 bg-transparent font-body text-body text-ink-900 placeholder:text-ink-400 leading-relaxed h-auto min-h-[44px] focus:outline-0"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleComposeSubmit();
+                  }}
+                />
+              </div>
               <Button
-                key={type}
-                variant="secondary"
-                leadingIcon={<span style={{ fontSize: '1em' }}>{m.emoji}</span>}
-                onClick={() => navigate(`/journal/new-entry?type=${type}`)}
-                style={{ background: m.bg, borderColor: m.border, color: m.color, transition: 'all var(--dur-2)' }}
+                variant="primary"
+                size="md"
+                onClick={handleComposeSubmit}
+                aria-label="Continuer l'entrée"
+                leadingIcon={<Send size={15} />}
+                className="shrink-0"
               >
-                {m.label}
+                Continuer
               </Button>
-            );
-          })}
-          <Button
-            leadingIcon={<PenSquare size={16} />}
-            onClick={() => navigate('/journal/new-entry')}
-            className="journal-cta-row__new-entry"
-          >
-            Nouvelle entrée
-          </Button>
-        </div>
-
-        {/* Toolbar — Enhanced with better visual separation */}
-        <Card variant="feature" className="journal-toolbar">
-          <div className="journal-toolbar__flex">
-            {/* Search */}
-            <div className="journal-toolbar__search">
-              <Search size={16} className="journal-toolbar__search-icon" />
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher titre, thème, tag…"
-                className="journal-toolbar__search-input"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="journal-toolbar__search-clear"
-                  aria-label="Effacer la recherche"
-                >
-                  <X size={14} />
-                </button>
-              )}
             </div>
+            <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-2 flex-wrap">
+              <span className="font-body text-caption text-ink-500">
+                Tu pourras affiner le format & ajouter des tags à l'étape suivante.
+              </span>
+              <span className="font-body text-micro text-ink-400 hidden sm:inline">
+                <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-[10px]">⌘ + Entrée</kbd> pour envoyer
+              </span>
+            </div>
+          </Card>
 
-            {/* Period dropdown */}
-            <div className="journal-toolbar__period-dropdown">
+          {/* Or pick a guided format — 4 emoji buttons */}
+          <div className="flex flex-col gap-stack-xs">
+            <span className="font-body text-caption text-ink-500">Ou choisis un format guidé :</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
+              {COMPOSE_TYPES.map((t) => (
+                <button
+                  key={t.type}
+                  type="button"
+                  onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
+                  className={[
+                    'group flex flex-col items-center justify-center gap-tight p-4 rounded-2xl border-2 text-center cursor-pointer',
+                    'transition-all duration-base hover:-translate-y-0.5 hover:shadow-md',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    TONE_BG[t.tone],
+                  ].join(' ')}
+                >
+                  <span className="text-h2 leading-none transition-transform group-hover:scale-110 select-none" aria-hidden="true">{t.emoji}</span>
+                  <span className="font-display text-body-sm font-bold text-ink-900 leading-tight">{t.label}</span>
+                  <span className="font-body text-caption text-ink-600 leading-tight">{t.subtitle}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Toolbar compacte — Search size="sm" avec icon button "filters" trailing.
+            Panel filtres collapsible (caché par défaut, toggle via icon). */}
+        <div className="flex flex-col gap-stack-xs">
+          <Search
+            variant="filled"
+            placeholder="Rechercher titre, thème, tag…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            trailing={
               <button
                 type="button"
-                onClick={() => setShowPeriodMenu((v) => !v)}
-                className="journal-toolbar__period-button"
+                onClick={() => setFiltersOpen((v) => !v)}
+                aria-expanded={filtersOpen}
+                aria-label={`${filtersOpen ? 'Masquer' : 'Afficher'} les filtres${activeFilterCount > 0 ? ` (${activeFilterCount} actifs)` : ''}`}
+                className={[
+                  'relative inline-flex items-center justify-center w-9 h-9 rounded-md border cursor-pointer transition-all',
+                  filtersOpen || activeFilterCount > 0
+                    ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'
+                    : 'bg-white border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300',
+                ].join(' ')}
               >
-                <Filter size={14} className="journal-toolbar__period-icon" />
-                {selectedPeriodLabel}
-                <ChevronDown size={14} className={`journal-toolbar__period-chevron ${showPeriodMenu ? 'journal-toolbar__period-chevron--open' : ''}`} />
+                <SlidersHorizontal size={16} strokeWidth={2.25} />
+                {activeFilterCount > 0 && !filtersOpen && (
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">
+                    {activeFilterCount}
+                  </span>
+                )}
               </button>
-              {showPeriodMenu && (
-                <div className="journal-toolbar__period-menu">
+            }
+          />
+
+          {/* Filters collapsible panel */}
+          {filtersOpen && (
+            <Card className="p-4 flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
+              <div className="flex flex-col gap-stack-xs">
+                <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">Période</span>
+                <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par période">
                   {PERIOD_FILTERS.map(({ key, label }) => (
-                    <button
+                    <FilterChip
                       key={key}
-                      onClick={() => { setPeriodFilter(key); setShowPeriodMenu(false); }}
-                      className={`journal-toolbar__period-option ${periodFilter === key ? 'journal-toolbar__period-option--active' : ''}`}
-                    >
-                      {label}
-                    </button>
+                      label={label}
+                      active={periodFilter === key}
+                      onClick={() => setPeriodFilter(key)}
+                    />
                   ))}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Type filter pills */}
-          <div className="journal-toolbar__type-filters" role="tablist" aria-label="Filtrer par type">
-            {TYPE_FILTERS.map(({ key, label }) => (
-              <button
-                key={key}
-                type="button"
-                role="tab"
-                aria-selected={typeFilter === key}
-                onClick={() => setTypeFilter(key)}
-                className={`tls-filter-pill${typeFilter === key ? ' tls-filter-pill--active' : ''}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </Card>
+              <div className="flex flex-col gap-stack-xs">
+                <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">Type d'entrée</span>
+                <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par type">
+                  {TYPE_FILTERS.map(({ key, label }) => (
+                    <FilterChip
+                      key={key}
+                      label={label}
+                      active={typeFilter === key}
+                      onClick={() => setTypeFilter(key)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </Card>
+          )}
+        </div>
 
-        {/* Result count — Enhanced with better styling */}
-        {(typeFilter !== 'all' || periodFilter !== 'all' || searchQuery) && (
-          <div className="journal-result-count">
-            <span className="journal-result-count__text">
+        {/* Active filter result count */}
+        {hasActiveFilter && (
+          <div className="flex items-center justify-between px-5 py-3 bg-primary-50 border border-primary-100 rounded-lg shadow-xs">
+            <span className="font-body text-body-sm text-primary-700 font-medium">
               {filteredEntries.length} entrée{filteredEntries.length > 1 ? 's' : ''} trouvée{filteredEntries.length > 1 ? 's' : ''}
             </span>
             <button
               onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-              className="journal-result-count__reset"
+              className="inline-flex items-center gap-1 font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors"
             >
-              <X size={12} />
-              Réinitialiser
+              <X size={12} /> Réinitialiser
             </button>
           </div>
         )}
 
-        {/* Entries List */}
+        {/* Entries */}
         {filteredEntries.length === 0 ? (
-          <Card variant="feature" className="journal-empty-state">
-            <div className="journal-empty-state__icon-container">
-              <Search size={24} className="journal-empty-state__icon" />
-            </div>
-            <div>
-              <h3 className="journal-empty-state__title">Aucune entrée trouvée</h3>
-              <p className="journal-empty-state__description">
-                Essayez d'élargir votre recherche ou de modifier les filtres.
-              </p>
-            </div>
-          </Card>
+          <EmptyState
+            icon={<Sparkles size={32} />}
+            title="Aucune entrée trouvée"
+            description="Essayez d'élargir votre recherche ou de créer une nouvelle entrée depuis les tiles ci-dessus."
+          />
         ) : (
-          <div className="journal-entries-list">
-            {filteredEntries.map((entry, index) => (
-              <div
+          <div className="flex flex-col gap-stack">
+            {filteredEntries.map((entry) => (
+              <EntryCard
                 key={entry.id}
-                className="journal-entries-list__item"
-              >
-                <EntryCard
-                  entry={entry}
-                  onNavigate={(id) => navigate(`/journal/detail/${id}`)}
-                  onCoachingAction={
-                    entry.type === 'questionnaire'
-                      ? () => navigate('/coaching/pre-questionnaire')
-                      : entry.type === 'compte-rendu'
-                      ? () => navigate('/coaching/compte-rendu/1')
-                      : undefined
-                  }
-                />
-              </div>
+                entry={entry}
+                onNavigate={(id) => navigate(`/journal/detail/${id}`)}
+                onCoachingAction={
+                  entry.type === 'questionnaire' ? () => navigate('/coaching/pre-questionnaire')
+                  : entry.type === 'compte-rendu' ? () => navigate('/coaching/compte-rendu/1')
+                  : undefined
+                }
+              />
             ))}
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes periodMenuIn {
-          from { opacity: 0; transform: translateY(-6px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 };

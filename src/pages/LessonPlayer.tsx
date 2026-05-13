@@ -9,7 +9,8 @@
  * Design system : TLS tokens + Card component
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLessonProgressStore } from '../stores/persistence';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { SessionFeedbackModal } from '../components/modals';
@@ -258,14 +259,30 @@ const DEFAULT_LESSON_DATA: LessonData = {
   },
 };
 
+/* ─── Section title shared class ────────────────────────────────────────── */
+
+const SECTION_TITLE = 'font-display text-h2 font-bold text-ink-900 m-0 mb-6 leading-[1.15]';
+
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const LessonPlayer: React.FC = () => {
   const { pathId = '1', lessonId = 'lecon-1-2-1' } = useParams<{ pathId: string; lessonId: string }>();
   const navigate = useNavigate();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [completedSections, setCompletedSections] = useState<Set<number>>(new Set([0]));
+  // Restore persisted state on mount (Zustand persist via localStorage)
+  const persistedEntry = useLessonProgressStore((s) => s.lessons[lessonId]);
+  const setSectionInStore = useLessonProgressStore((s) => s.setSection);
+  const completeSectionInStore = useLessonProgressStore((s) => s.completeSection);
+
+  const [currentIndex, setCurrentIndex] = useState(persistedEntry?.lastSection ?? 0);
+  const [completedSections, setCompletedSections] = useState<Set<number>>(
+    new Set(persistedEntry?.completed ?? [0])
+  );
+
+  // Persist on every change
+  useEffect(() => {
+    setSectionInStore(lessonId, currentIndex, SECTIONS.length);
+  }, [lessonId, currentIndex, setSectionInStore]);
   const [reflections, setReflections] = useState<Record<string, string>>({});
   const [actionPlan, setActionPlan] = useState({ objectif: '', action1: '', action2: '', action3: '' });
   const [showFeedback, setShowFeedback] = useState(false);
@@ -280,14 +297,18 @@ export const LessonPlayer: React.FC = () => {
 
   const goTo = (index: number) => {
     setCurrentIndex(index);
-    setCompletedSections((prev) => new Set(prev).add(currentIndex));
+    setCompletedSections((prev) => {
+      const next = new Set(prev);
+      next.add(currentIndex);
+      return next;
+    });
+    completeSectionInStore(lessonId, currentIndex);
   };
 
   const handleNext = () => {
     if (!isLast) {
       goTo(currentIndex + 1);
     } else {
-      // Mark conclusion as completed then open feedback before leaving
       setCompletedSections((prev) => new Set(prev).add(currentIndex));
       setShowFeedback(true);
     }
@@ -307,19 +328,19 @@ export const LessonPlayer: React.FC = () => {
 
   const renderIntroduction = () => (
     <div>
-      <h2 className="lesson-player__section-title">{lessonData.intro.heading}</h2>
+      <h2 className={SECTION_TITLE}>{lessonData.intro.heading}</h2>
       <p className="font-body text-body text-ink-500 leading-relaxed mb-6">
         {lessonData.intro.description}
       </p>
       <div className="flex items-center gap-2 mb-5">
         <Target size={20} className="text-primary-500" />
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900">
-          Objectifs d'apprentissage
+          Objectifs d&apos;apprentissage
         </h3>
       </div>
-      <div className="lesson-player__objectives">
+      <div className="flex flex-col gap-3 mt-8">
         {lessonData.intro.objectives.map((obj, i) => (
-          <div key={i} className="lesson-player__objective-item">
+          <div key={i} className="flex items-center gap-3 p-4 bg-ink-50 rounded-lg">
             <CheckCircle2 size={18} className="text-success-base shrink-0" />
             <span className="font-body text-body">{obj}</span>
           </div>
@@ -330,21 +351,21 @@ export const LessonPlayer: React.FC = () => {
 
   const renderEngagement = () => {
     const PILLAR_TONES = [
-      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-500',  square: 'bg-primary-500',  tag: 'bg-primary-100 text-primary-700' },
-      { card: 'bg-secondary-50 border-secondary-100', accent: 'bg-secondary-600', square: 'bg-secondary-600', tag: 'bg-secondary-100 text-secondary-700' },
-      { card: 'bg-accent-50 border-accent-100',       accent: 'bg-accent-600',   square: 'bg-accent-600',   tag: 'bg-accent-100 text-accent-700' },
-      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-400',  square: 'bg-primary-400',  tag: 'bg-primary-100 text-primary-600' },
+      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-500/20',   square: 'bg-primary-500',  tag: 'bg-primary-100 text-primary-700' },
+      { card: 'bg-secondary-50 border-secondary-100', accent: 'bg-secondary-600/20', square: 'bg-secondary-600', tag: 'bg-secondary-100 text-secondary-700' },
+      { card: 'bg-accent-50 border-accent-100',       accent: 'bg-accent-600/20',    square: 'bg-accent-600',   tag: 'bg-accent-100 text-accent-700' },
+      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-400/20',   square: 'bg-primary-400',  tag: 'bg-primary-100 text-primary-600' },
     ];
 
     return (
       <div>
-        <h2 className="lesson-player__section-title">{lessonData.engagement.heading}</h2>
-        <div className="lesson-player__pillar-grid">
+        <h2 className={SECTION_TITLE}>{lessonData.engagement.heading}</h2>
+        <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
           {lessonData.engagement.pillars.map((pillar, i) => {
             const t = PILLAR_TONES[i % PILLAR_TONES.length];
             return (
               <div key={i} className={`rounded-xl p-6 border ${t.card}`}>
-                <div className={`w-10 h-10 rounded-md flex items-center justify-center mb-4 ${t.accent}/20`}>
+                <div className={`w-10 h-10 rounded-md flex items-center justify-center mb-4 ${t.accent}`}>
                   <div className={`w-4 h-4 rounded-sm ${t.square}`} />
                 </div>
                 <h3 className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">{pillar.title}</h3>
@@ -373,8 +394,8 @@ export const LessonPlayer: React.FC = () => {
     const { decouvrir: d } = lessonData;
     return (
       <div>
-        <h2 className="lesson-player__section-title">{d.heading}</h2>
-        <div className="lesson-player__example-bad">
+        <h2 className={SECTION_TITLE}>{d.heading}</h2>
+        <div className="rounded-xl p-6 mb-5 bg-danger-base/[0.06] border-2 border-danger-base/25">
           <div className="mb-3">
             <span className="inline-flex items-center gap-1 bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
@@ -389,7 +410,7 @@ export const LessonPlayer: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className="lesson-player__example-good">
+        <div className="rounded-xl p-6 bg-success-base/[0.08] border-2 border-success-base/30">
           <div className="mb-3">
             <span className="inline-flex items-center gap-1 bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <CheckCircle2 size={14} /> {d.good.label}
@@ -424,12 +445,12 @@ export const LessonPlayer: React.FC = () => {
 
   const renderReflechir = () => (
     <div>
-      <h2 className="lesson-player__section-title">{lessonData.reflechir.heading}</h2>
+      <h2 className={SECTION_TITLE}>{lessonData.reflechir.heading}</h2>
       {lessonData.reflechir.questions.map((question, i) => (
-        <div key={i} className="lesson-player__reflection-block">
+        <div key={i} className="bg-ink-50 rounded-xl p-5 mb-5">
           <h3 className="m-0 font-body text-body font-semibold text-ink-900">{question}</h3>
           <textarea
-            className="lesson-player__reflection-textarea"
+            className="w-full h-auto min-h-[96px] p-4 mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections[`q${i}`] ?? ''}
             onChange={(e) => setReflections((prev) => ({ ...prev, [`q${i}`]: e.target.value }))}
             placeholder="Écrivez votre réflexion ici…"
@@ -441,7 +462,7 @@ export const LessonPlayer: React.FC = () => {
 
   const renderAppliquer = () => (
     <div>
-      <h2 className="lesson-player__section-title">{lessonData.appliquer.heading}</h2>
+      <h2 className={SECTION_TITLE}>{lessonData.appliquer.heading}</h2>
       <div className="bg-primary-50 rounded-xl p-5 mb-6 border border-primary-200">
         <p className="m-0 font-body text-body text-ink-900 leading-relaxed">
           {lessonData.appliquer.instruction}
@@ -455,10 +476,10 @@ export const LessonPlayer: React.FC = () => {
           { key: 'action3' as const, label: 'Action 3', placeholder: 'Troisième action pour ancrer le changement' },
         ].map(({ key, label, placeholder }) => (
           <div key={key}>
-            <label className="lesson-player__action-label">{label}</label>
+            <label className="block font-body text-caption font-semibold text-ink-900 mb-2">{label}</label>
             <input
               type="text"
-              className="lesson-player__action-input"
+              className="w-full h-auto p-4 rounded-lg border border-ink-200 font-body text-body-sm text-ink-900 bg-white transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
               value={actionPlan[key]}
               onChange={(e) => setActionPlan((prev) => ({ ...prev, [key]: e.target.value }))}
               placeholder={placeholder}
@@ -471,15 +492,17 @@ export const LessonPlayer: React.FC = () => {
 
   const renderConclusion = () => (
     <div>
-      <h2 className="lesson-player__section-title">{lessonData.conclusion.heading}</h2>
+      <h2 className={SECTION_TITLE}>{lessonData.conclusion.heading}</h2>
       <div className="flex items-center gap-2 mb-4">
         <CheckCircle2 size={18} className="text-success-base" />
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Points clés à retenir</h3>
       </div>
       <div className="mb-8">
         {lessonData.conclusion.keyPoints.map((point, i) => (
-          <div key={i} className="lesson-player__conclusion-point">
-            <div className="lesson-player__conclusion-num">{i + 1}</div>
+          <div key={i} className="flex items-center gap-3 p-4 bg-ink-50 rounded-lg mb-3">
+            <div className="w-7 h-7 rounded-full bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
+              {i + 1}
+            </div>
             <span className="font-body text-body-sm">{point}</span>
           </div>
         ))}
@@ -489,7 +512,7 @@ export const LessonPlayer: React.FC = () => {
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Prochaines étapes</h3>
       </div>
       {lessonData.conclusion.nextSteps.map((step, i) => (
-        <div key={i} className="lesson-player__next-step">
+        <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-lg border border-ink-200 mb-3 transition-all duration-200 hover:translate-x-1 hover:border-primary-400">
           <ChevronRight size={18} className="text-primary-500 shrink-0" />
           <span className="font-body text-body-sm">{step}</span>
         </div>
@@ -511,145 +534,182 @@ export const LessonPlayer: React.FC = () => {
   const displayDuration = ctx?.lesson.duration ?? lessonData.duration;
 
   return (
-    <div className="lesson-player" role="dialog" aria-modal="true" aria-label={`Leçon : ${displayTitle}`}>
-      {/* SCROLLABLE BODY */}
-      <div className="lesson-player__body">
+    <>
+      <style>{`
+        @keyframes lpFadeUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .lp-card-anim { animation: lpFadeUp 250ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .lp-section-scroll { scrollbar-width: none; }
+        .lp-section-scroll::-webkit-scrollbar { display: none; }
+      `}</style>
 
-        {/* HEADER */}
-        <header className="lesson-player__header">
-          <div className="lesson-player__header-top">
-            <h1 className="lesson-player__title">{displayTitle}</h1>
-            <div className="lesson-player__header-meta">
-              <span className="lesson-player__duration">
-                <Clock3 size={14} />
-                {displayDuration}
-              </span>
-              <button
-                className="lesson-player__close"
-                onClick={handleClose}
-                aria-label="Fermer la leçon"
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-          <div
-            className="lesson-player__progress-track"
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={progress}
-            aria-label={`Progression : ${progress}%`}
-          >
-            <div className="lesson-player__progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </header>
+      <div
+        className="fixed inset-0 z-modal bg-white/[0.98] backdrop-blur-glass-heavy flex flex-col overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Leçon : ${displayTitle}`}
+      >
+        {/* SCROLLABLE BODY */}
+        <div className="flex-1 overflow-y-auto flex flex-col">
 
-        {/* SECTION NAV */}
-        <nav className="lesson-player__section-nav" aria-label="Sections de la leçon">
-          <div className="lesson-player__section-list">
-            {SECTIONS.map((section, index) => {
-              const isActive = index === currentIndex;
-              const isDone = completedSections.has(index) && !isActive;
-              const Icon = section.icon;
-              return (
+          {/* HEADER */}
+          <header className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100 px-10 pt-5 pb-4 max-md:px-4 max-md:pt-4 max-md:pb-3">
+            <div className="flex items-center justify-between mb-3">
+              <h1 className="font-display text-h3 font-bold text-primary-600 leading-[1.2] m-0 tracking-[0.01em] max-md:text-h4">
+                {displayTitle}
+              </h1>
+              <div className="flex items-center gap-4 shrink-0">
+                <span className="flex items-center gap-1 font-body text-caption text-ink-500 font-medium">
+                  <Clock3 size={14} />
+                  {displayDuration}
+                </span>
                 <button
-                  key={section.id}
-                  className={`lesson-player__section-btn ${isActive ? 'lesson-player__section-btn--active' : ''} ${isDone ? 'lesson-player__section-btn--done' : ''}`}
-                  onClick={() => goTo(index)}
-                  aria-current={isActive ? 'step' : undefined}
+                  className="w-9 h-9 rounded-full flex items-center justify-center bg-ink-100 border border-ink-200 cursor-pointer transition-all duration-200 text-ink-500 shrink-0 shadow-xs hover:bg-white hover:text-ink-900 hover:scale-[1.08]"
+                  onClick={handleClose}
+                  aria-label="Fermer la leçon"
                 >
-                  <Icon size={14} />
-                  <span>{section.title}</span>
-                  {isActive && (
-                    <div className="lesson-player__section-radio">
-                      <div className="lesson-player__section-radio-inner" />
-                    </div>
-                  )}
-                  {isDone && <span className="lesson-player__section-done-dot" aria-hidden="true" />}
+                  <X size={18} />
                 </button>
-              );
-            })}
-          </div>
-        </nav>
-
-        {/* CONTENT */}
-        <div className="lesson-player__content-wrap">
-          <div className="lesson-player__content-card" key={currentSection.id}>
-            {SECTION_RENDERERS[currentSection.id]()}
-          </div>
-        </div>
-
-        {/* BOTTOM NAV */}
-        <div className="lesson-player__bottom-nav">
-          <div className="lesson-player__bottom-nav-inner">
-            {/* Previous */}
-            <button
-              onClick={handlePrev}
-              disabled={isFirst}
-              className={[
-                'flex items-center gap-2 px-5 py-3 rounded-lg bg-transparent border-0 font-body text-caption font-medium transition-colors',
-                isFirst
-                  ? 'text-ink-300 cursor-not-allowed'
-                  : 'text-ink-500 cursor-pointer hover:text-ink-900',
-              ].join(' ')}
+              </div>
+            </div>
+            <div
+              className="h-2 bg-primary-100 rounded-pill overflow-visible relative"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+              aria-label={`Progression : ${progress}%`}
             >
-              <ChevronLeft size={18} />
-              Précédent
-            </button>
+              <div
+                className="absolute top-0 left-0 h-2 bg-primary-500 rounded-pill transition-[width] duration-300"
+                style={{ width: `${progress}%`, boxShadow: '0 0 20px 0 rgba(85, 161, 180, 0.5)' }}
+              />
+            </div>
+          </header>
 
-            {/* Dot pagination */}
-            <div className="lesson-player__dots">
-              {SECTIONS.map((_, i) => {
-                const isActive = i === currentIndex;
-                const isDone = completedSections.has(i) && !isActive;
+          {/* SECTION NAV */}
+          <nav
+            className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light px-10 py-3 border-b border-ink-100 max-md:px-4"
+            aria-label="Sections de la leçon"
+          >
+            <div className="lp-section-scroll flex gap-2 overflow-x-auto pb-0.5">
+              {SECTIONS.map((section, index) => {
+                const isActive = index === currentIndex;
+                const isDone = completedSections.has(index) && !isActive;
+                const Icon = section.icon;
                 return (
                   <button
-                    key={i}
-                    className={`lesson-player__dot ${isActive ? 'lesson-player__dot--active' : isDone ? 'lesson-player__dot--done' : 'lesson-player__dot--inactive'}`}
-                    onClick={() => goTo(i)}
-                    aria-label={`Section ${i + 1}`}
+                    key={section.id}
+                    className={[
+                      'inline-flex items-center gap-2 px-4 py-2 rounded-xl border-none font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap relative tracking-[-0.01em]',
+                      isActive
+                        ? 'bg-primary-500 text-white font-bold shadow-sm'
+                        : 'bg-primary-50 text-ink-900 font-medium hover:bg-primary-100',
+                    ].join(' ')}
+                    onClick={() => goTo(index)}
+                    aria-current={isActive ? 'step' : undefined}
                   >
-                    {i + 1}
+                    <Icon size={14} />
+                    <span>{section.title}</span>
+                    {isActive && (
+                      <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shrink-0">
+                        <div className="w-[7px] h-[7px] rounded-full bg-white" />
+                      </div>
+                    )}
+                    {isDone && (
+                      <span
+                        className="absolute top-1 right-1 w-2 h-2 rounded-full bg-success-base"
+                        aria-hidden="true"
+                      />
+                    )}
                   </button>
                 );
               })}
             </div>
+          </nav>
 
-            {/* Next / Terminer */}
-            {isLast ? (
-              <Button variant="primary" size="md" onClick={handleNext} className="flex items-center gap-2">
-                <CheckCircle2 size={16} />
-                Terminer
-              </Button>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 border-0 text-white cursor-pointer font-body text-caption font-semibold transition-colors hover:bg-primary-600"
-              >
-                Suivant
-                <ChevronRight size={18} />
-              </button>
-            )}
+          {/* CONTENT */}
+          <div className="flex-1 p-12 flex justify-center max-md:px-4 max-md:py-6">
+            <div
+              className="lp-card-anim bg-white rounded-2xl p-12 shadow-md mb-8 min-h-[440px] max-w-[900px] w-full max-md:p-6 max-md:min-h-[300px]"
+              key={currentSection.id}
+            >
+              {SECTION_RENDERERS[currentSection.id]()}
+            </div>
           </div>
+
+          {/* BOTTOM NAV */}
+          <div className="px-8 pb-8 flex justify-center max-md:px-4 max-md:pb-6">
+            <div className="bg-white rounded-2xl p-5 flex items-center justify-between shadow-sm max-w-[900px] w-full gap-4">
+
+              {/* Previous */}
+              <Button
+                variant="ghost"
+                size="md"
+                leadingIcon={<ChevronLeft size={16} />}
+                onClick={handlePrev}
+                disabled={isFirst}
+              >
+                Précédent
+              </Button>
+
+              {/* Dot pagination */}
+              <div className="flex gap-2 flex-wrap justify-center">
+                {SECTIONS.map((_, i) => {
+                  const isActive = i === currentIndex;
+                  const isDone = completedSections.has(i) && !isActive;
+                  return (
+                    <button
+                      key={i}
+                      className={[
+                        'w-9 h-9 rounded-full flex items-center justify-center border-none cursor-pointer font-body text-caption font-semibold transition-all duration-200 max-md:w-7 max-md:h-7 max-md:text-[11px]',
+                        isActive
+                          ? 'bg-primary-500 text-white'
+                          : isDone
+                            ? 'bg-success-bg text-success-fg'
+                            : 'bg-ink-100 text-ink-500',
+                      ].join(' ')}
+                      onClick={() => goTo(i)}
+                      aria-label={`Section ${i + 1}`}
+                    >
+                      {i + 1}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Next / Terminer */}
+              {isLast ? (
+                <Button variant="primary" size="md" leadingIcon={<CheckCircle2 size={16} />} onClick={handleNext}>
+                  Terminer
+                </Button>
+              ) : (
+                <Button variant="primary" size="md" trailingIcon={<ChevronRight size={16} />} onClick={handleNext}>
+                  Suivant
+                </Button>
+              )}
+            </div>
+          </div>
+
         </div>
 
+        {/* ─ Session Feedback Modal ─────────────────────────────────── */}
+        <SessionFeedbackModal
+          isOpen={showFeedback}
+          onClose={() => {
+            setShowFeedback(false);
+            navigate(`/learning-paths/${pathId}`);
+          }}
+          onSubmit={(_rating, _comment) => {
+            setShowFeedback(false);
+            navigate(`/learning-paths/${pathId}`);
+          }}
+          title={displayTitle}
+          subtitle={`Leçon complétée · ${displayDuration}`}
+        />
       </div>
-
-      {/* ─ Session Feedback Modal ─────────────────────────────────── */}
-      <SessionFeedbackModal
-        isOpen={showFeedback}
-        onClose={() => {
-          setShowFeedback(false);
-          navigate(`/learning-paths/${pathId}`);
-        }}
-        onSubmit={(_rating, _comment) => {
-          setShowFeedback(false);
-          navigate(`/learning-paths/${pathId}`);
-        }}
-        title={displayTitle}
-        subtitle={`Leçon complétée · ${displayDuration}`}
-      />
-    </div>
+    </>
   );
 };

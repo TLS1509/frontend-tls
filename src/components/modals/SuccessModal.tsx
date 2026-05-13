@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, CheckCircle2 } from 'lucide-react';
-import './modals.css';
 
 /**
  * SuccessModal — Célébration d'une réussite générique
@@ -26,7 +25,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-sm-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-sm-bd-in"
       onClick={onClose}
     >
       <div

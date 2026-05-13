@@ -8,6 +8,11 @@ import {
   MessageSquare,
   Pencil,
   Share2,
+  Newspaper,
+  Video,
+  Compass,
+  BookOpen,
+  GraduationCap,
   Inbox,
   Loader2,
   ArrowRight,
@@ -26,6 +31,7 @@ import { Avatar } from '../ui/Avatar';
  */
 
 export type ActivityType =
+  // ── User actions / progress ─────────────────────────────────────
   | 'start'
   | 'complete'
   | 'progress'
@@ -33,12 +39,18 @@ export type ActivityType =
   | 'feedback'
   | 'message'
   | 'comment'
-  | 'share';
+  | 'share'
+  // ── Content discovery (used by Dashboard "À découvrir" feed) ────
+  | 'veille-article'
+  | 'veille-video'
+  | 'parcours'
+  | 'lesson'
+  | 'coaching';
 
 export type ActivityTone = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
 export type ActivityLayout = 'timeline' | 'cards';
 
-export interface ActivityItem {
+export interface ActivityFeedItem {
   id: string;
   type: ActivityType;
   title: React.ReactNode;
@@ -55,8 +67,11 @@ export interface ActivityItem {
   onActionClick?: () => void;
 }
 
+/** @deprecated Use `ActivityFeedItem` (data shape) — `ActivityItem` is now the React component in ui/ActivityItem. */
+export type ActivityItem = ActivityFeedItem;
+
 export interface ActivityFeedProps {
-  items: ActivityItem[];
+  items: ActivityFeedItem[];
   /** Layout: 'timeline' (default, vertical rail) or 'cards' (separated cards). */
   layout?: ActivityLayout;
   /** Group items by relative date (Today / Yesterday / This week / Earlier). */
@@ -75,25 +90,37 @@ export interface ActivityFeedProps {
 // ─── Mappings ───────────────────────────────────────────────────────────────
 
 const ICON_FOR_TYPE: Record<ActivityType, React.ComponentType<{ size?: number; strokeWidth?: number }>> = {
-  start:       Rocket,
-  complete:    CheckCircle2,
-  progress:    TrendingUp,
-  achievement: Trophy,
-  feedback:    MessageCircle,
-  message:     MessageSquare,
-  comment:     Pencil,
-  share:       Share2,
+  start:           Rocket,
+  complete:        CheckCircle2,
+  progress:        TrendingUp,
+  achievement:     Trophy,
+  feedback:        MessageCircle,
+  message:         MessageSquare,
+  comment:         Pencil,
+  share:           Share2,
+  // Discovery types
+  'veille-article': Newspaper,
+  'veille-video':   Video,
+  parcours:         Compass,
+  lesson:           BookOpen,
+  coaching:         GraduationCap,
 };
 
 const DEFAULT_TONE_FOR_TYPE: Record<ActivityType, ActivityTone> = {
-  start:       'primary',
-  complete:    'success',
-  progress:    'primary',
-  achievement: 'sun',
-  feedback:    'warm',
-  message:     'primary',
-  comment:     'primary',
-  share:       'warm',
+  start:           'primary',
+  complete:        'success',
+  progress:        'primary',
+  achievement:     'sun',
+  feedback:        'warm',
+  message:         'primary',
+  comment:         'primary',
+  share:           'warm',
+  // Discovery defaults — match the dashboard color system
+  'veille-article': 'primary',
+  'veille-video':   'warm',
+  parcours:         'warm',
+  lesson:           'primary',
+  coaching:         'sun',
 };
 
 const TONE_DOT: Record<ActivityTone, string> = {

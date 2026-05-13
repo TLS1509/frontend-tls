@@ -229,7 +229,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         return ['relative overflow-hidden rounded-2xl shadow-xl text-white', GRADIENT_BG[tone]].join(' ');
       case 'glass':
         return [
-          'relative overflow-hidden rounded-2xl border border-white/60 ring-1 ring-inset ring-primary-100/40 backdrop-blur-xl backdrop-saturate-150 shadow-lg',
+          'relative overflow-hidden rounded-2xl border border-white/60 ring-1 ring-inset ring-primary-100/40 backdrop-blur-glass-heavy backdrop-saturate-150 shadow-lg',
           GLASS_OUTER[tone],
           TITLE_DARK_COLOR[tone],
         ].join(' ');
@@ -251,7 +251,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   // Metadata pill bg
   const metaPillBg = isLight
-    ? 'bg-white/15 backdrop-blur-md border border-white/25 text-white'
+    ? 'bg-white/15 backdrop-blur-glass-light border border-white/25 text-white'
     : `${ICON_BUBBLE_DARK[tone]} ring-1 ring-inset border-0`;
 
   // Icon bubble
@@ -259,7 +259,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     'inline-flex items-center justify-center shrink-0 rounded-2xl ring-1 mb-4',
     SIZE_BUBBLE[size],
     isLight
-      ? 'bg-white/20 text-white ring-white/30 backdrop-blur-md shadow-md'
+      ? 'bg-white/20 text-white ring-white/30 backdrop-blur-glass-light shadow-md'
       : ICON_BUBBLE_DARK[tone],
   ].join(' ');
 
@@ -270,7 +270,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   // KPI card — glass on light variants, soft bg on dark text variants
   const kpiCardClasses = isLight
-    ? 'flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/15 hover:bg-white/22 backdrop-blur-md transition-colors border border-white/15'
+    ? 'flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/15 hover:bg-white/22 backdrop-blur-glass-light transition-colors border border-white/15'
     : `flex items-center gap-3 px-4 py-3 rounded-2xl ${MINIMAL_BG[tone]} border transition-colors`;
 
   const kpiIconBubble = isLight

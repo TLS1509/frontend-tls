@@ -1,11 +1,5 @@
 /**
  * VideoReels — Lecteur vidéo vertical immersif (dark layout)
- * Inspiré du design Figma : fond noir total, contrôles flottants glass,
- * actions latérales, compteur bas de page.
- *
- * CSS  : .video-reels__* dans figma-missing-pages.css
- * Tokens : --video-*, --overlay-black-*, --on-color-*, --glass-blur-*
- * Aucune valeur hardcodée dans le JSX (sauf color-mix() pour les dynamiques).
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +23,8 @@ import {
 
 const CATEGORIES = ['Tous', 'IA & Outils', 'Pédagogie', 'Prompt', 'Tendances'];
 
+type ReelTone = 'brand' | 'warm' | 'cool' | 'amber' | 'teal' | 'rose';
+
 interface Reel {
   id: string;
   title: string;
@@ -40,11 +36,62 @@ interface Reel {
   instructor: string;
   instructorInitials: string;
   emoji: string;
-  /** Token CSS --video-grad-* pour le fond de la carte */
-  bgGradientToken: string;
-  /** Token CSS --tls-*-* pour l'accent couleur */
-  accentToken: string;
+  /** Background tone — drives gradient + accent. Defined via tokens, no hex. */
+  tone: ReelTone;
 }
+
+/**
+ * Tone → gradient classes (dark, cinematic) via DS tokens.
+ * No hex hardcoded.
+ */
+const TONE_BG: Record<ReelTone, string> = {
+  brand: 'bg-gradient-to-b from-primary-900 to-ink-900',
+  warm:  'bg-gradient-to-b from-secondary-900 to-ink-900',
+  cool:  'bg-gradient-to-b from-primary-800 to-ink-900',
+  amber: 'bg-gradient-to-b from-accent-700 to-ink-900',
+  teal:  'bg-gradient-to-b from-primary-700 to-ink-900',
+  rose:  'bg-gradient-to-b from-secondary-800 to-ink-900',
+};
+
+/** Tone → avatar gradient (instructor bubble). */
+const TONE_AVATAR: Record<ReelTone, string> = {
+  brand: 'bg-gradient-to-br from-primary-400 to-primary-600',
+  warm:  'bg-gradient-to-br from-secondary-400 to-secondary-600',
+  cool:  'bg-gradient-to-br from-primary-300 to-primary-500',
+  amber: 'bg-gradient-to-br from-accent-400 to-secondary-600',
+  teal:  'bg-gradient-to-br from-primary-500 to-primary-700',
+  rose:  'bg-gradient-to-br from-secondary-500 to-secondary-700',
+};
+
+/** Tone → ambient glow (radial overlay) — uses tone-aware Tailwind opacity. */
+const TONE_GLOW: Record<ReelTone, string> = {
+  brand: 'bg-[radial-gradient(ellipse_at_60%_40%,rgba(85,161,180,0.12),transparent_60%)]',
+  warm:  'bg-[radial-gradient(ellipse_at_60%_40%,rgba(237,132,58,0.12),transparent_60%)]',
+  cool:  'bg-[radial-gradient(ellipse_at_60%_40%,rgba(150,195,207,0.10),transparent_60%)]',
+  amber: 'bg-[radial-gradient(ellipse_at_60%_40%,rgba(248,176,68,0.12),transparent_60%)]',
+  teal:  'bg-[radial-gradient(ellipse_at_60%_40%,rgba(85,161,180,0.12),transparent_60%)]',
+  rose:  'bg-[radial-gradient(ellipse_at_60%_40%,rgba(237,132,58,0.10),transparent_60%)]',
+};
+
+/** Tone → category badge classes (chip background + text + border). */
+const TONE_CHIP: Record<ReelTone, string> = {
+  brand: 'bg-primary-500/25 text-primary-200 border border-primary-400/40',
+  warm:  'bg-secondary-500/25 text-secondary-200 border border-secondary-400/40',
+  cool:  'bg-primary-400/25 text-primary-100 border border-primary-300/40',
+  amber: 'bg-accent-400/25 text-accent-100 border border-accent-300/40',
+  teal:  'bg-primary-500/25 text-primary-100 border border-primary-400/40',
+  rose:  'bg-secondary-500/25 text-secondary-200 border border-secondary-400/40',
+};
+
+/** Tone → active category filter button. */
+const TONE_CATEGORY_ACTIVE: Record<ReelTone, string> = {
+  brand: 'bg-primary-500 text-white',
+  warm:  'bg-secondary-500 text-white',
+  cool:  'bg-primary-400 text-white',
+  amber: 'bg-accent-500 text-ink-900',
+  teal:  'bg-primary-600 text-white',
+  rose:  'bg-secondary-600 text-white',
+};
 
 const REELS: Reel[] = [
   {
@@ -58,8 +105,7 @@ const REELS: Reel[] = [
     instructor: 'Marie Dubois',
     instructorInitials: 'MD',
     emoji: '⚡',
-    bgGradientToken: 'var(--video-grad-brand)',
-    accentToken: 'var(--tls-primary-400)',
+    tone: 'brand',
   },
   {
     id: 'r2',
@@ -72,8 +118,7 @@ const REELS: Reel[] = [
     instructor: 'Pierre Martin',
     instructorInitials: 'PM',
     emoji: '📰',
-    bgGradientToken: 'var(--video-grad-warm)',
-    accentToken: 'var(--tls-orange-400)',
+    tone: 'warm',
   },
   {
     id: 'r3',
@@ -86,8 +131,7 @@ const REELS: Reel[] = [
     instructor: 'Sophie Renard',
     instructorInitials: 'SR',
     emoji: '🎯',
-    bgGradientToken: 'var(--video-grad-ocean)',
-    accentToken: 'var(--tls-primary-300)',
+    tone: 'cool',
   },
   {
     id: 'r4',
@@ -100,8 +144,7 @@ const REELS: Reel[] = [
     instructor: 'Lucas Petit',
     instructorInitials: 'LP',
     emoji: '🧩',
-    bgGradientToken: 'var(--video-grad-earth)',
-    accentToken: 'var(--tls-orange-300)',
+    tone: 'amber',
   },
   {
     id: 'r5',
@@ -114,8 +157,7 @@ const REELS: Reel[] = [
     instructor: 'Emma Laurent',
     instructorInitials: 'EL',
     emoji: '🖥️',
-    bgGradientToken: 'var(--video-grad-slate)',
-    accentToken: 'var(--tls-primary-500)',
+    tone: 'teal',
   },
   {
     id: 'r6',
@@ -128,8 +170,7 @@ const REELS: Reel[] = [
     instructor: 'Alex Moreau',
     instructorInitials: 'AM',
     emoji: '🚀',
-    bgGradientToken: 'var(--video-grad-violet)',
-    accentToken: 'var(--tls-orange-500)',
+    tone: 'rose',
   },
 ];
 
@@ -137,33 +178,46 @@ const REELS: Reel[] = [
 
 interface ActionBtnProps {
   onClick: () => void;
-  modifier?: string;
+  liked?: boolean;
+  saved?: boolean;
   label?: string;
   children: React.ReactNode;
 }
 
-const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, modifier = '', label, children }) => (
-  <div className="video-reels__action-wrap">
-    <button
-      onClick={onClick}
-      className={`video-reels__action-btn${modifier ? ` ${modifier}` : ''}`}
-    >
-      {children}
-    </button>
-    {label && <span className="video-reels__action-label">{label}</span>}
-  </div>
-);
+const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, liked, saved, label, children }) => {
+  const btnClass = liked
+    ? 'border-secondary-400 bg-secondary-400/10 text-secondary-400 hover:bg-secondary-400/20'
+    : saved
+    ? 'border-primary-400 bg-primary-400/10 text-primary-400 hover:bg-primary-400/20'
+    : 'border-white/15 bg-black/45 text-white/85 hover:bg-black/55 hover:text-white';
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <button
+        onClick={onClick}
+        className={`w-[52px] h-[52px] rounded-full border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light ${btnClass}`}
+      >
+        {children}
+      </button>
+      {label && (
+        <span className="font-body text-caption text-white/70 font-semibold tracking-wider">
+          {label}
+        </span>
+      )}
+    </div>
+  );
+};
 
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 
 export const VideoReels: React.FC = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('Tous');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [currentIndex, setCurrentIndex]     = useState(0);
+  const [isPlaying, setIsPlaying]           = useState(false);
+  const [isMuted, setIsMuted]               = useState(false);
+  const [likedIds, setLikedIds]             = useState<Set<string>>(new Set());
+  const [savedIds, setSavedIds]             = useState<Set<string>>(new Set());
 
   const filtered =
     activeCategory === 'Tous'
@@ -171,10 +225,10 @@ export const VideoReels: React.FC = () => {
       : REELS.filter((r) => r.category === activeCategory);
 
   const video = filtered[currentIndex] ?? filtered[0];
-  const canGoUp = currentIndex > 0;
+  const canGoUp   = currentIndex > 0;
   const canGoDown = currentIndex < filtered.length - 1;
-  const isLiked = likedIds.has(video.id);
-  const isSaved = savedIds.has(video.id);
+  const isLiked   = likedIds.has(video.id);
+  const isSaved   = savedIds.has(video.id);
   const likesDisplay = String(video.likes + (isLiked ? 1 : 0));
 
   const handleCategory = (cat: string) => {
@@ -197,131 +251,142 @@ export const VideoReels: React.FC = () => {
       return next;
     });
 
-  const goUp = () => { if (canGoUp) { setCurrentIndex((i) => i - 1); setIsPlaying(false); } };
+  const goUp   = () => { if (canGoUp)   { setCurrentIndex((i) => i - 1); setIsPlaying(false); } };
   const goDown = () => { if (canGoDown) { setCurrentIndex((i) => i + 1); setIsPlaying(false); } };
 
   if (!video) return null;
 
   return (
-    <div className="video-reels">
+    <div className="min-h-screen bg-ink-950 font-body relative flex flex-col overflow-hidden">
 
-      {/* Ambient glow — fond radial dynamique selon l'accent du reel courant */}
+      {/* Ambient glow — radial gradient tone-aware via Tailwind arbitrary values */}
       <div
-        className="video-reels__ambient"
-        style={{
-          background: `radial-gradient(ellipse at 60% 40%, color-mix(in srgb, ${video.accentToken} 12%, transparent) 0%, transparent 60%)`,
-        }}
+        className={[
+          'fixed inset-0 pointer-events-none z-0 transition-opacity duration-500',
+          TONE_GLOW[video.tone],
+        ].join(' ')}
       />
 
       {/* ── Barre haute flottante ─────────────────────────────────── */}
-      <div className="video-reels__top-bar">
-        <button className="video-reels__back-btn" onClick={() => navigate(-1)}>
+      <div className="fixed top-0 left-0 right-0 z-sticky px-6 py-5 flex items-center justify-between gap-4 bg-gradient-to-b from-black/65 to-transparent">
+
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white"
+        >
           <ArrowLeft size={16} />
           Retour
         </button>
 
         {/* Filtres catégorie */}
-        <div className="video-reels__filter-bar">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={`video-reels__filter-pill${activeCategory === cat ? ' video-reels__filter-pill--active' : ''}`}
-              onClick={() => handleCategory(cat)}
-              style={activeCategory === cat ? { background: video.accentToken } : undefined}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="flex gap-1 p-1.5 rounded-xl bg-black/55 backdrop-blur-glass-light border border-white/10 overflow-x-auto">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => handleCategory(cat)}
+                className={[
+                  'px-3 py-1.5 rounded-lg border-0 font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap',
+                  isActive
+                    ? `font-bold ${TONE_CATEGORY_ACTIVE[video.tone]}`
+                    : 'font-medium text-white/70 bg-transparent hover:text-white',
+                ].join(' ')}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Bouton muet */}
-        <button className="video-reels__mute-btn" onClick={() => setIsMuted((m) => !m)}>
+        <button
+          onClick={() => setIsMuted((m) => !m)}
+          className="w-10 h-10 rounded-full border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0"
+        >
           {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
         </button>
       </div>
 
       {/* ── Zone vidéo centrale ───────────────────────────────────── */}
-      <div className="video-reels__stage">
+      <div className="flex-1 flex items-center justify-center relative z-[1] min-h-screen">
+
+        {/* Video card — gradient bg via tone tokens */}
         <div
-          className="video-reels__card"
-          style={{ background: video.bgGradientToken }}
+          className={[
+            'w-full max-w-[480px] h-screen relative overflow-hidden',
+            TONE_BG[video.tone],
+          ].join(' ')}
         >
-          {/* Bouton play centré */}
-          <div className="video-reels__play-center">
+          {/* Play button centré */}
+          <div className="absolute inset-0 flex items-center justify-center z-[5]">
             <button
-              className="video-reels__play-btn"
               onClick={() => setIsPlaying((p) => !p)}
-              style={{ opacity: isPlaying ? 0 : 1 }}
+              className={[
+                'w-20 h-20 rounded-full border-2 border-white/22 bg-black/55 backdrop-blur-glass-medium flex items-center justify-center cursor-pointer text-white transition-all duration-200 hover:scale-[1.08]',
+                isPlaying ? 'opacity-0' : 'opacity-100',
+              ].join(' ')}
             >
-              {isPlaying
-                ? <Pause size={32} />
-                : <Play size={32} style={{ marginLeft: 4 }} />
-              }
+              {isPlaying ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
             </button>
           </div>
 
           {/* Overlay haut — badge catégorie + titre */}
-          <div className="video-reels__overlay-top">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-              <span style={{ fontSize: 'var(--t-h4)' }}>{video.emoji}</span>
+          <div className="absolute top-0 left-0 right-0 px-6 pt-16 pb-8 bg-gradient-to-b from-black/65 to-transparent z-10">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-h4">{video.emoji}</span>
               <span
-                className="video-reels__category-badge"
-                style={{
-                  background: `color-mix(in srgb, ${video.accentToken} 22%, transparent)`,
-                  color: video.accentToken,
-                  border: `1px solid color-mix(in srgb, ${video.accentToken} 40%, transparent)`,
-                }}
+                className={[
+                  'font-body text-caption font-bold px-2 py-0.5 rounded-md backdrop-blur-glass-light',
+                  TONE_CHIP[video.tone],
+                ].join(' ')}
               >
                 {video.category}
               </span>
-              <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)' }}>
+              <span className="ml-auto flex items-center gap-1 font-body text-caption text-white/70">
                 <Clock size={11} />
                 {video.duration}
               </span>
             </div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--t-h3)', fontWeight: 700, color: 'var(--on-color-text-main)', margin: 0, lineHeight: 1.2 }}>
+            <h2 className="font-display text-h3 font-bold text-white/95 m-0 leading-tight">
               {video.title}
             </h2>
           </div>
 
           {/* Overlay bas — instructeur + description */}
-          <div className="video-reels__overlay-bottom">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-3)' }}>
-              {/* Avatar instructeur */}
+          <div className="absolute bottom-0 left-0 right-0 px-6 pt-8 pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
+            <div className="flex items-center gap-3 mb-3">
+              {/* Avatar — gradient tone-aware via tokens */}
               <div
-                style={{
-                  width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
-                  background: `linear-gradient(135deg, ${video.accentToken}, var(--tls-orange-600))`,
-                  border: '2px solid var(--on-color-border-sm)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'var(--t-caption)', fontWeight: 700, color: 'var(--on-color-text-main)',
-                }}
+                className={[
+                  'w-[38px] h-[38px] rounded-full shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white/95',
+                  TONE_AVATAR[video.tone],
+                ].join(' ')}
               >
                 {video.instructorInitials}
               </div>
               <div>
-                <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 600, color: 'var(--on-color-text-main)' }}>
+                <div className="font-body text-body-sm font-semibold text-white/95">
                   {video.instructor}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)', marginTop: 2 }}>
+                <div className="flex items-center gap-1 font-body text-caption text-white/70 mt-0.5">
                   <Eye size={10} />
                   {video.views} vues
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: 'var(--t-body-sm)', color: 'var(--on-color-text-soft)', lineHeight: 1.55, margin: 0 }}>
+            <p className="font-body text-body-sm text-white/85 leading-snug m-0">
               {video.description}
             </p>
           </div>
         </div>
 
         {/* ── Actions latérales ─── */}
-        <div className="video-reels__actions">
-          <ActionBtn onClick={toggleLike} modifier={isLiked ? 'video-reels__action-btn--liked' : ''} label={likesDisplay}>
+        <div className="fixed right-6 z-sticky flex flex-col gap-4 bottom-[30%]">
+          <ActionBtn onClick={toggleLike} liked={isLiked} label={likesDisplay}>
             <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
           </ActionBtn>
 
-          <ActionBtn onClick={toggleSave} modifier={isSaved ? 'video-reels__action-btn--saved' : ''}>
+          <ActionBtn onClick={toggleSave} saved={isSaved}>
             {isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
           </ActionBtn>
 
@@ -329,34 +394,36 @@ export const VideoReels: React.FC = () => {
             <Share2 size={20} />
           </ActionBtn>
 
-          <div className="video-reels__divider" />
+          <div className="w-px h-6 bg-white/10 mx-auto" />
 
           <ActionBtn onClick={goUp}>
-            <ChevronUp size={20} style={{ opacity: canGoUp ? 1 : 0.3 }} />
+            <ChevronUp size={20} className={canGoUp ? '' : 'opacity-30'} />
           </ActionBtn>
 
           <ActionBtn onClick={goDown}>
-            <ChevronDown size={20} style={{ opacity: canGoDown ? 1 : 0.3 }} />
+            <ChevronDown size={20} className={canGoDown ? '' : 'opacity-30'} />
           </ActionBtn>
         </div>
       </div>
 
       {/* ── Compteur bas de page ─────────────────────────────────── */}
-      <div className="video-reels__counter">
-        <div className="video-reels__counter-pill">
-          <strong>{currentIndex + 1}</strong>
-          <span>/</span>
-          <span>{filtered.length}</span>
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-3">
+        <div className="px-5 py-2 rounded-xl bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-2">
+          <strong className="text-white">{currentIndex + 1}</strong>
+          <span className="text-white/70">/</span>
+          <span className="text-white/70">{filtered.length}</span>
         </div>
 
-        <div style={{ display: 'flex', gap: 'var(--s-1)', alignItems: 'center' }}>
+        <div className="flex gap-1 items-center">
           {filtered.map((_, i) => (
             <button
               key={i}
-              className={`video-reels__dot${i === currentIndex ? ' video-reels__dot--active' : ''}`}
-              style={{ width: i === currentIndex ? 20 : 6 }}
               onClick={() => { setCurrentIndex(i); setIsPlaying(false); }}
               aria-label={`Vidéo ${i + 1}`}
+              className={[
+                'h-1.5 rounded-full border-0 cursor-pointer transition-all duration-300 p-0',
+                i === currentIndex ? 'w-5 bg-primary-400' : 'w-1.5 bg-white/25',
+              ].join(' ')}
             />
           ))}
         </div>

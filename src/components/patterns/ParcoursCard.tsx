@@ -1,19 +1,26 @@
 /**
  * ParcoursCard — Design System Pattern
  *
- * Glass-morphism learning path card. Visual spec:
- * - Frosted glass background (via ToneAwareCard)
- * - Tone-colored title (primary/warm/sun)
- * - 2-line description
- * - Inline slim progress bar + bold percentage
- * - Full-width solid tone CTA button with hover lift + shadow
- * - Radial top-glow overlay per tone on hover (style={{}} exception — radial gradients)
+ * Tinted-glass learning path card for catalogues / hubs.
+ *
+ * Visual spec :
+ *  - Tinted gradient background via Card variant="tinted" tone={tone}
+ *  - Tone-colored title (primary teal / warm orange / sun yellow)
+ *  - Title : full text (no truncate) + native tooltip
+ *  - MetaPills : duration + lessons (always visible)
+ *  - Description : up to 5 lines (line-clamp-5) + native tooltip if longer
+ *  - InlineProgress bar tone-aware + bold % label
+ *  - Full-width tone CTA button with hover lift + tone-aware focus outline
+ *  - Radial top-glow overlay per tone on hover (decorative, aria-hidden)
+ *  - Inter-card alignment via flex layout + min-h on description + flex-1 spacer
+ *
+ * Usage : grid layouts (LearningPaths, Dashboard discovery section).
  */
 
 import React from 'react';
-import { ArrowRight, Zap, Clock3, BookOpen } from 'lucide-react';
+import { ArrowRight, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
-import { ToneAwareCard } from './ToneAwareCard';
+import { Card } from '../core/Card';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
@@ -28,9 +35,10 @@ export interface ParcoursCardProps {
   tone?: ParcoursTone;
   onClick?: (id: string) => void;
   className?: string;
+  /** Duration label rendered in a MetaPill (e.g. "6 semaines"). */
   duration?: string;
+  /** Number of lessons rendered in a MetaPill (e.g. "12 leçons"). */
   lessons?: number;
-  level?: 'débutant' | 'intermédiaire' | 'avancé';
 }
 
 const CTA_LABELS: Record<ParcoursStatus, string> = {
@@ -46,12 +54,13 @@ const TITLE_TONE_CLASSES: Record<ParcoursTone, string> = {
 };
 
 const CTA_BASE =
-  'flex items-center justify-center gap-2 w-full h-10 rounded-xl px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-all duration-150 hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400';
+  'flex items-center justify-center gap-2 w-full h-11 rounded-pill px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-all duration-150 hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
+// Tone-aware CTA classes — includes tone-matched focus outline.
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
-  primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm hover:shadow-brand-md',
-  warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs hover:shadow-sm',
-  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sm',
+  primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm hover:shadow-brand-md focus-visible:outline-primary-400',
+  warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs hover:shadow-sm focus-visible:outline-secondary-400',
+  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sm focus-visible:outline-accent-500',
 };
 
 const GLOW_BG: Record<ParcoursTone, React.CSSProperties> = {
@@ -71,68 +80,72 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   className = '',
   duration,
   lessons,
-  level,
 }) => {
+  const hasMeta = Boolean(duration || lessons);
+
   return (
-    <ToneAwareCard
+    <Card
+      variant="tinted"
       tone={tone}
       onClick={() => onClick?.(id)}
-      className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg ${className}`}
-      borderRadius="var(--r-2xl)"
+      aria-label={`${title} — ${status}`}
+      className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
     >
+      {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover */}
       <div
-        onClick={() => onClick?.(id)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick?.(id)}
-        aria-label={`${title} — ${status}`}
-        className="block w-full h-auto p-0 overflow-visible cursor-pointer"
-      >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          style={GLOW_BG[tone]}
-        />
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        style={GLOW_BG[tone]}
+      />
 
-        <div className="relative p-6 flex flex-col gap-4 h-full min-h-[260px] max-md:p-5 max-md:min-h-[230px]">
-          <h3 className={`font-display text-h3 font-bold leading-[1.15] m-0 break-words hyphens-auto max-md:text-h4 line-clamp-2 min-h-[3.5rem] ${TITLE_TONE_CLASSES[tone]}`}>
-            {title}
-          </h3>
+      <div className="relative p-8 flex flex-col gap-stack h-full min-w-0">
+        {/* Titre — pas de truncate, wrap strict (anywhere) pour éviter overflow sur longs mots,
+            hyphens-auto pour césure FR propre, text-wrap:balance pour wrap équilibré. */}
+        <h3
+          className={`font-display text-h3 font-bold leading-[1.15] m-0 [overflow-wrap:anywhere] hyphens-auto max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
+          title={title}
+        >
+          {title}
+        </h3>
 
-          <div className="min-h-[2.25rem]">
-            {(duration || lessons || level) && (
-              <MetaPillGroup
-                items={[
-                  ...(level ? [{ icon: <Zap size={13} />, text: level }] : []),
-                  ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
-                  ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
-                ]}
-                size="sm"
-                layout="horizontal"
-                gap="sm"
-              />
-            )}
-          </div>
+        {/* MetaPills — rendered only when data present (no empty space reservation) */}
+        {hasMeta && (
+          <MetaPillGroup
+            items={[
+              ...(duration ? [{ icon: <Clock3 size={13} />, text: duration }] : []),
+              ...(lessons ? [{ icon: <BookOpen size={13} />, text: `${lessons} leçons` }] : []),
+            ]}
+            size="sm"
+            layout="horizontal"
+            gap="sm"
+          />
+        )}
 
-          <p className="font-body text-body-sm text-ink-600 leading-normal m-0 line-clamp-3 min-h-[3.75rem]">
-            {description}
-          </p>
+        {/* Description — min-h réservé (3 lignes ≈ 72px) pour aligner inter-cards.
+            Full par défaut (jusqu'à 5 lignes), tooltip natif si plus long. */}
+        <p
+          className="font-body text-body-sm text-ink-600 leading-normal m-0 line-clamp-5 min-h-[4.5rem]"
+          title={description}
+        >
+          {description}
+        </p>
 
-          <div className="flex-1 min-h-2" />
+        {/* Spacer — pousse progress + CTA toujours au bas de la card */}
+        <div className="flex-1 min-h-2" />
 
-          <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
+        <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
 
-          <button
-            className={`${CTA_BASE} ${CTA_TONE_CLASSES[tone]}`}
-            onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
-            aria-label={CTA_LABELS[status]}
-          >
-            <span>{CTA_LABELS[status]}</span>
-            <ArrowRight size={15} aria-hidden="true" />
-          </button>
-        </div>
+        <button
+          type="button"
+          className={`${CTA_BASE} ${CTA_TONE_CLASSES[tone]}`}
+          onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
+          aria-label={CTA_LABELS[status]}
+        >
+          <span>{CTA_LABELS[status]}</span>
+          <ArrowRight size={15} aria-hidden="true" />
+        </button>
       </div>
-    </ToneAwareCard>
+    </Card>
   );
 };
 

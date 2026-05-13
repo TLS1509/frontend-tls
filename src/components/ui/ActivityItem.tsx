@@ -1,5 +1,13 @@
 import React from 'react';
 
+/**
+ * ActivityItem — atomic single activity row.
+ *
+ * Visually aligned with `patterns/ActivityFeed` (gradient circular icon + optional timeline rail).
+ * Use this atom for simple inline activity lists (Dashboard, sidebars).
+ * For full-featured chronological feeds with grouping/empty/load-more, use `ActivityFeed`.
+ */
+
 export type ActivityItemType = 'lesson' | 'achievement' | 'coach' | 'journal' | 'default';
 
 interface ActivityItemProps {
@@ -8,23 +16,25 @@ interface ActivityItemProps {
   description?: string;
   timestamp?: string;
   type?: ActivityItemType;
+  /** Show vertical timeline rail connecting to next item (hidden on last). Default: true. */
+  showRail?: boolean;
   className?: string;
 }
 
-const TYPE_DOT: Record<ActivityItemType, string> = {
-  default:     'bg-ink-300',
-  lesson:      'bg-primary-500',
-  achievement: 'bg-accent-500',
-  coach:       'bg-secondary-500',
-  journal:     'bg-success-base',
+const TYPE_GRADIENT: Record<ActivityItemType, string> = {
+  default:     'bg-gradient-to-br from-ink-300 to-ink-500 text-white',
+  lesson:      'bg-gradient-to-br from-primary-400 to-primary-600 text-white',
+  achievement: 'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900',
+  coach:       'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white',
+  journal:     'bg-gradient-to-br from-success-base to-success-fg text-white',
 };
 
-const TYPE_ICON: Record<ActivityItemType, string> = {
-  default:     'bg-ink-50 text-ink-500',
-  lesson:      'bg-primary-50 text-primary-600',
-  achievement: 'bg-accent-50 text-accent-700',
-  coach:       'bg-secondary-50 text-secondary-600',
-  journal:     'bg-success-bg text-success-fg',
+const TYPE_SHADOW: Record<ActivityItemType, string> = {
+  default:     'shadow-sm',
+  lesson:      'shadow-brand-sm',
+  achievement: 'shadow-sun-sm',
+  coach:       'shadow-warm-sm',
+  journal:     'shadow-sm',
 };
 
 export const ActivityItem: React.FC<ActivityItemProps> = ({
@@ -33,51 +43,51 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
   description,
   timestamp,
   type = 'default',
+  showRail = true,
   className = '',
 }) => {
-  const classes = [
-    'group relative flex items-start gap-3 pb-5 last:pb-0',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
-    <div className={classes}>
-      <div className="relative flex flex-col items-center shrink-0 pt-1">
+    <article
+      className={[
+        'group/item relative flex items-start gap-3 p-3 rounded-xl transition-colors duration-200 hover:bg-ink-50/60',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <div className="relative flex flex-col items-center shrink-0">
         <span
           className={[
-            'block w-2.5 h-2.5 rounded-full ring-4 ring-white z-10 shrink-0',
-            TYPE_DOT[type],
+            'inline-flex items-center justify-center w-9 h-9 rounded-full ring-4 ring-white transition-transform duration-200 group-hover/item:scale-105 shrink-0',
+            TYPE_GRADIENT[type],
+            TYPE_SHADOW[type],
           ].join(' ')}
-        />
-        <span
           aria-hidden="true"
-          className="absolute top-3 bottom-0 w-px bg-ink-200 group-last:hidden"
-        />
-      </div>
-
-      {icon && (
-        <div
-          className={[
-            'shrink-0 w-9 h-9 rounded-full inline-flex items-center justify-center',
-            TYPE_ICON[type],
-          ].join(' ')}
         >
           {icon}
-        </div>
-      )}
-
-      <div className="flex-1 min-w-0">
-        <h4 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
-        {description && (
-          <p className="m-0 mt-0.5 text-caption text-ink-500 leading-relaxed">{description}</p>
-        )}
-        {timestamp && (
-          <span className="inline-block mt-1 text-micro text-ink-400">{timestamp}</span>
+        </span>
+        {showRail && (
+          <span
+            aria-hidden="true"
+            className="absolute top-9 bottom-[-1.25rem] w-px bg-gradient-to-b from-ink-200 via-ink-200 to-ink-200/0 group-last/item:hidden last:hidden"
+          />
         )}
       </div>
-    </div>
+
+      <div className="flex-1 min-w-0 pt-1 pb-1">
+        <header className="flex items-start justify-between gap-3 flex-wrap">
+          <h4 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
+          {timestamp && (
+            <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+              {timestamp}
+            </time>
+          )}
+        </header>
+        {description && (
+          <p className="m-0 mt-1 text-caption text-ink-600 leading-relaxed">{description}</p>
+        )}
+      </div>
+    </article>
   );
 };
 

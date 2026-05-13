@@ -1,20 +1,16 @@
 /**
- * Reset Password Page — Password reset form
- *
- * Features:
- * - New password input with confirmation
- * - Password strength recommendations
- * - Dark mode support via CSS tokens
- * - Fully accessible form components
+ * Reset Password Page — branded auth (deep teal glass dark layout).
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/core/Card';
-import { Button } from '../components/core/Button';
-import { FormGroup } from '../components/core/FormGroup';
-import { Input } from '../components/core/Input';
-import { ArrowLeft, ShieldCheck, Sparkles, Lock, CheckCircle2 } from 'lucide-react';
+import {
+  AuthShell,
+  AuthPasswordField,
+  AuthPrimaryButton,
+  AuthGhostButton,
+} from '../components/patterns/AuthShell';
+import { ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const ResetPassword: React.FC = () => {
   const navigate = useNavigate();
@@ -40,87 +36,63 @@ export const ResetPassword: React.FC = () => {
       setPasswordMatch(false);
       return;
     }
-    // API call would happen here
     console.log('Password reset with new password');
     navigate('/auth/login');
   };
 
+  const confirmHasError = !passwordMatch && confirmPassword.length > 0;
+
   return (
-    <div className="tls-page">
-      <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Nouveau mot de passe</span>
-        <h1>Reinitialiser mon mot de passe</h1>
-        <p className="tls-editorial-summary">Definition d'un nouveau mot de passe apres validation email.</p>
-      </section>
-      <section className="tls-auth-shell tls-reset-layout">
-        <div className="tls-reset-main">
-          <Card className="tls-auth-card">
-            <div className="tls-auth-header">
-              <div className="tls-auth-header-icon">
-                <ShieldCheck size={20} />
-              </div>
-              <h3>Creer un mot de passe robuste</h3>
-            </div>
+    <AuthShell
+      brand={{
+        icon: <ShieldCheck size={24} strokeWidth={1.75} className="text-white" />,
+        title: 'Réinitialiser ton mot de passe',
+        subtitle: 'Choisis un mot de passe robuste',
+      }}
+      form={
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <AuthPasswordField
+            label="Nouveau mot de passe"
+            placeholder="••••••••••••"
+            value={password}
+            onChange={(e) => handlePasswordChange(e.target.value)}
+            required
+          />
 
-            <form className="tls-auth-form" onSubmit={handleSubmit}>
-              <FormGroup
-                label="Nouveau mot de passe"
-                hint="Minimum 12 caractères avec majuscules, minuscules, chiffres et symboles"
-                id="password"
-                required
-              >
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••••••"
-                  leadingIcon={<Lock size={14} />}
-                  value={password}
-                  onChange={(e) => handlePasswordChange(e.target.value)}
-                />
-              </FormGroup>
+          <AuthPasswordField
+            label="Confirmer le mot de passe"
+            placeholder="••••••••••••"
+            value={confirmPassword}
+            onChange={(e) => handleConfirmPasswordChange(e.target.value)}
+            error={confirmHasError ? 'Les mots de passe ne correspondent pas' : undefined}
+            required
+          />
 
-              <FormGroup
-                label="Confirmer le mot de passe"
-                error={!passwordMatch ? 'Les mots de passe ne correspondent pas' : undefined}
-                id="confirm-password"
-                required
-              >
-                <Input
-                  id="confirm-password"
-                  type="password"
-                  placeholder="••••••••••••"
-                  leadingIcon={<Lock size={14} />}
-                  status={!passwordMatch && confirmPassword ? 'error' : 'default'}
-                  value={confirmPassword}
-                  onChange={(e) => handleConfirmPasswordChange(e.target.value)}
-                />
-              </FormGroup>
-
-              <div className="tls-auth-actions">
-                <Button type="submit">Mettre a jour</Button>
-                <Button type="button" variant="secondary" onClick={() => navigate('/auth/login')}>
-                  <ArrowLeft size={14} /> Retour connexion
-                </Button>
-              </div>
-            </form>
-          </Card>
+          <div className="flex flex-col gap-3">
+            <AuthPrimaryButton type="submit">Mettre à jour</AuthPrimaryButton>
+            <AuthGhostButton onClick={() => navigate('/auth/login')}>
+              Retour connexion
+            </AuthGhostButton>
+          </div>
+        </form>
+      }
+      aside={
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 size={18} className="text-white/85" />
+            <h4 className="font-display text-body font-semibold text-white m-0">
+              Règles recommandées
+            </h4>
+          </div>
+          <ul className="m-0 pl-4 flex flex-col gap-1.5 text-body-sm text-white/75 list-disc">
+            <li>Au moins 12 caractères.</li>
+            <li>Mélanger lettres, chiffres et symboles.</li>
+            <li>Éviter les mots évidents ou personnels.</li>
+          </ul>
         </div>
-
-        <aside className="tls-reset-aside">
-          <Card className="tls-auth-card">
-            <div className="tls-auth-recommendations-header">
-              <CheckCircle2 size={18} />
-              <h4>Regles recommandees</h4>
-            </div>
-            <ul className="tls-auth-recommendations-list">
-              <li>Au moins 12 caracteres.</li>
-              <li>Melanger lettres, chiffres et symboles.</li>
-              <li>Eviter les mots evidents ou personnels.</li>
-            </ul>
-          </Card>
-        </aside>
-      </section>
-    </div>
+      }
+    />
   );
 };
 
+export default ResetPassword;

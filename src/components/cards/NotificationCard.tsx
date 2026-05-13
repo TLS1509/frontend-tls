@@ -1,24 +1,37 @@
 /**
- * NotificationCard
+ * NotificationCard — tone-aware feed item (épuré).
  *
- * Card component for displaying notifications with type, title, message, and actions.
- * Uses only design tokens and TLS components.
+ * Pattern conçu pour s'intégrer dans n'importe quel feed :
+ *   - Page Notifications (liste verticale)
+ *   - Sidebar dropdown / Header notifications popover
+ *   - Dashboard "Activité récente" preview
+ *
+ * Design principles :
+ *   - Row layout single line (icon ▸ content ▸ actions)
+ *   - Tone-aware via 5 valeurs sémantiques (brand / warm / sun / success / neutral)
+ *   - Unread state = subtle bg tinted + dot accent (pas de border-left lourd)
+ *   - Actions cachées en hover desktop, toujours visibles sur mobile
+ *   - 100% Tailwind + DS tokens
  *
  * Usage:
- * <NotificationCard
- *   type="achievement"
- *   title="Badge unlocked"
- *   message="You've earned a new badge"
- *   timestamp="2 hours ago"
- *   isRead={false}
- *   onMarkAsRead={() => {}}
- * />
+ *   <NotificationCard
+ *     tone="success"
+ *     icon={<CheckCircle2 size={16} />}
+ *     title="Leçon complétée"
+ *     body="Vous avez terminé « Prompt Engineering »."
+ *     time="Il y a 2h"
+ *     unread
+ *     onMarkRead={() => {}}
+ *     onDelete={() => {}}
+ *   />
  */
 
 import React from 'react';
-import { X, Check, CheckCheck } from 'lucide-react';
-import './NotificationCard.css';
+import { Check, X } from 'lucide-react';
 
+export type NotificationTone = 'brand' | 'warm' | 'sun' | 'success' | 'neutral';
+
+/** @deprecated Use NotificationTone — kept for retro-compat. */
 export type NotificationType =
   | 'message'
   | 'lesson'
@@ -30,110 +43,172 @@ export type NotificationType =
   | 'report';
 
 export interface NotificationCardProps {
-  type: NotificationType;
+  /** Visual tone — semantic meaning. */
+  tone?: NotificationTone;
+  /** Lucide icon (size 14-16 recommended). */
+  icon: React.ReactNode;
+  /** Title — single line, bold. */
   title: string;
-  message: string;
-  timestamp: string;
-  isRead?: boolean;
-  icon?: React.ReactNode;
-  onMarkAsRead?: () => void;
-  onDelete?: () => void;
+  /** Optional body — 1-2 lines max, truncated by parent if needed. */
+  body?: string;
+  /** Optional inline meta (chips, grade, etc.) rendered before the timestamp. */
+  meta?: React.ReactNode;
+  /** Relative time label ("Il y a 5 min", "Hier"…). */
+  time: string;
+  /** Unread state → tinted background + dot. */
+  unread?: boolean;
+  /** Optional click handler on the row (does not fire when clicking actions). */
   onClick?: () => void;
+  /** Action: mark as read (shown only when unread). */
+  onMarkRead?: () => void;
+  /** Action: dismiss/delete. */
+  onDelete?: () => void;
+  /** Optional override. */
   className?: string;
 }
 
-const typeConfig: Record<NotificationType, { bg: string; border: string; accent: string }> = {
-  message: { bg: 'var(--tls-primary-50)', border: 'var(--tls-primary-200)', accent: 'var(--tls-primary-500)' },
-  lesson: { bg: 'var(--tls-primary-50)', border: 'var(--tls-primary-200)', accent: 'var(--tls-primary-500)' },
-  coaching: { bg: 'var(--overlay-warm-xs)', border: 'var(--tls-orange-200)', accent: 'var(--tls-orange-600)' },
-  achievement: { bg: 'var(--tls-yellow-50)', border: 'var(--tls-yellow-200)', accent: 'var(--tls-yellow-600)' },
-  correction: { bg: 'var(--tls-success-light)', border: 'var(--tls-success-border)', accent: 'var(--tls-success-base)' },
-  system: { bg: 'var(--surface-muted)', border: 'var(--border-default)', accent: 'var(--text-muted)' },
-  completion: { bg: 'var(--tls-success-light)', border: 'var(--tls-success-border)', accent: 'var(--tls-success-base)' },
-  report: { bg: 'var(--overlay-warm-xs)', border: 'var(--tls-orange-200)', accent: 'var(--tls-orange-600)' },
+/* ── Tone styles ────────────────────────────────────────────────────────── */
+
+const ICON_BUBBLE: Record<NotificationTone, string> = {
+  brand:   'bg-primary-100 text-primary-700',
+  warm:    'bg-secondary-100 text-secondary-700',
+  sun:     'bg-accent-100 text-accent-700',
+  success: 'bg-success-bg text-success-fg',
+  neutral: 'bg-ink-100 text-ink-600',
 };
 
+const UNREAD_BG: Record<NotificationTone, string> = {
+  brand:   'bg-primary-50/60',
+  warm:    'bg-secondary-50/60',
+  sun:     'bg-accent-50/70',
+  success: 'bg-success-bg/40',
+  neutral: 'bg-ink-50',
+};
+
+const DOT: Record<NotificationTone, string> = {
+  brand:   'bg-primary-500',
+  warm:    'bg-secondary-500',
+  sun:     'bg-accent-400',
+  success: 'bg-success-base',
+  neutral: 'bg-ink-400',
+};
+
+/* ── Component ──────────────────────────────────────────────────────────── */
+
 export const NotificationCard: React.FC<NotificationCardProps> = ({
-  type,
-  title,
-  message,
-  timestamp,
-  isRead = true,
+  tone = 'brand',
   icon,
-  onMarkAsRead,
-  onDelete,
+  title,
+  body,
+  meta,
+  time,
+  unread = false,
   onClick,
+  onMarkRead,
+  onDelete,
   className = '',
 }) => {
-  const config = typeConfig[type];
-
-  const cardClasses = [
-    'notification-card',
-    `notification-card--${type}`,
-    !isRead && 'notification-card--unread',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const clickable = !!onClick;
 
   return (
     <div
       onClick={onClick}
-      className={cardClasses}
+      role={clickable ? 'button' : undefined}
+      tabIndex={clickable ? 0 : undefined}
+      className={[
+        'group relative flex items-start gap-3 px-3 py-3 sm:px-4 sm:py-3.5',
+        'rounded-xl border border-transparent transition-all duration-base',
+        unread
+          ? `${UNREAD_BG[tone]} border-ink-100 hover:border-ink-200`
+          : 'hover:bg-ink-50',
+        clickable && 'cursor-pointer',
+        '!h-auto !overflow-visible !items-start !font-normal',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {/* Icon or Read Badge */}
-      <div className="notification-card__icon">
-        {icon || '📬'}
+      {/* Icon bubble (tone-aware) */}
+      <div
+        className={[
+          'shrink-0 inline-flex items-center justify-center',
+          'w-9 h-9 rounded-pill',
+          ICON_BUBBLE[tone],
+        ].join(' ')}
+        aria-hidden
+      >
+        {icon}
       </div>
 
       {/* Content */}
-      <div className="notification-card__content">
-        {/* Header with title and unread dot */}
-        <div className="notification-card__header">
-          <h4 className="notification-card__title">
+      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+        {/* Title + unread dot */}
+        <div className="flex items-center gap-2 min-w-0">
+          <h4
+            className={[
+              'm-0 font-body text-body-sm truncate',
+              unread ? 'font-bold text-ink-900' : 'font-semibold text-ink-800',
+            ].join(' ')}
+          >
             {title}
           </h4>
-          {!isRead && (
-            <div className="notification-card__unread-dot" />
+          {unread && (
+            <span
+              className={`shrink-0 inline-block w-1.5 h-1.5 rounded-pill ${DOT[tone]}`}
+              aria-label="Non lu"
+            />
           )}
         </div>
 
-        {/* Message */}
-        <p className="notification-card__message">
-          {message}
-        </p>
-
-        {/* Timestamp */}
-        <p className="notification-card__timestamp">
-          {timestamp}
-        </p>
-      </div>
-
-      {/* Actions */}
-      <div className="notification-card__actions">
-        {!isRead && onMarkAsRead && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onMarkAsRead();
-            }}
-            className="notification-card__action-btn"
-            title="Mark as read"
-          >
-            <Check size={16} />
-          </button>
+        {/* Body */}
+        {body && (
+          <p className="m-0 font-body text-caption text-ink-500 leading-relaxed line-clamp-2">
+            {body}
+          </p>
         )}
 
+        {/* Meta + time */}
+        <div className="mt-1 flex items-center gap-2 flex-wrap font-body text-micro text-ink-400">
+          {meta}
+          {meta && <span aria-hidden>·</span>}
+          <span>{time}</span>
+        </div>
+      </div>
+
+      {/* Actions — hover-only on desktop, always visible on mobile */}
+      <div
+        className={[
+          'shrink-0 flex items-center gap-1',
+          'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100',
+          'transition-opacity duration-base',
+        ].join(' ')}
+      >
+        {unread && onMarkRead && (
+          <button
+            type="button"
+            title="Marquer comme lu"
+            aria-label="Marquer comme lu"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMarkRead();
+            }}
+            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-500 hover:bg-success-bg hover:text-success-fg transition-colors duration-fast"
+          >
+            <Check size={14} />
+          </button>
+        )}
         {onDelete && (
           <button
+            type="button"
+            title="Supprimer"
+            aria-label="Supprimer"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
-            className="notification-card__action-btn notification-card__action-btn--delete"
-            title="Delete"
+            className="w-7 h-7 inline-flex items-center justify-center rounded-md text-ink-400 hover:bg-danger-bg hover:text-danger-fg transition-colors duration-fast"
           >
-            <X size={16} />
+            <X size={14} />
           </button>
         )}
       </div>

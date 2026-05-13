@@ -29,7 +29,7 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onRemove
     <div
       aria-live="polite"
       aria-atomic="false"
-      className="fixed bottom-6 right-6 z-[2000] flex flex-col gap-3 w-full max-w-[360px] pointer-events-none"
+      className="fixed bottom-6 right-6 z-toast flex flex-col gap-3 w-full max-w-[360px] pointer-events-none"
     >
       {toasts.map((t) => (
         <div

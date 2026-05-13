@@ -1,35 +1,40 @@
 /**
- * Notifications Page
+ * Notifications — Phase 10 refonte (épurée + feed-first).
  *
- * Rich notification types: correction, achievement, lesson, coaching, completion, report, message
- * Per-notification actions: mark read, delete
- * Multi-type filter pills, metadata display (grade, badge, progress)
- * Progressive disclosure: top 10 shown, "Load more" button
- * Design system TLS: static-pages.css tokens
+ * Design intent :
+ *   - Minimal hero (titre + compteur inline, pas de KPI row).
+ *   - Feed-style notifications via NotificationCard pattern (tone-aware).
+ *   - Filter chips compacts, segmented.
+ *   - Page autonome ET pensée pour intégration ailleurs (Sidebar dropdown,
+ *     Dashboard preview, etc.) via le pattern NotificationCard.
+ *   - 100% Tailwind + DS tokens.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../components/core/Button';
+import { FilterChip } from '../components/ui/FilterChip';
+import { EmptyState } from '../components/ui/EmptyState';
+import { NotificationCard } from '../components/cards/NotificationCard';
+import type { NotificationTone } from '../components/cards/NotificationCard';
+import {
+  SkeletonGroup,
+  NotificationRowSkeleton,
+} from '../components/patterns/SkeletonTemplates';
+import { useNotificationsStore, useFilterPrefsStore } from '../stores/persistence';
 import {
   Bell,
-  BellOff,
   BookOpen,
   CalendarDays,
   CheckCheck,
-  Clock3,
-  MessageSquare,
-  Sparkles,
-  Trophy,
-  Award,
-  FileText,
-  Trash2,
-  CheckCircle2,
-  X,
-  TrendingUp,
   ChevronDown,
+  FileText,
+  MessageSquare,
+  Award,
+  CheckCircle2,
+  Trophy,
 } from 'lucide-react';
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
+/* ── Types ──────────────────────────────────────────────────────────────── */
 type NotifType =
   | 'message'
   | 'lesson'
@@ -49,186 +54,136 @@ interface Notif {
   body: string;
   time: string;
   isRead: boolean;
-  badge?: string;
-  metadata?: {
-    lessonTitle?: string;
-    projectTitle?: string;
-    grade?: string;
-    badgeName?: string;
-    progressPercent?: number;
-  };
+  grade?: string;
+  badgeName?: string;
 }
 
-/* ─── Static data ────────────────────────────────────────────────────────── */
+/* ── Single source of truth for type → visual / icon / label ────────────── */
+
+const TYPE_CONFIG: Record<
+  NotifType,
+  { tone: NotificationTone; icon: React.ReactNode; label: string }
+> = {
+  correction:  { tone: 'success', icon: <FileText size={15} />,     label: 'Correction' },
+  achievement: { tone: 'sun',     icon: <Award size={15} />,        label: 'Badge' },
+  lesson:      { tone: 'brand',   icon: <BookOpen size={15} />,     label: 'Leçon' },
+  completion:  { tone: 'success', icon: <CheckCircle2 size={15} />, label: 'Terminé' },
+  report:      { tone: 'warm',    icon: <FileText size={15} />,     label: 'Rapport' },
+  coaching:    { tone: 'warm',    icon: <CalendarDays size={15} />, label: 'Coaching' },
+  message:     { tone: 'brand',   icon: <MessageSquare size={15} />,label: 'Message' },
+  system:      { tone: 'neutral', icon: <Bell size={15} />,         label: 'Système' },
+};
+
+/* ── Mock data ──────────────────────────────────────────────────────────── */
+
 const INITIAL: Notif[] = [
   {
     id: 'n1',
     type: 'correction',
     title: 'Correction de projet final disponible',
-    body: "Votre projet final « Chatbot IA pour la Formation » a été corrigé. Excellente intégration des concepts d'IA générative !",
+    body: "Votre projet « Chatbot IA pour la Formation » a été corrigé.",
     time: 'Il y a 5 min',
     isRead: false,
-    badge: 'Nouveau',
-    metadata: { projectTitle: 'Projet Final — Chatbot IA', grade: '18/20' },
+    grade: '18/20',
   },
   {
     id: 'n2',
     type: 'achievement',
-    title: 'Nouveau badge débloqué !',
-    body: 'Félicitations ! Vous avez débloqué le badge « Expert en Prompt Engineering » en complétant toutes les leçons du module.',
+    title: 'Nouveau badge débloqué',
+    body: "Vous avez débloqué le badge « Expert en Prompt Engineering ».",
     time: 'Il y a 15 min',
     isRead: false,
-    badge: 'Nouveau',
-    metadata: { badgeName: 'Expert en Prompt Engineering' },
+    badgeName: 'Expert en Prompt Engineering',
   },
   {
     id: 'n3',
     type: 'lesson',
     title: 'Nouvelle leçon disponible',
-    body: "La leçon « IA Générative et Créativité » est maintenant disponible dans votre parcours.",
+    body: "« IA Générative et Créativité » est désormais dans votre parcours.",
     time: 'Il y a 1h',
     isRead: false,
-    badge: 'Nouveau',
-    metadata: { lessonTitle: 'Leçon 5 — IA Générative et Créativité' },
   },
   {
     id: 'n4',
     type: 'completion',
-    title: 'Leçon complétée avec succès',
-    body: "Vous avez terminé la leçon « Fondamentaux du Prompt Engineering » avec un score de 95 %. Continuez comme ça !",
+    title: 'Leçon complétée',
+    body: "« Fondamentaux du Prompt Engineering » — score 95 %.",
     time: 'Il y a 2h',
     isRead: true,
-    metadata: { lessonTitle: 'Leçon 3 — Fondamentaux du Prompt Engineering', grade: '95%' },
+    grade: '95 %',
   },
   {
     id: 'n5',
     type: 'report',
-    title: 'Compte-rendu de session de coaching',
-    body: "Le compte-rendu de votre session de coaching du 15 décembre est disponible.",
+    title: 'Compte-rendu de coaching',
+    body: "Le compte-rendu de votre session du 15 décembre est disponible.",
     time: 'Hier',
     isRead: true,
-    metadata: { lessonTitle: 'Session 15 déc. — Prompt Engineering' },
   },
   {
     id: 'n6',
     type: 'coaching',
     title: 'Rappel : session de coaching demain',
-    body: "Votre session avec Sophie Martin est programmée demain à 14h00. Pensez à compléter le questionnaire pré-session.",
+    body: "Votre session avec Sophie Martin est programmée demain à 14h.",
     time: 'Hier',
     isRead: true,
   },
   {
     id: 'n7',
     type: 'message',
-    title: 'Nouveau message de votre coach',
-    body: "Sophie Martin vous a envoyé un message concernant votre projet final.",
+    title: 'Nouveau message',
+    body: "Sophie Martin vous a envoyé un message à propos de votre projet final.",
     time: 'Il y a 3 jours',
     isRead: true,
   },
 ];
 
-/* ─── Style map ──────────────────────────────────────────────────────────── */
-const TYPE_META: Record<NotifType, {
-  icon: React.ReactNode;
-  accent: string;
-  bg: string;
-  border: string;
-  label: string;
-}> = {
-  correction: {
-    icon: <FileText size={16} />,
-    accent: 'var(--tls-primary-600)',
-    bg: 'var(--tls-primary-50)',
-    border: 'var(--tls-primary-200)',
-    label: 'Correction',
-  },
-  achievement: {
-    icon: <Award size={16} />,
-    accent: 'var(--tls-yellow-600)',
-    bg: 'var(--tls-yellow-100)',
-    border: 'var(--tls-yellow-300)',
-    label: 'Badge',
-  },
-  lesson: {
-    icon: <BookOpen size={16} />,
-    accent: 'var(--tls-primary-600)',
-    bg: 'var(--tls-primary-50)',
-    border: 'var(--tls-primary-200)',
-    label: 'Leçon',
-  },
-  completion: {
-    icon: <CheckCircle2 size={16} />,
-    accent: 'var(--tls-success-fg)',
-    bg: 'var(--tls-success-bg)',
-    border: 'var(--tls-success-border)',
-    label: 'Terminé',
-  },
-  report: {
-    icon: <FileText size={16} />,
-    accent: 'var(--tls-orange-600)',
-    bg: 'var(--tls-orange-50)',
-    border: 'var(--tls-orange-200)',
-    label: 'Rapport',
-  },
-  coaching: {
-    icon: <CalendarDays size={16} />,
-    accent: 'var(--tls-orange-600)',
-    bg: 'var(--tls-orange-50)',
-    border: 'var(--tls-orange-200)',
-    label: 'Coaching',
-  },
-  message: {
-    icon: <MessageSquare size={16} />,
-    accent: 'var(--tls-primary-600)',
-    bg: 'var(--tls-primary-50)',
-    border: 'var(--tls-primary-200)',
-    label: 'Message',
-  },
-  system: {
-    icon: <Bell size={16} />,
-    accent: 'var(--text-muted)',
-    bg: 'var(--surface-muted)',
-    border: 'var(--border)',
-    label: 'Système',
-  },
-};
-
-const TYPE_BORDER: Record<NotifType, string> = {
-  message:     'var(--tls-primary-400)',
-  lesson:      'var(--tls-primary-500)',
-  coaching:    'var(--tls-orange-500)',
-  achievement: 'var(--tls-yellow-500)',
-  correction:  'var(--tls-success-fg)',
-  completion:  'var(--tls-success-fg)',
-  report:      'var(--tls-primary-600)',
-  system:      'var(--text-muted)',
-};
-
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
-  { id: 'all',      label: 'Toutes',     icon: <Sparkles size={13} /> },
-  { id: 'unread',   label: 'Non lues',   icon: <Bell size={13} /> },
+  { id: 'all',      label: 'Toutes',     icon: <Bell size={13} /> },
+  { id: 'unread',   label: 'Non lues',   icon: <MessageSquare size={13} /> },
   { id: 'messages', label: 'Messages',   icon: <MessageSquare size={13} /> },
   { id: 'lessons',  label: 'Formations', icon: <BookOpen size={13} /> },
   { id: 'coaching', label: 'Coaching',   icon: <CalendarDays size={13} /> },
 ];
 
-/* ─── Component ──────────────────────────────────────────────────────────── */
+/* ── Component ──────────────────────────────────────────────────────────── */
+
 export const Notifications: React.FC = () => {
-  const [filter, setFilter] = useState<Filter>('all');
+  // Filter persisted via Zustand (cross-session) — use primitive selector to avoid infinite loop
+  const persistedFilter = useFilterPrefsStore((s) => s.filters['notifications']?.[0]);
+  const setPersistedFilters = useFilterPrefsStore((s) => s.set);
+  const [filter, setFilterRaw] = useState<Filter>((persistedFilter as Filter) || 'all');
+  const setFilter = (f: Filter) => {
+    setFilterRaw(f);
+    setPersistedFilters('notifications', [f]);
+  };
   const [items, setItems] = useState<Notif[]>(INITIAL);
   const [loadCount, setLoadCount] = useState(10);
+  // Simulated loading state for skeleton demo — replace by real fetch state when API wired
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 700);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Sync unread count to global store (powers Sidebar badge)
+  const setUnreadCount = useNotificationsStore((s) => s.setUnreadCount);
+  useEffect(() => {
+    const unread = items.filter((n) => !n.isRead).length;
+    setUnreadCount(unread);
+  }, [items, setUnreadCount]);
 
   const markAllRead = () => setItems((prev) => prev.map((n) => ({ ...n, isRead: true })));
-  const markRead = (id: string) => setItems((prev) => prev.map((n) => n.id === id ? { ...n, isRead: true } : n));
+  const markRead    = (id: string) => setItems((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
   const deleteNotif = (id: string) => setItems((prev) => prev.filter((n) => n.id !== id));
 
   const unread = items.filter((n) => !n.isRead).length;
 
   const visible = items.filter((n) => {
-    if (filter === 'all') return true;
-    if (filter === 'unread') return !n.isRead;
+    if (filter === 'all')      return true;
+    if (filter === 'unread')   return !n.isRead;
     if (filter === 'messages') return n.type === 'message';
-    if (filter === 'lessons') return n.type === 'lesson' || n.type === 'completion' || n.type === 'correction';
+    if (filter === 'lessons')  return n.type === 'lesson' || n.type === 'completion' || n.type === 'correction';
     if (filter === 'coaching') return n.type === 'coaching' || n.type === 'report';
     return true;
   });
@@ -237,228 +192,128 @@ export const Notifications: React.FC = () => {
   const hasMore = visible.length > loadCount;
 
   return (
-    <div className="tls-page">
+    <div className="min-h-screen bg-surface">
+      {/* Container compact, lisible, intégrable ailleurs (max-w-content) */}
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
 
-      {/* ── Hero ───────────────────────────────────────────────────── */}
-      <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Bell size={12} /> Centre de notifications</span>
-        <h1>Notifications</h1>
-        <p className="tls-editorial-summary">
-          Retrouvez les événements importants de votre activité d'apprentissage.
+        {/* ── Header épuré ───────────────────────────────────────────── */}
+        <header className="flex flex-wrap items-center justify-between gap-stack">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-700 inline-flex items-center justify-center">
+              <Bell size={18} />
+            </div>
+            <div>
+              <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+                Notifications
+              </h1>
+              <p className="m-0 font-body text-caption text-ink-500">
+                {unread > 0
+                  ? `${unread} non lue${unread > 1 ? 's' : ''} · ${items.length} au total`
+                  : `${items.length} notification${items.length > 1 ? 's' : ''}`}
+              </p>
+            </div>
+          </div>
+
           {unread > 0 && (
-            <span style={{
-              marginLeft: 'var(--s-2)',
-              display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)',
-              padding: '2px 10px', borderRadius: 'var(--r-pill)',
-              background: 'var(--tls-primary-600)', color: 'var(--text-inverse)',
-              fontSize: 'var(--t-micro)', fontWeight: 700,
-            }}>
-              {unread} non lue{unread > 1 ? 's' : ''}
-            </span>
-          )}
-        </p>
-      </section>
-
-      {/* ── KPI row ───────────────────────────────────────────────── */}
-      <section className="tls-kpi-row" style={{ marginBottom: 'var(--s-10)' }}>
-        {[
-          { icon: <Bell size={20} />, value: items.length,                          label: 'Total',     color: 'var(--tls-primary-700)',  iconBg: 'var(--tls-primary-50)',  iconColor: 'var(--tls-primary-600)' },
-          { icon: <MessageSquare size={20} />, value: unread,                       label: 'Non lues',  color: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)', iconBg: unread > 0 ? 'var(--tls-orange-50)' : 'var(--surface-muted)', iconColor: unread > 0 ? 'var(--tls-orange-600)' : 'var(--text-muted)' },
-          { icon: <CheckCheck size={20} />, value: items.filter((n) => n.isRead).length, label: 'Traitées', color: 'var(--tls-success-fg)',  iconBg: 'var(--tls-success-bg)', iconColor: 'var(--tls-success-fg)' },
-          { icon: <BellOff size={20} />, value: 0,                                  label: 'Archivées', color: 'var(--tls-yellow-700)',    iconBg: 'var(--tls-yellow-100)', iconColor: 'var(--tls-yellow-700)' },
-        ].map(({ icon, value, label, color, iconBg, iconColor }) => (
-          <div key={label} className="tls-kpi" style={{
-            transition: 'all var(--dur-2)',
-            cursor: 'default',
-            boxShadow: 'var(--shadow-sm)',
-            padding: 'var(--s-4)',
-            borderRadius: 'var(--r-lg)',
-            background: 'var(--surface)',
-            border: '1px solid var(--border)'
-          }}>
-            <div className="tls-kpi-icon" style={{ background: iconBg, color: iconColor }}>{icon}</div>
-            <h2 style={{ fontSize: 'var(--t-h2)', fontWeight: 800, margin: 0, color, letterSpacing: '-0.03em' }}>{value}</h2>
-            <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>{label}</span>
-          </div>
-        ))}
-      </section>
-
-      {/* ── Summary bar ──────────────────────────────────────────── */}
-      <div className="notifications__header-bar">
-        <span style={{ fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)' }}>
-          {unread} notification{unread !== 1 ? 's' : ''} non lue{unread !== 1 ? 's' : ''}
-        </span>
-        <button
-          onClick={markAllRead}
-          className="notifications__mark-all-btn"
-        >
-          <CheckCheck size={13} /> Tout marquer lu
-        </button>
-      </div>
-
-      {/* ── Toolbar ───────────────────────────────────────────────── */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--s-4)',
-        flexWrap: 'wrap',
-        marginBottom: 'var(--s-8)',
-        paddingBottom: 'var(--s-4)',
-        borderBottom: '1px solid var(--border)'
-      }}>
-        <Button size="sm" variant="secondary" onClick={markAllRead}>
-          <CheckCheck size={14} /> Tout marquer comme lu
-        </Button>
-        <div role="tablist" aria-label="Filtrer par catégorie" style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-          {FILTERS.map(({ id, label, icon }) => (
-            <button
-              key={id}
-              type="button"
-              role="tab"
-              aria-selected={filter === id}
-              onClick={() => { setFilter(id); setLoadCount(10); }}
-              className={`tls-filter-pill${filter === id ? ' tls-filter-pill--active' : ''}`}
+            <Button
+              size="sm"
+              variant="ghost"
+              leadingIcon={<CheckCheck size={14} />}
+              onClick={markAllRead}
             >
-              {icon} {label}
-            </button>
+              Tout marquer comme lu
+            </Button>
+          )}
+        </header>
+
+        {/* ── Filter chips ───────────────────────────────────────────── */}
+        <nav
+          aria-label="Filtrer les notifications"
+          className="flex gap-2 flex-wrap"
+        >
+          {FILTERS.map(({ id, label, icon }) => (
+            <FilterChip
+              key={id}
+              label={id === 'unread' && unread > 0 ? `${label} (${unread})` : label}
+              icon={icon}
+              active={filter === id}
+              onClick={() => {
+                setFilter(id);
+                setLoadCount(10);
+              }}
+            />
           ))}
-        </div>
-      </div>
+        </nav>
 
-      {/* ── Notification cards ────────────────────────────────────── */}
-      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-        {visible.length === 0 ? (
-          <div style={{
-            textAlign: 'center',
-            padding: 'var(--s-12) var(--s-6)',
-            background: 'linear-gradient(135deg, var(--tls-primary-50), var(--surface))',
-            border: '1.5px solid var(--tls-primary-200)',
-            borderRadius: 'var(--r-2xl)',
-            boxShadow: 'var(--shadow-sm)'
-          }}>
-            <Bell size={48} style={{ color: 'var(--tls-primary-200)', opacity: 0.5, marginBottom: 'var(--s-4)' }} />
-            <p style={{ color: 'var(--text)', margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 600, marginBottom: 'var(--s-1)' }}>
-              Toutes les notifications traitées
-            </p>
-            <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: 'var(--t-caption)' }}>
-              Aucune notification dans cette catégorie
-            </p>
-          </div>
-        ) : (
-          <>
-            {displayed.map((item) => {
-            const s = TYPE_META[item.type];
-            return (
-              <div
-                key={item.id}
-                className={`notifications__item${item.isRead ? '' : ' notifications__item--unread'}`}
-                style={{
-                  borderLeft: `4px solid ${TYPE_BORDER[item.type]}`,
-                }}
-              >
-                <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'flex-start' }}>
-                  {/* Icon bubble */}
-                  <div className="notifications__icon" style={{
-                    background: s.bg,
-                    border: `1px solid ${s.border}`,
-                    color: s.accent,
-                  }}>
-                    {s.icon}
-                  </div>
+        {/* ── Feed ──────────────────────────────────────────────────── */}
+        <section aria-label="Liste des notifications" className="flex flex-col">
+          {isLoading ? (
+            <SkeletonGroup count={5} template={NotificationRowSkeleton} layout="list" className="gap-2" />
+          ) : visible.length === 0 ? (
+            <EmptyState
+              icon={<Bell size={28} />}
+              title={filter === 'unread' ? 'Tout est lu' : 'Aucune notification'}
+              description={
+                filter === 'unread'
+                  ? 'Vous êtes à jour. Bravo !'
+                  : 'Aucune notification dans cette catégorie pour le moment.'
+              }
+            />
+          ) : (
+            <div className="flex flex-col divide-y divide-ink-100">
+              {displayed.map((item) => {
+                const cfg = TYPE_CONFIG[item.type];
 
-                  {/* Content */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--s-3)', marginBottom: 'var(--s-1)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
-                        <h3 style={{ margin: 0, fontSize: 'var(--t-body-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                          {item.title}
-                        </h3>
-                        {!item.isRead && (
-                          <span className="notifications__new-badge" style={{ background: s.accent, color: 'var(--text-inverse)' }}>
-                            {item.badge ?? 'Nouveau'}
-                          </span>
-                        )}
-                      </div>
-                      {/* Actions */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1)', flexShrink: 0 }}>
-                        {!item.isRead && (
-                          <button
-                            title="Marquer comme lu"
-                            onClick={() => markRead(item.id)}
-                            className="notifications__action-btn notifications__action-btn--read"
-                          >
-                            <CheckCircle2 size={13} />
-                          </button>
-                        )}
-                        <button
-                          title="Supprimer"
-                          onClick={() => deleteNotif(item.id)}
-                          className="notifications__action-btn notifications__action-btn--delete"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    </div>
-
-                    <p style={{ margin: '0 0 var(--s-2)', fontSize: 'var(--t-caption)', color: 'var(--text-muted)', lineHeight: 1.55 }}>
-                      {item.body}
-                    </p>
-
-                    {/* Metadata chips */}
-                    {item.metadata && (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)', marginBottom: 'var(--s-2)' }}>
-                        {item.metadata.projectTitle && (
-                          <span className="notifications__meta-chip">
-                            <TrendingUp size={10} /> {item.metadata.projectTitle}
-                          </span>
-                        )}
-                        {item.metadata.lessonTitle && (
-                          <span className="notifications__meta-chip">
-                            <BookOpen size={10} /> {item.metadata.lessonTitle}
-                          </span>
-                        )}
-                        {item.metadata.grade && (
-                          <span className="notifications__meta-chip notifications__meta-chip--accent" style={{ background: s.bg, border: `1px solid ${s.border}`, color: s.accent }}>
-                            <Trophy size={10} /> {item.metadata.grade}
-                          </span>
-                        )}
-                        {item.metadata.badgeName && (
-                          <span className="notifications__meta-chip notifications__meta-chip--badge">
-                            🏆 {item.metadata.badgeName}
-                          </span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Time */}
-                    <span style={{ fontSize: 'var(--t-micro)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <Clock3 size={10} /> {item.time}
+                // Build meta inline (grade or badge name → tiny chip)
+                const meta =
+                  item.grade ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700 font-semibold">
+                      <Trophy size={10} />
+                      {item.grade}
                     </span>
-                  </div>
+                  ) : item.badgeName ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-100 text-accent-700 font-semibold">
+                      <Award size={10} />
+                      {item.badgeName}
+                    </span>
+                  ) : (
+                    <span className="text-ink-500">{cfg.label}</span>
+                  );
 
-                  {/* Unread dot indicator */}
-                  {!item.isRead && (
-                    <div className="notifications__unread-dot" />
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                return (
+                  <NotificationCard
+                    key={item.id}
+                    tone={cfg.tone}
+                    icon={cfg.icon}
+                    title={item.title}
+                    body={item.body}
+                    time={item.time}
+                    meta={meta}
+                    unread={!item.isRead}
+                    onMarkRead={() => markRead(item.id)}
+                    onDelete={() => deleteNotif(item.id)}
+                  />
+                );
+              })}
+            </div>
+          )}
 
-            {/* Load more button */}
-            {hasMore && (
-              <div style={{ textAlign: 'center', padding: 'var(--s-4)' }}>
-                <Button
-                  variant="secondary"
-                  onClick={() => setLoadCount((prev) => prev + 10)}
-                >
-                  <ChevronDown size={14} /> Charger plus ({visible.length - loadCount})
-                </Button>
-              </div>
-            )}
-          </>
-        )}
-      </section>
+          {hasMore && (
+            <div className="pt-stack flex justify-center">
+              <Button
+                variant="secondary"
+                size="sm"
+                leadingIcon={<ChevronDown size={14} />}
+                onClick={() => setLoadCount((prev) => prev + 10)}
+              >
+                Charger plus ({visible.length - loadCount})
+              </Button>
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 };
+
+export default Notifications;

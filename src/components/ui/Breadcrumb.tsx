@@ -22,7 +22,7 @@ export interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   current?: number;
 }
 
-const STICKY_CLASSES = 'sticky top-0 z-30 py-3 px-4 backdrop-blur-sm bg-white/85 border-b border-ink-200';
+const STICKY_CLASSES = 'sticky top-0 z-sticky py-3 px-4 backdrop-blur-sm bg-white/85 border-b border-ink-200';
 
 // ─── Simple variant (anchor links) ──────────────────────────────────────────
 

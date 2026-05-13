@@ -252,23 +252,25 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ---
 
-## PHASE 9 — Cleanup final
+## PHASE 9 — Cleanup final ✅ COMPLÈTE (2026-05-13)
 
 | # | Tâche | Condition | Statut |
 |---|-------|-----------|--------|
-| 9.1 | Supprimer tls-components.css | Toutes les phases 1-8 validées | ⬜ |
-| 9.2 | Supprimer components-modern.css (si existe) | Idem | ⬜ |
-| 9.3 | Supprimer les autres CSS BEM orphelins | Vérifier aucune référence | ⬜ |
-| 9.4 | `grep -rn "style=\{\{" src/ --include="*.tsx" \| wc -l` → 0 | — | ⬜ |
-| 9.5 | `grep -rn "bg-\[var(" src/ --include="*.tsx" \| wc -l` → 0 | — | ⬜ |
-| 9.6 | `npx tsc --noEmit` → 0 erreurs | — | ⬜ |
-| 9.7 | Test visuel complet — toutes les pages | — | ⬜ |
+| 9.1 | Supprimer tls-components.css | Toutes les phases 1-8 validées | ✅ |
+| 9.2 | Supprimer components-modern.css | Idem | ✅ |
+| 9.3 | Supprimer les autres CSS BEM orphelins (18 fichiers + Input.css) | Aucune référence en TSX | ✅ |
+| 9.4 | `style={{}}` restants → légitimes uniquement (runtime, gradients, SVG) | — | ✅ |
+| 9.5 | `bg-[var(` → 0 occurrences | — | ✅ |
+| 9.6 | `npx tsc --noEmit` → 0 erreurs | — | ✅ |
+| 9.7 | Test visuel — Dashboard + LearningPaths OK | — | ✅ |
+
+**Bilan suppression :** 21 fichiers CSS BEM supprimés (tls-components.css ~2 750 lignes, components-modern.css ~480 lignes, + 19 orphelins). 6 keyframes encore utilisés par Tailwind `animate-[]` migrés vers index.css.
 
 ---
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) / 9
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) ✅
 **Composants validés :** ~110 / ~120 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns

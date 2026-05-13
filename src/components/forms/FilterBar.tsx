@@ -1,38 +1,98 @@
 /**
- * FilterBar
+ * FilterBar — clickable filter pills bar.
  *
- * Reusable filter bar component with selectable chips and clear all button.
- * Uses only design tokens and TLS components.
+ * Pattern : barre de filtre horizontale avec pills clickables + clear all.
+ * Conçue pour s'intégrer dans n'importe quelle toolbar (Search, page header)
+ * ou en standalone (entre hero et listing).
  *
- * Usage:
- * <FilterBar
- *   options={[
- *     { id: 'all', label: 'All' },
- *     { id: 'unread', label: 'Unread' },
- *   ]}
- *   selected={['all']}
- *   onChange={(ids) => setFilters(ids)}
- *   onClearAll={() => setFilters([])}
- * />
+ * Usage :
+ *   <FilterBar
+ *     options={[
+ *       { id: 'all',    label: 'Tout', icon: <Sparkles size={12} />, count: 24 },
+ *       { id: 'unread', label: 'Non lus', count: 3 },
+ *     ]}
+ *     selected={['all']}
+ *     onChange={(ids) => setFilters(ids)}
+ *     onClearAll={() => setFilters([])}
+ *   />
+ *
+ * Props :
+ *   - `multiSelect: boolean` (default true) — toggle multiple ; sinon single-select
+ *   - `tone: 'brand' | 'warm' | 'sun' | 'neutral'` (default brand) — couleur active
+ *   - `size: 'sm' | 'md'` (default md)
+ *   - `surface: 'tinted' | 'plain'` (default plain) — fond `bg-ink-50` ou transparent
+ *   - `showClearAll: boolean` (default true) — affiche bouton "Effacer" si sélection
+ *
+ * 100% Tailwind + DS tokens.
  */
 
 import React from 'react';
 import { X } from 'lucide-react';
 
-interface FilterOption {
+export interface FilterBarOption {
   id: string;
   label: string;
   icon?: React.ReactNode;
+  /** Optional count badge shown after the label. */
+  count?: number;
+  /** Disable this option (locked / unavailable). */
+  disabled?: boolean;
 }
 
-interface FilterBarProps {
-  options: FilterOption[];
+export type FilterBarTone = 'brand' | 'warm' | 'sun' | 'neutral';
+
+export interface FilterBarProps {
+  options: FilterBarOption[];
   selected: string[];
   onChange: (selected: string[]) => void;
   onClearAll?: () => void;
   multiSelect?: boolean;
+  tone?: FilterBarTone;
+  size?: 'sm' | 'md';
+  surface?: 'tinted' | 'plain';
+  showClearAll?: boolean;
+  /** Optional label rendered before the first pill (e.g. "Filtrer :"). */
+  label?: string;
   className?: string;
 }
+
+/* ── Tone styles ────────────────────────────────────────────────────────── */
+
+const ACTIVE_PILL: Record<FilterBarTone, string> = {
+  brand:   'bg-primary-600 border-primary-600 text-white shadow-xs hover:bg-primary-700',
+  warm:    'bg-secondary-600 border-secondary-600 text-white shadow-xs hover:bg-secondary-700',
+  sun:     'bg-accent-400 border-accent-400 text-ink-900 shadow-xs hover:bg-accent-500',
+  neutral: 'bg-ink-900 border-ink-900 text-white shadow-xs hover:bg-ink-800',
+};
+
+const ACTIVE_COUNT: Record<FilterBarTone, string> = {
+  brand:   'bg-white/25 text-white',
+  warm:    'bg-white/25 text-white',
+  sun:     'bg-ink-900/15 text-ink-900',
+  neutral: 'bg-white/25 text-white',
+};
+
+const INACTIVE_PILL =
+  'bg-white border-ink-200 text-ink-700 hover:border-ink-300 hover:bg-ink-50';
+
+const INACTIVE_COUNT = 'bg-ink-100 text-ink-600';
+
+const SURFACE: Record<'tinted' | 'plain', string> = {
+  tinted: 'bg-ink-50 border border-ink-100 rounded-2xl p-2',
+  plain:  '',
+};
+
+const SIZE_PILL: Record<'sm' | 'md', string> = {
+  sm: 'h-7 px-2.5 text-micro gap-1.5 rounded-pill',
+  md: 'h-9 px-3.5 text-caption gap-2 rounded-pill',
+};
+
+const SIZE_COUNT: Record<'sm' | 'md', string> = {
+  sm: 'h-4 min-w-4 px-1 text-[10px] rounded-pill',
+  md: 'h-5 min-w-5 px-1.5 text-[10px] rounded-pill',
+};
+
+/* ── Component ──────────────────────────────────────────────────────────── */
 
 export const FilterBar: React.FC<FilterBarProps> = ({
   options,
@@ -40,107 +100,101 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onChange,
   onClearAll,
   multiSelect = true,
+  tone = 'brand',
+  size = 'md',
+  surface = 'plain',
+  showClearAll = true,
+  label,
   className = '',
 }) => {
-  const handleFilterChange = (id: string) => {
+  const handleClick = (id: string) => {
     if (multiSelect) {
-      const newSelected = selected.includes(id)
+      const next = selected.includes(id)
         ? selected.filter((s) => s !== id)
         : [...selected, id];
-      onChange(newSelected);
+      onChange(next);
     } else {
       onChange(selected.includes(id) ? [] : [id]);
     }
   };
 
+  const handleClear = () => {
+    if (onClearAll) onClearAll();
+    else onChange([]);
+  };
+
+  const hasSelection = selected.length > 0;
+
   return (
     <div
-      className={`flex flex-wrap items-center gap-3 ${className}`}
-      style={{
-        padding: 'var(--s-3)',
-        background: 'var(--surface-muted)',
-        borderRadius: 'var(--r-xl)',
-      }}
+      role="toolbar"
+      aria-label={label ?? 'Filtres'}
+      className={[
+        'flex flex-wrap items-center gap-2',
+        SURFACE[surface],
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {/* Filter Chips */}
+      {label && (
+        <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500 mr-1">
+          {label}
+        </span>
+      )}
+
       {options.map((option) => {
-        const isSelected = selected.includes(option.id);
+        const isActive = selected.includes(option.id);
+        const isDisabled = option.disabled;
 
         return (
           <button
             key={option.id}
-            onClick={() => handleFilterChange(option.id)}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              padding: '6px 12px',
-              borderRadius: 'var(--r-lg)',
-              border: isSelected ? 'none' : '1px solid transparent',
-              background: isSelected ? 'var(--tls-primary-500)' : 'var(--surface)',
-              color: isSelected ? 'white' : 'var(--text)',
-              fontSize: 'var(--t-body-sm)',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all var(--dur-2)',
-              boxShadow: isSelected ? 'var(--shadow-xs)' : 'none',
-            }}
-            onMouseEnter={(e) => {
-              if (!isSelected) {
-                e.currentTarget.style.background = 'var(--surface)';
-                e.currentTarget.style.borderColor = 'var(--tls-primary-200)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (!isSelected) {
-                e.currentTarget.style.background = 'var(--surface)';
-                e.currentTarget.style.borderColor = 'transparent';
-              }
-            }}
+            type="button"
+            disabled={isDisabled}
+            aria-pressed={isActive}
+            onClick={() => handleClick(option.id)}
+            className={[
+              'inline-flex items-center font-body font-semibold border',
+              'transition-colors duration-base cursor-pointer',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              SIZE_PILL[size],
+              isActive ? ACTIVE_PILL[tone] : INACTIVE_PILL,
+              isDisabled ? 'opacity-disabled cursor-not-allowed' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
           >
-            {option.icon && <span>{option.icon}</span>}
-            {option.label}
+            {option.icon && (
+              <span className="inline-flex items-center shrink-0">{option.icon}</span>
+            )}
+            <span className="truncate">{option.label}</span>
+            {option.count !== undefined && (
+              <span
+                className={[
+                  'inline-flex items-center justify-center font-bold tabular-nums',
+                  SIZE_COUNT[size],
+                  isActive ? ACTIVE_COUNT[tone] : INACTIVE_COUNT,
+                ].join(' ')}
+              >
+                {option.count}
+              </span>
+            )}
           </button>
         );
       })}
 
-      {/* Clear All Button */}
-      {selected.length > 0 && onClearAll && (
+      {hasSelection && showClearAll && (
         <>
-          <div
-            style={{
-              width: 1,
-              height: 24,
-              background: 'var(--border-subtle)',
-              margin: '0 var(--s-1)',
-            }}
-          />
+          <span aria-hidden className="hidden sm:inline-block w-px h-5 bg-ink-200 mx-1" />
           <button
-            onClick={onClearAll}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-1)',
-              padding: '6px 12px',
-              borderRadius: 'var(--r-lg)',
-              border: 'none',
-              background: 'transparent',
-              color: 'var(--text-muted)',
-              fontSize: 'var(--t-body-sm)',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'color var(--dur-2)',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = 'var(--tls-danger-base)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
-            }}
-            title="Clear all filters"
+            type="button"
+            onClick={handleClear}
+            className="inline-flex items-center gap-1 px-2.5 py-1 font-body text-micro font-semibold text-ink-500 hover:text-danger-fg bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill"
+            title="Effacer tous les filtres"
           >
-            <X size={16} />
-            Clear all
+            <X size={12} strokeWidth={2.5} />
+            Effacer
           </button>
         </>
       )}

@@ -71,17 +71,27 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 // mini-button. Padding/border-radius/display are already set by BASE +
 // SIZE_CLASSES in @layer utilities and beat the @layer components rule.
 // See CLAUDE.md piège #8.
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:overflow-visible';
+// [&[role=button]]:h-auto neutralizes the BEM rule in components-modern.css
+// that sets height:40px on every [role="button"] element (piège #8).
+// We intentionally do NOT add overflow-visible here so that cards with
+// overflow-hidden in their className can still clip their rounded corners.
+// Piège #8 — components-modern.css imposes these on every [role="button"] :
+//   `height: 40px` (clips card to mini-button height)
+//   `font-weight: 600` (semibold inherited by all descendants)
+//   `align-items: center` (children no longer stretch to fill cross-axis,
+//     causing inner content to overflow narrow cards horizontally)
+// All three are neutralized below for clickable Cards.
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',
   feature: 'bg-white shadow-md hover:shadow-lg',
   elevated: 'bg-white shadow-md hover:shadow-lg',
-  interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 active:-translate-y-0.5',
-  glass:       'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-white/70 to-white/35 border border-white/60 shadow-sm hover:shadow-md',
-  'glass-brand': 'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[22%] to-primary-500/[6%] border border-primary-500/25 shadow-sm hover:shadow-brand-sm',
-  'glass-warm':  'backdrop-blur-[20px] backdrop-saturate-[180%] bg-gradient-to-br from-secondary-500/[12%] to-accent-400/5 border border-secondary-500/[15%] shadow-sm hover:shadow-warm-sm',
-  'glass-dark':  'backdrop-blur-[20px] backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
+  interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
+  glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/70 to-white/35 border border-white/60 shadow-sm hover:shadow-md',
+  'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[22%] to-primary-500/[6%] border border-primary-500/25 shadow-sm hover:shadow-brand-sm',
+  'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-500/[12%] to-accent-400/5 border border-secondary-500/[15%] shadow-sm hover:shadow-warm-sm',
+  'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
   bordered: 'bg-white border-2 border-primary-200 shadow-xs hover:border-primary-400 hover:shadow-sm',
   muted:    'bg-ink-50 border border-ink-200',
@@ -131,6 +141,15 @@ const TONE_EYEBROW_CLASSES: Record<CardTone, string> = {
   brand: 'text-primary-600',
 };
 
+// When variant="interactive" (or interactive=true) is combined with a tone,
+// override the hardcoded primary hover colors with tone-specific ones.
+const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
+  primary: 'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
+  warm:    'hover:border-secondary-300 hover:shadow-warm-sm hover:bg-secondary-50/50',
+  sun:     'hover:border-accent-300 hover:shadow-sun-sm hover:bg-accent-50/50',
+  brand:   'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
+};
+
 const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 hover:shadow-lg active:translate-y-0';
 const CLICKABLE = 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
@@ -176,11 +195,16 @@ export const Card: React.FC<CardProps> = ({
       : TONE_BG_CLASSES[tone]
     : '';
 
+  // When interactive + tone, override the hardcoded primary hover with tone colors.
+  const isInteractive = variant === 'interactive' || interactive;
+  const toneInteractiveClasses = isInteractive && tone ? TONE_INTERACTIVE_HOVER[tone] : '';
+
   const classes = [
     BASE,
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     toneBgClasses,
+    toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
     onClick && CLICKABLE,
     className,

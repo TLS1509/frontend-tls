@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
 import { Button } from '../core/Button';
-import './modals.css';
 
 /**
  * CancelSessionModal — Annulation ou reprogrammation d'une session de coaching
@@ -61,7 +60,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/45 animate-cso-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-cso-bd-in"
       onClick={handleClose}
     >
       <div

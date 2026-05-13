@@ -1,18 +1,16 @@
 /**
  * PageCard Pattern
  *
- * Composite pattern for displaying page/screen tiles in a directory or index
- * Used for app navigation, feature showcase, or project galleries
- *
- * Reusable in:
- * - Pages index/directory
- * - Feature showcase
- * - Project galleries
- * - App navigation hub
+ * Composite pattern for displaying page/screen tiles in a directory or index.
+ * Used for app navigation, feature showcase, or project galleries.
  */
 
 import React from 'react';
+import { ArrowRight, FileText, Loader2 } from 'lucide-react';
 import type { CardTone } from '../core/Card';
+
+export type PageCardStatus = 'active' | 'coming-soon' | 'beta' | 'archived';
+export type PageCardBadgeVariant = 'primary' | 'warm' | 'sun' | 'success' | 'danger';
 
 export interface PageCardItem {
   id: string;
@@ -22,152 +20,230 @@ export interface PageCardItem {
   thumbnail?: string;
   badge?: {
     label: string;
-    variant?: 'primary' | 'warm' | 'sun' | 'success' | 'danger';
+    variant?: PageCardBadgeVariant;
   };
   tag?: string;
-  status?: 'active' | 'coming-soon' | 'beta' | 'archived';
+  status?: PageCardStatus;
   tone?: CardTone;
   href?: string;
   onClick?: () => void;
 }
 
 export interface PageCardGridProps {
-  /** Array of pages/items to display */
   pages: PageCardItem[];
-
-  /** Number of columns: 2, 3, or 4 */
   columns?: 1 | 2 | 3 | 4;
-
-  /** Loading state */
   isLoading?: boolean;
-
-  /** Empty state message */
   emptyMessage?: string;
-
-  /** Show thumbnail images */
   showThumbnails?: boolean;
-
-  /** Custom className */
   className?: string;
 }
 
-const getStatusColor = (status?: string): string => {
-  const colors: Record<string, string> = {
-    active: '🟢',
-    'coming-soon': '🟡',
-    beta: '🔵',
-    archived: '⚫',
-  };
-  return colors[status || 'active'] || '';
+const STATUS_DOT: Record<PageCardStatus, string> = {
+  active:        'bg-success-base',
+  'coming-soon': 'bg-accent-400',
+  beta:          'bg-primary-500',
+  archived:      'bg-ink-300',
 };
 
-const getStatusLabel = (status?: string): string => {
-  const labels: Record<string, string> = {
-    active: 'Active',
-    'coming-soon': 'Coming Soon',
-    beta: 'Beta',
-    archived: 'Archived',
-  };
-  return labels[status || 'active'] || 'Active';
+const STATUS_LABEL: Record<PageCardStatus, string> = {
+  active:        'Active',
+  'coming-soon': 'Coming Soon',
+  beta:          'Beta',
+  archived:      'Archived',
+};
+
+const STATUS_TEXT: Record<PageCardStatus, string> = {
+  active:        'text-success-fg',
+  'coming-soon': 'text-accent-700',
+  beta:          'text-primary-700',
+  archived:      'text-ink-500',
+};
+
+const BADGE_CLASSES: Record<PageCardBadgeVariant, string> = {
+  primary: 'bg-primary-50 text-primary-700 border-primary-200',
+  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
+  sun:     'bg-accent-50 text-accent-800 border-accent-200',
+  success: 'bg-success-bg text-success-fg border-success-base/30',
+  danger:  'bg-danger-bg text-danger-fg border-danger-base/30',
+};
+
+const COLUMNS_CLASSES: Record<1 | 2 | 3 | 4, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+};
+
+const TONE_RING: Record<NonNullable<PageCardItem['tone']>, string> = {
+  primary:   'hover:border-primary-300',
+  warm:      'hover:border-secondary-300',
+  sun:       'hover:border-accent-300',
+  success:   'hover:border-success-base/40',
+  danger:    'hover:border-danger-base/40',
+  neutral:   'hover:border-ink-300',
 };
 
 export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }> = ({
   item,
   showThumbnail = true,
 }) => {
-  const content = (
-    <div className={`page-card page-card--tone-${item.tone || 'primary'}`}>
-      {/* Status badge */}
-      {item.status && (
-        <div className={`page-card__status page-card__status--${item.status}`}>
-          <span className="page-card__status-dot">{getStatusColor(item.status)}</span>
-          <span className="page-card__status-label">{getStatusLabel(item.status)}</span>
+  const tone: NonNullable<PageCardItem['tone']> = item.tone || 'primary';
+
+  const card = (
+    <div
+      className={[
+        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-2xl shadow-xs transition-all duration-200',
+        'hover:-translate-y-1 hover:shadow-lg',
+        TONE_RING[tone],
+      ].join(' ')}
+    >
+      {/* Thumbnail */}
+      {showThumbnail && item.thumbnail && (
+        <div className="relative w-full aspect-[16/10] overflow-hidden bg-ink-50">
+          <img
+            src={item.thumbnail}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
         </div>
       )}
 
-      {/* Thumbnail or icon area */}
-      {showThumbnail && item.thumbnail ? (
-        <div
-          className="page-card__thumbnail"
-          style={{ backgroundImage: `url(${item.thumbnail})` }}
-        />
-      ) : (
-        item.icon && <div className="page-card__icon">{item.icon}</div>
+      {/* Status + Badge row */}
+      {(item.status || item.badge) && (
+        <div className="flex items-center gap-2 px-5 pt-4 flex-wrap">
+          {item.status && (
+            <span
+              className={[
+                'inline-flex items-center gap-1.5 text-caption font-semibold',
+                STATUS_TEXT[item.status],
+              ].join(' ')}
+            >
+              <span
+                aria-hidden="true"
+                className={[
+                  'inline-block w-2 h-2 rounded-full',
+                  STATUS_DOT[item.status],
+                  item.status === 'active' ? 'animate-pulse' : '',
+                ].join(' ')}
+              />
+              {STATUS_LABEL[item.status]}
+            </span>
+          )}
+          {item.badge && (
+            <span
+              className={[
+                'inline-flex items-center px-2 py-0.5 rounded-pill border text-micro font-bold uppercase tracking-wider',
+                BADGE_CLASSES[item.badge.variant || 'primary'],
+              ].join(' ')}
+            >
+              {item.badge.label}
+            </span>
+          )}
+        </div>
       )}
 
-      {/* Badge */}
-      {item.badge && (
-        <span className={`page-card__badge page-card__badge--${item.badge.variant || 'primary'}`}>
-          {item.badge.label}
-        </span>
+      {/* Icon (when no thumbnail) */}
+      {!item.thumbnail && item.icon && (
+        <div className="px-5 pt-5">
+          <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-600">
+            {item.icon}
+          </span>
+        </div>
       )}
 
       {/* Content */}
-      <div className="page-card__content">
-        <h3 className="page-card__title">{item.title}</h3>
-        {item.description && <p className="page-card__description">{item.description}</p>}
-
-        {item.tag && <span className="page-card__tag">{item.tag}</span>}
+      <div className="flex-1 flex flex-col gap-2 px-5 py-4">
+        <h3 className="font-display text-h4 font-semibold text-ink-900 m-0 leading-tight">
+          {item.title}
+        </h3>
+        {item.description && (
+          <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
+            {item.description}
+          </p>
+        )}
+        {item.tag && (
+          <span className="inline-flex self-start mt-1 px-2 py-0.5 rounded-pill bg-ink-50 text-ink-600 text-micro font-medium">
+            {item.tag}
+          </span>
+        )}
       </div>
 
-      {/* Hover overlay with arrow */}
-      <div className="page-card__overlay">
-        <span className="page-card__arrow">→</span>
+      {/* Hover arrow */}
+      <div className="flex items-center justify-end px-5 pb-4 text-primary-600 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
+        <ArrowRight size={18} strokeWidth={2.25} />
       </div>
     </div>
   );
 
   if (item.href) {
-    return <a className="page-card__link" href={item.href}>{content}</a>;
+    return (
+      <a href={item.href} className="block no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-2xl">
+        {card}
+      </a>
+    );
   }
 
   if (item.onClick) {
     return (
-      <button type="button" className="page-card__button" onClick={item.onClick}>
-        {content}
+      <button
+        type="button"
+        onClick={item.onClick}
+        className="block w-full text-left p-0 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-2xl"
+      >
+        {card}
       </button>
     );
   }
 
-  return content;
+  return card;
 };
 
 export const PageCardGrid: React.FC<PageCardGridProps> = ({
   pages,
   columns = 3,
   isLoading = false,
-  emptyMessage = 'No pages available',
+  emptyMessage = 'Aucune page disponible',
   showThumbnails = true,
   className = '',
 }) => {
-  // Loading state
   if (isLoading) {
     return (
-      <div className={`page-card-grid page-card-grid--loading ${className}`}>
-        <div className="page-card-grid__loader">
-          <div className="page-card-grid__spinner" />
-          <p>Loading pages...</p>
+      <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
+        <div className="flex flex-col items-center gap-3 text-ink-500">
+          <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
+          <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
       </div>
     );
   }
 
-  // Empty state
   if (!pages || pages.length === 0) {
     return (
-      <div className={`page-card-grid page-card-grid--empty ${className}`}>
-        <div className="page-card-grid__empty">
-          <p className="page-card-grid__empty-icon">📄</p>
-          <p className="page-card-grid__empty-message">{emptyMessage}</p>
+      <div
+        className={[
+          'flex items-center justify-center px-6 py-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
+            <FileText size={26} strokeWidth={2} />
+          </span>
+          <p className="m-0 text-body-sm font-medium text-ink-700">{emptyMessage}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`page-card-grid page-card-grid--${columns}col ${className}`} role="grid">
+    <div
+      role="grid"
+      className={['grid gap-5', COLUMNS_CLASSES[columns], className].filter(Boolean).join(' ')}
+    >
       {pages.map((page) => (
-        <div key={page.id} className="page-card-grid__item" role="gridcell">
+        <div key={page.id} role="gridcell">
           <PageCard item={page} showThumbnail={showThumbnails} />
         </div>
       ))}

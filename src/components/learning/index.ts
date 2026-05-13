@@ -16,8 +16,7 @@ export type { ArticleCardProps } from './ArticleCard';
 export { ProjectCard } from './ProjectCard';
 export type { ProjectCardProps } from './ProjectCard';
 
-export { MessageThreadCard } from './MessageThreadCard';
-export type { MessageThreadCardProps } from './MessageThreadCard';
+// MessageThreadCard supprimé Phase 10 — utiliser le rendering chat-like custom de Messages.tsx
 
 export { MagazineCard } from './MagazineCard';
 export type { MagazineCardProps } from './MagazineCard';

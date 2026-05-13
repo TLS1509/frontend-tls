@@ -1,24 +1,31 @@
 /**
- * JournalEntryCard
+ * JournalEntryCard — Tailwind refactor (Phase 10 cleanup).
  *
- * Card component for displaying journal entries with type, title, excerpt, tags, and metadata.
- * Uses only design tokens and TLS components.
+ * Card pour afficher une entrée de journal avec type, title, excerpt, tags, metadata.
+ * 100% Tailwind + DS tokens (plus de `var(--tls-*)`, plus de CSS file BEM).
  *
- * Usage:
- * <JournalEntryCard
- *   type="guided"
- *   title="My first reflection"
- *   excerpt="Today I learned..."
- *   date="2026-04-30"
- *   time="14:30"
- *   tags={['reflection', 'learning']}
- *   onClick={() => navigate('/journal/123')}
- * />
+ * Usage :
+ *   <JournalEntryCard
+ *     type="guided"
+ *     title="Ma première réflexion"
+ *     excerpt="Aujourd'hui j'ai appris…"
+ *     date="2026-04-30"
+ *     time="14:30"
+ *     tags={['réflexion', 'apprentissage']}
+ *     onClick={() => navigate('/journal/123')}
+ *   />
  */
 
 import React from 'react';
-import { BookOpen, Sparkles, BookMarked, Target, Lightbulb, Calendar, Clock } from 'lucide-react';
-import './JournalEntryCard.css';
+import {
+  BookOpen,
+  Sparkles,
+  BookMarked,
+  Target,
+  Lightbulb,
+  Calendar,
+  Clock,
+} from 'lucide-react';
 
 export type JournalEntryType = 'guided' | 'free' | 'learning' | 'coaching' | 'insight';
 
@@ -33,12 +40,44 @@ export interface JournalEntryCardProps {
   className?: string;
 }
 
-const typeConfig: Record<JournalEntryType, { icon: React.ComponentType<any>; bg: string; text: string; label: string }> = {
-  guided: { icon: BookOpen, bg: 'var(--tls-primary-50)', text: 'var(--tls-primary-600)', label: 'Guided' },
-  free: { icon: Sparkles, bg: 'var(--tls-yellow-50)', text: 'var(--tls-yellow-600)', label: 'Free' },
-  learning: { icon: BookMarked, bg: 'var(--tls-orange-50)', text: 'var(--tls-orange-600)', label: 'Learning' },
-  coaching: { icon: Target, bg: 'var(--overlay-warm-xs)', text: 'var(--tls-orange-600)', label: 'Coaching' },
-  insight: { icon: Lightbulb, bg: 'var(--overlay-brand-xs)', text: 'var(--tls-primary-600)', label: 'Insight' },
+interface TypeConfig {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  label: string;
+  badge: string;
+  border: string;
+}
+
+const TYPE_CONFIG: Record<JournalEntryType, TypeConfig> = {
+  guided: {
+    icon: BookOpen,
+    label: 'Guidée',
+    badge: 'bg-primary-50 text-primary-700 border-primary-200',
+    border: 'hover:border-primary-300',
+  },
+  free: {
+    icon: Sparkles,
+    label: 'Libre',
+    badge: 'bg-accent-50 text-accent-700 border-accent-200',
+    border: 'hover:border-accent-300',
+  },
+  learning: {
+    icon: BookMarked,
+    label: 'Apprentissage',
+    badge: 'bg-secondary-50 text-secondary-700 border-secondary-200',
+    border: 'hover:border-secondary-300',
+  },
+  coaching: {
+    icon: Target,
+    label: 'Coaching',
+    badge: 'bg-secondary-50 text-secondary-700 border-secondary-200',
+    border: 'hover:border-secondary-300',
+  },
+  insight: {
+    icon: Lightbulb,
+    label: 'Insight',
+    badge: 'bg-primary-50 text-primary-700 border-primary-200',
+    border: 'hover:border-primary-300',
+  },
 };
 
 export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
@@ -51,45 +90,56 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
   onClick,
   className = '',
 }) => {
-  const config = typeConfig[type];
+  const config = TYPE_CONFIG[type];
   const Icon = config.icon;
-
-  const cardClasses = [
-    'journal-entry-card',
-    `journal-entry-card--${type}`,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const clickable = Boolean(onClick);
 
   return (
-    <div
+    <article
       onClick={onClick}
-      className={cardClasses}
+      role={clickable ? 'button' : undefined}
+      tabIndex={clickable ? 0 : undefined}
+      className={[
+        'group flex flex-col gap-stack-xs p-5 sm:p-6 rounded-2xl',
+        'bg-white border border-ink-100',
+        clickable
+          ? `cursor-pointer transition-all duration-base ${config.border} hover:shadow-sm hover:-translate-y-0.5`
+          : '',
+        '!h-auto !overflow-visible !items-stretch !font-normal',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
-      {/* Type Badge */}
-      <div className="journal-entry-card__badge">
-        <Icon size={14} />
+      {/* Type badge */}
+      <span
+        className={[
+          'inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border',
+          'font-body text-micro font-bold uppercase tracking-wider',
+          config.badge,
+        ].join(' ')}
+      >
+        <Icon size={12} />
         {config.label}
-      </div>
+      </span>
 
       {/* Title */}
-      <h3 className="journal-entry-card__title">
+      <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight tracking-tight">
         {title}
       </h3>
 
       {/* Excerpt */}
-      <p className="journal-entry-card__excerpt">
+      <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-3">
         {excerpt}
       </p>
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div className="journal-entry-card__tags">
+        <div className="flex flex-wrap gap-1.5">
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="journal-entry-card__tag"
+              className="inline-flex items-center px-2 py-0.5 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
             >
               #{tag}
             </span>
@@ -98,19 +148,22 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       )}
 
       {/* Metadata */}
-      <div className="journal-entry-card__metadata">
-        <div className="journal-entry-card__meta-item">
-          <Calendar size={14} />
+      <div className="flex items-center gap-x-3 gap-y-1 flex-wrap pt-stack-xs mt-auto font-body text-micro text-ink-500">
+        <span className="inline-flex items-center gap-1">
+          <Calendar size={12} />
           {date}
-        </div>
+        </span>
         {time && (
-          <div className="journal-entry-card__meta-item">
-            <Clock size={14} />
-            {time}
-          </div>
+          <>
+            <span aria-hidden className="text-ink-300">·</span>
+            <span className="inline-flex items-center gap-1">
+              <Clock size={12} />
+              {time}
+            </span>
+          </>
         )}
       </div>
-    </div>
+    </article>
   );
 };
 

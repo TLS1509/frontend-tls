@@ -59,7 +59,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         />
         <div
           aria-hidden="true"
-          className="relative w-16 h-16 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center transition-all duration-200 group-hover:scale-110 group-hover:bg-white/30 ring-2 ring-white/30 shadow-xl"
+          className="relative w-16 h-16 rounded-full bg-white/20 backdrop-blur-glass-light text-white flex items-center justify-center transition-all duration-200 group-hover:scale-110 group-hover:bg-white/30 ring-2 ring-white/30 shadow-xl"
         >
           <Play size={28} fill="currentColor" className="ml-1" />
         </div>

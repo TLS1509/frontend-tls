@@ -1,102 +1,30 @@
 /* ==========================================================================
-   TLS Design System — Global CSS                          21 fichiers, 1 entrée
+   TLS Design System — Global CSS                    (Phase 9 cleanup done)
    ─────────────────────────────────────────────────────────────────────────────
-   ARCHITECTURE : tokens → layout → nav → utilities → components → learning
-                  → pages → patterns → animations
+   ARCHITECTURE : tokens → modals → globals
 
    COMMENT ÇA MARCHE :
-     main.tsx  →  index.css  →  globals.css  →  tout le cascade CSS
+     main.tsx  →  index.css  →  globals.css  →  cascade CSS
 
-   Chaque page et composant hérite automatiquement de TOUS les tokens et classes
-   sans importer individuellement quoi que ce soit.
+   Tous les composants et pages utilisent exclusivement Tailwind v4.
+   Les seuls CSS conservés sont : tokens (variables), modals (keyframes),
+   et les resets/base styles ci-dessous.
    ========================================================================== */
 
 /* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
-/* Toutes les variables CSS : couleurs, espacement, typographie, ombres, glass,
-   animations, overlays, gradients, on-color effects (246+ tokens) */
-/* layer(base) : les resets base (button { font: inherit }, h1-h6, p, a)
-   doivent être dans @layer base pour que les utilities Tailwind gagnent. */
+/* Variables CSS : couleurs, espacement, typographie, ombres, glass,
+   animations, overlays, gradients (246+ tokens) */
 @import './design-tokens.css' layer(base);
 /* Overrides dark mode — scoped sous [data-theme="dark"] */
 @import './dark-mode-tokens.css' layer(base);
 
-/* ── 2. LAYOUT ──────────────────────────────────────────────────────────── */
-/* layouts.css      → grilles, containers, flex/grid helpers + layout-helpers */
-/* app-layout.css   → AppLayout, shell principal, sidebar offset */
-/* page-layouts-modern.css → layouts de pages (2-col, avec sidebar, hero) */
-/* layer(components) : layouts.css définit .shadow-sm, .rounded-sm, etc. qui
-   collisionnent avec Tailwind. En layer components, Tailwind utilities gagnent. */
-@import './layouts.css' layer(components);
-@import './app-layout.css' layer(components);
-@import './page-layouts-modern.css' layer(components);
-
-/* ── 3. NAVIGATION ──────────────────────────────────────────────────────── */
-/* floating-nav.css    → bouton flottant d'accès rapide */
-/* mobile-nav.css      → bottom nav mobile */
-/* optimized-sidebar.css → sidebar principale desktop */
-@import './floating-nav.css';
-@import './mobile-nav.css';
-@import './optimized-sidebar.css';
-
-/* ── 4. UTILITIES ───────────────────────────────────────────────────────── */
-/* utilities.css → classes utilitaires + glass morphism (.glass, .glass-on-color...) */
-/* layer(components) : critique — utilities.css définit .border, .shadow-sm, etc. qui
-   collisionnent avec Tailwind. En layer components, les utilities Tailwind (qui
-   sont dans @layer utilities, plus haut dans la cascade) gagnent automatiquement. */
-@import './utilities.css' layer(components);
-
-/* ── 5. COMPONENTS ──────────────────────────────────────────────────────── */
-/* tls-components.css    → tous les composants TLS : Button, Card, Badge, Modal,
-                           Alert, Steps, Tabs, Toast, Medal... + card layouts + showcase */
-/* components-modern.css → variantes modernes (glass cards, gradients avancés) */
-/* layer(components) : permet aux utilities Tailwind de gagner dans la cascade.
-   Critique pendant la migration — sans ça, les selectors larges (.btn, [role="button"]…)
-   battent les utilities Tailwind à cause de la non-layered specificity. */
-@import './tls-components.css' layer(components);
-@import './components-modern.css' layer(components);
-/* Input.css : encore consommé par Settings.tsx (.switch__track) — sera retiré en Phase 8.6 */
-@import '../components/core/Input.css' layer(components);
-
-/* ── 6. LEARNING ────────────────────────────────────────────────────────── */
-/* learning-components-modern.css → composants spécifiques au parcours apprenant */
-/* learning-paths.css             → page Parcours (tiles, filtres, heros, étapes) */
-/* lesson-player.css              → lecteur de leçons */
-@import './learning-components-modern.css';
-@import './learning-paths.css';
-@import './lesson-player.css';
-
-/* ── 7. PAGES ───────────────────────────────────────────────────────────── */
-/* static-pages.css      → classes génériques de pages + auth + feature pages */
-/* figma-missing-pages.css → pages secondaires (VideoReels, Flashcards, etc.) */
-/* dashboard-modern.css  → Dashboard hero, KPIs, widgets */
-/* veille.css             → Hub Veille, cards, filtres */
-/* pages-index.css        → page d'index des pages / composants */
-@import './static-pages.css';
-@import './figma-missing-pages.css';
-@import './dashboard-modern.css';
-@import './veille.css';
-@import './pages-index.css';
-
-/* ── 8. PATTERNS ────────────────────────────────────────────────────────── */
-/* Patterns composites réutilisables par plusieurs pages */
-@import './patterns/activity-feed.css';
-@import './patterns/dashboard-hero.css';
-@import './patterns/coach-card-grid.css';
-
-/* ── 9. ANIMATIONS ──────────────────────────────────────────────────────── */
-/* Keyframes, classes animate-*, transitions polies */
-@import './animations-polish.css' layer(components);
-
-/* ── 10. FEATURE PAGES ───────────────────────────────────────────────────── */
-@import './dashboard.css';
-@import './feature-pages-modern.css';
-
-/* ── 11. PAGE-SPECIFIC ────────────────────────────────────────────────────── */
-@import './profile.css';
+/* ── 2. MODALS ──────────────────────────────────────────────────────────── */
+/* modals.css : keyframes + animations des 9 modals (scFadeUp, fbFadeIn, etc.)
+   Wrapped in @layer components pour ne pas écraser les utilities Tailwind.
+   Migration complète vers Tailwind @theme --animate-* reportée à Phase 11. */
+@import '../components/modals/modals.css' layer(components);
 
 /* Global styles using design tokens */
-/* Note: Tailwind v4 preflight handles margin/padding reset.
-   This rule is kept in @layer base to respect cascade layer order. */
 @layer base {
   * {
     margin: 0;

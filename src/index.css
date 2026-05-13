@@ -25,6 +25,12 @@
   --color-primary-700: #3D7786;
   --color-primary-800: #2F5F6A;
   --color-primary-900: #1F3E45;
+  --color-primary-950: #164267; /* deep navy for saturated hero gradients */
+
+  /* ── Surface pastels (ultra-light backgrounds, used in gradients) ── */
+  --color-surface-cyan:  #f0f9ff; /* very light cyan-tinted white */
+  --color-surface-mist:  #f8fbfd; /* near-white with subtle blue mist */
+  --color-surface-cream: #fef3e2; /* soft cream/peach */
 
   /* ── Couleurs Secondary (orange) — synced with --tls-orange-* ── */
   --color-secondary-50: #FFF3EB;
@@ -140,11 +146,204 @@
   --radius-2xl: 24px;
   --radius-pill: 999px;
 
-  /* ── Opacité ── */
+  /* ── Opacité ── SEMANTIC TOKENS
+     Tailwind v4 auto-generates utilities from `--opacity-{name}` keys :
+       bg-{tone}/faint, text-white/medium, etc.
+     Use these for consistent overlay/tinted layers across the app.
+
+       faint     5%   → subtle wash (large blob backgrounds)
+       soft      10%  → light tint (hover bg, gentle highlights)
+       tinted    15%  → soft fill (glass overlays, ghost CTA states)
+       medium    30%  → mid overlay (modal scrims behind glass cards)
+       disabled  50%  → disabled UI elements (existing token, kept)
+       overlay   70%  → strong scrim (modal backdrop with content focus)
+  */
+  --opacity-faint:    0.05;
+  --opacity-soft:     0.10;
+  --opacity-tinted:   0.15;
+  --opacity-medium:   0.30;
   --opacity-disabled: 0.5;
+  --opacity-overlay:  0.70;
+
+  /* ── z-index ── SEMANTIC LAYERING SCALE
+     Tailwind v4 auto-generates utilities `z-{name}` :
+       z-base, z-sticky, z-overlay, z-modal, z-toast, z-tooltip
+     Use these instead of magic numbers (z-10/z-30/z-50) to avoid stacking conflicts.
+
+       base      1   → default flow (cards, content)
+       sticky    20  → sticky headers, sidebars, sticky aside
+       dropdown  30  → menus, popovers, autocomplete
+       overlay   40  → modal scrims, drawers backdrop
+       modal     50  → modal/dialog content layer
+       toast     60  → toast notifications (above modals briefly)
+       tooltip   70  → tooltips (highest, transient)
+  */
+  --z-base:     1;
+  --z-sticky:   20;
+  --z-dropdown: 30;
+  --z-overlay:  40;
+  --z-modal:    50;
+  --z-toast:    60;
+  --z-tooltip:  70;
+  /* Tailwind v4 utilities: `z-{name}` auto-generated from `--z-index-{name}` namespace. */
+  --z-index-base:     1;
+  --z-index-sticky:   20;
+  --z-index-dropdown: 30;
+  --z-index-overlay:  40;
+  --z-index-modal:    50;
+  --z-index-toast:    60;
+  --z-index-tooltip:  70;
+
+  /* ── Durée d'animation ── SEMANTIC MOTION TOKENS
+     Tailwind v4 auto-generates `duration-{name}` :
+       duration-fast, duration-base, duration-slow, duration-glacial
+
+       fast     150ms → micro-feedback (icon hover scale, ripple)
+       base     200ms → DEFAULT — most transitions (color, shadow, transform)
+       slow     300ms → larger movements (card flip, modal entrance)
+       glacial  600ms → strong emphasis (celebration, achievement reveal)
+  */
+  --duration-fast:    150ms;
+  --duration-base:    200ms;
+  --duration-slow:    300ms;
+  --duration-glacial: 600ms;
+
+  /* ── Easings ── SEMANTIC TIMING FUNCTIONS
+     Tailwind v4 auto-generates `ease-{name}` :
+       ease-standard, ease-decelerate, ease-accelerate, ease-emphasis
+
+       standard    : neutral curve — default for most transitions
+       decelerate  : slow-out (entering motion — modals appearing, sliding in)
+       accelerate  : slow-in (exiting motion — items leaving, dismissing)
+       emphasis    : pronounced overshoot — premium reveals, success states
+  */
+  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasis:   cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Container widths ── SEMANTIC LAYOUT TOKENS
+     ⚠️ NOTE: in Tailwind v4, `--container-*` generates `@container/{name}`
+     queries (NOT max-w-* utilities). For max-width utilities, the existing
+     Tailwind defaults (max-w-3xl/4xl/5xl/6xl/7xl) work fine and map to:
+       max-w-3xl = 48rem (768px) = our "content" width
+       max-w-6xl = 72rem (1152px) = our "page" width
+       max-w-7xl = 80rem (1280px) = our "wide" width
+       max-w-prose = 65ch (Tailwind default for prose)
+     These keys remain useful for CSS var consumption (var(--container-page))
+     or future `@container` query usage.
+
+       prose    65ch    → article reading width (long-form text)
+       content  768px   → narrow page (forms, focused content)
+       page     1152px  → DEFAULT — full content pages
+       wide     1280px  → dashboard / data-rich pages
+  */
+  --container-prose:   65ch;
+  --container-content: 48rem;
+  --container-page:    72rem;
+  --container-wide:    80rem;
+
+  /* ── Blur ── SEMANTIC GLASS / AMBIENT TOKENS
+     Tailwind v4 auto-generates `blur-{name}` and `backdrop-blur-{name}` :
+       backdrop-blur-glass-light, blur-ambient, etc.
+
+       glass-light  : 8px   → light frosted glass (subtle cards)
+       glass-medium : 16px  → DEFAULT frosted glass (modals, hero overlays)
+       glass-heavy  : 24px  → heavy frosted glass (strong overlays, sidebar)
+       ambient      : 60px  → ambient blobs (gradient page backgrounds)
+  */
+  --blur-glass-light:  8px;
+  --blur-glass-medium: 16px;
+  --blur-glass-heavy:  24px;
+  --blur-ambient:      60px;
+
+  /* ── Surface colors ── SEMANTIC ELEVATION TOKENS
+     Tailwind v4 auto-generates `bg-{name}`, `text-{name}`, `border-{name}` :
+       bg-surface, bg-surface-muted, text-surface-foreground, etc.
+
+       surface           : Default page/card background (white)
+       surface-muted     : Slightly recessed (page bg subtle, hover ink-50)
+       surface-sunken    : Recessed wells, code blocks, input bg
+       surface-elevated  : Above-page (modals, popovers, dropdowns) — same as surface
+                           but visually lifted via shadow/blur
+
+     Usage : <Card className="bg-surface"> au lieu de bg-white hardcodé.
+     Bénéfice : 1 changement = toutes les cards adaptent (dark mode futur).
+  */
+  --color-surface:          #ffffff;
+  --color-surface-muted:    #f9fafb;  /* = ink-50 */
+  --color-surface-sunken:   #f3f4f6;  /* = ink-100 */
+  --color-surface-elevated: #ffffff;  /* same as surface, visual lift via shadow */
+
+  /* ── Text semantic colors ── (utilities text-{name})
+       text-strong   : highest contrast (h1, h2, primary CTAs) — ink-900
+       text-default  : body text — ink-700
+       text-muted    : secondary info, helpers, captions — ink-500
+       text-subtle   : least emphasis, placeholders, disabled — ink-400
+       text-inverse  : on saturated bg (heroes, dark cards) — white
+  */
+  --color-text-strong:  #1a1a1a;  /* = ink-900 */
+  --color-text-default: #374151;  /* = ink-700 */
+  --color-text-muted:   #6b7280;  /* = ink-500 */
+  --color-text-subtle:  #9ca3af;  /* = ink-400 */
+  --color-text-inverse: #ffffff;
+
+  /* ── Border semantic colors ── (utilities border-{name})
+       border-subtle  : barely-there divider — ink-100
+       border-default : standard cards/inputs — ink-200
+       border-strong  : emphasized, focus, active — ink-300
+  */
+  --color-border-subtle:  #f3f4f6;  /* = ink-100 */
+  --color-border-default: #e5e7eb;  /* = ink-200 */
+  --color-border-strong:  #d1d5db;  /* = ink-300 */
+
+  /* ── Border widths ── (utilities border-{name})
+     Promoted from design-tokens.css to enable Tailwind utility generation.
+
+       hairline : 1px → DEFAULT (cards, inputs, dividers)
+       base     : 2px → emphasized (active states, primary borders)
+       thick    : 3px → strong accents (selected items, status bars)
+       heavy    : 4px → focus rings, callouts left-bar
+  */
+  --border-hairline: 1px;
+  --border-base:     2px;
+  --border-thick:    3px;
+  --border-heavy:    4px;
+
+  /* ── Touch targets ── ACCESSIBILITY MIN SIZES
+     Tailwind v4 auto-generates `w-touch`, `h-touch`, `min-w-touch`, `min-h-touch` :
+     Use these on interactive elements to meet Apple HIG (44px) / WCAG AA (44px).
+
+       touch    : 44px → minimum accessible tap target (Apple HIG, WCAG AA)
+       touch-lg : 48px → comfortable target (Material Design)
+  */
+  --spacing-touch:    2.75rem;
+  --spacing-touch-lg: 3rem;
 
   /* ── Spacing base (Tailwind v4 utilise --spacing pour calculer toutes les marges/paddings) ── */
   --spacing: 0.25rem;
+
+  /* ── Spacing — SEMANTIC TOKENS ──────────────────────────────────────────────
+     Tailwind v4 auto-generates utilities from `--spacing-{name}` keys :
+       gap-{name}, mt-{name}, mb-{name}, p-{name}, space-y-{name}, etc.
+     Use these instead of numeric mb-4/gap-4 for layout consistency.
+
+     Hierarchy (tightest → loosest) :
+       tight       2px   → between heading and its immediate subtitle/description
+       stack-xs    8px   → inline groups (chip rows, button groups)
+       stack      16px   → DEFAULT — section header ↔ first card, card stacks
+       stack-lg   24px   → looser stacks (between content blocks within a section)
+       section    32px   → between sibling <section>s
+       section-lg 40px   → major section separations on dense pages
+       page       48px   → page-level groupings (e.g. hero ↔ first stage)
+  */
+  --spacing-tight:      0.125rem;
+  --spacing-stack-xs:   0.5rem;
+  --spacing-stack:      1rem;
+  --spacing-stack-lg:   1.5rem;
+  --spacing-section:    2rem;
+  --spacing-section-lg: 2.5rem;
+  --spacing-page:       3rem;
 
   /* ── Typographie spéciale — StatCard ── */
   --text-stat-value: clamp(2rem, 3vw, 2.75rem);
@@ -194,6 +393,122 @@
 @keyframes skeleton-shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+@keyframes filterIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Ambient floating blobs — slow drift + scale for premium TLS background atmosphere.
+   Used by patterns/AmbientBlobs.tsx with staggered animation-delay per blob. */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -30px) scale(1.1); }
+  66%      { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* Keyframes migrated from tls-components.css — used by Tailwind animate-[] utilities */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateX(40px) scale(0.96); }
+}
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateX(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-scale-in-flat {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes dd-slide-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   PAGE BACKGROUND GRADIENTS (utility tokens DS)
+   ============================================
+   Tokenized full-page gradients — utilisés par les pages Tier 1 pour fond ambient TLS.
+   Pair avec <AmbientBlobs /> pour effet premium.
+
+   Pourquoi utility (pas variable Tailwind) :
+   Tailwind v4 @theme ne supporte pas natively les gradients comme tokens. On les déclare
+   donc en @layer utilities pour les exposer via class name (`bg-gradient-page-ambient`).
+*/
+@layer utilities {
+  /* Canonical TLS ambient — primary-50 (teal soft) → white → accent-50 (sun soft) */
+  .bg-gradient-page-ambient {
+    background: linear-gradient(
+      to bottom right,
+      var(--color-primary-50) 0%,
+      #ffffff 50%,
+      var(--color-accent-50) 100%
+    );
+  }
+
+  /* Warm variant — primary-50 → white → secondary-50 (orange soft) — pour pages action/parcours */
+  .bg-gradient-page-ambient-warm {
+    background: linear-gradient(
+      to bottom right,
+      var(--color-primary-50) 0%,
+      #ffffff 50%,
+      var(--color-secondary-50) 100%
+    );
+  }
+
+  /* Sun variant — secondary-50 → white → accent-50 — pour pages reflexion/celebration */
+  .bg-gradient-page-ambient-sun {
+    background: linear-gradient(
+      to bottom right,
+      var(--color-secondary-50) 0%,
+      #ffffff 50%,
+      var(--color-accent-50) 100%
+    );
+  }
+
+  /* ── Hero / saturated brand gradients ──────────────────────────────── */
+
+  /* Brand deep — primary-950 → primary-500 (horizontal navy → teal).
+     Pour hero saturé, banners marketing, dark feature sections. */
+  .bg-gradient-brand-deep {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-950) 0%,
+      var(--color-primary-500) 100%
+    );
+  }
+
+  /* ── Soft pastel gradients (3 stops & 2 stops, surface pastels) ────── */
+
+  /* Soft pastel 3-stop — cyan → mist → cream (diagonal 135°).
+     Pour pages éditoriales très douces, fond auth alternative, splash screens. */
+  .bg-gradient-soft-pastel {
+    background: linear-gradient(
+      135deg,
+      var(--color-surface-cyan) 0%,
+      var(--color-surface-mist) 50%,
+      var(--color-surface-cream) 100%
+    );
+  }
+
+  /* Soft pastel 2-stop — cyan → cream (diagonal 135°, plus marqué).
+     Variante minimaliste pour fond de cards larges, hero soft. */
+  .bg-gradient-soft-duo {
+    background: linear-gradient(
+      135deg,
+      var(--color-surface-cyan) 0%,
+      var(--color-surface-cream) 100%
+    );
+  }
 }
 
 /* ============================================

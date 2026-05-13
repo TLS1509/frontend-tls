@@ -1,21 +1,16 @@
 /**
  * VideoViewer Page
  *
- * Full-featured video viewer for lesson content with:
- * - Fullscreen video player
- * - Transcript sidebar
- * - Video metadata and controls
- * - Related videos
- *
- * Uses TLS design system components and tokens.
+ * Full-featured video viewer for lesson content with transcript and related videos.
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { MetaPill } from '../components/ui/MetaPill';
-import { X, Play, Pause, Volume2, VolumeX, Maximize2, FileText, Clock, User, ChevronDown, ChevronUp } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, FileText, Clock, User, ChevronDown, ChevronUp } from 'lucide-react';
+import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
+import { Button } from '../components/core/Button';
 
 interface VideoData {
   id: string;
@@ -32,7 +27,7 @@ const VIDEO_DATA: VideoData = {
   title: 'Motivation et Engagement: Les fondamentaux',
   instructor: 'Marie Dubois',
   duration: '24 min',
-  description: 'Découvrez les mécanismes psychologiques qui sous-tendent la motivation au travail et comment créer les conditions d\'un engagement durable.',
+  description: "Découvrez les mécanismes psychologiques qui sous-tendent la motivation au travail et comment créer les conditions d'un engagement durable.",
   transcript: `Bonjour et bienvenue dans ce module sur la motivation et l'engagement.
 
 Au cours des prochaines minutes, nous allons explorer ensemble les fondements de la motivation, tant intrinsèque qu'extrinsèque.
@@ -64,125 +59,52 @@ export const VideoViewer: React.FC = () => {
   const [showTranscript, setShowTranscript] = useState(false);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--background)',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+    <ViewerOverlay
+      title={VIDEO_DATA.title}
+      subtitle={`${VIDEO_DATA.instructor} · ${VIDEO_DATA.duration}`}
+      tone="dark"
+      onClose={() => navigate(-1)}
+      headerActions={
+        <Button variant="ghost" size="sm" iconOnly aria-label="Plein écran" className="text-white/85 hover:bg-white/10">
+          <Maximize2 size={16} />
+        </Button>
+      }
     >
-      {/* Video Player Area */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          maxHeight: '60vh',
-          background: 'var(--text)',
-        }}
-      >
-        {/* Header with Close */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: 'var(--s-3)',
-            background: 'var(--overlay-black-xs)',
-            zIndex: 10,
-          }}
-        >
-          <div style={{ color: 'var(--text-inverse)', fontSize: 'var(--t-body-sm)' }}>
-            {VIDEO_DATA.title}
-          </div>
-          <Button variant="ghost" onClick={() => navigate(-1)} style={{ color: 'white' }}>
-            <X size={20} />
-          </Button>
-        </div>
+      {/* ── Video Player Area ─────────────────────────────────────── */}
+      <div className="flex flex-col max-h-[60vh] bg-ink-950">
 
         {/* Video Player Placeholder */}
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'var(--text)',
-            position: 'relative',
-          }}
-        >
+        <div className="flex-1 flex flex-col items-center justify-center bg-ink-950 relative min-h-[280px]">
           <button
+            type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: '50%',
-              background: 'var(--tls-primary-500)',
-              border: 'none',
-              color: 'var(--text-inverse)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'transform var(--dur-2)',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-            }}
+            className="w-20 h-20 rounded-full bg-primary-500 border-0 text-white flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
           >
-            {isPlaying ? <Pause size={32} /> : <Play size={32} style={{ marginLeft: 4 }} />}
+            {isPlaying ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
           </button>
 
-          {/* Player Controls */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 'var(--s-4)',
-              left: 0,
-              right: 0,
-              padding: '0 var(--s-4)',
-              display: 'flex',
-              gap: 'var(--s-2)',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              color: 'white',
-            }}
-          >
-            <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
+          {/* Player controls */}
+          <div className="absolute bottom-4 left-0 right-0 px-4 flex gap-2 items-center justify-between text-white">
+            <div className="flex gap-2">
               <button
+                type="button"
                 onClick={() => setIsMuted(!isMuted)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-inverse)',
-                  cursor: 'pointer',
-                  padding: 'var(--s-2)',
-                }}
+                className="border-0 bg-transparent text-white cursor-pointer p-2"
               >
                 {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
               </button>
             </div>
 
-            {/* Progress Bar */}
-            <div style={{ flex: 1, height: 4, background: 'var(--overlay-white-xs)', borderRadius: 'var(--r-full)', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: '35%', background: 'var(--tls-primary-500)' }} />
+            {/* Progress bar (mock static at 35%) */}
+            <div className="flex-1 h-1 bg-white/10 rounded-pill overflow-hidden">
+              <div className="h-full bg-primary-500 w-[35%]" />
             </div>
 
-            <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-inverse)' }}>8:24 / 24:00</div>
+            <div className="font-body text-caption text-white">8:24 / 24:00</div>
 
             <button
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-inverse)',
-                cursor: 'pointer',
-                padding: 'var(--s-2)',
-              }}
+              type="button"
+              className="border-0 bg-transparent text-white cursor-pointer p-2"
             >
               <Maximize2 size={18} />
             </button>
@@ -190,69 +112,44 @@ export const VideoViewer: React.FC = () => {
         </div>
       </div>
 
-      {/* Content Section */}
-      <div
-        style={{
-          padding: 'var(--s-6)',
-          display: 'grid',
-          gridTemplateColumns: '1fr 320px',
-          gap: 'var(--s-6)',
-        }}
-      >
-        {/* Main Content */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
-          {/* Title and Metadata */}
+      {/* ── Content Section ───────────────────────────────────────── */}
+      <div className="bg-white p-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+
+        {/* Main content */}
+        <div className="flex flex-col gap-4">
+
+          {/* Title and metadata */}
           <div>
-            <h1 style={{ margin: '0 0 var(--s-2) 0', fontSize: 'var(--t-h3)', fontWeight: 600 }}>
+            <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-2">
               {VIDEO_DATA.title}
             </h1>
-            <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap', marginTop: 'var(--s-3)' }}>
+            <div className="flex gap-4 items-center flex-wrap mt-3">
               <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} size="sm" />
               <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} size="sm" />
             </div>
           </div>
 
           {/* Description */}
-          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+          <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
             {VIDEO_DATA.description}
           </p>
 
-          {/* Transcript Toggle */}
+          {/* Transcript toggle */}
           <Card>
             <button
+              type="button"
               onClick={() => setShowTranscript(!showTranscript)}
-              style={{
-                width: '100%',
-                padding: 'var(--s-3)',
-                border: 'none',
-                background: 'transparent',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                fontSize: 'var(--t-body-sm)',
-                fontWeight: 600,
-                color: 'var(--text)',
-              }}
+              className="w-full px-3 py-3 border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900"
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-                <FileText size={16} /> {showTranscript ? 'Masquer' : 'Afficher'} la transcription
+              <div className="flex items-center gap-2">
+                <FileText size={16} />
+                {showTranscript ? 'Masquer' : 'Afficher'} la transcription
               </div>
               {showTranscript ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
 
             {showTranscript && (
-              <div
-                style={{
-                  padding: 'var(--s-3)',
-                  borderTop: '1px solid var(--border-subtle)',
-                  fontSize: 'var(--t-body-sm)',
-                  color: 'var(--text-muted)',
-                  lineHeight: 1.8,
-                  maxHeight: 400,
-                  overflowY: 'auto',
-                }}
-              >
+              <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body-sm text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
                 {VIDEO_DATA.transcript}
               </div>
             )}
@@ -260,34 +157,23 @@ export const VideoViewer: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-4)' }}>
+        <div className="flex flex-col gap-4">
           <Card>
-            <h4 style={{ margin: '0 0 var(--s-3) 0', fontSize: 'var(--t-body)', fontWeight: 600 }}>Vidéos connexes</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+              Vidéos connexes
+            </h4>
+            <div className="flex flex-col gap-3">
               {VIDEO_DATA.relatedVideos.map((video) => (
                 <button
                   key={video.id}
+                  type="button"
                   onClick={() => {}}
-                  style={{
-                    padding: 'var(--s-2)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--r-md)',
-                    background: 'var(--surface)',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all var(--dur-2)',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface-muted)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--surface)';
-                  }}
+                  className="w-full px-2 py-2 border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-200 hover:bg-ink-50"
                 >
-                  <div style={{ fontSize: 'var(--t-body-sm)', fontWeight: 500, color: 'var(--text)', marginBottom: 'var(--s-1)' }}>
+                  <div className="font-body text-body-sm font-medium text-ink-900 mb-1">
                     {video.title}
                   </div>
-                  <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--s-1)' }}>
+                  <div className="font-body text-caption text-ink-500 flex items-center gap-1">
                     <Clock size={12} /> {video.duration}
                   </div>
                 </button>
@@ -296,7 +182,7 @@ export const VideoViewer: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </ViewerOverlay>
   );
 };
 

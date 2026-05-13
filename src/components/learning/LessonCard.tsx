@@ -6,6 +6,7 @@ import type { BadgeVariant } from '../ui/Badge';
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
 export type LessonTone = 'primary' | 'warm' | 'sun';
+export type LessonCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
 
 export interface LessonCardProps {
   title: string;
@@ -15,6 +16,8 @@ export interface LessonCardProps {
   difficulty: LessonDifficulty;
   instructor?: string;
   tone?: LessonTone;
+  /** Surface treatment — card (default solid), tinted (subtle bg), glass, frosted. */
+  surface?: LessonCardSurface;
   locked?: boolean;
   onClick?: () => void;
   className?: string;
@@ -44,6 +47,29 @@ const TONE_HOVER_GLOW: Record<LessonTone, string> = {
   sun:     'hover:shadow-[0_8px_24px_rgba(248,176,68,0.20)]',
 };
 
+const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
+  card: {
+    primary: 'bg-white border border-ink-200',
+    warm:    'bg-white border border-ink-200',
+    sun:     'bg-white border border-ink-200',
+  },
+  tinted: {
+    primary: 'bg-primary-50/40 border border-primary-100',
+    warm:    'bg-secondary-50/40 border border-secondary-100',
+    sun:     'bg-accent-50/50 border border-accent-100',
+  },
+  glass: {
+    primary: 'bg-white/70 backdrop-blur-glass-light border border-white/60 shadow-sm',
+    warm:    'bg-white/70 backdrop-blur-glass-light border border-white/60 shadow-sm',
+    sun:     'bg-white/70 backdrop-blur-glass-light border border-white/60 shadow-sm',
+  },
+  frosted: {
+    primary: 'bg-primary-50/65 backdrop-blur-glass-medium border border-primary-200/50 shadow-md',
+    warm:    'bg-secondary-50/65 backdrop-blur-glass-medium border border-secondary-200/50 shadow-md',
+    sun:     'bg-accent-50/70 backdrop-blur-glass-medium border border-accent-200/50 shadow-md',
+  },
+};
+
 export const LessonCard: React.FC<LessonCardProps> = ({
   title,
   description,
@@ -52,6 +78,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   difficulty,
   instructor,
   tone = 'primary',
+  surface = 'card',
   locked = false,
   onClick,
   className = '',
@@ -59,7 +86,8 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   return (
     <div
       className={[
-        'group relative bg-white border border-ink-200 border-l-4 rounded-2xl p-5 transition-all duration-300',
+        'group relative border-l-4 rounded-2xl p-5 transition-all duration-300',
+        SURFACE_TONE[surface][tone],
         TONE_BORDER[tone],
         locked
           ? 'cursor-not-allowed'

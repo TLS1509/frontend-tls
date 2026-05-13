@@ -1,425 +1,410 @@
 /**
- * Profile Page
+ * Profile Page — Phase 10 rework v3 (épuré + tabs + CompetencyMatrix).
+ *
+ * Mix de la version épurée (white surface, borders fins, pas de glass) avec
+ * la richesse fonctionnelle de la version pré-Phase 10 : tabs de navigation
+ * (Vue d'ensemble / Activité / Badges / Compétences) avec contenu adapté.
+ *
+ * Composants DS utilisés :
+ *  - Tabs (variant underline) — navigation 4 sections
+ *  - SkillBar — overview (top compétences)
+ *  - CompetencyMatrix — onglet Compétences (5 skills × 5 niveaux)
+ *  - Badge + Button core
+ *  - SectionHeader (light usage, no decorations)
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Badge, Button, ProgressBar, SkillBar } from '../components';
+import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { SkillBar } from '../components/ui/SkillBar';
+import { Tabs } from '../components/ui/Tabs';
+import type { TabItem } from '../components/ui/Tabs';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
+import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import type { SkillEntry } from '../components/ui/CompetencyMatrix';
 import {
   Mail,
-  ShieldCheck,
-  UserRound,
   MapPin,
   Calendar,
-  Flame,
+  Edit3,
+  Share2,
+  ArrowRight,
+  Lock,
   Trophy,
-  Clock3,
-  BookOpen,
   TrendingUp,
   Award,
-  Star,
   Zap,
-  Settings,
-  CheckCircle2,
-  Users,
-  Edit3,
+  BookOpen,
+  Flame,
   Target,
-  Camera,
-  Share2,
+  Clock3,
+  Users,
+  CheckCircle2,
 } from 'lucide-react';
 
-type Tab = 'overview' | 'activity' | 'badges' | 'skills';
+/* ─── Mock data ──────────────────────────────────────────────────────────── */
 
-const USER_MOCK = {
+type TabId = 'overview' | 'activity' | 'badges' | 'skills';
+
+const USER = {
   name: 'Alexandre Padennery',
   username: '@admin1509',
   email: 'padennery@me.com',
   role: 'Formateur Expert IA',
   location: 'Paris, France',
   joinDate: 'Janvier 2024',
+  initials: 'AP',
+  level: 12,
   bio: "Passionné par l'IA générative et la pédagogie innovante. Je crée des expériences d'apprentissage qui transforment la formation professionnelle.",
-  avatar: 'AP',
   interests: ['IA Générative', 'Pédagogie', 'Prompt Engineering', 'Formation', 'Innovation'],
 };
 
-const STAT_TONES = {
-  primary: { iconBg: 'bg-primary-50', iconColor: 'text-primary-600', numColor: 'text-primary-700' },
-  warm:    { iconBg: 'bg-secondary-50', iconColor: 'text-secondary-600', numColor: 'text-secondary-600' },
-  sun:     { iconBg: 'bg-accent-50', iconColor: 'text-accent-600', numColor: 'text-accent-700' },
-} as const;
-
-type StatTone = keyof typeof STAT_TONES;
-
-const STATS: { icon: React.ReactNode; value: string; label: string; tone: StatTone }[] = [
-  { icon: <BookOpen size={20} />, value: '12',    label: 'Cours terminés',  tone: 'primary' },
-  { icon: <Clock3 size={20} />,   value: '86h',   label: 'Temps appris',    tone: 'warm' },
-  { icon: <Flame size={20} />,    value: '7j',    label: 'Série actuelle',  tone: 'warm' },
-  { icon: <Trophy size={20} />,   value: '2 450', label: 'Points XP',       tone: 'sun' },
-];
-
-const BADGES = [
-  { id: 'b1', label: 'Pionnier IA',   emoji: '🤖', variant: 'brand'   as const, earned: true,  date: '15 Jan 2024' },
-  { id: 'b2', label: 'Streak Master', emoji: '🔥', variant: 'warm'    as const, earned: true,  date: '20 Jan 2024' },
-  { id: 'b3', label: 'Expert GPT',    emoji: '⚡', variant: 'sun'     as const, earned: true,  date: '25 Jan 2024' },
-  { id: 'b4', label: 'Contributeur',  emoji: '🌟', variant: 'info'    as const, earned: true,  date: '1 Fév 2024' },
-  { id: 'b5', label: 'Mentor',        emoji: '👨‍🏫', variant: 'neutral' as const, earned: false, progress: 60 },
-  { id: 'b6', label: 'Innovateur',    emoji: '💡', variant: 'neutral' as const, earned: false, progress: 40 },
-];
-
-const ACTIVITY_TONE = {
-  success: { bg: 'bg-success-bg',  color: 'text-success-fg',   border: 'border-success-base/30' },
-  sun:     { bg: 'bg-accent-100',  color: 'text-accent-700',   border: 'border-accent-200' },
-  warm:    { bg: 'bg-secondary-100', color: 'text-secondary-700', border: 'border-secondary-200' },
-  info:    { bg: 'bg-primary-50',  color: 'text-primary-700',  border: 'border-primary-200' },
-} as const;
-
-type ActivityVariant = keyof typeof ACTIVITY_TONE;
-
-const ACTIVITY: { id: string; icon: React.ReactNode; title: string; date: string; variant: ActivityVariant; badgeLabel: string }[] = [
-  { id: 'a1', icon: <BookOpen size={16} />, title: 'Formation GPT-4 Avancé terminée', date: "Aujourd'hui",   variant: 'success', badgeLabel: 'Terminé' },
-  { id: 'a2', icon: <Award size={16} />,    title: 'Badge "Expert GPT" débloqué',     date: 'Hier',          variant: 'sun',     badgeLabel: 'Nouveau' },
-  { id: 'a3', icon: <Flame size={16} />,    title: 'Série de 7 jours maintenue',      date: 'Il y a 2 jours', variant: 'warm',   badgeLabel: 'Actif' },
-  { id: 'a4', icon: <Users size={16} />,    title: 'Session coaching avec Sophie Martin', date: 'Il y a 3 jours', variant: 'info', badgeLabel: 'Info' },
-];
-
-const SKILLS = [
-  { id: 's1', label: 'Prompt Engineering',  value: 95, fill: 'brand'    as const },
-  { id: 's2', label: 'IA Générative',        value: 88, fill: 'brand'    as const },
-  { id: 's3', label: 'Pédagogie',            value: 92, fill: 'warm'     as const },
-  { id: 's4', label: 'Design Thinking',      value: 78, fill: 'gradient' as const },
-  { id: 's5', label: 'Veille Technologique', value: 85, fill: 'warm'     as const },
-];
-
-const TABS: { id: Tab; icon: React.ReactNode; label: string }[] = [
-  { id: 'overview', icon: <Trophy size={14} />,    label: "Vue d'ensemble" },
-  { id: 'activity', icon: <TrendingUp size={14} />, label: 'Activité récente' },
-  { id: 'badges',   icon: <Award size={14} />,      label: 'Badges' },
-  { id: 'skills',   icon: <Zap size={14} />,        label: 'Compétences' },
+const HERO_STATS = [
+  { value: '12',    label: 'Cours terminés' },
+  { value: '86h',   label: "Temps d'apprentissage" },
+  { value: '7j',    label: 'Streak en cours' },
+  { value: '2 450', label: 'Points XP' },
 ];
 
 const WEEK_KPIS = [
-  { icon: <Target size={24} />, value: '3/5',  label: 'Objectifs atteints', color: 'text-primary-600' },
-  { icon: <Clock3 size={24} />, value: '12h',  label: "Temps d'étude",       color: 'text-secondary-600' },
-  { icon: <Zap size={24} />,    value: '+450', label: 'Points XP gagnés',    color: 'text-accent-700' },
+  { icon: <Target size={18} />, value: '3/5',  label: 'Objectifs atteints' },
+  { icon: <Clock3 size={18} />, value: '12h',  label: "Temps d'étude" },
+  { icon: <Zap size={18} />,    value: '+450', label: 'XP gagnés' },
 ];
 
-const SECTION_LABEL = 'text-micro font-bold text-ink-500 uppercase tracking-wider m-0 mb-2';
+const SKILLS: { id: string; label: string; value: number; tone: 'brand' | 'warm' | 'sun' }[] = [
+  { id: 's1', label: 'Prompt Engineering',   value: 95, tone: 'brand' },
+  { id: 's2', label: 'IA Générative',        value: 88, tone: 'brand' },
+  { id: 's3', label: 'Pédagogie',            value: 92, tone: 'warm'  },
+  { id: 's4', label: 'Design Thinking',      value: 78, tone: 'sun'   },
+  { id: 's5', label: 'Veille Technologique', value: 85, tone: 'warm'  },
+];
+
+const ACTIVITY = [
+  { id: 'a1', title: 'Formation GPT-4 Avancé terminée',     date: "Aujourd'hui",   meta: "4h30 d'étude", icon: <BookOpen size={14} />, tone: 'success' as const },
+  { id: 'a2', title: 'Badge « Expert GPT » débloqué',       date: 'Hier',          meta: '+150 XP',       icon: <Award size={14} />,    tone: 'sun'     as const },
+  { id: 'a3', title: 'Série de 7 jours maintenue',          date: 'Il y a 2 jours', meta: 'Personal best', icon: <Flame size={14} />,    tone: 'warm'    as const },
+  { id: 'a4', title: 'Session coaching avec Sophie Martin', date: 'Il y a 3 jours', meta: '45 min',        icon: <Users size={14} />,    tone: 'brand'   as const },
+];
+
+const BADGES = [
+  { id: 'b1', label: 'Pionnier IA',    emoji: '🤖', earned: true,  date: '15 Jan 2024' },
+  { id: 'b2', label: 'Streak Master',  emoji: '🔥', earned: true,  date: '20 Jan 2024' },
+  { id: 'b3', label: 'Expert GPT',     emoji: '⚡', earned: true,  date: '25 Jan 2024' },
+  { id: 'b4', label: 'Contributeur',   emoji: '🌟', earned: true,  date: '1 Fév 2024' },
+  { id: 'b5', label: 'Mentor',         emoji: '🧭', earned: false, progress: 60 },
+  { id: 'b6', label: 'Innovateur',     emoji: '💡', earned: false, progress: 40 },
+];
+
+const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
+  brand:   'bg-primary-50 text-primary-700 border-primary-100',
+  warm:    'bg-secondary-50 text-secondary-700 border-secondary-100',
+  sun:     'bg-accent-50 text-accent-700 border-accent-100',
+  success: 'bg-success-bg text-success-fg border-success-border',
+};
+
+/* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const Profile: React.FC = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<TabId>('overview');
 
-  const displayUser = {
-    name: user?.name ?? USER_MOCK.name,
-    email: user?.email ?? USER_MOCK.email,
-    roles: user?.roles ?? ['Apprenant', 'Formateur'],
-  };
+  const displayName = user?.name ?? USER.name;
+  const displayEmail = user?.email ?? USER.email;
+  const earnedCount = BADGES.filter((b) => b.earned).length;
 
-  const skillsForMatrix = useMemo(
+  const TABS: TabItem[] = [
+    { id: 'overview', icon: <Trophy size={14} />,     label: "Vue d'ensemble" },
+    { id: 'activity', icon: <TrendingUp size={14} />, label: 'Activité' },
+    { id: 'badges',   icon: <Award size={14} />,      label: 'Badges',     badge: earnedCount },
+    { id: 'skills',   icon: <Zap size={14} />,        label: 'Compétences' },
+  ];
+
+  const skillsForMatrix: SkillEntry[] = useMemo(
     () =>
-      SKILLS.map((skill) => {
-        const color: 'primary' | 'warm' | 'sun' | 'success' =
-          skill.fill === 'warm' ? 'warm' :
-          skill.fill === 'gradient' ? 'success' :
-          'primary';
-        return {
-          name: skill.label,
-          level: Math.max(1, Math.round(skill.value / 20)),
-          color,
-        };
-      }),
+      SKILLS.map((skill) => ({
+        name: skill.label,
+        level: Math.max(1, Math.round(skill.value / 20)),
+        color: skill.tone === 'warm' ? 'warm' : skill.tone === 'sun' ? 'sun' : 'primary',
+      })),
     [],
   );
 
   return (
-    <div className="min-h-screen bg-ink-50 font-body">
-      {/* Hero — keeps profile.css for hero/glass-banner styling */}
-      <div className="profile__hero-banner">
-        <div aria-hidden="true" className="profile__hero-glow-top" />
-        <div aria-hidden="true" className="profile__hero-glow-bottom" />
+    <div className="min-h-screen bg-surface">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
 
-        <div className="profile__card">
-          <div className="flex flex-wrap items-start gap-6">
-            <div className="profile__avatar-wrap">
-              <div className="profile__avatar">
-                <span className="profile__avatar-initials">{USER_MOCK.avatar}</span>
-                <button className="profile__avatar-camera" aria-label="Modifier la photo de profil">
-                  <Camera size={22} />
-                </button>
-              </div>
-              <div className="profile__level-badge">
-                <span>12</span>
-              </div>
+        {/* ── Account family sub-nav ───────────────────────────── */}
+        <AccountFamilyNav active="profile" />
+
+        {/* ── Identity header (épuré) ──────────────────────────── */}
+        <header className="flex flex-col sm:flex-row sm:items-start gap-stack-lg pb-section border-b border-ink-100">
+          {/* Avatar */}
+          <div className="relative shrink-0">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-pill bg-ink-100 text-ink-700 flex items-center justify-center font-display font-bold text-h3">
+              {USER.initials}
             </div>
+            <span className="absolute -bottom-1 -right-1 inline-flex items-center justify-center min-w-7 h-7 px-1.5 rounded-pill bg-ink-900 text-white font-body font-bold text-micro border-2 border-white">
+              Lv {USER.level}
+            </span>
+          </div>
 
-            <div className="flex-1 min-w-[200px]">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className="profile__name">{displayUser.name}</h1>
-                <Badge variant="brand">Niveau 12</Badge>
-              </div>
-              <p className="profile__role">
-                {USER_MOCK.role} · {USER_MOCK.username}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {[
-                  { icon: <Mail size={12} />, label: displayUser.email },
-                  { icon: <MapPin size={12} />, label: USER_MOCK.location },
-                  { icon: <Calendar size={12} />, label: `Membre depuis ${USER_MOCK.joinDate}` },
-                ].map(({ icon, label }) => (
-                  <span key={label} className="profile__meta-chip">
-                    {icon} {label}
-                  </span>
-                ))}
-              </div>
-
-              <p className="text-caption text-ink-500 leading-relaxed m-0 mb-4 max-w-[560px]">
-                {USER_MOCK.bio}
-              </p>
-
-              <div className="flex flex-wrap gap-1">
-                {USER_MOCK.interests.map((interest) => (
-                  <span key={interest} className="profile__interest-tag">
-                    {interest}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex shrink-0 items-start gap-2">
-              <Button variant="secondary" size="sm">
-                <Edit3 size={13} /> Modifier
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Settings size={14} />
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Share2 size={14} />
-              </Button>
+          {/* Identity */}
+          <div className="flex-1 min-w-0 flex flex-col gap-1">
+            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+              {displayName}
+            </h1>
+            <p className="m-0 font-body text-body-sm text-ink-600">
+              {USER.role} · {USER.username}
+            </p>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 font-body text-caption text-ink-500">
+              <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
+              <span aria-hidden className="text-ink-300">·</span>
+              <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
+              <span aria-hidden className="text-ink-300">·</span>
+              <span className="inline-flex items-center gap-1.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
             </div>
           </div>
 
-          <div className="profile__stats-row">
-            {STATS.map(({ icon, value, label, tone }) => {
-              const t = STAT_TONES[tone];
-              return (
-                <div key={label} className="profile__stat">
-                  <div
-                    className={`tls-kpi-icon mb-1 ${t.iconBg} ${t.iconColor}`}
-                  >
-                    {icon}
-                  </div>
-                  <span className={`profile__stat-value ${t.numColor}`}>{value}</span>
-                  <span className="profile__stat-label">{label}</span>
-                </div>
-              );
-            })}
+          {/* Actions */}
+          <div className="flex gap-2 shrink-0 sm:self-start">
+            <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={13} />} onClick={() => navigate('/account')}>
+              Modifier
+            </Button>
+            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+              <Share2 size={14} />
+            </Button>
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Tabs */}
-      <div className="profile__tab-bar">
-        <div role="tablist" aria-label="Sections du profil" className="profile__tab-list">
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => setActiveTab(tab.id)}
-                className="profile__tab"
-              >
-                {tab.icon}
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+        {/* ── Stats row inline ─────────────────────────────────── */}
+        <section
+          aria-label="Statistiques globales"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-y-stack gap-x-section sm:divide-x sm:divide-ink-100"
+        >
+          {HERO_STATS.map((s) => (
+            <div key={s.label} className="flex flex-col gap-0.5 sm:px-stack-lg first:sm:pl-0 last:sm:pr-0">
+              <span className="font-display text-h2 font-bold text-ink-900 leading-none tracking-tight">
+                {s.value}
+              </span>
+              <span className="font-body text-caption text-ink-500">{s.label}</span>
+            </div>
+          ))}
+        </section>
 
-      <main className="profile__content">
-        {activeTab === 'overview' && (
-          <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
-              <div className="profile__card-surface">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="m-0 text-body font-bold text-ink-900">Informations</h3>
-                  <Button size="sm" variant="ghost">
-                    <Edit3 size={13} /> Modifier
-                  </Button>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { icon: <UserRound size={15} />, label: displayUser.name },
-                    { icon: <Mail size={15} />, label: displayUser.email },
-                    { icon: <ShieldCheck size={15} />, label: `ID ${user?.id ?? '1'}` },
-                    { icon: <TrendingUp size={15} />, label: 'Top 5% apprenants IA' },
-                    { icon: <Trophy size={15} />, label: '2 450 points XP' },
-                  ].map(({ icon, label }) => (
-                    <div
-                      key={label}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg bg-ink-50"
-                    >
-                      <span className="text-primary-500 shrink-0">{icon}</span>
-                      <span className="text-caption text-ink-900">{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        {/* ── Tabs navigation ──────────────────────────────────── */}
+        <div className="flex flex-col gap-section">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <Tabs
+              items={TABS}
+              value={activeTab}
+              onChange={(id) => setActiveTab(id as TabId)}
+              variant="underline"
+            />
+          </div>
 
-              <div className="profile__card-surface">
-                <h3 className="m-0 mb-4 text-body font-bold text-ink-900">Rôles &amp; Badges</h3>
-                <div className="mb-4">
-                  <p className={SECTION_LABEL}>Rôles</p>
-                  <div className="flex flex-wrap gap-2">
-                    {displayUser.roles.map((role: string) => (
-                      <Badge key={role} variant="neutral">
-                        {role}
-                      </Badge>
+          {/* ── Tab content ───────────────────────────────────── */}
+          {activeTab === 'overview' && (
+            <div className="flex flex-col gap-section">
+              {/* Bio + interests */}
+              <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
+                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                    À propos
+                  </h2>
+                  <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
+                    {USER.bio}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mt-stack-xs">
+                    {USER.interests.map((interest) => (
+                      <span
+                        key={interest}
+                        className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
+                      >
+                        {interest}
+                      </span>
                     ))}
                   </div>
                 </div>
-                <div className="mb-4">
-                  <p className={SECTION_LABEL}>Badges récents</p>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="success">
-                      <Award size={12} /> Expert GPT
-                    </Badge>
-                    <Badge variant="warm">
-                      <Star size={12} /> Pionnier IA
-                    </Badge>
-                    <Badge variant="info">
-                      <CheckCircle2 size={12} /> Streak Master
-                    </Badge>
+
+                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                    Cette semaine
+                  </h2>
+                  <div className="flex flex-col gap-stack">
+                    {WEEK_KPIS.map((k) => (
+                      <div key={k.label} className="flex items-center gap-3">
+                        <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-ink-50 text-ink-700">
+                          {k.icon}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="m-0 font-display text-body font-bold text-ink-900 leading-none">
+                            {k.value}
+                          </p>
+                          <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
+                            {k.label}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="profile__focus-box">
-                  <p className="m-0 mb-1 font-bold text-caption text-ink-900">🎯 Focus recommandé</p>
-                  <p className="m-0 text-caption text-ink-500 leading-relaxed">
-                    Priorité aux modules IA Générative et Prompt Engineering pour atteindre le palier
-                    Expert.
-                  </p>
-                </div>
-              </div>
-            </div>
+              </section>
 
-            <div className="profile__week-card">
-              <h3 className="m-0 mb-5 text-body font-bold text-ink-900">
-                Progression cette semaine
-              </h3>
-              <div className="grid grid-cols-3 gap-4 max-md:grid-cols-1">
-                {WEEK_KPIS.map(({ icon, value, label, color }) => (
-                  <div key={label} className="profile__week-kpi">
-                    <div className={color}>{icon}</div>
+              {/* Top compétences (preview) */}
+              <section className="flex flex-col gap-stack">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                    Top compétences
+                  </h2>
+                  <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => setActiveTab('skills')}>
+                    Voir la matrice complète
+                  </Button>
+                </div>
+                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack-lg">
+                  {SKILLS.slice(0, 3).map((skill) => (
+                    <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
+                  ))}
+                </div>
+              </section>
+            </div>
+          )}
+
+          {activeTab === 'activity' && (
+            <section className="flex flex-col gap-stack">
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  Activité récente
+                </h2>
+                <span className="font-body text-caption text-ink-500">
+                  {ACTIVITY.length} événements
+                </span>
+              </div>
+              <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
+                {ACTIVITY.map((a, idx) => (
+                  <div
+                    key={a.id}
+                    className={[
+                      'flex items-center gap-4 px-5 py-4',
+                      idx < ACTIVITY.length - 1 ? 'border-b border-ink-100' : '',
+                    ].join(' ')}
+                  >
                     <span
-                      className={`text-h3 font-extrabold tracking-tight leading-none ${color}`}
+                      className={[
+                        'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill border',
+                        ACTIVITY_TONE[a.tone],
+                      ].join(' ')}
                     >
-                      {value}
+                      {a.icon}
                     </span>
-                    <span className="text-micro text-ink-500 font-medium">{label}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="m-0 font-body text-body-sm font-semibold text-ink-900 truncate">
+                        {a.title}
+                      </p>
+                      <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
+                        {a.date} · {a.meta}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        )}
+              <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} className="self-center mt-stack">
+                Voir toute l'historique
+              </Button>
+            </section>
+          )}
 
-        {activeTab === 'activity' && (
-          <div className="flex flex-col gap-3">
-            {ACTIVITY.map((item) => {
-              const t = ACTIVITY_TONE[item.variant];
-              return (
-                <div key={item.id} className="profile__activity-item">
-                  <div
-                    className={`profile__activity-icon ${t.bg} ${t.color} border ${t.border}`}
-                  >
-                    {item.icon}
-                  </div>
-                  <div className="flex-1">
-                    <p className="m-0 mb-0.5 text-body-sm font-semibold text-ink-900">
-                      {item.title}
-                    </p>
-                    <p className="m-0 inline-flex items-center gap-1 text-micro text-ink-500">
-                      <Clock3 size={11} /> {item.date}
-                    </p>
-                  </div>
-                  <Badge variant={item.variant}>{item.badgeLabel}</Badge>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {activeTab === 'badges' && (
-          <div className="grid grid-cols-3 gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
-            {BADGES.map((badge) => (
-              <div
-                key={badge.id}
-                className={`profile__badge-card ${
-                  badge.earned ? 'profile__badge-card--earned' : 'profile__badge-card--locked'
-                }`}
-              >
-                <span className="text-[2.5rem]">{badge.emoji}</span>
-                <div>
-                  <p className="m-0 mb-2 text-body-sm font-bold text-ink-900">{badge.label}</p>
-                  {badge.earned ? (
-                    <>
-                      <Badge variant={badge.variant}>{badge.label}</Badge>
-                      <p className="m-0 mt-2 text-micro text-ink-500">{badge.date}</p>
-                    </>
-                  ) : (
-                    <>
-                      <Badge variant="neutral">En cours</Badge>
-                      <div className="w-full mt-3">
-                        <ProgressBar value={badge.progress!} size="sm" fill="brand" valueLabel={false} />
-                        <p className="m-0 mt-1 text-micro text-ink-500">{badge.progress}% accompli</p>
-                      </div>
-                    </>
-                  )}
-                </div>
+          {activeTab === 'badges' && (
+            <section className="flex flex-col gap-stack">
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  Badges
+                </h2>
+                <span className="font-body text-caption text-ink-500">
+                  {earnedCount}/{BADGES.length} débloqués
+                </span>
               </div>
-            ))}
-          </div>
-        )}
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                {BADGES.map((badge) => (
+                  <div
+                    key={badge.id}
+                    className={[
+                      'relative flex flex-col items-center text-center px-2 py-5 rounded-xl border',
+                      badge.earned
+                        ? 'bg-white border-ink-100 hover:border-ink-200 transition-colors'
+                        : 'bg-ink-50 border-ink-100',
+                    ].join(' ')}
+                  >
+                    <span
+                      aria-hidden
+                      className={[
+                        'text-h2 leading-none mb-2 select-none',
+                        badge.earned ? '' : 'opacity-30 grayscale',
+                      ].join(' ')}
+                    >
+                      {badge.emoji}
+                    </span>
+                    <p className="m-0 font-body text-caption font-semibold text-ink-900 leading-tight">
+                      {badge.label}
+                    </p>
+                    {badge.earned ? (
+                      <p className="m-0 mt-0.5 font-body text-micro text-ink-400">{badge.date}</p>
+                    ) : (
+                      <>
+                        <p className="m-0 mt-0.5 font-body text-micro text-ink-400">{badge.progress}%</p>
+                        <span
+                          aria-label="Verrouillé"
+                          className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-400 border border-ink-200"
+                        >
+                          <Lock size={9} />
+                        </span>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
-        {activeTab === 'skills' && (
-          <div className="flex flex-col gap-4">
-            <div className="profile__matrix-card">
-              <h3 className="m-0 mb-1 text-body font-bold text-ink-900">
-                Matrice de compétences
-              </h3>
-              <p className="m-0 text-micro text-ink-500">
-                Survol d'une compétence pour plus de détails
+          {activeTab === 'skills' && (
+            <section className="flex flex-col gap-stack">
+              <div className="flex items-baseline justify-between gap-3">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  Matrice de compétences
+                </h2>
+                <Badge variant="brand">5 compétences</Badge>
+              </div>
+              <p className="m-0 font-body text-caption text-ink-500 max-w-prose">
+                Évaluation par niveau (Novice → Expert) sur 5 paliers. Survolez une ligne
+                pour voir le détail de progression.
               </p>
-              <CompetencyMatrix
-                skills={skillsForMatrix}
-                onSkillHover={(skill) => skill && console.log(skill.name)}
-              />
-            </div>
 
-            {SKILLS.map((skill) => {
-              const skillTone: 'brand' | 'warm' | 'sun' =
-                skill.fill === 'warm' ? 'warm' : skill.fill === 'gradient' ? 'sun' : 'brand';
-              const levelLabel =
-                skill.value >= 90
-                  ? 'Niveau expert'
-                  : skill.value >= 75
-                  ? 'Progression avancée'
-                  : 'En développement';
-              return (
-                <div key={skill.id} className="profile__skill-card">
-                  <SkillBar label={skill.label} value={skill.value} tone={skillTone} showValue />
-                  <p className="m-0 mt-3 text-micro text-ink-500">{levelLabel}</p>
+              {/* Matrice */}
+              <div className="rounded-2xl border border-ink-100 bg-white px-6 pt-4 pb-6 overflow-x-auto">
+                <CompetencyMatrix skills={skillsForMatrix} />
+              </div>
+
+              {/* Détail SkillBar pour mobile / vue alternative */}
+              <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack-lg">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-primary-600" />
+                  <h3 className="m-0 font-body text-caption font-bold uppercase tracking-wider text-ink-500">
+                    Vue détaillée
+                  </h3>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </main>
+                {SKILLS.map((skill) => (
+                  <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
+
+export default Profile;

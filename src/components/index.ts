@@ -60,7 +60,7 @@ export { Skeleton } from './ui/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './ui/Skeleton';
 
 export { Search } from './ui/Search';
-export type { SearchProps, SearchSize } from './ui/Search';
+export type { SearchProps, SearchSize, SearchVariant } from './ui/Search';
 
 export { FilterChip } from './ui/FilterChip';
 export type { FilterChipProps } from './ui/FilterChip';
@@ -153,8 +153,7 @@ export type { NotificationBadgeProps } from './ui/NotificationBadge';
 export { Divider } from './ui/Divider';
 export type { DividerProps } from './ui/Divider';
 
-export { KPICard } from './ui/KPICard';
-export type { KPICardProps, KPICardTone, KPICardSize } from './ui/KPICard';
+// KPICard deprecated → use StatCard directly
 
 export { StatusBadge } from './ui/StatusBadge';
 export type { StatusBadgeProps, StatusBadgeStatus } from './ui/StatusBadge';
@@ -164,8 +163,9 @@ export type { StatusBadgeProps, StatusBadgeStatus } from './ui/StatusBadge';
  * ============================================================================ */
 export { Achievement } from './ui/Achievement';
 export { ActionCard } from './ui/ActionCard';
-export { GlassCard } from './ui/GlassCard';
-export { SurfaceCard } from './ui/SurfaceCard';
+// GlassCard deprecated → use <Card variant="glass|glass-brand|glass-warm|glass-dark">
+// SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
+
 export { MetaPill } from './ui/MetaPill';
 export { MetaItem } from './ui/MetaItem';
 export { ActivityItem } from './ui/ActivityItem';
@@ -175,7 +175,7 @@ export { TrendingBadge } from './ui/TrendingBadge';
 export type { TrendingBadgeProps } from './ui/TrendingBadge';
 export { MasteryBadge } from './ui/MasteryBadge';
 export type { MasteryBadgeProps } from './ui/MasteryBadge';
-export { BackgroundBlobs } from './ui/BackgroundBlobs';
+// BackgroundBlobs supprimé (Phase 10) — utiliser AmbientBlobs (patterns/AmbientBlobs)
 export { GoalProgress } from './ui/GoalProgress';
 export type { GoalProgressProps } from './ui/GoalProgress';
 export { ToastContainer } from './ui/ToastContainer';
@@ -192,8 +192,8 @@ export type { MetaPillGroupProps } from './ui/MetaPillGroup';
 export { InlineProgress } from './patterns/InlineProgress';
 export type { InlineProgressProps } from './patterns/InlineProgress';
 
-export { ToneAwareCard } from './patterns/ToneAwareCard';
-export type { ToneAwareCardProps } from './patterns/ToneAwareCard';
+// ToneAwareCard deprecated → use <Card variant="tinted" tone="primary|warm|sun">
+
 
 export { HeroSection } from './patterns/HeroSection';
 export type { HeroSectionProps } from './patterns/HeroSection';
@@ -211,14 +211,11 @@ export type { ActivityFeedProps } from './patterns/ActivityFeed';
 export { CoachCardGrid } from './patterns/CoachCardGrid';
 export type { CoachCardGridProps } from './patterns/CoachCardGrid';
 
-export { DashboardHero } from './patterns/DashboardHero';
-export type { DashboardHeroProps } from './patterns/DashboardHero';
+// DashboardHero deprecated → use HeroSection variant="gradient"
+// LearningPathHeader deprecated → use HeroSection variant="gradient" size="lg" showBackButton
 
 export { LearningPathGrid } from './patterns/LearningPathGrid';
 export type { LearningPathGridProps } from './patterns/LearningPathGrid';
-
-export { LearningPathHeader } from './patterns/LearningPathHeader';
-export type { LearningPathHeaderProps } from './patterns/LearningPathHeader';
 
 export { MultiStepForm } from './patterns/MultiStepForm';
 export type { MultiStepFormProps, FormStep } from './patterns/MultiStepForm';
@@ -226,10 +223,39 @@ export type { MultiStepFormProps, FormStep } from './patterns/MultiStepForm';
 export { PageCard } from './patterns/PageCard';
 export type { PageCardItem, PageCardGridProps } from './patterns/PageCard';
 
+export { ResumeLessonCard } from './patterns/ResumeLessonCard';
+export type { ResumeLessonCardProps, ResumeLessonTone } from './patterns/ResumeLessonCard';
+
+export { EditorialHero } from './patterns/EditorialHero';
+export type { EditorialHeroProps, EditorialHeroEyebrow, EditorialHeroMetaItem } from './patterns/EditorialHero';
+
+export { EditorialLayout } from './patterns/EditorialLayout';
+export type { EditorialLayoutProps } from './patterns/EditorialLayout';
+
+export { SectionCard } from './patterns/SectionCard';
+export type { SectionCardProps } from './patterns/SectionCard';
+
+export { RelatedItemList } from './patterns/RelatedItemList';
+export type { RelatedItemListProps, RelatedItem } from './patterns/RelatedItemList';
+
+export {
+  AuthShell,
+  AuthFeature,
+  AuthDivider,
+  AuthSocialButton,
+  AuthSuccess,
+} from './patterns/AuthShell';
+export type {
+  AuthShellProps,
+  AuthFeatureProps,
+  AuthSocialButtonProps,
+  AuthSuccessProps,
+} from './patterns/AuthShell';
+
 export { ResourceCardGrid } from './patterns/ResourceCardGrid';
 export type { ResourceCardGridProps } from './patterns/ResourceCardGrid';
 
-export { SettingsSection } from './patterns/SettingsSection';
+// SettingsSection deprecated → use SectionCard with `actions` footer slot
 
 export { VeilleCardFeed } from './patterns/VeilleCardFeed';
 export type { VeilleCardFeedProps } from './patterns/VeilleCardFeed';
@@ -266,15 +292,12 @@ export type { FlashcardProps } from './patterns/Flashcard';
 export { RatingModal } from './patterns/RatingModal';
 export type { RatingModalProps } from './patterns/RatingModal';
 
-export { SearchWithFilters } from './patterns/SearchWithFilters';
-export type {
-  SearchWithFiltersProps,
-  FilterGroup,
-  FilterOption,
-} from './patterns/SearchWithFilters';
+// SearchWithFilters supprimé (Phase 10) — pattern composable :
+//   <Search trailing={<button onClick={toggle}>...</button>} /> + <Card>{chips}</Card>
+//   Voir Journal.tsx / Veille.tsx pour l'usage canonique.
 
-export { BreadcrumbNav } from './patterns/BreadcrumbNav';
-export type { BreadcrumbNavProps } from './patterns/BreadcrumbNav';
+// BreadcrumbNav deprecated → use <Breadcrumb variant="nav">
+
 
 export { ActivityTimeline } from './patterns/ActivityTimeline';
 export type { ActivityTimelineProps, TimelineItem, TimelineTone } from './patterns/ActivityTimeline';

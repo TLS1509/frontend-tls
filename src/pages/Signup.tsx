@@ -1,22 +1,22 @@
 /**
- * Signup Page — New user account creation
- *
- * Features:
- * - Full name, email, password form fields
- * - Terms and conditions acceptance
- * - Social login options (Google, LinkedIn)
- * - Dark mode support via CSS tokens
- * - Fully accessible form components
- * - Form validation placeholders
+ * Signup Page — branded auth (deep teal glass dark layout).
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../components/core/Card';
-import { Button } from '../components/core/Button';
-import { FormGroup } from '../components/core/FormGroup';
-import { Input } from '../components/core/Input';
-import { ArrowRight, BookOpenCheck, Lock, Mail, Shield, Sparkles, UserPlus, UserRound } from 'lucide-react';
+import {
+  AuthShell,
+  AuthDivider,
+  AuthSocialButton,
+  AuthInlineLink,
+  AuthGoogleIcon,
+  AuthLinkedinIcon,
+  AuthField,
+  AuthPasswordField,
+  AuthPrimaryButton,
+  AuthCheckbox,
+} from '../components/patterns/AuthShell';
+import { Mail, UserRound } from 'lucide-react';
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -31,135 +31,82 @@ export const Signup: React.FC = () => {
       console.log('Please accept terms and conditions');
       return;
     }
-    // API call would happen here
     console.log('Signup attempt:', { fullName, email, password });
   };
 
   return (
-    <div className="tls-page">
-      <section className="tls-editorial-hero">
-        <span className="tls-editorial-eyebrow"><Sparkles size={12} /> Creation de compte</span>
-        <h1>Inscription</h1>
-        <p className="tls-editorial-summary">Creez votre compte pour demarrer un parcours personnalise et acceder a la veille premium.</p>
-      </section>
-      <section className="tls-auth-shell">
-        <Card className="tls-auth-card">
-          <form className="tls-auth-form" onSubmit={handleSubmit}>
-            {/* Full Name Field */}
-            <FormGroup
-              label="Nom complet"
-              hint="Votre prénom et nom de famille"
-              id="fullname"
-              required
-            >
-              <Input
-                id="fullname"
-                type="text"
-                placeholder="Votre nom"
-                leadingIcon={<UserRound size={14} />}
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </FormGroup>
+    <AuthShell
+      brand={{ subtitle: 'Créez votre compte pour démarrer votre formation' }}
+      form={
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <AuthField
+            label="Nom complet"
+            icon={<UserRound size={18} />}
+            type="text"
+            placeholder="Votre nom"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+          />
 
-            {/* Email Field */}
-            <FormGroup
-              label="Email"
-              hint="Entrez une adresse email valide"
-              id="email"
-              required
-            >
-              <Input
-                id="email"
-                type="email"
-                placeholder="vous@entreprise.com"
-                leadingIcon={<Mail size={14} />}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </FormGroup>
+          <AuthField
+            label="Adresse email"
+            icon={<Mail size={18} />}
+            type="email"
+            placeholder="vous@entreprise.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-            {/* Password Field */}
-            <FormGroup
-              label="Mot de passe"
-              hint="Minimum 8 caractères avec majuscules et chiffres"
-              id="password"
-              required
-            >
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                leadingIcon={<Lock size={14} />}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </FormGroup>
+          <AuthPasswordField
+            label="Mot de passe"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-            {/* Terms & Conditions */}
-            <label className="check tls-auth-terms">
-              <input
-                type="checkbox"
-                checked={acceptTerms}
-                onChange={(event) => setAcceptTerms(event.target.checked)}
-                required
-              />
-              <span>
+          <AuthCheckbox
+            checked={acceptTerms}
+            onChange={setAcceptTerms}
+            required
+            label={
+              <>
                 J'accepte les{' '}
-                <a href="#" className="tls-auth-link-inline">
+                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85">
                   conditions d'utilisation
                 </a>{' '}
                 et la{' '}
-                <a href="#" className="tls-auth-link-inline">
-                  politique de confidentialite
+                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85">
+                  politique de confidentialité
                 </a>
-              </span>
-            </label>
+              </>
+            }
+          />
 
-            {/* Actions */}
-            <div className="tls-auth-actions">
-              <Button type="submit" disabled={!acceptTerms}>
-                <UserPlus size={16} />
-                Créer mon compte
-              </Button>
-              <Button type="button" variant="ghost" onClick={() => navigate('/auth/login')}>
-                Deja inscrit ?
-              </Button>
-            </div>
+          <AuthPrimaryButton type="submit" disabled={!acceptTerms}>
+            Créer mon compte
+          </AuthPrimaryButton>
 
-            {/* Divider */}
-            <div className="tls-auth-divider">
-              <span />
-              <p>ou continuer avec</p>
-              <span />
-            </div>
-
-            {/* Social Logins */}
-            <div className="tls-auth-socials">
-              <button type="button" className="tls-auth-social-btn">
-                Continuer avec Google
-              </button>
-              <button type="button" className="tls-auth-social-btn">
-                Continuer avec LinkedIn
-              </button>
-            </div>
-          </form>
-        </Card>
-        <aside className="tls-auth-aside">
-          <div className="tls-auth-feature">
-            <h4><BookOpenCheck size={16} /> Parcours recommandés</h4>
-            <p>Une sélection initiale alignée avec votre profil et vos objectifs.</p>
+          {/* Divider + Socials */}
+          <AuthDivider>ou continuer avec</AuthDivider>
+          <div className="flex flex-col gap-3">
+            <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
+            <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>
-          <div className="tls-auth-feature">
-            <h4><Shield size={16} /> Conformité entreprise</h4>
-            <p>Gestion des accès et des espaces de collaboration dès l'activation.</p>
-          </div>
-          <div className="tls-pill"><Sparkles size={14} /> Phase design interactive validée</div>
-          <Button variant="secondary" onClick={() => navigate('/auth/login')}>
-            Aller a la connexion <ArrowRight size={14} />
-          </Button>
-        </aside>
-      </section>
-    </div>
+
+          {/* Footer link */}
+          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+            Déjà inscrit ?{' '}
+            <AuthInlineLink onClick={() => navigate('/auth/login')}>
+              Se connecter
+            </AuthInlineLink>
+          </p>
+        </form>
+      }
+    />
   );
 };
+
+export default Signup;

@@ -62,7 +62,6 @@ import {
   MasteryBadge,
   Achievement,
   TrendingBadge,
-  GlassCard,
   FilterChip,
   Steps,
   InlineWin,
@@ -82,11 +81,11 @@ import {
   ActivityItem,
   Tag,
   MetaPill,
+  MetaPillGroup,
   MetaItem,
   UserInfo,
   IconFeatureCard,
   // Patterns
-  ToneAwareCard,
   ParcoursCard,
 } from '../components';
 import { ToastContainer } from '../components';
@@ -94,57 +93,392 @@ import { useToast } from '../hooks/useToast';
 // Components not yet in main index — direct imports
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { CourseCard } from '../components/ui/CourseCard';
-import { SurfaceCard } from '../components/ui/SurfaceCard';
+// SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 import { ResourceCard } from '../components/ui/ResourceCard';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
-import { DashboardHero } from '../components/patterns/DashboardHero';
+// (DashboardHero deprecated → use HeroSection variant="gradient" instead)
 import { CardGrid } from '../components/patterns/CardGrid';
 import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
 import { HeroSection } from '../components/patterns/HeroSection';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
-import { LearningPathHeader } from '../components/patterns/LearningPathHeader';
+// (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
+import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
+import { SessionCard } from '../components/learning/SessionCard';
+import { ArticleCard } from '../components/learning/ArticleCard';
+import { MagazineCard } from '../components/learning/MagazineCard';
+import { PromptCard } from '../components/learning/PromptCard';
+import { VideoCard } from '../components/learning/VideoCard';
+import { RankingCard } from '../components/learning/RankingCard';
+import { TlsLogo } from '../components/ui/TlsLogo';
+import { Flashcard } from '../components/patterns/Flashcard';
+import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
+import { DataTable } from '../components/patterns/DataTable';
+// MessageThreadCard supprimé Phase 10 — design simpliste vs Messages.tsx chat-like
+import { RatingModal } from '../components/patterns/RatingModal';
+import { ProjectCard } from '../components/learning/ProjectCard';
+// SocialButton supprimé (Phase 10) — utiliser AuthSocialButton (depuis AuthShell)
+import { FloatingNavButton } from '../components/FloatingNavButton';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { EditorialLayout } from '../components/patterns/EditorialLayout';
+import { SectionCard } from '../components/patterns/SectionCard';
+import { RelatedItemList } from '../components/patterns/RelatedItemList';
+import {
+  AuthShell,
+  AuthDivider,
+  AuthSocialButton,
+  AuthField,
+  AuthPasswordField,
+  AuthPrimaryButton,
+  AuthGhostButton,
+  AuthCheckbox,
+  AuthInlineLink,
+  AuthGoogleIcon,
+  AuthLinkedinIcon,
+} from '../components/patterns/AuthShell';
 import { ResourceCardGrid } from '../components/patterns/ResourceCardGrid';
-import { SettingsSection } from '../components/patterns/SettingsSection';
-import { VeilleCardFeed } from '../components/patterns/VeilleCardFeed';
+// (SettingsSection deprecated → use SectionCard with `actions` footer slot)
+import { VeilleCardFeed, VeilleCard, VeilleCardListItem, FeaturedSpotlight } from '../components/patterns/VeilleCardFeed';
+import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import { IntroCallout } from '../components/patterns/IntroCallout';
+import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
+import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
+import { ReadingProgressBar, ReadingProgressRing } from '../components/patterns/ReadingProgress';
+import { TableOfContents } from '../components/patterns/TableOfContents';
+import { FilterBar } from '../components/forms/FilterBar';
 import { Spinner } from '../components/ui/Spinner';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import { NotificationBadge } from '../components/ui/NotificationBadge';
-import { KPICard } from '../components/ui/KPICard';
+// KPICard deprecated → use StatCard directly
 import { SkillBar } from '../components/ui/SkillBar';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageHeader } from '../components/patterns/PageHeader';
+import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 
 /* ============================================================================
  * TYPES
  * ============================================================================ */
 
+// Legacy category (kept for backward compat with existing entries — overridden by REMAP below)
 type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals' | 'Feedback';
+
+// New rules-based taxonomy (13 categories)
+type NewCategory =
+  | 'Foundations'        // tokens + layout primitives
+  | 'Atoms'              // 1 element UI indivisible
+  | 'Composites'         // group wrappers (AvatarGroup, MetaPillGroup, Tabs…)
+  | 'Headers & Sections' // heroes, page headers, section headers/wrappers
+  | 'Feedback'           // alert, toast, empty, celebration
+  | 'Navigation'         // sidebar, breadcrumb, tabs, search
+  | 'Cards'              // single-content cards
+  | 'Lists & Feeds'      // collections of cards/items
+  | 'Forms'              // multi-step + composite forms
+  | 'Learning'           // gamification & pedagogy (TLS-specific)
+  | 'Modals'             // overlay dialogs
+  | 'Auth Family'        // AuthShell + sub-components
+  | 'Pages & Templates'; // route-level previews
+
+// Sub-categories (string for flexibility — no compile-time enum)
+type SubCategory = string;
 
 interface ComponentEntry {
   name: string;              // React name: Button
   codeName: string;          // File: Button.tsx
   cssBase: string;           // .btn
-  category: Category;
+  category: Category;        // legacy — kept for backward compat
   description: string;
   keywords: string[];        // extra searchable terms
+  /** True when the component is only referenced from the Components showcase (not consumed by any real app page). */
+  showcaseOnly?: boolean;
+  /** Optional list of pages/files that consume this component (for dev specs). */
+  usedBy?: string[];
   render: () => React.ReactNode;
 }
+
+/* ============================================================================
+ * CATEGORIZATION REMAP — Source of truth for the new taxonomy
+ *
+ * Maps every component name → { category, subCategory }
+ * Used at render-time to group components by the new structure
+ * without having to edit each component entry block.
+ * ============================================================================ */
+
+const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }> = {
+  // ── ATOMS ─────────────────────────────────────────────────────────────
+  // Form fields
+  Button:               { category: 'Atoms', subCategory: 'Form fields' },
+  QuickActionButton:    { category: 'Atoms', subCategory: 'Form fields' },
+  Input:                { category: 'Atoms', subCategory: 'Form fields' },
+  Checkbox:             { category: 'Atoms', subCategory: 'Form fields' },
+  Radio:                { category: 'Atoms', subCategory: 'Form fields' },
+  Switch:               { category: 'Atoms', subCategory: 'Form fields' },
+  Select:               { category: 'Atoms', subCategory: 'Form fields' },
+  FormGroup:            { category: 'Atoms', subCategory: 'Form fields' },
+  // FormField supprimé (Phase 10) — fusionné dans Input + FormGroup
+
+  // Surfaces
+  Card:                 { category: 'Atoms', subCategory: 'Surfaces' },
+
+  // Identity
+  Avatar:               { category: 'Atoms', subCategory: 'Identity' },
+  UserInfo:             { category: 'Atoms', subCategory: 'Identity' },
+  TlsLogo:              { category: 'Atoms', subCategory: 'Identity' },
+
+  // Status badges
+  Badge:                { category: 'Atoms', subCategory: 'Status badges' },
+  StatusBadge:          { category: 'Atoms', subCategory: 'Status badges' },
+  TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
+  NotificationBadge:    { category: 'Atoms', subCategory: 'Status badges' },
+
+  // Chips / Pills
+  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
+  MetaPill:             { category: 'Atoms', subCategory: 'Chips & Pills' },
+  MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
+  Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
+  FilterChip:           { category: 'Atoms', subCategory: 'Chips & Pills' },
+  'Filter Pills':       { category: 'Atoms', subCategory: 'Chips & Pills' },
+
+  // Indicators
+  ProgressBar:          { category: 'Atoms', subCategory: 'Indicators' },
+  InlineProgress:       { category: 'Atoms', subCategory: 'Indicators' },
+  ProgressRing:         { category: 'Atoms', subCategory: 'Indicators' },
+  Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
+  Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
+
+  // Decoration
+  Divider:              { category: 'Atoms', subCategory: 'Decoration' },
+  // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
+
+  // ── COMPOSITES ────────────────────────────────────────────────────────
+  AvatarGroup:          { category: 'Composites', subCategory: 'Group wrappers' },
+  MetaPillGroup:        { category: 'Composites', subCategory: 'Group wrappers' },
+  // Tabs et Breadcrumb classés en Navigation (cf. ci-dessous)
+  Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
+  Steps:                { category: 'Composites', subCategory: 'Group wrappers' },
+  Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
+
+  // ── HEADERS & SECTIONS ────────────────────────────────────────────────
+  HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
+  EditorialHero:        { category: 'Headers & Sections', subCategory: 'Heroes' },
+  'PageHero archetypes':{ category: 'Headers & Sections', subCategory: 'Heroes' },
+  AmbientBlobs:         { category: 'Foundations', subCategory: 'Backgrounds' },
+  PageHeader:           { category: 'Headers & Sections', subCategory: 'Page headers' },
+  HeaderNav:            { category: 'Headers & Sections', subCategory: 'Page headers' },
+  ViewerHeader:         { category: 'Headers & Sections', subCategory: 'Page headers' },
+  SectionHeader:        { category: 'Headers & Sections', subCategory: 'Section headers' },
+  SectionCard:          { category: 'Headers & Sections', subCategory: 'Section wrappers' },
+  EditorialLayout:      { category: 'Headers & Sections', subCategory: 'Section wrappers' },
+  IntroCallout:         { category: 'Headers & Sections', subCategory: 'Section wrappers' },
+  EditorialQuoteCallout:{ category: 'Headers & Sections', subCategory: 'Section wrappers' },
+  AuthorStrip:          { category: 'Atoms', subCategory: 'Identity' },
+  ReadingProgress:      { category: 'Atoms', subCategory: 'Indicators' },
+  TableOfContents:      { category: 'Navigation', subCategory: 'Secondary nav' },
+  KeyFindingCard:       { category: 'Cards', subCategory: 'KPI & Stats' },
+  // Phase 10 retrofit additions (8 ajouts)
+  AccountFamilyNav:     { category: 'Navigation', subCategory: 'Secondary nav' },
+  AppBreadcrumb:        { category: 'Navigation', subCategory: 'Secondary nav' },
+  ViewerOverlay:        { category: 'Headers & Sections', subCategory: 'Section wrappers' },
+  StepCard:             { category: 'Cards', subCategory: 'Learning content' },
+  LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
+  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
+  Divider:              { category: 'Atoms', subCategory: 'Decoration' },
+
+  // ── FEEDBACK ──────────────────────────────────────────────────────────
+  Alert:                { category: 'Feedback', subCategory: 'Status messages' },
+  'Toast + useToast':   { category: 'Feedback', subCategory: 'Status messages' },
+  Toast:                { category: 'Feedback', subCategory: 'Status messages' },
+  EmptyState:           { category: 'Feedback', subCategory: 'Empty/zero states' },
+  Celebration:          { category: 'Feedback', subCategory: 'Celebrations' },
+
+  // ── NAVIGATION ────────────────────────────────────────────────────────
+  Sidebar:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  SidebarUserCard:      { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  NavItem:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  DropdownMenu:         { category: 'Navigation', subCategory: 'Contextual menus' },
+  Breadcrumb:           { category: 'Navigation', subCategory: 'Secondary nav' },
+  Tabs:                 { category: 'Navigation', subCategory: 'Secondary nav' },
+  // TopNav, BottomNav, HamburgerButton supprimés (0 production usage)
+  // → la sidebar gère toute la navigation primaire de l'app shell
+  TabsWithContent:      { category: 'Navigation', subCategory: 'Secondary nav' },
+  Search:               { category: 'Navigation', subCategory: 'Search' },
+  // SearchBar supprimé (Phase 10) — Search canonical le remplace
+  // SearchWithFilters supprimé (Phase 10) — pattern composable via Search + trailing filter btn + Card panel (cf. Journal/Veille)
+  FloatingNavButton:    { category: 'Navigation', subCategory: 'Floating actions' },
+
+  // ── CARDS ─────────────────────────────────────────────────────────────
+  // Generic
+  ActionCard:           { category: 'Cards', subCategory: 'Generic' },
+  IconFeatureCard:      { category: 'Cards', subCategory: 'Generic' },
+  ProfileCard:          { category: 'Cards', subCategory: 'Generic' },
+  ResourceCard:         { category: 'Cards', subCategory: 'Generic' },
+  CourseCard:           { category: 'Cards', subCategory: 'Generic' },
+  PageCard:             { category: 'Cards', subCategory: 'Generic' },
+  StatCard:             { category: 'Cards', subCategory: 'KPI & Stats' },
+  'TLS KPI Pattern':    { category: 'Cards', subCategory: 'KPI & Stats' },
+
+  // Communication (chat-bubble)
+  PromptCard:           { category: 'Cards', subCategory: 'Communication' },
+  JournalEntryCard:     { category: 'Cards', subCategory: 'Communication' },
+  NotificationCard:     { category: 'Cards', subCategory: 'Communication' },
+  // MessageThreadCard supprimé Phase 10
+
+  // Learning content cards
+  ParcoursCard:         { category: 'Cards', subCategory: 'Learning content' },
+  LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
+  ResumeLessonCard:     { category: 'Cards', subCategory: 'Learning content' },
+  StepCard:             { category: 'Cards', subCategory: 'Learning content' },
+
+  // Editorial content
+  ArticleCard:          { category: 'Cards', subCategory: 'Editorial content' },
+  MagazineCard:         { category: 'Cards', subCategory: 'Editorial content' },
+  VideoCard:            { category: 'Cards', subCategory: 'Editorial content' },
+
+  // Domain
+  SessionCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
+  ProjectCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
+  RankingCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
+
+  // Activity
+  ActivityItem:         { category: 'Cards', subCategory: 'Activity' },
+
+  // ── LISTS & FEEDS ─────────────────────────────────────────────────────
+  CardGrid:             { category: 'Lists & Feeds', subCategory: 'Grids' },
+  ActionCardGrid:       { category: 'Lists & Feeds', subCategory: 'Grids' },
+  CoachCardGrid:        { category: 'Lists & Feeds', subCategory: 'Grids' },
+  LearningPathGrid:     { category: 'Lists & Feeds', subCategory: 'Grids' },
+  ResourceCardGrid:     { category: 'Lists & Feeds', subCategory: 'Grids' },
+  VeilleCardFeed:       { category: 'Lists & Feeds', subCategory: 'Grids' },
+  VeilleCard:           { category: 'Cards', subCategory: 'Editorial content' },
+  'VeilleCard — design proposals':  { category: 'Cards', subCategory: 'Editorial content' },
+  'VeilleCard — design proposals v2': { category: 'Cards', subCategory: 'Editorial content' },
+  'VeilleCardFeed — layout proposals': { category: 'Lists & Feeds', subCategory: 'Grids' },
+  ActivityFeed:         { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
+  ActivityTimeline:     { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
+  RelatedItemList:      { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
+  DataTable:            { category: 'Lists & Feeds', subCategory: 'Tables' },
+
+  // ── FORMS ─────────────────────────────────────────────────────────────
+  MultiStepForm:        { category: 'Forms', subCategory: 'Composite forms' },
+  FormLayout:           { category: 'Forms', subCategory: 'Composite forms' },
+  SearchWithFilters_F:  { category: 'Forms', subCategory: 'Composite forms' }, // collision-safe alias
+  FilterBar:            { category: 'Forms', subCategory: 'Composite forms' },
+
+  // ── LEARNING (gamification & pedagogy specific to TLS) ────────────────
+  Medal:                { category: 'Learning', subCategory: 'Achievements' },
+  Achievement:          { category: 'Learning', subCategory: 'Achievements' },
+  AchievementBadge:     { category: 'Learning', subCategory: 'Achievements' },
+  CompetenceBadge:      { category: 'Learning', subCategory: 'Competence' },
+  MasteryBadge:         { category: 'Learning', subCategory: 'Competence' },
+  CompetencyMatrix:     { category: 'Learning', subCategory: 'Competence' },
+  GoalProgress:         { category: 'Learning', subCategory: 'Goals & progress' },
+  SkillBar:             { category: 'Learning', subCategory: 'Goals & progress' },
+  QuizComponent:        { category: 'Learning', subCategory: 'Quiz & flashcards' },
+  QuizQuestionCard:     { category: 'Learning', subCategory: 'Quiz & flashcards' },
+  Flashcard:            { category: 'Learning', subCategory: 'Quiz & flashcards' },
+
+  // ── MODALS ────────────────────────────────────────────────────────────
+  Modal:                { category: 'Modals', subCategory: 'Base' },
+  BookingModal:         { category: 'Modals', subCategory: 'Booking flow' },
+  PositionnementModal:  { category: 'Modals', subCategory: 'Booking flow' },
+  ConfirmModal:         { category: 'Modals', subCategory: 'Confirm/Status' },
+  SuccessModal:         { category: 'Modals', subCategory: 'Confirm/Status' },
+  CancelSessionModal:   { category: 'Modals', subCategory: 'Confirm/Status' },
+  SessionFeedbackModal: { category: 'Modals', subCategory: 'Confirm/Status' },
+  CelebrationModal:     { category: 'Modals', subCategory: 'Celebrations' },
+  StreakCelebrationModal: { category: 'Modals', subCategory: 'Celebrations' },
+  VideoPlayerModal:     { category: 'Modals', subCategory: 'Media' },
+  RatingModal:          { category: 'Modals', subCategory: 'Confirm/Status' },
+
+  // ── AUTH FAMILY ───────────────────────────────────────────────────────
+  AuthShell:            { category: 'Auth Family', subCategory: 'Shell & layout' },
+
+  // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
+  'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
+};
+
+/** Display order for new categories (left-to-right in filter tabs, top-to-bottom in render). */
+const CATEGORY_ORDER: NewCategory[] = [
+  'Foundations',
+  'Atoms',
+  'Composites',
+  'Headers & Sections',
+  'Feedback',
+  'Navigation',
+  'Cards',
+  'Lists & Feeds',
+  'Forms',
+  'Learning',
+  'Modals',
+  'Auth Family',
+  'Pages & Templates',
+];
+
+/** Display order for sub-categories within each category. */
+const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
+  Foundations: ['Design Tokens', 'Layout Primitives'],
+  Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
+  Composites: ['Group wrappers'],
+  'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers'],
+  Feedback: ['Status messages', 'Empty/zero states', 'Celebrations'],
+  Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Search'],
+  Cards: ['Generic', 'KPI & Stats', 'Communication', 'Learning content', 'Editorial content', 'Domain (coaching/project)', 'Activity'],
+  'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
+  Forms: ['Composite forms'],
+  Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards'],
+  Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media'],
+  'Auth Family': ['Shell & layout'],
+  'Pages & Templates': [],
+};
+
+/** Resolve a component's new category + subCategory (fallbacks for unmapped entries). */
+const resolveMeta = (entry: ComponentEntry): { category: NewCategory; subCategory: SubCategory } => {
+  const mapped = REMAP[entry.name];
+  if (mapped) return mapped;
+  // Fallback: legacy category mapping
+  const legacyToNew: Record<Category, NewCategory> = {
+    Core: 'Atoms',
+    Feedback: 'Feedback',
+    Patterns: 'Cards',
+    Learning: 'Learning',
+    Content: 'Cards',
+    Navigation: 'Navigation',
+    Modals: 'Modals',
+  };
+  return { category: legacyToNew[entry.category] ?? 'Cards', subCategory: 'Other' };
+};
 
 interface TokenEntry {
   name: string;
   cssVar: string;
   value: string;
   group: string;
-  type: 'color' | 'typography' | 'spacing' | 'radius' | 'shadow' | 'motion' | 'gradient' | 'role';
+  type:
+    | 'color'
+    | 'typography'
+    | 'spacing'
+    | 'radius'
+    | 'shadow'
+    | 'motion'
+    | 'gradient'
+    | 'role'
+    | 'opacity'
+    | 'duration'
+    | 'easing'
+    | 'container'
+    | 'blur'
+    | 'zindex'
+    | 'surface'
+    | 'touch';
 }
 
 /* ============================================================================
@@ -264,13 +598,46 @@ const PAGE_TEMPLATES: PageTemplate[] = [
   {
     id: 'veille',
     name: 'Veille Hub',
-    description: 'Hub éditorial avec filtres pills (Tout/Actus/Tutoriels/Dossiers/Magazine), recherche, quick-access 4 formats, feed d\'articles avec bookmark.',
+    description: 'Hub éditorial avec filtres pills (Tout/Actus/Tutoriels/Dossiers/Magazine), recherche, quick-access 4 formats, feed d\'articles avec bookmark, section "Explorer par catégorie" (6 tuiles deeplink).',
     path: '/veille',
     family: 'Veille',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['filter pills', 'search', 'feed', 'bookmark', 'quick-access'],
+    tags: ['filter pills', 'search', 'feed', 'bookmark', 'quick-access', 'explore tiles'],
     icon: '🗞️',
+  },
+  {
+    id: 'veille-actus',
+    name: 'Veille — Actus',
+    description: 'Page n-1 catégorie : feed chronologique de toutes les actus. Hero brand bounded, filter période (semaine/mois/all), VeilleCardFeed avec featured spotlight, cross-categories nav.',
+    path: '/veille/actus',
+    family: 'Veille',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['listing', 'category', 'feed', 'period filter', 'brand tone'],
+    icon: '📰',
+  },
+  {
+    id: 'veille-tutoriels',
+    name: 'Veille — Tutoriels',
+    description: 'Page n-1 catégorie : grid 3-cols thumbnail-dominant. Hero sun bounded, filter par niveau (débutant/inter/avancé), featured spotlight 2-col, cross-categories nav.',
+    path: '/veille/tutoriels',
+    family: 'Veille',
+    color: 'var(--tls-yellow-600)',
+    bg: 'var(--tls-yellow-50)',
+    tags: ['listing', 'category', 'grid', 'video', 'level filter', 'sun tone'],
+    icon: '🎬',
+  },
+  {
+    id: 'veille-dossiers',
+    name: 'Veille — Dossiers',
+    description: 'Page n-1 catégorie : grid 2-cols card-dominant. Hero warm bounded, featured full-bleed top, emoji-bubble + tags + pages + downloads, filter catégorie thématique.',
+    path: '/veille/dossiers',
+    family: 'Veille',
+    color: 'var(--tls-orange-600)',
+    bg: 'rgba(237,132,58,0.07)',
+    tags: ['listing', 'category', 'grid', 'long-form', 'category filter', 'warm tone'],
+    icon: '📋',
   },
   {
     id: 'veille-article',
@@ -461,9 +828,9 @@ const PAGE_TEMPLATES: PageTemplate[] = [
 const PositionnementModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex flex-col gap-3 items-start">
       <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
-      <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+      <p className="m-0 text-caption text-ink-500">
         S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
       </p>
       <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
@@ -474,9 +841,9 @@ const PositionnementModalDemo: React.FC = () => {
 const BookingModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex flex-col gap-3 items-start">
       <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
-      <p style={{ margin: 0, fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
+      <p className="m-0 text-caption text-ink-500">
         Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
       </p>
       <BookingModal
@@ -494,8 +861,8 @@ const ConfirmModalDemo: React.FC = () => {
   const [variant, setVariant] = useState<'info' | 'success' | 'warning' | 'danger'>('info');
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
-      <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+    <div className="flex flex-col gap-3 items-start">
+      <div className="flex gap-2 flex-wrap">
         {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
           <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
             {v}
@@ -518,7 +885,7 @@ const ConfirmModalDemo: React.FC = () => {
 const SuccessModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex gap-3 items-start">
       <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
       <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
     </div>
@@ -528,7 +895,7 @@ const SuccessModalDemo: React.FC = () => {
 const StreakCelebrationModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex gap-3 items-start">
       <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
       <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
     </div>
@@ -538,7 +905,7 @@ const StreakCelebrationModalDemo: React.FC = () => {
 const SessionFeedbackModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex gap-3 items-start">
       <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
       <SessionFeedbackModal
         isOpen={open}
@@ -553,7 +920,7 @@ const CancelSessionModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+    <div className="flex gap-3 items-start flex-wrap">
       <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
       <CancelSessionModal
         isOpen={open}
@@ -577,7 +944,7 @@ const CancelSessionModalDemo: React.FC = () => {
 const VideoPlayerModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex gap-3 items-start">
       <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
       <VideoPlayerModal
         isOpen={open}
@@ -595,14 +962,14 @@ const ToastDemo: React.FC = () => {
   const { toasts, success, error, warning, info, removeToast } = useToast();
   return (
     <div>
-      <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-4)' }}>
+      <div className="flex gap-2 flex-wrap mb-4">
         <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
         <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
         <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
         <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
       </div>
       <ToastContainer toasts={toasts} onRemove={removeToast} />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
+      <div className="flex flex-col gap-3">
         <Toast variant="success" title="Sauvegardé" dismissible={false}>Vos modifications ont été enregistrées.</Toast>
         <Toast variant="danger" title="Erreur" dismissible={false}>Impossible de se connecter au serveur.</Toast>
         <Toast variant="warning" title="Attention" dismissible={false}>Votre session expire dans 5 minutes.</Toast>
@@ -616,9 +983,9 @@ const TabsDemo: React.FC = () => {
   const [active1, setActive1] = useState('tab1');
   const [active2, setActive2] = useState('a');
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+    <div className="flex flex-col gap-6">
       <div>
-        <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Pill (défaut)</p>
+        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Pill (défaut)</p>
         <Tabs
           items={[
             { id: 'tab1', label: '📚 Étapes' },
@@ -631,7 +998,7 @@ const TabsDemo: React.FC = () => {
         />
       </div>
       <div>
-        <p style={{ margin: '0 0 var(--s-3)', fontSize: 'var(--t-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Underline</p>
+        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Underline</p>
         <Tabs
           items={[
             { id: 'a', label: 'Général' },
@@ -650,7 +1017,7 @@ const TabsDemo: React.FC = () => {
 const FilterChipDemo: React.FC = () => {
   const [active, setActive] = useState('all');
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-2)', flexWrap: 'wrap' }}>
+    <div className="flex gap-2 flex-wrap">
       {['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'].map((label, i) => {
         const key = i === 0 ? 'all' : label.toLowerCase();
         return (
@@ -670,7 +1037,7 @@ const FilterChipDemo: React.FC = () => {
 const ModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'flex-start' }}>
+    <div className="flex gap-3 items-start">
       <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
       <Modal
         open={open}
@@ -695,7 +1062,7 @@ const ModalDemo: React.FC = () => {
 const PaginationDemo: React.FC = () => {
   const [page, setPage] = useState(3);
   return (
-    <div className="vstack">
+    <div className="flex flex-col gap-stack">
       <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
     </div>
   );
@@ -752,7 +1119,7 @@ const SidebarDemo: React.FC = () => {
         {menuOpen && (
           <DropdownMenu
             variant="glass"
-            className="absolute bottom-3 z-50 min-w-[240px]"
+            className="absolute bottom-3 z-dropdown min-w-[240px]"
             style={{ left: collapsed ? 80 : 268 }}
           >
             <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
@@ -801,7 +1168,7 @@ const SidebarDemo: React.FC = () => {
 const MultiStepFormDemo: React.FC = () => {
   const [step, setStep] = useState(1);
   return (
-    <div style={{ maxWidth: 500 }}>
+    <div className="max-w-[500px]">
       <MultiStepForm
         steps={[
           { id: 1, title: 'Informations', description: 'Vos données personnelles' },
@@ -814,13 +1181,70 @@ const MultiStepFormDemo: React.FC = () => {
         showProgressBar
         showStepIndicators
       >
-        <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
+        <div className="p-4 bg-ink-50 rounded-lg">
           {step === 1 && <p>Étape 1: Informations personnelles</p>}
           {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
           {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
         </div>
       </MultiStepForm>
     </div>
+  );
+};
+
+const AuthShellDemo: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
+
+  return (
+    <AuthShell
+      brand={{ subtitle: 'Démo complète des sub-components' }}
+      form={
+        <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
+          <AuthField
+            label="Nom complet"
+            icon={<UserIcon size={18} />}
+            type="text"
+            placeholder="Votre nom"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <AuthField
+            label="Adresse email"
+            icon={<Mail size={18} />}
+            type="email"
+            placeholder="vous@entreprise.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <AuthPasswordField
+            label="Mot de passe"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <AuthCheckbox
+            checked={acceptTerms}
+            onChange={setAcceptTerms}
+            label="J'accepte les conditions d'utilisation"
+          />
+          <div className="flex flex-col sm:flex-row gap-3">
+            <AuthPrimaryButton type="submit">Créer mon compte</AuthPrimaryButton>
+            <AuthGhostButton onClick={() => {}}>Retour</AuthGhostButton>
+          </div>
+          <AuthDivider>ou continuer avec</AuthDivider>
+          <div className="flex flex-col gap-3">
+            <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
+            <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
+          </div>
+          <p className="text-center text-body-sm text-white/75 m-0 mt-1">
+            Déjà inscrit ?{' '}
+            <AuthInlineLink onClick={() => {}}>Se connecter</AuthInlineLink>
+          </p>
+        </form>
+      }
+    />
   );
 };
 
@@ -835,10 +1259,10 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Button.tsx',
     cssBase: '.btn',
     category: 'Core',
-    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 7 variants : primary, secondary (orange), accent (yellow), ghost (light teal), destructive, glass, link.',
-    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'destructive', 'link'],
+    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 9 variants : primary, secondary (orange), accent (yellow), ghost (light teal), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), link.',
+    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'destructive', 'link', 'glass', 'frosted'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <div className="hstack">
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
@@ -860,6 +1284,81 @@ const COMPONENTS: ComponentEntry[] = [
           <Button loading>Loading</Button>
           <Button disabled>Disabled</Button>
         </div>
+
+        {/* Glass variants — context-dependent */}
+        <div className="flex flex-col gap-stack mt-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass variants — surface matters</p>
+
+          {/* glass = pour fond DARK */}
+          <div className="rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-4 flex flex-wrap gap-2">
+            <span className="font-body text-caption font-bold text-white/80 self-center mr-2">DARK bg →</span>
+            <Button variant="glass" leadingIcon={I.plus}>variant="glass"</Button>
+          </div>
+
+          {/* glass-light + glass-light-ghost = pour LIGHT tinted bg (cards EntryCard/SessionCard tinted) */}
+          <div className="rounded-xl bg-primary-50/60 border border-primary-100 p-4 flex flex-wrap gap-2">
+            <span className="font-body text-caption font-bold text-primary-700 self-center mr-2">LIGHT tinted bg →</span>
+            <Button variant="glass-light" leadingIcon={I.plus}>glass-light (filled)</Button>
+            <Button variant="glass-light-ghost" trailingIcon={I.arrow}>glass-light-ghost</Button>
+          </div>
+
+          <div className="rounded-xl bg-accent-50/60 border border-accent-100 p-4 flex flex-wrap gap-2">
+            <span className="font-body text-caption font-bold text-accent-700 self-center mr-2">Sur sun-50 →</span>
+            <Button variant="glass-light" leadingIcon={I.plus}>Lire</Button>
+            <Button variant="glass-light-ghost" trailingIcon={I.arrow}>Continuer</Button>
+          </div>
+
+          {/* Tinted glassy buttons (tone-aware frosted) */}
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Tinted glassy · tone-aware frosted (sur fond blanc OU même tone)</p>
+          <div className="rounded-xl bg-white border border-ink-200 p-4 flex flex-wrap gap-2">
+            <span className="font-body text-caption font-bold text-ink-600 self-center mr-2">WHITE bg →</span>
+            <Button variant="glass-brand" leadingIcon={I.plus}>glass-brand</Button>
+            <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
+            <Button variant="glass-sun" leadingIcon={I.plus}>glass-sun</Button>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'QuickActionButton',
+    codeName: 'ui/QuickActionButton.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Core',
+    usedBy: ['Coaching'],
+    description: 'Action button compact card-shaped. Icon bubble tone-aware + label + subtitle optionnel + chevron right (anime au hover). 4 tones (primary/warm/sun/accent). Disabled state. À utiliser pour shortcuts / outils / quick links / tile-style CTA dans une section. Plus compact que IconFeatureCard/ActionCard, plus visuel qu\'un Button standard.',
+    keywords: ['quick', 'action', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs max-w-[420px]">
+        <QuickActionButton
+          tone="primary"
+          icon={<BookOpen size={18} />}
+          label="Préparer la session"
+          subtitle="Questionnaire pré-session"
+          onClick={() => {}}
+        />
+        <QuickActionButton
+          tone="warm"
+          icon={<Mail size={18} />}
+          label="Compte-rendu"
+          subtitle="Notes et points clés des sessions"
+          onClick={() => {}}
+        />
+        <QuickActionButton
+          tone="sun"
+          icon={<PenLine size={18} />}
+          label="Réflexions journal"
+          subtitle="Vos entrées liées au coaching"
+          onClick={() => {}}
+        />
+        <QuickActionButton
+          tone="primary"
+          icon={<SparklesIcon size={18} />}
+          label="Action disabled"
+          subtitle="Désactivé par défaut"
+          disabled
+          onClick={() => {}}
+        />
       </div>
     ),
   },
@@ -871,7 +1370,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Form field. Label always above. Includes Checkbox, Radio, Switch sub-components.',
     keywords: ['form', 'text', 'checkbox', 'radio', 'switch', 'textarea'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 480 }}>
+      <div className="vstack max-w-[480px]">
         <Input
           label="Nom complet"
           hint="Tel qu'il apparaîtra sur votre certificat"
@@ -900,7 +1399,7 @@ const COMPONENTS: ComponentEntry[] = [
           rows={3}
           placeholder="Écrivez ici…"
         />
-        <div className="hstack" style={{ alignItems: 'center' }}>
+        <div className="hstack items-center">
           <Checkbox label="Me tenir informée" defaultChecked />
           <Radio name="demo-r" label="Option A" defaultChecked />
           <Radio name="demo-r" label="Option B" />
@@ -922,7 +1421,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Native dropdown with chevron icon. Sizes sm/md/lg, status default/success/error.',
     keywords: ['form', 'dropdown', 'select', 'options'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 480 }}>
+      <div className="vstack max-w-[480px]">
         <Select
           label="Langue"
           hint="Choisissez votre langue préférée"
@@ -969,7 +1468,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Wrapper combining label + control + hint/error. Layouts: vertical (default) and horizontal.',
     keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
     render: () => (
-      <div className="flex flex-col gap-4" style={{ maxWidth: 520 }}>
+      <div className="flex flex-col gap-4 max-w-[520px]">
         <FormGroup label="Prénom" hint="Tel qu'il apparaît sur votre profil" id="fg-firstname">
           <Input placeholder="Ex. Marie" />
         </FormGroup>
@@ -996,46 +1495,96 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Card.tsx',
     cssBase: '.card',
     category: 'Core',
-    description: 'Main content unit. 6 variants: default, feature, elevated, interactive (hover lift), glass, minimal.',
-    keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal'],
+    description: 'Main content unit. 13 variants: default, feature, elevated, interactive, glass, glass-brand, glass-warm, glass-dark, minimal, bordered, muted, sunken, tinted. Tone-aware hover sur variant interactive.',
+    keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal', 'tinted', 'tone'],
     render: () => (
-      <div className="grid-2">
-        <Card>
-          <CardEyebrow>DEFAULT</CardEyebrow>
-          <CardTitle>Card par défaut</CardTitle>
-          <CardDesc>Bordure fine, pas d'ombre. Contenu groupé lisiblement.</CardDesc>
-        </Card>
-        <Card variant="feature">
-          <CardEyebrow>FEATURE</CardEyebrow>
-          <CardTitle>Carte mise en avant</CardTitle>
-          <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
-          <CardFooter>
-            <span style={{ color: 'var(--text-muted)', fontSize: 'var(--t-caption)' }}>il y a 3 min</span>
-            <Button size="sm" variant="ghost">Voir</Button>
-          </CardFooter>
-        </Card>
-        <Card variant="elevated">
-          <CardEyebrow>ELEVATED</CardEyebrow>
-          <CardTitle>Carte élevée</CardTitle>
-          <CardDesc>Ombre moyenne, profondeur accentuée. Pour les contenus importants.</CardDesc>
-        </Card>
-        <Card variant="interactive" role="button" tabIndex={0}>
-          <CardEyebrow>INTERACTIVE</CardEyebrow>
-          <CardTitle>Hover pour voir</CardTitle>
-          <CardDesc>translateY(-2px) + shadow-md au hover.</CardDesc>
-        </Card>
-        <div style={{ padding: 'var(--s-4)', background: 'var(--g-warm-soft)', borderRadius: 'var(--r-xl)' }}>
-          <Card variant="glass">
-            <CardEyebrow>GLASS</CardEyebrow>
-            <CardTitle>Glass (sur fond teinté uniquement)</CardTitle>
-            <CardDesc>Utiliser seulement sur un fond coloré ou gradient.</CardDesc>
+      <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-2 gap-4">
+          <Card>
+            <CardEyebrow>DEFAULT</CardEyebrow>
+            <CardTitle>Card par défaut</CardTitle>
+            <CardDesc>Bordure fine, pas d'ombre. Contenu groupé lisiblement.</CardDesc>
+          </Card>
+          <Card variant="feature">
+            <CardEyebrow>FEATURE</CardEyebrow>
+            <CardTitle>Carte mise en avant</CardTitle>
+            <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
+            <CardFooter>
+              <span className="text-caption text-ink-500">il y a 3 min</span>
+              <Button size="sm" variant="ghost">Voir</Button>
+            </CardFooter>
+          </Card>
+          <Card variant="elevated">
+            <CardEyebrow>ELEVATED</CardEyebrow>
+            <CardTitle>Carte élevée</CardTitle>
+            <CardDesc>Ombre moyenne, profondeur accentuée.</CardDesc>
+          </Card>
+          <Card variant="minimal">
+            <CardEyebrow>MINIMAL</CardEyebrow>
+            <CardTitle>Carte minimale</CardTitle>
+            <CardDesc>Transparent + bordure légère, hover discret.</CardDesc>
           </Card>
         </div>
-        <Card variant="minimal">
-          <CardEyebrow>MINIMAL</CardEyebrow>
-          <CardTitle>Carte minimale</CardTitle>
-          <CardDesc>Transparent avec bordure légère, hover discret. Contenu léger.</CardDesc>
-        </Card>
+        {/* Interactive tone-aware */}
+        <div className="grid grid-cols-3 gap-4">
+          <Card variant="interactive" onClick={() => {}}>
+            <CardEyebrow>INTERACTIVE</CardEyebrow>
+            <CardTitle>Hover ↑</CardTitle>
+            <CardDesc>Lift + border primary au hover.</CardDesc>
+          </Card>
+          <Card variant="interactive" tone="warm" onClick={() => {}}>
+            <CardEyebrow>INTERACTIVE · WARM</CardEyebrow>
+            <CardTitle>Hover ↑</CardTitle>
+            <CardDesc>Border + shadow orange au hover.</CardDesc>
+          </Card>
+          <Card variant="interactive" tone="sun" onClick={() => {}}>
+            <CardEyebrow>INTERACTIVE · SUN</CardEyebrow>
+            <CardTitle>Hover ↑</CardTitle>
+            <CardDesc>Border + shadow jaune au hover.</CardDesc>
+          </Card>
+        </div>
+        {/* Tinted */}
+        <div className="grid grid-cols-3 gap-4">
+          <Card variant="tinted" tone="primary">
+            <CardEyebrow>TINTED · PRIMARY</CardEyebrow>
+            <CardTitle>Gradient teal</CardTitle>
+            <CardDesc>from-primary-50/95 to-primary-100/60.</CardDesc>
+          </Card>
+          <Card variant="tinted" tone="warm">
+            <CardEyebrow>TINTED · WARM</CardEyebrow>
+            <CardTitle>Gradient orange</CardTitle>
+            <CardDesc>from-secondary-50/95 to-secondary-100/60.</CardDesc>
+          </Card>
+          <Card variant="tinted" tone="sun">
+            <CardEyebrow>TINTED · SUN</CardEyebrow>
+            <CardTitle>Gradient jaune</CardTitle>
+            <CardDesc>from-accent-50/95 to-accent-100/60.</CardDesc>
+          </Card>
+        </div>
+        {/* Glass family */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
+            <Card variant="glass">
+              <CardEyebrow>GLASS</CardEyebrow>
+              <CardTitle>Frosted</CardTitle>
+              <CardDesc>Sur fond coloré uniquement.</CardDesc>
+            </Card>
+          </div>
+          <div className="rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 p-1">
+            <Card variant="glass-brand">
+              <CardEyebrow>GLASS BRAND</CardEyebrow>
+              <CardTitle>Teal glass</CardTitle>
+              <CardDesc>Overlay primaire.</CardDesc>
+            </Card>
+          </div>
+          <div className="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
+            <Card variant="glass-dark">
+              <CardEyebrow>GLASS DARK</CardEyebrow>
+              <CardTitle>Dark ocean</CardTitle>
+              <CardDesc>Sur fond sombre.</CardDesc>
+            </Card>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -1135,10 +1684,10 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Placeholder shimmer matching expected content shape. Use for 1–3s loads.',
     keywords: ['loading', 'placeholder', 'shimmer'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 420 }}>
-        <div className="hstack" style={{ alignItems: 'center' }}>
+      <div className="vstack max-w-[420px]">
+        <div className="hstack items-center">
           <Skeleton variant="circle" width={40} height={40} />
-          <div className="vstack" style={{ flex: 1, gap: 8 }}>
+          <div className="vstack flex-1 gap-2">
             <Skeleton variant="title" />
             <Skeleton variant="text" width="80%" />
           </div>
@@ -1152,14 +1701,66 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Search',
     codeName: 'Search.tsx',
-    cssBase: '.search',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Search bar with optional shortcut hint. Sizes: default, lg.',
-    keywords: ['find', 'query', 'filter'],
+    usedBy: ['Recherche', 'Veille', 'Sidebar (futur Cmd+K)'],
+    description: 'Search bar. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Shortcut badge, clear button, custom leading icon, **trailing slot** (filter button, voice, etc).',
+    keywords: ['find', 'query', 'filter', 'input', 'glass', 'trailing'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 520 }}>
-        <Search placeholder="Rechercher un parcours…" shortcut="⌘K" />
-        <Search size="lg" placeholder="Rechercher partout…" shortcut="⌘K" />
+      <div className="flex flex-col gap-4 max-w-xl">
+        {/* Variants */}
+        <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
+        <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
+        <Search variant="ghost" placeholder="ghost — Rechercher…" />
+        {/* Glass on colored bg */}
+        <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
+          <Search variant="glass" placeholder="glass — Rechercher sur fond coloré…" shortcut="⌘K" />
+        </div>
+        {/* Sizes */}
+        <div className="flex flex-col gap-2">
+          <Search size="sm" placeholder="sm — compact" />
+          <Search size="default" placeholder="default — standard" />
+          <Search size="lg" placeholder="lg — large" shortcut="⌘K" />
+        </div>
+        {/* Trailing slot — filter button (drawer collapsible pattern) */}
+        <div className="flex flex-col gap-2">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Trailing slot · filter button toggle (chips dans drawer collapsible)</p>
+          <Search
+            size="default"
+            variant="filled"
+            placeholder="Search avec filter button toggle…"
+            trailing={
+              <button
+                type="button"
+                className="relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-white border border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300 cursor-pointer"
+                aria-label="Filtres"
+              >
+                <SlidersHorizontal size={16} />
+                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">2</span>
+              </button>
+            }
+          />
+        </div>
+
+        {/* ⭐ filtersSlot — chips inline visibles dans le wrapper bordé */}
+        <div className="flex flex-col gap-2">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · chips inline visibles (alternative au drawer)</p>
+          <p className="text-caption text-ink-600 m-0">Quand on veut que les filtres soient TOUJOURS visibles dans le même bordered wrapper que la search bar.</p>
+          <Search
+            size="default"
+            variant="default"
+            placeholder="Search avec filter chips visibles…"
+            filtersSlot={
+              <>
+                <FilterChip label="Tout" active />
+                <FilterChip label="📰 Actus" />
+                <FilterChip label="🎬 Tutoriels" />
+                <FilterChip label="📂 Dossiers" />
+                <FilterChip label="📚 Le Mag" />
+              </>
+            }
+          />
+        </div>
       </div>
     ),
   },
@@ -1167,31 +1768,33 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- LEARNING --------------------------------------------------------- */
   {
     name: 'StatCard',
-    codeName: 'StatCard.tsx',
+    codeName: 'ui/StatCard.tsx',
     cssBase: '.stat-card',
     category: 'Learning',
-    description: 'Prominent metric. Display number + micro label + optional delta. 5 variants · 3 sizes · square mode.',
+    usedBy: ['Dashboard (hero pre-Phase 10)', 'LearningPaths (Phase 10 KPI row)', 'Coaching', 'Journal', 'Notifications'],
+    description: 'Prominent metric card. Display number + micro label + optional delta + icon. 5 variants (default / elevated / brand / warm / sun) · 3 sizes (sm/md/lg) · square mode for grid layouts.',
     keywords: ['metric', 'kpi', 'stat', 'dashboard', 'square', 'size'],
     render: () => (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {/* Variants */}
-        <div className="grid-2">
-          <StatCard label="PARCOURS COMPLÉTÉS" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
-          <StatCard variant="elevated" label="HEURES D'APPRENTISSAGE" value="48" sub="h" />
-          <StatCard variant="warm" label="SÉRIE" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
-          <StatCard variant="brand" label="PROGRESSION MOYENNE" value={78} sub="%" />
+      <div className="flex flex-col gap-6">
+        {/* Variants with icons */}
+        <div className="grid grid-cols-2 gap-4">
+          <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
+          <StatCard variant="elevated" icon={<Clock3 size={20} />} label="Heures d'apprentissage" value="48" sub="h" />
+          <StatCard variant="warm" icon={<Flame size={20} />} label="Série actuelle" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
+          <StatCard variant="brand" icon={<Trophy size={20} />} label="Progression moyenne" value={78} sub="%" />
+          <StatCard variant="sun" icon={<Zap size={20} />} label="Points XP" value="2 450" delta="+180" deltaDirection="up" />
         </div>
         {/* Sizes */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', alignItems: 'start' }}>
-          <StatCard size="sm" label="PETITE" value={42} sub="pts" delta="+5" deltaDirection="up" />
-          <StatCard size="md" label="MOYENNE" value={42} sub="pts" delta="+5" deltaDirection="up" />
-          <StatCard size="lg" variant="brand" label="GRANDE" value={42} sub="pts" delta="+5" deltaDirection="up" />
+        <div className="grid grid-cols-3 gap-4 items-start">
+          <StatCard size="sm" label="Petite" value={42} sub="pts" delta="+5" deltaDirection="up" />
+          <StatCard size="md" label="Moyenne" value={42} sub="pts" delta="+5" deltaDirection="up" />
+          <StatCard size="lg" variant="brand" label="Grande" value={42} sub="pts" delta="+5" deltaDirection="up" />
         </div>
-        {/* Square */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-          <StatCard square size="sm" label="STREAK" value={7} sub="j" />
-          <StatCard square variant="elevated" label="SCORE" value={94} sub="%" />
-          <StatCard square variant="warm" label="SÉRIE" value={12} />
+        {/* Square grid */}
+        <div className="grid grid-cols-4 gap-4">
+          <StatCard square size="sm" label="Streak" value={7} sub="j" />
+          <StatCard square variant="elevated" label="Score" value={94} sub="%" />
+          <StatCard square variant="warm" label="Série" value={12} />
           <StatCard square size="lg" variant="brand" label="XP" value="1.2k" />
         </div>
       </div>
@@ -1205,7 +1808,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Linear progress tracking. Sizes sm/md/lg. Fills: brand, warm, gradient.',
     keywords: ['progress', 'linear', 'bar', 'percentage'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <ProgressBar label="Module 3 · Design systems" value={72} />
         <ProgressBar label="Série hebdo" value={40} fill="warm" />
         <ProgressBar label="Gradient fill" value={60} fill="gradient" size="lg" />
@@ -1223,7 +1826,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Carte action horizontale: icône colorée + titre + description + CTA. Tones: brand/warm/sun. Hover: translateY(-3px) + shadow-md.',
     keywords: ['action', 'card', 'icon', 'cta', 'tone', 'brand', 'warm', 'sun', 'quick-action'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <ActionCard
           tone="brand"
           icon={I.book}
@@ -1256,7 +1859,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Ligne d\'activité timeline. Dot coloré par type + connecteur entre items. Types: lesson/achievement/coach/journal. Hover: surface-muted.',
     keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
     render: () => (
-      <div style={{ padding: 'var(--s-2) var(--s-4)', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--r-lg)' }}>
+      <div className="py-2 px-4 bg-white border border-ink-200 rounded-lg">
         <ActivityItem type="lesson" icon={I.check} title="Leçon terminée" description="Introduction au Prompt Engineering" timestamp="Il y a 2h" />
         <ActivityItem type="achievement" icon={I.trophy} title="Badge débloqué" description="Pionnier IA — Premier badge gagné !" timestamp="Hier" />
         <ActivityItem type="coach" icon={I.heart} title="Session coaching" description="Sophie Martin — Leadership" timestamp="Aujourd'hui" />
@@ -1268,24 +1871,25 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CardGrid',
     codeName: 'patterns/CardGrid.tsx',
-    cssBase: '.card-grid',
+    cssBase: 'Tailwind (patterns/CardGrid.tsx)',
     category: 'Patterns',
+    usedBy: ['Recherche', 'Veille', 'LearningPaths', 'Coaching'],
     description: 'Grid responsive réutilisable. Layouts: compact (2 col), default (3 col), feature (4 col), autoFit. Breakpoints automatiques mobile/tablette/desktop.',
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
     render: () => (
-      <div className="vstack">
-        <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>layout="default" (3 col)</p>
-        <div className="card-grid card-grid--default card-grid--gap-sm">
+      <div className="flex flex-col gap-stack">
+        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="default" (3 col)</p>
+        <CardGrid layout="default" gapSize="sm">
           {['Module A', 'Module B', 'Module C'].map((t) => (
-            <div key={t} style={{ padding: 'var(--s-3)', background: 'var(--tls-primary-50)', border: '1px solid rgba(85,161,180,0.2)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', color: 'var(--tls-primary-700)', fontWeight: 600 }}>{t}</div>
+            <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-700 font-semibold border border-primary-100">{t}</div>
           ))}
-        </div>
-        <p style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>layout="feature" (4 col)</p>
-        <div className="card-grid card-grid--feature card-grid--gap-sm">
+        </CardGrid>
+        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="feature" (4 col)</p>
+        <CardGrid layout="feature" gapSize="sm">
           {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
-            <div key={t} style={{ padding: 'var(--s-3)', background: 'rgba(237,132,58,0.07)', border: '1px solid rgba(237,132,58,0.2)', borderRadius: 'var(--r-lg)', fontSize: 'var(--t-caption)', color: 'var(--tls-orange-600)', fontWeight: 600 }}>{t}</div>
+            <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-600 font-semibold border border-secondary-100">{t}</div>
           ))}
-        </div>
+        </CardGrid>
       </div>
     ),
   },
@@ -1294,6 +1898,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/InlineProgress.tsx',
     cssBase: '.inline-progress',
     category: 'Patterns',
+    usedBy: ['Positionnement', 'ParcoursCard', 'LearningPathDetail'],
     description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
     render: () => (
@@ -1314,58 +1919,98 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MetaPillGroup',
     codeName: 'ui/MetaPillGroup.tsx',
-    cssBase: '.tls-meta-pill',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Collection de MetaPill avec tones (primary/warm/sun/brand). Layouts horizontal/vertical. Remplace les chips dispersés dans les pages.',
-    keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone'],
+    usedBy: ['ParcoursCard', 'LearningPathDetail', 'Dashboard', 'Journal'],
+    description: 'Collection de MetaPill avec 7 tones (default/primary/warm/sun/brand/glass/glass-dark). Layouts horizontal/vertical. 3 sizes (sm/md/lg). Variants glass = frosted effect pour overlays sur surfaces tintées ou gradients saturés.',
+    keywords: ['pill', 'chip', 'tag', 'meta', 'group', 'tone', 'glass', 'frosted'],
     render: () => (
-      <div className="vstack">
-        <div className="hstack" style={{ flexWrap: 'wrap' }}>
-          <span className="tls-meta-pill">Default</span>
-          <span className="tls-meta-pill tls-meta-pill--primary">Primary</span>
-          <span className="tls-meta-pill tls-meta-pill--warm">Warm</span>
-          <span className="tls-meta-pill tls-meta-pill--sun">Sun</span>
-          <span className="tls-meta-pill tls-meta-pill--brand">Brand</span>
+      <div className="flex flex-col gap-stack-lg">
+        {/* Tones — light bg */}
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones</p>
+          <MetaPillGroup
+            items={[
+              { text: 'Default' },
+              { text: 'Primary', tone: 'primary' },
+              { text: 'Warm', tone: 'warm' },
+              { text: 'Sun', tone: 'sun' },
+              { text: 'Brand', tone: 'brand' },
+            ]}
+            size="md"
+          />
         </div>
-        <div className="hstack" style={{ flexWrap: 'wrap' }}>
-          <span className="tls-meta-pill tls-meta-pill--sm tls-meta-pill--primary">Sm primary</span>
-          <span className="tls-meta-pill tls-meta-pill--primary">Md primary</span>
-          <span className="tls-meta-pill tls-meta-pill--lg tls-meta-pill--primary">Lg primary</span>
+
+        {/* Sizes */}
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes (tone primary)</p>
+          <MetaPillGroup
+            items={[
+              { text: 'Small', tone: 'primary' },
+              { text: 'Medium', tone: 'primary' },
+              { text: 'Large', tone: 'primary' },
+            ]}
+            size="sm"
+          />
+          <MetaPillGroup
+            items={[
+              { text: 'Small', tone: 'primary' },
+              { text: 'Medium', tone: 'primary' },
+              { text: 'Large', tone: 'primary' },
+            ]}
+            size="md"
+          />
+          <MetaPillGroup
+            items={[
+              { text: 'Small', tone: 'primary' },
+              { text: 'Medium', tone: 'primary' },
+              { text: 'Large', tone: 'primary' },
+            ]}
+            size="lg"
+          />
+        </div>
+
+        {/* Glass variant — on tinted backdrop */}
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass (frosted on light tinted bg)</p>
+          <MetaPillGroup
+            items={[
+              { text: '6 semaines', tone: 'glass' },
+              { text: '12 leçons', tone: 'glass' },
+              { text: 'Marie Dubois', tone: 'glass' },
+            ]}
+            size="md"
+          />
+        </div>
+
+        {/* Glass-dark variant — on saturated dark bg */}
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 border border-primary-700">
+          <p className="text-caption font-bold uppercase tracking-wider text-white/85 m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
+          <MetaPillGroup
+            items={[
+              { text: '6 semaines', tone: 'glass-dark' },
+              { text: '12 leçons', tone: 'glass-dark' },
+              { text: 'débutant', tone: 'glass-dark' },
+            ]}
+            size="md"
+          />
         </div>
       </div>
     ),
   },
   {
     name: 'TLS KPI Pattern',
-    codeName: 'static-pages.css',
-    cssBase: '.tls-kpi + .tls-kpi-icon',
+    codeName: 'ui/StatCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Bloc statistique standardisé: icône colorée 44×44 (tls-kpi-icon) + grand chiffre 800w + label muted. Utilisé sur Dashboard, Journal, Coaching, Collaboration, Settings, Leaderboard.',
+    description: 'Bloc statistique standardisé: icône colorée en bulle light + grand chiffre bold + label muted. Utilise StatCard avec variants brand/warm/sun. Remplace .tls-kpi / .tls-kpi-icon.',
     keywords: ['kpi', 'stat', 'metric', 'icon', 'number'],
     render: () => (
-      <section className="tls-kpi-row">
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'var(--tls-primary-50)', color: 'var(--tls-primary-600)', marginBottom: 'var(--s-2)' }}>
-            {I.book}
-          </div>
-          <strong style={{ color: 'var(--tls-primary-700)' }}>12</strong>
-          <span>Cours terminés</span>
-        </div>
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'rgba(237,132,58,0.10)', color: 'var(--tls-orange-600)', marginBottom: 'var(--s-2)' }}>
-            {I.trophy}
-          </div>
-          <strong style={{ color: 'var(--tls-orange-600)' }}>2 450</strong>
-          <span>Points XP</span>
-        </div>
-        <div className="tls-kpi">
-          <div className="tls-kpi-icon" style={{ background: 'rgba(234,192,74,0.12)', color: 'var(--tls-yellow-600)', marginBottom: 'var(--s-2)' }}>
-            {I.heart}
-          </div>
-          <strong style={{ color: 'var(--tls-yellow-600)' }}>7j</strong>
-          <span>Série actuelle</span>
-        </div>
-      </section>
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard variant="brand" icon={<BookOpen size={20} />} value="12" label="Cours terminés" delta="+2 ce mois" deltaDirection="up" />
+        <StatCard variant="warm" icon={<Trophy size={20} />} value="2 450" label="Points XP" delta="+180" deltaDirection="up" />
+        <StatCard variant="sun" icon={<Flame size={20} />} value="7j" label="Série actuelle" delta="Record !" deltaDirection="up" />
+      </div>
     ),
   },
   {
@@ -1376,7 +2021,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Pills de filtrage CSS-only avec focus ring WCAG AA. État actif via aria-selected ou classe --active. Utilisées sur Journal, Notifications, Messages, Veille.',
     keywords: ['filter', 'pill', 'tab', 'category', 'active', 'aria'],
     render: () => (
-      <div role="tablist" className="hstack" style={{ flexWrap: 'wrap' }}>
+      <div role="tablist" className="hstack flex-wrap">
         <button type="button" role="tab" aria-selected={true}  className="tls-filter-pill tls-filter-pill--active">⚡ Tous</button>
         <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.book} Formations</button>
         <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.trophy} Badges</button>
@@ -1420,6 +2065,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/ConfirmModal.tsx',
     cssBase: '—',
     category: 'Modals',
+    usedBy: ['Billing', 'SubscriptionPayment'],
     description: 'Dialog de confirmation générique. 4 variantes: info, success, warning, danger.',
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info'],
     render: () => <ConfirmModalDemo />,
@@ -1438,6 +2084,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/StreakCelebrationModal.tsx',
     cssBase: '—',
     category: 'Modals',
+    showcaseOnly: true,
     description: 'Célébration de série quotidienne. Particules feu, streak count, stats semaines/XP.',
     keywords: ['modal', 'streak', 'flame', 'celebration', 'consecutive', 'days', 'gamification'],
     render: () => <StreakCelebrationModalDemo />,
@@ -1471,42 +2118,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   /* ---- LEARNING SYSTEM COMPONENTS ----------------------------------------- */
-  {
-    name: 'GlassCard',
-    codeName: 'GlassCard.tsx',
-    cssBase: '.tls-glass-card / .tls-glass-card--default/brand/warm/dark',
-    category: 'Patterns',
-    description: 'Carte glassmorphism avec backdrop-filter blur. Tones: default, brand, warm, dark. Utilisée dans les heroes et sections éditorialles.',
-    keywords: ['glass', 'card', 'blur', 'frosted', 'hero', 'backdrop', 'tone'],
-    render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap', background: 'var(--g-hero)', padding: 'var(--s-6)', borderRadius: 'var(--r-xl)' }}>
-        <div style={{ flex: 1, minWidth: 120 }}>
-          <GlassCard tone="default">
-            <p style={{ margin: 0, fontWeight: 600, color: 'var(--text)' }}>Default</p>
-            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond clair + blur</p>
-          </GlassCard>
-        </div>
-        <div style={{ flex: 1, minWidth: 120 }}>
-          <GlassCard tone="brand">
-            <p style={{ margin: 0, fontWeight: 600, color: 'var(--on-color-text-main)' }}>Brand</p>
-            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)' }}>Teinte primaire</p>
-          </GlassCard>
-        </div>
-        <div style={{ flex: 1, minWidth: 120 }}>
-          <GlassCard tone="warm">
-            <p style={{ margin: 0, fontWeight: 600, color: 'var(--tls-orange-800)' }}>Warm</p>
-            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--tls-orange-700)' }}>Teinte orange</p>
-          </GlassCard>
-        </div>
-        <div style={{ flex: 1, minWidth: 120 }}>
-          <GlassCard tone="dark">
-            <p style={{ margin: 0, fontWeight: 600, color: 'var(--on-color-text-main)' }}>Dark</p>
-            <p style={{ margin: 'var(--s-1) 0 0', fontSize: 'var(--t-caption)', color: 'var(--on-color-text-muted)' }}>Fond profond</p>
-          </GlassCard>
-        </div>
-      </div>
-    ),
-  },
   {
     name: 'Toast + useToast',
     codeName: 'Toast.tsx / useToast.ts',
@@ -1542,7 +2153,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Médaille de réussite: cercle avec anneau en pointillés intérieur. Warm gradient = déverrouillé, Brand deep = spécial/rare, Ink gray = verrouillé.',
     keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div className="flex gap-4 items-center flex-wrap">
         <Medal size="lg" variant="default">🏆</Medal>
         <Medal size="lg" variant="brand">⚡</Medal>
         <Medal size="lg" variant="locked">🔒</Medal>
@@ -1557,10 +2168,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ProgressRing.tsx',
     cssBase: 'ProgressRing (inline SVG)',
     category: 'Learning',
+    showcaseOnly: true,
     description: 'Anneau de progression SVG circulaire. Tailles: sm/md/lg/xl. Animation de fill avec stroke-dashoffset. Utilisé dans profil, badges de compétences.',
     keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'percentage'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-6)', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div className="flex gap-6 items-center flex-wrap">
         <ProgressRing value={75} size={100} label="Parcours" />
         <ProgressRing value={45} size={80} label="Leçons" />
         <ProgressRing value={90} size={64} />
@@ -1573,10 +2185,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'CompetenceBadge.tsx',
     cssBase: '.comp-badge',
     category: 'Learning',
+    showcaseOnly: true,
     description: '4 niveaux de compétence avec code couleur progressif. Niveau 1 = débutant (gris), Niveau 4 = expert (primary vibrant). Utilisé dans profil compétences.',
     keywords: ['competence', 'skill', 'level', 'badge', 'proficiency'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+      <div className="flex gap-3 flex-wrap">
         <CompetenceBadge level={1} label="Sensibilisé" />
         <CompetenceBadge level={2} label="Pratiquant" />
         <CompetenceBadge level={3} label="Autonome" />
@@ -1589,10 +2202,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'MasteryBadge.tsx',
     cssBase: '.mastery-badge',
     category: 'Learning',
+    showcaseOnly: true,
     description: '5 niveaux de maîtrise (Novice → Expert) avec représentation de la taxonomie de Bloom. Progression visuelle par couleur du clair au vif.',
     keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
+      <div className="flex gap-4 flex-wrap">
         <MasteryBadge level="beginner" label="Découverte" progress={30} />
         <MasteryBadge level="intermediate" label="Prompt Engineering" progress={65} />
         <MasteryBadge level="advanced" label="IA Générative" progress={80} />
@@ -1608,7 +2222,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Composant de récompense/achievement. 3 variantes: unlocked (déverrouillé), locked (verrouillé avec opacité réduite), in-progress (avec barre de progression).',
     keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-4)', flexWrap: 'wrap' }}>
+      <div className="flex gap-4 flex-wrap">
         <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
         <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
         <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
@@ -1620,6 +2234,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Badge.tsx (merged)',
     cssBase: '.trending-badge',
     category: 'Learning',
+    showcaseOnly: true,
     description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Gradient + pulse animation. Param `count` optionnel. Implémenté dans Badge.tsx — TrendingBadge.tsx = thin re-export.',
     keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof', 'promo'],
     render: () => (
@@ -1654,7 +2269,7 @@ const COMPONENTS: ComponentEntry[] = [
         { id: '4', label: 'Certification', state: 'upcoming' as const },
       ];
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-6)' }}>
+        <div className="flex flex-col gap-6">
           <Stepper items={steps} orientation="horizontal" />
           <Stepper items={steps} orientation="vertical" />
         </div>
@@ -1671,7 +2286,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Message contextuel persistant ancré dans la page. 4 variantes sémantiques: info, success, warning, danger. Patterns: banner (défaut) et inline (compact).',
     keywords: ['alert', 'message', 'warning', 'error', 'success', 'info', 'danger', 'banner', 'inline'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <Alert variant="info" title="Information">Mise à jour disponible — rechargez la page pour en bénéficier.</Alert>
         <Alert variant="success" title="Enregistré avec succès" dismissible>Vos modifications ont bien été sauvegardées.</Alert>
         <Alert variant="warning" title="Attention" actions={<Button size="sm" variant="ghost">Voir les détails</Button>}>
@@ -1701,6 +2316,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/CelebrationModal.tsx',
     cssBase: 'Tailwind + modals.css animations',
     category: 'Modals',
+    showcaseOnly: true,
     description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). Remplace l\'ancien composant `Celebration` (full card) — uniformisé avec les autres modals (BookingModal, StreakCelebrationModal, etc.). Sparkles aux 4 coins, gradient bg + text, scrim avec backdrop-blur.',
     keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
     render: () => <CelebrationModalDemo />,
@@ -1723,10 +2339,10 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- NAVIGATION (additional) ----------------------------------------- */
   {
     name: 'Breadcrumb',
-    codeName: 'ui/Breadcrumb.tsx (canonical, BreadcrumbNav merged)',
+    codeName: 'ui/Breadcrumb.tsx (canonical)',
     cssBase: '.breadcrumb / .breadcrumb__current / .breadcrumb--sticky',
     category: 'Navigation',
-    description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes). BreadcrumbNav.tsx = thin re-export.',
+    description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes).',
     keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
       <div className="flex flex-col gap-6">
@@ -1796,6 +2412,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Pagination.tsx',
     cssBase: '.pager / .pager__dots / .pager-info',
     category: 'Navigation',
+    showcaseOnly: true,
     description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
     render: () => <PaginationDemo />,
@@ -1821,20 +2438,47 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'DropdownMenu',
-    codeName: 'DropdownMenu.tsx',
-    cssBase: '.dd / .dd__item / .dd__item--danger / .dd__sep',
+    codeName: 'ui/DropdownMenu.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Navigation',
-    description: 'Menu d\'actions secondaires derrière un déclencheur. Labels de section, séparateurs, zone danger en bas. Le consommateur gère l\'état ouvert/fermé et le positionnement.',
-    keywords: ['dropdown', 'menu', 'actions', 'context', 'secondary', 'popover'],
+    usedBy: ['App (Sidebar user menu)'],
+    description: 'Menu d\'actions / navigation contextuelle. 2 variants : solid (border + shadow) ou glass (backdrop-blur + ring + soft shadow brand). Sub-composants : DropdownLabel (section header), DropdownItem (avec icon + shortcut kbd + badge demo/pro/new/beta + danger state), DropdownSeparator. Le consommateur gère ouverture/fermeture, positionnement + outside-click + keyboard. Utilisé dans la Sidebar pour le user menu.',
+    keywords: ['dropdown', 'menu', 'actions', 'navigation', 'user-menu', 'popover', 'glass', 'a11y'],
     render: () => (
-      <div style={{ display: 'flex', gap: 'var(--s-8)', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <DropdownMenu style={{ width: 220, position: 'static', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border)', borderRadius: 'var(--r-lg)', background: 'var(--surface)', overflow: 'hidden' }}>
-          <DropdownLabel>Actions</DropdownLabel>
-          <DropdownItem icon={I.edit} shortcut="⌘E">Modifier</DropdownItem>
-          <DropdownItem icon={I.arrow}>Partager</DropdownItem>
-          <DropdownSeparator />
-          <DropdownItem icon={I.trash} danger>Supprimer</DropdownItem>
-        </DropdownMenu>
+      <div className="flex flex-wrap gap-section items-start">
+        {/* Variant solid — actions context menu */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Solid · actions context</p>
+          <DropdownMenu variant="solid" style={{ position: 'static' }}>
+            <DropdownLabel>Actions</DropdownLabel>
+            <DropdownItem icon={I.edit} shortcut="⌘E">Modifier</DropdownItem>
+            <DropdownItem icon={I.arrow}>Partager</DropdownItem>
+            <DropdownItem icon={I.book}>Dupliquer</DropdownItem>
+            <DropdownSeparator />
+            <DropdownItem icon={I.trash} danger>Supprimer</DropdownItem>
+          </DropdownMenu>
+        </div>
+
+        {/* Variant glass — user menu (vrai pattern utilisé dans Sidebar) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · user menu (Sidebar)</p>
+          <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
+            <DropdownMenu variant="glass" style={{ position: 'static', minWidth: 260 }}>
+              <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
+              <DropdownItem icon={<Settings2 size={16} />}>Paramètres</DropdownItem>
+              <DropdownItem icon={<Bell size={16} />}>Notifications</DropdownItem>
+              <DropdownItem icon={<Target size={16} />} badge="demo">Positionnement</DropdownItem>
+              <DropdownItem icon={<BarChart3 size={16} />} badge="pro">Espace Entreprise</DropdownItem>
+              <DropdownSeparator />
+              <DropdownLabel>Communauté</DropdownLabel>
+              <DropdownItem icon={<Trophy size={16} />}>Leaderboard</DropdownItem>
+              <DropdownItem icon={<Users size={16} />}>Collaboration</DropdownItem>
+              <DropdownItem icon={<MessageSquare size={16} />}>Messages</DropdownItem>
+              <DropdownSeparator />
+              <DropdownItem icon={<LogOut size={16} />} danger>Déconnexion</DropdownItem>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -1848,7 +2492,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Étiquette de catégorie ou filtre actif. Neutre par défaut, supprimable pour les filtres actifs (bouton ×).',
     keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip'],
     render: () => (
-      <div className="hstack" style={{ flexWrap: 'wrap' }}>
+      <div className="hstack flex-wrap">
         <Tag>Leadership</Tag>
         <Tag>IA Générative</Tag>
         <Tag leadingIcon={I.book}>Formation</Tag>
@@ -1865,15 +2509,15 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Pilule de métadonnée unique avec tones et tailles. Contrairement à MetaPillGroup, s\'utilise seul pour des contextes précis. Clickable optionnel.',
     keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand'],
     render: () => (
-      <div className="vstack">
-        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+      <div className="flex flex-col gap-stack">
+        <div className="hstack flex-wrap">
           <MetaPill text="Default" />
           <MetaPill text="Primary" tone="primary" />
           <MetaPill text="Warm" tone="warm" />
           <MetaPill text="Sun" tone="sun" />
           <MetaPill text="Brand" tone="brand" />
         </div>
-        <div className="hstack" style={{ flexWrap: 'wrap' }}>
+        <div className="hstack flex-wrap">
           <MetaPill text="Small" size="sm" tone="primary" />
           <MetaPill text="Medium" size="md" tone="primary" />
           <MetaPill text="Large" size="lg" tone="primary" />
@@ -1887,10 +2531,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'MetaItem.tsx',
     cssBase: '.tls-meta-item / .tls-meta-item--sm / .tls-meta-item--brand/warm',
     category: 'Content',
+    showcaseOnly: true,
     description: 'Paire label/valeur pour les métadonnées structurées. Sizes: sm/md. Tones: muted (défaut)/brand/warm. Icon optionnel dans le label.',
     keywords: ['meta', 'item', 'label', 'value', 'pair', 'data', 'detail', 'size', 'tone'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 360 }}>
+      <div className="vstack max-w-[360px]">
         <MetaItem label="Durée" value="4h 30min" />
         <MetaItem label="Niveau" value="Intermédiaire" tone="brand" />
         <MetaItem label="Modules" value="12 leçons" tone="warm" />
@@ -1903,10 +2548,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'UserInfo.tsx',
     cssBase: '.tls-user-info / .tls-user-info--sm|md|lg',
     category: 'Content',
+    showcaseOnly: true,
     description: 'Bloc identité utilisateur compact: avatar + nom + rôle + status dot optionnel. Tailles: sm/md/lg. Statuts: online/offline/away.',
     keywords: ['user', 'info', 'avatar', 'name', 'role', 'identity', 'author', 'status', 'online'],
     render: () => (
-      <div className="vstack" style={{ maxWidth: 320 }}>
+      <div className="vstack max-w-[320px]">
         <UserInfo name="Jeanne Dupont" role="Apprenante" size="sm" status="online" />
         <UserInfo name="Sophie Martin" role="Coach certifiée" size="md" status="away" />
         <UserInfo name="Ahmed Ali" role="Formateur" size="lg" status="offline" />
@@ -1915,69 +2561,149 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'ProfileCard',
-    codeName: 'ProfileCard.tsx',
-    cssBase: '.tls-profile-card / .tls-profile-card--*',
+    codeName: 'ui/ProfileCard.tsx',
+    cssBase: 'Tailwind (no BEM) — Avatar + MetaPillGroup + Button',
     category: 'Content',
-    description: 'Carte profil complète: avatar, nom, rôle, bio, métadonnées chips, liens sociaux, CTA. 3 variantes: default, compact, featured.',
-    keywords: ['profile', 'card', 'user', 'avatar', 'bio', 'social', 'coach', 'compact', 'featured'],
+    usedBy: ['Coaching'],
+    description: 'Carte profil DS pour coach/expert/user. Compose <Avatar size="xl"> + <MetaPillGroup tone> + <Button>. 3 variants (default/compact/featured) × 3 tones (primary/warm/sun) × 2 alignments (center/left). Props : avatar/initials, name, role, avatarBadge (overlay slot), rating (Stars + value + count), specialties (pills), contacts (email/phone/linkedin/twitter/website), bio, cta. Featured variant = bordure 2px tone + gradient bg.',
+    keywords: ['profile', 'card', 'user', 'coach', 'avatar', 'rating', 'specialties', 'tone', 'featured', 'a11y'],
     render: () => (
-      <div className="grid-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+        {/* Featured primary — Coaching look */}
         <ProfileCard
+          variant="featured"
+          tone="primary"
+          align="center"
+          initials="SM"
           name="Sophie Martin"
-          role="Coach Leadership & IA"
-          bio="Experte en développement managérial avec 10 ans d'expérience en grandes entreprises."
-          metadata={[
-            { label: 'Séances', value: 48 },
-            { label: 'Satisfaction', value: '98%' },
+          role="Expert IA & Pédagogie"
+          avatarBadge={<Star size={12} className="fill-white" />}
+          specialties={['Prompt Engineering', 'IA Générative']}
+          contacts={[
+            { type: 'email', href: 'mailto:sophie@example.com', label: 'sophie@example.com' },
+            { type: 'linkedin', href: 'https://linkedin.com/in/sophie', label: 'LinkedIn' },
           ]}
-          socialLinks={[
-            { platform: 'linkedin', url: '#' },
-            { platform: 'email', url: '#' },
-          ]}
-          cta={{ label: 'Réserver une session', onClick: () => {} }}
+          bio="Spécialiste IA générative et design pédagogique. Accompagnement 1:1 orienté pratique."
+          cta={{ label: 'Réserver une session', icon: <Calendar size={15} />, onClick: () => {} }}
         />
+        {/* Default warm — alternative tone */}
+        <ProfileCard
+          tone="warm"
+          align="center"
+          initials="PB"
+          name="Paul Bernard"
+          role="Expert Communication"
+          specialties={['Leadership', 'Storytelling']}
+          contacts={[
+            { type: 'email', href: 'mailto:paul@example.com', label: 'paul@example.com' },
+          ]}
+          bio="Coach en communication & leadership. 15 ans d'expérience en grandes entreprises."
+          cta={{ label: 'Voir profil', onClick: () => {} }}
+        />
+        {/* Compact left-aligned — sidebar usage */}
         <ProfileCard
           variant="compact"
-          name="Paul Bernard"
-          role="Expert Prompt Engineering"
-          cta={{ label: 'Voir profil', onClick: () => {}, variant: 'secondary' }}
+          tone="sun"
+          align="left"
+          initials="MC"
+          name="Marie Cohen"
+          role="Coach Carrière"
+          specialties={['Reconversion', 'Mobilité interne']}
+          cta={{ label: 'Contacter', onClick: () => {} }}
         />
       </div>
     ),
   },
   {
     name: 'IconFeatureCard',
-    codeName: 'IconFeatureCard.tsx',
-    cssBase: '.tls-icon-feature-card / .tls-icon-feature-card--brand/warm/sun',
+    codeName: 'ui/IconFeatureCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Content',
-    description: 'Carte de fonctionnalité avec icône proéminente + titre + description. Tones: brand/warm/sun. Hover: icon scale(1.1) + shadow-md.',
-    keywords: ['feature', 'icon', 'card', 'highlight', 'benefit', 'landing', 'tone'],
+    description: 'Tile card carré-arrondi (button-shape). Icônes Lucide stroke 1.75. Auto-layout CENTERED (padding visuel égal 4 côtés). Variants : `iconStyle` (plain/filled/bubble) × `iconSize` (xs/sm/md/lg/xl) × `tone` (brand/warm/sun) × `surface` (card/tinted/glass/frosted) × `square` boolean + mode display/button via présence de `onClick`. Description optionnelle. Title et padding scalent automatiquement avec iconSize. ⚠️ Utiliser dans `<CardGrid layout="square-tiles">` pour les cards square (≥4 items).',
+    keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
     render: () => (
-      <div className="grid-2">
-        <IconFeatureCard
-          tone="brand"
-          icon={I.book}
-          title="Parcours personnalisés"
-          description="Des formations adaptées à votre rythme et vos objectifs professionnels."
-        />
-        <IconFeatureCard
-          tone="warm"
-          icon={I.trophy}
-          title="Certifications reconnues"
-          description="Obtenez des badges et diplômes valorisés par les recruteurs."
-        />
-        <IconFeatureCard
-          tone="sun"
-          icon={I.heart}
-          title="Coaching 1-to-1"
-          description="Sessions individuelles avec des coachs certifiés et expérimentés."
-        />
-        <IconFeatureCard
-          tone="brand"
-          icon={I.settings}
-          title="Suivi de progression"
-          description="Tableaux de bord détaillés pour mesurer vos avancées en temps réel."
-        />
+      <div className="flex flex-col gap-section">
+
+        {/* ─── Usage canonique : CardGrid square-tiles + iconSize md (default) ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⭐ Pattern canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize <strong>md</strong> (default · 32px)</p>
+          <CardGrid layout="square-tiles" gapSize="md">
+            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
+            <IconFeatureCard square tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
+            <IconFeatureCard square tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+          </CardGrid>
+        </div>
+
+        {/* ─── Version sm (compact tiles) ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Variante compacte · iconSize <strong>sm</strong> (24px) — pour zones denses (sidebar, hero overlays)</p>
+          <CardGrid layout="square-tiles" gapSize="md">
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
+            <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="sm" icon={<MapIcon size={24} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
+            <IconFeatureCard square tone="sun" iconStyle="plain" iconSize="sm" icon={<PenLine size={24} strokeWidth={1.75} />} title="Journal" onClick={() => {}} />
+            <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<SparklesIcon size={24} strokeWidth={1.75} />} title="Veille" onClick={() => {}} />
+          </CardGrid>
+        </div>
+
+        {/* ─── Avec description optionnelle ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Avec description (feature cards landing/marketing) · md</p>
+          <CardGrid layout="square-tiles" gapSize="md">
+            <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
+            <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
+            <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Notez vos réflexions" onClick={() => {}} />
+            <IconFeatureCard tone="brand" iconStyle="plain" icon={<SparklesIcon size={32} strokeWidth={1.75} />} title="Veille" description="Actualités curées" onClick={() => {}} />
+          </CardGrid>
+        </div>
+
+        {/* ─── iconStyle × tone (matrice compacte 3×3) ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconStyle (plain / filled / bubble) × tone (brand / warm / sun) · md</p>
+          <div className="grid grid-cols-3 gap-stack">
+            <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
+            <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
+            <IconFeatureCard square tone="sun" iconStyle="bubble" icon={<Star size={20} strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
+          </div>
+        </div>
+
+        {/* ─── iconSize ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconSize · xs 20 / sm 24 / md 32 (default) / lg 40 / xl 48 — title scale automatiquement</p>
+          <div className="flex flex-wrap gap-stack items-start">
+            <IconFeatureCard tone="brand" iconStyle="plain" iconSize="xs" icon={<MessageSquare size={20} strokeWidth={1.75} />} title="xs" onClick={() => {}} className="w-[100px]" />
+            <IconFeatureCard tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="sm" onClick={() => {}} className="w-[120px]" />
+            <IconFeatureCard tone="brand" iconStyle="plain" iconSize="md" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="md" onClick={() => {}} className="w-[140px]" />
+            <IconFeatureCard tone="brand" iconStyle="plain" iconSize="lg" icon={<MessageSquare size={40} strokeWidth={1.75} />} title="lg" onClick={() => {}} className="w-[160px]" />
+            <IconFeatureCard tone="brand" iconStyle="plain" iconSize="xl" icon={<MessageSquare size={48} strokeWidth={1.75} />} title="xl" onClick={() => {}} className="w-[180px]" />
+          </div>
+        </div>
+
+        {/* ─── surface (4 variants) ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">surface · card / tinted / glass / frosted</p>
+          {/* card + tinted sur fond clair */}
+          <div className="flex flex-wrap gap-stack">
+            <IconFeatureCard square surface="card" tone="brand" iconStyle="plain" iconSize="md" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="card" onClick={() => {}} className="w-[140px]" />
+            <IconFeatureCard square surface="tinted" tone="warm" iconStyle="bubble" iconSize="md" icon={<MapIcon size={22} strokeWidth={1.75} />} title="tinted" onClick={() => {}} className="w-[140px]" />
+          </div>
+          {/* glass + frosted sur fond gradient */}
+          <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack">
+            <div className="flex flex-wrap gap-stack">
+              <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<SparklesIcon size={32} strokeWidth={1.75} className="text-white" />} title="glass" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
+              <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} className="text-white" />} title="frosted" onClick={() => {}} className="w-[140px] [&_h3]:text-white" />
+            </div>
+          </div>
+        </div>
+
+        {/* ─── description optionnelle (sans / avec) ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">description · optionnelle (sans = pure tile · avec = feature card)</p>
+          <div className="flex flex-wrap gap-stack items-start">
+            <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Sans desc" onClick={() => {}} className="w-[140px]" />
+            <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="12 badges cette année" onClick={() => {}} className="w-[180px]" />
+          </div>
+        </div>
       </div>
     ),
   },
@@ -1988,6 +2714,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'CourseCard.tsx',
     cssBase: '.course-card / .course-card--brand/warm/sun',
     category: 'Core',
+    showcaseOnly: true,
     description: 'Carte de cours EDTECH avec gradient hero, badge catégorie, progression si inscrit, CTA Enroll/Continue. Tones: brand/warm/sun. Hover: shadow-md + translateY(-2px).',
     keywords: ['course', 'card', 'enroll', 'progress', 'learning', 'edtech', 'category', 'tone'],
     render: () => (
@@ -2013,21 +2740,22 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ParcoursCard',
     codeName: 'patterns/ParcoursCard.tsx',
-    cssBase: '.parcours-card / .parcours-card--primary|warm|sun',
-    category: 'Core',
-    description: 'Carte de parcours glassmorphism avec progression, statut, CTA tonalisé. Tones: primary/warm/sun. Hover: translateY(-4px) + shadow-lg + radial glow.',
-    keywords: ['parcours', 'learning path', 'progress', 'glass', 'tone', 'cta'],
+    cssBase: 'Tailwind (no BEM) — Card variant="tinted" tone={tone}',
+    category: 'Patterns',
+    usedBy: ['LearningPaths', 'Dashboard'],
+    description: 'Carte de parcours pour catalogues / hubs. Surface tinted gradient (via Card variant="tinted"). 3 tones (primary teal / warm orange / sun yellow). Titre h3 sans truncate + tooltip natif. MetaPills (durée + leçons). Description line-clamp-5 + tooltip natif si plus long. InlineProgress + CTA pill tone-aware (label dynamique selon status). Padding p-8 uniform (32px), gap-stack interne (16px), grid gap-section recommandé (32px). Alignement inter-cards via min-h sur description + flex-1 spacer (progress + CTA toujours en bas). Hover: translateY(-4px) + shadow-lg + radial glow tone-aware. Focus-visible outline tone-aware. A11y: role=button, aria-label, tabIndex, native title tooltips.',
+    keywords: ['parcours', 'learning path', 'progress', 'tinted', 'tone', 'cta', 'glass', 'glow', 'hover', 'a11y'],
     render: () => (
-      <div className="grid-2">
+      <CardGrid layout="default" gapSize="lg">
         <ParcoursCard
           id="1"
           title="Fondamentaux du Leadership"
-          description="Apprenez les principes clés du leadership moderne et développez votre style."
+          description="Apprenez les principes essentiels du leadership moderne et développez vos compétences de management."
           progress={65}
           status="en cours"
           tone="primary"
           lessons={12}
-          duration="6h"
+          duration="6 semaines"
           onClick={() => {}}
         />
         <ParcoursCard
@@ -2038,47 +2766,105 @@ const COMPONENTS: ComponentEntry[] = [
           status="non commencé"
           tone="warm"
           lessons={8}
-          duration="4h"
+          duration="4 semaines"
           onClick={() => {}}
         />
-      </div>
+        <ParcoursCard
+          id="3"
+          title="Communication Stratégique"
+          description="Maîtrisez l'art de la communication d'impact pour influencer et fédérer vos équipes."
+          progress={100}
+          status="complété"
+          tone="sun"
+          lessons={10}
+          duration="5 semaines"
+          onClick={() => {}}
+        />
+      </CardGrid>
     ),
   },
   {
-    name: 'SurfaceCard',
-    codeName: 'SurfaceCard.tsx',
-    cssBase: '.tls-surface-card / .tls-surface-card--default|elevated|glass|bordered',
-    category: 'Core',
-    description: 'Conteneur de surface générique. Variantes: default (surface+shadow-sm+border), elevated (shadow-md, pas de border), glass (backdrop-filter), bordered (accent primary-200).',
-    keywords: ['surface', 'card', 'container', 'glass', 'elevated', 'bordered', 'group'],
+    name: 'SessionCard',
+    codeName: 'learning/SessionCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    usedBy: ['Coaching', 'Dashboard'],
+    description: 'Card de session coaching (passée ou planifiée). Pattern : title + status badge + meta (coach · date) DIRECTEMENT sous le titre, description (contexte), footer actions (questionnaire / compte-rendu / note / ouvrir). Aligné sur la convention DS Phase 10 : 4 surfaces (card / tinted / glass / frosted) × 3 tones (primary / warm / sun) × interaction effects (hover lift, focus tone-aware). Footer divider tone-aware (subtle sur glass).',
+    keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
     render: () => (
-      <div className="grid-2">
-        <SurfaceCard variant="default">
-          <p className="text-label">Default</p>
-          <p className="text-caption text-muted">Surface + shadow-sm + border.</p>
-        </SurfaceCard>
-        <SurfaceCard variant="elevated">
-          <p className="text-label">Elevated</p>
-          <p className="text-caption text-muted">Shadow-md, sans bordure.</p>
-        </SurfaceCard>
-        <SurfaceCard variant="bordered">
-          <p className="text-label">Bordered</p>
-          <p className="text-caption text-muted">Bordure accent primary-200.</p>
-        </SurfaceCard>
-        <SurfaceCard variant="muted">
-          <p className="text-label">Muted</p>
-          <p className="text-caption text-muted">Fond grisé léger.</p>
-        </SurfaceCard>
+      <div className="flex flex-col gap-stack">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Surfaces · card (default) / tinted primary / tinted warm</p>
+        <div className="flex flex-col gap-stack">
+          <SessionCard
+            title="Stratégie d'implémentation IA"
+            coachName="Sophie Martin"
+            description="Intégration IA dans vos parcours et priorisation des cas d'usage."
+            dateLabel="8 décembre 2025"
+            status="completed"
+            questionnaire={true}
+            report={true}
+            onViewQuestionnaire={() => {}}
+            onViewReport={() => {}}
+            onAddNote={() => {}}
+          />
+          <SessionCard
+            surface="tinted"
+            tone="primary"
+            title="Prochaine session de coaching"
+            coachName="Sophie Martin"
+            description="Approfondissement ROLE-CONTEXT-TASK avec vos cas réels."
+            dateLabel="30 avril 2026"
+            status="planned"
+            onOpen={() => {}}
+          />
+          <SessionCard
+            surface="tinted"
+            tone="warm"
+            title="Introduction au prompt engineering"
+            coachName="Sophie Martin"
+            description="Fondamentaux et structuration des demandes."
+            dateLabel="15 décembre 2025"
+            status="completed"
+            questionnaire={true}
+            report={true}
+            journal={true}
+            onViewQuestionnaire={() => {}}
+            onViewReport={() => {}}
+            onAddNote={() => {}}
+          />
+        </div>
+
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
+        <div className="rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-col gap-stack">
+          <SessionCard
+            surface="glass"
+            title="Session glass"
+            coachName="Sophie Martin"
+            description="Overlay translucide sur fond coloré (hero, gradient page)."
+            dateLabel="30 avril 2026"
+            status="planned"
+            onOpen={() => {}}
+          />
+          <SessionCard
+            surface="frosted"
+            title="Session frosted"
+            coachName="Sophie Martin"
+            description="Overlay plus prononcé (cover image, blob ambient)."
+            dateLabel="22 avril 2026"
+            status="planned"
+            onOpen={() => {}}
+          />
+        </div>
       </div>
     ),
   },
   {
     name: 'ResourceCard',
     codeName: 'ResourceCard.tsx',
-    cssBase: '.tls-resource-card / .tls-resource-card--*',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Core',
-    description: 'Carte de ressource avec icône, type, titre, description, durée, catégorie, CTA. Variantes: default, minimal, with-badge. Tones: primary/warm/sun.',
-    keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone'],
+    description: 'Carte de ressource avec icône, type, titre, description, durée, catégorie, CTA. Variantes: default, minimal, with-badge. Tones: primary/warm/sun. **Usage cible Phase 10** : ressources complémentaires de fin d\'étape sur LearningPathDetail (PDF, vidéos externes, liens utiles après les leçons).',
+    keywords: ['resource', 'card', 'document', 'article', 'tutorial', 'link', 'badge', 'tone', 'complementary', 'learning-path'],
     render: () => (
       <div className="grid-2">
         <ResourceCard
@@ -2119,9 +2905,9 @@ const COMPONENTS: ComponentEntry[] = [
       <CompetencyMatrix
         skills={[
           { name: 'Prompt Engineering', level: 4 },
-          { name: 'Leadership', level: 3, color: 'var(--tls-orange-500)' },
+          { name: 'Leadership', level: 3, color: 'warm' },
           { name: 'IA Générative', level: 5 },
-          { name: 'Communication', level: 2, color: 'var(--tls-yellow-400)' },
+          { name: 'Communication', level: 2, color: 'sun' },
         ]}
       />
     ),
@@ -2131,10 +2917,11 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'GoalProgress.tsx',
     cssBase: 'GoalProgress (inline styles)',
     category: 'Learning',
+    showcaseOnly: true,
     description: 'Suivi de progression vers un objectif d\'apprentissage: nom, %, temps restant, indicateur on-track/retard. Tones: primary/warm/success/danger.',
     keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <GoalProgress goal="Terminer le parcours Leadership" percentComplete={72} daysRemaining={8} isOnTrack={true} tone="primary" />
         <GoalProgress goal="Obtenir la certification IA" percentComplete={35} daysRemaining={3} isOnTrack={false} tone="danger" />
         <GoalProgress goal="Compléter 10 sessions coaching" percentComplete={100} isOnTrack={true} tone="success" />
@@ -2161,70 +2948,115 @@ const COMPONENTS: ComponentEntry[] = [
 
   /* ---- PATTERNS (additional) -------------------------------------------- */
   {
-    name: 'ToneAwareCard',
-    codeName: 'patterns/ToneAwareCard.tsx',
-    cssBase: '.tone-card--primary / .tone-card--warm / .tone-card--sun',
-    category: 'Patterns',
-    description: 'Conteneur adaptatif au tone. Applique automatiquement le fond et la bordure correspondant au tone (primary/warm/sun). Clickable optionnel.',
-    keywords: ['tone', 'card', 'primary', 'warm', 'sun', 'adaptive', 'background'],
-    render: () => (
-      <div className="grid-2">
-        {(['primary', 'warm', 'sun'] as const).map((tone) => (
-          <ToneAwareCard key={tone} tone={tone} padding="var(--s-4)">
-            <p style={{ margin: 0, fontWeight: 700, fontSize: 'var(--t-caption)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Tone: {tone}</p>
-            <p style={{ margin: '4px 0 0', fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>Fond + bordure automatique selon le tone.</p>
-          </ToneAwareCard>
-        ))}
-        <ToneAwareCard tone="primary" padding="var(--s-4)" onClick={() => {}}>
-          <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--t-caption)' }}>Cliquable (hover lift)</p>
-        </ToneAwareCard>
-      </div>
-    ),
-  },
-  {
     name: 'HeroSection',
     codeName: 'patterns/HeroSection.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Hero réutilisable. 4 variants : gradient (saturé + texte blanc), glass (frosted glass + texte sombre), minimal (soft bg + outline + texte sombre), media (gradient + sparkles décoratives). 5 tones, 3 sizes, alignment left/center.',
-    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants'],
+    usedBy: ['LearningPathDetail', 'Coaching'],
+    description: 'Hero canonique (absorbe DashboardHero + LearningPathHeader). 4 variants × 5 tones × 3 sizes. Props clés : showBackButton+onBack, progress+progressLabel, metadata (pills), kpis (grid KPI), actions, eyebrow. → Pour hero éditorial text-focused sans stats, utiliser EditorialHero.',
+    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants', 'dashboard', 'learning path', 'kpi', 'progress'],
     render: () => (
-      <div className="vstack">
-        <HeroSection
-          icon={BookOpen}
-          eyebrow="Catalogue"
-          title="Veille & Ressources"
-          description="Restez à la pointe de votre domaine avec notre sélection éditoriale."
-          variant="gradient"
-          tone="primary"
-          metadata={[{ icon: I.book, text: '240 ressources' }, { icon: I.heart, text: 'Hebdo' }]}
-        />
-        <HeroSection
-          icon={Trophy}
-          eyebrow="Milestone"
-          title="Parcours complété"
-          description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
-          variant="media"
-          tone="warm"
-          align="center"
-        />
-        <HeroSection
-          icon={GraduationCap}
-          title="Mon parcours"
-          description="Reprenez là où vous vous êtes arrêté(e)."
-          variant="glass"
-          tone="primary"
-          size="sm"
-        />
-        <HeroSection
-          icon={Lightbulb}
-          eyebrow="Tip"
-          title="Coaching 1-to-1"
-          description="Sessions personnalisées avec des experts certifiés."
-          variant="minimal"
-          tone="sun"
-          size="sm"
-        />
+      <div className="flex flex-col gap-stack-lg">
+        {/* DNA 1 : LearningPath archetype — back btn + progress + metadata pills + KPIs (gradient saturé) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
+            Archetype « LearningPath » — gradient · lg · back btn · progress · metadata · KPIs
+          </p>
+          <HeroSection
+            variant="gradient"
+            tone="primary"
+            size="lg"
+            showBackButton
+            onBack={() => {}}
+            eyebrow="Leadership"
+            title="Fondamentaux du Leadership"
+            description="Apprenez les principes essentiels du leadership moderne et développez vos compétences de management."
+            metadata={[
+              { icon: <GraduationCap size={14} />, text: 'Marie Dubois' },
+              { icon: <Clock3 size={14} />, text: '6 semaines' },
+              { icon: <BookOpen size={14} />, text: '12 leçons' },
+            ]}
+            progress={65}
+            progressLabel="8 / 12 leçons complétées"
+          />
+        </div>
+
+        {/* DNA 2 : Dashboard archetype — gradient + KPIs grid + dual CTA (white primary / glass ghost) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
+            Archetype « Dashboard » — gradient · KPIs grid · dual CTA
+          </p>
+          <HeroSection
+            variant="gradient"
+            tone="warm"
+            eyebrow="Bienvenue"
+            title="Bonjour Jeanne"
+            description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée."
+            kpis={[
+              { icon: <BookOpen size={20} />, value: 12, label: 'Cours complétés' },
+              { icon: <Trophy size={20} />, value: '2 450', label: 'Points XP' },
+              { icon: <Flame size={20} />, value: '7j', label: 'Série actuelle' },
+            ]}
+            actions={
+              <>
+                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
+                  Continuer mon parcours
+                </button>
+                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
+                  Explorer
+                </button>
+              </>
+            }
+          />
+        </div>
+
+        {/* DNA 3 : Glass archetype — frosted glass + texte sombre (pour pages secondaires) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
+            Archetype « Glass » — glass · texte sombre (pages secondaires)
+          </p>
+          <HeroSection
+            variant="glass"
+            tone="primary"
+            icon={GraduationCap}
+            eyebrow="Mon apprentissage"
+            title="Mes Parcours"
+            description="Reprenez là où vous vous êtes arrêté(e) et explorez vos prochaines étapes."
+            size="md"
+          />
+        </div>
+
+        {/* DNA 4 : Minimal archetype — soft bg + outline (utility pages) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
+            Archetype « Minimal » — soft bg · outline (pages utilitaires)
+          </p>
+          <HeroSection
+            variant="minimal"
+            tone="sun"
+            icon={Lightbulb}
+            eyebrow="Tip"
+            title="Coaching 1-to-1"
+            description="Sessions personnalisées avec des experts certifiés."
+            size="sm"
+          />
+        </div>
+
+        {/* DNA 5 : Media archetype — gradient + sparkles décoratives (celebration) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
+            Archetype « Media » — gradient · sparkles décoratives (milestones / celebrations)
+          </p>
+          <HeroSection
+            variant="media"
+            tone="warm"
+            icon={Trophy}
+            eyebrow="Milestone"
+            title="Parcours complété"
+            description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
+            align="center"
+          />
+        </div>
       </div>
     ),
   },
@@ -2257,28 +3089,276 @@ const COMPONENTS: ComponentEntry[] = [
       );
     },
   },
+
+  /* ---- TIER 2 EDITORIAL ATOMS (Phase 10) --------------------------------- */
   {
-    name: 'DashboardHero',
-    codeName: 'patterns/DashboardHero.tsx',
-    cssBase: 'DashboardHero (inline styles)',
+    name: 'AuthorStrip',
+    codeName: 'patterns/AuthorStrip.tsx',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Hero composite pour pages dashboard: titre, sous-titre, stats KPI, CTA primaire + secondaire, glassmorphism optionnel. Tone-aware.',
-    keywords: ['dashboard', 'hero', 'kpi', 'stats', 'cta', 'composite', 'glass'],
+    usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'JournalDetail (Tier 2)', 'EditorialQuoteCallout signature'],
+    description: '⭐ Inline author meta strip — avatar + nom + rôle + meta (date, readTime). 2 variants : `compact` (1 ligne) et `expanded` (2 lignes avec rôle visible et meta wrapping). Réutilisable pour toutes les pages éditoriales.',
+    keywords: ['author', 'byline', 'meta', 'avatar', 'editorial', 'article', 'strip'],
     render: () => (
-      <DashboardHero
-        title="Bonjour, Jeanne"
-        subtitle="Continuez votre apprentissage"
-        description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée !"
-        stats={[
-          { label: 'Cours complétés', value: 12, accent: 'primary' },
-          { label: 'Points XP', value: '2 450', accent: 'warm' },
-          { label: 'Série', value: '7j', accent: 'sun' },
-        ]}
-        primaryCta={{ label: 'Continuer mon parcours', onClick: () => {} }}
-        secondaryCta={{ label: 'Explorer', onClick: () => {} }}
-        showGlow
-      />
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Compact (default)</p>
+          <AuthorStrip
+            name="Marie Dubois"
+            role="Senior Editor TLS"
+            meta={[
+              { icon: <Calendar size={12} />, text: '12 mai 2026' },
+              { icon: <Clock3 size={12} />,    text: '6 min de lecture' },
+            ]}
+          />
+        </div>
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Expanded</p>
+          <AuthorStrip
+            variant="expanded"
+            name="Pierre Leclerc"
+            role="Lead Pédagogie · The Learning Society"
+            meta={[
+              { icon: <Calendar size={12} />, text: '8 mai 2026' },
+              { icon: <Clock3 size={12} />,    text: '12 min de lecture' },
+            ]}
+          />
+        </div>
+      </div>
     ),
+  },
+  {
+    name: 'IntroCallout',
+    codeName: 'patterns/IntroCallout.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)'],
+    description: '⭐ Lead paragraph card glass tone-aware avec gradient accent bar à gauche. Optionnel : eyebrow + icon Quote. 4 tons (brand/warm/sun/neutral). Utilisé en haut d\'un article long sous le hero.',
+    keywords: ['intro', 'callout', 'lead', 'paragraph', 'editorial', 'thesis', 'glass'],
+    render: () => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+        <IntroCallout tone="brand" eyebrow="Thèse de l'article">
+          L'IA générative redessine en profondeur les modalités d'apprentissage en entreprise. Notre analyse de 47 cas concrets révèle 3 patterns émergents — et 2 impasses à éviter.
+        </IntroCallout>
+        <IntroCallout tone="warm" withQuoteIcon>
+          Cette semaine, on questionne la "personnalisation à grande échelle" : est-elle vraiment compatible avec la cohésion d'équipe et la culture commune ?
+        </IntroCallout>
+        <IntroCallout tone="sun">
+          Tutoriel pas-à-pas : la méthode CRISP pour structurer vos prompts en 5 étapes. À pratiquer sur 3 cas d'usage métier.
+        </IntroCallout>
+        <IntroCallout tone="neutral" eyebrow="Note méthodologique">
+          Les données présentées s'appuient sur 4 mois d'observation terrain (mars-juin 2026). Méthodologie complète en annexe.
+        </IntroCallout>
+      </div>
+    ),
+  },
+  {
+    name: 'KeyFindingCard',
+    codeName: 'patterns/KeyFindingCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Dossier (Tier 2)', 'VeilleContent rapport (Tier 2)', 'MagazineArticle (Tier 2)'],
+    description: '⭐ Glass card horizontale pour "points clés / insights / data findings". Icon-bubble gradient tone-aware + title + description ou metric (big value + label). Layout `horizontal` (default) ou `stacked`.',
+    keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
+    render: () => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+        <KeyFindingCard
+          tone="brand"
+          icon={<Target size={20} />}
+          title="Adoption massive"
+          metric={{ value: '78 %', label: 'des entreprises CAC40' }}
+          description="Le microlearning est désormais standard dans les grands groupes."
+        />
+        <KeyFindingCard
+          tone="warm"
+          icon={<TrendingUp size={20} />}
+          title="Croissance accélérée"
+          metric={{ value: '+340 %', label: 'd\'utilisation IA' }}
+          description="Versus la même période l'an dernier."
+        />
+        <KeyFindingCard
+          tone="sun"
+          icon={<Trophy size={20} />}
+          title="Top engagement"
+          description="Les apprenants utilisant l'IA-coach sont 2,4× plus actifs sur le long terme."
+        />
+        <KeyFindingCard
+          tone="success"
+          icon={<CheckCircle2 size={20} />}
+          title="ROI démontré"
+          metric={{ value: '4,2×', label: 'investissement initial' }}
+          description="Sur un horizon 18 mois."
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'EditorialQuoteCallout',
+    codeName: 'patterns/EditorialQuoteCallout.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['WeeklyNewsletter édito (Tier 2)', 'Magazine foreword (Tier 2)', 'Dossier intro thèse (Tier 2)'],
+    description: '⭐ Pattern signature : grand guillemet décoratif 3rem en icon-bubble tinted + texte italique multi-paragraphes + signature optionnelle (via AuthorStrip). Pour intros éditoriales hebdo, foreword magazine, intro dossier.',
+    keywords: ['quote', 'editorial', 'callout', 'foreword', 'intro', 'italic', 'signature'],
+    render: () => (
+      <EditorialQuoteCallout
+        tone="brand"
+        eyebrow="Édito de la semaine"
+        signature={{ name: 'Claire Martin', role: 'Rédactrice en chef TLS' }}
+      >
+        <p>L'IA générative redessine la pédagogie en profondeur — pas seulement les outils, mais les rythmes, les rôles, les rituels.</p>
+        <p>Cette semaine, on a choisi 5 articles qui montrent concrètement ce qui change en formation pro. Pas de futurologie : du terrain, des chiffres, des décisions à prendre maintenant.</p>
+      </EditorialQuoteCallout>
+    ),
+  },
+  {
+    name: 'ReadingProgress',
+    codeName: 'patterns/ReadingProgress.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)', 'LessonPlayer (futur)'],
+    description: '⭐ 2 sub-composants pilotés par le hook `useReadingProgress(targetRef?)` : (1) `<ReadingProgressBar>` fixed top + gradient tone-aware, (2) `<ReadingProgressRing>` SVG circular 40px avec label %. Passer un ref article pour mesurer le scroll précis ou omettre pour le document entier.',
+    keywords: ['reading', 'progress', 'scroll', 'indicator', 'bar', 'ring', 'circular', 'article'],
+    render: () => (
+      <div className="flex flex-col gap-stack-lg">
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
+          <div className="flex flex-col gap-3">
+            <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
+              <ReadingProgressBar tone="brand" fixed={false} height={6} className="absolute inset-0" />
+            </div>
+            <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
+              <ReadingProgressBar tone="warm" fixed={false} height={6} className="absolute inset-0" />
+            </div>
+            <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
+              <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
+            </div>
+          </div>
+          <p className="text-micro text-ink-400 mt-2">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+        </div>
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressRing — 4 tones</p>
+          <div className="flex items-center gap-stack-lg">
+            <ReadingProgressRing tone="brand" />
+            <ReadingProgressRing tone="warm" />
+            <ReadingProgressRing tone="sun" />
+            <ReadingProgressRing tone="neutral" />
+            <ReadingProgressRing tone="brand" size={56} />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'TableOfContents',
+    codeName: 'patterns/TableOfContents.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Dossier (Tier 2)', 'LessonPlayer (futur)'],
+    description: '⭐ Sticky aside navigation avec scroll-spy via IntersectionObserver. Numérotation auto (01, 02…), check icon sur items `completed`, active state coloré (tone-aware), hover translate-x, smooth scroll au clic avec offset configurable.',
+    keywords: ['toc', 'table-of-contents', 'sommaire', 'navigation', 'sticky', 'scroll-spy', 'sidebar'],
+    render: () => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone warm (default)</p>
+          <TableOfContents
+            tone="warm"
+            items={[
+              { id: 'demo-intro',      label: 'Introduction',           completed: true },
+              { id: 'demo-method',     label: 'Méthodologie',           completed: true },
+              { id: 'demo-results',    label: 'Résultats clés' },
+              { id: 'demo-analysis',   label: 'Analyse et discussion' },
+              { id: 'demo-conclusion', label: 'Conclusion & recommandations' },
+            ]}
+          />
+        </div>
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone brand</p>
+          <TableOfContents
+            tone="brand"
+            title="Chapitres"
+            items={[
+              { id: 'demo-c1', label: 'Chapitre 1 — Les fondamentaux' },
+              { id: 'demo-c2', label: 'Chapitre 2 — Cas d\'usage' },
+              { id: 'demo-c3', label: 'Chapitre 3 — Mise en pratique' },
+            ]}
+          />
+        </div>
+      </div>
+    ),
+  },
+
+  /* ---- FILTER BAR (refactored Tailwind) ----------------------------------- */
+  {
+    name: 'FilterBar',
+    codeName: 'forms/FilterBar.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
+    description: '⭐ Refactored Tailwind — barre de filtre horizontale avec pills clickables. Supporte multi-select / single-select, count badges, clear-all, 4 tons, 2 surfaces (tinted/plain), 2 sizes (sm/md). Pour toolbar inline (Search filtersSlot) ou standalone entre hero et listing.',
+    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all'],
+    render: () => {
+      const FilterBarDemo: React.FC = () => {
+        const [s1, setS1] = useState<string[]>(['all']);
+        const [s2, setS2] = useState<string[]>(['unread', 'mention']);
+        const [s3, setS3] = useState<string[]>([]);
+        return (
+          <div className="flex flex-col gap-stack-lg">
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Single-select · brand · tinted</p>
+              <FilterBar
+                surface="tinted"
+                tone="brand"
+                multiSelect={false}
+                showClearAll={false}
+                options={[
+                  { id: 'all',      label: 'Tout',      count: 24 },
+                  { id: 'actu',     label: 'Actus',     count: 8 },
+                  { id: 'tutoriel', label: 'Tutoriels', count: 7 },
+                  { id: 'dossier',  label: 'Dossiers',  count: 5 },
+                  { id: 'magazine', label: 'Magazine',  count: 4 },
+                ]}
+                selected={s1}
+                onChange={setS1}
+              />
+            </div>
+
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · warm · plain · with icons</p>
+              <FilterBar
+                tone="warm"
+                label="Filtrer"
+                options={[
+                  { id: 'unread',   label: 'Non lus',   icon: <Bell size={11} />, count: 3 },
+                  { id: 'mention',  label: 'Mentions',  icon: <MessageSquare size={11} /> },
+                  { id: 'invite',   label: 'Invitations', icon: <Mail size={11} /> },
+                  { id: 'archive',  label: 'Archives',  disabled: true },
+                ]}
+                selected={s2}
+                onChange={setS2}
+              />
+            </div>
+
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · sun · size sm</p>
+              <FilterBar
+                tone="sun"
+                size="sm"
+                options={[
+                  { id: 'beg',    label: 'Débutant' },
+                  { id: 'int',    label: 'Intermédiaire' },
+                  { id: 'adv',    label: 'Avancé' },
+                  { id: 'expert', label: 'Expert' },
+                ]}
+                selected={s3}
+                onChange={setS3}
+              />
+            </div>
+          </div>
+        );
+      };
+      return <FilterBarDemo />;
+    },
   },
 
   /* ---- FEEDBACK & STATUS -------------------------------------------------- */
@@ -2287,16 +3367,17 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Spinner.tsx',
     cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
     category: 'Feedback',
+    showcaseOnly: true,
     description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris).',
     keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
     render: () => (
-      <div className="vstack" style={{ gap: 'var(--s-6)' }}>
-        <div className="hstack" style={{ alignItems: 'center', gap: 'var(--s-6)' }}>
+      <div className="vstack gap-6">
+        <div className="hstack items-center gap-6">
           <Spinner size="sm" />
           <Spinner size="md" />
           <Spinner size="lg" />
         </div>
-        <div className="hstack" style={{ alignItems: 'center', gap: 'var(--s-6)' }}>
+        <div className="hstack items-center gap-6">
           <Spinner size="md" tone="brand" label="Chargement..." />
           <Spinner size="md" tone="warm" />
           <Spinner size="md" tone="muted" />
@@ -2309,18 +3390,19 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Badge.tsx (merged)',
     cssBase: '.status-badge / .status-badge--{state}',
     category: 'Feedback',
+    showcaseOnly: true,
     description: 'Badge d\'état d\'apprentissage. 5 états : locked, available, in-progress, completed, failed. Avec ou sans label. Implémenté dans Badge.tsx — StatusBadge.tsx = thin re-export.',
     keywords: ['status', 'badge', 'state', 'progress', 'locked', 'completed', 'learning'],
     render: () => (
-      <div className="vstack" style={{ gap: 'var(--s-4)' }}>
-        <div className="hstack" style={{ flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+      <div className="vstack gap-4">
+        <div className="hstack flex-wrap gap-3">
           <StatusBadge status="locked" />
           <StatusBadge status="available" />
           <StatusBadge status="in-progress" />
           <StatusBadge status="completed" />
           <StatusBadge status="failed" />
         </div>
-        <div className="hstack" style={{ flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+        <div className="hstack flex-wrap gap-3">
           <StatusBadge status="locked" showLabel />
           <StatusBadge status="available" showLabel />
           <StatusBadge status="in-progress" showLabel />
@@ -2335,31 +3417,16 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/NotificationBadge.tsx',
     cssBase: '.notif-badge / .notif-badge--{tone}',
     category: 'Feedback',
+    showcaseOnly: true,
     description: 'Badge numérique superposé sur un enfant (icône, avatar). Tones : danger, brand, warm. Max configurable (99 par défaut).',
     keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
     render: () => (
-      <div className="hstack" style={{ gap: 'var(--s-8)', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div className="hstack gap-8 items-center flex-wrap">
         <NotificationBadge count={3} tone="danger"><Bell size={24} /></NotificationBadge>
         <NotificationBadge count={12} tone="brand"><MessageSquare size={24} /></NotificationBadge>
         <NotificationBadge count={99} tone="warm"><BookOpen size={24} /></NotificationBadge>
         <NotificationBadge count={150} max={99}><Bell size={24} /></NotificationBadge>
         <NotificationBadge count={0}><Bell size={24} /></NotificationBadge>
-      </div>
-    ),
-  },
-  {
-    name: 'KPICard',
-    codeName: 'ui/KPICard.tsx',
-    cssBase: '.tls-kpi / .tls-kpi-icon / .tls-kpi--{tone}',
-    category: 'Feedback',
-    description: 'Carte de KPI avec icône, valeur, label, tendance optionnelle (up/down/neutral) et 4 tones (brand/warm/sun/success).',
-    keywords: ['kpi', 'metric', 'stat', 'card', 'number', 'icon', 'trend', 'dashboard'],
-    render: () => (
-      <div className="grid-2" style={{ gap: 'var(--s-4)' }}>
-        <KPICard value="12" label="Cours terminés" icon={<BookOpen size={20} />} tone="brand" trend={{ value: 2, direction: 'up', label: 'ce mois' }} />
-        <KPICard value="86h" label="Temps d'apprentissage" icon={<Clock3 size={20} />} tone="warm" />
-        <KPICard value="7j" label="Série actuelle" icon={<Flame size={20} />} tone="sun" />
-        <KPICard value="2 450" label="Points XP" icon={<Trophy size={20} />} tone="success" trend={{ value: 180, direction: 'up' }} />
       </div>
     ),
   },
@@ -2370,14 +3437,47 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionHeader.tsx',
     cssBase: 'SectionHeader (canonical section heading)',
     category: 'Patterns',
-    description: 'En-tête de section CANONIQUE. Icône (LucideIcon ou ReactNode/emoji) dans bulle colorée, titre h2, sous-titre, action. Variants: compact, divider. Remplace SectionTitle.',
-    keywords: ['section', 'header', 'title', 'icon', 'h2', 'action', 'compact', 'divider', 'canonical'],
+    usedBy: ['LearningPathDetail', 'Dashboard', 'Journal'],
+    description: 'En-tête de section CANONIQUE. 5 variants (default tinted bubble / solid filled bubble / minimal stroke inline / accent vertical bar / underline) × 4 sizes (xs h5 → lg h2) × 5 tones (primary/warm/sun/accent/neutral). Sub-title, action slot, divider optionnel. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
+    keywords: ['section', 'header', 'title', 'icon', 'h2', 'h3', 'h4', 'action', 'divider', 'variants', 'sizes', 'filled', 'stroke', 'tinted', 'solid', 'minimal', 'accent', 'underline', 'canonical'],
     render: () => (
-      <div className="vstack gap-6">
-        <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="btn btn--sm btn--outline">Voir tout</button>} />
-        <SectionHeader icon={BookOpen} title="Ressources associées" compact />
-        <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
-        <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
+      <div className="flex flex-col gap-8">
+        {/* Variants showcase (size md, tone primary) */}
+        <div className="flex flex-col gap-4 p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 variants · size md · tone primary</p>
+          <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
+          <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-500→700 + white icon (strong CTA)" />
+          <SectionHeader variant="minimal" icon={Calendar} title="Minimal — stroke inline" subtitle="No bubble, premium/airy" />
+          <SectionHeader variant="accent" icon={Calendar} title="Accent — vertical bar" subtitle="Tone-colored bar before title" />
+          <SectionHeader variant="underline" icon={Calendar} title="Underline — accent line" subtitle="Subtle tone underline under title" />
+        </div>
+
+        {/* Sizes showcase (variant solid, tone warm) */}
+        <div className="flex flex-col gap-4 p-5 rounded-xl bg-secondary-50/30 border border-secondary-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
+          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — h5" />
+          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — h4" />
+          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — h3 (default)" />
+          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — h2" />
+        </div>
+
+        {/* Tones showcase (variant default, size md) */}
+        <div className="flex flex-col gap-4 p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 tones · variant default</p>
+          <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
+          <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
+          <SectionHeader variant="default" tone="sun" icon={Calendar} title="Tone sun (yellow)" />
+          <SectionHeader variant="default" tone="accent" icon={Calendar} title="Tone accent" />
+          <SectionHeader variant="default" tone="neutral" icon={Calendar} title="Tone neutral (ink)" />
+        </div>
+
+        {/* Real usage examples */}
+        <div className="flex flex-col gap-4">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Usage examples</p>
+          <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-600 hover:underline">Voir tout →</button>} />
+          <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
+          <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
+        </div>
       </div>
     ),
   },
@@ -2389,7 +3489,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Barre de progression de compétence. Tones : brand (teal), warm (orange), sun (jaune). Affichage du pourcentage optionnel. Transition CSS animée.',
     keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
     render: () => (
-      <div className="vstack" style={{ gap: 'var(--s-3)', maxWidth: 480 }}>
+      <div className="vstack gap-3 max-w-[480px]">
         <SkillBar label="Prompt Engineering" value={95} tone="brand" />
         <SkillBar label="Pédagogie" value={88} tone="warm" />
         <SkillBar label="Design Thinking" value={72} tone="sun" />
@@ -2402,6 +3502,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/PageHeader.tsx',
     cssBase: 'PageHeader (canonical page-level header)',
     category: 'Patterns',
+    showcaseOnly: true,
     description: 'En-tête de page CANONIQUE. Eyebrow chip avec icône, titre h1 responsive (clamp), description, actions. Variants: default | tight. Align: left | center.',
     keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
     render: () => (
@@ -2410,7 +3511,7 @@ const COMPONENTS: ComponentEntry[] = [
           eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
           title="Fondamentaux du Leadership"
           description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
-          actions={<><button className="btn btn--sm btn--outline">Partager</button><button className="btn btn--sm btn--primary">Continuer</button></>}
+          actions={<><Button variant="secondary" size="sm">Partager</Button><Button variant="primary" size="sm">Continuer</Button></>}
         />
         <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
         <PageHeader
@@ -2422,11 +3523,80 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    name: 'ViewerHeader',
+    codeName: 'patterns/ViewerHeader.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Positionnement', '(target) VideoViewer, FlashcardsViewer, AstucesViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
+    description: 'Sticky toolbar pour pages viewer / reader plein écran. Back btn (gauche) + Title eyebrow/subtitle (centré) + counter "X/Y" + prev/next chevrons + close X (droite). Glass-light backdrop-blur, responsive (back label hidden mobile, title truncate). Disabled state automatique aux bornes (prev/next).',
+    keywords: ['viewer', 'reader', 'toolbar', 'header', 'prev-next', 'navigation', 'back', 'close', 'sticky', 'glass'],
+    render: () => (
+      <div className="flex flex-col gap-stack-lg">
+        {/* Pattern 1 — Viewer with prev/next + counter (FlashcardsViewer style) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer avec navigation séquentielle (Flashcards / Astuces)</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+            <ViewerHeader
+              sticky={false}
+              backLabel="Retour"
+              onBack={() => {}}
+              eyebrow="Module 2"
+              title="Carte 3 — Boucle de feedback OKR"
+              current={3}
+              total={12}
+              onPrev={() => {}}
+              onNext={() => {}}
+              onClose={() => {}}
+            />
+            <div className="p-8 text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+          </div>
+        </div>
+
+        {/* Pattern 2 — Viewer simple title-only (VideoViewer style) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer simple back + title + close (Video / Article)</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+            <ViewerHeader
+              sticky={false}
+              backLabel="Retour"
+              onBack={() => {}}
+              eyebrow="Vidéo · 6 min"
+              title="Tendance Leadership 2026 — replay de la conférence"
+              subtitle="Publié le 30 avril 2026 par Sophie Martin"
+              onClose={() => {}}
+            />
+            <div className="p-8 text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+          </div>
+        </div>
+
+        {/* Pattern 3 — Disabled boundaries (first/last item) */}
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Disabled state aux bornes (premier / dernier item)</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
+            <ViewerHeader
+              sticky={false}
+              backLabel="Retour"
+              onBack={() => {}}
+              title="Premier élément"
+              current={1}
+              total={12}
+              onPrev={() => {}}
+              onNext={() => {}}
+              disablePrev
+            />
+            <div className="p-4 text-center text-ink-500 text-caption">— prev disabled —</div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
     name: 'CoachCardGrid',
     codeName: 'patterns/CoachCardGrid.tsx',
     cssBase: 'CoachCardGrid (responsive grid)',
     category: 'Patterns',
-    description: 'Grille de cartes pour les séances de coaching. Responsive sur tous les breakpoints. Variantes de tons (primary/warm/sun).',
+    showcaseOnly: true,
+    description: 'Grille responsive (1/2/3 colonnes) listant des coachs avec avatar, nom, spécialité, rating, tarif, badge disponibilité et CTA "Réserver". Tones primary/warm/sun. À utiliser pour les pages de découverte de coachs.',
     keywords: ['grid', 'coach', 'cards', 'coaching', 'session', 'responsive', 'tone'],
     render: () => (
       <CoachCardGrid
@@ -2435,7 +3605,7 @@ const COMPONENTS: ComponentEntry[] = [
             id: '1',
             name: 'Sarah Chen',
             role: 'Coach',
-            avatar: 'https://via.placeholder.com/120?text=Sarah',
+            // avatar omitted → ProfileCard renders initials
             bio: 'Experte en leadership',
             specialties: ['Leadership', 'Communication'],
             availability: true,
@@ -2444,7 +3614,7 @@ const COMPONENTS: ComponentEntry[] = [
             id: '2',
             name: 'Marc Dupont',
             role: 'Mentor',
-            avatar: 'https://via.placeholder.com/120?text=Marc',
+            // avatar omitted → ProfileCard renders initials
             bio: 'Consultant stratégique',
             specialties: ['Stratégie', 'Vision'],
             availability: true,
@@ -2458,7 +3628,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/LearningPathGrid.tsx',
     cssBase: 'LearningPathGrid (responsive grid)',
     category: 'Patterns',
-    description: 'Grille pour les parcours d\'apprentissage. Responsive avec gestion des images de fond.',
+    showcaseOnly: true,
+    description: 'Grille responsive de parcours: image de fond avec overlay gradient, titre, niveau, nombre de modules, ProgressBar et badge statut. À utiliser sur les pages liste/découverte de parcours.',
     keywords: ['learning', 'path', 'grid', 'course', 'responsive'],
     render: () => (
       <LearningPathGrid
@@ -2486,32 +3657,12 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'LearningPathHeader',
-    codeName: 'patterns/LearningPathHeader.tsx',
-    cssBase: 'LearningPathHeader (header with progress)',
-    category: 'Patterns',
-    description: 'En-tête de parcours avec progression, durée estimée et statut de complétude.',
-    keywords: ['learning', 'header', 'progress', 'path', 'completion'],
-    render: () => (
-      <LearningPathHeader
-        title="Fondamentaux du Leadership"
-        category="Développement Personnel"
-        description="Apprenez les principes essentiels du leadership moderne"
-        progress={65}
-        kpis={[
-          { label: 'Leçons complétées', value: '8/12', icon: <CheckCircle2 size={16} /> },
-          { label: 'Durée restante', value: '2h 30m', icon: <Clock3 size={16} /> },
-        ]}
-        tone="primary"
-      />
-    ),
-  },
-  {
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
     cssBase: 'MultiStepForm (form progress)',
     category: 'Patterns',
-    description: 'Formulaire multi-étapes avec indicateurs de progression et navigation.',
+    showcaseOnly: true,
+    description: 'Wrapper de formulaire séquentiel: stepper visuel (numéros + labels + état done/active/upcoming), slot enfant pour le contenu de l\'étape, boutons Précédent/Suivant et validation par étape. À utiliser pour onboarding ou wizards de configuration.',
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
     render: () => <MultiStepFormDemo />,
   },
@@ -2520,19 +3671,43 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/PageCard.tsx',
     cssBase: 'PageCard (featured card)',
     category: 'Patterns',
-    description: 'Carte de page avec image, titre, description. Variantes pour mise en avant.',
-    keywords: ['card', 'page', 'featured', 'image', 'content'],
+    description: 'Tuile composite (thumbnail ou icône, titre, description, status dot animé, badge, CTA hover) pour annuaires de pages, galeries de fonctionnalités. Grille via PageCardGrid (1-4 colonnes responsives).',
+    keywords: ['card', 'page', 'featured', 'image', 'content', 'thumbnail', 'directory'],
     render: () => (
-      <PageCard
-        item={{
-          id: '1',
-          thumbnail: 'https://via.placeholder.com/300x200?text=Course',
-          title: 'Cours Featured',
-          description: 'Apprenez les fondamentaux essentiels',
-          status: 'active',
-        }}
-        showThumbnail={true}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <PageCard
+          item={{
+            id: '1',
+            icon: I.book,
+            title: 'Tableau de bord',
+            description: 'Vue d\'ensemble de votre progression et activités récentes.',
+            status: 'active',
+            badge: { label: 'Nouveau', variant: 'sun' },
+          }}
+          showThumbnail={false}
+        />
+        <PageCard
+          item={{
+            id: '2',
+            icon: I.heart,
+            title: 'Coaching',
+            description: 'Sessions personnalisées avec votre coach dédié.',
+            status: 'beta',
+            tag: 'Premium',
+          }}
+          showThumbnail={false}
+        />
+        <PageCard
+          item={{
+            id: '3',
+            icon: I.trophy,
+            title: 'Achievements',
+            description: 'Badges et récompenses débloqués.',
+            status: 'coming-soon',
+          }}
+          showThumbnail={false}
+        />
+      </div>
     ),
   },
   {
@@ -2540,7 +3715,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ResourceCardGrid.tsx',
     cssBase: 'ResourceCardGrid (responsive grid)',
     category: 'Patterns',
-    description: 'Grille de cartes pour les ressources. Responsive sur tous les breakpoints.',
+    showcaseOnly: true,
+    description: 'Grille responsive (1/2/3 colonnes) qui itère sur des ResourceCard: icône type, titre, description, durée et catégorie. À utiliser sur pages "Ressources" ou "Documentation" pour afficher des collections de PDF/vidéos/articles.',
     keywords: ['resource', 'grid', 'cards', 'responsive'],
     render: () => (
       <ResourceCardGrid
@@ -2567,34 +3743,1607 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'SettingsSection',
-    codeName: 'patterns/SettingsSection.tsx',
-    cssBase: 'SettingsSection (form section)',
+    name: 'VeilleCard',
+    codeName: 'patterns/VeilleCardFeed.tsx (exports VeilleCard + VeilleCardListItem + FeaturedSpotlight)',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Section de paramètres avec groupes de formulaires et labels.',
-    keywords: ['settings', 'form', 'section', 'group', 'preferences'],
-    render: () => (
-      <SettingsSection title="Paramètres de notification">
-        <div style={{ padding: 'var(--s-4)', background: 'var(--surface-muted)', borderRadius: 'var(--r-lg)' }}>
-          <p style={{ margin: 0, fontSize: 'var(--t-body-sm)' }}>Sélectionnez vos préférences de notification</p>
+    usedBy: ['Veille (via VeilleCardFeed)'],
+    description: '⭐ Card éditoriale Veille — **3 sub-composants** exposés depuis VeilleCardFeed : (1) `<VeilleCard>` vertical avec top stripe tone-aware + badge + title + summary + footer auteur/durée + bookmark (pour grid). (2) `<VeilleCardListItem>` horizontal avec icon bubble gradient + content + actions side (pour list). (3) `<FeaturedSpotlight>` hero card horizontal (cover gradient + icon 96px + CTA glass). 3 tones (brand/warm/sun) × 3 surfaces (card/tinted/glass).',
+    keywords: ['veille', 'card', 'editorial', 'article', 'tutoriel', 'dossier', 'magazine', 'vertical', 'horizontal', 'featured', 'spotlight'],
+    render: () => {
+      const sampleItem = { id: 'demo-1', typeLabel: 'Actu', TypeIcon: TrendingUp, tone: 'brand' as const, title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.", category: 'IA & Pédagogie', author: 'TLS', publishedAt: "Aujourd'hui", readTime: '6 min' };
+      const tutoItem = { id: 'demo-2', typeLabel: 'Tutoriel', TypeIcon: Video, tone: 'warm' as const, isVideo: true, title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts et obtenir des résultats reproductibles.', category: 'Prompt Engineering', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' };
+      const dossierItem = { id: 'demo-3', typeLabel: 'Dossier', TypeIcon: FolderOpen, tone: 'sun' as const, title: "Transformation IA des parcours", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", category: 'Management', author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
+      return (
+        <div className="flex flex-col gap-section">
+          {/* 1 — VeilleCard (vertical, grid mode) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">1 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCard&gt;</code> — vertical (grid mode)</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
+              <VeilleCard item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+              <VeilleCard item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+              <VeilleCard item={dossierItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+            </div>
+          </div>
+
+          {/* 2 — VeilleCardListItem (horizontal, list mode) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">2 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCardListItem&gt;</code> — horizontal (list mode)</p>
+            <div className="flex flex-col gap-stack">
+              <VeilleCardListItem item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+              <VeilleCardListItem item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+              <VeilleCardListItem item={dossierItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+            </div>
+          </div>
+
+          {/* 3 — FeaturedSpotlight (hero horizontal) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">3 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;FeaturedSpotlight&gt;</code> — hero "À la une"</p>
+            <FeaturedSpotlight item={{ ...sampleItem, featured: true }} isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
+          </div>
         </div>
-      </SettingsSection>
-    ),
+      );
+    },
+  },
+  {
+    name: 'VeilleCard — design proposals',
+    codeName: '(mockups visuels — choisir avant implémentation comme variants)',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    description: '⭐ Proposals · 4 design alternatifs de VeilleCard à choisir. Le design actuel est "cover gradient prominent" (style magazine). Voici 4 alternatives pour différents contextes — dis lequel tu préfères pour qu\'on en fasse un variant `design` prop sur VeilleCard.',
+    keywords: ['veille', 'card', 'design', 'proposal', 'variant', 'minimal', 'compact', 'tinted', 'cover'],
+    render: () => {
+      const item = { typeLabel: 'Dossier', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+
+          {/* Design A — Cover dominant (current) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">A · Cover dominant (current default)</p>
+            <article className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden">
+              <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500">
+                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
+                <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+              </div>
+              <div className="flex flex-col gap-stack-xs p-5">
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
+              </div>
+            </article>
+          </div>
+
+          {/* Design B — Minimal (no cover, text-first editorial) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">B · Minimal text-first · pas de cover, accent stripe colored left</p>
+            <article className="flex rounded-2xl bg-white border border-ink-200 overflow-hidden">
+              <div className="w-1.5 bg-accent-500 shrink-0" />
+              <div className="flex flex-col gap-stack-xs p-5 flex-1">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                  <button className="text-ink-400 hover:text-ink-700"><Bookmark size={16} /></button>
+                </div>
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
+                <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
+              </div>
+            </article>
+          </div>
+
+          {/* Design C — Tinted full bg */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
+            <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-5 gap-stack-xs hover:bg-accent-50">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
+              </div>
+              <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
+              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+              <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">{item.summary}</p>
+              <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
+            </article>
+          </div>
+
+          {/* Design D — Magazine portrait avec title overlay */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">D · Magazine portrait · cover large + title en overlay bottom</p>
+            <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-600 h-[280px]">
+              <div className="absolute inset-0 flex items-center justify-center opacity-90"><FolderOpen size={84} strokeWidth={1} className="text-white" /></div>
+              {/* Gradient overlay bottom for readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white flex flex-col gap-tight">
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
+                <h3 className="m-0 font-display text-h4 font-bold leading-tight">{item.title}</h3>
+                <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
+                  <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                  <span className="font-bold">Lire →</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          {/* Design E — Compact list-row (one line per item dense) */}
+          <div className="flex flex-col gap-stack-xs md:col-span-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">E · Compact list-row · 1 ligne dense (pour feed très dense type inbox)</p>
+            <div className="flex flex-col gap-stack-xs rounded-2xl bg-white border border-ink-200 overflow-hidden p-2">
+              {[item, { ...item, title: "L'essor du microlearning en entreprise", category: 'Formation', typeLabel: 'Actu' }, { ...item, title: 'Construire un prompt structuré en 5 étapes', category: 'Prompt Engineering', typeLabel: 'Tutoriel' }].map((it, idx) => (
+                <article key={idx} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-ink-50 cursor-pointer">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-accent-50 text-accent-700 shrink-0"><FolderOpen size={16} /></span>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">{it.title}</h4>
+                    <p className="m-0 font-body text-caption text-ink-500 truncate">{it.typeLabel} · {it.category} · {it.author} · ⏱ {it.readTime}</p>
+                  </div>
+                  <button className="text-ink-400 hover:text-primary-600 shrink-0"><Bookmark size={15} /></button>
+                  <ArrowRight size={14} className="text-ink-400 shrink-0" />
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* Design F — Number-anchored (newspaper editorial) */}
+          <div className="flex flex-col gap-stack-xs md:col-span-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">F · Number-anchored · big number date à gauche (newspaper editorial style)</p>
+            <article className="flex items-stretch rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer max-w-2xl">
+              <div className="flex flex-col items-center justify-center w-28 shrink-0 bg-accent-50 border-r border-accent-200 p-5">
+                <span className="font-display text-h1 font-black text-accent-700 leading-none">22</span>
+                <span className="font-body text-micro font-bold uppercase tracking-wider text-accent-700 mt-tight">min</span>
+                <span className="font-body text-micro text-ink-500 mt-stack-xs">lecture</span>
+              </div>
+              <div className="flex flex-col gap-stack-xs p-5 flex-1">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                  <button className="text-ink-400 hover:text-ink-700"><Bookmark size={16} /></button>
+                </div>
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100 mt-stack-xs">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire en profondeur →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* Design G — Cover with bottom-overlap card (modern layered) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">G · Layered overlap · cover image avec card content qui remonte par-dessus</p>
+            <article className="relative pt-32 hover:-translate-y-1 transition-all cursor-pointer">
+              {/* Cover gradient en absolute top */}
+              <div className="absolute top-0 left-0 right-0 h-44 rounded-2xl bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
+              </div>
+              {/* Content card en overlap */}
+              <div className="relative bg-white border border-ink-200 rounded-2xl p-5 mx-3 shadow-lg flex flex-col gap-stack-xs">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100 mt-stack-xs">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* Design H — Quote spotlight (pull quote dominant) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">H · Quote spotlight · pull quote dominant (style éditorial premium)</p>
+            <article className="flex flex-col rounded-2xl bg-white border border-ink-200 p-6 gap-stack hover:shadow-lg cursor-pointer">
+              <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+              <blockquote className="m-0 relative pl-6 border-l-4 border-accent-400">
+                <span className="absolute -top-2 -left-1 text-h2 text-accent-400/40 font-display leading-none">"</span>
+                <p className="m-0 font-display text-h4 font-bold text-ink-900 leading-snug italic">
+                  Une transformation IA n'est pas une question de technologie mais d'écosystème pédagogique complet.
+                </p>
+              </blockquote>
+              <h3 className="m-0 font-body text-body-sm font-semibold text-ink-700 leading-tight">→ {item.title}</h3>
+              <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
+                <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                <span className="text-caption font-bold text-accent-700">Lire l'analyse →</span>
+              </footer>
+            </article>
+          </div>
+
+          {/* Design I — Sticker badge angled (postcard playful) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">I · Sticker badge angled · postcard playful avec badge tilted</p>
+            <article className="relative flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer">
+              <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
+              </div>
+              {/* Sticker badge tilted */}
+              <span className="absolute top-2 right-2 -rotate-6 inline-flex items-center gap-1 px-3 py-1.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-black uppercase tracking-wider shadow-lg border-2 border-white">
+                ⭐ Must-read
+              </span>
+              <div className="flex flex-col gap-stack-xs p-5">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* Design J — Editorial portrait (tall card) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">J · Editorial portrait · card tall verticale (style magazine print)</p>
+            <article className="flex flex-col rounded-2xl bg-gradient-to-b from-accent-50 to-white border border-accent-100 overflow-hidden hover:shadow-lg cursor-pointer">
+              <div className="relative h-56 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={84} strokeWidth={1.25} className="text-white/95" /></div>
+                {/* Edition number top corner */}
+                <div className="absolute top-3 left-3 inline-flex items-baseline gap-1 px-3 py-1.5 rounded-md bg-white/95 backdrop-blur-glass-light shadow-sm">
+                  <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">N°</span>
+                  <span className="font-display text-body font-black text-ink-900">14</span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-stack p-6 flex-1">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-100 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed line-clamp-3 flex-1">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-accent-100">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      );
+    },
+  },
+  {
+    name: 'VeilleCard — design proposals v2',
+    codeName: '(mockups v2 — 8 designs supplémentaires K-R, plus distincts visuellement)',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    description: '⭐ Proposals v2 · 8 nouveaux designs explorent d\'autres registres visuels : split horizontal, glass overlay sur photo, polaroid analog, brutalist zine, bookmark tab, audio podcast, drop cap éditorial, corner ribbon. Dis lesquels te plaisent pour qu\'on en fasse des variants `design` prop.',
+    keywords: ['veille', 'card', 'design', 'proposal', 'split', 'glass', 'polaroid', 'brutalist', 'bookmark', 'audio', 'drop-cap', 'ribbon', 'v2'],
+    render: () => {
+      const item = {
+        typeLabel: 'Dossier',
+        category: 'Management',
+        title: "Transformation IA des parcours de formation",
+        summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.",
+        author: 'McKinsey',
+        publishedAt: 'Il y a 3 jours',
+        readTime: '22 min',
+      };
+
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+
+          {/* K — Split horizontal Medium-style (image left 40% / text right 60%) */}
+          <div className="flex flex-col gap-stack-xs md:col-span-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">K · Split horizontal · image left + content right (Medium.com style, ratio 40/60)</p>
+            <article className="grid grid-cols-[2fr_3fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer max-w-3xl">
+              <div className="relative bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 min-h-[180px]">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <FolderOpen size={64} strokeWidth={1.2} className="text-white/95" />
+                </div>
+                <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900 shadow-sm">
+                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
+                </span>
+              </div>
+              <div className="flex flex-col gap-stack-xs p-5 sm:p-6">
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+                  {item.category} · {item.publishedAt}
+                </span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs mt-auto border-t border-ink-100">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* L — Glass overlay full photo (Apple News style) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
+            <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 via-accent-500 to-secondary-600 h-[320px] cursor-pointer group">
+              <div className="absolute inset-0 flex items-center justify-center opacity-90">
+                <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
+              </div>
+              <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium text-white text-micro font-bold uppercase border border-white/30">
+                <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
+              </span>
+              <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
+                <Bookmark size={15} />
+              </button>
+              {/* Glass panel content bottom */}
+              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-4 flex flex-col gap-1 shadow-lg">
+                <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">
+                  {item.category} · {item.publishedAt}
+                </span>
+                <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <footer className="flex justify-between items-center mt-1 font-body text-micro text-ink-600">
+                  <span>{item.author}</span>
+                  <span>⏱ {item.readTime}</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* M — Polaroid analog (rotation + photo dominante + caption blanc) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">M · Polaroid analog · rotation légère + photo dominante + caption manuscrit blanc</p>
+            <div className="flex items-center justify-center min-h-[340px] py-6">
+              <article className="rotate-[-2deg] bg-white p-3 pb-12 shadow-lg hover:shadow-xl hover:rotate-0 transition-all cursor-pointer max-w-[260px] relative">
+                <div className="relative aspect-square bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <FolderOpen size={72} strokeWidth={1.1} className="text-white/95" />
+                  </div>
+                  <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-white/90 text-micro font-bold uppercase text-ink-900">
+                    {item.typeLabel}
+                  </span>
+                </div>
+                {/* Polaroid caption manuscrit-style */}
+                <p className="m-0 mt-3 font-display text-body-sm font-semibold text-ink-900 leading-tight text-center italic">
+                  « {item.title} »
+                </p>
+                <p className="m-0 mt-1 font-body text-micro text-ink-500 text-center">
+                  {item.author} · {item.publishedAt}
+                </p>
+                {/* Tape effect top */}
+                <span aria-hidden className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-accent-300/40 rotate-[-3deg]" />
+              </article>
+            </div>
+          </div>
+
+          {/* N — Brutalist zine (thick black border + offset shadow + uppercase tight) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">N · Brutalist zine · bordure noire épaisse + ombre offset + uppercase tight</p>
+            <article className="bg-white border-[3px] border-ink-900 hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform cursor-pointer relative" style={{ boxShadow: '6px 6px 0 0 var(--color-accent-400, #F8B044)' }}>
+              <div className="h-32 bg-ink-900 flex items-center justify-center border-b-[3px] border-ink-900">
+                <FolderOpen size={56} strokeWidth={1.5} className="text-accent-400" />
+              </div>
+              <div className="p-5 flex flex-col gap-2">
+                <span className="inline-flex self-start px-2 py-0.5 bg-ink-900 text-accent-400 text-micro font-black uppercase tracking-widest">
+                  ▸ {item.typeLabel} · {item.category}
+                </span>
+                <h3 className="m-0 font-display text-h4 font-black uppercase text-ink-900 leading-none tracking-tight">{item.title}</h3>
+                <p className="m-0 font-body text-caption text-ink-700 leading-relaxed">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-2 border-t-2 border-ink-900 mt-1 font-mono text-micro font-bold uppercase">
+                  <span>{item.author}</span>
+                  <span>{item.readTime} →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* O — Bookmark tab (visual sticker out of card top) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">O · Bookmark tab · onglet visuel qui dépasse du haut comme un marque-page</p>
+            <article className="relative bg-white rounded-2xl border border-ink-200 mt-4 hover:shadow-md cursor-pointer transition-shadow">
+              {/* Bookmark tab top */}
+              <span className="absolute -top-3 left-5 inline-flex items-center gap-1.5 px-3 pb-3 pt-1.5 rounded-t-lg bg-accent-400 text-ink-900 text-micro font-black uppercase tracking-wider shadow-sm">
+                <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
+              </span>
+              <div className="h-32 bg-gradient-to-br from-accent-100 via-accent-200 to-secondary-200 rounded-t-2xl overflow-hidden flex items-center justify-center">
+                <FolderOpen size={56} strokeWidth={1.2} className="text-accent-700/60" />
+              </div>
+              <div className="p-5 flex flex-col gap-stack-xs">
+                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+                  {item.category} · {item.publishedAt}
+                </span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+          {/* P — Audio / podcast-first (waveform background) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">P · Audio podcast-first · waveform en background + bouton play prominent</p>
+            <article className="relative rounded-2xl bg-gradient-to-br from-ink-900 via-primary-900 to-primary-800 p-6 cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
+              {/* Waveform decorative SVG */}
+              <svg aria-hidden viewBox="0 0 200 60" className="absolute inset-x-0 bottom-0 w-full h-20 text-accent-400/30">
+                <path d="M0,30 L8,28 L16,18 L24,38 L32,22 L40,42 L48,15 L56,45 L64,20 L72,38 L80,12 L88,40 L96,25 L104,35 L112,18 L120,42 L128,28 L136,32 L144,15 L152,45 L160,22 L168,38 L176,18 L184,40 L192,28 L200,30" stroke="currentColor" strokeWidth="2" fill="none" />
+              </svg>
+
+              <div className="relative flex items-start gap-4">
+                <button aria-label="Play" className="shrink-0 inline-flex items-center justify-center w-14 h-14 rounded-pill bg-accent-400 text-ink-900 hover:scale-105 transition-transform shadow-lg">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+                </button>
+                <div className="flex-1 min-w-0">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-400/20 text-accent-300 text-micro font-bold uppercase tracking-wider border border-accent-400/40">
+                    🎙 Podcast · {item.typeLabel}
+                  </span>
+                  <h3 className="m-0 mt-2 font-display text-h4 font-bold text-white leading-tight">{item.title}</h3>
+                  <p className="m-0 mt-1 font-body text-caption text-white/70 leading-relaxed line-clamp-2">{item.summary}</p>
+                  <footer className="flex items-center gap-3 mt-3 font-body text-micro text-white/80">
+                    <span>⏱ 28 min</span>
+                    <span aria-hidden>·</span>
+                    <span>{item.author}</span>
+                    <span aria-hidden>·</span>
+                    <span>Episode #12</span>
+                  </footer>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          {/* Q — Drop cap editorial (giant first letter serif print) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Q · Drop cap editorial · grand initial caractère style print magazine</p>
+            <article className="bg-white rounded-2xl border border-ink-200 p-6 sm:p-7 hover:shadow-md cursor-pointer transition-shadow">
+              <header className="flex items-center justify-between mb-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider">
+                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
+                </span>
+                <span className="font-body text-micro text-ink-500">{item.publishedAt}</span>
+              </header>
+              <div className="flex items-start gap-4">
+                <span aria-hidden className="font-display text-[5rem] font-black leading-[0.85] text-accent-500 select-none">
+                  {item.title.charAt(0)}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                  <p className="m-0 mt-2 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-3">{item.summary}</p>
+                </div>
+              </div>
+              <footer className="flex justify-between items-center pt-stack-xs mt-stack border-t border-ink-100">
+                <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
+                <span className="text-caption font-bold text-accent-700">Lire ⏱ {item.readTime} →</span>
+              </footer>
+            </article>
+          </div>
+
+          {/* R — Featured corner ribbon (diagonal banner) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">R · Featured corner ribbon · bannière diagonale dans le coin top-right</p>
+            <article className="relative rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-lg cursor-pointer transition-shadow">
+              {/* Ribbon diagonal */}
+              <div aria-hidden className="absolute top-0 right-0 w-24 h-24 overflow-hidden pointer-events-none z-base">
+                <span className="absolute top-4 -right-7 rotate-45 bg-accent-400 text-ink-900 text-[10px] font-black uppercase tracking-widest py-1 w-32 text-center shadow-md">
+                  ⭐ Featured
+                </span>
+              </div>
+              <div className="h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 flex items-center justify-center">
+                <FolderOpen size={56} strokeWidth={1.25} className="text-white/95" />
+              </div>
+              <div className="p-5 flex flex-col gap-stack-xs">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider">
+                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
+                </span>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
+                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
+                  <span className="text-caption font-bold text-accent-700">Lire →</span>
+                </footer>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      );
+    },
+  },
+  {
+    name: 'VeilleCardFeed — layout proposals',
+    codeName: '(mockups visuels — choisir avant implémentation comme layouts)',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    description: '⭐ Proposals · 3 layouts alternatifs en plus de `grid` et `list` actuels. Choisis ceux à wirer comme variant `layout` prop sur VeilleCardFeed.',
+    keywords: ['veille', 'feed', 'layout', 'masonry', 'mosaic', 'carousel', 'proposal'],
+    render: () => {
+      type FeedSample = { typeLabel: string; tone: 'brand' | 'warm' | 'sun'; icon: typeof TrendingUp; title: string; excerpt: string };
+      const items: FeedSample[] = [
+        { typeLabel: 'Actu', tone: 'brand', icon: TrendingUp, title: "IA générative en formation : où en sommes-nous ?", excerpt: "Tour d'horizon des nouveaux usages…" },
+        { typeLabel: 'Tutoriel', tone: 'warm', icon: Video, title: 'Construire un prompt structuré', excerpt: 'Une vidéo pas à pas pour formaliser…' },
+        { typeLabel: 'Dossier', tone: 'sun', icon: FolderOpen, title: "Transformation IA des parcours", excerpt: "Synthèse approfondie sur l'impact de l'IA…" },
+        { typeLabel: 'Magazine', tone: 'brand', icon: BookOpen, title: 'Tendances EdTech 2026', excerpt: 'Numéro mensuel : marchés en croissance…' },
+      ];
+
+      const renderCard = (it: FeedSample, idx: number, opts?: { large?: boolean; horizontal?: boolean }) => {
+        const Icon = it.icon;
+        const grad = it.tone === 'brand' ? 'from-primary-400 via-primary-500 to-primary-700'
+          : it.tone === 'warm' ? 'from-secondary-300 via-secondary-500 to-secondary-700'
+          : 'from-accent-300 via-accent-500 to-secondary-500';
+        return opts?.horizontal ? (
+          <article key={idx} className="flex items-stretch rounded-2xl bg-white border border-ink-200 overflow-hidden shrink-0 w-[280px] cursor-pointer hover:shadow-md transition-all">
+            <div className={`relative w-24 shrink-0 bg-gradient-to-br ${grad} flex items-center justify-center`}><Icon size={32} className="text-white" /></div>
+            <div className="flex flex-col gap-tight p-3 flex-1 min-w-0">
+              <span className="text-micro font-bold uppercase text-ink-500">{it.typeLabel}</span>
+              <h4 className="m-0 text-body-sm font-bold text-ink-900 line-clamp-2 leading-tight">{it.title}</h4>
+            </div>
+          </article>
+        ) : (
+          <article key={idx} className={`flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden cursor-pointer hover:shadow-md transition-all ${opts?.large ? '' : ''}`}>
+            <div className={`relative ${opts?.large ? 'h-44' : 'h-28'} bg-gradient-to-br ${grad} flex items-center justify-center`}>
+              <Icon size={opts?.large ? 64 : 40} className="text-white" />
+              <span className="absolute top-2 left-2 px-2 py-0.5 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900">{it.typeLabel}</span>
+            </div>
+            <div className="flex flex-col gap-tight p-3">
+              <h4 className={`m-0 ${opts?.large ? 'text-h4' : 'text-body-sm'} font-bold text-ink-900 line-clamp-2 leading-tight`}>{it.title}</h4>
+              {opts?.large && <p className="m-0 text-caption text-ink-600 line-clamp-2">{it.excerpt}</p>}
+            </div>
+          </article>
+        );
+      };
+
+      return (
+        <div className="flex flex-col gap-section">
+
+          {/* Layout A — Mosaic (1 large + 3 small) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">A · Mosaic · 1 featured large + 3 cards small (mise en avant éditoriale)</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+              <div className="md:row-span-2">{renderCard(items[0], 0, { large: true })}</div>
+              {renderCard(items[1], 1)}
+              {renderCard(items[2], 2)}
+            </div>
+          </div>
+
+          {/* Layout B — Carousel horizontal */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">B · Carousel horizontal · scroll horizontal scrollbar (sections "À découvrir")</p>
+            <div className="flex gap-stack overflow-x-auto pb-stack-xs -mx-2 px-2 snap-x snap-mandatory">
+              {items.map((it, idx) => (
+                <div key={idx} className="snap-start shrink-0 w-[260px]">
+                  {renderCard(it, idx)}
+                </div>
+              ))}
+              {items.map((it, idx) => (
+                <div key={`b-${idx}`} className="snap-start shrink-0 w-[260px]">
+                  {renderCard(it, idx)}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Layout C — Masonry verticale (variable height) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Masonry · hauteurs variables (style Pinterest)</p>
+            <div className="columns-1 sm:columns-2 md:columns-3 gap-stack-lg [&>article]:mb-stack-lg [&>article]:break-inside-avoid">
+              {[items[0], items[1], items[2], items[3], items[0], items[1]].map((it, idx) => {
+                const Icon = it.icon;
+                const grad = it.tone === 'brand' ? 'from-primary-400 via-primary-500 to-primary-700'
+                  : it.tone === 'warm' ? 'from-secondary-300 via-secondary-500 to-secondary-700'
+                  : 'from-accent-300 via-accent-500 to-secondary-500';
+                const variableHeight = [120, 180, 220, 160, 200, 140][idx];
+                return (
+                  <article key={idx} className="rounded-2xl bg-white border border-ink-200 overflow-hidden cursor-pointer">
+                    <div className={`relative bg-gradient-to-br ${grad} flex items-center justify-center`} style={{ height: variableHeight }}>
+                      <Icon size={40} className="text-white" />
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900">{it.typeLabel}</span>
+                    </div>
+                    <div className="p-3">
+                      <h4 className="m-0 text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h4>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Layout D — Sectioned by type (group with headers) */}
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">D · Sectioned by type · groupé par catégorie avec section headers</p>
+            <div className="flex flex-col gap-stack-lg">
+              <div className="flex flex-col gap-stack-xs">
+                <div className="flex items-baseline gap-2"><TrendingUp size={14} className="text-primary-600" /><h4 className="m-0 text-body font-bold text-ink-900">Actus de la semaine</h4><span className="text-caption text-ink-500">2 items</span></div>
+                <div className="flex flex-col gap-stack-xs">
+                  {renderCard(items[0], 0, { horizontal: true })}
+                  {renderCard({ ...items[0], title: "L'essor du microlearning", typeLabel: 'Actu' }, 1, { horizontal: true })}
+                </div>
+              </div>
+              <div className="flex flex-col gap-stack-xs">
+                <div className="flex items-baseline gap-2"><Video size={14} className="text-secondary-600" /><h4 className="m-0 text-body font-bold text-ink-900">Tutoriels du moment</h4><span className="text-caption text-ink-500">1 item</span></div>
+                <div className="flex flex-col gap-stack-xs">
+                  {renderCard(items[1], 0, { horizontal: true })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      );
+    },
   },
   {
     name: 'VeilleCardFeed',
     codeName: 'patterns/VeilleCardFeed.tsx',
-    cssBase: 'VeilleCardFeed (content feed)',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    description: 'Flux de contenu pour la veille. Carousel ou grille adaptative.',
-    keywords: ['veille', 'feed', 'news', 'content', 'carousel'],
+    usedBy: ['Veille'],
+    description: 'Feed éditorial de cartes Veille — pattern v2 Phase 10. **Featured spotlight** (1 item flag `featured: true` → hero horizontal en haut) + **2 layouts** : `grid` (cards verticales 1/2/3 cols, DEFAULT) ou `list` (cards horizontales denses). 3 surfaces (card/tinted/glass), 3 tones par item (brand/warm/sun). Save button bookmark configurable. Loading + empty states.',
+    keywords: ['veille', 'feed', 'news', 'content', 'editorial', 'cards', 'spotlight', 'featured', 'article', 'tutoriel', 'dossier', 'magazine', 'tone', 'grid', 'list', 'horizontal'],
+    render: () => {
+      const sampleItems = [
+        { id: '1', featured: true as const, typeLabel: 'Actu', TypeIcon: TrendingUp, tone: 'brand' as const, title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites.", category: 'IA & Pédagogie', author: 'TLS', publishedAt: "Aujourd'hui", readTime: '6 min' },
+        { id: '2', typeLabel: 'Tutoriel', TypeIcon: Video, tone: 'warm' as const, isVideo: true, title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts et obtenir des résultats reproductibles.', category: 'Prompt Engineering', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+        { id: '3', typeLabel: 'Dossier', TypeIcon: FolderOpen, tone: 'sun' as const, title: "Transformation IA des parcours", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", category: 'Management', author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
+        { id: '4', typeLabel: 'Magazine', TypeIcon: BookOpen, tone: 'brand' as const, title: 'Tendances EdTech 2026', summary: 'Notre numéro mensuel : marchés en croissance, nouveaux acteurs, opportunités stratégiques.', category: 'EdTech', author: 'TLS Mag', publishedAt: 'Il y a 1 semaine', readTime: '18 min' },
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">grid</code> (DEFAULT) · cards verticales</p>
+            <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
+          </div>
+
+          <div className="flex flex-col gap-stack">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">list</code> · cards horizontales (sans featured pour démo dense)</p>
+            <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'ArticleCard',
+    codeName: 'learning/ArticleCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    description: 'Card éditoriale (actu / tutoriel / dossier / magazine). Icon bubble tone-aware (en-tête) + eyebrow typeLabel + date · catégorie en tone color · title + summary · footer auteur + read time + CTA "Lire". Save button optionnel. 3 tones (primary/warm/sun). Wrapper sur `<Card variant="feature">`.',
+    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone'],
     render: () => (
-      <VeilleCardFeed
-        items={[
-          { id: '1', type: 'ARTICLE', title: 'Tendance Leadership 2024', summary: 'Les nouvelles tendances du leadership', category: 'Leadership', publishedDate: new Date(), isNew: true },
-          { id: '2', type: 'VIDEO', title: 'Communication Digitale', summary: 'Comment bien communiquer en ligne', category: 'Communication', publishedDate: new Date() },
-          { id: '3', type: 'PODCAST', title: 'L\'avenir du travail', summary: 'Discussion avec des experts', category: 'Tendances', publishedDate: new Date() },
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+        <ArticleCard
+          itemId="a1"
+          type="actu"
+          typeLabel="Actu"
+          tone="primary"
+          icon={<TrendingUp size={22} />}
+          title="L'essor du microlearning dans les entreprises"
+          summary="78% des entreprises du CAC40 ont adopté le microlearning : résultats et conditions du succès."
+          category="Formation"
+          author="TLS Rédaction"
+          publishedAt="Hier"
+          readTime="4 min"
+          isSaved={false}
+          onSave={() => {}}
+          onClick={() => {}}
+          onRead={() => {}}
+        />
+        <ArticleCard
+          itemId="a2"
+          type="dossier"
+          typeLabel="Dossier"
+          tone="sun"
+          icon={<FolderOpen size={22} />}
+          title="Transformation IA des parcours de formation"
+          summary="Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe."
+          category="Management"
+          author="McKinsey"
+          publishedAt="Il y a 3 jours"
+          readTime="22 min"
+          isSaved={true}
+          onSave={() => {}}
+          onClick={() => {}}
+          onRead={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'MagazineCard',
+    codeName: 'learning/MagazineCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    description: 'Card spécialisée pour les numéros du Magazine TLS — gradient cover + titre numéro + date édition + meta articles. À utiliser dans le hub Magazine ou en featured Veille.',
+    keywords: ['magazine', 'edition', 'mensual', 'TLS Mag', 'editorial'],
+    render: () => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg max-w-3xl">
+        <MagazineCard
+          title="Tendances EdTech 2026"
+          description="Notre numéro mensuel : marchés en croissance, nouveaux acteurs et opportunités stratégiques."
+          issueNumber={14}
+          articleCount={12}
+          tone="primary"
+          isSaved={false}
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+        <MagazineCard
+          title="L'apprentissage à l'ère IA"
+          description="Comment l'IA transforme la pédagogie : 8 articles, 3 témoignages d'entreprises."
+          issueNumber={13}
+          articleCount={8}
+          tone="sun"
+          isSaved={true}
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+      </div>
+    ),
+  },
+  /* ─── BATCH PROD-USED COMPONENTS — ajoutés (Phase 10 audit) ─────────────── */
+  {
+    name: 'PromptCard',
+    codeName: 'learning/PromptCard.tsx',
+    cssBase: 'Tailwind (chat bubble pattern)',
+    category: 'Learning',
+    usedBy: ['Dashboard'],
+    description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard). ⚠️ **Similaire à `JournalEntryCard`** — chat-bubble sibling (l\'un pour CTA prompts, l\'autre pour entries journal). Garder séparés (use cases distincts).',
+    keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
+    render: () => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-3xl">
+        <PromptCard
+          variant="brand"
+          icon={<PenLine size={18} />}
+          label="Réflexion du jour"
+          text="Qu'as-tu retenu de la session coaching d'hier ?"
+          onClick={() => {}}
+        />
+        <PromptCard
+          variant="warm"
+          icon={<Lightbulb size={18} />}
+          label="Insight"
+          text="Note une prise de conscience qui t'a marqué cette semaine."
+          onClick={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'VideoCard',
+    codeName: 'learning/VideoCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    usedBy: ['Dashboard'],
+    description: '⭐ Card vidéo avec thumbnail gradient tone-aware + play overlay + duration badge + author + bookmark. 4 tones (primary/warm/sun/brand). Hover : scale play button. ⚠️ **Similaire à `VeilleCardFeed` item `isVideo: true`** — VeilleCardFeed est pour le feed Veille (groupé), VideoCard est standalone pour Dashboard / quick reco. Peut être candidat à fusion future si APIs convergent.',
+    keywords: ['video', 'thumbnail', 'play', 'tutoriel', 'tone', 'dashboard'],
+    render: () => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-3xl">
+        <VideoCard
+          title="Construire un prompt structuré en 5 étapes"
+          category="Prompt Engineering"
+          duration="12 min"
+          author="Marie Dubois"
+          tone="primary"
+          isSaved={false}
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+        <VideoCard
+          title="L'IA générative en entreprise"
+          category="IA & Innovation"
+          duration="18 min"
+          author="Pierre Leclerc"
+          tone="warm"
+          isSaved={true}
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'RankingCard',
+    codeName: 'learning/RankingCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    usedBy: ['Leaderboard'],
+    description: '⭐ Card de classement (podium / leaderboard) — rank number en bubble gradient (or/argent/bronze pour top 3) + nom + points + streak flame badge optionnel. ⚠️ **Pas de similar existing** dans le DS — composant spécifique gamification leaderboard. Could be merged with ProfileCard avec variant="rank" futur, mais APIs très différentes.',
+    keywords: ['ranking', 'leaderboard', 'podium', 'rank', 'gamification', 'streak'],
+    render: () => (
+      <div className="flex flex-col gap-stack max-w-md">
+        <RankingCard rank={1} name="Sophie Martin" points={2840} streak={12} variant="sun" onViewProfile={() => {}} />
+        <RankingCard rank={2} name="Marc Dubois" points={2650} streak={8} onViewProfile={() => {}} />
+        <RankingCard rank={3} name="Léa Petit" points={2410} streak={5} onViewProfile={() => {}} />
+        <RankingCard rank={42} name="Chloé Mimault" points={1280} streak={7} variant="brand" onViewProfile={() => {}} />
+      </div>
+    ),
+  },
+  {
+    name: 'TlsLogo',
+    codeName: 'ui/TlsLogo.tsx',
+    cssBase: 'Tailwind (SVG inline)',
+    category: 'Core',
+    usedBy: ['Sidebar', 'AuthShell'],
+    description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages). ⚠️ **Pas de similar** — composant unique.',
+    keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
+    render: () => (
+      <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sur fond blanc</p>
+        <TlsLogo />
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Sur fond brand (gradient)</p>
+        <div className="p-stack rounded-lg bg-gradient-brand-deep">
+          <TlsLogo />
+        </div>
+      </div>
+    ),
+  },
+  /* ─── BATCH #2 — composants SANS similarité (Phase 10 audit) ────────────── */
+  {
+    name: 'Flashcard',
+    codeName: 'patterns/Flashcard.tsx',
+    cssBase: 'Tailwind (3D transform)',
+    category: 'Patterns',
+    usedBy: ['FlashcardsViewer'],
+    description: '⭐ Card flip 3D (front/back) pour apprentissage actif — révision flashcards. Click → animation 3D flip horizontale. ⚠️ Pas de similar dans le DS.',
+    keywords: ['flashcard', 'flip', '3d', 'revision', 'learning', 'memorization'],
+    render: () => (
+      <div className="max-w-md">
+        <Flashcard
+          front={<div className="flex items-center justify-center h-full p-6"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
+          back={<div className="flex items-center justify-center h-full p-6"><p className="text-body text-ink-700 text-center m-0 leading-relaxed">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'QuizQuestionCard',
+    codeName: 'patterns/QuizQuestionCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    usedBy: ['Positionnement'],
+    description: '⭐ Card question quiz avec options multiples (A/B/C/D), feedback correct/incorrect, numérotation N/M. State management : selectedId + answered + showCorrectAnswer. ⚠️ Pas de similar — composant spécifique quiz/évaluation.',
+    keywords: ['quiz', 'question', 'qcm', 'options', 'evaluation', 'assessment'],
+    render: () => (
+      <div className="max-w-2xl">
+        <QuizQuestionCard
+          question="Quel principe est au cœur du leadership transformationnel ?"
+          questionNumber={3}
+          totalQuestions={10}
+          options={[
+            { id: 'a', label: "L'autorité hiérarchique" },
+            { id: 'b', label: "L'inspiration et la motivation intrinsèque", isCorrect: true },
+            { id: 'c', label: "Le contrôle des résultats" },
+            { id: 'd', label: "La rétribution monétaire" },
+          ]}
+          selectedId="b"
+          answered={true}
+          showCorrectAnswer={true}
+          onSelectOption={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'DataTable',
+    codeName: 'patterns/DataTable.tsx',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    description: '⭐ Tableau de données générique — colonnes sortables, alignements, rows custom. Pour vues admin / analytics / liste structurée. ⚠️ Pas de similar — composant unique pour tabular data.',
+    keywords: ['table', 'data', 'grid', 'admin', 'analytics', 'sort'],
+    render: () => (
+      <DataTable
+        columns={[
+          { key: 'name', label: 'Nom', sortable: true },
+          { key: 'role', label: 'Rôle' },
+          { key: 'progress', label: 'Progression', align: 'right' },
+          { key: 'last', label: 'Dernière activité', align: 'right' },
         ]}
+        rows={[
+          { id: '1', name: 'Sophie Martin', role: 'Coach', progress: '92%', last: "Aujourd'hui" },
+          { id: '2', name: 'Marc Dubois', role: 'Apprenant', progress: '67%', last: 'Hier' },
+          { id: '3', name: 'Léa Petit', role: 'Apprenant', progress: '45%', last: 'Il y a 3 jours' },
+        ]}
+      />
+    ),
+  },
+  // MessageThreadCard supprimé (Phase 10 cleanup) — design trop simpliste vs Messages.tsx chat-like
+  {
+    name: 'RatingModal',
+    codeName: 'patterns/RatingModal.tsx',
+    cssBase: 'Tailwind',
+    category: 'Modals',
+    description: '⭐ Pattern de rating étoiles (1-5) avec feedback textuel. Pour évaluation session / leçon / contenu. ⚠️ Pas de similar — pattern unique. Note : pas vraiment un modal (pas de isOpen overlay), c\'est un form rating inline à wrapper dans un Modal DS si besoin.',
+    keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
+    render: () => (
+      <div className="max-w-md">
+        <RatingModal
+          title="Note cette session"
+          description="Comment évalues-tu cette session de coaching avec Sophie ?"
+          onSubmit={() => {}}
+          onCancel={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'ProjectCard',
+    codeName: 'learning/ProjectCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    usedBy: ['Project (page existante)'],
+    description: '⭐ Card projet collaboratif — title + description + status pill (planning/in-progress/completed) + progress bar + tasks completed/total + deadline + team avatars stack. ⚠️ Pas de similar — composant unique pour projets collaboratifs.',
+    keywords: ['project', 'collaborative', 'team', 'tasks', 'progress', 'deadline'],
+    render: () => (
+      <div className="max-w-2xl">
+        <ProjectCard
+          title="Lancement Plateforme IA"
+          description="Conception et déploiement de la nouvelle plateforme d'apprentissage IA pour les entreprises clientes."
+          status="in-progress"
+          progress={68}
+          totalTasks={24}
+          completedTasks={16}
+          deadline="15 mai 2026"
+          teamMembers={[
+            { id: '1', name: 'Sophie Martin', role: 'Lead' },
+            { id: '2', name: 'Marc Dubois', role: 'Designer' },
+            { id: '3', name: 'Léa Petit', role: 'Dev' },
+            { id: '4', name: 'Pierre Leclerc', role: 'PM' },
+          ]}
+          onViewProject={() => {}}
+        />
+      </div>
+    ),
+  },
+  // SocialButton supprimé (Phase 10 cleanup) — remplacé par AuthSocialButton (AuthShell)
+  {
+    name: 'FloatingNavButton',
+    codeName: 'FloatingNavButton.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Navigation',
+    description: '⭐ Speed-dial FAB flottant fixed bottom-right/left. Configurable : `actions[]` (label/icon/onClick/tone) + `tone` (FAB) + `position` + `icon`/`closeIcon`. Migré Tailwind + DS (Phase 10). **Retiré de App.tsx prod** — réactivable pour futur chatbot, quick contact, help shortcut. Click main FAB → expand actions vertical stack avec animation filterIn. ⚠️ Pas de similar — composant unique floating speed-dial.',
+    keywords: ['floating', 'fab', 'speed-dial', 'quick-actions', 'chatbot', 'contact', 'help', 'fixed'],
+    render: () => (
+      <div className="relative h-[280px] rounded-2xl border border-ink-200 bg-gradient-page-ambient overflow-hidden">
+        <div className="absolute inset-0 p-stack">
+          <p className="font-body text-caption text-ink-600 m-0">Démo : speed-dial bottom-right de cette card. Click pour ouvrir/fermer.</p>
+        </div>
+        {/* Render inline (absolute au lieu de fixed pour démo dans la card) */}
+        <div className="absolute bottom-4 right-4">
+          <FloatingNavButton
+            tone="primary"
+            actions={[
+              { label: 'Ask AI', icon: <SparklesIcon size={18} />, onClick: () => alert('AI chat'), tone: 'primary' },
+              { label: 'Contact', icon: <MessageSquare size={18} />, onClick: () => alert('Contact'), tone: 'warm' },
+              { label: 'Aide', icon: <BookOpen size={18} />, onClick: () => alert('Help'), tone: 'sun' },
+            ]}
+            className="!static"
+          />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'AmbientBlobs',
+    codeName: 'patterns/AmbientBlobs.tsx',
+    cssBase: 'Tailwind + @keyframes float (index.css)',
+    category: 'Patterns',
+    usedBy: ['Coaching'],
+    description: 'Fond ambient TLS avec 3 blobs flottants (primary teal / warm orange / sun yellow). Pattern décoratif full-page : 3 cercles très flous (blur 80px) qui dérivent lentement (animation float 20s, staggered delays). Position fixed (default) ou absolute, pointer-events-none. 3 intensities : subtle (0.10) / normal (0.15 default) / vivid (0.25). À combiner avec l\'utility token DS `bg-gradient-page-ambient` (teal-50 → white → yellow-50) pour fond premium TLS. Variants : `-warm` (orange) et `-sun` (orange→yellow).',
+    keywords: ['blob', 'ambient', 'background', 'decorative', 'gradient', 'float', 'fixed', 'overlay', 'blur'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        {/* Default ambient gradient */}
+        <div className="relative h-[260px] overflow-hidden rounded-xl bg-gradient-page-ambient border border-ink-200">
+          <AmbientBlobs position="absolute" intensity="normal" />
+          <div className="relative z-base p-6 flex flex-col items-center justify-center h-full text-center">
+            <p className="m-0 font-display text-h3 font-bold text-ink-900">bg-gradient-page-ambient (DEFAULT)</p>
+            <p className="m-0 mt-stack-xs font-body text-body text-ink-600 max-w-prose">
+              Teal-50 → white → yellow-50 + 3 blobs flottants (float 20s).
+            </p>
+          </div>
+        </div>
+
+        {/* Warm variant */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-warm border border-ink-200">
+            <AmbientBlobs position="absolute" intensity="subtle" />
+            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600">Teal → white → orange</p>
+            </div>
+          </div>
+          <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-sun border border-ink-200">
+            <AmbientBlobs position="absolute" intensity="subtle" />
+            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600">Orange → white → yellow</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Brand deep + soft pastels (gradients tokens additionnels) */}
+        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
+
+        {/* Brand deep (saturated 90°) */}
+        <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
+          <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+            <p className="m-0 font-display text-body font-bold text-white">bg-gradient-brand-deep</p>
+            <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · primary-950 #164267 → primary-500 #55a1b4</p>
+          </div>
+        </div>
+
+        {/* Soft pastels (3-stop + 2-stop) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
+            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-pastel</p>
+              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fef3e2</p>
+            </div>
+          </div>
+          <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
+            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+              <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-duo</p>
+              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → cream #fef3e2</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Equivalence — utility class vs Tailwind native composition */}
+        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">⚖️ Équivalence — utility DS vs Tailwind natif composé</p>
+        <p className="text-caption text-ink-600 m-0">
+          Les couleurs sont définies en <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">@theme</code> → Tailwind v4 expose <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">from-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">via-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">to-X</code> automatiquement. Les 2 versions ci-dessous rendent <strong>identiquement</strong> :
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-page-ambient border border-ink-200">
+            <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
+              <p className="m-0 font-mono text-caption text-ink-700"><strong>Utility DS</strong></p>
+              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-page-ambient</code>
+            </div>
+          </div>
+          <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-to-br from-primary-50 via-white to-accent-50 border border-ink-200">
+            <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
+              <p className="m-0 font-mono text-caption text-ink-700"><strong>Tailwind composé</strong></p>
+              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'PageHero archetypes',
+    codeName: '(proposals — pas encore implémentés)',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    description: '⭐ Proposals · 12 archétypes de page header pensés pour les pages maîtres de l\'app. **5 full-bleed** (①-⑤) pour entry points sidebar : Welcome (Dashboard), Search-first (Veille/Magazine/LearningPaths), Identity (Profile), Compose (Journal), Action (Coaching). **7 bounded** (⑥-⑫) pour sub-pages/utility : Minimal, Tabs strip, Inline toolbar, Boxed hero card, Split hero, Stats focus, Sticky action bar. Mockups visuels — pas encore des composants. Mapping pages→archétype en bas.',
+    keywords: ['hero', 'page-header', 'full-bleed', 'bounded', 'proposal', 'archetypes', 'dashboard', 'profile', 'veille', 'magazine', 'minimal', 'tabs', 'toolbar', 'split', 'stats', 'sticky'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+
+        {/* Intro */}
+        <p className="text-body text-ink-600 m-0">
+          5 archétypes <strong>full-bleed</strong> (edge-to-edge viewport) à appliquer selon la <em>fonction primaire</em> de chaque page maître. Le hero <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">EditorialHero</code> actuel reste valide pour les pages secondaires/éditoriales — ces archétypes ciblent les <strong>entry points apps</strong> dans la sidebar.
+        </p>
+
+        {/* === Archétype 1 : Welcome hero (Dashboard) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">① Welcome hero · Dashboard — <strong>4 variantes proposées</strong></p>
+          <p className="text-caption text-ink-600 m-0">Hero d'entrée principale. Doit donner une vue d'ensemble + inciter à reprendre l'activité.</p>
+
+          {/* Variante 1A — Greeting + stats inline (current) */}
+          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0">1A — Greeting + stats inline · gradient brand-deep</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-brand-deep">
+            <AmbientBlobs position="absolute" intensity="vivid" />
+            <div className="relative z-base px-6 lg:px-10 py-10 flex flex-col gap-stack-lg text-white">
+              <div className="flex flex-col gap-tight">
+                <span className="font-body text-caption font-bold uppercase tracking-wider text-white/80">Mercredi · 14h32</span>
+                <h1 className="m-0 font-display text-h1 font-bold leading-tight">Bonjour Chloé 👋</h1>
+                <p className="m-0 font-body text-body-lg text-white/90 max-w-prose">Tu es à <strong>3 leçons</strong> de compléter ton parcours "Leadership transformationnel".</p>
+              </div>
+              <div className="flex flex-wrap gap-stack">
+                {[{v:'12',l:'Leçons'}, {v:'7',l:'Jours d\'affilée 🔥'}, {v:'3',l:'Entrées journal'}].map(s => (
+                  <div key={s.l} className="px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25">
+                    <span className="block font-display text-h3 font-bold leading-none">{s.v}</span>
+                    <span className="block font-body text-caption text-white/80 mt-tight">{s.l}</span>
+                  </div>
+                ))}
+              </div>
+              <Button variant="glass" leadingIcon={<BookOpen size={16} />}>Reprendre la leçon</Button>
+            </div>
+          </div>
+
+          {/* Variante 1B — Resume lesson featured (continue first) */}
+          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1B — Resume lesson featured · greeting compact + grosse card "Reprendre"</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient border border-ink-200">
+            <AmbientBlobs position="absolute" intensity="subtle" />
+            <div className="relative z-base p-6 lg:p-8 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-stack-lg items-center">
+              <div className="flex flex-col gap-tight">
+                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Mercredi matin</span>
+                <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé 👋</h1>
+                <p className="m-0 font-body text-body text-ink-600">Ton dernier point de pause :</p>
+              </div>
+              {/* Resume card embedded */}
+              <div className="rounded-2xl bg-white border border-primary-100 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white shrink-0 shadow-sm">
+                  <BookOpen size={24} strokeWidth={1.75} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Étape 4 sur 7 · Leçon 12</span>
+                  <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight truncate">Maîtriser la délégation contextuelle</h3>
+                  <div className="flex items-center gap-stack-xs mt-tight">
+                    <div className="flex-1 h-1.5 bg-primary-50 rounded-pill overflow-hidden"><div className="h-full bg-primary-500 rounded-pill" style={{ width: '57%' }} /></div>
+                    <span className="font-body text-caption font-semibold text-primary-700">57%</span>
+                  </div>
+                </div>
+                <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={14} />}>Reprendre</Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Variante 1C — Today's agenda compact */}
+          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1C — Today's agenda · greeting + agenda du jour inline (avec session coaching si planifiée)</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-warm border border-secondary-100">
+            <AmbientBlobs position="absolute" intensity="subtle" />
+            <div className="relative z-base p-6 lg:p-8 flex flex-col gap-stack">
+              <div className="flex items-start justify-between gap-3 flex-wrap">
+                <div className="flex flex-col gap-tight">
+                  <span className="font-body text-caption font-bold uppercase tracking-wider text-secondary-700">Aujourd'hui · Mercredi 30 avril</span>
+                  <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé 👋</h1>
+                  <p className="m-0 font-body text-body text-ink-700"><strong>2 activités</strong> prévues aujourd'hui :</p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/80 backdrop-blur-glass-light border border-secondary-200 text-caption font-bold text-secondary-700">
+                  🔥 Streak 7 jours
+                </span>
+              </div>
+              {/* Agenda items */}
+              <div className="flex flex-col gap-stack-xs">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-ink-200 hover:border-primary-300 cursor-pointer transition-colors">
+                  <span className="font-display text-caption font-bold text-primary-700 w-14 shrink-0">14:00</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">Session coaching avec Sophie Martin</p>
+                    <p className="m-0 font-body text-caption text-ink-500">45 min · Visio</p>
+                  </div>
+                  <Calendar size={16} className="text-primary-600 shrink-0" />
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-ink-200 hover:border-primary-300 cursor-pointer transition-colors">
+                  <span className="font-display text-caption font-bold text-primary-700 w-14 shrink-0">16:30</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">Leçon 12 — Maîtriser la délégation</p>
+                    <p className="m-0 font-body text-caption text-ink-500">Étape 4/7 · 20 min restantes</p>
+                  </div>
+                  <BookOpen size={16} className="text-secondary-600 shrink-0" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Variante 1D — Stats spotlight (big number leadership) */}
+          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1D — Stats spotlight · big number mis en valeur (streak ou XP)</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-sun border border-accent-100">
+            <AmbientBlobs position="absolute" intensity="normal" />
+            <div className="relative z-base p-6 lg:p-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-stack-lg items-center">
+              <div className="flex flex-col gap-tight">
+                <span className="font-body text-caption font-bold uppercase tracking-wider text-accent-700">Belle progression cette semaine 🎉</span>
+                <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé,</h1>
+                <p className="m-0 font-body text-body-lg text-ink-700 max-w-prose">Tu as appris <strong>7 jours d'affilée</strong>. Continue pour atteindre ton record personnel de 10 jours !</p>
+                <div className="flex flex-wrap gap-stack-xs mt-stack-xs">
+                  <Button variant="glass-sun" size="md" leadingIcon={<BookOpen size={15} />}>Reprendre</Button>
+                  <Button variant="ghost" size="md" trailingIcon={<ArrowRight size={14} />}>Voir mes stats</Button>
+                </div>
+              </div>
+              <div className="text-center">
+                <span className="block font-display text-[96px] font-black leading-none text-accent-600">7</span>
+                <span className="block mt-tight font-body text-body font-bold text-ink-900">jours 🔥</span>
+                <span className="block mt-tight font-body text-caption text-ink-600">Plus que 3 pour battre ton record</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 2 : Search-first hero (Veille / Magazine / LearningPaths catalog) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">② Search-first hero · Veille / Magazine / LearningPaths</p>
+          <p className="text-caption text-ink-600 m-0">Big search bar inline dans le hero + topic chips populaires + featured count — focalise sur la découverte. Left-aligned pour cohérence avec sidebar.</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-soft-pastel border-y border-ink-200">
+            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-10 flex flex-col gap-stack-lg">
+              <div className="flex flex-col gap-tight">
+                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700 self-start">Veille curée par TLS</span>
+                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Découvre l'actualité du leadership & de l'IA</h1>
+                <p className="m-0 font-body text-body text-ink-600 max-w-prose">142 articles · 38 vidéos · mises à jour quotidiennement</p>
+              </div>
+              <Search variant="default" size="lg" placeholder="Rechercher un sujet, auteur, source…" shortcut="⌘K" wrapperClassName="w-full" />
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="font-body text-caption text-ink-500">Populaires :</span>
+                {['Leadership', 'IA générative', 'Apprentissage', 'Pédagogie', 'Neuroleadership', 'Management hybride'].map((t) => (
+                  <span key={t} className="px-3 py-1 rounded-pill bg-white/70 border border-ink-200 text-caption font-medium text-ink-700 cursor-pointer hover:bg-white hover:border-primary-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 3 : Identity hero (Profile) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">③ Identity hero · Profile</p>
+          <p className="text-caption text-ink-600 m-0">Avatar large + nom + métadonnées + KPIs row — focalise sur l'identité et l'achievement personnel.</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-warm">
+            <AmbientBlobs position="absolute" intensity="normal" />
+            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-10 flex flex-col md:flex-row md:items-end gap-stack-lg">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-display font-black text-h2 shrink-0 shadow-lg ring-4 ring-white">
+                CM
+              </div>
+              <div className="flex-1 min-w-0 flex flex-col gap-tight">
+                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Niveau 12 · Apprenant·e confirmé·e</span>
+                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Chloé Mimault</h1>
+                <p className="m-0 font-body text-body text-ink-600">Tech Lead · The Learning Society · Membre depuis novembre 2024</p>
+              </div>
+              <div className="flex flex-wrap gap-stack">
+                {[
+                  { v: '128', l: 'XP totaux' },
+                  { v: '7', l: 'Badges' },
+                  { v: '12', l: 'Parcours' },
+                ].map((s) => (
+                  <div key={s.l} className="px-4 py-2 rounded-xl bg-white/80 backdrop-blur-glass-light border border-white/60">
+                    <span className="block font-display text-h3 font-bold leading-none text-ink-900">{s.v}</span>
+                    <span className="block font-body text-caption text-ink-600 mt-tight">{s.l}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 4 : Compose hero (Journal) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">④ Compose hero · Journal</p>
+          <p className="text-caption text-ink-600 m-0">Title + summary minimaliste. La section "Quoi écrire aujourd'hui ?" (compose + emoji buttons) suit JUSTE en dessous → l'action d'écriture est l'attraction principale.</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-brand-deep">
+            <AmbientBlobs position="absolute" intensity="vivid" />
+            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-8 text-white">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 text-caption font-bold">
+                ✍️ Mon apprentissage
+              </span>
+              <h1 className="m-0 mt-stack-xs font-display text-h1 font-bold leading-tight">Journal d'apprentissage</h1>
+              <p className="m-0 mt-tight font-body text-body text-white/90 max-w-prose">Capitalise tes prises de conscience · structure tes réflexions · suis ta progression.</p>
+            </div>
+          </div>
+          <p className="text-caption text-ink-500 m-0 italic">↓ Suivi immédiatement par la section "Quoi écrire aujourd'hui ?" (chat-bubble + 4 emoji buttons)</p>
+        </div>
+
+        {/* === Archétype 5 : Action hero (Coaching) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑤ Action hero · Coaching</p>
+          <p className="text-caption text-ink-600 m-0">Hero compact suivi d'une action card primary (next session / book session) directement IN PLACE. Le hero introduit, la card agit.</p>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient">
+            <AmbientBlobs position="absolute" intensity="subtle" />
+            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-8 flex flex-col gap-stack-lg">
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-caption font-bold text-primary-700">
+                  📅 Mon accompagnement
+                </span>
+                <h1 className="m-0 mt-stack-xs font-display text-h1 font-bold leading-tight text-ink-900">Coaching 1:1</h1>
+                <p className="m-0 mt-tight font-body text-body text-ink-600 max-w-prose">Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels.</p>
+              </div>
+              {/* Embedded action card */}
+              <div className="rounded-2xl bg-primary-50/70 border border-primary-100 p-5 flex items-center gap-4 flex-wrap">
+                <div className="w-12 h-12 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
+                  <Calendar size={20} className="text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="m-0 text-caption font-bold text-primary-700">Prochaine session</p>
+                  <p className="m-0 text-body font-extrabold text-ink-900">Mardi 30 avril · 14:00</p>
+                </div>
+                <Button variant="primary" leadingIcon={<Video size={15} />}>Rejoindre</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =================================================================
+            ARCHETYPES BOUNDED (non full-bleed) — pour sous-pages / utilitaires
+            ================================================================= */}
+
+        <div className="h-px bg-ink-200 my-stack" />
+        <p className="text-body font-display font-bold text-ink-900 m-0">📐 Archétypes bounded — alternatives non full-bleed</p>
+        <p className="text-caption text-ink-600 m-0">Pour les sous-pages, pages utilitaires, ou contextes où le hero full-bleed est trop chargé. Tous bornés par le container <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">max-w-page</code>.</p>
+
+        {/* === Archétype 6 : Minimal page header (back + title + meta) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑥ Minimal page header · Settings / Account / sub-pages</p>
+          <p className="text-caption text-ink-600 m-0">Back button + title + petit subtitle. Compact, utility-first. Pas de décor.</p>
+          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg">
+            <div className="flex items-center gap-3">
+              <button type="button" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 transition-colors text-caption font-semibold">
+                <ArrowLeft size={14} /> Retour
+              </button>
+              <div className="flex-1 min-w-0">
+                <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">Paramètres du compte</h1>
+                <p className="m-0 font-body text-caption text-ink-500">Gérez votre profil, préférences et confidentialité</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 7 : Title + tabs strip === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑦ Title + tabs strip · LearningSpace / Profile views / Account sections</p>
+          <p className="text-caption text-ink-600 m-0">Title + subtitle puis rangée d'onglets directement sous → indique des "vues" de la même page.</p>
+          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg flex flex-col gap-stack">
+            <div className="flex flex-col gap-tight">
+              <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Mon profil</span>
+              <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Chloé Mimault</h1>
+              <p className="m-0 font-body text-body text-ink-600">Tech Lead · Membre depuis novembre 2024</p>
+            </div>
+            <div className="flex gap-1 border-b border-ink-200 -mb-1">
+              {[
+                { label: 'Vue d\'ensemble', active: true },
+                { label: 'Compétences', active: false },
+                { label: 'Achievements', active: false },
+                { label: 'Activité', active: false },
+              ].map((t) => (
+                <button key={t.label} type="button" className={[
+                  'px-4 py-2.5 font-body text-body-sm font-semibold transition-colors cursor-pointer border-b-2',
+                  t.active
+                    ? 'text-primary-700 border-primary-500'
+                    : 'text-ink-600 hover:text-ink-900 border-transparent',
+                ].join(' ')}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 8 : Title + inline toolbar (filters + search + CTA) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑧ Title + inline toolbar · Messages / Notifications / list views</p>
+          <p className="text-caption text-ink-600 m-0">Title à gauche · search/filters/CTA inline à droite → dense, compact, pour pages liste-orientées.</p>
+          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex-1 min-w-[180px]">
+                <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">Notifications</h1>
+                <p className="m-0 font-body text-caption text-ink-500">3 non lues · 14 cette semaine</p>
+              </div>
+              <Search size="sm" variant="filled" placeholder="Rechercher…" wrapperClassName="w-[220px]" />
+              <Button size="sm" variant="ghost" leadingIcon={<CheckCircle2 size={14} />}>Tout marquer lu</Button>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 9 : Boxed hero card (white surface) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑨ Boxed hero card · sub-pages éditoriales (Magazine article, Dossier, Newsletter)</p>
+          <p className="text-caption text-ink-600 m-0">Card bornée avec icon bubble + content tone-tinted intérieur. Plus contenu qu'un hero plein, donne du calme aux sub-pages.</p>
+          <div className="rounded-2xl border border-primary-100 bg-primary-50/60 p-stack-lg flex items-start gap-4">
+            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white shadow-sm text-primary-600 shrink-0">
+              <BookOpen size={24} strokeWidth={1.75} />
+            </span>
+            <div className="flex-1 min-w-0">
+              <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Dossier · Management</span>
+              <h1 className="m-0 mt-tight font-display text-h2 font-bold text-ink-900 leading-tight">Transformation IA des parcours de formation</h1>
+              <p className="m-0 mt-stack-xs font-body text-body text-ink-700 max-w-prose">Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.</p>
+              <div className="mt-stack flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
+                <span className="inline-flex items-center gap-1"><UserIcon size={12} /> McKinsey</span>
+                <span aria-hidden>•</span>
+                <span className="inline-flex items-center gap-1"><Clock3 size={12} /> 22 min</span>
+                <span aria-hidden>•</span>
+                <span>Il y a 3 jours</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 10 : Split hero (content + illustration/preview) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑩ Split hero · Onboarding / Empty states / Marketing pages</p>
+          <p className="text-caption text-ink-600 m-0">Content à gauche + media/illustration à droite. Forte hiérarchie pour onboarding ou pages marketing.</p>
+          <div className="rounded-2xl border border-ink-200 bg-white overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="p-stack-lg lg:p-section flex flex-col justify-center gap-stack">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-100 border border-accent-200 text-caption font-bold text-accent-800">
+                  ✨ Nouveau
+                </span>
+                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Démarrez votre parcours d'apprentissage</h1>
+                <p className="m-0 font-body text-body text-ink-600">Personnalisez votre formation en 3 minutes — répondez à quelques questions pour qu'on adapte le contenu à vos objectifs.</p>
+                <div className="flex flex-wrap gap-stack-xs mt-tight">
+                  <Button variant="primary" leadingIcon={<ArrowRight size={16} />}>Commencer</Button>
+                  <Button variant="ghost">En savoir plus</Button>
+                </div>
+              </div>
+              <div className="bg-gradient-soft-pastel relative min-h-[200px] flex items-center justify-center p-stack">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center text-white shadow-lg">
+                  <GraduationCap size={56} strokeWidth={1.5} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 11 : Stats focus header (big number) === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑪ Stats focus header · Leaderboard / Achievements / progress pages</p>
+          <p className="text-caption text-ink-600 m-0">Big number en valeur principale, contextualisé par title + meta. Ancre l'utilisateur sur sa métrique clé.</p>
+          <div className="rounded-2xl border border-accent-100 bg-accent-50/60 p-stack-lg flex flex-wrap items-center gap-stack-lg">
+            <div className="flex-1 min-w-[200px]">
+              <span className="font-body text-caption font-bold uppercase tracking-wider text-accent-700">Mon classement</span>
+              <h1 className="m-0 mt-tight font-display text-h2 font-bold text-ink-900 leading-tight">Top 5% des apprenants</h1>
+              <p className="m-0 mt-stack-xs font-body text-body text-ink-600">Sur 1 247 apprenants actifs ce mois — bravo ! 🎉</p>
+            </div>
+            <div className="text-right shrink-0">
+              <span className="block font-display text-[64px] font-black leading-none text-accent-700">#42</span>
+              <span className="block mt-tight font-body text-caption text-ink-600">Position globale</span>
+              <span className="inline-flex items-center gap-1 mt-tight text-caption text-success-fg font-semibold">
+                ↑ 3 cette semaine
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* === Archétype 12 : Sticky action bar === */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑫ Sticky action bar · Messages / Editor / lecture viewers</p>
+          <p className="text-caption text-ink-600 m-0">Bar sticky compacte avec back + title + actions principales à droite. Adapté aux pages "tâche en cours".</p>
+          <div className="rounded-xl border border-ink-200 bg-white/90 backdrop-blur-glass-medium p-3 flex items-center gap-3">
+            <button type="button" className="w-9 h-9 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 flex items-center justify-center transition-colors">
+              <ArrowLeft size={16} />
+            </button>
+            <div className="flex-1 min-w-0">
+              <h1 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight truncate">Conversation avec Sophie Martin</h1>
+              <p className="m-0 font-body text-micro text-ink-500 leading-tight">En ligne · vu il y a 2 min</p>
+            </div>
+            <Button size="sm" variant="ghost" iconOnly aria-label="Vidéo">
+              <Video size={16} />
+            </Button>
+            <Button size="sm" variant="secondary" leadingIcon={<MessageSquare size={14} />}>Nouveau</Button>
+          </div>
+        </div>
+
+        {/* === Recap mapping table === */}
+        <div className="flex flex-col gap-stack p-stack rounded-xl bg-ink-50 border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">🗺️ Mapping suggéré pages sidebar → archétype hero</p>
+          <table className="w-full text-caption">
+            <thead>
+              <tr className="border-b border-ink-200">
+                <th className="text-left py-2 font-bold text-ink-900">Page sidebar</th>
+                <th className="text-left py-2 font-bold text-ink-900">Archétype</th>
+                <th className="text-left py-2 font-bold text-ink-900">Focus UX</th>
+              </tr>
+            </thead>
+            <tbody className="text-ink-700">
+              <tr className="border-b border-ink-100"><td className="py-2 font-bold text-ink-900">Sidebar entry points (full-bleed recommended)</td><td></td><td></td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Dashboard</td><td>① Welcome hero</td><td>Reprise d'activité · stats glance</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Parcours / LearningPaths</td><td>② Search-first hero</td><td>Découverte du catalogue</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Veille</td><td>② Search-first hero</td><td>Découverte de contenus curés</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Magazine</td><td>② Search-first hero</td><td>Découverte éditoriale</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Journal</td><td>④ Compose hero</td><td>Inciter à écrire</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Coaching</td><td>⑤ Action hero</td><td>Action principale (book/join)</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Profile</td><td>③ Identity hero</td><td>Affirmation identité & achievements</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 font-bold text-ink-900">Sub-pages / utility pages (bounded recommended)</td><td></td><td></td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Notifications</td><td>⑧ Title + inline toolbar</td><td>Liste avec actions inline (search/mark-all-read)</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Messages</td><td>⑫ Sticky action bar</td><td>Tâche en cours, communication</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Settings · Account</td><td>⑥ Minimal page header</td><td>Utilitaire compact</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">LearningSpace / Profile views</td><td>⑦ Title + tabs strip</td><td>Multi-vues d'une même entité</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Magazine article / Dossier / Newsletter</td><td>⑨ Boxed hero card</td><td>Sub-page éditoriale tinted</td></tr>
+              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Onboarding / Empty states</td><td>⑩ Split hero</td><td>Content + illustration, story-driven</td></tr>
+              <tr><td className="py-2 pl-3">Leaderboard / Achievements</td><td>⑪ Stats focus header</td><td>Big number = métrique clé</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'EditorialHero',
+    codeName: 'patterns/EditorialHero.tsx',
+    cssBase: 'EditorialHero (glass hero band)',
+    category: 'Patterns',
+    usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Settings'],
+    description: 'Bandeau hero éditorial plein-largeur. Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs.',
+    keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
+    render: () => (
+      <EditorialHero
+        eyebrow={{ icon: <BookOpen size={12} />, label: 'Le mag du mois' }}
+        title="Tendances EdTech 2026"
+        summary="Panorama des tendances qui transforment la création de contenus, l'accompagnement et l'évaluation des compétences."
+        meta={[
+          { icon: <Calendar size={12} />, label: 'Édition avril 2026' },
+          { icon: <Clock3 size={12} />, label: '8 min de lecture' },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'EditorialLayout',
+    codeName: 'patterns/EditorialLayout.tsx',
+    cssBase: 'EditorialLayout (2-col main + sticky aside)',
+    category: 'Patterns',
+    usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
+    description: 'Layout 2 colonnes (main 1.4fr + aside 0.8fr) avec aside sticky sur desktop, stack sur mobile. Slot main + slot aside. Option `asideFirst` pour inverser, `staticAside` pour désactiver le sticky.',
+    keywords: ['layout', 'editorial', 'sidebar', 'sticky', 'aside', '2-column', 'content'],
+    render: () => (
+      <EditorialLayout
+        staticAside
+        main={
+          <SectionCard title="Contenu principal">
+            <p className="m-0 text-body-sm text-ink-500">
+              La colonne principale prend ~1.4fr de l'espace disponible. Elle peut contenir n'importe quel contenu : SectionCard, formulaires, listes, médias.
+            </p>
+          </SectionCard>
+        }
+        aside={
+          <SectionCard title="Aside">
+            <p className="m-0 text-body-sm text-ink-500">
+              L'aside prend ~0.8fr et devient sticky sur desktop (top: 96px). Sur mobile, le layout passe en single-column.
+            </p>
+          </SectionCard>
+        }
+      />
+    ),
+  },
+  {
+    name: 'SectionCard',
+    codeName: 'patterns/SectionCard.tsx',
+    cssBase: 'SectionCard (titled content card)',
+    category: 'Patterns',
+    usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement'],
+    description: 'Carte de section avec header (titre + icône + description + headerAction), body (children) et footer actions séparé par une bordure. Tone configurable (passé à Card). Utilisé pour structurer les pages éditoriales et content.',
+    keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout'],
+    render: () => (
+      <SectionCard
+        title="À retenir"
+        titleIcon={<CheckCircle2 size={18} className="text-primary-600" />}
+        description="Points essentiels à mémoriser pour cette section."
+        headerAction={<span className="text-caption text-ink-500">3 items</span>}
+        actions={
+          <>
+            <button type="button" className="inline-flex items-center gap-1 text-body-sm text-primary-600 hover:text-primary-700 underline bg-transparent border-0 p-0 cursor-pointer">
+              Voir tout
+            </button>
+          </>
+        }
+      >
+        <ul className="m-0 pl-4 flex flex-col gap-2 text-body-sm text-ink-700 list-disc">
+          <li>Premier point essentiel à retenir.</li>
+          <li>Deuxième point avec une explication détaillée.</li>
+          <li>Troisième point pour clore la section.</li>
+        </ul>
+      </SectionCard>
+    ),
+  },
+  {
+    name: 'RelatedItemList',
+    codeName: 'patterns/RelatedItemList.tsx',
+    cssBase: 'RelatedItemList (cross-link list)',
+    category: 'Patterns',
+    usedBy: ['MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
+    description: 'Liste verticale d\'items associés (related/recommended). Items avec titre + description + meta optionnel + icon optionnel. Items cliquables (href ou onClick) avec chevron animé au hover. Utilisé dans les asides éditoriaux.',
+    keywords: ['related', 'list', 'cross-link', 'recommendations', 'editorial', 'aside'],
+    render: () => (
+      <RelatedItemList
+        items={[
+          { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
+          { id: '2', title: 'Case study', description: 'Déploiement entreprise', meta: 'Étude', onClick: () => {} },
+          { id: '3', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
+        ]}
+      />
+    ),
+  },
+  {
+    name: 'AuthShell',
+    codeName: 'patterns/AuthShell.tsx',
+    cssBase: 'AuthShell (branded glass dark auth layout)',
+    category: 'Patterns',
+    usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
+    description: 'Layout auth full-bleed branded glass dark (gradient teal + blobs ambient). Famille complète de sub-components: AuthField (input + icon + error), AuthPasswordField (eye toggle intégré), AuthPrimaryButton + AuthGhostButton, AuthCheckbox (peer/sr-only glass), AuthDivider, AuthSocialButton, AuthInlineLink, AuthSuccess.',
+    keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
+    render: () => <AuthShellDemo />,
+  },
+  {
+    name: 'ResumeLessonCard',
+    codeName: 'patterns/ResumeLessonCard.tsx',
+    cssBase: 'ResumeLessonCard (dashboard hero card)',
+    category: 'Patterns',
+    usedBy: ['Dashboard'],
+    description: 'Card hero "Reprendre ta leçon" pour le Dashboard learner-centric. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1 du parcours, description contextuelle, meta pills (niveau/durée/leçons), progress bar large + CTA pill arrondi. Hero-sized (p-6/8/10 responsive), radial glow au hover.',
+    keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
+    render: () => (
+      <ResumeLessonCard
+        id="demo-1"
+        eyebrow="Étape 2 sur 5"
+        parcoursTitle="Devenir prompt designer"
+        description="Applications pratiques — Apprends à structurer tes prompts pour des cas concrets de formation. Plus que 8 minutes pour terminer la prochaine leçon."
+        progress={40}
+        tone="warm"
+        duration="3h restantes"
+        lessons={5}
+        level="intermédiaire"
+        onClick={() => {}}
       />
     ),
   },
@@ -2606,16 +5355,16 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Séparateur horizontal ou vertical. Label centré avec var(--text-soft). Spacings: sm/md/lg via classes CSS. Ligne: var(--border).',
     keywords: ['divider', 'separator', 'hr', 'section', 'label', 'horizontal', 'vertical', 'css'],
     render: () => (
-      <div className="vstack">
+      <div className="flex flex-col gap-stack">
         <Divider />
         <Divider label="ou" />
         <Divider label="Compétences" spacing="lg" />
-        <div style={{ display: 'flex', alignItems: 'center', height: 80, gap: 'var(--s-4)' }}>
-          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section A</span>
+        <div className="flex items-center gap-4 h-20">
+          <span className="text-body-sm">Section A</span>
           <Divider orientation="vertical" />
-          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section B</span>
+          <span className="text-body-sm">Section B</span>
           <Divider orientation="vertical" />
-          <span style={{ fontSize: 'var(--t-body-sm)' }}>Section C</span>
+          <span className="text-body-sm">Section C</span>
         </div>
       </div>
     ),
@@ -2768,16 +5517,95 @@ const GRADIENT_TOKENS: TokenEntry[] = [
   { name: 'Cool soft', cssVar: '--g-cool-soft', value: 'linear-gradient(180deg, #E8F4F7, #DCEBEF)', group: 'Gradients', type: 'gradient' },
 ];
 
+/* ----------- New semantic spacing tokens (introduced 2026-05-10) ----------- */
+const SEMANTIC_SPACING_TOKENS: TokenEntry[] = [
+  { name: 'spacing-tight', cssVar: '--spacing-tight', value: '0.125rem (2px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-stack-xs', cssVar: '--spacing-stack-xs', value: '0.5rem (8px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-stack', cssVar: '--spacing-stack', value: '1rem (16px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-stack-lg', cssVar: '--spacing-stack-lg', value: '1.5rem (24px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-section', cssVar: '--spacing-section', value: '2rem (32px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-section-lg', cssVar: '--spacing-section-lg', value: '2.5rem (40px)', group: 'Spacing — Semantic', type: 'spacing' },
+  { name: 'spacing-page', cssVar: '--spacing-page', value: '3rem (48px)', group: 'Spacing — Semantic', type: 'spacing' },
+];
+
+const OPACITY_TOKENS: TokenEntry[] = [
+  { name: 'opacity-faint', cssVar: '--opacity-faint', value: '0.05', group: 'Opacity', type: 'opacity' },
+  { name: 'opacity-soft', cssVar: '--opacity-soft', value: '0.10', group: 'Opacity', type: 'opacity' },
+  { name: 'opacity-tinted', cssVar: '--opacity-tinted', value: '0.15', group: 'Opacity', type: 'opacity' },
+  { name: 'opacity-medium', cssVar: '--opacity-medium', value: '0.30', group: 'Opacity', type: 'opacity' },
+  { name: 'opacity-disabled', cssVar: '--opacity-disabled', value: '0.50', group: 'Opacity', type: 'opacity' },
+  { name: 'opacity-overlay', cssVar: '--opacity-overlay', value: '0.70', group: 'Opacity', type: 'opacity' },
+];
+
+const DURATION_TOKENS: TokenEntry[] = [
+  { name: 'duration-fast', cssVar: '--duration-fast', value: '150ms', group: 'Duration', type: 'duration' },
+  { name: 'duration-base', cssVar: '--duration-base', value: '200ms', group: 'Duration', type: 'duration' },
+  { name: 'duration-slow', cssVar: '--duration-slow', value: '300ms', group: 'Duration', type: 'duration' },
+  { name: 'duration-glacial', cssVar: '--duration-glacial', value: '600ms', group: 'Duration', type: 'duration' },
+];
+
+const EASING_TOKENS: TokenEntry[] = [
+  { name: 'ease-standard', cssVar: '--ease-standard', value: 'cubic-bezier(0.4, 0, 0.2, 1)', group: 'Easing', type: 'easing' },
+  { name: 'ease-decelerate', cssVar: '--ease-decelerate', value: 'cubic-bezier(0, 0, 0.2, 1)', group: 'Easing', type: 'easing' },
+  { name: 'ease-accelerate', cssVar: '--ease-accelerate', value: 'cubic-bezier(0.4, 0, 1, 1)', group: 'Easing', type: 'easing' },
+  { name: 'ease-emphasis', cssVar: '--ease-emphasis', value: 'cubic-bezier(0.2, 0, 0, 1.15)', group: 'Easing', type: 'easing' },
+];
+
+const CONTAINER_TOKENS: TokenEntry[] = [
+  { name: 'container-prose', cssVar: '--container-prose', value: '65ch', group: 'Container max-widths', type: 'container' },
+  { name: 'container-content', cssVar: '--container-content', value: '48rem (768px)', group: 'Container max-widths', type: 'container' },
+  { name: 'container-page', cssVar: '--container-page', value: '72rem (1152px)', group: 'Container max-widths', type: 'container' },
+  { name: 'container-wide', cssVar: '--container-wide', value: '80rem (1280px)', group: 'Container max-widths', type: 'container' },
+];
+
+const BLUR_TOKENS: TokenEntry[] = [
+  { name: 'blur-glass-light', cssVar: '--blur-glass-light', value: '8px', group: 'Blur (frosted glass)', type: 'blur' },
+  { name: 'blur-glass-medium', cssVar: '--blur-glass-medium', value: '16px', group: 'Blur (frosted glass)', type: 'blur' },
+  { name: 'blur-glass-heavy', cssVar: '--blur-glass-heavy', value: '24px', group: 'Blur (frosted glass)', type: 'blur' },
+  { name: 'blur-glass-ambient', cssVar: '--blur-glass-ambient', value: '60px', group: 'Blur (frosted glass)', type: 'blur' },
+];
+
+const SURFACE_TOKENS: TokenEntry[] = [
+  { name: 'surface', cssVar: '--color-surface', value: '#ffffff', group: 'Surface', type: 'surface' },
+  { name: 'surface-muted', cssVar: '--color-surface-muted', value: '#f9fafb (= ink-50)', group: 'Surface', type: 'surface' },
+  { name: 'surface-sunken', cssVar: '--color-surface-sunken', value: '#f3f4f6 (= ink-100)', group: 'Surface', type: 'surface' },
+  { name: 'surface-elevated', cssVar: '--color-surface-elevated', value: '#ffffff', group: 'Surface', type: 'surface' },
+];
+
+const TOUCH_TARGET_TOKENS: TokenEntry[] = [
+  { name: 'touch', cssVar: '--spacing-touch', value: '2.75rem (44px) — Apple HIG / WCAG AA min', group: 'Touch targets', type: 'touch' },
+  { name: 'touch-lg', cssVar: '--spacing-touch-lg', value: '3rem (48px) — Material comfortable', group: 'Touch targets', type: 'touch' },
+];
+
+const ZINDEX_TOKENS: TokenEntry[] = [
+  { name: 'z-base', cssVar: '--z-base', value: '1', group: 'z-index', type: 'zindex' },
+  { name: 'z-sticky', cssVar: '--z-sticky', value: '20', group: 'z-index', type: 'zindex' },
+  { name: 'z-dropdown', cssVar: '--z-dropdown', value: '30', group: 'z-index', type: 'zindex' },
+  { name: 'z-overlay', cssVar: '--z-overlay', value: '40', group: 'z-index', type: 'zindex' },
+  { name: 'z-modal', cssVar: '--z-modal', value: '50', group: 'z-index', type: 'zindex' },
+  { name: 'z-toast', cssVar: '--z-toast', value: '60', group: 'z-index', type: 'zindex' },
+  { name: 'z-tooltip', cssVar: '--z-tooltip', value: '70', group: 'z-index', type: 'zindex' },
+];
+
 const ALL_TOKENS: TokenEntry[] = [
   ...COLOR_TOKENS,
   ...SEMANTIC_TOKENS,
   ...ROLE_TOKENS,
   ...TYPOGRAPHY_TOKENS,
   ...SPACING_TOKENS,
+  ...SEMANTIC_SPACING_TOKENS,
   ...RADIUS_TOKENS,
   ...SHADOW_TOKENS,
   ...MOTION_TOKENS,
   ...GRADIENT_TOKENS,
+  ...OPACITY_TOKENS,
+  ...DURATION_TOKENS,
+  ...EASING_TOKENS,
+  ...CONTAINER_TOKENS,
+  ...BLUR_TOKENS,
+  ...SURFACE_TOKENS,
+  ...TOUCH_TARGET_TOKENS,
+  ...ZINDEX_TOKENS,
 ];
 
 /* ============================================================================
@@ -2867,7 +5695,9 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   }
 
   if (t.type === 'spacing') {
-    const px = parseInt(t.value, 10) || 0;
+    // Try to extract a px value either from "16px" or "1rem (16px)"
+    const pxMatch = t.value.match(/(\d+)\s*px/);
+    const px = pxMatch ? parseInt(pxMatch[1], 10) : (parseInt(t.value, 10) || 0);
     return (
       <div className="token-card">
         <div className="token-card__swatch token-card__swatch--spacing">
@@ -2939,6 +5769,173 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
     );
   }
 
+  if (t.type === 'opacity') {
+    // Map token suffix → Tailwind opacity utility (e.g. opacity-faint, bg-primary-500/medium)
+    const suffix = t.name.replace('opacity-', '');
+    return (
+      <div className="token-card">
+        <div className="h-[72px] rounded-md bg-ink-100 flex items-center justify-center overflow-hidden">
+          <div className={`h-full w-full bg-primary-500/${suffix}`} />
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`bg-primary-500/${suffix}`} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'duration') {
+    const suffix = t.name.replace('duration-', '');
+    return (
+      <div className="token-card">
+        <div className="h-[72px] rounded-md bg-primary-50 flex items-center justify-center overflow-hidden group">
+          <div
+            className={`w-8 h-8 rounded-md bg-primary-500 transition-all ease-standard duration-${suffix} group-hover:translate-x-12 group-hover:bg-secondary-500`}
+            title="Hover the card to see this duration"
+          />
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`duration-${suffix}`} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'easing') {
+    const suffix = t.name.replace('ease-', '');
+    return (
+      <div className="token-card">
+        <div className="h-[72px] rounded-md bg-primary-50 flex items-center justify-center overflow-hidden group">
+          <div
+            className={`w-8 h-8 rounded-md bg-primary-500 transition-all duration-slow ease-${suffix} group-hover:translate-x-12 group-hover:bg-secondary-500`}
+            title="Hover the card to see this easing"
+          />
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`ease-${suffix}`} />
+          <p className="token-card__value" title={t.value}>{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'container') {
+    // Visualise the proportion as a horizontal bar (relative widths)
+    const widthMap: Record<string, string> = {
+      'container-prose': 'w-[35%]',
+      'container-content': 'w-[55%]',
+      'container-page': 'w-[80%]',
+      'container-wide': 'w-full',
+    };
+    const widthClass = widthMap[t.name] ?? 'w-full';
+    return (
+      <div className="token-card token-card--wide">
+        <div className="h-[72px] rounded-md bg-ink-100 flex items-center px-2 overflow-hidden">
+          <div className={`${widthClass} h-3 rounded-pill bg-primary-500`} />
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`max-w-${t.name.replace('container-', '')}`} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'blur') {
+    const suffix = t.name.replace('blur-', '');
+    return (
+      <div className="token-card">
+        <div
+          className="h-[72px] rounded-md overflow-hidden flex items-center justify-center relative"
+          style={{
+            backgroundImage:
+              'linear-gradient(135deg, #55A1B4 0%, #ED843A 50%, #F8B044 100%)',
+          }}
+        >
+          <div className={`absolute inset-2 rounded-md bg-white/40 backdrop-blur-${suffix} flex items-center justify-center`}>
+            <span className="text-micro font-bold text-white drop-shadow">{t.value}</span>
+          </div>
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`backdrop-blur-${suffix}`} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'surface') {
+    // Map surface token → its bg utility (must be a static literal so JIT compiles it)
+    const bgClassMap: Record<string, string> = {
+      surface: 'bg-surface',
+      'surface-muted': 'bg-surface-muted',
+      'surface-sunken': 'bg-surface-sunken',
+      'surface-elevated': 'bg-surface-elevated',
+    };
+    const bgClass = bgClassMap[t.name] ?? 'bg-surface';
+    const utility = bgClass;
+    return (
+      <div className="token-card">
+        <div className="h-[72px] rounded-md bg-ink-100/30 p-3 flex items-center justify-center">
+          <div className={`${bgClass} w-full h-full rounded-sm border border-ink-200 shadow-xs flex items-center justify-center`}>
+            <span className="text-micro font-mono text-ink-600">{t.name}</span>
+          </div>
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={utility} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'touch') {
+    // Static literals → JIT compiles `h-touch w-touch` and `h-touch-lg w-touch-lg`
+    const sizeClass = t.name === 'touch-lg' ? 'h-touch-lg w-touch-lg' : 'h-touch w-touch';
+    const utility = t.name === 'touch-lg' ? 'h-touch-lg' : 'h-touch';
+    return (
+      <div className="token-card">
+        <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center">
+          <div className={`${sizeClass} rounded-md bg-primary-500 flex items-center justify-center text-white text-micro font-bold tabular-nums`}>
+            {t.name === 'touch-lg' ? '48' : '44'}
+          </div>
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={utility} />
+          <p className="token-card__value">{t.value}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (t.type === 'zindex') {
+    const z = parseInt(t.value, 10) || 0;
+    // Visual: stacked layers indicator
+    return (
+      <div className="token-card">
+        <div className="h-[72px] rounded-md bg-ink-50 flex items-center justify-center relative overflow-hidden">
+          <div className="absolute left-4 top-4 w-12 h-12 rounded-md bg-primary-300/medium" />
+          <div className="absolute left-7 top-7 w-12 h-12 rounded-md bg-primary-500/overlay" />
+          <span className="relative font-display font-bold text-h4 text-white tabular-nums drop-shadow">{z}</span>
+        </div>
+        <div className="token-card__meta">
+          <p className="token-card__name">{t.name}</p>
+          <CopyChip text={`z-${t.name.replace('z-', '')}`} />
+          <p className="token-card__value">layer {z}</p>
+        </div>
+      </div>
+    );
+  }
+
   return null;
 };
 
@@ -2946,41 +5943,62 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
  * MAIN PAGE
  * ============================================================================ */
 
-type Filter = 'all' | Category | 'Tokens' | 'Pages';
+type Filter = 'all' | NewCategory | 'Tokens';
 
+// Alphabetical order — "Tout" pinned first, "Tokens" pinned last
 const FILTERS: { id: Filter; label: string }[] = [
-  { id: 'all', label: 'Tout' },
-  { id: 'Core', label: 'Core' },
-  { id: 'Feedback', label: 'Feedback' },
-  { id: 'Patterns', label: 'Patterns' },
-  { id: 'Learning', label: 'Learning' },
-  { id: 'Content', label: 'Content' },
-  { id: 'Navigation', label: 'Navigation' },
-  { id: 'Tokens', label: 'Tokens' },
-  { id: 'Pages', label: 'Pages & Templates' },
+  { id: 'all',                label: 'Tout' },
+  { id: 'Atoms',              label: 'Atoms' },
+  { id: 'Auth Family',        label: 'Auth Family' },
+  { id: 'Cards',              label: 'Cards' },
+  { id: 'Composites',         label: 'Composites' },
+  { id: 'Feedback',           label: 'Feedback' },
+  { id: 'Forms',              label: 'Forms' },
+  { id: 'Foundations',        label: 'Foundations' },
+  { id: 'Headers & Sections', label: 'Headers & Sections' },
+  { id: 'Learning',           label: 'Learning' },
+  { id: 'Lists & Feeds',      label: 'Lists & Feeds' },
+  { id: 'Modals',             label: 'Modals' },
+  { id: 'Navigation',         label: 'Navigation' },
+  { id: 'Pages & Templates',  label: 'Pages & Templates' },
+  { id: 'Tokens',             label: 'Tokens' },
 ];
 
 const Components: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Show back-to-top button once scrolled past hero
+  React.useEffect(() => {
+    const handleScroll = () => setShowBackToTop(window.scrollY > 400);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const q = query.trim().toLowerCase();
 
+  // Components enriched with new meta (category + subCategory)
+  const componentsWithMeta = useMemo(
+    () => COMPONENTS.map((c) => ({ ...c, _meta: resolveMeta(c) })),
+    [],
+  );
+
   const filteredComponents = useMemo(() => {
-    if (filter === 'Tokens' || filter === 'Pages') return [];
-    return COMPONENTS.filter((c) => {
-      if (filter !== 'all' && c.category !== filter) return false;
+    if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
+    return componentsWithMeta.filter((c) => {
+      if (filter !== 'all' && c._meta.category !== filter) return false;
       if (!q) return true;
       const haystack = [
-        c.name, c.codeName, c.cssBase, c.description, c.category, ...c.keywords,
+        c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
       ].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, filter]);
+  }, [q, filter, componentsWithMeta]);
 
   const filteredTokens = useMemo(() => {
-    if (filter !== 'all' && filter !== 'Tokens') return [];
+    if (filter !== 'all' && filter !== 'Tokens' && filter !== 'Foundations') return [];
     return ALL_TOKENS.filter((t) => {
       if (!q) return true;
       const haystack = [t.name, t.cssVar, t.value, t.group, t.type].join(' ').toLowerCase();
@@ -2989,7 +6007,7 @@ const Components: React.FC = () => {
   }, [q, filter]);
 
   const filteredPages = useMemo(() => {
-    if (filter !== 'all' && filter !== 'Pages') return [];
+    if (filter !== 'all' && filter !== 'Pages & Templates') return [];
     return PAGE_TEMPLATES.filter((p) => {
       if (!q) return true;
       const haystack = [p.name, p.description, p.family, ...p.tags].join(' ').toLowerCase();
@@ -3018,52 +6036,104 @@ const Components: React.FC = () => {
     return Array.from(map.entries());
   }, [filteredTokens]);
 
+  // Group by NEW category → subCategory (2 levels)
   const componentsByCategory = useMemo(() => {
-    const order: Category[] = ['Core', 'Feedback', 'Patterns', 'Learning', 'Content', 'Navigation', 'Modals'];
-    return order
-      .map((cat) => [cat, filteredComponents.filter((c) => c.category === cat)] as const)
-      .filter(([, list]) => list.length > 0);
-  }, [filteredComponents]);
+    return CATEGORY_ORDER
+      .map((cat) => {
+        const inCat = filteredComponents.filter((c) => c._meta.category === cat);
+        if (inCat.length === 0) return null;
+        // Sub-group by subCategory respecting SUBCATEGORY_ORDER
+        const subMap = new Map<string, typeof inCat>();
+        inCat.forEach((c) => {
+          const sub = c._meta.subCategory;
+          if (!subMap.has(sub)) subMap.set(sub, []);
+          subMap.get(sub)!.push(c);
+        });
+        const subOrder = SUBCATEGORY_ORDER[cat] ?? [];
+        const orderedSubs: Array<readonly [string, typeof inCat]> = [
+          ...subOrder.filter((s) => subMap.has(s)).map((s) => [s, subMap.get(s)!] as const),
+          // Any subCategory not in the predefined order, appended at the end
+          ...Array.from(subMap.entries()).filter(([s]) => !subOrder.includes(s)),
+        ];
+        return [cat, orderedSubs, inCat.length] as const;
+      })
+      .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
+  }, [filteredComponents, componentsWithMeta]);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Compute dynamic stats for the hero
+  const totalSubCategories = useMemo(
+    () => Object.values(SUBCATEGORY_ORDER).reduce((sum, arr) => sum + arr.length, 0),
+    [],
+  );
+  const lastUpdated = useMemo(
+    () => new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }),
+    [],
+  );
 
   return (
     <div className="ds-showcase">
-      {/* -------------------------------- HERO (compact card) ----------------- */}
-      <header className="rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 via-white to-primary-50/60 px-6 py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
-            Design System · v1.0.0 · 2026-04-24
-          </p>
-          <h1 className="font-display font-bold text-h2 text-primary-900 m-0 mt-1 leading-tight">
-            Components
-          </h1>
-          <p className="text-body-sm text-ink-600 m-0 mt-1.5 max-w-[60ch]">
-            Source : <code className="font-mono text-[0.9em] bg-white/70 px-1.5 py-0.5 rounded-sm">src/components/</code> — {COMPONENTS.length} composants React + tous les tokens. Cliquez sur une puce pour copier.
-          </p>
-        </div>
-        <div className="flex gap-4 sm:gap-5 shrink-0 sm:border-l sm:border-primary-100 sm:pl-5">
-          {[
-            [COMPONENTS.length, 'composants'],
-            [ALL_TOKENS.length, 'tokens'],
-            [5, 'catégories'],
-            [3, 'fontes'],
-          ].map(([n, label]) => (
-            <div key={label as string} className="flex flex-col">
-              <strong className="font-display font-bold text-h3 leading-none text-primary-800 tabular-nums">{n}</strong>
-              <span className="text-[10px] font-bold uppercase tracking-[0.06em] text-primary-700/80 mt-1">{label}</span>
-            </div>
-          ))}
-        </div>
-      </header>
+      {/* -------------------------------- HERO (EditorialHero brand) ---------- */}
+      <EditorialHero
+        tone="brand"
+        eyebrow={{ icon: <SparklesIcon size={12} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
+        title="Components"
+        summary={
+          <>
+            Source :{' '}
+            <code className="font-mono text-[0.92em] bg-white/15 text-white px-1.5 py-0.5 rounded-sm border border-white/20">
+              src/components/
+            </code>{' '}
+            — bibliothèque vivante de {COMPONENTS.length} composants React et {ALL_TOKENS.length} tokens,
+            organisés en {CATEGORY_ORDER.length} catégories et {totalSubCategories} sous-catégories.
+            Cliquez sur une puce pour copier la référence.
+          </>
+        }
+        trailing={
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs sm:gap-stack">
+            <StatCard
+              variant="brand"
+              size="sm"
+              icon={<Layers size={18} />}
+              value={COMPONENTS.length}
+              label="Composants"
+            />
+            <StatCard
+              variant="brand"
+              size="sm"
+              icon={<Palette size={18} />}
+              value={ALL_TOKENS.length}
+              label="Tokens"
+            />
+            <StatCard
+              variant="brand"
+              size="sm"
+              icon={<FolderTree size={18} />}
+              value={CATEGORY_ORDER.length}
+              sub={`/${totalSubCategories}`}
+              label="Cats / Sous-cats"
+            />
+            <StatCard
+              variant="brand"
+              size="sm"
+              icon={<LayoutTemplate size={18} />}
+              value={PAGE_TEMPLATES.length}
+              label="Pages templates"
+            />
+          </div>
+        }
+      />
 
-      {/* -------------------------------- CONTROLS ---------------------------- */}
-      <div className="ds-controls">
+      {/* -------------------------------- CONTROLS (sticky) ------------------- */}
+      <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-3 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">
         <Search
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           size="lg"
           placeholder="Rechercher un composant, un token, une classe CSS…"
         />
-        <div className="ds-filters">
+        <div className="flex flex-wrap gap-stack-xs overflow-x-auto">
           {FILTERS.map((f) => (
             <button
               key={f.id}
@@ -3086,31 +6156,60 @@ const Components: React.FC = () => {
         />
       ) : (
         <>
-          {/* ---- Components by category ---- */}
-          {componentsByCategory.map(([cat, list]) => (
-            <section key={cat} className="ds-section">
+          {/* ---- Components by category → subCategory ---- */}
+          {componentsByCategory.map(([cat, subGroups, total]) => (
+            <section key={cat} className="ds-section" id={`cat-${cat.replace(/[^a-z]/gi, '-').toLowerCase()}`}>
               <div className="ds-section__head">
                 <h2 className="ds-section__title">{cat}</h2>
-                <span className="ds-section__count">{list.length} composant{list.length > 1 ? 's' : ''}</span>
+                <span className="ds-section__count">{total} composant{total > 1 ? 's' : ''}</span>
               </div>
-              <div className="ds-component-list">
-                {list.map((c) => (
-                  <article key={c.name} className="ds-component">
-                    <header className="ds-component__head">
-                      <div>
-                        <h3 className="ds-component__name">{c.name}</h3>
-                        <p className="ds-component__desc">{c.description}</p>
-                      </div>
-                      <div className="ds-component__chips">
-                        <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
-                        <CopyChip text={c.cssBase} label={c.cssBase} />
-                        <span className="ds-component__cat">{c.category}</span>
-                      </div>
-                    </header>
-                    <div className="ds-component__preview">{c.render()}</div>
-                  </article>
-                ))}
-              </div>
+
+              {subGroups.map(([subCat, list]) => (
+                <div key={subCat} className="flex flex-col gap-stack">
+                  {/* Sub-category header (skip if "Other" or single-sub category) */}
+                  {subGroups.length > 1 && (
+                    <div className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100">
+                      <h3 className="m-0 font-display text-h4 font-semibold text-ink-700">{subCat}</h3>
+                      <span className="text-caption text-ink-500">{list.length}</span>
+                    </div>
+                  )}
+
+                  <div className="ds-component-list">
+                    {list.map((c) => (
+                      <article key={c.name} className="ds-component">
+                        <header className="ds-component__head">
+                          <div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h3 className="ds-component__name">{c.name}</h3>
+                              {c.showcaseOnly && (
+                                <span
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-50 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"
+                                  title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app"
+                                >
+                                  Showcase only
+                                </span>
+                              )}
+                            </div>
+                            <p className="ds-component__desc">{c.description}</p>
+                            {c.usedBy && c.usedBy.length > 0 && (
+                              <p className="m-0 mt-1 text-micro text-ink-500">
+                                <span className="font-bold uppercase tracking-wider mr-1.5">Used by:</span>
+                                {c.usedBy.join(' · ')}
+                              </p>
+                            )}
+                          </div>
+                          <div className="ds-component__chips">
+                            <CopyChip text={c.codeName} label={`‹${c.codeName}›`} />
+                            <CopyChip text={c.cssBase} label={c.cssBase} />
+                            <span className="ds-component__cat">{c._meta.category}</span>
+                          </div>
+                        </header>
+                        <div className="ds-component__preview">{c.render()}</div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </section>
           ))}
 
@@ -3121,61 +6220,44 @@ const Components: React.FC = () => {
                 <h2 className="ds-section__title">Pages · {family}</h2>
                 <span className="ds-section__count">{pages.length} template{pages.length > 1 ? 's' : ''}</span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--s-4)' }}>
+              <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
                 {pages.map((p) => (
                   <div
                     key={p.id}
-                    style={{
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      borderRadius: 'var(--r-xl)',
-                      overflow: 'hidden',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
+                    className="bg-white border border-ink-200 rounded-xl overflow-hidden flex flex-col"
                   >
                     {/* Color header */}
                     <div
-                      style={{
-                        background: p.bg,
-                        borderBottom: '1px solid var(--border)',
-                        padding: 'var(--s-5) var(--s-5) var(--s-4)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--s-3)',
-                      }}
+                      className="flex items-center gap-3 border-b border-ink-200"
+                      style={{ background: p.bg, padding: 'var(--s-5) var(--s-5) var(--s-4)' }}
                     >
-                      <span style={{ fontSize: 'var(--t-h2)', lineHeight: 1 }}>{p.icon}</span>
+                      <span className="text-h2 leading-none">{p.icon}</span>
                       <div>
-                        <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: p.color, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 'var(--s-1)' }}>
+                        <div
+                          className="text-micro font-bold uppercase mb-1"
+                          style={{ color: p.color, letterSpacing: '0.07em' }}
+                        >
                           {p.family}
                         </div>
-                        <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--text)', lineHeight: 1.2 }}>
+                        <div className="text-body font-extrabold text-ink-900 leading-tight">
                           {p.name}
                         </div>
                       </div>
                     </div>
 
                     {/* Body */}
-                    <div style={{ padding: 'var(--s-4) var(--s-5)', flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-                      <p style={{ fontSize: 'var(--t-sm)', color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
+                    <div className="flex-1 flex flex-col gap-3" style={{ padding: 'var(--s-4) var(--s-5)' }}>
+                      <p className="text-body-sm text-ink-500 m-0 leading-relaxed">
                         {p.description}
                       </p>
 
                       {/* Tags */}
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-1-5)' }}>
+                      <div className="flex flex-wrap" style={{ gap: 'var(--s-1-5)' }}>
                         {p.tags.map((tag) => (
                           <span
                             key={tag}
-                            style={{
-                              padding: 'var(--chip-padding-xs)',
-                              borderRadius: 'var(--r-pill)',
-                              background: 'var(--surface-muted)',
-                              border: '1px solid var(--border)',
-                              fontSize: 'var(--t-micro)',
-                              fontWeight: 600,
-                              color: 'var(--text-muted)',
-                            }}
+                            className="bg-ink-50 border border-ink-200 rounded-pill text-micro font-semibold text-ink-500"
+                            style={{ padding: 'var(--chip-padding-xs)' }}
                           >
                             {tag}
                           </span>
@@ -3186,23 +6268,11 @@ const Components: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => navigate(p.path)}
+                        className="mt-auto inline-flex items-center justify-center rounded-pill border-none text-white font-bold text-body-sm cursor-pointer font-body w-full transition-opacity duration-150"
                         style={{
-                          marginTop: 'auto',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           gap: 'var(--s-1-5)',
                           padding: 'var(--s-2) var(--s-4-5)',
-                          borderRadius: 'var(--r-pill)',
                           background: p.color,
-                          border: 'none',
-                          color: 'var(--text-inverse)',
-                          fontWeight: 700,
-                          fontSize: 'var(--t-body-sm)',
-                          cursor: 'pointer',
-                          fontFamily: 'var(--font-body)',
-                          transition: 'opacity 0.15s',
-                          width: '100%',
                         }}
                         onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
                         onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
@@ -3236,6 +6306,20 @@ const Components: React.FC = () => {
             </section>
           )}
         </>
+      )}
+
+      {/* -------------------------------- BACK-TO-TOP ------------------------- */}
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="Retour en haut de page"
+          className="fixed bottom-28 right-10 z-toast w-12 h-12 rounded-pill bg-primary-600 text-white shadow-lg flex items-center justify-center cursor-pointer transition-all duration-base hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
       )}
 
       {/* -------------------------------- INLINE STYLES ----------------------- */}

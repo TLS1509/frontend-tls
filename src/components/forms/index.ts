@@ -1,5 +1,3 @@
-export { FormField } from './FormField';
-export type { default } from './FormField';
-
-export { SearchBar } from './SearchBar';
+// FormField supprimé (Phase 10) → utiliser Input + FormGroup
+// SearchBar supprimé (Phase 10) → utiliser Search canonical
 export { FilterBar } from './FilterBar';

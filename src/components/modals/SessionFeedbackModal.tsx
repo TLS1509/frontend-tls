@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X, Send, Sparkles, Star } from 'lucide-react';
-import './modals.css';
 
 /**
  * SessionFeedbackModal — Notation étoiles + commentaire
@@ -61,7 +60,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] backdrop-blur bg-black/40 animate-fb-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/40 animate-fb-bd-in"
       onClick={handleClose}
     >
       <div

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { X, Sparkles, Star, Trophy } from 'lucide-react';
-import './modals.css';
 
 /**
  * CelebrationModal — generic milestone celebration modal.
@@ -83,7 +82,7 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-[1001] flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-modal-bd-in"
+      className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/45 backdrop-blur-sm animate-modal-bd-in"
       onClick={onClose}
       role="dialog"
       aria-modal="true"

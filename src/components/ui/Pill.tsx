@@ -37,9 +37,9 @@ const VARIANT_CLASSES: Record<PillVariant, string> = {
   surface:
     'bg-white border border-ink-200 text-ink-500',
   'glass-light':
-    'bg-white/15 backdrop-blur-md border border-white/30 text-white',
+    'bg-white/15 backdrop-blur-glass-light border border-white/30 text-white',
   'glass-dark':
-    'bg-black/40 backdrop-blur-md border border-white/15 text-white/80',
+    'bg-black/40 backdrop-blur-glass-light border border-white/15 text-white/80',
 };
 
 export const Pill: React.FC<PillProps> = ({

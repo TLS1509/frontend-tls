@@ -1,12 +1,9 @@
 /**
  * Auth Components Export
  *
- * Reusable components for authentication pages (Login, Signup, etc.)
- * - SocialButton: OAuth login buttons (Google, LinkedIn)
- * - AuthLayout: Composite layout with glassmorphism + animated blobs
+ * NOTE : `SocialButton` et `AuthLayout` ont été supprimés (Phase 10 cleanup).
+ * Utiliser `AuthShell` + `AuthSocialButton` depuis `patterns/AuthShell.tsx`
+ * pour les pages d'authentification.
  */
 
-export { SocialButton, type SocialProvider } from './SocialButton';
-export type { default as SocialButtonProps } from './SocialButton';
-
-export { AuthLayout } from './AuthLayout';
+export {}; // ensure file remains a module

@@ -102,7 +102,7 @@ const FAMILY_SECTIONS: { family: PageItem['family']; label: string; emoji: strin
   { family: 'veille',        label: 'Famille Veille',         emoji: '📰', desc: 'Hub éditorial et tous les items de contenus' },
   { family: 'journal',       label: 'Famille Journal',        emoji: '📓', desc: "Liste, détail et création d'entrées" },
   { family: 'coaching-flow', label: 'Famille Coaching Flow',  emoji: '🎓', desc: 'Réservation et questionnaire de préparation' },
-  { family: 'account-auth',  label: 'Famille Account & Auth', emoji: '🔐', desc: 'Profil, paramètres compte et parcours d'authentification' },
+  { family: 'account-auth',  label: 'Famille Account & Auth', emoji: '🔐', desc: "Profil, paramètres compte et parcours d'authentification" },
   { family: 'social',        label: 'Famille Social',         emoji: '👥', desc: 'Collaboration et notifications' },
   { family: 'enterprise',    label: 'Famille Entreprise',     emoji: '🏢', desc: 'Administration multi-utilisateurs' },
   { family: 'support',       label: 'Famille Support & erreurs', emoji: '🛟', desc: 'Aide, 404 et 500' },

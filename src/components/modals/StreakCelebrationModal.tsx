@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { X, Flame, Calendar, TrendingUp } from 'lucide-react';
-import './modals.css';
 
 /**
  * StreakCelebrationModal — Célébration de série d'apprentissage
@@ -54,7 +53,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
       {PARTICLES.map((p) => (
         <div
           key={p.id}
-          className="modal-flame-bg fixed bottom-[45%] z-[1001] pointer-events-none rounded-[50%_50%_50%_0]"
+          className="modal-flame-bg fixed bottom-[45%] z-modal pointer-events-none rounded-[50%_50%_50%_0]"
           style={{
             left: `${p.left}%`,
             width: p.size,
@@ -66,7 +65,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
 
       {/* Backdrop */}
       <div
-        className="fixed inset-0 flex items-center justify-center p-4 z-[1001] bg-black/55 animate-sc-bd-in"
+        className="fixed inset-0 flex items-center justify-center p-4 z-modal bg-black/55 animate-sc-bd-in"
         onClick={onClose}
       >
         <div

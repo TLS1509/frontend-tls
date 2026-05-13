@@ -6,7 +6,6 @@ import { Button } from '../core/Button';
  * PositionnementModal — Auto-évaluation des compétences avant un parcours
  * Design: Progressive Cards, 5 niveaux, auto-avancement, success screen
  */
-import './modals.css';
 
 interface Question {
   id: number;
@@ -134,7 +133,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1000] backdrop-blur bg-black/45 animate-modal-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal backdrop-blur bg-black/45 animate-modal-bd-in"
       onClick={onClose}
     >
       {/* Modal container */}

@@ -1,12 +1,7 @@
 /**
  * VideoTutorial — Lecteur de tutoriel vidéo
  *
- * Design d'après screenshot :
- * - Layout 2 colonnes : vidéo (gauche) + sidebar Chapitres (droite)
- * - Header minimal : ▶ Tutoriel vidéo + breadcrumb
- * - Grand titre bold + description + pills (catégorie / durée / auteur)
- * - Zone vidéo plein écran avec bouton play centré
- * - Sidebar : Chapitres avec timestamps + bouton "Retour veille"
+ * Layout 2 colonnes : vidéo (gauche) + sidebar Chapitres (droite)
  */
 
 import React, { useState } from "react";
@@ -82,51 +77,21 @@ export const VideoTutorial: React.FC = () => {
   const tuto = (id && TUTORIALS[id]) ? TUTORIALS[id] : DEFAULT_TUTORIAL;
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--surface)",
-        fontFamily: "var(--font-body)",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* ─ Minimal top breadcrumb ─────────────────────────────────── */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "var(--s-3) var(--s-6)",
-          borderBottom: "1px solid var(--border)",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "var(--s-2)",
-            fontSize: "var(--t-caption)",
-            color: "var(--text-muted)",
-          }}
-        >
+    <div className="min-h-screen bg-surface font-body flex flex-col">
+
+      {/* ─ Top breadcrumb bar ─────────────────────────────────────── */}
+      <div className="flex items-center justify-between px-6 py-3 border-b border-ink-200">
+        <div className="flex items-center gap-2 font-body text-caption text-ink-500">
           <span
             onClick={() => navigate("/veille")}
-            style={{
-              cursor: "pointer",
-              color: "var(--tls-primary-600)",
-              fontWeight: 500,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "var(--s-1)",
-            }}
+            className="cursor-pointer text-primary-600 font-medium inline-flex items-center gap-1 hover:text-primary-700 transition-colors"
           >
             <ArrowLeft size={13} />
             Veille
           </span>
           <ChevronRight size={13} />
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "var(--s-1)" }}>
-            <Play size={12} style={{ color: "var(--tls-orange-500)" }} />
+          <span className="inline-flex items-center gap-1">
+            <Play size={12} className="text-secondary-500" />
             Tutoriel vidéo
           </span>
         </div>
@@ -134,115 +99,40 @@ export const VideoTutorial: React.FC = () => {
         <button
           type="button"
           onClick={() => setSaved(!saved)}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "36px",
-            height: "36px",
-            borderRadius: "var(--r-pill)",
-            border: "1.5px solid var(--border)",
-            background: "transparent",
-            color: saved ? "var(--tls-primary-500)" : "var(--text-muted)",
-            cursor: "pointer",
-          }}
+          className={[
+            'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200',
+            saved
+              ? 'border-primary-300 text-primary-500 bg-primary-50'
+              : 'border-ink-200 text-ink-400 bg-transparent hover:bg-ink-50',
+          ].join(' ')}
         >
           {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
         </button>
       </div>
 
-      {/* ─ Main layout : vidéo (gauche) + sidebar chapitres (droite) ── */}
-      <div
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "1fr 300px",
-          minHeight: 0,
-        }}
-      >
-        {/* ── Colonne gauche : titre + description + vidéo ─────────── */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            borderRight: "1px solid var(--border)",
-          }}
-        >
+      {/* ─ Main 2-column layout ───────────────────────────────────── */}
+      <div className="flex-1 grid grid-cols-[1fr_300px] min-h-0">
+
+        {/* ── Left column : title + description + video ─────────── */}
+        <div className="flex flex-col border-r border-ink-200">
+
           {/* Header info */}
-          <div style={{ padding: "var(--s-6) var(--s-8) var(--s-5)" }}>
-            {/* Title */}
-            <h1
-              style={{
-                fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)",
-                fontWeight: 900,
-                color: "var(--text)",
-                margin: "0 0 var(--s-3)",
-                lineHeight: 1.15,
-                letterSpacing: "-0.025em",
-              }}
-            >
+          <div className="px-8 py-6 pb-5">
+            <h1 className="font-display text-h1 font-black text-ink-900 m-0 mb-3 leading-[1.15] tracking-tight">
               {tuto.title}
             </h1>
-
-            {/* Description */}
-            <p
-              style={{
-                fontSize: "var(--t-body)",
-                color: "var(--text-muted)",
-                lineHeight: 1.6,
-                margin: "0 0 var(--s-4)",
-                maxWidth: "var(--container-narrow)",
-              }}
-            >
+            <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-4 max-w-[640px]">
               {tuto.description}
             </p>
-
-            {/* Pills row */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "var(--s-3)",
-                flexWrap: "wrap",
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  padding: "var(--s-1) var(--s-3)",
-                  borderRadius: "var(--r-pill)",
-                  background: "var(--tls-primary-50)",
-                  border: "1px solid var(--overlay-brand-sm)",
-                  color: "var(--tls-primary-700)",
-                  fontSize: "var(--t-micro)",
-                  fontWeight: 800,
-                  letterSpacing: "0.07em",
-                }}
-              >
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="inline-flex items-center px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-extrabold tracking-wider">
                 {tuto.category}
               </span>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "var(--s-1)",
-                  color: "var(--text-muted)",
-                  fontSize: "var(--t-caption)",
-                }}
-              >
+              <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
                 <Clock size={13} />
                 {tuto.duration}
               </span>
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "var(--s-1)",
-                  color: "var(--text-muted)",
-                  fontSize: "var(--t-caption)",
-                }}
-              >
+              <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
                 <User size={13} />
                 {tuto.author}
               </span>
@@ -250,227 +140,96 @@ export const VideoTutorial: React.FC = () => {
           </div>
 
           {/* Video area */}
-          <div
-            style={{
-              flex: 1,
-              background: "var(--video-grad-brand)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              minHeight: "380px",
-            }}
-          >
-            {/* Subtle texture overlay */}
+          <div className="flex-1 bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 flex items-center justify-center relative min-h-[380px]">
+            {/* Subtle radial overlays — complex gradients → style={{}} allowed */}
             <div
+              className="absolute inset-0"
               style={{
-                position: "absolute",
-                inset: 0,
                 background:
-                  "radial-gradient(ellipse at 30% 40%, var(--overlay-brand-md) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, var(--overlay-brand-xs) 0%, transparent 50%)",
+                  "radial-gradient(ellipse at 30% 40%, rgba(85,161,180,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, rgba(85,161,180,0.04) 0%, transparent 50%)",
               }}
             />
 
             {/* Chapter indicator (top left) */}
             {activeChapter > 0 && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "var(--s-4)",
-                  left: "var(--s-5)",
-                  background: "var(--overlay-black-sm)",
-                  backdropFilter: "blur(8px)",
-                  color: 'var(--text-inverse)',
-                  fontSize: "var(--t-caption)",
-                  fontWeight: 600,
-                  padding: "var(--s-1) var(--s-2-5)",
-                  borderRadius: "6px",
-                }}
-              >
+              <div className="absolute top-4 left-5 bg-black/30 backdrop-blur-glass-light text-white font-body text-caption font-semibold px-2.5 py-1 rounded-md">
                 {tuto.chapitres[activeChapter]?.label}
               </div>
             )}
 
-            {/* Play button */}
+            {/* Play / Pause button */}
             <button
               type="button"
               onClick={() => setPlaying(!playing)}
-              style={{
-                position: "relative",
-                zIndex: 1,
-                width: "72px",
-                height: "72px",
-                borderRadius: "50%",
-                background: playing
-                  ? "var(--on-color-fill-sm)"
-                  : "var(--tls-primary-500)",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: playing
-                  ? "none"
-                  : "0 0 0 12px var(--overlay-brand-lg), var(--shadow-brand-md)",
-                transition: "all 0.3s cubic-bezier(0.2,0,0,1)",
-              }}
-              onMouseEnter={(e) => {
-                if (!playing) e.currentTarget.style.transform = "scale(1.08)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
               aria-label={playing ? "Pause" : "Lire"}
+              className={[
+                'relative z-[1] w-[72px] h-[72px] rounded-full border-0 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105',
+                playing
+                  ? 'bg-white/20'
+                  : 'bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
+              ].join(' ')}
             >
               {playing ? (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "var(--s-1)",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "4px",
-                      height: "22px",
-                      background: "var(--on-color-text-main)",
-                      borderRadius: "2px",
-                    }}
-                  />
-                  <div
-                    style={{
-                      width: "4px",
-                      height: "22px",
-                      background: "var(--on-color-text-main)",
-                      borderRadius: "2px",
-                    }}
-                  />
+                <div className="flex gap-1">
+                  <div className="w-1 h-[22px] bg-white rounded-[2px]" />
+                  <div className="w-1 h-[22px] bg-white rounded-[2px]" />
                 </div>
               ) : (
-                <Play size={28} color="var(--on-color-text-main)" fill="var(--on-color-text-main)" style={{ marginLeft: "3px" }} />
+                <Play size={28} fill="white" color="white" className="ml-[3px]" />
               )}
             </button>
 
             {/* Duration badge */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "var(--s-4)",
-                right: "var(--s-5)",
-                background: "var(--overlay-black-md)",
-                backdropFilter: "blur(4px)",
-                color: 'var(--text-inverse)',
-                fontSize: "var(--t-caption)",
-                fontWeight: 700,
-                padding: "3px 10px",
-                borderRadius: "6px",
-              }}
-            >
+            <div className="absolute bottom-4 right-5 bg-black/45 backdrop-blur-sm text-white font-body text-caption font-bold px-2.5 py-[3px] rounded-md">
               {tuto.duration}
             </div>
           </div>
         </div>
 
-        {/* ── Colonne droite : sidebar Chapitres ───────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            background: "var(--surface-muted)",
-          }}
-        >
+        {/* ── Right sidebar : Chapitres ─────────────────────────── */}
+        <div className="flex flex-col bg-ink-50">
+
           {/* Chapitres header */}
-          <div
-            style={{
-              padding: "var(--s-5) var(--s-5) var(--s-3)",
-              borderBottom: "1px solid var(--border)",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "var(--t-caption)",
-                fontWeight: 800,
-                color: "var(--text)",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-              }}
-            >
+          <div className="px-5 pt-5 pb-3 border-b border-ink-200">
+            <span className="font-body text-caption font-extrabold text-ink-900 uppercase tracking-widest">
               Chapitres
             </span>
           </div>
 
           {/* Chapter list */}
-          <div
-            style={{
-              flex: 1,
-              overflowY: "auto",
-              padding: "var(--s-2) 0",
-            }}
-          >
+          <div className="flex-1 overflow-y-auto py-2">
             {tuto.chapitres.map((ch, i) => {
               const isActive = activeChapter === i;
               return (
                 <button
                   key={i}
                   type="button"
-                  onClick={() => {
-                    setActiveChapter(i);
-                    setPlaying(true);
-                  }}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: "var(--s-3)",
-                    width: "100%",
-                    padding: "var(--s-3) var(--s-5)",
-                    background: isActive ? "var(--surface)" : "transparent",
-                    border: "none",
-                    borderLeft: isActive
-                      ? "3px solid var(--tls-primary-500)"
-                      : "3px solid transparent",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    fontFamily: "var(--font-body)",
-                    transition: "all 0.15s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) e.currentTarget.style.background = "var(--overlay-dark-xs)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) e.currentTarget.style.background = "transparent";
-                  }}
+                  onClick={() => { setActiveChapter(i); setPlaying(true); }}
+                  className={[
+                    'flex items-start gap-3 w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150',
+                    isActive
+                      ? 'bg-white border-l-primary-500'
+                      : 'bg-transparent border-l-transparent hover:bg-ink-100',
+                  ].join(' ')}
                 >
-                  <span
-                    style={{
-                      fontSize: "var(--t-caption)",
-                      fontWeight: 700,
-                      color: isActive
-                        ? "var(--tls-primary-600)"
-                        : "var(--text-muted)",
-                      minWidth: "36px",
-                      fontVariantNumeric: "tabular-nums",
-                      marginTop: "1px",
-                      flexShrink: 0,
-                    }}
-                  >
+                  <span className={[
+                    'font-body text-caption font-bold min-w-[36px] mt-px shrink-0 tabular-nums',
+                    isActive ? 'text-primary-600' : 'text-ink-400',
+                  ].join(' ')}>
                     {ch.time}
                   </span>
-                  <span
-                    style={{
-                      fontSize: "var(--t-caption)",
-                      fontWeight: isActive ? 700 : 500,
-                      color: isActive ? "var(--text)" : "var(--text-muted)",
-                      lineHeight: 1.4,
-                    }}
-                  >
+                  <span className={[
+                    'font-body text-caption leading-snug',
+                    isActive ? 'font-bold text-ink-900' : 'font-medium text-ink-500',
+                  ].join(' ')}>
                     {ch.label}
                   </span>
                   {isActive && (
                     <Play
                       size={12}
-                      fill="var(--tls-primary-500)"
-                      color="var(--tls-primary-500)"
-                      style={{ flexShrink: 0, marginTop: "2px", marginLeft: "auto" }}
+                      fill="#55A1B4"
+                      color="#55A1B4"
+                      className="shrink-0 mt-[2px] ml-auto"
                     />
                   )}
                 </button>
@@ -478,35 +237,12 @@ export const VideoTutorial: React.FC = () => {
             })}
           </div>
 
-          {/* Retour veille */}
-          <div
-            style={{
-              padding: "var(--s-4) var(--s-5)",
-              borderTop: "1px solid var(--border)",
-            }}
-          >
+          {/* Back to veille */}
+          <div className="px-5 py-4 border-t border-ink-200">
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "var(--s-1-5)",
-                background: "none",
-                border: "none",
-                color: "var(--text-muted)",
-                fontSize: "var(--t-caption)",
-                fontWeight: 600,
-                cursor: "pointer",
-                fontFamily: "var(--font-body)",
-                padding: 0,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--tls-primary-600)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--text-muted)";
-              }}
+              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150"
             >
               <ArrowLeft size={13} /> Retour veille
             </button>

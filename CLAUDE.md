@@ -14,14 +14,31 @@ src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
 │   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard… (51 composants)
-│   ├── patterns/    DashboardHero, ParcoursCard, CardGrid, SectionHeader, PageHeader…
-│   ├── learning/    LessonCard, ArticleCard, SessionCard…
+│   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
+│   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
+│   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (40 composants)
+│   ├── learning/    LessonCard, ArticleCard, SessionCard, VideoCard, PromptCard…
 │   ├── modals/      BookingModal, SuccessModal, VideoPlayerModal…
+│   ├── cards/       NotificationCard, JournalEntryCard
+│   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
-├── pages/           57 pages (route-level)
+├── pages/           50 pages app (route-level) + 6 à créer (voir DESIGN.md §Pages manquantes)
 ├── styles/          design-tokens.css (source vérité), tls-components.css (CSS BEM actuel)
 └── design-system/   spec.json (spécification officielle)
 ```
+
+### Pages manquantes à créer (non présentes dans App.tsx)
+
+| Page | Route | Notes |
+|------|-------|-------|
+| `Recherche` | `/search` | Recherche globale cross-contenus |
+| `MagicLink` | `/auth/magic-link` | Auth sans mot de passe |
+| `VerifyEmail` | `/auth/verify-email` | Confirmation email post-inscription |
+| `SubscriptionPayment` | `/onboarding/payment` | Choix de formule + paiement |
+| `Billing` | `/account/billing` | Gestion abonnement et factures |
+| `Positionnement` | `/learning-paths/:id/positionnement` | Test diagnostique avant parcours |
+
+→ Voir `DESIGN.md` pour le prompt de création complet.
 
 ## Familles de composants — Décisions de rationalisation (2026-05-09)
 
@@ -52,6 +69,54 @@ src/
 | `FilterChip` | toggle interactif avec active state gradient. |
 
 **Ne pas fusionner** — APIs fondamentalement différentes (ReactNode vs string, glass vs tones).
+
+### Patterns éditoriaux & layout (introduits 2026-05-09 → 2026-05-10)
+
+| Composant | Usage canonique |
+|-----------|-----------------|
+| `patterns/EditorialHero` | Bandeau hero plein-largeur. `tone: default \| brand \| warm \| sun`. **`brand`** (gradient saturé primary-500→700, texte blanc, border/halo blanc) = Dashboard, Journal. Autre tons = pages auth/éditoriales. Consommé par 14 pages. |
+| `patterns/AuthShell` | Layout split-screen pour pages auth. Sous-composants : `AuthFeature`, `AuthDivider`, `AuthSocialButton`, `AuthSuccess`. Consommé par Login, Signup, ForgotPassword, ResetPassword. |
+| `patterns/EditorialLayout` | 2-col main + sticky aside, stack mobile-first. Pour pages MagazineArticle, ArticleDetail, Newsletter, WeeklyNewsDetail, Project, etc. (7 pages). |
+| `patterns/SectionCard` | Card sectionnée — title + description + footer actions. Pour blocs autonomes dans pages éditoriales. (8 pages) |
+| `patterns/RelatedItemList` | Liste verticale d'items reliés / cross-links. (5 pages) |
+| `patterns/ResumeLessonCard` | Hero card "Reprendre ta leçon" Dashboard. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1, meta pills (level/duration/lessons), progress bar + CTA pill. |
+
+## Auth components — dark glass vs light fields (dualité)
+
+Pour les pages avec **fond saturé glass-dark** (Login/Signup/ForgotPassword/ResetPassword via AuthShell), utiliser la famille `Auth*`. Pour les pages standard (fond clair, surface white), utiliser les composants core/UI.
+
+| Use case | Light mode (pages standard) | Dark glass mode (auth pages) |
+|---|---|---|
+| Field avec label + icon | `<FormGroup><Input leadingIcon /></FormGroup>` | `<AuthField label icon />` |
+| Password input | `<Input type="password" />` (no toggle yet) | `<AuthPasswordField />` (eye toggle built-in) |
+| Checkbox | `<Checkbox />` (from core/Input.tsx) | `<AuthCheckbox />` |
+| Primary CTA | `<Button>` (variants light) | `<AuthPrimaryButton>` (white-on-dark inverse) |
+| Ghost / secondary CTA | `<Button variant="ghost">` | `<AuthGhostButton>` (white-border on dark) |
+| Divider | `<Divider label="ou" />` | `<AuthDivider>` (white/20 lines) |
+| Social provider button | n/a | `<AuthSocialButton icon={<AuthGoogleIcon />}>` |
+| Inline footer link | `<a>` | `<AuthInlineLink>` |
+| Success state | `<EmptyState variant="success">` | `<AuthSuccess>` |
+
+→ Les composants Auth* sont **strictly limited** aux pages d'authentification (surface glass-dark). N'utilise pas Auth* ailleurs dans l'app. Inversement, n'utilise pas Input/Button light dans AuthShell.
+
+### SectionHeader — système 5 × 4 × 5 (variants × sizes × tones)
+
+`patterns/SectionHeader` est désormais le composant canonique pour tout en-tête de section (`title + subtitle + icon + action + divider`). Il expose :
+
+- **5 variants** :
+  - `default` — bubble tinted (bg-primary-50 + icon coloré)
+  - `solid` (NEW) — bubble gradient saturé + icon **blanc**
+  - `minimal` — stroke inline, pas de bubble
+  - `accent` — barre verticale gauche
+  - `underline` — soulignement subtil sous le titre
+- **4 sizes** : `xs` (h5/32px bubble) · `sm` (h4/36px) · `md` (h3/44px — DEFAULT) · `lg` (h2/56px)
+- **5 tones** : `primary` · `warm` · `sun` · `accent` · `neutral`
+
+**Layout fix critique :** wrapper en CSS grid `grid-cols-[auto_minmax(0,1fr)] items-start` → centre vertical de la bubble icône aligné sur le **centre de la première ligne** du titre ; subtitle en row 2 col-start-2 (sous le titre, pas sous l'icône).
+
+**`compact?: boolean` deprecated** → mappé vers `size="sm"`.
+
+**No more `mb-X` on wrapper** — le SectionHeader ne contrôle PLUS son spacing vertical. Le parent layout possède le spacing via `gap-stack`/`gap-section`/etc. Voir Piège #12.
 
 ---
 
@@ -239,6 +304,113 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --shadow-lg | `shadow-lg` |
 
 Fichier de référence complet : `src/index.css` (@theme block)
+
+---
+
+## Semantic spacing tokens (introduits 2026-05-10)
+
+7 tokens `--spacing-*` définis dans `src/index.css` @theme. Tailwind v4 auto-génère les utilities `gap-X`, `mt-X`, `mb-X`, `space-y-X`, `p-X`, etc.
+
+| Token | Valeur | Usage recommandé |
+|-------|--------|------------------|
+| `--spacing-tight` | 0.125rem (2px) | heading ↔ subtitle (intra-bloc serré) |
+| `--spacing-stack-xs` | 0.5rem (8px) | inline groups, métadonnées |
+| `--spacing-stack` | 1rem (16px) | **DEFAULT** — section header ↔ contenu, items dans une stack |
+| `--spacing-stack-lg` | 1.5rem (24px) | content ↔ content au sein d'une même section |
+| `--spacing-section` | 2rem (32px) | entre sections sœurs |
+| `--spacing-section-lg` | 2.5rem (40px) | séparations majeures |
+| `--spacing-page` | 3rem (48px) | groupements page-level |
+
+**Pattern :**
+```tsx
+<section className="flex flex-col gap-stack">       {/* ✅ token sémantique — exprime l'intention */}
+<section className="flex flex-col gap-4">           {/* ⚠️ légitime mais générique — préférer un token nommé */}
+<section className="flex flex-col gap-section">     {/* ✅ pour des sous-sections distinctes */}
+```
+
+`Dashboard.tsx` et `SectionHeader.tsx` consomment exclusivement ces tokens depuis 2026-05-10.
+
+---
+
+## Utility tokens étendus (introduits 2026-05-10)
+
+25 tokens `@theme` additionnels dans `src/index.css` couvrant opacity / z-index / duration / ease / container / blur. Tailwind les expose via les utilities classiques.
+
+### Opacity (6 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--opacity-faint` | 0.05 | overlays quasi-invisibles (tinted hover, shimmer) |
+| `--opacity-soft` | 0.10 | bordures subtiles, glass passif |
+| `--opacity-tinted` | 0.15 | hover light, divider coloré |
+| `--opacity-medium` | 0.30 | scrim modal léger, glass actif |
+| `--opacity-disabled` | 0.50 | états disabled (input, button) |
+| `--opacity-overlay` | 0.70 | scrim modal foncé, popover backdrop |
+
+```tsx
+<div className="bg-primary-500/medium" />        {/* fond teal 30 % */}
+<button disabled className="opacity-disabled" /> {/* 50 % */}
+```
+
+### z-index (7 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--z-base` | 1 | layout par défaut, élévation minimale |
+| `--z-sticky` | 20 | navbar sticky, sous-headers |
+| `--z-dropdown` | 30 | menus déroulants |
+| `--z-overlay` | 40 | scrims sous-modal |
+| `--z-modal` | 50 | dialogs centraux |
+| `--z-toast` | 60 | toasts (au-dessus des modals) |
+| `--z-tooltip` | 70 | tooltips (le plus haut) |
+
+```tsx
+<div className="z-modal" />        {/* 50 */}
+<aside className="z-sticky" />     {/* 20 */}
+```
+
+### Duration (4 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--duration-fast` | 150ms | micro-interactions (hover bouton) |
+| `--duration-base` | 200ms | **DEFAULT** transitions composant |
+| `--duration-slow` | 300ms | panels, drawer |
+| `--duration-glacial` | 600ms | animations expressives (celebration) |
+
+### Ease (4 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | DEFAULT |
+| `--ease-decelerate` | `cubic-bezier(0, 0, 0.2, 1)` | entrées (modal-in, dropdown) |
+| `--ease-accelerate` | `cubic-bezier(0.4, 0, 1, 1)` | sorties (modal-out) |
+| `--ease-emphasis` | `cubic-bezier(0.2, 0, 0, 1.15)` | overshoot léger (celebration) |
+
+```tsx
+<div className="transition-all duration-base ease-standard" />
+```
+
+### Container max-widths (4 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--container-prose` | 65ch | article body, textes longs |
+| `--container-content` | 48rem (768px) | layouts mobile-first |
+| `--container-page` | 72rem (1152px) | DEFAULT page wrapper |
+| `--container-wide` | 80rem (1280px) | dashboard, showcase |
+
+```tsx
+<main className="max-w-page mx-auto" />
+<article className="max-w-prose" />
+```
+
+### Blur (4 tokens)
+| Token | Valeur | Usage |
+|-------|--------|-------|
+| `--blur-glass-light` | 8px | hover sur surfaces tintées |
+| `--blur-glass-medium` | 16px | DEFAULT panneaux glass |
+| `--blur-glass-heavy` | 24px | hero blocks, navigation |
+| `--blur-glass-ambient` | 60px | décor de fond, blobs |
+
+```tsx
+<aside className="backdrop-blur-glass-medium bg-white/70" />
+```
 
 ---
 
@@ -484,6 +656,10 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 
 **Action générale** : tout `<div role="button">` ou wrapper a11y doit annuler ces propriétés. Idéalement, narrow le sélecteur BEM en cleanup post-migration.
 
+**⚠️ Addendum — Card BASE** : La Card a initialement reçu `[&[role=button]]:h-auto [&[role=button]]:overflow-visible` dans son BASE pour contrer le BEM. **Ne pas ajouter `overflow-visible`** ici — cela override le `overflow-hidden` passé via `className` sur des wrappers comme ToneAwareCard, exposant des coins carrés non-clippés sur hover (`ParcoursCard`). Seul `[&[role=button]]:h-auto` est nécessaire dans BASE pour contrer `height:40px`. Si une Card descendante a besoin d'`overflow-hidden` pour clipper ses enfants à ses coins arrondis, elle le met dans son propre `className`.
+
+**⚠️ Addendum 2 — Speech bubble (PromptCard, JournalEntryCard)** : Le pattern Apple Messages ajoute un *tail* (queue) en bottom-right via `rounded-3xl rounded-br-[6px]`. Ce tail est **clippé** par le `overflow:hidden` global de `[role="button"]` ET par toute hauteur fixée à 40 px. Symptôme : la card chat-bubble apparaît rectangulaire sans tail (les pixels du coin tronqué sont coupés). **Fix** : forcer `!h-auto !overflow-visible` sur le wrapper chat-bubble (PromptCard, JournalEntryCard). Le `!` est nécessaire car BEM `[role="button"]` est dans `@layer components` qui peut gagner sur `@layer utilities` selon ordre. Voir aussi : approche **borderless** = `bg-white` + `[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))]` (PAS de border) — la `drop-shadow` s'applique à la **silhouette du wrapper** (card + tail mergés en un seul SVG-like outline), donc le shadow épouse la forme avec tail seamlessly. Ajouter une `border` casserait l'illusion (la border ferait apparaître les arêtes internes du tail).
+
 ### ⚠️ Piège n°9 : Tailwind v4 `translate` vs `transform` des keyframes
 
 Tailwind v4 utilise la propriété CSS **séparée** `translate` (et `scale`, `rotate`) pour les utilities `-translate-x-1/2`, `scale-110`, etc. — pas le `transform` shorthand. Quand un keyframe d'animation set `transform: translate(-50%, -50%) scale(1)`, les deux propriétés s'**additionnent** au lieu de se remplacer → translation doublée, élément hors viewport.
@@ -527,6 +703,39 @@ Avec `Tailwind p-3` (12px padding all sides), le content area = `40px - 24px = 1
 `h-auto` annule le `height: 40px` et `min-h-[X]` garantit la hauteur minimale.
 
 **Note pour `<select>`** : utiliser aussi `appearance-none` + custom `<ChevronDown>` Lucide positionné `absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none` pour un visuel cohérent avec le reste du DS (la flèche native est toujours collée au bord).
+
+### ⚠️ Piège n°12 : Double-spacing trap (composant + parent)
+
+Si un composant applique son propre `mb-X` (margin-bottom) ET que son parent layout applique aussi `gap-X` (ou `space-y-X`) entre enfants, le spacing total est la **somme** des deux — pas le max. Symptôme : trous verticaux énormes entre sections, page allongée artificiellement, hiérarchie visuelle cassée.
+
+**Découvert en refactorant `SectionHeader`** : le composant avait un `SIZE_MARGIN: { md: 'mb-4', lg: 'mb-6' }` baked-in. Quand le parent était `<section className="flex flex-col gap-stack">` (16 px), le total devenait 16 + 16 = 32 px pour size `md`, et 16 + 24 = 40 px pour size `lg`. Pas du tout l'intention.
+
+**Règle** : **un composant ne devrait JAMAIS appliquer son propre `mb-*` / `mt-*` sur son wrapper externe.** C'est le parent layout qui possède le rythme vertical via `gap-*` (flex/grid) ou `space-y-*` (stack utility).
+
+```tsx
+// ❌ MAUVAIS — composant impose un margin-bottom
+const SectionHeader = ({ size, ...rest }) => (
+  <header className={`${SIZE_MARGIN[size]} flex items-center gap-3`}>...</header>
+);
+
+// Et côté parent :
+<section className="flex flex-col gap-stack">
+  <SectionHeader />     {/* 16 (parent gap) + 16 (header mb-4) = 32 px → trop grand */}
+  <Content />
+</section>
+
+// ✅ BON — header neutre, parent contrôle le rythme
+const SectionHeader = (...) => (
+  <header className="flex items-center gap-3">...</header>  // pas de mb-*
+);
+
+<section className="flex flex-col gap-stack">  {/* 16 px point. final */}
+  <SectionHeader />
+  <Content />
+</section>
+```
+
+**Action générale** : auditer tout composant exporté qui applique `mb-*` / `mt-*` sur son root → retirer et confier au parent. Exception : composants standalone qui assument leur propre layout (ex. `PageHeader` peut avoir un `mb-section` car il définit le top-of-page rhythm).
 
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
@@ -617,6 +826,143 @@ body { font-family: var(--font-body); }
   body { font-family: var(--font-body); }
 }
 ```
+
+---
+
+## Phase 10 — Holistic UX/UI rework (en cours)
+
+**Objectif** : Refaire toutes les pages restantes de la learning app avec les components et patterns du design system. Adapter ou créer si manquant. Maintenir la cohérence UX/UI app-wide.
+
+### Workflow par page (OBLIGATOIRE)
+
+1. **Audit** (10 min)
+   - Lire la page complète
+   - Identifier sections principales
+   - Tableau "section → pattern cible" (reuse / adapt / create)
+   - UX/UI issues : hiérarchie, mobile-first, glass morphism, spacing semantic
+   - Liste des composants showcase-only qui devraient être utilisés ici
+
+2. **Décision composants** (5 min)
+   - **REUSE** : composant existant fait le job tel quel
+   - **EXTEND** : ajouter prop/variant manquant (ex: `tone="warm"`)
+   - **ADAPT** : refactor le composant si visuel/API obsolète
+   - **CREATE** : nouveau pattern justifié
+
+3. **Implémentation** (variable)
+   - Bottom-up : sections feuilles d'abord, hero/wrapper en dernier
+   - Utiliser **semantic spacing tokens** (`gap-stack`, `gap-section`, etc.) — pas de `gap-4/6/8` arbitraire
+   - Utiliser **EditorialHero tone-aware** pour les hero (tone selon thématique)
+   - Pour pages avec contenu structuré : `EditorialLayout` (main + aside sticky)
+   - Pour cards : `SectionCard` titled / `Card` glass / `RelatedItemList` selon contexte
+   - Apple Messages bubble style (`PromptCard`, `EntryCard`) pour items "messageables" (journal, notifications)
+   - `ActivityFeed` timeline pour flux chronologiques
+
+4. **Vérification** (10 min)
+   - `npx tsc --noEmit` → 0 erreurs
+   - Preview screenshot mobile + desktop
+   - DOM verify : pas de classes `tls-*` BEM legacy, pas de `var(--tls-*)` en `style={{}}`
+   - Accessibilité : `min-h-touch` sur boutons, contrast ratio sur dark surfaces
+
+5. **Showcase update**
+   - Si EXTEND/CREATE → ajouter/update entry dans Components.tsx
+   - Mettre à jour `usedBy: [...]` du component dans Components.tsx
+   - Si la page consomme un component `showcaseOnly: true` → enlever le flag
+
+### Priorités globales (mobile-first + learner-centric)
+
+| Tier | Pages | Principe UX |
+|---|---|---|
+| **1** Daily-use | LearningPaths, LearningPathDetail, Coaching, Profile, Notifications, LessonPlayer, Veille | Reprendre l'action en 1 clic, lisibilité immédiate, glass morphism subtil |
+| **2** Secondary core | Account, Leaderboard, Help, JournalDetail/Free/New, Magazine, VeilleContent, Dossier, Collaboration, Messages, WeeklyNewsletter, Onboarding | Cohérence avec Tier 1, patterns réutilisés |
+| **3** Edge cases | AstucesViewer, FlashcardsViewer, VideoReels/Tutorial/Viewer, ComplementaryContentViewer, CourseDetail, Error pages | Légère mise au goût, pas de refonte profonde |
+
+### Principes UX/UI app-wide
+
+- **Mobile-first** : single column par défaut, layouts complexes en md/lg only.
+- **Hiérarchie claire** : 1 action principale par viewport, secondary actions discrètes.
+- **Glass morphism** : utiliser `backdrop-blur-glass-*` tokens, pas d'arbitraires `backdrop-blur-md`.
+- **Spacing semantic** : `gap-stack`, `gap-section` — jamais `gap-4/6/8`.
+- **Accessibilité** : `min-h-touch` (44px) sur tous interactive elements. WCAG AA contrast.
+- **Tone narrativement cohérent** : primary (focus/leadership), warm (action/parcours), sun (réflexion/achievements), neutral (settings/utility).
+- **Loading & empty states** : utiliser `Skeleton` + `EmptyState` (showcase) plutôt que blanks.
+
+---
+
+## Documentation Notion — Règle de synchronisation (OBLIGATOIRE)
+
+Tout ajout, modification ou suppression dans le design system ou les pages de l'app **doit être reflété dans les bases de données Notion**.
+
+### Bases de données Notion
+
+| DB | URL | Contenu |
+|---|---|---|
+| **Design System — Claude** | https://www.notion.so/thelearningsociety/fc727adea430439bb45590fd908ba134 | Tokens, composants, patterns, guidelines |
+| **Écrans Learning App** | https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4 | Pages, routes, flows, statuts design |
+
+### Quoi mettre à jour et quand
+
+| Changement dans le code | DB Notion | Champs à modifier | Showcase |
+|---|---|---|---|
+| Nouveau composant créé | Design System | Créer l'item : Type, Category, Layer, Migration status, Has variants | Ajouter entrée dans `Components.tsx` |
+| Composant supprimé / déprécié | Design System | Status → `Deprecated` | Retirer entrée + usedBy associés |
+| Migration Tailwind terminée | Design System | Migration status → `Tailwind ✅` | — |
+| Composant devient tone-aware | Design System | Tone-aware → true | Ajouter demo multi-tone dans showcase |
+| Nouveau variant ou prop ajouté | Design System | Has variants → true, Notes | Ajouter le variant dans showcase |
+| Nouvelle page créée | Écrans | Créer l'item : Route, Flow, Niveau, Disponible, Composants clés, Objectif | Retirer `showcaseOnly: true` sur composants activés |
+| Page supprimée | Écrans | Supprimer l'item ou Statut design → `Deprecated` | — |
+| Route renommée | Écrans | Champ Route | — |
+| Statut design avancé | Écrans | Statut design | — |
+| Nouveau token `@theme` | Design System | Créer item Token : Category, Layer | — |
+| Nouveau pattern/guideline | Design System | Créer item Guideline : Status = Approved | Documenter dans `DESIGN.md` §4 |
+
+### Process de quality check — checklist obligatoire
+
+**Déclencheurs** — lancer le check à chaque fois que :
+- un composant est créé, modifié (API, variant, tone), renommé ou supprimé
+- une page est créée, refactorisée, ou sa route change
+- un token `@theme` est ajouté ou supprimé dans `index.css`
+- une règle ou guideline DS est modifiée dans `CLAUDE.md` / `DESIGN.md`
+
+**Les 5 points à vérifier dans l'ordre :**
+
+```
+☐ 1. CODE → NOTION (synchronisation sortante)
+      → Design System DB : créer/modifier/archiver l'item du composant ou token concerné
+      → Écrans DB : créer/modifier l'item de la page concernée
+      → Ne jamais cocher "Tailwind ✅" ou "Disponible: YES" sans avoir vérifié dans le code
+
+☐ 2. NOTION → CODE (synchronisation entrante — cross-check)
+      → Si un item Notion indique "Tailwind ✅" : grep le composant, confirmer qu'aucune classe BEM ne subsiste
+      → Si "Disponible: YES" : confirmer que la route existe dans App.tsx
+      → Si "Deprecated" : confirmer que le fichier est supprimé ou réexporte uniquement
+
+☐ 3. COMPONENTS.TSX SHOWCASE (src/pages/Components.tsx)
+      → Nouveau composant : ajouter une entrée avec props, variants, usedBy
+      → Variant/prop ajouté : mettre à jour la démo existante
+      → Composant supprimé : retirer l'entrée et ses usedBy dans les autres entrées
+      → Composant activé dans une vraie page : retirer showcaseOnly: true
+      → Composant devenu tone-aware : ajouter démo multi-tone
+
+☐ 4. DOCS INTERNES (si pattern ou règle nouvelle)
+      → Nouveau pattern découvert → ajouter dans DESIGN.md §4 "Patterns canoniques"
+      → Nouveau piège CSS/Tailwind → ajouter dans CLAUDE.md "Pièges connus" + DESIGN.md §5
+      → Nouveau token → ajouter dans CLAUDE.md "Référence Tailwind → Design Tokens"
+      → Nouvelle règle → ajouter dans CLAUDE.md "Règles absolues" ou "Ce qu'il NE FAUT PAS faire"
+
+☐ 5. MIGRATION-PLAN.MD (si tâche complétée)
+      → Cocher ✅ la case de la tâche terminée
+      → Mettre à jour "Progrès global" si applicable
+      → Si nouveau bloc de travail identifié → ajouter une section Phase
+```
+
+**Anti-patterns à ne jamais faire :**
+- Créer un composant sans entrée dans `Components.tsx` — le showcase est la source de vérité visuelle
+- Marquer "Tailwind ✅" dans Notion sans audit Tailwind (tableau 8 critères) validé par l'utilisateur
+- Modifier une API de composant sans mettre à jour `usedBy` dans toutes les entrées du showcase
+- Supprimer un fichier composant sans vérifier ses imports avec `grep -rn "import.*NomDuComposant" src/`
+- Laisser `showcaseOnly: true` sur un composant utilisé dans une vraie page
+
+**Voir `DESIGN.md` §0 pour le process détaillé côté design system.**
 
 ---
 

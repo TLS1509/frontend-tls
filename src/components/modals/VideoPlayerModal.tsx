@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize, Download, Share2, Clock } from 'lucide-react';
-import './modals.css';
 
 /**
  * VideoPlayerModal — Lecteur vidéo plein écran
@@ -86,7 +85,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
   return (
     <div
       onClick={handleClose}
-      className="fixed inset-0 flex items-center justify-center p-4 z-[1001] bg-black/85 animate-vp-bd-in"
+      className="fixed inset-0 flex items-center justify-center p-4 z-modal bg-black/85 animate-vp-bd-in"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -138,7 +137,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         </div>
 
         {/* Controls bar */}
-        <div className="bg-black/60 backdrop-blur-md py-3 px-4 flex flex-col gap-2">
+        <div className="bg-black/60 backdrop-blur-glass-light py-3 px-4 flex flex-col gap-2">
           {/* Progress bar */}
           <div
             onClick={handleSeek}
