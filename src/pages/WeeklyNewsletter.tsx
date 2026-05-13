@@ -1,712 +1,308 @@
 /**
- * WeeklyNewsletter Page — "Actus de la semaine"
+ * WeeklyNewsletter — Phase 10 Tier 2 refonte.
  *
- * Design d'après screenshots :
- * - Badge "SEMAINE #08" teal
- * - Grand titre "Actus de la semaine"
- * - Bloc éditorial avec grandes guillemets
- * - "Vidéo de la semaine" : thumbnail gauche + info droite
- * - "À la une" : grille 3 cartes teal/orange
- * - "Toutes les actus" : liste articles avec bookmark
- * - Section newsletter subscribe
+ * Page "Actus de la semaine" — édition hebdo curée par TLS.
+ *
+ * Structure (per Figma audit) :
+ *  1. Sticky glass header (back + actions)
+ *  2. Hero éditorial bounded (badge édition + h1 gradient text + meta)
+ *  3. EditorialQuoteCallout (édito hebdo signature)
+ *  4. Featured video card (grid 5-cols)
+ *  5. À la une — grid 3 articles featured
+ *  6. Toutes les actus — list rows
+ *  7. Newsletter signup CTA centered
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useBookmarksStore } from '../stores/persistence';
 import {
   ChevronRight,
-  Play,
+  ArrowLeft,
+  ArrowRight,
   Bookmark,
   BookmarkCheck,
   Mail,
-  ArrowRight,
   TrendingUp,
   Clock,
-  ExternalLink,
+  Play,
+  Share2,
 } from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
 
-/* ─── Mock data ──────────────────────────────────────────────────────────── */
+/* ─── Data ───────────────────────────────────────────────────────────────── */
 
 const TOP_ARTICLES = [
-  {
-    id: 'a1',
-    category: 'IA & Formation',
-    title: "L'IA générative révolutionne la conception pédagogique",
-    color: 'var(--tls-primary-500)',
-    bg: 'var(--tls-primary-500)',
-  },
-  {
-    id: 'a2',
-    category: 'Tendances',
-    title: 'Micro-learning : vers des sessions de 5 minutes ultra-ciblées',
-    color: 'var(--tls-orange-500)',
-    bg: 'var(--tls-orange-500)',
-  },
-  {
-    id: 'a3',
-    category: 'Technologie',
-    title: 'Les LMS de nouvelle génération intègrent le coaching IA',
-    color: 'var(--tls-primary-600)',
-    bg: 'var(--tls-primary-600)',
-  },
+  { id: 'a1', category: 'IA & Formation', title: "L'IA générative révolutionne la conception pédagogique", tone: 'brand' as const },
+  { id: 'a2', category: 'Tendances',      title: 'Micro-learning : vers des sessions de 5 minutes ultra-ciblées', tone: 'warm'  as const },
+  { id: 'a3', category: 'Technologie',    title: 'Les LMS de nouvelle génération intègrent le coaching IA', tone: 'sun'   as const },
 ];
 
 const ALL_ARTICLES = [
-  {
-    id: 'b1',
-    date: '28 avril 2026',
-    readTime: '4 min',
-    title: "Comment mesurer l'impact réel d'une formation en entreprise ?",
-    category: 'Évaluation',
-  },
-  {
-    id: 'b2',
-    date: '27 avril 2026',
-    readTime: '6 min',
-    title: 'Prompt engineering pour formateurs : les 10 techniques essentielles',
-    category: 'IA Pratique',
-  },
-  {
-    id: 'b3',
-    date: '26 avril 2026',
-    readTime: '3 min',
-    title: "Le feedback immédiat comme levier d'apprentissage accéléré",
-    category: 'Pédagogie',
-  },
-  {
-    id: 'b4',
-    date: '25 avril 2026',
-    readTime: '5 min',
-    title: 'Certification professionnelle : quel format pour quel objectif ?',
-    category: 'Certification',
-  },
+  { id: 'b1', date: '28 avril 2026', readTime: '4 min', title: "Comment mesurer l'impact réel d'une formation en entreprise ?", category: 'Évaluation' },
+  { id: 'b2', date: '27 avril 2026', readTime: '6 min', title: 'Prompt engineering pour formateurs : les 10 techniques essentielles', category: 'IA Pratique' },
+  { id: 'b3', date: '26 avril 2026', readTime: '3 min', title: "Le feedback immédiat comme levier d'apprentissage accéléré", category: 'Pédagogie' },
+  { id: 'b4', date: '25 avril 2026', readTime: '5 min', title: 'Certification professionnelle : quel format pour quel objectif ?', category: 'Certification' },
 ];
+
+const CATEGORY_TONE: Record<'brand' | 'warm' | 'sun', { cover: string; chip: string }> = {
+  brand: { cover: 'bg-gradient-to-br from-primary-400 to-primary-600',     chip: 'bg-white/15 text-white' },
+  warm:  { cover: 'bg-gradient-to-br from-secondary-400 to-secondary-600', chip: 'bg-white/15 text-white' },
+  sun:   { cover: 'bg-gradient-to-br from-accent-300 to-secondary-400',    chip: 'bg-white/20 text-white' },
+};
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const WeeklyNewsletter: React.FC = () => {
   const navigate = useNavigate();
-  const [savedArticles, setSavedArticles] = useState<Set<string>>(new Set());
+  const bookmarkedIds = useBookmarksStore((s) => s.ids);
+  const toggleBookmark = useBookmarksStore((s) => s.toggle);
   const [email, setEmail] = useState('');
 
-  const toggleSave = (id: string) =>
-    setSavedArticles((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const savedArticles = new Set(
+    bookmarkedIds.filter((id) => id.startsWith('weekly-news-'))
+      .map((id) => id.replace('weekly-news-', ''))
+  );
+
+  const toggleSave = (id: string) => toggleBookmark(`weekly-news-${id}`);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg)',
-        fontFamily: 'var(--font-body)',
-      }}
-    >
-      {/* ─ Breadcrumb ───────────────────────────────────────────── */}
-      <div
-        style={{
-          padding: 'var(--s-4) var(--s-8)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--s-2)',
-          fontSize: 'var(--t-sm)',
-          color: 'var(--text-muted)',
-          borderBottom: '1px solid var(--border)',
-        }}
-      >
-        <span
-          style={{ cursor: 'pointer', color: 'var(--tls-primary-600)' }}
-          onClick={() => navigate('/veille')}
-        >
-          Veille
-        </span>
-        <ChevronRight size={14} />
-        <span style={{ color: 'var(--text)', fontWeight: 500 }}>Actus de la semaine</span>
+    <div className="min-h-screen bg-surface">
+      {/* Sticky glass header */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            leadingIcon={<ArrowLeft size={14} />}
+            onClick={() => navigate('/veille')}
+          >
+            Retour à la veille
+          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="primary" size="sm" leadingIcon={<Mail size={13} />} className="hidden sm:inline-flex">
+              S'abonner
+            </Button>
+            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+              <Share2 size={15} />
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* ─ Page Content ─────────────────────────────────────────── */}
-      <div
-        style={{
-          maxWidth: 'var(--container-default)',
-          margin: '0 auto',
-          padding: 'var(--s-8) var(--s-6) var(--s-12)',
-        }}
-      >
-        {/* ─ Header ────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-8)' }}>
-          {/* Week badge */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              padding: 'var(--s-1-5) var(--s-4)',
-              borderRadius: 'var(--r-full)',
-              background: 'var(--tls-primary-500)',
-              color: 'var(--text-inverse)',
-              fontSize: 'var(--t-caption)',
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              marginBottom: 'var(--s-4)',
-            }}
-          >
-            <TrendingUp size={13} />
-            SEMAINE #08
-          </div>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
-          <h1
-            style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              fontWeight: 800,
-              color: 'var(--tls-primary-600)',
-              margin: '0 0 var(--s-2)',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.1,
-            }}
-          >
+        {/* Hero éditorial */}
+        <header className="flex flex-col gap-stack">
+          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
+            <button type="button" onClick={() => navigate('/veille')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
+              Veille
+            </button>
+            <ChevronRight size={10} aria-hidden />
+            <span className="text-ink-700">Actus de la semaine</span>
+          </nav>
+
+          <span className="inline-flex items-center gap-1.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+            <TrendingUp size={11} /> Semaine #08
+          </span>
+
+          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight bg-gradient-to-r from-primary-700 via-primary-600 to-accent-500 bg-clip-text text-transparent">
             Actus de la semaine
           </h1>
-          <p style={{ margin: 0, fontSize: 'var(--t-sm)', color: 'var(--text-muted)' }}>
-            Lundi 28 avril 2026 · 4 articles sélectionnés
-          </p>
-        </div>
 
-        {/* ─ Éditorial ─────────────────────────────────────────── */}
-        <div
-          style={{
-            background: 'var(--tls-primary-50)',
-            border: '1px solid var(--tls-primary-200)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-7)',
-            marginBottom: 'var(--s-8)',
-            position: 'relative',
-          }}
+          <p className="m-0 font-body text-body-lg text-ink-600">
+            Lundi 28 avril 2026 · {ALL_ARTICLES.length + TOP_ARTICLES.length} articles sélectionnés
+          </p>
+        </header>
+
+        {/* Édito */}
+        <EditorialQuoteCallout
+          tone="brand"
+          eyebrow="L'édito de la semaine"
+          signature={{ name: "L'équipe éditoriale TLS", role: 'Rédaction' }}
         >
-          {/* Big quote mark */}
-          <div
-            style={{
-              fontSize: '80px',
-              lineHeight: 0.8,
-              color: 'var(--tls-primary-200)',
-              fontFamily: 'Georgia, serif',
-              marginBottom: 'var(--s-3)',
-              userSelect: 'none',
-            }}
-          >
-            "
-          </div>
-          <p
-            style={{
-              fontSize: 'var(--t-body)',
-              fontStyle: 'italic',
-              color: 'var(--text)',
-              lineHeight: 1.7,
-              margin: '0 0 var(--s-4)',
-              fontWeight: 500,
-            }}
-          >
+          <p>
             Cette semaine, l'IA générative continue de remodeler les pratiques pédagogiques à
             une vitesse remarquable. Entre prompt engineering pour formateurs et micro-learning
-            augmenté, le secteur s'adapte — et ceux qui expérimentent maintenant prendront
-            une longueur d'avance décisive.
+            augmenté, le secteur s'adapte.
           </p>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-3)',
-            }}
-          >
-            <div
-              style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                background: 'var(--tls-primary-500)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--text-inverse)',
-                fontSize: 'var(--t-body-sm)',
-                fontWeight: 700,
-                flexShrink: 0,
-              }}
-            >
-              TLS
-            </div>
-            <div>
-              <div style={{ fontSize: 'var(--t-sm)', fontWeight: 700, color: 'var(--text)' }}>
-                L'équipe éditoriale TLS
-              </div>
-              <div style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                L'édito de la semaine
-              </div>
-            </div>
+          <p>
+            Ceux qui expérimentent maintenant prendront une longueur d'avance décisive — pas dans
+            12 mois, dès aujourd'hui.
+          </p>
+        </EditorialQuoteCallout>
+
+        {/* Vidéo de la semaine */}
+        <section className="flex flex-col gap-stack">
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+              Vidéo de la semaine
+            </h2>
+            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => navigate('/veille/tutoriels')}>
+              Tous les tutoriels
+            </Button>
           </div>
-        </div>
 
-        {/* ─ Vidéo de la semaine ───────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-10)' }}>
-          <h2
-            style={{
-              fontSize: 'var(--t-h3)',
-              fontWeight: 800,
-              color: 'var(--text)',
-              margin: '0 0 var(--s-4)',
-            }}
+          <article
+            onClick={() => navigate('/veille/video-tutorial/1')}
+            className="grid grid-cols-1 md:grid-cols-[3fr_2fr] rounded-2xl overflow-hidden border border-ink-100 cursor-pointer hover:shadow-md transition-shadow duration-base"
           >
-            Vidéo de la semaine
-          </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              borderRadius: 'var(--r-2xl)',
-              overflow: 'hidden',
-              border: '1px solid var(--overlay-dark-md)',
-              boxShadow: 'var(--shadow-md)',
-            }}
-          >
-            {/* Left: video thumbnail */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, var(--tls-ink-950) 0%, var(--tls-ink-900) 50%, var(--tls-ink-800) 100%)',
-                minHeight: '200px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                cursor: 'pointer',
-              }}
-              onClick={() => navigate('/veille/video-tutorial/1')}
-            >
-              <div
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '50%',
-                  background: 'var(--overlay-white-md)',
-                  border: '2px solid var(--overlay-white-lg)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backdropFilter: 'blur(8px)',
-                }}
-              >
-                <Play size={20} fill="var(--text-inverse)" color="var(--text-inverse)" style={{ marginLeft: '3px' }} />
-              </div>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  right: '12px',
-                  background: 'var(--overlay-black-md)',
-                  color: 'var(--text-inverse)',
-                  fontSize: 'var(--t-caption)',
-                  fontWeight: 700,
-                  padding: 'var(--s-1) var(--s-2)',
-                  borderRadius: 'var(--r-lg)',
-                }}
-              >
+            {/* Thumbnail */}
+            <div className="relative aspect-video md:aspect-auto md:min-h-[260px] bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 flex items-center justify-center">
+              <span className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/20 border-2 border-white/40 backdrop-blur-glass-light">
+                <Play size={20} fill="white" color="white" className="ml-0.5" />
+              </span>
+              <span className="absolute bottom-3 right-3 px-2 py-1 rounded-md bg-black/60 text-white font-body text-micro font-bold backdrop-blur-glass-light">
                 12:34
-              </div>
+              </span>
             </div>
 
-            {/* Right: info */}
-            <div
-              style={{
-                background: 'var(--surface)',
-                padding: 'var(--s-6)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    padding: 'var(--s-1) var(--s-3)',
-                    borderRadius: 'var(--r-full)',
-                    background: 'var(--tls-orange-50)',
-                    color: 'var(--tls-orange-600)',
-                    fontSize: 'var(--t-caption)',
-                    fontWeight: 700,
-                    marginBottom: 'var(--s-3)',
-                  }}
-                >
-                  Tutoriel Vidéo
-                </span>
-                <h3
-                  style={{
-                    fontSize: 'var(--t-body)',
-                    fontWeight: 700,
-                    color: 'var(--text)',
-                    margin: '0 0 var(--s-3)',
-                    lineHeight: 1.4,
-                  }}
-                >
+            {/* Info */}
+            <div className="bg-white p-6 flex flex-col gap-stack justify-between">
+              <div className="flex flex-col gap-stack-xs">
+                <Badge variant="warm">Tutoriel vidéo</Badge>
+                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight tracking-tight">
                   Construire un prompt structuré en 5 étapes
                 </h3>
-                <p
-                  style={{
-                    fontSize: 'var(--t-sm)',
-                    color: 'var(--text-muted)',
-                    margin: '0 0 var(--s-4)',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Séquence pratique orientée exécution : cadrage, exemples, validation et
-                  itération sur des cas réels de formation.
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
+                  Séquence pratique orientée exécution : cadrage, exemples, validation et itération
+                  sur des cas réels de formation.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => navigate('/veille/video-tutorial/1')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 'var(--s-2)',
-                  padding: 'var(--btn-padding-md-sm)',
-                  borderRadius: 'var(--r-full)',
-                  background: 'var(--tls-primary-500)',
-                  border: 'none',
-                  color: 'var(--text-inverse)',
-                  fontWeight: 700,
-                  fontSize: 'var(--t-sm)',
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-body)',
-                  transition: 'background 0.2s',
-                  alignSelf: 'flex-start',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-primary-600)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-primary-500)')}
-              >
-                <Play size={14} fill="var(--text-inverse)" />
+              <Button variant="primary" size="sm" leadingIcon={<Play size={13} fill="currentColor" />} className="self-start">
                 Regarder maintenant
-              </button>
+              </Button>
             </div>
-          </div>
-        </div>
+          </article>
+        </section>
 
-        {/* ─ À la une ──────────────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-10)' }}>
-          <h2
-            style={{
-              fontSize: 'var(--t-h3)',
-              fontWeight: 800,
-              color: 'var(--text)',
-              margin: '0 0 var(--s-4)',
-            }}
-          >
+        {/* À la une */}
+        <section className="flex flex-col gap-stack">
+          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
             À la une
           </h2>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 'var(--s-4)',
-            }}
-          >
-            {TOP_ARTICLES.map((article) => (
-              <div
-                key={article.id}
-                style={{
-                  borderRadius: 'var(--r-2xl)',
-                  overflow: 'hidden',
-                  border: '1px solid var(--overlay-dark-md)',
-                  boxShadow: 'var(--shadow-sm)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
-                }}
-                onClick={() => navigate('/veille/weekly-news/1')}
-              >
-                {/* Color header */}
-                <div
-                  style={{
-                    height: '100px',
-                    background: article.bg,
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    padding: 'var(--s-3)',
-                  }}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {TOP_ARTICLES.map((article) => {
+              const tone = CATEGORY_TONE[article.tone];
+              return (
+                <article
+                  key={article.id}
+                  onClick={() => navigate('/veille/weekly-news/1')}
+                  className="rounded-2xl overflow-hidden border border-ink-100 cursor-pointer hover:-translate-y-0.5 hover:shadow-md transition-all duration-base"
                 >
-                  <span
-                    style={{
-                      padding: 'var(--s-1) var(--s-2-5)',
-                      borderRadius: 'var(--r-full)',
-                      background: 'var(--overlay-white-xs)',
-                      color: 'var(--text-inverse)',
-                      fontSize: 'var(--t-micro)',
-                      fontWeight: 700,
-                      backdropFilter: 'blur(4px)',
-                    }}
-                  >
-                    {article.category}
-                  </span>
-                </div>
-
-                {/* Body */}
-                <div style={{ padding: 'var(--s-4)', background: 'var(--surface)' }}>
-                  <p
-                    style={{
-                      fontSize: 'var(--t-sm)',
-                      fontWeight: 700,
-                      color: 'var(--text)',
-                      margin: '0 0 var(--s-3)',
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {article.title}
-                  </p>
-                  <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 'var(--s-1)',
-                      fontSize: 'var(--t-caption)',
-                      color: 'var(--tls-primary-600)',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Lire l'article <ArrowRight size={12} />
-                  </span>
-                </div>
-              </div>
-            ))}
+                  <div className={`h-28 flex items-end p-3 ${tone.cover}`}>
+                    <span className={`inline-flex px-2.5 py-1 rounded-pill text-micro font-bold backdrop-blur-glass-light ${tone.chip}`}>
+                      {article.category}
+                    </span>
+                  </div>
+                  <div className="p-4 bg-white flex flex-col gap-2">
+                    <h3 className="m-0 font-body text-body-sm font-bold text-ink-900 leading-snug">
+                      {article.title}
+                    </h3>
+                    <span className="inline-flex items-center gap-1 font-body text-micro font-semibold text-primary-700">
+                      Lire l'article <ArrowRight size={11} />
+                    </span>
+                  </div>
+                </article>
+              );
+            })}
           </div>
-        </div>
+        </section>
 
-        {/* ─ Toutes les actus ──────────────────────────────────── */}
-        <div style={{ marginBottom: 'var(--s-10)' }}>
-          <h2
-            style={{
-              fontSize: 'var(--t-h3)',
-              fontWeight: 800,
-              color: 'var(--text)',
-              margin: '0 0 var(--s-4)',
-            }}
-          >
+        {/* Toutes les actus */}
+        <section className="flex flex-col gap-stack">
+          <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
             Toutes les actus
           </h2>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)' }}>
-            {ALL_ARTICLES.map((article) => {
+          <div className="flex flex-col rounded-2xl border border-ink-100 overflow-hidden">
+            {ALL_ARTICLES.map((article, idx) => {
               const isSaved = savedArticles.has(article.id);
               return (
                 <div
                   key={article.id}
-                  style={{
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 'var(--r-xl)',
-                    padding: 'var(--s-4) var(--s-5)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--s-4)',
-                    boxShadow: 'var(--shadow-xs)',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.boxShadow = 'var(--shadow-md)')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.boxShadow = 'var(--shadow-xs)')
-                  }
                   onClick={() => navigate('/veille/weekly-news/1')}
+                  className={[
+                    'flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-ink-50 transition-colors duration-base',
+                    idx < ALL_ARTICLES.length - 1 ? 'border-b border-ink-100' : '',
+                  ].join(' ')}
                 >
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--s-3)',
-                        marginBottom: 'var(--s-1)',
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 'var(--t-micro)',
-                          fontWeight: 700,
-                          color: 'var(--tls-primary-600)',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
-                        }}
-                      >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1 font-body text-micro text-ink-500">
+                      <span className="font-bold uppercase tracking-wider text-primary-700">
                         {article.category}
                       </span>
-                      <span
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 'var(--s-1)',
-                          fontSize: 'var(--t-caption)',
-                          color: 'var(--text-muted)',
-                        }}
-                      >
-                        <Clock size={11} />
-                        {article.readTime}
+                      <span aria-hidden>·</span>
+                      <span className="inline-flex items-center gap-1">
+                        <Clock size={10} /> {article.readTime}
                       </span>
+                      <span aria-hidden>·</span>
+                      <span>{article.date}</span>
                     </div>
-                    <p
-                      style={{
-                        fontSize: 'var(--t-sm)',
-                        fontWeight: 600,
-                        color: 'var(--text)',
-                        margin: '0 0 var(--s-1)',
-                        lineHeight: 1.4,
-                      }}
-                    >
+                    <p className="m-0 font-body text-body-sm font-semibold text-ink-900 leading-snug">
                       {article.title}
                     </p>
-                    <span style={{ fontSize: 'var(--t-caption)', color: 'var(--text-muted)' }}>
-                      {article.date}
-                    </span>
                   </div>
 
-                  {/* Actions */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-                    <button
-                      type="button"
-                      onClick={(ev) => {
-                        ev.stopPropagation();
-                        toggleSave(article.id);
-                      }}
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: 'var(--r-lg)',
-                        background: isSaved ? 'var(--tls-primary-50)' : 'var(--surface-muted)',
-                        border: isSaved
-                          ? '1px solid var(--overlay-brand-xl)'
-                          : '1px solid var(--border)',
-                        color: isSaved ? 'var(--tls-primary-600)' : 'var(--text-muted)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        flexShrink: 0,
-                        transition: 'all 0.15s',
-                      }}
-                    >
-                      {isSaved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
-                    </button>
-                    <ArrowRight size={16} style={{ color: 'var(--tls-primary-400)', flexShrink: 0 }} />
-                  </div>
+                  <Button
+                    variant={isSaved ? 'brand-ghost' : 'ghost'}
+                    size="sm"
+                    iconOnly
+                    aria-label={isSaved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      toggleSave(article.id);
+                    }}
+                  >
+                    {isSaved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
+                  </Button>
+                  <ArrowRight size={15} className="shrink-0 text-ink-400" />
                 </div>
               );
             })}
           </div>
-        </div>
+        </section>
 
-        {/* ─ Newsletter subscribe ───────────────────────────────── */}
-        <div
-          style={{
-            background: 'var(--tls-primary-500)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-8)',
-            textAlign: 'center',
-          }}
+        {/* Newsletter signup */}
+        <section
+          aria-label="Inscription newsletter"
+          className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-8 sm:p-10 text-white flex flex-col items-center text-center gap-stack"
         >
-          <div
-            style={{
-              width: '52px',
-              height: '52px',
-              borderRadius: '50%',
-              background: 'var(--overlay-white-xs)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto var(--s-4)',
-            }}
-          >
-            <Mail size={24} color="var(--text-inverse)" />
-          </div>
-          <h3
-            style={{
-              fontSize: 'var(--t-h3)',
-              fontWeight: 800,
-              color: 'var(--text-inverse)',
-              margin: '0 0 var(--s-2)',
-            }}
-          >
+          <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
+            <Mail size={22} />
+          </span>
+          <h3 className="m-0 font-display text-h3 font-bold tracking-tight">
             Recevez les actus chaque lundi
           </h3>
-          <p
-            style={{
-              fontSize: 'var(--t-sm)',
-              color: 'var(--overlay-white-xl)',
-              margin: '0 0 var(--s-5)',
-            }}
-          >
-            La sélection hebdomadaire TLS directement dans votre boîte mail.
+          <p className="m-0 font-body text-body text-white/85 max-w-prose">
+            La sélection hebdomadaire TLS directement dans votre boîte mail. Pas de spam,
+            désinscription en 1 clic.
           </p>
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--s-2)',
-              maxWidth: '440px',
-              margin: '0 auto',
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (email) alert(`Merci ! Inscription confirmée pour ${email}`);
+              setEmail('');
             }}
+            className="w-full max-w-md flex flex-col sm:flex-row gap-2"
           >
             <input
               type="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              style={{
-                flex: 1,
-                padding: 'var(--s-3) var(--s-4-5)',
-                borderRadius: 'var(--r-full)',
-                border: 'none',
-                background: 'var(--glass-fill-premium)',
-                fontSize: 'var(--t-sm)',
-                color: 'var(--text)',
-                outline: 'none',
-                fontFamily: 'var(--font-body)',
-              }}
+              className="flex-1 h-11 px-4 rounded-pill border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
             />
-            <button
-              type="button"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                padding: 'var(--s-3) var(--s-6)',
-                borderRadius: 'var(--r-full)',
-                background: 'var(--tls-orange-500)',
-                border: 'none',
-                color: 'var(--text-inverse)',
-                fontWeight: 700,
-                fontSize: 'var(--t-sm)',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-body)',
-                whiteSpace: 'nowrap',
-                transition: 'background 0.2s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-orange-600)')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-orange-500)')}
-            >
-              <ExternalLink size={14} />
+            <Button variant="warm" size="md" type="submit">
               S'abonner
-            </button>
-          </div>
-        </div>
-      </div>
+            </Button>
+          </form>
+        </section>
+      </main>
     </div>
   );
 };
+
+export default WeeklyNewsletter;

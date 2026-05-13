@@ -243,7 +243,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 | 8.7 | Veille | `src/pages/Veille.tsx` | ~30 | ⬜ | Moyenne |
 | 8.8 | VeilleContent | `src/pages/VeilleContent.tsx` | 63 | ⬜ | Moyenne |
 | 8.9 | Dossier | `src/pages/Dossier.tsx` | 73 | ⬜ | Moyenne |
-| 8.10 | WeeklyNewsletter | `src/pages/WeeklyNewsletter.tsx` | 57 | ⬜ | Moyenne |
+| 8.10 | WeeklyNewsletter | `src/pages/WeeklyNewsletter.tsx` | 57 | ✅ | Moyenne |
 | 8.11 | Journal | `src/pages/Journal.tsx` | ~40 | ⬜ | Moyenne |
 | 8.12 | JournalDetail | `src/pages/JournalDetail.tsx` | ~35 | ⬜ | Moyenne |
 | 8.13 | JournalNewEntry | `src/pages/JournalNewEntry.tsx` | ~30 | ⬜ | Moyenne |
@@ -527,7 +527,7 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | Dossier | `EditorialHero` + `ResourceCard` grid via `ResourceCardGrid` + `SectionCard` blocks | L | ⬜ |
 | Collaboration | `EditorialHero` (warm) + `ProfileCard` partners + `SectionCard` projects | L | ⬜ |
 | Messages | Conv list (gauche) + thread (droite) — refonte chat-bubble + `MessageThreadCard` | L | ⬜ |
-| WeeklyNewsletter | `EditorialLayout` + `SectionCard` rubriques + `RelatedItemList` past issues | M | ⬜ |
+| WeeklyNewsletter | `EditorialLayout` + `SectionCard` rubriques + `RelatedItemList` past issues | M | ✅ |
 | Onboarding | `MultiStepForm` + `EditorialHero` (brand) + progress `Stepper` | M | ⬜ |
 | LearningSpace | Déjà migré partiellement — audit consistance spacing semantic + tone | S | ⬜ |
 | Enterprise | `EditorialHero` (brand) + `IconFeatureCard` grid + `SectionCard` blocks | M | ⬜ |
