@@ -331,8 +331,79 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 **Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, VeilleContent 63, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final.
 
-**Inline styles restants :** ~600 / 2 105 (estim. — ~250+ supprimés ces 2 batches)
-**Dernière mise à jour :** 2026-05-07
+**Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
+**Dernière mise à jour :** 2026-05-10
+
+---
+
+## PHASE 9 — Refactor patterns + spacing tokens (2026-05-09 → 2026-05-10)
+
+**Objectif :** consolider les pages éditoriales et le Dashboard derrière une famille de patterns réutilisables (EditorialHero, AuthShell, EditorialLayout, SectionCard, RelatedItemList, ResumeLessonCard) + introduire une couche de tokens sémantiques (spacing, opacity, z-index, duration, ease, container, blur).
+
+### Pages migrées dans ce batch
+
+| Famille | Pages | Statut |
+|---------|-------|--------|
+| Auth | Login, Signup, ForgotPassword, ResetPassword | ✅ |
+| Editorial | MagazineArticle, ArticleDetail, Newsletter, WeeklyNewsDetail | ✅ |
+| Project / Coaching | Project, CoachingBookingFlow, PreCoachingQuestionnaireResponse | ✅ |
+| Settings | Settings | ✅ |
+| Learning | LearningSpace | ✅ |
+| Dashboard | Dashboard refait en 4 stages (Parcours / Coaching / Journal / Veille) | ✅ |
+| Journal | Journal restylé (EditorialHero brand + EntryCard chat-bubble) | ✅ |
+
+### New patterns créés
+
+| # | Pattern | Fichier | Usedby | Description |
+|---|---------|---------|--------|-------------|
+| 9.1 | EditorialHero | `src/components/patterns/EditorialHero.tsx` | 14 pages | Bandeau hero plein-largeur. `tone: default \| brand \| warm \| sun`. Le `brand` (gradient saturé primary-500→700, texte blanc) est utilisé par Dashboard + Journal. |
+| 9.2 | AuthShell | `src/components/patterns/AuthShell.tsx` | 4 pages auth | Split-screen layout. Sub-composants : `AuthFeature`, `AuthDivider`, `AuthSocialButton`, `AuthSuccess`. |
+| 9.3 | EditorialLayout | `src/components/patterns/EditorialLayout.tsx` | 7 pages | 2-col main + sticky aside, stack mobile-first. |
+| 9.4 | SectionCard | `src/components/patterns/SectionCard.tsx` | 8 pages | Card sectionnée (title + description + footer actions). |
+| 9.5 | RelatedItemList | `src/components/patterns/RelatedItemList.tsx` | 5 pages | Liste verticale d'items reliés / cross-links. |
+| 9.6 | ResumeLessonCard | `src/components/patterns/ResumeLessonCard.tsx` | Dashboard | Hero card "Reprendre ta leçon" (glass tone-aware warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1, meta pills, progress bar + CTA pill. |
+
+### Major refactors
+
+| Composant | Changements |
+|-----------|-------------|
+| **SectionHeader** | Étendu de **4 variants × 1 size** à **5 variants × 4 sizes × 5 tones**. Variants : `default`, `solid` (NEW : bubble gradient + icon blanc), `minimal`, `accent`, `underline`. Sizes : `xs/sm/md/lg`. Tones : primary/warm/sun/accent/neutral. Layout fix : grid `grid-cols-[auto_minmax(0,1fr)] items-start` aligne le centre de la bubble icône avec la première ligne du titre ; subtitle en row 2 col-start-2. Plus de `mb-X` hardcodé sur le wrapper — le parent layout gère le spacing via `gap-*` (anti-double-spacing). `compact?: boolean` deprecated → maps vers `size="sm"`. |
+| **PromptCard** (`learning/PromptCard.tsx`) | Ajout `size: 'default' \| 'featured'` (featured = horizontal pour hero). Ajout `bubble: boolean` → tail Apple Messages bottom-right (`rounded-3xl` + `rounded-br-[6px]`). Borderless : `bg-white` + `[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))]` (pas de border) → tail merge seamless via la silhouette partagée. Hover tone-aware (info/warm/sun match badge). `!h-auto !overflow-visible` pour contrer Piège #8 `[role="button"]`. |
+| **EditorialHero** | Ajout `tone` prop (default/brand/warm/sun). Tone `brand` = gradient saturé primary-500→700 + texte blanc + border/halo blanc. |
+| **ActivityFeed** (`patterns/ActivityFeed.tsx`) | Étendu `ActivityType` avec discovery types : `'veille-article' \| 'veille-video' \| 'parcours' \| 'lesson' \| 'coaching'`. Chacun avec icône Lucide + tone par défaut. Utilisé dans le stage "À découvrir" du Dashboard avec `layout="timeline"` + `groupByDate`. |
+| **JournalNewEntry** (`pages/JournalNewEntry.tsx`) | Ajout `'pratique-pro'` EntryType (Briefcase, secondary tone). Lit URL `?type=...` pour pré-sélectionner depuis les prompt cards Dashboard. |
+
+### Design tokens added (NEW)
+
+**Spacing sémantique** (7 tokens — `src/index.css` @theme) :
+
+| Token CSS | Valeur | Tailwind | Usage |
+|-----------|--------|----------|-------|
+| `--spacing-tight` | 0.125rem (2px) | `gap-tight`, `mt-tight` | heading ↔ subtitle |
+| `--spacing-stack-xs` | 0.5rem (8px) | `gap-stack-xs` | inline groups |
+| `--spacing-stack` | 1rem (16px) | `gap-stack` | section header ↔ content (DEFAULT) |
+| `--spacing-stack-lg` | 1.5rem (24px) | `gap-stack-lg` | content ↔ content within section |
+| `--spacing-section` | 2rem (32px) | `gap-section` | between sibling sections |
+| `--spacing-section-lg` | 2.5rem (40px) | `gap-section-lg` | major separations |
+| `--spacing-page` | 3rem (48px) | `gap-page` | page-level groupings |
+
+→ Dashboard.tsx et SectionHeader.tsx consomment ces tokens à la place de valeurs numériques (`gap-4`, `mb-1`).
+
+**Utility tokens étendus** (25 tokens — `src/index.css` @theme) :
+
+| Famille | Tokens | Tailwind utility |
+|---------|--------|------------------|
+| Opacity | `--opacity-faint/soft/tinted/medium/disabled/overlay` (5/10/15/30/50/70 %) | `bg-primary-500/medium`, `text-ink-900/disabled` |
+| z-index | `--z-base/sticky/dropdown/overlay/modal/toast/tooltip` (1/20/30/40/50/60/70) | `z-modal`, `z-toast` |
+| Duration | `--duration-fast/base/slow/glacial` (150/200/300/600 ms) | `duration-base` |
+| Ease | `--ease-standard/decelerate/accelerate/emphasis` (cubic-beziers) | `ease-standard` |
+| Container | `--container-prose/content/page/wide` (65ch / 48rem / 72rem / 80rem) | `max-w-page` |
+| Blur | `--blur-glass-light/medium/heavy/ambient` (8/16/24/60 px) | `blur-glass-medium` |
+
+### Showcase improvements (`pages/Components.tsx`)
+- Flag `showcaseOnly: true` ajouté sur 39 composants (badge "SHOWCASE ONLY" visible).
+- Champ `usedBy: string[]` qui liste les pages consommatrices par composant.
+- Nouvelles entries Token : Spacing sémantique, Opacity, Duration, Easing, Container, Blur, z-index.
 
 ---
 
@@ -399,3 +470,241 @@ Après phases 1-7, migrer les pages dans cet ordre :
 | Achievement | Achievement, AchievementBadge, MasteryBadge, Medal | card horizontal vs médaillon vertical vs ring SVG vs trophée |
 | Cards stats | StatCard, KPICard | StatCard (rich, square mode, sub-units), KPICard (simple, trend object) |
 | Progress | ProgressBar, ProgressRing, SkillBar, GoalProgress | Linear vs circular vs labeled-skill vs goal-with-deadline |
+
+---
+
+## PHASE 10 — Holistic UX/UI rework (2026-05-10+)
+
+### Goal
+
+Refaire toutes les pages restantes de la learning app pour une expérience UX/UI cohérente, mobile-first, learner-centric, avec les patterns et tokens du design system. Adapter ou créer si manquant. ~36 pages à traiter.
+
+### Status — already migrated to new DS (Phase 9)
+
+15 pages déjà sur les nouveaux patterns (EditorialHero / AuthShell / EditorialLayout / SectionCard / RelatedItemList / ResumeLessonCard) :
+
+- ✅ Dashboard
+- ✅ Journal
+- ✅ Login
+- ✅ Signup
+- ✅ ForgotPassword
+- ✅ ResetPassword
+- ✅ ArticleDetail
+- ✅ MagazineArticle
+- ✅ Newsletter
+- ✅ WeeklyNewsDetail
+- ✅ Project
+- ✅ CoachingBookingFlow
+- ✅ PreCoachingQuestionnaireResponse
+- ✅ Settings
+- ✅ Components (showcase)
+
+### Tier 1 — Core daily-use pages (HIGH priority)
+
+| Page | Sections actuelles | Patterns cibles | Effort | Status |
+|------|--------------------|-----------------|--------|--------|
+| LearningPaths | Hero + grid ParcoursCard + filtres | `EditorialHero` (brand) + activer `LearningPathGrid` (showcase-only) + `SearchWithFilters` | M | ✅ |
+| LearningPathDetail | Hero spécifique + sections + leçons + **ressources complémentaires** | `LearningPathHeader` (showcase-only → activer) + `SectionCard` list + `StepCard` items + **`ResourceCard` (ou `ResourceCardGrid`) en fin de chaque étape, après les leçons** pour ressources complémentaires (PDF, vidéos, liens externes) + `RelatedItemList` parcours connexes | L | ✅ |
+| Coaching | Header + liste sessions + coachs | EditorialHero brand + coach strip → coach inline dans session card · IconFeatureCard tinted (Outils) · SessionCard tinted warm uniforme · BookingModal v3 payment flow + crédits par plan · ICS download · AmbientBlobs bg | L | ✅ |
+| Journal | KPI row + CTA buttons + entries list | EditorialHero brand · ❌ KPI row · 4 emoji buttons centered (Guidé/Libre/Insight/Apprentissage) · Chat-bubble compose card · Search trailing filter button · Filters collapsibles · EntryCard tinted-by-type · TYPE_BADGE pill · Buttons glass-light/ghost | L | ✅ |
+| Profile | Hero + KPIs + skills + achievements | Déjà haut niveau : AccountFamilyNav + Tabs underline + CompetencyMatrix + SkillBar + Badge. Semantic spacing. Audit ✅ — aucun refactor nécessaire. | L | ✅ |
+| Notifications | Liste plate | Déjà haut niveau : NotificationCard + FilterChip + EmptyState + Skeleton. Zustand useNotificationsStore + useFilterPrefsStore. Audit ✅ — aucun refactor nécessaire. | M | ✅ |
+| LessonPlayer | Lecteur + sidebar + navigation | Amélioré 2026-05-13 : boutons Prev/Next/Terminer → DS `Button` (ghost/primary + leadingIcon/trailingIcon). Navigation EDRAC 7 sections correcte. | M | ✅ |
+| Veille | Sticky header + format strip + feed | Search-first hero (archétype ②) full-bleed · IconFeatureCard tinted (format access) · Cards tinted tone-aware par type · Newsletter CTA gradient-warm · AmbientBlobs bg. Toast notification 2026-05-13. | M | ✅ |
+
+### Tier 2 — Secondary core
+
+| Page | Patterns cibles | Effort | Status |
+|------|-----------------|--------|--------|
+| Account | `EditorialHero` (neutral) + `SettingsSection` blocks + `FormLayout` | M | ⬜ |
+| Leaderboard | `EditorialHero` (sun) + `RankingCard` list + podium + `Tabs` (period) | M | ⬜ |
+| Help | `EditorialHero` + `SectionCard` FAQ accordion + search + `RelatedItemList` articles populaires | M | ⬜ |
+| JournalDetail | `EditorialLayout` (main entry + aside meta) + chat-bubble `EntryCard` | S | ⬜ |
+| JournalFreeEntry | `FormLayout` + `EditorialHero` (warm) | S | ⬜ |
+| JournalNewEntry | `MultiStepForm` + prompt selector cards | M | ⬜ |
+| Magazine | `EditorialHero` (sun) + `MagazineCard` grid + filter `Tabs` | M | ⬜ |
+| VeilleContent | `EditorialLayout` + `SectionCard` body + `RelatedItemList` veille connexe | M | ⬜ |
+| Dossier | `EditorialHero` + `ResourceCard` grid via `ResourceCardGrid` + `SectionCard` blocks | L | ⬜ |
+| Collaboration | `EditorialHero` (warm) + `ProfileCard` partners + `SectionCard` projects | L | ⬜ |
+| Messages | Conv list (gauche) + thread (droite) — refonte chat-bubble + `MessageThreadCard` | L | ⬜ |
+| WeeklyNewsletter | `EditorialLayout` + `SectionCard` rubriques + `RelatedItemList` past issues | M | ⬜ |
+| Onboarding | `MultiStepForm` + `EditorialHero` (brand) + progress `Stepper` | M | ⬜ |
+| LearningSpace | Déjà migré partiellement — audit consistance spacing semantic + tone | S | ⬜ |
+| Enterprise | `EditorialHero` (brand) + `IconFeatureCard` grid + `SectionCard` blocks | M | ⬜ |
+| PagesIndex | `EditorialHero` (neutral) + grouped `ActionCard` grid via `ActionCardGrid` | S | ⬜ |
+| PreCoachingQuestionnaire | `MultiStepForm` + `QuizQuestionCard` items | M | ⬜ |
+| CoachingCompteRendu | `EditorialLayout` + `SectionCard` sections + `RelatedItemList` next steps | M | ⬜ |
+
+### Tier 3 — Edge cases / viewers
+
+Ces pages ont des layouts plein-écran spécialisés (viewer / lecteur) — garder leur UI bespoke mais assurer cohérence des design tokens (spacing / blur / z-index / touch).
+
+| Page | Notes |
+|------|-------|
+| AstucesViewer | Viewer plein écran — vérifier tokens blur/z-index/touch |
+| FlashcardsViewer | 3D transform (exception runtime) — tokens spacing/touch |
+| VideoReels | Full-bleed vidéo — `z-modal` + `min-h-touch` controls |
+| VideoTutorial | Player + sidebar — tokens spacing semantic |
+| VideoViewer | Idem — cohérence avec VideoTutorial |
+| ComplementaryContentViewer | Reader plein écran — `max-w-prose` body, `gap-stack` |
+| CourseDetail | Hero + sections — possible upgrade léger `EditorialHero` + `SectionCard` |
+| Error404 | Centered illustration + CTA — assurer `min-h-touch`, tokens spacing |
+| Error500 | Idem 404 |
+
+### Methodology (workflow per page)
+
+Cf. CLAUDE.md → section "Phase 10 — Holistic UX/UI rework" pour le workflow détaillé en 5 étapes :
+
+1. **Audit** (10 min) — tableau section → pattern cible, UX/UI issues
+2. **Décision composants** (5 min) — REUSE / EXTEND / ADAPT / CREATE
+3. **Implémentation** (variable) — bottom-up, semantic spacing tokens, patterns canoniques
+4. **Vérification** (10 min) — `npx tsc --noEmit`, preview mobile + desktop, DOM verify, a11y
+5. **Showcase update** — entries Components.tsx, `usedBy`, retirer `showcaseOnly` flag si activé
+
+### Cross-cutting tasks (parallel)
+
+- ⬜ Migrer toutes les pages aux semantic spacing tokens (`gap-stack`, `gap-section`, etc.) — actuellement seul Dashboard les consomme.
+- ⬜ Audit de toutes les pages pour remplacer `bg-white` hardcodé → `bg-surface` (prépare future dark mode).
+- ⬜ Remplacer les classes BEM `tls-*` restantes (audit par page).
+- ⬜ Activer les composants `showcaseOnly: true` sur les vraies pages quand ça fait sens (LearningPathGrid, CoachCardGrid, etc.).
+
+### 🧭 Navigation recommendations (intégrées au fil des migrations Tier 1+2)
+
+| Action | Page(s) concernée(s) | Statut |
+|--------|---------------------|--------|
+| Custom tab nav inline → `<Tabs>` DS canonique | LearningPathDetail, Profile | ⬜ Tier 1 |
+| Ajouter `<Breadcrumb variant="nav">` au-dessus du hero pour navigation hiérarchique | LearningPathDetail, Coaching, JournalDetail, ArticleDetail | ⬜ Tier 1-2 |
+| Activer `<HeaderNav>` (sticky toolbar back+progress+save) | LessonPlayer, JournalNewEntry, PreCoachingQuestionnaire, Onboarding | ⬜ Tier 2 |
+| Audit usage `<Pagination>` (0 usage prod actuel) — décider si supprimer ou intégrer | DataTable consummers, list views | ⬜ TBD |
+| **CREATE `ViewerHeader` pattern** — sticky bar back + prev/next + close pour pages viewer | VideoViewer, FlashcardsViewer, AstucesViewer, ComplementaryContentViewer, VideoReels (6+ pages) | ⬜ **NEW** |
+
+### Components à créer (audit Phase 10)
+
+- **`ViewerHeader`** — sticky bar pour pages viewer (full-screen content) :
+  - Back button (gauche)
+  - Title + meta (centré, optionnel)
+  - Prev/next chevrons (droite) avec state disabled au bord
+  - Close button optionnel
+  - Glass-light background avec backdrop-blur
+- **`NotificationCard`** — chat-bubble pattern (extension PromptCard/JournalEntryCard) pour la page Notifications (Tier 1 #5).
+
+### 🗑️ Phase 10 — Cleanups effectués (référence)
+
+| Fichier supprimé | Raison |
+|------------------|--------|
+| `DashboardHero.tsx` | Alias deprecated, 0 prod usage → HeroSection |
+| `LearningPathHeader.tsx` | Alias deprecated, 0 prod usage → HeroSection |
+| `SettingsSection.tsx` | Doublon de SectionCard |
+| `GlassCard.tsx` | Alias deprecated → Card variant="glass*" |
+| `SurfaceCard.tsx` | Alias deprecated → Card variants |
+| `KPICard.tsx` | Alias deprecated → StatCard |
+| `BreadcrumbNav.tsx` | Re-export → Breadcrumb variant="nav" |
+| `ToneAwareCard.tsx` | Alias deprecated → Card variant="tinted" |
+| `ComponentShowcase.tsx` | Dead code (Components.tsx est THE showcase) |
+| `TopNav.tsx` | 0 prod usage (Sidebar suffit) |
+| `BottomNav.tsx` | 0 prod usage |
+| `HamburgerButton.tsx` | 0 prod usage (App.tsx utilise inline Menu) |
+
+**Total : 12 fichiers supprimés, ~1100 lignes de code mort éliminées**
+
+### 🛠️ Phase 10 — DS-level bugfixes appliqués
+
+| Fix | Impact |
+|-----|--------|
+| `z-index` tokens : ajout namespace `--z-index-*` pour Tailwind v4 | Sidebar drawer / Modals / Toasts / Dropdowns z-index correctement générés |
+| Card.tsx **piège #8 complet** : `[&[role=button]]:h-auto` + `font-normal` + `items-stretch` | Neutralise 3 propriétés BEM imposées par `[role="button"]` (height 40px clip + font-weight 600 inherit + align-items center overflow horizontal) |
+| `overflow-x-hidden` → `[overflow-x:clip]` dans App.tsx main | Fix sticky elements (CSS spec : `overflow-x:hidden` force `overflow-y:auto` créant scroll containing block parasite) |
+
+### 🎨 Phase 10 — Composants redesignés / améliorés
+
+| Composant | Changements |
+|-----------|-------------|
+| `MetaPill` | Ajout variants `glass` + `glass-dark` (frosted effect pour heroes saturés) |
+| `ProfileCard` | Refonte complète : Avatar + MetaPillGroup + Button DS · 3 variants × 3 tones × 2 alignments · avatarBadge slot · contacts inline · cta DS |
+| `ParcoursCard` | p-8 uniform · text-wrap:balance · overflow-wrap:anywhere · min-w-0 · CTA rounded-pill h-11 · tone-aware focus outline · alignement inter-cards via min-h |
+| `CardGrid` | Migration BEM → Tailwind pur · `square-tiles` (2/3/4 cols pour cards square) · `tiles` (mini-cards) layouts ajoutés |
+| `Sidebar` | Width responsive 220/260 · NavItem count >99 → "99+" · Close X mobile · Hover-peek hamburger 200/400ms delays |
+| `DropdownMenu` | A11y full : ArrowDown/Up/Home/End keyboard · Escape close + focus return · Auto-focus · aria-orientation |
+| `HeroSection` | Showcase enrichi 5 archetypes DNA (LearningPath / Dashboard / Glass / Minimal / Media) |
+| `IconFeatureCard` v2 | 5 sizes (xs/sm/md/lg/xl) · 4 surfaces (card/tinted/glass/frosted) · asymmetric padding scale · auto-scale title (body-sm→h3) · `square` prop · `ICON_ZONE` cross-card alignment |
+| `SessionCard` | Aligné convention DS : 4 surfaces (card/tinted/glass/frosted) · tone (primary/warm/sun) · tone-aware footer divider · meta sous titre |
+| `Search` | Nouveau slot `trailing` (filter button toggle, voice, etc.) — cross-cutting |
+| `SectionHeader` | Fix bug spacing : flex items-center + sub-stack flex-col gap-tight (icon centrée sur bloc texte, gap 2px tight) |
+| `Button` | **6 nouveaux variants glass** : `glass-light` + `glass-light-ghost` (white frosted sur LIGHT tinted bg) · `glass-brand` / `glass-warm` / `glass-sun` (tone-aware tinted frosted) |
+| `BookingModal` v3 | Payment flow conditionnel selon plan (free/pro/enterprise + crédits) · UI compacte fit 1 écran (max-h 92vh) · banner contextuel source (sponsorisée/forfait/à-l'unité) · card form ICS download |
+
+### 🆕 Phase 10 — Nouveaux patterns & tokens
+
+| Pattern / Token | Path | Notes |
+|---|---|---|
+| `ViewerHeader` | `patterns/ViewerHeader.tsx` | Sticky toolbar pour 6+ pages viewer (back + title + prev/next + close) |
+| `QuickActionButton` | `ui/QuickActionButton.tsx` | Compact horizontal button avec chevron, tone-aware |
+| `AmbientBlobs` | `patterns/AmbientBlobs.tsx` | 3 floating blobs (primary/warm/sun) blur 80px + keyframe `float` 20s · 3 intensities (subtle/normal/vivid) |
+| Token `primary-950` | `@theme` index.css | `#164267` deep navy — extension du scale primary pour heros saturés |
+| Tokens `surface-cyan/mist/cream` | `@theme` index.css | `#f0f9ff`, `#f8fbfd`, `#fef3e2` — surface pastels pour gradients |
+| Gradients utilities | `@layer utilities` | `bg-gradient-page-ambient` + `-warm` + `-sun` (page bg) · `bg-gradient-brand-deep` (hero saturé) · `bg-gradient-soft-pastel` + `-duo` (pastel doux) |
+| DS convention "Card surfaces & interaction effects" | `DESIGN.md` §4 | Règle cross-cutting : tout card pattern expose `surface` × tone-aware hover/focus |
+| DS convention "Variants vs className overrides" | `DESIGN.md` §4 | Règle arbitrage : variants typés > `!important` className |
+
+---
+
+## PHASE 10 — Pages à créer (6 manquantes, audit 2026-05-12)
+
+Pages présentes dans la DB Notion "Écrans Learning App" (`Disponible: NO`) mais absentes de `App.tsx`.
+**Voir `DESIGN.md §Pages manquantes` pour le prompt de création complet.**
+
+| # | Page | Route | Flow | Niveau | Statut |
+|---|------|-------|------|--------|--------|
+| P1 | `Recherche` | `/search` | Parcours & Apprentissage | Top | ✅ |
+| P2 | `MagicLink` | `/auth/magic-link` | Authentification | Conditionnel | ✅ |
+| P3 | `VerifyEmail` | `/auth/verify-email` | Authentification | Conditionnel | ✅ |
+| P4 | `SubscriptionPayment` | `/onboarding/payment` | Première expérience | Conditionnel | ✅ |
+| P5 | `Billing` | `/account/billing` | Paramètres & Compte | Niveau 2 | ✅ |
+| P6 | `Positionnement` | `/learning-paths/:id/positionnement` | Parcours & Apprentissage | Niveau 3 | ✅ |
+
+**Toutes créées et routées** (2026-05-12) — pages importées dans `pages/index.ts`, routées dans `App.tsx`, Notion Écrans DB → `Disponible: YES`.
+
+**Rappel** : après création de chaque page → mettre à jour `Disponible sur l app` → `YES` dans la DB Notion Écrans.
+URL DB : https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4
+
+---
+
+---
+
+## Notion — Design System DB (2026-05-13)
+
+**DB :** Design System — Claude | `collection://75e8fbee-de5b-4f3a-892b-b703d5ee95bc`
+**URL :** https://www.notion.so/thelearningsociety/fc727adea430439bb45590fd908ba134
+
+### État actuel
+
+| Catégorie | Items créés | Statut |
+|-----------|-------------|--------|
+| Tokens (Couleurs, Typo, Spacing, Radius, Ombres, Opacité, Z-Index, Animation, Container, Blur, Gradients) | 17 | ✅ |
+| Core (Button, Card, Input, FormGroup, Select) | 5 | ✅ Button/Card/Input/FormGroup/Select (Select vu dans migration plan) |
+| UI (~36 composants) | ~36 | ✅ (majorité présente, ~20 à vérifier dans has_more) |
+| Patterns (~40 composants) | ~40 | ✅ |
+| Learning (11 composants) | 11 | ✅ |
+| Modals (9 composants) | 9 | ✅ |
+| Cards (2 composants) | 2 | ✅ |
+| Layout (2 composants) | 2 | ✅ |
+| Forms (1 composant) | 1 | ✅ |
+| Auth (2 composants) | 2 | ✅ |
+| Guidelines | 8 | ✅ |
+| **Total estimé** | **~135** | — |
+
+### Items possiblement manquants (à vérifier dans prochaine session)
+
+La query DB a `has_more: true`. Items non confirmés dans les premiers résultats — peut-être présents dans le reste :
+`Select` · `EmptyState` · `Skeleton` · `Breadcrumb` · `Pagination` · `Search` · `StatCard` · `ProgressBar` · `GoalProgress` · `Achievement` · `AchievementBadge` · `Pill` · `MetaItem` · `NotificationBadge` · `Divider` · `UserInfo` · `Steps` · `ActionCard` · `ResourceCard` · `QuizComponent` · `AvatarGroup` · `CompetencyMatrix`
+
+→ Avant de créer, requêter la vue "All items" et filtrer par Category=Composant pour éviter doublons.
+
+### Doublons Écrans DB (action manuelle requise)
+
+**~43 entrées `⚠️ DOUBLON —`** à supprimer manuellement dans https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4
+- 2 entrées non renommées (permission refusée) : VideoViewer `35ecdd696db6813f954dc8693d91fcda`, JournalFreeEntry `35ecdd696db68142971ac05910958ec8`
+
+---
+
+**Dernière mise à jour :** 2026-05-13

@@ -1,5 +1,12 @@
 /**
  * Learning Path Detail Page
+ *
+ * Phase 10 refactor:
+ *  - Custom hero → HeroSection variant="gradient" (removes glass-on-color / hero-pill BEM)
+ *  - TONE_* maps extracted to src/lib/tone-classes.ts (shared across Tier 1 pages)
+ *  - SectionHeader for section headings
+ *  - Semantic spacing tokens (gap-stack, gap-section, gap-section-lg)
+ *  - Consistent page background (gradient from-primary-50/30)
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -10,8 +17,22 @@ import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { Badge } from '../components/ui/Badge';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { CardGrid } from '../components';
+import { HeroSection } from '../components/patterns/HeroSection';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Tabs } from '../components/ui/Tabs';
+import type { TabItem } from '../components/ui/Tabs';
+import { IconFeatureCard } from '../components/ui/IconFeatureCard';
+import { ResourceCard } from '../components/ui/ResourceCard';
+import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import {
-  ArrowLeft,
+  TONE_TEXT,
+  TONE_BG_50,
+  TONE_BORDER_200,
+  TONE_BG_500,
+  TONE_BORDER_500,
+  TONE_HERO_GRADIENT,
+} from '../lib/tone-classes';
+import {
   Clock3,
   BookOpen,
   ChevronDown,
@@ -24,7 +45,6 @@ import {
   Mic,
   ClipboardList,
   MessagesSquare,
-  Sparkles,
   Award,
   Target,
   GraduationCap,
@@ -32,6 +52,8 @@ import {
   Lightbulb,
   Briefcase,
   TrendingUp,
+  Sparkles,
+  Layers3,
 } from 'lucide-react';
 import {
   MOCK_PARCOURS_DATA,
@@ -59,38 +81,6 @@ const RESOURCE_LABEL: Record<ResourceKind, string> = {
   template: 'Template',
   podcast: 'Podcast',
   exercise: 'Exercice',
-};
-
-/* ── Tone → Tailwind class maps ─────────────────────────────── */
-const TONE_TEXT: Record<Tone, string> = {
-  primary: 'text-primary-500',
-  warm:    'text-secondary-500',
-  sun:     'text-accent-400',
-};
-const TONE_BG_50: Record<Tone, string> = {
-  primary: 'bg-primary-50',
-  warm:    'bg-secondary-50',
-  sun:     'bg-accent-50',
-};
-const TONE_BORDER_200: Record<Tone, string> = {
-  primary: 'border-primary-200',
-  warm:    'border-secondary-200',
-  sun:     'border-accent-200',
-};
-const TONE_BG_500: Record<Tone, string> = {
-  primary: 'bg-primary-500',
-  warm:    'bg-secondary-500',
-  sun:     'bg-accent-400',
-};
-const TONE_BORDER_500: Record<Tone, string> = {
-  primary: 'border-primary-500',
-  warm:    'border-secondary-500',
-  sun:     'border-accent-400',
-};
-const TONE_HERO: Record<Tone, string> = {
-  primary: 'bg-gradient-to-br from-primary-500 to-secondary-500',
-  warm:    'bg-gradient-to-br from-secondary-500 to-accent-400',
-  sun:     'bg-gradient-to-br from-accent-400 to-primary-500',
 };
 
 const calculateStepUnlocked = (idx: number, etapes: Etape[]): boolean =>
@@ -158,6 +148,12 @@ export const LearningPathDetail: React.FC = () => {
 
   const carouselItems = parcours.complementaryContent ?? [];
 
+  const firstLessonId = parcours.etapes[0]?.lecons[0]?.id ?? '1';
+
+  const relatedParcours = Object.values(MOCK_PARCOURS_DATA)
+    .filter((p) => p.id !== parcours.id)
+    .slice(0, 3);
+
   const OBJECTIFS = [
     {
       Icon: Target,
@@ -191,89 +187,56 @@ export const LearningPathDetail: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-ink-50">
-        {/* HERO */}
-        <div className={`relative overflow-hidden pt-10 pb-12 ${TONE_HERO[tone]}`}>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/15 pointer-events-none" />
+      <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
-          <div className="relative z-10 px-10 mb-8">
-            <button
-              onClick={() => navigate(parcours.backUrl)}
-              className="glass-on-color learning-path-hero-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold cursor-pointer text-body-sm"
-            >
-              <ArrowLeft size={16} /> Retour
-            </button>
-          </div>
+          {/* Hero — HeroSection variant="gradient" tone-aware */}
+          <HeroSection
+            variant="gradient"
+            tone={tone}
+            size="lg"
+            showBackButton
+            onBack={() => navigate(parcours.backUrl)}
+            eyebrow={parcours.category}
+            title={parcours.title}
+            description={parcours.description}
+            metadata={[
+              { icon: <GraduationCap size={14} />, text: parcours.instructor },
+              { icon: <Clock3 size={14} />, text: parcours.duration },
+              { icon: <BookOpen size={14} />, text: `${totalLessons} leçons` },
+              { icon: <Layers size={14} />, text: parcours.level },
+            ]}
+            progress={progressPct > 0 ? progressPct : undefined}
+            progressLabel={`${completedLessons} / ${totalLessons} leçons complétées`}
+            actions={
+              progressPct === 0 && !positioned ? (
+                <Button variant="glass" onClick={() => setShowPositionnement(true)}>
+                  🎯 Se positionner &amp; commencer
+                </Button>
+              ) : undefined
+            }
+          />
 
-          <div className="relative z-10 max-w-[1180px] mx-auto px-10 text-white">
-            <div className="flex flex-wrap gap-2 mb-5">
-              {[
-                { icon: GraduationCap, label: parcours.instructor },
-                { icon: Clock3, label: parcours.duration },
-                { icon: BookOpen, label: `${totalLessons} leçons` },
-                { icon: Layers, label: parcours.level },
-              ].map(({ icon: Icon, label }) => (
-                <span
-                  key={label}
-                  className="glass-on-color learning-path-hero-pill inline-flex items-center gap-1 px-3 py-2 rounded-pill text-caption font-semibold"
-                >
-                  <Icon size={14} /> {label}
-                </span>
-              ))}
-            </div>
-
-            <h1 className="font-display text-h1 font-bold leading-tight m-0 mb-4 text-white tracking-tight">
-              {parcours.title}
-            </h1>
-            <p className="text-body leading-relaxed m-0 mb-8 max-w-[640px] text-white/95">
-              {parcours.description}
-            </p>
-
-            <div className="flex justify-between items-center gap-3 mb-5">
-              <span className="text-caption font-medium text-white/80">
-                Progression — {completedLessons}/{totalLessons} leçons
-              </span>
-              <InlineProgress
-                value={progressPct}
-                tone="primary"
-                showLabel={true}
-                size="md"
-                className="hero-progress"
-              />
-            </div>
-
-            {progressPct === 0 && !positioned && (
-              <button
-                onClick={() => setShowPositionnement(true)}
-                className="glass-on-color inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-body cursor-pointer"
-              >
-                🎯 Se positionner &amp; commencer
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* MAIN */}
-        <div className="max-w-[1180px] mx-auto p-10">
           {/* Objectifs */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-5">
-              <Target size={18} className={TONE_TEXT[tone]} />
-              <h2 className="m-0 font-display text-h3 font-bold text-ink-900">
-                Ce que vous allez acquérir
-              </h2>
-            </div>
-            <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
+          <section aria-label="Objectifs d'apprentissage" className="flex flex-col gap-stack">
+            <SectionHeader
+              variant="default"
+              size="md"
+              tone={tone}
+              icon={<Target size={20} />}
+              title="Ce que vous allez acquérir"
+            />
+            <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(220px,1fr))]">
               {OBJECTIFS.map(({ Icon, label, desc, classes, iconColor }) => (
                 <div
                   key={label}
-                  className={`p-5 rounded-xl border flex flex-col gap-3 transition-all hover:-translate-y-0.5 hover:shadow-md ${classes}`}
+                  className={`p-5 rounded-xl border flex flex-col gap-stack-xs transition-all hover:-translate-y-0.5 hover:shadow-md ${classes}`}
                 >
                   <div className="w-10 h-10 rounded-md bg-white/50 flex items-center justify-center shrink-0">
                     <Icon size={20} className={iconColor} />
                   </div>
-                  <div>
-                    <h3 className="m-0 mb-1 font-display text-body font-bold text-ink-900">
+                  <div className="flex flex-col gap-tight">
+                    <h3 className="m-0 font-display text-body font-bold text-ink-900">
                       {label}
                     </h3>
                     <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{desc}</p>
@@ -281,39 +244,73 @@ export const LearningPathDetail: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          {/* Tab nav */}
-          <div className="flex gap-2 p-2 rounded-2xl bg-ink-100 mb-8">
-            {(
-              [
-                { key: 'steps', label: 'Étapes du parcours', icon: BookOpen },
-                { key: 'project', label: 'Projet final', icon: Award },
-              ] as const
-            ).map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
-                  className={[
-                    'flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border-0 cursor-pointer',
-                    'font-display text-body-sm font-bold transition-all',
-                    isActive
-                      ? 'bg-white text-ink-900 shadow-xs'
-                      : 'bg-transparent text-ink-500 hover:text-ink-900',
-                  ].join(' ')}
-                >
-                  <Icon size={16} /> {tab.label}
-                </button>
-              );
-            })}
-          </div>
+          {/* Tab nav — DS Tabs pill */}
+          <Tabs
+            fullWidth
+            variant="pill"
+            value={activeTab}
+            onChange={(id) => setActiveTab(id as 'steps' | 'project')}
+            items={[
+              { id: 'steps',   label: 'Étapes du parcours', icon: <BookOpen size={14} /> },
+              { id: 'project', label: 'Projet final',       icon: <Award size={14} /> },
+            ] as TabItem[]}
+          />
 
           {/* Steps */}
           {activeTab === 'steps' && (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-stack-lg">
+
+              {/* ── Outils d'apprentissage : accès direct aux 3 viewers ─── */}
+              {parcours.etapes.length > 0 && (
+                <section aria-label="Outils pour mieux apprendre" className="flex flex-col gap-stack">
+                  <SectionHeader
+                    variant="default"
+                    size="sm"
+                    tone={tone}
+                    icon={<Sparkles size={16} />}
+                    title="Outils pour mieux apprendre"
+                    action={<span className="font-body text-caption text-ink-500">Accessible à tout moment</span>}
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <IconFeatureCard
+                      icon={<Lightbulb size={20} />}
+                      title="Astuces"
+                      description="Conseils pratiques tone-aware, format carousel."
+                      tone="sun"
+                      surface="tinted"
+                      iconStyle="bubble"
+                      iconSize="sm"
+                      onClick={() => navigate(`/lesson/${firstLessonId}/astuces`)}
+                      aria-label="Ouvrir les astuces de la formation"
+                    />
+                    <IconFeatureCard
+                      icon={<Layers3 size={20} />}
+                      title="Flashcards"
+                      description="Mémorisation active recto-verso, swipe & flip."
+                      tone="brand"
+                      surface="tinted"
+                      iconStyle="bubble"
+                      iconSize="sm"
+                      onClick={() => navigate(`/lesson/${firstLessonId}/flashcards`)}
+                      aria-label="Ouvrir les flashcards de la formation"
+                    />
+                    <IconFeatureCard
+                      icon={<BookOpen size={20} />}
+                      title="Bonus"
+                      description="Articles, guides, templates et podcasts liés."
+                      tone="warm"
+                      surface="tinted"
+                      iconStyle="bubble"
+                      iconSize="sm"
+                      onClick={() => navigate(`/lesson/${firstLessonId}/complementary`)}
+                      aria-label="Ouvrir le contenu complémentaire"
+                    />
+                  </div>
+                </section>
+              )}
+
               {parcours.etapes.map((etape: Etape, idx: number) => {
                 const isOpen = expandedSteps.includes(etape.id);
                 const stepPct = etape.progress.percentage;
@@ -398,7 +395,7 @@ export const LearningPathDetail: React.FC = () => {
                         />
 
                         {etape.unlocked && !etape.completed && stepPct > 0 && (
-                          <div className="mt-3">
+                          <div className="mt-stack-xs">
                             <InlineProgress value={stepPct} tone={tone as any} showLabel={false} size="sm" />
                           </div>
                         )}
@@ -414,7 +411,7 @@ export const LearningPathDetail: React.FC = () => {
                     {isOpen && etape.unlocked && (
                       <div className="border-t border-ink-200 px-6 pt-4 pb-6">
                         <div
-                          className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-6' : ''}`}
+                          className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
                         >
                           {etape.lecons.map((lecon: Lecon) => {
                             const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
@@ -470,36 +467,27 @@ export const LearningPathDetail: React.FC = () => {
                         </div>
 
                         {idx === 0 && carouselItems.length > 0 && (
-                          <div>
-                            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">
+                          <div className="flex flex-col gap-stack-xs">
+                            <p className="text-caption font-bold uppercase tracking-wider text-ink-500">
                               Ressources complémentaires
                             </p>
                             <CardGrid layout="default" autoFit gapSize="md">
                               {carouselItems.map((item: ComplementaryItem) => {
                                 const Icon = RESOURCE_ICON[item.kind];
-                                const itemTone = item.tone as Tone;
+                                const resourceHref =
+                                  item.kind === 'video'
+                                    ? `/veille/video/${item.id}`
+                                    : `/lesson/${item.id}/complementary`;
                                 return (
-                                  <div
+                                  <ResourceCard
                                     key={item.id}
-                                    className={`p-4 rounded-xl border cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-sm ${TONE_BG_50[itemTone]} ${TONE_BORDER_200[itemTone]}`}
-                                  >
-                                    <div className="flex items-center gap-2 mb-2">
-                                      <div
-                                        className={`w-8 h-8 rounded-md flex items-center justify-center bg-white/60 ${TONE_TEXT[itemTone]}`}
-                                      >
-                                        <Icon size={15} />
-                                      </div>
-                                      <span
-                                        className={`text-[11px] font-bold uppercase tracking-wider ${TONE_TEXT[itemTone]}`}
-                                      >
-                                        {RESOURCE_LABEL[item.kind]}
-                                      </span>
-                                    </div>
-                                    <div className="text-caption font-semibold text-ink-900 leading-snug mb-1">
-                                      {item.title}
-                                    </div>
-                                    <div className="text-[11px] text-ink-500">{item.duration}</div>
-                                  </div>
+                                    icon={<Icon size={20} />}
+                                    resourceType={RESOURCE_LABEL[item.kind]}
+                                    title={item.title}
+                                    duration={item.duration}
+                                    tone={item.tone}
+                                    cta={{ label: 'Ouvrir', onClick: () => navigate(resourceHref) }}
+                                  />
                                 );
                               })}
                             </CardGrid>
@@ -515,9 +503,10 @@ export const LearningPathDetail: React.FC = () => {
 
           {/* Project tab */}
           {activeTab === 'project' && parcours.finalProject && (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-section">
+              {/* Project hero */}
               <div
-                className={`text-center text-white p-10 rounded-2xl ${TONE_HERO[tone]}`}
+                className={`text-center text-white p-10 rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
               >
                 <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-6 flex items-center justify-center">
                   <Award size={36} />
@@ -540,7 +529,8 @@ export const LearningPathDetail: React.FC = () => {
                 />
               </div>
 
-              <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+              {/* Project details grid */}
+              <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
                 {[
                   { label: 'Complexité', value: 'Avancé', desc: 'Nécessite les connaissances des 5 étapes précédentes' },
                   { label: 'Format', value: 'Multi-étape', desc: 'Répondez à 5 questions structurées' },
@@ -550,9 +540,7 @@ export const LearningPathDetail: React.FC = () => {
                     key={label}
                     className={`p-6 rounded-xl border ${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`}
                   >
-                    <div
-                      className={`text-caption font-bold uppercase mb-2 ${TONE_TEXT[tone]}`}
-                    >
+                    <div className={`text-caption font-bold uppercase mb-2 ${TONE_TEXT[tone]}`}>
                       {label}
                     </div>
                     <div className="text-h3 font-bold text-ink-900 mb-2">{value}</div>
@@ -561,9 +549,15 @@ export const LearningPathDetail: React.FC = () => {
                 ))}
               </div>
 
-              <div>
-                <h3 className="text-h4 font-bold text-ink-900 m-0 mb-4">Étapes du projet</h3>
-                <div className="flex flex-col gap-3">
+              {/* Project steps */}
+              <section aria-label="Étapes du projet" className="flex flex-col gap-stack">
+                <SectionHeader
+                  variant="minimal"
+                  size="sm"
+                  tone="neutral"
+                  title="Étapes du projet"
+                />
+                <div className="flex flex-col gap-stack-xs">
                   {[
                     { num: 1, title: 'Contexte', desc: 'Analysez votre situation actuelle' },
                     { num: 2, title: 'Conception', desc: 'Créez 3-5 prompts clés avec RCIF' },
@@ -589,8 +583,9 @@ export const LearningPathDetail: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </section>
 
+              {/* Prerequisites */}
               <div className="p-6 rounded-xl bg-primary-50 border border-primary-200">
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0">
@@ -608,17 +603,18 @@ export const LearningPathDetail: React.FC = () => {
                 </div>
               </div>
 
+              {/* CTA */}
               <div
                 className={`p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
               >
                 <h3 className="text-h4 font-bold text-ink-900 m-0 mb-2">
                   Prêt à passer à l'action ?
                 </h3>
-                <p className="text-body text-ink-500 m-0 mb-6">
+                <p className="text-body text-ink-500 m-0 mb-stack-lg">
                   Créez votre plan d'intégration de l'IA en 5 étapes structurées
                 </p>
 
-                <div className="mb-6 flex items-center gap-4 justify-center">
+                <div className="mb-stack-lg flex items-center gap-4 justify-center">
                   <div className="text-caption text-ink-500">Déverrouillé après étape 5</div>
                   <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((i) => {
@@ -639,7 +635,6 @@ export const LearningPathDetail: React.FC = () => {
                 </div>
 
                 <Button
-                  leadingIcon={<Sparkles size={16} />}
                   onClick={() => navigate(`/project/${parcours.id}`)}
                   className="min-w-[280px]"
                 >
@@ -647,6 +642,29 @@ export const LearningPathDetail: React.FC = () => {
                 </Button>
               </div>
             </div>
+          )}
+
+          {/* Parcours similaires */}
+          {relatedParcours.length > 0 && (
+            <section aria-label="Parcours similaires" className="flex flex-col gap-stack">
+              <SectionHeader
+                variant="minimal"
+                size="sm"
+                tone="neutral"
+                icon={<GraduationCap size={16} />}
+                title="Parcours similaires"
+              />
+              <RelatedItemList
+                items={relatedParcours.map((p) => ({
+                  id: p.id,
+                  title: p.title,
+                  description: `${p.duration} · ${p.category}`,
+                  icon: <GraduationCap size={16} />,
+                  meta: p.level,
+                  onClick: () => navigate(`/learning-paths/${p.id}`),
+                }))}
+              />
+            </section>
           )}
         </div>
       </div>
@@ -667,3 +685,5 @@ export const LearningPathDetail: React.FC = () => {
     </>
   );
 };
+
+export default LearningPathDetail;
