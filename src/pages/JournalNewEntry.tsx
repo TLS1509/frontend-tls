@@ -2,9 +2,10 @@
  * JournalNewEntry Page
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
 import {
   ArrowLeft,
@@ -17,6 +18,8 @@ import {
   Wand2,
   Save,
   Clock,
+  ChevronDown,
+  CheckCheck,
 } from 'lucide-react';
 
 export type EntryType =
@@ -25,6 +28,50 @@ export type EntryType =
   | 'pratique-pro'
   | 'session-coaching'
   | 'moment-eureka';
+
+export type MoodLevel = 'very-sad' | 'sad' | 'neutral' | 'happy' | 'very-happy';
+
+interface MoodConfig {
+  emoji: string;
+  label: string;
+  color: string;
+}
+
+const MOOD_CONFIG: Record<MoodLevel, MoodConfig> = {
+  'very-sad': { emoji: '😢', label: 'Difficile', color: 'text-danger-base' },
+  'sad': { emoji: '😐', label: 'Neutre', color: 'text-warning-base' },
+  'neutral': { emoji: '🙂', label: 'Bien', color: 'text-info-base' },
+  'happy': { emoji: '😊', label: 'Très bien', color: 'text-success-base' },
+  'very-happy': { emoji: '🤩', label: 'Excellent', color: 'text-primary-600' },
+};
+
+interface StructuredQuestion {
+  id: string;
+  title: string;
+  description: string;
+  placeholder: string;
+}
+
+const STRUCTURED_QUESTIONS: StructuredQuestion[] = [
+  {
+    id: 'learning',
+    title: 'Qu\'avez-vous appris ?',
+    description: 'Identifiez les insights clés, concepts ou compétences développées',
+    placeholder: 'Notez les apprentissages principaux...',
+  },
+  {
+    id: 'challenges',
+    title: 'Quels défis avez-vous rencontrés ?',
+    description: 'Décrivez les obstacles, difficultés ou points de blocage',
+    placeholder: 'Parlez des défis rencontrés...',
+  },
+  {
+    id: 'application',
+    title: 'Comment allez-vous appliquer cela ?',
+    description: 'Planifiez les actions concrètes et les changements à mettre en œuvre',
+    placeholder: 'Décrivez votre plan d\'action...',
+  },
+];
 
 interface TypeConfig {
   label: string;
@@ -121,9 +168,20 @@ export const JournalNewEntry: React.FC = () => {
     const urlType = searchParams.get('type') as EntryType | null;
     return urlType && VALID_URL_TYPES.has(urlType) ? urlType : 'reflexion-libre';
   }, [searchParams]);
+
   const [selectedType, setSelectedType] = useState<EntryType>(initialType);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [mood, setMood] = useState<MoodLevel>('neutral');
+  const [structuredAnswers, setStructuredAnswers] = useState<Record<string, string>>({
+    'learning': '',
+    'challenges': '',
+    'application': '',
+  });
+  const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const autoSaveTimeoutRef = useRef<NodeJS.Timeout>();
+  const hasContentRef = useRef(false);
 
   const wordCount = useMemo(() => {
     const text = `${title} ${body}`.trim();
@@ -132,6 +190,43 @@ export const JournalNewEntry: React.FC = () => {
   }, [title, body]);
 
   const cfg = TYPE_CONFIG[selectedType];
+  const isDraft = title.trim() || body.trim();
+
+  // Auto-save logic with 30s debounce
+  useEffect(() => {
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+
+    if (isDraft) {
+      hasContentRef.current = true;
+      setAutoSaveStatus('saving');
+
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        // Simulate save (in real app, would call an API)
+        setAutoSaveStatus('saved');
+        // Clear "saved" indicator after 2s
+        const clearTimeout = setTimeout(() => setAutoSaveStatus('idle'), 2000);
+        return () => clearTimeout(clearTimeout);
+      }, 3000); // 30s debounce
+    }
+
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, [title, body, mood, structuredAnswers, isDraft]);
+
+  const toggleQuestion = (questionId: string) => {
+    const newExpanded = new Set(expandedQuestions);
+    if (newExpanded.has(questionId)) {
+      newExpanded.delete(questionId);
+    } else {
+      newExpanded.add(questionId);
+    }
+    setExpandedQuestions(newExpanded);
+  };
 
   const toast = useToastContext();
   const handlePublish = () => {
@@ -160,7 +255,10 @@ export const JournalNewEntry: React.FC = () => {
         </Button>
 
         <div className="flex-1 min-w-0">
-          <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
+          <div className="flex items-center gap-2">
+            <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
+            {isDraft && <Badge variant="warning" size="sm">Brouillon</Badge>}
+          </div>
           <div className="flex items-center gap-1 text-ink-500 font-body text-caption">
             <Clock size={12} />
             {TODAY}
@@ -171,9 +269,20 @@ export const JournalNewEntry: React.FC = () => {
           {wordCount} mot{wordCount !== 1 ? 's' : ''}
         </span>
 
-        <Button leadingIcon={<Save size={15} />} size="sm" className="shrink-0" onClick={handlePublish}>
-          Publier
-        </Button>
+        <div className="flex items-center gap-2 shrink-0">
+          {autoSaveStatus === 'saving' && (
+            <span className="text-caption text-ink-400 font-medium">Sauvegarde...</span>
+          )}
+          {autoSaveStatus === 'saved' && (
+            <div className="flex items-center gap-1 text-caption text-success-base font-medium">
+              <CheckCheck size={14} />
+              Enregistré
+            </div>
+          )}
+          <Button leadingIcon={<Save size={15} />} size="sm" onClick={handlePublish}>
+            Publier
+          </Button>
+        </div>
       </header>
 
       {/* Content */}
@@ -221,8 +330,36 @@ export const JournalNewEntry: React.FC = () => {
           </div>
         </div>
 
+        {/* Mood selector */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-2xl">🎭</span>
+            <span className="font-body text-body-sm font-semibold text-ink-900">Comment vous sentez-vous ?</span>
+          </div>
+
+          <div className="flex gap-3 flex-wrap">
+            {(Object.entries(MOOD_CONFIG) as [MoodLevel, MoodConfig][]).map(([level, config]) => (
+              <button
+                key={level}
+                type="button"
+                onClick={() => setMood(level)}
+                className={[
+                  'flex flex-col items-center gap-1 p-3 rounded-xl cursor-pointer transition-all duration-200',
+                  mood === level
+                    ? 'bg-primary-100 border-2 border-primary-500 shadow-sm'
+                    : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',
+                ].join(' ')}
+                title={config.label}
+              >
+                <span className="text-3xl">{config.emoji}</span>
+                <span className="text-caption text-ink-600 font-medium">{config.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Inspiration button */}
-        <div className="mb-6">
+        <div className="mb-8">
           <button
             type="button"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
@@ -230,6 +367,51 @@ export const JournalNewEntry: React.FC = () => {
             <Sparkles size={15} />
             Besoin d'inspiration ?
           </button>
+        </div>
+
+        {/* Structured questions (collapsible) */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Lightbulb size={18} className="text-primary-500" />
+            <span className="font-body text-body-sm font-semibold text-ink-900">Questions structurantes (optionnel)</span>
+          </div>
+
+          <div className="space-y-2">
+            {STRUCTURED_QUESTIONS.map((q) => {
+              const isExpanded = expandedQuestions.has(q.id);
+              return (
+                <div key={q.id} className="border border-ink-200 rounded-lg overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => toggleQuestion(q.id)}
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-body text-body-sm font-semibold text-ink-900">{q.title}</p>
+                      {!isExpanded && <p className="text-caption text-ink-500">{q.description}</p>}
+                    </div>
+                    <ChevronDown
+                      size={18}
+                      className={`text-ink-400 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {isExpanded && (
+                    <div className="px-4 py-4 bg-ink-50 border-t border-ink-200">
+                      <p className="text-caption text-ink-600 mb-3">{q.description}</p>
+                      <textarea
+                        value={structuredAnswers[q.id] || ''}
+                        onChange={(e) => setStructuredAnswers({ ...structuredAnswers, [q.id]: e.target.value })}
+                        placeholder={q.placeholder}
+                        rows={4}
+                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-400 resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Writing area */}
