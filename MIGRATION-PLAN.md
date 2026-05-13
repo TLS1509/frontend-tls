@@ -523,7 +523,7 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | JournalFreeEntry | `FormLayout` + `EditorialHero` (warm) | S | ⬜ |
 | JournalNewEntry | `MultiStepForm` + prompt selector cards | M | ⬜ |
 | Magazine | `EditorialHero` (sun) + `MagazineCard` grid + filter `Tabs` | M | ⬜ |
-| VeilleContent | `EditorialLayout` + `SectionCard` body + `RelatedItemList` veille connexe | M | ⬜ |
+| VeilleContent | `EditorialLayout` + `SectionCard` body + `RelatedItemList` veille connexe | M | ✅ |
 | Dossier | `EditorialHero` + `ResourceCard` grid via `ResourceCardGrid` + `SectionCard` blocks | L | ⬜ |
 | Collaboration | `EditorialHero` (warm) + `ProfileCard` partners + `SectionCard` projects | L | ⬜ |
 | Messages | Conv list (gauche) + thread (droite) — refonte chat-bubble + `MessageThreadCard` | L | ⬜ |
