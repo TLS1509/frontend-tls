@@ -1,28 +1,45 @@
 /**
- * JournalDetail — vue complète d'une entrée de journal
+ * JournalDetail — Phase 10 Tier 2 polish.
  *
- * Design : lecteur de journal personnel avec breadcrumb, date + tags,
- * titre de l'entrée, sections structurées (Observation, Analyse, Actions),
- * indicateur de mood, navigation entre entrées, CTA nouvelle entrée.
+ * Vue complète d'une entrée de journal — pattern article éditorial.
+ *
+ * Structure :
+ *  1. ReadingProgressBar + sticky glass header (back + ring + new entry)
+ *  2. Breadcrumb + hero compact (eyebrow + h1 + AuthorStrip avec date/readTime)
+ *  3. IntroCallout (mood + résumé)
+ *  4. 3 KeyFindingCard (Observation / Analyse / Actions)
+ *  5. Engagements checklist
+ *  6. Tags
+ *  7. Entry navigation prev/next
+ *  8. New entry CTA brand gradient
  */
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
   ChevronRight,
   CalendarDays,
-  Clock,
-  Tag,
+  Clock3,
+  Tag as TagIcon,
   Sparkles,
   Target,
   Eye,
   Lightbulb,
   CheckCircle2,
   PenLine,
-  BookOpen,
 } from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
+import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import {
+  ReadingProgressBar,
+  ReadingProgressRing,
+} from '../components/patterns/ReadingProgress';
+
+/* ─── Data ───────────────────────────────────────────────────────────────── */
 
 const ENTRY = {
   date: '25 avril 2026',
@@ -31,193 +48,248 @@ const ENTRY = {
   mood: '💡',
   moodLabel: 'Inspiré',
   readTime: '7 min',
-  title: 'Leadership et écoute active — ce que j\'ai appris cette semaine',
+  title: "Leadership et écoute active — ce que j'ai appris cette semaine",
   tags: ['Leadership', 'Communication', 'Équipe', 'Management'],
-  sections: [
-    {
-      icon: <Eye size={16} color="var(--tls-primary-600)" />,
-      label: 'Observation',
-      color: 'var(--tls-primary-50)',
-      border: 'var(--tls-primary-100)',
-      accent: 'var(--tls-primary-500)',
-      text: "Cette semaine, j'ai observé une tension récurrente dans les échanges entre deux membres de l'équipe lors de nos stand-ups quotidiens. En creusant un peu, j'ai réalisé que la source n'était pas un désaccord sur les tâches, mais une attente non formulée sur la façon dont les décisions sont prises. L'un attendait plus de concertation, l'autre plus d'efficacité. Cette observation m'a frappé : combien de conflits apparents cachent en réalité des attentes implicites sur le process ?",
-    },
-    {
-      icon: <Lightbulb size={16} color="var(--tls-orange-600)" />,
-      label: 'Analyse',
-      color: 'var(--tls-orange-50)',
-      border: 'var(--tls-orange-100)',
-      accent: 'var(--tls-orange-500)',
-      text: "En relisant le module sur la communication non-violente suivi le mois dernier, j'ai fait le lien avec ce que je vivais : les besoins non exprimés créent des frustrations qui s'accumulent jusqu'à la confrontation. La clé n'est pas de résoudre le conflit une fois qu'il éclate, mais de créer des rituels d'expression des besoins en amont. J'ai aussi réalisé que mon propre style de communication — direct et orienté solutions — peut parfois court-circuiter le besoin de reconnaissance que certains membres de l'équipe cherchent avant de passer à l'action.",
-    },
-    {
-      icon: <Target size={16} color="var(--tls-success-fg)" />,
-      label: 'Actions à mettre en place',
-      color: 'var(--tls-success-light)',
-      border: 'var(--tls-success-light-bg)',
-      accent: 'var(--tls-success-fg)',
-      text: "Trois actions concrètes pour la semaine prochaine : (1) Organiser un 1:1 avec chacun des deux membres concernés pour valider ma compréhension de la situation et créer un espace d'expression sans jugement. (2) Proposer au collectif un format de rétro bi-mensuel de 30 min où chacun peut exprimer ce qui fonctionne et ce qui freine. (3) Modifier mon animation du stand-up : laisser systématiquement 2 minutes à la fin pour les 'signaux faibles' — ce qui pèse mais n'est pas encore un problème.",
-    },
-  ],
+  author: { name: 'Vous', role: 'Auteur' },
 };
+
+const SECTIONS = [
+  {
+    icon: <Eye size={20} />,
+    tone: 'brand' as const,
+    title: 'Observation',
+    text: "Cette semaine, j'ai observé une tension récurrente dans les échanges entre deux membres de l'équipe lors de nos stand-ups quotidiens. En creusant un peu, j'ai réalisé que la source n'était pas un désaccord sur les tâches, mais une attente non formulée sur la façon dont les décisions sont prises.",
+  },
+  {
+    icon: <Lightbulb size={20} />,
+    tone: 'warm' as const,
+    title: 'Analyse',
+    text: "En relisant le module sur la communication non-violente, j'ai fait le lien avec ce que je vivais : les besoins non exprimés créent des frustrations qui s'accumulent. La clé n'est pas de résoudre le conflit une fois qu'il éclate, mais de créer des rituels d'expression des besoins en amont.",
+  },
+  {
+    icon: <Target size={20} />,
+    tone: 'success' as const,
+    title: 'Actions à mettre en place',
+    text: "Trois actions concrètes : (1) Organiser un 1:1 avec chacun des deux membres concernés. (2) Proposer un format de rétro bi-mensuel de 30 min. (3) Modifier l'animation du stand-up : laisser 2 minutes pour les 'signaux faibles'.",
+  },
+];
+
+const TODOS = [
+  { done: false, text: '1:1 avec Pierre — jeudi 14h' },
+  { done: false, text: '1:1 avec Amélie — vendredi 10h' },
+  { done: false, text: "Proposer format rétro au reste de l'équipe — lundi" },
+  { done: false, text: 'Modifier template stand-up pour inclure "signaux faibles"' },
+];
+
+/* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const JournalDetail: React.FC = () => {
   const navigate = useNavigate();
+  const articleRef = useRef<HTMLElement>(null);
+  const [todos, setTodos] = useState(TODOS);
+
+  const toggleTodo = (i: number) =>
+    setTodos((prev) => prev.map((t, idx) => (idx === i ? { ...t, done: !t.done } : t)));
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-body)' }}>
+    <div className="min-h-screen bg-surface">
+      <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* ─ Top bar ────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--s-4) var(--s-8)', borderBottom: '1px solid var(--border)' }}>
-        <button
-          type="button"
-          onClick={() => navigate('/journal')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--btn-padding-sm)', borderRadius: 'var(--r-full)', border: '1.5px solid var(--border)', background: 'transparent', color: 'var(--text-muted)', fontSize: 'var(--t-sm)', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-        >
-          <ArrowLeft size={14} /> Retour au journal
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/journal/new-entry')}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--s-2-5) var(--s-5)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-sm)', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-body)' }}
-        >
-          <PenLine size={15} /> Nouvelle entrée
-        </button>
+      {/* Sticky glass header */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            leadingIcon={<ArrowLeft size={14} />}
+            onClick={() => navigate('/journal')}
+          >
+            Retour au journal
+          </Button>
+          <div className="flex items-center gap-2">
+            <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
+            <Button
+              variant="primary"
+              size="sm"
+              leadingIcon={<PenLine size={13} />}
+              onClick={() => navigate('/journal/new-entry')}
+            >
+              Nouvelle entrée
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* ─ Breadcrumb ─────────────────────────────────────────── */}
-      <div style={{ padding: 'var(--s-3) var(--s-8)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)', fontSize: 'var(--t-sm)', color: 'var(--text-muted)' }}>
-        <span style={{ cursor: 'pointer', color: 'var(--tls-primary-600)' }} onClick={() => navigate('/journal')}>Journal</span>
-        <ChevronRight size={14} />
-        <span style={{ color: 'var(--text)', fontWeight: 500 }}>{ENTRY.week}</span>
-      </div>
+      <main
+        ref={articleRef}
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+      >
 
-      {/* ─ Hero light ─────────────────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(160deg, var(--tls-primary-50) 0%, var(--surface) 60%)', padding: 'var(--s-8) var(--s-8) var(--s-6)' }}>
-        <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto' }}>
+        {/* Hero éditorial */}
+        <header className="flex flex-col gap-stack">
+          {/* Breadcrumb */}
+          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
+            <button type="button" onClick={() => navigate('/journal')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
+              Journal
+            </button>
+            <ChevronRight size={10} aria-hidden />
+            <span className="text-ink-700">{ENTRY.week}</span>
+          </nav>
 
-          {/* Meta chips */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', marginBottom: 'var(--s-4)', flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1-5)', padding: 'var(--s-1) var(--s-3-5)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-500)', color: 'var(--text-inverse)', fontSize: 'var(--t-caption)', fontWeight: 800, letterSpacing: '0.06em' }}>
-              <Sparkles size={12} /> JOURNAL DE BORD
+          {/* Eyebrow chips */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
+              <Sparkles size={11} /> Journal de bord
             </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '5px 12px', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-caption)', fontWeight: 700 }}>
-              <BookOpen size={12} /> {ENTRY.category}
-            </span>
-            {/* Mood */}
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)', padding: '5px 12px', borderRadius: 'var(--r-full)', background: 'var(--surface-muted)', color: 'var(--text-muted)', fontSize: 'var(--t-caption)', fontWeight: 600, border: '1px solid var(--border)' }}>
+            <Badge variant="brand">{ENTRY.category}</Badge>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
               {ENTRY.mood} {ENTRY.moodLabel}
             </span>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', fontWeight: 900, color: 'var(--text)', margin: '0 0 var(--s-5)', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
+          <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
             {ENTRY.title}
           </h1>
 
-          {/* Meta row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-5)', flexWrap: 'wrap' }}>
-            {[
-              { icon: <CalendarDays size={14} />, label: ENTRY.date },
-              { icon: <Clock size={14} />, label: ENTRY.readTime },
-            ].map((m, i) => (
-              <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-1-5)', color: 'var(--text-muted)', fontSize: 'var(--t-sm)' }}>
-                {m.icon}{m.label}
+          <div className="pt-stack pb-stack-lg border-b border-ink-100">
+            <AuthorStrip
+              variant="compact"
+              name={ENTRY.author.name}
+              role={ENTRY.author.role}
+              meta={[
+                { icon: <CalendarDays size={12} />, text: ENTRY.date },
+                { icon: <Clock3 size={12} />,       text: ENTRY.readTime },
+              ]}
+            />
+          </div>
+        </header>
+
+        {/* Sections — 3 KeyFindingCard */}
+        <section className="flex flex-col gap-stack">
+          {SECTIONS.map((s, i) => (
+            <KeyFindingCard
+              key={i}
+              icon={s.icon}
+              tone={s.tone}
+              title={s.title}
+              description={s.text}
+            />
+          ))}
+        </section>
+
+        {/* Engagements (todos) */}
+        <section className="rounded-2xl border border-ink-100 bg-white p-5 sm:p-6 flex flex-col gap-stack">
+          <h2 className="m-0 font-display text-body font-bold text-ink-900 flex items-center gap-2 tracking-tight">
+            <CheckCircle2 size={16} className="text-primary-600" />
+            Engagements pour la semaine prochaine
+          </h2>
+          <ul className="m-0 p-0 list-none flex flex-col">
+            {todos.map((item, i) => (
+              <li key={i} className={i < todos.length - 1 ? 'border-b border-ink-100' : ''}>
+                <button
+                  type="button"
+                  onClick={() => toggleTodo(i)}
+                  className="w-full flex items-center gap-3 py-3 bg-transparent border-0 cursor-pointer text-left !h-auto !overflow-visible !items-center !font-normal"
+                >
+                  <span
+                    aria-hidden
+                    className={[
+                      'shrink-0 w-5 h-5 inline-flex items-center justify-center rounded-pill border-2 transition-colors duration-base',
+                      item.done
+                        ? 'bg-primary-600 border-primary-600 text-white'
+                        : 'bg-white border-ink-300',
+                    ].join(' ')}
+                  >
+                    {item.done && <CheckCircle2 size={12} strokeWidth={3} />}
+                  </span>
+                  <span
+                    className={[
+                      'font-body text-body-sm',
+                      item.done ? 'text-ink-400 line-through' : 'text-ink-800',
+                    ].join(' ')}
+                  >
+                    {item.text}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Tags */}
+        <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
+          <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
+            <TagIcon size={11} /> Tags
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {ENTRY.tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
+              >
+                {tag}
               </span>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* ─ Body ───────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 'var(--container-narrow)', margin: '0 auto', padding: 'var(--s-6) var(--s-8) var(--s-12)' }}>
-
-        {/* Sections structurées */}
-        {ENTRY.sections.map((section, i) => (
-          <div key={i} style={{ background: section.color, border: `1.5px solid ${section.border}`, borderLeft: `4px solid ${section.accent}`, borderRadius: 'var(--r-xl)', padding: 'var(--s-5) var(--s-6)', marginBottom: 'var(--s-5)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', marginBottom: 'var(--s-3)' }}>
-              {section.icon}
-              <span style={{ fontSize: 'var(--t-caption)', fontWeight: 800, color: section.accent, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{section.label}</span>
-            </div>
-            <p style={{ fontSize: 'var(--t-sm)', color: 'var(--text)', lineHeight: 1.85, margin: 0 }}>{section.text}</p>
-          </div>
-        ))}
-
-        {/* Actions checklist */}
-        <div style={{ background: 'var(--surface-muted)', border: '1px solid var(--border)', borderRadius: 'var(--r-xl)', padding: 'var(--s-5) var(--s-6)', marginBottom: 'var(--s-7)' }}>
-          <div style={{ fontWeight: 800, color: 'var(--text)', marginBottom: 'var(--s-3)', fontSize: 'var(--t-sm)', display: 'flex', alignItems: 'center', gap: 'var(--s-2)' }}>
-            <CheckCircle2 size={15} color="var(--tls-primary-500)" /> Engagements pour S15
-          </div>
-          {[
-            { done: false, text: '1:1 avec Pierre — jeudi 14h' },
-            { done: false, text: '1:1 avec Amélie — vendredi 10h' },
-            { done: false, text: 'Proposer format rétro au reste de l\'équipe — lundi' },
-            { done: false, text: 'Modifier template stand-up pour inclure "signaux faibles"' },
-          ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', padding: '8px 0', borderBottom: i < 3 ? '1px solid var(--border)' : 'none' }}>
-              <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: `2px solid ${item.done ? 'var(--tls-primary-500)' : 'var(--border)'}`, background: item.done ? 'var(--tls-primary-500)' : 'transparent', flexShrink: 0 }} />
-              <span style={{ fontSize: 'var(--t-sm)', color: item.done ? 'var(--text-muted)' : 'var(--text)', textDecoration: item.done ? 'line-through' : 'none' }}>{item.text}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Tags */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-2)', flexWrap: 'wrap', marginBottom: 'var(--s-6)' }}>
-          <Tag size={14} style={{ color: 'var(--text-muted)' }} />
-          {ENTRY.tags.map((tag) => (
-            <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', padding: 'var(--s-1) var(--s-2-5)', borderRadius: 'var(--r-full)', background: 'var(--tls-primary-50)', color: 'var(--tls-primary-700)', fontSize: 'var(--t-caption)', fontWeight: 600, border: '1px solid var(--tls-primary-100)' }}>
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div style={{ height: '1px', background: 'var(--border)', margin: 'var(--s-2) 0 var(--s-6)' }} />
-
-        {/* Navigation between entries */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--s-3)', marginBottom: 'var(--s-8)' }}>
+        {/* Entry navigation prev/next */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', border: '1.5px solid var(--border)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-body)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+            className="flex items-center gap-3 p-4 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left"
           >
-            <ArrowLeft size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-            <div>
-              <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 'var(--s-1)' }}>Entrée précédente</div>
-              <div style={{ fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>Semaine 13 — Délégation</div>
+            <ArrowLeft size={16} className="text-ink-400 shrink-0" />
+            <div className="flex-1 min-w-0">
+              <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+                Entrée précédente
+              </div>
+              <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                Semaine 13 — Délégation
+              </div>
             </div>
           </button>
           <button
             type="button"
             onClick={() => navigate(1)}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 'var(--s-3)', padding: 'var(--s-4)', borderRadius: 'var(--r-xl)', border: '1.5px solid var(--border)', background: 'var(--surface)', cursor: 'pointer', textAlign: 'right', fontFamily: 'var(--font-body)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--tls-primary-300)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+            className="flex items-center justify-end gap-3 p-4 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right"
           >
-            <div>
-              <div style={{ fontSize: 'var(--t-micro)', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 'var(--s-1)' }}>Entrée suivante</div>
-              <div style={{ fontSize: 'var(--t-sm)', fontWeight: 600, color: 'var(--text)' }}>Semaine 15 — Feedback</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+                Entrée suivante
+              </div>
+              <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                Semaine 15 — Feedback
+              </div>
             </div>
-            <ArrowRight size={16} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+            <ArrowRight size={16} className="text-ink-400 shrink-0" />
           </button>
         </div>
 
         {/* New entry CTA */}
-        <div style={{ background: 'linear-gradient(135deg, var(--tls-primary-500) 0%, var(--tls-primary-600) 100%)', borderRadius: 'var(--r-xl)', padding: 'var(--s-6)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--s-4)' }}>
-          <div>
-            <div style={{ fontSize: 'var(--t-body)', fontWeight: 800, color: 'var(--text-inverse)', marginBottom: 'var(--s-1)' }}>Qu'avez-vous appris cette semaine ?</div>
-            <div style={{ fontSize: 'var(--t-sm)', color: 'var(--overlay-white-xl)' }}>Capturez vos observations pendant qu'elles sont fraîches.</div>
+        <section className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+          <div className="flex-1">
+            <h3 className="m-0 font-display text-h4 font-bold mb-1">
+              Qu'avez-vous appris cette semaine ?
+            </h3>
+            <p className="m-0 font-body text-body-sm text-white/85">
+              Capturez vos observations pendant qu'elles sont fraîches.
+            </p>
           </div>
-          <button
-            type="button"
+          <Button
+            variant="glass-light"
+            size="md"
+            leadingIcon={<PenLine size={14} />}
             onClick={() => navigate('/journal/new-entry')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', padding: 'var(--btn-padding-md)', borderRadius: 'var(--r-full)', border: 'none', background: 'var(--surface)', color: 'var(--tls-primary-600)', fontSize: 'var(--t-sm)', fontWeight: 800, cursor: 'pointer', fontFamily: 'var(--font-body)', whiteSpace: 'nowrap', flexShrink: 0 }}
+            className="self-start sm:self-center shrink-0"
           >
-            <PenLine size={15} /> Nouvelle entrée
-          </button>
-        </div>
-      </div>
+            Nouvelle entrée
+          </Button>
+        </section>
+      </main>
     </div>
   );
 };
+
+export default JournalDetail;
