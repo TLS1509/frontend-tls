@@ -530,8 +530,8 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 | WeeklyNewsletter | `EditorialLayout` + `SectionCard` rubriques + `RelatedItemList` past issues | M | ✅ |
 | Onboarding | `MultiStepForm` + `EditorialHero` (brand) + progress `Stepper` | M | ⬜ |
 | LearningSpace | Déjà migré partiellement — audit consistance spacing semantic + tone | S | ✅ |
-| Enterprise | `EditorialHero` (brand) + `IconFeatureCard` grid + `SectionCard` blocks | M | ⬜ |
-| PagesIndex | `EditorialHero` (neutral) + grouped `ActionCard` grid via `ActionCardGrid` | S | ⬜ |
+| Enterprise | `EditorialHero` (brand) + `IconFeatureCard` grid + `SectionCard` blocks | M | ✅ |
+| PagesIndex | `EditorialHero` (neutral) + grouped `ActionCard` grid via `ActionCardGrid` | S | ✅ |
 | PreCoachingQuestionnaire | `MultiStepForm` + `QuizQuestionCard` items | M | ⬜ |
 | CoachingCompteRendu | `EditorialLayout` + `SectionCard` sections + `RelatedItemList` next steps | M | ⬜ |
 
