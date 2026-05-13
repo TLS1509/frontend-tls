@@ -1,13 +1,17 @@
 /**
- * Magazine Page
+ * Magazine — Phase 10 Tier 2 refonte.
  *
- * Design d'après screenshots :
- * - Hero plein écran sombre (photo overlay) avec titre + date
- * - "Synthèse Exécutive" carte blanche
- * - "Sommaire du magazine" carte avec header orange + liste numérotée teal/orange
+ * Page landing du Magazine TLS (numéro courant) — pattern issue/numéro.
+ *
+ * Structure (per Figma audit) :
+ *  1. Sticky glass header (back + bookmark + download)
+ *  2. Full-bleed dark hero avec eyebrow + h1 + meta date/pages
+ *  3. EditorialLayout asideFirst — Synthèse exécutive sticky gauche
+ *     + Sommaire numéroté droite (NumberedArticleListItem)
  */
 
 import React from 'react';
+import { useBookmarksStore } from '../stores/persistence';
 import { useNavigate } from 'react-router-dom';
 import {
   ChevronRight,
@@ -16,463 +20,218 @@ import {
   ArrowRight,
   CalendarDays,
   FileText,
+  ArrowLeft,
+  Bookmark,
+  Share2,
+  CheckCircle2,
 } from 'lucide-react';
-import './Magazine.css';
+import { Button } from '../components/core/Button';
+import { EditorialLayout } from '../components/patterns/EditorialLayout';
+import { SectionCard } from '../components/patterns/SectionCard';
 
-/* ─── Mock data ──────────────────────────────────────────────────────────── */
+/* ─── Data ───────────────────────────────────────────────────────────────── */
 
-const SOMMAIRE = [
-  {
-    num: '01',
-    title: "L'IA générative redéfinit la conception pédagogique",
-    pages: 'pp. 4–12',
-    color: 'var(--tls-primary-500)',
-  },
-  {
-    num: '02',
-    title: 'Micro-learning et neurosciences : ce que la science dit vraiment',
-    pages: 'pp. 14–22',
-    color: 'var(--tls-orange-500)',
-  },
-  {
-    num: '03',
-    title: "Portrait : 10 formateurs qui transforment leur pratique avec l'IA",
-    pages: 'pp. 24–30',
-    color: 'var(--tls-orange-600)',
-  },
-  {
-    num: '04',
-    title: 'Outils du moment : comparatif des LMS nouvelle génération',
-    pages: 'pp. 32–40',
-    color: 'var(--tls-primary-600)',
-  },
-  {
-    num: '05',
-    title: 'Tendances 2026 : ce qui va changer dans la formation professionnelle',
-    pages: 'pp. 42–50',
-    color: 'var(--tls-orange-500)',
-  },
-  {
-    num: '06',
-    title: 'Tribune libre : quel futur pour le métier de formateur ?',
-    pages: 'pp. 52–56',
-    color: 'var(--tls-primary-500)',
-  },
+interface MagazineEntry {
+  num: string;
+  title: string;
+  pages: string;
+  tone: 'brand' | 'warm' | 'sun';
+}
+
+const SOMMAIRE: MagazineEntry[] = [
+  { num: '01', title: "L'IA générative redéfinit la conception pédagogique",                pages: 'pp. 4–12',  tone: 'brand' },
+  { num: '02', title: 'Micro-learning et neurosciences : ce que la science dit vraiment',   pages: 'pp. 14–22', tone: 'warm'  },
+  { num: '03', title: "Portrait : 10 formateurs qui transforment leur pratique avec l'IA", pages: 'pp. 24–30', tone: 'sun'   },
+  { num: '04', title: 'Outils du moment : comparatif des LMS nouvelle génération',         pages: 'pp. 32–40', tone: 'brand' },
+  { num: '05', title: 'Tendances 2026 : ce qui va changer dans la formation professionnelle', pages: 'pp. 42–50', tone: 'warm'  },
+  { num: '06', title: 'Tribune libre : quel futur pour le métier de formateur ?',           pages: 'pp. 52–56', tone: 'sun'   },
 ];
+
+const SUMMARY_POINTS = [
+  '6 thématiques approfondies',
+  '12 formateurs interviewés',
+  '3 études de cas inédites',
+  'Outils & ressources inclus',
+];
+
+const ENTRY_TONE: Record<'brand' | 'warm' | 'sun', { num: string; hover: string }> = {
+  brand: { num: 'text-primary-600',   hover: 'hover:bg-primary-50' },
+  warm:  { num: 'text-secondary-600', hover: 'hover:bg-secondary-50' },
+  sun:   { num: 'text-accent-700',    hover: 'hover:bg-accent-50' },
+};
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const Magazine: React.FC = () => {
   const navigate = useNavigate();
+  const bookmarkKey = 'magazine-current-issue';
+  const saved = useBookmarksStore((s) => s.ids.includes(bookmarkKey));
+  const toggleBookmark = useBookmarksStore((s) => s.toggle);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'var(--bg)',
-        fontFamily: 'var(--font-body)',
-      }}
-    >
-      {/* ─ Full-bleed dark hero ─────────────────────────────────── */}
-      <div
-        style={{
-          position: 'relative',
-          minHeight: '480px',
-          background: 'linear-gradient(160deg, var(--tls-ink-950) 0%, var(--tls-ink-900) 40%, var(--tls-ink-800) 70%, var(--tls-ink-800) 100%)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Decorative blobs */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '-80px',
-            right: '-80px',
-            width: '400px',
-            height: '400px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, var(--tls-primary-300) 0%, transparent 70%)',
-            pointerEvents: 'none',
-            opacity: 0.2,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-60px',
-            left: '-60px',
-            width: '350px',
-            height: '350px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, var(--tls-orange-300) 0%, transparent 70%)',
-            pointerEvents: 'none',
-            opacity: 0.15,
-          }}
-        />
-
-        {/* Breadcrumb */}
-        <div
-          style={{
-            padding: 'var(--s-5) var(--s-8)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--s-2)',
-            fontSize: 'var(--t-sm)',
-            color: 'var(--on-color-text-muted)',
-            position: 'relative',
-            zIndex: 2,
-          }}
-        >
-          <span
-            style={{ cursor: 'pointer', color: 'var(--text-inverse)', opacity: 0.8 }}
+    <div className="min-h-screen bg-surface">
+      {/* Sticky glass header */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            leadingIcon={<ArrowLeft size={14} />}
             onClick={() => navigate('/veille')}
           >
-            Veille
-          </span>
-          <ChevronRight size={14} />
-          <span style={{ color: 'var(--text-inverse)', opacity: 0.9, fontWeight: 500 }}>Magazine</span>
-        </div>
+            Retour à la veille
+          </Button>
 
-        {/* Hero content */}
-        <div
-          style={{
-            padding: 'var(--s-6) var(--s-8) var(--s-10)',
-            position: 'relative',
-            zIndex: 2,
-          }}
-        >
-          {/* Magazine label */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              padding: 'var(--s-1) var(--s-3-5)',
-              borderRadius: 'var(--r-full)',
-              background: 'var(--overlay-white-xs)',
-              border: '1px solid var(--overlay-white-sm)',
-              color: 'var(--text-inverse)',
-              fontSize: 'var(--t-caption)',
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              marginBottom: 'var(--s-5)',
-              backdropFilter: 'blur(8px)',
-            }}
-          >
-            <BookOpen size={13} />
-            MAGAZINE TLS · ÉDITION PRINTEMPS 2026
+          <div className="flex items-center gap-2">
+            <Button variant="primary" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
+              Télécharger le PDF
+            </Button>
+            <Button
+              variant={saved ? 'primary' : 'ghost'}
+              size="sm"
+              iconOnly
+              aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
+              onClick={() => toggleBookmark(bookmarkKey)}
+            >
+              <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
+            </Button>
+            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+              <Share2 size={15} />
+            </Button>
           </div>
+        </div>
+      </div>
 
-          <h1
-            style={{
-              fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-              fontWeight: 900,
-              color: 'var(--text-inverse)',
-              margin: '0 0 var(--s-4)',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.05,
-              maxWidth: 'var(--container-narrow)',
-            }}
-          >
-            L'IA au Cœur de la Formation
+      {/* Full-bleed dark hero */}
+      <section className="relative bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 overflow-hidden">
+        {/* Decorative radial blobs — colored ambient */}
+        <div
+          aria-hidden
+          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full opacity-25 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(150,195,207,0.5) 0%, transparent 70%)' }}
+        />
+        <div
+          aria-hidden
+          className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-full opacity-20 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(245,154,95,0.6) 0%, transparent 70%)' }}
+        />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section sm:py-page flex flex-col gap-stack-lg">
+          {/* Breadcrumb */}
+          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-caption text-white/60">
+            <button type="button" onClick={() => navigate('/veille')} className="hover:text-white bg-transparent border-0 cursor-pointer p-0">
+              Veille
+            </button>
+            <ChevronRight size={11} aria-hidden />
+            <span className="text-white/90 font-medium">Magazine TLS</span>
+          </nav>
+
+          {/* Eyebrow */}
+          <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
+            <BookOpen size={12} />
+            Magazine TLS · Édition Printemps 2026
+          </span>
+
+          <h1 className="m-0 font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl">
+            L'IA au cœur de la formation
           </h1>
-          <p
-            style={{
-              fontSize: 'var(--t-body)',
-              color: 'var(--text-inverse)',
-              opacity: 0.7,
-              margin: '0 0 var(--s-5)',
-              maxWidth: '540px',
-              lineHeight: 1.6,
-            }}
-          >
+
+          <p className="m-0 font-body text-body-lg text-white/75 leading-relaxed max-w-2xl">
             56 pages de recherches, portraits, analyses et tendances pour transformer vos
             pratiques pédagogiques en 2026.
           </p>
 
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-5)',
-            }}
-          >
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                color: 'var(--text-inverse)',
-                opacity: 0.6,
-                fontSize: 'var(--t-sm)',
-              }}
-            >
-              <CalendarDays size={14} />
-              Avril 2026
+          <div className="flex items-center gap-5 flex-wrap font-body text-caption text-white/70">
+            <span className="inline-flex items-center gap-1.5">
+              <CalendarDays size={13} /> Avril 2026
             </span>
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--s-2)',
-                color: 'var(--text-inverse)',
-                opacity: 0.6,
-                fontSize: 'var(--t-sm)',
-              }}
-            >
-              <FileText size={14} />
-              56 pages
+            <span aria-hidden className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <FileText size={13} /> 56 pages
+            </span>
+            <span aria-hidden className="text-white/30">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Download size={13} /> 1 240 téléchargements
             </span>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* ─ Below hero ───────────────────────────────────────────── */}
-      <div
-        style={{
-          maxWidth: 'var(--container-default)',
-          margin: '0 auto',
-          padding: 'var(--s-8) var(--s-6) var(--s-12)',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 'var(--s-6)',
-          alignItems: 'start',
-        }}
-      >
-        {/* ─ Synthèse Exécutive ──────────────────────────────── */}
-        <div
-          style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--r-2xl)',
-            padding: 'var(--s-6)',
-            boxShadow: 'var(--shadow-md)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-3)',
-              marginBottom: 'var(--s-5)',
-            }}
-          >
-            <div
-              style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: 'var(--r-xl)',
-                background: 'var(--tls-primary-50)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--tls-primary-600)',
-                flexShrink: 0,
-              }}
+      {/* Body — Editorial layout aside-left (Synthèse) + Sommaire main */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+        <EditorialLayout
+          asideFirst
+          aside={
+            <SectionCard
+              titleIcon={<FileText size={18} />}
+              title="Synthèse exécutive"
+              description="Lecture rapide"
+              actions={
+                <Button variant="primary" size="sm" leadingIcon={<Download size={13} />}>
+                  Télécharger le PDF
+                </Button>
+              }
             >
-              <FileText size={20} />
-            </div>
-            <div>
-              <div
-                style={{
-                  fontSize: 'var(--t-micro)',
-                  fontWeight: 700,
-                  color: 'var(--tls-primary-600)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                Lecture rapide
-              </div>
-              <h2
-                style={{
-                  fontSize: 'var(--t-body)',
-                  fontWeight: 800,
-                  color: 'var(--text)',
-                  margin: 0,
-                }}
-              >
-                Synthèse Exécutive
-              </h2>
-            </div>
-          </div>
+              <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
+                Ce numéro explore comment l'IA générative transforme concrètement le métier de
+                formateur — de la conception des contenus à la personnalisation des parcours.
+                Nos experts dressent un panorama complet des pratiques émergentes, soutenu par
+                des données terrain et des témoignages de formateurs pionniers.
+              </p>
 
-          <p
-            style={{
-              fontSize: 'var(--t-sm)',
-              color: 'var(--text-muted)',
-              lineHeight: 1.7,
-              margin: '0 0 var(--s-5)',
-            }}
-          >
-            Ce numéro explore comment l'IA générative transforme concrètement le métier de
-            formateur — de la conception des contenus à la personnalisation des parcours.
-            Nos experts dressent un panorama complet des pratiques émergentes, soutenu par
-            des données terrain et des témoignages de formateurs pionniers.
-          </p>
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--s-2)',
-              marginBottom: 'var(--s-5)',
-            }}
-          >
-            {[
-              '6 thématiques approfondies',
-              '12 formateurs interviewés',
-              '3 études de cas inédites',
-              'Outils & ressources inclus',
-            ].map((point, i) => (
-              <div
-                key={i}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--s-2)',
-                  fontSize: 'var(--t-sm)',
-                  color: 'var(--text)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    background: 'var(--tls-primary-500)',
-                    flexShrink: 0,
-                  }}
-                />
-                {point}
-              </div>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 'var(--s-2)',
-              padding: 'var(--btn-padding-md-sm)',
-              borderRadius: 'var(--r-full)',
-              background: 'var(--tls-primary-500)',
-              border: 'none',
-              color: 'var(--text-inverse)',
-              fontWeight: 700,
-              fontSize: 'var(--t-sm)',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-body)',
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--tls-primary-600)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--tls-primary-500)')}
-          >
-            <Download size={14} />
-            Télécharger le PDF
-          </button>
-        </div>
-
-        {/* ─ Sommaire du magazine ────────────────────────────── */}
-        <div
-          style={{
-            borderRadius: 'var(--r-2xl)',
-            overflow: 'hidden',
-            border: '1px solid var(--border)',
-            boxShadow: 'var(--shadow-md)',
-          }}
-        >
-          {/* Orange header */}
-          <div
-            style={{
-              background: 'var(--tls-orange-500)',
-              padding: 'var(--s-4) var(--s-5)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--s-3)',
-            }}
-          >
-            <BookOpen size={20} color="var(--text-inverse)" />
-            <h2
-              style={{
-                fontSize: 'var(--t-body)',
-                fontWeight: 800,
-                color: 'var(--text-inverse)',
-                margin: 0,
-              }}
+              <ul className="m-0 p-0 list-none flex flex-col gap-2 mt-stack">
+                {SUMMARY_POINTS.map((point, i) => (
+                  <li key={i} className="flex items-center gap-2 font-body text-body-sm text-ink-800">
+                    <CheckCircle2 size={14} className="text-primary-600 shrink-0" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </SectionCard>
+          }
+          main={
+            <SectionCard
+              titleIcon={<BookOpen size={18} />}
+              title="Sommaire du magazine"
+              description="6 articles · 56 pages"
             >
-              Sommaire du magazine
-            </h2>
-          </div>
-
-          {/* Article list */}
-          <div style={{ background: 'var(--surface)' }}>
-            {SOMMAIRE.map((item, index) => (
-              <div
-                key={item.num}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 'var(--s-3)',
-                  padding: 'var(--s-4) var(--s-5)',
-                  borderBottom:
-                    index < SOMMAIRE.length - 1 ? '1px solid var(--border)' : 'none',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-muted)')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
-                onClick={() => navigate('/veille/magazine-article/1')}
-              >
-                {/* Number */}
-                <span
-                  style={{
-                    fontSize: 'var(--t-h3)',
-                    fontWeight: 900,
-                    color: item.color,
-                    lineHeight: 1,
-                    minWidth: '32px',
-                    flexShrink: 0,
-                    fontVariantNumeric: 'tabular-nums',
-                  }}
-                >
-                  {item.num}
-                </span>
-
-                {/* Text */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p
-                    style={{
-                      fontSize: 'var(--t-sm)',
-                      fontWeight: 600,
-                      color: 'var(--text)',
-                      margin: '0 0 var(--s-1)',
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {item.title}
-                  </p>
-                  <span
-                    style={{
-                      fontSize: 'var(--t-caption)',
-                      color: 'var(--text-muted)',
-                      fontStyle: 'italic',
-                    }}
-                  >
-                    {item.pages}
-                  </span>
-                </div>
-
-                <ArrowRight size={14} style={{ color: 'var(--text-muted)', flexShrink: 0, marginTop: '4px' }} />
+              <div className="-mx-5 -mb-5 sm:-mx-6 sm:-mb-6">
+                {SOMMAIRE.map((item, index) => {
+                  const tone = ENTRY_TONE[item.tone];
+                  return (
+                    <button
+                      key={item.num}
+                      type="button"
+                      onClick={() => navigate('/veille/magazine-article/1')}
+                      className={[
+                        'w-full flex items-start gap-4 px-5 sm:px-6 py-4 text-left cursor-pointer transition-colors duration-base',
+                        tone.hover,
+                        index < SOMMAIRE.length - 1 ? 'border-b border-ink-100' : '',
+                        '!h-auto !overflow-visible !items-start !font-normal',
+                      ].join(' ')}
+                    >
+                      <span className={`font-display text-h2 font-extrabold leading-none min-w-[40px] shrink-0 tabular-nums ${tone.num}`}>
+                        {item.num}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="m-0 font-body text-body font-semibold text-ink-900 leading-snug">
+                          {item.title}
+                        </p>
+                        <span className="font-body text-caption text-ink-500 italic mt-1 inline-block">
+                          {item.pages}
+                        </span>
+                      </div>
+                      <ArrowRight size={15} className="text-ink-400 shrink-0 mt-1.5" />
+                    </button>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        </div>
+            </SectionCard>
+          }
+        />
       </div>
     </div>
   );
 };
+
+export default Magazine;
