@@ -61,6 +61,31 @@ import {
   SubscriptionPayment,
   VerifyEmail,
   MagicLink,
+  Passeport,
+  Gamification,
+  CoachDashboard,
+  ManagerEnterprise,
+  ManagerCohort,
+  // Phase 12
+  PasseportCompetenceDetail,
+  PasseportObjectifs,
+  CoachHeatmap,
+  OnboardingSuccess,
+  OnboardingTutorial,
+  CoachingSessionDetail,
+  CoachingCorrections,
+  CoachCorrectionsQueue,
+  CoachCorrectionInterface,
+  CoachApprenants,
+  BadgeDetail,
+  ProfileBadgesCompetences,
+  ManagerAlerts,
+  ManagerExport,
+  DashboardCompetenceDetail,
+  CoachTeamDashboard,
+  FicheApprenantAnalytics,
+  ProfilePrivacy,
+  EnterpriseAnalyticsDashboard,
   Coaching,
   Collaboration,
   Login,
@@ -107,6 +132,12 @@ import {
   VideoViewer,
   CoachingCompteRendu,
 } from './pages';
+import ChatInterface from './pages/ChatInterface';
+import ChatHistoryPanel from './pages/ChatHistoryPanel';
+import OpenBadgesSection from './pages/OpenBadgesSection';
+import CreditsPage from './pages/CreditsPage';
+import CoachProfileView from './pages/CoachProfileView';
+import WebhooksManagement from './pages/WebhooksManagement';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
 // CSS is centrally managed in globals.css — no direct imports needed here
@@ -444,6 +475,32 @@ function App() {
                   <Route path="/coaching/compte-rendu/:id" element={<CoachingCompteRendu />} />
                   <Route path="/account" element={<Account />} />
                   <Route path="/account/billing" element={<Billing />} />
+                  {/* Phase 11 — MVP pages */}
+                  <Route path="/passeport" element={<Passeport />} />
+                  <Route path="/gamification" element={<Gamification />} />
+                  <Route path="/coach/dashboard" element={<CoachDashboard />} />
+                  <Route path="/manager/enterprise" element={<ManagerEnterprise />} />
+                  <Route path="/manager/cohort" element={<ManagerCohort />} />
+                  {/* Phase 12 — MVP P0 pages */}
+                  <Route path="/passeport/competence/:id" element={<PasseportCompetenceDetail />} />
+                  <Route path="/passeport/objectifs" element={<PasseportObjectifs />} />
+                  <Route path="/coach/passeport" element={<CoachHeatmap />} />
+                  <Route path="/onboarding/success" element={<OnboardingSuccess />} />
+                  <Route path="/onboarding/tutorial" element={<OnboardingTutorial />} />
+                  <Route path="/coaching/session/:id" element={<CoachingSessionDetail />} />
+                  <Route path="/coaching/corrections" element={<CoachingCorrections />} />
+                  <Route path="/coach/corrections" element={<CoachCorrectionsQueue />} />
+                  <Route path="/coach/correction/:id" element={<CoachCorrectionInterface />} />
+                  <Route path="/coach/apprenants" element={<CoachApprenants />} />
+                  <Route path="/gamification/badge/:id" element={<BadgeDetail />} />
+                  <Route path="/profile/badges/competences" element={<ProfileBadgesCompetences />} />
+                  <Route path="/manager/alerts" element={<ManagerAlerts />} />
+                  <Route path="/manager/export" element={<ManagerExport />} />
+                  <Route path="/dashboard/competence/:id" element={<DashboardCompetenceDetail />} />
+                  <Route path="/coach/team-dashboard" element={<CoachTeamDashboard />} />
+                  <Route path="/coach/apprenant/:id/analytics" element={<FicheApprenantAnalytics />} />
+                  <Route path="/profile/privacy" element={<ProfilePrivacy />} />
+                  <Route path="/enterprise/dashboard" element={<EnterpriseAnalyticsDashboard />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
@@ -460,6 +517,12 @@ function App() {
                   <Route path="/lesson/:id/complementary" element={<ComplementaryContentViewer />} />
                   <Route path="/lesson/:id/flashcards" element={<FlashcardsViewer />} />
                   <Route path="/veille/video/:id" element={<VideoViewer />} />
+                  <Route path="/assistant" element={<ChatInterface />} />
+                  <Route path="/assistant/history" element={<ChatHistoryPanel />} />
+                  <Route path="/profile/open-badges" element={<OpenBadgesSection />} />
+                  <Route path="/profile/credits" element={<CreditsPage />} />
+                  <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
+                  <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               </AppLayout>

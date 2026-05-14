@@ -164,6 +164,15 @@ import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
 import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
+import { ConsentBanner } from '../components/patterns/ConsentBanner';
+import { CompetencyRadar } from '../components/ui/CompetencyRadar';
+import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { AIOverrideButton } from '../components/ui/AIOverrideButton';
+import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
+import { HeatmapGrid } from '../components/ui/HeatmapGrid';
+import { CorrectionCard } from '../components/ui/CorrectionCard';
+import { StepTutorial } from '../components/patterns/StepTutorial';
+import { NewsletterSignupCard } from '../components/patterns/NewsletterSignupCard';
 
 /* ============================================================================
  * TYPES
@@ -401,6 +410,18 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
 
   // ── AUTH FAMILY ───────────────────────────────────────────────────────
   AuthShell:            { category: 'Auth Family', subCategory: 'Shell & layout' },
+
+  // ── MVP — GDPR / IA / Compétences ─────────────────────────────────────
+  ConsentBanner:        { category: 'Patterns', subCategory: 'GDPR & Compliance' },
+  CompetencyRadar:      { category: 'Learning', subCategory: 'Compétences' },
+  AITransparencyLabel:  { category: 'Atoms', subCategory: 'AI indicators' },
+  AIOverrideButton:     { category: 'Atoms', subCategory: 'AI indicators' },
+  AtrophieIndicator:    { category: 'Learning', subCategory: 'Compétences' },
+
+  // ── PHASE 12 — Heatmap / Corrections / Tutorial ──────────────────────
+  HeatmapGrid:          { category: 'Learning', subCategory: 'Compétences' },
+  CorrectionCard:       { category: 'Atoms', subCategory: 'Coaching' },
+  StepTutorial:         { category: 'Patterns', subCategory: 'Onboarding' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
@@ -2917,9 +2938,9 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'GoalProgress.tsx',
     cssBase: 'GoalProgress (inline styles)',
     category: 'Learning',
-    showcaseOnly: true,
     description: 'Suivi de progression vers un objectif d\'apprentissage: nom, %, temps restant, indicateur on-track/retard. Tones: primary/warm/success/danger.',
     keywords: ['goal', 'progress', 'target', 'deadline', 'on-track', 'learning'],
+    usedBy: ['Passeport', 'PasseportObjectifs'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <GoalProgress goal="Terminer le parcours Leadership" percentComplete={72} daysRemaining={8} isOnTrack={true} tone="primary" />
@@ -3808,26 +3829,9 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs p-5">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
                 <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
-              </div>
-            </article>
-          </div>
-
-          {/* Design B — Minimal (no cover, text-first editorial) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">B · Minimal text-first · pas de cover, accent stripe colored left</p>
-            <article className="flex rounded-2xl bg-white border border-ink-200 overflow-hidden">
-              <div className="w-1.5 bg-accent-500 shrink-0" />
-              <div className="flex flex-col gap-stack-xs p-5 flex-1">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                  <button className="text-ink-400 hover:text-ink-700"><Bookmark size={16} /></button>
-                </div>
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
+                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
             </article>
           </div>
@@ -3842,8 +3846,9 @@ const COMPONENTS: ComponentEntry[] = [
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
               <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+              <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
               <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">{item.summary}</p>
-              <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
+              <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
             </article>
           </div>
 
@@ -3857,7 +3862,7 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-5 text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-h4 font-bold leading-tight">{item.title}</h3>
+                <h3 className="m-0 font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="font-bold">Lire →</span>
@@ -3884,94 +3889,6 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
 
-          {/* Design F — Number-anchored (newspaper editorial) */}
-          <div className="flex flex-col gap-stack-xs md:col-span-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">F · Number-anchored · big number date à gauche (newspaper editorial style)</p>
-            <article className="flex items-stretch rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer max-w-2xl">
-              <div className="flex flex-col items-center justify-center w-28 shrink-0 bg-accent-50 border-r border-accent-200 p-5">
-                <span className="font-display text-h1 font-black text-accent-700 leading-none">22</span>
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-accent-700 mt-tight">min</span>
-                <span className="font-body text-micro text-ink-500 mt-stack-xs">lecture</span>
-              </div>
-              <div className="flex flex-col gap-stack-xs p-5 flex-1">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                  <button className="text-ink-400 hover:text-ink-700"><Bookmark size={16} /></button>
-                </div>
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100 mt-stack-xs">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
-                  <span className="text-caption font-bold text-accent-700">Lire en profondeur →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-          {/* Design G — Cover with bottom-overlap card (modern layered) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">G · Layered overlap · cover image avec card content qui remonte par-dessus</p>
-            <article className="relative pt-32 hover:-translate-y-1 transition-all cursor-pointer">
-              {/* Cover gradient en absolute top */}
-              <div className="absolute top-0 left-0 right-0 h-44 rounded-2xl bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
-              </div>
-              {/* Content card en overlap */}
-              <div className="relative bg-white border border-ink-200 rounded-2xl p-5 mx-3 shadow-lg flex flex-col gap-stack-xs">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100 mt-stack-xs">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-          {/* Design H — Quote spotlight (pull quote dominant) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">H · Quote spotlight · pull quote dominant (style éditorial premium)</p>
-            <article className="flex flex-col rounded-2xl bg-white border border-ink-200 p-6 gap-stack hover:shadow-lg cursor-pointer">
-              <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-              <blockquote className="m-0 relative pl-6 border-l-4 border-accent-400">
-                <span className="absolute -top-2 -left-1 text-h2 text-accent-400/40 font-display leading-none">"</span>
-                <p className="m-0 font-display text-h4 font-bold text-ink-900 leading-snug italic">
-                  Une transformation IA n'est pas une question de technologie mais d'écosystème pédagogique complet.
-                </p>
-              </blockquote>
-              <h3 className="m-0 font-body text-body-sm font-semibold text-ink-700 leading-tight">→ {item.title}</h3>
-              <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
-                <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
-                <span className="text-caption font-bold text-accent-700">Lire l'analyse →</span>
-              </footer>
-            </article>
-          </div>
-
-          {/* Design I — Sticker badge angled (postcard playful) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">I · Sticker badge angled · postcard playful avec badge tilted</p>
-            <article className="relative flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all cursor-pointer">
-              <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
-              </div>
-              {/* Sticker badge tilted */}
-              <span className="absolute top-2 right-2 -rotate-6 inline-flex items-center gap-1 px-3 py-1.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-black uppercase tracking-wider shadow-lg border-2 border-white">
-                ⭐ Must-read
-              </span>
-              <div className="flex flex-col gap-stack-xs p-5">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
           {/* Design J — Editorial portrait (tall card) */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">J · Editorial portrait · card tall verticale (style magazine print)</p>
@@ -3987,9 +3904,9 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack p-6 flex-1">
                 <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-100 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
                 <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed line-clamp-3 flex-1">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-accent-100">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="text-caption font-bold text-accent-700">Lire →</span>
                 </footer>
               </div>
@@ -4038,9 +3955,9 @@ const COMPONENTS: ComponentEntry[] = [
                   {item.category} · {item.publishedAt}
                 </span>
                 <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs mt-auto border-t border-ink-100">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
                   <span className="text-caption font-bold text-accent-700">Lire →</span>
                 </footer>
               </div>
@@ -4066,38 +3983,13 @@ const COMPONENTS: ComponentEntry[] = [
                   {item.category} · {item.publishedAt}
                 </span>
                 <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <footer className="flex justify-between items-center mt-1 font-body text-micro text-ink-600">
-                  <span>{item.author}</span>
+                <footer className="flex items-center gap-2 mt-1 font-body text-micro text-ink-600">
+                  <User size={11} className="inline shrink-0" /><span>{item.author}</span>
+                  <span aria-hidden>·</span>
                   <span>⏱ {item.readTime}</span>
                 </footer>
               </div>
             </article>
-          </div>
-
-          {/* M — Polaroid analog (rotation + photo dominante + caption blanc) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">M · Polaroid analog · rotation légère + photo dominante + caption manuscrit blanc</p>
-            <div className="flex items-center justify-center min-h-[340px] py-6">
-              <article className="rotate-[-2deg] bg-white p-3 pb-12 shadow-lg hover:shadow-xl hover:rotate-0 transition-all cursor-pointer max-w-[260px] relative">
-                <div className="relative aspect-square bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <FolderOpen size={72} strokeWidth={1.1} className="text-white/95" />
-                  </div>
-                  <span className="absolute bottom-2 left-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-white/90 text-micro font-bold uppercase text-ink-900">
-                    {item.typeLabel}
-                  </span>
-                </div>
-                {/* Polaroid caption manuscrit-style */}
-                <p className="m-0 mt-3 font-display text-body-sm font-semibold text-ink-900 leading-tight text-center italic">
-                  « {item.title} »
-                </p>
-                <p className="m-0 mt-1 font-body text-micro text-ink-500 text-center">
-                  {item.author} · {item.publishedAt}
-                </p>
-                {/* Tape effect top */}
-                <span aria-hidden className="absolute -top-2 left-1/2 -translate-x-1/2 w-16 h-5 bg-accent-300/40 rotate-[-3deg]" />
-              </article>
-            </div>
           </div>
 
           {/* N — Brutalist zine (thick black border + offset shadow + uppercase tight) */}
@@ -4112,10 +4004,10 @@ const COMPONENTS: ComponentEntry[] = [
                   ▸ {item.typeLabel} · {item.category}
                 </span>
                 <h3 className="m-0 font-display text-h4 font-black uppercase text-ink-900 leading-none tracking-tight">{item.title}</h3>
+                <span className="font-mono text-micro font-bold uppercase text-ink-700">{item.author} · {item.readTime}</span>
                 <p className="m-0 font-body text-caption text-ink-700 leading-relaxed">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-2 border-t-2 border-ink-900 mt-1 font-mono text-micro font-bold uppercase">
-                  <span>{item.author}</span>
-                  <span>{item.readTime} →</span>
+                  <span>Lire →</span>
                 </footer>
               </div>
             </article>
@@ -4137,9 +4029,9 @@ const COMPONENTS: ComponentEntry[] = [
                   {item.category} · {item.publishedAt}
                 </span>
                 <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
                   <span className="text-caption font-bold text-accent-700">Lire →</span>
                 </footer>
               </div>
@@ -4164,12 +4056,9 @@ const COMPONENTS: ComponentEntry[] = [
                     🎙 Podcast · {item.typeLabel}
                   </span>
                   <h3 className="m-0 mt-2 font-display text-h4 font-bold text-white leading-tight">{item.title}</h3>
+                  <span className="font-body text-caption text-white/70 mt-1"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                   <p className="m-0 mt-1 font-body text-caption text-white/70 leading-relaxed line-clamp-2">{item.summary}</p>
                   <footer className="flex items-center gap-3 mt-3 font-body text-micro text-white/80">
-                    <span>⏱ 28 min</span>
-                    <span aria-hidden>·</span>
-                    <span>{item.author}</span>
-                    <span aria-hidden>·</span>
                     <span>Episode #12</span>
                   </footer>
                 </div>
@@ -4193,42 +4082,16 @@ const COMPONENTS: ComponentEntry[] = [
                 </span>
                 <div className="flex-1 min-w-0">
                   <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
+                  <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                   <p className="m-0 mt-2 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-3">{item.summary}</p>
                 </div>
               </div>
               <footer className="flex justify-between items-center pt-stack-xs mt-stack border-t border-ink-100">
-                <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author}</span>
-                <span className="text-caption font-bold text-accent-700">Lire ⏱ {item.readTime} →</span>
+                <span className="text-caption font-bold text-accent-700">Lire →</span>
               </footer>
             </article>
           </div>
 
-          {/* R — Featured corner ribbon (diagonal banner) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">R · Featured corner ribbon · bannière diagonale dans le coin top-right</p>
-            <article className="relative rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-lg cursor-pointer transition-shadow">
-              {/* Ribbon diagonal */}
-              <div aria-hidden className="absolute top-0 right-0 w-24 h-24 overflow-hidden pointer-events-none z-base">
-                <span className="absolute top-4 -right-7 rotate-45 bg-accent-400 text-ink-900 text-[10px] font-black uppercase tracking-widest py-1 w-32 text-center shadow-md">
-                  ⭐ Featured
-                </span>
-              </div>
-              <div className="h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 flex items-center justify-center">
-                <FolderOpen size={56} strokeWidth={1.25} className="text-white/95" />
-              </div>
-              <div className="p-5 flex flex-col gap-stack-xs">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider">
-                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
-                </span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
-                  <span className="text-caption text-ink-600"><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
 
         </div>
       );
@@ -4280,16 +4143,6 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
 
-          {/* Layout A — Mosaic (1 large + 3 small) */}
-          <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">A · Mosaic · 1 featured large + 3 cards small (mise en avant éditoriale)</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-              <div className="md:row-span-2">{renderCard(items[0], 0, { large: true })}</div>
-              {renderCard(items[1], 1)}
-              {renderCard(items[2], 2)}
-            </div>
-          </div>
-
           {/* Layout B — Carousel horizontal */}
           <div className="flex flex-col gap-stack">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">B · Carousel horizontal · scroll horizontal scrollbar (sections "À découvrir")</p>
@@ -4304,51 +4157,6 @@ const COMPONENTS: ComponentEntry[] = [
                   {renderCard(it, idx)}
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Layout C — Masonry verticale (variable height) */}
-          <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Masonry · hauteurs variables (style Pinterest)</p>
-            <div className="columns-1 sm:columns-2 md:columns-3 gap-stack-lg [&>article]:mb-stack-lg [&>article]:break-inside-avoid">
-              {[items[0], items[1], items[2], items[3], items[0], items[1]].map((it, idx) => {
-                const Icon = it.icon;
-                const grad = it.tone === 'brand' ? 'from-primary-400 via-primary-500 to-primary-700'
-                  : it.tone === 'warm' ? 'from-secondary-300 via-secondary-500 to-secondary-700'
-                  : 'from-accent-300 via-accent-500 to-secondary-500';
-                const variableHeight = [120, 180, 220, 160, 200, 140][idx];
-                return (
-                  <article key={idx} className="rounded-2xl bg-white border border-ink-200 overflow-hidden cursor-pointer">
-                    <div className={`relative bg-gradient-to-br ${grad} flex items-center justify-center`} style={{ height: variableHeight }}>
-                      <Icon size={40} className="text-white" />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900">{it.typeLabel}</span>
-                    </div>
-                    <div className="p-3">
-                      <h4 className="m-0 text-body-sm font-bold text-ink-900 line-clamp-2">{it.title}</h4>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Layout D — Sectioned by type (group with headers) */}
-          <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">D · Sectioned by type · groupé par catégorie avec section headers</p>
-            <div className="flex flex-col gap-stack-lg">
-              <div className="flex flex-col gap-stack-xs">
-                <div className="flex items-baseline gap-2"><TrendingUp size={14} className="text-primary-600" /><h4 className="m-0 text-body font-bold text-ink-900">Actus de la semaine</h4><span className="text-caption text-ink-500">2 items</span></div>
-                <div className="flex flex-col gap-stack-xs">
-                  {renderCard(items[0], 0, { horizontal: true })}
-                  {renderCard({ ...items[0], title: "L'essor du microlearning", typeLabel: 'Actu' }, 1, { horizontal: true })}
-                </div>
-              </div>
-              <div className="flex flex-col gap-stack-xs">
-                <div className="flex items-baseline gap-2"><Video size={14} className="text-secondary-600" /><h4 className="m-0 text-body font-bold text-ink-900">Tutoriels du moment</h4><span className="text-caption text-ink-500">1 item</span></div>
-                <div className="flex flex-col gap-stack-xs">
-                  {renderCard(items[1], 0, { horizontal: true })}
-                </div>
-              </div>
             </div>
           </div>
 
@@ -4374,13 +4182,13 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">grid</code> (DEFAULT) · cards verticales</p>
-            <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">list</code> (DEFAULT) · cards horizontales denses</p>
+            <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
 
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">list</code> · cards horizontales (sans featured pour démo dense)</p>
-            <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">grid</code> · cards verticales (à définir)</p>
+            <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
         </div>
       );
@@ -4437,29 +4245,91 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/MagazineCard.tsx',
     cssBase: 'Tailwind',
     category: 'Learning',
-    description: 'Card spécialisée pour les numéros du Magazine TLS — gradient cover + titre numéro + date édition + meta articles. À utiliser dans le hub Magazine ou en featured Veille.',
-    keywords: ['magazine', 'edition', 'mensual', 'TLS Mag', 'editorial'],
+    description: 'Card éditoriale pour les numéros du Magazine TLS — gradient cover avec n° en filigrane, titre display, date édition, pied de page blanc avec CTA. 4 tones : primary / warm / sun / brand.',
+    keywords: ['magazine', 'edition', 'mensual', 'TLS Mag', 'editorial', 'cover', 'gradient'],
     render: () => (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg max-w-3xl">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-5xl">
         <MagazineCard
           title="Tendances EdTech 2026"
-          description="Notre numéro mensuel : marchés en croissance, nouveaux acteurs et opportunités stratégiques."
           issueNumber={14}
           articleCount={12}
+          publishedAt="Mai 2026"
           tone="primary"
-          isSaved={false}
           onClick={() => {}}
           onSave={() => {}}
         />
         <MagazineCard
-          title="L'apprentissage à l'ère IA"
-          description="Comment l'IA transforme la pédagogie : 8 articles, 3 témoignages d'entreprises."
+          title="L'IA au cœur de la formation"
+          description="56 pages de recherches et analyses."
           issueNumber={13}
           articleCount={8}
-          tone="sun"
+          publishedAt="Avril 2026"
+          tone="warm"
           isSaved={true}
           onClick={() => {}}
           onSave={() => {}}
+        />
+        <MagazineCard
+          title="Leadership & Soft Skills"
+          issueNumber={12}
+          articleCount={10}
+          publishedAt="Mars 2026"
+          tone="sun"
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+        <MagazineCard
+          title="Futur du travail"
+          issueNumber={11}
+          articleCount={9}
+          publishedAt="Fév. 2026"
+          tone="brand"
+          onClick={() => {}}
+          onSave={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'NewsletterSignupCard',
+    codeName: 'patterns/NewsletterSignupCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    description: "Card éditoriale d'inscription newsletter — badge + headline display + résumé valeur + lien dernière édition + formulaire email inline. Pattern propre à la Veille.",
+    keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial'],
+    render: () => (
+      <div className="max-w-md">
+        <NewsletterSignupCard
+          onSubmit={() => {}}
+          onSeeLastIssue={() => {}}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'VeilleEditorialCombo',
+    codeName: 'patterns/NewsletterSignupCard.tsx + learning/MagazineCard.tsx',
+    cssBase: 'Tailwind',
+    category: 'Learning',
+    description: "Pattern 50/50 Veille — Magazine TLS (cover éditoriale) + Newsletter signup côte à côte. Les deux cards s'étirent à la même hauteur via items-stretch.",
+    keywords: ['magazine', 'newsletter', 'combo', 'split', 'veille', 'editorial', '50/50'],
+    render: () => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack items-stretch max-w-3xl">
+        <MagazineCard
+          tone="warm"
+          issueNumber={14}
+          title="L'IA au cœur de la formation"
+          description="56 pages de recherches, portraits et analyses pour transformer vos pratiques pédagogiques en 2026."
+          articleCount={6}
+          publishedAt="Mai 2026"
+          onClick={() => {}}
+          onSave={() => {}}
+          className="h-full"
+        />
+        <NewsletterSignupCard
+          onSubmit={() => {}}
+          onSeeLastIssue={() => {}}
+          className="h-full"
         />
       </div>
     ),
@@ -5366,6 +5236,301 @@ const COMPONENTS: ComponentEntry[] = [
           <Divider orientation="vertical" />
           <span className="text-body-sm">Section C</span>
         </div>
+      </div>
+    ),
+  },
+
+  // ── MVP — GDPR & Compliance ──────────────────────────────────────────────
+
+  {
+    name: 'ConsentBanner',
+    codeName: 'patterns/ConsentBanner.tsx',
+    cssBase: 'ConsentBanner',
+    category: 'Patterns',
+    description: 'Bandeau GDPR cookie consent. Position fixed bottom. 3 catégories (nécessaires/analytiques/marketing). Panneau "Personnaliser" expandable. Tous rôles. Module #13bis.',
+    keywords: ['consent', 'gdpr', 'rgpd', 'cookies', 'privacy', 'banner', 'compliance', 'ai act'],
+    showcaseOnly: false,
+    usedBy: [],
+    render: () => (
+      <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
+        <p className="p-4 text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
+        <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-4">
+          <div className="flex flex-col md:flex-row md:items-center gap-3">
+            <div className="flex-1 text-body-sm text-ink-600">
+              <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
+              {' — '}Nous utilisons des cookies pour améliorer votre expérience.
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-600 hover:bg-ink-50">Personnaliser</button>
+              <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-700 hover:bg-ink-100">Tout refuser</button>
+              <button className="px-3 py-1.5 text-caption rounded-pill bg-primary-600 text-white hover:bg-primary-700">Tout accepter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  // ── MVP — Compétences & Dreyfus ──────────────────────────────────────────
+
+  {
+    name: 'CompetencyRadar',
+    codeName: 'ui/CompetencyRadar.tsx',
+    cssBase: 'CompetencyRadar',
+    category: 'Learning',
+    description: 'Radar SVG 6 axes Dreyfus (1–5). Polygone niveau actuel (bleu) + objectif cible (orange, dashed). Légende intégrée. Clic sur axe → drill-down. 3 tailles. Modules #2 Passeport · #3 Profil · #6 Enterprise · #10 Analytics · #11 Projects.',
+    keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
+    showcaseOnly: false,
+    usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort'],
+    render: () => (
+      <div className="flex flex-col gap-section items-center">
+        <div className="flex flex-wrap gap-8 justify-center items-start">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-caption text-ink-500">sm — sans cible</span>
+            <CompetencyRadar
+              size="sm"
+              axes={[
+                { label: 'Leadership', current: 3 },
+                { label: 'Communication', current: 4 },
+                { label: 'Analyse', current: 2 },
+                { label: 'Technique', current: 4 },
+                { label: 'Créativité', current: 1 },
+                { label: 'Coopération', current: 3 },
+              ]}
+              showLegend={false}
+            />
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-caption text-ink-500">md — avec objectifs cibles</span>
+            <CompetencyRadar
+              size="md"
+              axes={[
+                { label: 'Leadership', current: 3, target: 5 },
+                { label: 'Communication', current: 4, target: 4 },
+                { label: 'Analyse', current: 2, target: 4 },
+                { label: 'Technique', current: 4, target: 5 },
+                { label: 'Créativité', current: 1, target: 3 },
+                { label: 'Coopération', current: 3, target: 4 },
+              ]}
+              onAxisClick={(axis) => console.log('Axis clicked:', axis.label)}
+            />
+          </div>
+        </div>
+        <p className="text-caption text-ink-400 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
+      </div>
+    ),
+  },
+
+  // ── MVP — AI Indicators ──────────────────────────────────────────────────
+
+  {
+    name: 'AITransparencyLabel',
+    codeName: 'ui/AITransparencyLabel.tsx',
+    cssBase: 'AITransparencyLabel',
+    category: 'Atoms',
+    description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
+    keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
+    showcaseOnly: false,
+    usedBy: [],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="flex flex-wrap gap-3 items-center">
+          <AITransparencyLabel variant="recommended" size="sm" />
+          <AITransparencyLabel variant="generated" size="sm" />
+          <AITransparencyLabel variant="assisted" size="sm" />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center">
+          <AITransparencyLabel variant="recommended" size="md" />
+          <AITransparencyLabel variant="generated" size="md" />
+          <AITransparencyLabel variant="assisted" size="md" />
+        </div>
+        <div className="flex items-start gap-3 p-4 bg-ink-50 rounded-lg">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-body-sm font-semibold text-ink-900">Prompt Engineering avancé</span>
+              <AITransparencyLabel variant="recommended" size="sm" />
+            </div>
+            <p className="text-caption text-ink-500">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  {
+    name: 'AIOverrideButton',
+    codeName: 'ui/AIOverrideButton.tsx',
+    cssBase: 'AIOverrideButton',
+    category: 'Atoms',
+    description: 'Bouton "Rejeter cette recommandation" pour Coach/Admin. Peut ouvrir un textarea inline pour collecter la raison du rejet. Module #13bis — transversal IA.',
+    keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
+    showcaseOnly: false,
+    usedBy: [],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="flex flex-wrap gap-3 items-center">
+          <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
+          <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
+        </div>
+        <div className="border border-ink-100 rounded-lg p-4 flex flex-col gap-3">
+          <p className="text-caption text-ink-500 font-medium">Avec raison obligatoire (requireReason=true) :</p>
+          <AIOverrideButton
+            requireReason
+            onOverride={(r) => console.log('Override with reason:', r)}
+          />
+        </div>
+      </div>
+    ),
+  },
+
+  // ── MVP — Atrophie Dreyfus ───────────────────────────────────────────────
+
+  {
+    name: 'AtrophieIndicator',
+    codeName: 'ui/AtrophieIndicator.tsx',
+    cssBase: 'AtrophieIndicator',
+    category: 'Learning',
+    description: 'Indicateur de dégradation Dreyfus. Rien affiché si inactif ≤ 90j. Warning orange si 91–180j (pulsant). Danger si > 180j. Module #5 Gamification — badges compétences.',
+    keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
+    showcaseOnly: false,
+    usedBy: ['Gamification'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div className="flex flex-wrap gap-3 items-center">
+          <span className="text-caption text-ink-400">≤ 90j :</span>
+          <span className="text-caption text-ink-300 italic">(rien affiché)</span>
+          <AtrophieIndicator daysSinceActivity={45} />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center">
+          <span className="text-caption text-ink-400">91–180j :</span>
+          <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
+          <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center">
+          <span className="text-caption text-ink-400">&gt; 180j (critique) :</span>
+          <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
+          <AtrophieIndicator daysSinceActivity={365} size="md" />
+        </div>
+        <div className="flex flex-wrap gap-3 items-center">
+          <span className="text-caption text-ink-400">Sans label :</span>
+          <AtrophieIndicator daysSinceActivity={100} showLabel={false} />
+          <AtrophieIndicator daysSinceActivity={200} showLabel={false} />
+        </div>
+      </div>
+    ),
+  },
+
+  // ─── Phase 12 — HeatmapGrid ─────────────────────────────────────────────────
+  {
+    name: 'HeatmapGrid',
+    codeName: 'ui/HeatmapGrid.tsx',
+    cssBase: 'HeatmapGrid',
+    category: 'Learning',
+    description: 'Grille compétences × apprenants avec codes couleur Dreyfus 1–5. Sticky header. Responsive overflow-x. Module #2 Passeport / #10 Analytics.',
+    keywords: ['heatmap', 'competence', 'dreyfus', 'grille', 'coach', 'apprenant', 'niveau', 'radar'],
+    usedBy: ['CoachHeatmap', 'FicheApprenantAnalytics'],
+    render: () => (
+      <HeatmapGrid
+        axes={['Leadership', 'Communication', 'Analyse', 'Tech', 'Créativité', 'Coopération']}
+        rows={[
+          { name: 'Sophie Martin', initials: 'SM', scores: [3, 4, 2, 4, 2, 3] },
+          { name: 'Pierre Bernard', initials: 'PB', scores: [2, 3, 1, 2, 1, 2] },
+          { name: 'Nadia Ferreira', initials: 'NF', scores: [4, 5, 4, 4, 3, 4] },
+          { name: 'Julien Moreau', initials: 'JM', scores: [3, 3, 0, 3, 2, 3] },
+          { name: 'Camille Durand', initials: 'CD', scores: [5, 4, 5, 3, 4, 5] },
+        ]}
+      />
+    ),
+  },
+
+  // ─── Phase 12 — CorrectionCard ──────────────────────────────────────────────
+  {
+    name: 'CorrectionCard',
+    codeName: 'ui/CorrectionCard.tsx',
+    cssBase: 'CorrectionCard',
+    category: 'Atoms',
+    description: 'Carte de travail soumis à corriger. Statut (pending/in-review/corrected/rejected), excerpt, feedback count, actions. Module #4 Coaching — corrections inbox.',
+    keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
+    usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],
+    render: () => (
+      <div className="flex flex-col gap-stack max-w-xl">
+        <CorrectionCard
+          id="1"
+          apprenantName="Sophie Martin"
+          apprenantInitials="SM"
+          exerciceTitle="Analyse d'une situation de management complexe"
+          competence="Leadership"
+          submittedAt="Il y a 2h"
+          status="pending"
+          excerpt="Dans cette situation, j'ai dû gérer un conflit entre deux membres de mon équipe..."
+          feedbackCount={0}
+          onOpen={() => {}}
+          onAssign={() => {}}
+        />
+        <CorrectionCard
+          id="2"
+          apprenantName="Pierre Bernard"
+          apprenantInitials="PB"
+          exerciceTitle="Plan de communication projet Q3"
+          competence="Communication"
+          submittedAt="Hier"
+          status="in-review"
+          excerpt="Le plan de communication s'articule autour de trois axes principaux..."
+          feedbackCount={2}
+          onOpen={() => {}}
+        />
+        <CorrectionCard
+          id="3"
+          apprenantName="Nadia Ferreira"
+          apprenantInitials="NF"
+          exerciceTitle="Rapport d'analyse décisionnelle"
+          competence="Analyse"
+          submittedAt="Il y a 3j"
+          status="corrected"
+          feedbackCount={4}
+          surface="tinted"
+          onOpen={() => {}}
+        />
+      </div>
+    ),
+  },
+
+  // ─── Phase 12 — StepTutorial ────────────────────────────────────────────────
+  {
+    name: 'StepTutorial',
+    codeName: 'patterns/StepTutorial.tsx',
+    cssBase: 'StepTutorial',
+    category: 'Patterns',
+    description: 'Wizard step-by-step pour tutoriaux guidés. Progress dots tone-aware. Prev/Next/Terminer DS. Skip link. Contrôlé (externalStep) ou autonome (state interne). Module #3 Onboarding.',
+    keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
+    usedBy: ['OnboardingTutorial'],
+    render: () => (
+      <div className="max-w-lg mx-auto">
+        <StepTutorial
+          tone="primary"
+          onComplete={() => {}}
+          onSkip={() => {}}
+          steps={[
+            {
+              id: 'parcours',
+              title: 'Découvre tes parcours',
+              description: 'Explore les parcours de formation adaptés à ton profil Dreyfus. Chaque parcours contient des leçons, des exercices pratiques et des ressources complémentaires.',
+              icon: <BookOpen size={22} />,
+            },
+            {
+              id: 'coaching',
+              title: 'Réserve ton coach',
+              description: 'Tu as accès à des sessions de coaching individualisé. Ton coach t\'accompagne dans ta progression et corrige tes travaux pratiques.',
+              icon: <GraduationCap size={22} />,
+            },
+            {
+              id: 'passeport',
+              title: 'Suis ton Passeport Compétences',
+              description: 'Ton radar de compétences H.S.O. évolue au fil de tes activités. Définis tes objectifs et observe ta progression Dreyfus en temps réel.',
+              icon: <Target size={22} />,
+            },
+          ]}
+        />
       </div>
     ),
   },
