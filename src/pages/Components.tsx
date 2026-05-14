@@ -162,7 +162,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -337,6 +337,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
 
   // Communication (chat-bubble)
   PromptCard:           { category: 'Cards', subCategory: 'Communication' },
+  'Chat Bubbles':       { category: 'Cards', subCategory: 'Communication' },
   JournalEntryCard:     { category: 'Cards', subCategory: 'Communication' },
   NotificationCard:     { category: 'Cards', subCategory: 'Communication' },
   // MessageThreadCard supprimé Phase 10
@@ -4176,6 +4177,64 @@ const COMPONENTS: ComponentEntry[] = [
           text="Note une prise de conscience qui t'a marqué cette semaine."
           onClick={() => {}}
         />
+      </div>
+    ),
+  },
+  {
+    name: 'Chat Bubbles',
+    codeName: 'pages/MessagingThread.tsx (pattern inline)',
+    cssBase: 'Tailwind',
+    category: 'Cards',
+    usedBy: ['MessagingThread'],
+    showcaseOnly: false,
+    description: 'Pattern de messagerie Apple Messages style. Self messages: `bg-primary-600 text-white rounded-2xl rounded-br-[6px]` (tail bas-droit). Incoming: `bg-white border border-ink-200 rounded-2xl rounded-bl-[6px]` (tail bas-gauche). Double-tick `CheckCheck` si lu, tick simple `Check` si envoyé. Layout: `flex flex-row-reverse` pour messages propres. Statut en ligne via `bg-success-base` dot + `text-success-fg`.',
+    keywords: ['chat', 'message', 'bubble', 'messaging', 'thread', 'conversation', 'coach', 'speech'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs max-w-sm p-4 bg-ink-50 rounded-xl">
+        {/* Incoming */}
+        <div className="flex gap-2">
+          <Avatar initials="MD" size="sm" />
+          <div className="max-w-[75%] flex flex-col gap-1">
+            <div className="bg-white border border-ink-200 rounded-2xl rounded-bl-[6px] px-4 py-3">
+              <p className="text-body-sm leading-relaxed">Bonjour ! Comment ça s'est passé ?</p>
+            </div>
+            <div className="text-caption text-ink-500 px-2">09:12</div>
+          </div>
+        </div>
+        {/* Self — sent */}
+        <div className="flex flex-row-reverse gap-2">
+          <div className="max-w-[75%] flex flex-col gap-1 items-end">
+            <div className="bg-primary-600 text-white rounded-2xl rounded-br-[6px] px-4 py-3">
+              <p className="text-body-sm leading-relaxed">Très bien, merci !</p>
+            </div>
+            <div className="flex items-center gap-1 text-caption text-ink-500 px-2">
+              <span>09:15</span>
+              <Check className="w-3 h-3" />
+            </div>
+          </div>
+        </div>
+        {/* Incoming */}
+        <div className="flex gap-2">
+          <Avatar initials="MD" size="sm" />
+          <div className="max-w-[75%] flex flex-col gap-1">
+            <div className="bg-white border border-ink-200 rounded-2xl rounded-bl-[6px] px-4 py-3">
+              <p className="text-body-sm leading-relaxed">Super ! On se voit jeudi à 10h ?</p>
+            </div>
+            <div className="text-caption text-ink-500 px-2">09:18</div>
+          </div>
+        </div>
+        {/* Self — read */}
+        <div className="flex flex-row-reverse gap-2">
+          <div className="max-w-[75%] flex flex-col gap-1 items-end">
+            <div className="bg-primary-600 text-white rounded-2xl rounded-br-[6px] px-4 py-3">
+              <p className="text-body-sm leading-relaxed">Oui, parfait !</p>
+            </div>
+            <div className="flex items-center gap-1 text-caption text-ink-500 px-2">
+              <span>09:19</span>
+              <CheckCheck className="w-3 h-3" />
+            </div>
+          </div>
+        </div>
       </div>
     ),
   },

@@ -341,10 +341,10 @@ Notion "📱 Écrans Learning App" DB : 17 entrées créées + marquées `Dispon
 - Total cette session : ~26 composants migrés, ~16 fichiers CSS BEM supprimés, ~250+ inline styles transformés.
 - Pièges/exceptions : `style={{}}` runtime conservé pour progress bars % et grid-template-columns dynamique. PageCard + Flashcard skippés (BEM page-spécifique + 3D transform).
 
-**Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, VeilleContent 63, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final.
+**Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final. (VeilleContent consolidée dans Veille.tsx — Phase 16 cleanup 2026-05-14)
 
 **Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
-**Dernière mise à jour :** 2026-05-14 (Phase 16 sitemap gap complete — 82 routes wired, 98.8% sitemap coverage)
+**Dernière mise à jour :** 2026-05-14 — Phase 16 sitemap gap complete (82 routes wired, 98.8% sitemap coverage) · Veille consolidation (4 sous-pages → Veille.tsx hub) · Phase 16 DS enrichment (17 pages enrichies, tokens warm-* remplacés, prop APIs corrigées) · Chat Bubbles pattern ajouté au showcase · DS Notion usedBy sync (CompetencyRadar, AITransparencyLabel, AtrophieIndicator)
 
 ---
 
