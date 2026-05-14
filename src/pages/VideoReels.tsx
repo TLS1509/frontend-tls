@@ -271,7 +271,7 @@ export const VideoReels: React.FC = () => {
       <div className="fixed top-0 left-0 right-0 z-sticky px-6 py-5 flex items-center justify-between gap-4 bg-gradient-to-b from-black/65 to-transparent">
 
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/veille')}
           className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white"
         >
           <ArrowLeft size={16} />

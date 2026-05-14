@@ -259,9 +259,9 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
             </span>
           </div>
         )}
-        {/* Badge catégorie — overlaid en bas de l'image */}
-        <span className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-[10px] font-bold uppercase tracking-wide text-ink-900 shadow-xs">
+        {/* Badge catégorie — overlaid en haut de l'image, glassy */}
+        <span className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
             <TypeIcon size={9} strokeWidth={2.5} /> {item.typeLabel}
           </span>
         </span>

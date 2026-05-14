@@ -3,7 +3,7 @@
  * "data findings". Icon-bubble tone-aware + title + description (+ optional
  * value/metric).
  *
- * Utilisé dans Dossier, VeilleContent (rapport), MagazineArticle.
+ * Utilisé dans Dossier, MagazineArticle.
  *
  * Usage:
  *   <KeyFindingCard

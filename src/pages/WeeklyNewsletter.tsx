@@ -96,14 +96,6 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
-            <button type="button" onClick={() => navigate('/veille')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              Veille
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <span className="text-ink-700">Actus de la semaine</span>
-          </nav>
-
           <span className="inline-flex items-center gap-1.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
             <TrendingUp size={11} /> Semaine #08
           </span>
@@ -140,8 +132,8 @@ export const WeeklyNewsletter: React.FC = () => {
             <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
               Vidéo de la semaine
             </h2>
-            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => navigate('/veille/tutoriels')}>
-              Tous les tutoriels
+            <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => navigate('/veille')}>
+              Toute la veille
             </Button>
           </div>
 

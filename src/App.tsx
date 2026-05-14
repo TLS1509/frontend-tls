@@ -157,11 +157,7 @@ import {
   Messages,
   Leaderboard,
   Veille,
-  VeilleActus,
-  VeilleTutoriels,
-  VeilleDossiers,
   Journal,
-  VeilleContent,
   ArticleDetail,
   Dossier,
   VideoTutorial,
@@ -510,10 +506,6 @@ function App() {
                   <Route path="/messages" element={<Messages />} />
                   <Route path="/leaderboard" element={<Leaderboard />} />
                   <Route path="/veille" element={<Veille />} />
-                  <Route path="/veille/actus" element={<VeilleActus />} />
-                  <Route path="/veille/tutoriels" element={<VeilleTutoriels />} />
-                  <Route path="/veille/dossiers" element={<VeilleDossiers />} />
-                  <Route path="/veille/content" element={<VeilleContent />} />
                   <Route path="/veille/article/:id" element={<ArticleDetail />} />
                   <Route path="/veille/dossier/:id" element={<Dossier />} />
                   <Route path="/veille/video-tutorial/:id" element={<VideoTutorial />} />

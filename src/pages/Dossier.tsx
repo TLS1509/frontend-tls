@@ -105,9 +105,9 @@ export const Dossier: React.FC = () => {
             variant="ghost"
             size="sm"
             leadingIcon={<ArrowLeft size={14} />}
-            onClick={() => navigate('/veille/dossiers')}
+            onClick={() => navigate('/veille')}
           >
-            Tous les dossiers
+            Retour à la veille
           </Button>
 
           <div className="flex items-center gap-2">
@@ -135,18 +135,6 @@ export const Dossier: React.FC = () => {
         {/* Hero warm bounded */}
         <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-stack-lg">
-            <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
-              <button type="button" onClick={() => navigate('/veille')} className="hover:text-secondary-700 bg-transparent border-0 cursor-pointer p-0">
-                Veille
-              </button>
-              <ChevronRight size={10} aria-hidden />
-              <button type="button" onClick={() => navigate('/veille/dossiers')} className="hover:text-secondary-700 bg-transparent border-0 cursor-pointer p-0">
-                Dossiers
-              </button>
-              <ChevronRight size={10} aria-hidden />
-              <span className="text-ink-700">Transformation IA</span>
-            </nav>
-
             <div className="flex items-start gap-4 sm:gap-stack-lg">
               <span aria-hidden className="shrink-0 inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-secondary-100 border border-secondary-200 text-3xl sm:text-4xl">
                 🧠
