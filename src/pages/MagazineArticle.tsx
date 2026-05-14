@@ -21,7 +21,6 @@ import {
   ArrowLeft,
   Bookmark,
   Share2,
-  ChevronRight,
   CalendarDays,
   Clock3,
   Tag as TagIcon,
@@ -120,18 +119,6 @@ export const MagazineArticle: React.FC = () => {
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
-            <button type="button" onClick={() => navigate('/veille')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              Veille
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <button type="button" onClick={() => navigate('/veille/magazine')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              Magazine TLS
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <span className="text-ink-700">{ARTICLE.category}</span>
-          </nav>
-
           <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border-2 border-primary-300 bg-primary-50/30 text-micro font-bold uppercase tracking-wider text-primary-700">
             <BookOpen size={11} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>

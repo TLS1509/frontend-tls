@@ -26,7 +26,6 @@ import {
   Tag as TagIcon,
   ExternalLink,
   Newspaper,
-  ChevronRight,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -225,19 +224,6 @@ export const ArticleDetail: React.FC = () => {
       >
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
-          {/* Breadcrumb 2-niveaux */}
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
-            <button type="button" onClick={() => navigate('/veille')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              Veille
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <button type="button" onClick={() => navigate(sourceHref)} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              {sourceLabel}
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <span className="text-ink-700">{ARTICLE.category}</span>
-          </nav>
-
           <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
             <Newspaper size={11} /> {sourceLabel}
           </span>

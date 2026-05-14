@@ -17,7 +17,6 @@ import React, { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBookmarksStore, useReadingProgressSync } from '../stores/persistence';
 import {
-  ChevronRight,
   ArrowLeft,
   ArrowRight,
   Bookmark,

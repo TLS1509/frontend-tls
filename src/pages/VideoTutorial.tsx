@@ -11,7 +11,6 @@ import {
   Play,
   Clock,
   User,
-  ChevronRight,
   Bookmark,
   BookmarkCheck,
 } from "lucide-react";
@@ -79,23 +78,11 @@ export const VideoTutorial: React.FC = () => {
   return (
     <div className="min-h-screen bg-surface font-body flex flex-col">
 
-      {/* ─ Top breadcrumb bar ─────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-ink-200">
-        <div className="flex items-center gap-2 font-body text-caption text-ink-500">
-          <span
-            onClick={() => navigate("/veille")}
-            className="cursor-pointer text-primary-600 font-medium inline-flex items-center gap-1 hover:text-primary-700 transition-colors"
-          >
-            <ArrowLeft size={13} />
-            Veille
-          </span>
-          <ChevronRight size={13} />
-          <span className="inline-flex items-center gap-1">
-            <Play size={12} className="text-secondary-500" />
-            Tutoriel vidéo
-          </span>
-        </div>
-
+      {/* ─ Sticky glass header ────────────────────────────────────── */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-6 h-14">
+        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
+          Retour
+        </Button>
         <button
           type="button"
           onClick={() => setSaved(!saved)}

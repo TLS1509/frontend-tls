@@ -159,31 +159,21 @@ export const Veille: React.FC = () => {
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
         />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-6">
 
-          {/* Layout 2 cols desktop : titre gauche / search+chips droite */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-12 items-end mb-6">
+          {/* Titre + sous-titre */}
+          <div className="flex flex-col gap-2">
+            <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight" style={{ fontSize: 'clamp(2.25rem, 4vw, 3.25rem)' }}>
+              Veille &amp; Actualités
+            </h1>
+            <p className="m-0 font-body text-body text-white/55 leading-relaxed max-w-2xl">
+              Articles, vidéos, dossiers et le magazine TLS — leadership, IA et formation professionnelle.
+            </p>
+          </div>
 
-            {/* Titre + sous-titre */}
-            <div className="flex flex-col gap-3">
-              <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight" style={{ fontSize: 'clamp(2.75rem, 5vw, 4rem)' }}>
-                Veille &amp;<br /> Actualités
-              </h1>
-              <p className="m-0 font-body text-body-lg text-white/55 leading-relaxed">
-                Articles, vidéos, dossiers et le magazine TLS — leadership, IA et formation professionnelle.
-              </p>
-            </div>
-
-            {/* Search bar + chips — côté droit, même largeur que le contenu du feed */}
-            <div className="flex flex-col gap-4">
-
-          {/* Search bar glass — intégrée dans le hero */}
-          <div className="relative mb-0">
-            <SearchIcon
-              size={18}
-              strokeWidth={2}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
-            />
+          {/* Search bar glass — pleine largeur container */}
+          <div className="relative">
+            <SearchIcon size={18} strokeWidth={2} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
               type="search"
               placeholder="Rechercher un sujet, auteur, catégorie…"
@@ -192,17 +182,13 @@ export const Veille: React.FC = () => {
               className="w-full h-12 pl-11 pr-10 rounded-xl bg-white/8 border border-white/15 text-white placeholder:text-white/35 font-body text-body-sm backdrop-blur-glass-light focus:outline-none focus:bg-white/12 focus:border-white/30 transition-all"
             />
             {query && (
-              <button
-                type="button"
-                onClick={() => setQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
-              >
+              <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors">
                 <X size={15} />
               </button>
             )}
           </div>
 
-          {/* Category chips + pill Sauvegardés */}
+          {/* Filtres type + Sauvegardés */}
           <div className="flex flex-wrap items-center gap-2">
             {TYPE_FILTERS.map(({ id, label, Icon }) => (
               <button
@@ -218,18 +204,12 @@ export const Veille: React.FC = () => {
               >
                 {Icon && <Icon size={12} strokeWidth={2.5} />}
                 {label}
-                {id !== 'all' && (
-                  <span className={selected === id ? 'text-ink-500' : 'text-white/40'}>
-                    {counts[id]}
-                  </span>
-                )}
+                {id !== 'all' && <span className={selected === id ? 'text-ink-400' : 'text-white/35'}>{counts[id]}</span>}
               </button>
             ))}
 
-            {/* Séparateur visuel */}
             <span aria-hidden className="w-px h-4 bg-white/20 mx-0.5" />
 
-            {/* Pill Sauvegardés */}
             <button
               type="button"
               onClick={() => setShowSavedOnly((v) => !v)}
@@ -242,11 +222,7 @@ export const Veille: React.FC = () => {
             >
               <Bookmark size={12} strokeWidth={2.5} />
               Sauvegardés
-              {savedIds.size > 0 && (
-                <span className={showSavedOnly ? 'text-ink-600' : 'text-white/40'}>
-                  {savedIds.size}
-                </span>
-              )}
+              {savedIds.size > 0 && <span className={showSavedOnly ? 'text-ink-600' : 'text-white/35'}>{savedIds.size}</span>}
             </button>
 
             {hasActiveFilter && (
@@ -258,89 +234,42 @@ export const Veille: React.FC = () => {
                 Réinitialiser
               </button>
             )}
+
+            {hasActiveFilter && (
+              <span className="font-body text-caption text-white/40 ml-auto">
+                <strong className="text-white/70">{filteredItems.length}</strong> résultat{filteredItems.length !== 1 ? 's' : ''}
+              </span>
+            )}
           </div>
 
-          {/* Résultats count — quand filtre actif */}
-          {hasActiveFilter && (
-            <p className="font-body text-caption text-white/40 mb-0">
-              <strong className="text-white/70">{filteredItems.length}</strong> résultat{filteredItems.length !== 1 ? 's' : ''}
-              {selected !== 'all' && ` · ${TYPE_FILTERS.find((f) => f.id === selected)?.label}`}
-              {showSavedOnly && ' · Sauvegardés'}
-              {query.trim() && ` pour "${query.trim()}"`}
-            </p>
-          )}
+          {/* Formats éditoriaux — 4 cartes navigation, dark-glass */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+            {[
+              { label: 'Magazine TLS',  desc: 'Mensuel · analyses',          Icon: BookOpen,    iconCls: 'text-primary-200',   route: '/veille/magazine' },
+              { label: 'Actu hebdo',    desc: 'Chaque vendredi',             Icon: Newspaper,   iconCls: 'text-secondary-200', route: '/veille/weekly-newsletter' },
+              { label: 'Vidéo Reels',   desc: 'Short formats · 60 sec',      Icon: Clapperboard,iconCls: 'text-white/70',      route: '/veille/video-reels' },
+              { label: 'Newsletter',    desc: 'Abonnement & archives',       Icon: Mail,        iconCls: 'text-accent-300',    route: '/veille/newsletter' },
+            ].map(({ label, desc, Icon, iconCls, route }) => (
+              <button
+                key={route}
+                type="button"
+                onClick={() => navigate(route)}
+                className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/6 border border-white/12 hover:bg-white/12 hover:border-white/25 transition-all duration-base text-left"
+              >
+                <span className={['shrink-0', iconCls].join(' ')}>
+                  <Icon size={15} strokeWidth={2} />
+                </span>
+                <span className="flex-1 min-w-0 flex flex-col gap-0">
+                  <span className="font-body text-caption font-semibold text-white leading-tight">{label}</span>
+                  <span className="font-body text-micro text-white/40 leading-tight hidden sm:block">{desc}</span>
+                </span>
+                <ArrowRight size={12} className="shrink-0 text-white/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            ))}
+          </div>
 
-            </div>{/* end search+chips col */}
-          </div>{/* end 2-col grid */}
-        </div>{/* end max-w container */}
-      </section>
-
-      {/* ── 2. FORMATS ÉDITORIAUX — 4 portes d'entrée ───────────────────── */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section-lg pb-0">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {[
-            {
-              label: 'Magazine TLS',
-              desc: 'Numéro mensuel · analyses & tendances',
-              Icon: BookOpen,
-              tone: 'bg-primary-50 border-primary-100 hover:border-primary-200',
-              iconTone: 'text-primary-600 bg-primary-100',
-              labelTone: 'text-primary-700',
-              descTone: 'text-primary-600/70',
-              route: '/veille/magazine',
-            },
-            {
-              label: 'Actu hebdo',
-              desc: 'Newsletter éditoriale · chaque vendredi',
-              Icon: Newspaper,
-              tone: 'bg-secondary-50 border-secondary-100 hover:border-secondary-200',
-              iconTone: 'text-secondary-600 bg-secondary-100',
-              labelTone: 'text-secondary-700',
-              descTone: 'text-secondary-600/70',
-              route: '/veille/weekly-newsletter',
-            },
-            {
-              label: 'Vidéo Reels',
-              desc: 'Short formats · 60 sec pour apprendre',
-              Icon: Clapperboard,
-              tone: 'bg-ink-50 border-ink-100 hover:border-ink-200',
-              iconTone: 'text-ink-600 bg-ink-100',
-              labelTone: 'text-ink-800',
-              descTone: 'text-ink-500',
-              route: '/veille/video-reels',
-            },
-            {
-              label: 'Newsletter',
-              desc: 'Abonnement · préférences · archives',
-              Icon: Mail,
-              tone: 'bg-accent-50 border-accent-100 hover:border-accent-200',
-              iconTone: 'text-accent-500 bg-accent-100',
-              labelTone: 'text-accent-600',
-              descTone: 'text-accent-500/70',
-              route: '/veille/newsletter',
-            },
-          ].map(({ label, desc, Icon, tone, iconTone, labelTone, descTone, route }) => (
-            <button
-              key={route}
-              type="button"
-              onClick={() => navigate(route)}
-              className={[
-                'group flex items-center gap-3 p-3.5 rounded-xl border transition-all duration-base text-left',
-                tone,
-              ].join(' ')}
-            >
-              <span className={['shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg', iconTone].join(' ')}>
-                <Icon size={16} strokeWidth={2} />
-              </span>
-              <span className="flex-1 min-w-0 flex flex-col gap-0.5">
-                <span className={['font-body text-caption font-bold leading-tight', labelTone].join(' ')}>{label}</span>
-                <span className={['font-body text-micro leading-tight hidden sm:block', descTone].join(' ')}>{desc}</span>
-              </span>
-              <ArrowRight size={13} className={['shrink-0 opacity-0 group-hover:opacity-100 transition-opacity', labelTone].join(' ')} />
-            </button>
-          ))}
         </div>
-      </div>
+      </section>
 
       {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">

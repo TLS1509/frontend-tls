@@ -17,7 +17,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBookmarksStore } from '../stores/persistence';
 import {
-  ChevronRight,
   ArrowLeft,
   ArrowRight,
   Bookmark,

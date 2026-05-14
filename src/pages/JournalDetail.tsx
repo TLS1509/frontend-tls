@@ -19,7 +19,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
-  ChevronRight,
   CalendarDays,
   Clock3,
   Tag as TagIcon,
@@ -127,15 +126,6 @@ export const JournalDetail: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          {/* Breadcrumb */}
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-micro text-ink-500">
-            <button type="button" onClick={() => navigate('/journal')} className="hover:text-primary-700 bg-transparent border-0 cursor-pointer p-0">
-              Journal
-            </button>
-            <ChevronRight size={10} aria-hidden />
-            <span className="text-ink-700">{ENTRY.week}</span>
-          </nav>
-
           {/* Eyebrow chips */}
           <div className="flex items-center gap-2 flex-wrap">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">

@@ -14,7 +14,6 @@ import React from 'react';
 import { useBookmarksStore } from '../stores/persistence';
 import { useNavigate } from 'react-router-dom';
 import {
-  ChevronRight,
   BookOpen,
   Download,
   ArrowRight,
@@ -117,15 +116,6 @@ export const Magazine: React.FC = () => {
         />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section sm:py-page flex flex-col gap-stack-lg">
-          {/* Breadcrumb */}
-          <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 font-body text-caption text-white/60">
-            <button type="button" onClick={() => navigate('/veille')} className="hover:text-white bg-transparent border-0 cursor-pointer p-0">
-              Veille
-            </button>
-            <ChevronRight size={11} aria-hidden />
-            <span className="text-white/90 font-medium">Magazine TLS</span>
-          </nav>
-
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
             <BookOpen size={12} />
