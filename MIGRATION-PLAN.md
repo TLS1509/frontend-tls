@@ -270,9 +270,9 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 11 + 12 + 13 + 14 + 15 + Sprint H ✅
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 11 + 12 + 13 ✅
 **Composants validés :** ~118 / ~125 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives + 8 Phase 11–12)
-**Pages scaffoldées :** ~136 routes wired in App.tsx (Sprint H +6 = total ~136)
+**Pages scaffoldées :** 50 MVP P0 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 = **31 pages**)
 **showcaseOnly restants :** 18 composants (non utilisés dans de vraies pages — voir DS sprint suivant)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
@@ -336,7 +336,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 **Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, VeilleContent 63, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final.
 
 **Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
-**Dernière mise à jour :** 2026-05-10
+**Dernière mise à jour :** 2026-05-14 (Phase 13 wiring complete)
 
 ---
 

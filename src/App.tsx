@@ -86,6 +86,14 @@ import {
   FicheApprenantAnalytics,
   ProfilePrivacy,
   EnterpriseAnalyticsDashboard,
+  // Phase 13
+  PasseportRoadmap,
+  PasseportJac,
+  CoachAnalytics,
+  EnterpriseKpis,
+  ProfileConsent,
+  AlerteInactivite,
+  AlerteStagnation,
   Coaching,
   Collaboration,
   Login,
@@ -501,6 +509,14 @@ function App() {
                   <Route path="/coach/apprenant/:id/analytics" element={<FicheApprenantAnalytics />} />
                   <Route path="/profile/privacy" element={<ProfilePrivacy />} />
                   <Route path="/enterprise/dashboard" element={<EnterpriseAnalyticsDashboard />} />
+                  {/* Phase 13 — Remaining MVP P0 pages */}
+                  <Route path="/passeport/roadmap" element={<PasseportRoadmap />} />
+                  <Route path="/passeport/jac" element={<PasseportJac />} />
+                  <Route path="/coach/analytics" element={<CoachAnalytics />} />
+                  <Route path="/enterprise/kpis" element={<EnterpriseKpis />} />
+                  <Route path="/profile/consent" element={<ProfileConsent />} />
+                  <Route path="/enterprise/alertes/inactivite" element={<AlerteInactivite />} />
+                  <Route path="/coach/alertes/stagnation" element={<AlerteStagnation />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
