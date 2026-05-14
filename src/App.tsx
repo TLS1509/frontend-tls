@@ -94,6 +94,42 @@ import {
   ProfileConsent,
   AlerteInactivite,
   AlerteStagnation,
+  // Phase 14 — Ateliers + Masterclass + Événements
+  AtelierHub,
+  AtelierDetail,
+  AtelierLive,
+  AtelierPresentiel,
+  AtelierRecap,
+  AtelierWaitlist,
+  MasterclassHub,
+  MasterclassDetail,
+  MasterclassLive,
+  MasterclassReplay,
+  MasterclassSurvey,
+  EvenementHub,
+  EvenementDetail,
+  EvenementLive,
+  EvenementRecap,
+  // Phase 15 — Help + Coach + Project + Gamification + Dashboard
+  HelpArticle,
+  HelpSearch,
+  HelpTicketDetail,
+  HelpTicketNew,
+  HelpTickets,
+  HelpTutorialStep,
+  HelpTutorials,
+  CoachJournal,
+  CoachJournalDetail,
+  CoachLearnerProfile,
+  ProjectJac,
+  ProjectPasseportFeed,
+  ProjectSkillGaps,
+  ProjectTask,
+  ProjectTeam,
+  BadgeGallery,
+  XPDashboard,
+  DashboardAchievements,
+  NotificationPreferences,
   Coaching,
   Collaboration,
   Login,
@@ -517,6 +553,42 @@ function App() {
                   <Route path="/profile/consent" element={<ProfileConsent />} />
                   <Route path="/enterprise/alertes/inactivite" element={<AlerteInactivite />} />
                   <Route path="/coach/alertes/stagnation" element={<AlerteStagnation />} />
+                  {/* Phase 14 — Ateliers + Masterclass + Événements */}
+                  <Route path="/ateliers" element={<AtelierHub />} />
+                  <Route path="/ateliers/:id" element={<AtelierDetail />} />
+                  <Route path="/ateliers/:id/live" element={<AtelierLive />} />
+                  <Route path="/ateliers/:id/presentiel" element={<AtelierPresentiel />} />
+                  <Route path="/ateliers/:id/recap" element={<AtelierRecap />} />
+                  <Route path="/ateliers/:id/waitlist" element={<AtelierWaitlist />} />
+                  <Route path="/masterclass" element={<MasterclassHub />} />
+                  <Route path="/masterclass/:id" element={<MasterclassDetail />} />
+                  <Route path="/masterclass/:id/live" element={<MasterclassLive />} />
+                  <Route path="/masterclass/:id/replay" element={<MasterclassReplay />} />
+                  <Route path="/masterclass/:id/survey" element={<MasterclassSurvey />} />
+                  <Route path="/evenements" element={<EvenementHub />} />
+                  <Route path="/evenements/:id" element={<EvenementDetail />} />
+                  <Route path="/evenements/:id/live" element={<EvenementLive />} />
+                  <Route path="/evenements/:id/recap" element={<EvenementRecap />} />
+                  {/* Phase 15 — Help + Coach + Project + Gamification + Dashboard */}
+                  <Route path="/help/article/:id" element={<HelpArticle />} />
+                  <Route path="/help/search" element={<HelpSearch />} />
+                  <Route path="/help/tickets/:id" element={<HelpTicketDetail />} />
+                  <Route path="/help/tickets/new" element={<HelpTicketNew />} />
+                  <Route path="/help/tickets" element={<HelpTickets />} />
+                  <Route path="/help/tutorials/:id/step/:stepId" element={<HelpTutorialStep />} />
+                  <Route path="/help/tutorials" element={<HelpTutorials />} />
+                  <Route path="/coach/journal" element={<CoachJournal />} />
+                  <Route path="/coach/journal/:id" element={<CoachJournalDetail />} />
+                  <Route path="/coach/apprenant/:id" element={<CoachLearnerProfile />} />
+                  <Route path="/project/:id/jac" element={<ProjectJac />} />
+                  <Route path="/project/:id/passeport" element={<ProjectPasseportFeed />} />
+                  <Route path="/project/:id/skill-gaps" element={<ProjectSkillGaps />} />
+                  <Route path="/project/:id/task/:taskId" element={<ProjectTask />} />
+                  <Route path="/project/:id/team" element={<ProjectTeam />} />
+                  <Route path="/gamification/badges" element={<BadgeGallery />} />
+                  <Route path="/gamification/xp" element={<XPDashboard />} />
+                  <Route path="/dashboard/achievements" element={<DashboardAchievements />} />
+                  <Route path="/notifications/preferences" element={<NotificationPreferences />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
