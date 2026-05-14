@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { CheckCircle2, Send, FileText, RotateCcw } from 'lucide-react';
+import { CheckCircle2, Send, RotateCcw } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -58,18 +58,13 @@ const CorrectionDetailLearner: React.FC = () => {
         >
           <div className="flex flex-col gap-stack">
             {MOCK_CORRECTION.sectionComments.map((c, i) => (
-              <div key={i} className="flex gap-4 p-4 rounded-lg border border-ink-200">
-                <FileText className="w-5 h-5 text-primary-600 mt-1 shrink-0" />
-                <div className="flex-1">
-                  <div className="font-semibold text-body-sm mb-1">{c.section}</div>
-                  <p className="text-body-sm text-ink-700">{c.feedback}</p>
-                  <div className="mt-2">
-                    <Badge variant={c.tone === 'success' ? 'success' : c.tone === 'danger' ? 'danger' : 'warm'}>
-                      {c.tone === 'success' ? 'OK' : c.tone === 'danger' ? 'À reprendre' : 'À améliorer'}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
+              <Alert
+                key={i}
+                variant={c.tone === 'success' ? 'success' : c.tone === 'danger' ? 'danger' : 'warning'}
+                title={c.section}
+              >
+                {c.feedback}
+              </Alert>
             ))}
           </div>
         </SectionCard>

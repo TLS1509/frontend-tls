@@ -49,7 +49,7 @@ const PerplexityContentDetail: React.FC = () => {
         main={
           <div className="flex flex-col gap-section">
             <div className="flex items-center gap-stack-xs flex-wrap">
-              <AITransparencyLabel source="perplexity" />
+              <AITransparencyLabel variant="generated" />
               <Badge variant="info">{MOCK_ARTICLE.readTime}</Badge>
               <span className="flex items-center gap-1 text-caption text-ink-500">
                 <Calendar className="w-4 h-4" /> {MOCK_ARTICLE.date}

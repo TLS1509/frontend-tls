@@ -100,7 +100,7 @@ const ApiDocs: React.FC = () => {
                 <div className="text-caption text-ink-500">Plan Découverte</div>
               </Card>
               <Card className="p-4 text-center">
-                <Zap className="w-6 h-6 text-warm-fg mx-auto mb-2" />
+                <Zap className="w-6 h-6 text-secondary-600 mx-auto mb-2" />
                 <div className="text-h3 font-bold">600 / min</div>
                 <div className="text-caption text-ink-500">Plan Premium</div>
               </Card>

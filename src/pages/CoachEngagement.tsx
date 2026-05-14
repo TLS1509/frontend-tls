@@ -68,7 +68,7 @@ const CoachEngagement: React.FC = () => {
                 <div className="flex-1">
                   <div className="font-semibold flex items-center gap-stack-xs">
                     {l.name}
-                    {l.atrophyDays && <AtrophieIndicator days={l.atrophyDays} />}
+                    {l.atrophyDays && <AtrophieIndicator daysSinceActivity={l.atrophyDays} />}
                   </div>
                   <div className="flex items-center gap-stack-xs text-caption text-ink-500 mt-1">
                     <span className="flex items-center gap-1"><Flame className="w-3 h-3 text-secondary-500" /> {l.streak}j</span>

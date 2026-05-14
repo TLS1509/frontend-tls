@@ -368,9 +368,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   ResourceCardGrid:     { category: 'Lists & Feeds', subCategory: 'Grids' },
   VeilleCardFeed:       { category: 'Lists & Feeds', subCategory: 'Grids' },
   VeilleCard:           { category: 'Cards', subCategory: 'Editorial content' },
-  'VeilleCard — design proposals':  { category: 'Cards', subCategory: 'Editorial content' },
-  'VeilleCard — design proposals v2': { category: 'Cards', subCategory: 'Editorial content' },
-  'VeilleCardFeed — layout proposals': { category: 'Lists & Feeds', subCategory: 'Grids' },
+  'VeilleCard — design proposals': { category: 'Cards', subCategory: 'Editorial content' },
   ActivityFeed:         { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
   ActivityTimeline:     { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
   RelatedItemList:      { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
@@ -3178,7 +3176,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/KeyFindingCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Dossier (Tier 2)', 'VeilleContent rapport (Tier 2)', 'MagazineArticle (Tier 2)'],
+    usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)'],
     description: '⭐ Glass card horizontale pour "points clés / insights / data findings". Icon-bubble gradient tone-aware + title + description ou metric (big value + label). Layout `horizontal` (default) ou `stacked`.',
     keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
     render: () => (
@@ -3807,12 +3805,12 @@ const COMPONENTS: ComponentEntry[] = [
     },
   },
   {
-    name: 'VeilleCard — verticales (grid)',
-    codeName: '(mockups visuels — formats carte portrait pour vue grid)',
+    name: 'VeilleCard — design proposals',
+    codeName: '(mockups visuels — verticaux grid + horizontaux list)',
     cssBase: 'Tailwind',
     category: 'Patterns',
-    description: '4 designs verticaux pour la vue grid (2-3 colonnes). Chaque design exprime un registre visuel différent : cover gradient, tinted bg, magazine overlay, glass photo.',
-    keywords: ['veille', 'card', 'vertical', 'grid', 'cover', 'tinted', 'overlay', 'glass'],
+    description: '7 proposals de design VeilleCard : **4 verticaux** pour vue grid (A cover, C tinted, D overlay, L glass) + **3 horizontaux** pour vue list (HZ-1 split image, HZ-2 tinted row, HZ-3 compact inbox). Badge catégorie overlaid en top glassy sur les images.',
+    keywords: ['veille', 'card', 'vertical', 'horizontal', 'grid', 'list', 'cover', 'tinted', 'overlay', 'glass', 'compact'],
     render: () => {
       const item = { typeLabel: 'Dossier', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
       return (
@@ -3896,40 +3894,33 @@ const COMPONENTS: ComponentEntry[] = [
             </article>
           </div>
 
-        </div>
-      );
-    },
-  },
-  {
-    name: 'VeilleCard — horizontales (list)',
-    codeName: '(mockups visuels — formats liste pour feed vertical)',
-    cssBase: 'Tailwind',
-    category: 'Patterns',
-    description: '3 designs horizontaux pour la vue list (feed vertical dense). Adaptations des meilleurs designs verticaux en format paysage compact : split image, tinted row, compact inbox.',
-    keywords: ['veille', 'card', 'horizontal', 'list', 'feed', 'split', 'tinted', 'compact', 'row'],
-    render: () => {
-      const items = [
-        { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
-        { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-600', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
-        { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
-      ];
+          {/* ── SECTION HORIZONTALES (LIST) ─── */}
+          <div className="border-t border-ink-100 pt-section">
+            <p className="text-body-sm font-bold text-ink-700 mb-section-lg">Designs horizontaux · vue liste</p>
+          </div>
 
-      return (
+          {(() => {
+            const hzItems = [
+              { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
+              { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-600', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+              { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
+            ];
+            return (
         <div className="flex flex-col gap-section">
 
           {/* HZ-1 — Badge sur l'image, meta sous le titre */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
             <div className="flex flex-col gap-stack-xs max-w-3xl">
-              {items.map((it, idx) => (
+              {hzItems.map((it, idx) => (
                 <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                   {/* Image avec badge en overlay bottom */}
                   <div className={`relative bg-gradient-to-br ${it.gradFrom} via-current ${it.gradTo} flex items-center justify-center min-h-[108px] overflow-hidden`}>
                     <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 60%)' }} aria-hidden />
                     <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
-                    {/* Badge catégorie — sur l'image en bas */}
-                    <span className="absolute bottom-2 left-0 right-0 flex justify-center">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm">
+                    {/* Badge catégorie — sur l'image en haut, glassy */}
+                    <span className="absolute top-2 left-0 right-0 flex justify-center">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
                         <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
                       </span>
                     </span>
@@ -3958,7 +3949,7 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
             <div className="flex flex-col gap-2 max-w-3xl">
-              {items.map((it, idx) => (
+              {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
                   {/* Zone icône avec badge en dessous */}
                   <div className={`relative flex flex-col items-center justify-center gap-1 w-16 sm:w-20 self-stretch ${it.toneBg} border-r ${it.toneBorder} shrink-0 py-3`}>
@@ -3989,7 +3980,7 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
             <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-3xl">
-              {items.map((it, idx) => (
+              {hzItems.map((it, idx) => (
                 <article key={idx} className="flex items-center gap-3 px-4 py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
                   {/* Icône + label badge empilés */}
                   <div className={`flex flex-col items-center gap-0.5 shrink-0`}>
@@ -4011,6 +4002,10 @@ const COMPONENTS: ComponentEntry[] = [
               ))}
             </div>
           </div>
+
+        </div>
+            );
+          })()}
 
         </div>
       );
@@ -5103,7 +5098,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Radar SVG 6 axes Dreyfus (1–5). Polygone niveau actuel (bleu) + objectif cible (orange, dashed). Légende intégrée. Clic sur axe → drill-down. 3 tailles. Modules #2 Passeport · #3 Profil · #6 Enterprise · #10 Analytics · #11 Projects.',
     keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
     showcaseOnly: false,
-    usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort'],
+    usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort', 'PasseportHistorique'],
     render: () => (
       <div className="flex flex-col gap-section items-center">
         <div className="flex flex-wrap gap-8 justify-center items-start">
@@ -5153,7 +5148,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
     keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
     showcaseOnly: false,
-    usedBy: [],
+    usedBy: ['PerplexityContentDetail', 'ItemRecommendations'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-3 items-center">
@@ -5215,7 +5210,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Indicateur de dégradation Dreyfus. Rien affiché si inactif ≤ 90j. Warning orange si 91–180j (pulsant). Danger si > 180j. Module #5 Gamification — badges compétences.',
     keywords: ['atrophie', 'dreyfus', 'inactif', 'badge', 'competence', 'degradation', 'warning', 'gamification'],
     showcaseOnly: false,
-    usedBy: ['Gamification'],
+    usedBy: ['Gamification', 'CoachEngagement'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-3 items-center">

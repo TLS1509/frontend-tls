@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import { Card } from '../components/core/Card';
+import SectionCard from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { ProgressBar } from '../components/ui/ProgressBar';
-import { Badge } from '../components/ui/Badge';
 
 const QUESTIONS = [
   { id: 1, competence: 'Communication écrite', q: 'Comment évaluez-vous votre aisance à rédiger des documents structurés (mémo, rapport) ?' },
@@ -67,12 +66,10 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
         </div>
 
-        <Card className="p-8 flex flex-col gap-stack-lg">
-          <div className="flex items-center gap-stack-xs">
-            <Badge variant="brand">{q.competence}</Badge>
-          </div>
-          <h2 className="text-h3 font-display font-semibold">{q.q}</h2>
-
+        <SectionCard
+          title={q.q}
+          description={`Compétence évaluée : ${q.competence}`}
+        >
           <div className="grid grid-cols-1 md:grid-cols-5 gap-stack-xs">
             {DREYFUS_LEVELS.map((lv) => (
               <button
@@ -90,7 +87,7 @@ const OnboardingQuestionnaire: React.FC = () => {
               </button>
             ))}
           </div>
-        </Card>
+        </SectionCard>
 
         <div className="flex items-center justify-between">
           <Button variant="ghost" leadingIcon={<ChevronLeft className="w-4 h-4" />} onClick={handlePrev} disabled={currentQ === 0}>

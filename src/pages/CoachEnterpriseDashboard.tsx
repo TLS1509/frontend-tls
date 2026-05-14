@@ -81,7 +81,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
             <div className="flex flex-col gap-stack-xs">
               {VALIDATION_QUEUE.map((q) => (
                 <Card key={q.id} className="p-4 flex items-center gap-stack">
-                  <ClipboardCheck className="w-6 h-6 text-warm-fg" />
+                  <ClipboardCheck className="w-6 h-6 text-secondary-600" />
                   <Avatar initials={q.initials} size="sm" />
                   <div className="flex-1">
                     <div className="font-semibold">{q.exercise}</div>

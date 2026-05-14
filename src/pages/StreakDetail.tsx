@@ -1,12 +1,11 @@
 import React from 'react';
-import { Flame, Trophy, Target, Calendar } from 'lucide-react';
+import { Flame, Target, CheckCircle2, Lock } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
-import { AchievementBadge } from '../components/ui/AchievementBadge';
 
 const DAYS = Array.from({ length: 30 }, (_, i) => {
   // Simulate streak data: 18-day current streak, with one break around day 12
@@ -14,6 +13,14 @@ const DAYS = Array.from({ length: 30 }, (_, i) => {
   const active = day >= 13 || (day <= 11 && day >= 1);
   return { day, active };
 });
+
+// Milestone tone → icon bubble classes
+const MILESTONE_BUBBLE: Record<string, string> = {
+  info:    'bg-primary-100 text-primary-700',
+  success: 'bg-success-bg text-success-fg',
+  warm:    'bg-secondary-50 text-secondary-600',
+  sun:     'bg-accent-50 text-accent-500',
+};
 
 const MILESTONES = [
   { days: 7, label: '1 semaine', tone: 'info' as const, unlocked: true },
@@ -45,12 +52,12 @@ const StreakDetail: React.FC = () => {
 
         <SectionCard title="Activité des 30 derniers jours" description="Un carré = un jour. Vert = activité validée, gris = inactif">
           <Card className="p-6">
-            <div className="grid grid-cols-7 sm:grid-cols-15 gap-1">
+            <div className="grid grid-cols-7 gap-1 max-w-[280px]">
               {DAYS.map((d) => (
                 <div
                   key={d.day}
                   title={`Jour ${d.day} — ${d.active ? 'Actif' : 'Inactif'}`}
-                  className={`aspect-square rounded ${
+                  className={`aspect-square rounded-sm ${
                     d.active ? 'bg-success-base' : 'bg-ink-100'
                   }`}
                 />
@@ -67,7 +74,12 @@ const StreakDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
             {MILESTONES.map((m) => (
               <Card key={m.days} className="p-4 flex items-center gap-4">
-                <AchievementBadge tone={m.tone} icon={<Flame className="w-6 h-6" />} size="md" />
+                {/* Icon bubble — replaces AchievementBadge (full card component, not suitable inline) */}
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
+                  {m.unlocked
+                    ? <CheckCircle2 className="w-6 h-6" />
+                    : <Lock className="w-5 h-5 opacity-60" />}
+                </div>
                 <div className="flex-1">
                   <div className="font-semibold">{m.label}</div>
                   <div className="text-caption text-ink-500 mb-2">{m.days} jours consécutifs</div>
@@ -85,8 +97,8 @@ const StreakDetail: React.FC = () => {
           </div>
         </SectionCard>
 
-        <Card className="p-6 bg-warm-bg/30 border-warm-base/30 flex items-center gap-4">
-          <Target className="w-10 h-10 text-warm-fg" />
+        <Card className="p-6 bg-secondary-50/50 border-secondary-200 flex items-center gap-4">
+          <Target className="w-10 h-10 text-secondary-600" />
           <div className="flex-1">
             <div className="font-semibold mb-1">Objectif du jour</div>
             <p className="text-body-sm text-ink-700">Termine une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>

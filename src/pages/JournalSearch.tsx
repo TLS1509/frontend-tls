@@ -26,7 +26,7 @@ const ENTRIES: JournalEntry[] = [
 const MOOD_CONFIG = {
   happy: { icon: Smile, color: 'text-success-fg', label: 'Positif' },
   neutral: { icon: Meh, color: 'text-info-fg', label: 'Neutre' },
-  sad: { icon: Frown, color: 'text-warm-fg', label: 'Difficile' },
+  sad: { icon: Frown, color: 'text-secondary-600', label: 'Difficile' },
 };
 
 const JournalSearch: React.FC = () => {

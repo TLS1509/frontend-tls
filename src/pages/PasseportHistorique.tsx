@@ -28,7 +28,7 @@ const TIMELINE: TimelineEvent[] = [
 
 const TYPE_CONFIG = {
   jac: { icon: Award, color: 'text-success-fg', bg: 'bg-success-bg', label: 'JAC' },
-  mission: { icon: Briefcase, color: 'text-warm-fg', bg: 'bg-warm-bg', label: 'Mission' },
+  mission: { icon: Briefcase, color: 'text-secondary-600', bg: 'bg-secondary-50', label: 'Mission' },
   formation: { icon: BookOpen, color: 'text-info-fg', bg: 'bg-info-bg', label: 'Formation' },
   'dreyfus-up': { icon: TrendingUp, color: 'text-primary-700', bg: 'bg-primary-50', label: 'Niveau ↑' },
 };
