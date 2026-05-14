@@ -15,7 +15,7 @@
  * ⚠️ Neutralise piège #8 `[role="button"]` (BEM 40px clip) via `!h-auto !overflow-visible`.
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Bookmark,
   BookmarkCheck,
@@ -23,6 +23,8 @@ import {
   User,
   Clock,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   type LucideIcon,
 } from 'lucide-react';
 import { Button } from '../core/Button';
@@ -153,7 +155,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
       ].join(' ')}
     >
       {/* Cover gradient tone-aware (h-40) — style magazine cover */}
-      <div className={['relative h-40 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative h-40 shrink-0 overflow-hidden rounded-t-2xl', COVER_GRADIENT[tone]].join(' ')}>
         {/* Decorative radial pattern */}
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 25% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
 
@@ -196,9 +198,15 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
       {/* Body content */}
       <div className="flex flex-col gap-stack-xs p-5 flex-1">
-        <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-          {item.category} · {item.publishedAt}
-        </span>
+        <div className="inline-flex items-center gap-1.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+          <span className="inline-flex items-center gap-1"><User size={10} strokeWidth={2} />{item.author}</span>
+          <span aria-hidden>·</span>
+          <span>{item.category}</span>
+          <span aria-hidden>·</span>
+          <span>{item.publishedAt}</span>
+          <span aria-hidden>·</span>
+          <span className="inline-flex items-center gap-1"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+        </div>
 
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
           {item.title}
@@ -208,16 +216,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           {item.summary}
         </p>
 
-        <footer className="flex flex-wrap gap-3 items-center justify-between pt-stack-xs border-t border-ink-100 mt-stack-xs">
-          <div className="inline-flex items-center gap-2 font-body text-caption text-ink-600 min-w-0">
-            <span className="inline-flex items-center gap-1 truncate">
-              <User size={12} />{item.author}
-            </span>
-            <span aria-hidden>•</span>
-            <span className="inline-flex items-center gap-1 shrink-0">
-              <Clock size={12} />{item.readTime}
-            </span>
-          </div>
+        <footer className="flex items-center justify-end pt-stack-xs border-t border-ink-100 mt-stack-xs">
           <span className={['inline-flex items-center gap-1 font-body text-caption font-bold transition-transform group-hover:translate-x-0.5', TONE_LINK[tone]].join(' ')}>
             {isVideo ? <><Play size={11} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={13} /></>}
           </span>
@@ -247,8 +246,8 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         ROLE_BUTTON_RESET,
       ].join(' ')}
     >
-      {/* Large square cover gradient left (28 w · self-stretch) */}
-      <div className={['relative w-28 sm:w-36 shrink-0 overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      {/* Cover gradient left — badge catégorie overlaid en bas */}
+      <div className={['relative w-28 sm:w-36 shrink-0 overflow-hidden rounded-l-2xl', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={44} strokeWidth={1.5} className="text-white/95 transition-transform duration-base group-hover:scale-110" />
@@ -260,27 +259,31 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
             </span>
           </div>
         )}
+        {/* Badge catégorie — overlaid en bas de l'image */}
+        <span className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-[10px] font-bold uppercase tracking-wide text-ink-900 shadow-xs">
+            <TypeIcon size={9} strokeWidth={2.5} /> {item.typeLabel}
+          </span>
+        </span>
       </div>
 
-      {/* Body content */}
+      {/* Body content — titre → meta → summary */}
       <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 sm:p-5 justify-center">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className={['inline-flex items-center gap-1 px-2 py-0.5 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
-            <TypeIcon size={10} strokeWidth={2.5} /> {item.typeLabel}
-          </span>
-          <span className="font-body text-micro text-ink-500">{item.category} · {item.publishedAt}</span>
-        </div>
         <h3 className="m-0 font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
           {item.title}
         </h3>
+        <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
+          <span className="inline-flex items-center gap-1"><User size={10} strokeWidth={2} />{item.author}</span>
+          <span aria-hidden>·</span>
+          <span>{item.category}</span>
+          <span aria-hidden>·</span>
+          <span>{item.publishedAt}</span>
+          <span aria-hidden>·</span>
+          <span className="inline-flex items-center gap-1"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+        </div>
         <p className="m-0 font-body text-caption sm:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
           {item.summary}
         </p>
-        <div className="inline-flex items-center gap-2 font-body text-caption text-ink-600 mt-tight">
-          <span className="inline-flex items-center gap-1 truncate"><User size={11} />{item.author}</span>
-          <span aria-hidden>•</span>
-          <span className="inline-flex items-center gap-1 shrink-0"><Clock size={11} />{item.readTime}</span>
-        </div>
       </div>
 
       {/* Right actions : bookmark + CTA */}
@@ -335,7 +338,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
       ].join(' ')}
     >
       {/* Cover (left) — gradient + icon */}
-      <div className={['relative min-h-[240px] lg:min-h-[300px] overflow-hidden', COVER_GRADIENT[tone]].join(' ')}>
+      <div className={['relative min-h-[240px] lg:min-h-[300px] overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
@@ -389,6 +392,158 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         </Button>
       </div>
     </article>
+  );
+};
+
+/* ─── FeaturedSpotlightCarousel (variant 3 — auto-cycling hero) ──────────── */
+
+export interface FeaturedSpotlightCarouselProps {
+  items: VeilleFeedItem[];
+  savedIds: Set<string>;
+  showSaveButton?: boolean;
+  onToggleSave?: (id: string) => void;
+  onClick?: (item: VeilleFeedItem) => void;
+  autoPlayMs?: number;
+}
+
+export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps> = ({
+  items,
+  savedIds,
+  showSaveButton = true,
+  onToggleSave,
+  onClick,
+  autoPlayMs = 5000,
+}) => {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
+  const next = useCallback(() => setIndex((i) => (i + 1) % items.length), [items.length]);
+
+  useEffect(() => {
+    if (paused || items.length < 2) return;
+    const id = setInterval(next, autoPlayMs);
+    return () => clearInterval(id);
+  }, [paused, next, autoPlayMs, items.length]);
+
+  if (!items.length) return null;
+
+  const item = items[index];
+  const { TypeIcon, tone } = item;
+  const isSaved = savedIds.has(item.id);
+
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden border border-ink-200 bg-white"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr]">
+        {/* Cover (left) */}
+        <div className={['relative min-h-[240px] lg:min-h-[320px] overflow-hidden rounded-t-2xl lg:rounded-l-2xl lg:rounded-tr-none', COVER_GRADIENT[tone]].join(' ')}>
+          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6) 0%, transparent 60%)' }} aria-hidden />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
+          </div>
+          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+            ✨ À la une
+          </span>
+          {showSaveButton && onToggleSave && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onToggleSave(item.id); }}
+              aria-label={isSaved ? 'Retirer des favoris' : 'Enregistrer'}
+              className={[
+                'absolute top-4 right-4 inline-flex items-center justify-center w-10 h-10 rounded-pill backdrop-blur-glass-light border transition-all',
+                isSaved
+                  ? 'bg-white text-primary-700 border-white shadow-sm'
+                  : 'bg-white/30 text-white border-white/40 hover:bg-white/60 hover:text-ink-900',
+              ].join(' ')}
+            >
+              {isSaved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
+            </button>
+          )}
+
+          {/* Dots + arrows overlay (bottom of cover) */}
+          {items.length > 1 && (
+            <div className="absolute bottom-4 inset-x-4 flex items-center justify-between">
+              {/* Dots */}
+              <div className="flex items-center gap-1.5">
+                {items.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Slide ${i + 1}`}
+                    onClick={() => setIndex(i)}
+                    className={[
+                      'rounded-pill transition-all duration-base',
+                      i === index
+                        ? 'w-5 h-1.5 bg-white'
+                        : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/80',
+                    ].join(' ')}
+                  />
+                ))}
+              </div>
+
+              {/* Arrow buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Précédent"
+                  onClick={prev}
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
+                >
+                  <ChevronLeft size={15} strokeWidth={2.5} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Suivant"
+                  onClick={next}
+                  className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white/20 text-white border border-white/30 hover:bg-white/40 backdrop-blur-glass-light transition-all"
+                >
+                  <ChevronRight size={15} strokeWidth={2.5} />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Content (right) */}
+        <div
+          className="flex flex-col gap-stack p-6 lg:p-8 justify-center cursor-pointer group"
+          onClick={() => onClick?.(item)}
+          tabIndex={0}
+          role="button"
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
+        >
+          <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+            <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
+          </span>
+          <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">
+            {item.title}
+          </h2>
+          <p className="m-0 font-body text-body text-ink-700 leading-relaxed line-clamp-3">
+            {item.summary}
+          </p>
+          <div className="flex flex-wrap gap-3 items-center text-caption text-ink-600">
+            <span className="inline-flex items-center gap-1"><User size={13} />{item.author}</span>
+            <span aria-hidden>•</span>
+            <span className="inline-flex items-center gap-1"><Clock size={13} />{item.readTime}</span>
+            <span aria-hidden>•</span>
+            <span>{item.publishedAt}</span>
+          </div>
+          <Button
+            variant={CTA_VARIANT[tone]}
+            size="md"
+            trailingIcon={<ArrowRight size={16} />}
+            onClick={(e) => { e.stopPropagation(); onClick?.(item); }}
+            className="self-start"
+          >
+            {item.isVideo ? 'Visionner maintenant' : "Lire l'article"}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
 

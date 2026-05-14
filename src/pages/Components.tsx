@@ -3807,12 +3807,12 @@ const COMPONENTS: ComponentEntry[] = [
     },
   },
   {
-    name: 'VeilleCard — design proposals',
-    codeName: '(mockups visuels — choisir avant implémentation comme variants)',
+    name: 'VeilleCard — verticales (grid)',
+    codeName: '(mockups visuels — formats carte portrait pour vue grid)',
     cssBase: 'Tailwind',
     category: 'Patterns',
-    description: '⭐ Proposals · 4 design alternatifs de VeilleCard à choisir. Le design actuel est "cover gradient prominent" (style magazine). Voici 4 alternatives pour différents contextes — dis lequel tu préfères pour qu\'on en fasse un variant `design` prop sur VeilleCard.',
-    keywords: ['veille', 'card', 'design', 'proposal', 'variant', 'minimal', 'compact', 'tinted', 'cover'],
+    description: '4 designs verticaux pour la vue grid (2-3 colonnes). Chaque design exprime un registre visuel différent : cover gradient, tinted bg, magazine overlay, glass photo.',
+    keywords: ['veille', 'card', 'vertical', 'grid', 'cover', 'tinted', 'overlay', 'glass'],
     render: () => {
       const item = { typeLabel: 'Dossier', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
       return (
@@ -3871,103 +3871,10 @@ const COMPONENTS: ComponentEntry[] = [
             </article>
           </div>
 
-          {/* Design E — Compact list-row (one line per item dense) */}
-          <div className="flex flex-col gap-stack-xs md:col-span-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">E · Compact list-row · 1 ligne dense (pour feed très dense type inbox)</p>
-            <div className="flex flex-col gap-stack-xs rounded-2xl bg-white border border-ink-200 overflow-hidden p-2">
-              {[item, { ...item, title: "L'essor du microlearning en entreprise", category: 'Formation', typeLabel: 'Actu' }, { ...item, title: 'Construire un prompt structuré en 5 étapes', category: 'Prompt Engineering', typeLabel: 'Tutoriel' }].map((it, idx) => (
-                <article key={idx} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-ink-50 cursor-pointer">
-                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-accent-50 text-accent-700 shrink-0"><FolderOpen size={16} /></span>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">{it.title}</h4>
-                    <p className="m-0 font-body text-caption text-ink-500 truncate">{it.typeLabel} · {it.category} · {it.author} · ⏱ {it.readTime}</p>
-                  </div>
-                  <button className="text-ink-400 hover:text-primary-600 shrink-0"><Bookmark size={15} /></button>
-                  <ArrowRight size={14} className="text-ink-400 shrink-0" />
-                </article>
-              ))}
-            </div>
-          </div>
-
-          {/* Design J — Editorial portrait (tall card) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">J · Editorial portrait · card tall verticale (style magazine print)</p>
-            <article className="flex flex-col rounded-2xl bg-gradient-to-b from-accent-50 to-white border border-accent-100 overflow-hidden hover:shadow-lg cursor-pointer">
-              <div className="relative h-56 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={84} strokeWidth={1.25} className="text-white/95" /></div>
-                {/* Edition number top corner */}
-                <div className="absolute top-3 left-3 inline-flex items-baseline gap-1 px-3 py-1.5 rounded-md bg-white/95 backdrop-blur-glass-light shadow-sm">
-                  <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">N°</span>
-                  <span className="font-display text-body font-black text-ink-900">14</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-stack p-6 flex-1">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-100 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed line-clamp-3 flex-1">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-accent-100">
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-        </div>
-      );
-    },
-  },
-  {
-    name: 'VeilleCard — design proposals v2',
-    codeName: '(mockups v2 — 8 designs supplémentaires K-R, plus distincts visuellement)',
-    cssBase: 'Tailwind',
-    category: 'Patterns',
-    description: '⭐ Proposals v2 · 8 nouveaux designs explorent d\'autres registres visuels : split horizontal, glass overlay sur photo, polaroid analog, brutalist zine, bookmark tab, audio podcast, drop cap éditorial, corner ribbon. Dis lesquels te plaisent pour qu\'on en fasse des variants `design` prop.',
-    keywords: ['veille', 'card', 'design', 'proposal', 'split', 'glass', 'polaroid', 'brutalist', 'bookmark', 'audio', 'drop-cap', 'ribbon', 'v2'],
-    render: () => {
-      const item = {
-        typeLabel: 'Dossier',
-        category: 'Management',
-        title: "Transformation IA des parcours de formation",
-        summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.",
-        author: 'McKinsey',
-        publishedAt: 'Il y a 3 jours',
-        readTime: '22 min',
-      };
-
-      return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-
-          {/* K — Split horizontal Medium-style (image left 40% / text right 60%) */}
-          <div className="flex flex-col gap-stack-xs md:col-span-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">K · Split horizontal · image left + content right (Medium.com style, ratio 40/60)</p>
-            <article className="grid grid-cols-[2fr_3fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer max-w-3xl">
-              <div className="relative bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500 min-h-[180px]">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <FolderOpen size={64} strokeWidth={1.2} className="text-white/95" />
-                </div>
-                <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900 shadow-sm">
-                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
-                </span>
-              </div>
-              <div className="flex flex-col gap-stack-xs p-5 sm:p-6">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-                  {item.category} · {item.publishedAt}
-                </span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs mt-auto border-t border-ink-100">
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
           {/* L — Glass overlay full photo (Apple News style) */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
-            <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 via-accent-500 to-secondary-600 h-[320px] cursor-pointer group">
+            <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 via-accent-500 to-secondary-600 h-[300px] cursor-pointer group">
               <div className="absolute inset-0 flex items-center justify-center opacity-90">
                 <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
               </div>
@@ -3977,185 +3884,130 @@ const COMPONENTS: ComponentEntry[] = [
               <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
                 <Bookmark size={15} />
               </button>
-              {/* Glass panel content bottom */}
               <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-4 flex flex-col gap-1 shadow-lg">
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">
-                  {item.category} · {item.publishedAt}
-                </span>
+                <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
                 <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <footer className="flex items-center gap-2 mt-1 font-body text-micro text-ink-600">
+                <div className="flex items-center gap-2 mt-1 font-body text-micro text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
                   <span>⏱ {item.readTime}</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-          {/* N — Brutalist zine (thick black border + offset shadow + uppercase tight) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">N · Brutalist zine · bordure noire épaisse + ombre offset + uppercase tight</p>
-            <article className="bg-white border-[3px] border-ink-900 hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform cursor-pointer relative" style={{ boxShadow: '6px 6px 0 0 var(--color-accent-400, #F8B044)' }}>
-              <div className="h-32 bg-ink-900 flex items-center justify-center border-b-[3px] border-ink-900">
-                <FolderOpen size={56} strokeWidth={1.5} className="text-accent-400" />
-              </div>
-              <div className="p-5 flex flex-col gap-2">
-                <span className="inline-flex self-start px-2 py-0.5 bg-ink-900 text-accent-400 text-micro font-black uppercase tracking-widest">
-                  ▸ {item.typeLabel} · {item.category}
-                </span>
-                <h3 className="m-0 font-display text-h4 font-black uppercase text-ink-900 leading-none tracking-tight">{item.title}</h3>
-                <span className="font-mono text-micro font-bold uppercase text-ink-700">{item.author} · {item.readTime}</span>
-                <p className="m-0 font-body text-caption text-ink-700 leading-relaxed">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-2 border-t-2 border-ink-900 mt-1 font-mono text-micro font-bold uppercase">
-                  <span>Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-          {/* O — Bookmark tab (visual sticker out of card top) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">O · Bookmark tab · onglet visuel qui dépasse du haut comme un marque-page</p>
-            <article className="relative bg-white rounded-2xl border border-ink-200 mt-4 hover:shadow-md cursor-pointer transition-shadow">
-              {/* Bookmark tab top */}
-              <span className="absolute -top-3 left-5 inline-flex items-center gap-1.5 px-3 pb-3 pt-1.5 rounded-t-lg bg-accent-400 text-ink-900 text-micro font-black uppercase tracking-wider shadow-sm">
-                <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
-              </span>
-              <div className="h-32 bg-gradient-to-br from-accent-100 via-accent-200 to-secondary-200 rounded-t-2xl overflow-hidden flex items-center justify-center">
-                <FolderOpen size={56} strokeWidth={1.2} className="text-accent-700/60" />
-              </div>
-              <div className="p-5 flex flex-col gap-stack-xs">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-                  {item.category} · {item.publishedAt}
-                </span>
-                <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-2">{item.summary}</p>
-                <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100">
-                  <span className="text-caption font-bold text-accent-700">Lire →</span>
-                </footer>
-              </div>
-            </article>
-          </div>
-
-          {/* P — Audio / podcast-first (waveform background) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">P · Audio podcast-first · waveform en background + bouton play prominent</p>
-            <article className="relative rounded-2xl bg-gradient-to-br from-ink-900 via-primary-900 to-primary-800 p-6 cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
-              {/* Waveform decorative SVG */}
-              <svg aria-hidden viewBox="0 0 200 60" className="absolute inset-x-0 bottom-0 w-full h-20 text-accent-400/30">
-                <path d="M0,30 L8,28 L16,18 L24,38 L32,22 L40,42 L48,15 L56,45 L64,20 L72,38 L80,12 L88,40 L96,25 L104,35 L112,18 L120,42 L128,28 L136,32 L144,15 L152,45 L160,22 L168,38 L176,18 L184,40 L192,28 L200,30" stroke="currentColor" strokeWidth="2" fill="none" />
-              </svg>
-
-              <div className="relative flex items-start gap-4">
-                <button aria-label="Play" className="shrink-0 inline-flex items-center justify-center w-14 h-14 rounded-pill bg-accent-400 text-ink-900 hover:scale-105 transition-transform shadow-lg">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
-                </button>
-                <div className="flex-1 min-w-0">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-400/20 text-accent-300 text-micro font-bold uppercase tracking-wider border border-accent-400/40">
-                    🎙 Podcast · {item.typeLabel}
-                  </span>
-                  <h3 className="m-0 mt-2 font-display text-h4 font-bold text-white leading-tight">{item.title}</h3>
-                  <span className="font-body text-caption text-white/70 mt-1"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                  <p className="m-0 mt-1 font-body text-caption text-white/70 leading-relaxed line-clamp-2">{item.summary}</p>
-                  <footer className="flex items-center gap-3 mt-3 font-body text-micro text-white/80">
-                    <span>Episode #12</span>
-                  </footer>
                 </div>
               </div>
             </article>
           </div>
-
-          {/* Q — Drop cap editorial (giant first letter serif print) */}
-          <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Q · Drop cap editorial · grand initial caractère style print magazine</p>
-            <article className="bg-white rounded-2xl border border-ink-200 p-6 sm:p-7 hover:shadow-md cursor-pointer transition-shadow">
-              <header className="flex items-center justify-between mb-3">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-accent-50 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider">
-                  <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
-                </span>
-                <span className="font-body text-micro text-ink-500">{item.publishedAt}</span>
-              </header>
-              <div className="flex items-start gap-4">
-                <span aria-hidden className="font-display text-[5rem] font-black leading-[0.85] text-accent-500 select-none">
-                  {item.title.charAt(0)}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">{item.title}</h3>
-                  <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
-                  <p className="m-0 mt-2 font-body text-body-sm text-ink-600 leading-relaxed line-clamp-3">{item.summary}</p>
-                </div>
-              </div>
-              <footer className="flex justify-between items-center pt-stack-xs mt-stack border-t border-ink-100">
-                <span className="text-caption font-bold text-accent-700">Lire →</span>
-              </footer>
-            </article>
-          </div>
-
 
         </div>
       );
     },
   },
   {
-    name: 'VeilleCardFeed — layout proposals',
-    codeName: '(mockups visuels — choisir avant implémentation comme layouts)',
+    name: 'VeilleCard — horizontales (list)',
+    codeName: '(mockups visuels — formats liste pour feed vertical)',
     cssBase: 'Tailwind',
     category: 'Patterns',
-    description: '⭐ Proposals · 3 layouts alternatifs en plus de `grid` et `list` actuels. Choisis ceux à wirer comme variant `layout` prop sur VeilleCardFeed.',
-    keywords: ['veille', 'feed', 'layout', 'masonry', 'mosaic', 'carousel', 'proposal'],
+    description: '3 designs horizontaux pour la vue list (feed vertical dense). Adaptations des meilleurs designs verticaux en format paysage compact : split image, tinted row, compact inbox.',
+    keywords: ['veille', 'card', 'horizontal', 'list', 'feed', 'split', 'tinted', 'compact', 'row'],
     render: () => {
-      type FeedSample = { typeLabel: string; tone: 'brand' | 'warm' | 'sun'; icon: typeof TrendingUp; title: string; excerpt: string };
-      const items: FeedSample[] = [
-        { typeLabel: 'Actu', tone: 'brand', icon: TrendingUp, title: "IA générative en formation : où en sommes-nous ?", excerpt: "Tour d'horizon des nouveaux usages…" },
-        { typeLabel: 'Tutoriel', tone: 'warm', icon: Video, title: 'Construire un prompt structuré', excerpt: 'Une vidéo pas à pas pour formaliser…' },
-        { typeLabel: 'Dossier', tone: 'sun', icon: FolderOpen, title: "Transformation IA des parcours", excerpt: "Synthèse approfondie sur l'impact de l'IA…" },
-        { typeLabel: 'Magazine', tone: 'brand', icon: BookOpen, title: 'Tendances EdTech 2026', excerpt: 'Numéro mensuel : marchés en croissance…' },
+      const items = [
+        { typeLabel: 'Actu', Icon: TrendingUp, gradFrom: 'from-primary-400', gradTo: 'to-primary-700', toneText: 'text-primary-700', toneBg: 'bg-primary-50', toneBorder: 'border-primary-200', category: 'IA & Pédagogie', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA.", author: 'The Learning Society', publishedAt: "Aujourd'hui", readTime: '6 min' },
+        { typeLabel: 'Tutoriel', Icon: Video, gradFrom: 'from-secondary-400', gradTo: 'to-secondary-700', toneText: 'text-secondary-600', toneBg: 'bg-secondary-50', toneBorder: 'border-secondary-200', category: 'Prompt Engineering', title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts.', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+        { typeLabel: 'Dossier', Icon: FolderOpen, gradFrom: 'from-accent-300', gradTo: 'to-accent-600', toneText: 'text-accent-700', toneBg: 'bg-accent-50', toneBorder: 'border-accent-200', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur les dispositifs de formation en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
       ];
-
-      const renderCard = (it: FeedSample, idx: number, opts?: { large?: boolean; horizontal?: boolean }) => {
-        const Icon = it.icon;
-        const grad = it.tone === 'brand' ? 'from-primary-400 via-primary-500 to-primary-700'
-          : it.tone === 'warm' ? 'from-secondary-300 via-secondary-500 to-secondary-700'
-          : 'from-accent-300 via-accent-500 to-secondary-500';
-        return opts?.horizontal ? (
-          <article key={idx} className="flex items-stretch rounded-2xl bg-white border border-ink-200 overflow-hidden shrink-0 w-[280px] cursor-pointer hover:shadow-md transition-all">
-            <div className={`relative w-24 shrink-0 bg-gradient-to-br ${grad} flex items-center justify-center`}><Icon size={32} className="text-white" /></div>
-            <div className="flex flex-col gap-tight p-3 flex-1 min-w-0">
-              <span className="text-micro font-bold uppercase text-ink-500">{it.typeLabel}</span>
-              <h4 className="m-0 text-body-sm font-bold text-ink-900 line-clamp-2 leading-tight">{it.title}</h4>
-            </div>
-          </article>
-        ) : (
-          <article key={idx} className={`flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden cursor-pointer hover:shadow-md transition-all ${opts?.large ? '' : ''}`}>
-            <div className={`relative ${opts?.large ? 'h-44' : 'h-28'} bg-gradient-to-br ${grad} flex items-center justify-center`}>
-              <Icon size={opts?.large ? 64 : 40} className="text-white" />
-              <span className="absolute top-2 left-2 px-2 py-0.5 rounded-pill bg-white/95 text-micro font-bold uppercase text-ink-900">{it.typeLabel}</span>
-            </div>
-            <div className="flex flex-col gap-tight p-3">
-              <h4 className={`m-0 ${opts?.large ? 'text-h4' : 'text-body-sm'} font-bold text-ink-900 line-clamp-2 leading-tight`}>{it.title}</h4>
-              {opts?.large && <p className="m-0 text-caption text-ink-600 line-clamp-2">{it.excerpt}</p>}
-            </div>
-          </article>
-        );
-      };
 
       return (
         <div className="flex flex-col gap-section">
 
-          {/* Layout B — Carousel horizontal */}
-          <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">B · Carousel horizontal · scroll horizontal scrollbar (sections "À découvrir")</p>
-            <div className="flex gap-stack overflow-x-auto pb-stack-xs -mx-2 px-2 snap-x snap-mandatory">
+          {/* HZ-1 — Badge sur l'image, meta sous le titre */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
+            <div className="flex flex-col gap-stack-xs max-w-3xl">
               {items.map((it, idx) => (
-                <div key={idx} className="snap-start shrink-0 w-[260px]">
-                  {renderCard(it, idx)}
-                </div>
+                <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
+                  {/* Image avec badge en overlay bottom */}
+                  <div className={`relative bg-gradient-to-br ${it.gradFrom} via-current ${it.gradTo} flex items-center justify-center min-h-[108px] overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 60%)' }} aria-hidden />
+                    <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
+                    {/* Badge catégorie — sur l'image en bas */}
+                    <span className="absolute bottom-2 left-0 right-0 flex justify-center">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm">
+                        <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
+                      </span>
+                    </span>
+                  </div>
+                  {/* Content : titre → meta → summary */}
+                  <div className="flex flex-col justify-center gap-tight p-4">
+                    <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
+                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
+                      <User size={10} className="shrink-0" />
+                      <span>{it.author}</span>
+                      <span aria-hidden>·</span>
+                      <span>{it.category}</span>
+                      <span aria-hidden>·</span>
+                      <span>{it.publishedAt}</span>
+                      <span aria-hidden>·</span>
+                      <span>⏱ {it.readTime}</span>
+                    </div>
+                    <p className="m-0 font-body text-caption text-ink-500 line-clamp-1 hidden sm:block">{it.summary}</p>
+                  </div>
+                </article>
               ))}
+            </div>
+          </div>
+
+          {/* HZ-2 — Tinted row avec badge sur zone icône */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
+            <div className="flex flex-col gap-2 max-w-3xl">
               {items.map((it, idx) => (
-                <div key={`b-${idx}`} className="snap-start shrink-0 w-[260px]">
-                  {renderCard(it, idx)}
-                </div>
+                <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
+                  {/* Zone icône avec badge en dessous */}
+                  <div className={`relative flex flex-col items-center justify-center gap-1 w-16 sm:w-20 self-stretch ${it.toneBg} border-r ${it.toneBorder} shrink-0 py-3`}>
+                    <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 ${it.toneText} shadow-xs`}>
+                      <it.Icon size={17} strokeWidth={1.75} />
+                    </div>
+                    <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText} opacity-70`}>{it.typeLabel}</span>
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 flex flex-col gap-tight px-4 py-3">
+                    <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
+                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
+                      <User size={10} className="shrink-0" />
+                      <span>{it.author}</span>
+                      <span aria-hidden>·</span>
+                      <span>{it.publishedAt}</span>
+                      <span aria-hidden>·</span>
+                      <span>⏱ {it.readTime}</span>
+                    </div>
+                  </div>
+                  <span className={`font-body text-caption font-bold ${it.toneText} shrink-0 pr-4`}>Lire →</span>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* HZ-3 — Compact inbox (ultra-dense, 1 ligne) */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
+            <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-3xl">
+              {items.map((it, idx) => (
+                <article key={idx} className="flex items-center gap-3 px-4 py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
+                  {/* Icône + label badge empilés */}
+                  <div className={`flex flex-col items-center gap-0.5 shrink-0`}>
+                    <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${it.toneBg} ${it.toneText}`}>
+                      <it.Icon size={16} strokeWidth={2} />
+                    </span>
+                    <span className={`font-body text-[8px] font-black uppercase tracking-wider ${it.toneText}`}>{it.typeLabel}</span>
+                  </div>
+                  {/* Title + meta */}
+                  <div className="flex-1 min-w-0 flex flex-col gap-tight">
+                    <h4 className="m-0 font-display text-body-sm font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
+                    <p className="m-0 font-body text-micro text-ink-400 truncate">
+                      <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
+                    </p>
+                  </div>
+                  <button className="text-ink-300 hover:text-primary-600 shrink-0 transition-colors"><Bookmark size={14} /></button>
+                  <ArrowRight size={13} className="text-ink-300 group-hover:text-ink-600 shrink-0 group-hover:translate-x-0.5 transition-all" />
+                </article>
               ))}
             </div>
           </div>
@@ -4295,43 +4147,13 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/NewsletterSignupCard.tsx',
     cssBase: 'Tailwind',
     category: 'Learning',
-    description: "Card éditoriale d'inscription newsletter — badge + headline display + résumé valeur + lien dernière édition + formulaire email inline. Pattern propre à la Veille.",
-    keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial'],
+    description: "Bandeau full-bleed newsletter — fond primary-900, headline display + formulaire email inline + lien dernière édition optionnel. Pattern propre à la Veille. Pas de card shell ni de border accent.",
+    keywords: ['newsletter', 'signup', 'email', 'subscription', 'veille', 'editorial', 'band', 'full-bleed'],
     render: () => (
-      <div className="max-w-md">
-        <NewsletterSignupCard
-          onSubmit={() => {}}
-          onSeeLastIssue={() => {}}
-        />
-      </div>
-    ),
-  },
-  {
-    name: 'VeilleEditorialCombo',
-    codeName: 'patterns/NewsletterSignupCard.tsx + learning/MagazineCard.tsx',
-    cssBase: 'Tailwind',
-    category: 'Learning',
-    description: "Pattern 50/50 Veille — Magazine TLS (cover éditoriale) + Newsletter signup côte à côte. Les deux cards s'étirent à la même hauteur via items-stretch.",
-    keywords: ['magazine', 'newsletter', 'combo', 'split', 'veille', 'editorial', '50/50'],
-    render: () => (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack items-stretch max-w-3xl">
-        <MagazineCard
-          tone="warm"
-          issueNumber={14}
-          title="L'IA au cœur de la formation"
-          description="56 pages de recherches, portraits et analyses pour transformer vos pratiques pédagogiques en 2026."
-          articleCount={6}
-          publishedAt="Mai 2026"
-          onClick={() => {}}
-          onSave={() => {}}
-          className="h-full"
-        />
-        <NewsletterSignupCard
-          onSubmit={() => {}}
-          onSeeLastIssue={() => {}}
-          className="h-full"
-        />
-      </div>
+      <NewsletterSignupCard
+        onSubmit={() => {}}
+        onSeeLastIssue={() => {}}
+      />
     ),
   },
   /* ─── BATCH PROD-USED COMPONENTS — ajoutés (Phase 10 audit) ─────────────── */
