@@ -270,9 +270,17 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 11 + 12 + 13 + 14 + 15 ✅
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 11 + 12 + 13 + 14 + 15 + 16 ✅
 **Composants validés :** ~121 / ~125 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives + 11 Phase 11–12–DS)
-**Pages scaffoldées :** 65 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 + Phase 14: 15 + Phase 15: 19 = **65 pages**)
+**Pages scaffoldées :** 82 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 + Phase 14: 15 + Phase 15: 19 + Phase 16: 17 = **82 pages**)
+**Couverture sitemap FO_SCREENS_CONSOLIDATION :** 82/83 écrans (98.8 %) — seul "Notification Bell" reste comme composant global
+
+### Phase 16 — Sitemap gap pages (17 écrans, 2026-05-14)
+Écrans manquants identifiés depuis FO_SCREENS_CONSOLIDATION (cahiers CDC) :
+- **P0 (7)** : PerplexityContentDetail · OnboardingQuestionnaire · CorrectionDetailLearner · MessagingThread · CoachCalendar · ApiDocs · ProjectsList
+- **P1 (10)** : ItemRecommendations · PasseportHistorique · PurchaseCredits · StreakDetail · CoachEngagement · CoachEnterpriseDashboard · ManagerViewsBuilder · JournalSearch · PrivacyDsar · PrivacyDeleteAccount
+
+Notion "📱 Écrans Learning App" DB : 17 entrées créées + marquées `Disponible: YES` + `Statut: Intégré`
 **showcaseOnly restants :** 18 composants (non utilisés dans de vraies pages — voir DS sprint suivant)
 - **Core (Phase 1)** : Button, Card, Input + Checkbox/Radio/Switch, Select, FormGroup
 - **UI/Patterns (Phase 2)** : StatCard, GlassCard, SurfaceCard, CourseCard, ParcoursCard/patterns
@@ -336,7 +344,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 **Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, VeilleContent 63, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final.
 
 **Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
-**Dernière mise à jour :** 2026-05-14 (Phase 13+14+15 wiring complete — 65 routes wired total)
+**Dernière mise à jour :** 2026-05-14 (Phase 16 sitemap gap complete — 82 routes wired, 98.8% sitemap coverage)
 
 ---
 
