@@ -130,6 +130,24 @@ import {
   XPDashboard,
   DashboardAchievements,
   NotificationPreferences,
+  // Phase 16 — Sitemap gap pages (17 from FO_SCREENS_CONSOLIDATION)
+  PerplexityContentDetail,
+  OnboardingQuestionnaire,
+  CorrectionDetailLearner,
+  MessagingThread,
+  CoachCalendar,
+  ApiDocs,
+  ProjectsList,
+  ItemRecommendations,
+  PasseportHistorique,
+  PurchaseCredits,
+  StreakDetail,
+  CoachEngagement,
+  CoachEnterpriseDashboard,
+  ManagerViewsBuilder,
+  JournalSearch,
+  PrivacyDsar,
+  PrivacyDeleteAccount,
   Coaching,
   Collaboration,
   Login,
@@ -589,6 +607,24 @@ function App() {
                   <Route path="/gamification/xp" element={<XPDashboard />} />
                   <Route path="/dashboard/achievements" element={<DashboardAchievements />} />
                   <Route path="/notifications/preferences" element={<NotificationPreferences />} />
+                  {/* Phase 16 — Sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION) */}
+                  <Route path="/veille/perplexity/:id" element={<PerplexityContentDetail />} />
+                  <Route path="/onboarding/questionnaire" element={<OnboardingQuestionnaire />} />
+                  <Route path="/coaching/correction/:id" element={<CorrectionDetailLearner />} />
+                  <Route path="/coaching/messages/:coachId" element={<MessagingThread />} />
+                  <Route path="/coach/calendar" element={<CoachCalendar />} />
+                  <Route path="/api-docs" element={<ApiDocs />} />
+                  <Route path="/projects" element={<ProjectsList />} />
+                  <Route path="/coaching/recommendations" element={<ItemRecommendations />} />
+                  <Route path="/passeport/historique" element={<PasseportHistorique />} />
+                  <Route path="/profile/credits/buy" element={<PurchaseCredits />} />
+                  <Route path="/gamification/streaks" element={<StreakDetail />} />
+                  <Route path="/coach/engagement" element={<CoachEngagement />} />
+                  <Route path="/coach/enterprise-dashboard" element={<CoachEnterpriseDashboard />} />
+                  <Route path="/manager/views/builder" element={<ManagerViewsBuilder />} />
+                  <Route path="/journal/search" element={<JournalSearch />} />
+                  <Route path="/profile/privacy/dsar" element={<PrivacyDsar />} />
+                  <Route path="/profile/privacy/delete-account" element={<PrivacyDeleteAccount />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
