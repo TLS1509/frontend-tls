@@ -1,18 +1,22 @@
 /**
  * Persistence stores — Zustand + localStorage.
  *
- * 3 stores pour persister cross-session :
- *  - `useBookmarksStore`        : items mis en favori (Veille, Articles, Dossiers, Magazine…)
- *  - `useReadingProgressStore`  : % de lecture par article/dossier
- *  - `useLessonProgressStore`   : dernière section vue par leçon (LessonPlayer)
+ * Stores :
+ *  - `useBookmarksStore`             : items mis en favori (Veille, Articles, Dossiers, Magazine…)
+ *  - `useReadingProgressStore`       : % de lecture par article/dossier
+ *  - `useNotificationsStore`         : unread count (session only)
+ *  - `useFilterPrefsStore`           : filter selections (Veille, Notifications, Messages)
+ *  - `useLessonProgressStore`        : dernière section vue par leçon (LessonPlayer)
+ *  - `usePositioningStore` (Cahier #01) : UserPositioningResult (parcours positioning quiz results)
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
- * versioning automatique (clés `tls-*`).
+ * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
  */
 
 import { useEffect } from 'react';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import type { UserPositioningResult, PositioningAnswer } from '../types/learning';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -293,6 +297,58 @@ export const useLessonProgressStore = create<LessonProgressState>()(
     }),
     {
       name: 'tls-lesson-progress',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+/* ─── 6. User Positioning Results (Cahier #01 — Phase 16.1) ──────────────── */
+
+interface PositioningState {
+  /** Map `userId|parcoursId` → UserPositioningResult */
+  results: Record<string, UserPositioningResult>;
+  /** Save a positioning result. */
+  set: (userId: string, parcoursId: string, answers: PositioningAnswer[], completedAt?: string) => void;
+  /** Retrieve result for user + parcours (or null if not found). */
+  get: (userId: string, parcoursId: string) => UserPositioningResult | null;
+  /** Check if user has already completed positioning for a parcours (for skip logic). */
+  hasCompleted: (userId: string, parcoursId: string) => boolean;
+  /** Clear all positioning results. */
+  clear: () => void;
+}
+
+export const usePositioningStore = create<PositioningState>()(
+  persist(
+    (set, get) => ({
+      results: {},
+      set: (userId, parcoursId, answers, completedAt) =>
+        set((state) => {
+          const key = `${userId}|${parcoursId}`;
+          return {
+            results: {
+              ...state.results,
+              [key]: {
+                userId,
+                parcoursId,
+                answers,
+                completedAt: completedAt ?? new Date().toISOString(),
+              },
+            },
+          };
+        }),
+      get: (userId, parcoursId) => {
+        const key = `${userId}|${parcoursId}`;
+        return get().results[key] ?? null;
+      },
+      hasCompleted: (userId, parcoursId) => {
+        const key = `${userId}|${parcoursId}`;
+        return !!get().results[key];
+      },
+      clear: () => set({ results: {} }),
+    }),
+    {
+      name: 'tls-positioning',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

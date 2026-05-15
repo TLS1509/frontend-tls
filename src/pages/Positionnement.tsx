@@ -1,119 +1,79 @@
 /**
  * Positionnement — Test de positionnement initial pour un parcours.
  *
- * Flow : full-screen sans sidebar, focus test.
+ * Cahier #01 Phase 16.1.2 : auto-génère 1 question par compétence du parcours,
+ * using Dreyfus level selector (1–5 scale). Results persisted to usePositioningStore.
  *
- * Structure :
- *  1. ViewerHeader sticky (back vers /learning-paths/:id, titre, current/total)
- *  2. InlineProgress (X / Y)
- *  3. QuizQuestionCard centré (1 question à la fois)
- *  4. Footer nav : Précédent + Suivant
- *  5. État final : SectionCard avec niveau estimé + CTA "Commencer le parcours"
+ * Flow : full-screen sans sidebar, focus test.
+ *  1. Check hasCompleted (skip if already done)
+ *  2. ViewerHeader sticky (back vers /learning-paths/:id)
+ *  3. InlineProgress (X / Y compétences)
+ *  4. DreyfusLevelSelector centré (1 question par compétence)
+ *  5. Footer nav : Précédent + Suivant
+ *  6. État final : SectionCard avec résumé + CTA "Commencer le parcours"
  *
  * Route : /learning-paths/:id/positionnement
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Sparkles, Award, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Award, TrendingUp, CheckCircle } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
-import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
-import type { QuizOption } from '../components/patterns/QuizQuestionCard';
-import { InlineProgress } from '../components/patterns/InlineProgress';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
-import { getFirstLessonId } from '../data/learningPaths';
+import { getFirstLessonId, getParcoursCompetenceIds } from '../data/learningPaths';
+import { getCompetenceById, DREYFUS_LABELS } from '../data/competencies';
+import { usePositioningStore } from '../stores/persistence';
+import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
-/* ─── Mock questions ─────────────────────────────────────────────────────── */
+/* ─── Mock userId (placeholder — Phase 16.2 will use actual auth) ──────────── */
+const MOCK_USER_ID = 'user-placeholder';
 
-interface PositionQuestion {
-  id: string;
-  question: string;
-  options: QuizOption[];
+/* ─── Dreyfus level selector UI ──────────────────────────────────────────── */
+
+interface DreyfusLevelSelectorProps {
+  competenceId: string;
+  competenceLabel: string;
+  competenceDescription?: string;
+  selectedLevel: DreyfusLevel | null;
+  onSelect: (level: DreyfusLevel) => void;
 }
 
-const QUESTIONS: PositionQuestion[] = [
-  {
-    id: 'q1',
-    question: "Quelle est votre expérience avec le sujet de ce parcours ?",
-    options: [
-      { id: 'q1-a', label: "Je découvre le sujet pour la première fois" },
-      { id: 'q1-b', label: "J'en ai entendu parler mais sans pratique" },
-      { id: 'q1-c', label: 'Je pratique de manière occasionnelle' },
-      { id: 'q1-d', label: 'Je maîtrise déjà ce domaine au quotidien' },
-    ],
-  },
-  {
-    id: 'q2',
-    question: "Quel est votre objectif principal en suivant ce parcours ?",
-    options: [
-      { id: 'q2-a', label: 'Acquérir les bases pour démarrer' },
-      { id: 'q2-b', label: 'Approfondir des connaissances déjà solides' },
-      { id: 'q2-c', label: 'Préparer une certification' },
-      { id: 'q2-d', label: 'Former mon équipe sur ce sujet' },
-    ],
-  },
-  {
-    id: 'q3',
-    question: "Combien de temps pouvez-vous y consacrer par semaine ?",
-    options: [
-      { id: 'q3-a', label: 'Moins de 30 min — j\'avance à mon rythme' },
-      { id: 'q3-b', label: '30 min à 1h — apprentissage régulier' },
-      { id: 'q3-c', label: '1h à 3h — engagement soutenu' },
-      { id: 'q3-d', label: 'Plus de 3h — immersion intensive' },
-    ],
-  },
-  {
-    id: 'q4',
-    question: "Quel format d'apprentissage préférez-vous ?",
-    options: [
-      { id: 'q4-a', label: 'Vidéos courtes + quiz interactifs' },
-      { id: 'q4-b', label: 'Articles long-form + lecture approfondie' },
-      { id: 'q4-c', label: 'Coaching et échanges en groupe' },
-      { id: 'q4-d', label: 'Mix complet selon les sujets' },
-    ],
-  },
-];
-
-/* ─── Level estimation logic (mocked) ───────────────────────────────────── */
-
-type EstimatedLevel = 'beginner' | 'intermediate' | 'advanced';
-
-const LEVEL_CONFIG: Record<EstimatedLevel, {
-  label: string;
-  description: string;
-  badge: 'success' | 'brand' | 'warm';
-  Icon: React.ComponentType<{ size?: number }>;
-}> = {
-  beginner: {
-    label: 'Débutant',
-    description: "Vous démarrez ce sujet. Le parcours commencera par les fondamentaux pour vous mettre à l'aise.",
-    badge: 'success',
-    Icon: Sparkles,
-  },
-  intermediate: {
-    label: 'Intermédiaire',
-    description: 'Vous avez déjà des bases solides. Les premières leçons seront accessibles et la difficulté progressera.',
-    badge: 'brand',
-    Icon: TrendingUp,
-  },
-  advanced: {
-    label: 'Avancé',
-    description: 'Vous maîtrisez le sujet. Le parcours se focalisera sur les concepts avancés et cas d\'usage complexes.',
-    badge: 'warm',
-    Icon: Award,
-  },
+const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
+  competenceLabel,
+  competenceDescription,
+  selectedLevel,
+  onSelect,
+}) => {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
+        <h3 className="text-body font-semibold text-ink-900">{competenceLabel}</h3>
+        {competenceDescription && (
+          <p className="text-body-sm text-ink-600">{competenceDescription}</p>
+        )}
+      </div>
+      <div className="grid grid-cols-5 gap-2">
+        {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
+          <button
+            key={level}
+            onClick={() => onSelect(level)}
+            className={`flex flex-col items-center justify-center gap-1 p-3 rounded-lg border-2 transition-all ${
+              selectedLevel === level
+                ? 'border-primary-500 bg-primary-50'
+                : 'border-ink-200 bg-white hover:border-primary-300'
+            }`}
+          >
+            <span className="text-h3 font-display font-bold text-primary-600">{level}</span>
+            <span className="text-micro text-ink-600 text-center">{DREYFUS_LABELS[level]}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 };
-
-function estimateLevel(answers: Record<string, string>): EstimatedLevel {
-  // Mocked logic — based on first question (experience level)
-  const exp = answers['q1'];
-  if (exp === 'q1-a' || exp === 'q1-b') return 'beginner';
-  if (exp === 'q1-c') return 'intermediate';
-  return 'advanced';
-}
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -121,25 +81,41 @@ export const Positionnement: React.FC = () => {
   const navigate = useNavigate();
   const { id = '1' } = useParams<{ id: string }>();
   const toast = useToastContext();
+  const positioningStore = usePositioningStore();
+
+  // Generate questions from parcours competencies
+  const competenceIds = useMemo(() => getParcoursCompetenceIds(id), [id]);
+  const questions = useMemo(
+    () =>
+      competenceIds.map((competenceId) => {
+        const competence = getCompetenceById(competenceId);
+        return {
+          competenceId,
+          competenceLabel: competence?.label ?? competenceId,
+          competenceDescription: competence?.description,
+        };
+      }),
+    [competenceIds]
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<string, DreyfusLevel>>({});
   const [isFinished, setIsFinished] = useState(false);
 
-  const total = QUESTIONS.length;
-  const currentQuestion = QUESTIONS[currentIndex];
-  const currentAnswer = answers[currentQuestion?.id];
+  const total = questions.length;
+  const currentQuestion = questions[currentIndex];
+  const currentAnswer = answers[currentQuestion?.competenceId];
   const isLast = currentIndex === total - 1;
   const isFirst = currentIndex === 0;
   const progressPct = Math.round(((currentIndex + 1) / total) * 100);
 
-  const handleSelect = (optionId: string) => {
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: optionId }));
+  const handleSelect = (level: DreyfusLevel) => {
+    setAnswers((prev) => ({ ...prev, [currentQuestion.competenceId]: level }));
   };
 
   const handleNext = () => {
     if (!currentAnswer) {
-      toast.warning('Choisissez une réponse avant de continuer', 'Réponse requise');
+      toast.warning('Choisissez un niveau avant de continuer', 'Niveau requis');
       return;
     }
     if (isLast) {
@@ -154,7 +130,16 @@ export const Positionnement: React.FC = () => {
   };
 
   const handleStartPath = () => {
-    toast.success('Niveau enregistré · contenu du parcours adapté', 'Positionnement validé');
+    // Persist to store
+    const positioningAnswers: PositioningAnswer[] = Object.entries(answers).map(
+      ([competenceId, level]) => ({
+        competenceId,
+        level,
+      })
+    );
+    positioningStore.set(MOCK_USER_ID, id, positioningAnswers);
+
+    toast.success('Niveaux enregistrés · parcours adapté', 'Positionnement validé');
     const firstLessonId = getFirstLessonId(id);
     const target = firstLessonId
       ? `/learning-paths/${id}/lessons/${firstLessonId}`
@@ -164,16 +149,16 @@ export const Positionnement: React.FC = () => {
 
   /* ── Résultats ──────────────────────────────────────────────────────── */
   if (isFinished) {
-    const level = estimateLevel(answers);
-    const cfg = LEVEL_CONFIG[level];
-    const Icon = cfg.Icon;
+    const avgLevel = Math.round(
+      Object.values(answers).reduce((a, b) => a + b, 0) / Object.values(answers).length
+    );
 
     return (
       <div className="min-h-screen bg-surface flex flex-col">
         <ViewerHeader
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
-          eyebrow="Test de positionnement"
+          eyebrow="Positionnement"
           title="Résultats"
         />
 
@@ -181,15 +166,33 @@ export const Positionnement: React.FC = () => {
           <div className="w-full max-w-2xl flex flex-col gap-section">
             <SectionCard
               tone="brand"
-              titleIcon={<Icon size={20} />}
-              title="Niveau estimé"
-              description="D'après vos réponses, voici le point de départ recommandé."
+              titleIcon={<CheckCircle size={20} />}
+              title="Positionnement complété"
+              description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">
-                <Badge variant={cfg.badge}>{cfg.label}</Badge>
-                <p className="m-0 font-body text-body text-ink-700 leading-relaxed max-w-prose">
-                  {cfg.description}
+                <div className="flex items-baseline gap-2">
+                  <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
+                  <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
+                </div>
+                <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed max-w-prose">
+                  Nous avons évalué vos {total} compétences clés. Le contenu du parcours s'adapte à
+                  votre progression.
                 </p>
+              </div>
+
+              <div className="flex flex-col gap-2 p-4 bg-primary-50 rounded-lg border border-primary-200">
+                <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
+                <div className="flex flex-wrap gap-2">
+                  {Object.entries(answers).map(([compId, level]) => {
+                    const comp = getCompetenceById(compId);
+                    return (
+                      <Badge key={compId} variant="brand" size="sm">
+                        {comp?.label ?? compId} : D{level}
+                      </Badge>
+                    );
+                  })}
+                </div>
               </div>
             </SectionCard>
 
@@ -203,7 +206,7 @@ export const Positionnement: React.FC = () => {
                   setAnswers({});
                 }}
               >
-                Refaire le test
+                Refaire le positionnement
               </Button>
               <Button
                 variant="primary"
@@ -226,7 +229,7 @@ export const Positionnement: React.FC = () => {
       <ViewerHeader
         onBack={() => navigate(`/learning-paths/${id}`)}
         backLabel="Retour au parcours"
-        eyebrow="Test de positionnement"
+        eyebrow="Positionnement"
         title="Évaluons votre niveau"
         current={currentIndex + 1}
         total={total}
@@ -238,21 +241,27 @@ export const Positionnement: React.FC = () => {
           {/* Progress */}
           <div className="flex flex-col gap-tight">
             <div className="flex items-baseline justify-between font-body text-caption text-ink-500">
-              <span>Question {currentIndex + 1} sur {total}</span>
+              <span>Compétence {currentIndex + 1} sur {total}</span>
               <span className="font-bold text-primary-700 tabular-nums">{progressPct}%</span>
             </div>
-            <InlineProgress value={progressPct} tone="primary" showLabel={false} />
+            <div className="w-full h-2 bg-ink-200 rounded-pill overflow-hidden">
+              <div
+                className="h-full bg-primary-500 transition-all duration-300"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
           </div>
 
           {/* Question */}
-          <QuizQuestionCard
-            question={currentQuestion.question}
-            options={currentQuestion.options}
-            selectedId={currentAnswer}
-            onSelectOption={handleSelect}
-            questionNumber={currentIndex + 1}
-            totalQuestions={total}
-          />
+          <div className="p-6 bg-white rounded-xl border border-ink-200">
+            <DreyfusLevelSelector
+              competenceId={currentQuestion.competenceId}
+              competenceLabel={currentQuestion.competenceLabel}
+              competenceDescription={currentQuestion.competenceDescription}
+              selectedLevel={currentAnswer ?? null}
+              onSelect={handleSelect}
+            />
+          </div>
 
           {/* Footer nav */}
           <div className="flex items-center justify-between gap-stack">
@@ -272,7 +281,7 @@ export const Positionnement: React.FC = () => {
               trailingIcon={<ArrowRight size={14} />}
               onClick={handleNext}
             >
-              {isLast ? 'Voir mes résultats' : 'Question suivante'}
+              {isLast ? 'Voir les résultats' : 'Compétence suivante'}
             </Button>
           </div>
         </div>

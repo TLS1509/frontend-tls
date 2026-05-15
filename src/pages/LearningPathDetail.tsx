@@ -83,8 +83,25 @@ const RESOURCE_LABEL: Record<ResourceKind, string> = {
   exercise: 'Exercice',
 };
 
-const calculateStepUnlocked = (idx: number, etapes: Etape[]): boolean =>
-  idx === 0 || etapes[idx - 1].completed;
+const calculateStepUnlocked = (idx: number, etapes: Etape[]): boolean => {
+  if (idx === 0) return true;
+  const prevEtape = etapes[idx - 1];
+  const currentEtape = etapes[idx];
+  const progressionMode = currentEtape.progression_mode ?? 'STRICT';
+
+  switch (progressionMode) {
+    case 'STRICT':
+      // STRICT: next step locked until 100% of previous is completed
+      return prevEtape.completed;
+    case 'FLEXIBLE':
+      // FLEXIBLE: next step accessible but warning shown if previous incomplete
+      return true;
+    case 'FREE':
+      // FREE: no gating, always accessible
+      return true;
+  }
+};
+
 const calculateStepCompleted = (step: Etape): boolean =>
   step.lecons.every((l: Lecon) => l.completed);
 
@@ -359,13 +376,16 @@ export const LearningPathDetail: React.FC = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <div className="mb-2">
+                        <div className="mb-2 flex items-center gap-2">
                           {!etape.unlocked ? (
                             <Badge variant="neutral">VERROUILLÉ</Badge>
                           ) : etape.completed ? (
                             <Badge variant="success">VALIDÉ</Badge>
                           ) : (
                             <Badge variant="brand">EN COURS</Badge>
+                          )}
+                          {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
+                            <Badge variant="info" size="sm">⚠️ Accès souple</Badge>
                           )}
                         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   BookOpen,
   Clock,
@@ -14,6 +14,7 @@ import {
   Star,
   ChevronRight,
   Layers,
+  Lock,
 } from 'lucide-react';
 import {
   Card,
@@ -21,37 +22,52 @@ import {
   CardDesc,
   Button,
   Badge,
-  Tabs,
   ProgressBar,
 } from '../components';
 import { Search as SearchInput } from '../components/ui/Search';
-import { FilterChip } from '../components/ui/FilterChip';
 import { StatCard } from '../components/ui/StatCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { FilterBar, type FilterBarOption } from '../components/forms/FilterBar';
+import { MOCK_LEARNING_SPACE_ITEMS, ITEM_TYPE_LABELS } from '../data/items';
+import { DREYFUS_LABELS } from '../data/competencies';
+import type { ItemType, DreyfusLevel, SubscriptionTier } from '../types/learning';
+import { canAccessItem, getAccessDenialMessage, getGatingType } from '../lib/access-control';
 
-type TabId = 'all' | 'parcours' | 'ressources' | 'live' | 'flashcards';
+/* ─── Mock user context (Phase 16.1.5) ──────────────────────────────── */
+/* In production: fetch from auth context + API */
+const MOCK_USER_TIER: SubscriptionTier = 'plan_1'; // Default free user in Phase 16.1.5
+const MOCK_COMPLETED_ITEMS = new Set(['item-1', 'item-4']); // Sample completed items
+const MOCK_LEARNER_COMPETENCY_LEVELS: Record<string, DreyfusLevel> = {
+  comp_leadership: 2,
+  comp_communication: 3,
+  comp_cooperation: 1,
+};
 
-const TAB_ITEMS = [
-  { id: 'all', label: 'Tout' },
-  { id: 'parcours', label: 'Parcours' },
-  { id: 'ressources', label: 'Ressources' },
-  { id: 'live', label: 'Live & Workshops' },
-  { id: 'flashcards', label: 'Flashcards' },
-];
+/* ─── Item icon mapping by type ──────────────────────────────────────── */
 
-const SectionHeading: React.FC<{
-  title: string;
-  icon?: React.ReactNode;
-  action?: React.ReactNode;
-}> = ({ title, icon, action }) => (
-  <div className="flex items-center justify-between mb-4">
-    <h2 className="flex items-center gap-2 text-h3 font-bold text-ink-900 m-0">
-      {icon}
-      {title}
-    </h2>
-    {action}
-  </div>
-);
+const ITEM_TYPE_ICONS: Record<ItemType, React.ReactNode> = {
+  astuces: <Flame size={18} className="text-accent-400" />,
+  flashcard: <Star size={18} className="text-primary-500" />,
+  ressource: <FileText size={18} className="text-primary-500" />,
+  guide: <Map size={18} className="text-primary-500" />,
+  video_conc: <Video size={18} className="text-primary-500" />,
+  video_geste: <Play size={18} className="text-primary-500" />,
+  micro_learning: <BookOpen size={18} className="text-primary-500" />,
+  mission: <Users size={18} className="text-warm-500" />,
+  masterclass: <Star size={18} className="text-sun-500" />,
+};
+
+const ITEM_TYPE_TONE: Record<ItemType, 'brand' | 'warm' | 'sun' | 'success' | 'danger'> = {
+  astuces: 'sun',
+  flashcard: 'brand',
+  ressource: 'brand',
+  guide: 'success',
+  video_conc: 'brand',
+  video_geste: 'warm',
+  micro_learning: 'brand',
+  mission: 'warm',
+  masterclass: 'sun',
+};
 
 const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label, icon }) => (
   <span className="inline-flex items-center gap-1 px-2 py-1 bg-ink-50 border border-ink-200 rounded-pill text-caption text-ink-500 font-medium">
@@ -60,328 +76,145 @@ const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label
   </span>
 );
 
-/* ─── Tab content ────────────────────────────────────────────────── */
+/* ─── Filter helpers ─────────────────────────────────────────────── */
 
-const TabAll: React.FC = () => (
-  <div className="flex flex-col gap-section">
-    <section>
-      <SectionHeading
-        title="En cours"
-        icon={<Play size={18} className="text-primary-500" />}
-        action={
-          <Button variant="ghost" size="sm">
-            Voir tout <ChevronRight size={14} />
-          </Button>
-        }
-      />
-      <div className="flex flex-col gap-3">
-        <Card variant="interactive" as="article">
-          <div className="p-5">
-            <div className="flex items-start justify-between gap-4 mb-3">
-              <div className="flex-1">
-                <Badge variant="brand" className="mb-2">
-                  Parcours
-                </Badge>
-                <CardTitle className="mb-1">Fondamentaux du leadership</CardTitle>
-                <CardDesc>
-                  Prochaine leçon : Communication assertive — Module 4/7
-                </CardDesc>
-              </div>
-              <Button size="sm">Continuer</Button>
-            </div>
-            <ProgressBar value={65} fill="brand" size="sm" label="Progression" />
-          </div>
-        </Card>
+function getUniqueThemes(): string[] {
+  const themes = new Set<string>();
+  MOCK_LEARNING_SPACE_ITEMS.forEach((item) => {
+    if (item.status === 'published') themes.add(item.theme);
+  });
+  return Array.from(themes).sort();
+}
 
-        <Card variant="interactive" as="article">
-          <div className="p-5">
-            <div className="flex items-start justify-between gap-4 mb-3">
-              <div className="flex-1">
-                <Badge variant="warm" className="mb-2">
-                  Parcours
-                </Badge>
-                <CardTitle className="mb-1">Transformation digitale</CardTitle>
-                <CardDesc>Prochaine leçon : Roadmap d'adoption — Module 2/8</CardDesc>
-              </div>
-              <Button size="sm">Continuer</Button>
-            </div>
-            <ProgressBar value={20} fill="warm" size="sm" label="Progression" />
-          </div>
-        </Card>
-      </div>
-    </section>
-
-    <section>
-      <SectionHeading title="Recommandé pour vous" icon={<Star size={18} className="text-primary-500" />} />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4">
-        <Card variant="interactive" as="article">
-          <div className="p-5 flex flex-col gap-3">
-            <Badge variant="brand">Vidéo</Badge>
-            <CardTitle>Prompt structure en 5 étapes</CardTitle>
-            <CardDesc>
-              Maîtrisez l'art du prompt engineering avec des frameworks éprouvés pour l'IA générative.
-            </CardDesc>
-            <FormatChip label="12 min" icon={<Video size={11} />} />
-          </div>
-        </Card>
-
-        <Card variant="interactive" as="article">
-          <div className="p-5 flex flex-col gap-3">
-            <Badge variant="sun">Masterclass</Badge>
-            <CardTitle>IA et apprentissage hybride</CardTitle>
-            <CardDesc>
-              Découvrez comment intégrer l'IA dans vos pratiques pédagogiques et professionnelles.
-            </CardDesc>
-            <FormatChip label="45 min" icon={<Video size={11} />} />
-          </div>
-        </Card>
-
-        <Card variant="interactive" as="article">
-          <div className="p-5 flex flex-col gap-3">
-            <Badge variant="success">Guide</Badge>
-            <CardTitle>Manager à l'ère du numérique</CardTitle>
-            <CardDesc>
-              Outils et méthodes pour accompagner vos équipes dans la transition technologique.
-            </CardDesc>
-            <FormatChip label="Lecture 8 min" icon={<FileText size={11} />} />
-          </div>
-        </Card>
-      </div>
-    </section>
-
-    <section>
-      <SectionHeading title="À venir" icon={<Calendar size={18} className="text-primary-500" />} />
-      <Card variant="feature" as="article">
-        <div className="p-6 flex flex-wrap items-center justify-between gap-6">
-          <div className="flex flex-col gap-2">
-            <Badge variant="danger">Live</Badge>
-            <CardTitle>Workshop : Feedback &amp; culture apprenante</CardTitle>
-            <div className="flex flex-wrap gap-3">
-              <FormatChip label="Jeudi 8 mai · 14h00" icon={<Calendar size={11} />} />
-              <FormatChip label="Avec Sophie Martin" icon={<Users size={11} />} />
-              <FormatChip label="12 places restantes" icon={<Star size={11} />} />
-            </div>
-          </div>
-          <Button>M'inscrire</Button>
-        </div>
-      </Card>
-    </section>
-  </div>
-);
-
-const TabParcours: React.FC = () => {
-  const parcours = [
-    {
-      title: 'Fondamentaux du leadership',
-      desc: 'Développez votre posture de leader et vos compétences relationnelles.',
-      progress: 65,
-      modules: 7,
-      duration: '6h30',
-      fill: 'brand' as const,
-      badge: 'brand' as const,
-    },
-    {
-      title: 'Transformation digitale',
-      desc: 'Comprenez les enjeux et pilotez la transformation numérique de votre organisation.',
-      progress: 20,
-      modules: 8,
-      duration: '8h',
-      fill: 'warm' as const,
-      badge: 'warm' as const,
-    },
-    {
-      title: 'Prise de parole en public',
-      desc: 'Techniques avancées pour captiver votre audience et structurer vos interventions.',
-      progress: 0,
-      modules: 5,
-      duration: '4h',
-      fill: 'gradient' as const,
-      badge: 'sun' as const,
-    },
-  ];
-
-  return (
-    <div className="flex flex-col gap-stack">
-      {parcours.map((p) => (
-        <Card key={p.title} variant="interactive" as="article">
-          <div className="p-5">
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div className="flex-1">
-                <Badge variant={p.badge} className="mb-2">
-                  Parcours
-                </Badge>
-                <CardTitle className="mb-1">{p.title}</CardTitle>
-                <CardDesc className="mb-3">{p.desc}</CardDesc>
-                <div className="flex flex-wrap gap-3">
-                  <FormatChip label={`${p.modules} modules`} icon={<Layers size={11} />} />
-                  <FormatChip label={p.duration} icon={<Clock size={11} />} />
-                </div>
-              </div>
-              <Button size="sm" variant={p.progress > 0 ? 'primary' : 'secondary'}>
-                {p.progress > 0 ? 'Continuer' : 'Commencer'}
-              </Button>
-            </div>
-            <ProgressBar
-              value={p.progress}
-              fill={p.fill}
-              size="sm"
-              label={p.progress > 0 ? 'Progression' : 'Non commencé'}
-            />
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
-};
-
-const TabRessources: React.FC = () => {
-  const [filter, setFilter] = useState<string>('all');
-
-  const filters = [
-    { id: 'all', label: 'Tous' },
-    { id: 'articles', label: 'Articles' },
-    { id: 'videos', label: 'Vidéos' },
-    { id: 'podcasts', label: 'Podcasts' },
-    { id: 'guides', label: 'Guides' },
-  ];
-
-  const resources = [
-    { type: 'articles', icon: <FileText size={20} />, badge: 'brand' as const, title: 'Les 7 habitudes des leaders efficaces', duration: 'Lecture 6 min' },
-    { type: 'videos', icon: <Video size={20} />, badge: 'warm' as const, title: 'Maîtriser le feedback en 3 étapes', duration: '14 min' },
-    { type: 'podcasts', icon: <Headphones size={20} />, badge: 'sun' as const, title: 'Le futur du travail – épisode 12', duration: '28 min' },
-    { type: 'guides', icon: <Map size={20} />, badge: 'success' as const, title: 'Guide complet : Gestion de projet agile', duration: 'Lecture 12 min' },
-  ];
-
-  const filtered = filter === 'all' ? resources : resources.filter((r) => r.type === filter);
-
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="flex flex-wrap gap-2">
-        {filters.map((f) => (
-          <FilterChip
-            key={f.id}
-            label={f.label}
-            active={filter === f.id}
-            onClick={() => setFilter(f.id)}
-          />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-stack">
-        {filtered.map((r) => (
-          <Card key={r.title} variant="interactive" as="article">
-            <div className="p-5 flex flex-col gap-3">
-              <div className="w-11 h-11 rounded-lg bg-ink-50 border border-ink-200 flex items-center justify-center text-primary-500">
-                {r.icon}
-              </div>
-              <Badge variant={r.badge}>
-                {r.type.charAt(0).toUpperCase() + r.type.slice(1, -1)}
-              </Badge>
-              <CardTitle className="text-body font-semibold">{r.title}</CardTitle>
-              <FormatChip label={r.duration} icon={<Clock size={11} />} />
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const TabLive: React.FC = () => (
-  <div className="flex flex-col gap-stack-lg">
-    <SectionHeading title="Sessions à venir" icon={<Calendar size={18} className="text-primary-500" />} />
-
-    <Card variant="feature" as="article">
-      <div className="p-6 flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Badge variant="danger">Live · Jeudi 8 mai</Badge>
-          <Badge variant="brand">12 places restantes</Badge>
-        </div>
-        <CardTitle>Workshop : Feedback &amp; culture apprenante</CardTitle>
-        <CardDesc>
-          Apprenez à instaurer une culture du feedback bienveillant et à en faire un levier de
-          performance collective.
-        </CardDesc>
-        <div className="flex flex-wrap gap-3">
-          <FormatChip label="14h00 – 15h30" icon={<Clock size={11} />} />
-          <FormatChip label="Animé par Sophie Martin" icon={<Users size={11} />} />
-        </div>
-        <div>
-          <Button>M'inscrire</Button>
-        </div>
-      </div>
-    </Card>
-
-    <Card variant="feature" as="article">
-      <div className="p-6 flex flex-col gap-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Badge variant="danger">Live · Mardi 13 mai</Badge>
-          <Badge variant="warm">4 places restantes</Badge>
-        </div>
-        <CardTitle>Masterclass : Piloter avec les données</CardTitle>
-        <CardDesc>
-          Intégrez la data dans votre management pour prendre de meilleures décisions et motiver vos
-          équipes.
-        </CardDesc>
-        <div className="flex flex-wrap gap-3">
-          <FormatChip label="10h00 – 11h30" icon={<Clock size={11} />} />
-          <FormatChip label="Animé par Thomas Leroy" icon={<Users size={11} />} />
-        </div>
-        <div>
-          <Button>M'inscrire</Button>
-        </div>
-      </div>
-    </Card>
-
-    <SectionHeading title="Replay disponible" icon={<Video size={18} className="text-primary-500" />} />
-    <Card variant="interactive" as="article">
-      <div className="p-5 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex-1">
-          <Badge variant="success" className="mb-2">
-            Replay
-          </Badge>
-          <CardTitle className="mb-1">Intelligence émotionnelle au travail</CardTitle>
-          <CardDesc>Session du 22 avril – 58 min</CardDesc>
-        </div>
-        <Button variant="secondary" size="sm">
-          <Play size={14} /> Regarder
-        </Button>
-      </div>
-    </Card>
-  </div>
-);
-
-const TabFlashcards: React.FC = () => {
-  const decks = [
-    { title: 'Leadership & management', count: 48, last: 'Il y a 2 jours', badge: 'brand' as const },
-    { title: 'Transformation digitale', count: 32, last: 'Il y a 5 jours', badge: 'warm' as const },
-    { title: 'Communication & soft skills', count: 24, last: 'Il y a 1 semaine', badge: 'sun' as const },
-  ];
-
-  return (
-    <div className="flex flex-col gap-stack">
-      {decks.map((d) => (
-        <Card key={d.title} variant="interactive" as="article">
-          <div className="p-5 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex-1 flex flex-col gap-2">
-              <Badge variant={d.badge}>Deck</Badge>
-              <CardTitle className="mb-0">{d.title}</CardTitle>
-              <div className="flex flex-wrap gap-3">
-                <FormatChip label={`${d.count} cartes`} icon={<Layers size={11} />} />
-                <FormatChip label={`Révisé ${d.last}`} icon={<Clock size={11} />} />
-              </div>
-            </div>
-            <Button size="sm">Réviser</Button>
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
-};
+function getUniqueDurations(): string[] {
+  const durations = new Set<string>();
+  MOCK_LEARNING_SPACE_ITEMS.forEach((item) => {
+    if (item.status === 'published') durations.add(item.duration);
+  });
+  return Array.from(durations).sort();
+}
 
 export const LearningSpace: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('all');
   const [query, setQuery] = useState('');
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<ItemType[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [selectedLevels, setSelectedLevels] = useState<DreyfusLevel[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string[]>(['published']); // Default filter to published only
+
+  /* ─── Filter options ───────────────────────────────────────────────── */
+
+  const themeOptions = useMemo(() => {
+    const themes = getUniqueThemes();
+    return themes.map((theme) => {
+      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
+        (item) => item.theme === theme && item.status === 'published'
+      ).length;
+      return {
+        id: theme,
+        label: theme,
+        count,
+      };
+    });
+  }, []);
+
+  const typeOptions = useMemo(() => {
+    const types: ItemType[] = ['astuces', 'flashcard', 'ressource', 'guide', 'video_conc', 'video_geste', 'micro_learning', 'mission', 'masterclass'];
+    return types.map((type) => {
+      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
+        (item) => item.type === type && item.status === 'published'
+      ).length;
+      return {
+        id: type,
+        label: ITEM_TYPE_LABELS[type],
+        count,
+      };
+    });
+  }, []);
+
+  const durationOptions = useMemo(() => {
+    const durations = getUniqueDurations();
+    return durations.map((duration) => {
+      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
+        (item) => item.duration === duration && item.status === 'published'
+      ).length;
+      return {
+        id: duration,
+        label: duration,
+        count,
+      };
+    });
+  }, []);
+
+  const levelOptions = useMemo(() => {
+    return [1, 2, 3, 4, 5].map((level) => {
+      const dreyfusLevel = level as DreyfusLevel;
+      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
+        (item) => item.dreyfusLevel === dreyfusLevel && item.status === 'published'
+      ).length;
+      return {
+        id: String(level),
+        label: `${DREYFUS_LABELS[dreyfusLevel]} (D${level})`,
+        count,
+      };
+    });
+  }, []);
+
+  /* ─── Filtered items ───────────────────────────────────────────────── */
+
+  const filteredItems = useMemo(() => {
+    return MOCK_LEARNING_SPACE_ITEMS.filter((item) => {
+      // Status filter (always include this)
+      if (!selectedStatus.includes(item.status)) return false;
+
+      // Theme filter
+      if (selectedThemes.length > 0 && !selectedThemes.includes(item.theme)) return false;
+
+      // Type filter
+      if (selectedTypes.length > 0 && !selectedTypes.includes(item.type)) return false;
+
+      // Duration filter
+      if (selectedDurations.length > 0 && !selectedDurations.includes(item.duration)) return false;
+
+      // Level filter
+      if (selectedLevels.length > 0 && !selectedLevels.includes(item.dreyfusLevel)) return false;
+
+      // Search query (title + description + theme + tags)
+      if (query.length > 0) {
+        const searchLower = query.toLowerCase();
+        const searchableText = `${item.title} ${item.description} ${item.theme} ${(item.tags || []).join(' ')}`.toLowerCase();
+        if (!searchableText.includes(searchLower)) return false;
+      }
+
+      return true;
+    });
+  }, [query, selectedThemes, selectedTypes, selectedDurations, selectedLevels, selectedStatus]);
+
+  /* ─── Handlers ───────────────────────────────────────────────────── */
+
+  const handleThemeChange = (selected: string[]) => {
+    setSelectedThemes(selected);
+  };
+
+  const handleTypeChange = (selected: string[]) => {
+    setSelectedTypes(selected as ItemType[]);
+  };
+
+  const handleDurationChange = (selected: string[]) => {
+    setSelectedDurations(selected);
+  };
+
+  const handleLevelChange = (selected: string[]) => {
+    setSelectedLevels(selected.map((id) => parseInt(id) as DreyfusLevel));
+  };
+
+  const handleClearAllFilters = () => {
+    setSelectedThemes([]);
+    setSelectedTypes([]);
+    setSelectedDurations([]);
+    setSelectedLevels([]);
+    setQuery('');
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -390,41 +223,205 @@ export const LearningSpace: React.FC = () => {
         {/* ── Hero ────────────────────────────────────────────── */}
         <EditorialHero
           tone="brand"
-          eyebrow={{ icon: <BookOpen size={12} />, label: 'Bibliothèque IA' }}
-          title="Mon Espace Apprentissage"
-          summary="Votre IA a sélectionné du contenu sur mesure selon vos objectifs et votre rythme de la semaine."
+          eyebrow={{ icon: <BookOpen size={12} />, label: 'Espace Apprentissage' }}
+          title="Explorez nos ressources"
+          summary="Retrouvez tous les contenus disponibles : parcours, vidéos, guides, missions et bien plus encore."
         />
 
         {/* ── Search + KPI row ───────────────────────────────── */}
         <section aria-label="Recherche et indicateurs" className="flex flex-col gap-stack-lg">
           <SearchInput
-            placeholder="Rechercher un parcours, une ressource, un workshop…"
+            placeholder="Rechercher par titre, thématique ou compétence…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-            <StatCard tone="brand" surface="tinted" size="sm" icon={<BookOpen size={18} />} label="Parcours actifs" value="3" />
-            <StatCard tone="warm"  surface="tinted" size="sm" icon={<Clock size={18} />}    label="Temps cette semaine" value="12" sub="h" />
-            <StatCard tone="sun"   surface="tinted" size="sm" icon={<Flame size={18} />}    label="Streak en cours" value="7" sub="j" />
+            <StatCard
+              tone="brand"
+              surface="tinted"
+              size="sm"
+              icon={<BookOpen size={18} />}
+              label="Contenus disponibles"
+              value={String(filteredItems.length)}
+            />
+            <StatCard
+              tone="warm"
+              surface="tinted"
+              size="sm"
+              icon={<Layers size={18} />}
+              label="Types de contenu"
+              value="9"
+            />
+            <StatCard
+              tone="sun"
+              surface="tinted"
+              size="sm"
+              icon={<Flame size={18} />}
+              label="Niveaux"
+              value="D1–D5"
+            />
           </div>
         </section>
 
-        {/* ── Tabs ─────────────────────────────────────────────── */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-          <Tabs
-            variant="pill"
-            items={TAB_ITEMS}
-            value={activeTab}
-            onChange={(id) => setActiveTab(id as TabId)}
-          />
-        </div>
+        {/* ── Filters ──────────────────────────────────────────── */}
+        <section aria-label="Filtres de contenu" className="flex flex-col gap-stack">
+          <h3 className="text-h4 font-bold text-ink-900 m-0">Filtrer par :</h3>
 
-        {/* ── Tab content ──────────────────────────────────────── */}
-        {activeTab === 'all' && <TabAll />}
-        {activeTab === 'parcours' && <TabParcours />}
-        {activeTab === 'ressources' && <TabRessources />}
-        {activeTab === 'live' && <TabLive />}
-        {activeTab === 'flashcards' && <TabFlashcards />}
+          <div className="flex flex-col gap-stack">
+            {/* Thématique filter */}
+            <div>
+              <p className="text-caption font-semibold text-ink-700 mb-2">Thématique</p>
+              <FilterBar
+                options={themeOptions}
+                selected={selectedThemes}
+                onChange={handleThemeChange}
+                tone="brand"
+                size="sm"
+              />
+            </div>
+
+            {/* Type filter */}
+            <div>
+              <p className="text-caption font-semibold text-ink-700 mb-2">Type de contenu</p>
+              <FilterBar
+                options={typeOptions}
+                selected={selectedTypes as string[]}
+                onChange={handleTypeChange}
+                tone="warm"
+                size="sm"
+              />
+            </div>
+
+            {/* Duration filter */}
+            <div>
+              <p className="text-caption font-semibold text-ink-700 mb-2">Durée</p>
+              <FilterBar
+                options={durationOptions}
+                selected={selectedDurations}
+                onChange={handleDurationChange}
+                tone="sun"
+                size="sm"
+              />
+            </div>
+
+            {/* Niveau filter */}
+            <div>
+              <p className="text-caption font-semibold text-ink-700 mb-2">Niveau</p>
+              <FilterBar
+                options={levelOptions}
+                selected={selectedLevels.map(String)}
+                onChange={handleLevelChange}
+                tone="brand"
+                size="sm"
+              />
+            </div>
+
+            {/* Clear all button */}
+            {(selectedThemes.length > 0 ||
+              selectedTypes.length > 0 ||
+              selectedDurations.length > 0 ||
+              selectedLevels.length > 0 ||
+              query.length > 0) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearAllFilters}
+              >
+                Réinitialiser tous les filtres
+              </Button>
+            )}
+          </div>
+        </section>
+
+        {/* ── Items grid ───────────────────────────────────────── */}
+        <section aria-label="Contenus" className="flex flex-col gap-stack">
+          {filteredItems.length === 0 ? (
+            <div className="text-center py-section">
+              <p className="text-body text-ink-600">Aucun contenu ne correspond à vos filtres.</p>
+              <Button variant="ghost" onClick={handleClearAllFilters} className="mt-stack">
+                Réinitialiser les filtres
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
+              {filteredItems.map((item) => {
+                const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                  userSubscriptionTier: MOCK_USER_TIER,
+                  completedItemIds: MOCK_COMPLETED_ITEMS,
+                  learnerCompetencyLevels: MOCK_LEARNER_COMPETENCY_LEVELS,
+                });
+                const gatingType = getGatingType(item.tierGate, item.prerequisites);
+                const isAccessible = accessCheck.allowed;
+                const denialMessage = getAccessDenialMessage(accessCheck);
+
+                return (
+                  <Card
+                    key={item.id}
+                    variant="interactive"
+                    as="article"
+                    className={!isAccessible ? 'opacity-60 cursor-not-allowed' : ''}
+                  >
+                    <div className="p-5 flex flex-col gap-3 h-full">
+                      {/* Type badge + icon */}
+                      <div className="flex items-center justify-between">
+                        <Badge variant={ITEM_TYPE_TONE[item.type]}>
+                          {ITEM_TYPE_LABELS[item.type]}
+                        </Badge>
+                        <div className={isAccessible ? 'text-primary-500' : 'text-ink-300'}>
+                          {ITEM_TYPE_ICONS[item.type]}
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <CardTitle className="text-body font-semibold mt-2">
+                        {item.title}
+                      </CardTitle>
+
+                      {/* Description */}
+                      <CardDesc className="flex-1">
+                        {item.description}
+                      </CardDesc>
+
+                      {/* Metadata */}
+                      <div className="flex flex-wrap gap-2">
+                        <FormatChip label={item.duration} icon={<Clock size={11} />} />
+                        <FormatChip label={`D${item.dreyfusLevel}`} icon={<Star size={11} />} />
+                        <FormatChip label={item.theme} icon={<Layers size={11} />} />
+                      </div>
+
+                      {/* Access gating badges */}
+                      {!isAccessible && (
+                        <Badge
+                          variant={
+                            accessCheck.reason === 'tier' ? 'warning' : 'info'
+                          }
+                          size="sm"
+                          className="mt-auto flex items-center gap-1"
+                          title={denialMessage}
+                        >
+                          <Lock size={12} />
+                          {accessCheck.reason === 'tier'
+                            ? 'Upgrade abonnement'
+                            : 'Pré-requis'}
+                        </Badge>
+                      )}
+
+                      {/* CTA */}
+                      <Button
+                        size="sm"
+                        className="mt-auto w-full"
+                        disabled={!isAccessible}
+                        title={!isAccessible ? denialMessage : undefined}
+                      >
+                        {isAccessible ? 'Accéder' : 'Verrouillé'}
+                      </Button>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

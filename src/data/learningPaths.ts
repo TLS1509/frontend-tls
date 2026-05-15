@@ -39,6 +39,8 @@ export interface Etape {
   description?: string;
   /** Cahier #01 — compétences touchées par cette étape (refs to COMPETENCES) */
   competenceIds?: string[];
+  /** Cahier #01 — mode progression pour passer à l'étape suivante (défaut: STRICT) */
+  progression_mode?: ProgressionMode;
 }
 
 export interface ComplementaryItem {
@@ -107,6 +109,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '2 semaines',
         unlocked: true,
         completed: true,
+        progression_mode: 'STRICT' as const,
         lecons: [
           { id: 'lecon-1-1-1', number: 1, title: 'Introduction au Leadership', description: 'Découvrez les fondamentaux et les différents styles de leadership', duration: '45 min', completed: true },
           { id: 'lecon-1-1-2', number: 2, title: 'Présence et Authenticité', description: 'Développez votre présence authentique en tant que leader', duration: '1h', completed: true },
@@ -121,6 +124,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '2 semaines',
         unlocked: true,
         completed: false,
+        progression_mode: 'FLEXIBLE' as const,
         lecons: [
           { id: 'lecon-1-2-1', number: 1, title: 'Motivation et Engagement', description: 'Comprenez les mécanismes de motivation et d\'engagement d\'une équipe performante.', duration: '50 min', completed: true },
           { id: 'lecon-1-2-2', number: 2, title: 'Communication Efficace', description: 'Maîtrisez les techniques de communication de leader à fort impact.', duration: '1h', completed: false },
@@ -135,6 +139,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '2 semaines',
         unlocked: false,
         completed: false,
+        progression_mode: 'FREE' as const,
         lecons: [
           { id: 'lecon-1-3-1', number: 1, title: 'Délégation et Autonomisation', description: 'Apprenez à déléguer efficacement et développer vos collaborateurs.', duration: '50 min', completed: false },
           { id: 'lecon-1-3-2', number: 2, title: 'Feedback et Développement', description: 'Donnez un feedback constructif et facilitez la croissance professionnelle.', duration: '1h 10min', completed: false },
@@ -176,6 +181,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '1 semaine',
         unlocked: true,
         completed: true,
+        progression_mode: 'STRICT' as const,
         lecons: [
           { id: 'lecon-2-1-1', number: 1, title: 'Les Fondamentaux de la Communication', description: 'Comprendre le modèle de communication et ses composantes essentielles.', duration: '45 min', completed: true },
           { id: 'lecon-2-1-2', number: 2, title: 'Écoute Active', description: 'Développez l\'écoute active et empathique pour mieux comprendre vos interlocuteurs.', duration: '1h', completed: true },
@@ -189,6 +195,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '1 semaine',
         unlocked: true,
         completed: true,
+        progression_mode: 'STRICT' as const,
         lecons: [
           { id: 'lecon-2-2-1', number: 1, title: 'Expression Claire', description: 'Exprimez-vous avec clarté et impact dans vos interactions professionnelles.', duration: '1h', completed: true },
           { id: 'lecon-2-2-2', number: 2, title: 'Langage Non-Verbal', description: 'Maîtrisez votre langage corporel pour renforcer vos messages.', duration: '50 min', completed: true },
@@ -203,6 +210,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
         duration: '1 semaine',
         unlocked: true,
         completed: true,
+        progression_mode: 'FREE' as const,
         lecons: [
           { id: 'lecon-2-3-1', number: 1, title: 'Gestion des Objections', description: 'Répondez aux préoccupations de manière constructive et positive.', duration: '1h', completed: true },
           { id: 'lecon-2-3-2', number: 2, title: 'Feedback Constructif', description: 'Donnez et recevez du feedback efficacement pour progresser ensemble.', duration: '55 min', completed: true },

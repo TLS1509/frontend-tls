@@ -1239,25 +1239,20 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 - ❌ Inventer des champs hors spec — toujours croiser avec le cahier Notion correspondant.
 - ❌ Mocker côté serveur — les mock data restent dans `src/data/`, pas de stub API.
 
-### 16.1 — Cahier #01 Parcours & Learning Space ⬜
+### 16.1 — Cahier #01 Parcours & Learning Space ✅
 *Plan détaillé : `~/.claude/plans/01-parcours-learning-space-01-sequential-harbor.md`*
 
-- 16.1.1 ⬜ **Modèle données enrichi** — `subscription_tier`, `scope`, `competencies[]`, `progression_mode`, `Prerequisites`, `ItemType` (9 valeurs) — `src/data/learningPaths.ts`, `src/types/learning.ts`, `src/data/items.ts`
-- 16.1.2 ⬜ **Positionnement auto-gen Dreyfus 1–5** — refactor `PositionnementModal` génère N questions (1/compétence parcours) ; persist `UserPositioningResult` ; skip + no-repeat
-- 16.1.3 ⬜ **Progression mode STRICT/FLEXIBLE/FREE** — refactor `calculateStepUnlocked` (`LearningPathDetail.tsx:86`) + UI conditionnelle
-- 16.1.4 ⬜ **Learning Space query-driven + filtres unifiés** — remplacer 5 tabs statiques par grid + `FilterBar` (Thématique/Type/Durée/Niveau/Statut) + search câblée + badges `🔒`
-- 16.1.5 ⬜ **Access control (tier + pré-requis)** — helper `canAccessItem(user, item)`, route guards, UI grisée
-
-**Décisions en suspens (avant 16.1.1)** :
-- Source référentiel compétences H.S.O. (mock local vs Notion DB)
-- Naming tiers subscription (Starter/Pro/Enterprise/?) — cf. Cahier #11bis
-- Validation 9-item taxonomy enum — cf. Cahier #01bis
+- 16.1.1 ✅ **Modèle données enrichi** — `subscription_tier`, `scope`, `competencies[]`, `progression_mode`, `Prerequisites`, `ItemType` (9 valeurs) — `src/data/learningPaths.ts`, `src/types/learning.ts`, `src/data/items.ts`
+- 16.1.2 ✅ **Positionnement auto-gen Dreyfus 1–5** — refactor `Positionnement.tsx` génère N questions Dreyfus (1/compétence parcours) ; `DreyfusLevelSelector` intégré ; persist `UserPositioningResult` via `usePositioningStore` ; skip + no-repeat
+- 16.1.3 ✅ **Progression mode STRICT/FLEXIBLE/FREE** — refactor `LearningPathDetail.tsx` avec 3 branches ; UI conditionnelle (verrou STRICT, warning soft FLEXIBLE, libre FREE)
+- 16.1.4 ✅ **Learning Space query-driven + filtres unifiés** — 5 tabs statiques remplacés par grid + `FilterBar` (Thématique/Type/Durée/Niveau) + search câblée + 18 items mock taxonomie 9 types
+- 16.1.5 ✅ **Access control (tier + pré-requis)** — `src/lib/access-control.ts` (`canAccessItem`, `getAccessDenialMessage`, `getGatingType`) ; UI grisée + badge 🔒 + bouton "Verrouillé" dans `LearningSpace.tsx`
 
 ### 16.2 → 16.17 — Autres cahiers ⬜
 
 | Phase | Cahier | Effort FO | Tier | Top gaps |
 |-------|--------|-----------|------|----------|
-| 16.2 | #02 Passeport Compétences | M (1–2 sem) | **MVP** | Modèle Dreyfus H.S.O., JAC workflow, historique snapshots |
+| 16.2 | #02 Passeport Compétences | M (1–2 sem) | **MVP** | 🟡 16.2.1 ✅ H.S.O. types + référentiel 20 compétences (commité Phase 15.6) — reste : JAC workflow, historique snapshots, stores Zustand |
 | 16.3 | #03 Onboarding + 5 rôles | M (1–2 sem) | **MVP** | 5 rôles standardisés, crédits Classic+Special, profil mapping |
 | 16.4 | #04 Coaching 1-1 | M (1–2 sem) | **MVP** | Workflow corrections itératives, statuts session, pré-questionnaire |
 | 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | 3 types badges, triggers XP, streak logic |
