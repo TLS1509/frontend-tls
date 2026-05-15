@@ -17,6 +17,7 @@
  *  - `useNotificationPrefsStore` (Cahier #09) : UserNotificationPrefs (channel prefs + email tracking)
  *  - `useInAppNotificationsStore` (Cahier #09) : InAppNotification feed (in-app channel, persisted)
  *  - `usePrivacyStore` (Cahier #13bis) : UserGdprConsents + UserAIConsents + DsarRequest[]
+ *  - `useEventsStore` (Cahier #08) : MasterclassEnrollment + AtelierEnrollment + EventRegistration + ContentSurvey
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -55,7 +56,12 @@ import type {
   ChatSession,
   ChatMessage,
   ChatFeedback,
+  MasterclassEnrollment,
+  AtelierEnrollment,
+  EventRegistration,
+  ContentSurvey,
 } from '../types/learning';
+import type { Masterclass, AtelierPratique, Evenement } from '../data/events';
 import {
   MOCK_LEARNER_COMPETENCIES,
   MOCK_COMPETENCY_OBJECTIVES,
@@ -89,6 +95,16 @@ import {
   MOCK_PAST_SESSIONS,
   MOCK_CHAT_SESSION_ID,
 } from '../data/chatbot';
+import {
+  MOCK_MASTERCLASSES,
+  MOCK_MASTERCLASS_ENROLLMENTS,
+  MOCK_ATELIERS,
+  MOCK_ATELIER_ENROLLMENTS,
+  MOCK_EVENEMENTS,
+  MOCK_EVENT_REGISTRATIONS,
+  MOCK_SURVEYS,
+  MOCK_USER_ID as MOCK_EVENTS_USER_ID,
+} from '../data/events';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -1309,3 +1325,175 @@ export const useChatStore = create<ChatState>()(
 
 // Expose the active session ID as a convenience constant
 export { MOCK_CHAT_SESSION_ID };
+
+/* ─── 18. Events (Cahier #08 — Masterclass / Atelier / Événements) ──────── */
+
+interface EventsState {
+  masterclasses: Masterclass[];
+  masterclassEnrollments: MasterclassEnrollment[];
+  ateliers: AtelierPratique[];
+  atelierEnrollments: AtelierEnrollment[];
+  evenements: Evenement[];
+  eventRegistrations: EventRegistration[];
+  surveys: ContentSurvey[];
+
+  // Getters
+  getMasterclassEnrollment: (userId: string, masterclassId: string) => MasterclassEnrollment | undefined;
+  getAtelierEnrollment: (userId: string, atelierId: string) => AtelierEnrollment | undefined;
+  getEventRegistration: (userId: string, eventId: string) => EventRegistration | undefined;
+  getSurvey: (userId: string, contentType: ContentSurvey['contentType'], contentId: string) => ContentSurvey | undefined;
+
+  // Actions
+  enrollInMasterclass: (userId: string, masterclassId: string) => void;
+  requestAtelierEnrollment: (userId: string, atelierId: string) => void;
+  registerForEvent: (userId: string, eventId: string) => void;
+  submitSurvey: (survey: Omit<ContentSurvey, 'surveyId' | 'submittedAt'>) => void;
+}
+
+export const useEventsStore = create<EventsState>()(
+  persist(
+    (set, get) => {
+      const seed = () => {
+        const s = get();
+        if (s.masterclasses.length === 0) {
+          set({
+            masterclasses: MOCK_MASTERCLASSES,
+            masterclassEnrollments: MOCK_MASTERCLASS_ENROLLMENTS,
+            ateliers: MOCK_ATELIERS,
+            atelierEnrollments: MOCK_ATELIER_ENROLLMENTS,
+            evenements: MOCK_EVENEMENTS,
+            eventRegistrations: MOCK_EVENT_REGISTRATIONS,
+            surveys: MOCK_SURVEYS,
+          });
+        }
+      };
+
+      return {
+        masterclasses: [],
+        masterclassEnrollments: [],
+        ateliers: [],
+        atelierEnrollments: [],
+        evenements: [],
+        eventRegistrations: [],
+        surveys: [],
+
+        getMasterclassEnrollment: (userId, masterclassId) => {
+          seed();
+          return get().masterclassEnrollments.find(
+            (e) => e.userId === userId && e.masterclassId === masterclassId
+          );
+        },
+
+        getAtelierEnrollment: (userId, atelierId) => {
+          seed();
+          return get().atelierEnrollments.find(
+            (e) => e.userId === userId && e.atelierId === atelierId
+          );
+        },
+
+        getEventRegistration: (userId, eventId) => {
+          seed();
+          return get().eventRegistrations.find(
+            (e) => e.userId === userId && e.eventId === eventId
+          );
+        },
+
+        getSurvey: (userId, contentType, contentId) => {
+          seed();
+          return get().surveys.find(
+            (s) => s.userId === userId && s.contentType === contentType && s.contentId === contentId
+          );
+        },
+
+        enrollInMasterclass: (userId, masterclassId) => {
+          seed();
+          const existing = get().getMasterclassEnrollment(userId, masterclassId);
+          if (existing) return;
+          const enrollment: MasterclassEnrollment = {
+            enrollmentId: `enr-mc-${Date.now()}`,
+            userId,
+            masterclassId,
+            status: 'enrolled',
+            enrolledAt: new Date().toISOString(),
+            attendedLive: false,
+            xpAwarded: false,
+          };
+          set((s) => ({ masterclassEnrollments: [...s.masterclassEnrollments, enrollment] }));
+          // Increment enrolled count on masterclass
+          set((s) => ({
+            masterclasses: s.masterclasses.map((mc) =>
+              mc.id === masterclassId ? { ...mc, enrolledCount: mc.enrolledCount + 1 } : mc
+            ),
+          }));
+        },
+
+        requestAtelierEnrollment: (userId, atelierId) => {
+          seed();
+          const existing = get().getAtelierEnrollment(userId, atelierId);
+          if (existing) return;
+          const atelier = get().ateliers.find((a) => a.id === atelierId);
+          const isWaitlist = atelier ? atelier.enrolledCount >= atelier.maxParticipants : false;
+          const waitlistCount = isWaitlist
+            ? get().atelierEnrollments.filter((e) => e.atelierId === atelierId && e.status === 'waitlist').length
+            : 0;
+          const enrollment: AtelierEnrollment = {
+            enrollmentId: `enr-at-${Date.now()}`,
+            userId,
+            atelierId,
+            status: isWaitlist ? 'waitlist' : 'pending',
+            waitlistPosition: isWaitlist ? waitlistCount + 1 : undefined,
+            enrolledAt: new Date().toISOString(),
+            attended: false,
+            xpAwarded: false,
+          };
+          set((s) => ({ atelierEnrollments: [...s.atelierEnrollments, enrollment] }));
+          if (!isWaitlist) {
+            set((s) => ({
+              ateliers: s.ateliers.map((a) =>
+                a.id === atelierId ? { ...a, enrolledCount: a.enrolledCount + 1 } : a
+              ),
+            }));
+          }
+        },
+
+        registerForEvent: (userId, eventId) => {
+          seed();
+          const existing = get().getEventRegistration(userId, eventId);
+          if (existing) return;
+          const reg: EventRegistration = {
+            registrationId: `reg-ev-${Date.now()}`,
+            userId,
+            eventId,
+            registeredAt: new Date().toISOString(),
+            attended: false,
+          };
+          set((s) => ({
+            eventRegistrations: [...s.eventRegistrations, reg],
+            evenements: s.evenements.map((ev) =>
+              ev.id === eventId ? { ...ev, registeredCount: ev.registeredCount + 1 } : ev
+            ),
+          }));
+        },
+
+        submitSurvey: (data) => {
+          seed();
+          const existing = get().getSurvey(data.userId, data.contentType, data.contentId);
+          if (existing) return;
+          const survey: ContentSurvey = {
+            ...data,
+            surveyId: `srv-${Date.now()}`,
+            submittedAt: new Date().toISOString(),
+          };
+          set((s) => ({ surveys: [...s.surveys, survey] }));
+        },
+      };
+    },
+    {
+      name: 'tls-events',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+export { MOCK_EVENTS_USER_ID };

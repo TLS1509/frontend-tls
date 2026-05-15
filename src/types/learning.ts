@@ -714,3 +714,72 @@ export interface ChatSession {
   updatedAt: string;
   messages: ChatMessage[];
 }
+
+// ─── Cahier #08 — Masterclass / Atelier Pratique / Événements ────────────────
+
+/** Status of a Masterclass (content lifecycle) */
+export type MasterclassStatus = 'draft' | 'scheduled' | 'live' | 'completed' | 'archived';
+
+/** A user's enrollment in a Masterclass */
+export type MasterclassEnrollmentStatus = 'enrolled' | 'completed' | 'no_show';
+
+export interface MasterclassEnrollment {
+  enrollmentId: string;
+  userId: string;
+  masterclassId: string;
+  status: MasterclassEnrollmentStatus;
+  enrolledAt: string;
+  attendedLive: boolean;
+  xpAwarded: boolean;
+  xpCompetencyId?: string;
+}
+
+/** Status of an Atelier Pratique (content lifecycle) */
+export type AtelierStatus = 'draft' | 'published' | 'completed' | 'archived';
+
+/** Status of a user's enrollment in an Atelier */
+export type AtelierEnrollmentStatus = 'pending' | 'validated' | 'rejected' | 'waitlist';
+
+export interface AtelierEnrollment {
+  enrollmentId: string;
+  userId: string;
+  atelierId: string;
+  status: AtelierEnrollmentStatus;
+  waitlistPosition?: number;
+  enrolledAt: string;
+  validatedAt?: string;
+  attended: boolean;
+  xpAwarded: boolean;
+  xpCompetencyId?: string;
+}
+
+/** Status of an Événement (content lifecycle) */
+export type EvenementStatus = 'draft' | 'published' | 'live' | 'completed';
+
+/** Visibility scope of an Événement */
+export type EvenementVisibility = 'public' | 'private';
+
+/** A user's registration for an Événement */
+export interface EventRegistration {
+  registrationId: string;
+  userId: string;
+  eventId: string;
+  registeredAt: string;
+  attended: boolean;
+}
+
+/** Delivery mode for Atelier + Événement */
+export type EventMode = 'distanciel' | 'presentiel';
+
+/** Post-session satisfaction survey (unified across all 3 content types, Cahier #08 spec) */
+export type SurveyContentType = 'masterclass' | 'atelier' | 'evenement';
+
+export interface ContentSurvey {
+  surveyId: string;
+  userId: string;
+  contentType: SurveyContentType;
+  contentId: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  feedback?: string;
+  submittedAt: string;
+}
