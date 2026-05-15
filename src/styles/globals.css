@@ -139,3 +139,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--tls-ink-400);
 }
+
+/* Hide native search input cancel/decoration buttons — replaced by custom clear button */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
