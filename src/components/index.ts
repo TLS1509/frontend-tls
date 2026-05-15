@@ -261,6 +261,25 @@ export { VeilleCardFeed } from './patterns/VeilleCardFeed';
 export type { VeilleCardFeedProps } from './patterns/VeilleCardFeed';
 
 /* ============================================================================
+ * Phase 14.1 — Première expérience flow
+ * ============================================================================ */
+
+export { OptionGrid } from './patterns/OptionGrid';
+export type { OptionGridProps, OptionGridItem, OptionGridTone } from './patterns/OptionGrid';
+
+export { DreyfusLevelSelector, DEFAULT_DREYFUS_LEVELS } from './ui/DreyfusLevelSelector';
+export type { DreyfusLevelSelectorProps, DreyfusLevel, DreyfusLevelSelectorTone } from './ui/DreyfusLevelSelector';
+
+export { CongratulationsCard } from './patterns/CongratulationsCard';
+export type { CongratulationsCardProps, CongratulationsCardTone, CongratulationsCardXp } from './patterns/CongratulationsCard';
+
+export { NextStepsGrid } from './patterns/NextStepsGrid';
+export type { NextStepsGridProps, NextStepItem, NextStepTone } from './patterns/NextStepsGrid';
+
+export { EmptyDashboardState } from './patterns/EmptyDashboardState';
+export type { EmptyDashboardStateProps } from './patterns/EmptyDashboardState';
+
+/* ============================================================================
  * NEW PATTERNS — Phase 3 Critical Patterns
  * ============================================================================ */
 

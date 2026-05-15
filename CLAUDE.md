@@ -877,6 +877,66 @@ body { font-family: var(--font-body); }
 
 ---
 
+## Phase 14 — Workflow flow-based (2026-05-15+) 🚧
+
+**Changement de paradigme** : on n'opère plus écran-par-écran. Phase 14 redesign l'app **flow par flow** (user journey). Toute page modifiée DOIT l'être dans le cadre d'un flow audité.
+
+### Pourquoi
+Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés. Refondre par niveau (N1 → N2 → N3) crée des dépendances circulaires. Le flow garantit que chaque parcours est testable end-to-end dès qu'il est terminé, et que le DS évolue dans un contexte d'usage réel.
+
+### 6 étapes obligatoires par flow
+
+```
+1. AUDIT FLOW (~30 min)
+   - Liste écrans (N1/N2/N3/Conditionnel)
+   - Tableau "écran → patterns utilisés → DS gaps → UX issues"
+   - Identifier composants showcase-only à intégrer
+   - Identifier patterns manquants à créer/étendre
+   → Présenter le tableau à l'utilisateur AVANT de toucher au code
+
+2. DS UPDATE (variable)
+   - Étendre/créer composants AVANT les écrans (bottom-up)
+   - Mettre à jour Components.tsx (showcase + usedBy)
+   - Mettre à jour Notion Design System DB
+
+3. REDESIGN ÉCRANS (bottom-up)
+   - Détail (N3) → Hub (N1) pour cohérence remontante
+   - Tokens semantic spacing (gap-stack/gap-section), tone-aware
+   - Mobile-first, glass tokens, min-h-touch (44px)
+   - 100% Tailwind — rappel règles CLAUDE.md ci-dessus
+
+4. VALIDATION FLOW (~15 min)
+   - Preview : enchaîner les écrans du début à la fin via preview_*
+   - Screenshots mobile (375px) + desktop (1280px)
+   - npx tsc --noEmit → 0 erreurs
+   - Vérifier transitions, glass, cohérence tone (max 2 tones par flow)
+
+5. DOC + NOTION SYNC
+   - MIGRATION-PLAN.md → cocher la phase (⬜ → ✅)
+   - CLAUDE.md → ajouter pattern/piège découvert
+   - DESIGN.md → §4 patterns canoniques + §5 pièges
+   - Notion Écrans DB → Statut design "Validé"
+   - Notion Design System DB → composants à jour
+
+6. COMMIT
+   - `feat(phase-14.X): redesign [flow name] flow`
+   - Un commit par flow validé (4 checkpoints OK)
+```
+
+### Anti-patterns Phase 14
+- ❌ Toucher une page hors d'un flow audité (même pour un "petit fix")
+- ❌ Modifier un composant DS sans le mettre à jour dans Components.tsx + Notion DS DB
+- ❌ Marquer un flow ✅ sans screenshots mobile ET desktop
+- ❌ Mélanger plus de 2 tones dans un même flow (1 dominant + 1 accent max)
+- ❌ Commit sans `npx tsc --noEmit` clean
+
+### Ordre des flows
+Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (Tier 1 daily-use → Tier 5 edge cases).
+
+📄 Plan détaillé : `~/.claude/plans/plan-phase-14-lazy-kernighan.md`
+
+---
+
 ## Documentation Notion — Règle de synchronisation (OBLIGATOIRE)
 
 Tout ajout, modification ou suppression dans le design system ou les pages de l'app **doit être reflété dans les bases de données Notion**.

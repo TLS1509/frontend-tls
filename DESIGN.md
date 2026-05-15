@@ -232,6 +232,34 @@ Cf. `src/pages/Components.tsx` pour le showcase live.
 
 ## 4. Patterns canoniques
 
+### Maturité des patterns (Phase 14 baseline — 2026-05-15)
+
+Pré-Phase 14 audit : on classe chaque pattern existant en **Stable** (API verrouillée, 3+ pages consommatrices, Tailwind validé — ne pas modifier sans RFC) ou **À faire évoluer** (utilisé <3 fois OU API en exploration — peut bouger pendant Phase 14).
+
+| Statut | Patterns |
+|--------|----------|
+| **🟢 Stable** | `Badge` · `Card` (12 variants) · `Button` · `Input` · `Select` · `EditorialHero` · `HeroSection` · `AuthShell` · `SectionHeader` · `EditorialLayout` · `SectionCard` · `RelatedItemList` · `ResumeLessonCard` · `IconFeatureCard` · `ParcoursCard` · `CardGrid` · `MetaPill` · `Pill` · `Tag` · `FilterChip` · `Breadcrumb` · `ProgressBar` · `Avatar` · `Alert` · `Modal` |
+| **🟡 À faire évoluer** | `ActivityFeed` (timeline pattern à mûrir) · `PromptCard` / `JournalEntryCard` (chat-bubble — API à unifier sous `NotificationCard` quand Phase 14.8 Social arrive) · `TimelineItem` (utilisé seul) · `ProfileCard` · `ActionCard` · `StatCard` · `LessonCard` · `ArticleCard` (les 5 doivent recevoir `surface`+`elevation` props — voir Phase 10 audit ci-dessous) |
+| **🆕 Phase 14.1** | `OptionGrid` · `DreyfusLevelSelector` · `CongratulationsCard` · `NextStepsGrid` · `EmptyDashboardState` — nouveaux patterns introduits pour le flow Première expérience. Stable après usage 14.1, mais APIs encore ouvertes aux ajustements pendant Phase 14. |
+
+**Règle Phase 14** : si un flow révèle qu'un pattern Stable doit changer son API, ouvrir une discussion explicite avant de modifier — pas de breaking changes en douce. Les patterns À faire évoluer peuvent être ajustés librement dans le flow qui les consomme, à condition de mettre à jour `usedBy` dans `Components.tsx` et Notion DS DB.
+
+### Phase 14.1 — Première expérience patterns (2026-05-15)
+
+5 patterns introduits pour le flow Onboarding → Questionnaire → Tutoriel → Success → Dashboard cold-start :
+
+| Pattern | Path | Usage canonique |
+|---------|------|------------------|
+| `OptionGrid` | `patterns/` | Grille de sélection icon+label · single (`value: string`) ou multi (`value: string[]`) · 3 layouts (`icon-top` / `icon-left` / `text-only`) · 3 tones (`brand` / `warm` / `sun`) · responsive 2 → N cols. Remplace les `<button>` grids ad-hoc dans Onboarding (role/sector/goals/rythme). |
+| `DreyfusLevelSelector` | `ui/` | Picker 5-niveaux Likert (Novice → Expert) tone-aware · responsive `1 → 2 → 3 → 5 cols` (fixe le pb cramped tablet `md:grid-cols-5` Phase 14.1). Levels customisables via prop. |
+| `CongratulationsCard` | `patterns/` | Bloc célébration milestone : large icon + badge + heading + summary + XP reward optionnel. 4 tones (`brand` / `warm` / `sun` / `success`). Le tone = celui de la phase d'arrivée (souvent `brand` pour transition app). |
+| `NextStepsGrid` | `patterns/` | Grille d'action cards "et maintenant ?" — icon tone-tinted + title + desc + CTA flèche. Tone **par-item** (mix brand/warm/sun pour varier les next paths). Responsive 1 → 3 cols. |
+| `EmptyDashboardState` | `patterns/` | Variant cold-start Dashboard pour new users (`?firstTime=1` ou `!user.hasStartedParcours`). Welcome + NextStepsGrid 3 actions (parcours brand / coaching warm / passeport sun). |
+
+**Helper partagé : `src/lib/onboarding-steps.ts`** — `buildOnboardingStepperItems(currentStepId)` retourne les `StepperItem[]` pour le Stepper persistant 4 étapes utilisé en haut de chaque écran du flow : `Profil → Positionnement → Tutoriel → Prêt`. Garantit que les 4 écrans partagent le même indicateur de progression sans copy-paste du state.
+
+**Tone arc Phase 14.1** : `warm` (Onboarding / Questionnaire / Tutoriel — accueil chaleureux) → `brand` (Success / Dashboard — transition vers l'identité stable). Une seule transition de tone dans le flow ; pas plus de 2 tones simultanés.
+
 ### Hero family (2 patterns complémentaires)
 
 | Pattern | Variants | Cas d'usage |

@@ -963,4 +963,147 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 
 ---
 
-**Dernière mise à jour :** 2026-05-15 — Phase 10 Tier 3 ✅ (9 pages viewer/edge-case auditées et corrigées) · MIGRATION-PLAN.md nettoyé (Phase 0.5 + Phase 8 + section Phase 13 stale archivées)
+## PHASE 14 — Redesign UX/UI flow-by-flow (2026-05-15+) 🚧
+
+**Objectif** : Refondre les ~140 pages app par **user journey complet** (pas écran-par-écran, pas par niveau). À chaque flow on audite, on étend le DS si besoin, on redesign les écrans bottom-up, on teste le parcours end-to-end en preview, on commit.
+
+**Pourquoi flow-by-flow** : Tests end-to-end possibles, DS évolue dans un contexte réel, démos stakeholder à mi-parcours, scope clair.
+
+### Workflow (6 étapes par flow)
+
+1. **AUDIT** — Tableau "écran → patterns utilisés → DS gaps → UX issues" présenté à l'utilisateur AVANT toute modif code
+2. **DS UPDATE** — étendre/créer composants bottom-up + showcase + Notion DS
+3. **REDESIGN ÉCRANS** — détail (N3) → hub (N1), tokens sémantiques, tone-aware, mobile-first
+4. **VALIDATION** — preview end-to-end, screenshots mobile+desktop, `npx tsc --noEmit` clean
+5. **DOC + NOTION SYNC** — cocher phase, ajouter patterns/pièges, Notion Écrans + DS DBs
+6. **COMMIT** — `feat(phase-14.X): redesign [flow] flow` (un commit par flow validé)
+
+### Découpage des flows
+
+#### Tier 1 — MVP daily-use
+
+| # | Flow | Écrans clés | Statut |
+|---|------|-------------|--------|
+| 14.1 | 🎯 Première expérience | Onboarding → Questionnaire → Tutorial → Success → Dashboard | ✅ |
+| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | ⬜ |
+| 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ⬜ |
+| 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ⬜ |
+| 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
+
+#### Tier 2 — Engagement & contenu
+
+| # | Flow | Écrans clés | Statut |
+|---|------|-------------|--------|
+| 14.6 | 🎮 Gamification | Gamification → BadgeGallery → BadgeDetail → Streaks → XP → Achievements | ⬜ |
+| 14.7 | 📰 Veille | Veille hub → Magazine/Article/Dossier/MagazineArticle/Newsletter/WeeklyNews/VideoTutorial/VideoReels/Perplexity | ⬜ |
+| 14.8 | 👥 Social | Notifications → Messages → Collaboration → Leaderboard | ⬜ |
+
+#### Tier 3 — Coach back-office & Projects
+
+| # | Flow | Écrans clés | Statut |
+|---|------|-------------|--------|
+| 14.9 | 🎓 Coach backoffice | CoachDashboard → Apprenants → LearnerProfile/Analytics → Heatmap → Corrections → Engagement → Calendar → Journal → Recommendations → Stagnation → Enterprise/Team Dashboards | ⬜ |
+| 14.10 | 📁 Projects SBO | ProjectsList → Detail → Task → JAC → Team → SkillGaps → PasseportFeed | ⬜ |
+
+#### Tier 4 — Enterprise & événements
+
+| # | Flow | Écrans clés | Statut |
+|---|------|-------------|--------|
+| 14.11 | ⚙️ Manager/Enterprise | ManagerEnterprise → Cohort → Alerts → Export → ViewsBuilder → KPIs → Inactivité → ApiDocs → Webhooks | ⬜ |
+| 14.12 | 🎓 Masterclass / Ateliers / Événements | 3 hubs + variantes Pre/Live/Post/Replay/Survey/Waitlist/Presentiel | ⬜ |
+
+#### Tier 5 — Auth, Settings, Support, Edge
+
+| # | Flow | Écrans clés | Statut |
+|---|------|-------------|--------|
+| 14.13 | 🔐 Auth | Login → Signup → VerifyEmail → MagicLink → ForgotPassword → ResetPassword | ⬜ |
+| 14.14 | ⚙️ Profile/Account | Profile → Account → Billing → Settings → Credits → Privacy/Consent/DSAR/Delete → NotificationPreferences | ⬜ |
+| 14.15 | ❓ Support | Help → Search → Article → Tickets → Tutorials | ⬜ |
+| 14.16 | 🤖 Chatbot | Assistant → History | ⬜ |
+| 14.17 | 🚫 Errors | 404 → 500 | ⬜ |
+
+### Phase 14 close — critères
+
+- 17 flows validés (4 checkpoints chacun)
+- Screenshots mobile + desktop archivés par flow
+- Notion Écrans DB : tous les Statut design = "Validé"
+- Parcours new-user complet (signup → onboarding → first lesson → first badge) sans glitch visuel
+
+📄 Plan détaillé : `~/.claude/plans/plan-phase-14-lazy-kernighan.md`
+
+---
+
+### Notion sync — règles intégrées au workflow Phase 14 (Étape 5 de chaque flow)
+
+À l'étape 5 (Doc + Notion sync) de **chaque** flow Phase 14, en plus des mises à jour CLAUDE.md / DESIGN.md :
+
+```
+Pour chaque écran du flow en cours :
+  1. Fetch l'entrée correspondante dans la DB Écrans Learning App
+     (data_source_url: collection://e6fa768a-44c8-4128-b1b3-3b4a2492c8aa)
+  2. Vérifier que `Composants clés` reflète le code actuel
+     (lire imports depuis ../components/* dans le .tsx)
+  3. Vérifier que `Objectif de la page` est précis et à jour
+     (source : JSDoc en tête du fichier ou h1 du composant)
+  4. Si page nouvellement Tailwind + tone-aware : Statut design = "Validé"
+     (sinon laisser "Intégré")
+  5. Confirmer `Disponible sur l app` = YES (sauf consolidation ⛔)
+  6. Si doublon dans la liste ci-dessous → supprimer le doublon le moins riche
+```
+
+**Source de vérité unique :** le code dans `src/pages/*.tsx`. Si Notion diverge → corriger Notion, jamais l'inverse (sauf décision design explicite).
+
+### 🗑️ Doublons à nettoyer (audit 2026-05-15)
+
+8 paires d'entrées avec la même route à supprimer manuellement dans Notion. À chaque flow concerné, l'agent doit garder la plus complète (Statut: Intégré, Composants riches, Objectif précis) et supprimer l'autre :
+
+| Page | ID à garder (probable) | ID à supprimer (probable) | Flow concerné |
+|------|-----------------------|--------------------------|---------------|
+| Account | `35ecdd69-6db6-81db-82ec-fba830b2ac5d` | `35ecdd69-6db6-81ad-b45e-d74e66709d7b` | 14.14 Profile/Account |
+| Veille | `35ecdd69-6db6-8113-b9f7-d69d39d33510` (Intégré) | `35ecdd69-6db6-81f2-836b-f9d1ea8c947f` (À faire) | 14.7 Veille |
+| Magazine | `35ecdd69-6db6-81c9-be3c-e9c9c5aee664` (Intégré) | `35ecdd69-6db6-81fe-a483-cd26c8496e23` (À faire) | 14.7 Veille |
+| VideoTutorial | `35ecdd69-6db6-818e-a030-d834498555ed` | `35ecdd69-6db6-81ef-9730-ee16899a1bfd` | 14.7 Veille |
+| VideoViewer | `35ecdd69-6db6-813f-954d-c8693d91fcda` | `35ecdd69-6db6-8135-9075-e1635ea1d5bf` | 14.7 Veille |
+| JournalFreeEntry | `35ecdd69-6db6-8171-8d61-d0dc4c039daf` | `35ecdd69-6db6-8142-971a-c05910958ec8` | 14.5 Journal |
+| Error404 | `35ecdd69-6db6-81a3-9849-cc3f67f18b5f` | `35ecdd69-6db6-81d6-9ba1-d22dce369aa1` | 14.17 Errors |
+| Error500 | `35ecdd69-6db6-81f0-8ed7-dfaa15aa9bb9` | `35ecdd69-6db6-819e-94f5-f1c920fdb1b7` | 14.17 Errors |
+
+**Note :** à chaque flow, fetcher les 2 entrées du doublon pour confirmer laquelle est la plus riche avant suppression — l'ID "à garder" ci-dessus est une hypothèse à vérifier.
+
+### 🗑️ Entrée orpheline marquée pour suppression (2026-05-15)
+
+- ID `361cdd696db680ea9688ea933ae3408f` — renommée "🗑️ À SUPPRIMER — entrée orpheline vide". Supprimer manuellement depuis l'UI Notion.
+
+### 📋 État sync Notion ↔ Code (audit 2026-05-15)
+
+- **Phase 16 (14 mai, 14 entrées `360cdd*`)** : 100% synchronisées avec le code — pas d'action requise sauf à l'étape "Validé"
+- **Tier 1 (12-13 mai)** : Composants cohérents, Objectifs corrects. Statut design à passer "Intégré" → "Validé" au fil des flows Phase 14
+- **2 entrées updatées le 2026-05-15** : Dashboard (`/`) et Coaching (`/coaching`) — Statut "En cours" → "Intégré", composants modernisés
+- **Bulk sync exhaustive bloquée** : `notion-query-database-view` MCP ne supporte pas la pagination par cursor → sync flow-par-flow obligatoire (workflow Phase 14 ci-dessus)
+
+---
+
+### Phase 14.1 — Première expérience ✅ (2026-05-15)
+
+5 écrans redesignés en arc warm → brand avec Stepper persistant 4 étapes :
+- `Onboarding` (warm) — OptionGrid pour role/sector/goals/rythme · sub-steps internes
+- `OnboardingQuestionnaire` (warm) — DreyfusLevelSelector 5-niveaux responsive
+- `OnboardingTutorial` (warm) — StepTutorial tone warm, route → success
+- `OnboardingSuccess` (brand) — CongratulationsCard + NextStepsGrid (3 cards tone-mixed)
+- `Dashboard` — `?firstTime=1` query param active EmptyDashboardState
+
+**Nouveaux composants DS (P1 + P2)** :
+1. `patterns/OptionGrid` — grille sélecteur icon+label (single/multi · 3 layouts · 3 tones)
+2. `ui/DreyfusLevelSelector` — picker 5-niveaux Likert responsive (fix cramped tablet)
+3. `patterns/CongratulationsCard` — bloc célébration milestone (badge + title + XP)
+4. `patterns/NextStepsGrid` — grille action cards tone-mixed (brand/warm/sun par-item)
+5. `patterns/EmptyDashboardState` — cold-start Dashboard pour new users
+6. `lib/onboarding-steps.ts` — helper Stepper partagé 4 étapes cross-screen
+
+Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Components.tsx`.
+
+**Validation** : `npx tsc --noEmit` ✅ · preview desktop + mobile ✅ · DOM scan 0 BEM `tls-*` legacy, 0 inline `--tls-*` var.
+
+---
+
+**Dernière mise à jour :** 2026-05-15 — Phase 14.1 ✅ (5 écrans + 5 nouveaux composants DS + helper onboarding-steps). Phase 14 ouverte 17 flows. Notion sync intégrée à l'étape 5. Phase 10 Tier 3 ✅.

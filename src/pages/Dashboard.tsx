@@ -13,7 +13,7 @@
  */
 
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/core/Button';
 import { EditorialHero } from '../components/patterns/EditorialHero';
@@ -22,6 +22,7 @@ import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { PromptCard } from '../components/learning/PromptCard';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
+import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import {
   Sparkles,
   BookOpen,
@@ -96,6 +97,10 @@ const JOURNAL_PROMPTS: JournalPrompt[] = [
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  // Cold-start state for first-time users : opt-in via `?firstTime=1` until
+  // backend exposes a real `isOnboarded` / `hasStartedParcours` flag.
+  const isFirstTime = searchParams.get('firstTime') === '1';
 
   const formattedDate = useMemo(() => {
     return new Date()
@@ -132,9 +137,31 @@ export const Dashboard: React.FC = () => {
               Bienvenue {firstName} <span className="inline-block">👋</span>
             </>
           }
-          summary={<em className="not-italic font-body">"{dailyQuote}"</em>}
+          summary={
+            isFirstTime
+              ? "Ton espace t'attend. Voici les premières actions pour démarrer en confiance."
+              : <em className="not-italic font-body">"{dailyQuote}"</em>
+          }
         />
 
+        {/* Cold-start state — replaces mock parcours / coaching / activity for new users */}
+        {isFirstTime ? (
+          <EmptyDashboardState firstName={firstName} />
+        ) : (
+          <DashboardContent navigate={navigate} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+interface DashboardContentProps {
+  navigate: ReturnType<typeof useNavigate>;
+}
+
+const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
+  return (
+    <>
         {/* ① TON PARCOURS — featured glass card */}
         <section className="flex flex-col gap-stack">
           <SectionHeader title="Ton parcours" subtitle="Reprendre où tu t'es arrêté" icon={Compass} variant="minimal" tone="warm" />
@@ -289,9 +316,7 @@ export const Dashboard: React.FC = () => {
             Explorer toute la veille
           </Button>
         </section>
-
-      </div>
-    </div>
+    </>
   );
 };
 

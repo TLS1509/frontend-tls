@@ -173,6 +173,12 @@ import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { CorrectionCard } from '../components/ui/CorrectionCard';
 import { StepTutorial } from '../components/patterns/StepTutorial';
 import { NewsletterSignupCard } from '../components/patterns/NewsletterSignupCard';
+import { OptionGrid } from '../components/patterns/OptionGrid';
+import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
+import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
+import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
+import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
+import { Briefcase, HeartHandshake } from 'lucide-react';
 
 /* ============================================================================
  * TYPES
@@ -243,11 +249,9 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   UserInfo:             { category: 'Atoms', subCategory: 'Identity' },
   TlsLogo:              { category: 'Atoms', subCategory: 'Identity' },
 
-  // Status badges
-  Badge:                { category: 'Atoms', subCategory: 'Status badges' },
-  StatusBadge:          { category: 'Atoms', subCategory: 'Status badges' },
-  TrendingBadge:        { category: 'Atoms', subCategory: 'Status badges' },
-  NotificationBadge:    { category: 'Atoms', subCategory: 'Status badges' },
+  // Badges (rationalisés en une seule entrée)
+  Badge:                { category: 'Atoms', subCategory: 'Badges' },
+  NotificationBadge:    { category: 'Atoms', subCategory: 'Badges' },
 
   // Chips / Pills
   Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
@@ -255,12 +259,12 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
   Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
   FilterChip:           { category: 'Atoms', subCategory: 'Chips & Pills' },
-  'Filter Pills':       { category: 'Atoms', subCategory: 'Chips & Pills' },
+  // 'Filter Pills' supprimé — redondant avec FilterChip
 
   // Indicators
   ProgressBar:          { category: 'Atoms', subCategory: 'Indicators' },
   InlineProgress:       { category: 'Atoms', subCategory: 'Indicators' },
-  ProgressRing:         { category: 'Atoms', subCategory: 'Indicators' },
+  // ProgressRing supprimé — mentionné dans ProgressBar description
   Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
   Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
 
@@ -273,13 +277,13 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   MetaPillGroup:        { category: 'Composites', subCategory: 'Group wrappers' },
   // Tabs et Breadcrumb classés en Navigation (cf. ci-dessous)
   Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
-  Steps:                { category: 'Composites', subCategory: 'Group wrappers' },
+  // Steps supprimé — fusionné dans Stepper entry
   Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
   EditorialHero:        { category: 'Headers & Sections', subCategory: 'Heroes' },
-  'PageHero archetypes':{ category: 'Headers & Sections', subCategory: 'Heroes' },
+  // 'PageHero archetypes' supprimé — proposals non encore implémentées
   AmbientBlobs:         { category: 'Foundations', subCategory: 'Backgrounds' },
   PageHeader:           { category: 'Headers & Sections', subCategory: 'Page headers' },
   HeaderNav:            { category: 'Headers & Sections', subCategory: 'Page headers' },
@@ -333,11 +337,11 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   CourseCard:           { category: 'Cards', subCategory: 'Generic' },
   PageCard:             { category: 'Cards', subCategory: 'Generic' },
   StatCard:             { category: 'Cards', subCategory: 'KPI & Stats' },
-  'TLS KPI Pattern':    { category: 'Cards', subCategory: 'KPI & Stats' },
+  // 'TLS KPI Pattern' supprimé — redondant avec StatCard
 
   // Communication (chat-bubble)
   PromptCard:           { category: 'Cards', subCategory: 'Communication' },
-  'Chat Bubbles':       { category: 'Cards', subCategory: 'Communication' },
+  // 'Chat Bubbles' supprimé — documenté dans PromptCard + MessagingThread
   JournalEntryCard:     { category: 'Cards', subCategory: 'Communication' },
   NotificationCard:     { category: 'Cards', subCategory: 'Communication' },
   // MessageThreadCard supprimé Phase 10
@@ -349,9 +353,10 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   StepCard:             { category: 'Cards', subCategory: 'Learning content' },
 
   // Editorial content
-  ArticleCard:          { category: 'Cards', subCategory: 'Editorial content' },
-  MagazineCard:         { category: 'Cards', subCategory: 'Editorial content' },
-  VideoCard:            { category: 'Cards', subCategory: 'Editorial content' },
+  EditorialCard:        { category: 'Cards', subCategory: 'Editorial content' },
+  // ArticleCard → renommé EditorialCard (absorbe MagazineCard + VideoCard)
+  // MagazineCard supprimé — fusionné dans EditorialCard
+  // VideoCard supprimé — fusionné dans EditorialCard
 
   // Domain
   SessionCard:          { category: 'Cards', subCategory: 'Domain (coaching/project)' },
@@ -364,9 +369,9 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // ── LISTS & FEEDS ─────────────────────────────────────────────────────
   CardGrid:             { category: 'Lists & Feeds', subCategory: 'Grids' },
   ActionCardGrid:       { category: 'Lists & Feeds', subCategory: 'Grids' },
-  CoachCardGrid:        { category: 'Lists & Feeds', subCategory: 'Grids' },
-  LearningPathGrid:     { category: 'Lists & Feeds', subCategory: 'Grids' },
-  ResourceCardGrid:     { category: 'Lists & Feeds', subCategory: 'Grids' },
+  // CoachCardGrid supprimé — grille spécialisée, pas un pattern DS générique
+  // LearningPathGrid supprimé — idem
+  // ResourceCardGrid supprimé — idem
   VeilleCardFeed:       { category: 'Lists & Feeds', subCategory: 'Grids' },
   VeilleCard:           { category: 'Cards', subCategory: 'Editorial content' },
   'VeilleCard — design proposals': { category: 'Cards', subCategory: 'Editorial content' },
@@ -398,12 +403,13 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Modal:                { category: 'Modals', subCategory: 'Base' },
   BookingModal:         { category: 'Modals', subCategory: 'Booking flow' },
   PositionnementModal:  { category: 'Modals', subCategory: 'Booking flow' },
-  ConfirmModal:         { category: 'Modals', subCategory: 'Confirm/Status' },
-  SuccessModal:         { category: 'Modals', subCategory: 'Confirm/Status' },
-  CancelSessionModal:   { category: 'Modals', subCategory: 'Confirm/Status' },
+  'Dialog Modals':      { category: 'Modals', subCategory: 'Confirm/Status' },
+  // ConfirmModal → renommé 'Dialog Modals' (absorbe SuccessModal + CancelSessionModal)
+  // SuccessModal supprimé — fusionné dans 'Dialog Modals'
+  // CancelSessionModal supprimé — fusionné dans 'Dialog Modals'
   SessionFeedbackModal: { category: 'Modals', subCategory: 'Confirm/Status' },
   CelebrationModal:     { category: 'Modals', subCategory: 'Celebrations' },
-  StreakCelebrationModal: { category: 'Modals', subCategory: 'Celebrations' },
+  // StreakCelebrationModal supprimé — mentionné dans CelebrationModal description
   VideoPlayerModal:     { category: 'Modals', subCategory: 'Media' },
   RatingModal:          { category: 'Modals', subCategory: 'Confirm/Status' },
 
@@ -421,6 +427,13 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   HeatmapGrid:          { category: 'Learning', subCategory: 'Compétences' },
   CorrectionCard:       { category: 'Atoms', subCategory: 'Coaching' },
   StepTutorial:         { category: 'Patterns', subCategory: 'Onboarding' },
+
+  // ── PHASE 14.1 — Première expérience flow ─────────────────────────────
+  OptionGrid:             { category: 'Forms',          subCategory: 'Composite forms' },
+  DreyfusLevelSelector:   { category: 'Learning',       subCategory: 'Compétences' },
+  CongratulationsCard:    { category: 'Feedback',       subCategory: 'Celebrations' },
+  NextStepsGrid:          { category: 'Lists & Feeds',  subCategory: 'Grids' },
+  EmptyDashboardState:    { category: 'Feedback',       subCategory: 'Empty/zero states' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
@@ -1610,22 +1623,63 @@ const COMPONENTS: ComponentEntry[] = [
   },
   {
     name: 'Badge',
-    codeName: 'Badge.tsx',
-    cssBase: '.badge',
-    category: 'Core',
-    description: 'Compact status tag. Uppercase 11px, 1–2 words max. 7 semantic variants + dot modifier.',
-    keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'info'],
+    codeName: 'ui/Badge.tsx',
+    cssBase: 'Tailwind',
+    category: 'Atoms',
+    description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports.',
+    keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
+    usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
     render: () => (
-      <div className="hstack">
-        <Badge variant="brand">Brand</Badge>
-        <Badge variant="neutral">Neutral</Badge>
-        <Badge variant="warm">Warm</Badge>
-        <Badge variant="sun">Sun</Badge>
-        <Badge variant="success">Success</Badge>
-        <Badge variant="danger">Danger</Badge>
-        <Badge variant="info">Info</Badge>
-        <Badge variant="success" dot>Active</Badge>
-        <Badge variant="danger" dot>Offline</Badge>
+      <div className="flex flex-col gap-6">
+        {/* Badge — sémantique */}
+        <div className="flex flex-col gap-2">
+          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">Badge — sémantique</span>
+          <div className="hstack flex-wrap">
+            <Badge variant="brand">Brand</Badge>
+            <Badge variant="neutral">Neutral</Badge>
+            <Badge variant="warm">Warm</Badge>
+            <Badge variant="sun">Sun</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="danger">Danger</Badge>
+            <Badge variant="info">Info</Badge>
+            <Badge variant="success" dot>Active</Badge>
+            <Badge variant="danger" dot>Offline</Badge>
+          </div>
+        </div>
+        {/* StatusBadge — état leçon */}
+        <div className="flex flex-col gap-2">
+          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">StatusBadge — état leçon</span>
+          <div className="hstack flex-wrap gap-3">
+            <StatusBadge status="locked" />
+            <StatusBadge status="available" />
+            <StatusBadge status="in-progress" />
+            <StatusBadge status="completed" />
+            <StatusBadge status="failed" />
+          </div>
+          <div className="hstack flex-wrap gap-3">
+            <StatusBadge status="locked" showLabel />
+            <StatusBadge status="available" showLabel />
+            <StatusBadge status="in-progress" showLabel />
+            <StatusBadge status="completed" showLabel />
+            <StatusBadge status="failed" showLabel />
+          </div>
+        </div>
+        {/* TrendingBadge — social proof */}
+        <div className="flex flex-col gap-2">
+          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">TrendingBadge — social proof</span>
+          <div className="flex flex-wrap gap-3">
+            <TrendingBadge type="trending" />
+            <TrendingBadge type="popular" />
+            <TrendingBadge type="recommended" />
+            <TrendingBadge type="featured" />
+            <TrendingBadge type="new" />
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <TrendingBadge type="trending" count={42} />
+            <TrendingBadge type="popular" count={128} animated={false} />
+            <TrendingBadge type="new" size="sm" />
+          </div>
+        </div>
       </div>
     ),
   },
@@ -1825,8 +1879,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ProgressBar.tsx',
     cssBase: '.progress',
     category: 'Learning',
-    description: 'Linear progress tracking. Sizes sm/md/lg. Fills: brand, warm, gradient.',
-    keywords: ['progress', 'linear', 'bar', 'percentage'],
+    description: 'Linear progress tracking. Sizes sm/md/lg. Fills: brand, warm, gradient. **ProgressRing** : anneau SVG circulaire (sizes 48–100px) disponible via import séparé — utilisé dans profil, badges compétences, ReadingProgressRing dans les headers éditoriaux.',
+    keywords: ['progress', 'linear', 'bar', 'percentage', 'ring', 'circle', 'circular', 'svg'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <ProgressBar label="Module 3 · Design systems" value={72} />
@@ -2018,37 +2072,6 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
-  {
-    name: 'TLS KPI Pattern',
-    codeName: 'ui/StatCard.tsx',
-    cssBase: 'Tailwind (no BEM)',
-    category: 'Patterns',
-    description: 'Bloc statistique standardisé: icône colorée en bulle light + grand chiffre bold + label muted. Utilise StatCard avec variants brand/warm/sun. Remplace .tls-kpi / .tls-kpi-icon.',
-    keywords: ['kpi', 'stat', 'metric', 'icon', 'number'],
-    render: () => (
-      <div className="grid grid-cols-3 gap-4">
-        <StatCard variant="brand" icon={<BookOpen size={20} />} value="12" label="Cours terminés" delta="+2 ce mois" deltaDirection="up" />
-        <StatCard variant="warm" icon={<Trophy size={20} />} value="2 450" label="Points XP" delta="+180" deltaDirection="up" />
-        <StatCard variant="sun" icon={<Flame size={20} />} value="7j" label="Série actuelle" delta="Record !" deltaDirection="up" />
-      </div>
-    ),
-  },
-  {
-    name: 'Filter Pills',
-    codeName: 'static-pages.css',
-    cssBase: '.tls-filter-pill / .tls-filter-pill--active',
-    category: 'Patterns',
-    description: 'Pills de filtrage CSS-only avec focus ring WCAG AA. État actif via aria-selected ou classe --active. Utilisées sur Journal, Notifications, Messages, Veille.',
-    keywords: ['filter', 'pill', 'tab', 'category', 'active', 'aria'],
-    render: () => (
-      <div role="tablist" className="hstack flex-wrap">
-        <button type="button" role="tab" aria-selected={true}  className="tls-filter-pill tls-filter-pill--active">⚡ Tous</button>
-        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.book} Formations</button>
-        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.trophy} Badges</button>
-        <button type="button" role="tab" aria-selected={false} className="tls-filter-pill">{I.heart} Favoris</button>
-      </div>
-    ),
-  },
 
   /* ---- NAVIGATION ------------------------------------------------------- */
   {
@@ -2081,33 +2104,23 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => <BookingModalDemo />,
   },
   {
-    name: 'ConfirmModal',
-    codeName: 'modals/ConfirmModal.tsx',
+    name: 'Dialog Modals',
+    codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
     cssBase: '—',
     category: 'Modals',
     usedBy: ['Billing', 'SubscriptionPayment'],
-    description: 'Dialog de confirmation générique. 4 variantes: info, success, warning, danger.',
-    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info'],
-    render: () => <ConfirmModalDemo />,
-  },
-  {
-    name: 'SuccessModal',
-    codeName: 'modals/SuccessModal.tsx',
-    cssBase: '—',
-    category: 'Modals',
-    description: 'Célébration de réussite générique. Icône check animée avec ring pulsé.',
-    keywords: ['modal', 'success', 'celebration', 'achievement', 'check', 'completion'],
-    render: () => <SuccessModalDemo />,
-  },
-  {
-    name: 'StreakCelebrationModal',
-    codeName: 'modals/StreakCelebrationModal.tsx',
-    cssBase: '—',
-    category: 'Modals',
-    showcaseOnly: true,
-    description: 'Célébration de série quotidienne. Particules feu, streak count, stats semaines/XP.',
-    keywords: ['modal', 'streak', 'flame', 'celebration', 'consecutive', 'days', 'gamification'],
-    render: () => <StreakCelebrationModalDemo />,
+    description: 'Famille de dialogs de confirmation et feedback. **ConfirmModal** : 4 variantes info/success/warning/danger. **SuccessModal** : célébration check animé + ring pulsé. **CancelSessionModal** : annulation/reprogrammation session coaching avec sélection motif.',
+    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ConfirmModal — confirmation générique</p>
+        <ConfirmModalDemo />
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">SuccessModal — célébration check animé</p>
+        <SuccessModalDemo />
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">CancelSessionModal — annulation / reprogrammation</p>
+        <CancelSessionModalDemo />
+      </div>
+    ),
   },
   {
     name: 'SessionFeedbackModal',
@@ -2117,15 +2130,6 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Notation étoiles + commentaire. Feedback post-session coaching ou fin de leçon.',
     keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
     render: () => <SessionFeedbackModalDemo />,
-  },
-  {
-    name: 'CancelSessionModal',
-    codeName: 'modals/CancelSessionModal.tsx',
-    cssBase: '—',
-    category: 'Modals',
-    description: 'Annulation ou reprogrammation d\'une session coaching avec sélection du motif.',
-    keywords: ['modal', 'cancel', 'session', 'coaching', 'reschedule', 'reason'],
-    render: () => <CancelSessionModalDemo />,
   },
   {
     name: 'VideoPlayerModal',
@@ -2184,23 +2188,6 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'ProgressRing',
-    codeName: 'ProgressRing.tsx',
-    cssBase: 'ProgressRing (inline SVG)',
-    category: 'Learning',
-    showcaseOnly: true,
-    description: 'Anneau de progression SVG circulaire. Tailles: sm/md/lg/xl. Animation de fill avec stroke-dashoffset. Utilisé dans profil, badges de compétences.',
-    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'percentage'],
-    render: () => (
-      <div className="flex gap-6 items-center flex-wrap">
-        <ProgressRing value={75} size={100} label="Parcours" />
-        <ProgressRing value={45} size={80} label="Leçons" />
-        <ProgressRing value={90} size={64} />
-        <ProgressRing value={30} size={48} />
-      </div>
-    ),
-  },
-  {
     name: 'CompetenceBadge',
     codeName: 'CompetenceBadge.tsx',
     cssBase: '.comp-badge',
@@ -2250,38 +2237,12 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'TrendingBadge',
-    codeName: 'ui/Badge.tsx (merged)',
-    cssBase: '.trending-badge',
-    category: 'Learning',
-    showcaseOnly: false,
-    usedBy: ['Veille'],
-    description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Gradient + pulse animation. Param `count` optionnel. Implémenté dans Badge.tsx — TrendingBadge.tsx = thin re-export.',
-    keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof', 'promo'],
-    render: () => (
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap gap-3">
-          <TrendingBadge type="trending" />
-          <TrendingBadge type="popular" />
-          <TrendingBadge type="recommended" />
-          <TrendingBadge type="featured" />
-          <TrendingBadge type="new" />
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <TrendingBadge type="trending" count={42} />
-          <TrendingBadge type="popular" count={128} animated={false} />
-          <TrendingBadge type="new" size="sm" />
-        </div>
-      </div>
-    ),
-  },
-  {
     name: 'Stepper',
     codeName: 'Stepper.tsx',
     cssBase: '.stepper / .stepper__step',
     category: 'Navigation',
-    description: 'Indicateur d\'étapes séquentiel. Orientations: horizontal/vertical. États par step: done/current/upcoming. Utilisé dans onboarding, wizards multi-étapes.',
-    keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence'],
+    description: '**Stepper** : indicateur d\'étapes séquentiel horizontal/vertical — états done/current/upcoming. Utilisé dans onboarding, wizards. **Steps** : checklist séquentielle d\'étapes (done/current/upcoming) — différent du stepper car vertical avec descriptions longues.',
+    keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence', 'checklist', 'task', 'sequential'],
     render: () => {
       const steps = [
         { id: '1', label: 'Positionnement', state: 'done' as const },
@@ -2290,9 +2251,22 @@ const COMPONENTS: ComponentEntry[] = [
         { id: '4', label: 'Certification', state: 'upcoming' as const },
       ];
       return (
-        <div className="flex flex-col gap-6">
-          <Stepper items={steps} orientation="horizontal" />
-          <Stepper items={steps} orientation="vertical" />
+        <div className="flex flex-col gap-section">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Stepper — indicateur horizontal / vertical</p>
+          <div className="flex flex-col gap-6">
+            <Stepper items={steps} orientation="horizontal" />
+            <Stepper items={steps} orientation="vertical" />
+          </div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Steps — checklist séquentielle verticale</p>
+          <Steps
+            items={[
+              { title: 'Créer votre compte', description: 'Email + mot de passe sécurisé', state: 'done' },
+              { title: 'Compléter votre profil', description: 'Nom, photo, objectifs', state: 'done' },
+              { title: 'Se positionner', description: 'Évaluation initiale de compétences', state: 'current' },
+              { title: 'Choisir un parcours', description: 'Sélectionnez votre première formation', state: 'upcoming' },
+              { title: 'Démarrer l\'apprentissage', state: 'upcoming' },
+            ]}
+          />
         </div>
       );
     },
@@ -2338,8 +2312,8 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind + modals.css animations',
     category: 'Modals',
     showcaseOnly: true,
-    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). Remplace l\'ancien composant `Celebration` (full card) — uniformisé avec les autres modals (BookingModal, StreakCelebrationModal, etc.). Sparkles aux 4 coins, gradient bg + text, scrim avec backdrop-blur.',
-    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
+    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). **CelebrationModal** : confetti + badge + message court. **StreakCelebrationModal** : variante streak (particules feu, streak count, stats semaines/XP).',
+    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward', 'streak', 'flame'],
     render: () => <CelebrationModalDemo />,
   },
   {
@@ -2438,25 +2412,6 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
     render: () => <PaginationDemo />,
-  },
-  {
-    name: 'Steps',
-    codeName: 'Steps.tsx',
-    cssBase: '.steps / .step / .step--done / .step--current',
-    category: 'Navigation',
-    description: 'Checklist séquentielle d\'étapes au sein d\'une tâche ou d\'un parcours. États: done, current, upcoming. Différent du Stepper (linéaire horizontal/vertical).',
-    keywords: ['steps', 'checklist', 'task', 'journey', 'done', 'current', 'sequential'],
-    render: () => (
-      <Steps
-        items={[
-          { title: 'Créer votre compte', description: 'Email + mot de passe sécurisé', state: 'done' },
-          { title: 'Compléter votre profil', description: 'Nom, photo, objectifs', state: 'done' },
-          { title: 'Se positionner', description: 'Évaluation initiale de compétences', state: 'current' },
-          { title: 'Choisir un parcours', description: 'Sélectionnez votre première formation', state: 'upcoming' },
-          { title: 'Démarrer l\'apprentissage', state: 'upcoming' },
-        ]}
-      />
-    ),
   },
   {
     name: 'DropdownMenu',
@@ -3409,33 +3364,6 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'StatusBadge',
-    codeName: 'ui/Badge.tsx (merged)',
-    cssBase: '.status-badge / .status-badge--{state}',
-    category: 'Feedback',
-    showcaseOnly: true,
-    description: 'Badge d\'état d\'apprentissage. 5 états : locked, available, in-progress, completed, failed. Avec ou sans label. Implémenté dans Badge.tsx — StatusBadge.tsx = thin re-export.',
-    keywords: ['status', 'badge', 'state', 'progress', 'locked', 'completed', 'learning'],
-    render: () => (
-      <div className="vstack gap-4">
-        <div className="hstack flex-wrap gap-3">
-          <StatusBadge status="locked" />
-          <StatusBadge status="available" />
-          <StatusBadge status="in-progress" />
-          <StatusBadge status="completed" />
-          <StatusBadge status="failed" />
-        </div>
-        <div className="hstack flex-wrap gap-3">
-          <StatusBadge status="locked" showLabel />
-          <StatusBadge status="available" showLabel />
-          <StatusBadge status="in-progress" showLabel />
-          <StatusBadge status="completed" showLabel />
-          <StatusBadge status="failed" showLabel />
-        </div>
-      </div>
-    ),
-  },
-  {
     name: 'NotificationBadge',
     codeName: 'ui/NotificationBadge.tsx',
     cssBase: '.notif-badge / .notif-badge--{tone}',
@@ -3614,72 +3542,6 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'CoachCardGrid',
-    codeName: 'patterns/CoachCardGrid.tsx',
-    cssBase: 'CoachCardGrid (responsive grid)',
-    category: 'Patterns',
-    showcaseOnly: true,
-    description: 'Grille responsive (1/2/3 colonnes) listant des coachs avec avatar, nom, spécialité, rating, tarif, badge disponibilité et CTA "Réserver". Tones primary/warm/sun. À utiliser pour les pages de découverte de coachs.',
-    keywords: ['grid', 'coach', 'cards', 'coaching', 'session', 'responsive', 'tone'],
-    render: () => (
-      <CoachCardGrid
-        coaches={[
-          {
-            id: '1',
-            name: 'Sarah Chen',
-            role: 'Coach',
-            // avatar omitted → ProfileCard renders initials
-            bio: 'Experte en leadership',
-            specialties: ['Leadership', 'Communication'],
-            availability: true,
-          },
-          {
-            id: '2',
-            name: 'Marc Dupont',
-            role: 'Mentor',
-            // avatar omitted → ProfileCard renders initials
-            bio: 'Consultant stratégique',
-            specialties: ['Stratégie', 'Vision'],
-            availability: true,
-          },
-        ]}
-      />
-    ),
-  },
-  {
-    name: 'LearningPathGrid',
-    codeName: 'patterns/LearningPathGrid.tsx',
-    cssBase: 'LearningPathGrid (responsive grid)',
-    category: 'Patterns',
-    showcaseOnly: true,
-    description: 'Grille responsive de parcours: image de fond avec overlay gradient, titre, niveau, nombre de modules, ProgressBar et badge statut. À utiliser sur les pages liste/découverte de parcours.',
-    keywords: ['learning', 'path', 'grid', 'course', 'responsive'],
-    render: () => (
-      <LearningPathGrid
-        paths={[
-          {
-            id: '1',
-            title: 'Fondamentaux du Leadership',
-            description: 'Apprenez les principes essentiels',
-            lessonCount: 12,
-            progress: 65,
-            status: 'in-progress',
-            tone: 'primary',
-          },
-          {
-            id: '2',
-            title: 'Communication Efficace',
-            description: 'Maîtrisez les techniques de communication',
-            lessonCount: 8,
-            progress: 0,
-            status: 'not-started',
-            tone: 'warm',
-          },
-        ]}
-      />
-    ),
-  },
-  {
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
     cssBase: 'MultiStepForm (form progress)',
@@ -3731,38 +3593,6 @@ const COMPONENTS: ComponentEntry[] = [
           showThumbnail={false}
         />
       </div>
-    ),
-  },
-  {
-    name: 'ResourceCardGrid',
-    codeName: 'patterns/ResourceCardGrid.tsx',
-    cssBase: 'ResourceCardGrid (responsive grid)',
-    category: 'Patterns',
-    showcaseOnly: true,
-    description: 'Grille responsive (1/2/3 colonnes) qui itère sur des ResourceCard: icône type, titre, description, durée et catégorie. À utiliser sur pages "Ressources" ou "Documentation" pour afficher des collections de PDF/vidéos/articles.',
-    keywords: ['resource', 'grid', 'cards', 'responsive'],
-    render: () => (
-      <ResourceCardGrid
-        items={[
-          {
-            id: '1',
-            type: 'ARTICLE',
-            title: 'Guide du Leadership',
-            description: 'Apprenez les principes essentiels',
-            duration: '5 min',
-            category: 'Leadership',
-          },
-          {
-            id: '2',
-            type: 'VIDEO',
-            title: 'Communication Efficace',
-            description: 'Techniques de communication avancées',
-            duration: '15 min',
-            category: 'Communication',
-          },
-        ]}
-        columns={2}
-      />
     ),
   },
   {
@@ -4046,98 +3876,115 @@ const COMPONENTS: ComponentEntry[] = [
     },
   },
   {
-    name: 'ArticleCard',
-    codeName: 'learning/ArticleCard.tsx',
+    name: 'EditorialCard',
+    codeName: 'learning/ArticleCard.tsx · learning/MagazineCard.tsx · learning/VideoCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
-    description: 'Card éditoriale (actu / tutoriel / dossier / magazine). Icon bubble tone-aware (en-tête) + eyebrow typeLabel + date · catégorie en tone color · title + summary · footer auteur + read time + CTA "Lire". Save button optionnel. 3 tones (primary/warm/sun). Wrapper sur `<Card variant="feature">`.',
-    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone'],
+    description: 'Card éditoriale multi-format. **ArticleCard** : actu / tutoriel / dossier — icon bubble tone-aware + eyebrow + title + summary + footer. **MagazineCard** : numéros Magazine TLS — gradient cover + n° filigrane + CTA. **VideoCard** : vidéo thumbnail tone-aware + play overlay + duration badge. 3–4 tones (primary/warm/sun/brand). Wrapper sur `<Card variant="feature">`.',
+    keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-        <ArticleCard
-          itemId="a1"
-          type="actu"
-          typeLabel="Actu"
-          tone="primary"
-          icon={<TrendingUp size={22} />}
-          title="L'essor du microlearning dans les entreprises"
-          summary="78% des entreprises du CAC40 ont adopté le microlearning : résultats et conditions du succès."
-          category="Formation"
-          author="TLS Rédaction"
-          publishedAt="Hier"
-          readTime="4 min"
-          isSaved={false}
-          onSave={() => {}}
-          onClick={() => {}}
-          onRead={() => {}}
-        />
-        <ArticleCard
-          itemId="a2"
-          type="dossier"
-          typeLabel="Dossier"
-          tone="sun"
-          icon={<FolderOpen size={22} />}
-          title="Transformation IA des parcours de formation"
-          summary="Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe."
-          category="Management"
-          author="McKinsey"
-          publishedAt="Il y a 3 jours"
-          readTime="22 min"
-          isSaved={true}
-          onSave={() => {}}
-          onClick={() => {}}
-          onRead={() => {}}
-        />
-      </div>
-    ),
-  },
-  {
-    name: 'MagazineCard',
-    codeName: 'learning/MagazineCard.tsx',
-    cssBase: 'Tailwind',
-    category: 'Learning',
-    description: 'Card éditoriale pour les numéros du Magazine TLS — gradient cover avec n° en filigrane, titre display, date édition, pied de page blanc avec CTA. 4 tones : primary / warm / sun / brand.',
-    keywords: ['magazine', 'edition', 'mensual', 'TLS Mag', 'editorial', 'cover', 'gradient'],
-    render: () => (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-5xl">
-        <MagazineCard
-          title="Tendances EdTech 2026"
-          issueNumber={14}
-          articleCount={12}
-          publishedAt="Mai 2026"
-          tone="primary"
-          onClick={() => {}}
-          onSave={() => {}}
-        />
-        <MagazineCard
-          title="L'IA au cœur de la formation"
-          description="56 pages de recherches et analyses."
-          issueNumber={13}
-          articleCount={8}
-          publishedAt="Avril 2026"
-          tone="warm"
-          isSaved={true}
-          onClick={() => {}}
-          onSave={() => {}}
-        />
-        <MagazineCard
-          title="Leadership & Soft Skills"
-          issueNumber={12}
-          articleCount={10}
-          publishedAt="Mars 2026"
-          tone="sun"
-          onClick={() => {}}
-          onSave={() => {}}
-        />
-        <MagazineCard
-          title="Futur du travail"
-          issueNumber={11}
-          articleCount={9}
-          publishedAt="Fév. 2026"
-          tone="brand"
-          onClick={() => {}}
-          onSave={() => {}}
-        />
+      <div className="flex flex-col gap-section">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ArticleCard — actu / tutoriel / dossier</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+          <ArticleCard
+            itemId="a1"
+            type="actu"
+            typeLabel="Actu"
+            tone="primary"
+            icon={<TrendingUp size={22} />}
+            title="L'essor du microlearning dans les entreprises"
+            summary="78% des entreprises du CAC40 ont adopté le microlearning : résultats et conditions du succès."
+            category="Formation"
+            author="TLS Rédaction"
+            publishedAt="Hier"
+            readTime="4 min"
+            isSaved={false}
+            onSave={() => {}}
+            onClick={() => {}}
+            onRead={() => {}}
+          />
+          <ArticleCard
+            itemId="a2"
+            type="dossier"
+            typeLabel="Dossier"
+            tone="sun"
+            icon={<FolderOpen size={22} />}
+            title="Transformation IA des parcours de formation"
+            summary="Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe."
+            category="Management"
+            author="McKinsey"
+            publishedAt="Il y a 3 jours"
+            readTime="22 min"
+            isSaved={true}
+            onSave={() => {}}
+            onClick={() => {}}
+            onRead={() => {}}
+          />
+        </div>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">MagazineCard — numéros magazine</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-5xl">
+          <MagazineCard
+            title="Tendances EdTech 2026"
+            issueNumber={14}
+            articleCount={12}
+            publishedAt="Mai 2026"
+            tone="primary"
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+          <MagazineCard
+            title="L'IA au cœur de la formation"
+            description="56 pages de recherches et analyses."
+            issueNumber={13}
+            articleCount={8}
+            publishedAt="Avril 2026"
+            tone="warm"
+            isSaved={true}
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+          <MagazineCard
+            title="Leadership & Soft Skills"
+            issueNumber={12}
+            articleCount={10}
+            publishedAt="Mars 2026"
+            tone="sun"
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+          <MagazineCard
+            title="Futur du travail"
+            issueNumber={11}
+            articleCount={9}
+            publishedAt="Fév. 2026"
+            tone="brand"
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+        </div>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">VideoCard — vidéos standalone</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-3xl">
+          <VideoCard
+            title="Construire un prompt structuré en 5 étapes"
+            category="Prompt Engineering"
+            duration="12 min"
+            author="Marie Dubois"
+            tone="primary"
+            isSaved={false}
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+          <VideoCard
+            title="L'IA générative en entreprise"
+            category="IA & Innovation"
+            duration="18 min"
+            author="Pierre Leclerc"
+            tone="warm"
+            isSaved={true}
+            onClick={() => {}}
+            onSave={() => {}}
+          />
+        </div>
       </div>
     ),
   },
@@ -4179,97 +4026,6 @@ const COMPONENTS: ComponentEntry[] = [
           label="Insight"
           text="Note une prise de conscience qui t'a marqué cette semaine."
           onClick={() => {}}
-        />
-      </div>
-    ),
-  },
-  {
-    name: 'Chat Bubbles',
-    codeName: 'pages/MessagingThread.tsx (pattern inline)',
-    cssBase: 'Tailwind',
-    category: 'Cards',
-    usedBy: ['MessagingThread'],
-    showcaseOnly: false,
-    description: 'Pattern de messagerie Apple Messages style. Self messages: `bg-primary-600 text-white rounded-2xl rounded-br-[6px]` (tail bas-droit). Incoming: `bg-white border border-ink-200 rounded-2xl rounded-bl-[6px]` (tail bas-gauche). Double-tick `CheckCheck` si lu, tick simple `Check` si envoyé. Layout: `flex flex-row-reverse` pour messages propres. Statut en ligne via `bg-success-base` dot + `text-success-fg`.',
-    keywords: ['chat', 'message', 'bubble', 'messaging', 'thread', 'conversation', 'coach', 'speech'],
-    render: () => (
-      <div className="flex flex-col gap-stack-xs max-w-sm p-4 bg-ink-50 rounded-xl">
-        {/* Incoming */}
-        <div className="flex gap-2">
-          <Avatar initials="MD" size="sm" />
-          <div className="max-w-[75%] flex flex-col gap-1">
-            <div className="bg-white border border-ink-200 rounded-2xl rounded-bl-[6px] px-4 py-3">
-              <p className="text-body-sm leading-relaxed">Bonjour ! Comment ça s'est passé ?</p>
-            </div>
-            <div className="text-caption text-ink-500 px-2">09:12</div>
-          </div>
-        </div>
-        {/* Self — sent */}
-        <div className="flex flex-row-reverse gap-2">
-          <div className="max-w-[75%] flex flex-col gap-1 items-end">
-            <div className="bg-primary-600 text-white rounded-2xl rounded-br-[6px] px-4 py-3">
-              <p className="text-body-sm leading-relaxed">Très bien, merci !</p>
-            </div>
-            <div className="flex items-center gap-1 text-caption text-ink-500 px-2">
-              <span>09:15</span>
-              <Check className="w-3 h-3" />
-            </div>
-          </div>
-        </div>
-        {/* Incoming */}
-        <div className="flex gap-2">
-          <Avatar initials="MD" size="sm" />
-          <div className="max-w-[75%] flex flex-col gap-1">
-            <div className="bg-white border border-ink-200 rounded-2xl rounded-bl-[6px] px-4 py-3">
-              <p className="text-body-sm leading-relaxed">Super ! On se voit jeudi à 10h ?</p>
-            </div>
-            <div className="text-caption text-ink-500 px-2">09:18</div>
-          </div>
-        </div>
-        {/* Self — read */}
-        <div className="flex flex-row-reverse gap-2">
-          <div className="max-w-[75%] flex flex-col gap-1 items-end">
-            <div className="bg-primary-600 text-white rounded-2xl rounded-br-[6px] px-4 py-3">
-              <p className="text-body-sm leading-relaxed">Oui, parfait !</p>
-            </div>
-            <div className="flex items-center gap-1 text-caption text-ink-500 px-2">
-              <span>09:19</span>
-              <CheckCheck className="w-3 h-3" />
-            </div>
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    name: 'VideoCard',
-    codeName: 'learning/VideoCard.tsx',
-    cssBase: 'Tailwind',
-    category: 'Learning',
-    usedBy: ['Dashboard'],
-    description: '⭐ Card vidéo avec thumbnail gradient tone-aware + play overlay + duration badge + author + bookmark. 4 tones (primary/warm/sun/brand). Hover : scale play button. ⚠️ **Similaire à `VeilleCardFeed` item `isVideo: true`** — VeilleCardFeed est pour le feed Veille (groupé), VideoCard est standalone pour Dashboard / quick reco. Peut être candidat à fusion future si APIs convergent.',
-    keywords: ['video', 'thumbnail', 'play', 'tutoriel', 'tone', 'dashboard'],
-    render: () => (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-3xl">
-        <VideoCard
-          title="Construire un prompt structuré en 5 étapes"
-          category="Prompt Engineering"
-          duration="12 min"
-          author="Marie Dubois"
-          tone="primary"
-          isSaved={false}
-          onClick={() => {}}
-          onSave={() => {}}
-        />
-        <VideoCard
-          title="L'IA générative en entreprise"
-          category="IA & Innovation"
-          duration="18 min"
-          author="Pierre Leclerc"
-          tone="warm"
-          isSaved={true}
-          onClick={() => {}}
-          onSave={() => {}}
         />
       </div>
     ),
@@ -4539,430 +4295,6 @@ const COMPONENTS: ComponentEntry[] = [
               <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
             </div>
           </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    name: 'PageHero archetypes',
-    codeName: '(proposals — pas encore implémentés)',
-    cssBase: 'Tailwind',
-    category: 'Patterns',
-    description: '⭐ Proposals · 12 archétypes de page header pensés pour les pages maîtres de l\'app. **5 full-bleed** (①-⑤) pour entry points sidebar : Welcome (Dashboard), Search-first (Veille/Magazine/LearningPaths), Identity (Profile), Compose (Journal), Action (Coaching). **7 bounded** (⑥-⑫) pour sub-pages/utility : Minimal, Tabs strip, Inline toolbar, Boxed hero card, Split hero, Stats focus, Sticky action bar. Mockups visuels — pas encore des composants. Mapping pages→archétype en bas.',
-    keywords: ['hero', 'page-header', 'full-bleed', 'bounded', 'proposal', 'archetypes', 'dashboard', 'profile', 'veille', 'magazine', 'minimal', 'tabs', 'toolbar', 'split', 'stats', 'sticky'],
-    render: () => (
-      <div className="flex flex-col gap-section">
-
-        {/* Intro */}
-        <p className="text-body text-ink-600 m-0">
-          5 archétypes <strong>full-bleed</strong> (edge-to-edge viewport) à appliquer selon la <em>fonction primaire</em> de chaque page maître. Le hero <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">EditorialHero</code> actuel reste valide pour les pages secondaires/éditoriales — ces archétypes ciblent les <strong>entry points apps</strong> dans la sidebar.
-        </p>
-
-        {/* === Archétype 1 : Welcome hero (Dashboard) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">① Welcome hero · Dashboard — <strong>4 variantes proposées</strong></p>
-          <p className="text-caption text-ink-600 m-0">Hero d'entrée principale. Doit donner une vue d'ensemble + inciter à reprendre l'activité.</p>
-
-          {/* Variante 1A — Greeting + stats inline (current) */}
-          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0">1A — Greeting + stats inline · gradient brand-deep</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-brand-deep">
-            <AmbientBlobs position="absolute" intensity="vivid" />
-            <div className="relative z-base px-6 lg:px-10 py-10 flex flex-col gap-stack-lg text-white">
-              <div className="flex flex-col gap-tight">
-                <span className="font-body text-caption font-bold uppercase tracking-wider text-white/80">Mercredi · 14h32</span>
-                <h1 className="m-0 font-display text-h1 font-bold leading-tight">Bonjour Chloé 👋</h1>
-                <p className="m-0 font-body text-body-lg text-white/90 max-w-prose">Tu es à <strong>3 leçons</strong> de compléter ton parcours "Leadership transformationnel".</p>
-              </div>
-              <div className="flex flex-wrap gap-stack">
-                {[{v:'12',l:'Leçons'}, {v:'7',l:'Jours d\'affilée 🔥'}, {v:'3',l:'Entrées journal'}].map(s => (
-                  <div key={s.l} className="px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25">
-                    <span className="block font-display text-h3 font-bold leading-none">{s.v}</span>
-                    <span className="block font-body text-caption text-white/80 mt-tight">{s.l}</span>
-                  </div>
-                ))}
-              </div>
-              <Button variant="glass" leadingIcon={<BookOpen size={16} />}>Reprendre la leçon</Button>
-            </div>
-          </div>
-
-          {/* Variante 1B — Resume lesson featured (continue first) */}
-          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1B — Resume lesson featured · greeting compact + grosse card "Reprendre"</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient border border-ink-200">
-            <AmbientBlobs position="absolute" intensity="subtle" />
-            <div className="relative z-base p-6 lg:p-8 grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-stack-lg items-center">
-              <div className="flex flex-col gap-tight">
-                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Mercredi matin</span>
-                <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé 👋</h1>
-                <p className="m-0 font-body text-body text-ink-600">Ton dernier point de pause :</p>
-              </div>
-              {/* Resume card embedded */}
-              <div className="rounded-2xl bg-white border border-primary-100 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white shrink-0 shadow-sm">
-                  <BookOpen size={24} strokeWidth={1.75} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Étape 4 sur 7 · Leçon 12</span>
-                  <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight truncate">Maîtriser la délégation contextuelle</h3>
-                  <div className="flex items-center gap-stack-xs mt-tight">
-                    <div className="flex-1 h-1.5 bg-primary-50 rounded-pill overflow-hidden"><div className="h-full bg-primary-500 rounded-pill" style={{ width: '57%' }} /></div>
-                    <span className="font-body text-caption font-semibold text-primary-700">57%</span>
-                  </div>
-                </div>
-                <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={14} />}>Reprendre</Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Variante 1C — Today's agenda compact */}
-          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1C — Today's agenda · greeting + agenda du jour inline (avec session coaching si planifiée)</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-warm border border-secondary-100">
-            <AmbientBlobs position="absolute" intensity="subtle" />
-            <div className="relative z-base p-6 lg:p-8 flex flex-col gap-stack">
-              <div className="flex items-start justify-between gap-3 flex-wrap">
-                <div className="flex flex-col gap-tight">
-                  <span className="font-body text-caption font-bold uppercase tracking-wider text-secondary-700">Aujourd'hui · Mercredi 30 avril</span>
-                  <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé 👋</h1>
-                  <p className="m-0 font-body text-body text-ink-700"><strong>2 activités</strong> prévues aujourd'hui :</p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/80 backdrop-blur-glass-light border border-secondary-200 text-caption font-bold text-secondary-700">
-                  🔥 Streak 7 jours
-                </span>
-              </div>
-              {/* Agenda items */}
-              <div className="flex flex-col gap-stack-xs">
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-ink-200 hover:border-primary-300 cursor-pointer transition-colors">
-                  <span className="font-display text-caption font-bold text-primary-700 w-14 shrink-0">14:00</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">Session coaching avec Sophie Martin</p>
-                    <p className="m-0 font-body text-caption text-ink-500">45 min · Visio</p>
-                  </div>
-                  <Calendar size={16} className="text-primary-600 shrink-0" />
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-ink-200 hover:border-primary-300 cursor-pointer transition-colors">
-                  <span className="font-display text-caption font-bold text-primary-700 w-14 shrink-0">16:30</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="m-0 font-display text-body-sm font-bold text-ink-900 truncate">Leçon 12 — Maîtriser la délégation</p>
-                    <p className="m-0 font-body text-caption text-ink-500">Étape 4/7 · 20 min restantes</p>
-                  </div>
-                  <BookOpen size={16} className="text-secondary-600 shrink-0" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Variante 1D — Stats spotlight (big number leadership) */}
-          <p className="text-micro font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">1D — Stats spotlight · big number mis en valeur (streak ou XP)</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-sun border border-accent-100">
-            <AmbientBlobs position="absolute" intensity="normal" />
-            <div className="relative z-base p-6 lg:p-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-stack-lg items-center">
-              <div className="flex flex-col gap-tight">
-                <span className="font-body text-caption font-bold uppercase tracking-wider text-accent-700">Belle progression cette semaine 🎉</span>
-                <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Bonjour Chloé,</h1>
-                <p className="m-0 font-body text-body-lg text-ink-700 max-w-prose">Tu as appris <strong>7 jours d'affilée</strong>. Continue pour atteindre ton record personnel de 10 jours !</p>
-                <div className="flex flex-wrap gap-stack-xs mt-stack-xs">
-                  <Button variant="glass-sun" size="md" leadingIcon={<BookOpen size={15} />}>Reprendre</Button>
-                  <Button variant="ghost" size="md" trailingIcon={<ArrowRight size={14} />}>Voir mes stats</Button>
-                </div>
-              </div>
-              <div className="text-center">
-                <span className="block font-display text-[96px] font-black leading-none text-accent-600">7</span>
-                <span className="block mt-tight font-body text-body font-bold text-ink-900">jours 🔥</span>
-                <span className="block mt-tight font-body text-caption text-ink-600">Plus que 3 pour battre ton record</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 2 : Search-first hero (Veille / Magazine / LearningPaths catalog) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">② Search-first hero · Veille / Magazine / LearningPaths</p>
-          <p className="text-caption text-ink-600 m-0">Big search bar inline dans le hero + topic chips populaires + featured count — focalise sur la découverte. Left-aligned pour cohérence avec sidebar.</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-soft-pastel border-y border-ink-200">
-            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-10 flex flex-col gap-stack-lg">
-              <div className="flex flex-col gap-tight">
-                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700 self-start">Veille curée par TLS</span>
-                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Découvre l'actualité du leadership & de l'IA</h1>
-                <p className="m-0 font-body text-body text-ink-600 max-w-prose">142 articles · 38 vidéos · mises à jour quotidiennement</p>
-              </div>
-              <Search variant="default" size="lg" placeholder="Rechercher un sujet, auteur, source…" shortcut="⌘K" wrapperClassName="w-full" />
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="font-body text-caption text-ink-500">Populaires :</span>
-                {['Leadership', 'IA générative', 'Apprentissage', 'Pédagogie', 'Neuroleadership', 'Management hybride'].map((t) => (
-                  <span key={t} className="px-3 py-1 rounded-pill bg-white/70 border border-ink-200 text-caption font-medium text-ink-700 cursor-pointer hover:bg-white hover:border-primary-300">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 3 : Identity hero (Profile) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">③ Identity hero · Profile</p>
-          <p className="text-caption text-ink-600 m-0">Avatar large + nom + métadonnées + KPIs row — focalise sur l'identité et l'achievement personnel.</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient-warm">
-            <AmbientBlobs position="absolute" intensity="normal" />
-            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-10 flex flex-col md:flex-row md:items-end gap-stack-lg">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-display font-black text-h2 shrink-0 shadow-lg ring-4 ring-white">
-                CM
-              </div>
-              <div className="flex-1 min-w-0 flex flex-col gap-tight">
-                <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Niveau 12 · Apprenant·e confirmé·e</span>
-                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Chloé Mimault</h1>
-                <p className="m-0 font-body text-body text-ink-600">Tech Lead · The Learning Society · Membre depuis novembre 2024</p>
-              </div>
-              <div className="flex flex-wrap gap-stack">
-                {[
-                  { v: '128', l: 'XP totaux' },
-                  { v: '7', l: 'Badges' },
-                  { v: '12', l: 'Parcours' },
-                ].map((s) => (
-                  <div key={s.l} className="px-4 py-2 rounded-xl bg-white/80 backdrop-blur-glass-light border border-white/60">
-                    <span className="block font-display text-h3 font-bold leading-none text-ink-900">{s.v}</span>
-                    <span className="block font-body text-caption text-ink-600 mt-tight">{s.l}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 4 : Compose hero (Journal) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">④ Compose hero · Journal</p>
-          <p className="text-caption text-ink-600 m-0">Title + summary minimaliste. La section "Quoi écrire aujourd'hui ?" (compose + emoji buttons) suit JUSTE en dessous → l'action d'écriture est l'attraction principale.</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-brand-deep">
-            <AmbientBlobs position="absolute" intensity="vivid" />
-            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-8 text-white">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 text-caption font-bold">
-                ✍️ Mon apprentissage
-              </span>
-              <h1 className="m-0 mt-stack-xs font-display text-h1 font-bold leading-tight">Journal d'apprentissage</h1>
-              <p className="m-0 mt-tight font-body text-body text-white/90 max-w-prose">Capitalise tes prises de conscience · structure tes réflexions · suis ta progression.</p>
-            </div>
-          </div>
-          <p className="text-caption text-ink-500 m-0 italic">↓ Suivi immédiatement par la section "Quoi écrire aujourd'hui ?" (chat-bubble + 4 emoji buttons)</p>
-        </div>
-
-        {/* === Archétype 5 : Action hero (Coaching) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑤ Action hero · Coaching</p>
-          <p className="text-caption text-ink-600 m-0">Hero compact suivi d'une action card primary (next session / book session) directement IN PLACE. Le hero introduit, la card agit.</p>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-page-ambient">
-            <AmbientBlobs position="absolute" intensity="subtle" />
-            <div className="relative z-base px-4 sm:px-6 lg:px-10 py-8 flex flex-col gap-stack-lg">
-              <div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-caption font-bold text-primary-700">
-                  📅 Mon accompagnement
-                </span>
-                <h1 className="m-0 mt-stack-xs font-display text-h1 font-bold leading-tight text-ink-900">Coaching 1:1</h1>
-                <p className="m-0 mt-tight font-body text-body text-ink-600 max-w-prose">Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels.</p>
-              </div>
-              {/* Embedded action card */}
-              <div className="rounded-2xl bg-primary-50/70 border border-primary-100 p-5 flex items-center gap-4 flex-wrap">
-                <div className="w-12 h-12 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
-                  <Calendar size={20} className="text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="m-0 text-caption font-bold text-primary-700">Prochaine session</p>
-                  <p className="m-0 text-body font-extrabold text-ink-900">Mardi 30 avril · 14:00</p>
-                </div>
-                <Button variant="primary" leadingIcon={<Video size={15} />}>Rejoindre</Button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* =================================================================
-            ARCHETYPES BOUNDED (non full-bleed) — pour sous-pages / utilitaires
-            ================================================================= */}
-
-        <div className="h-px bg-ink-200 my-stack" />
-        <p className="text-body font-display font-bold text-ink-900 m-0">📐 Archétypes bounded — alternatives non full-bleed</p>
-        <p className="text-caption text-ink-600 m-0">Pour les sous-pages, pages utilitaires, ou contextes où le hero full-bleed est trop chargé. Tous bornés par le container <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">max-w-page</code>.</p>
-
-        {/* === Archétype 6 : Minimal page header (back + title + meta) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑥ Minimal page header · Settings / Account / sub-pages</p>
-          <p className="text-caption text-ink-600 m-0">Back button + title + petit subtitle. Compact, utility-first. Pas de décor.</p>
-          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg">
-            <div className="flex items-center gap-3">
-              <button type="button" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 transition-colors text-caption font-semibold">
-                <ArrowLeft size={14} /> Retour
-              </button>
-              <div className="flex-1 min-w-0">
-                <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">Paramètres du compte</h1>
-                <p className="m-0 font-body text-caption text-ink-500">Gérez votre profil, préférences et confidentialité</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 7 : Title + tabs strip === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑦ Title + tabs strip · LearningSpace / Profile views / Account sections</p>
-          <p className="text-caption text-ink-600 m-0">Title + subtitle puis rangée d'onglets directement sous → indique des "vues" de la même page.</p>
-          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg flex flex-col gap-stack">
-            <div className="flex flex-col gap-tight">
-              <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Mon profil</span>
-              <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">Chloé Mimault</h1>
-              <p className="m-0 font-body text-body text-ink-600">Tech Lead · Membre depuis novembre 2024</p>
-            </div>
-            <div className="flex gap-1 border-b border-ink-200 -mb-1">
-              {[
-                { label: 'Vue d\'ensemble', active: true },
-                { label: 'Compétences', active: false },
-                { label: 'Achievements', active: false },
-                { label: 'Activité', active: false },
-              ].map((t) => (
-                <button key={t.label} type="button" className={[
-                  'px-4 py-2.5 font-body text-body-sm font-semibold transition-colors cursor-pointer border-b-2',
-                  t.active
-                    ? 'text-primary-700 border-primary-500'
-                    : 'text-ink-600 hover:text-ink-900 border-transparent',
-                ].join(' ')}>
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 8 : Title + inline toolbar (filters + search + CTA) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑧ Title + inline toolbar · Messages / Notifications / list views</p>
-          <p className="text-caption text-ink-600 m-0">Title à gauche · search/filters/CTA inline à droite → dense, compact, pour pages liste-orientées.</p>
-          <div className="rounded-xl border border-ink-200 bg-white p-stack-lg">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex-1 min-w-[180px]">
-                <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">Notifications</h1>
-                <p className="m-0 font-body text-caption text-ink-500">3 non lues · 14 cette semaine</p>
-              </div>
-              <Search size="sm" variant="filled" placeholder="Rechercher…" wrapperClassName="w-[220px]" />
-              <Button size="sm" variant="ghost" leadingIcon={<CheckCircle2 size={14} />}>Tout marquer lu</Button>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 9 : Boxed hero card (white surface) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑨ Boxed hero card · sub-pages éditoriales (Magazine article, Dossier, Newsletter)</p>
-          <p className="text-caption text-ink-600 m-0">Card bornée avec icon bubble + content tone-tinted intérieur. Plus contenu qu'un hero plein, donne du calme aux sub-pages.</p>
-          <div className="rounded-2xl border border-primary-100 bg-primary-50/60 p-stack-lg flex items-start gap-4">
-            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white shadow-sm text-primary-600 shrink-0">
-              <BookOpen size={24} strokeWidth={1.75} />
-            </span>
-            <div className="flex-1 min-w-0">
-              <span className="font-body text-caption font-bold uppercase tracking-wider text-primary-700">Dossier · Management</span>
-              <h1 className="m-0 mt-tight font-display text-h2 font-bold text-ink-900 leading-tight">Transformation IA des parcours de formation</h1>
-              <p className="m-0 mt-stack-xs font-body text-body text-ink-700 max-w-prose">Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.</p>
-              <div className="mt-stack flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
-                <span className="inline-flex items-center gap-1"><UserIcon size={12} /> McKinsey</span>
-                <span aria-hidden>•</span>
-                <span className="inline-flex items-center gap-1"><Clock3 size={12} /> 22 min</span>
-                <span aria-hidden>•</span>
-                <span>Il y a 3 jours</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 10 : Split hero (content + illustration/preview) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑩ Split hero · Onboarding / Empty states / Marketing pages</p>
-          <p className="text-caption text-ink-600 m-0">Content à gauche + media/illustration à droite. Forte hiérarchie pour onboarding ou pages marketing.</p>
-          <div className="rounded-2xl border border-ink-200 bg-white overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-stack-lg lg:p-section flex flex-col justify-center gap-stack">
-                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-accent-100 border border-accent-200 text-caption font-bold text-accent-800">
-                  ✨ Nouveau
-                </span>
-                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight">Démarrez votre parcours d'apprentissage</h1>
-                <p className="m-0 font-body text-body text-ink-600">Personnalisez votre formation en 3 minutes — répondez à quelques questions pour qu'on adapte le contenu à vos objectifs.</p>
-                <div className="flex flex-wrap gap-stack-xs mt-tight">
-                  <Button variant="primary" leadingIcon={<ArrowRight size={16} />}>Commencer</Button>
-                  <Button variant="ghost">En savoir plus</Button>
-                </div>
-              </div>
-              <div className="bg-gradient-soft-pastel relative min-h-[200px] flex items-center justify-center p-stack">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-400 to-secondary-400 flex items-center justify-center text-white shadow-lg">
-                  <GraduationCap size={56} strokeWidth={1.5} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 11 : Stats focus header (big number) === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑪ Stats focus header · Leaderboard / Achievements / progress pages</p>
-          <p className="text-caption text-ink-600 m-0">Big number en valeur principale, contextualisé par title + meta. Ancre l'utilisateur sur sa métrique clé.</p>
-          <div className="rounded-2xl border border-accent-100 bg-accent-50/60 p-stack-lg flex flex-wrap items-center gap-stack-lg">
-            <div className="flex-1 min-w-[200px]">
-              <span className="font-body text-caption font-bold uppercase tracking-wider text-accent-700">Mon classement</span>
-              <h1 className="m-0 mt-tight font-display text-h2 font-bold text-ink-900 leading-tight">Top 5% des apprenants</h1>
-              <p className="m-0 mt-stack-xs font-body text-body text-ink-600">Sur 1 247 apprenants actifs ce mois — bravo ! 🎉</p>
-            </div>
-            <div className="text-right shrink-0">
-              <span className="block font-display text-[64px] font-black leading-none text-accent-700">#42</span>
-              <span className="block mt-tight font-body text-caption text-ink-600">Position globale</span>
-              <span className="inline-flex items-center gap-1 mt-tight text-caption text-success-fg font-semibold">
-                ↑ 3 cette semaine
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* === Archétype 12 : Sticky action bar === */}
-        <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⑫ Sticky action bar · Messages / Editor / lecture viewers</p>
-          <p className="text-caption text-ink-600 m-0">Bar sticky compacte avec back + title + actions principales à droite. Adapté aux pages "tâche en cours".</p>
-          <div className="rounded-xl border border-ink-200 bg-white/90 backdrop-blur-glass-medium p-3 flex items-center gap-3">
-            <button type="button" className="w-9 h-9 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 flex items-center justify-center transition-colors">
-              <ArrowLeft size={16} />
-            </button>
-            <div className="flex-1 min-w-0">
-              <h1 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight truncate">Conversation avec Sophie Martin</h1>
-              <p className="m-0 font-body text-micro text-ink-500 leading-tight">En ligne · vu il y a 2 min</p>
-            </div>
-            <Button size="sm" variant="ghost" iconOnly aria-label="Vidéo">
-              <Video size={16} />
-            </Button>
-            <Button size="sm" variant="secondary" leadingIcon={<MessageSquare size={14} />}>Nouveau</Button>
-          </div>
-        </div>
-
-        {/* === Recap mapping table === */}
-        <div className="flex flex-col gap-stack p-stack rounded-xl bg-ink-50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">🗺️ Mapping suggéré pages sidebar → archétype hero</p>
-          <table className="w-full text-caption">
-            <thead>
-              <tr className="border-b border-ink-200">
-                <th className="text-left py-2 font-bold text-ink-900">Page sidebar</th>
-                <th className="text-left py-2 font-bold text-ink-900">Archétype</th>
-                <th className="text-left py-2 font-bold text-ink-900">Focus UX</th>
-              </tr>
-            </thead>
-            <tbody className="text-ink-700">
-              <tr className="border-b border-ink-100"><td className="py-2 font-bold text-ink-900">Sidebar entry points (full-bleed recommended)</td><td></td><td></td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Dashboard</td><td>① Welcome hero</td><td>Reprise d'activité · stats glance</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Parcours / LearningPaths</td><td>② Search-first hero</td><td>Découverte du catalogue</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Veille</td><td>② Search-first hero</td><td>Découverte de contenus curés</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Magazine</td><td>② Search-first hero</td><td>Découverte éditoriale</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Journal</td><td>④ Compose hero</td><td>Inciter à écrire</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Coaching</td><td>⑤ Action hero</td><td>Action principale (book/join)</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Profile</td><td>③ Identity hero</td><td>Affirmation identité & achievements</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 font-bold text-ink-900">Sub-pages / utility pages (bounded recommended)</td><td></td><td></td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Notifications</td><td>⑧ Title + inline toolbar</td><td>Liste avec actions inline (search/mark-all-read)</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Messages</td><td>⑫ Sticky action bar</td><td>Tâche en cours, communication</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Settings · Account</td><td>⑥ Minimal page header</td><td>Utilitaire compact</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">LearningSpace / Profile views</td><td>⑦ Title + tabs strip</td><td>Multi-vues d'une même entité</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Magazine article / Dossier / Newsletter</td><td>⑨ Boxed hero card</td><td>Sub-page éditoriale tinted</td></tr>
-              <tr className="border-b border-ink-100"><td className="py-2 pl-3">Onboarding / Empty states</td><td>⑩ Split hero</td><td>Content + illustration, story-driven</td></tr>
-              <tr><td className="py-2 pl-3">Leaderboard / Achievements</td><td>⑪ Stats focus header</td><td>Big number = métrique clé</td></tr>
-            </tbody>
-          </table>
         </div>
       </div>
     ),
@@ -5410,6 +4742,131 @@ const COMPONENTS: ComponentEntry[] = [
             },
           ]}
         />
+      </div>
+    ),
+  },
+
+  // ─── Phase 14.1 — Première expérience flow ──────────────────────────────────
+  {
+    name: 'OptionGrid',
+    codeName: 'patterns/OptionGrid.tsx',
+    cssBase: 'OptionGrid',
+    category: 'Patterns',
+    description: 'Grille d\'options sélectionnables (icon + label) — single ou multi-select. Tone-aware (brand/warm/sun), 3 layouts (icon-top, icon-left, text-only), responsive 2 → N cols. Remplace les grilles ad-hoc role/secteur/rythme dans Onboarding.',
+    keywords: ['select', 'options', 'cards', 'pick', 'choice', 'role', 'sector', 'onboarding', 'radio', 'checkbox'],
+    usedBy: ['Onboarding'],
+    render: () => {
+      const [role, setRole] = React.useState('Manager');
+      const [skills, setSkills] = React.useState<string[]>(['Leadership']);
+      return (
+        <div className="flex flex-col gap-section max-w-2xl">
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Single-select · tone warm · icon-top</span>
+            <OptionGrid
+              tone="warm"
+              value={role}
+              onChange={setRole}
+              columns={3}
+              options={[
+                { id: 'Manager',    label: 'Manager',    icon: Briefcase },
+                { id: 'Formateur',  label: 'Formateur',  icon: GraduationCap },
+                { id: 'Coach',      label: 'Coach',      icon: HeartHandshake },
+                { id: 'Apprenant',  label: 'Apprenant',  icon: BookOpen },
+                { id: 'Consultant', label: 'Consultant', icon: Zap },
+                { id: 'Autre',      label: 'Autre',      icon: UserIcon },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Multi-select · tone brand · text-only</span>
+            <OptionGrid
+              multi
+              tone="brand"
+              value={skills}
+              onChange={(id) => setSkills((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id]))}
+              columns={2}
+              layout="text-only"
+              options={[
+                { id: 'Leadership',    label: 'Leadership',    description: 'Influence et posture de leader' },
+                { id: 'Communication', label: 'Communication', description: 'Écrit et oral en équipe' },
+                { id: 'IA & Tech',     label: 'IA & Tech',     description: 'Maîtrise des outils IA' },
+                { id: 'Productivité',  label: 'Productivité',  description: 'Gestion du temps et focus' },
+              ]}
+            />
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'DreyfusLevelSelector',
+    codeName: 'ui/DreyfusLevelSelector.tsx',
+    cssBase: 'DreyfusLevelSelector',
+    category: 'Patterns',
+    description: 'Sélecteur 5-niveaux Dreyfus (Novice → Expert) pour positionnement compétences. Responsive 1 → 5 cols (fix le pb cramped tablet de la v1). Tone-aware. Levels customisables via prop. Module #4 Phase 14.1.',
+    keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert'],
+    usedBy: ['OnboardingQuestionnaire'],
+    render: () => {
+      const [level, setLevel] = React.useState<number | undefined>(3);
+      return (
+        <div className="flex flex-col gap-stack max-w-3xl">
+          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · niveau 3 sélectionné</span>
+          <DreyfusLevelSelector tone="warm" value={level} onChange={setLevel} />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'CongratulationsCard',
+    codeName: 'patterns/CongratulationsCard.tsx',
+    cssBase: 'CongratulationsCard',
+    category: 'Patterns',
+    description: 'Bloc de célébration de milestone (fin onboarding / parcours / module). Icône large + badge + heading + summary + XP reward optionnel. 4 tones (brand/warm/sun/success).',
+    keywords: ['congratulations', 'success', 'celebration', 'milestone', 'completion', 'reward', 'xp', 'onboarding'],
+    usedBy: ['OnboardingSuccess'],
+    render: () => (
+      <div className="flex flex-col items-center max-w-xl mx-auto">
+        <CongratulationsCard
+          tone="brand"
+          badgeLabel="Profil complété !"
+          title="Bienvenue sur The Learning Society"
+          summary="Ton profil est configuré et ton passeport de compétences est prêt. Tu peux maintenant commencer ton parcours."
+          xp={{ earned: 150, current: 150, max: 500, levelLabel: 'Onboarding terminé' }}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'NextStepsGrid',
+    codeName: 'patterns/NextStepsGrid.tsx',
+    cssBase: 'NextStepsGrid',
+    category: 'Patterns',
+    description: 'Grille d\'action cards "et maintenant ?" — chaque card a icon tone-tinted + title + desc + CTA flèche. Tone par-item (mix brand/warm/sun pour varier les next paths). Responsive 1 → 3 cols.',
+    keywords: ['next steps', 'actions', 'cta', 'cards', 'onboarding success', 'guide', 'next'],
+    usedBy: ['OnboardingSuccess', 'EmptyDashboardState'],
+    render: () => (
+      <div className="max-w-3xl">
+        <NextStepsGrid
+          items={[
+            { id: 'parcours', icon: <BookOpen size={22} />, title: 'Explore tes parcours', description: 'Découvre les parcours adaptés à ton profil.', cta: 'Voir les parcours', tone: 'brand', onClick: () => {} },
+            { id: 'coach', icon: <GraduationCap size={22} />, title: 'Rencontre ton coach', description: 'Planifie une première session de coaching.', cta: 'Réserver', tone: 'warm', onClick: () => {} },
+            { id: 'passeport', icon: <Target size={22} />, title: 'Ouvre ton Passeport', description: 'Ton radar de compétences est prêt.', cta: 'Voir mon passeport', tone: 'sun', onClick: () => {} },
+          ]}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'EmptyDashboardState',
+    codeName: 'patterns/EmptyDashboardState.tsx',
+    cssBase: 'EmptyDashboardState',
+    category: 'Patterns',
+    description: 'Variante "cold-start" du Dashboard pour les apprenants qui viennent juste de terminer l\'onboarding. Remplace le Dashboard avec mock data par un welcome + NextStepsGrid des 3 actions canoniques.',
+    keywords: ['empty', 'cold start', 'first time', 'dashboard', 'welcome', 'onboarding', 'new user'],
+    usedBy: ['Dashboard'],
+    render: () => (
+      <div className="max-w-4xl">
+        <EmptyDashboardState firstName="Sophie" />
       </div>
     ),
   },
