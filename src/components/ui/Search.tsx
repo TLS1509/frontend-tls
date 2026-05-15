@@ -1,24 +1,35 @@
 import React, { useRef, useState } from 'react';
-import { Search as SearchIcon, X } from 'lucide-react';
+import { Search as SearchIcon, X, Loader } from 'lucide-react';
 
 /**
  * Search — Source of truth: design-system/spec.json → components.Search
  *
  * Search bar with optional shortcut, clear button, leading icon slot, and trailing slot.
+ * Supports async suggestions dropdown, filter buttons, and multiple interaction patterns.
  *
  * Variants: default | filled | ghost | glass
  * Sizes: sm | default | lg
  *
- * Slots :
+ * Slots & features :
  *  - `leadingIcon` → overrides default search icon (left)
  *  - `trailing`    → rendered to the right of the input, AFTER clear button and BEFORE shortcut.
  *                    Use for filter toggle buttons, voice search, etc.
- *                    Pass a `<button>` or icon button — the Search itself is a `<label>` so
- *                    nested buttons handle their own click.
+ *  - `filtersSlot` → inline filter chips BELOW input (inside wrapper border)
+ *  - `suggestions` → list of { id, label, icon? } to render as dropdown
+ *  - `isLoading`   → show spinner in trailing area (for async searches)
+ *  - `suggestionsOpen` & `onSuggestionsOpenChange` → control dropdown visibility
+ *  - `onSuggestionSelect` → callback when user clicks a suggestion
  */
 
 export type SearchSize = 'sm' | 'default' | 'lg';
 export type SearchVariant = 'default' | 'filled' | 'ghost' | 'glass';
+
+export interface SearchSuggestion {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  metadata?: string;
+}
 
 export interface SearchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -35,6 +46,18 @@ export interface SearchProps
    */
   filtersSlot?: React.ReactNode;
   wrapperClassName?: string;
+  /** Show loading spinner in trailing area while fetching suggestions. */
+  isLoading?: boolean;
+  /** Array of suggestions to display in dropdown. */
+  suggestions?: SearchSuggestion[];
+  /** Control dropdown visibility (external state). */
+  suggestionsOpen?: boolean;
+  /** Called when dropdown open state changes. */
+  onSuggestionsOpenChange?: (open: boolean) => void;
+  /** Called when user selects a suggestion. */
+  onSuggestionSelect?: (suggestion: SearchSuggestion) => void;
+  /** Optional custom suggestion renderer. */
+  renderSuggestion?: (suggestion: SearchSuggestion) => React.ReactNode;
 }
 
 const SIZE_WRAPPER: Record<SearchSize, string> = {
@@ -87,16 +110,32 @@ export const Search: React.FC<SearchProps> = ({
   placeholder = 'Rechercher…',
   value,
   onChange,
+  isLoading = false,
+  suggestions,
+  suggestionsOpen: controlledSuggestionsOpen,
+  onSuggestionsOpenChange,
+  onSuggestionSelect,
+  renderSuggestion,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [internalValue, setInternalValue] = useState('');
+  const [internalSuggestionsOpen, setInternalSuggestionsOpen] = useState(false);
 
   const isControlled = value !== undefined;
   const currentValue = isControlled ? (value as string) : internalValue;
+  const suggestionsOpen = controlledSuggestionsOpen !== undefined ? controlledSuggestionsOpen : internalSuggestionsOpen;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) setInternalValue(e.target.value);
+    // Open suggestions dropdown when user types
+    if (suggestions && suggestions.length > 0) {
+      const newOpen = e.target.value.length > 0;
+      if (newOpen !== suggestionsOpen) {
+        if (controlledSuggestionsOpen === undefined) setInternalSuggestionsOpen(newOpen);
+        onSuggestionsOpenChange?.(newOpen);
+      }
+    }
     onChange?.(e);
   };
 
@@ -107,7 +146,17 @@ export const Search: React.FC<SearchProps> = ({
       nativeInputValueSetter?.call(inputRef.current, '');
       inputRef.current.dispatchEvent(new Event('input', { bubbles: true }));
     }
+    // Close suggestions when clearing
+    if (controlledSuggestionsOpen === undefined) setInternalSuggestionsOpen(false);
+    onSuggestionsOpenChange?.(false);
     inputRef.current?.focus();
+  };
+
+  const handleSuggestionSelect = (suggestion: SearchSuggestion) => {
+    onSuggestionSelect?.(suggestion);
+    // Close dropdown after selection
+    if (controlledSuggestionsOpen === undefined) setInternalSuggestionsOpen(false);
+    onSuggestionsOpenChange?.(false);
   };
 
   const hasValue = Boolean(currentValue);
@@ -152,9 +201,12 @@ export const Search: React.FC<SearchProps> = ({
         value={isControlled ? value : internalValue}
         onChange={handleChange}
         className={inputClasses}
+        aria-autocomplete="list"
+        aria-expanded={suggestionsOpen}
+        aria-controls={suggestions && suggestions.length > 0 ? 'search-suggestions' : undefined}
         {...rest}
       />
-      {hasValue && (
+      {hasValue && !isLoading && (
         <button
           type="button"
           onClick={handleClear}
@@ -169,10 +221,15 @@ export const Search: React.FC<SearchProps> = ({
           <X size={14} strokeWidth={2.5} />
         </button>
       )}
+      {isLoading && (
+        <span className={`inline-flex items-center justify-center w-5 h-5 p-0 shrink-0 animate-spin ${VARIANT_ICON[variant]}`}>
+          <Loader size={14} strokeWidth={2} />
+        </span>
+      )}
       {trailing && (
         <span className="inline-flex items-center shrink-0">{trailing}</span>
       )}
-      {shortcut && !hasValue && (
+      {shortcut && !hasValue && !isLoading && (
         <kbd
           className={`font-mono text-[11px] py-0.5 px-2 rounded-sm shrink-0 border ${
             isGlass
@@ -186,20 +243,59 @@ export const Search: React.FC<SearchProps> = ({
     </>
   );
 
+  const hasSuggestions = suggestions && suggestions.length > 0;
+
   return (
-    <label className={wrapperClasses}>
-      {hasFiltersSlot ? (
-        <>
-          <div className={innerRowClasses}>{inputRow}</div>
-          {/* Filters row inline — visible directement sous l'input dans le même wrapper bordé */}
-          <div className="flex flex-wrap gap-1.5 pt-1 border-t border-ink-100/60">
-            {filtersSlot}
-          </div>
-        </>
-      ) : (
-        inputRow
+    <div className={wrapperClasses}>
+      <label className="w-full">
+        {hasFiltersSlot ? (
+          <>
+            <div className={innerRowClasses}>{inputRow}</div>
+            {/* Filters row inline — visible directement sous l'input dans le même wrapper bordé */}
+            <div className="flex flex-wrap gap-1.5 pt-1 border-t border-ink-100/60">
+              {filtersSlot}
+            </div>
+          </>
+        ) : (
+          inputRow
+        )}
+      </label>
+
+      {/* Suggestions dropdown — rendered AFTER input inside the wrapper */}
+      {hasSuggestions && suggestionsOpen && (
+        <div
+          id="search-suggestions"
+          role="listbox"
+          className="flex flex-col gap-1 pt-2 border-t border-ink-100/60"
+        >
+          {suggestions!.map((suggestion) => (
+            <button
+              key={suggestion.id}
+              type="button"
+              role="option"
+              onClick={() => handleSuggestionSelect(suggestion)}
+              className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-all ${
+                isGlass
+                  ? 'hover:bg-white/15 text-white'
+                  : 'hover:bg-ink-50 text-ink-900'
+              }`}
+            >
+              {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
+              <div className="flex-1 min-w-0">
+                <div className={`text-body-sm font-medium truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
+                  {renderSuggestion ? renderSuggestion(suggestion) : suggestion.label}
+                </div>
+                {suggestion.metadata && (
+                  <div className={`text-caption truncate ${isGlass ? 'text-white/60' : 'text-ink-500'}`}>
+                    {suggestion.metadata}
+                  </div>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
       )}
-    </label>
+    </div>
   );
 };
 

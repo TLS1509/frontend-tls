@@ -62,12 +62,13 @@ export default function OnboardingSuccess() {
           <NextStepsGrid items={nextSteps} columns={3} />
         </section>
 
-        <div className="flex flex-col items-center gap-stack">
+        <div className="flex flex-col items-center gap-stack w-full sm:w-auto">
           <Button
             variant="primary"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
             onClick={() => navigate('/dashboard')}
+            className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord
           </Button>

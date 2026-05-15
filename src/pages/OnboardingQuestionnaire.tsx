@@ -92,14 +92,14 @@ const OnboardingQuestionnaire: React.FC = () => {
           summary={`${total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.`}
         />
 
-        <div className="flex items-end justify-between gap-stack">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-stack">
           <div className="flex-1 flex flex-col gap-tight">
             <ProgressBar value={progress} max={100} fill="warm" size="md" valueLabel={false} />
             <div className="text-caption text-ink-500">
               Question {currentQ + 1} sur {total} · {Object.keys(answers).length} répondue{Object.keys(answers).length > 1 ? 's' : ''}
             </div>
           </div>
-          <Button variant="ghost" size="sm" leadingIcon={<Save className="w-4 h-4" />}>
+          <Button variant="ghost" size="sm" leadingIcon={<Save className="w-4 h-4" />} className="sm:flex-none w-full sm:w-auto">
             Sauvegarder
           </Button>
         </div>
@@ -111,12 +111,13 @@ const OnboardingQuestionnaire: React.FC = () => {
           <DreyfusLevelSelector tone="warm" value={selected} onChange={handleAnswer} />
         </SectionCard>
 
-        <div className="flex items-center justify-between gap-stack">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-stack">
           <Button
             variant="secondary"
             leadingIcon={<ChevronLeft className="w-4 h-4" />}
             onClick={handlePrev}
             disabled={currentQ === 0}
+            className="flex-1 sm:flex-none"
           >
             Précédent
           </Button>
@@ -126,6 +127,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             trailingIcon={<ChevronRight className="w-4 h-4" />}
             onClick={handleNext}
             disabled={!selected}
+            className="flex-1 sm:flex-none"
           >
             {currentQ < total - 1 ? 'Suivant' : 'Continuer vers le tutoriel'}
           </Button>

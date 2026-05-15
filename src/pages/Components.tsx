@@ -1781,66 +1781,111 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Recherche', 'Veille', 'Sidebar (futur Cmd+K)'],
-    description: 'Search bar. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Shortcut badge, clear button, custom leading icon, **trailing slot** (filter button, voice, etc).',
-    keywords: ['find', 'query', 'filter', 'input', 'glass', 'trailing'],
-    render: () => (
-      <div className="flex flex-col gap-4 max-w-xl">
-        {/* Variants */}
-        <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
-        <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
-        <Search variant="ghost" placeholder="ghost — Rechercher…" />
-        {/* Glass on colored bg */}
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
-          <Search variant="glass" placeholder="glass — Rechercher sur fond coloré…" shortcut="⌘K" />
-        </div>
-        {/* Sizes */}
-        <div className="flex flex-col gap-2">
-          <Search size="sm" placeholder="sm — compact" />
-          <Search size="default" placeholder="default — standard" />
-          <Search size="lg" placeholder="lg — large" shortcut="⌘K" />
-        </div>
-        {/* Trailing slot — filter button (drawer collapsible pattern) */}
-        <div className="flex flex-col gap-2">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Trailing slot · filter button toggle (chips dans drawer collapsible)</p>
-          <Search
-            size="default"
-            variant="filled"
-            placeholder="Search avec filter button toggle…"
-            trailing={
-              <button
-                type="button"
-                className="relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-white border border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300 cursor-pointer"
-                aria-label="Filtres"
-              >
-                <SlidersHorizontal size={16} />
-                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">2</span>
-              </button>
-            }
-          />
-        </div>
+    usedBy: ['Recherche', 'Veille', 'Sidebar (futur Cmd+K)', 'Journal (search/filter)', 'Courses (search suggestions)'],
+    description: 'Search bar with async suggestions, filtering, and multiple interaction patterns. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Features: shortcut badge, clear button, custom leading icon, trailing slot (filter/voice), inline filter chips (filtersSlot), suggestions dropdown (isLoading + suggestions + onSuggestionSelect), custom suggestion renderer.',
+    keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
+    render: () => {
+      const [searchVal, setSearchVal] = React.useState('');
+      const [suggestionsOpen, setSuggestionsOpen] = React.useState(false);
+      const [isLoading, setIsLoading] = React.useState(false);
 
-        {/* ⭐ filtersSlot — chips inline visibles dans le wrapper bordé */}
-        <div className="flex flex-col gap-2">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · chips inline visibles (alternative au drawer)</p>
-          <p className="text-caption text-ink-600 m-0">Quand on veut que les filtres soient TOUJOURS visibles dans le même bordered wrapper que la search bar.</p>
-          <Search
-            size="default"
-            variant="default"
-            placeholder="Search avec filter chips visibles…"
-            filtersSlot={
-              <>
-                <FilterChip label="Tout" active />
-                <FilterChip label="📰 Actus" />
-                <FilterChip label="🎬 Tutoriels" />
-                <FilterChip label="📂 Dossiers" />
-                <FilterChip label="📚 Le Mag" />
-              </>
-            }
-          />
+      // Mock suggestions based on search input
+      const mockSuggestions = searchVal.length > 0
+        ? [
+            { id: '1', label: 'React Fundamentals', metadata: 'Parcours · 5 modules' },
+            { id: '2', label: 'React Advanced Patterns', metadata: 'Parcours · 8 modules' },
+            { id: '3', label: 'Testing React Apps', metadata: 'Parcours · 4 modules' },
+          ]
+        : [];
+
+      return (
+        <div className="flex flex-col gap-4 max-w-xl">
+          {/* Variants */}
+          <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
+          <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
+          <Search variant="ghost" placeholder="ghost — Rechercher…" />
+          {/* Glass on colored bg */}
+          <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
+            <Search variant="glass" placeholder="glass — Rechercher sur fond coloré…" shortcut="⌘K" />
+          </div>
+          {/* Sizes */}
+          <div className="flex flex-col gap-2">
+            <Search size="sm" placeholder="sm — compact" />
+            <Search size="default" placeholder="default — standard" />
+            <Search size="lg" placeholder="lg — large" shortcut="⌘K" />
+          </div>
+
+          {/* ⭐ Suggestions dropdown — async search with isLoading + suggestions */}
+          <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions dropdown · async search</p>
+            <p className="text-caption text-ink-600 m-0">Type "react" to see suggestions dropdown. Integrated loading state, suggestion selection, and custom rendering.</p>
+            <Search
+              size="default"
+              variant="filled"
+              placeholder='Tape "react" pour suggestions…'
+              value={searchVal}
+              onChange={(e) => {
+                setSearchVal(e.target.value);
+                setSuggestionsOpen(e.target.value.length > 0);
+                // Simulate async loading
+                if (e.target.value.length > 0) {
+                  setIsLoading(true);
+                  setTimeout(() => setIsLoading(false), 600);
+                }
+              }}
+              isLoading={isLoading}
+              suggestions={mockSuggestions}
+              suggestionsOpen={suggestionsOpen}
+              onSuggestionsOpenChange={setSuggestionsOpen}
+              onSuggestionSelect={(suggestion) => {
+                setSearchVal(suggestion.label);
+                setSuggestionsOpen(false);
+              }}
+            />
+          </div>
+
+          {/* Trailing slot — filter button (drawer collapsible pattern) */}
+          <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Trailing slot · filter button toggle (chips dans drawer collapsible)</p>
+            <Search
+              size="default"
+              variant="filled"
+              placeholder="Search avec filter button toggle…"
+              trailing={
+                <button
+                  type="button"
+                  className="relative inline-flex items-center justify-center w-9 h-9 rounded-md bg-white border border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300 cursor-pointer"
+                  aria-label="Filtres"
+                >
+                  <SlidersHorizontal size={16} />
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">2</span>
+                </button>
+              }
+            />
+          </div>
+
+          {/* ⭐ filtersSlot — chips inline visibles dans le wrapper bordé */}
+          <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · chips inline visibles (alternative au drawer)</p>
+            <p className="text-caption text-ink-600 m-0">Quand on veut que les filtres soient TOUJOURS visibles dans le même bordered wrapper que la search bar.</p>
+            <Search
+              size="default"
+              variant="default"
+              placeholder="Search avec filter chips visibles…"
+              filtersSlot={
+                <>
+                  <FilterChip label="Tout" active />
+                  <FilterChip label="📰 Actus" />
+                  <FilterChip label="🎬 Tutoriels" />
+                  <FilterChip label="📂 Dossiers" />
+                  <FilterChip label="📚 Le Mag" />
+                </>
+              }
+            />
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
   },
 
   /* ---- LEARNING --------------------------------------------------------- */

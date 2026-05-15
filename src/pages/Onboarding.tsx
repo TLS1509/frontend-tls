@@ -363,28 +363,28 @@ export const Onboarding: React.FC = () => {
             {stepComponents[substep]}
           </div>
 
-          {/* Footer nav */}
-          <div className="flex justify-between items-center gap-stack px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
+          {/* Footer nav — responsive button layout (stacked on mobile) */}
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
             {substep === 0 ? (
-              <Button variant="link" size="sm" onClick={() => navigate('/dashboard')}>
+              <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">
                 Passer pour l'instant
               </Button>
             ) : (
-              <Button variant="secondary" size="sm" leadingIcon={<ChevronLeft size={14} />} onClick={prev}>
+              <Button variant="secondary" size="sm" leadingIcon={<ChevronLeft size={14} />} onClick={prev} className="sm:flex-none flex-1">
                 Retour
               </Button>
             )}
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-1 sm:flex-none justify-between sm:justify-start">
               <span className="font-body text-caption text-ink-500 tabular-nums hidden sm:inline">
                 {substep + 1} / {SUBSTEP_LABELS.length}
               </span>
               {isLast ? (
-                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={handleComplete}>
+                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={handleComplete} className="flex-1 sm:flex-none">
                   Continuer vers le positionnement
                 </Button>
               ) : (
-                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={next}>
+                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={next} className="flex-1 sm:flex-none">
                   Continuer
                 </Button>
               )}
