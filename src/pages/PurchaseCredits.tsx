@@ -7,6 +7,7 @@ import { Badge } from '../components/ui/Badge';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { Alert } from '../components/ui/Alert';
+import { useUserProfileStore } from '../stores/persistence';
 
 interface Pack {
   id: string;
@@ -24,7 +25,19 @@ const PACKS: Pack[] = [
 
 const PurchaseCredits: React.FC = () => {
   const [selectedPack, setSelectedPack] = useState<string>('p2');
+  const [purchased, setPurchased] = useState(false);
   const pack = PACKS.find((p) => p.id === selectedPack);
+
+  const store = useUserProfileStore();
+  const profile = store.get();
+  const creditBalance = profile.credits.classic + profile.credits.special;
+
+  const handlePurchase = () => {
+    if (!pack) return;
+    const totalCredits = pack.credits + (pack.bonus ?? 0);
+    store.patch({ credits: { ...profile.credits, classic: profile.credits.classic + totalCredits } });
+    setPurchased(true);
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -36,8 +49,13 @@ const PurchaseCredits: React.FC = () => {
       />
 
       <div className="max-w-content mx-auto px-4 py-section flex flex-col gap-section">
-        <Alert variant="info" title="Solde actuel : 120 crédits">
-          Dernière recharge : 5 avril 2026. Tu peux acheter des crédits supplémentaires à tout moment.
+        {purchased && (
+          <Alert variant="success" title="Achat confirmé !">
+            {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à ton compte.` : 'Crédits ajoutés.'}
+          </Alert>
+        )}
+        <Alert variant="info" title={`Solde actuel : ${creditBalance} crédits`}>
+          Tu peux acheter des crédits supplémentaires à tout moment.
         </Alert>
 
         <div>
@@ -102,8 +120,8 @@ const PurchaseCredits: React.FC = () => {
               </div>
             </div>
 
-            <Button variant="primary" fullWidth size="lg" className="mt-stack" leadingIcon={<Check className="w-4 h-4" />}>
-              Payer via WooCommerce / Stripe
+            <Button variant="primary" fullWidth size="lg" className="mt-stack" leadingIcon={<Check className="w-4 h-4" />} onClick={handlePurchase} disabled={purchased}>
+              {purchased ? 'Achat confirmé' : 'Payer via WooCommerce / Stripe'}
             </Button>
 
             <div className="flex items-center gap-2 mt-stack text-caption text-ink-500 justify-center">
