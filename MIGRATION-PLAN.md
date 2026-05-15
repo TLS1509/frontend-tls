@@ -1262,7 +1262,7 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | 16.9 | #09 Notifications | S (3–5j) | MVP+V1 | Préfs granulaires par canal (email/in-app/push) |
 | 16.10 | #10 Analytics | M (1–2 sem) | V1 sept | Events tracking FO, dashboards data binding |
 | 16.11 | #11 Projects SBO | XL (3+ sem) | V1 sept | Workforce intelligence, STRIDE, Dreyfus 3+ gating, JAC enrich |
-| 16.12 | #11bis Subscription | M (1–2 sem) | MVP+V1 | 4 plans tarifaires, metabox `is_free`, gating UI partout |
+| 16.12 | #11bis Subscription | M (1–2 sem) | MVP+V1 | ✅ 4 plans spec (free/plan_1/plan_2/plan_3) dans SubscriptionPayment · subscriptionTier dans UserProfile · Billing lit le store · CreditsPage Classic/Special · LearningSpace tier depuis store |
 | 16.13 | #12 Chatbot RAG | M (1–2 sem) | V1 sept | Sources citation UI, manager forecasts, RAG state |
 | 16.14 | #12bis IA Framework | overlay | continu | 6-point validation à appliquer à toute feature IA |
 | 16.15 | #13 Helpcenter | S (3–5j) | V2 sept | Recherche FAQ, ticket workflow, Notion Wiki embed |
