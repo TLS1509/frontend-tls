@@ -44,7 +44,7 @@ const ManagerViewsBuilder: React.FC = () => {
       <EditorialHero
         eyebrow="Manager · Custom Views Builder"
         title="Crée ta vue analytique sur mesure"
-        description="Sélectionne tes métriques, choisis ton type de graphique, sauvegarde et partage"
+        summary="Sélectionne tes métriques, choisis ton type de graphique, sauvegarde et partage"
         tone="default"
       />
 

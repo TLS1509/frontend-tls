@@ -45,7 +45,7 @@ const JournalSearch: React.FC = () => {
       <EditorialHero
         eyebrow="Journal · Recherche"
         title="Retrouve toutes tes entrées"
-        description="Recherche full-text + filtres par date et sentiment"
+        summary="Recherche full-text + filtres par date et sentiment"
         tone="brand"
       />
 

@@ -38,7 +38,7 @@ const StreakDetail: React.FC = () => {
       <EditorialHero
         eyebrow="Gamification · Streak"
         title="🔥 18 jours d'affilée"
-        description="Continue comme ça pour décrocher ton badge 1 mois !"
+        summary="Continue comme ça pour décrocher ton badge 1 mois !"
         tone="default"
       />
 

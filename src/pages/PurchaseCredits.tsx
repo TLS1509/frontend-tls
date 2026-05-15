@@ -31,7 +31,7 @@ const PurchaseCredits: React.FC = () => {
       <EditorialHero
         eyebrow="Compte · Acheter des crédits"
         title="Recharge ton compte"
-        description="Les crédits servent à débloquer du coaching premium et des formations spécialisées"
+        summary="Les crédits servent à débloquer du coaching premium et des formations spécialisées"
         tone="brand"
       />
 

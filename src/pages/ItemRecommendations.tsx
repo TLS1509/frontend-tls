@@ -68,7 +68,7 @@ const ItemRecommendations: React.FC = () => {
       <EditorialHero
         eyebrow="Coaching · Recommandations"
         title="Tes recommandations du coach"
-        description="Items sélectionnés spécifiquement pour toi par Marie"
+        summary="Items sélectionnés spécifiquement pour toi par Marie"
         tone="default"
       />
 

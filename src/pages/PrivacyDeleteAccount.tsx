@@ -21,7 +21,7 @@ const PrivacyDeleteAccount: React.FC = () => {
       <EditorialHero
         eyebrow="Confidentialité · Droit à l'oubli (RGPD)"
         title="Supprimer définitivement mon compte"
-        description="Action irréversible. Toutes tes données seront anonymisées ou supprimées sous 30 jours."
+        summary="Action irréversible. Toutes tes données seront anonymisées ou supprimées sous 30 jours."
         tone="default"
       />
 

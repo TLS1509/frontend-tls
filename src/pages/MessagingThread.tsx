@@ -47,7 +47,7 @@ const MessagingThread: React.FC = () => {
       <EditorialHero
         eyebrow="Coaching · Messagerie"
         title={COACH.name}
-        description="Conversation directe avec ton coach"
+        summary="Conversation directe avec ton coach"
         tone="default"
       />
 

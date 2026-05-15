@@ -34,7 +34,7 @@ const CorrectionDetailLearner: React.FC = () => {
       <EditorialHero
         eyebrow="Coaching · Ma correction"
         title={MOCK_CORRECTION.exerciceTitle}
-        description={`Correction reçue le ${MOCK_CORRECTION.submittedAt} par ${MOCK_CORRECTION.coachName}`}
+        summary={`Correction reçue le ${MOCK_CORRECTION.submittedAt} par ${MOCK_CORRECTION.coachName}`}
         tone="default"
       />
 

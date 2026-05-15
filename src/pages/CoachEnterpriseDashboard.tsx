@@ -36,7 +36,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
       <EditorialHero
         eyebrow="Coach Enterprise · Vue équipe"
         title="Mon équipe Acme Corp"
-        description="Team roster, validation queue JAC et analytics agrégés"
+        summary="Team roster, validation queue JAC et analytics agrégés"
         tone="warm"
       />
 

@@ -28,7 +28,7 @@ const PrivacyDsar: React.FC = () => {
       <EditorialHero
         eyebrow="Confidentialité · RGPD Article 15"
         title="Télécharger mes données personnelles"
-        description="Demande d'accès à toutes les données te concernant (DSAR). Délai légal : 30 jours."
+        summary="Demande d'accès à toutes les données te concernant (DSAR). Délai légal : 30 jours."
         tone="default"
       />
 

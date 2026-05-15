@@ -31,7 +31,7 @@ const ApiDocs: React.FC = () => {
       <EditorialHero
         eyebrow="Developer · API Documentation"
         title="The Learning Society API v1"
-        description="Documentation Swagger/OpenAPI auto-générée — endpoints REST, authentification, rate limits"
+        summary="Documentation Swagger/OpenAPI auto-générée — endpoints REST, authentification, rate limits"
         tone="default"
         action={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
       />
