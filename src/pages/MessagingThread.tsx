@@ -6,6 +6,8 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
+import { useCoachingStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
 interface Message {
   id: string;
@@ -18,20 +20,23 @@ interface Message {
   isMe: boolean;
 }
 
-const COACH = { id: 'c1', name: 'Marie Dubois', initials: 'MD', status: 'online' as const };
-
-const MOCK_MESSAGES: Message[] = [
-  { id: '1', authorId: 'c1', authorName: 'Marie', initials: 'MD', text: 'Bonjour ! J\'ai vu que tu as terminé le module de stratégie produit. Comment ça s\'est passé ?', time: '09:12', read: true, isMe: false },
-  { id: '2', authorId: 'me', authorName: 'Moi', initials: 'CM', text: 'Salut Marie ! Plutôt bien, mais j\'avais quelques questions sur la matrice BCG.', time: '09:15', read: true, isMe: true },
-  { id: '3', authorId: 'c1', authorName: 'Marie', initials: 'MD', text: 'Parfait, on peut en parler lors de notre prochain RDV jeudi. Tu peux me préciser ce qui te bloque exactement ?', time: '09:18', read: true, isMe: false },
+const SEED_MESSAGES: Message[] = [
+  { id: '1', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Bonjour ! J\'ai vu que tu as terminé le module de stratégie produit. Comment ça s\'est passé ?', time: '09:12', read: true, isMe: false },
+  { id: '2', authorId: 'me', authorName: 'Moi', initials: 'CM', text: 'Salut ! Plutôt bien, mais j\'avais quelques questions sur la matrice BCG.', time: '09:15', read: true, isMe: true },
+  { id: '3', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Parfait, on peut en parler lors de notre prochain RDV jeudi. Tu peux me préciser ce qui te bloque exactement ?', time: '09:18', read: true, isMe: false },
   { id: '4', authorId: 'me', authorName: 'Moi', initials: 'CM', text: 'C\'est surtout l\'arbitrage entre les "vache à lait" et les "stars" quand on a un budget limité.', time: '09:22', read: true, isMe: true },
-  { id: '5', authorId: 'c1', authorName: 'Marie', initials: 'MD', text: 'Excellent point ! C\'est exactement le type de réflexion qu\'on attend au niveau Dreyfus 3. Je te prépare un cas concret pour jeudi.', time: '09:25', read: false, isMe: false },
+  { id: '5', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Excellent point ! C\'est exactement le type de réflexion qu\'on attend au niveau Dreyfus 3. Je te prépare un cas concret pour jeudi.', time: '09:25', read: false, isMe: false },
 ];
 
 const MessagingThread: React.FC = () => {
   const { coachId } = useParams();
   const [draft, setDraft] = useState('');
-  const [messages, setMessages] = useState<Message[]>(MOCK_MESSAGES);
+  const [messages, setMessages] = useState<Message[]>(SEED_MESSAGES);
+
+  const sessions = useCoachingStore().getSessions(MOCK_USER_ID);
+  const matchedSession = sessions.find((s) => s.coachId === coachId) ?? sessions[0];
+  const coachName = matchedSession?.coachName ?? 'Ton coach';
+  const coachInitials = coachName.split(' ').map((n) => n[0]).join('').slice(0, 2);
 
   const send = () => {
     if (!draft.trim()) return;
@@ -46,16 +51,16 @@ const MessagingThread: React.FC = () => {
     <div className="min-h-screen bg-surface flex flex-col">
       <EditorialHero
         eyebrow="Coaching · Messagerie"
-        title={COACH.name}
+        title={coachName}
         summary="Conversation directe avec ton coach"
         tone="default"
       />
 
       <div className="flex-1 max-w-content mx-auto w-full px-4 py-section flex flex-col gap-stack">
         <Card className="p-4 flex items-center gap-3">
-          <Avatar initials={COACH.initials} size="md" />
+          <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">
-            <div className="font-semibold">{COACH.name}</div>
+            <div className="font-semibold">{coachName}</div>
             <div className="text-caption text-success-fg flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-success-base" /> En ligne
             </div>
