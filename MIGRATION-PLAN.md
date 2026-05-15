@@ -18,26 +18,9 @@
 
 ---
 
-## PHASE 0.5 — Vérification visuelle tailwind.config.js
+## PHASE 0.5 — ~~Vérification visuelle tailwind.config.js~~ ✅ OBSOLÈTE
 
-**Objectif :** Confirmer que chaque token Tailwind mappé dans `tailwind.config.js` se traduit correctement avant de commencer la migration.
-
-**Méthode :** Créer une page de test temporaire `src/pages/TailwindCheck.tsx` avec route `/tailwind-check` qui affiche une palette visuelle complète.
-
-| Groupe | Tokens à vérifier | Visuel attendu |
-|--------|------------------|----------------|
-| Couleurs primary | `bg-primary-50` → `bg-primary-900` | Gradient bleu clair → foncé |
-| Couleurs secondary | `bg-secondary-50` → `bg-secondary-900` | Gradient orange clair → foncé |
-| Couleurs accent | `bg-accent-50` → `bg-accent-900` | Gradient jaune clair → foncé |
-| Couleurs ink | `bg-ink-0` → `bg-ink-950` | Gradient blanc → noir |
-| Typographie | `text-h1` → `text-micro` | Tailles visiblement croissantes |
-| Ombres | `shadow-xs` → `shadow-lg` | Ombres progressives |
-| Rayons | `rounded-sm` → `rounded-2xl` | Coins de plus en plus ronds |
-| Polices | `font-display`, `font-body`, `font-mono` | 3 familles visuellement distinctes |
-
-**Statut :** ⬜
-**Condition de validation :** Chaque swatch visuellement distinct, aucun token silencieusement absent → confirmer avec screenshot.
-**Si problème :** Corriger `tailwind.config.js` avant de passer à Phase 1.
+> **Supersédée** — Le DS est en production depuis 4+ mois avec ~121 composants validés visuellement. La vérification initiale n'a plus de valeur. Tous les tokens sont documentés dans `src/index.css` @theme et consommés par `Components.tsx` (showcase vivant).
 
 ---
 
@@ -228,27 +211,11 @@
 
 ---
 
-## PHASE 8 — Pages principales (51 pages restantes, incluant Dashboard)
+## PHASE 8 — ~~Pages principales~~ ✅ OBSOLÈTE
 
-Après phases 1-7, migrer les pages dans cet ordre :
-
-| # | Page | Inline styles | Statut | Priorité |
-|---|------|--------------|--------|----------|
-| 8.1 | **Dashboard** | 27 → 0 | ✅ | **HAUTE** — page d'accueil post-login |
-| 8.2 | DashboardHero (pattern) | ~15 | ⬜ | **HAUTE** — utilisé par Dashboard |
-| 8.3 | Coaching | 54 | ⬜ | Moyenne |
-| 8.4 | CoachingCompteRendu | 70 | ⬜ | Moyenne |
-| 8.5 | Messages | 67 | ⬜ | Moyenne |
-| 8.6 | Settings | 57 → 0 | ✅ | Moyenne |
-| 8.7 | Veille | `src/pages/Veille.tsx` | ~30 | ⬜ | Moyenne |
-| 8.8 | VeilleContent | `src/pages/VeilleContent.tsx` | 63 | ⬜ | Moyenne |
-| 8.9 | Dossier | `src/pages/Dossier.tsx` | 73 | ⬜ | Moyenne |
-| 8.10 | WeeklyNewsletter | `src/pages/WeeklyNewsletter.tsx` | 57 | ✅ | Moyenne |
-| 8.11 | Journal | `src/pages/Journal.tsx` | ~40 | ⬜ | Moyenne |
-| 8.12 | JournalDetail | `src/pages/JournalDetail.tsx` | ~35 | ⬜ | Moyenne |
-| 8.13 | JournalNewEntry | `src/pages/JournalNewEntry.tsx` | ~30 | ⬜ | Moyenne |
-| 8.14 | JournalFreeEntry | `src/pages/JournalFreeEntry.tsx` | ~25 | ⬜ | Moyenne |
-| 8.15-8.51 | Pages restantes | `src/pages/[...].tsx` | ⬜ | Faible |
+> **Supersédée par Phase 9 + Phase 10** — Phase 9 (2026-05-13) a supprimé l'intégralité du CSS BEM, rendant inutile le tracking inline-styles par page. Phase 10 a ensuite refondu les 35 pages restantes via les patterns DS (EditorialHero, EditorialLayout, SectionCard, etc.) avec validation visuelle complète. Toutes les pages listées ici sont couvertes.
+>
+> Référence historique : Dashboard (8.1 ✅), Settings (8.6 ✅), WeeklyNewsletter (8.10 ✅) — premiers migrés en Phase 8 avant la décision de basculer sur Phase 9 cleanup global.
 
 ---
 
@@ -344,7 +311,7 @@ Notion "📱 Écrans Learning App" DB : 17 entrées créées + marquées `Dispon
 **Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final. (VeilleContent consolidée dans Veille.tsx — Phase 16 cleanup 2026-05-14)
 
 **Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
-**Dernière mise à jour :** 2026-05-14 — Phase 16 sitemap gap complete (82 routes wired, 98.8% sitemap coverage) · Veille consolidation (4 sous-pages → Veille.tsx hub) · Phase 16 DS enrichment (17 pages enrichies, tokens warm-* remplacés, prop APIs corrigées) · Chat Bubbles pattern ajouté au showcase · DS Notion usedBy sync (CompetencyRadar, AITransparencyLabel, AtrophieIndicator)
+**Dernière mise à jour :** 2026-05-15 — Phase 10 Tier 3 ✅ (9 pages viewer/edge-case — VideoTutorial bug fix, Error404 Tailwind arbitrary, AstucesViewer/FlashcardsViewer touch targets 44px) · Plan nettoyé (Phase 0.5 obsolète, Phase 8 archivée, section Phase 13 stale supprimée)
 
 ---
 
@@ -993,18 +960,4 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 
 ---
 
----
-
-## Phase 13 — À venir (7 pages MVP P0 restantes)
-
-| Page | Route | Composants clés | Statut |
-|------|-------|---|--------|
-| PasseportRoadmap | `/passeport/roadmap` | EditorialHero · SectionCard · Timeline · ProgressBar | ⬜ |
-| PasseportJac | `/passeport/jac` | EditorialHero · SectionCard · Avatar · Badge | ⬜ |
-| CoachAnalytics | `/coach/analytics` | EditorialHero · StatCard · ProgressBar · DataTable | ⬜ |
-| EnterpriseKpis | `/enterprise/kpis` | EditorialHero · StatCard · Tabs · DataTable | ⬜ |
-| ProfileConsent | `/profile/consent` | EditorialHero · SectionCard · Checkbox · Button | ⬜ |
-| AlerteInactivite | `/enterprise/alertes/inactivite` | Modal · Alert · Button | ⬜ |
-| AlerteStagnation | `/coach/alertes/stagnation` | Modal · Alert · Button · ActivityFeed | ⬜ |
-
-**Dernière mise à jour :** 2026-05-14 (Phase 11 + 12 code ✅, Notion 🔄 — en attente de manual updates)
+**Dernière mise à jour :** 2026-05-15 — Phase 10 Tier 3 ✅ (9 pages viewer/edge-case auditées et corrigées) · MIGRATION-PLAN.md nettoyé (Phase 0.5 + Phase 8 + section Phase 13 stale archivées)
