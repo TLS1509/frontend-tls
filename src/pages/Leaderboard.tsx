@@ -4,6 +4,7 @@ import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { StatCard } from '../components/ui/StatCard';
 import { Badge } from '../components/ui/Badge';
+import { Pagination } from '../components/ui/Pagination';
 import { RankingCard } from '../components/learning/RankingCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Flame, Medal, Sparkles, Trophy, Users, Zap, ArrowUp, Minus, ArrowDown, Star } from 'lucide-react';
@@ -67,9 +68,18 @@ const PODIUM_CONFIG = [
   },
 ];
 
+const ITEMS_PER_PAGE = 4;
+
 export const Leaderboard: React.FC = () => {
   const navigate = useNavigate();
   const [period, setPeriod] = useState<'week' | 'month' | 'all'>('week');
+  const [rankPage, setRankPage] = useState(1);
+
+  const totalRankPages = Math.ceil(FULL_RANKING.length / ITEMS_PER_PAGE);
+  const paginatedRanking = FULL_RANKING.slice(
+    (rankPage - 1) * ITEMS_PER_PAGE,
+    rankPage * ITEMS_PER_PAGE,
+  );
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
@@ -209,7 +219,7 @@ export const Leaderboard: React.FC = () => {
           </Card>
 
           <div className="flex flex-col gap-3">
-            {FULL_RANKING.map((entry) => (
+            {paginatedRanking.map((entry) => (
               <RankingCard
                 key={entry.rank}
                 rank={entry.rank}
@@ -221,6 +231,15 @@ export const Leaderboard: React.FC = () => {
               />
             ))}
           </div>
+
+          {totalRankPages > 1 && (
+            <Pagination
+              page={rankPage}
+              totalPages={totalRankPages}
+              onChange={setRankPage}
+              info={<span className="text-caption text-ink-500">{FULL_RANKING.length} participants</span>}
+            />
+          )}
         </div>
 
         {/* Weekly goal */}

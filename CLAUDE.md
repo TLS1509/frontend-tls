@@ -22,23 +22,12 @@ src/
 │   ├── cards/       NotificationCard, JournalEntryCard
 │   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
-├── pages/           50 pages app (route-level) + 6 à créer (voir DESIGN.md §Pages manquantes)
+├── pages/           ~140 pages app (route-level) — toutes routées dans App.tsx ✅
 ├── styles/          design-tokens.css (source vérité), tls-components.css (CSS BEM actuel)
 └── design-system/   spec.json (spécification officielle)
 ```
 
-### Pages manquantes à créer (non présentes dans App.tsx)
-
-| Page | Route | Notes |
-|------|-------|-------|
-| `Recherche` | `/search` | Recherche globale cross-contenus |
-| `MagicLink` | `/auth/magic-link` | Auth sans mot de passe |
-| `VerifyEmail` | `/auth/verify-email` | Confirmation email post-inscription |
-| `SubscriptionPayment` | `/onboarding/payment` | Choix de formule + paiement |
-| `Billing` | `/account/billing` | Gestion abonnement et factures |
-| `Positionnement` | `/learning-paths/:id/positionnement` | Test diagnostique avant parcours |
-
-→ Voir `DESIGN.md` pour le prompt de création complet.
+> ✅ **Sitemap complet** — toutes les pages sont créées et wired (Recherche, MagicLink, VerifyEmail, SubscriptionPayment, Billing, Positionnement incluses). Voir MIGRATION-PLAN.md pour l'historique des phases.
 
 ## Familles de composants — Décisions de rationalisation (2026-05-09)
 

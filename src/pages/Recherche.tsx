@@ -28,6 +28,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { EmptyState } from '../components/ui/EmptyState';
+import { Spinner } from '../components/ui/Spinner';
 import { HeroSection } from '../components/patterns/HeroSection';
 import { FilterBar } from '../components/forms/FilterBar';
 import { CardGrid } from '../components/patterns/CardGrid';
@@ -230,6 +231,7 @@ export const Recherche: React.FC = () => {
           variant="default"
           size="lg"
           leadingIcon={<SearchIcon size={20} strokeWidth={2} />}
+          trailing={isSearching ? <Spinner size="sm" tone="brand" label="Recherche…" /> : undefined}
         />
 
         {/* Filters */}

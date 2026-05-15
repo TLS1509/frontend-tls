@@ -30,6 +30,7 @@ import {
   VeilleCardFeed,
   type VeilleFeedItem,
 } from '../components/patterns/VeilleCardFeed';
+import { TrendingBadge } from '../components/ui/Badge';
 import { useBookmarksStore, useFilterPrefsStore } from '../stores/persistence';
 import { useToastContext } from '../contexts/ToastContext';
 
@@ -273,6 +274,17 @@ export const Veille: React.FC = () => {
 
       {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">
+
+        {/* Trending strip — badges contextuels */}
+        {!hasActiveFilter && (
+          <div className="flex items-center gap-stack-xs flex-wrap">
+            <span className="text-caption text-ink-500 font-semibold">Cette semaine :</span>
+            <TrendingBadge type="trending" size="sm" animated />
+            <TrendingBadge type="new" size="sm" animated />
+            <TrendingBadge type="popular" size="sm" animated={false} />
+          </div>
+        )}
+
         <VeilleCardFeed
           items={filteredItems}
           layout="list"

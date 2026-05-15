@@ -2254,7 +2254,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Badge.tsx (merged)',
     cssBase: '.trending-badge',
     category: 'Learning',
-    showcaseOnly: true,
+    showcaseOnly: false,
+    usedBy: ['Veille'],
     description: 'Indicateur de preuve sociale: Trending, Popular, Recommended, Featured, New. Gradient + pulse animation. Param `count` optionnel. Implémenté dans Badge.tsx — TrendingBadge.tsx = thin re-export.',
     keywords: ['trending', 'popular', 'featured', 'new', 'badge', 'social proof', 'promo'],
     render: () => (
@@ -2432,7 +2433,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Pagination.tsx',
     cssBase: '.pager / .pager__dots / .pager-info',
     category: 'Navigation',
-    showcaseOnly: true,
+    showcaseOnly: false,
+    usedBy: ['Leaderboard'],
     description: 'Navigation numérotée pour longues listes. Points de troncature automatiques. Boutons prev/next. Info texte optionnel.',
     keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
     render: () => <PaginationDemo />,
@@ -3387,8 +3389,9 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Spinner.tsx',
     cssBase: '.tls-spinner / .tls-spinner--{size} / .tls-spinner--{tone}',
     category: 'Feedback',
-    showcaseOnly: true,
-    description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris).',
+    showcaseOnly: false,
+    usedBy: ['Recherche'],
+    description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris). Utilisé dans Recherche comme trailing slot du SearchInput pendant le debounce.',
     keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
     render: () => (
       <div className="vstack gap-6">
