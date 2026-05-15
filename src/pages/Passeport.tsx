@@ -25,24 +25,52 @@ const RADAR_AXES = [
   { label: 'Coopération', current: 3, target: 4 },
 ];
 
-const COMPETENCES = [
-  { id: 'leadership', label: 'Leadership & Management', pilier: 'Hard', level: 3, target: 5, daysSinceActivity: 45, points: 320, nextPoints: 500 },
-  { id: 'comm', label: 'Communication & Influence', pilier: 'Soft', level: 4, target: 4, daysSinceActivity: 12, points: 480, nextPoints: 500 },
-  { id: 'analyse', label: 'Analyse & Décision', pilier: 'Hard', level: 2, target: 4, daysSinceActivity: 120, points: 190, nextPoints: 300 },
-  { id: 'tech', label: 'Tech & Outils numériques', pilier: 'Out', level: 4, target: 5, daysSinceActivity: 3, points: 460, nextPoints: 500 },
-  { id: 'creat', label: 'Créativité & Innovation', pilier: 'Soft', level: 1, target: 3, daysSinceActivity: 200, points: 70, nextPoints: 150 },
-  { id: 'coop', label: 'Coopération & Équipe', pilier: 'Soft', level: 3, target: 4, daysSinceActivity: 30, points: 310, nextPoints: 400 },
+import { getCompetenceById } from '../data/competencies';
+import type { CompetenceDomain } from '../types/learning';
+
+// Runtime overlay (mock LearnerCompetency, sera remplacé par store Zustand en 16.2.3).
+// Référence COMPETENCES via competenceId (canonique depuis src/data/competencies.ts).
+const LEARNER_COMPETENCIES: Array<{
+  competenceId: string;
+  level: number;
+  target: number;
+  daysSinceActivity: number;
+  points: number;
+  nextPoints: number;
+}> = [
+  { competenceId: 'leadership', level: 3, target: 5, daysSinceActivity: 45, points: 320, nextPoints: 500 },
+  { competenceId: 'communication', level: 4, target: 4, daysSinceActivity: 12, points: 480, nextPoints: 500 },
+  { competenceId: 'analyse', level: 2, target: 4, daysSinceActivity: 120, points: 190, nextPoints: 300 },
+  { competenceId: 'tech_tools', level: 4, target: 5, daysSinceActivity: 3, points: 460, nextPoints: 500 },
+  { competenceId: 'creativity', level: 1, target: 3, daysSinceActivity: 200, points: 70, nextPoints: 150 },
+  { competenceId: 'cooperation', level: 3, target: 4, daysSinceActivity: 30, points: 310, nextPoints: 400 },
 ];
+
+// Vue dérivée : enrichit chaque entrée apprenant avec les métadonnées du référentiel.
+const COMPETENCES = LEARNER_COMPETENCIES.map((lc) => {
+  const ref = getCompetenceById(lc.competenceId);
+  return {
+    id: lc.competenceId,
+    label: ref?.label ?? lc.competenceId,
+    domain: (ref?.domain ?? 'Humain') as CompetenceDomain,
+    level: lc.level,
+    target: lc.target,
+    daysSinceActivity: lc.daysSinceActivity,
+    points: lc.points,
+    nextPoints: lc.nextPoints,
+  };
+});
 
 const GOALS = [
   { id: 1, label: 'Atteindre Dreyfus 5 en Leadership', current: 3, target: 5, deadline: '2026-12-01' },
   { id: 2, label: 'Valider Analyse (D4)', current: 2, target: 4, deadline: '2026-09-01' },
 ];
 
-const PILIER_COLORS: Record<string, string> = {
-  Hard: 'brand',
-  Soft: 'warm',
-  Out: 'sun',
+/** Couleur du tone par domaine H.S.O. (Cahier #02). */
+const DOMAIN_COLORS: Record<CompetenceDomain, 'brand' | 'warm' | 'sun'> = {
+  Humain: 'brand',
+  Savoirs: 'warm',
+  Organisation: 'sun',
 };
 
 const TABS = [
@@ -151,7 +179,7 @@ export default function Passeport() {
                       <SkillBar
                         label={c.label}
                         value={(c.level / 5) * 100}
-                        tone={PILIER_COLORS[c.pilier] as 'brand' | 'warm' | 'sun'}
+                        tone={DOMAIN_COLORS[c.domain]}
                         showValue
                       />
                     </div>
@@ -178,8 +206,8 @@ export default function Passeport() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex flex-col gap-1">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
-                      <Badge variant={PILIER_COLORS[c.pilier] as 'brand' | 'warm' | 'sun'} size="sm">
-                        {c.pilier} Skills
+                      <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
+                        {c.domain}
                       </Badge>
                     </div>
                     <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
@@ -195,7 +223,7 @@ export default function Passeport() {
                   </div>
                   <ProgressBar
                     value={(c.points / c.nextPoints) * 100}
-                    fill={PILIER_COLORS[c.pilier] as 'brand' | 'warm' | 'sun'}
+                    fill={DOMAIN_COLORS[c.domain]}
                     size="sm"
                     label={`${c.points} / ${c.nextPoints} pts`}
                     showLabel

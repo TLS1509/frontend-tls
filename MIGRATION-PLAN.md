@@ -1071,10 +1071,10 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
   - [ ] Notion Écrans DB all entries Status = "Validé" or "Intégré"
   - [ ] Notion Design System DB all components updated
 
-- [ ] **15.6** — Final TypeScript + build check
-  - [ ] `npx tsc --noEmit` → 0 errors
-  - [ ] `npm run build` succeeds
-  - [ ] Bundle size reasonable (no unexpected jumps)
+- [x] **15.6** — Final TypeScript + build check ✅
+  - [x] `npx tsc --noEmit` → 0 errors
+  - [x] `npm run build` succeeds
+  - [x] Bundle size reasonable (no unexpected jumps)
 
 ### Success criteria Phase 15 ✅
 - New-user flow (signup → first badge) works end-to-end mobile + desktop

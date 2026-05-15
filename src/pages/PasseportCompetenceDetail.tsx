@@ -18,20 +18,22 @@ import { StatCard } from '../components/ui/StatCard';
 const COMPETENCE = {
   id: 'leadership',
   label: 'Leadership & Management',
-  pilier: 'Hard',
-  pilierColor: 'primary' as const,
+  /** Domaine H.S.O. (Cahier #02) — Humain | Savoirs | Organisation */
+  domain: 'Humain' as const,
+  domainColor: 'primary' as const,
   currentLevel: 3,
   targetLevel: 5,
   points: 320,
   nextLevelPoints: 500,
   daysSinceActivity: 12,
   description: 'Capacité à inspirer, guider et développer une équipe vers l\'atteinte d\'objectifs communs. Englobe la prise de décision, la gestion de conflits et le développement des talents.',
+  // Dreyfus labels FR canoniques (Cahier #02) : Novice / Apprenant / Compétent / Expert / Maître
   dreyfusDesc: [
     { level: 1, label: 'Novice', desc: 'Applique des règles simples sans contexte.' },
-    { level: 2, label: 'Débutant avancé', desc: 'Reconnaît les situations récurrentes.' },
+    { level: 2, label: 'Apprenant', desc: 'Reconnaît les situations récurrentes.' },
     { level: 3, label: 'Compétent', desc: 'Planifie et adapte selon le contexte.', current: true },
-    { level: 4, label: 'Performant', desc: 'Perçoit les situations de façon holistique.' },
-    { level: 5, label: 'Expert', desc: 'Intuition et excellence situationnelle.' },
+    { level: 4, label: 'Expert', desc: 'Perçoit les situations de façon holistique.' },
+    { level: 5, label: 'Maître', desc: 'Intuition et excellence situationnelle.' },
   ],
 };
 
@@ -71,7 +73,7 @@ export default function PasseportCompetenceDetail() {
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
-        eyebrow={`Passeport · ${COMPETENCE.pilier}`}
+        eyebrow={`Passeport · ${COMPETENCE.domain}`}
         title={COMPETENCE.label}
         summary={COMPETENCE.description}
         tone="default"
