@@ -42,7 +42,7 @@ const CoachEngagement: React.FC = () => {
       <EditorialHero
         eyebrow="Coach · Engagement & Analytics"
         title="L'engagement de mon équipe"
-        description="Streaks, badges, XP semaine et alertes d'atrophie"
+        summary="Streaks, badges, XP semaine et alertes d'atrophie"
         tone="warm"
       />
 
@@ -77,7 +77,7 @@ const CoachEngagement: React.FC = () => {
                   </div>
                 </div>
                 <div className="w-32">
-                  <ProgressBar value={(l.xpWeek / 500) * 100} max={100} tone="warm" />
+                  <ProgressBar value={(l.xpWeek / 500) * 100} max={100} fill="warm" />
                 </div>
                 <Badge variant={l.trend === 'up' ? 'success' : l.trend === 'down' ? 'danger' : 'neutral'}>
                   {l.trend === 'up' ? '↑' : l.trend === 'down' ? '↓' : '→'}

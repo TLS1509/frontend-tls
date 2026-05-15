@@ -54,10 +54,10 @@ export default function CoachCorrectionInterface() {
       <EditorialHero
         eyebrow={`Coach · Correction #${SUBMISSION.id}`}
         title="Interface de Correction"
-        subtitle={`${SUBMISSION.exerciceTitle} — ${SUBMISSION.apprenantName}`}
+        summary={`${SUBMISSION.exerciceTitle} — ${SUBMISSION.apprenantName}`}
         tone="warm"
-        actions={
-          <Button variant="glass-light-ghost" size="md" leadingIcon={<ChevronLeft size={16} />}>
+        trailing={
+          <Button variant="ghost" size="md" leadingIcon={<ChevronLeft size={16} />}>
             Retour à la file
           </Button>
         }
@@ -82,7 +82,7 @@ export default function CoachCorrectionInterface() {
           </Card>
 
           {/* Submitted content */}
-          <SectionCard title={SUBMISSION.exerciceTitle} icon={<BookOpen size={18} />}>
+          <SectionCard title={SUBMISSION.exerciceTitle} titleIcon={<BookOpen size={18} />}>
             <div className="prose prose-sm max-w-none">
               {SUBMISSION.content.split('\n').map((line, i) => (
                 line.trim() ? (
@@ -94,7 +94,7 @@ export default function CoachCorrectionInterface() {
 
           {/* Feedback form */}
           {!submitted ? (
-            <SectionCard title="Ton feedback" icon={<MessageSquare size={18} />}>
+            <SectionCard title="Ton feedback" titleIcon={<MessageSquare size={18} />}>
               <div className="flex flex-col gap-stack">
                 <FormGroup label="Commentaire général" htmlFor="feedback">
                   <textarea
@@ -159,7 +159,7 @@ export default function CoachCorrectionInterface() {
 
         {/* Sidebar */}
         <div className="flex flex-col gap-section sticky top-8">
-          <SectionCard title="Critères d'évaluation" icon={<BookOpen size={18} />}>
+          <SectionCard title="Critères d'évaluation" titleIcon={<BookOpen size={18} />}>
             <div className="flex flex-col gap-2">
               {['Analyse du contexte', 'Démarche structurée', 'Réflexivité', 'Plan d\'action concret'].map((c) => (
                 <div key={c} className="flex items-center gap-2 text-caption text-ink-600">
@@ -170,7 +170,7 @@ export default function CoachCorrectionInterface() {
             </div>
           </SectionCard>
 
-          <SectionCard title="Progression D{SUBMISSION.dreyfusLevel}" icon={<Star size={18} />}>
+          <SectionCard title="Progression D{SUBMISSION.dreyfusLevel}" titleIcon={<Star size={18} />}>
             <p className="text-caption text-ink-500">
               D{SUBMISSION.dreyfusLevel} Compétent : planifie et adapte selon le contexte. Montre une compréhension des patterns récurrents.
             </p>

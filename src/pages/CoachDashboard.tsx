@@ -86,8 +86,8 @@ export default function CoachDashboard() {
       <EditorialHero
         eyebrow="Espace Coach"
         title="Tableau de bord Coach"
-        subtitle="Suis la progression de tes apprenants, revois leurs travaux et planifie vos sessions."
-        tone="primary"
+        summary="Suis la progression de tes apprenants, revois leurs travaux et planifie vos sessions."
+        tone="default"
       />
 
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
@@ -100,7 +100,7 @@ export default function CoachDashboard() {
           <StatCard label="Taux JAC moyen" value="73%" delta="+5%" deltaDirection="up" size="sm" />
         </div>
 
-        <Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} variant="underline" />
+        <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" />
 
         {/* Apprenants tab */}
         {activeTab === 'apprenants' && (
@@ -132,7 +132,7 @@ export default function CoachDashboard() {
                         <span>JAC : {a.jac}%</span>
                         <span>Dreyfus moy. : {a.dreyfus}</span>
                       </div>
-                      <ProgressBar value={a.jac} tone="primary" size="sm" />
+                      <ProgressBar value={a.jac} fill="brand" size="sm" />
                     </div>
                     <ChevronRight size={16} className="shrink-0 text-ink-300 mt-1" />
                   </Card>

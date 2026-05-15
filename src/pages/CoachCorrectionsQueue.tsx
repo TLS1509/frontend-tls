@@ -80,9 +80,9 @@ export default function CoachCorrectionsQueue() {
       <EditorialHero
         eyebrow="Coach · Corrections"
         title="File de Corrections"
-        subtitle="Gère les exercices soumis par tes apprenants. Corrige, commente et suis la progression de chacun."
+        summary="Gère les exercices soumis par tes apprenants. Corrige, commente et suis la progression de chacun."
         tone="warm"
-        actions={
+        trailing={
           urgentCount > 0 ? (
             <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-2 rounded-xl border border-white/30">
               <AlertTriangle size={16} className="text-white" />

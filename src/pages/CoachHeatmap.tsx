@@ -57,11 +57,11 @@ export default function CoachHeatmap() {
       <EditorialHero
         eyebrow="Coach · Passeport"
         title="Heatmap Compétences Équipe"
-        subtitle="Visualise les niveaux Dreyfus de toute ton équipe d'un seul coup d'œil. Identifie les lacunes collectives et les apprenants en difficulté."
-        tone="primary"
-        actions={
+        summary="Visualise les niveaux Dreyfus de toute ton équipe d'un seul coup d'œil. Identifie les lacunes collectives et les apprenants en difficulté."
+        tone="default"
+        trailing={
           <div className="flex items-center gap-3">
-            <Button variant="glass-light-ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
             <Button variant="glass" size="md" leadingIcon={<RefreshCw size={16} />}>
@@ -109,8 +109,8 @@ export default function CoachHeatmap() {
         {/* Axis filter chips */}
         <SectionCard
           title="Heatmap Dreyfus"
-          icon={<Users size={18} />}
-          actions={
+          titleIcon={<Users size={18} />}
+          headerAction={
             <div className="flex flex-wrap gap-2">
               {AXES.map((axis) => (
                 <FilterChip
@@ -157,7 +157,7 @@ export default function CoachHeatmap() {
         </SectionCard>
 
         {/* Per-apprenant status list */}
-        <SectionCard title="Résumé par apprenant" icon={<Users size={18} />}>
+        <SectionCard title="Résumé par apprenant" titleIcon={<Users size={18} />}>
           <div className="flex flex-col gap-2">
             {filteredRows.map((a) => {
               const { label, variant } = STATUS_BADGE[a.status];

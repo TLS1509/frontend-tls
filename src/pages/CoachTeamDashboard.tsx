@@ -53,11 +53,11 @@ export default function CoachTeamDashboard() {
       <EditorialHero
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
-        subtitle="Vue d'ensemble de la progression de toute ton équipe — activité, niveaux Dreyfus, sessions et corrections."
+        summary="Vue d'ensemble de la progression de toute ton équipe — activité, niveaux Dreyfus, sessions et corrections."
         tone="warm"
-        actions={
+        trailing={
           <div className="flex items-center gap-3">
-            <Button variant="glass-light-ghost" size="md" leadingIcon={<Calendar size={16} />}>
+            <Button variant="ghost" size="md" leadingIcon={<Calendar size={16} />}>
               Planifier une session
             </Button>
             <Button variant="glass" size="md" leadingIcon={<Users size={16} />}>
@@ -110,12 +110,12 @@ export default function CoachTeamDashboard() {
 
         {/* Tabs */}
         <Tabs
-          tabs={[
+          items={[
             { id: 'overview', label: 'Vue d\'ensemble' },
             { id: 'sessions', label: 'Sessions' },
             { id: 'top', label: 'Top progresseurs' },
           ]}
-          activeTab={activeTab}
+          value={activeTab}
           onChange={setActiveTab}
         />
 
@@ -123,7 +123,7 @@ export default function CoachTeamDashboard() {
           <div className="flex flex-col gap-section">
 
             {/* Activity chart (simplified) */}
-            <SectionCard title="Activité hebdomadaire" icon={<BarChart3 size={18} />}>
+            <SectionCard title="Activité hebdomadaire" titleIcon={<BarChart3 size={18} />}>
               <div className="flex items-end gap-3 h-32 px-2">
                 {WEEKLY_ACTIVITY.map(({ day, sessions, corrections }) => {
                   const maxVal = 5;
@@ -157,7 +157,7 @@ export default function CoachTeamDashboard() {
             </SectionCard>
 
             {/* Dreyfus distribution */}
-            <SectionCard title="Distribution Dreyfus" icon={<TrendingUp size={18} />}>
+            <SectionCard title="Distribution Dreyfus" titleIcon={<TrendingUp size={18} />}>
               <div className="flex flex-col gap-2">
                 {[1, 2, 3, 4, 5].map((level) => {
                   const count = [1, 2, 3, 2, 0][level - 1];
@@ -166,7 +166,7 @@ export default function CoachTeamDashboard() {
                     <div key={level} className="flex items-center gap-stack">
                       <span className="text-caption font-semibold text-ink-600 w-6">D{level}</span>
                       <div className="flex-1">
-                        <ProgressBar value={pct} tone="primary" size="sm" />
+                        <ProgressBar value={pct} fill="brand" size="sm" />
                       </div>
                       <span className="text-caption text-ink-500 w-16 text-right">{count} apprenant{count !== 1 ? 's' : ''}</span>
                     </div>
@@ -178,7 +178,7 @@ export default function CoachTeamDashboard() {
         )}
 
         {activeTab === 'sessions' && (
-          <SectionCard title="Prochaines sessions" icon={<Calendar size={18} />}>
+          <SectionCard title="Prochaines sessions" titleIcon={<Calendar size={18} />}>
             <div className="flex flex-col gap-2">
               {UPCOMING_SESSIONS.map((s) => (
                 <Card key={s.id} variant="default" className="flex items-center justify-between px-4 py-3">
@@ -204,7 +204,7 @@ export default function CoachTeamDashboard() {
         )}
 
         {activeTab === 'top' && (
-          <SectionCard title="Top progresseurs ce mois" icon={<TrendingUp size={18} />}>
+          <SectionCard title="Top progresseurs ce mois" titleIcon={<TrendingUp size={18} />}>
             <div className="grid md:grid-cols-3 gap-stack">
               {TOP_PROGRESSORS.map((p, i) => (
                 <div key={p.name} className="relative">

@@ -121,8 +121,8 @@ export default function CoachApprenants() {
       <EditorialHero
         eyebrow="Coach · Apprenants"
         title="Mes Apprenants"
-        subtitle="Suis la progression de chaque apprenant, identifie les situations à risque et planifie les interventions."
-        tone="primary"
+        summary="Suis la progression de chaque apprenant, identifie les situations à risque et planifie les interventions."
+        tone="default"
       />
 
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
@@ -181,7 +181,7 @@ export default function CoachApprenants() {
         </div>
 
         {/* Apprenants grid */}
-        <SectionCard title={`${filtered.length} apprenant${filtered.length !== 1 ? 's' : ''}`} icon={<Users size={18} />}>
+        <SectionCard title={`${filtered.length} apprenant${filtered.length !== 1 ? 's' : ''}`} titleIcon={<Users size={18} />}>
           {filtered.length === 0 ? (
             <EmptyState
               icon={<Users size={32} />}
