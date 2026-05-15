@@ -178,6 +178,8 @@ import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
+import { ProgressDots } from '../components/ui/ProgressDots';
+import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { Briefcase, HeartHandshake } from 'lucide-react';
 
 /* ============================================================================
@@ -434,6 +436,10 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   CongratulationsCard:    { category: 'Feedback',       subCategory: 'Celebrations' },
   NextStepsGrid:          { category: 'Lists & Feeds',  subCategory: 'Grids' },
   EmptyDashboardState:    { category: 'Feedback',       subCategory: 'Empty/zero states' },
+
+  // ── PHASE 14.2a — Apprenant core (viewer shell) ──────────────────────
+  ProgressDots:           { category: 'Atoms',          subCategory: 'Indicators' },
+  LessonNavigation:       { category: 'Composites',    subCategory: 'Group wrappers' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
@@ -3478,8 +3484,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ViewerHeader.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Positionnement', '(target) VideoViewer, FlashcardsViewer, AstucesViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
-    description: 'Sticky toolbar pour pages viewer / reader plein écran. Back btn (gauche) + Title eyebrow/subtitle (centré) + counter "X/Y" + prev/next chevrons + close X (droite). Glass-light backdrop-blur, responsive (back label hidden mobile, title truncate). Disabled state automatique aux bornes (prev/next).',
+    usedBy: ['Positionnement', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer', '(target) VideoViewer, ComplementaryContentViewer, VideoReels, JournalDetail'],
+    description: 'Sticky toolbar pour pages viewer / reader plein écran. Back btn (gauche) + Title eyebrow/subtitle (centré) + counter "X/Y" + prev/next chevrons + close X (droite). Glass-light backdrop-blur, responsive (back label hidden mobile, title truncate). Phase 14.2a : tone-aware (primary/warm/sun), progress prop optionnelle (barre 0-100 sous le header), touch targets ≥ 44 px.',
     keywords: ['viewer', 'reader', 'toolbar', 'header', 'prev-next', 'navigation', 'back', 'close', 'sticky', 'glass'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
@@ -4869,6 +4875,64 @@ const COMPONENTS: ComponentEntry[] = [
         <EmptyDashboardState firstName="Sophie" />
       </div>
     ),
+  },
+
+  // ─── Phase 14.2a — Apprenant core (viewer shell primitives) ────────────────
+  {
+    name: 'ProgressDots',
+    codeName: 'ui/ProgressDots.tsx',
+    cssBase: 'ProgressDots',
+    category: 'Patterns',
+    description: 'Atom carousel/wizard progress indicator. Active dot widened (~3× width) pour communiquer la position. 3 tailles (xs/sm/md) · tone-aware (primary/warm/sun) · onSelect optionnel rend les dots cliquables. Remplace 3 implémentations ad-hoc (LessonPlayer tabs, AstucesViewer dots, FlashcardsViewer dots).',
+    keywords: ['progress', 'dots', 'carousel', 'wizard', 'indicator', 'pagination'],
+    usedBy: ['LessonNavigation', 'AstucesViewer', 'FlashcardsViewer', 'LessonPlayer'],
+    render: () => {
+      const [primaryIdx, setPrimaryIdx] = React.useState(2);
+      const [warmIdx, setWarmIdx] = React.useState(1);
+      const [sunIdx, setSunIdx] = React.useState(3);
+      return (
+        <div className="flex flex-col gap-stack max-w-xl">
+          <div className="flex items-center gap-stack">
+            <span className="text-caption text-ink-500 w-24">Primary · md</span>
+            <ProgressDots total={5} current={primaryIdx} tone="primary" size="md" onSelect={setPrimaryIdx} />
+          </div>
+          <div className="flex items-center gap-stack">
+            <span className="text-caption text-ink-500 w-24">Warm · sm</span>
+            <ProgressDots total={5} current={warmIdx} tone="warm" size="sm" onSelect={setWarmIdx} />
+          </div>
+          <div className="flex items-center gap-stack">
+            <span className="text-caption text-ink-500 w-24">Sun · xs</span>
+            <ProgressDots total={7} current={sunIdx} tone="sun" size="xs" onSelect={setSunIdx} />
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'LessonNavigation',
+    codeName: 'patterns/LessonNavigation.tsx',
+    cssBase: 'LessonNavigation',
+    category: 'Patterns',
+    description: 'Footer molecule unifié pour LessonPlayer + 4 viewers. Layout : [Précédent] · dots · [Suivant / Terminer]. Tone-aware (primary/warm/sun), responsive (labels masqués mobile, dots gardés), disabled aux bornes. Quand `onFinish` fourni ET current === total → bouton suivant devient "Terminer" avec ✓.',
+    keywords: ['navigation', 'lesson', 'prev', 'next', 'finish', 'footer', 'viewer'],
+    usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer'],
+    render: () => {
+      const [pos, setPos] = React.useState(3);
+      const total = 7;
+      return (
+        <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-white shadow-sm border border-ink-100">
+          <LessonNavigation
+            tone="primary"
+            current={pos}
+            total={total}
+            onPrev={() => setPos((p) => Math.max(1, p - 1))}
+            onNext={() => setPos((p) => Math.min(total, p + 1))}
+            onFinish={() => alert('Leçon terminée !')}
+            onDotSelect={(idx) => setPos(idx + 1)}
+          />
+        </div>
+      );
+    },
   },
 ];
 

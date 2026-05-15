@@ -15,8 +15,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { SessionFeedbackModal } from '../components/modals';
 import { QuizComponent } from '../components/ui/QuizComponent';
+import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import {
-  X,
   Clock3,
   BookOpen,
   Target,
@@ -26,11 +27,9 @@ import {
   Zap,
   GraduationCap,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   XCircle,
 } from 'lucide-react';
-import { resolveLessonContext } from '../data/learningPaths';
+import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
 
@@ -289,6 +288,7 @@ export const LessonPlayer: React.FC = () => {
 
   const ctx = resolveLessonContext(pathId, lessonId);
   const lessonData = LESSON_DATA[lessonId] ?? DEFAULT_LESSON_DATA;
+  const tone = ctx ? getToneFromLevel(ctx.parcours.level) : 'primary';
 
   const currentSection = SECTIONS[currentIndex];
   const isFirst = currentIndex === 0;
@@ -321,7 +321,12 @@ export const LessonPlayer: React.FC = () => {
   };
 
   const handleClose = () => {
-    navigate(`/learning-paths/${pathId}`);
+    // If a next lesson exists in this parcours, go straight to it; otherwise back to the path hub.
+    if (ctx?.nextLesson) {
+      navigate(`/learning-paths/${ctx.nextLesson.pathId}/lessons/${ctx.nextLesson.lessonId}`);
+    } else {
+      navigate(`/learning-paths/${pathId}`);
+    }
   };
 
   /* ── Section renderers ──────────────────────────────────────────────── */
@@ -555,39 +560,20 @@ export const LessonPlayer: React.FC = () => {
         <div className="flex-1 overflow-y-auto flex flex-col">
 
           {/* HEADER */}
-          <header className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100 px-10 pt-5 pb-4 max-md:px-4 max-md:pt-4 max-md:pb-3">
-            <div className="flex items-center justify-between mb-3">
-              <h1 className="font-display text-h3 font-bold text-primary-600 leading-[1.2] m-0 tracking-[0.01em] max-md:text-h4">
-                {displayTitle}
-              </h1>
-              <div className="flex items-center gap-4 shrink-0">
-                <span className="flex items-center gap-1 font-body text-caption text-ink-500 font-medium">
-                  <Clock3 size={14} />
-                  {displayDuration}
-                </span>
-                <button
-                  className="w-9 h-9 rounded-full flex items-center justify-center bg-ink-100 border border-ink-200 cursor-pointer transition-all duration-200 text-ink-500 shrink-0 shadow-xs hover:bg-white hover:text-ink-900 hover:scale-[1.08]"
-                  onClick={handleClose}
-                  aria-label="Fermer la leçon"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
-            <div
-              className="h-2 bg-primary-100 rounded-pill overflow-visible relative"
-              role="progressbar"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={progress}
-              aria-label={`Progression : ${progress}%`}
-            >
-              <div
-                className="absolute top-0 left-0 h-2 bg-primary-500 rounded-pill transition-[width] duration-300"
-                style={{ width: `${progress}%`, boxShadow: '0 0 20px 0 rgba(85, 161, 180, 0.5)' }}
-              />
-            </div>
-          </header>
+          <ViewerHeader
+            tone={tone}
+            eyebrow={ctx?.step ? ctx.step.title : 'Leçon'}
+            title={displayTitle}
+            subtitle={(
+              <span className="inline-flex items-center gap-1.5">
+                <Clock3 size={12} /> {displayDuration}
+              </span>
+            )}
+            current={currentIndex + 1}
+            total={SECTIONS.length}
+            progress={progress}
+            onClose={handleClose}
+          />
 
           {/* SECTION NAV */}
           <nav
@@ -642,54 +628,17 @@ export const LessonPlayer: React.FC = () => {
 
           {/* BOTTOM NAV */}
           <div className="px-8 pb-8 flex justify-center max-md:px-4 max-md:pb-6">
-            <div className="bg-white rounded-2xl p-5 flex items-center justify-between shadow-sm max-w-[900px] w-full gap-4">
-
-              {/* Previous */}
-              <Button
-                variant="ghost"
-                size="md"
-                leadingIcon={<ChevronLeft size={16} />}
-                onClick={handlePrev}
-                disabled={isFirst}
-              >
-                Précédent
-              </Button>
-
-              {/* Dot pagination */}
-              <div className="flex gap-2 flex-wrap justify-center">
-                {SECTIONS.map((_, i) => {
-                  const isActive = i === currentIndex;
-                  const isDone = completedSections.has(i) && !isActive;
-                  return (
-                    <button
-                      key={i}
-                      className={[
-                        'w-9 h-9 rounded-full flex items-center justify-center border-none cursor-pointer font-body text-caption font-semibold transition-all duration-200 max-md:w-7 max-md:h-7 max-md:text-[11px]',
-                        isActive
-                          ? 'bg-primary-500 text-white'
-                          : isDone
-                            ? 'bg-success-bg text-success-fg'
-                            : 'bg-ink-100 text-ink-500',
-                      ].join(' ')}
-                      onClick={() => goTo(i)}
-                      aria-label={`Section ${i + 1}`}
-                    >
-                      {i + 1}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Next / Terminer */}
-              {isLast ? (
-                <Button variant="primary" size="md" leadingIcon={<CheckCircle2 size={16} />} onClick={handleNext}>
-                  Terminer
-                </Button>
-              ) : (
-                <Button variant="primary" size="md" trailingIcon={<ChevronRight size={16} />} onClick={handleNext}>
-                  Suivant
-                </Button>
-              )}
+            <div className="bg-white rounded-2xl p-5 shadow-sm max-w-[900px] w-full">
+              <LessonNavigation
+                tone={tone}
+                current={currentIndex + 1}
+                total={SECTIONS.length}
+                onPrev={handlePrev}
+                onNext={handleNext}
+                onFinish={handleNext}
+                onDotSelect={(idx) => goTo(idx)}
+                finishLabel="Terminer la leçon"
+              />
             </div>
           </div>
 

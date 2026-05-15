@@ -24,6 +24,7 @@ import type { QuizOption } from '../components/patterns/QuizQuestionCard';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
+import { getFirstLessonId } from '../data/learningPaths';
 
 /* ─── Mock questions ─────────────────────────────────────────────────────── */
 
@@ -154,7 +155,11 @@ export const Positionnement: React.FC = () => {
 
   const handleStartPath = () => {
     toast.success('Niveau enregistré · contenu du parcours adapté', 'Positionnement validé');
-    setTimeout(() => navigate(`/learning-paths/${id}`), 600);
+    const firstLessonId = getFirstLessonId(id);
+    const target = firstLessonId
+      ? `/learning-paths/${id}/lessons/${firstLessonId}`
+      : `/learning-paths/${id}`;
+    setTimeout(() => navigate(target), 600);
   };
 
   /* ── Résultats ──────────────────────────────────────────────────────── */

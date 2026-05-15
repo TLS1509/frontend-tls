@@ -373,6 +373,15 @@ export interface LessonContext {
   nextLesson: { pathId: string; lessonId: string; title: string } | null;
 }
 
+/** Return the id of the first lesson of a parcours (or null if path/data missing). */
+export function getFirstLessonId(pathId: string): string | null {
+  const parcours = MOCK_PARCOURS_DATA[pathId];
+  if (!parcours) return null;
+  const firstStep = parcours.etapes[0];
+  if (!firstStep || firstStep.lecons.length === 0) return null;
+  return firstStep.lecons[0].id;
+}
+
 export function resolveLessonContext(pathId: string, lessonId: string): LessonContext | null {
   const parcours = MOCK_PARCOURS_DATA[pathId];
   if (!parcours) return null;

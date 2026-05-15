@@ -985,7 +985,7 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
 | 14.1 | 🎯 Première expérience | Onboarding → Questionnaire → Tutorial → Success → Dashboard | ✅ |
-| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | ⬜ |
+| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | 🚧 (a ✅, b/c pending) |
 | 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ⬜ |
 | 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ⬜ |
 | 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
@@ -1080,6 +1080,30 @@ Pour chaque écran du flow en cours :
 - **Tier 1 (12-13 mai)** : Composants cohérents, Objectifs corrects. Statut design à passer "Intégré" → "Validé" au fil des flows Phase 14
 - **2 entrées updatées le 2026-05-15** : Dashboard (`/`) et Coaching (`/coaching`) — Statut "En cours" → "Intégré", composants modernisés
 - **Bulk sync exhaustive bloquée** : `notion-query-database-view` MCP ne supporte pas la pagination par cursor → sync flow-par-flow obligatoire (workflow Phase 14 ci-dessus)
+
+---
+
+### Phase 14.2a — Apprenant core : navigation & mobile ✅ (2026-05-15)
+
+Sous-phase A du redesign Apprenant core (split 14.2 en 3 : a/b/c). Focus = unification des shells viewer + fix navigation cassée + mobile a11y.
+
+**Pages touchées (4)** :
+- `Positionnement.tsx` — `handleStartPath` : "Commencer le parcours" route maintenant vers `/learning-paths/:id/lessons/:firstLessonId` au lieu de retourner à PathDetail (fix issue UX #2 audit)
+- `LessonPlayer.tsx` — header custom 32+ lignes → `<ViewerHeader>` tone-aware · footer custom dot pagination → `<LessonNavigation>` · `handleClose` route maintenant vers `ctx.nextLesson` si dispo, sinon PathDetail
+- `AstucesViewer.tsx` — header custom (accent-400 hardcoded) → `<ViewerHeader>` tone-aware avec progress · dots custom → `<LessonNavigation>` · couleurs via TONE_BG_500/TONE_TEXT_700/TONE_BG_50/TONE_BORDER_200 selon `useLessonContext()?.tone` (fallback `sun`)
+- `FlashcardsViewer.tsx` — close-only header → `<ViewerHeader>` complet · footer custom → `<LessonNavigation>` · gradient + borders via TONE_HERO_GRADIENT/TONE_BORDER_500 (fallback `primary`)
+
+**Nouveaux DS components (4)** :
+1. `ui/ProgressDots` — atom carousel indicator · 3 tailles (xs/sm/md) · 3 tones · clickable optional · active dot widened ~3×
+2. `patterns/LessonNavigation` — molecule footer [Prev] · dots · [Next/Finish] · tone-aware · responsive (labels masqués mobile)
+3. `lib/lesson-context` — `LessonProvider`, `useLessonContext`, `resolveAfterLessonRoute` — context React pour injecter `{ lesson, prev, next, parcoursId, tone }` aux viewers
+4. `patterns/ViewerHeader` (**extension**) — ajout des props `tone` + `progress` + touch-sized buttons (44 px min)
+
+**Helper data** : `data/learningPaths.ts:getFirstLessonId(pathId)` — utilisé par Positionnement pour le forward-nav.
+
+**Validation** : `npx tsc --noEmit` ✅ · preview AstucesViewer/FlashcardsViewer/LessonPlayer desktop ✅ · 0 console errors · close buttons 44 px (min-h-touch).
+
+**Restant en 14.2b/c** : tone propagation Dashboard/LearningPaths · LessonViewerShell complet · FlipCard extraction · vrai VideoPlayer · persistence forms réflexion/action.
 
 ---
 

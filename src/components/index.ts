@@ -280,6 +280,27 @@ export { EmptyDashboardState } from './patterns/EmptyDashboardState';
 export type { EmptyDashboardStateProps } from './patterns/EmptyDashboardState';
 
 /* ============================================================================
+ * Phase 14.2a — Apprenant core (navigation + viewer shell)
+ * ============================================================================ */
+
+export { ProgressDots } from './ui/ProgressDots';
+export type { ProgressDotsProps, ProgressDotsSize } from './ui/ProgressDots';
+
+export { LessonNavigation } from './patterns/LessonNavigation';
+export type { LessonNavigationProps } from './patterns/LessonNavigation';
+
+export {
+  LessonProvider,
+  useLessonContext,
+  resolveAfterLessonRoute,
+} from '../lib/lesson-context';
+export type {
+  LessonContextValue,
+  LessonNeighbor,
+  LessonProviderProps,
+} from '../lib/lesson-context';
+
+/* ============================================================================
  * NEW PATTERNS — Phase 3 Critical Patterns
  * ============================================================================ */
 

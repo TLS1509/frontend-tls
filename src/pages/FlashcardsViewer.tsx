@@ -1,24 +1,23 @@
 /**
- * FlashcardsViewer — design Figma "Learning App" porté sur le DS TLS.
+ * FlashcardsViewer — flashcards d'apprentissage avec flip 3D.
  *
- * Layout :
- *  - Plein écran gradient primary-50 → accent cream.
- *  - X close top-right.
- *  - Progress card glass : icon gradient, titre, compteur, progress bar.
- *  - Thumbnails row : 5 cards 64×64, active border-3 primary + scale,
- *    completed = green overlay + check.
- *  - Main 3D flip card :
- *    • Front : image cover + dark overlay + icon glass + category pill + titre.
- *    • Back : gradient primary→secondary, icon glass, content, details.
- *  - Bouton "Marquer comme compris" (success) après flip.
- *  - Navigation : Précédent | dots | Suivant / Terminer.
+ * Phase 14.2a refactor :
+ *  - Header (close-only) → <ViewerHeader> tone-aware, progress inline
+ *  - Footer nav         → <LessonNavigation> (prev/dots/next molecule)
+ *  - Tone inherited from LessonContext (fallback "primary" — visual identity)
+ *  - 3D flip mechanics & thumbnails strip preserved (extraction → Phase 14.2c)
  *
  * Route : /lesson/:id/flashcards
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, ChevronLeft, ChevronRight, Check, Sparkles, RotateCw } from 'lucide-react';
+import { Check, Sparkles, RotateCw } from 'lucide-react';
+import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
+import { TONE_BG_500, TONE_HERO_GRADIENT, TONE_BORDER_500 } from '../lib/tone-classes';
+import type { PageTone } from '../lib/tone-classes';
 
 interface Flashcard {
   id: number;
@@ -105,50 +104,65 @@ const FLASHCARDS: Flashcard[] = [
   },
 ];
 
+const TONE_GRADIENT_BG: Record<PageTone, string> = {
+  primary: 'bg-gradient-to-b from-primary-50 via-white to-accent-50',
+  warm:    'bg-gradient-to-b from-secondary-50 via-white to-accent-50',
+  sun:     'bg-gradient-to-b from-accent-50 via-white to-primary-50',
+};
+
 export const FlashcardsViewer: React.FC = () => {
   const navigate = useNavigate();
+  const lessonCtx = useLessonContext();
+  const tone: PageTone = lessonCtx?.tone ?? 'primary';
+
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [completedCards, setCompletedCards] = useState<number[]>([]);
 
   const currentCard = FLASHCARDS[currentCardIndex];
-  const progress = (completedCards.length / FLASHCARDS.length) * 100;
+  const total = FLASHCARDS.length;
+  const progressPct = (completedCards.length / total) * 100;
 
-  const handleFlip = () => setIsFlipped((f) => !f);
+  const handleFlip = useCallback(() => setIsFlipped((f) => !f), []);
 
-  const handleNext = () => {
-    if (isFlipped) setIsFlipped(false);
-    setTimeout(
-      () => {
-        if (currentCardIndex < FLASHCARDS.length - 1) setCurrentCardIndex((i) => i + 1);
-      },
-      isFlipped ? 300 : 0,
-    );
-  };
+  const goToCard = useCallback(
+    (idx: number) => {
+      if (isFlipped) {
+        setIsFlipped(false);
+        setTimeout(() => setCurrentCardIndex(idx), 300);
+      } else {
+        setCurrentCardIndex(idx);
+      }
+    },
+    [isFlipped],
+  );
 
-  const handlePrev = () => {
-    if (isFlipped) setIsFlipped(false);
-    setTimeout(
-      () => {
-        if (currentCardIndex > 0) setCurrentCardIndex((i) => i - 1);
-      },
-      isFlipped ? 300 : 0,
-    );
-  };
+  const handleNext = useCallback(() => {
+    if (currentCardIndex < total - 1) goToCard(currentCardIndex + 1);
+  }, [currentCardIndex, total, goToCard]);
 
-  const handleMarkUnderstood = () => {
+  const handlePrev = useCallback(() => {
+    if (currentCardIndex > 0) goToCard(currentCardIndex - 1);
+  }, [currentCardIndex, goToCard]);
+
+  const handleMarkUnderstood = useCallback(() => {
     if (!completedCards.includes(currentCardIndex)) {
       setCompletedCards((prev) => [...prev, currentCardIndex]);
     }
-    if (currentCardIndex < FLASHCARDS.length - 1) handleNext();
-  };
+    if (currentCardIndex < total - 1) handleNext();
+  }, [completedCards, currentCardIndex, total, handleNext]);
 
-  const handleThumbClick = (idx: number) => {
-    setIsFlipped(false);
-    setTimeout(() => setCurrentCardIndex(idx), 300);
-  };
+  const handleClose = useCallback(() => {
+    if (lessonCtx) {
+      navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`);
+    } else {
+      navigate(-1);
+    }
+  }, [navigate, lessonCtx]);
 
-  const handleClose = () => navigate(-1);
+  const handleFinish = useCallback(() => {
+    navigate(resolveAfterLessonRoute(lessonCtx));
+  }, [navigate, lessonCtx]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -165,65 +179,46 @@ export const FlashcardsViewer: React.FC = () => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  });
+  }, [handleClose, handleNext, handlePrev, handleFlip]);
 
   return (
     <div
-      className="fixed inset-0 z-modal overflow-y-auto bg-gradient-to-b from-primary-50 via-white to-accent-50"
+      className={['fixed inset-0 z-modal overflow-y-auto', TONE_GRADIENT_BG[tone]].join(' ')}
       role="dialog"
       aria-modal="true"
       aria-label="Flashcards d'apprentissage"
     >
-      <div className="min-h-screen py-stack-lg px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto flex flex-col gap-stack">
+      <ViewerHeader
+        tone={tone}
+        eyebrow="Flashcards"
+        title={lessonCtx ? lessonCtx.lesson.title : "Flashcards d'apprentissage"}
+        subtitle={`${completedCards.length} / ${total} comprises`}
+        current={currentCardIndex + 1}
+        total={total}
+        progress={progressPct}
+        onClose={handleClose}
+      />
 
-          {/* ── Close button ─────────────────────────────────────── */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={handleClose}
-              aria-label="Fermer"
-              className="inline-flex items-center justify-center w-11 h-11 rounded-pill bg-white/70 backdrop-blur-glass-light border border-ink-100 text-ink-700 hover:bg-white hover:text-ink-900 active:scale-95 transition-all duration-base"
+      <main className="py-stack-lg px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto flex flex-col gap-stack-lg">
+
+          {/* ── Title block ─────────────────────────────────────── */}
+          <header className="flex items-center gap-stack">
+            <div
+              className={[
+                'w-10 h-10 rounded-xl inline-flex items-center justify-center shadow-sm',
+                TONE_HERO_GRADIENT[tone],
+              ].join(' ')}
             >
-              <X size={20} />
-            </button>
-          </div>
-
-          {/* ── Progress card ────────────────────────────────────── */}
-          <div className="p-4 rounded-2xl bg-white/70 backdrop-blur-glass-light border-[3px] border-primary-500 shadow-[0_8px_32px_rgba(85,161,180,0.15)]">
-            <div className="flex items-center justify-between mb-stack">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-400 inline-flex items-center justify-center shadow-sm">
-                  <Sparkles size={20} className="text-white" />
-                </div>
-                <div className="flex flex-col">
-                  <h2 className="m-0 font-display text-body font-bold text-ink-900">
-                    💡 Flashcards d'apprentissage
-                  </h2>
-                  <p className="m-0 font-body text-caption text-ink-500">
-                    {completedCards.length} / {FLASHCARDS.length} comprises
-                  </p>
-                </div>
-              </div>
-              <div className="font-display text-h4 font-bold text-primary-600 tabular-nums">
-                {currentCardIndex + 1} / {FLASHCARDS.length}
-              </div>
+              <Sparkles size={20} className="text-white" />
             </div>
-
-            <div className="h-2 rounded-pill bg-ink-100 overflow-hidden">
-              <div
-                className="h-full rounded-pill bg-gradient-to-r from-primary-500 to-accent-400 transition-all duration-slow"
-                style={{ width: `${progress}%` }}
-                role="progressbar"
-                aria-valuenow={Math.round(progress)}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
-            </div>
-          </div>
+            <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+              Flashcards d'apprentissage
+            </h1>
+          </header>
 
           {/* ── Thumbnails ──────────────────────────────────────── */}
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="flex gap-3 justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
             {FLASHCARDS.map((card, index) => {
               const active = index === currentCardIndex;
               const done = completedCards.includes(index);
@@ -231,13 +226,14 @@ export const FlashcardsViewer: React.FC = () => {
                 <button
                   key={card.id}
                   type="button"
-                  onClick={() => handleThumbClick(index)}
+                  role="tab"
+                  aria-selected={active}
                   aria-label={`Aller à la flashcard ${index + 1}`}
-                  aria-current={active ? 'true' : 'false'}
+                  onClick={() => goToCard(index)}
                   className={[
                     'relative shrink-0 w-16 h-16 rounded-xl overflow-hidden transition-all duration-base',
                     active
-                      ? 'border-[3px] border-primary-500 scale-105 opacity-100'
+                      ? `border-[3px] ${TONE_BORDER_500[tone]} scale-105 opacity-100`
                       : 'border-2 border-ink-200 opacity-50 hover:opacity-80',
                   ].join(' ')}
                 >
@@ -257,11 +253,8 @@ export const FlashcardsViewer: React.FC = () => {
             })}
           </div>
 
-          {/* ── Main flashcard (3D flip) ────────────────────────── */}
-          <div
-            className="relative"
-            style={{ perspective: '1500px', height: '380px' }}
-          >
+          {/* ── Main flashcard (3D flip — preserved from v1) ────── */}
+          <div className="relative" style={{ perspective: '1500px', height: '380px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700 ease-standard"
               style={{
@@ -274,7 +267,11 @@ export const FlashcardsViewer: React.FC = () => {
                 type="button"
                 onClick={handleFlip}
                 aria-label="Retourner la flashcard"
-                className="absolute inset-0 rounded-2xl overflow-hidden cursor-pointer border-[3px] border-primary-500 shadow-[0_8px_32px_rgba(85,161,180,0.2)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+                className={[
+                  'absolute inset-0 rounded-2xl overflow-hidden cursor-pointer border-[3px] shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
+                  TONE_BORDER_500[tone],
+                ].join(' ')}
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
@@ -318,7 +315,12 @@ export const FlashcardsViewer: React.FC = () => {
                 type="button"
                 onClick={handleFlip}
                 aria-label="Retourner la flashcard"
-                className="absolute inset-0 rounded-2xl overflow-hidden cursor-pointer p-section border-[3px] border-primary-500 shadow-[0_8px_32px_rgba(85,161,180,0.2)] bg-gradient-to-br from-primary-500 to-secondary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+                className={[
+                  'absolute inset-0 rounded-2xl overflow-hidden cursor-pointer p-section border-[3px] shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
+                  TONE_HERO_GRADIENT[tone],
+                  TONE_BORDER_500[tone],
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
+                ].join(' ')}
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
@@ -352,7 +354,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
               >
                 <Check size={16} />
                 Marquer comme compris
@@ -360,60 +362,19 @@ export const FlashcardsViewer: React.FC = () => {
             </div>
           )}
 
-          {/* ── Navigation ──────────────────────────────────────── */}
-          <nav aria-label="Navigation flashcards" className="flex items-center justify-between gap-stack">
-            <button
-              type="button"
-              onClick={handlePrev}
-              disabled={currentCardIndex === 0}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/70 backdrop-blur-glass-light border border-ink-100 text-ink-800 font-body text-body-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-base"
-            >
-              <ChevronLeft size={16} />
-              <span className="hidden sm:inline">Précédent</span>
-            </button>
-
-            <div className="flex items-center gap-2" role="tablist">
-              {FLASHCARDS.map((_, idx) => {
-                const active = idx === currentCardIndex;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    aria-label={`Flashcard ${idx + 1}`}
-                    onClick={() => handleThumbClick(idx)}
-                    className={[
-                      'h-2.5 rounded-pill transition-all duration-base',
-                      active ? 'w-8 bg-primary-500' : 'w-2.5 bg-ink-200 hover:bg-ink-300',
-                    ].join(' ')}
-                  />
-                );
-              })}
-            </div>
-
-            {currentCardIndex < FLASHCARDS.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-gradient-to-br from-primary-500 to-accent-400 text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(85,161,180,0.3)] hover:scale-105 active:scale-95 transition-all duration-base"
-              >
-                <span className="hidden sm:inline">Suivant</span>
-                <ChevronRight size={16} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleClose}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
-              >
-                <Check size={16} />
-                <span className="hidden sm:inline">Terminer</span>
-              </button>
-            )}
-          </nav>
+          {/* ── Footer navigation ───────────────────────────────── */}
+          <LessonNavigation
+            tone={tone}
+            current={currentCardIndex + 1}
+            total={total}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            onFinish={handleFinish}
+            onDotSelect={(idx) => goToCard(idx)}
+            finishLabel="Terminer les flashcards"
+          />
         </div>
-      </div>
+      </main>
     </div>
   );
 };
