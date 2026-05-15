@@ -668,6 +668,56 @@ Quand un assistant IA travaille sur ce projet :
 
 ---
 
-**Dernière mise à jour :** 2026-05-12
-**Phase actuelle :** 10 (Holistic UX/UI rework)
-**Maintenance :** mettre à jour cette doc à chaque migration de page Tier 1.
+## 10. Phase 17-18 — UX Depth Pass & Store Wiring (2026-05-15+)
+
+**Objectif** : Remplacer le mock statique par une vraie app réactive — pages lisent/écrivent maintenant depuis Zustand avec localStorage persistence.
+
+### Pages wired Phase 17 ✅
+
+| Page | Route | Store | Pattern clé |
+|------|-------|-------|------------|
+| CorrectionDetailLearner | `/coaching/corrections/:id` | useCoachingStore | Affiche correction détail + feedback coach; "Marquer comme lue" persiste via store |
+| CoachEnterpriseDashboard | `/enterprise/coach` | useEnterpriseStore, useCoachingStore | Stats + roster live depuis stores; queue validation filtrée par status |
+| PurchaseCredits | `/account/purchase-credits` | useUserProfileStore | Solde crédit live; purchase met à jour store et déclenche success alert |
+| MessagingThread | `/coaching/messages/:coachId` | useCoachingStore | Coach name/initials résolus depuis sessions matched sur route param |
+| PrivacyDeleteAccount | `/account/privacy/delete` | usePrivacyStore | Demande de suppression persiste; step defaults à 'done' si existant (survit refresh) |
+| PrivacyDsar | `/account/privacy/dsar` | usePrivacyStore | DSAR requests live depuis store; nouvelle demande persiste immédiatement |
+
+### Patterns clés Phase 17
+
+1. **Seed-on-first-access** : store.getX() populé par MOCK_* au premier appel, puis persiste
+2. **Live data binding** : appeler store.getX() directement dans render body (pas useState snapshot)
+3. **Route param matching** : utiliser route params comme clés de sélection (ex. coachId) pour matcher les données du store
+4. **Write persistence** : store.updateX / store.patch / store.addX déclenche automatiquement localStorage
+5. **Local state pour UI only** : useState acceptable ONLY pour modal open/tab selected/form drafts
+
+### Rules Phase 17
+
+**Données domaine vs UI state :**
+- **Domaine** (corrections, sessions, profil, DSAR) → Zustand + localStorage
+- **UI only** (modal open, tab selected, form draft) → useState + memory
+
+**Anti-patterns :**
+- ❌ Importer MOCK_* directement dans la page (toujours via store.getX())
+- ❌ useState pour des données qui devraient être dans le store
+- ❌ Oublier localStorage check après store.patch()
+- ❌ Fermer sans vérifier `npx tsc --noEmit`
+
+### ComponentPreviewErrorBoundary — Phase 18.1
+
+Nouveau error boundary dans `Components.tsx` pour capturer les exceptions lors du rendu des démos composants. Permet au showcase de rester stable même si une démo a un bug.
+
+Chaque ComponentPreview entry wrap sa démo dans ce boundary pour éviter les cascades d'erreurs.
+
+### Notion sync Phase 17-18
+
+Après Phase 17-18 :
+- Design System DB : mises à jour des composants utilisés dans les 6 pages
+- Écrans DB : statut design = "Wired & Live" pour les 6 pages Phase 17
+- Components.tsx entry : `usedBy` arrays mis à jour, `showcaseOnly` retiré pour composants activés
+
+---
+
+**Dernière mise à jour :** 2026-05-15
+**Phase actuelle :** 17-18 (UX Depth Pass & Store Wiring + Docs)
+**Prochains focus :** 18.2-18.4 (ManagerViewsBuilder, ItemRecommendations, PerplexityContentDetail) en V1

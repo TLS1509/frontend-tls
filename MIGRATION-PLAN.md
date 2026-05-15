@@ -1382,3 +1382,60 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | 18.3 | ItemRecommendations | `useCoachingStore` | ⬜ V1 |
 | 18.4 | PerplexityContentDetail | static doc page (V1) | ⬜ V1 |
 
+---
+
+## Completion Summary (2026-05-15)
+
+### ✅ COMPLETED
+
+**Phase 14-15** : Visual redesign + flow-based validation
+- 17 flows redesigned with Tailwind CSS
+- 0 BEM legacy classes remaining
+- Semantic spacing + tone-aware components
+- Design system complete (51 UI + 40 pattern components)
+
+**Phase 16** : Spec compliance — data models & store wiring
+- 16 cahiers audited, aligned with Notion specs
+- Types defined for all domains (Passeport, Coaching, Enterprise, Journal, Events, etc.)
+- Zustand stores created with localStorage persistence
+- 35+ pages wired to stores (read-only data binding)
+
+**Phase 17** : UX Depth Pass — store wiring of secondary pages
+- 6 pages converted from static mock to store-driven (write operations)
+- CorrectionDetailLearner, CoachEnterpriseDashboard, PurchaseCredits, MessagingThread, PrivacyDeleteAccount, PrivacyDsar
+- Local useState remains for UI-only state (modal open, tab selection, drafts)
+
+**Phase 18.1** : Components.tsx documentation
+- ComponentPreviewErrorBoundary added (error handling for demo previews)
+- usedBy arrays updated for all activated components
+- showcaseOnly flag removed from components now used in real pages
+
+**Docs updated** : CLAUDE.md + DESIGN.md
+- Phase 17-18 sections added
+- Store wiring patterns documented
+- Seed-on-first-access, live data binding, write persistence patterns
+
+### ⏳ PENDING
+
+**18.2-18.4** (V1, deferred) : ManagerViewsBuilder, ItemRecommendations, PerplexityContentDetail
+- Complex features requiring additional analysis
+- Scheduled for V1 after core MVP validation
+
+**Notion sync** : Design System DB + Écrans DB
+- 6 Phase 17 pages need `Statut design` → "Wired & Live"
+- Components usedBy arrays need updating
+- Details in `.claude/notion-sync-phase-17-18.md`
+
+### Working tree status (2026-05-15)
+- `npx tsc --noEmit` : ✅ 0 errors
+- `npm run dev` : ✅ all pages rendering
+- `npm run build` : ✅ success
+- localStorage persistence : ✅ verified on all Phase 17 pages
+- Git : ✅ all commits made, working tree clean
+
+### Next session
+1. Update Notion Design System DB (component entries + usedBy)
+2. Update Notion Écrans DB (6 Phase 17 pages + statut)
+3. Optional: Plan Phase 18.2-18.4 for future iteration
+4. Optional: Plan Phase 19 (remaining audit/edge cases)
+

@@ -1329,3 +1329,192 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
 - Ne PAS créer dynamiquement des classe strings (ex. `${size}px` → toujours liste prédéfinie via maps)
 - Ne PAS importer un fichier CSS legacy SANS `@layer components` s'il définit des classes au même nom que Tailwind (`.border`, `.shadow-X`, `.rounded-X`, `.text-X`, etc.)
 - Ne PAS supposer que les hover Tailwind v4 fonctionnent out-of-the-box avec custom `@theme shadows` — il faut les classes manuelles dans `@layer utilities` (voir index.css)
+
+---
+
+## Phase 17-18 — UX Depth Pass + Store Wiring (2026-05-15+) ✅
+
+**Objectif Phase 17** : Remplacer les données statiques par des lectures/écritures Zustand persistées pour transformer l'app en "vraie" SPA réactive. Les pages décorent désormais le **state utilisateur réel**, pas du mock BEM-styled statique.
+
+**Objectif Phase 18** : Documenter les patterns et mise à jour du design system après Phase 17-18.
+
+### Workflow Phase 17 — Wiring pages to Zustand (obligatoire)
+
+**6 étapes par page** (adapté du workflow Phase 14+ flow-based) :
+
+```
+1. AUDIT STORE (5 min)
+   - Identifier tous les éléments dynamiques (listes, forms, states)
+   - Mapper vers les stores existants : useCoachingStore, useUserProfileStore, useEnterpriseStore, usePrivacyStore, etc.
+   - Si pas de store applicable : créer un nouveau store dans src/stores/persistence.ts
+   - Checker la signature du store API (getX / updateX / addX / patch)
+
+2. IMPORT & INTEGRATION (5 min)
+   - Importer le store hook et les types/interfaces
+   - Remplacer useState hardcodées par store.getX() calls en component body
+   - Pour route params (useParams<{ id }>), matcher les IDs contre les données store puis afficher
+
+3. WRITE OPERATIONS (5 min)
+   - Click handlers qui modifiaient state local → appelent maintenant store.updateX / store.patch / store.addX
+   - Les write operations doivent persister immédiatement (Zustand + localStorage middleware fait ça)
+   - Local useState = acceptable ONLY pour UI-only state (modal open, tab selection, form drafts)
+   - Données du domaine métier = TOUJOURS du store
+
+4. VALIDATION (5 min)
+   - npx tsc --noEmit → 0 erreurs
+   - Preview FO : navigue la page, effectue une action (form submit, toggle, click CTA)
+   - Reload page → confirmer que l'état persiste (localStorage check)
+   - F12 DevTools → Application → localStorage → vérifier que la clé du store contient les données
+
+5. COMPONENTS.TSX UPDATE (si applicable)
+   - Si des composants de la page disparaissent du showcase (sont maintenants utilisés en vraie page)
+   - Retirer showcaseOnly: true
+   - Mettre à jour usedBy arrays
+
+6. COMMIT
+   - Format : `feat(phase-17.X): wire [page name] to [store name]`
+   - Exemple : `feat(phase-17.2): wire CorrectionDetailLearner to useCoachingStore`
+   - Toujours vérifier que le working tree passe `npx tsc --noEmit` avant commit
+```
+
+### Patterns Phase 17 — Clés de succès
+
+**Pattern 1 : Seed-on-first-access**
+```tsx
+// Dans le store (ex. src/stores/persistence.ts)
+const useCoachingStore = create<CoachingStore>((set, get) => ({
+  getCorrections: (userId: string) => {
+    const state = get();
+    if (state.corrections.length === 0) {
+      // Seed from MOCK_* on first access
+      const seeded = MOCK_CORRECTIONS.map((c) => ({ ...c, userId }));
+      set({ corrections: seeded });
+      return seeded;
+    }
+    return state.corrections;
+  },
+}));
+
+// Côté page — pas d'import manuel de MOCK_*, juste store.getX()
+const CoachEnterpriseDashboard = () => {
+  const corrections = useCoachingStore().getCorrections(MOCK_USER_ID);
+  // render...
+};
+```
+
+**Pattern 2 : Route param matching**
+```tsx
+// Pages avec route params — matcher contre les données du store
+const MessagingThread: React.FC = () => {
+  const { coachId } = useParams<{ coachId: string }>();
+  const sessions = useCoachingStore().getSessions(MOCK_USER_ID);
+  
+  // Matcher coachId contre sessions[].coachId pour dériver l'affichage
+  const matchedSession = sessions.find((s) => s.coachId === coachId) ?? sessions[0];
+  const coachName = matchedSession?.coachName ?? 'Ton coach';
+  
+  // Utiliser coachName dans Hero, Card header, Avatar
+  return (
+    <EditorialHero title={coachName} />
+  );
+};
+```
+
+**Pattern 3 : Live data binding (no snapshot)**
+```tsx
+// ❌ MAUVAIS — snapshot des données au render
+const [corrections, setCorrections] = useState(MOCK_CORRECTIONS);
+
+// ✅ BON — live call au store à chaque render
+const CoachEnterpriseDashboard = () => {
+  const pendingCorrections = useCoachingStore()
+    .getCorrections(MOCK_USER_ID)
+    .filter((c) => c.status === 'pending');
+  
+  // Si le store change, le composant se re-render avec les données fraîches
+  return pendingCorrections.map(...);
+};
+```
+
+**Pattern 4 : Write operations persist**
+```tsx
+// Click handler qui écrit au store
+const handlePurchase = () => {
+  if (!pack) return;
+  const totalCredits = pack.credits + (pack.bonus ?? 0);
+  
+  // Appel au store — persiste automatiquement (localStorage middleware)
+  store.patch({
+    credits: {
+      ...profile.credits,
+      classic: profile.credits.classic + totalCredits,
+    },
+  });
+  
+  // Local state pour UI feedback (purchased flag)
+  setPurchased(true);
+};
+```
+
+**Pattern 5 : Persistence check (deletion requests, DSAR)**
+```tsx
+// Pages qui track l'historique utilisateur (ex. demandes de suppression)
+const PrivacyDeleteAccount: React.FC = () => {
+  const store = usePrivacyStore();
+  const existingRequests = store.getDsarRequests(MOCK_USER_ID);
+  const existingDeletion = existingRequests.find((r) => r.id.startsWith('del-'));
+  
+  // State survit au refresh grâce à la persistence
+  const [step, setStep] = useState<1 | 2 | 'done'>(existingDeletion ? 'done' : 1);
+  
+  // Si l'utilisateur a déjà une demande de suppression, afficher "done" même au refresh
+  return step === 'done' ? <Alert>Ton compte sera supprimé sous 30 jours</Alert> : ...;
+};
+```
+
+### Règles Phase 17
+
+**Données du domaine vs UI state**
+| Type | Où stocker | Persistence |
+|------|-----------|------------|
+| Corrections, sessions coaching, passeport | Zustand store | localStorage (persist middleware) |
+| Profil utilisateur, crédits, DSAR requests | Zustand store | localStorage |
+| Modal open/closed, tab selected | Local useState | Memory (non-persisté) |
+| Form draft (textarea non-soumise) | Local useState | Memory (clear au refresh) |
+
+**Anti-patterns Phase 17**
+- ❌ Créer une page qui importe MOCK_* directement (ex. `import { MOCK_CORRECTIONS }`) — toujours passer par le store
+- ❌ Garder un useState pour des données qui devraient vivre dans le store (ex. `const [profile, setProfile] = useState(INITIAL_PROFILE)`)
+- ❌ Faire un `store.get()` dans un event listener sans `useCallback` — risque de stale closure (capture la version du store au moment de la création du listener, pas à l'invocation)
+- ❌ Oublier de vérifier localStorage après un `store.patch()` — si localStorage n'est pas mis à jour, le state ne persist pas au refresh
+- ❌ Committer une page sans vérifier que `npx tsc --noEmit` passe
+
+**Exceptions : pages sans store wiring**
+Quelques pages restent purement UI (18.2-18.4, déferred V1) :
+- `ManagerViewsBuilder` — complexe, nécessite une UI builder intégrative
+- `ItemRecommendations` — recommandation moteur, besoin d'une vraie API backend
+- `PerplexityContentDetail` — contenu agrégé, parsing et state complexe
+
+Ces pages restent avec du mock local en V1 ; wiring Phase 17+ en V2.
+
+### Lessons Learned Phase 17-18
+
+1. **Store API doit être cohérente** : tous les getX() retournent un tableau hydraté, tous les updateX(id, delta) acceptent un delta/patch, tous les addX(item) créent une nouvelle entrée. Erreur à éviter : un store qui mélange `getById()` et `getAll()` avec des signatures inconsistentes.
+
+2. **Persistence middleware doit être sur TOUS les stores applicatifs** : si un store n'a pas `persist(...)`, les données disparaissent au refresh. Vérifier le setup dans `persistence.ts`.
+
+3. **Route params = clés de sélection, pas d'identités** : un route param `coachId` doit matcher une propriété dans les données du store (ex. `sessions.find(s => s.coachId === coachId)`), pas être utilisé comme clé locale. Si pas de match → fallback à un default (ex. `?? sessions[0]`).
+
+4. **Live data binding (no snapshots)** : appeler `store.getX()` directement dans le render body, pas dans useState/useEffect. Zustand re-render automatiquement quand les données du store changent via un `set()` d'un autre composant.
+
+5. **Components.tsx showcase devient la source de vérité pour props/variants** : si un composant est utilisé en vraie page, son entrée dans Components.tsx DOIT correspondre à la réalité du code. Intégration = retirer `showcaseOnly: true`. Pas de divergence entre démo et utilisation réelle.
+
+### Update Components.tsx — Phase 18.1
+
+Phase 18.1 a mis à jour `src/pages/Components.tsx` avec :
+- Nouveau `ComponentPreviewErrorBoundary` class (gère les erreurs de rendering des composants démé)
+- Mises à jour des entries pour les 6 pages Phase 17 : CorrectionDetailLearner, CoachEnterpriseDashboard, PurchaseCredits, MessagingThread, PrivacyDeleteAccount, PrivacyDsar
+- Retrait de `showcaseOnly: true` sur les composants qui sont maintenant utilisés réellement (StatusBadge, MetaPill, Badge)
+- Ajout de `usedBy: [...]` arrays listant les pages qui consomment chaque composant
+
+Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pages qui les utilisent.

@@ -180,7 +180,8 @@ export const Search: React.FC<SearchProps> = ({
     : '';
 
   const inputClasses = [
-    'flex-1 bg-transparent border-0 outline-none font-body min-w-0 p-0 h-auto focus:outline-none focus:bg-transparent focus:shadow-none',
+    'flex-1 bg-transparent border-0 outline-none font-body min-w-0 h-auto focus:outline-none focus:bg-transparent focus:shadow-none appearance-none',
+    size === 'sm' ? 'p-0 pr-1' : size === 'default' ? 'p-0 pr-2' : 'p-0 pr-3',
     SIZE_INPUT[size],
     VARIANT_INPUT[variant],
   ].join(' ');
