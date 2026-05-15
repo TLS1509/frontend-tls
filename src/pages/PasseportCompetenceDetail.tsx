@@ -73,14 +73,14 @@ export default function PasseportCompetenceDetail() {
       <EditorialHero
         eyebrow={`Passeport · ${COMPETENCE.pilier}`}
         title={COMPETENCE.label}
-        subtitle={COMPETENCE.description}
-        tone="primary"
-        actions={
+        summary={COMPETENCE.description}
+        tone="default"
+        trailing={
           <div className="flex items-center gap-3">
             <Button variant="glass" size="md" leadingIcon={<Target size={16} />}>
               Définir un objectif
             </Button>
-            <Button variant="glass-light-ghost" size="md">
+            <Button variant="ghost" size="md">
               Historique
             </Button>
           </div>
@@ -122,7 +122,7 @@ export default function PasseportCompetenceDetail() {
         <SectionCard
           title="Échelle Dreyfus"
           description="Ta position actuelle sur le parcours d'expertise"
-          icon={<TrendingUp size={20} />}
+          titleIcon={<TrendingUp size={20} />}
         >
           <div className="flex flex-col gap-2">
             {COMPETENCE.dreyfusDesc.map((d) => (
@@ -174,16 +174,16 @@ export default function PasseportCompetenceDetail() {
 
         {activeTab === 'progress' && (
           <div className="grid md:grid-cols-2 gap-section">
-            <SectionCard title="Radar de compétence" icon={<Target size={18} />}>
+            <SectionCard title="Radar de compétence" titleIcon={<Target size={18} />}>
               <CompetencyRadar axes={RADAR_AXES} size="md" showLegend />
             </SectionCard>
-            <SectionCard title="Progression XP" icon={<Flame size={18} />}>
+            <SectionCard title="Progression XP" titleIcon={<Flame size={18} />}>
               <div className="flex flex-col gap-stack">
                 <div className="flex items-center justify-between">
                   <span className="text-body-sm text-ink-600">Niveau D{COMPETENCE.currentLevel} → D{COMPETENCE.currentLevel + 1}</span>
                   <span className="text-caption font-semibold text-primary-700">{COMPETENCE.points} / {COMPETENCE.nextLevelPoints} XP</span>
                 </div>
-                <ProgressBar value={xpPct} tone="primary" size="md" showLabel />
+                <ProgressBar value={xpPct} fill="brand" size="md" showLabel />
                 <AtrophieIndicator daysSinceActivity={COMPETENCE.daysSinceActivity} currentLevel={COMPETENCE.currentLevel} />
               </div>
             </SectionCard>
@@ -191,7 +191,7 @@ export default function PasseportCompetenceDetail() {
         )}
 
         {activeTab === 'skills' && (
-          <SectionCard title="Sous-compétences" icon={<BookOpen size={18} />}>
+          <SectionCard title="Sous-compétences" titleIcon={<BookOpen size={18} />}>
             <div className="flex flex-col gap-3">
               {SKILLS.map((skill) => (
                 <SkillBar key={skill.label} label={skill.label} value={skill.level} max={skill.max} />
@@ -201,7 +201,7 @@ export default function PasseportCompetenceDetail() {
         )}
 
         {activeTab === 'activity' && (
-          <SectionCard title="Activités récentes" icon={<Clock size={18} />}>
+          <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-2">
               {ACTIVITIES.map((act) => (
                 <Card key={act.id} variant="default" className="flex items-center justify-between px-4 py-3">

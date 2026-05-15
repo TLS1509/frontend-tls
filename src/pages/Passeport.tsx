@@ -40,7 +40,7 @@ const GOALS = [
 ];
 
 const PILIER_COLORS: Record<string, string> = {
-  Hard: 'primary',
+  Hard: 'brand',
   Soft: 'warm',
   Out: 'sun',
 };
@@ -66,9 +66,9 @@ export default function Passeport() {
       <EditorialHero
         eyebrow="SBO · Match"
         title="Mon Passeport Compétences"
-        subtitle="Visualise ta progression Dreyfus, définis tes objectifs et suivi l'évolution de tes compétences H.S.O."
-        tone="primary"
-        actions={
+        summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
+        tone="default"
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />}>
             Définir un objectif
           </Button>
@@ -79,9 +79,9 @@ export default function Passeport() {
 
         {/* Tab navigation */}
         <Tabs
-          tabs={TABS}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
+          items={TABS}
+          value={activeTab}
+          onChange={setActiveTab}
           variant="underline"
         />
 
@@ -116,7 +116,7 @@ export default function Passeport() {
                     <span className="text-h2 font-display font-bold text-ink-900">3,0</span>
                     <span className="text-body-sm text-ink-400 pb-1">/ 5 Dreyfus</span>
                   </div>
-                  <ProgressBar value={60} tone="primary" size="md" showLabel />
+                  <ProgressBar value={60} fill="brand" size="md" showLabel />
                   <p className="text-caption text-ink-400">Moyenne pondérée · 6 compétences</p>
                 </Card>
                 <Card className="p-4 flex flex-col gap-3">
@@ -136,7 +136,7 @@ export default function Passeport() {
             {/* Quick skill bars */}
             <SectionCard
               title="Résumé par compétence"
-              icon={<TrendingUp size={20} />}
+              titleIcon={<TrendingUp size={20} />}
               tone="primary"
               actions={
                 <Button variant="ghost" size="sm" onClick={() => setActiveTab('competences')}>
@@ -195,7 +195,7 @@ export default function Passeport() {
                   </div>
                   <ProgressBar
                     value={(c.points / c.nextPoints) * 100}
-                    tone={PILIER_COLORS[c.pilier] as 'primary' | 'warm' | 'sun'}
+                    fill={PILIER_COLORS[c.pilier] as 'brand' | 'warm' | 'sun'}
                     size="sm"
                     label={`${c.points} / ${c.nextPoints} pts`}
                     showLabel

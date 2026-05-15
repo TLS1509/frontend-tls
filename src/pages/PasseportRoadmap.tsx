@@ -158,7 +158,7 @@ export default function PasseportRoadmap() {
     <div className="flex flex-col">
       {/* Hero */}
       <EditorialHero
-        tone="primary"
+        tone="default"
         eyebrow={{ label: 'Passeport · Roadmap' }}
         title="Ma Roadmap Compétences"
         summary="Visualise ta trajectoire de progression vers tes objectifs Dreyfus."
@@ -189,7 +189,7 @@ export default function PasseportRoadmap() {
           <StatCard
             label="Objectif cible"
             value="D4.0"
-            tone="primary"
+            tone="brand"
             surface="tinted"
             icon={<Map size={20} />}
           />

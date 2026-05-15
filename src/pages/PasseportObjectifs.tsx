@@ -81,9 +81,9 @@ export default function PasseportObjectifs() {
       <EditorialHero
         eyebrow="Passeport · Objectifs"
         title="Mes Objectifs de Progression"
-        subtitle="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
-        tone="primary"
-        actions={
+        summary="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
+        tone="default"
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />}>
             Nouvel objectif
           </Button>
@@ -113,7 +113,7 @@ export default function PasseportObjectifs() {
         {/* Active goals */}
         <SectionCard
           title="Objectifs actifs"
-          icon={<Target size={18} />}
+          titleIcon={<Target size={18} />}
           actions={
             <Button variant="ghost" size="sm" leadingIcon={<Plus size={14} />}>
               Ajouter
@@ -156,7 +156,7 @@ export default function PasseportObjectifs() {
                       </span>
                     </div>
                   </div>
-                  <ProgressBar value={g.progress} tone="primary" size="sm" showLabel />
+                  <ProgressBar value={g.progress} fill="brand" size="sm" showLabel />
                 </button>
               ))}
             </div>
@@ -167,7 +167,7 @@ export default function PasseportObjectifs() {
         {goal && goal.milestones.length > 0 && (
           <SectionCard
             title={`Jalons — ${goal.label}`}
-            icon={<CheckCircle2 size={18} />}
+            titleIcon={<CheckCircle2 size={18} />}
           >
             <div className="flex flex-col gap-2">
               {goal.milestones.map((m, idx) => (
@@ -200,7 +200,7 @@ export default function PasseportObjectifs() {
 
         {/* Draft goals */}
         {draftGoals.length > 0 && (
-          <SectionCard title="En attente de planification" icon={<Clock size={18} />}>
+          <SectionCard title="En attente de planification" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-2">
               {draftGoals.map((g) => (
                 <Card key={g.id} variant="default" className="flex items-center justify-between px-4 py-3">
@@ -210,7 +210,7 @@ export default function PasseportObjectifs() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Button variant="ghost" size="sm">Planifier</Button>
-                    <button className="text-ink-300 hover:text-danger-fg transition-colors duration-fast">
+                    <button type="button" className="min-h-touch inline-flex items-center justify-center px-2 text-ink-300 hover:text-danger-fg transition-colors duration-fast">
                       <Trash2 size={14} />
                     </button>
                   </div>

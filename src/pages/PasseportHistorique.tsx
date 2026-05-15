@@ -34,25 +34,25 @@ const TYPE_CONFIG = {
 };
 
 const RADAR_AXES = [
-  { label: 'Communication', value: 4, max: 5 },
-  { label: 'Stratégie', value: 3, max: 5 },
-  { label: 'Leadership', value: 3, max: 5 },
-  { label: 'Tech', value: 2, max: 5 },
-  { label: 'Process', value: 4, max: 5 },
-  { label: 'Esprit critique', value: 3, max: 5 },
+  { label: 'Communication', current: 4 },
+  { label: 'Stratégie', current: 3 },
+  { label: 'Leadership', current: 3 },
+  { label: 'Tech', current: 2 },
+  { label: 'Process', current: 4 },
+  { label: 'Esprit critique', current: 3 },
 ];
 
 const PasseportHistorique: React.FC = () => {
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow="Passeport · Historique"
         title="6 mois de progression"
-        description="Tous tes événements Dreyfus, JAC, missions et formations validés depuis novembre 2025"
+        summary="Tous tes événements Dreyfus, JAC, missions et formations validés depuis novembre 2025"
         tone="default"
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <div className="max-w-page mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Niveaux Dreyfus gagnés" value="+4" sub="6 derniers mois" delta="+2" deltaDirection="up" />
           <StatCard label="JAC validés" value="8" sub="dont 2 ce mois" />
@@ -62,7 +62,7 @@ const PasseportHistorique: React.FC = () => {
 
         <SectionCard title="Radar actuel vs il y a 6 mois" description="Évolution de tous les axes Dreyfus">
           <Card className="p-6 flex items-center justify-center">
-            <CompetencyRadar axes={RADAR_AXES} size={320} />
+            <CompetencyRadar axes={RADAR_AXES} size="md" />
           </Card>
         </SectionCard>
 
