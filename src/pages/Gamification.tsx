@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flame, Trophy, Zap, Star, Award, TrendingUp, ChevronRight, Lock } from 'lucide-react';
+import { Flame, Trophy, Zap, Star, Award, TrendingUp, Medal } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { SectionHeader } from '../components/patterns/SectionHeader';
@@ -8,35 +8,16 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { StatCard } from '../components/ui/StatCard';
-import { Achievement } from '../components/ui/Achievement';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
-import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
+import { useGamificationStore, usePasseportStore } from '../stores/persistence';
+import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
+import { MOCK_USER_ID } from '../data/passeport';
+import { getCompetenceById } from '../data/competencies';
+import type { BadgeType } from '../types/learning';
 
-// ─── Mock data ─────────────────────────────────────────────────────────────────
-
-const STATS = [
-  { label: 'XP total', value: '4 820', delta: '+320', deltaDirection: 'up' as const, icon: <Zap size={18} /> },
-  { label: 'Streak actuel', value: '18j', delta: '+3j', deltaDirection: 'up' as const, icon: <Flame size={18} /> },
-  { label: 'Badges gagnés', value: '23', delta: '+2', deltaDirection: 'up' as const, icon: <Award size={18} /> },
-  { label: 'Niveau', value: '12', delta: '', deltaDirection: 'up' as const, icon: <Star size={18} /> },
-];
-
-const RECENT_BADGES = [
-  { id: 1, title: '7 jours de streak', description: 'Connecté 7 jours consécutifs', unlocked: true, icon: <Flame size={20} /> },
-  { id: 2, title: 'Premier parcours', description: 'Parcours complété avec succès', unlocked: true, icon: <Trophy size={20} /> },
-  { id: 3, title: 'Expert Leader', description: 'Leadership Dreyfus niveau 3 atteint', unlocked: true, icon: <Award size={20} /> },
-];
-
-const COMPETENCE_BADGES = [
-  { label: 'Leadership', level: 3, maxLevel: 5, daysSinceActivity: 45, unlocked: true },
-  { label: 'Communication', level: 4, maxLevel: 5, daysSinceActivity: 12, unlocked: true },
-  { label: 'Analyse', level: 2, maxLevel: 5, daysSinceActivity: 120, unlocked: true },
-  { label: 'Tech & Outils', level: 4, maxLevel: 5, daysSinceActivity: 3, unlocked: true },
-  { label: 'Créativité', level: 1, maxLevel: 5, daysSinceActivity: 200, unlocked: true },
-  { label: 'Coopération', level: 3, maxLevel: 5, daysSinceActivity: 30, unlocked: true },
-];
+// ─── Static mock data (sections without store model yet) ──────────────────────
 
 const NEXT_BADGES = [
   { title: '30 jours de streak', description: 'Encore 12 jours', progress: 60 },
@@ -44,12 +25,18 @@ const NEXT_BADGES = [
   { title: 'Analyste confirmé', description: 'Valider 2 JAC en Analyse', progress: 50 },
 ];
 
-const DREYFUS_LEVEL_LABELS: Record<number, { label: string; color: string }> = {
-  1: { label: 'Débutant', color: 'bg-ink-200 text-ink-600' },
-  2: { label: 'Avancé', color: 'bg-info-bg text-info-fg' },
-  3: { label: 'Compétent', color: 'bg-success-bg text-success-fg' },
-  4: { label: 'Maîtrise', color: 'bg-warning-bg text-warning-fg' },
-  5: { label: 'Expert', color: 'bg-accent-50 text-accent-600' },
+const DREYFUS_LEVEL_STYLES: Record<number, { color: string }> = {
+  1: { color: 'bg-ink-200 text-ink-600' },
+  2: { color: 'bg-info-bg text-info-fg' },
+  3: { color: 'bg-success-bg text-success-fg' },
+  4: { color: 'bg-warning-bg text-warning-fg' },
+  5: { color: 'bg-accent-50 text-accent-600' },
+};
+
+const BADGE_ICON: Record<BadgeType, React.ReactNode> = {
+  plateforme: <Flame size={20} strokeWidth={1.75} />,
+  open_badge: <Medal size={20} strokeWidth={1.75} />,
+  competence: <Award size={20} strokeWidth={1.75} />,
 };
 
 const TABS = [
@@ -62,6 +49,40 @@ const TABS = [
 
 export default function Gamification() {
   const [activeTab, setActiveTab] = useState('overview');
+  const gamifStore = useGamificationStore();
+  const passeportStore = usePasseportStore();
+
+  const streak = gamifStore.getStreak(MOCK_USER_ID);
+  const totalXP = gamifStore.getTotalXP(MOCK_USER_ID);
+  const earnedUserBadges = gamifStore.getBadges(MOCK_USER_ID);
+  const competencies = passeportStore.getCompetencies(MOCK_USER_ID);
+
+  const STATS = [
+    { label: 'XP total',      value: totalXP.toLocaleString('fr-FR'), delta: '+320', deltaDirection: 'up' as const, icon: <Zap size={18} /> },
+    { label: 'Streak actuel', value: `${streak.currentStreak}j`,      delta: '+3j',  deltaDirection: 'up' as const, icon: <Flame size={18} /> },
+    { label: 'Badges gagnés', value: String(earnedUserBadges.length),  delta: '+2',   deltaDirection: 'up' as const, icon: <Award size={18} /> },
+    { label: 'Niveau',        value: String(streak.currentLevel),      delta: '',     deltaDirection: 'up' as const, icon: <Star size={18} /> },
+  ];
+
+  const recentBadges = [...earnedUserBadges]
+    .sort((a, b) => b.earnedAt.localeCompare(a.earnedAt))
+    .slice(0, 3)
+    .map((ub) => {
+      const def = getBadgeDefById(ub.badgeId);
+      if (!def) return null;
+      return { id: ub.badgeId, title: def.name, description: def.description, icon: BADGE_ICON[def.type] };
+    })
+    .filter(Boolean) as { id: string; title: string; description: string; icon: React.ReactNode }[];
+
+  const competenceBadges = competencies.map((lc) => {
+    const comp = getCompetenceById(lc.competenceId);
+    return {
+      label: comp?.label ?? lc.competenceId,
+      level: lc.currentLevel,
+      maxLevel: 5 as const,
+      daysSinceActivity: lc.daysSinceActivity,
+    };
+  });
 
   return (
     <div className="flex flex-col gap-section">
@@ -118,13 +139,12 @@ export default function Gamification() {
               }
             >
               <div className="flex flex-wrap gap-4">
-                {RECENT_BADGES.map((b) => (
+                {recentBadges.map((b) => (
                   <div key={b.id} className="flex flex-col items-center gap-2 text-center">
                     <AchievementBadge
                       title={b.title}
                       description={b.description}
                       icon={b.icon}
-                      isLocked={!b.unlocked}
                     />
                   </div>
                 ))}
@@ -162,8 +182,9 @@ export default function Gamification() {
               tone="warm"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
-              {COMPETENCE_BADGES.map((c, i) => {
-                const levelInfo = DREYFUS_LEVEL_LABELS[c.level];
+              {competenceBadges.map((c, i) => {
+                const dreyfusLabel = ['Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'][c.level - 1] ?? 'Novice';
+                const levelStyle = DREYFUS_LEVEL_STYLES[c.level];
                 return (
                   <Card key={i} className="p-4 flex flex-col gap-3">
                     <div className="flex items-start justify-between gap-2">
@@ -176,8 +197,8 @@ export default function Gamification() {
                       />
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill ${levelInfo.color}`}>
-                        D{c.level} — {levelInfo.label}
+                      <span className={`inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill ${levelStyle.color}`}>
+                        D{c.level} — {dreyfusLabel}
                       </span>
                     </div>
                     <ProgressBar
@@ -207,23 +228,12 @@ export default function Gamification() {
               tone="warm"
             />
             <div className="flex flex-wrap gap-4">
-              {RECENT_BADGES.map((b) => (
+              {recentBadges.map((b) => (
                 <AchievementBadge
                   key={b.id}
                   title={b.title}
                   description={b.description}
                   icon={b.icon}
-                  isLocked={!b.unlocked}
-                />
-              ))}
-              {/* Locked badges */}
-              {[1, 2].map((i) => (
-                <AchievementBadge
-                  key={`locked-${i}`}
-                  title="Badge à débloquer"
-                  description="Continue ta progression"
-                  icon={<Lock size={32} />}
-                  isLocked={true}
                 />
               ))}
             </div>

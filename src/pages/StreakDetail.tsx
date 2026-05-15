@@ -1,18 +1,13 @@
 import React from 'react';
 import { Flame, Target, CheckCircle2, Lock } from 'lucide-react';
+import { useGamificationStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
-
-const DAYS = Array.from({ length: 30 }, (_, i) => {
-  // Simulate streak data: 18-day current streak, with one break around day 12
-  const day = i + 1;
-  const active = day >= 13 || (day <= 11 && day >= 1);
-  return { day, active };
-});
 
 // Milestone tone → icon bubble classes
 const MILESTONE_BUBBLE: Record<string, string> = {
@@ -22,27 +17,40 @@ const MILESTONE_BUBBLE: Record<string, string> = {
   sun:     'bg-accent-50 text-accent-500',
 };
 
-const MILESTONES = [
-  { days: 7, label: '1 semaine', tone: 'info' as const, unlocked: true },
-  { days: 14, label: '2 semaines', tone: 'success' as const, unlocked: true },
-  { days: 30, label: '1 mois', tone: 'warm' as const, unlocked: false, progress: 60 },
-  { days: 100, label: '100 jours', tone: 'sun' as const, unlocked: false, progress: 18 },
+const MILESTONE_DEFS = [
+  { days: 7,   label: '1 semaine', tone: 'info'    as const },
+  { days: 14,  label: '2 semaines', tone: 'success' as const },
+  { days: 30,  label: '1 mois',    tone: 'warm'    as const },
+  { days: 100, label: '100 jours', tone: 'sun'     as const },
 ];
 
 const StreakDetail: React.FC = () => {
-  const currentStreak = 18;
-  const longest = 24;
+  const gamifStore = useGamificationStore();
+  const streak = gamifStore.getStreak(MOCK_USER_ID);
+  const currentStreak = streak.currentStreak;
+  const longest = streak.longestStreak;
+
+  const DAYS = Array.from({ length: 30 }, (_, i) => ({
+    day: i + 1,
+    active: i < currentStreak,
+  }));
+
+  const MILESTONES = MILESTONE_DEFS.map((m) => ({
+    ...m,
+    unlocked: currentStreak >= m.days || longest >= m.days,
+    progress: Math.min(100, Math.round((currentStreak / m.days) * 100)),
+  }));
 
   return (
     <div className="min-h-screen bg-surface">
       <EditorialHero
         eyebrow="Gamification · Streak"
-        title="🔥 18 jours d'affilée"
-        summary="Continue comme ça pour décrocher ton badge 1 mois !"
-        tone="default"
+        title={`${currentStreak} jours d'affilée`}
+        summary={currentStreak >= 30 ? "Incroyable ! Tu as décroché le badge 1 mois de streak !" : `Continue comme ça — encore ${30 - currentStreak} jours pour décrocher ton badge 1 mois !`}
+        tone="warm"
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <div className="max-w-wide mx-auto px-4 py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="🔥 Actif" />
           <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />

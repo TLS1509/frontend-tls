@@ -1,18 +1,12 @@
-import React, { useState } from 'react';
-import { Zap, TrendingUp, BookOpen, Users, Pencil, Trophy } from 'lucide-react';
+import React from 'react';
+import { Zap, TrendingUp, BookOpen, Trophy } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
+import { useGamificationStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
-const XP_HISTORY = [
-  { id: '1', activity: 'Leçon terminée — CSS Flexbox', xp: +80, date: '13 mai 2026' },
-  { id: '2', activity: 'Session coaching validée', xp: +120, date: '12 mai 2026' },
-  { id: '3', activity: 'Entrée journal complétée', xp: +20, date: '11 mai 2026' },
-  { id: '4', activity: 'Badge Dreyfus débloqué', xp: +200, date: '10 mai 2026' },
-  { id: '5', activity: 'Parcours terminé — Fondamentaux', xp: +300, date: '9 mai 2026' },
-  { id: '6', activity: 'Quiz réussi — Score 100 %', xp: +50, date: '8 mai 2026' },
-];
 
 const XP_CATEGORIES = [
   { label: 'Apprentissage', xp: 1540, fill: 68, fillColor: 'brand' as const },
@@ -22,11 +16,15 @@ const XP_CATEGORIES = [
 ];
 
 export default function XPDashboard() {
-  const totalXP = 3240;
-  const currentLevel = 7;
-  const xpCurrentLevel = 3000;
-  const xpNextLevel = 3500;
-  const xpProgress = Math.round(((totalXP - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100);
+  const gamifStore = useGamificationStore();
+  const streak = gamifStore.getStreak(MOCK_USER_ID);
+  const xpEvents = gamifStore.getXPEvents(MOCK_USER_ID);
+
+  const totalXP = streak.totalXP;
+  const currentLevel = streak.currentLevel;
+  const xpCurrentLevel = currentLevel * 500;
+  const xpNextLevel = (currentLevel + 1) * 500;
+  const xpProgress = Math.min(100, Math.round(((totalXP - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100));
 
   return (
     <div className="flex flex-col gap-section">
@@ -37,12 +35,12 @@ export default function XPDashboard() {
         tone="sun"
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section">
+      <div className="max-w-wide mx-auto w-full px-4 flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
             label="Total XP"
-            value="3 240"
+            value={totalXP.toLocaleString('fr-FR')}
             sub="XP"
             tone="sun"
             surface="tinted"
@@ -89,12 +87,14 @@ export default function XPDashboard() {
           description="Les dernières activités récompensées en XP"
         >
           <ul className="flex flex-col divide-y divide-ink-100">
-            {XP_HISTORY.map((item) => (
+            {xpEvents.slice(0, 10).map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-stack py-3">
-                <span className="text-body-sm text-ink-800">{item.activity}</span>
+                <span className="text-body-sm text-ink-800">{item.description}</span>
                 <div className="flex items-center gap-stack-xs shrink-0">
                   <span className="text-body-sm font-bold text-warning-fg">+{item.xp} XP</span>
-                  <span className="text-caption text-ink-400">{item.date}</span>
+                  <span className="text-caption text-ink-400">
+                    {new Date(item.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </span>
                 </div>
               </li>
             ))}

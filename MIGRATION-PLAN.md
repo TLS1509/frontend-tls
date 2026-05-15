@@ -649,6 +649,86 @@ URL DB : https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142
 
 ---
 
+## PHASE 14+ — Sequential Flow-Based Component Harmonization & Page Redesign (2026-05-15+)
+
+**Objectif :** Revoir le design et l'intégration des composants pour les ~140 pages existantes en parallèle, organisé par **user flows** (journées utilisateur). Chaque flow est redesigné end-to-end avec validation visuelle et synchronisation Notion formalisée via 5 checkpoints.
+
+**Paradigme shift :** pas d'approche écran-par-écran (fragmente la cohérence visuelle), pas d'approche niveau-par-niveau (N1 → N2 → N3 crée des dépendances circulaires). Phase 14+ = **flow-par-flow** (user journey complète), avec composants préparés **bottom-up** AVANT les pages, et validation **end-to-end** dès que chaque flow est bouclé.
+
+**Exécution :** 17 flows séquentiels (Flow 1 complètement finalisé → Flow 2, etc.). Tier 1 (daily-use P0) d'abord, puis Tier 2–5.
+
+### 6 étapes obligatoires par flow
+
+```
+ÉTAPE 1 — AUDIT FLOW (~30 min)
+  1.1 List écrans N1/N2/N3 dans le flow
+  1.2 Audit table : Écran → Composants actuels → Composants manquants → UX/design issues
+  1.3 Identifier composants showcaseOnly à intégrer dans ce flow
+  1.4 Identifier composants à créer/étendre
+  → Présenter le tableau à l'utilisateur AVANT code
+
+ÉTAPE 2 — COMPONENT PREPARATION (bottom-up)
+  2.1 Créer/étendre composants AVANT les pages
+  2.2 Mettre à jour Components.tsx (showcase, usedBy, showcaseOnly)
+  2.3 Mettre à jour Notion Design System DB
+
+ÉTAPE 3 — PAGE REDESIGN (N3/modals → N2/detail → N1/hub)
+  3.1 Intégrer composants préparés en 2.1
+  3.2 Appliquer semantic spacing (gap-stack, gap-section, gap-page)
+  3.3 Tone-aware (1 dominant + 1 accent max/flow)
+  3.4 Mobile-first, min-h-touch (44px), 100% Tailwind
+
+ÉTAPE 4 — VALIDATION FLOW (~15 min)
+  4.1 End-to-end flow testing (enchaîner les écrans)
+  4.2 Visual consistency (tone, spacing, glass)
+  4.3 Technical checks (npx tsc, npm run build, screenshots)
+  4.4 Screenshot gallery (375px + 1280px)
+
+ÉTAPE 5 — NOTION SYNC (5-Point Checkpoints)
+  ☐ 1. Code → Notion (components + pages)
+  ☐ 2. Notion → Code (cross-check: Tailwind ✅, routes exists, etc.)
+  ☐ 3. Components.tsx (showcase + usedBy + showcaseOnly flip)
+  ☐ 4. Docs internes (CLAUDE.md, DESIGN.md)
+  ☐ 5. MIGRATION-PLAN.md (track completion)
+
+ÉTAPE 6 — COMMIT (une fois 4 checkpoints ✅)
+  Format : `feat(phase-14.X): [flow name] redesign + component prep`
+```
+
+### Flow Decomposition — 17 flows par Tier
+
+| # | Flow | Screens | Tier | Priority | Status |
+|---|------|---------|------|----------|--------|
+| 14.1 | 🎯 Onboarding | Onboarding, Questionnaire, Tutorial, Success | 1 | P0 | ⬜ |
+| 14.2 | 📚 Learning core | LearningPaths, PathDetail, Positionnement, LessonPlayer, 4× Viewers | 1 | P0 | ⬜ |
+| 14.3 | 📊 Passeport & progression | Passeport, CompetenceDetail, Objectifs, Roadmap, JAC | 1 | P0 | ⬜ |
+| 14.4 | 🎓 Coaching | Coaching, Booking, Session, CompteRendu, Corrections, Messages | 1 | P0 | ⬜ |
+| 14.5 | 📝 Journal | Journal, NewEntry, FreeEntry, Detail, Search | 2 | P1 | ⬜ |
+| 14.6 | 🎮 Gamification | Gamification, BadgeGallery, BadgeDetail, Streaks, XP, Achievements | 2 | P1 | ⬜ |
+| 14.7 | 📰 Veille | Veille, Magazine, Article, Dossier, Newsletter, WeeklyNews, VideoContent | 2 | P1 | ⬜ |
+| 14.8 | 👥 Social & notifications | Notifications, Messages, Collaboration, Leaderboard | 2 | P1 | ⬜ |
+| 14.9 | 🎓 Coach backoffice | CoachDashboard, Apprenants, LearnerProfile, Analytics, Heatmap, Calendar | 3 | P2 | ⬜ |
+| 14.10 | 📁 Projects SBO | ProjectsList, Detail, Task, JAC, Team, SkillGaps, PasseportFeed | 3 | P2 | ⬜ |
+| 14.11 | ⚙️ Manager/Enterprise | ManagerEnterprise, Cohort, Alerts, Export, KPIs, Webhooks | 3 | P2 | ⬜ |
+| 14.12 | 🎓 Masterclass/Workshops | 3× hubs + variants Pre/Live/Post/Replay/Survey/Waitlist | 3 | P2 | ⬜ |
+| 14.13 | 🔐 Auth | Login, Signup, VerifyEmail, MagicLink, ForgotPassword, ResetPassword | 4 | P2 | ⬜ |
+| 14.14 | ⚙️ Profile/Account | Profile, Account, Billing, Settings, Credits, Privacy, NotificationPreferences | 4 | P2 | ⬜ |
+| 14.15 | ❓ Support | Help, Search, Article, Tickets, Tutorials | 4 | P2 | ⬜ |
+| 14.16 | 🤖 Chatbot | ChatInterface, History | 5 | P3 | ⬜ |
+| 14.17 | 🚫 Errors & edge | 404, 500, AstucesViewer, FlashcardsViewer, CourseDetail, Viewers | 5 | P3 | ⬜ |
+
+**Exécution ordre :** 14.1 → 14.2 → 14.3 → 14.4 (Tier 1 P0) → 14.5–14.8 (Tier 2 P1) → 14.9–14.12 (Tier 3 P2) → 14.13–14.15 (Tier 4 P2) → 14.16–14.17 (Tier 5 P3).
+
+### Progress tracking — Phase 14+ completion
+
+| Flow # | Name | Screens | Component prep | Page redesign | Validation | Notion sync | Status |
+|--------|------|---------|-----------------|---------------|------------|------------|--------|
+| 14.1 | Onboarding | 5 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ Pending |
+| 14.2 | Learning core | 7 | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ Pending |
+| (... repeat for 14.3–14.17) | | | | | | | |
+
+---
+
 ## PHASE 11 — Sitemap Alignment & Nouveaux composants MVP (2026-05-13)
 
 **Sources :** `sitemap_fo_learning_app.html` (83 écrans · 14 modules) + `FO_SCREENS_CONSOLIDATION` (Notion) + 5 pages de référence Notion lues.
@@ -1255,7 +1335,7 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | 16.2 | #02 Passeport Compétences | M (1–2 sem) | **MVP** | ✅ 16.2.1 H.S.O. types + référentiel 20 compétences · ✅ 16.2.2 `LearnerCompetency`/`CompetencyObjective`/`CompetencyProgression` types + mock data `src/data/passeport.ts` · ✅ 16.2.3 `usePasseportStore` Zustand (localStorage, seed-on-first-access) · ✅ 16.2.4 `PasseportObjectifs` + `PasseportHistorique` câblés sur le store — reste : 16.2.5 onboarding positionnement fallback MVP |
 | 16.3 | #03 Onboarding + 5 rôles | M (1–2 sem) | **MVP** | ✅ UserRole (5 rôles spec) + UserProfile/Credits types · useUserProfileStore · Onboarding câblé store + rôles canoniques · OnboardingQuestionnaire → usePositioningStore + seed LearnerCompetency |
 | 16.4 | #04 Coaching 1-1 | M (1–2 sem) | **MVP** | Workflow corrections itératives, statuts session, pré-questionnaire |
-| 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | 3 types badges, triggers XP, streak logic |
+| 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | ✅ BadgeType (plateforme/open_badge/competence) + XPTrigger types · `src/data/gamification.ts` (BADGE_DEFS, MOCK_USER_BADGES, MOCK_XP_EVENTS, MOCK_USER_STREAK) · useGamificationStore (xpEvents/badges/streaks, seed-on-first-access) · BadgeGallery câblé store (filtres BadgeType, badges locked dynamiques) · Gamification.tsx (stats/recentBadges/competenceBadges depuis stores, Dreyfus labels FR corrigés) · XPDashboard câblé store + max-w-page→wide · StreakDetail câblé store + max-w-page→wide |
 | 16.6 | #06 Enterprise FO | M (1–2 sem) | **MVP** | Multi-tenant company_id, 5 dashboards, gating role manager |
 | 16.7 | #07 Journal réflexif | S (3–5j) | V1 sept | Questions configurables, EDRA-R templates, lien Item↔Journal |
 | 16.8 | #08 Masterclass + Atelier + Évent | M (2 sem) | V1 sept | Inscription/waitlist, replay tracking, survey post-event |
