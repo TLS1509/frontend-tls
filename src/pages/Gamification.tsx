@@ -68,9 +68,9 @@ export default function Gamification() {
       <EditorialHero
         eyebrow="SBO · Learn"
         title="Ma Progression & Gamification"
-        subtitle="Streaks, badges, XP et niveaux Dreyfus — suis ta progression et célèbre chaque étape."
+        summary="Streaks, badges, XP et niveaux Dreyfus — suis ta progression et célèbre chaque étape."
         tone="warm"
-        actions={
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Trophy size={16} />}>
             Galerie de badges
           </Button>
@@ -96,9 +96,9 @@ export default function Gamification() {
 
         {/* Tabs */}
         <Tabs
-          tabs={TABS}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
+          items={TABS}
+          value={activeTab}
+          onChange={setActiveTab}
           variant="underline"
         />
 
@@ -109,9 +109,9 @@ export default function Gamification() {
             {/* Recently unlocked */}
             <SectionCard
               title="Badges récemment débloqués"
-              icon={<Award size={20} />}
+              titleIcon={<Award size={20} />}
               tone="warm"
-              actions={
+              headerAction={
                 <Button variant="ghost" size="sm" onClick={() => setActiveTab('badges')}>
                   Tout voir
                 </Button>
@@ -133,7 +133,7 @@ export default function Gamification() {
             {/* Next badges in progress */}
             <SectionCard
               title="Prochains badges"
-              icon={<TrendingUp size={20} />}
+              titleIcon={<TrendingUp size={20} />}
               description="Tes prochaines étapes de progression"
             >
               <div className="flex flex-col gap-stack">
@@ -143,7 +143,7 @@ export default function Gamification() {
                       <span className="text-body-sm font-semibold text-ink-900">{b.title}</span>
                       <span className="text-caption text-ink-400">{b.description}</span>
                     </div>
-                    <ProgressBar value={b.progress} tone="warm" size="sm" showLabel label={`${b.progress}%`} />
+                    <ProgressBar value={b.progress} fill="warm" size="sm" showLabel label={`${b.progress}%`} />
                   </Card>
                 ))}
               </div>
@@ -181,7 +181,7 @@ export default function Gamification() {
                     </div>
                     <ProgressBar
                       value={(c.level / c.maxLevel) * 100}
-                      tone="warm"
+                      fill="warm"
                       size="sm"
                       label={`Niveau ${c.level}/${c.maxLevel}`}
                       showLabel
@@ -232,7 +232,7 @@ export default function Gamification() {
           <div className="flex flex-col gap-section">
             <SectionCard
               title="Streak actuel"
-              icon={<Flame size={20} />}
+              titleIcon={<Flame size={20} />}
               tone="warm"
               description="18 jours consécutifs de connexion · Démarré le 25 avril 2026"
             >
@@ -241,7 +241,7 @@ export default function Gamification() {
                   <span className="text-h1 font-display font-bold text-secondary-600">18</span>
                   <span className="text-body text-ink-400 pb-2">jours</span>
                 </div>
-                <ProgressBar value={(18 / 30) * 100} tone="warm" size="lg" label="Prochain milestone : 30 jours" showLabel />
+                <ProgressBar value={(18 / 30) * 100} fill="warm" size="lg" label="Prochain milestone : 30 jours" showLabel />
                 {/* Calendar heatmap (simplified) */}
                 <div className="grid grid-cols-7 gap-1 mt-2">
                   {Array.from({ length: 21 }, (_, i) => (
@@ -258,7 +258,7 @@ export default function Gamification() {
               </div>
             </SectionCard>
 
-            <SectionCard title="XP par catégorie" icon={<Zap size={20} />}>
+            <SectionCard title="XP par catégorie" titleIcon={<Zap size={20} />}>
               <div className="flex flex-col gap-3">
                 {[
                   { label: 'Parcours', xp: 1840, pct: 38 },
@@ -272,7 +272,7 @@ export default function Gamification() {
                       <span>{cat.label}</span>
                       <span className="font-medium">{cat.xp.toLocaleString()} XP</span>
                     </div>
-                    <ProgressBar value={cat.pct} tone="warm" size="sm" />
+                    <ProgressBar value={cat.pct} fill="warm" size="sm" />
                   </div>
                 ))}
               </div>

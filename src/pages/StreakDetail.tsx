@@ -87,7 +87,7 @@ const StreakDetail: React.FC = () => {
                     <Badge variant="success">Débloqué</Badge>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <ProgressBar value={m.progress!} max={100} tone="brand" />
+                      <ProgressBar value={m.progress!} max={100} fill="brand" />
                       <span className="text-caption text-ink-500 shrink-0">{currentStreak}/{m.days}</span>
                     </div>
                   )}

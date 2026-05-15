@@ -46,14 +46,14 @@ export default function BadgeDetail() {
       <EditorialHero
         eyebrow={`Gamification · ${BADGE.category}`}
         title={BADGE.name}
-        subtitle={BADGE.description}
+        summary={BADGE.description}
         tone="sun"
-        actions={
+        trailing={
           <div className="flex items-center gap-3">
             <Button variant="glass" size="md" leadingIcon={<Share2 size={16} />}>
               Partager
             </Button>
-            <Button variant="glass-light-ghost" size="md">
+            <Button variant="ghost" size="md">
               Voir dans mon profil
             </Button>
           </div>
@@ -93,13 +93,13 @@ export default function BadgeDetail() {
             </div>
 
             {/* Community stats */}
-            <SectionCard title="Dans la communauté" icon={<Users size={18} />}>
+            <SectionCard title="Dans la communauté" titleIcon={<Users size={18} />}>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between text-body-sm">
                   <span className="text-ink-600">Apprenants qui l'ont obtenu</span>
                   <span className="font-semibold text-ink-900">{BADGE.earnedBy} / {BADGE.totalLearners}</span>
                 </div>
-                <ProgressBar value={pctEarned} tone="sun" size="md" showLabel />
+                <ProgressBar value={pctEarned} fill="sun" size="md" showLabel />
                 <p className="text-caption text-ink-500">
                   Seulement {pctEarned}% des apprenants ont obtenu ce badge — tu fais partie d'une élite !
                 </p>
@@ -109,7 +109,7 @@ export default function BadgeDetail() {
         </div>
 
         {/* Criteria */}
-        <SectionCard title="Critères d'obtention" icon={<ChevronRight size={18} />}>
+        <SectionCard title="Critères d'obtention" titleIcon={<ChevronRight size={18} />}>
           <ul className="flex flex-col gap-3">
             {BADGE.criteria.map((c, i) => (
               <li key={i} className="flex items-start gap-stack">
@@ -121,7 +121,7 @@ export default function BadgeDetail() {
         </SectionCard>
 
         {/* Related badges */}
-        <SectionCard title="Badges de la même famille" icon={<Award size={18} />}>
+        <SectionCard title="Badges de la même famille" titleIcon={<Award size={18} />}>
           <div className="flex flex-wrap gap-stack">
             {BADGE.relatedBadges.map((rb) => (
               <div key={rb.id} className="flex flex-col items-center gap-2">
