@@ -1362,12 +1362,12 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 
 | # | Chantier | Pages | Store | Effort | Statut |
 |---|----------|-------|-------|--------|--------|
-| 17.1 | Passeport radar + compétences | `Passeport.tsx`, `PasseportCompetenceDetail.tsx` | `usePasseportStore` | S | ⬜ |
-| 17.2 | Corrections learner | `CorrectionDetailLearner.tsx` | `useCoachingStore` | S | ⬜ |
-| 17.3 | Coach enterprise dashboard | `CoachEnterpriseDashboard.tsx` | `useEnterpriseStore` | S | ⬜ |
-| 17.4 | Purchase credits | `PurchaseCredits.tsx` | `useUserProfileStore` | S | ⬜ |
-| 17.5 | Messaging thread | `MessagingThread.tsx` | `useCoachingStore` | S | ⬜ |
-| 17.6 | Privacy delete account | `PrivacyDeleteAccount.tsx` | `usePrivacyStore` | XS | ⬜ |
+| 17.1 | Passeport radar + compétences | `Passeport.tsx`, `PasseportCompetenceDetail.tsx` | `usePasseportStore` | S | ✅ |
+| 17.2 | Corrections learner | `CorrectionDetailLearner.tsx` | `useCoachingStore` | S | ✅ |
+| 17.3 | Coach enterprise dashboard | `CoachEnterpriseDashboard.tsx` | `useEnterpriseStore` | S | ✅ |
+| 17.4 | Purchase credits | `PurchaseCredits.tsx` | `useUserProfileStore` | S | ✅ |
+| 17.5 | Messaging thread | `MessagingThread.tsx` | `useCoachingStore` | S | ✅ |
+| 17.6 | Privacy delete account | `PrivacyDeleteAccount.tsx` | `usePrivacyStore` | XS | ✅ |
 
 ---
 
@@ -1377,8 +1377,8 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 
 | # | Chantier | Pages | Statut |
 |---|----------|-------|--------|
-| 18.1 | Commit Components.tsx | `Components.tsx` | ⬜ |
-| 18.2 | ManagerViewsBuilder | store persistence | ⬜ |
-| 18.3 | ItemRecommendations | `useCoachingStore` | ⬜ |
-| 18.4 | PerplexityContentDetail | static doc page (V1) | ⬜ |
+| 18.1 | Commit Components.tsx | `Components.tsx` | ✅ |
+| 18.2 | ManagerViewsBuilder | store persistence | ⬜ V1 |
+| 18.3 | ItemRecommendations | `useCoachingStore` | ⬜ V1 |
+| 18.4 | PerplexityContentDetail | static doc page (V1) | ⬜ V1 |
 
