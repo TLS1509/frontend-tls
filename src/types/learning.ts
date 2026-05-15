@@ -75,6 +75,8 @@ export interface UserProfile {
   goals: string[];
   rhythm: string;
   credits: UserCredits;
+  /** Plan souscrit (Cahier #11bis) */
+  subscriptionTier: SubscriptionTier;
   completedAt?: string;
 }
 

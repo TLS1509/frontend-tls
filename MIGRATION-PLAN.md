@@ -1253,7 +1253,7 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | Phase | Cahier | Effort FO | Tier | Top gaps |
 |-------|--------|-----------|------|----------|
 | 16.2 | #02 Passeport Compétences | M (1–2 sem) | **MVP** | ✅ 16.2.1 H.S.O. types + référentiel 20 compétences · ✅ 16.2.2 `LearnerCompetency`/`CompetencyObjective`/`CompetencyProgression` types + mock data `src/data/passeport.ts` · ✅ 16.2.3 `usePasseportStore` Zustand (localStorage, seed-on-first-access) · ✅ 16.2.4 `PasseportObjectifs` + `PasseportHistorique` câblés sur le store — reste : 16.2.5 onboarding positionnement fallback MVP |
-| 16.3 | #03 Onboarding + 5 rôles | M (1–2 sem) | **MVP** | 5 rôles standardisés, crédits Classic+Special, profil mapping |
+| 16.3 | #03 Onboarding + 5 rôles | M (1–2 sem) | **MVP** | ✅ UserRole (5 rôles spec) + UserProfile/Credits types · useUserProfileStore · Onboarding câblé store + rôles canoniques · OnboardingQuestionnaire → usePositioningStore + seed LearnerCompetency |
 | 16.4 | #04 Coaching 1-1 | M (1–2 sem) | **MVP** | Workflow corrections itératives, statuts session, pré-questionnaire |
 | 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | 3 types badges, triggers XP, streak logic |
 | 16.6 | #06 Enterprise FO | M (1–2 sem) | **MVP** | Multi-tenant company_id, 5 dashboards, gating role manager |

@@ -30,6 +30,8 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
+import { useUserProfileStore } from '../stores/persistence';
+import type { SubscriptionTier } from '../types/learning';
 
 /* ─── Mock data ─────────────────────────────────────────────────────────── */
 
@@ -49,10 +51,25 @@ const INVOICES: Invoice[] = [
   { id: 'INV-2026-001', date: '01 janvier 2026',amount: '29,00 €', status: 'paid',    description: 'Abonnement Premium · Janvier 2026' },
 ];
 
+/* ─── Plan display config ─────────────────────────────────────────────── */
+
+const TIER_CONFIG: Record<SubscriptionTier, { name: string; tagline: string; price: string }> = {
+  free:               { name: 'Gratuit',              tagline: '10% du contenu, sans IA',         price: '0 €/mois' },
+  plan_1:             { name: 'Plan 1',                tagline: 'Accès complet au contenu',         price: '19 €/mois' },
+  plan_2:             { name: 'Plan 2',                tagline: 'Contenu + IA (chatbot, matching)', price: '29 €/mois' },
+  plan_3:             { name: 'Plan 3',                tagline: 'Contenu + IA + 1 crédit/mois',    price: '39 €/mois' },
+  enterprise_standard: { name: 'Enterprise Standard',  tagline: 'Multi-tenant, équipe',            price: 'Sur devis' },
+  enterprise_premium:  { name: 'Enterprise Premium',   tagline: 'Multi-tenant + support dédié',    price: 'Sur devis' },
+  enterprise_custom:   { name: 'Enterprise Custom',    tagline: 'Configuration personnalisée',     price: 'Sur devis' },
+};
+
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const Billing: React.FC = () => {
   const toast = useToastContext();
+  const profileStore = useUserProfileStore();
+  const profile = profileStore.get();
+  const tierConfig = TIER_CONFIG[profile.subscriptionTier];
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleDownloadInvoice = (id: string) => {
@@ -100,12 +117,12 @@ export const Billing: React.FC = () => {
               <div className="flex flex-col gap-tight">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
-                    Premium
+                    {tierConfig.name}
                   </h3>
                   <Badge variant="brand">Actif</Badge>
                 </div>
                 <p className="m-0 font-body text-body-sm text-ink-600">
-                  Accès illimité à tous les parcours, coaching et veille.
+                  {tierConfig.tagline}
                 </p>
                 <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-1">
                   <Calendar size={12} />
@@ -116,7 +133,7 @@ export const Billing: React.FC = () => {
 
             <div className="flex flex-col items-start sm:items-end gap-1">
               <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">
-                29,00 €<span className="font-body text-body-sm font-normal text-ink-500">/mois</span>
+                {tierConfig.price}
               </p>
             </div>
           </div>
@@ -211,7 +228,7 @@ export const Billing: React.FC = () => {
         {/* ── Annulation (danger zone) ───────────────────────────────── */}
         <SectionCard
           title="Annuler l'abonnement"
-          description="Vous conserverez l'accès Premium jusqu'à la fin de la période en cours."
+          description={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-4 rounded-2xl bg-danger-bg/30 border border-danger-border">
             <div className="flex items-start gap-3">
@@ -220,7 +237,7 @@ export const Billing: React.FC = () => {
               </div>
               <div className="flex flex-col gap-tight">
                 <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
-                  Annuler mon abonnement Premium
+                  Annuler mon abonnement {tierConfig.name}
                 </p>
                 <p className="m-0 font-body text-caption text-ink-600 leading-relaxed">
                   Cette action est réversible jusqu'au 1er juin 2026. Au-delà, vous perdrez l'accès aux parcours, coaching et veille.

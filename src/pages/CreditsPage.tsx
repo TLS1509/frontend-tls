@@ -1,11 +1,12 @@
 import React from 'react';
-import { Coins, TrendingUp, BookOpen, Users, Zap, ShoppingBag } from 'lucide-react';
+import { Coins, TrendingUp, BookOpen, Users, Zap, ShoppingBag, Star } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
 import { StatCard } from '../components/ui/StatCard';
+import { useUserProfileStore } from '../stores/persistence';
 
 const MOCK_TRANSACTIONS = [
   {
@@ -77,6 +78,9 @@ const EARN_WAYS = [
 ];
 
 export default function CreditsPage() {
+  const profileStore = useUserProfileStore();
+  const { credits } = profileStore.get();
+
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
@@ -93,16 +97,34 @@ export default function CreditsPage() {
           tone="warm"
           className="p-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-section"
         >
-          <div className="flex flex-col gap-stack-xs text-center md:text-left">
+          <div className="flex flex-col gap-stack text-center md:text-left">
             <p className="m-0 text-caption font-bold uppercase tracking-wider text-secondary-600">Solde actuel</p>
-            <div className="flex items-end gap-stack-xs justify-center md:justify-start">
-              <span className="font-display text-[3.5rem] font-extrabold leading-none text-secondary-600">124</span>
-              <span className="mb-2 font-body text-body font-semibold text-secondary-500">crédits</span>
+            {/* Classic credits */}
+            <div className="flex items-center gap-stack-xs justify-center md:justify-start">
+              <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-secondary-100 text-secondary-600 shrink-0">
+                <Coins size={18} />
+              </div>
+              <div className="flex flex-col gap-tight">
+                <div className="flex items-end gap-1">
+                  <span className="font-display text-h2 font-extrabold leading-none text-secondary-600">{credits.classic}</span>
+                  <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-500">crédits Classic</span>
+                </div>
+                <p className="m-0 text-caption text-ink-400">Sessions coaching standard (1h)</p>
+              </div>
             </div>
-            <p className="m-0 text-body-sm text-ink-500">crédits disponibles</p>
-            <p className="m-0 text-caption text-ink-400 flex items-center gap-1 justify-center md:justify-start">
-              <span>Expire le 31 décembre 2026</span>
-            </p>
+            {/* Special credits */}
+            <div className="flex items-center gap-stack-xs justify-center md:justify-start">
+              <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-accent-50 text-accent-500 shrink-0">
+                <Star size={18} />
+              </div>
+              <div className="flex flex-col gap-tight">
+                <div className="flex items-end gap-1">
+                  <span className="font-display text-h2 font-extrabold leading-none text-accent-500">{credits.special}</span>
+                  <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-500">crédits Spécial</span>
+                </div>
+                <p className="m-0 text-caption text-ink-400">Sessions expert / masterclasses premium</p>
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col gap-stack-xs items-center md:items-end">

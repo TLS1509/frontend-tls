@@ -25,6 +25,7 @@ import type {
   CompetencyObjective,
   UserProfile,
   UserRole,
+  SubscriptionTier,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -496,6 +497,7 @@ const MOCK_PROFILE: UserProfile = {
   goals: ['Leadership', 'IA & Tech'],
   rhythm: '30min',
   credits: { classic: 2, special: 0 },
+  subscriptionTier: 'plan_1',
 };
 
 interface UserProfileState {

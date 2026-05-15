@@ -32,10 +32,8 @@ import { MOCK_LEARNING_SPACE_ITEMS, ITEM_TYPE_LABELS } from '../data/items';
 import { DREYFUS_LABELS } from '../data/competencies';
 import type { ItemType, DreyfusLevel, SubscriptionTier } from '../types/learning';
 import { canAccessItem, getAccessDenialMessage, getGatingType } from '../lib/access-control';
+import { useUserProfileStore } from '../stores/persistence';
 
-/* ─── Mock user context (Phase 16.1.5) ──────────────────────────────── */
-/* In production: fetch from auth context + API */
-const MOCK_USER_TIER: SubscriptionTier = 'plan_1'; // Default free user in Phase 16.1.5
 const MOCK_COMPLETED_ITEMS = new Set(['item-1', 'item-4']); // Sample completed items
 const MOCK_LEARNER_COMPETENCY_LEVELS: Record<string, DreyfusLevel> = {
   comp_leadership: 2,
@@ -95,12 +93,15 @@ function getUniqueDurations(): string[] {
 }
 
 export const LearningSpace: React.FC = () => {
+  const profileStore = useUserProfileStore();
+  const userTier = profileStore.get().subscriptionTier;
+
   const [query, setQuery] = useState('');
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<ItemType[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<DreyfusLevel[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<string[]>(['published']); // Default filter to published only
+  const [selectedStatus, setSelectedStatus] = useState<string[]>(['published']);
 
   /* ─── Filter options ───────────────────────────────────────────────── */
 
@@ -346,7 +347,7 @@ export const LearningSpace: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
               {filteredItems.map((item) => {
                 const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                  userSubscriptionTier: MOCK_USER_TIER,
+                  userSubscriptionTier: userTier,
                   completedItemIds: MOCK_COMPLETED_ITEMS,
                   learnerCompetencyLevels: MOCK_LEARNER_COMPETENCY_LEVELS,
                 });

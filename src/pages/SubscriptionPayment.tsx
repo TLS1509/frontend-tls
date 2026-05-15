@@ -25,6 +25,8 @@ import {
   CreditCard,
   ShieldCheck,
   Calendar,
+  BookOpen,
+  Brain,
 } from 'lucide-react';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
@@ -33,10 +35,12 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Badge } from '../components/ui/Badge';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
+import { useUserProfileStore } from '../stores/persistence';
+import type { SubscriptionTier } from '../types/learning';
 
 /* ─── Types & data ──────────────────────────────────────────────────────── */
 
-type PlanId = 'discovery' | 'premium' | 'pro';
+type PlanId = Extract<SubscriptionTier, 'free' | 'plan_1' | 'plan_2' | 'plan_3'>;
 type Billing = 'monthly' | 'yearly';
 
 interface Plan {
@@ -51,51 +55,65 @@ interface Plan {
   badge?: string;
 }
 
+/** 4 plans individuels MVP — Cahier #11bis */
 const PLANS: Plan[] = [
   {
-    id: 'discovery',
-    name: 'Découverte',
-    tagline: '1 parcours · veille mensuelle',
-    monthly: 9,
-    yearly: 86,
+    id: 'free',
+    name: 'Gratuit',
+    tagline: '10% du contenu · sans IA',
+    monthly: 0,
+    yearly: 0,
     icon: <Sparkles size={20} />,
     features: [
-      'Accès à 1 parcours au choix',
-      'Veille mensuelle',
+      '10% du contenu accessible',
+      'Veille mensuelle (résumé)',
       'Communauté lecture seule',
-      'Pas de coaching',
+      'Achat de crédits possible',
     ],
   },
   {
-    id: 'premium',
-    name: 'Premium',
-    tagline: 'Tous les parcours + coaching',
-    monthly: 29,
-    yearly: 278,
-    icon: <Crown size={20} />,
-    highlight: true,
-    badge: 'Recommandé',
+    id: 'plan_1',
+    name: 'Plan 1',
+    tagline: 'Accès complet au contenu',
+    monthly: 19,
+    yearly: 182,
+    icon: <BookOpen size={20} />,
     features: [
-      'Accès illimité à tous les parcours',
+      'Accès 100% du contenu',
+      'Tous les parcours',
       'Veille quotidienne + archives',
-      '1 session de coaching / mois',
       'Communauté complète',
       'Certificats de fin de parcours',
     ],
   },
   {
-    id: 'pro',
-    name: 'Pro',
-    tagline: 'Coaching renforcé · équipes',
-    monthly: 59,
-    yearly: 566,
-    icon: <Zap size={20} />,
+    id: 'plan_2',
+    name: 'Plan 2',
+    tagline: 'Contenu + IA (chatbot, matching)',
+    monthly: 29,
+    yearly: 278,
+    icon: <Brain size={20} />,
+    highlight: true,
+    badge: 'Recommandé',
     features: [
-      'Tout du Premium',
-      '4 sessions coaching / mois',
-      'Coach dédié',
-      'Reporting RH',
-      'Support prioritaire 24h',
+      'Tout du Plan 1',
+      'Chatbot IA (RAG)',
+      'Matching coach IA',
+      'Recommandations personnalisées',
+    ],
+  },
+  {
+    id: 'plan_3',
+    name: 'Plan 3',
+    tagline: 'Contenu + IA + 1 crédit/mois',
+    monthly: 39,
+    yearly: 374,
+    icon: <Crown size={20} />,
+    features: [
+      'Tout du Plan 2',
+      '1 crédit coaching Classic/mois',
+      'Accès masterclasses premium',
+      'Support prioritaire',
     ],
   },
 ];
@@ -105,9 +123,10 @@ const PLANS: Plan[] = [
 export const SubscriptionPayment: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToastContext();
+  const profileStore = useUserProfileStore();
 
   const [billing, setBilling] = useState<Billing>('monthly');
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>('premium');
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>('plan_2');
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [cardName, setCardName] = useState('');
@@ -127,6 +146,7 @@ export const SubscriptionPayment: React.FC = () => {
 
   const handleConfirmPayment = () => {
     setShowConfirm(false);
+    profileStore.patch({ subscriptionTier: selectedPlan });
     toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society !');
     setTimeout(() => navigate('/'), 1200);
   };
