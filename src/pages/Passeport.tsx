@@ -13,58 +13,10 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
-
-// ─── Mock data ────────────────────────────────────────────────────────────────
-
-const RADAR_AXES = [
-  { label: 'Leadership', current: 3, target: 5 },
-  { label: 'Communication', current: 4, target: 4 },
-  { label: 'Analyse', current: 2, target: 4 },
-  { label: 'Tech & Outils', current: 4, target: 5 },
-  { label: 'Créativité', current: 1, target: 3 },
-  { label: 'Coopération', current: 3, target: 4 },
-];
-
+import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById } from '../data/competencies';
+import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
-
-// Runtime overlay (mock LearnerCompetency, sera remplacé par store Zustand en 16.2.3).
-// Référence COMPETENCES via competenceId (canonique depuis src/data/competencies.ts).
-const LEARNER_COMPETENCIES: Array<{
-  competenceId: string;
-  level: number;
-  target: number;
-  daysSinceActivity: number;
-  points: number;
-  nextPoints: number;
-}> = [
-  { competenceId: 'leadership', level: 3, target: 5, daysSinceActivity: 45, points: 320, nextPoints: 500 },
-  { competenceId: 'communication', level: 4, target: 4, daysSinceActivity: 12, points: 480, nextPoints: 500 },
-  { competenceId: 'analyse', level: 2, target: 4, daysSinceActivity: 120, points: 190, nextPoints: 300 },
-  { competenceId: 'tech_tools', level: 4, target: 5, daysSinceActivity: 3, points: 460, nextPoints: 500 },
-  { competenceId: 'creativity', level: 1, target: 3, daysSinceActivity: 200, points: 70, nextPoints: 150 },
-  { competenceId: 'cooperation', level: 3, target: 4, daysSinceActivity: 30, points: 310, nextPoints: 400 },
-];
-
-// Vue dérivée : enrichit chaque entrée apprenant avec les métadonnées du référentiel.
-const COMPETENCES = LEARNER_COMPETENCIES.map((lc) => {
-  const ref = getCompetenceById(lc.competenceId);
-  return {
-    id: lc.competenceId,
-    label: ref?.label ?? lc.competenceId,
-    domain: (ref?.domain ?? 'Humain') as CompetenceDomain,
-    level: lc.level,
-    target: lc.target,
-    daysSinceActivity: lc.daysSinceActivity,
-    points: lc.points,
-    nextPoints: lc.nextPoints,
-  };
-});
-
-const GOALS = [
-  { id: 1, label: 'Atteindre Dreyfus 5 en Leadership', current: 3, target: 5, deadline: '2026-12-01' },
-  { id: 2, label: 'Valider Analyse (D4)', current: 2, target: 4, deadline: '2026-09-01' },
-];
 
 /** Couleur du tone par domaine H.S.O. (Cahier #02). */
 const DOMAIN_COLORS: Record<CompetenceDomain, 'brand' | 'warm' | 'sun'> = {
@@ -84,6 +36,38 @@ const TABS = [
 export default function Passeport() {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAxis, setSelectedAxis] = useState<string | null>(null);
+  const store = usePasseportStore();
+
+  const learnerCompetencies = store.getCompetencies(MOCK_USER_ID);
+  const objectives = store.getObjectives(MOCK_USER_ID);
+
+  // Enrich with referential metadata
+  const COMPETENCES = learnerCompetencies.map((lc) => {
+    const ref = getCompetenceById(lc.competenceId);
+    return {
+      id: lc.competenceId,
+      label: ref?.label ?? lc.competenceId,
+      domain: (ref?.domain ?? 'Humain') as CompetenceDomain,
+      level: lc.currentLevel,
+      target: lc.targetLevel ?? lc.currentLevel,
+      daysSinceActivity: lc.daysSinceActivity,
+      points: lc.points,
+      nextPoints: lc.nextLevelPoints,
+    };
+  });
+
+  // Radar axes derived from store
+  const RADAR_AXES = COMPETENCES.map((c) => ({
+    label: c.label,
+    current: c.level,
+    target: c.target,
+  }));
+
+  // Stats
+  const avgLevel = COMPETENCES.length > 0
+    ? COMPETENCES.reduce((sum, c) => sum + c.level, 0) / COMPETENCES.length
+    : 0;
+  const activeObjectives = objectives.filter((o) => o.status === 'active');
 
   const handleAxisClick = (axis: { label: string }) => {
     setSelectedAxis(axis.label);
@@ -141,16 +125,16 @@ export default function Passeport() {
                 <Card className="p-4 flex flex-col gap-3">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
                   <div className="flex items-end gap-2">
-                    <span className="text-h2 font-display font-bold text-ink-900">3,0</span>
+                    <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
                     <span className="text-body-sm text-ink-400 pb-1">/ 5 Dreyfus</span>
                   </div>
-                  <ProgressBar value={60} fill="brand" size="md" showLabel />
-                  <p className="text-caption text-ink-400">Moyenne pondérée · 6 compétences</p>
+                  <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
+                  <p className="text-caption text-ink-400">Moyenne pondérée · {COMPETENCES.length} compétences</p>
                 </Card>
                 <Card className="p-4 flex flex-col gap-3">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
                   <div className="flex items-end gap-2">
-                    <span className="text-h2 font-display font-bold text-ink-900">2</span>
+                    <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
                     <span className="text-body-sm text-ink-400 pb-1">objectifs</span>
                   </div>
                   <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}
@@ -246,16 +230,17 @@ export default function Passeport() {
               icon={<Target size={20} />}
               tone="primary"
             />
-            {GOALS.length > 0 ? (
+            {activeObjectives.length > 0 ? (
               <div className="flex flex-col gap-stack">
-                {GOALS.map((g) => {
-                  const pct = (g.current / g.target) * 100;
-                  const daysRemaining = Math.ceil((new Date(g.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                {activeObjectives.map((obj) => {
+                  const ref = getCompetenceById(obj.competenceId);
+                  const label = ref ? `Atteindre D${obj.targetLevel} en ${ref.label}` : `Objectif D${obj.targetLevel}`;
+                  const daysRemaining = Math.ceil((new Date(obj.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
                   return (
                     <GoalProgress
-                      key={g.id}
-                      goal={g.label}
-                      percentComplete={pct}
+                      key={obj.id}
+                      goal={label}
+                      percentComplete={obj.progressPct}
                       daysRemaining={daysRemaining}
                       isOnTrack={daysRemaining > 0}
                     />

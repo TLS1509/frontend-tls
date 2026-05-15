@@ -1354,3 +1354,31 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 
 **Total Phase 16** : ~12–16 semaines-dev FO (hors backend WP + intégrations Stripe/Mistral/OAuth).
 
+---
+
+## PHASE 17 — UX Depth Pass (store wiring des pages à données statiques)
+
+**Contexte** : Phase 16 a câblé les pages principales de chaque cahier. Un audit (2026-05-15) révèle que 11 pages secondaires conservent encore des mock data statiques au lieu de lire le store Zustand. Phase 17 les câble dans l'ordre MVP.
+
+| # | Chantier | Pages | Store | Effort | Statut |
+|---|----------|-------|-------|--------|--------|
+| 17.1 | Passeport radar + compétences | `Passeport.tsx`, `PasseportCompetenceDetail.tsx` | `usePasseportStore` | S | ⬜ |
+| 17.2 | Corrections learner | `CorrectionDetailLearner.tsx` | `useCoachingStore` | S | ⬜ |
+| 17.3 | Coach enterprise dashboard | `CoachEnterpriseDashboard.tsx` | `useEnterpriseStore` | S | ⬜ |
+| 17.4 | Purchase credits | `PurchaseCredits.tsx` | `useUserProfileStore` | S | ⬜ |
+| 17.5 | Messaging thread | `MessagingThread.tsx` | `useCoachingStore` | S | ⬜ |
+| 17.6 | Privacy delete account | `PrivacyDeleteAccount.tsx` | `usePrivacyStore` | XS | ⬜ |
+
+---
+
+## PHASE 18 — Cleanup & Components.tsx commit
+
+**Contexte** : `Components.tsx` (showcase) a 376 lignes de diff non commitées. Phase 18 commit ce fichier puis câble les 3 pages V1 restantes à faible priorité.
+
+| # | Chantier | Pages | Statut |
+|---|----------|-------|--------|
+| 18.1 | Commit Components.tsx | `Components.tsx` | ⬜ |
+| 18.2 | ManagerViewsBuilder | store persistence | ⬜ |
+| 18.3 | ItemRecommendations | `useCoachingStore` | ⬜ |
+| 18.4 | PerplexityContentDetail | static doc page (V1) | ⬜ |
+
