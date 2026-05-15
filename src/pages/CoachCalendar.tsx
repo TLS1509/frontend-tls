@@ -38,9 +38,9 @@ const CoachCalendar: React.FC = () => {
       <EditorialHero
         eyebrow="Coach · Mon calendrier"
         title="Mes sessions de coaching"
-        description="Synchronisé avec Google Calendar (Outlook V1)"
+        summary="Synchronisé avec Google Calendar (Outlook V1)"
         tone="warm"
-        action={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
+        trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
       <div className="max-w-wide mx-auto px-4 py-section flex flex-col gap-section">
@@ -51,9 +51,9 @@ const CoachCalendar: React.FC = () => {
             <Button variant="ghost" iconOnly leadingIcon={<ChevronRight className="w-4 h-4" />} aria-label="Semaine suivante" onClick={() => setWeekOffset((w) => w + 1)} />
           </div>
           <div className="flex items-center gap-stack-xs">
-            <FilterChip active={providerFilter === 'all'} onClick={() => setProviderFilter('all')}>Tous</FilterChip>
-            <FilterChip active={providerFilter === 'google'} onClick={() => setProviderFilter('google')}>Google</FilterChip>
-            <FilterChip active={providerFilter === 'outlook'} onClick={() => setProviderFilter('outlook')}>Outlook (V1)</FilterChip>
+            <FilterChip label="Tous" active={providerFilter === 'all'} onClick={() => setProviderFilter('all')} />
+            <FilterChip label="Google" active={providerFilter === 'google'} onClick={() => setProviderFilter('google')} />
+            <FilterChip label="Outlook (V1)" active={providerFilter === 'outlook'} onClick={() => setProviderFilter('outlook')} />
             <Button variant="ghost" size="sm" leadingIcon={<Settings className="w-4 h-4" />}>OAuth</Button>
           </div>
         </div>

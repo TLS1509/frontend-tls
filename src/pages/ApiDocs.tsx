@@ -33,7 +33,7 @@ const ApiDocs: React.FC = () => {
         title="The Learning Society API v1"
         summary="Documentation Swagger/OpenAPI auto-générée — endpoints REST, authentification, rate limits"
         tone="default"
-        action={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
+        trailing={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
       />
 
       <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
@@ -47,10 +47,10 @@ const ApiDocs: React.FC = () => {
           value={tab}
           onChange={(v) => setTab(v as typeof tab)}
           items={[
-            { value: 'endpoints', label: 'Endpoints' },
-            { value: 'auth', label: 'Authentification' },
-            { value: 'rate-limits', label: 'Rate limits' },
-            { value: 'examples', label: 'Exemples' },
+            { id: 'endpoints', label: 'Endpoints' },
+            { id: 'auth', label: 'Authentification' },
+            { id: 'rate-limits', label: 'Rate limits' },
+            { id: 'examples', label: 'Exemples' },
           ]}
         />
 

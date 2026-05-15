@@ -54,7 +54,7 @@ const ALERT_HISTORY_ROWS = [
       </div>
     ),
     jours: <span className="font-bold text-warning-fg">16 jours</span>,
-    statut: <Badge variant="warning" size="sm">En cours</Badge>,
+    statut: <Badge variant="sun" size="sm">En cours</Badge>,
     date: <span className="text-caption text-ink-600">03 mai 2026</span>,
     action: (
       <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
@@ -126,7 +126,7 @@ export default function AlerteInactivite() {
         eyebrow="Enterprise · Alertes"
         title="Alertes Inactivité"
         summary="Configure les seuils d'alerte pour les apprenants inactifs et consulte l'historique des alertes déclenchées."
-        tone="neutral"
+        tone="default"
         trailing={
           <Button variant="glass" size="sm" leadingIcon={<Bell size={14} />}>
             Envoyer une alerte test

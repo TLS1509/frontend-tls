@@ -119,7 +119,7 @@ export default function ManagerAlerts() {
               Les alertes sont envoyées par email aux destinataires configurés.
             </Alert>
             <div className="grid md:grid-cols-2 gap-stack">
-              <FormGroup label="Nom de l'alerte" htmlFor="alert-name">
+              <FormGroup label="Nom de l'alerte" id="alert-name">
                 <Input
                   id="alert-name"
                   value={newAlertName}

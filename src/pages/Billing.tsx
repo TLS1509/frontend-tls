@@ -212,7 +212,6 @@ export const Billing: React.FC = () => {
         <SectionCard
           title="Annuler l'abonnement"
           description="Vous conserverez l'accès Premium jusqu'à la fin de la période en cours."
-          tone="neutral"
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-4 rounded-2xl bg-danger-bg/30 border border-danger-border">
             <div className="flex items-start gap-3">

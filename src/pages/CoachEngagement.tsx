@@ -55,9 +55,9 @@ const CoachEngagement: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-stack-xs">
-          <FilterChip active={filter === 'all'} onClick={() => setFilter('all')}>Tous</FilterChip>
-          <FilterChip active={filter === 'active'} onClick={() => setFilter('active')}>Actifs</FilterChip>
-          <FilterChip active={filter === 'at-risk'} onClick={() => setFilter('at-risk')}>À risque</FilterChip>
+          <FilterChip label="Tous" active={filter === 'all'} onClick={() => setFilter('all')} />
+          <FilterChip label="Actifs" active={filter === 'active'} onClick={() => setFilter('active')} />
+          <FilterChip label="À risque" active={filter === 'at-risk'} onClick={() => setFilter('at-risk')} />
         </div>
 
         <SectionCard title="Apprenants assignés" description="Cliquez sur un apprenant pour voir son détail">

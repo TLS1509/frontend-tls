@@ -153,7 +153,7 @@ export default function ChatHistoryPanel() {
             icon={<MessageSquare size={32} />}
             title="Aucune conversation"
             description="Vous n'avez pas encore de conversations pour cette période. Démarrez une nouvelle session avec l'assistant."
-            action={
+            actions={
               <Button variant="primary" size="md" leadingIcon={<Sparkles size={16} />}>
                 Nouvelle conversation
               </Button>

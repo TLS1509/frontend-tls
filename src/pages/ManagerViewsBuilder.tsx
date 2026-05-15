@@ -60,9 +60,7 @@ const ManagerViewsBuilder: React.FC = () => {
           <SectionCard title="2. Métriques">
             <div className="flex flex-wrap gap-stack-xs">
               {METRICS.map((m) => (
-                <FilterChip key={m} active={selectedMetrics.includes(m)} onClick={() => toggleMetric(m)}>
-                  {m}
-                </FilterChip>
+                <FilterChip key={m} label={m} active={selectedMetrics.includes(m)} onClick={() => toggleMetric(m)} />
               ))}
             </div>
           </SectionCard>

@@ -91,14 +91,14 @@ export default function ManagerExport() {
         {/* Scope & Period */}
         <SectionCard title="Périmètre et période" titleIcon={<Calendar size={18} />}>
           <div className="grid md:grid-cols-2 gap-stack">
-            <FormGroup label="Périmètre" htmlFor="scope">
+            <FormGroup label="Périmètre" id="scope">
               <Select id="scope" value={scope} onChange={(e) => setScope(e.target.value as ExportScope)}>
                 {(Object.entries(SCOPE_CONFIG) as [ExportScope, (typeof SCOPE_CONFIG)[ExportScope]][]).map(([key, cfg]) => (
                   <option key={key} value={key}>{cfg.label} — {cfg.description}</option>
                 ))}
               </Select>
             </FormGroup>
-            <FormGroup label="Période" htmlFor="period">
+            <FormGroup label="Période" id="period">
               <Select id="period" value={period} onChange={(e) => setPeriod(e.target.value)}>
                 <option value="last-week">7 derniers jours</option>
                 <option value="last-month">30 derniers jours</option>

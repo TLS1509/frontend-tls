@@ -62,17 +62,17 @@ const JournalSearch: React.FC = () => {
         <div className="flex flex-wrap gap-stack">
           <div className="flex flex-wrap gap-stack-xs items-center">
             <span className="text-caption text-ink-500">Sentiment :</span>
-            <FilterChip active={moodFilter === 'all'} onClick={() => setMoodFilter('all')}>Tous</FilterChip>
-            <FilterChip active={moodFilter === 'happy'} onClick={() => setMoodFilter('happy')}>😊 Positif</FilterChip>
-            <FilterChip active={moodFilter === 'neutral'} onClick={() => setMoodFilter('neutral')}>😐 Neutre</FilterChip>
-            <FilterChip active={moodFilter === 'sad'} onClick={() => setMoodFilter('sad')}>😞 Difficile</FilterChip>
+            <FilterChip label="Tous" active={moodFilter === 'all'} onClick={() => setMoodFilter('all')} />
+            <FilterChip label="😊 Positif" active={moodFilter === 'happy'} onClick={() => setMoodFilter('happy')} />
+            <FilterChip label="😐 Neutre" active={moodFilter === 'neutral'} onClick={() => setMoodFilter('neutral')} />
+            <FilterChip label="😞 Difficile" active={moodFilter === 'sad'} onClick={() => setMoodFilter('sad')} />
           </div>
           <div className="flex flex-wrap gap-stack-xs items-center">
             <span className="text-caption text-ink-500">Période :</span>
-            <FilterChip active={dateFilter === 'all'} onClick={() => setDateFilter('all')}>Toutes</FilterChip>
-            <FilterChip active={dateFilter === '7d'} onClick={() => setDateFilter('7d')}>7j</FilterChip>
-            <FilterChip active={dateFilter === '30d'} onClick={() => setDateFilter('30d')}>30j</FilterChip>
-            <FilterChip active={dateFilter === '90d'} onClick={() => setDateFilter('90d')}>3 mois</FilterChip>
+            <FilterChip label="Toutes" active={dateFilter === 'all'} onClick={() => setDateFilter('all')} />
+            <FilterChip label="7j" active={dateFilter === '7d'} onClick={() => setDateFilter('7d')} />
+            <FilterChip label="30j" active={dateFilter === '30d'} onClick={() => setDateFilter('30d')} />
+            <FilterChip label="3 mois" active={dateFilter === '90d'} onClick={() => setDateFilter('90d')} />
           </div>
         </div>
 

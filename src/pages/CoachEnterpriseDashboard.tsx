@@ -52,9 +52,9 @@ const CoachEnterpriseDashboard: React.FC = () => {
           value={tab}
           onChange={(v) => setTab(v as typeof tab)}
           items={[
-            { value: 'roster', label: 'Team Roster' },
-            { value: 'queue', label: 'Validation Queue' },
-            { value: 'analytics', label: 'Team Analytics' },
+            { id: 'roster', label: 'Team Roster' },
+            { id: 'queue', label: 'Validation Queue' },
+            { id: 'analytics', label: 'Team Analytics' },
           ]}
         />
 

@@ -234,45 +234,45 @@ interface ComponentEntry {
 const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }> = {
   // ── ATOMS ─────────────────────────────────────────────────────────────
   // Form fields
-  Button:               { category: 'Atoms', subCategory: 'Form fields' },
-  QuickActionButton:    { category: 'Atoms', subCategory: 'Form fields' },
-  Input:                { category: 'Atoms', subCategory: 'Form fields' },
-  Checkbox:             { category: 'Atoms', subCategory: 'Form fields' },
-  Radio:                { category: 'Atoms', subCategory: 'Form fields' },
-  Switch:               { category: 'Atoms', subCategory: 'Form fields' },
-  Select:               { category: 'Atoms', subCategory: 'Form fields' },
-  FormGroup:            { category: 'Atoms', subCategory: 'Form fields' },
+  Button:               { category: 'Core', subCategory: 'Form fields' },
+  QuickActionButton:    { category: 'Core', subCategory: 'Form fields' },
+  Input:                { category: 'Core', subCategory: 'Form fields' },
+  Checkbox:             { category: 'Core', subCategory: 'Form fields' },
+  Radio:                { category: 'Core', subCategory: 'Form fields' },
+  Switch:               { category: 'Core', subCategory: 'Form fields' },
+  Select:               { category: 'Core', subCategory: 'Form fields' },
+  FormGroup:            { category: 'Core', subCategory: 'Form fields' },
   // FormField supprimé (Phase 10) — fusionné dans Input + FormGroup
 
   // Surfaces
-  Card:                 { category: 'Atoms', subCategory: 'Surfaces' },
+  Card:                 { category: 'Core', subCategory: 'Surfaces' },
 
   // Identity
-  Avatar:               { category: 'Atoms', subCategory: 'Identity' },
-  UserInfo:             { category: 'Atoms', subCategory: 'Identity' },
-  TlsLogo:              { category: 'Atoms', subCategory: 'Identity' },
+  Avatar:               { category: 'Core', subCategory: 'Identity' },
+  UserInfo:             { category: 'Core', subCategory: 'Identity' },
+  TlsLogo:              { category: 'Core', subCategory: 'Identity' },
 
   // Badges (rationalisés en une seule entrée)
-  Badge:                { category: 'Atoms', subCategory: 'Badges' },
-  NotificationBadge:    { category: 'Atoms', subCategory: 'Badges' },
+  Badge:                { category: 'Core', subCategory: 'Badges' },
+  NotificationBadge:    { category: 'Core', subCategory: 'Badges' },
 
   // Chips / Pills
-  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
-  MetaPill:             { category: 'Atoms', subCategory: 'Chips & Pills' },
-  MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
-  Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
-  FilterChip:           { category: 'Atoms', subCategory: 'Chips & Pills' },
+  Pill:                 { category: 'Core', subCategory: 'Chips & Pills' },
+  MetaPill:             { category: 'Core', subCategory: 'Chips & Pills' },
+  MetaItem:             { category: 'Core', subCategory: 'Chips & Pills' },
+  Tag:                  { category: 'Core', subCategory: 'Chips & Pills' },
+  FilterChip:           { category: 'Core', subCategory: 'Chips & Pills' },
   // 'Filter Pills' supprimé — redondant avec FilterChip
 
   // Indicators
-  ProgressBar:          { category: 'Atoms', subCategory: 'Indicators' },
-  InlineProgress:       { category: 'Atoms', subCategory: 'Indicators' },
+  ProgressBar:          { category: 'Core', subCategory: 'Indicators' },
+  InlineProgress:       { category: 'Core', subCategory: 'Indicators' },
   // ProgressRing supprimé — mentionné dans ProgressBar description
-  Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
-  Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
+  Skeleton:             { category: 'Core', subCategory: 'Indicators' },
+  Spinner:              { category: 'Core', subCategory: 'Indicators' },
 
   // Decoration
-  Divider:              { category: 'Atoms', subCategory: 'Decoration' },
+  Divider:              { category: 'Core', subCategory: 'Decoration' },
   // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
 
   // ── COMPOSITES ────────────────────────────────────────────────────────
@@ -296,8 +296,8 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   EditorialLayout:      { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   IntroCallout:         { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   EditorialQuoteCallout:{ category: 'Headers & Sections', subCategory: 'Section wrappers' },
-  AuthorStrip:          { category: 'Atoms', subCategory: 'Identity' },
-  ReadingProgress:      { category: 'Atoms', subCategory: 'Indicators' },
+  AuthorStrip:          { category: 'Core', subCategory: 'Identity' },
+  ReadingProgress:      { category: 'Core', subCategory: 'Indicators' },
   TableOfContents:      { category: 'Navigation', subCategory: 'Secondary nav' },
   KeyFindingCard:       { category: 'Cards', subCategory: 'KPI & Stats' },
   // Phase 10 retrofit additions (8 ajouts)
@@ -306,8 +306,6 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   ViewerOverlay:        { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   StepCard:             { category: 'Cards', subCategory: 'Learning content' },
   LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
-  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
-  Divider:              { category: 'Atoms', subCategory: 'Decoration' },
 
   // ── FEEDBACK ──────────────────────────────────────────────────────────
   Alert:                { category: 'Feedback', subCategory: 'Status messages' },
@@ -351,9 +349,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
 
   // Learning content cards
   ParcoursCard:         { category: 'Cards', subCategory: 'Learning content' },
-  LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
   ResumeLessonCard:     { category: 'Cards', subCategory: 'Learning content' },
-  StepCard:             { category: 'Cards', subCategory: 'Learning content' },
 
   // Editorial content
   EditorialCard:        { category: 'Cards', subCategory: 'Editorial content' },
@@ -420,16 +416,16 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   AuthShell:            { category: 'Auth Family', subCategory: 'Shell & layout' },
 
   // ── MVP — GDPR / IA / Compétences ─────────────────────────────────────
-  ConsentBanner:        { category: 'Patterns', subCategory: 'GDPR & Compliance' },
+  ConsentBanner:        { category: 'Feedback', subCategory: 'GDPR & Compliance' },
   CompetencyRadar:      { category: 'Learning', subCategory: 'Compétences' },
-  AITransparencyLabel:  { category: 'Atoms', subCategory: 'AI indicators' },
-  AIOverrideButton:     { category: 'Atoms', subCategory: 'AI indicators' },
+  AITransparencyLabel:  { category: 'Core', subCategory: 'AI indicators' },
+  AIOverrideButton:     { category: 'Core', subCategory: 'AI indicators' },
   AtrophieIndicator:    { category: 'Learning', subCategory: 'Compétences' },
 
   // ── PHASE 12 — Heatmap / Corrections / Tutorial ──────────────────────
   HeatmapGrid:          { category: 'Learning', subCategory: 'Compétences' },
-  CorrectionCard:       { category: 'Atoms', subCategory: 'Coaching' },
-  StepTutorial:         { category: 'Patterns', subCategory: 'Onboarding' },
+  CorrectionCard:       { category: 'Core', subCategory: 'Coaching' },
+  StepTutorial:         { category: 'Modals', subCategory: 'Onboarding' },
 
   // ── PHASE 14.1 — Première expérience flow ─────────────────────────────
   OptionGrid:             { category: 'Forms',          subCategory: 'Composite forms' },
@@ -439,12 +435,12 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   EmptyDashboardState:    { category: 'Feedback',       subCategory: 'Empty/zero states' },
 
   // ── PHASE 14.2a — Apprenant core (viewer shell) ──────────────────────
-  ProgressDots:           { category: 'Atoms',          subCategory: 'Indicators' },
+  ProgressDots:           { category: 'Core',          subCategory: 'Indicators' },
   LessonNavigation:       { category: 'Composites',    subCategory: 'Group wrappers' },
   FlipCard:               { category: 'Learning',      subCategory: 'Quiz & flashcards' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
-  'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
+  'Card subcomponents': { category: 'Core', subCategory: 'Surfaces' },
 };
 
 /** Display order for new categories (left-to-right in filter tabs, top-to-bottom in render). */
@@ -1633,7 +1629,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
     cssBase: 'Tailwind',
-    category: 'Atoms',
+    category: 'Core',
     description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports.',
     keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
@@ -4546,7 +4542,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AITransparencyLabel',
     codeName: 'ui/AITransparencyLabel.tsx',
     cssBase: 'AITransparencyLabel',
-    category: 'Atoms',
+    category: 'Core',
     description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
     keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
     showcaseOnly: false,
@@ -4580,7 +4576,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
     cssBase: 'AIOverrideButton',
-    category: 'Atoms',
+    category: 'Core',
     description: 'Bouton "Rejeter cette recommandation" pour Coach/Admin. Peut ouvrir un textarea inline pour collecter la raison du rejet. Module #13bis — transversal IA.',
     keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
     showcaseOnly: false,
@@ -4667,7 +4663,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CorrectionCard',
     codeName: 'ui/CorrectionCard.tsx',
     cssBase: 'CorrectionCard',
-    category: 'Atoms',
+    category: 'Core',
     description: 'Carte de travail soumis à corriger. Statut (pending/in-review/corrected/rejected), excerpt, feedback count, actions. Module #4 Coaching — corrections inbox.',
     keywords: ['correction', 'coaching', 'travail', 'feedback', 'corrigé', 'apprenant', 'inbox'],
     usedBy: ['CoachingCorrections', 'CoachCorrectionsQueue', 'CoachCorrectionInterface'],

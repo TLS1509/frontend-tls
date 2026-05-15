@@ -102,11 +102,11 @@ const getResourceBadge = (type: string) => {
   }
 };
 
-const TYPE_BADGE_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'neutral'> = {
+const TYPE_BADGE_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'success' | 'danger' | 'info'> = {
   article: 'brand',
   video:   'warm',
-  tool:    'neutral',
-  guide:   'sun',
+  tool:    'sun',
+  guide:   'success',
 };
 
 export const ComplementaryContentViewer: React.FC = () => {
@@ -193,11 +193,11 @@ export const ComplementaryContentViewer: React.FC = () => {
 
                       <div className="flex gap-3 items-center flex-wrap">
                         {resource.duration && (
-                          <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="neutral" size="sm" />
+                          <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />
                         )}
                         <div className="flex gap-2 flex-wrap">
                           {resource.tags.map((tag) => (
-                            <Badge key={tag} variant="neutral">{tag}</Badge>
+                            <Badge key={tag} variant="info">{tag}</Badge>
                           ))}
                         </div>
                       </div>

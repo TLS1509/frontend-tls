@@ -105,8 +105,8 @@ export default function CoachCorrectionsQueue() {
 
         {/* Tabs */}
         <Tabs
-          tabs={TABS.map((t) => ({ ...t, count: t.id === 'pending' ? pending.length : t.id === 'in-review' ? inReview.length : corrected.length }))}
-          activeTab={activeTab}
+          items={TABS}
+          value={activeTab}
           onChange={setActiveTab}
         />
 

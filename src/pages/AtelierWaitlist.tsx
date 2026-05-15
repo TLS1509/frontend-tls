@@ -20,7 +20,7 @@ export default function AtelierWaitlist() {
           <Clock size={32} className="text-secondary-600" />
         </div>
 
-        <Badge variant="warning" size="md">Liste d'attente</Badge>
+        <Badge variant="sun" size="md">Liste d'attente</Badge>
 
         <h1 className="text-h2 font-display font-bold text-ink-900">
           Tu es sur la liste d'attente
@@ -35,7 +35,7 @@ export default function AtelierWaitlist() {
           {/* Position */}
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Ta position</span>
-            <Badge variant="warning" size="md">
+            <Badge variant="sun" size="md">
               <span className="text-h3 font-bold">#3</span>
             </Badge>
           </div>

@@ -87,7 +87,7 @@ export default function BadgeDetail() {
               </Card>
               <Card variant="tinted" tone="sun" className="flex flex-col items-center justify-center py-5 gap-tight">
                 <Award size={22} className="text-accent-500" />
-                <Badge variant="warning" size="md">{BADGE.rarity}</Badge>
+                <Badge variant="sun" size="md">{BADGE.rarity}</Badge>
                 <span className="text-caption text-ink-500">Rareté du badge</span>
               </Card>
             </div>

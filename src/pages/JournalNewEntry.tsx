@@ -257,7 +257,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
-            {isDraft && <Badge variant="warning" size="sm">Brouillon</Badge>}
+            {isDraft && <Badge variant="sun" size="sm">Brouillon</Badge>}
           </div>
           <div className="flex items-center gap-1 text-ink-500 font-body text-caption">
             <Clock size={12} />

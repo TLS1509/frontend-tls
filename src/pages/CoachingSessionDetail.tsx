@@ -125,7 +125,7 @@ export default function CoachingSessionDetail() {
           title="Préparation recommandée"
           titleIcon={<ChevronRight size={18} />}
           actions={
-            <Badge variant="warning" size="sm">À faire avant la session</Badge>
+            <Badge variant="sun" size="sm">À faire avant la session</Badge>
           }
         >
           <p className="text-body-sm text-ink-600 leading-relaxed">{SESSION.preparation}</p>

@@ -56,10 +56,10 @@ const ProjectsList: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-stack-xs">
-          <FilterChip active={filter === 'all'} onClick={() => setFilter('all')}>Tous</FilterChip>
-          <FilterChip active={filter === 'active'} onClick={() => setFilter('active')}>Actifs</FilterChip>
-          <FilterChip active={filter === 'paused'} onClick={() => setFilter('paused')}>En pause</FilterChip>
-          <FilterChip active={filter === 'completed'} onClick={() => setFilter('completed')}>Terminés</FilterChip>
+          <FilterChip label="Tous" active={filter === 'all'} onClick={() => setFilter('all')} />
+          <FilterChip label="Actifs" active={filter === 'active'} onClick={() => setFilter('active')} />
+          <FilterChip label="En pause" active={filter === 'paused'} onClick={() => setFilter('paused')} />
+          <FilterChip label="Terminés" active={filter === 'completed'} onClick={() => setFilter('completed')} />
         </div>
 
         {filtered.length === 0 ? (

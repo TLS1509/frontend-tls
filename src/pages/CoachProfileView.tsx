@@ -25,8 +25,8 @@ const SPECIALTIES = [
   { text: 'Leadership', tone: 'brand' as const },
   { text: 'Communication', tone: 'brand' as const },
   { text: 'Gestion du changement', tone: 'warm' as const },
-  { text: 'Prise de parole', tone: 'neutral' as const },
-  { text: 'Design de formation', tone: 'neutral' as const },
+  { text: 'Prise de parole', tone: 'brand' as const },
+  { text: 'Design de formation', tone: 'brand' as const },
 ];
 
 const TESTIMONIALS = [

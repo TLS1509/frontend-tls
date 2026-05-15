@@ -96,7 +96,7 @@ export default function CoachCorrectionInterface() {
           {!submitted ? (
             <SectionCard title="Ton feedback" titleIcon={<MessageSquare size={18} />}>
               <div className="flex flex-col gap-stack">
-                <FormGroup label="Commentaire général" htmlFor="feedback">
+                <FormGroup label="Commentaire général" id="feedback">
                   <textarea
                     id="feedback"
                     value={feedback}
