@@ -1,5 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useJournalStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { JournalEntryType } from '../types/learning';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
@@ -92,23 +95,17 @@ const TYPE_META: Record<EntryType, { emoji: string; label: string; icon: React.C
   'compte-rendu':{ emoji: '📊', label: 'Compte rendu',   icon: FileText },
 };
 
-/* ─── Mock data ──────────────────────────────────────────────────────────── */
+/* ─── Store → display mapping ────────────────────────────────────────────── */
 
 const now = Date.now();
-const daysAgo = (n: number) => now - n * 24 * 3600 * 1000;
 
-const ENTRIES: JournalEntry[] = [
-  { id: 'j1',  type: 'guided',        title: 'Semaine 14 — Leadership & délégation',       excerpt: "J'ai identifié mes points de friction en délégation : la peur de perdre le contrôle freine ma capacité à faire confiance. Exercice : planifier 3 délégations concrètes avant vendredi.", date: '14 avril 2026', dateMs: daysAgo(2),  readingTime: '4 min', tags: ['Leadership', 'Délégation', 'Confiance'] },
-  { id: 'j2',  type: 'coaching',      title: 'Feedback équipe — Session avec Sophie',       excerpt: 'Les retours ont mis en avant la clarté des attentes. Sophie a souligné que je tends à retenir des informations clés trop longtemps. Action : créer un canal partagé de décisions.', date: '12 avril 2026', dateMs: daysAgo(4),  readingTime: '6 min', tags: ['Feedback', 'Communication', 'Équipe'] },
-  { id: 'j3',  type: 'insight',       title: 'Le modèle SCARF en action',                  excerpt: "Après la réunion de lundi, j'ai eu une révélation : la tension venait d'une menace perçue sur le statut. En le nommant, la conversation a changé.", date: '8 avril 2026',  dateMs: daysAgo(8),  readingTime: '3 min', tags: ['SCARF', 'Neuroleadership', 'Insight'] },
-  { id: 'j4',  type: 'learning',      title: 'Motivation intrinsèque : points clés',        excerpt: 'Notes post-leçon "Motivation et Engagement". La distinction clé : la motivation extrinsèque produit des résultats à court terme mais détruit la confiance.', date: '3 avril 2026',  dateMs: daysAgo(13), readingTime: '5 min', tags: ['Motivation', 'Engagement', 'Psychologie'] },
-  { id: 'j5',  type: 'free',          title: 'Réflexion libre — Quelle manager suis-je ?', excerpt: "Exercice de positionnement : sur une échelle de 1 à 10, comment j'évalue ma capacité à créer du sens pour mon équipe ? Je me donne un 6,5.", date: '28 mars 2026', dateMs: daysAgo(19), readingTime: '7 min', tags: ['Identité', 'Posture', 'Authenticité'] },
-  { id: 'j6',  type: 'coaching',      title: 'Bilan mi-parcours — Mois 2',                 excerpt: "Sophie a noté des progrès réels sur l'écoute active. Ce qui reste difficile : interrompre moins, surtout dans les situations de stress.", date: '20 mars 2026', dateMs: daysAgo(27), readingTime: '8 min', tags: ['Bilan', 'Écoute', 'Progression'] },
-  { id: 'j7',  type: 'guided',        title: "Mon plan d'action — Leadership transformationnel", excerpt: "Après la leçon sur le leadership transformationnel, j'ai défini 4 actions concrètes pour ce mois.", date: '10 mars 2026', dateMs: daysAgo(37), readingTime: '6 min', tags: ["Plan d'action", 'Transformationnel', 'Vision'] },
-  { id: 'j8',  type: 'insight',       title: "L'effet miroir — Quand je projette sur l'équipe", excerpt: "Prise de conscience : quand je dis 'mon équipe manque de proactivité', je projetais ma propre anxiété sur eux.", date: '2 mars 2026',  dateMs: daysAgo(45), readingTime: '4 min', tags: ['Projection', 'Biais', 'Communication'] },
-  { id: 'j9',  type: 'questionnaire', title: 'Questionnaire pré-session — Mois 3',         excerpt: "Réponses au questionnaire préparatoire de Sophie : objectifs de la session, points de blocage actuels, niveau de stress ressenti cette semaine.", date: '26 avril 2026', dateMs: daysAgo(5), readingTime: '3 min', tags: ['Préparation', 'Coaching', 'Introspection'] },
-  { id: 'j10', type: 'compte-rendu',  title: 'Compte rendu — Session 3 avec Sophie',       excerpt: "Synthèse de la session du 28 avril : progression sur l'écoute active, clarté des objectifs, gestion du stress situationnel.", date: '28 avril 2026', dateMs: daysAgo(3), readingTime: '6 min', tags: ['Bilan', 'Leadership', "Plan d'action"] },
-];
+const SPEC_TO_DISPLAY: Record<JournalEntryType, EntryType> = {
+  'reflexion-libre':  'free',
+  'apprentissage':    'learning',
+  'pratique-pro':     'guided',
+  'session-coaching': 'coaching',
+  'moment-eureka':    'insight',
+};
 
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
@@ -219,9 +216,23 @@ const EntryCard: React.FC<EntryCardProps> = ({ entry, onNavigate, onCoachingActi
 
 export const Journal: React.FC = () => {
   const navigate = useNavigate();
+  const journalStore = useJournalStore();
   const [typeFilter,   setTypeFilter]   = useState<TypeFilter>('all');
   const [periodFilter, setPeriodFilter] = useState<PeriodFilter>('all');
   const [searchQuery,  setSearchQuery]  = useState('');
+
+  const storeEntries = journalStore.getEntries(MOCK_USER_ID);
+
+  const ENTRIES: JournalEntry[] = useMemo(() => storeEntries.map((e) => ({
+    id: e.id,
+    type: SPEC_TO_DISPLAY[e.type] ?? 'free',
+    title: e.title,
+    excerpt: e.body.length > 200 ? e.body.slice(0, 200) + '…' : e.body,
+    date: new Date(e.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+    dateMs: new Date(e.createdAt).getTime(),
+    readingTime: `${Math.max(1, Math.ceil(e.body.split(' ').length / 200))} min`,
+    tags: e.tags ?? [],
+  })), [storeEntries]);
 
   const filteredEntries = useMemo(() => {
     const cutoff = PERIOD_MS[periodFilter] > 0 ? now - PERIOD_MS[periodFilter] : 0;
@@ -232,7 +243,7 @@ export const Journal: React.FC = () => {
       const matchSearch = q === '' || e.title.toLowerCase().includes(q) || e.excerpt.toLowerCase().includes(q) || e.tags.some((t) => t.toLowerCase().includes(q));
       return matchType && matchPeriod && matchSearch;
     });
-  }, [typeFilter, periodFilter, searchQuery]);
+  }, [ENTRIES, typeFilter, periodFilter, searchQuery]);
 
   const hasActiveFilter = typeFilter !== 'all' || periodFilter !== 'all' || searchQuery !== '';
 

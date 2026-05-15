@@ -216,3 +216,102 @@ export interface UserPositioningResult {
   /** ISO timestamp */
   completedAt: string;
 }
+
+// ─── Gamification (Cahier #05 Badges & XP) ───────────────────────────────────
+
+/** 3 types de badges (Cahier #05 § Types Badges) */
+export type BadgeType =
+  | 'plateforme'  // badges engagement plateforme (streaks, milestones)
+  | 'open_badge'  // IMS Open Badges v2, exportables, vérifiables
+  | 'competence'; // badges liés au niveau Dreyfus d'une compétence
+
+/** Triggers XP (Cahier #05 § Triggers XP) */
+export type XPTrigger =
+  | 'lesson_complete'
+  | 'parcours_complete'
+  | 'coaching_session'
+  | 'journal_entry'
+  | 'badge_earned'
+  | 'quiz_perfect'
+  | 'streak_milestone'
+  | 'jac_validated'
+  | 'dreyfus_up';
+
+export interface XPEvent {
+  id: string;
+  userId: string;
+  trigger: XPTrigger;
+  xp: number;
+  description: string;
+  occurredAt: string;
+}
+
+/** Définition d'un badge (référentiel) */
+export interface BadgeDef {
+  id: string;
+  type: BadgeType;
+  name: string;
+  description: string;
+  /** Compétence liée (type = 'competence' uniquement) */
+  competenceId?: string;
+  /** Niveau Dreyfus requis (type = 'competence') */
+  dreyfusLevel?: DreyfusLevel;
+  xpValue: number;
+  criteria: string[];
+}
+
+/** Badge gagné par un utilisateur */
+export interface UserBadge {
+  userId: string;
+  badgeId: string;
+  earnedAt: string;
+  xpAwarded: number;
+}
+
+/** État du streak utilisateur */
+export interface UserStreak {
+  userId: string;
+  currentStreak: number;
+  longestStreak: number;
+  lastActivityAt: string;
+  totalXP: number;
+  currentLevel: number;
+}
+
+// ─── Journal de Bord Réflexif (Cahier #07) ───────────────────────────────────
+
+/** 5 types d'entrée journal (Cahier #07 § Types d'entrée) */
+export type JournalEntryType =
+  | 'reflexion-libre'
+  | 'apprentissage'
+  | 'pratique-pro'
+  | 'session-coaching'
+  | 'moment-eureka';
+
+/** Niveau de sentiment (Cahier #07 § Mood) */
+export type JournalMoodLevel = 'very-sad' | 'sad' | 'neutral' | 'happy' | 'very-happy';
+
+/**
+ * Entrée de journal réflexif.
+ * Peut être liée à un item d'apprentissage (lien Item↔Journal, Cahier #07).
+ */
+export interface JournalEntry {
+  id: string;
+  userId: string;
+  type: JournalEntryType;
+  title: string;
+  body: string;
+  mood: JournalMoodLevel;
+  /** Réponses aux questions structurantes (EDRA-R ou génériques) */
+  structuredAnswers?: Record<string, string>;
+  /** Lien Item↔Journal — ID de l'item d'apprentissage déclencheur */
+  linkedItemId?: string;
+  /** Type d'item lié (Cahier #07 § lien Item↔Journal) */
+  linkedItemType?: ItemType;
+  /** Compétence liée (facultatif, enrichi au saving) */
+  linkedCompetenceId?: string;
+  tags?: string[];
+  xpAwarded: number;
+  createdAt: string;
+  updatedAt: string;
+}

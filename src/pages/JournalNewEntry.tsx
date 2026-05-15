@@ -7,6 +7,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
+import { useJournalStore, useGamificationStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS } from '../data/journal';
 import {
   ArrowLeft,
   Sparkles,
@@ -45,33 +48,6 @@ const MOOD_CONFIG: Record<MoodLevel, MoodConfig> = {
   'very-happy': { emoji: '🤩', label: 'Excellent', color: 'text-primary-600' },
 };
 
-interface StructuredQuestion {
-  id: string;
-  title: string;
-  description: string;
-  placeholder: string;
-}
-
-const STRUCTURED_QUESTIONS: StructuredQuestion[] = [
-  {
-    id: 'learning',
-    title: 'Qu\'avez-vous appris ?',
-    description: 'Identifiez les insights clés, concepts ou compétences développées',
-    placeholder: 'Notez les apprentissages principaux...',
-  },
-  {
-    id: 'challenges',
-    title: 'Quels défis avez-vous rencontrés ?',
-    description: 'Décrivez les obstacles, difficultés ou points de blocage',
-    placeholder: 'Parlez des défis rencontrés...',
-  },
-  {
-    id: 'application',
-    title: 'Comment allez-vous appliquer cela ?',
-    description: 'Planifiez les actions concrètes et les changements à mettre en œuvre',
-    placeholder: 'Décrivez votre plan d\'action...',
-  },
-];
 
 interface TypeConfig {
   label: string;
@@ -163,25 +139,33 @@ const TODAY = new Date().toLocaleDateString('fr-FR', {
 export const JournalNewEntry: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const journalStore = useJournalStore();
+  const gamifStore = useGamificationStore();
+
   // Pre-select entry type from URL `?type=...` (used when navigating from Dashboard JournalPromptCards)
   const initialType = useMemo<EntryType>(() => {
     const urlType = searchParams.get('type') as EntryType | null;
     return urlType && VALID_URL_TYPES.has(urlType) ? urlType : 'reflexion-libre';
   }, [searchParams]);
 
+  // Item↔Journal link (Cahier #07) — linkedItemId from URL `?itemId=...`
+  const linkedItemId = searchParams.get('itemId') ?? undefined;
+  const linkedCompetenceId = searchParams.get('competenceId') ?? undefined;
+
   const [selectedType, setSelectedType] = useState<EntryType>(initialType);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [mood, setMood] = useState<MoodLevel>('neutral');
-  const [structuredAnswers, setStructuredAnswers] = useState<Record<string, string>>({
-    'learning': '',
-    'challenges': '',
-    'application': '',
-  });
+  const [structuredAnswers, setStructuredAnswers] = useState<Record<string, string>>({});
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
   const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const autoSaveTimeoutRef = useRef<number | undefined>(undefined);
   const hasContentRef = useRef(false);
+
+  // EDRA-R template for apprentissage/pratique-pro (Cahier #07 § Template EDRA-R)
+  const activeQuestions = (selectedType === 'apprentissage' || selectedType === 'pratique-pro')
+    ? EDRA_R_QUESTIONS
+    : GENERIC_STRUCTURED_QUESTIONS;
 
   const wordCount = useMemo(() => {
     const text = `${title} ${body}`.trim();
@@ -233,6 +217,31 @@ export const JournalNewEntry: React.FC = () => {
       toast.warning('Ajoutez un titre ou du contenu avant de publier', 'Brouillon vide');
       return;
     }
+    const now = new Date().toISOString();
+    const entry = {
+      id: `j-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      type: selectedType,
+      title: title.trim() || 'Sans titre',
+      body: body.trim(),
+      mood,
+      structuredAnswers: Object.keys(structuredAnswers).length > 0 ? structuredAnswers : undefined,
+      linkedItemId,
+      linkedCompetenceId,
+      xpAwarded: 20,
+      tags: [],
+      createdAt: now,
+      updatedAt: now,
+    } as const;
+    journalStore.addEntry(entry);
+    gamifStore.addXPEvent({
+      id: `xp-journal-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      trigger: 'journal_entry',
+      xp: 20,
+      description: `Entrée journal réflexif — ${entry.title}`,
+      occurredAt: now,
+    });
     toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');
     setTimeout(() => navigate('/journal'), 800);
   };
@@ -372,11 +381,15 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Lightbulb size={18} className="text-primary-500" />
-            <span className="font-body text-body-sm font-semibold text-ink-900">Questions structurantes (optionnel)</span>
+            <span className="font-body text-body-sm font-semibold text-ink-900">
+              {selectedType === 'apprentissage' || selectedType === 'pratique-pro'
+                ? 'Template EDRA-R (optionnel)'
+                : 'Questions structurantes (optionnel)'}
+            </span>
           </div>
 
           <div className="space-y-2">
-            {STRUCTURED_QUESTIONS.map((q) => {
+            {activeQuestions.map((q) => {
               const isExpanded = expandedQuestions.has(q.id);
               return (
                 <div key={q.id} className="border border-ink-200 rounded-lg overflow-hidden">

@@ -10,6 +10,8 @@
  *  - `usePositioningStore` (Cahier #01) : UserPositioningResult (parcours positioning quiz results)
  *  - `usePasseportStore` (Cahier #02) : LearnerCompetency + CompetencyObjective (Passeport)
  *  - `useUserProfileStore` (Cahier #03) : UserProfile (onboarding answers, role, credits)
+ *  - `useGamificationStore` (Cahier #05) : XPEvent + UserBadge + UserStreak
+ *  - `useJournalStore` (Cahier #07) : JournalEntry (journal de bord réflexif)
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -26,13 +28,23 @@ import type {
   UserProfile,
   UserRole,
   SubscriptionTier,
+  XPEvent,
+  UserBadge,
+  UserStreak,
+  CompetencyProgression,
+  JournalEntry,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
   MOCK_COMPETENCY_OBJECTIVES,
   MOCK_COMPETENCY_PROGRESSIONS,
 } from '../data/passeport';
-import type { CompetencyProgression } from '../types/learning';
+import { MOCK_JOURNAL_ENTRIES } from '../data/journal';
+import {
+  MOCK_XP_EVENTS,
+  MOCK_USER_BADGES,
+  MOCK_USER_STREAK,
+} from '../data/gamification';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -535,6 +547,153 @@ export const useUserProfileStore = create<UserProfileState>()(
     }),
     {
       name: 'tls-user-profile',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+/* ─── 9. Gamification (Cahier #05) ──────────────────────────────────────── */
+
+interface GamificationState {
+  xpEvents: Record<string, XPEvent[]>;
+  badges: Record<string, UserBadge[]>;
+  streaks: Record<string, UserStreak>;
+
+  getXPEvents: (userId: string) => XPEvent[];
+  addXPEvent: (event: XPEvent) => void;
+  getTotalXP: (userId: string) => number;
+
+  getBadges: (userId: string) => UserBadge[];
+  awardBadge: (badge: UserBadge) => void;
+  hasBadge: (userId: string, badgeId: string) => boolean;
+
+  getStreak: (userId: string) => UserStreak;
+  updateStreak: (streak: UserStreak) => void;
+
+  clear: () => void;
+}
+
+export const useGamificationStore = create<GamificationState>()(
+  persist(
+    (set, get) => ({
+      xpEvents: {},
+      badges: {},
+      streaks: {},
+
+      getXPEvents: (userId) => {
+        const existing = get().xpEvents[userId];
+        if (existing) return existing;
+        const seeded = MOCK_XP_EVENTS.filter((e) => e.userId === userId);
+        const fallback = seeded.length > 0 ? seeded : MOCK_XP_EVENTS;
+        set((state) => ({ xpEvents: { ...state.xpEvents, [userId]: fallback } }));
+        return fallback;
+      },
+
+      addXPEvent: (event) =>
+        set((state) => {
+          const existing = state.xpEvents[event.userId] ?? [];
+          return { xpEvents: { ...state.xpEvents, [event.userId]: [event, ...existing] } };
+        }),
+
+      getTotalXP: (userId) =>
+        get().getXPEvents(userId).reduce((sum, e) => sum + e.xp, 0),
+
+      getBadges: (userId) => {
+        const existing = get().badges[userId];
+        if (existing) return existing;
+        const seeded = MOCK_USER_BADGES.filter((b) => b.userId === userId);
+        const fallback = seeded.length > 0 ? seeded : MOCK_USER_BADGES;
+        set((state) => ({ badges: { ...state.badges, [userId]: fallback } }));
+        return fallback;
+      },
+
+      awardBadge: (badge) =>
+        set((state) => {
+          const existing = state.badges[badge.userId] ?? [];
+          if (existing.some((b) => b.badgeId === badge.badgeId)) return state;
+          return { badges: { ...state.badges, [badge.userId]: [...existing, badge] } };
+        }),
+
+      hasBadge: (userId, badgeId) =>
+        get().getBadges(userId).some((b) => b.badgeId === badgeId),
+
+      getStreak: (userId) => {
+        const existing = get().streaks[userId];
+        if (existing) return existing;
+        const fallback = MOCK_USER_STREAK.userId === userId
+          ? MOCK_USER_STREAK
+          : { ...MOCK_USER_STREAK, userId };
+        set((state) => ({ streaks: { ...state.streaks, [userId]: fallback } }));
+        return fallback;
+      },
+
+      updateStreak: (streak) =>
+        set((state) => ({ streaks: { ...state.streaks, [streak.userId]: streak } })),
+
+      clear: () => set({ xpEvents: {}, badges: {}, streaks: {} }),
+    }),
+    {
+      name: 'tls-gamification',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #10 — Journal (Cahier #07) ────────────────────────────────────────
+
+interface JournalState {
+  entries: Record<string, JournalEntry[]>;
+  getEntries: (userId: string) => JournalEntry[];
+  addEntry: (entry: JournalEntry) => void;
+  updateEntry: (userId: string, id: string, updates: Partial<JournalEntry>) => void;
+  deleteEntry: (userId: string, id: string) => void;
+  clear: () => void;
+}
+
+export const useJournalStore = create<JournalState>()(
+  persist(
+    (set, get) => ({
+      entries: {},
+
+      getEntries: (userId) => {
+        const existing = get().entries[userId];
+        if (existing) return existing;
+        const seeded = MOCK_JOURNAL_ENTRIES.filter((e) => e.userId === userId);
+        set((state) => ({ entries: { ...state.entries, [userId]: seeded } }));
+        return seeded;
+      },
+
+      addEntry: (entry) =>
+        set((state) => {
+          const existing = state.entries[entry.userId] ?? [];
+          return { entries: { ...state.entries, [entry.userId]: [entry, ...existing] } };
+        }),
+
+      updateEntry: (userId, id, updates) =>
+        set((state) => {
+          const existing = state.entries[userId] ?? [];
+          return {
+            entries: {
+              ...state.entries,
+              [userId]: existing.map((e) => e.id === id ? { ...e, ...updates } : e),
+            },
+          };
+        }),
+
+      deleteEntry: (userId, id) =>
+        set((state) => ({
+          entries: {
+            ...state.entries,
+            [userId]: (state.entries[userId] ?? []).filter((e) => e.id !== id),
+          },
+        })),
+
+      clear: () => set({ entries: {} }),
+    }),
+    {
+      name: 'tls-journal',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

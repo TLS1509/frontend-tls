@@ -1337,7 +1337,7 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | 16.4 | #04 Coaching 1-1 | M (1–2 sem) | **MVP** | Workflow corrections itératives, statuts session, pré-questionnaire |
 | 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | ✅ BadgeType (plateforme/open_badge/competence) + XPTrigger types · `src/data/gamification.ts` (BADGE_DEFS, MOCK_USER_BADGES, MOCK_XP_EVENTS, MOCK_USER_STREAK) · useGamificationStore (xpEvents/badges/streaks, seed-on-first-access) · BadgeGallery câblé store (filtres BadgeType, badges locked dynamiques) · Gamification.tsx (stats/recentBadges/competenceBadges depuis stores, Dreyfus labels FR corrigés) · XPDashboard câblé store + max-w-page→wide · StreakDetail câblé store + max-w-page→wide |
 | 16.6 | #06 Enterprise FO | M (1–2 sem) | **MVP** | Multi-tenant company_id, 5 dashboards, gating role manager |
-| 16.7 | #07 Journal réflexif | S (3–5j) | V1 sept | Questions configurables, EDRA-R templates, lien Item↔Journal |
+| 16.7 | #07 Journal réflexif | S (3–5j) | V1 sept | ✅ JournalEntry type + JournalEntryType/JournalMoodLevel · src/data/journal.ts (5 mock entries, EDRA_R_QUESTIONS, GENERIC_STRUCTURED_QUESTIONS) · useJournalStore (seed-on-first-access, addEntry/updateEntry/deleteEntry) · Journal.tsx câblé store + type mapping spec→display · JournalNewEntry câblé store + EDRA-R template auto (apprentissage/pratique-pro) + linkedItemId URL param · JournalSearch câblé store |
 | 16.8 | #08 Masterclass + Atelier + Évent | M (2 sem) | V1 sept | Inscription/waitlist, replay tracking, survey post-event |
 | 16.9 | #09 Notifications | S (3–5j) | MVP+V1 | Préfs granulaires par canal (email/in-app/push) |
 | 16.10 | #10 Analytics | M (1–2 sem) | V1 sept | Events tracking FO, dashboards data binding |

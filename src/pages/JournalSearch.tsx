@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Search as SearchIcon, Calendar, Smile, Frown, Meh } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
@@ -6,39 +6,52 @@ import { Input } from '../components/core/Input';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Badge } from '../components/ui/Badge';
 import { EmptyState } from '../components/ui/EmptyState';
+import { useJournalStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { JournalMoodLevel } from '../types/learning';
 
-interface JournalEntry {
-  id: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  mood: 'happy' | 'neutral' | 'sad';
-  type: string;
-}
+type MoodFilter = 'all' | JournalMoodLevel;
 
-const ENTRIES: JournalEntry[] = [
-  { id: '1', title: 'Réflexion sur ma première mission', date: '12 mai 2026', excerpt: 'Aujourd\'hui j\'ai pris conscience que la communication avec les clients est essentielle...', mood: 'happy', type: 'Mission' },
-  { id: '2', title: 'Échec sur le pitch produit', date: '8 mai 2026', excerpt: 'Je suis frustré : mon pitch n\'a pas convaincu. Je dois revoir ma structure...', mood: 'sad', type: 'Apprentissage' },
-  { id: '3', title: 'Notes de coaching avec Marie', date: '5 mai 2026', excerpt: 'Marie m\'a fait remarquer que je peux structurer ma pensée différemment...', mood: 'neutral', type: 'Coaching' },
-  { id: '4', title: 'Victoire sur le module stratégie', date: '2 mai 2026', excerpt: 'Module terminé avec brio ! Le quiz final était difficile mais...', mood: 'happy', type: 'Apprentissage' },
-];
+const MOOD_CONFIG: Record<JournalMoodLevel, { icon: typeof Smile; color: string; label: string }> = {
+  'very-happy': { icon: Smile, color: 'text-primary-600', label: 'Excellent' },
+  'happy':      { icon: Smile, color: 'text-success-fg',  label: 'Positif' },
+  'neutral':    { icon: Meh,   color: 'text-info-fg',     label: 'Neutre' },
+  'sad':        { icon: Frown, color: 'text-warning-fg',  label: 'Difficile' },
+  'very-sad':   { icon: Frown, color: 'text-danger-fg',   label: 'Très difficile' },
+};
 
-const MOOD_CONFIG = {
-  happy: { icon: Smile, color: 'text-success-fg', label: 'Positif' },
-  neutral: { icon: Meh, color: 'text-info-fg', label: 'Neutre' },
-  sad: { icon: Frown, color: 'text-secondary-600', label: 'Difficile' },
+const PERIOD_MS: Record<string, number> = {
+  all: 0, '7d': 7 * 86_400_000, '30d': 30 * 86_400_000, '90d': 90 * 86_400_000,
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  'reflexion-libre': 'Réflexion libre',
+  'apprentissage': 'Apprentissage',
+  'pratique-pro': 'Pratique pro',
+  'session-coaching': 'Coaching',
+  'moment-eureka': 'Eurêka',
 };
 
 const JournalSearch: React.FC = () => {
+  const journalStore = useJournalStore();
   const [query, setQuery] = useState('');
-  const [moodFilter, setMoodFilter] = useState<'all' | 'happy' | 'neutral' | 'sad'>('all');
+  const [moodFilter, setMoodFilter] = useState<MoodFilter>('all');
   const [dateFilter, setDateFilter] = useState('all');
 
-  const filtered = ENTRIES.filter((e) => {
-    if (query && !e.title.toLowerCase().includes(query.toLowerCase()) && !e.excerpt.toLowerCase().includes(query.toLowerCase())) return false;
-    if (moodFilter !== 'all' && e.mood !== moodFilter) return false;
-    return true;
-  });
+  const storeEntries = journalStore.getEntries(MOCK_USER_ID);
+  const now = Date.now();
+
+  const filtered = useMemo(() => {
+    const cutoff = PERIOD_MS[dateFilter] > 0 ? now - PERIOD_MS[dateFilter] : 0;
+    const q = query.trim().toLowerCase();
+    return storeEntries.filter((e) => {
+      const dateMs = new Date(e.createdAt).getTime();
+      if (q && !e.title.toLowerCase().includes(q) && !e.body.toLowerCase().includes(q)) return false;
+      if (moodFilter !== 'all' && e.mood !== moodFilter) return false;
+      if (cutoff > 0 && dateMs < cutoff) return false;
+      return true;
+    });
+  }, [storeEntries, query, moodFilter, dateFilter, now]);
 
   return (
     <div className="min-h-screen bg-surface">
@@ -62,17 +75,17 @@ const JournalSearch: React.FC = () => {
         <div className="flex flex-wrap gap-stack">
           <div className="flex flex-wrap gap-stack-xs items-center">
             <span className="text-caption text-ink-500">Sentiment :</span>
-            <FilterChip label="Tous" active={moodFilter === 'all'} onClick={() => setMoodFilter('all')} />
-            <FilterChip label="😊 Positif" active={moodFilter === 'happy'} onClick={() => setMoodFilter('happy')} />
-            <FilterChip label="😐 Neutre" active={moodFilter === 'neutral'} onClick={() => setMoodFilter('neutral')} />
-            <FilterChip label="😞 Difficile" active={moodFilter === 'sad'} onClick={() => setMoodFilter('sad')} />
+            <FilterChip label="Tous"           active={moodFilter === 'all'}       onClick={() => setMoodFilter('all')} />
+            <FilterChip label="😊 Positif"     active={moodFilter === 'happy'}     onClick={() => setMoodFilter('happy')} />
+            <FilterChip label="😐 Neutre"      active={moodFilter === 'neutral'}   onClick={() => setMoodFilter('neutral')} />
+            <FilterChip label="😞 Difficile"   active={moodFilter === 'sad'}       onClick={() => setMoodFilter('sad')} />
           </div>
           <div className="flex flex-wrap gap-stack-xs items-center">
             <span className="text-caption text-ink-500">Période :</span>
-            <FilterChip label="Toutes" active={dateFilter === 'all'} onClick={() => setDateFilter('all')} />
-            <FilterChip label="7j" active={dateFilter === '7d'} onClick={() => setDateFilter('7d')} />
-            <FilterChip label="30j" active={dateFilter === '30d'} onClick={() => setDateFilter('30d')} />
-            <FilterChip label="3 mois" active={dateFilter === '90d'} onClick={() => setDateFilter('90d')} />
+            <FilterChip label="Toutes"  active={dateFilter === 'all'} onClick={() => setDateFilter('all')} />
+            <FilterChip label="7j"      active={dateFilter === '7d'}  onClick={() => setDateFilter('7d')} />
+            <FilterChip label="30j"     active={dateFilter === '30d'} onClick={() => setDateFilter('30d')} />
+            <FilterChip label="3 mois"  active={dateFilter === '90d'} onClick={() => setDateFilter('90d')} />
           </div>
         </div>
 
@@ -85,8 +98,10 @@ const JournalSearch: React.FC = () => {
         ) : (
           <div className="flex flex-col gap-stack-xs">
             {filtered.map((e) => {
-              const cfg = MOOD_CONFIG[e.mood];
+              const cfg = MOOD_CONFIG[e.mood] ?? MOOD_CONFIG['neutral'];
               const Icon = cfg.icon;
+              const excerpt = e.body.length > 150 ? e.body.slice(0, 150) + '…' : e.body;
+              const date = new Date(e.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
               return (
                 <Card key={e.id} className="p-5 cursor-pointer hover:border-primary-300 transition-all">
                   <div className="flex items-start gap-stack">
@@ -95,12 +110,13 @@ const JournalSearch: React.FC = () => {
                       <div className="flex items-center gap-stack-xs mb-1">
                         <h3 className="font-semibold">{e.title}</h3>
                       </div>
-                      <p className="text-body-sm text-ink-600 mb-stack-xs">{e.excerpt}</p>
-                      <div className="flex items-center gap-stack-xs">
-                        <Badge variant="neutral">{e.type}</Badge>
+                      <p className="text-body-sm text-ink-600 mb-stack-xs">{excerpt}</p>
+                      <div className="flex items-center gap-stack-xs flex-wrap">
+                        <Badge variant="neutral">{TYPE_LABELS[e.type] ?? e.type}</Badge>
                         <Badge variant="brand">{cfg.label}</Badge>
+                        {e.linkedItemId && <Badge variant="sun">Item lié</Badge>}
                         <span className="flex items-center gap-1 text-caption text-ink-500">
-                          <Calendar className="w-3 h-3" /> {e.date}
+                          <Calendar className="w-3 h-3" /> {date}
                         </span>
                       </div>
                     </div>
