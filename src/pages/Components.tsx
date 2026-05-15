@@ -5172,10 +5172,7 @@ const SHADOW_TOKENS: TokenEntry[] = [
 ];
 
 const MOTION_TOKENS: TokenEntry[] = [
-  { name: 'ease-standard', cssVar: '--ease-standard', value: 'cubic-bezier(0.2, 0, 0, 1)', group: 'Easing', type: 'motion' },
-  { name: 'ease-emphasized', cssVar: '--ease-emphasized', value: 'cubic-bezier(0.2, 0, 0, 1.15)', group: 'Easing', type: 'motion' },
-  { name: 'ease-entrance', cssVar: '--ease-entrance', value: 'cubic-bezier(0, 0, 0.2, 1)', group: 'Easing', type: 'motion' },
-  { name: 'ease-exit', cssVar: '--ease-exit', value: 'cubic-bezier(0.4, 0, 1, 1)', group: 'Easing', type: 'motion' },
+  // Note: Easing tokens are in EASING_TOKENS, not here (avoid duplicate keys)
   { name: 'dur-1', cssVar: '--dur-1', value: '120ms', group: 'Duration', type: 'motion' },
   { name: 'dur-2', cssVar: '--dur-2', value: '180ms', group: 'Duration', type: 'motion' },
   { name: 'dur-3', cssVar: '--dur-3', value: '240ms', group: 'Duration', type: 'motion' },
@@ -5637,6 +5634,33 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'Tokens',             label: 'Tokens' },
 ];
 
+// Simple Error Boundary wrapper for component previews
+class ComponentPreviewErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 bg-danger-bg text-danger-fg border border-danger-base rounded-md">
+          <p className="font-bold">Render Error</p>
+          <p className="text-sm font-mono">{this.state.error?.message || 'Unknown error'}</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const Components: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -5652,22 +5676,41 @@ const Components: React.FC = () => {
 
   const q = query.trim().toLowerCase();
 
+  React.useEffect(() => {
+    console.log('Query changed:', { query, q, filter });
+  }, [query, filter]);
+
   // Components enriched with new meta (category + subCategory)
-  const componentsWithMeta = useMemo(
-    () => COMPONENTS.map((c) => ({ ...c, _meta: resolveMeta(c) })),
-    [],
-  );
+  const componentsWithMeta = useMemo(() => {
+    console.log('Computing componentsWithMeta...');
+    try {
+      const result = COMPONENTS.map((c) => ({ ...c, _meta: resolveMeta(c) }));
+      console.log('componentsWithMeta computed:', result.length, 'components');
+      return result;
+    } catch (error) {
+      console.error('Error computing componentsWithMeta:', error);
+      throw error;
+    }
+  }, []);
 
   const filteredComponents = useMemo(() => {
-    if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
-    return componentsWithMeta.filter((c) => {
-      if (filter !== 'all' && c._meta.category !== filter) return false;
-      if (!q) return true;
-      const haystack = [
-        c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
-      ].join(' ').toLowerCase();
-      return haystack.includes(q);
-    });
+    console.log('Computing filteredComponents...');
+    try {
+      if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
+      const result = componentsWithMeta.filter((c) => {
+        if (filter !== 'all' && c._meta.category !== filter) return false;
+        if (!q) return true;
+        const haystack = [
+          c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
+        ].join(' ').toLowerCase();
+        return haystack.includes(q);
+      });
+      console.log('filteredComponents computed:', result.length, 'components');
+      return result;
+    } catch (error) {
+      console.error('Error computing filteredComponents:', error);
+      throw error;
+    }
   }, [q, filter, componentsWithMeta]);
 
   const filteredTokens = useMemo(() => {
@@ -5711,26 +5754,34 @@ const Components: React.FC = () => {
 
   // Group by NEW category → subCategory (2 levels)
   const componentsByCategory = useMemo(() => {
-    return CATEGORY_ORDER
-      .map((cat) => {
-        const inCat = filteredComponents.filter((c) => c._meta.category === cat);
-        if (inCat.length === 0) return null;
-        // Sub-group by subCategory respecting SUBCATEGORY_ORDER
-        const subMap = new Map<string, typeof inCat>();
-        inCat.forEach((c) => {
-          const sub = c._meta.subCategory;
-          if (!subMap.has(sub)) subMap.set(sub, []);
-          subMap.get(sub)!.push(c);
-        });
-        const subOrder = SUBCATEGORY_ORDER[cat] ?? [];
-        const orderedSubs: Array<readonly [string, typeof inCat]> = [
-          ...subOrder.filter((s) => subMap.has(s)).map((s) => [s, subMap.get(s)!] as const),
-          // Any subCategory not in the predefined order, appended at the end
-          ...Array.from(subMap.entries()).filter(([s]) => !subOrder.includes(s)),
-        ];
-        return [cat, orderedSubs, inCat.length] as const;
-      })
-      .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
+    console.log('Computing componentsByCategory...');
+    try {
+      const result = CATEGORY_ORDER
+        .map((cat) => {
+          const inCat = filteredComponents.filter((c) => c._meta.category === cat);
+          if (inCat.length === 0) return null;
+          // Sub-group by subCategory respecting SUBCATEGORY_ORDER
+          const subMap = new Map<string, typeof inCat>();
+          inCat.forEach((c) => {
+            const sub = c._meta.subCategory;
+            if (!subMap.has(sub)) subMap.set(sub, []);
+            subMap.get(sub)!.push(c);
+          });
+          const subOrder = SUBCATEGORY_ORDER[cat] ?? [];
+          const orderedSubs: Array<readonly [string, typeof inCat]> = [
+            ...subOrder.filter((s) => subMap.has(s)).map((s) => [s, subMap.get(s)!] as const),
+            // Any subCategory not in the predefined order, appended at the end
+            ...Array.from(subMap.entries()).filter(([s]) => !subOrder.includes(s)),
+          ];
+          return [cat, orderedSubs, inCat.length] as const;
+        })
+        .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
+      console.log('componentsByCategory computed:', result.length, 'categories');
+      return result;
+    } catch (error) {
+      console.error('Error computing componentsByCategory:', error);
+      throw error;
+    }
   }, [filteredComponents, componentsWithMeta]);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -5830,7 +5881,9 @@ const Components: React.FC = () => {
       ) : (
         <>
           {/* ---- Components by category → subCategory ---- */}
-          {componentsByCategory.map(([cat, subGroups, total]) => (
+          {componentsByCategory.map(([cat, subGroups, total]) => {
+            console.log(`Rendering category: ${cat}, subGroups: ${subGroups.length}`);
+            return (
             <section key={cat} className="ds-section" id={`cat-${cat.replace(/[^a-z]/gi, '-').toLowerCase()}`}>
               <div className="ds-section__head">
                 <h2 className="ds-section__title">{cat}</h2>
@@ -5848,7 +5901,9 @@ const Components: React.FC = () => {
                   )}
 
                   <div className="ds-component-list">
-                    {list.map((c) => (
+                    {list.map((c) => {
+                      console.log(`Rendering component: ${c.name}`);
+                      return (
                       <article key={c.name} className="ds-component">
                         <header className="ds-component__head">
                           <div>
@@ -5877,14 +5932,20 @@ const Components: React.FC = () => {
                             <span className="ds-component__cat">{c._meta.category}</span>
                           </div>
                         </header>
-                        <div className="ds-component__preview">{c.render()}</div>
+                        <div className="ds-component__preview">
+                          <ComponentPreviewErrorBoundary>
+                            {c.render()}
+                          </ComponentPreviewErrorBoundary>
+                        </div>
                       </article>
-                    ))}
+                    );
+                    })}
                   </div>
                 </div>
               ))}
             </section>
-          ))}
+          );
+          })}
 
           {/* ---- Pages & Templates ---- */}
           {pagesByFamily.map(([family, pages]) => (
