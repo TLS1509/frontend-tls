@@ -44,9 +44,9 @@ export default function ManagerExport() {
       <EditorialHero
         eyebrow="Manager · Export"
         title="Exporter les Données"
-        subtitle="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
-        tone="neutral"
-        actions={
+        summary="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
+        tone="default"
+        trailing={
           <Badge variant="info" size="md">RGPD conforme — données anonymisables</Badge>
         }
       />
@@ -61,7 +61,7 @@ export default function ManagerExport() {
         )}
 
         {/* Format selection */}
-        <SectionCard title="Format d'export" icon={<FileText size={18} />}>
+        <SectionCard title="Format d'export" titleIcon={<FileText size={18} />}>
           <div className="grid md:grid-cols-3 gap-stack">
             {(Object.entries(FORMAT_CONFIG) as [ExportFormat, (typeof FORMAT_CONFIG)[ExportFormat]][]).map(([key, cfg]) => (
               <button
@@ -89,7 +89,7 @@ export default function ManagerExport() {
         </SectionCard>
 
         {/* Scope & Period */}
-        <SectionCard title="Périmètre et période" icon={<Calendar size={18} />}>
+        <SectionCard title="Périmètre et période" titleIcon={<Calendar size={18} />}>
           <div className="grid md:grid-cols-2 gap-stack">
             <FormGroup label="Périmètre" htmlFor="scope">
               <Select id="scope" value={scope} onChange={(e) => setScope(e.target.value as ExportScope)}>

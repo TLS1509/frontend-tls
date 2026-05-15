@@ -53,7 +53,7 @@ export default function MasterclassHub() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="primary"
+        tone="default"
         eyebrow="Masterclass"
         title="Masterclasses & Experts"
         summary="Accède aux sessions live avec des experts de l'industrie. Format 90 min. Questions live."

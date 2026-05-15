@@ -69,7 +69,7 @@ export default function ProfilePrivacy() {
       <EditorialHero
         eyebrow="Profil · Confidentialité"
         title="Confidentialité & RGPD"
-        subtitle="Gère tes préférences de confidentialité, consulte les données collectées et exerce tes droits RGPD."
+        summary="Gère tes préférences de confidentialité, consulte les données collectées et exerce tes droits RGPD."
         tone="neutral"
         actions={
           <Badge variant="success" size="md">Données protégées · RGPD conforme</Badge>

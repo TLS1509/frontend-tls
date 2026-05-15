@@ -60,9 +60,9 @@ export default function DashboardCompetenceDetail() {
       <EditorialHero
         eyebrow="Dashboard · Compétence"
         title={COMPETENCE.label}
-        subtitle={`Niveau Dreyfus D${COMPETENCE.currentLevel} → Objectif D${COMPETENCE.targetLevel} · ${COMPETENCE.progress}% de progression`}
-        tone="primary"
-        actions={
+        summary={`Niveau Dreyfus D${COMPETENCE.currentLevel} → Objectif D${COMPETENCE.targetLevel} · ${COMPETENCE.progress}% de progression`}
+        tone="default"
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Target size={16} />}>
             Voir le passeport complet
           </Button>
@@ -80,13 +80,13 @@ export default function DashboardCompetenceDetail() {
         </div>
 
         {/* Progress bar */}
-        <SectionCard title={`Progression D${COMPETENCE.currentLevel} → D${COMPETENCE.targetLevel}`} icon={<TrendingUp size={18} />}>
+        <SectionCard title={`Progression D${COMPETENCE.currentLevel} → D${COMPETENCE.targetLevel}`} titleIcon={<TrendingUp size={18} />}>
           <div className="flex flex-col gap-2">
             <div className="flex justify-between text-caption text-ink-500">
               <span>{COMPETENCE.xp} XP accumulés</span>
               <span>{COMPETENCE.nextLevelXp - COMPETENCE.xp} XP restants</span>
             </div>
-            <ProgressBar value={Math.round((COMPETENCE.xp / COMPETENCE.nextLevelXp) * 100)} tone="primary" size="lg" showLabel />
+            <ProgressBar value={Math.round((COMPETENCE.xp / COMPETENCE.nextLevelXp) * 100)} fill="brand" size="lg" showLabel />
           </div>
         </SectionCard>
 
@@ -107,13 +107,13 @@ export default function DashboardCompetenceDetail() {
         </div>
 
         {tab === 'radar' && (
-          <SectionCard title="Radar détaillé" icon={<Target size={18} />}>
+          <SectionCard title="Radar détaillé" titleIcon={<Target size={18} />}>
             <CompetencyRadar axes={RADAR_AXES} size="lg" showLegend />
           </SectionCard>
         )}
 
         {tab === 'skills' && (
-          <SectionCard title="Sous-compétences" icon={<BookOpen size={18} />}>
+          <SectionCard title="Sous-compétences" titleIcon={<BookOpen size={18} />}>
             <div className="flex flex-col gap-3">
               {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} max={s.max} />)}
             </div>
@@ -121,7 +121,7 @@ export default function DashboardCompetenceDetail() {
         )}
 
         {tab === 'activity' && (
-          <SectionCard title="Activités récentes" icon={<Clock size={18} />}>
+          <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-2">
               {ACTIVITY_ITEMS.map((item) => (
                 <Card key={item.id} variant="default" className="flex items-center justify-between px-4 py-3">

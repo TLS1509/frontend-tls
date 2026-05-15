@@ -71,7 +71,7 @@ export default function ProfileConsent() {
         eyebrow="Profil · Consentements IA"
         title="Préférences IA & Données"
         summary="Contrôle comment l'IA utilise tes données pour personnaliser ton expérience d'apprentissage."
-        tone="neutral"
+        tone="default"
         trailing={
           <Badge variant="info" size="md">IA Act conforme</Badge>
         }

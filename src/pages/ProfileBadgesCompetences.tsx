@@ -52,9 +52,9 @@ export default function ProfileBadgesCompetences() {
       <EditorialHero
         eyebrow="Profil · Badges Compétences"
         title="Mes Badges Dreyfus"
-        subtitle={`${earnedBadges.length} badges obtenus sur ${BADGES.length}. Chaque badge atteste d'un niveau Dreyfus validé dans une compétence.`}
+        summary={`${earnedBadges.length} badges obtenus sur ${BADGES.length}. Chaque badge atteste d'un niveau Dreyfus validé dans une compétence.`}
         tone="sun"
-        actions={
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Award size={16} />}>
             Partager mon profil
           </Button>
@@ -65,11 +65,11 @@ export default function ProfileBadgesCompetences() {
 
         {/* Radar overview */}
         <div className="grid md:grid-cols-2 gap-section">
-          <SectionCard title="Mon Radar Compétences" icon={<Award size={18} />}>
+          <SectionCard title="Mon Radar Compétences" titleIcon={<Award size={18} />}>
             <CompetencyRadar axes={RADAR_AXES} size="md" showLegend />
           </SectionCard>
 
-          <SectionCard title="Progression badges" icon={<Award size={18} />}>
+          <SectionCard title="Progression badges" titleIcon={<Award size={18} />}>
             <div className="flex flex-col gap-3">
               {['Leadership', 'Communication', 'Analyse', 'Tech & Outils', 'Créativité', 'Coopération'].map((cat) => {
                 const total = BADGES.filter((b) => b.category === cat).length;
@@ -121,7 +121,7 @@ export default function ProfileBadgesCompetences() {
         </div>
 
         {/* Badges grid */}
-        <SectionCard title={`${filtered.length} badge${filtered.length !== 1 ? 's' : ''}`} icon={<Award size={18} />}>
+        <SectionCard title={`${filtered.length} badge${filtered.length !== 1 ? 's' : ''}`} titleIcon={<Award size={18} />}>
           {filtered.length === 0 ? (
             <EmptyState
               icon={<Award size={32} />}

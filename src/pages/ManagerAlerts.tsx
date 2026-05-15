@@ -85,9 +85,9 @@ export default function ManagerAlerts() {
       <EditorialHero
         eyebrow="Manager · Configuration"
         title="Alertes & Notifications"
-        subtitle="Configure les alertes automatiques pour suivre l'engagement de ton équipe et anticiper les situations à risque."
-        tone="neutral"
-        actions={
+        summary="Configure les alertes automatiques pour suivre l'engagement de ton équipe et anticiper les situations à risque."
+        tone="default"
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>
             Nouvelle alerte
           </Button>
@@ -114,7 +114,7 @@ export default function ManagerAlerts() {
 
         {/* New alert form */}
         {showNewForm && (
-          <SectionCard title="Nouvelle alerte" icon={<Plus size={18} />}>
+          <SectionCard title="Nouvelle alerte" titleIcon={<Plus size={18} />}>
             <Alert variant="info" className="mb-stack">
               Les alertes sont envoyées par email aux destinataires configurés.
             </Alert>
@@ -166,7 +166,7 @@ export default function ManagerAlerts() {
         )}
 
         {/* Alerts table */}
-        <SectionCard title="Alertes configurées" icon={<Bell size={18} />}>
+        <SectionCard title="Alertes configurées" titleIcon={<Bell size={18} />}>
           <DataTable
             columns={TABLE_COLUMNS}
             rows={tableRows}

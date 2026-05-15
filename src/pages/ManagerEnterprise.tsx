@@ -68,9 +68,9 @@ export default function ManagerEnterprise() {
       <EditorialHero
         eyebrow="Espace Manager"
         title="Portail Entreprise"
-        subtitle="KPIs globaux, suivi des cohortes, gestion du budget formation et alertes en temps réel."
-        tone="primary"
-        actions={
+        summary="KPIs globaux, suivi des cohortes, gestion du budget formation et alertes en temps réel."
+        tone="default"
+        trailing={
           <Button variant="glass" size="md" leadingIcon={<Download size={16} />}>
             Exporter rapport
           </Button>
@@ -109,7 +109,7 @@ export default function ManagerEnterprise() {
           </div>
         )}
 
-        <Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} variant="underline" />
+        <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" />
 
         {/* Overview tab */}
         {activeTab === 'overview' && (
@@ -117,9 +117,8 @@ export default function ManagerEnterprise() {
 
             <SectionCard
               title="Top projets en cours"
-              icon={<TrendingUp size={20} />}
-              tone="primary"
-              actions={<Button variant="ghost" size="sm">Tout voir</Button>}
+              titleIcon={<TrendingUp size={20} />}
+              headerAction={<Button variant="ghost" size="sm">Tout voir</Button>}
             >
               <div className="flex flex-col gap-stack">
                 {TOP_PROJECTS.map((p, i) => {
@@ -133,7 +132,7 @@ export default function ManagerEnterprise() {
                         </div>
                         <Badge variant={s.variant} size="sm">{s.label}</Badge>
                       </div>
-                      <ProgressBar value={p.progress} tone="primary" size="sm" showLabel label={`${p.progress}%`} />
+                      <ProgressBar value={p.progress} fill="brand" size="sm" showLabel label={`${p.progress}%`} />
                     </Card>
                   );
                 })}
@@ -142,8 +141,8 @@ export default function ManagerEnterprise() {
 
             <SectionCard
               title="Résumé cohortes"
-              icon={<Users size={20} />}
-              actions={<Button variant="ghost" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
+              titleIcon={<Users size={20} />}
+              headerAction={<Button variant="ghost" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                 {COHORTS.map((c, i) => (
@@ -157,7 +156,7 @@ export default function ManagerEnterprise() {
                       <span>·</span>
                       <span>Coach : {c.coach}</span>
                     </div>
-                    <ProgressBar value={(c.avg / 5) * 100} tone="primary" size="sm" />
+                    <ProgressBar value={(c.avg / 5) * 100} fill="brand" size="sm" />
                   </Card>
                 ))}
               </div>
@@ -189,7 +188,7 @@ export default function ManagerEnterprise() {
         {/* Budget tab */}
         {activeTab === 'budget' && (
           <div className="flex flex-col gap-section">
-            <SectionCard title="Budget Formation" icon={<Building2 size={20} />}>
+            <SectionCard title="Budget Formation" titleIcon={<Building2 size={20} />}>
               <div className="flex flex-col gap-section">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
                   <Card className="p-4 flex flex-col gap-2">
@@ -205,7 +204,7 @@ export default function ManagerEnterprise() {
                     <p className="text-h3 font-display font-bold text-success-fg">18 240 €</p>
                   </Card>
                 </div>
-                <ProgressBar value={62} tone="warm" size="lg" showLabel label="62% consommé" />
+                <ProgressBar value={62} fill="warm" size="lg" showLabel label="62% consommé" />
                 <Button variant="brand-ghost" size="sm" leadingIcon={<Download size={14} />}>
                   Exporter rapport budget
                 </Button>

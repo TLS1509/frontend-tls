@@ -73,11 +73,11 @@ export default function FicheApprenantAnalytics() {
       <EditorialHero
         eyebrow="Coach · Fiche Apprenant"
         title={APPRENANT.name}
-        subtitle={APPRENANT.role}
+        summary={APPRENANT.role}
         tone="warm"
-        actions={
+        trailing={
           <div className="flex items-center gap-3">
-            <Button variant="glass-light-ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
+            <Button variant="ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
               Envoyer un message
             </Button>
             <Button variant="glass" size="md" leadingIcon={<Calendar size={16} />}>
@@ -128,10 +128,10 @@ export default function FicheApprenantAnalytics() {
 
         {tab === 'overview' && (
           <div className="grid md:grid-cols-2 gap-section">
-            <SectionCard title="Radar compétences" icon={<TrendingUp size={18} />}>
+            <SectionCard title="Radar compétences" titleIcon={<TrendingUp size={18} />}>
               <CompetencyRadar axes={RADAR_AXES} size="md" showLegend />
             </SectionCard>
-            <SectionCard title="Niveaux par compétence" icon={<BarChart3 size={18} />}>
+            <SectionCard title="Niveaux par compétence" titleIcon={<BarChart3 size={18} />}>
               <div className="flex flex-col gap-3">
                 {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} max={s.max} />)}
               </div>
@@ -140,13 +140,13 @@ export default function FicheApprenantAnalytics() {
         )}
 
         {tab === 'heatmap' && (
-          <SectionCard title="Détail Dreyfus par axe" icon={<BarChart3 size={18} />}>
+          <SectionCard title="Détail Dreyfus par axe" titleIcon={<BarChart3 size={18} />}>
             <HeatmapGrid axes={HEATMAP_AXES} rows={HEATMAP_ROWS} showLegend />
           </SectionCard>
         )}
 
         {tab === 'activity' && (
-          <SectionCard title="Activités récentes" icon={<Clock size={18} />}>
+          <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-2">
               {RECENT_ACTIVITY.map((a) => (
                 <Card key={a.id} variant="default" className="flex items-center justify-between px-4 py-3">

@@ -59,7 +59,7 @@ export default function EnterpriseAnalyticsDashboard() {
     ),
     engagement: (
       <div className="flex items-center gap-2 min-w-[120px]">
-        <ProgressBar value={d.engagement} tone="primary" size="sm" />
+        <ProgressBar value={d.engagement} fill="brand" size="sm" />
         <span className="text-caption text-ink-600 shrink-0">{d.engagement}%</span>
       </div>
     ),
@@ -70,11 +70,11 @@ export default function EnterpriseAnalyticsDashboard() {
       <EditorialHero
         eyebrow="Enterprise · Analytics"
         title="Dashboard Analytics Entreprise"
-        subtitle="Vue cross-équipes des KPIs d'engagement, de progression Dreyfus et d'utilisation des ressources coaching."
+        summary="Vue cross-équipes des KPIs d'engagement, de progression Dreyfus et d'utilisation des ressources coaching."
         tone="brand"
-        actions={
+        trailing={
           <div className="flex items-center gap-3">
-            <Button variant="glass-light-ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
               Exporter le rapport
             </Button>
             <Button variant="glass" size="md" leadingIcon={<RefreshCw size={16} />}>
@@ -115,12 +115,12 @@ export default function EnterpriseAnalyticsDashboard() {
 
         {/* Tabs */}
         <Tabs
-          tabs={[
+          items={[
             { id: 'kpis', label: 'KPIs globaux' },
             { id: 'departments', label: 'Par département' },
             { id: 'competences', label: 'Par compétence' },
           ]}
-          activeTab={activeTab}
+          value={activeTab}
           onChange={setActiveTab}
         />
 
@@ -128,7 +128,7 @@ export default function EnterpriseAnalyticsDashboard() {
           <div className="flex flex-col gap-section">
 
             {/* Engagement chart (simplified visual) */}
-            <SectionCard title="Taux d'engagement par semaine" icon={<BarChart3 size={18} />}>
+            <SectionCard title="Taux d'engagement par semaine" titleIcon={<BarChart3 size={18} />}>
               <div className="flex items-end gap-2 h-40">
                 {[62, 68, 71, 65, 74, 70, 78, 68].map((val, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
@@ -144,7 +144,7 @@ export default function EnterpriseAnalyticsDashboard() {
             </SectionCard>
 
             {/* Dreyfus progression */}
-            <SectionCard title="Progression Dreyfus globale" icon={<TrendingUp size={18} />}>
+            <SectionCard title="Progression Dreyfus globale" titleIcon={<TrendingUp size={18} />}>
               <div className="flex flex-col gap-2">
                 {[1, 2, 3, 4, 5].map((level) => {
                   const counts = [8, 28, 52, 31, 8];
@@ -155,7 +155,7 @@ export default function EnterpriseAnalyticsDashboard() {
                     <div key={level} className="flex items-center gap-stack">
                       <span className="text-caption font-semibold text-ink-600 w-8">D{level}</span>
                       <div className="flex-1">
-                        <ProgressBar value={pct} tone="primary" size="sm" />
+                        <ProgressBar value={pct} fill="brand" size="sm" />
                       </div>
                       <span className="text-caption text-ink-500 w-20 text-right">{count} apprenants</span>
                     </div>
@@ -186,13 +186,13 @@ export default function EnterpriseAnalyticsDashboard() {
         )}
 
         {activeTab === 'departments' && (
-          <SectionCard title="KPIs par département" icon={<BarChart3 size={18} />}>
+          <SectionCard title="KPIs par département" titleIcon={<BarChart3 size={18} />}>
             <DataTable columns={TABLE_COLUMNS} rows={tableRows} rowKey="name" />
           </SectionCard>
         )}
 
         {activeTab === 'competences' && (
-          <SectionCard title="Progression par compétence (toute l'entreprise)" icon={<TrendingUp size={18} />}>
+          <SectionCard title="Progression par compétence (toute l'entreprise)" titleIcon={<TrendingUp size={18} />}>
             <div className="flex flex-col gap-3">
               {['Leadership', 'Communication', 'Analyse', 'Tech & Outils', 'Créativité', 'Coopération'].map((comp, i) => {
                 const dreyfusAvgs = [3.2, 3.5, 2.8, 3.7, 2.4, 3.1];
@@ -202,7 +202,7 @@ export default function EnterpriseAnalyticsDashboard() {
                   <div key={comp} className="flex items-center gap-stack">
                     <span className="text-body-sm font-medium text-ink-700 w-36 shrink-0">{comp}</span>
                     <div className="flex-1">
-                      <ProgressBar value={pct} tone="primary" size="md" />
+                      <ProgressBar value={pct} fill="brand" size="md" />
                     </div>
                     <Badge
                       variant={avg >= 3.5 ? 'success' : avg >= 3 ? 'info' : 'warning'}

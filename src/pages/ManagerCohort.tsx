@@ -69,8 +69,8 @@ export default function ManagerCohort() {
       <EditorialHero
         eyebrow="Espace Manager · Équipe Tech"
         title="Dashboard Cohorte"
-        subtitle="Progression de l'équipe, suivi des projets, performance JAC et couverture des compétences."
-        tone="primary"
+        summary="Progression de l'équipe, suivi des projets, performance JAC et couverture des compétences."
+        tone="default"
       />
 
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
@@ -89,7 +89,7 @@ export default function ManagerCohort() {
           ))}
         </div>
 
-        <Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} variant="underline" />
+        <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" />
 
         {/* Overview tab */}
         {activeTab === 'overview' && (
@@ -98,8 +98,7 @@ export default function ManagerCohort() {
               {/* Recent activity */}
               <SectionCard
                 title="Performance équipe"
-                icon={<BarChart3 size={20} />}
-                tone="primary"
+                titleIcon={<BarChart3 size={20} />}
               >
                 <div className="flex flex-col gap-stack">
                   {TEAM_MEMBERS.slice(0, 3).map((m) => (
@@ -110,7 +109,7 @@ export default function ManagerCohort() {
                           <span className="text-caption font-semibold text-ink-800">{m.name}</span>
                           <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel={false} />
                         </div>
-                        <ProgressBar value={m.completion} tone="primary" size="sm" showLabel label={`${m.completion}%`} />
+                        <ProgressBar value={m.completion} fill="brand" size="sm" showLabel label={`${m.completion}%`} />
                       </div>
                       <span className="text-caption text-ink-400 shrink-0">D{m.dreyfus.toFixed(1)}</span>
                     </div>
@@ -124,8 +123,8 @@ export default function ManagerCohort() {
               {/* Projects */}
               <SectionCard
                 title="Projets en cours"
-                icon={<CheckCircle2 size={20} />}
-                actions={<Button variant="ghost" size="sm" onClick={() => setActiveTab('projects')}>Tout voir</Button>}
+                titleIcon={<CheckCircle2 size={20} />}
+                headerAction={<Button variant="ghost" size="sm" onClick={() => setActiveTab('projects')}>Tout voir</Button>}
               >
                 <div className="flex flex-col gap-stack">
                   {PROJECTS.map((p) => {
@@ -143,7 +142,7 @@ export default function ManagerCohort() {
                           <span>·</span>
                           <span>Échéance {p.dueDate}</span>
                         </div>
-                        <ProgressBar value={p.progress} tone="primary" size="sm" showLabel label={`${p.progress}%`} />
+                        <ProgressBar value={p.progress} fill="brand" size="sm" showLabel label={`${p.progress}%`} />
                       </Card>
                     );
                   })}
@@ -181,7 +180,7 @@ export default function ManagerCohort() {
                     <span>JAC : <strong className="text-ink-800">{m.jac}%</strong></span>
                     <span>Dreyfus : <strong className="text-ink-800">{m.dreyfus}</strong></span>
                   </div>
-                  <ProgressBar value={m.completion} tone="primary" size="sm" />
+                  <ProgressBar value={m.completion} fill="brand" size="sm" />
                 </div>
                 <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                   Fiche
@@ -206,7 +205,7 @@ export default function ManagerCohort() {
                     </div>
                     <Badge variant={s.variant} size="sm">{s.label}</Badge>
                   </div>
-                  <ProgressBar value={p.progress} tone="primary" size="md" showLabel label={`${p.progress}% complété`} />
+                  <ProgressBar value={p.progress} fill="brand" size="md" showLabel label={`${p.progress}% complété`} />
                   <div className="flex justify-end">
                     <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                       Voir le projet
