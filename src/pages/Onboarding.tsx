@@ -20,18 +20,22 @@ import {
   Building2,
   Stethoscope,
   Wallet,
+  ShieldCheck,
 } from 'lucide-react';
 import { Card, Button, Badge, Stepper, Input } from '../components';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { OptionGrid } from '../components/patterns/OptionGrid';
 import type { OptionGridItem } from '../components/patterns/OptionGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { useUserProfileStore } from '../stores/persistence';
+import type { UserRole } from '../types/learning';
+import { MOCK_USER_ID } from '../data/passeport';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
 interface OnboardingAnswers {
   firstName: string;
-  role:      string;
+  role:      UserRole | '';
   sector:    string;
   goals:     string[];
   rhythm:    string;
@@ -41,13 +45,13 @@ interface OnboardingAnswers {
 
 const SUBSTEP_LABELS = ['Profil', 'Objectifs', 'Rythme', 'Confirmation'];
 
+/** 5 rôles canoniques Cahier #03 */
 const ROLE_OPTIONS: OptionGridItem[] = [
-  { id: 'Manager',    label: 'Manager',    icon: Briefcase },
-  { id: 'Formateur',  label: 'Formateur',  icon: GraduationCap },
-  { id: 'Coach',      label: 'Coach',      icon: HeartHandshake },
-  { id: 'Apprenant',  label: 'Apprenant',  icon: BookOpen },
-  { id: 'Consultant', label: 'Consultant', icon: Zap },
-  { id: 'Autre',      label: 'Autre',      icon: UserRound },
+  { id: 'apprenant', label: 'Apprenant',  icon: BookOpen },
+  { id: 'manager',   label: 'Manager',    icon: Briefcase },
+  { id: 'coach',     label: 'Coach',      icon: HeartHandshake },
+  { id: 'expert',    label: 'Expert',     icon: GraduationCap },
+  { id: 'admin',     label: 'Admin',      icon: ShieldCheck },
 ];
 
 const SECTOR_OPTIONS: OptionGridItem[] = [
@@ -297,6 +301,7 @@ function StepConfirmation({
 
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
+  const profileStore = useUserProfileStore();
   const [substep, setSubstep] = useState(0);
   const [answers, setAnswers] = useState<OnboardingAnswers>({
     firstName: '',
@@ -313,13 +318,27 @@ export const Onboarding: React.FC = () => {
   function prev() { setSubstep(s => Math.max(0, s - 1)); }
   function next() { setSubstep(s => Math.min(3, s + 1)); }
 
+  function handleComplete() {
+    profileStore.set({
+      userId: MOCK_USER_ID,
+      firstName: answers.firstName,
+      role: (answers.role || 'apprenant') as UserRole,
+      sector: answers.sector,
+      goals: answers.goals,
+      rhythm: answers.rhythm,
+      credits: { classic: 0, special: 0 },
+      completedAt: new Date().toISOString(),
+    });
+    navigate('/onboarding/questionnaire');
+  }
+
   const isLast = substep === 3;
 
   const stepComponents = [
     <StepProfil       key={0} answers={answers} onChange={patch} />,
     <StepObjectifs    key={1} answers={answers} onChange={patch} />,
     <StepRythme       key={2} answers={answers} onChange={patch} />,
-    <StepConfirmation key={3} answers={answers} onStart={() => navigate('/onboarding/questionnaire')} />,
+    <StepConfirmation key={3} answers={answers} onStart={handleComplete} />,
   ];
 
   return (
@@ -361,7 +380,7 @@ export const Onboarding: React.FC = () => {
                 {substep + 1} / {SUBSTEP_LABELS.length}
               </span>
               {isLast ? (
-                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/onboarding/questionnaire')}>
+                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={handleComplete}>
                   Continuer vers le positionnement
                 </Button>
               ) : (

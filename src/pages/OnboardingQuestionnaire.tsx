@@ -8,20 +8,29 @@ import { Stepper } from '../components/ui/Stepper';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { usePositioningStore, usePasseportStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { getCompetenceById } from '../data/competencies';
+import type { DreyfusLevel } from '../types/learning';
 
+const ONBOARDING_PARCOURS_ID = 'onboarding-initial';
+
+/** 8 questions de positionnement initial, une par compétence H.S.O. canonique */
 const QUESTIONS = [
-  { id: 1, competence: 'Communication écrite',     q: 'Comment évaluez-vous votre aisance à rédiger des documents structurés (mémo, rapport) ?' },
-  { id: 2, competence: 'Communication orale',      q: "Lors d'une présentation devant 10+ personnes, vous sentez-vous à l'aise ?" },
-  { id: 3, competence: 'Résolution de problèmes',  q: 'Face à un problème inédit, décomposez-vous systématiquement la situation ?' },
-  { id: 4, competence: 'Gestion du temps',         q: 'Réussissez-vous à respecter vos échéances même en charge importante ?' },
-  { id: 5, competence: 'Travail en équipe',        q: 'Contribuez-vous activement aux décisions collectives ?' },
-  { id: 6, competence: 'Leadership',               q: 'Avez-vous déjà piloté un projet transverse avec plusieurs interlocuteurs ?' },
-  { id: 7, competence: 'Adaptabilité',             q: "Face à un changement d'objectif soudain, ajustez-vous rapidement vos priorités ?" },
-  { id: 8, competence: 'Esprit critique',          q: "Remettez-vous en question les sources et données qu'on vous fournit ?" },
+  { id: 1, competenceId: 'communication',    q: 'Comment évaluez-vous votre aisance à communiquer clairement et à embarquer vos interlocuteurs ?' },
+  { id: 2, competenceId: 'leadership',       q: 'Avez-vous déjà piloté un projet transverse ou dirigé une équipe vers un objectif commun ?' },
+  { id: 3, competenceId: 'analyse',          q: 'Face à un problème complexe, décomposez-vous systématiquement la situation pour décider ?' },
+  { id: 4, competenceId: 'project_mgmt',     q: 'Réussissez-vous à planifier et respecter vos échéances même en charge importante ?' },
+  { id: 5, competenceId: 'cooperation',      q: 'Contribuez-vous activement aux décisions collectives et au travail en équipe ?' },
+  { id: 6, competenceId: 'adaptability',     q: "Face à un changement d'objectif soudain, ajustez-vous rapidement vos priorités ?" },
+  { id: 7, competenceId: 'critical_thinking', q: "Remettez-vous en question les sources et données qu'on vous fournit ?" },
+  { id: 8, competenceId: 'tech_tools',       q: 'Maîtrisez-vous les outils numériques du quotidien professionnel (suite office, outils cloud) ?' },
 ];
 
 const OnboardingQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
+  const positioningStore = usePositioningStore();
+  const passeportStore = usePasseportStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const total = QUESTIONS.length;
@@ -33,11 +42,36 @@ const OnboardingQuestionnaire: React.FC = () => {
     setAnswers((a) => ({ ...a, [q.id]: level }));
   };
 
+  const handleComplete = () => {
+    // Persist positioning result (Cahier #01 / #03)
+    const positioningAnswers = QUESTIONS.map((question) => ({
+      competenceId: question.competenceId,
+      level: (answers[question.id] ?? 1) as DreyfusLevel,
+    }));
+    positioningStore.set(MOCK_USER_ID, ONBOARDING_PARCOURS_ID, positioningAnswers);
+
+    // Seed LearnerCompetency baselines in Passeport (Cahier #02 / #03)
+    QUESTIONS.forEach((question) => {
+      const level = (answers[question.id] ?? 1) as DreyfusLevel;
+      passeportStore.setCompetency({
+        userId: MOCK_USER_ID,
+        competenceId: question.competenceId,
+        currentLevel: level,
+        points: 0,
+        nextLevelPoints: level < 5 ? 100 : 0,
+        daysSinceActivity: 0,
+        lastUpdated: new Date().toISOString(),
+      });
+    });
+
+    navigate('/onboarding/tutorial');
+  };
+
   const handleNext = () => {
     if (currentQ < total - 1) {
       setCurrentQ(currentQ + 1);
     } else {
-      navigate('/onboarding/tutorial');
+      handleComplete();
     }
   };
 
@@ -72,7 +106,7 @@ const OnboardingQuestionnaire: React.FC = () => {
 
         <SectionCard
           title={q.q}
-          description={`Compétence évaluée : ${q.competence}`}
+          description={`Compétence évaluée : ${getCompetenceById(q.competenceId)?.label ?? q.competenceId}`}
         >
           <DreyfusLevelSelector tone="warm" value={selected} onChange={handleAnswer} />
         </SectionCard>

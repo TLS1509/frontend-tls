@@ -9,6 +9,7 @@
  *  - `useLessonProgressStore`        : dernière section vue par leçon (LessonPlayer)
  *  - `usePositioningStore` (Cahier #01) : UserPositioningResult (parcours positioning quiz results)
  *  - `usePasseportStore` (Cahier #02) : LearnerCompetency + CompetencyObjective (Passeport)
+ *  - `useUserProfileStore` (Cahier #03) : UserProfile (onboarding answers, role, credits)
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -22,6 +23,8 @@ import type {
   PositioningAnswer,
   LearnerCompetency,
   CompetencyObjective,
+  UserProfile,
+  UserRole,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -477,6 +480,59 @@ export const usePasseportStore = create<PasseportState>()(
     }),
     {
       name: 'tls-passeport',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+/* ─── 8. User Profile (Cahier #03 — Onboarding) ─────────────────────────── */
+
+const MOCK_PROFILE: UserProfile = {
+  userId: 'user-demo',
+  firstName: 'Alex',
+  role: 'apprenant',
+  sector: 'Tech',
+  goals: ['Leadership', 'IA & Tech'],
+  rhythm: '30min',
+  credits: { classic: 2, special: 0 },
+};
+
+interface UserProfileState {
+  profile: UserProfile | null;
+  /** Save or replace the user profile (called on onboarding completion). */
+  set: (profile: UserProfile) => void;
+  /** Partial update (e.g. update role after onboarding). */
+  patch: (updates: Partial<UserProfile>) => void;
+  /** Get the profile, seeding from mock if not yet set. */
+  get: () => UserProfile;
+  /** Clear profile (useful for testing / sign-out). */
+  clear: () => void;
+}
+
+export const useUserProfileStore = create<UserProfileState>()(
+  persist(
+    (set, get) => ({
+      profile: null,
+
+      set: (profile) => set({ profile }),
+
+      patch: (updates) =>
+        set((state) => ({
+          profile: state.profile ? { ...state.profile, ...updates } : { ...MOCK_PROFILE, ...updates },
+        })),
+
+      get: () => {
+        const existing = get().profile;
+        if (existing) return existing;
+        set({ profile: MOCK_PROFILE });
+        return MOCK_PROFILE;
+      },
+
+      clear: () => set({ profile: null }),
+    }),
+    {
+      name: 'tls-user-profile',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

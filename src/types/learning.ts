@@ -51,6 +51,33 @@ export interface Competence {
   dreyfusLevels?: DreyfusLevelDef[];
 }
 
+// ─── User roles & profile (Cahier #03 Onboarding) ────────────────────────────
+
+/** 5 rôles standardisés plateforme (Cahier #03 § Rôles MVP) */
+export type UserRole = 'apprenant' | 'coach' | 'manager' | 'admin' | 'expert';
+
+/** Type de crédit coaching (Cahier #03 § Crédits Classic/Special) */
+export type CreditType = 'classic' | 'special';
+
+export interface UserCredits {
+  /** Crédits standard — sessions coaching 1h */
+  classic: number;
+  /** Crédits premium — sessions expert / masterclass */
+  special: number;
+}
+
+/** Profil utilisateur issu de l'onboarding (Cahier #03 § Profil Mapping) */
+export interface UserProfile {
+  userId: string;
+  firstName: string;
+  role: UserRole;
+  sector: string;
+  goals: string[];
+  rhythm: string;
+  credits: UserCredits;
+  completedAt?: string;
+}
+
 // ─── Subscription tiers (Cahier #11bis MVP) ──────────────────────────────────
 
 /** Individual + enterprise plans (MVP juillet 2026, Cahier #11bis) */
