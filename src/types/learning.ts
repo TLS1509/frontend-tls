@@ -315,3 +315,67 @@ export interface JournalEntry {
   createdAt: string;
   updatedAt: string;
 }
+
+// ─── Coaching 1-1 (Cahier #04) ───────────────────────────────────────────────
+
+/**
+ * Statuts de session coaching (Cahier #04 § Session Lifecycle).
+ * Cycle : booked → confirmed → in-progress → completed
+ * Annulé : cancelled | no-show
+ */
+export type SessionStatus =
+  | 'booked'       // réservé, en attente confirmation coach
+  | 'confirmed'    // confirmé par le coach
+  | 'in-progress'  // session en cours
+  | 'completed'    // terminée et compte-rendu disponible
+  | 'cancelled'    // annulée par l'apprenant ou le coach
+  | 'no-show';     // apprenant absent
+
+/** Type de session = type de crédit consommé (Cahier #04 + #03 § Crédits) */
+export type SessionType = 'classic' | 'special';
+
+/** Session coaching 1-1 */
+export interface CoachingSession {
+  id: string;
+  learnerId: string;
+  coachId: string;
+  coachName: string;
+  coachSpeciality?: string;
+  type: SessionType;
+  status: SessionStatus;
+  scheduledAt: string;
+  durationMinutes: number;
+  theme?: string;
+  preQuestionnaireCompleted: boolean;
+  xpAwarded?: number;
+  createdAt: string;
+}
+
+/**
+ * Statuts de correction (Cahier #04 § Corrections Itératives).
+ * Workflow : pending → in-review → coach-feedback → learner-response → completed
+ */
+export type CorrectionStatus =
+  | 'pending'           // soumis par l'apprenant, pas encore lu
+  | 'in-review'         // coach en cours de révision
+  | 'coach-feedback'    // feedback coach envoyé, en attente réponse apprenant
+  | 'learner-response'  // apprenant a répondu, coach peut valider
+  | 'completed';        // correction finalisée
+
+/** Correction itérative (exercice soumis + feedback coach) */
+export interface Correction {
+  id: string;
+  learnerId: string;
+  coachId: string;
+  sessionId?: string;
+  competenceId?: string;
+  exerciseTitle: string;
+  status: CorrectionStatus;
+  submittedContent: string;
+  coachFeedback?: string;
+  learnerResponse?: string;
+  iterationCount: number;
+  xpAwarded?: number;
+  submittedAt: string;
+  updatedAt: string;
+}

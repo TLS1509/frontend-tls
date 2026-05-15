@@ -15,8 +15,10 @@
  *  - Semantic spacing tokens (gap-section, gap-stack)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCoachingStore, useUserProfileStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import { BookingModal, CancelSessionModal, SessionFeedbackModal, SuccessModal } from '../components/modals';
 import type { UserPlan } from '../components/modals/BookingModal';
 import { Card } from '../components/core/Card';
@@ -81,43 +83,58 @@ const INITIAL_UPCOMING: UpcomingSession = {
   hourLabel: '14:00 - 15:00',
 };
 
-const sessions: CoachingSession[] = [
-  {
-    id: 'coaching-1',
-    title: 'Introduction au prompt engineering',
-    coachName: 'Sophie Martin',
-    description: 'Fondamentaux ROLE-CONTEXT-TASK et structuration des demandes.',
-    dateLabel: '15 décembre 2025',
-    status: 'completed',
-    questionnaire: true,
-    report: true,
-    journal: true,
-  },
-  {
-    id: 'coaching-2',
-    title: "Stratégie d'implémentation IA",
-    coachName: 'Sophie Martin',
-    description: "Intégration IA dans vos parcours existants et priorisation des cas d'usage.",
-    dateLabel: '8 décembre 2025',
-    status: 'completed',
-    questionnaire: true,
-    report: true,
-    journal: false,
-  },
-];
 
 export const Coaching: React.FC = () => {
   const navigate = useNavigate();
+  const coachingStore = useCoachingStore();
+  const profileStore = useUserProfileStore();
   const [coachAssigned, setCoachAssigned] = useState(true);
   const [userPlan, setUserPlan] = useState<UserPlan>('free');
-  const [upcoming, setUpcoming] = useState<UpcomingSession | null>(INITIAL_UPCOMING);
   const [showBooking, setShowBooking]     = useState(false);
   const [showCancel, setShowCancel]       = useState(false);
   const [showFeedback, setShowFeedback]   = useState(false);
   const [showBookingSuccess, setShowBookingSuccess] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess]   = useState(false);
 
+  const storeSessions = coachingStore.getSessions(MOCK_USER_ID);
+  const credits = profileStore.get().credits;
+
+  // Compute upcoming from store (booked/confirmed/in-progress)
+  const nextStoredSession = useMemo(() => {
+    const active = storeSessions.find((s) =>
+      s.status === 'booked' || s.status === 'confirmed' || s.status === 'in-progress'
+    );
+    if (!active) return null;
+    const d = new Date(active.scheduledAt);
+    return {
+      title: active.theme ?? `Session coaching — ${active.coachName}`,
+      dateLabel: d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} — ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
+    };
+  }, [storeSessions]);
+
+  const [upcoming, setUpcoming] = useState<UpcomingSession | null>(
+    nextStoredSession ?? INITIAL_UPCOMING
+  );
+
   const hasUpcoming = upcoming !== null;
+
+  // Past/completed sessions from store mapped to display format
+  const sessions: CoachingSession[] = useMemo(() =>
+    storeSessions
+      .filter((s) => s.status === 'completed')
+      .map((s) => ({
+        id: s.id,
+        title: s.theme ?? `Session coaching — ${s.coachName}`,
+        coachName: s.coachName,
+        description: s.coachSpeciality ?? '',
+        dateLabel: new Date(s.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+        status: 'completed' as const,
+        questionnaire: s.preQuestionnaireCompleted,
+        report: true,
+        journal: false,
+      })),
+  [storeSessions]);
 
   /* Tiles outils — section content (plus dans le hero trailing).
      Surface tinted tone-aware (brand/warm/sun) sur fond clair, icône md (32px). */

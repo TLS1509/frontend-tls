@@ -12,6 +12,7 @@
  *  - `useUserProfileStore` (Cahier #03) : UserProfile (onboarding answers, role, credits)
  *  - `useGamificationStore` (Cahier #05) : XPEvent + UserBadge + UserStreak
  *  - `useJournalStore` (Cahier #07) : JournalEntry (journal de bord réflexif)
+ *  - `useCoachingStore` (Cahier #04) : CoachingSession + Correction
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -33,6 +34,8 @@ import type {
   UserStreak,
   CompetencyProgression,
   JournalEntry,
+  CoachingSession,
+  Correction,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -40,6 +43,7 @@ import {
   MOCK_COMPETENCY_PROGRESSIONS,
 } from '../data/passeport';
 import { MOCK_JOURNAL_ENTRIES } from '../data/journal';
+import { MOCK_COACHING_SESSIONS, MOCK_CORRECTIONS } from '../data/coaching';
 import {
   MOCK_XP_EVENTS,
   MOCK_USER_BADGES,
@@ -694,6 +698,80 @@ export const useJournalStore = create<JournalState>()(
     }),
     {
       name: 'tls-journal',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #11 — Coaching (Cahier #04) ───────────────────────────────────────
+
+interface CoachingState {
+  sessions: Record<string, CoachingSession[]>;
+  corrections: Record<string, Correction[]>;
+  getSessions: (userId: string) => CoachingSession[];
+  addSession: (session: CoachingSession) => void;
+  updateSession: (userId: string, id: string, updates: Partial<CoachingSession>) => void;
+  getCorrections: (userId: string) => Correction[];
+  addCorrection: (correction: Correction) => void;
+  updateCorrection: (userId: string, id: string, updates: Partial<Correction>) => void;
+  clear: () => void;
+}
+
+export const useCoachingStore = create<CoachingState>()(
+  persist(
+    (set, get) => ({
+      sessions: {},
+      corrections: {},
+
+      getSessions: (userId) => {
+        const existing = get().sessions[userId];
+        if (existing) return existing;
+        const seeded = MOCK_COACHING_SESSIONS.filter((s) => s.learnerId === userId);
+        set((state) => ({ sessions: { ...state.sessions, [userId]: seeded } }));
+        return seeded;
+      },
+
+      addSession: (session) =>
+        set((state) => {
+          const existing = state.sessions[session.learnerId] ?? [];
+          return { sessions: { ...state.sessions, [session.learnerId]: [session, ...existing] } };
+        }),
+
+      updateSession: (userId, id, updates) =>
+        set((state) => ({
+          sessions: {
+            ...state.sessions,
+            [userId]: (state.sessions[userId] ?? []).map((s) => s.id === id ? { ...s, ...updates } : s),
+          },
+        })),
+
+      getCorrections: (userId) => {
+        const existing = get().corrections[userId];
+        if (existing) return existing;
+        const seeded = MOCK_CORRECTIONS.filter((c) => c.learnerId === userId);
+        set((state) => ({ corrections: { ...state.corrections, [userId]: seeded } }));
+        return seeded;
+      },
+
+      addCorrection: (correction) =>
+        set((state) => {
+          const existing = state.corrections[correction.learnerId] ?? [];
+          return { corrections: { ...state.corrections, [correction.learnerId]: [correction, ...existing] } };
+        }),
+
+      updateCorrection: (userId, id, updates) =>
+        set((state) => ({
+          corrections: {
+            ...state.corrections,
+            [userId]: (state.corrections[userId] ?? []).map((c) => c.id === id ? { ...c, ...updates } : c),
+          },
+        })),
+
+      clear: () => set({ sessions: {}, corrections: {} }),
+    }),
+    {
+      name: 'tls-coaching',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }
