@@ -8,13 +8,32 @@ import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
 const PrivacyDeleteAccount: React.FC = () => {
-  const [step, setStep] = useState<1 | 2 | 'done'>(1);
+  const store = usePrivacyStore();
+  const existingRequests = store.getDsarRequests(MOCK_USER_ID);
+  const existingDeletion = existingRequests.find((r) => r.id.startsWith('del-'));
+
+  const [step, setStep] = useState<1 | 2 | 'done'>(existingDeletion ? 'done' : 1);
   const [confirmText, setConfirmText] = useState('');
   const [reason, setReason] = useState('');
 
   const canConfirm = confirmText === 'SUPPRIMER MON COMPTE';
+
+  const handleConfirmDeletion = () => {
+    const now = new Date().toISOString();
+    const deadline = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    store.addDsarRequest({
+      id: `del-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      status: 'submitted',
+      submittedAt: now,
+      legalDeadlineAt: deadline,
+    });
+    setStep('done');
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -102,7 +121,7 @@ const PrivacyDeleteAccount: React.FC = () => {
             </FormGroup>
             <div className="flex gap-stack-xs">
               <Button variant="ghost" fullWidth onClick={() => setStep(1)}>Retour</Button>
-              <Button variant="destructive" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={() => setStep('done')}>
+              <Button variant="destructive" fullWidth disabled={!canConfirm} leadingIcon={<AlertTriangle className="w-4 h-4" />} onClick={handleConfirmDeletion}>
                 Supprimer définitivement
               </Button>
             </div>
