@@ -1,16 +1,24 @@
 /**
- * VideoViewer Page
+ * VideoViewer — lecteur vidéo avec transcription et vidéos connexes.
  *
- * Full-featured video viewer for lesson content with transcript and related videos.
+ * Phase 14.2b refactor :
+ *  - Header → <ViewerHeader> tone-aware (remplace ViewerOverlay)
+ *  - Ton par défaut : primary (page Veille, pas de LessonContext)
+ *  - Zone vidéo dark (bg-ink-950) préservée comme section de contenu
+ *  - Contrôles player UI améliorés (touch targets 44px)
+ *
+ * Route : /veille/video/:id
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { MetaPill } from '../components/ui/MetaPill';
-import { Play, Pause, Volume2, VolumeX, Maximize2, FileText, Clock, User, ChevronDown, ChevronUp } from 'lucide-react';
-import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
-import { Button } from '../components/core/Button';
+import {
+  Play, Pause, Volume2, VolumeX, Maximize2, FileText,
+  Clock, User, ChevronDown, ChevronUp,
+} from 'lucide-react';
+import { ViewerHeader } from '../components/patterns/ViewerHeader';
 
 interface VideoData {
   id: string;
@@ -27,7 +35,8 @@ const VIDEO_DATA: VideoData = {
   title: 'Motivation et Engagement: Les fondamentaux',
   instructor: 'Marie Dubois',
   duration: '24 min',
-  description: "Découvrez les mécanismes psychologiques qui sous-tendent la motivation au travail et comment créer les conditions d'un engagement durable.",
+  description:
+    "Découvrez les mécanismes psychologiques qui sous-tendent la motivation au travail et comment créer les conditions d'un engagement durable.",
   transcript: `Bonjour et bienvenue dans ce module sur la motivation et l'engagement.
 
 Au cours des prochaines minutes, nous allons explorer ensemble les fondements de la motivation, tant intrinsèque qu'extrinsèque.
@@ -59,52 +68,62 @@ export const VideoViewer: React.FC = () => {
   const [showTranscript, setShowTranscript] = useState(false);
 
   return (
-    <ViewerOverlay
-      title={VIDEO_DATA.title}
-      subtitle={`${VIDEO_DATA.instructor} · ${VIDEO_DATA.duration}`}
-      tone="dark"
-      onClose={() => navigate(-1)}
-      headerActions={
-        <Button variant="ghost" size="sm" iconOnly aria-label="Plein écran" className="text-white/85 hover:bg-white/10">
-          <Maximize2 size={16} />
-        </Button>
-      }
-    >
-      {/* ── Video Player Area ─────────────────────────────────────── */}
-      <div className="flex flex-col max-h-[60vh] bg-ink-950">
+    <div className="min-h-screen flex flex-col bg-white">
+      <ViewerHeader
+        tone="primary"
+        eyebrow="Vidéo · Veille"
+        title={VIDEO_DATA.title}
+        subtitle={`${VIDEO_DATA.instructor} · ${VIDEO_DATA.duration}`}
+        onClose={() => navigate(-1)}
+        trailing={
+          <button
+            type="button"
+            aria-label="Plein écran"
+            className="inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill bg-ink-50 hover:bg-ink-100 text-ink-700 transition-colors"
+          >
+            <Maximize2 size={16} />
+          </button>
+        }
+      />
 
-        {/* Video Player Placeholder */}
-        <div className="flex-1 flex flex-col items-center justify-center bg-ink-950 relative min-h-[280px]">
+      {/* ── Video Player Area ──────────────────────────────────── */}
+      <div className="bg-ink-950 flex-none">
+        <div className="max-w-5xl mx-auto relative min-h-[260px] sm:min-h-[360px] flex flex-col items-center justify-center">
+
+          {/* Play / Pause central button */}
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="w-20 h-20 rounded-full bg-primary-500 border-0 text-white flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
+            aria-label={isPlaying ? 'Mettre en pause' : 'Lire la vidéo'}
+            className="min-w-touch min-h-touch w-20 h-20 rounded-full bg-primary-500 text-white flex items-center justify-center cursor-pointer transition-transform duration-base hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-300"
           >
             {isPlaying ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
           </button>
 
-          {/* Player controls */}
-          <div className="absolute bottom-4 left-0 right-0 px-4 flex gap-2 items-center justify-between text-white">
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setIsMuted(!isMuted)}
-                className="border-0 bg-transparent text-white cursor-pointer p-2"
-              >
-                {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-              </button>
+          {/* Player controls bar */}
+          <div className="absolute bottom-0 left-0 right-0 px-4 py-3 flex gap-3 items-center text-white">
+            <button
+              type="button"
+              onClick={() => setIsMuted(!isMuted)}
+              aria-label={isMuted ? 'Activer le son' : 'Couper le son'}
+              className="min-w-touch min-h-touch inline-flex items-center justify-center text-white/85 hover:text-white transition-colors"
+            >
+              {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            </button>
+
+            {/* Progress bar (static mock 35%) */}
+            <div className="flex-1 h-1 bg-white/10 rounded-pill overflow-hidden cursor-pointer">
+              <div className="h-full bg-primary-400 w-[35%]" />
             </div>
 
-            {/* Progress bar (mock static at 35%) */}
-            <div className="flex-1 h-1 bg-white/10 rounded-pill overflow-hidden">
-              <div className="h-full bg-primary-500 w-[35%]" />
-            </div>
-
-            <div className="font-body text-caption text-white">8:24 / 24:00</div>
+            <span className="font-body text-caption text-white/70 tabular-nums shrink-0">
+              8:24 / 24:00
+            </span>
 
             <button
               type="button"
-              className="border-0 bg-transparent text-white cursor-pointer p-2"
+              aria-label="Plein écran"
+              className="min-w-touch min-h-touch inline-flex items-center justify-center text-white/85 hover:text-white transition-colors"
             >
               <Maximize2 size={18} />
             </button>
@@ -112,77 +131,79 @@ export const VideoViewer: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Content Section ───────────────────────────────────────── */}
-      <div className="bg-white p-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+      {/* ── Content Section ─────────────────────────────────────── */}
+      <div className="flex-1 bg-white py-section px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section">
 
-        {/* Main content */}
-        <div className="flex flex-col gap-4">
+          {/* Main content */}
+          <div className="flex flex-col gap-stack">
 
-          {/* Title and metadata */}
-          <div>
-            <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-2">
-              {VIDEO_DATA.title}
-            </h1>
-            <div className="flex gap-4 items-center flex-wrap mt-3">
-              <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} size="sm" />
-              <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} size="sm" />
+            {/* Title and metadata */}
+            <div>
+              <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-2">
+                {VIDEO_DATA.title}
+              </h1>
+              <div className="flex gap-stack-xs items-center flex-wrap mt-3">
+                <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} tone="neutral" size="sm" />
+                <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} tone="neutral" size="sm" />
+              </div>
             </div>
+
+            {/* Description */}
+            <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
+              {VIDEO_DATA.description}
+            </p>
+
+            {/* Transcript toggle */}
+            <Card>
+              <button
+                type="button"
+                onClick={() => setShowTranscript(!showTranscript)}
+                className="w-full min-h-touch px-3 py-2 border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900 hover:text-primary-700 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <FileText size={16} />
+                  {showTranscript ? 'Masquer' : 'Afficher'} la transcription
+                </div>
+                {showTranscript ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+
+              {showTranscript && (
+                <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body-sm text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
+                  {VIDEO_DATA.transcript}
+                </div>
+              )}
+            </Card>
           </div>
 
-          {/* Description */}
-          <p className="font-body text-body-sm text-ink-500 m-0 leading-relaxed">
-            {VIDEO_DATA.description}
-          </p>
-
-          {/* Transcript toggle */}
-          <Card>
-            <button
-              type="button"
-              onClick={() => setShowTranscript(!showTranscript)}
-              className="w-full px-3 py-3 border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900"
-            >
-              <div className="flex items-center gap-2">
-                <FileText size={16} />
-                {showTranscript ? 'Masquer' : 'Afficher'} la transcription
+          {/* Sidebar — related videos */}
+          <div className="flex flex-col gap-stack">
+            <Card>
+              <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+                Vidéos connexes
+              </h4>
+              <div className="flex flex-col gap-2">
+                {VIDEO_DATA.relatedVideos.map((video) => (
+                  <button
+                    key={video.id}
+                    type="button"
+                    onClick={() => {}}
+                    className="w-full min-h-touch px-3 py-2 border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
+                  >
+                    <div className="font-body text-body-sm font-medium text-ink-900 mb-1 leading-snug">
+                      {video.title}
+                    </div>
+                    <div className="font-body text-caption text-ink-500 flex items-center gap-1">
+                      <Clock size={12} /> {video.duration}
+                    </div>
+                  </button>
+                ))}
               </div>
-              {showTranscript ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </button>
-
-            {showTranscript && (
-              <div className="px-3 pb-3 pt-0 border-t border-ink-100 font-body text-body-sm text-ink-500 leading-[1.8] max-h-[400px] overflow-y-auto whitespace-pre-line">
-                {VIDEO_DATA.transcript}
-              </div>
-            )}
-          </Card>
-        </div>
-
-        {/* Sidebar */}
-        <div className="flex flex-col gap-4">
-          <Card>
-            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
-              Vidéos connexes
-            </h4>
-            <div className="flex flex-col gap-3">
-              {VIDEO_DATA.relatedVideos.map((video) => (
-                <button
-                  key={video.id}
-                  type="button"
-                  onClick={() => {}}
-                  className="w-full px-2 py-2 border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-200 hover:bg-ink-50"
-                >
-                  <div className="font-body text-body-sm font-medium text-ink-900 mb-1">
-                    {video.title}
-                  </div>
-                  <div className="font-body text-caption text-ink-500 flex items-center gap-1">
-                    <Clock size={12} /> {video.duration}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       </div>
-    </ViewerOverlay>
+    </div>
   );
 };
 

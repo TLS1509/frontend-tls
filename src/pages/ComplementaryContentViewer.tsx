@@ -1,17 +1,25 @@
 /**
- * ComplementaryContentViewer Page
+ * ComplementaryContentViewer — ressources complémentaires d'une leçon.
  *
- * Displays supplementary learning materials related to a lesson.
+ * Phase 14.2b refactor :
+ *  - Header → <ViewerHeader> tone-aware (remplace ViewerOverlay)
+ *  - Tone hérité de LessonContext (fallback "primary")
+ *  - Pas de footer nav (liste statique, pas de séquence paginée)
+ *
+ * Route : /lesson/:id/complementary
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
-import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight } from 'lucide-react';
-import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
+import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight, Library } from 'lucide-react';
+import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { useLessonContext } from '../lib/lesson-context';
+import { TONE_BG_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
+import type { PageTone } from '../lib/tone-classes';
 
 interface ComplementaryResource {
   id: number;
@@ -68,6 +76,12 @@ const RELATED_TOPICS = [
   'Psychologie du travail',
 ];
 
+const TONE_GRADIENT_BG: Record<PageTone, string> = {
+  primary: 'bg-gradient-to-b from-primary-50 via-white to-white',
+  warm:    'bg-gradient-to-b from-secondary-50 via-white to-white',
+  sun:     'bg-gradient-to-b from-accent-50 via-white to-white',
+};
+
 const getResourceIcon = (type: string) => {
   switch (type) {
     case 'article': return <FileText size={18} />;
@@ -88,123 +102,169 @@ const getResourceBadge = (type: string) => {
   }
 };
 
+const TYPE_BADGE_VARIANT: Record<string, 'brand' | 'warm' | 'sun' | 'neutral'> = {
+  article: 'brand',
+  video:   'warm',
+  tool:    'neutral',
+  guide:   'sun',
+};
+
 export const ComplementaryContentViewer: React.FC = () => {
   const navigate = useNavigate();
-  const [, setExpandedId] = useState<number | null>(null);
+  const lessonCtx = useLessonContext();
+  const tone: PageTone = lessonCtx?.tone ?? 'primary';
+
+  const handleClose = () => {
+    if (lessonCtx) {
+      navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`);
+    } else {
+      navigate(-1);
+    }
+  };
 
   return (
-    <ViewerOverlay
-      title="Contenus complémentaires"
-      subtitle="Ressources pour approfondir votre apprentissage"
-      tone="brand"
-      onClose={() => navigate(-1)}
+    <div
+      className={['fixed inset-0 z-modal overflow-y-auto', TONE_GRADIENT_BG[tone]].join(' ')}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Contenus complémentaires"
     >
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <ViewerHeader
+        tone={tone}
+        eyebrow="Ressources complémentaires"
+        title={lessonCtx ? lessonCtx.lesson.title : 'Contenus complémentaires'}
+        subtitle={`${RESOURCES.length} ressources pour approfondir`}
+        onClose={handleClose}
+      />
 
-      {/* Main 2-column grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 mb-6">
+      <main className="py-stack-lg px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto flex flex-col gap-stack-lg">
 
-        {/* Resources list */}
-        <div className="flex flex-col gap-4">
-          {RESOURCES.map((resource) => (
-            <Card
-              key={resource.id}
-              className="cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
-              onClick={() => setExpandedId((id) => id === resource.id ? null : resource.id)}
+          {/* ── Title block ─────────────────────────────────────── */}
+          <header className="flex items-center gap-stack">
+            <div
+              className={[
+                'w-10 h-10 rounded-xl inline-flex items-center justify-center shadow-sm',
+                TONE_HERO_GRADIENT[tone],
+              ].join(' ')}
             >
-              <div className="flex gap-4">
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-lg bg-ink-50 text-primary-500 flex items-center justify-center shrink-0">
-                  {getResourceIcon(resource.type)}
-                </div>
+              <Library size={20} className="text-white" />
+            </div>
+            <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+              Ressources complémentaires
+            </h1>
+          </header>
 
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start gap-2 mb-2">
-                    <h3 className="font-display text-body font-semibold text-ink-900 m-0 flex-1">
-                      {resource.title}
-                    </h3>
-                    <Badge variant="brand">{getResourceBadge(resource.type)}</Badge>
-                  </div>
+          {/* ── Main 2-column grid ──────────────────────────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section">
 
-                  <p className="font-body text-body-sm text-ink-500 m-0 mb-2 leading-relaxed">
-                    {resource.description}
-                  </p>
+            {/* Resources list */}
+            <div className="flex flex-col gap-stack">
+              {RESOURCES.map((resource) => (
+                <Card
+                  key={resource.id}
+                  className="transition-all duration-base hover:shadow-md hover:-translate-y-0.5"
+                >
+                  <div className="flex gap-stack">
+                    {/* Icon bubble */}
+                    <div
+                      className={[
+                        'w-14 h-14 rounded-xl flex items-center justify-center shrink-0',
+                        TONE_BG_500[tone],
+                      ].join(' ')}
+                    >
+                      <span className="text-white">{getResourceIcon(resource.type)}</span>
+                    </div>
 
-                  <div className="flex gap-3 items-center flex-wrap">
-                    {resource.duration && (
-                      <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />
-                    )}
-                    <div className="flex gap-2 flex-wrap">
-                      {resource.tags.map((tag) => (
-                        <Badge key={tag} variant="neutral">{tag}</Badge>
-                      ))}
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-2 mb-2">
+                        <h3 className="font-display text-body font-semibold text-ink-900 m-0 flex-1 leading-snug">
+                          {resource.title}
+                        </h3>
+                        <Badge variant={TYPE_BADGE_VARIANT[resource.type] ?? 'neutral'}>
+                          {getResourceBadge(resource.type)}
+                        </Badge>
+                      </div>
+
+                      <p className="font-body text-body-sm text-ink-500 m-0 mb-2 leading-relaxed">
+                        {resource.description}
+                      </p>
+
+                      <div className="flex gap-3 items-center flex-wrap">
+                        {resource.duration && (
+                          <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="neutral" size="sm" />
+                        )}
+                        <div className="flex gap-2 flex-wrap">
+                          {resource.tags.map((tag) => (
+                            <Badge key={tag} variant="neutral">{tag}</Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-3">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          trailingIcon={<ExternalLink size={14} />}
+                          onClick={(e) => { e.stopPropagation(); window.open(resource.url, '_blank'); }}
+                        >
+                          Accéder à la ressource
+                        </Button>
+                      </div>
                     </div>
                   </div>
+                </Card>
+              ))}
+            </div>
 
-                  <div className="mt-3">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      trailingIcon={<ExternalLink size={14} />}
-                      onClick={(e) => { e.stopPropagation(); window.open(resource.url, '_blank'); }}
+            {/* Sidebar */}
+            <div className="flex flex-col gap-stack">
+
+              {/* Quick Stats */}
+              <Card>
+                <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+                  Ressources disponibles
+                </h4>
+                <div className="flex flex-col gap-2">
+                  {[
+                    { label: 'Articles', count: RESOURCES.filter(r => r.type === 'article').length },
+                    { label: 'Vidéos',   count: RESOURCES.filter(r => r.type === 'video').length },
+                    { label: 'Guides',   count: RESOURCES.filter(r => r.type === 'guide').length },
+                    { label: 'Outils',   count: RESOURCES.filter(r => r.type === 'tool').length },
+                  ].filter(s => s.count > 0).map((stat) => (
+                    <div key={stat.label} className="flex justify-between items-center p-2 bg-ink-50 rounded-md">
+                      <span className="font-body text-body-sm text-ink-500">{stat.label}</span>
+                      <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              {/* Related Topics */}
+              <Card>
+                <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
+                  Sujets connexes
+                </h4>
+                <div className="flex flex-col gap-2">
+                  {RELATED_TOPICS.map((topic) => (
+                    <button
+                      key={topic}
+                      type="button"
+                      onClick={() => {}}
+                      className="w-full min-h-touch px-3 py-2 border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center"
                     >
-                      Accéder à la ressource
-                    </Button>
-                  </div>
+                      <span>{topic}</span>
+                      <ArrowRight size={14} className="text-ink-400 shrink-0" />
+                    </button>
+                  ))}
                 </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        {/* Sidebar */}
-        <div className="flex flex-col gap-4">
-
-          {/* Quick Stats */}
-          <Card>
-            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
-              Ressources disponibles
-            </h4>
-            <div className="flex flex-col gap-2">
-              {[
-                { label: 'Articles', count: 2 },
-                { label: 'Vidéos',   count: 1 },
-                { label: 'Outils',   count: 1 },
-              ].map((stat) => (
-                <div key={stat.label} className="flex justify-between items-center p-2 bg-ink-50 rounded-md">
-                  <span className="font-body text-body-sm text-ink-500">{stat.label}</span>
-                  <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
-                </div>
-              ))}
+              </Card>
             </div>
-          </Card>
-
-          {/* Related Topics */}
-          <Card>
-            <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
-              Sujets connexes
-            </h4>
-            <div className="flex flex-col gap-2">
-              {RELATED_TOPICS.map((topic) => (
-                <button
-                  key={topic}
-                  type="button"
-                  onClick={() => {}}
-                  className="w-full px-2 py-2 border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-200 hover:bg-ink-50"
-                >
-                  <div className="flex justify-between items-center">
-                    <span>{topic}</span>
-                    <ArrowRight size={14} className="text-ink-400 shrink-0" />
-                  </div>
-                </button>
-              ))}
-            </div>
-          </Card>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
-    </ViewerOverlay>
   );
 };
 
