@@ -18,6 +18,8 @@
  *  - `useInAppNotificationsStore` (Cahier #09) : InAppNotification feed (in-app channel, persisted)
  *  - `usePrivacyStore` (Cahier #13bis) : UserGdprConsents + UserAIConsents + DsarRequest[]
  *  - `useEventsStore` (Cahier #08) : MasterclassEnrollment + AtelierEnrollment + EventRegistration + ContentSurvey
+ *  - `useHelpcenterStore` (Cahier #13) : FaqArticle + SupportTicket + ArticleFeedback + Tutorial
+ *  - `useProjectsStore` (Cahier #11) : SboProject + SboProjectTask + Jac + ProjectAssignment + PasseportEnrichment
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -1695,3 +1697,254 @@ export const useHelpcenterStore = create<HelpcenterState & HelpcenterActions>()(
     }
   )
 );
+
+// ─── Store #20 — Projects SBO (Cahier #11) ───────────────────────────────────
+
+import type {
+  SboProject,
+  SboProjectTask,
+  Jac,
+  ProjectAssignment,
+  PasseportEnrichment,
+  ProjectTeamMember,
+  GatingCheck,
+  TaskStatus,
+  JacStatus,
+} from '../types/projects';
+import type { DreyfusLevel } from '../types/learning';
+import {
+  MOCK_PROJECTS,
+  MOCK_TASKS,
+  MOCK_JACS,
+  MOCK_ASSIGNMENTS,
+  MOCK_ENRICHMENTS,
+  MOCK_TEAM_MEMBERS,
+  MOCK_PROJECT_COMPANY_ID,
+} from '../data/projects';
+
+interface ProjectsState {
+  projects: SboProject[];
+  tasks: SboProjectTask[];
+  jacs: Jac[];
+  assignments: ProjectAssignment[];
+  enrichments: PasseportEnrichment[];
+  teamMembers: ProjectTeamMember[];
+}
+
+interface ProjectsActions {
+  // Getters (all call seed internally)
+  getProjects: (companyId: string) => SboProject[];
+  getProject: (projectId: string) => SboProject | undefined;
+  getTasks: (projectId: string) => SboProjectTask[];
+  getTask: (taskId: string) => SboProjectTask | undefined;
+  getJacs: (projectId: string) => Jac[];
+  getJac: (jacId: string) => Jac | undefined;
+  getTaskJacs: (taskId: string) => Jac[];
+  getAssignments: (taskId: string) => ProjectAssignment[];
+  getEnrichments: (projectId: string) => PasseportEnrichment[];
+  getTeamMembers: (projectId: string) => ProjectTeamMember[];
+  checkGating: (userId: string, projectId: string) => GatingCheck[];
+  // Actions
+  submitTask: (taskId: string, deliverableUrl: string, notes: string) => void;
+  updateTaskStatus: (taskId: string, status: TaskStatus) => void;
+  submitJacValidation: (
+    jacId: string,
+    dreyfusLevelAchieved: DreyfusLevel,
+    status: JacStatus,
+    feedback: string,
+    rubricScores?: Jac['rubricScores']
+  ) => void;
+  addEnrichment: (enrichment: Omit<PasseportEnrichment, 'id' | 'createdAt'>) => void;
+}
+
+export const useProjectsStore = create<ProjectsState & ProjectsActions>()(
+  persist(
+    (set, get) => {
+      const seed = () => {
+        if (get().projects.length === 0) {
+          set({
+            projects: MOCK_PROJECTS,
+            tasks: MOCK_TASKS,
+            jacs: MOCK_JACS,
+            assignments: MOCK_ASSIGNMENTS,
+            enrichments: MOCK_ENRICHMENTS,
+            teamMembers: MOCK_TEAM_MEMBERS,
+          });
+        }
+      };
+
+      return {
+        projects: [],
+        tasks: [],
+        jacs: [],
+        assignments: [],
+        enrichments: [],
+        teamMembers: [],
+
+        getProjects: (companyId) => {
+          seed();
+          return get().projects.filter((p) => p.companyId === companyId);
+        },
+
+        getProject: (projectId) => {
+          seed();
+          return get().projects.find((p) => p.id === projectId);
+        },
+
+        getTasks: (projectId) => {
+          seed();
+          return get().tasks.filter((t) => t.projectId === projectId);
+        },
+
+        getTask: (taskId) => {
+          seed();
+          return get().tasks.find((t) => t.id === taskId);
+        },
+
+        getJacs: (projectId) => {
+          seed();
+          const taskIds = get().tasks
+            .filter((t) => t.projectId === projectId)
+            .map((t) => t.id);
+          return get().jacs.filter((j) => taskIds.includes(j.taskId));
+        },
+
+        getJac: (jacId) => {
+          seed();
+          return get().jacs.find((j) => j.id === jacId);
+        },
+
+        getTaskJacs: (taskId) => {
+          seed();
+          return get().jacs.filter((j) => j.taskId === taskId);
+        },
+
+        getAssignments: (taskId) => {
+          seed();
+          return get().assignments.filter((a) => a.taskId === taskId);
+        },
+
+        getEnrichments: (projectId) => {
+          seed();
+          return get().enrichments
+            .filter((e) => e.projectId === projectId)
+            .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        },
+
+        getTeamMembers: (projectId) => {
+          seed();
+          const taskIds = new Set(
+            get().tasks.filter((t) => t.projectId === projectId).map((t) => t.id)
+          );
+          return get().teamMembers.filter(
+            (m) => m.role === 'manager' || m.assignedTaskIds.some((tid) => taskIds.has(tid))
+          );
+        },
+
+        checkGating: (userId, projectId) => {
+          seed();
+          const project = get().projects.find((p) => p.id === projectId);
+          if (!project) return [];
+          const member = get().teamMembers.find((m) => m.userId === userId);
+          if (!member) return [];
+          return project.skillProfile.map((req) => {
+            const current = (member.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
+            return {
+              competencyId: req.competencyId,
+              competencyName: req.competencyName,
+              required: req.dreyfusLevelRequired,
+              current,
+              passed: current >= req.dreyfusLevelRequired,
+            };
+          });
+        },
+
+        submitTask: (taskId, deliverableUrl, notes) => {
+          seed();
+          set((s) => ({
+            tasks: s.tasks.map((t) =>
+              t.id === taskId
+                ? {
+                    ...t,
+                    status: 'submitted' as TaskStatus,
+                    deliverableUrl,
+                    submissionNotes: notes,
+                    submissionDate: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  }
+                : t
+            ),
+          }));
+        },
+
+        updateTaskStatus: (taskId, status) => {
+          seed();
+          set((s) => ({
+            tasks: s.tasks.map((t) =>
+              t.id === taskId
+                ? { ...t, status, updatedAt: new Date().toISOString() }
+                : t
+            ),
+          }));
+        },
+
+        submitJacValidation: (jacId, dreyfusLevelAchieved, status, feedback, rubricScores) => {
+          seed();
+          const now = new Date().toISOString();
+          set((s) => ({
+            jacs: s.jacs.map((j) =>
+              j.id === jacId
+                ? {
+                    ...j,
+                    dreyfusLevelAchieved,
+                    status,
+                    expertFeedback: feedback,
+                    rubricScores,
+                    validatedAt: status === 'approved' ? now : undefined,
+                  }
+                : j
+            ),
+          }));
+          // If approved, update task status to approved
+          if (status === 'approved') {
+            const jac = get().jacs.find((j) => j.id === jacId);
+            if (jac) {
+              get().updateTaskStatus(jac.taskId, 'approved');
+            }
+          }
+        },
+
+        addEnrichment: (data) => {
+          seed();
+          const enrichment: PasseportEnrichment = {
+            ...data,
+            id: `enrich-${Date.now()}`,
+            createdAt: new Date().toISOString(),
+          };
+          set((s) => ({ enrichments: [...s.enrichments, enrichment] }));
+          // Update team member's dreyfus level
+          set((s) => ({
+            teamMembers: s.teamMembers.map((m) =>
+              m.userId === data.collaboratorId
+                ? {
+                    ...m,
+                    currentDreyfusLevels: {
+                      ...m.currentDreyfusLevels,
+                      [data.competencyId]: data.newDreyfusLevel,
+                    },
+                  }
+                : m
+            ),
+          }));
+        },
+      };
+    },
+    {
+      name: 'tls-projects',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+export { MOCK_PROJECT_COMPANY_ID };

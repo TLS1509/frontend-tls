@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Users, Calendar, Target } from 'lucide-react';
+import { Plus, Users, Calendar, Target, Lock, CheckCircle2 } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -10,104 +10,166 @@ import { StatCard } from '../components/ui/StatCard';
 import { Avatar, AvatarGroup } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
+import { useProjectsStore, MOCK_PROJECT_COMPANY_ID } from '../stores/persistence';
+import type { ProjectType, ProjectStatus } from '../types/projects';
 
-type ProjectStatus = 'active' | 'completed' | 'paused';
+const MOCK_USER_ID = 'user-demo';
 
-interface Project {
-  id: string;
-  title: string;
-  client: string;
-  status: ProjectStatus;
-  progress: number;
-  team: { initials: string }[];
-  deadline: string;
-  competences: string[];
-  jacStatus: 'pending' | 'validated' | 'in-review';
-}
+const TYPE_LABELS: Record<ProjectType, string> = {
+  upskilling: 'Upskilling',
+  stride: 'STRIDE',
+  custom: 'Custom',
+};
 
-const MOCK_PROJECTS: Project[] = [
-  { id: '1', title: 'Plan stratégique TLS 2027', client: 'The Learning Society', status: 'active', progress: 65, team: [{ initials: 'CM' }, { initials: 'MD' }, { initials: 'TB' }], deadline: '30 juin 2026', competences: ['Stratégie', 'Communication'], jacStatus: 'pending' },
-  { id: '2', title: 'Refonte CRM client', client: 'Acme Corp', status: 'active', progress: 40, team: [{ initials: 'LM' }, { initials: 'SC' }], deadline: '15 juillet 2026', competences: ['Tech', 'UX'], jacStatus: 'in-review' },
-  { id: '3', title: 'Onboarding partenaires', client: 'GlobalCo', status: 'completed', progress: 100, team: [{ initials: 'JP' }, { initials: 'AR' }, { initials: 'CM' }], deadline: '10 mai 2026', competences: ['Process', 'Comm.'], jacStatus: 'validated' },
-];
+const TYPE_VARIANTS = {
+  upskilling: 'brand',
+  stride: 'warm',
+  custom: 'sun',
+} as const;
+
+const STATUS_LABELS: Record<ProjectStatus, string> = {
+  planned: 'Planifié',
+  active: 'En cours',
+  completed: 'Terminé',
+  archived: 'Archivé',
+};
+
+const STATUS_VARIANTS = {
+  planned: 'info',
+  active: 'success',
+  completed: 'neutral',
+  archived: 'neutral',
+} as const;
+
+const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
 const ProjectsList: React.FC = () => {
   const nav = useNavigate();
-  const [filter, setFilter] = useState<'all' | ProjectStatus>('all');
+  const store = useProjectsStore();
+  const [filterStatus, setFilterStatus] = useState<'all' | ProjectStatus>('all');
+  const [filterType, setFilterType] = useState<'all' | ProjectType>('all');
 
-  const filtered = filter === 'all' ? MOCK_PROJECTS : MOCK_PROJECTS.filter((p) => p.status === filter);
+  const projects = store.getProjects(MOCK_PROJECT_COMPANY_ID);
+  const active = projects.filter((p) => p.status === 'active').length;
+  const planned = projects.filter((p) => p.status === 'planned').length;
+  const allTasks = projects.flatMap((p) => store.getTasks(p.id));
+  const myTasks = allTasks.filter((t) => t.assignedTo === MOCK_USER_ID);
+  const pendingJacs = projects.flatMap((p) => store.getJacs(p.id)).filter((j) => j.status === 'pending').length;
+
+  const filtered = projects.filter((p) => {
+    const matchStatus = filterStatus === 'all' || p.status === filterStatus;
+    const matchType = filterType === 'all' || p.type === filterType;
+    return matchStatus && matchType;
+  });
+
+  const getProjectProgress = (projectId: string) => {
+    const tasks = store.getTasks(projectId);
+    if (tasks.length === 0) return 0;
+    const done = tasks.filter((t) => t.status === 'approved' || t.status === 'submitted').length;
+    return Math.round((done / tasks.length) * 100);
+  };
+
+  const getGatingBadge = (projectId: string) => {
+    const checks = store.checkGating(MOCK_USER_ID, projectId);
+    if (checks.length === 0) return null;
+    const failed = checks.filter((c) => !c.passed);
+    if (failed.length === 0) return null;
+    return failed;
+  };
 
   return (
     <div className="min-h-screen bg-surface">
       <EditorialHero
-        eyebrow="Projets · Mes missions"
-        title="Tous mes projets en cours"
-        summary="Tâches assignées, statut JAC, mises à jour Passeport en temps réel"
+        eyebrow={{ label: 'Projets · Mes missions' }}
+        title="Tous mes projets"
+        summary="Tâches assignées, statut JAC, progression et enrichissement Passeport en temps réel."
         tone="brand"
-        trailing={<Button variant="primary" leadingIcon={<Plus className="w-4 h-4" />}>Nouveau projet</Button>}
+        trailing={
+          <Button variant="glass" leadingIcon={<Plus size={16} />}>
+            Nouveau projet
+          </Button>
+        }
       />
 
       <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-stack-xs">
-          <StatCard label="Projets actifs" value="2" sub="+1 ce mois" />
-          <StatCard label="Tâches assignées" value="12" sub="3 urgentes" />
-          <StatCard label="JAC en attente" value="4" sub="dont 1 validé" />
-          <StatCard label="Compétences mobilisées" value="8" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
+          <StatCard label="Projets actifs" value={active} icon={<Target size={20} />} variant="brand" />
+          <StatCard label="Planifiés" value={planned} icon={<Calendar size={20} />} variant="warm" />
+          <StatCard label="Mes tâches" value={myTasks.length} icon={<Users size={20} />} variant="default" />
+          <StatCard label="JAC en attente" value={pendingJacs} icon={<CheckCircle2 size={20} />} variant="default" />
         </div>
 
-        <div className="flex flex-wrap gap-stack-xs">
-          <FilterChip label="Tous" active={filter === 'all'} onClick={() => setFilter('all')} />
-          <FilterChip label="Actifs" active={filter === 'active'} onClick={() => setFilter('active')} />
-          <FilterChip label="En pause" active={filter === 'paused'} onClick={() => setFilter('paused')} />
-          <FilterChip label="Terminés" active={filter === 'completed'} onClick={() => setFilter('completed')} />
+        <div className="flex flex-col gap-tight">
+          <div className="flex flex-wrap gap-stack-xs">
+            <FilterChip label="Tous statuts" active={filterStatus === 'all'} onClick={() => setFilterStatus('all')} />
+            <FilterChip label="En cours" active={filterStatus === 'active'} onClick={() => setFilterStatus('active')} />
+            <FilterChip label="Planifiés" active={filterStatus === 'planned'} onClick={() => setFilterStatus('planned')} />
+            <FilterChip label="Terminés" active={filterStatus === 'completed'} onClick={() => setFilterStatus('completed')} />
+          </div>
+          <div className="flex flex-wrap gap-stack-xs">
+            <FilterChip label="Tous types" active={filterType === 'all'} onClick={() => setFilterType('all')} />
+            <FilterChip label="Upskilling" active={filterType === 'upskilling'} onClick={() => setFilterType('upskilling')} />
+            <FilterChip label="STRIDE" active={filterType === 'stride'} onClick={() => setFilterType('stride')} />
+            <FilterChip label="Custom" active={filterType === 'custom'} onClick={() => setFilterType('custom')} />
+          </div>
         </div>
 
         {filtered.length === 0 ? (
-          <EmptyState title="Aucun projet" description="Aucun projet ne correspond aux filtres" />
+          <EmptyState title="Aucun projet" description="Aucun projet ne correspond aux filtres sélectionnés." />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-            {filtered.map((p) => (
-              <Card
-                key={p.id}
-                className="p-6 cursor-pointer hover:border-primary-300 transition-all"
-                onClick={() => nav(`/project/${p.id}`)}
-              >
-                <div className="flex items-start justify-between gap-stack mb-stack">
-                  <div className="flex-1">
-                    <div className="text-caption text-ink-500 mb-1">{p.client}</div>
-                    <h3 className="text-h4 font-semibold">{p.title}</h3>
-                  </div>
-                  <Badge variant={p.status === 'active' ? 'info' : p.status === 'completed' ? 'success' : 'neutral'}>
-                    {p.status === 'active' ? 'En cours' : p.status === 'completed' ? 'Terminé' : 'En pause'}
-                  </Badge>
-                </div>
+            {filtered.map((p) => {
+              const progress = getProjectProgress(p.id);
+              const gatingFails = getGatingBadge(p.id);
+              const tasks = store.getTasks(p.id);
 
-                <div className="flex flex-wrap gap-1 mb-stack">
-                  {p.competences.map((c) => (
-                    <Badge key={c} variant="brand">{c}</Badge>
-                  ))}
-                </div>
-
-                <div className="mb-stack">
-                  <div className="flex justify-between text-caption text-ink-500 mb-1">
-                    <span>Progression</span>
-                    <span>{p.progress}%</span>
+              return (
+                <Card
+                  key={p.id}
+                  className="p-6 cursor-pointer hover:border-primary-300 transition-all"
+                  onClick={() => nav(`/project/${p.id}`)}
+                >
+                  <div className="flex items-start justify-between gap-stack mb-stack">
+                    <div className="flex-1">
+                      <div className="flex flex-wrap gap-1.5 mb-1.5">
+                        <Badge variant={TYPE_VARIANTS[p.type]}>{TYPE_LABELS[p.type]}</Badge>
+                        <Badge variant={STATUS_VARIANTS[p.status]}>{STATUS_LABELS[p.status]}</Badge>
+                      </div>
+                      <h3 className="text-h4 font-semibold text-ink-900 m-0">{p.title}</h3>
+                    </div>
                   </div>
-                  <ProgressBar value={p.progress} max={100} fill="brand" />
-                </div>
 
-                <div className="flex items-center justify-between">
-                  <AvatarGroup max={3}>
-                    {p.team.map((t, i) => (
-                      <Avatar key={i} initials={t.initials} size="sm" />
-                    ))}
-                  </AvatarGroup>
-                  <div className="flex items-center gap-1 text-caption text-ink-500">
-                    <Calendar className="w-3 h-3" /> {p.deadline}
+                  {gatingFails && gatingFails.length > 0 && (
+                    <div className="flex items-start gap-2 p-3 rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
+                      <Lock size={12} className="mt-0.5 shrink-0" />
+                      <span>
+                        Pré-requis non atteints :{' '}
+                        {gatingFails.map((f) => `${f.competencyName} (D${f.current} → D${f.required} requis)`).join(', ')}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="mb-stack">
+                    <div className="flex justify-between text-caption text-ink-500 mb-1">
+                      <span>Progression ({tasks.filter((t) => t.status === 'approved').length}/{tasks.length} tâches)</span>
+                      <span>{progress}%</span>
+                    </div>
+                    <ProgressBar value={progress} fill="brand" size="sm" valueLabel={false} />
                   </div>
-                </div>
-              </Card>
-            ))}
+
+                  <div className="flex items-center justify-between text-caption text-ink-500">
+                    <div className="flex items-center gap-1.5">
+                      <Avatar initials={p.expertInitials} size="sm" tint="brand" />
+                      <span>{p.expertName}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar size={12} />
+                      {new Date(p.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
