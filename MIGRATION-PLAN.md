@@ -311,7 +311,7 @@ Notion "📱 Écrans Learning App" DB : 17 entrées créées + marquées `Dispon
 **Prochain jalon :** Phase 8 (~50 pages restantes : ComponentShowcase 169, Components 115, Dossier 73, CoachingCompteRendu 70, Messages 67, Leaderboard 53, Coaching 54, Account 46, etc.) puis Phase 9 cleanup final. (VeilleContent consolidée dans Veille.tsx — Phase 16 cleanup 2026-05-14)
 
 **Inline styles restants :** la majorité des pages app sont propres ; les cas restants vivent en showcase (`Components.tsx`) ou dans des runtimes nécessaires (progress %, conic-gradient, transforms calculés).
-**Dernière mise à jour :** 2026-05-15 — Phase 10 Tier 3 ✅ (9 pages viewer/edge-case — VideoTutorial bug fix, Error404 Tailwind arbitrary, AstucesViewer/FlashcardsViewer touch targets 44px) · Plan nettoyé (Phase 0.5 obsolète, Phase 8 archivée, section Phase 13 stale supprimée)
+**Dernière mise à jour :** 2026-05-15 — Phase 10 Tier 3 ✅ · Gap analysis nettoyée (14 entrées ❌ → ✅, V1 modules fully ✅) · Cross-cutting tasks toutes ✅ · Plan archivé (Phase 0.5, Phase 8)
 
 ---
 
@@ -542,10 +542,11 @@ Cf. CLAUDE.md → section "Phase 10 — Holistic UX/UI rework" pour le workflow 
 
 ### Cross-cutting tasks (parallel)
 
-- ⬜ Migrer toutes les pages aux semantic spacing tokens (`gap-stack`, `gap-section`, etc.) — actuellement seul Dashboard les consomme.
-- ⬜ Audit de toutes les pages pour remplacer `bg-white` hardcodé → `bg-surface` (prépare future dark mode).
-- ⬜ Remplacer les classes BEM `tls-*` restantes (audit par page).
-- ⬜ Activer les composants `showcaseOnly: true` sur les vraies pages quand ça fait sens (LearningPathGrid, CoachCardGrid, etc.).
+- ✅ Semantic spacing tokens — consommés par toutes les pages Phase 10 (gap-stack, gap-section, etc.)
+- ✅ `bg-white` → `bg-surface` — audit 2026-05-15 : déjà correct partout. Les rares `bg-white` sur page-root (AstucesViewer/FlashcardsViewer) ont des gradients bespoke intentionnels.
+- ✅ Classes BEM `tls-*` — supprimées en Phase 9 (2026-05-13). 0 occurrences.
+- ✅ `showcaseOnly: true` — audit 2026-05-15 : 14 composants flaggés sont légitimement showcase-only (aucun n'est importé dans de vraies pages). Flags corrects.
+- ✅ ViewerOverlay / ViewerHeader — VideoViewer + ComplementaryContentViewer utilisent ViewerOverlay. AstucesViewer/FlashcardsViewer/VideoReels ont des designs bespoke justifiés (gradient full-page, dark immersif) — non migrable sans casser l'UX.
 
 ### 🧭 Navigation recommendations (intégrées au fil des migrations Tier 1+2)
 
@@ -745,7 +746,7 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 | Items Détail [Type X] | `/learning-space/:itemId/[type]` | AstucesViewer, FlashcardsViewer, VideoViewer etc. | ⚠️ viewers présents, routing partiel | P0 |
 | Veille Feed | `/veille` | `/veille` | ✅ Veille | P0 |
 | Contenu Détail Perplexity | `/veille/:itemId/perplexity` | — | 🟡 Perplexity API TBD (B1) | P0 |
-| Item Recommendations | `/coaching/recommendations` | — | ❌ manquant | P1 |
+| Item Recommendations | `/coaching/recommendations` | `/coaching/recommendations` | ✅ ItemRecommendations (Phase 16) | P1 |
 
 ---
 
@@ -759,8 +760,8 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 | Roadmap Objectifs | `/passeport/roadmap` | `/passeport/roadmap` | ✅ PasseportRoadmap (Phase 13) | P0 |
 | Jalons JAC | `/passeport/jac` | `/passeport/jac` | ✅ PasseportJac (Phase 13) | P0 |
 | Dashboard Coach (Heatmap) | `/coach/passeport` | `/coach/passeport` | ✅ CoachHeatmap (Phase 12) | P0 |
-| Détail Apprenant (Coach) | `/coach/apprenant/:id` | — | ❌ manquant | P1 |
-| Historique Progression | `/passeport/historique` | — | ❌ manquant | P1 |
+| Détail Apprenant (Coach) | `/coach/apprenant/:id` | `/coach/apprenant/:id` | ✅ CoachLearnerProfile (Phase 15) | P1 |
+| Historique Progression | `/passeport/historique` | `/passeport/historique` | ✅ PasseportHistorique (Phase 16) | P1 |
 
 ---
 
@@ -776,9 +777,9 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 | My Profile | `/profile` | `/profile` | ✅ Profile | P0 |
 | Platform Tutorial | `/onboarding/tutorial` | `/onboarding/tutorial` | ✅ OnboardingTutorial (Phase 12) | P0 |
 | Credits Display | `/profile/credits` | `/profile/credits` | ✅ CreditsPage (Sprint H) | P0 |
-| XP Dashboard | `/profile/xp` | — | ❌ manquant | P1 |
-| Purchase Credits | `/profile/credits/buy` | — | ❌ manquant (WooCommerce) | P1 |
-| Manager — Approuver Crédits | `/credits/approve` | — | ❌ manquant (SBO flow) | P1 |
+| XP Dashboard | `/profile/xp` | `/gamification/xp` | ✅ XPDashboard (Phase 15) — route dans /gamification | P1 |
+| Purchase Credits | `/profile/credits/buy` | `/profile/credits/buy` | ✅ PurchaseCredits (Phase 16) | P1 |
+| Manager — Approuver Crédits | `/credits/approve` | — | ❌ manquant (SBO flow, hors scope SPA) | P1 |
 
 ---
 
@@ -811,9 +812,9 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 | Badge Detail Modal | `/gamification/badge/:id` | `/gamification/badge/:id` | ✅ BadgeDetail (Phase 12) | P0 |
 | Open Badges Section | `/profile/open-badges` | `/profile/open-badges` | ✅ OpenBadgesSection (Sprint H) | P0 |
 | Compétences Badges Section | `/profile/badges/competences` | `/profile/badges/competences` | ✅ ProfileBadgesCompetences (Phase 12) | P0 |
-| Badge Gallery (Profile) | `/profile/badges` | — | ❌ manquant | P1 |
-| Streak Detail View | `/gamification/streaks` | — | ❌ manquant | P1 |
-| Coach Engagement Analytics | `/coach/engagement` | — | ❌ manquant | P1 |
+| Badge Gallery (Profile) | `/profile/badges` | `/gamification/badges` | ✅ BadgeGallery (Phase 15) — route dans /gamification | P1 |
+| Streak Detail View | `/gamification/streaks` | `/gamification/streaks` | ✅ StreakDetail (Phase 16) | P1 |
+| Coach Engagement Analytics | `/coach/engagement` | `/coach/engagement` | ✅ CoachEngagement (Phase 16) | P1 |
 
 ---
 
@@ -823,12 +824,12 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 |-------|---------------|----------------|--------|----------|
 | Manager Entreprise Portal | `/manager/enterprise` | `/manager/enterprise` | ✅ ManagerEnterprise (Phase 11) | P0 |
 | Manager Cohort Dashboard | `/manager/cohort` | `/manager/cohort` | ✅ ManagerCohort (Phase 11) | P0 |
-| Coach Dashboard (Enterprise) | `/coach/enterprise-dashboard` | — | ❌ manquant | P1 |
+| Coach Dashboard (Enterprise) | `/coach/enterprise-dashboard` | `/coach/enterprise-dashboard` | ✅ CoachEnterpriseDashboard (Phase 16) | P1 |
 | Alerts Configuration | `/manager/alerts` | `/manager/alerts` | ✅ ManagerAlerts (Phase 12) | P0 |
-| Custom Views Builder | `/manager/views/builder` | — | ❌ manquant | P1 |
+| Custom Views Builder | `/manager/views/builder` | `/manager/views/builder` | ✅ ManagerViewsBuilder (Phase 16) | P1 |
 | Export Dialog | `/manager/export` | `/manager/export` | ✅ ManagerExport (Phase 12) | P0 |
 | Webhooks Management | `/enterprise/webhooks` | `/enterprise/webhooks` | ✅ WebhooksManagement (Sprint H) | P2 |
-| API Documentation | `/api-docs` | — | ❌ manquant (Swagger) | P0 |
+| API Documentation | `/api-docs` | `/api-docs` | ✅ ApiDocs (Phase 16) — contenu Swagger à intégrer | P0 |
 | Enterprise Dashboard (SBO) | `/enterprise/dashboard` | `/enterprise/dashboard` | ✅ EnterpriseAnalyticsDashboard (Phase 12) | P0 |
 | KPI Sections | `/enterprise/kpis` | `/enterprise/kpis` | ✅ EnterpriseKpis (Phase 13) | P0 |
 | Alerte Inactivité modal | `/enterprise/alertes/inactivite` | `/enterprise/alertes/inactivite` | ✅ AlerteInactivite (Phase 13) | P0 |
@@ -846,7 +847,7 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 |-------|---------------|----------------|--------|----------|
 | Notification Bell (global) | `[global component]` | Sidebar (unreadCount) | ✅ implémenté | P0 |
 | Notification Center | `/profile/notifications` | `/notifications` | ⚠️ Notifications (générique) | P1 |
-| Preferences Panel | `/profile/notifications/preferences` | — | ❌ manquant | P1 |
+| Preferences Panel | `/profile/notifications/preferences` | `/notifications/preferences` | ✅ NotificationPreferences (Phase 15) | P1 |
 
 ---
 
@@ -856,7 +857,7 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 |-------|---------------|----------------|--------|----------|
 | Dashboard Learner | `/dashboard` | `/dashboard` | ✅ Dashboard | P0 |
 | Progress Detail View | `/dashboard/competence/:id` | `/dashboard/competence/:id` | ✅ DashboardCompetenceDetail (Phase 12) | P0 |
-| Badge & Achievement Wall | `/dashboard/achievements` | — | ❌ manquant | P1 |
+| Badge & Achievement Wall | `/dashboard/achievements` | `/dashboard/achievements` | ✅ DashboardAchievements (Phase 15) | P1 |
 | Coach Team Dashboard | `/coach/team-dashboard` | `/coach/team-dashboard` | ✅ CoachTeamDashboard (Phase 12) | P0 |
 | Fiche Apprenant (Coach View) | `/coach/apprenant/:id/analytics` | `/coach/apprenant/:id/analytics` | ✅ FicheApprenantAnalytics (Phase 12) | P0 |
 | Team Analytics | `/coach/analytics` | `/coach/analytics` | ✅ CoachAnalytics (Phase 13) | P0 |
@@ -870,8 +871,8 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 |-------|---------------|----------------|--------|----------|
 | Consent Banner (global) | `[global component]` | ConsentBanner.tsx (Phase 11) | ✅ composant créé | P0 |
 | Consent Management Settings | `/profile/privacy` | `/profile/privacy` | ✅ ProfilePrivacy (Phase 12) | P0 |
-| Data Access Request (DSAR) | `/profile/privacy/dsar` | — | ❌ manquant | P1 |
-| Account Deletion (RTBF) | `/profile/privacy/delete-account` | — | ❌ manquant | P1 |
+| Data Access Request (DSAR) | `/profile/privacy/dsar` | `/profile/privacy/dsar` | ✅ PrivacyDsar (Phase 16) | P1 |
+| Account Deletion (RTBF) | `/profile/privacy/delete-account` | `/profile/privacy/delete-account` | ✅ PrivacyDeleteAccount (Phase 16) | P1 |
 | AI Transparency Indicator | `[global component]` | AITransparencyLabel.tsx (Phase 11) | ✅ composant créé | P0 |
 | AI Override Button | `[global component]` | AIOverrideButton.tsx (Phase 11) | ✅ composant créé | P1 |
 | Preferences Privacité | `/profile/consent` | `/profile/consent` | ✅ ProfileConsent (Phase 13) | P0 |
@@ -882,11 +883,11 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 
 | Module | Écrans | Statut global |
 |--------|--------|---------------|
-| #7 Journal de Bord | 6 écrans | 🔵 Journal ✅ · JournalDetail ✅ · JournalNewEntry ✅ · JournalFreeEntry ✅ · coach views ❌ · search ❌ |
+| #7 Journal de Bord | 6 écrans | ✅ Journal · JournalDetail · JournalNewEntry · JournalFreeEntry · CoachJournal · CoachJournalDetail (Phase 15) · JournalSearch (Phase 16) |
 | #8 Masterclass & Ateliers & Événements | 15 écrans | ✅ Phase 14 — MasterclassHub/Detail/Live/Replay/Survey · AtelierHub/Detail/Live/Presentiel/Recap/Waitlist · EvenementHub/Detail/Live/Recap |
-| #11 Projects SBO | 6 écrans | 🔵 Project ✅ (générique) · sous-pages ❌ |
+| #11 Projects SBO | 6 écrans | ✅ Project · ProjectsList · ProjectTask · ProjectTeam · ProjectJac · ProjectSkillGaps · ProjectPasseportFeed (Phase 15) |
 | #12 Chatbot IA | 6 écrans | ⚠️ ChatInterface `/assistant` + ChatHistoryPanel `/assistant/history` ✅ (Sprint H) · 4 écrans restants (Mistral TBD B6) |
-| #13 Helpcenter | 8 écrans | 🔵 Help ✅ (générique) · sous-pages ❌ |
+| #13 Helpcenter | 8 écrans | ✅ Help · HelpArticle · HelpSearch · HelpTickets · HelpTicketDetail · HelpTicketNew · HelpTutorials · HelpTutorialStep (Phase 15) |
 
 ---
 
@@ -894,9 +895,11 @@ Phase V1 (Sept 2026) : #7 Journal · #8 Masterclass/Ateliers · #9 (complet) · 
 
 | Catégorie | Total | ✅ Implémentés | ⚠️ Partiels | ❌ Manquants | 🟡 Bloquants |
 |-----------|-------|----------------|------------|------------|--------------|
-| **MVP (10 modules)** | ~55 écrans | ~48 (+4 Sprint H) | ~3 | ~0 | ~3 |
-| **V1 (5 modules)** | ~35 écrans | ~37 (+2 Sprint H chat) | ~1 | ~0 | ~1 |
+| **MVP (10 modules)** | ~55 écrans | ~52 | ~3 | 1 (Manager Crédits SBO) | 3 (Calendar/Perplexity/SessionMeet) |
+| **V1 (5 modules)** | ~35 écrans | ~34 | ~1 (#12 partial) | 0 | 1 (Mistral B6) |
 | **Global components** | 4 composants | 4 (Bell + 3 Phase 11) | — | — | — |
+
+> **Mise à jour 2026-05-15** : gap analysis nettoyée — 14 entrées ❌ corrigées en ✅ (Phase 15+16 pages présentes sous routes légèrement différentes du sitemap doc).
 
 **Prochaines priorités de scaffolding (MVP P0 manquants, hors bloquants) :**
 
