@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Users, TrendingUp, Calendar, BarChart3, AlertTriangle } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { Users, TrendingUp, Calendar, BarChart3, AlertTriangle, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -9,18 +10,23 @@ import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { Tabs } from '../components/ui/Tabs';
-import { CardGrid } from '../components/patterns/CardGrid';
+import { FilterChip } from '../components/ui/FilterChip';
+import { useAnalyticsStore } from '../stores/persistence';
+import { MOCK_COACH_ID } from '../data/analytics';
+import type { LearnerStatus } from '../types/learning';
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// ─── Status config ────────────────────────────────────────────────────────────
 
-const TEAM_STATS = {
-  total: 8,
-  active: 6,
-  stuck: 2,
-  avgDreyfus: 3.1,
-  avgStreak: 9,
-  sessionsThisMonth: 12,
-  correctionsQueue: 4,
+const STATUS_LABEL: Record<LearnerStatus, string> = {
+  'on-track': 'En progression',
+  'at-risk': 'À risque',
+  'stuck': 'Bloqué',
+};
+
+const STATUS_VARIANT: Record<LearnerStatus, 'success' | 'warm' | 'danger'> = {
+  'on-track': 'success',
+  'at-risk': 'warm',
+  'stuck': 'danger',
 };
 
 const WEEKLY_ACTIVITY = [
@@ -31,22 +37,33 @@ const WEEKLY_ACTIVITY = [
   { day: 'Ven', sessions: 3, corrections: 1 },
 ];
 
-const TOP_PROGRESSORS = [
-  { name: 'Nadia Ferreira', initials: 'NF', progress: '+2 niveaux', role: 'Directrice Marketing', tags: ['D4 Leadership'] },
-  { name: 'Camille Durand', initials: 'CD', progress: '+3 niveaux', role: 'Directrice Commerciale', tags: ['D5 Expertise'] },
-  { name: 'Sophie Martin', initials: 'SM', progress: '+1 niveau', role: 'Manager d\'équipe', tags: ['D3 Leadership'] },
-];
-
-const UPCOMING_SESSIONS = [
-  { id: 1, apprenant: 'Sophie Martin', initials: 'SM', date: '20 mai 14h00', type: 'Coaching individuel', status: 'confirmed' },
-  { id: 2, apprenant: 'Pierre Bernard', initials: 'PB', date: '22 mai 10h00', type: 'Bilan progression', status: 'pending' },
-  { id: 3, apprenant: 'Nadia Ferreira', initials: 'NF', date: '23 mai 16h00', type: 'Coaching individuel', status: 'confirmed' },
-];
+function formatLastActive(daysSince: number): string {
+  if (daysSince === 0) return "Aujourd'hui";
+  if (daysSince === 1) return 'Il y a 1 jour';
+  return `Il y a ${daysSince} jours`;
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CoachTeamDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [statusFilter, setStatusFilter] = useState<LearnerStatus | 'all'>('all');
+
+  const analyticsStore = useAnalyticsStore();
+  const learners = analyticsStore.getLearnerProfiles(MOCK_COACH_ID);
+  const stats = analyticsStore.getTeamStats(MOCK_COACH_ID);
+
+  const filteredLearners = useMemo(() => {
+    if (statusFilter === 'all') return learners;
+    return learners.filter((l) => l.status === statusFilter);
+  }, [learners, statusFilter]);
+
+  const topProgressors = useMemo(
+    () => [...learners].sort((a, b) => b.progressPercent - a.progressPercent).slice(0, 3),
+    [learners]
+  );
+
+  const alertCount = stats.stuckCount + stats.atRiskCount;
 
   return (
     <div className="flex flex-col gap-section">
@@ -71,17 +88,17 @@ export default function CoachTeamDashboard() {
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-          <StatCard value={TEAM_STATS.total} label="Apprenants" size="sm" />
+          <StatCard value={stats.totalLearners} label="Apprenants" size="sm" />
           <StatCard
-            value={TEAM_STATS.stuck}
-            label="En difficulté"
+            value={stats.stuckCount}
+            label="Bloqués"
             variant="warm"
             size="sm"
-            delta={TEAM_STATS.stuck > 0 ? 'Action recommandée' : 'RAS'}
-            deltaDirection={TEAM_STATS.stuck > 0 ? 'down' : 'up'}
+            delta={stats.stuckCount > 0 ? 'Action recommandée' : 'RAS'}
+            deltaDirection={stats.stuckCount > 0 ? 'down' : 'up'}
           />
           <StatCard
-            value={`D${TEAM_STATS.avgDreyfus.toFixed(1)}`}
+            value={`D${stats.avgDreyfus.toFixed(1)}`}
             label="Dreyfus moyen"
             variant="brand"
             size="sm"
@@ -89,18 +106,19 @@ export default function CoachTeamDashboard() {
             deltaDirection="up"
           />
           <StatCard
-            value={TEAM_STATS.correctionsQueue}
+            value={stats.correctionsQueue}
             label="Corrections en attente"
             size="sm"
           />
         </div>
 
         {/* Alert */}
-        {TEAM_STATS.stuck > 0 && (
+        {alertCount > 0 && (
           <div className="flex items-start gap-stack p-4 bg-warning-bg border border-warning-border rounded-xl">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
-              <strong>{TEAM_STATS.stuck} apprenants</strong> nécessitent une attention particulière. Planifie un bilan de progression cette semaine.
+              <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
+              <strong>{stats.atRiskCount} à risque</strong> — planifie un bilan cette semaine.
             </p>
             <Button variant="ghost" size="sm" className="shrink-0 ml-auto">
               Planifier
@@ -112,7 +130,7 @@ export default function CoachTeamDashboard() {
         <Tabs
           items={[
             { id: 'overview', label: 'Vue d\'ensemble' },
-            { id: 'sessions', label: 'Sessions' },
+            { id: 'apprenants', label: `Apprenants (${stats.totalLearners})` },
             { id: 'top', label: 'Top progresseurs' },
           ]}
           value={activeTab}
@@ -121,8 +139,7 @@ export default function CoachTeamDashboard() {
 
         {activeTab === 'overview' && (
           <div className="flex flex-col gap-section">
-
-            {/* Activity chart (simplified) */}
+            {/* Activity chart */}
             <SectionCard title="Activité hebdomadaire" titleIcon={<BarChart3 size={18} />}>
               <div className="flex items-end gap-3 h-32 px-2">
                 {WEEKLY_ACTIVITY.map(({ day, sessions, corrections }) => {
@@ -160,8 +177,8 @@ export default function CoachTeamDashboard() {
             <SectionCard title="Distribution Dreyfus" titleIcon={<TrendingUp size={18} />}>
               <div className="flex flex-col gap-2">
                 {[1, 2, 3, 4, 5].map((level) => {
-                  const count = [1, 2, 3, 2, 0][level - 1];
-                  const pct = Math.round((count / TEAM_STATS.total) * 100);
+                  const count = learners.filter((l) => Math.round(l.dreyfusAvg) === level).length;
+                  const pct = stats.totalLearners > 0 ? Math.round((count / stats.totalLearners) * 100) : 0;
                   return (
                     <div key={level} className="flex items-center gap-stack">
                       <span className="text-caption font-semibold text-ink-600 w-6">D{level}</span>
@@ -177,37 +194,73 @@ export default function CoachTeamDashboard() {
           </div>
         )}
 
-        {activeTab === 'sessions' && (
-          <SectionCard title="Prochaines sessions" titleIcon={<Calendar size={18} />}>
-            <div className="flex flex-col gap-2">
-              {UPCOMING_SESSIONS.map((s) => (
-                <Card key={s.id} variant="default" className="flex items-center justify-between px-4 py-3">
-                  <div className="flex items-center gap-stack">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
-                      {s.initials}
-                    </span>
-                    <div className="flex flex-col gap-tight">
-                      <span className="text-body-sm font-medium text-ink-900">{s.apprenant}</span>
-                      <span className="text-caption text-ink-400">{s.date} · {s.type}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={s.status === 'confirmed' ? 'success' : 'danger'} size="sm">
-                      {s.status === 'confirmed' ? 'Confirmée' : 'En attente'}
-                    </Badge>
-                    <Button variant="ghost" size="sm">Préparer</Button>
-                  </div>
-                </Card>
-              ))}
+        {activeTab === 'apprenants' && (
+          <div className="flex flex-col gap-section">
+            {/* Status filter chips */}
+            <div className="flex flex-wrap gap-2">
+              {(['all', 'on-track', 'at-risk', 'stuck'] as const).map((s) => {
+                const count = s === 'all' ? learners.length : learners.filter((l) => l.status === s).length;
+                return (
+                  <FilterChip
+                    key={s}
+                    label={s === 'all' ? `Tous (${count})` : `${STATUS_LABEL[s]} (${count})`}
+                    active={statusFilter === s}
+                    onClick={() => setStatusFilter(s)}
+                  />
+                );
+              })}
             </div>
-          </SectionCard>
+
+            {/* Learner list */}
+            <div className="flex flex-col gap-2">
+              {filteredLearners.length === 0 ? (
+                <p className="text-body-sm text-ink-500 py-4">Aucun apprenant dans cette catégorie.</p>
+              ) : (
+                filteredLearners.map((learner) => (
+                  <Link key={learner.userId} to={`/coach/apprenant/${learner.userId}/analytics`} className="block">
+                    <Card variant="default" className="flex items-center gap-stack px-4 py-3 hover:bg-ink-50 transition-colors duration-fast cursor-pointer">
+                      {/* Avatar */}
+                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
+                        {learner.initials}
+                      </span>
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
+                          <Badge variant={STATUS_VARIANT[learner.status]} size="sm">
+                            {STATUS_LABEL[learner.status]}
+                          </Badge>
+                        </div>
+                        <p className="text-caption text-ink-400 truncate">{learner.role}</p>
+                      </div>
+
+                      {/* Progress */}
+                      <div className="hidden md:flex flex-col items-end gap-1 w-32 shrink-0">
+                        <span className="text-caption text-ink-500">Dreyfus {learner.dreyfusAvg.toFixed(1)}</span>
+                        <ProgressBar value={learner.progressPercent} fill="brand" size="sm" />
+                        <span className="text-micro text-ink-400">{learner.progressPercent}% objectif</span>
+                      </div>
+
+                      {/* Last activity */}
+                      <span className="hidden lg:block text-caption text-ink-400 w-28 text-right shrink-0">
+                        {formatLastActive(learner.daysSinceActivity)}
+                      </span>
+
+                      <ChevronRight size={16} className="text-ink-300 shrink-0" />
+                    </Card>
+                  </Link>
+                ))
+              )}
+            </div>
+          </div>
         )}
 
         {activeTab === 'top' && (
           <SectionCard title="Top progresseurs ce mois" titleIcon={<TrendingUp size={18} />}>
             <div className="grid md:grid-cols-3 gap-stack">
-              {TOP_PROGRESSORS.map((p, i) => (
-                <div key={p.name} className="relative">
+              {topProgressors.map((p, i) => (
+                <div key={p.userId} className="relative">
                   {i === 0 && (
                     <span className="absolute -top-2 -right-2 z-base inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent-400 text-white text-micro font-bold">1</span>
                   )}
@@ -215,10 +268,10 @@ export default function CoachTeamDashboard() {
                     name={p.name}
                     role={p.role}
                     initials={p.initials}
-                    specialties={p.tags}
+                    specialties={p.competencyScores.slice(0, 2).map((c) => c.label)}
                     variant="default"
                     align="center"
-                    cta={<Badge variant="success" size="sm">{p.progress}</Badge>}
+                    cta={<Badge variant="success" size="sm">D{p.dreyfusAvg.toFixed(1)}</Badge>}
                   />
                 </div>
               ))}

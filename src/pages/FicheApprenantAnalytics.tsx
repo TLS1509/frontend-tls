@@ -13,67 +13,82 @@ import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
+import { useAnalyticsStore } from '../stores/persistence';
+import { MOCK_COACH_ID } from '../data/analytics';
+import type { LearnerStatus } from '../types/learning';
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
-
-const APPRENANT = {
-  id: '1',
-  name: 'Sophie Martin',
-  initials: 'SM',
-  role: 'Manager d\'équipe · Secteur IT',
-  dreyfusAvg: 3.2,
-  streak: 14,
-  totalXp: 1240,
-  lastActivity: '2 jours',
-  daysSinceActivity: 2,
-  sessionsCompleted: 5,
-  correctionsReceived: 8,
-  currentLevel: 3,
+const STATUS_LABEL: Record<LearnerStatus, string> = {
+  'on-track': 'En progression',
+  'at-risk': 'À risque',
+  'stuck': 'Bloqué',
 };
 
-const RADAR_AXES = [
-  { label: 'Leadership', current: 3, target: 5 },
-  { label: 'Communication', current: 4, target: 4 },
-  { label: 'Analyse', current: 2, target: 4 },
-  { label: 'Tech & Outils', current: 4, target: 5 },
-  { label: 'Créativité', current: 2, target: 3 },
-  { label: 'Coopération', current: 3, target: 4 },
-];
+const STATUS_VARIANT: Record<LearnerStatus, 'success' | 'warm' | 'danger'> = {
+  'on-track': 'success',
+  'at-risk': 'warm',
+  'stuck': 'danger',
+};
 
-const SKILLS = [
-  { label: 'Leadership & Management', value: 3, max: 5 },
-  { label: 'Communication & Influence', value: 4, max: 5 },
-  { label: 'Analyse & Décision', value: 2, max: 5 },
-  { label: 'Tech & Outils numériques', value: 4, max: 5 },
-  { label: 'Créativité & Innovation', value: 2, max: 5 },
-  { label: 'Coopération & Équipe', value: 3, max: 5 },
-];
+function formatRelativeDate(isoDate: string): string {
+  const days = Math.round((Date.now() - new Date(isoDate).getTime()) / 86400000);
+  if (days === 0) return "Aujourd'hui";
+  if (days === 1) return 'Il y a 1 jour';
+  return `Il y a ${days} jours`;
+}
 
-const HEATMAP_AXES = ['Leadership', 'Communication', 'Analyse', 'Tech', 'Créativité', 'Coopération'];
-const HEATMAP_ROWS = [
-  { name: 'Sophie Martin', initials: 'SM', scores: [3, 4, 2, 4, 2, 3] },
-];
-
-const RECENT_ACTIVITY = [
-  { id: 1, type: 'Leçon', label: 'Styles de leadership situationnel', date: 'Il y a 2j', xp: 25 },
-  { id: 2, type: 'Session', label: 'Coaching — bilan D3', date: 'Il y a 5j', xp: 100 },
-  { id: 3, type: 'Exercice', label: 'Cas pratique : délégation', date: 'Il y a 8j', xp: 50 },
-  { id: 4, type: 'Leçon', label: 'Feedback 360° en pratique', date: 'Il y a 12j', xp: 25 },
-];
+function dreyfusLabel(level: number): string {
+  return ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'][level] ?? 'D?';
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FicheApprenantAnalytics() {
   const { id } = useParams<{ id: string }>();
-  const _ = id;
   const [tab, setTab] = useState<'overview' | 'heatmap' | 'activity'>('overview');
+
+  const analyticsStore = useAnalyticsStore();
+  // Seed coach profiles then find the specific learner
+  analyticsStore.getLearnerProfiles(MOCK_COACH_ID);
+  const learner = id ? analyticsStore.getLearnerById(id) : undefined;
+
+  if (!learner) {
+    return (
+      <div className="flex flex-col gap-section">
+        <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans ton équipe." tone="warm" />
+        <div className="max-w-wide mx-auto w-full px-4 md:px-8">
+          <p className="text-body-sm text-ink-500">Aucune donnée pour l'identifiant : {id}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const radarAxes = learner.competencyScores.map((cs) => ({
+    label: cs.label,
+    current: cs.current,
+    target: cs.target,
+  }));
+
+  const skillBars = learner.competencyScores.map((cs) => ({
+    label: cs.label,
+    value: cs.current,
+    max: 5,
+  }));
+
+  const heatmapAxes = learner.competencyScores.map((cs) => cs.label);
+  const heatmapRows = [{
+    name: learner.name,
+    initials: learner.initials,
+    scores: learner.competencyScores.map((cs) => cs.current),
+  }];
+
+  const dreyfusLevelRound = Math.round(learner.dreyfusAvg);
 
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow="Coach · Fiche Apprenant"
-        title={APPRENANT.name}
-        summary={APPRENANT.role}
+        title={learner.name}
+        summary={learner.role}
         tone="warm"
         trailing={
           <div className="flex items-center gap-3">
@@ -90,24 +105,34 @@ export default function FicheApprenantAnalytics() {
       <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
 
         {/* Profile header */}
-        <Card variant="default" className="flex items-center gap-section p-6">
-          <Avatar name={APPRENANT.name} initials={APPRENANT.initials} size="xl" />
+        <Card variant="default" className="flex items-center gap-section p-6 flex-wrap">
+          <Avatar name={learner.name} initials={learner.initials} size="xl" />
           <div className="flex flex-col gap-tight flex-1">
             <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-h3 font-display font-bold text-ink-900">{APPRENANT.name}</h2>
-              <Badge variant="info" size="md">D{APPRENANT.currentLevel} Compétent</Badge>
-              <AtrophieIndicator daysSinceActivity={APPRENANT.daysSinceActivity} />
+              <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
+              <Badge variant={STATUS_VARIANT[learner.status]} size="md">
+                {STATUS_LABEL[learner.status]}
+              </Badge>
+              <Badge variant="info" size="md">D{dreyfusLevelRound} {dreyfusLabel(dreyfusLevelRound)}</Badge>
+              <AtrophieIndicator daysSinceActivity={learner.daysSinceActivity} />
             </div>
-            <p className="text-body-sm text-ink-500">{APPRENANT.role}</p>
+            <p className="text-body-sm text-ink-500">{learner.role}</p>
+          </div>
+          <div className="w-full md:w-48">
+            <div className="flex justify-between text-caption text-ink-500 mb-1">
+              <span>Objectif</span>
+              <span>{learner.progressPercent}%</span>
+            </div>
+            <ProgressBar value={learner.progressPercent} fill="brand" size="md" />
           </div>
         </Card>
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-          <StatCard value={`D${APPRENANT.dreyfusAvg}`} label="Dreyfus moyen" variant="brand" size="sm" />
-          <StatCard value={`${APPRENANT.streak}j`} label="Streak actuel" variant="warm" size="sm" delta="↑ 3j cette semaine" deltaDirection="up" />
-          <StatCard value={APPRENANT.sessionsCompleted} label="Sessions complétées" size="sm" />
-          <StatCard value={`${APPRENANT.totalXp} XP`} label="Total XP" size="sm" />
+          <StatCard value={`D${learner.dreyfusAvg.toFixed(1)}`} label="Dreyfus moyen" variant="brand" size="sm" />
+          <StatCard value={`${learner.streak}j`} label="Streak actuel" variant="warm" size="sm" delta={learner.streak > 0 ? `↑ actif` : 'Inactif'} deltaDirection={learner.streak > 0 ? 'up' : 'down'} />
+          <StatCard value={learner.sessionsCompleted} label="Sessions complétées" size="sm" />
+          <StatCard value={`${learner.totalXp} XP`} label="Total XP" size="sm" />
         </div>
 
         {/* Tabs */}
@@ -129,11 +154,11 @@ export default function FicheApprenantAnalytics() {
         {tab === 'overview' && (
           <div className="grid md:grid-cols-2 gap-section">
             <SectionCard title="Radar compétences" titleIcon={<TrendingUp size={18} />}>
-              <CompetencyRadar axes={RADAR_AXES} size="md" showLegend />
+              <CompetencyRadar axes={radarAxes} size="md" showLegend />
             </SectionCard>
             <SectionCard title="Niveaux par compétence" titleIcon={<BarChart3 size={18} />}>
               <div className="flex flex-col gap-3">
-                {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} />)}
+                {skillBars.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} />)}
               </div>
             </SectionCard>
           </div>
@@ -141,26 +166,33 @@ export default function FicheApprenantAnalytics() {
 
         {tab === 'heatmap' && (
           <SectionCard title="Détail Dreyfus par axe" titleIcon={<BarChart3 size={18} />}>
-            <HeatmapGrid axes={HEATMAP_AXES} rows={HEATMAP_ROWS} showLegend />
+            <HeatmapGrid axes={heatmapAxes} rows={heatmapRows} showLegend />
           </SectionCard>
         )}
 
         {tab === 'activity' && (
           <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-2">
-              {RECENT_ACTIVITY.map((a) => (
-                <Card key={a.id} variant="default" className="flex items-center justify-between px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    <Badge variant="neutral" size="sm">{a.type}</Badge>
-                    <span className="text-body-sm text-ink-800">{a.label}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-caption text-ink-400">{a.date}</span>
-                    <Badge variant="success" size="sm">+{a.xp} XP</Badge>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            {learner.recentCompletions.length === 0 ? (
+              <p className="text-body-sm text-ink-500">Aucune activité récente enregistrée.</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {learner.recentCompletions.map((a) => (
+                  <Card key={a.id} variant="default" className="flex items-center justify-between px-4 py-3 flex-wrap gap-2">
+                    <div className="flex items-center gap-3">
+                      <Badge variant="neutral" size="sm">{a.itemType}</Badge>
+                      <span className="text-body-sm text-ink-800">{a.itemLabel}</span>
+                    </div>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {a.npsGiven !== undefined && (
+                        <span className="text-caption text-ink-400">NPS {a.npsGiven}/10</span>
+                      )}
+                      <span className="text-caption text-ink-400">{formatRelativeDate(a.completedAt)}</span>
+                      <Badge variant="success" size="sm">+{a.xpEarned} XP</Badge>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
           </SectionCard>
         )}
 

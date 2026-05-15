@@ -50,6 +50,8 @@ import type {
   UserGdprConsents,
   UserAIConsents,
   DsarRequest,
+  LearnerAnalyticsProfile,
+  CoachTeamStats,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -75,6 +77,11 @@ import {
   MOCK_IN_APP_NOTIFICATIONS,
   MOCK_USER_NOTIFICATION_PREFS,
 } from '../data/notifications';
+import {
+  MOCK_LEARNER_PROFILES,
+  MOCK_COACH_TEAM_STATS,
+  MOCK_COACH_ID,
+} from '../data/analytics';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -1124,6 +1131,67 @@ export const usePrivacyStore = create<PrivacyState>()(
     }),
     {
       name: 'tls-privacy',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+/* ─── 16. Analytics — Coach Team (Cahier #10) ───────────────────────────── */
+
+interface AnalyticsState {
+  /** Key = coachId, value = learner profiles assigned to that coach */
+  learnerProfiles: Record<string, LearnerAnalyticsProfile[]>;
+  /** Key = coachId */
+  teamStats: Record<string, CoachTeamStats>;
+  getLearnerProfiles: (coachId: string) => LearnerAnalyticsProfile[];
+  getLearnerById: (userId: string) => LearnerAnalyticsProfile | undefined;
+  getTeamStats: (coachId: string) => CoachTeamStats;
+  clear: () => void;
+}
+
+export const useAnalyticsStore = create<AnalyticsState>()(
+  persist(
+    (set, get) => ({
+      learnerProfiles: {},
+      teamStats: {},
+
+      getLearnerProfiles: (coachId) => {
+        const state = get();
+        if (!state.learnerProfiles[coachId]) {
+          set((s) => ({
+            learnerProfiles: { ...s.learnerProfiles, [coachId]: MOCK_LEARNER_PROFILES },
+            teamStats: { ...s.teamStats, [coachId]: MOCK_COACH_TEAM_STATS },
+          }));
+          return MOCK_LEARNER_PROFILES;
+        }
+        return state.learnerProfiles[coachId];
+      },
+
+      getLearnerById: (userId) => {
+        const allCoaches = get().learnerProfiles;
+        for (const profiles of Object.values(allCoaches)) {
+          const found = profiles.find((p) => p.userId === userId);
+          if (found) return found;
+        }
+        // seed if not found yet
+        const all = get().getLearnerProfiles(MOCK_COACH_ID);
+        return all.find((p) => p.userId === userId);
+      },
+
+      getTeamStats: (coachId) => {
+        const state = get();
+        if (!state.teamStats[coachId]) {
+          get().getLearnerProfiles(coachId);
+          return get().teamStats[coachId] ?? MOCK_COACH_TEAM_STATS;
+        }
+        return state.teamStats[coachId];
+      },
+
+      clear: () => set({ learnerProfiles: {}, teamStats: {} }),
+    }),
+    {
+      name: 'tls-analytics',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

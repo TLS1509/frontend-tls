@@ -595,3 +595,68 @@ export interface Company {
   maxSeats: number;
   createdAt: string;
 }
+
+// ─── Analytics (Cahier #10 Analytics & Tracking System) ──────────────────────
+
+/** Learner trajectory status (Cahier #10 Journey #3 — coach team view) */
+export type LearnerStatus = 'on-track' | 'at-risk' | 'stuck';
+
+/**
+ * A single completed learning item with analytics metadata.
+ * Maps to ItemCompletion entity (Cahier #10 § Modèle de Données).
+ */
+export interface ItemCompletionRecord {
+  id: string;
+  itemId: string;
+  itemLabel: string;
+  /** Display category: Leçon, Session, Exercice, Quiz, etc. */
+  itemType: string;
+  completedAt: string;
+  timeSpentMinutes: number;
+  /** NPS score 1–10 given by learner after completion */
+  npsGiven?: number;
+  feedbackText?: string;
+  xpEarned: number;
+}
+
+/**
+ * Coach-visible analytics profile for one learner.
+ * Aggregates progression, status, and recent activity.
+ */
+export interface LearnerAnalyticsProfile {
+  userId: string;
+  name: string;
+  initials: string;
+  role: string;
+  /** Trajectory status — used for coach team filter (on-track/at-risk/stuck) */
+  status: LearnerStatus;
+  dreyfusAvg: number;
+  progressPercent: number;
+  /** ISO timestamp of last platform activity */
+  lastActivityAt?: string;
+  daysSinceActivity: number;
+  streak: number;
+  totalXp: number;
+  sessionsCompleted: number;
+  correctionsReceived: number;
+  /** Per-competency scores for CompetencyRadar + HeatmapGrid */
+  competencyScores: Array<{
+    competencyId: string;
+    label: string;
+    current: DreyfusLevel;
+    target: DreyfusLevel;
+  }>;
+  recentCompletions: ItemCompletionRecord[];
+}
+
+/** Aggregated team stats for coach dashboard KPI cards */
+export interface CoachTeamStats {
+  totalLearners: number;
+  activeLearners: number;
+  atRiskCount: number;
+  stuckCount: number;
+  avgDreyfus: number;
+  avgStreak: number;
+  sessionsThisMonth: number;
+  correctionsQueue: number;
+}
