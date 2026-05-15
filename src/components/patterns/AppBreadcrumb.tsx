@@ -50,18 +50,6 @@ const ROUTE_MAP: Array<{
   // Veille
   { test: /^\/veille\/?$/, build: () => [{ label: 'Veille' }] },
   {
-    test: /^\/veille\/actus\/?$/,
-    build: () => [{ label: 'Veille', href: '/veille' }, { label: 'Actus' }],
-  },
-  {
-    test: /^\/veille\/tutoriels\/?$/,
-    build: () => [{ label: 'Veille', href: '/veille' }, { label: 'Tutoriels' }],
-  },
-  {
-    test: /^\/veille\/dossiers\/?$/,
-    build: () => [{ label: 'Veille', href: '/veille' }, { label: 'Dossiers' }],
-  },
-  {
     test: /^\/veille\/magazine\/?$/,
     build: () => [{ label: 'Veille', href: '/veille' }, { label: 'Magazine' }],
   },
@@ -110,7 +98,7 @@ const ROUTE_MAP: Array<{
   {
     test: /^\/veille\/weekly-news\/([^/]+)$/,
     build: () => [
-      { label: 'Veille', href: '/veille/weekly-newsletter' },
+      { label: 'Veille', href: '/veille' },
       { label: 'Actualité' },
     ],
   },

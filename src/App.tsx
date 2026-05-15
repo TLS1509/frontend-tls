@@ -436,7 +436,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <AppBreadcrumb className="pl-[68px] pr-4 sm:px-6 lg:px-10" />
         <main className="flex-1 min-w-0 [overflow-x:clip]">{children}</main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 border-t border-ink-200/70 text-center">
