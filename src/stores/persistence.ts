@@ -52,6 +52,9 @@ import type {
   DsarRequest,
   LearnerAnalyticsProfile,
   CoachTeamStats,
+  ChatSession,
+  ChatMessage,
+  ChatFeedback,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -82,6 +85,10 @@ import {
   MOCK_COACH_TEAM_STATS,
   MOCK_COACH_ID,
 } from '../data/analytics';
+import {
+  MOCK_PAST_SESSIONS,
+  MOCK_CHAT_SESSION_ID,
+} from '../data/chatbot';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -1197,3 +1204,108 @@ export const useAnalyticsStore = create<AnalyticsState>()(
     }
   )
 );
+
+/* ─── 17. Chatbot IA (Cahier #12) ───────────────────────────────────────────── */
+
+interface ChatState {
+  /** Key = sessionId */
+  sessions: Record<string, ChatSession>;
+  getSessions: (userId: string) => ChatSession[];
+  getSession: (sessionId: string) => ChatSession | undefined;
+  addMessage: (sessionId: string, message: ChatMessage) => void;
+  updateFeedback: (sessionId: string, messageId: string, feedback: ChatFeedback) => void;
+  deleteSession: (sessionId: string) => void;
+  createSession: (session: ChatSession) => void;
+  clear: () => void;
+}
+
+export const useChatStore = create<ChatState>()(
+  persist(
+    (set, get) => ({
+      sessions: {},
+
+      getSessions: (userId) => {
+        const state = get();
+        const userSessions = Object.values(state.sessions).filter((s) => s.userId === userId);
+        if (userSessions.length === 0) {
+          const seeded: Record<string, ChatSession> = {};
+          for (const s of MOCK_PAST_SESSIONS) {
+            seeded[s.sessionId] = { ...s, userId };
+          }
+          set({ sessions: seeded });
+          return MOCK_PAST_SESSIONS.map((s) => ({ ...s, userId }));
+        }
+        return userSessions.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+      },
+
+      getSession: (sessionId) => {
+        const state = get();
+        if (!state.sessions[sessionId]) {
+          // Seed on first access
+          const seeded: Record<string, ChatSession> = {};
+          for (const s of MOCK_PAST_SESSIONS) {
+            seeded[s.sessionId] = { ...s, userId: 'user-demo' };
+          }
+          set({ sessions: seeded });
+          return seeded[sessionId];
+        }
+        return state.sessions[sessionId];
+      },
+
+      addMessage: (sessionId, message) =>
+        set((state) => {
+          const session = state.sessions[sessionId];
+          if (!session) return state;
+          return {
+            sessions: {
+              ...state.sessions,
+              [sessionId]: {
+                ...session,
+                messages: [...session.messages, message],
+                updatedAt: new Date().toISOString(),
+              },
+            },
+          };
+        }),
+
+      updateFeedback: (sessionId, messageId, feedback) =>
+        set((state) => {
+          const session = state.sessions[sessionId];
+          if (!session) return state;
+          return {
+            sessions: {
+              ...state.sessions,
+              [sessionId]: {
+                ...session,
+                messages: session.messages.map((m) =>
+                  m.id === messageId ? { ...m, feedback } : m
+                ),
+              },
+            },
+          };
+        }),
+
+      deleteSession: (sessionId) =>
+        set((state) => {
+          const next = { ...state.sessions };
+          delete next[sessionId];
+          return { sessions: next };
+        }),
+
+      createSession: (session) =>
+        set((state) => ({
+          sessions: { ...state.sessions, [session.sessionId]: session },
+        })),
+
+      clear: () => set({ sessions: {} }),
+    }),
+    {
+      name: 'tls-chat',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// Expose the active session ID as a convenience constant
+export { MOCK_CHAT_SESSION_ID };

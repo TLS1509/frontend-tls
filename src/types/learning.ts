@@ -660,3 +660,57 @@ export interface CoachTeamStats {
   sessionsThisMonth: number;
   correctionsQueue: number;
 }
+
+// ─── Chatbot IA & Q&R (Cahier #12) ───────────────────────────────────────────
+
+/** Source modules that can be cited in chatbot responses (Cahier #12 § KB sources) */
+export type KBSourceModule = 'formation' | 'passeport' | 'coaching' | 'projects' | 'veille' | 'faq';
+
+/** Intent category classified from user question (Cahier #12 § Intent Classification) */
+export type ChatIntentCategory = 'formation' | 'passeport' | 'coaching' | 'projects' | 'system' | 'unknown';
+
+/** A cited source in a chatbot response */
+export interface ChatSourceCitation {
+  sourceModule: KBSourceModule;
+  sourceId: string;
+  title: string;
+  /** Relative URL within the FO (e.g. "/learning-paths/lp-1") */
+  url?: string;
+  /** Relevance score 0–1 from vector search */
+  relevanceScore: number;
+}
+
+/** User feedback on a chatbot response ("Was this helpful?") */
+export type ChatFeedbackRating = 'yes' | 'no' | 'skip';
+
+export interface ChatFeedback {
+  messageId: string;
+  rating: ChatFeedbackRating;
+  suggestionText?: string;
+}
+
+/** A single message in a chat conversation */
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+  /** Confidence score 0–1 (assistant messages only). < 0.6 triggers fallback warning */
+  confidenceScore?: number;
+  intentCategory?: ChatIntentCategory;
+  sourcesCited?: ChatSourceCitation[];
+  /** Feedback given by user on this response */
+  feedback?: ChatFeedback;
+  /** True when this message triggered a privacy block */
+  privacyBlocked?: boolean;
+}
+
+/** A chat session (groups multiple messages) */
+export interface ChatSession {
+  sessionId: string;
+  userId: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  messages: ChatMessage[];
+}
