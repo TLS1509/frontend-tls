@@ -486,6 +486,76 @@ Implémenté dans `IconFeatureCard.tsx` (BASE = `justify-start`, ICON_ZONE map).
 
 ---
 
+## 4. Patterns canoniques — Stability Status
+
+### Pattern stability criteria (Phase 14+ validation)
+
+| Status | Criteria | Action |
+|--------|----------|--------|
+| **Stable** ✅ | Used by 3+ pages · API locked · Tailwind validated · No breaking changes planned | Ready for integration in flows · Can be extended with new variants if needed |
+| **To evolve** 🔄 | Used <3 times OR API in exploration OR Tailwind migration incomplete | Avoid wide adoption until stabilized · Single-owner pages OK · Document any planned changes |
+| **Deprecated** ❌ | Superseded by newer pattern · 0 usage in real pages · Removed from showcase | Remove from codebase after Phase 14+ migration completes |
+
+### Current Pattern Inventory (Phase 14+ baseline)
+
+#### Stable ✅ (safe for wide adoption)
+
+| Pattern | Path | Usage count | Status | Notes |
+|---------|------|-------------|--------|-------|
+| **Button** | `core/` | 80+ pages | ✅ Stable | 8 variants (primary/warm/secondary/ghost/glass/destructive/link) · 4 sizes · full Tailwind |
+| **Card** | `core/` | 100+ pages | ✅ Stable | 12 surface variants · tone-aware · interaction effects locked |
+| **Input** | `core/` | 30+ pages | ✅ Stable | Text/password/email/number · checkboxes/radio/switch · all form states |
+| **Badge** | `ui/` | 60+ pages | ✅ Stable | 3 exports (Badge/StatusBadge/TrendingBadge) · all variants consolidated |
+| **Avatar** | `ui/` | 25+ pages | ✅ Stable | AvatarGroup bundled · sizes/initials/image modes |
+| **ProgressBar** | `ui/` | 20+ pages | ✅ Stable | Fill-based variants · tone-aware · inline/stacked layouts |
+| **EditorialHero** | `patterns/` | 40+ pages | ✅ Stable | 4 tones (default/brand/warm/sun) · trailing slot fixed · summary prop name locked |
+| **SectionCard** | `patterns/` | 30+ pages | ✅ Stable | Title/description/footer structure · tone color · titleIcon/headerAction slots |
+| **EditorialLayout** | `patterns/` | 15+ pages | ✅ Stable | Main + sticky aside · mobile-first responsive |
+| **ViewerHeader** | `patterns/` | 6+ pages | ✅ Stable | Sticky bar for viewer screens (back/title/prev-next/close) |
+| **RelatedItemList** | `patterns/` | 8+ pages | ✅ Stable | Vertical link list · cross-links + related content |
+| **AuthShell** | `patterns/` | 5+ pages | ✅ Stable | Split-screen auth layout + sub-components (AuthField, AuthPasswordField, AuthPrimaryButton, etc.) |
+| **Tabs** | `ui/` | 10+ pages | ✅ Stable | Underline/pills variants · keyboard nav · items/value/onChange API |
+
+#### To Evolve 🔄 (single-owner OK, avoid wide adoption until stabilized)
+
+| Pattern | Path | Usage count | Plan | Notes |
+|---------|------|-------------|------|-------|
+| **PromptCard** | `cards/` | 2 pages (Dashboard, Notifications) | Consolidate with JournalEntryCard into "ChatBubbleCard" generic | Apple Messages bubble · same tail pattern |
+| **JournalEntryCard** | `cards/` | 1 page (Journal) | Consolidate with PromptCard | Chat-bubble variant · needs reflection on tone-aware states |
+| **NotificationCard** | `cards/` (to create) | 0 pages | Create in Phase 14.8 | Will inherit ChatBubbleCard pattern once consolidated |
+| **CompetencyRadar** | `ui/` | 2 pages (Passeport, CoachDashboard) | Validate interaction (axis click) · add full a11y | D3/Visx-based · Phase 14.3 will lock API |
+| **TimelineItem** | `learning/` | <3 pages | Extend with variant connectors · test cascade | Uses before: pseudo-element lines |
+| **MetaPill** | `ui/` | 5+ pages | Stabilize after glass variants validated | Glass-light/glass-dark added Phase 14+ · finalize tone-aware |
+
+#### Deprecated ❌ (remove post-Phase 14)
+
+| Pattern | Replacement | Status |
+|---------|------------|--------|
+| `DashboardHero` | `EditorialHero` tone="brand" | Already unused |
+| `LearningPathHeader` | `HeroSection` | Already unused |
+| `GlassCard` | `Card` variant="glass" | Aliased, remove after Phase 14 |
+| `SurfaceCard` | `Card` variant="elevated" | Aliased, remove after Phase 14 |
+| `BreadcrumbNav` | `Breadcrumb` variant="nav" | Aliased, remove after Phase 14 |
+| `ToneAwareCard` | `Card` variant="tinted" + tone prop | Aliased, remove after Phase 14 |
+
+### Pattern stability rules for Phase 14+
+
+**Rule 1 : No breaking API changes to Stable patterns during flows**
+- If a Stable pattern needs new variant/tone → add without removing old
+- If new use case needs API change → fork into new pattern or extend as optional prop
+
+**Rule 2 : Document "To Evolve" status in showcase**
+- Add comment at top of component: `// ⚠️ API in exploration — avoid wide adoption until Phase 14.X stabilizes`
+- List known issues or planned changes
+- Update when status changes to Stable
+
+**Rule 3 : Deprecate transparently**
+- Keep 1 commit window (~2 weeks) of re-export alias before deleting file
+- Update showcase to show the replacement pattern
+- Grep all usages before deletion commit
+
+---
+
 ## 5. Pièges connus (12 documentés)
 
 Cf. `CLAUDE.md` section "Pièges connus à vérifier systématiquement" pour le détail complet.

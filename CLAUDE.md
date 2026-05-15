@@ -1148,6 +1148,149 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
 
 ---
 
+## Phase 14+ — Flow-Based Workflow (2026-05-15+)
+
+**Changement de paradigme** : on n'opère plus écran-par-écran. Phase 14+ redesigne l'app **flow par flow** (user journey). Toute page modifiée DOIT l'être dans le cadre d'un flow audité end-to-end.
+
+### Pourquoi flow-based ?
+- Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés (ex. LearningPath → LessonPlayer → Viewers doivent avoir un rythme visuel cohérent)
+- Refondre par niveau (N1 → N2 → N3) crée des dépendances circulaires et force des revisits
+- Le flow garantit que chaque parcours utilisateur est **testable end-to-end** dès qu'il est bouclé
+- La composition des composants est validée dans le contexte réel, pas isolément dans le showcase
+
+### 6 étapes obligatoires par flow
+
+**ÉTAPE 1 — AUDIT FLOW (~30 min, AVANT coding)**
+
+1.1 Lister tous les écrans du flow (N1 hubs, N2 details, N3 modals/conditionnels)
+1.2 Créer un tableau audit :
+   | Écran | Composants actuels | Composants manquants | UX/design issues | Priorité |
+   |-------|--------------------|---------------------|-----------------|----------|
+   | (page) | (existing) | (gaps) | (spacing, tone, glass, etc.) | (M) |
+
+1.3 Identifier composants `showcaseOnly: true` à intégrer dans ce flow
+1.4 Identifier composants à créer/étendre (nouvelles variantes, props, tones)
+
+**→ Présenter le tableau à l'utilisateur AVANT d'écrire du code**
+
+---
+
+**ÉTAPE 2 — COMPONENT PREPARATION (bottom-up)**
+
+2.1 **Bottom-up** : créer/étendre composants AVANT les pages qui les consomment
+   - Primitives (Badge, Pill, Avatar, etc.) si nécessaire
+   - Composites (SectionCard, EditorialHero variants, etc.)
+   - Nouveaux patterns (si justifiés par ce flow)
+
+2.2 Mettre à jour `src/pages/Components.tsx` pour chaque composant :
+   - Ajouter/modifier entrée : props, variants, sizes, tones, **usedBy: [pages from this flow]**, showcaseOnly
+   - Ajouter démo multi-tone si tone-aware
+   - Vérifier que la démo compiles et render sans erreur
+
+2.3 Mettre à jour Notion Design System DB :
+   - Créer/modifier entrées pour nouveaux composants
+   - Type, Layer, Migration status (Tailwind ✅), Has variants, Tone-aware
+
+**Acceptance criteria :**
+- `npx tsc --noEmit` → 0 erreurs
+- Components.tsx affiche sans erreur en preview
+- Tous les variants/tones visibles dans la démo
+
+---
+
+**ÉTAPE 3 — PAGE REDESIGN (bottom-up: N3 modals → N2 detail → N1 hub)**
+
+3.1 **Ordre** : Modals/drawers d'abord, puis detail pages, puis hub pages
+   - Garantit que les composants enfants sont wired avant les parents qui les utilisent
+   - Valide la composition incrémentalement
+
+3.2 **Par page** :
+   - Intégrer les composants préparés en ÉTAPE 2
+   - Appliquer **semantic spacing tokens** : `gap-tight`, `gap-stack`, `gap-stack-lg`, `gap-section`, `gap-section-lg`, `gap-page` (JAMAIS `gap-4/6/8` arbitraire)
+   - **Tone-aware** : 1 tone dominant + 1 accent max pour tout le flow. Cohérent à travers les écrans
+   - Mobile-first : single column par défaut, grid/flex layouts md/lg only
+   - `min-h-touch` (44px) sur tous interactive elements
+   - 100% Tailwind : zéro `style={{}}` layout/color/spacing, zéro classes BEM `.tls-*`, zéro `[var(...)]` arbitraire
+
+3.3 **Vérification par page** :
+   - `npx tsc --noEmit` → 0 erreurs
+   - Screenshot 375px (mobile) et 1280px (desktop)
+   - Console clean (zéro warnings)
+   - Hover/focus/active states fonctionnels
+
+---
+
+**ÉTAPE 4 — VALIDATION FLOW (~15 min)**
+
+4.1 **End-to-end flow testing**
+   - Enchaîner les écrans du flow en entier (ex. Onboarding → Questionnaire → Tutorial → Success → Dashboard first-time)
+   - Vérifier transitions, navigation, states
+   - Tester chemins d'erreur / empty states si applicables
+
+4.2 **Visual consistency audit**
+   - Tone cohérence : max 2 tones/flow, appliqués uniformément
+   - Spacing rhythm : tous les `gap-*` sont sémantiques, aucun padding/margin arbitraire
+   - Glass morphism : `backdrop-blur-glass-*` tokens (pas arbitraire `blur-md`)
+   - Zéro CSS BEM legacy (class `.tls-*` search = 0 results)
+
+4.3 **Technical checks**
+   - `npx tsc --noEmit` → 0 erreurs
+   - `npm run build` → 0 warnings
+   - Tailwind coverage : zéro classes manquantes (run `npm run dev` pour force compile)
+
+4.4 **Screenshot gallery**
+   - 1 mobile (375px) + 1 desktop (1280px) par écran du flow
+   - Archive pour documentation design
+
+---
+
+**ÉTAPE 5 — NOTION SYNC (5-Point Checkpoints — OBLIGATOIRE)**
+
+**Checkpoint 1 : Code → Notion (synchronisation sortante)**
+- [ ] Design System DB : créer/modifier composant entries pour tous nouveaux/updatés components
+- [ ] Écrans DB : créer/modifier page entries pour tous pages du flow
+- [ ] Link entries : Écrans screens → Components used
+
+**Checkpoint 2 : Notion → Code (cross-check inward)**
+- [ ] Si Design System marque "Tailwind ✅" : grep codebase, confirmer zéro classes BEM
+- [ ] Si Écrans marque "Disponible: YES" : confirmer route existe dans `App.tsx`
+- [ ] Si "Deprecated" : confirmer file est supprimé ou réexporte seulement
+
+**Checkpoint 3 : Components.tsx Showcase (source de vérité)**
+- [ ] Nouveaux composants : entrées existent avec props, variants, usedBy, showcaseOnly
+- [ ] Composants updatés : démo montre tous les nouveaux variants/tones
+- [ ] Composants intégrés : retirer `showcaseOnly: true` pour ceux utilisés par le flow
+- [ ] `usedBy` arrays à jour : listent toutes les pages du flow qui les utilisent
+
+**Checkpoint 4 : Docs internes (CLAUDE.md, DESIGN.md)**
+- [ ] Nouveau pattern découvert : ajouter dans DESIGN.md §4 "Patterns canoniques"
+- [ ] Nouveau piège CSS/Tailwind : ajouter dans CLAUDE.md "Pièges connus" + DESIGN.md §5
+- [ ] Nouveau token : ajouter dans CLAUDE.md "Référence Tailwind → Design Tokens"
+- [ ] Nouvelle règle : ajouter dans CLAUDE.md "Règles absolues"
+
+**Checkpoint 5 : MIGRATION-PLAN.md (track completion)**
+- [ ] Phase 14.X flow marqué ✅ dans la table de tracking
+- [ ] "Progrès global" updaté (N/17 flows complètes)
+
+---
+
+**ÉTAPE 6 — COMMIT (une fois les 4 checkpoints ✅)**
+
+6.1 Format : `feat(phase-14.X): [flow name] redesign + component prep`
+6.2 Avant push : vérifier que les 5 checkpoints sont ✅
+6.3 Un commit par flow (jamais batch multiples flows)
+
+---
+
+### Anti-patterns Phase 14+
+- ❌ Toucher une page hors d'un flow audité (même "petit fix")
+- ❌ Modifier un composant DS sans mettre à jour Components.tsx + Notion DS DB
+- ❌ Marquer un flow ✅ sans screenshots 375px ET 1280px
+- ❌ Utiliser 3+ tones dans un flow (1 dominant + 1 accent max)
+- ❌ Committer sans `npx tsc --noEmit` clean
+
+---
+
 ## Règles de commit
 
 - Format : `refactor: migrate [ComponentName] to Tailwind`
