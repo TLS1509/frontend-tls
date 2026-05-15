@@ -380,6 +380,65 @@ export interface Correction {
   updatedAt: string;
 }
 
+// ─── GDPR / AI Act (Cahier #13bis) ───────────────────────────────────────────
+
+/**
+ * Types de consentement GDPR (Cahier #13bis § Consent Management).
+ * essential = toujours actif (pré-coché) · analytics + marketing = opt-in
+ */
+export type GdprConsentType = 'essential' | 'analytics' | 'marketing';
+
+/** Un consentement utilisateur pour un type donné */
+export interface UserGdprConsent {
+  userId: string;
+  consentType: GdprConsentType;
+  accepted: boolean;
+  /** Version du texte de consentement (traçabilité légale) */
+  version: string;
+  timestamp: string;
+}
+
+/** Ensemble des consentements GDPR d'un utilisateur */
+export interface UserGdprConsents {
+  userId: string;
+  essential: boolean;
+  analytics: boolean;
+  marketing: boolean;
+  /** true si l'utilisateur a interagi avec le banner au moins une fois */
+  bannerDismissed: boolean;
+  lastUpdatedAt: string;
+}
+
+/** Consentements IA granulaires (Cahier #13bis § AI Act Transparency) */
+export interface UserAIConsents {
+  userId: string;
+  aiRecommendations: boolean;
+  dreyfusAnalysis: boolean;       // required — toujours true
+  aiContentSuggestions: boolean;
+  aiExerciseFeedback: boolean;
+  modelImprovement: boolean;
+  lastUpdatedAt: string;
+}
+
+/**
+ * Statuts d'une demande DSAR (Cahier #13bis § DSAR — RGPD Art. 15).
+ * submitted → processing → completed | rejected
+ */
+export type DsarStatus = 'submitted' | 'processing' | 'completed' | 'rejected';
+
+/** Demande d'accès aux données (DSAR — Data Subject Access Request) */
+export interface DsarRequest {
+  id: string;
+  userId: string;
+  status: DsarStatus;
+  submittedAt: string;
+  completedAt?: string;
+  /** Taille de l'archive exportée (ex: "1.2 MB") */
+  archiveSize?: string;
+  /** Délai légal max = 30 jours */
+  legalDeadlineAt: string;
+}
+
 // ─── Notifications (Cahier #09) ──────────────────────────────────────────────
 
 /**

@@ -6,6 +6,9 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { useToastContext } from '../contexts/ToastContext';
 
 const DATA_TYPES = [
   { id: 'profile', label: 'Profil utilisateur', size: '12 KB', desc: 'Nom, email, rôle, photo, paramètres' },
@@ -16,12 +19,37 @@ const DATA_TYPES = [
   { id: 'gamification', label: 'Gamification', size: '45 KB', desc: 'Badges, streaks, XP, achievements' },
 ];
 
-const PAST_REQUESTS = [
-  { id: '1', date: '15 mars 2026', status: 'completed', size: '1.2 MB' },
-];
+const STATUS_LABEL: Record<string, { label: string; variant: 'success' | 'warm' | 'neutral' }> = {
+  submitted: { label: 'Soumise', variant: 'neutral' },
+  processing: { label: 'En cours', variant: 'warm' },
+  completed: { label: 'Terminée', variant: 'success' },
+  rejected: { label: 'Rejetée', variant: 'neutral' },
+};
 
 const PrivacyDsar: React.FC = () => {
-  const [requested, setRequested] = useState(false);
+  const privacyStore = usePrivacyStore();
+  const toast = useToastContext();
+  const [submitting, setSubmitting] = useState(false);
+
+  const pastRequests = privacyStore.getDsarRequests(MOCK_USER_ID);
+  const hasPendingRequest = pastRequests.some((r) => r.status === 'submitted' || r.status === 'processing');
+
+  const handleRequest = async () => {
+    setSubmitting(true);
+    await new Promise((res) => setTimeout(res, 600));
+    const now = new Date();
+    const deadline = new Date(now);
+    deadline.setDate(deadline.getDate() + 30);
+    privacyStore.addDsarRequest({
+      id: `dsar-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      status: 'submitted',
+      submittedAt: now.toISOString(),
+      legalDeadlineAt: deadline.toISOString(),
+    });
+    setSubmitting(false);
+    toast.success('Ta demande DSAR a été enregistrée. Tu recevras un email sous 48h.', 'Demande envoyée');
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -60,7 +88,11 @@ const PrivacyDsar: React.FC = () => {
           </div>
         </SectionCard>
 
-        {!requested ? (
+        {hasPendingRequest ? (
+          <Alert variant="success" title="Demande en cours">
+            Nous traitons ta demande. Tu recevras un email sous 48h avec le lien de téléchargement sécurisé (valide 7 jours).
+          </Alert>
+        ) : (
           <Card className="p-6 flex flex-col gap-stack">
             <div className="flex items-start gap-3">
               <Shield className="w-6 h-6 text-primary-600 mt-1" />
@@ -71,32 +103,34 @@ const PrivacyDsar: React.FC = () => {
                 </p>
               </div>
             </div>
-            <Button variant="primary" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={() => setRequested(true)}>
+            <Button variant="primary" size="lg" leadingIcon={<Download className="w-4 h-4" />} onClick={handleRequest} loading={submitting}>
               Déclencher la demande DSAR
             </Button>
           </Card>
-        ) : (
-          <Alert variant="success" title="Demande enregistrée">
-            Nous traitons ta demande. Tu recevras un email à <strong>chloe@tls.io</strong> sous 48h avec le lien de téléchargement sécurisé.
-          </Alert>
         )}
 
         <SectionCard title="Historique de mes demandes" description="Demandes passées et statut">
-          {PAST_REQUESTS.length === 0 ? (
+          {pastRequests.length === 0 ? (
             <p className="text-body-sm text-ink-500">Aucune demande passée.</p>
           ) : (
             <div className="flex flex-col gap-stack-xs">
-              {PAST_REQUESTS.map((r) => (
-                <Card key={r.id} className="p-4 flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-ink-500" />
-                  <div className="flex-1">
-                    <div className="font-semibold text-body-sm">Demande du {r.date}</div>
-                    <div className="text-caption text-ink-500">Archive : {r.size}</div>
-                  </div>
-                  <Badge variant="success">Terminée</Badge>
-                  <Button variant="ghost" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
-                </Card>
-              ))}
+              {pastRequests.map((r) => {
+                const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
+                const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+                return (
+                  <Card key={r.id} className="p-4 flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-ink-500" />
+                    <div className="flex-1">
+                      <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>
+                      {r.archiveSize && <div className="text-caption text-ink-500">Archive : {r.archiveSize}</div>}
+                    </div>
+                    <Badge variant={s.variant}>{s.label}</Badge>
+                    {r.status === 'completed' && (
+                      <Button variant="ghost" size="sm" leadingIcon={<Mail className="w-4 h-4" />}>Renvoyer email</Button>
+                    )}
+                  </Card>
+                );
+              })}
             </div>
           )}
         </SectionCard>

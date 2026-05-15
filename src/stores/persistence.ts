@@ -16,6 +16,7 @@
  *  - `useEnterpriseStore` (Cahier #06) : CompanyMember + CompanyCohort + ManagerAlert + CompanyStats + CompanyProject
  *  - `useNotificationPrefsStore` (Cahier #09) : UserNotificationPrefs (channel prefs + email tracking)
  *  - `useInAppNotificationsStore` (Cahier #09) : InAppNotification feed (in-app channel, persisted)
+ *  - `usePrivacyStore` (Cahier #13bis) : UserGdprConsents + UserAIConsents + DsarRequest[]
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -46,6 +47,9 @@ import type {
   CompanyProject,
   UserNotificationPrefs,
   InAppNotification,
+  UserGdprConsents,
+  UserAIConsents,
+  DsarRequest,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -1019,6 +1023,107 @@ export const useInAppNotificationsStore = create<InAppNotificationsState>()(
     }),
     {
       name: 'tls-in-app-notifications',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #15 — Privacy / GDPR (Cahier #13bis) ──────────────────────────────
+
+const DEFAULT_GDPR_CONSENTS = (userId: string): UserGdprConsents => ({
+  userId,
+  essential: true,  // always true (required by GDPR — platform operation)
+  analytics: false, // opt-in
+  marketing: false, // opt-in
+  bannerDismissed: false,
+  lastUpdatedAt: new Date().toISOString(),
+});
+
+const DEFAULT_AI_CONSENTS = (userId: string): UserAIConsents => ({
+  userId,
+  aiRecommendations: true,
+  dreyfusAnalysis: true,       // required — always on
+  aiContentSuggestions: true,
+  aiExerciseFeedback: false,
+  modelImprovement: false,
+  lastUpdatedAt: new Date().toISOString(),
+});
+
+interface PrivacyState {
+  gdprConsents: Record<string, UserGdprConsents>;
+  aiConsents: Record<string, UserAIConsents>;
+  dsarRequests: Record<string, DsarRequest[]>;
+
+  getGdprConsents: (userId: string) => UserGdprConsents;
+  updateGdprConsents: (userId: string, updates: Partial<UserGdprConsents>) => void;
+  getAIConsents: (userId: string) => UserAIConsents;
+  updateAIConsents: (userId: string, updates: Partial<UserAIConsents>) => void;
+  getDsarRequests: (userId: string) => DsarRequest[];
+  addDsarRequest: (request: DsarRequest) => void;
+  clear: () => void;
+}
+
+export const usePrivacyStore = create<PrivacyState>()(
+  persist(
+    (set, get) => ({
+      gdprConsents: {},
+      aiConsents: {},
+      dsarRequests: {},
+
+      getGdprConsents: (userId) => {
+        const existing = get().gdprConsents[userId];
+        if (existing) return existing;
+        const defaults = DEFAULT_GDPR_CONSENTS(userId);
+        set((state) => ({ gdprConsents: { ...state.gdprConsents, [userId]: defaults } }));
+        return defaults;
+      },
+
+      updateGdprConsents: (userId, updates) =>
+        set((state) => ({
+          gdprConsents: {
+            ...state.gdprConsents,
+            [userId]: {
+              ...(state.gdprConsents[userId] ?? DEFAULT_GDPR_CONSENTS(userId)),
+              ...updates,
+              lastUpdatedAt: new Date().toISOString(),
+            },
+          },
+        })),
+
+      getAIConsents: (userId) => {
+        const existing = get().aiConsents[userId];
+        if (existing) return existing;
+        const defaults = DEFAULT_AI_CONSENTS(userId);
+        set((state) => ({ aiConsents: { ...state.aiConsents, [userId]: defaults } }));
+        return defaults;
+      },
+
+      updateAIConsents: (userId, updates) =>
+        set((state) => ({
+          aiConsents: {
+            ...state.aiConsents,
+            [userId]: {
+              ...(state.aiConsents[userId] ?? DEFAULT_AI_CONSENTS(userId)),
+              ...updates,
+              drayfusAnalysis: true, // always required
+              lastUpdatedAt: new Date().toISOString(),
+            },
+          },
+        })),
+
+      getDsarRequests: (userId) => get().dsarRequests[userId] ?? [],
+
+      addDsarRequest: (request) =>
+        set((state) => {
+          const existing = state.dsarRequests[request.userId] ?? [];
+          return { dsarRequests: { ...state.dsarRequests, [request.userId]: [request, ...existing] } };
+        }),
+
+      clear: () => set({ gdprConsents: {}, aiConsents: {}, dsarRequests: {} }),
+    }),
+    {
+      name: 'tls-privacy',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

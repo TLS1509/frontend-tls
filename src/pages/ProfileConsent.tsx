@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Brain, Shield, Eye, Settings } from 'lucide-react';
+import React from 'react';
+import { Brain, Shield, Eye, Settings, Cookie } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
@@ -10,60 +10,60 @@ import { Badge } from '../components/ui/Badge';
 import { Alert } from '../components/ui/Alert';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { AIOverrideButton } from '../components/ui/AIOverrideButton';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { useToastContext } from '../contexts/ToastContext';
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// ─── AI consent item definitions ─────────────────────────────────────────────
 
 const AI_CONSENT_ITEMS = [
   {
-    id: 'ai-recommendations',
+    id: 'aiRecommendations' as const,
     label: 'Recommandations personnalisées',
     description: 'L\'IA analyse tes résultats pour te suggérer des parcours et exercices adaptés à ton niveau Dreyfus.',
     required: false,
-    enabled: true,
   },
   {
-    id: 'dreyfus-analysis',
+    id: 'dreyfusAnalysis' as const,
     label: 'Analyse de progression Dreyfus',
     description: 'Utilisé pour évaluer ton niveau de compétence (Novice → Expert). Nécessaire au bon fonctionnement de la plateforme.',
     required: true,
-    enabled: true,
   },
   {
-    id: 'ai-content-suggestions',
+    id: 'aiContentSuggestions' as const,
     label: 'Suggestions de contenu IA',
     description: 'L\'IA sélectionne des articles, vidéos et ressources de veille en fonction de tes préférences déclarées.',
     required: false,
-    enabled: true,
   },
   {
-    id: 'ai-exercise-feedback',
+    id: 'aiExerciseFeedback' as const,
     label: 'Feedback automatisé d\'exercices',
     description: 'L\'IA analyse tes réponses aux exercices et génère un feedback instantané pour accélérer ta progression.',
     required: false,
-    enabled: false,
   },
   {
-    id: 'model-improvement',
+    id: 'modelImprovement' as const,
     label: 'Partage anonymisé pour amélioration du modèle',
     description: 'Tes données d\'apprentissage anonymisées contribuent à améliorer les modèles IA de la plateforme.',
     required: false,
-    enabled: false,
   },
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ProfileConsent() {
-  const [consents, setConsents] = useState(
-    Object.fromEntries(AI_CONSENT_ITEMS.map((c) => [c.id, c.enabled]))
-  );
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const privacyStore = usePrivacyStore();
+  const toast = useToastContext();
+  const gdpr = privacyStore.getGdprConsents(MOCK_USER_ID);
+  const ai = privacyStore.getAIConsents(MOCK_USER_ID);
 
-  const toggleConsent = (id: string) => {
+  const toggleAI = (id: typeof AI_CONSENT_ITEMS[number]['id']) => {
     const item = AI_CONSENT_ITEMS.find((c) => c.id === id);
     if (item?.required) return;
-    setConsents((prev) => ({ ...prev, [id]: !prev[id] }));
+    privacyStore.updateAIConsents(MOCK_USER_ID, { [id]: !ai[id] });
   };
+
+  const saveAI = () => toast.success('Préférences IA mises à jour.', 'Enregistré');
 
   return (
     <div className="flex flex-col gap-section">
@@ -79,14 +79,46 @@ export default function ProfileConsent() {
 
       <div className="max-w-content mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
 
-        {/* ConsentBanner en contexte page */}
-        {!bannerDismissed && (
+        {/* ConsentBanner GDPR — dismiss persisted (Cahier #13bis) */}
+        {!gdpr.bannerDismissed && (
           <ConsentBanner
-            onAcceptAll={() => setBannerDismissed(true)}
-            onRejectAll={() => setBannerDismissed(true)}
-            onCustomize={() => setBannerDismissed(true)}
+            onAcceptAll={() => privacyStore.updateGdprConsents(MOCK_USER_ID, { analytics: true, marketing: true, bannerDismissed: true })}
+            onRejectAll={() => privacyStore.updateGdprConsents(MOCK_USER_ID, { analytics: false, marketing: false, bannerDismissed: true })}
+            onCustomize={() => privacyStore.updateGdprConsents(MOCK_USER_ID, { bannerDismissed: true })}
           />
         )}
+
+        {/* Consentements GDPR — 3 types spec (Cahier #13bis § Consent Management) */}
+        <SectionCard
+          title="Cookies & Données"
+          titleIcon={<Cookie size={18} />}
+          description="Consentements RGPD — essential (requis), analytique, marketing."
+        >
+          <div className="flex flex-col gap-3">
+            {[
+              { key: 'essential' as const, label: 'Essentiel', desc: 'Nécessaire au fonctionnement de la plateforme (connexion, sécurité). Non désactivable.', required: true },
+              { key: 'analytics' as const, label: 'Analytique', desc: 'Mesure d\'audience anonymisée pour améliorer l\'expérience (Google Analytics équivalent).', required: false },
+              { key: 'marketing' as const, label: 'Marketing', desc: 'Personnalisation des communications commerciales et emails promotionnels.', required: false },
+            ].map(({ key, label, desc, required }) => (
+              <div key={key} className="flex items-start justify-between gap-section p-4 rounded-xl border border-ink-100 bg-white">
+                <div className="flex flex-col gap-tight flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-body-sm font-semibold text-ink-900">{label}</span>
+                    {required && <Badge variant="info" size="sm">Requis</Badge>}
+                  </div>
+                  <p className="text-caption text-ink-500">{desc}</p>
+                </div>
+                <Switch
+                  checked={gdpr[key]}
+                  onChange={(e) => !required && privacyStore.updateGdprConsents(MOCK_USER_ID, { [key]: e.target.checked })}
+                  disabled={required}
+                  label=""
+                  aria-label={label}
+                />
+              </div>
+            ))}
+          </div>
+        </SectionCard>
 
         {/* AITransparencyLabel — carte explicative */}
         <Card variant="tinted" tone="primary" className="flex flex-col gap-stack">
@@ -126,8 +158,8 @@ export default function ProfileConsent() {
                   <p className="text-caption text-ink-500">{item.description}</p>
                 </div>
                 <Switch
-                  checked={consents[item.id]}
-                  onChange={() => toggleConsent(item.id)}
+                  checked={ai[item.id]}
+                  onChange={() => toggleAI(item.id)}
                   disabled={item.required}
                   label=""
                   aria-label={item.label}
@@ -136,7 +168,7 @@ export default function ProfileConsent() {
             ))}
           </div>
           <div className="mt-stack">
-            <Button variant="primary" size="md" leadingIcon={<Settings size={16} />}>
+            <Button variant="primary" size="md" leadingIcon={<Settings size={16} />} onClick={saveAI}>
               Enregistrer
             </Button>
           </div>
