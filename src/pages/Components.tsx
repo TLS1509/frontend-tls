@@ -1781,13 +1781,14 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Recherche', 'Veille', 'Sidebar (futur Cmd+K)', 'Journal (search/filter)', 'Courses (search suggestions)'],
+    usedBy: ['LearningPaths', 'Veille', 'Journal', 'Courses', 'Help/Support', 'Messages', 'Leaderboard'],
     description: 'Search bar with async suggestions, filtering, and multiple interaction patterns. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Features: shortcut badge, clear button, custom leading icon, trailing slot (filter/voice), inline filter chips (filtersSlot), suggestions dropdown (isLoading + suggestions + onSuggestionSelect), custom suggestion renderer.',
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
     render: () => {
       const [searchVal, setSearchVal] = React.useState('');
       const [suggestionsOpen, setSuggestionsOpen] = React.useState(false);
       const [isLoading, setIsLoading] = React.useState(false);
+      const [filterQuery, setFilterQuery] = React.useState('');
 
       // Mock suggestions based on search input
       const mockSuggestions = searchVal.length > 0
@@ -1882,6 +1883,43 @@ const COMPONENTS: ComponentEntry[] = [
                 </>
               }
             />
+          </div>
+
+          {/* ⭐ PHASE 14.2 PATTERN: Search + FilterBar in glass variant (LearningPaths hero) */}
+          <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Phase 14.2: Search + FilterBar on glass bg (LearningPaths pattern)</p>
+            <p className="text-caption text-ink-600 m-0">Search with glass variant + FilterBar in filtersSlot. Fixed bugs: native close button suppressed (appearance-none), proper icon-to-text spacing (pr-1/2/3).</p>
+            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-6 rounded-xl">
+              <Search
+                size="sm"
+                variant="glass"
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
+                placeholder="Rechercher…"
+                aria-label="Rechercher un parcours"
+                filtersSlot={
+                  <div className="flex flex-wrap items-center gap-2">
+                    <FilterBar
+                      options={[
+                        { id: 'en cours', label: 'En cours', count: 3 },
+                        { id: 'termine', label: 'Terminés', count: 1 },
+                        { id: 'pas commence', label: 'Pas commencés', count: 2 },
+                      ]}
+                      selected={[]}
+                      onChange={() => {}}
+                      onClearAll={() => setFilterQuery('')}
+                      tone="primary"
+                      variant="glass"
+                      size="sm"
+                      surface="plain"
+                    />
+                    <span className="font-body text-caption text-white/70 ml-auto">
+                      3 sur 6
+                    </span>
+                  </div>
+                }
+              />
+            </div>
           </div>
         </div>
       );
