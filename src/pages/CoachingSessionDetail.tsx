@@ -46,16 +46,16 @@ export default function CoachingSessionDetail() {
       <EditorialHero
         eyebrow={`Coaching · Session #${SESSION.id}`}
         title={SESSION.title}
-        subtitle={`${SESSION.date} · ${SESSION.time} · ${SESSION.format}`}
+        summary={`${SESSION.date} · ${SESSION.time} · ${SESSION.format}`}
         tone="warm"
-        actions={
+        trailing={
           <div className="flex items-center gap-3">
             {SESSION.meetLink && SESSION.status === 'planned' && (
               <Button variant="glass" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
               </Button>
             )}
-            <Button variant="glass-light-ghost" size="md" leadingIcon={<Download size={16} />}>
+            <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
               Ajouter au calendrier
             </Button>
           </div>
@@ -106,7 +106,7 @@ export default function CoachingSessionDetail() {
         {/* Objectives */}
         <SectionCard
           title="Objectifs de la session"
-          icon={<FileText size={18} />}
+          titleIcon={<FileText size={18} />}
         >
           <ul className="flex flex-col gap-2">
             {SESSION.objectives.map((obj, i) => (
@@ -123,7 +123,7 @@ export default function CoachingSessionDetail() {
         {/* Preparation */}
         <SectionCard
           title="Préparation recommandée"
-          icon={<ChevronRight size={18} />}
+          titleIcon={<ChevronRight size={18} />}
           actions={
             <Badge variant="warning" size="sm">À faire avant la session</Badge>
           }
@@ -142,7 +142,7 @@ export default function CoachingSessionDetail() {
 
         {/* Previous sessions */}
         {SESSION.previousSessions.length > 0 && (
-          <SectionCard title="Sessions précédentes" icon={<Clock size={18} />}>
+          <SectionCard title="Sessions précédentes" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-2">
               {SESSION.previousSessions.map((prev) => (
                 <SessionCard

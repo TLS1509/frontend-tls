@@ -85,8 +85,8 @@ export default function CoachingCorrections() {
       <EditorialHero
         eyebrow="Coaching · Corrections"
         title="Mes Corrections"
-        subtitle="Retrouve ici les exercices soumis par ton coach en attente de correction et les travaux déjà corrigés."
-        tone="primary"
+        summary="Retrouve ici les exercices soumis par ton coach en attente de correction et les travaux déjà corrigés."
+        tone="default"
       />
 
       <div className="max-w-page mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
@@ -125,7 +125,7 @@ export default function CoachingCorrections() {
         </div>
 
         {/* Corrections list */}
-        <SectionCard title={`${filtered.length} résultat${filtered.length !== 1 ? 's' : ''}`} icon={<FileText size={18} />}>
+        <SectionCard title={`${filtered.length} résultat${filtered.length !== 1 ? 's' : ''}`} titleIcon={<FileText size={18} />}>
           {filtered.length === 0 ? (
             <EmptyState
               icon={<CheckCircle2 size={32} />}
