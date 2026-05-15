@@ -783,3 +783,87 @@ export interface ContentSurvey {
   feedback?: string;
   submittedAt: string;
 }
+
+// ─── Cahier #13 — Helpcenter & Wiki ──────────────────────────────────────────
+
+export type ArticleType = 'faq' | 'how-to' | 'guide' | 'tutorial';
+export type ArticleDifficulty = 'beginner' | 'intermediate' | 'advanced';
+
+export interface FaqCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  icon: string;
+  sortOrder: number;
+}
+
+export interface FaqArticle {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  categoryId: string;
+  articleType: ArticleType;
+  difficulty: ArticleDifficulty;
+  tags: string[];
+  isPublished: boolean;
+  viewCount: number;
+  helpfulCount: number;
+  unhelpfulCount: number;
+  updatedAt: string;
+  relatedArticleIds?: string[];
+}
+
+export type TicketStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
+export type TicketPriority = 'low' | 'medium' | 'high';
+
+export interface SupportTicket {
+  id: string;
+  userId: string;
+  subject: string;
+  description: string;
+  categoryId: string;
+  priority: TicketPriority;
+  status: TicketStatus;
+  createdAt: string;
+  updatedAt: string;
+  resolvedAt?: string;
+}
+
+export interface TicketReply {
+  id: string;
+  ticketId: string;
+  userId: string;
+  replyText: string;
+  isAdminReply: boolean;
+  createdAt: string;
+}
+
+export type ArticleReaction = '👍' | '❤️' | '😕' | '🎉' | '🚀' | 'helpful' | 'unhelpful';
+
+export interface ArticleFeedback {
+  articleId: string;
+  userId: string;
+  reaction: ArticleReaction;
+  createdAt: string;
+}
+
+export interface TutorialSection {
+  title: string;
+  text: string;
+  imageAlt?: string;
+  videoUrl?: string;
+}
+
+export interface Tutorial {
+  id: string;
+  title: string;
+  description: string;
+  order: number;
+  videoUrl?: string;
+  videoDurationSeconds?: number;
+  sections: TutorialSection[];
+  updatedAt: string;
+}

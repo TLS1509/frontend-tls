@@ -62,6 +62,15 @@ import type {
   ContentSurvey,
 } from '../types/learning';
 import type { Masterclass, AtelierPratique, Evenement } from '../data/events';
+import type {
+  FaqCategory,
+  FaqArticle,
+  SupportTicket,
+  TicketReply,
+  ArticleFeedback,
+  ArticleReaction,
+  Tutorial,
+} from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
   MOCK_COMPETENCY_OBJECTIVES,
@@ -105,6 +114,14 @@ import {
   MOCK_SURVEYS,
   MOCK_USER_ID as MOCK_EVENTS_USER_ID,
 } from '../data/events';
+import {
+  FAQ_CATEGORIES,
+  FAQ_ARTICLES,
+  MOCK_SUPPORT_TICKETS,
+  MOCK_TICKET_REPLIES,
+  MOCK_ARTICLE_FEEDBACK,
+  MOCK_TUTORIALS,
+} from '../data/helpcenter';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -1497,3 +1514,184 @@ export const useEventsStore = create<EventsState>()(
 );
 
 export { MOCK_EVENTS_USER_ID };
+
+// ─── Store #19 — Helpcenter ──────────────────────────────────────────────────
+
+interface HelpcenterState {
+  categories: FaqCategory[];
+  articles: FaqArticle[];
+  tickets: SupportTicket[];
+  ticketReplies: TicketReply[];
+  articleFeedback: ArticleFeedback[];
+  tutorials: Tutorial[];
+}
+
+interface HelpcenterActions {
+  searchArticles: (query: string, categoryId?: string) => FaqArticle[];
+  getArticle: (slug: string) => FaqArticle | undefined;
+  getTickets: (userId: string) => SupportTicket[];
+  getTicket: (ticketId: string) => SupportTicket | undefined;
+  getTicketReplies: (ticketId: string) => TicketReply[];
+  getArticleFeedback: (userId: string, articleId: string) => ArticleFeedback | undefined;
+  getTutorials: () => Tutorial[];
+  submitFeedback: (userId: string, articleId: string, reaction: ArticleReaction) => void;
+  submitTicket: (data: Omit<SupportTicket, 'id' | 'createdAt' | 'updatedAt'>) => SupportTicket;
+  addTicketReply: (ticketId: string, userId: string, replyText: string, isAdmin?: boolean) => void;
+  markArticleViewed: (articleId: string) => void;
+}
+
+export const useHelpcenterStore = create<HelpcenterState & HelpcenterActions>()(
+  persist(
+    (set, get) => {
+      const seed = () => {
+        if (get().categories.length === 0) {
+          set({
+            categories: FAQ_CATEGORIES,
+            articles: FAQ_ARTICLES,
+            tickets: MOCK_SUPPORT_TICKETS,
+            ticketReplies: MOCK_TICKET_REPLIES,
+            articleFeedback: MOCK_ARTICLE_FEEDBACK,
+            tutorials: MOCK_TUTORIALS,
+          });
+        }
+      };
+
+      return {
+        categories: [],
+        articles: [],
+        tickets: [],
+        ticketReplies: [],
+        articleFeedback: [],
+        tutorials: [],
+
+        searchArticles: (query, categoryId) => {
+          seed();
+          const { articles } = get();
+          const q = query.toLowerCase().trim();
+          return articles.filter((a) => {
+            if (!a.isPublished) return false;
+            if (categoryId && a.categoryId !== categoryId) return false;
+            if (!q) return true;
+            return (
+              a.title.toLowerCase().includes(q) ||
+              a.summary.toLowerCase().includes(q) ||
+              a.content.toLowerCase().includes(q) ||
+              a.tags.some((t) => t.toLowerCase().includes(q))
+            );
+          });
+        },
+
+        getArticle: (slug) => {
+          seed();
+          return get().articles.find((a) => a.slug === slug || a.id === slug);
+        },
+
+        getTickets: (userId) => {
+          seed();
+          return get().tickets.filter((t) => t.userId === userId);
+        },
+
+        getTicket: (ticketId) => {
+          seed();
+          return get().tickets.find((t) => t.id === ticketId);
+        },
+
+        getTicketReplies: (ticketId) => {
+          seed();
+          return get().ticketReplies.filter((r) => r.ticketId === ticketId);
+        },
+
+        getArticleFeedback: (userId, articleId) => {
+          seed();
+          return get().articleFeedback.find(
+            (f) => f.userId === userId && f.articleId === articleId
+          );
+        },
+
+        getTutorials: () => {
+          seed();
+          return get().tutorials.sort((a, b) => a.order - b.order);
+        },
+
+        submitFeedback: (userId, articleId, reaction) => {
+          seed();
+          const existing = get().getArticleFeedback(userId, articleId);
+          if (existing) {
+            set((s) => ({
+              articleFeedback: s.articleFeedback.map((f) =>
+                f.userId === userId && f.articleId === articleId
+                  ? { ...f, reaction }
+                  : f
+              ),
+            }));
+            return;
+          }
+          const feedback: ArticleFeedback = {
+            articleId,
+            userId,
+            reaction,
+            createdAt: new Date().toISOString(),
+          };
+          const delta =
+            reaction === 'helpful' || reaction === '👍' ? { helpfulCount: 1 } : { unhelpfulCount: 1 };
+          set((s) => ({
+            articleFeedback: [...s.articleFeedback, feedback],
+            articles: s.articles.map((a) =>
+              a.id === articleId
+                ? {
+                    ...a,
+                    helpfulCount: a.helpfulCount + (delta.helpfulCount ?? 0),
+                    unhelpfulCount: a.unhelpfulCount + (delta.unhelpfulCount ?? 0),
+                  }
+                : a
+            ),
+          }));
+        },
+
+        submitTicket: (data) => {
+          seed();
+          const ticket: SupportTicket = {
+            ...data,
+            id: `ticket-${Date.now()}`,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          set((s) => ({ tickets: [...s.tickets, ticket] }));
+          return ticket;
+        },
+
+        addTicketReply: (ticketId, userId, replyText, isAdmin = false) => {
+          seed();
+          const reply: TicketReply = {
+            id: `reply-${Date.now()}`,
+            ticketId,
+            userId,
+            replyText,
+            isAdminReply: isAdmin,
+            createdAt: new Date().toISOString(),
+          };
+          set((s) => ({
+            ticketReplies: [...s.ticketReplies, reply],
+            tickets: s.tickets.map((t) =>
+              t.id === ticketId ? { ...t, updatedAt: new Date().toISOString() } : t
+            ),
+          }));
+        },
+
+        markArticleViewed: (articleId) => {
+          seed();
+          set((s) => ({
+            articles: s.articles.map((a) =>
+              a.id === articleId ? { ...a, viewCount: a.viewCount + 1 } : a
+            ),
+          }));
+        },
+      };
+    },
+    {
+      name: 'tls-helpcenter',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);

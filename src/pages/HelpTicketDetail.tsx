@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { HelpCircle, Send, ArrowLeft, Calendar, Headphones } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -8,82 +9,141 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
+import { useHelpcenterStore } from '../stores/persistence';
+import type { BadgeVariant } from '../components';
+
+const MOCK_USER_ID = 'user-demo';
+
+const STATUS_BADGE: Record<string, { label: string; variant: BadgeVariant }> = {
+  open:        { label: 'Ouvert',     variant: 'sun' },
+  in_progress: { label: 'En cours',   variant: 'brand' },
+  resolved:    { label: 'Résolu',     variant: 'success' },
+  closed:      { label: 'Fermé',      variant: 'neutral' },
+};
 
 export default function HelpTicketDetail() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const store = useHelpcenterStore();
+  const [replyText, setReplyText] = useState('');
+
+  const ticket = store.getTicket(id ?? '');
+  const replies = id ? store.getTicketReplies(id) : [];
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString('fr-FR', {
+      day: 'numeric', month: 'long', year: 'numeric',
+      hour: '2-digit', minute: '2-digit',
+    });
+
+  const handleReply = () => {
+    if (!replyText.trim() || !id) return;
+    store.addTicketReply(id, MOCK_USER_ID, replyText.trim());
+    setReplyText('');
+  };
+
+  if (!ticket) {
+    return (
+      <div className="flex flex-col gap-section">
+        <EditorialHero
+          eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Ticket' }}
+          title="Ticket introuvable"
+          summary="Ce ticket n'existe pas ou vous n'y avez pas accès."
+          tone="default"
+        />
+        <div className="max-w-page mx-auto w-full px-4 pb-page">
+          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
+            Retour aux tickets
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const badge = STATUS_BADGE[ticket.status] ?? { label: ticket.status, variant: 'neutral' as BadgeVariant };
+
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Ticket' }}
-        title="Problème de connexion à mon compte"
-        summary="Ticket #1042 — Ouvert le 12 mai 2026"
+        title={ticket.subject}
+        summary={`Ticket ${ticket.id} — Ouvert le ${formatDate(ticket.createdAt)}`}
         tone="default"
-        trailing={
-          <Badge variant="brand">En cours</Badge>
-        }
+        trailing={<Badge variant={badge.variant}>{badge.label}</Badge>}
       />
 
       <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
         <div className="flex items-center gap-stack-xs">
-          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} size="sm">
+          <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
-          <Badge variant="brand">En cours</Badge>
+          <Badge variant={badge.variant}>{badge.label}</Badge>
         </div>
 
-        <SectionCard
-          title="Votre message"
-          titleIcon={<HelpCircle size={18} />}
-        >
+        <SectionCard title="Votre message" titleIcon={<HelpCircle size={18} />}>
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs text-caption text-ink-500">
               <Calendar size={12} />
-              12 mai 2026 à 09:42
+              {formatDate(ticket.createdAt)}
             </div>
-            <p className="text-body text-ink-700 leading-relaxed m-0">
-              Bonjour, depuis ce matin je n'arrive plus à me connecter à mon compte. Quand je saisis mon email et mon mot de passe, j'obtiens le message "Identifiants invalides" alors que je suis certain que mes informations sont correctes. J'ai essayé de réinitialiser mon mot de passe mais je ne reçois pas l'email de réinitialisation. Pouvez-vous m'aider ?
+            <p className="text-body text-ink-700 leading-relaxed m-0 whitespace-pre-line">
+              {ticket.description}
             </p>
           </div>
         </SectionCard>
 
-        <SectionCard
-          title="Réponse du support"
-          titleIcon={<Headphones size={18} />}
-        >
-          <Card>
-            <div className="flex gap-stack">
-              <Avatar size="md" tint="brand">SP</Avatar>
-              <div className="flex flex-col gap-stack-xs flex-1">
-                <div className="flex items-center justify-between gap-stack-xs">
-                  <span className="font-display font-semibold text-body-sm text-ink-900">Sarah P. — Support TLS</span>
-                  <span className="text-caption text-ink-500">12 mai 2026 à 14:15</span>
-                </div>
-                <p className="text-body-sm text-ink-700 leading-relaxed m-0">
-                  Bonjour, merci de nous avoir contactés. Nous avons vérifié votre compte et avons constaté une anomalie lors d'une récente mise à jour de sécurité. Nous avons réinitialisé manuellement votre session. Pouvez-vous essayer de vous connecter de nouveau en utilisant la procédure de mot de passe oublié ? L'email devrait arriver dans les 5 minutes. N'hésitez pas à nous contacter si le problème persiste.
-                </p>
+        {replies.length > 0 && (
+          <SectionCard title="Échanges" titleIcon={<Headphones size={18} />}>
+            <div className="flex flex-col gap-stack">
+              {replies.map((reply) => (
+                <Card key={reply.id}>
+                  <div className="flex gap-stack">
+                    <Avatar size="md" tint={reply.isAdminReply ? 'brand' : 'warm'}>
+                      {reply.isAdminReply ? 'SP' : 'MO'}
+                    </Avatar>
+                    <div className="flex flex-col gap-stack-xs flex-1">
+                      <div className="flex items-center justify-between gap-stack-xs">
+                        <span className="font-display font-semibold text-body-sm text-ink-900">
+                          {reply.isAdminReply ? 'Support TLS' : 'Moi'}
+                        </span>
+                        <span className="text-caption text-ink-500">{formatDate(reply.createdAt)}</span>
+                      </div>
+                      <p className="text-body-sm text-ink-700 leading-relaxed m-0 whitespace-pre-line">
+                        {reply.replyText}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </SectionCard>
+        )}
+
+        {ticket.status !== 'closed' && ticket.status !== 'resolved' && (
+          <SectionCard title="Répondre" titleIcon={<Send size={18} />}>
+            <div className="flex flex-col gap-stack">
+              <FormGroup label="Votre message">
+                <Input
+                  multiline
+                  rows={4}
+                  placeholder="Décrivez votre problème ou apportez des précisions…"
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                />
+              </FormGroup>
+              <div className="flex gap-stack-xs">
+                <Button
+                  variant="primary"
+                  leadingIcon={<Send size={16} />}
+                  disabled={!replyText.trim()}
+                  onClick={handleReply}
+                >
+                  Envoyer
+                </Button>
               </div>
             </div>
-          </Card>
-        </SectionCard>
-
-        <SectionCard
-          title="Répondre"
-          titleIcon={<Send size={18} />}
-        >
-          <div className="flex flex-col gap-stack">
-            <FormGroup label="Votre message">
-              <Input
-                multiline
-                rows={4}
-                placeholder="Décrivez votre problème ou apportez des précisions…"
-              />
-            </FormGroup>
-            <div className="flex gap-stack-xs">
-              <Button variant="primary" leadingIcon={<Send size={16} />}>
-                Envoyer
-              </Button>
-            </div>
-          </div>
-        </SectionCard>
+          </SectionCard>
+        )}
       </div>
     </div>
   );
