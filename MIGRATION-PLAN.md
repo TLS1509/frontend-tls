@@ -987,7 +987,7 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 | 14.1 | 🎯 Première expérience | Onboarding → Questionnaire → Tutorial → Success → Dashboard | ✅ |
 | 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | ✅ |
 | 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ✅ |
-| 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ⬜ |
+| 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ✅ |
 | 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
 
 #### Tier 2 — Engagement & contenu
