@@ -5672,6 +5672,14 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'Tokens',             label: 'Tokens' },
 ];
 
+// Wraps each render() in its own React component scope so hooks are independent.
+// Without this, calling c.render() directly in the parent's map() makes all
+// useState/useEffect calls share the parent's hook call order — changing the
+// number of visible components (search query) breaks the hook order rule.
+function ComponentRenderer({ renderFn }: { renderFn: () => React.ReactNode }) {
+  return <>{renderFn()}</>;
+}
+
 // Simple Error Boundary wrapper for component previews
 class ComponentPreviewErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -5972,7 +5980,7 @@ const Components: React.FC = () => {
                         </header>
                         <div className="ds-component__preview">
                           <ComponentPreviewErrorBoundary>
-                            {c.render()}
+                            <ComponentRenderer renderFn={c.render} />
                           </ComponentPreviewErrorBoundary>
                         </div>
                       </article>
