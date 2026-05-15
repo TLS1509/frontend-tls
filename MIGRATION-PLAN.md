@@ -1033,6 +1033,58 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 
 ---
 
+## Phase 15 — Validation & Polish (2026-05-15+) 🚀
+
+**Objectif** : Valider la cohérence end-to-end de l'app après Phase 14, capturer screenshots finaux, et peaufiner les details (transitions, glass effects, spacing).
+
+### Checklist Phase 15
+
+- [x] **15.1** — End-to-end flow testing ✅
+  - [x] Signup → Onboarding → Dashboard → First lesson → First badge (parcours new-user complet)
+  - [x] Chaque page charge sans erreur console (`preview_console_logs`)
+  - [x] Transitions fluides (glass morphism, modales, drawers)
+  - [x] Navigation cohérente (sidebar active states, breadcrumbs, back buttons)
+
+- [x] **15.2** — Mobile + Desktop validation ✅
+  - [x] 375px mobile screenshots (representative pages from all 5 tiers)
+  - [x] 1280px desktop screenshots (complex layouts)
+  - [x] Responsive breakpoints cohérentes (md, lg)
+  - [x] Touch targets ≥ 44px (`min-h-touch`) sur interactifs
+
+- [x] **15.3** — Visual consistency audit ✅
+  - [x] Max 2 tones par flow (dominant + accent)
+  - [x] Semantic spacing tokens appliqués (`gap-stack`, `gap-section`)
+  - [x] Tone-aware components use correct variants (EditorialHero tone, Button variant)
+  - [x] No legacy BEM classes (grep 0 matches: `tls-*`, `.btn`, `.card-*`)
+  - [x] No inline var() in style (grep 0 matches: `style.*var(--tls-`)
+
+- [ ] **15.4** — Design system completeness
+  - [ ] All showcase-only components integrated where needed
+  - [ ] usedBy fields updated in Components.tsx
+  - [ ] All tone-aware variants demoed in showcase
+  - [ ] No orphaned showcase entries
+
+- [ ] **15.5** — Documentation finalization
+  - [x] CLAUDE.md Phase 14 section updated with patterns discovered
+  - [x] DESIGN.md §4 Patterns canoniques (Stable/À faire évoluer) complete
+  - [x] DESIGN.md §5 Pièges updated with Phase 14 discoveries
+  - [ ] Notion Écrans DB all entries Status = "Validé" or "Intégré"
+  - [ ] Notion Design System DB all components updated
+
+- [ ] **15.6** — Final TypeScript + build check
+  - [ ] `npx tsc --noEmit` → 0 errors
+  - [ ] `npm run build` succeeds
+  - [ ] Bundle size reasonable (no unexpected jumps)
+
+### Success criteria Phase 15 ✅
+- New-user flow (signup → first badge) works end-to-end mobile + desktop
+- All 140+ pages render without console errors or visual glitches
+- Design system fully migrated to Tailwind (0 BEM, 0 inline var())
+- Documentation 100% synced to code state
+- Notion DBs reflect final state
+
+---
+
 ### Notion sync — règles intégrées au workflow Phase 14 (Étape 5 de chaque flow)
 
 À l'étape 5 (Doc + Notion sync) de **chaque** flow Phase 14, en plus des mises à jour CLAUDE.md / DESIGN.md :

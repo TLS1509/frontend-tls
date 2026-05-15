@@ -877,9 +877,11 @@ body { font-family: var(--font-body); }
 
 ---
 
-## Phase 14 — Workflow flow-based (2026-05-15+) 🚧
+## Phase 14 — Workflow flow-based (2026-05-15+) ✅
 
 **Changement de paradigme** : on n'opère plus écran-par-écran. Phase 14 redesign l'app **flow par flow** (user journey). Toute page modifiée DOIT l'être dans le cadre d'un flow audité.
+
+**Status** : ✅ COMPLÈTE — 17 flows validés (14.5 → 14.17), tous les pièges d'API résolus, 0 erreurs TypeScript.
 
 ### Pourquoi
 Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés. Refondre par niveau (N1 → N2 → N3) crée des dépendances circulaires. Le flow garantit que chaque parcours est testable end-to-end dès qu'il est terminé, et que le DS évolue dans un contexte d'usage réel.
@@ -923,6 +925,24 @@ Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés.
    - Un commit par flow validé (4 checkpoints OK)
 ```
 
+### Pièges découverts Phase 14
+
+**API mismatches systématiques** — tous les composants de la phase Phase 14 ont révélé des écarts API constants à travers les pages. Une checklist pour les futures phases :
+
+| Composant | Prop incorrecte | → | Prop correcte | Pages concernées |
+|-----------|-----------------|---|---------------|-----------------|
+| **EditorialHero** | `subtitle=` | → | `summary=` | ~60 pages |
+| **EditorialHero** | `actions={<Button>}` | → | `trailing={<Button>}` | ~50 pages |
+| **EditorialHero** | `tone="primary"` ou `"neutral"` | → | `tone="default"` | ~30 pages (brand/warm/sun OK) |
+| **SectionCard** | `icon=` | → | `titleIcon=` | ~40 pages |
+| **SectionCard** | `actions=` (header-right) | → | `headerAction=` | ~15 pages (note: `actions=` footer slot IS valid) |
+| **ProgressBar** | `tone=` | → | `fill=` | ~25 pages (tone n'existe pas, fill oui) |
+| **Tabs** | `tabs=/activeTab/onTabChange` | → | `items=/value/onChange` | ~10 pages |
+| **Button** | `variant="glass-light-ghost"` | → | `variant="ghost"` | 3 pages (glass-light-ghost n'existe pas) |
+| **Card** | `tone="neutral"` | → | remove prop | 3 pages (CardTone = primary/warm/sun/brand seulement) |
+
+**Cause racine** : API props non documentées dans les components eux-mêmes (pas de JSDoc complet sur tous les composites). À faire en Phase 15+ : ajouter une checklist de validation API par composant dans Components.tsx showcase.
+
 ### Anti-patterns Phase 14
 - ❌ Toucher une page hors d'un flow audité (même pour un "petit fix")
 - ❌ Modifier un composant DS sans le mettre à jour dans Components.tsx + Notion DS DB
@@ -934,6 +954,27 @@ Refondre écran-par-écran fragmente la cohérence visuelle entre écrans liés.
 Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (Tier 1 daily-use → Tier 5 edge cases).
 
 📄 Plan détaillé : `~/.claude/plans/plan-phase-14-lazy-kernighan.md`
+
+---
+
+## Phase 15 — Validation & Polish (2026-05-15+) 🚀
+
+**Objectif** : Valider la cohérence end-to-end après Phase 14, capturer screenshots finaux, peaufiner les détails visuels.
+
+**Checklist Phase 15** (voir MIGRATION-PLAN.md pour détails) :
+- [ ] End-to-end flow testing (signup → dashboard → first lesson → badge)
+- [ ] Mobile (375px) + Desktop (1280px) screenshots pour toutes pages
+- [ ] Visual consistency : max 2 tones/flow, semantic spacing appliqué, 0 BEM legacy
+- [ ] Design system complete : tous showcase-only intégrés, usedBy à jour
+- [ ] Doc finalized : CLAUDE.md Phase 14 + DESIGN.md §4/5 à jour, Notion sync ✅
+- [ ] `npx tsc --noEmit` + `npm run build` → 0 erreurs
+
+**Workflow Phase 15** :
+1. Valider new-user journey end-to-end (pas de glitchs visuels)
+2. Capturer 375px + 1280px screenshots pour documentation
+3. Audit final : zéro BEM legacy, zéro inline var(), semantic spacing partout
+4. Sync Notion avec code state final
+5. Single commit final : `docs(phase-15): finalize validation & screenshots after Phase 14 redesign`
 
 ---
 

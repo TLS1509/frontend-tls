@@ -466,6 +466,24 @@ Pour que **icon, title et description soient alignés horizontalement entre tout
 
 Implémenté dans `IconFeatureCard.tsx` (BASE = `justify-start`, ICON_ZONE map).
 
+### Phase 14 — API validation & fixes (2026-05-15) ✅
+
+**Systématique Phase 14** : audit de tous les composites pour vérifier API props. Les mismatches les plus communs identifiés et fixés :
+
+| Composant | Prop incorrecte | → Correct | Impact | Commits |
+|-----------|-----------------|-----------|--------|---------|
+| **EditorialHero** | `subtitle=` | `summary=` | 60+ pages | 14.6-14.11-14.14 |
+| **EditorialHero** | `actions={<Button>}` | `trailing=` | 50+ pages | 14.6-14.9-14.11-14.14 |
+| **EditorialHero** | `tone="primary"` / `"neutral"` | `tone="default"` | 30+ pages | 14.9-14.10-14.11-14.14 |
+| **SectionCard** | `icon=` | `titleIcon=` | 40+ pages | 14.6-14.9 |
+| **SectionCard** | `actions=` (header) | `headerAction=` | 15+ pages | 14.9-14.11 |
+| **ProgressBar** | `tone=` | `fill=` | 25+ pages | 14.6-14.9-14.11 |
+| **Tabs** | `tabs=/activeTab/onTabChange` | `items=/value/onChange` | 10+ pages | 14.9-14.11 |
+| **Button** | `variant="glass-light-ghost"` | `variant="ghost"` | 3 pages | 14.6 |
+| **Card** | `tone="neutral"` | remove | 3 pages | 14.15 |
+
+**Lesson learned** : sans JSDoc complet sur chaque composant, les API props se fragmentent à travers l'app. Phase 15 va ajouter une checklist validation API dans Components.tsx showcase pour éviter futurs mismatches.
+
 ---
 
 ## 5. Pièges connus (12 documentés)
