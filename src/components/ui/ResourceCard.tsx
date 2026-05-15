@@ -108,7 +108,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
         <span
           className={[
             'absolute z-10 px-3 py-1 rounded-pill text-caption font-bold whitespace-nowrap',
-            BADGE_VARIANT[badge.variant] ?? BADGE_VARIANT.primary,
+            BADGE_VARIANT[badge.variant ?? 'primary'],
             BADGE_POSITION[badge.position || 'top-right'],
           ]
             .filter(Boolean)

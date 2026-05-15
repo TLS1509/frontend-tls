@@ -86,7 +86,7 @@ export default function ProfilePrivacy() {
         {/* Consent management */}
         <SectionCard
           title="Préférences de consentement"
-          icon={<Eye size={18} />}
+          titleIcon={<Eye size={18} />}
           description="Contrôle comment tes données sont utilisées sur la plateforme."
         >
           <div className="flex flex-col gap-3">
@@ -122,7 +122,7 @@ export default function ProfilePrivacy() {
         {/* DSAR — Data access request */}
         <SectionCard
           title="Mes données personnelles"
-          icon={<Download size={18} />}
+          titleIcon={<Download size={18} />}
           description="Consulte ou exporte toutes les données que nous détenons sur toi."
         >
           <div className="flex flex-col gap-3">
@@ -150,7 +150,7 @@ export default function ProfilePrivacy() {
         {/* Account deletion */}
         <SectionCard
           title="Suppression du compte"
-          icon={<Trash2 size={18} />}
+          titleIcon={<Trash2 size={18} />}
           description="La suppression est définitive et irréversible."
         >
           {!showDeleteConfirm ? (

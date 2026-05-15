@@ -139,7 +139,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
           icon={<FileText size={13} />}
           text={`${articleCount} article${articleCount > 1 ? 's' : ''}`}
           size="sm"
-          tone="neutral"
+          tone="brand"
         />
         <Button
           variant="primary"

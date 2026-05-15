@@ -103,9 +103,9 @@ const TABLE_COLUMNS = [
 const COMPETENCES = [
   { label: 'Leadership', pct: 64, dreyfus: 3.2, badge: 'info' as const },
   { label: 'Communication', pct: 70, dreyfus: 3.5, badge: 'success' as const },
-  { label: 'Analyse', pct: 56, dreyfus: 2.8, badge: 'warning' as const },
+  { label: 'Analyse', pct: 56, dreyfus: 2.8, badge: 'danger' as const },
   { label: 'Tech & Digital', pct: 74, dreyfus: 3.7, badge: 'success' as const },
-  { label: 'Créativité', pct: 48, dreyfus: 2.4, badge: 'warning' as const },
+  { label: 'Créativité', pct: 48, dreyfus: 2.4, badge: 'danger' as const },
   { label: 'Coopération', pct: 62, dreyfus: 3.1, badge: 'info' as const },
 ];
 
@@ -125,7 +125,7 @@ export default function EnterpriseKpis() {
     learners: d.learners,
     avgDreyfus: (
       <Badge
-        variant={d.avgDreyfusRaw >= 3.5 ? 'success' : d.avgDreyfusRaw >= 3.0 ? 'info' : 'warning'}
+        variant={d.avgDreyfusRaw >= 3.5 ? 'success' : d.avgDreyfusRaw >= 3.0 ? 'info' : 'danger'}
         size="sm"
       >
         D{d.avgDreyfusRaw.toFixed(1)}

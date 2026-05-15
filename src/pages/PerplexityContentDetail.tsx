@@ -89,10 +89,12 @@ const PerplexityContentDetail: React.FC = () => {
           </div>
         }
         aside={
-          <RelatedItemList
-            title="Sur le même sujet"
-            items={RELATED.map((r) => ({ id: r.id, title: r.title, meta: r.meta, href: `/veille/perplexity/${r.id}` }))}
-          />
+          <div className="flex flex-col gap-stack">
+            <h3 className="font-display text-h5 font-semibold text-ink-900">Sur le même sujet</h3>
+            <RelatedItemList
+              items={RELATED.map((r) => ({ id: r.id, title: r.title, meta: r.meta, href: `/veille/perplexity/${r.id}` }))}
+            />
+          </div>
         }
       />
     </div>

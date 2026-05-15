@@ -1217,4 +1217,65 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 
 ---
 
-**Dernière mise à jour :** 2026-05-15 — Phase 14.1 ✅ (5 écrans + 5 nouveaux composants DS + helper onboarding-steps). Phase 14 ouverte 17 flows. Notion sync intégrée à l'étape 5. Phase 10 Tier 3 ✅.
+**Dernière mise à jour :** 2026-05-15 — Phase 14.1 ✅ (5 écrans + 5 nouveaux composants DS + helper onboarding-steps). Phase 14 ouverte 17 flows. Notion sync intégrée à l'étape 5. Phase 10 Tier 3 ✅. **Phase 16 ouverte** (Spec Compliance).
+
+---
+
+## PHASE 16 — Spec Compliance (alignement FO ↔ Cahiers des charges)
+
+**Contexte** : Phases 1–15 ont migré le visuel (Tailwind, design system, redesign par flow). Le FO React **existe** pour les 17 cahiers Notion (~140 pages routées), mais la **conformité fonctionnelle aux specs** n'a jamais été auditée. Phase 16 ferme ce gap, un cahier à la fois.
+
+**Source de vérité** : 17 cahiers Notion (URLs dans `CLAUDE.md` § Phase 16).
+
+**Workflow par cahier (5 étapes)** :
+1. **Gap analysis** vs pages existantes (coverage matrix : ✅ / 🟡 partiel / ❌ manquant)
+2. **5–7 chantiers chiffrés** (S/M/L), priorisés
+3. **Ordre d'exécution** : data first (`src/types/` + `src/data/`) → composants → pages → wiring store
+4. **Screenshots avant/après** (mobile 375 px + desktop 1280 px)
+5. **Notion sync** : Écrans DB (Statut design "Validé" si UI changée) + Design System DB (nouveaux composants)
+
+**Anti-patterns** :
+- ❌ Redessiner — Phase 14-15 a verrouillé le visuel. Phase 16 = **functional only**.
+- ❌ Inventer des champs hors spec — toujours croiser avec le cahier Notion correspondant.
+- ❌ Mocker côté serveur — les mock data restent dans `src/data/`, pas de stub API.
+
+### 16.1 — Cahier #01 Parcours & Learning Space ⬜
+*Plan détaillé : `~/.claude/plans/01-parcours-learning-space-01-sequential-harbor.md`*
+
+- 16.1.1 ⬜ **Modèle données enrichi** — `subscription_tier`, `scope`, `competencies[]`, `progression_mode`, `Prerequisites`, `ItemType` (9 valeurs) — `src/data/learningPaths.ts`, `src/types/learning.ts`, `src/data/items.ts`
+- 16.1.2 ⬜ **Positionnement auto-gen Dreyfus 1–5** — refactor `PositionnementModal` génère N questions (1/compétence parcours) ; persist `UserPositioningResult` ; skip + no-repeat
+- 16.1.3 ⬜ **Progression mode STRICT/FLEXIBLE/FREE** — refactor `calculateStepUnlocked` (`LearningPathDetail.tsx:86`) + UI conditionnelle
+- 16.1.4 ⬜ **Learning Space query-driven + filtres unifiés** — remplacer 5 tabs statiques par grid + `FilterBar` (Thématique/Type/Durée/Niveau/Statut) + search câblée + badges `🔒`
+- 16.1.5 ⬜ **Access control (tier + pré-requis)** — helper `canAccessItem(user, item)`, route guards, UI grisée
+
+**Décisions en suspens (avant 16.1.1)** :
+- Source référentiel compétences H.S.O. (mock local vs Notion DB)
+- Naming tiers subscription (Starter/Pro/Enterprise/?) — cf. Cahier #11bis
+- Validation 9-item taxonomy enum — cf. Cahier #01bis
+
+### 16.2 → 16.17 — Autres cahiers ⬜
+
+| Phase | Cahier | Effort FO | Tier | Top gaps |
+|-------|--------|-----------|------|----------|
+| 16.2 | #02 Passeport Compétences | M (1–2 sem) | **MVP** | Modèle Dreyfus H.S.O., JAC workflow, historique snapshots |
+| 16.3 | #03 Onboarding + 5 rôles | M (1–2 sem) | **MVP** | 5 rôles standardisés, crédits Classic+Special, profil mapping |
+| 16.4 | #04 Coaching 1-1 | M (1–2 sem) | **MVP** | Workflow corrections itératives, statuts session, pré-questionnaire |
+| 16.5 | #05 Gamification Badges | S (3–5j) | **MVP** | 3 types badges, triggers XP, streak logic |
+| 16.6 | #06 Enterprise FO | M (1–2 sem) | **MVP** | Multi-tenant company_id, 5 dashboards, gating role manager |
+| 16.7 | #07 Journal réflexif | S (3–5j) | V1 sept | Questions configurables, EDRA-R templates, lien Item↔Journal |
+| 16.8 | #08 Masterclass + Atelier + Évent | M (2 sem) | V1 sept | Inscription/waitlist, replay tracking, survey post-event |
+| 16.9 | #09 Notifications | S (3–5j) | MVP+V1 | Préfs granulaires par canal (email/in-app/push) |
+| 16.10 | #10 Analytics | M (1–2 sem) | V1 sept | Events tracking FO, dashboards data binding |
+| 16.11 | #11 Projects SBO | XL (3+ sem) | V1 sept | Workforce intelligence, STRIDE, Dreyfus 3+ gating, JAC enrich |
+| 16.12 | #11bis Subscription | M (1–2 sem) | MVP+V1 | 4 plans tarifaires, metabox `is_free`, gating UI partout |
+| 16.13 | #12 Chatbot RAG | M (1–2 sem) | V1 sept | Sources citation UI, manager forecasts, RAG state |
+| 16.14 | #12bis IA Framework | overlay | continu | 6-point validation à appliquer à toute feature IA |
+| 16.15 | #13 Helpcenter | S (3–5j) | V2 sept | Recherche FAQ, ticket workflow, Notion Wiki embed |
+| 16.16 | #13bis GDPR/AI Act | S (3–5j) | **MVP** | Consent banners, DSAR export workflow, audit log UI |
+
+**Hors scope ce repo** : 10bis (plugin BO WordPress séparé).
+
+**Ordre recommandé** (respecte dépendances) : 16.2 (Passeport bloque tout) → 16.1 → 16.3 → 16.12 → 16.5 / 16.7 → 16.4 → 16.6 / 16.10 → 16.13 / 16.14 → 16.8 / 16.11 → 16.15 / 16.16.
+
+**Total Phase 16** : ~12–16 semaines-dev FO (hors backend WP + intégrations Stripe/Mistral/OAuth).
+

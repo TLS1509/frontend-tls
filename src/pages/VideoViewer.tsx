@@ -229,8 +229,8 @@ export const VideoViewer: React.FC = () => {
                 {VIDEO_DATA.title}
               </h1>
               <div className="flex gap-stack-xs items-center flex-wrap mt-3">
-                <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} tone="neutral" size="sm" />
-                <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} tone="neutral" size="sm" />
+                <MetaPill icon={<User size={12} />} text={VIDEO_DATA.instructor} tone="brand" size="sm" />
+                <MetaPill icon={<Clock size={12} />} text={VIDEO_DATA.duration} tone="brand" size="sm" />
               </div>
             </div>
 

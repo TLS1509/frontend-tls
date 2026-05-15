@@ -125,7 +125,7 @@ export default function PasseportObjectifs() {
               icon={<Target size={32} />}
               title="Aucun objectif actif"
               description="Définis ton premier objectif de progression Dreyfus."
-              action={<Button variant="primary" size="md">Créer un objectif</Button>}
+              actions={<Button variant="primary" size="md">Créer un objectif</Button>}
             />
           ) : (
             <div className="flex flex-col gap-3">

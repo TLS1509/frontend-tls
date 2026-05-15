@@ -134,10 +134,10 @@ export default function ProfileBadgesCompetences() {
                 <div key={badge.id} className="flex flex-col items-center gap-2">
                   <AchievementBadge
                     title={badge.name}
-                    category={badge.category}
-                    tone={badge.tone}
+                    icon={<Award size={20} />}
+                    color={badge.tone}
                     size="md"
-                    earned={badge.earned}
+                    isLocked={!badge.earned}
                   />
                   <div className="flex flex-col items-center gap-tight text-center">
                     <span className="text-caption font-semibold text-ink-800 line-clamp-2 leading-tight">{badge.name}</span>
@@ -145,7 +145,7 @@ export default function ProfileBadgesCompetences() {
                       <span className="text-micro text-ink-400">{badge.earnedDate}</span>
                     )}
                     {!badge.earned && (
-                      <Badge variant="neutral" size="sm">D{badge.dreyfus} requis</Badge>
+                      <Badge variant="info" size="sm">D{badge.dreyfus} requis</Badge>
                     )}
                   </div>
                 </div>

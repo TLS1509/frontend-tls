@@ -198,9 +198,9 @@ export default function CoachApprenants() {
                       name={a.name}
                       role={a.role}
                       initials={a.initials}
-                      tags={a.tags}
+                      specialties={a.tags}
                       variant="default"
-                      alignment="left"
+                      align="left"
                       cta={
                         <div className="flex items-center gap-2">
                           <Badge variant={variant} size="sm">{label}</Badge>

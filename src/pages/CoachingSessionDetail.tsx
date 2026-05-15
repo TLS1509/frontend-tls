@@ -30,7 +30,7 @@ const SESSION = {
   ],
   preparation: 'Relire le rapport de la session précédente et préparer 2 situations de management récentes à analyser.',
   previousSessions: [
-    { id: '0', title: 'Session 1 — Bilan initial', date: '12 mai 2026', status: 'completed' as const },
+    { id: '0', title: 'Session 1 — Bilan initial', description: 'Évaluation initiale des compétences', date: '12 mai 2026', status: 'completed' as const },
   ],
 };
 
@@ -148,6 +148,7 @@ export default function CoachingSessionDetail() {
                 <SessionCard
                   key={prev.id}
                   title={prev.title}
+                  description={prev.description}
                   coachName={SESSION.coach.name}
                   dateLabel={prev.date}
                   status={prev.status}

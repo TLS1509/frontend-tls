@@ -28,6 +28,7 @@ import {
   GraduationCap,
   CheckCircle2,
   XCircle,
+  ChevronRight,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
 

@@ -180,7 +180,7 @@ export const JournalNewEntry: React.FC = () => {
   });
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
   const [autoSaveStatus, setAutoSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
-  const autoSaveTimeoutRef = useRef<NodeJS.Timeout>();
+  const autoSaveTimeoutRef = useRef<number | undefined>(undefined);
   const hasContentRef = useRef(false);
 
   const wordCount = useMemo(() => {
@@ -206,8 +206,7 @@ export const JournalNewEntry: React.FC = () => {
         // Simulate save (in real app, would call an API)
         setAutoSaveStatus('saved');
         // Clear "saved" indicator after 2s
-        const clearTimeout = setTimeout(() => setAutoSaveStatus('idle'), 2000);
-        return () => clearTimeout(clearTimeout);
+        setTimeout(() => setAutoSaveStatus('idle'), 2000);
       }, 3000); // 30s debounce
     }
 

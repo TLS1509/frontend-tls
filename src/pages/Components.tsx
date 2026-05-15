@@ -234,45 +234,45 @@ interface ComponentEntry {
 const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }> = {
   // ── ATOMS ─────────────────────────────────────────────────────────────
   // Form fields
-  Button:               { category: 'Core', subCategory: 'Form fields' },
-  QuickActionButton:    { category: 'Core', subCategory: 'Form fields' },
-  Input:                { category: 'Core', subCategory: 'Form fields' },
-  Checkbox:             { category: 'Core', subCategory: 'Form fields' },
-  Radio:                { category: 'Core', subCategory: 'Form fields' },
-  Switch:               { category: 'Core', subCategory: 'Form fields' },
-  Select:               { category: 'Core', subCategory: 'Form fields' },
-  FormGroup:            { category: 'Core', subCategory: 'Form fields' },
+  Button:               { category: 'Atoms', subCategory: 'Form fields' },
+  QuickActionButton:    { category: 'Atoms', subCategory: 'Form fields' },
+  Input:                { category: 'Atoms', subCategory: 'Form fields' },
+  Checkbox:             { category: 'Atoms', subCategory: 'Form fields' },
+  Radio:                { category: 'Atoms', subCategory: 'Form fields' },
+  Switch:               { category: 'Atoms', subCategory: 'Form fields' },
+  Select:               { category: 'Atoms', subCategory: 'Form fields' },
+  FormGroup:            { category: 'Atoms', subCategory: 'Form fields' },
   // FormField supprimé (Phase 10) — fusionné dans Input + FormGroup
 
   // Surfaces
-  Card:                 { category: 'Core', subCategory: 'Surfaces' },
+  Card:                 { category: 'Atoms', subCategory: 'Surfaces' },
 
   // Identity
-  Avatar:               { category: 'Core', subCategory: 'Identity' },
-  UserInfo:             { category: 'Core', subCategory: 'Identity' },
-  TlsLogo:              { category: 'Core', subCategory: 'Identity' },
+  Avatar:               { category: 'Atoms', subCategory: 'Identity' },
+  UserInfo:             { category: 'Atoms', subCategory: 'Identity' },
+  TlsLogo:              { category: 'Atoms', subCategory: 'Identity' },
 
   // Badges (rationalisés en une seule entrée)
-  Badge:                { category: 'Core', subCategory: 'Badges' },
-  NotificationBadge:    { category: 'Core', subCategory: 'Badges' },
+  Badge:                { category: 'Atoms', subCategory: 'Status badges' },
+  NotificationBadge:    { category: 'Atoms', subCategory: 'Status badges' },
 
   // Chips / Pills
-  Pill:                 { category: 'Core', subCategory: 'Chips & Pills' },
-  MetaPill:             { category: 'Core', subCategory: 'Chips & Pills' },
-  MetaItem:             { category: 'Core', subCategory: 'Chips & Pills' },
-  Tag:                  { category: 'Core', subCategory: 'Chips & Pills' },
-  FilterChip:           { category: 'Core', subCategory: 'Chips & Pills' },
+  Pill:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
+  MetaPill:             { category: 'Atoms', subCategory: 'Chips & Pills' },
+  MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
+  Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
+  FilterChip:           { category: 'Atoms', subCategory: 'Chips & Pills' },
   // 'Filter Pills' supprimé — redondant avec FilterChip
 
   // Indicators
-  ProgressBar:          { category: 'Core', subCategory: 'Indicators' },
-  InlineProgress:       { category: 'Core', subCategory: 'Indicators' },
+  ProgressBar:          { category: 'Atoms', subCategory: 'Indicators' },
+  InlineProgress:       { category: 'Atoms', subCategory: 'Indicators' },
   // ProgressRing supprimé — mentionné dans ProgressBar description
-  Skeleton:             { category: 'Core', subCategory: 'Indicators' },
-  Spinner:              { category: 'Core', subCategory: 'Indicators' },
+  Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
+  Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
 
   // Decoration
-  Divider:              { category: 'Core', subCategory: 'Decoration' },
+  Divider:              { category: 'Atoms', subCategory: 'Decoration' },
   // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
 
   // ── COMPOSITES ────────────────────────────────────────────────────────
@@ -296,8 +296,8 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   EditorialLayout:      { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   IntroCallout:         { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   EditorialQuoteCallout:{ category: 'Headers & Sections', subCategory: 'Section wrappers' },
-  AuthorStrip:          { category: 'Core', subCategory: 'Identity' },
-  ReadingProgress:      { category: 'Core', subCategory: 'Indicators' },
+  AuthorStrip:          { category: 'Atoms', subCategory: 'Identity' },
+  ReadingProgress:      { category: 'Atoms', subCategory: 'Indicators' },
   TableOfContents:      { category: 'Navigation', subCategory: 'Secondary nav' },
   KeyFindingCard:       { category: 'Cards', subCategory: 'KPI & Stats' },
   // Phase 10 retrofit additions (8 ajouts)
@@ -418,13 +418,13 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // ── MVP — GDPR / IA / Compétences ─────────────────────────────────────
   ConsentBanner:        { category: 'Feedback', subCategory: 'GDPR & Compliance' },
   CompetencyRadar:      { category: 'Learning', subCategory: 'Compétences' },
-  AITransparencyLabel:  { category: 'Core', subCategory: 'AI indicators' },
-  AIOverrideButton:     { category: 'Core', subCategory: 'AI indicators' },
+  AITransparencyLabel:  { category: 'Atoms', subCategory: 'Indicators' },
+  AIOverrideButton:     { category: 'Atoms', subCategory: 'Form fields' },
   AtrophieIndicator:    { category: 'Learning', subCategory: 'Compétences' },
 
   // ── PHASE 12 — Heatmap / Corrections / Tutorial ──────────────────────
   HeatmapGrid:          { category: 'Learning', subCategory: 'Compétences' },
-  CorrectionCard:       { category: 'Core', subCategory: 'Coaching' },
+  CorrectionCard:       { category: 'Cards', subCategory: 'Learning content' },
   StepTutorial:         { category: 'Modals', subCategory: 'Onboarding' },
 
   // ── PHASE 14.1 — Première expérience flow ─────────────────────────────
@@ -435,12 +435,12 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   EmptyDashboardState:    { category: 'Feedback',       subCategory: 'Empty/zero states' },
 
   // ── PHASE 14.2a — Apprenant core (viewer shell) ──────────────────────
-  ProgressDots:           { category: 'Core',          subCategory: 'Indicators' },
+  ProgressDots:           { category: 'Atoms',         subCategory: 'Indicators' },
   LessonNavigation:       { category: 'Composites',    subCategory: 'Group wrappers' },
   FlipCard:               { category: 'Learning',      subCategory: 'Quiz & flashcards' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
-  'Card subcomponents': { category: 'Core', subCategory: 'Surfaces' },
+  'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
 };
 
 /** Display order for new categories (left-to-right in filter tabs, top-to-bottom in render). */

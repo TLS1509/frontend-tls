@@ -42,9 +42,9 @@ const ProjectsList: React.FC = () => {
       <EditorialHero
         eyebrow="Projets · Mes missions"
         title="Tous mes projets en cours"
-        description="Tâches assignées, statut JAC, mises à jour Passeport en temps réel"
+        summary="Tâches assignées, statut JAC, mises à jour Passeport en temps réel"
         tone="brand"
-        action={<Button variant="primary" leadingIcon={<Plus className="w-4 h-4" />}>Nouveau projet</Button>}
+        trailing={<Button variant="primary" leadingIcon={<Plus className="w-4 h-4" />}>Nouveau projet</Button>}
       />
 
       <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">

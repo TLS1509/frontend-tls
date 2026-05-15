@@ -59,9 +59,9 @@ const TOP_PROGRESSORS = [
 const COMPETENCES = [
   { label: 'Leadership', value: 3.2, pct: 64, badge: 'info' as const },
   { label: 'Communication', value: 3.5, pct: 70, badge: 'success' as const },
-  { label: 'Analyse', value: 2.8, pct: 56, badge: 'warning' as const },
+  { label: 'Analyse', value: 2.8, pct: 56, badge: 'danger' as const },
   { label: 'Tech', value: 3.7, pct: 74, badge: 'success' as const },
-  { label: 'Créativité', value: 2.4, pct: 48, badge: 'warning' as const },
+  { label: 'Créativité', value: 2.4, pct: 48, badge: 'danger' as const },
   { label: 'Coopération', value: 3.1, pct: 62, badge: 'info' as const },
 ];
 

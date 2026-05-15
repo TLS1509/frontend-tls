@@ -63,8 +63,8 @@ export interface ProfileCardProps {
   contacts?: ProfileContact[];
   /** Bio paragraph. */
   bio?: string;
-  /** Primary CTA action. */
-  cta?: {
+  /** Primary CTA action — either button config or custom React node. */
+  cta?: React.ReactNode | {
     label: string;
     onClick: () => void;
     icon?: React.ReactNode;
@@ -266,14 +266,18 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         {/* Right block — CTA (full width on mobile, auto width on md+) */}
         {cta && (
           <div className="shrink-0 md:ml-auto mt-stack-xs md:mt-0">
-            <Button
-              variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
-              size="md"
-              leadingIcon={cta.icon}
-              onClick={cta.onClick}
-            >
-              {cta.label}
-            </Button>
+            {typeof cta === 'object' && 'label' in cta ? (
+              <Button
+                variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
+                size="md"
+                leadingIcon={cta.icon}
+                onClick={cta.onClick}
+              >
+                {cta.label}
+              </Button>
+            ) : (
+              cta
+            )}
           </div>
         )}
       </div>
@@ -356,17 +360,21 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </p>
       )}
 
-      {/* CTA — uses DS Button */}
+      {/* CTA — uses DS Button or custom node */}
       {cta && (
-        <Button
-          variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
-          size="md"
-          leadingIcon={cta.icon}
-          onClick={cta.onClick}
-          fullWidth
-        >
-          {cta.label}
-        </Button>
+        typeof cta === 'object' && 'label' in cta ? (
+          <Button
+            variant={cta.variant ?? (tone === 'warm' ? 'warm' : 'primary')}
+            size="md"
+            leadingIcon={cta.icon}
+            onClick={cta.onClick}
+            fullWidth
+          >
+            {cta.label}
+          </Button>
+        ) : (
+          cta
+        )
       )}
     </div>
   );

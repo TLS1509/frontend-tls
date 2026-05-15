@@ -154,10 +154,13 @@ export const Recherche: React.FC = () => {
       return (
         <ArticleCard
           key={item.id}
+          type="dossier"
+          typeLabel="Article"
           title={item.title}
-          excerpt={item.description}
+          summary={item.description}
           category={item.category ?? ''}
           author={item.author ?? ''}
+          publishedAt=""
           readTime={item.duration ?? ''}
           onClick={() => navigate(`/veille/article/${item.id}`)}
         />
@@ -168,9 +171,9 @@ export const Recherche: React.FC = () => {
         <VideoCard
           key={item.id}
           title={item.title}
-          description={item.description}
+          category={item.category ?? ''}
           duration={item.duration ?? ''}
-          instructor={item.author ?? ''}
+          author={item.author ?? ''}
           onClick={() => navigate(`/veille/video-tutorial/${item.id}`)}
         />
       );
@@ -215,9 +218,6 @@ export const Recherche: React.FC = () => {
 
         {/* Hero */}
         <HeroSection
-          variant="solid"
-          tone="primary"
-          size="md"
           eyebrow="Recherche"
           title="Trouvez ce dont vous avez besoin"
           description="Parcours, articles, vidéos et coachs — tout au même endroit."

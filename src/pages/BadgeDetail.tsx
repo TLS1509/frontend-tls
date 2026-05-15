@@ -69,10 +69,11 @@ export default function BadgeDetail() {
           <div className="flex flex-col items-center gap-stack">
             <AchievementBadge
               title={BADGE.name}
-              category={BADGE.category}
-              tone="sun"
+              icon={<Trophy size={48} />}
+              color="sun"
               size="lg"
-              earned
+              isLocked={false}
+              unlockedDate={BADGE.earnedDate}
             />
             <Badge variant="success" size="lg">Obtenu le {BADGE.earnedDate}</Badge>
           </div>
@@ -127,10 +128,10 @@ export default function BadgeDetail() {
               <div key={rb.id} className="flex flex-col items-center gap-2">
                 <AchievementBadge
                   title={rb.name}
-                  category={rb.category}
-                  tone={rb.tone}
+                  icon={<Award size={32} />}
+                  color={rb.tone}
                   size="md"
-                  earned={rb.id === 'leadership-d2'}
+                  isLocked={rb.id !== 'leadership-d2'}
                 />
                 <span className="text-caption text-ink-500 text-center max-w-[100px]">{rb.name}</span>
               </div>

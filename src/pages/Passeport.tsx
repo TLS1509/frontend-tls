@@ -151,8 +151,8 @@ export default function Passeport() {
                       <SkillBar
                         label={c.label}
                         value={(c.level / 5) * 100}
-                        tone={PILIER_COLORS[c.pilier] as 'primary' | 'warm' | 'sun'}
-                        showLabel
+                        tone={PILIER_COLORS[c.pilier] as 'brand' | 'warm' | 'sun'}
+                        showValue
                       />
                     </div>
                     <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" showLabel={false} />
@@ -220,15 +220,19 @@ export default function Passeport() {
             />
             {GOALS.length > 0 ? (
               <div className="flex flex-col gap-stack">
-                {GOALS.map((g) => (
-                  <GoalProgress
-                    key={g.id}
-                    label={g.label}
-                    current={g.current}
-                    target={g.target}
-                    deadline={g.deadline}
-                  />
-                ))}
+                {GOALS.map((g) => {
+                  const pct = (g.current / g.target) * 100;
+                  const daysRemaining = Math.ceil((new Date(g.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                  return (
+                    <GoalProgress
+                      key={g.id}
+                      goal={g.label}
+                      percentComplete={pct}
+                      daysRemaining={daysRemaining}
+                      isOnTrack={daysRemaining > 0}
+                    />
+                  );
+                })}
                 <Button variant="brand-ghost" size="md" leadingIcon={<Plus size={16} />}>
                   Ajouter un objectif
                 </Button>
@@ -237,7 +241,7 @@ export default function Passeport() {
               <EmptyState
                 title="Aucun objectif défini"
                 description="Définis un objectif de progression Dreyfus pour suivre ta montée en compétences."
-                action={<Button variant="primary">Définir mon premier objectif</Button>}
+                actions={<Button variant="primary">Définir mon premier objectif</Button>}
               />
             )}
           </div>

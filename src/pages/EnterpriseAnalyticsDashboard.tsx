@@ -53,7 +53,7 @@ export default function EnterpriseAnalyticsDashboard() {
   const tableRows = DEPARTMENTS.map((d) => ({
     ...d,
     avgDreyfus: (
-      <Badge variant={d.avgDreyfus >= 3.5 ? 'success' : d.avgDreyfus >= 3 ? 'info' : 'warning'} size="sm">
+      <Badge variant={d.avgDreyfus >= 3.5 ? 'success' : d.avgDreyfus >= 3 ? 'info' : 'danger'} size="sm">
         D{d.avgDreyfus.toFixed(1)}
       </Badge>
     ),
@@ -187,7 +187,7 @@ export default function EnterpriseAnalyticsDashboard() {
 
         {activeTab === 'departments' && (
           <SectionCard title="KPIs par département" titleIcon={<BarChart3 size={18} />}>
-            <DataTable columns={TABLE_COLUMNS} rows={tableRows} rowKey="name" />
+            <DataTable columns={TABLE_COLUMNS} rows={tableRows} />
           </SectionCard>
         )}
 
@@ -205,7 +205,7 @@ export default function EnterpriseAnalyticsDashboard() {
                       <ProgressBar value={pct} fill="brand" size="md" />
                     </div>
                     <Badge
-                      variant={avg >= 3.5 ? 'success' : avg >= 3 ? 'info' : 'warning'}
+                      variant={avg >= 3.5 ? 'success' : avg >= 3 ? 'info' : 'danger'}
                       size="sm"
                     >
                       D{avg.toFixed(1)}

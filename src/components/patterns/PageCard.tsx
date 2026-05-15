@@ -78,9 +78,7 @@ const TONE_RING: Record<NonNullable<PageCardItem['tone']>, string> = {
   primary:   'hover:border-primary-300',
   warm:      'hover:border-secondary-300',
   sun:       'hover:border-accent-300',
-  success:   'hover:border-success-base/40',
-  danger:    'hover:border-danger-base/40',
-  neutral:   'hover:border-ink-300',
+  brand:     'hover:border-primary-300',
 };
 
 export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }> = ({

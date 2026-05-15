@@ -286,8 +286,14 @@ export const AuthLinkedinIcon: React.FC = () => (
   </svg>
 );
 
+export interface AuthFeatureProps {
+  icon?: React.ReactNode;
+  title: React.ReactNode;
+  description?: React.ReactNode;
+}
+
 /** @deprecated AuthFeature was for split-screen aside (legacy). Use plain divs in `aside` prop. */
-export const AuthFeature: React.FC<{ icon?: React.ReactNode; title: React.ReactNode; description?: React.ReactNode }> = ({
+export const AuthFeature: React.FC<AuthFeatureProps> = ({
   icon,
   title,
   description,

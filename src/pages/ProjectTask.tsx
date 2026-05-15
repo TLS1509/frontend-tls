@@ -176,10 +176,10 @@ export default function ProjectTask() {
 
             <div className="flex flex-col gap-stack-xs border-t border-ink-100 pt-stack">
               <FormGroup label="Ajouter un commentaire">
-                <Input
-                  as="textarea"
+                <textarea
                   rows={3}
                   placeholder="Partagez une mise à jour ou une question…"
+                  className="w-full p-3 rounded-md border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </FormGroup>
               <div className="flex justify-end">

@@ -978,6 +978,98 @@ Voir `MIGRATION-PLAN.md` § PHASE 14 pour le découpage complet 14.1 → 14.17 (
 
 ---
 
+## Phase 16 — Spec Compliance (alignement FO ↔ Cahiers des charges) 🚀
+
+**Contexte** : Phases 1–15 ont migré le visuel (Tailwind + design system + redesign par flow). Le FO React **existe** pour les 17 cahiers Notion (~140 pages routées), mais la **conformité fonctionnelle aux specs** n'a jamais été auditée. Phase 16 ferme ce gap, un cahier à la fois.
+
+### Source de vérité : les 17 cahiers Notion
+
+| # | Cahier | URL |
+|---|--------|-----|
+| 01 | Parcours & Learning Space | https://www.notion.so/thelearningsociety/01_Parcours_Learning_Space-361cdd696db681bcb0bff1ab6d3a4117 |
+| 01bis | Items Apprentissage & Veille | https://www.notion.so/thelearningsociety/01bis_Items_Apprentissage_Veille-361cdd696db681bebc4ef33390e39abf |
+| 02 | Passeport Compétences | https://www.notion.so/thelearningsociety/02_Passeport_Competences-361cdd696db681959e1ec1de4a3d6d24 |
+| 03 | Onboarding & User Profile Mapping | https://www.notion.so/thelearningsociety/03_Onboarding_and_User_Profile_Mapping-361cdd696db681139132e7823e13355a |
+| 04 | Coaching & 1-1 Messaging | https://www.notion.so/thelearningsociety/04_Coaching_and_1-1_Messaging-361cdd696db681dabd3acaf585e69710 |
+| 05 | Gamification & Badges | https://www.notion.so/thelearningsociety/05_Gamification_Badges-361cdd696db6810b8df5e7a9a3c8bb35 |
+| 06 | Enterprise FO Space | https://www.notion.so/thelearningsociety/06_Enterprise_FO_Space-361cdd696db6816484d2ee7c43214e09 |
+| 07 | Journal de Bord Réflexif | https://www.notion.so/thelearningsociety/07_Journal_de_Bord_Reflexif-361cdd696db68189b6bec9ee65db14f6 |
+| 08 | Masterclass / Atelier / Événements | https://www.notion.so/thelearningsociety/08_Masterclass_Atelier_Pratique_Evenements-361cdd696db681129da3d55c741edd21 |
+| 09 | Notifications Management | https://www.notion.so/thelearningsociety/09_Notifications_Management-361cdd696db681fe8154e4f27cfe7fef |
+| 10 | Analytics Tracking System | https://www.notion.so/thelearningsociety/10_Analytics_Tracking_System-361cdd696db681638732d06c7a72b7df |
+| 10bis | BO Organization UX (hors repo) | https://www.notion.so/thelearningsociety/10bis_Back_Office_Organization_UX_Design-361cdd696db68161aeeff5c75108d763 |
+| 11 | Projects SBO | https://www.notion.so/thelearningsociety/11_Projects_SBO-361cdd696db681abbbdfd345a8abb4ac |
+| 11bis | Subscription Management | https://www.notion.so/thelearningsociety/11bis_Subscription_Management_System-361cdd696db681a1819be823d10e7705 |
+| 12 | Chatbot IA & QAR | https://www.notion.so/thelearningsociety/12_Chatbot_IA_et_QAR-361cdd696db6812c8d83d2e7a4b7e28e |
+| 12bis | IA Features Framework | https://www.notion.so/thelearningsociety/12bis_IA_Features_Framework-361cdd696db681109559da81e28d3110 |
+| 13 | Helpcenter Wiki Support | https://www.notion.so/thelearningsociety/13_Helpcenter_Wiki_Support-361cdd696db6819db669ca4094aabde0 |
+| 13bis | GDPR / AI Act / Security | https://www.notion.so/thelearningsociety/13bis_GDPR_AI_Act_Security-361cdd696db6816a98c3ecd08b36c1c2 |
+
+### Workflow par cahier (5 étapes — OBLIGATOIRE)
+
+```
+1. GAP ANALYSIS (~30 min via Explore agent)
+   - Lire cahier (sections IN/OUT, Écrans, Fonctionnalités MVP, Modèle de données)
+   - Lister pages FO concernées (grep dans src/pages/)
+   - Coverage matrix : | Feature spec | Page actuelle | Statut ✅/🟡/❌ | Notes |
+   - Identifier 5–7 chantiers chiffrés (S < 1j / M 1–2j / L > 2j)
+
+2. DATA FIRST
+   - Enrichir/créer types dans src/types/<cahier>.ts (jamais inventer hors spec)
+   - Enrichir mock data dans src/data/<cahier>.ts
+   - Si nouveau référentiel (compétences, badges, types items) : un fichier dédié
+
+3. COMPOSANTS (bottom-up)
+   - Étendre composants existants AVANT de créer de nouveaux
+   - Tout nouveau composant → entrée dans src/pages/Components.tsx avec usedBy
+   - Tone-aware si applicable (primary/warm/sun/brand)
+   - Semantic spacing tokens (gap-stack, gap-section)
+
+4. PAGES (modifier l'existant, ne pas recréer)
+   - Phase 14-15 a verrouillé le visuel → ne PAS redessiner
+   - Câbler les nouveaux composants/data dans les pages présentes
+   - Conserver tone, spacing, et hiérarchie visuelle existants
+
+5. WIRING STORE + VALIDATION
+   - Ajouter state dans Zustand (src/stores/persistence.ts ou store dédié)
+   - npx tsc --noEmit → 0 erreurs
+   - Smoke test FO via preview_* MCP (mobile 375px + desktop 1280px)
+   - Notion sync : Écrans DB (Statut "Validé"), Design System DB (nouveaux composants)
+   - Commit : `feat(phase-16.X): align [cahier name] to spec`
+```
+
+### Anti-patterns Phase 16
+
+- ❌ **Redessiner** — Phase 14-15 a verrouillé le visuel. Phase 16 = **functional only**.
+- ❌ **Inventer des champs hors spec** — toujours croiser avec le cahier Notion correspondant. Si la spec est ambiguë → AskUserQuestion avant.
+- ❌ **Mocker côté serveur** — pas de stub API ; les mock data restent dans `src/data/`.
+- ❌ **Multi-cahier en parallèle** — un cahier à la fois, validation utilisateur entre chaque.
+- ❌ **Ignorer les pré-requis cahier** — respecter l'ordre de dépendances (16.2 Passeport bloque 16.1/16.5/16.7/16.11/16.13).
+
+### Ordre d'exécution recommandé
+
+```
+16.2 (Passeport — bloque tout)
+  ↓
+16.1 (Parcours) → 16.3 (Onboarding) → 16.12 (Subscription)
+  ↓
+16.5 (Gamification) / 16.7 (Journal)
+  ↓
+16.4 (Coaching)
+  ↓
+16.6 (Enterprise) / 16.10 (Analytics)
+  ↓
+16.13 (Chatbot) / 16.14 (IA Framework overlay)
+  ↓
+16.8 (Masterclass) / 16.11 (Projects SBO)
+  ↓
+16.15 (Helpcenter) / 16.16 (GDPR)
+```
+
+Voir `MIGRATION-PLAN.md` § PHASE 16 pour le tracking case-à-cocher.
+
+---
+
 ## Documentation Notion — Règle de synchronisation (OBLIGATOIRE)
 
 Tout ajout, modification ou suppression dans le design system ou les pages de l'app **doit être reflété dans les bases de données Notion**.

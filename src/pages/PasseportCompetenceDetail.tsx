@@ -194,7 +194,7 @@ export default function PasseportCompetenceDetail() {
           <SectionCard title="Sous-compétences" titleIcon={<BookOpen size={18} />}>
             <div className="flex flex-col gap-3">
               {SKILLS.map((skill) => (
-                <SkillBar key={skill.label} label={skill.label} value={skill.level} max={skill.max} />
+                <SkillBar key={skill.label} label={skill.label} value={skill.level} />
               ))}
             </div>
           </SectionCard>

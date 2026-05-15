@@ -218,12 +218,12 @@ export default function AlerteStagnation() {
                   {/* Méta-infos */}
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
                     <Badge
-                      variant={learner.severity === 'critical' ? 'danger' : 'warning'}
+                      variant={learner.severity === 'critical' ? 'danger' : 'info'}
                       size="sm"
                     >
                       {learner.stagnationDays}j de stagnation
                     </Badge>
-                    <Badge variant="neutral" size="sm">
+                    <Badge variant="brand" size="sm">
                       <TrendingUp size={10} className="inline mr-0.5" />
                       {learner.blockedSkill}
                     </Badge>

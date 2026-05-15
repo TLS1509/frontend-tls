@@ -5,6 +5,13 @@
  * Will be replaced by API calls in production.
  */
 
+import type {
+  Prerequisites,
+  ProgressionMode,
+  ParcoursScope,
+  SubscriptionTier,
+} from '../types/learning';
+
 export type Tone = 'primary' | 'warm' | 'sun';
 export type ResourceKind = 'guide' | 'video' | 'template' | 'podcast' | 'exercise';
 
@@ -15,6 +22,8 @@ export interface Lecon {
   description: string;
   duration: string;
   completed: boolean;
+  /** Cahier #01 — pré-requis Type A/B (optional, MVP) */
+  prerequisites?: Prerequisites;
 }
 
 export interface Etape {
@@ -26,6 +35,10 @@ export interface Etape {
   completed: boolean;
   unlocked: boolean;
   progress: { completed: number; total: number; percentage: number };
+  /** Cahier #01 — description courte (optionnel) */
+  description?: string;
+  /** Cahier #01 — compétences touchées par cette étape (refs to COMPETENCES) */
+  competenceIds?: string[];
 }
 
 export interface ComplementaryItem {
@@ -35,6 +48,8 @@ export interface ComplementaryItem {
   duration: string;
   kind: ResourceKind;
   tone: Tone;
+  /** Cahier #01 — pré-requis Type A/B (optional) */
+  prerequisites?: Prerequisites;
 }
 
 export interface FinalProject {
@@ -58,6 +73,19 @@ export interface Parcours {
   finalProject?: FinalProject;
   progress: { completed: number; total: number; percentage: number };
   backUrl: string;
+  /** Cahier #01 — scope multi-tenant (Global ou Company-specific). Défaut: Global. */
+  scope?: ParcoursScope;
+  /** Cahier #01 — companyId si scope='Company' */
+  companyId?: string;
+  /** Cahier #01 — mode progression étape→étape. Défaut: 'STRICT'. */
+  progressionMode?: ProgressionMode;
+  /** Cahier #01 — abonnements qui débloquent ce parcours. Vide/undefined = accessible à tous. */
+  tierGate?: SubscriptionTier[];
+  /**
+   * Cahier #01 — compétences DU parcours = agrégation des etapes[].competenceIds.
+   * Calculée à la volée via `getParcoursCompetenceIds(parcoursId)`.
+   * Sert à auto-générer le questionnaire de positionnement (1 Q / compétence).
+   */
 }
 
 export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
@@ -420,4 +448,99 @@ export function resolveLessonContext(pathId: string, lessonId: string): LessonCo
     }
   }
   return null;
+}
+
+// ─── Cahier #01 metadata sidecar (Phase 16.1.1) ─────────────────────────────
+//
+// Mapping parcoursId → metadata pour les nouveaux champs de Cahier #01.
+// Sidecar plutôt que d'enrichir chaque MOCK_PARCOURS_DATA pour limiter le diff.
+// `getXxx(parcoursId)` retourne une valeur par défaut si absent.
+
+interface ParcoursMeta {
+  progressionMode: ProgressionMode;
+  tierGate: SubscriptionTier[];
+  scope: ParcoursScope;
+  /**
+   * Compétences agrégées du parcours (depuis ses étapes).
+   * Sert à l'auto-gen du questionnaire de positionnement (1 Q par compétence).
+   */
+  competenceIds: string[];
+}
+
+const PARCOURS_META: Record<string, ParcoursMeta> = {
+  '1': {
+    progressionMode: 'STRICT',
+    tierGate: ['plan_1', 'plan_2', 'plan_3', 'enterprise_standard', 'enterprise_premium', 'enterprise_custom'],
+    scope: 'Global',
+    competenceIds: ['leadership', 'communication', 'strategy'],
+  },
+  '2': {
+    progressionMode: 'FLEXIBLE',
+    tierGate: ['plan_1', 'plan_2', 'plan_3', 'enterprise_standard', 'enterprise_premium', 'enterprise_custom'],
+    scope: 'Global',
+    competenceIds: ['communication', 'empathy', 'negotiation'],
+  },
+  '3': {
+    progressionMode: 'STRICT',
+    tierGate: ['plan_2', 'plan_3', 'enterprise_premium', 'enterprise_custom'],
+    scope: 'Global',
+    competenceIds: ['analyse', 'data', 'critical_thinking'],
+  },
+  '4': {
+    progressionMode: 'FREE',
+    tierGate: [], // accessible à tous (y compris Plan Gratuit)
+    scope: 'Global',
+    competenceIds: ['ai_tools', 'tech_tools', 'automation'],
+  },
+  '5': {
+    progressionMode: 'STRICT',
+    tierGate: ['plan_1', 'plan_2', 'plan_3', 'enterprise_standard', 'enterprise_premium', 'enterprise_custom'],
+    scope: 'Global',
+    competenceIds: ['product', 'strategy', 'data'],
+  },
+  '6': {
+    progressionMode: 'FLEXIBLE',
+    tierGate: ['plan_2', 'plan_3', 'enterprise_premium', 'enterprise_custom'],
+    scope: 'Global',
+    competenceIds: ['creativity', 'adaptability', 'cooperation'],
+  },
+};
+
+const DEFAULT_META: ParcoursMeta = {
+  progressionMode: 'STRICT',
+  tierGate: [],
+  scope: 'Global',
+  competenceIds: [],
+};
+
+export function getParcoursProgressionMode(parcoursId: string): ProgressionMode {
+  return PARCOURS_META[parcoursId]?.progressionMode ?? DEFAULT_META.progressionMode;
+}
+
+export function getParcoursTierGate(parcoursId: string): SubscriptionTier[] {
+  return PARCOURS_META[parcoursId]?.tierGate ?? DEFAULT_META.tierGate;
+}
+
+export function getParcoursScope(parcoursId: string): ParcoursScope {
+  return PARCOURS_META[parcoursId]?.scope ?? DEFAULT_META.scope;
+}
+
+/**
+ * Compétences du parcours = agrégation des étapes (ou fallback sidecar PARCOURS_META).
+ * Utilisé par PositionnementModal pour auto-générer 1 question par compétence.
+ */
+export function getParcoursCompetenceIds(parcoursId: string): string[] {
+  const parcours = MOCK_PARCOURS_DATA[parcoursId];
+  if (!parcours) return [];
+
+  // Agrégation depuis etapes[].competenceIds si défini
+  const fromEtapes = new Set<string>();
+  parcours.etapes.forEach((etape) => {
+    etape.competenceIds?.forEach((id) => fromEtapes.add(id));
+  });
+
+  if (fromEtapes.size > 0) return Array.from(fromEtapes);
+
+  // Fallback sur sidecar
+  return PARCOURS_META[parcoursId]?.competenceIds ?? [];
 }

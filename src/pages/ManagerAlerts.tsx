@@ -127,7 +127,7 @@ export default function ManagerAlerts() {
                   placeholder="Ex: Inactivité prolongée"
                 />
               </FormGroup>
-              <FormGroup label="Condition de déclenchement" htmlFor="alert-trigger">
+              <FormGroup label="Condition de déclenchement" id="alert-trigger">
                 <Select id="alert-trigger" value={newAlertTrigger} onChange={(e) => setNewAlertTrigger(e.target.value)}>
                   <option value="">Choisir une condition...</option>
                   <option value="inactivity-7">Inactif depuis 7 jours</option>
@@ -138,7 +138,7 @@ export default function ManagerAlerts() {
                   <option value="session-missed">Session coaching manquée</option>
                 </Select>
               </FormGroup>
-              <FormGroup label="Destinataires" htmlFor="alert-recipients">
+              <FormGroup label="Destinataires" id="alert-recipients">
                 <Select id="alert-recipients">
                   <option>Coach assigné</option>
                   <option>Manager</option>
@@ -146,7 +146,7 @@ export default function ManagerAlerts() {
                   <option>Apprenant + Manager</option>
                 </Select>
               </FormGroup>
-              <FormGroup label="Canal de notification" htmlFor="alert-channel">
+              <FormGroup label="Canal de notification" id="alert-channel">
                 <Select id="alert-channel">
                   <option>Email</option>
                   <option>Notification in-app</option>
@@ -170,7 +170,6 @@ export default function ManagerAlerts() {
           <DataTable
             columns={TABLE_COLUMNS}
             rows={tableRows}
-            rowKey="id"
           />
         </SectionCard>
 

@@ -162,7 +162,7 @@ export const Enterprise: React.FC = () => {
                       {m.progress} %
                     </span>
                   </div>
-                  <ProgressBar value={m.progress} max={100} variant={m.tone === 'sun' ? 'sun' : m.tone === 'warm' ? 'warm' : 'brand'} size="sm" />
+                  <ProgressBar value={m.progress} max={100} fill={m.tone === 'sun' ? 'sun' : m.tone === 'warm' ? 'warm' : 'brand'} size="sm" />
                 </div>
                 <span className="font-body text-caption text-ink-500 whitespace-nowrap shrink-0 hidden md:inline">
                   {m.lastActive}

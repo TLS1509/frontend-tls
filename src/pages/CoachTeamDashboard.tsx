@@ -192,7 +192,7 @@ export default function CoachTeamDashboard() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant={s.status === 'confirmed' ? 'success' : 'warning'} size="sm">
+                    <Badge variant={s.status === 'confirmed' ? 'success' : 'danger'} size="sm">
                       {s.status === 'confirmed' ? 'Confirmée' : 'En attente'}
                     </Badge>
                     <Button variant="ghost" size="sm">Préparer</Button>
@@ -215,9 +215,9 @@ export default function CoachTeamDashboard() {
                     name={p.name}
                     role={p.role}
                     initials={p.initials}
-                    tags={p.tags}
+                    specialties={p.tags}
                     variant="default"
-                    alignment="center"
+                    align="center"
                     cta={<Badge variant="success" size="sm">{p.progress}</Badge>}
                   />
                 </div>

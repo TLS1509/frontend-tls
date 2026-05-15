@@ -85,7 +85,7 @@ function AssistantBubble({ message }: { message: ChatMessage }) {
   const lines = message.text.split('\n');
   return (
     <div className="flex gap-stack-xs items-start">
-      <Avatar initials="IA" tone="brand" size="sm" className="shrink-0 mt-1" />
+      <Avatar initials="IA" tint="brand" size="sm" className="shrink-0 mt-1" />
       <div className="flex flex-col gap-stack-xs flex-1 min-w-0">
         <div className="max-w-[80%] bg-ink-50 border border-ink-200 text-ink-800 rounded-pill rounded-bl-sm px-4 py-3 text-body-sm leading-relaxed">
           {lines.map((line, i) => {

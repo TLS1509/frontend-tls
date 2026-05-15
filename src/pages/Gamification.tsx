@@ -123,7 +123,8 @@ export default function Gamification() {
                     <AchievementBadge
                       title={b.title}
                       description={b.description}
-                      unlocked={b.unlocked}
+                      icon={b.icon}
+                      isLocked={!b.unlocked}
                     />
                   </div>
                 ))}
@@ -211,7 +212,8 @@ export default function Gamification() {
                   key={b.id}
                   title={b.title}
                   description={b.description}
-                  unlocked={b.unlocked}
+                  icon={b.icon}
+                  isLocked={!b.unlocked}
                 />
               ))}
               {/* Locked badges */}
@@ -220,7 +222,8 @@ export default function Gamification() {
                   key={`locked-${i}`}
                   title="Badge à débloquer"
                   description="Continue ta progression"
-                  unlocked={false}
+                  icon={<Lock size={32} />}
+                  isLocked={true}
                 />
               ))}
             </div>

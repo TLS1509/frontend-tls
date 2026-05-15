@@ -27,7 +27,7 @@ const COMPETENCES = [
 const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a1',
-    type: 'lesson_completed',
+    type: 'complete',
     title: 'Leçon terminée — Gestion du temps',
     description: '+80 XP',
     timestamp: new Date('2026-05-13T09:00:00'),
@@ -35,7 +35,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   },
   {
     id: 'a2',
-    type: 'coaching',
+    type: 'complete',
     title: 'Session coaching effectuée',
     description: 'Sujet : Préparation entretien annuel',
     timestamp: new Date('2026-05-12T14:30:00'),
@@ -43,7 +43,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   },
   {
     id: 'a3',
-    type: 'badge_earned',
+    type: 'achievement',
     title: 'Badge débloqué — Explorateur',
     description: 'Accès à 3 domaines de compétences',
     timestamp: new Date('2026-05-11T11:00:00'),
@@ -51,7 +51,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   },
   {
     id: 'a4',
-    type: 'lesson_completed',
+    type: 'complete',
     title: 'Leçon terminée — Feedback constructif',
     description: '+60 XP',
     timestamp: new Date('2026-05-10T16:00:00'),
@@ -59,7 +59,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   },
   {
     id: 'a5',
-    type: 'comment',
+    type: 'complete',
     title: 'Entrée journal complétée',
     description: 'Réflexion sur la semaine',
     timestamp: new Date('2026-05-09T18:00:00'),

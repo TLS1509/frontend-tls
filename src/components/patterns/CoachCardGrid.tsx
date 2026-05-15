@@ -1,7 +1,7 @@
 import React from 'react';
 import { Users } from 'lucide-react';
 import { ProfileCard } from '../ui/ProfileCard';
-import type { ProfileCardVariant, ProfileMetadata, ProfileSocialLink } from '../ui/ProfileCard';
+import type { ProfileCardVariant } from '../ui/ProfileCard';
 
 export interface CoachItem {
   id: string;
@@ -9,8 +9,6 @@ export interface CoachItem {
   role: string;
   avatar?: string;
   bio?: string;
-  metadata?: ProfileMetadata[];
-  socialLinks?: ProfileSocialLink[];
   specialties?: string[];
   availability?: boolean;
   variant?: ProfileCardVariant;
@@ -95,8 +93,6 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
               role={coach.role}
               avatar={coach.avatar}
               bio={coach.bio}
-              metadata={coach.metadata}
-              socialLinks={coach.socialLinks}
               variant={coach.variant || 'default'}
               cta={
                 coach.onBookClick

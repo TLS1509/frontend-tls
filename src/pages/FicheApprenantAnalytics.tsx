@@ -133,7 +133,7 @@ export default function FicheApprenantAnalytics() {
             </SectionCard>
             <SectionCard title="Niveaux par compétence" titleIcon={<BarChart3 size={18} />}>
               <div className="flex flex-col gap-3">
-                {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} max={s.max} />)}
+                {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} />)}
               </div>
             </SectionCard>
           </div>

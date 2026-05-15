@@ -33,7 +33,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
   titleIcon,
   description,
   headerAction,
-  tone = 'neutral',
+  tone,
   actions,
   className = '',
   children,

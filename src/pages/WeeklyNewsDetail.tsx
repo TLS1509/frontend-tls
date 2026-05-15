@@ -146,7 +146,7 @@ export const WeeklyNewsDetail: React.FC = () => {
               </header>
 
               {/* Intro callout */}
-              <IntroCallout tone="brand" icon={<TrendingUp size={18} />}>
+              <IntroCallout tone="brand">
                 {ACTU.excerpt}
               </IntroCallout>
 
