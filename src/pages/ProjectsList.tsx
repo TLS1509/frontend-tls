@@ -93,7 +93,7 @@ const ProjectsList: React.FC = () => {
                     <span>Progression</span>
                     <span>{p.progress}%</span>
                   </div>
-                  <ProgressBar value={p.progress} max={100} tone="brand" />
+                  <ProgressBar value={p.progress} max={100} fill="brand" />
                 </div>
 
                 <div className="flex items-center justify-between">

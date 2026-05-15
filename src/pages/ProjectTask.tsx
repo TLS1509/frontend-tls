@@ -52,7 +52,7 @@ export default function ProjectTask() {
         eyebrow="Projet · Tâche"
         title="Analyse de Données Marché"
         summary="Exploration et modélisation des données de marché pour orienter la stratégie produit du trimestre."
-        tone="primary"
+        tone="default"
       />
 
       <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">

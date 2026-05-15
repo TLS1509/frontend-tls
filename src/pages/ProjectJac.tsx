@@ -83,7 +83,7 @@ export default function ProjectJac() {
         eyebrow="Projet · JAC"
         title="Jalons de Certification JAC"
         summary="Suivez les jalons de validation des acquis de compétences et accédez aux certifications disponibles dans le cadre du projet."
-        tone="primary"
+        tone="default"
       />
 
       <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">

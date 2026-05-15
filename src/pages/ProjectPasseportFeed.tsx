@@ -37,7 +37,7 @@ export default function ProjectPasseportFeed() {
         eyebrow="Projet · Passeport"
         title="Feed Compétences du Projet"
         summary="Visualisez les compétences mobilisées, les niveaux Dreyfus atteints et la progression collective de votre équipe."
-        tone="primary"
+        tone="default"
       />
 
       <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">

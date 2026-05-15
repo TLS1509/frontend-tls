@@ -57,7 +57,7 @@ export default function ProjectSkillGaps() {
         eyebrow="Projet · Analyse"
         title="Lacunes de Compétences"
         summary="Identifiez les gaps entre les compétences requises pour le projet et les niveaux actuels de l'équipe."
-        tone="primary"
+        tone="default"
       />
 
       <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">

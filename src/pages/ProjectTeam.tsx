@@ -73,7 +73,7 @@ export default function ProjectTeam() {
         eyebrow="Projet · Équipe"
         title="Équipe du Projet"
         summary="Retrouvez les membres, leurs rôles, niveaux Dreyfus et compétences associées au projet."
-        tone="primary"
+        tone="default"
         trailing={
           <Button variant="primary" size="md" leadingIcon={<UserPlus size={16} />}>
             Inviter un membre
