@@ -272,6 +272,8 @@ export const LessonPlayer: React.FC = () => {
   const persistedEntry = useLessonProgressStore((s) => s.lessons[lessonId]);
   const setSectionInStore = useLessonProgressStore((s) => s.setSection);
   const completeSectionInStore = useLessonProgressStore((s) => s.completeSection);
+  const setReflectionInStore = useLessonProgressStore((s) => s.setReflection);
+  const setActionPlanInStore = useLessonProgressStore((s) => s.setActionPlan);
 
   const [currentIndex, setCurrentIndex] = useState(persistedEntry?.lastSection ?? 0);
   const [completedSections, setCompletedSections] = useState<Set<number>>(
@@ -282,8 +284,13 @@ export const LessonPlayer: React.FC = () => {
   useEffect(() => {
     setSectionInStore(lessonId, currentIndex, SECTIONS.length);
   }, [lessonId, currentIndex, setSectionInStore]);
-  const [reflections, setReflections] = useState<Record<string, string>>({});
-  const [actionPlan, setActionPlan] = useState({ objectif: '', action1: '', action2: '', action3: '' });
+
+  const [reflections, setReflections] = useState<Record<string, string>>(
+    persistedEntry?.reflections ?? {}
+  );
+  const [actionPlan, setActionPlan] = useState(
+    persistedEntry?.actionPlan ?? { objectif: '', action1: '', action2: '', action3: '' }
+  );
   const [showFeedback, setShowFeedback] = useState(false);
 
   const ctx = resolveLessonContext(pathId, lessonId);
@@ -457,7 +464,11 @@ export const LessonPlayer: React.FC = () => {
           <textarea
             className="w-full h-auto min-h-[96px] p-4 mt-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
             value={reflections[`q${i}`] ?? ''}
-            onChange={(e) => setReflections((prev) => ({ ...prev, [`q${i}`]: e.target.value }))}
+            onChange={(e) => {
+              const key = `q${i}`;
+              setReflections((prev) => ({ ...prev, [key]: e.target.value }));
+              setReflectionInStore(lessonId, key, e.target.value);
+            }}
             placeholder="Écrivez votre réflexion ici…"
           />
         </div>
@@ -486,7 +497,11 @@ export const LessonPlayer: React.FC = () => {
               type="text"
               className="w-full h-auto p-4 rounded-lg border border-ink-200 font-body text-body-sm text-ink-900 bg-white transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
               value={actionPlan[key]}
-              onChange={(e) => setActionPlan((prev) => ({ ...prev, [key]: e.target.value }))}
+              onChange={(e) => {
+                const next = { ...actionPlan, [key]: e.target.value };
+                setActionPlan(next);
+                setActionPlanInStore(lessonId, next);
+              }}
               placeholder={placeholder}
             />
           </div>

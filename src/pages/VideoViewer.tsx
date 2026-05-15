@@ -10,7 +10,7 @@
  * Route : /veille/video/:id
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { MetaPill } from '../components/ui/MetaPill';
@@ -63,9 +63,60 @@ En tant que manager ou leader, votre rôle est de créer les conditions qui sati
 
 export const VideoViewer: React.FC = () => {
   const navigate = useNavigate();
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [showTranscript, setShowTranscript] = useState(false);
+
+  const togglePlay = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) { v.play(); setIsPlaying(true); }
+    else { v.pause(); setIsPlaying(false); }
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setIsMuted(v.muted);
+  }, []);
+
+  const handleTimeUpdate = useCallback(() => {
+    const v = videoRef.current;
+    if (v) setCurrentTime(v.currentTime);
+  }, []);
+
+  const handleLoadedMetadata = useCallback(() => {
+    const v = videoRef.current;
+    if (v) setDuration(v.duration);
+  }, []);
+
+  const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const v = videoRef.current;
+    if (!v || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    v.currentTime = ratio * duration;
+  }, [duration]);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const onEnded = () => setIsPlaying(false);
+    v.addEventListener('ended', onEnded);
+    return () => v.removeEventListener('ended', onEnded);
+  }, []);
+
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  };
+
+  const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -88,41 +139,75 @@ export const VideoViewer: React.FC = () => {
 
       {/* ── Video Player Area ──────────────────────────────────── */}
       <div className="bg-ink-950 flex-none">
-        <div className="max-w-5xl mx-auto relative min-h-[260px] sm:min-h-[360px] flex flex-col items-center justify-center">
+        <div className="max-w-5xl mx-auto relative">
+          {/* Native video element — hidden controls (custom UI below) */}
+          <video
+            ref={videoRef}
+            src="https://www.w3schools.com/html/mov_bbb.mp4"
+            className="w-full aspect-video object-contain bg-ink-950"
+            onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}
+            playsInline
+          />
 
-          {/* Play / Pause central button */}
-          <button
-            type="button"
-            onClick={() => setIsPlaying(!isPlaying)}
-            aria-label={isPlaying ? 'Mettre en pause' : 'Lire la vidéo'}
-            className="min-w-touch min-h-touch w-20 h-20 rounded-full bg-primary-500 text-white flex items-center justify-center cursor-pointer transition-transform duration-base hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-300"
-          >
-            {isPlaying ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
-          </button>
-
-          {/* Player controls bar */}
-          <div className="absolute bottom-0 left-0 right-0 px-4 py-3 flex gap-3 items-center text-white">
+          {/* Play / Pause overlay (click anywhere on video) */}
+          {!isPlaying && (
             <button
               type="button"
-              onClick={() => setIsMuted(!isMuted)}
+              onClick={togglePlay}
+              aria-label="Lire la vidéo"
+              className="absolute inset-0 flex items-center justify-center bg-black/20 group"
+            >
+              <span className="min-w-touch min-h-touch w-20 h-20 rounded-full bg-primary-500 text-white flex items-center justify-center transition-transform duration-base group-hover:scale-110 focus-visible:outline-none">
+                <Play size={32} className="ml-1" />
+              </span>
+            </button>
+          )}
+
+          {/* Controls bar */}
+          <div className="absolute bottom-0 left-0 right-0 px-4 py-3 flex gap-3 items-center bg-gradient-to-t from-black/60 to-transparent">
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={isPlaying ? 'Mettre en pause' : 'Lire la vidéo'}
+              className="min-w-touch min-h-touch inline-flex items-center justify-center text-white/85 hover:text-white transition-colors"
+            >
+              {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleMute}
               aria-label={isMuted ? 'Activer le son' : 'Couper le son'}
               className="min-w-touch min-h-touch inline-flex items-center justify-center text-white/85 hover:text-white transition-colors"
             >
               {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
             </button>
 
-            {/* Progress bar (static mock 35%) */}
-            <div className="flex-1 h-1 bg-white/10 rounded-pill overflow-hidden cursor-pointer">
-              <div className="h-full bg-primary-400 w-[35%]" />
+            {/* Seekable progress bar */}
+            <div
+              role="slider"
+              aria-label="Progression vidéo"
+              aria-valuenow={Math.round(progressPct)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              className="flex-1 h-1 bg-white/20 rounded-pill overflow-hidden cursor-pointer"
+              onClick={handleSeek}
+            >
+              <div
+                className="h-full bg-primary-400 transition-[width] duration-fast pointer-events-none"
+                style={{ width: `${progressPct}%` }}
+              />
             </div>
 
             <span className="font-body text-caption text-white/70 tabular-nums shrink-0">
-              8:24 / 24:00
+              {formatTime(currentTime)} / {duration > 0 ? formatTime(duration) : '--:--'}
             </span>
 
             <button
               type="button"
               aria-label="Plein écran"
+              onClick={() => videoRef.current?.requestFullscreen?.()}
               className="min-w-touch min-h-touch inline-flex items-center justify-center text-white/85 hover:text-white transition-colors"
             >
               <Maximize2 size={18} />

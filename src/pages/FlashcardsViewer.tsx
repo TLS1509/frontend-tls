@@ -5,18 +5,21 @@
  *  - Header (close-only) → <ViewerHeader> tone-aware, progress inline
  *  - Footer nav         → <LessonNavigation> (prev/dots/next molecule)
  *  - Tone inherited from LessonContext (fallback "primary" — visual identity)
- *  - 3D flip mechanics & thumbnails strip preserved (extraction → Phase 14.2c)
+ *
+ * Phase 14.2c refactor :
+ *  - 3D flip mechanics extracted → <FlipCard> DS component
  *
  * Route : /lesson/:id/flashcards
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, Sparkles, RotateCw } from 'lucide-react';
+import { Check, Sparkles } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { FlipCard } from '../components/patterns/FlipCard';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
-import { TONE_BG_500, TONE_HERO_GRADIENT, TONE_BORDER_500 } from '../lib/tone-classes';
+import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 
 interface Flashcard {
@@ -253,100 +256,14 @@ export const FlashcardsViewer: React.FC = () => {
             })}
           </div>
 
-          {/* ── Main flashcard (3D flip — preserved from v1) ────── */}
-          <div className="relative" style={{ perspective: '1500px', height: '380px' }}>
-            <div
-              className="relative w-full h-full transition-transform duration-700 ease-standard"
-              style={{
-                transformStyle: 'preserve-3d',
-                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-              }}
-            >
-              {/* Front */}
-              <button
-                type="button"
-                onClick={handleFlip}
-                aria-label="Retourner la flashcard"
-                className={[
-                  'absolute inset-0 rounded-2xl overflow-hidden cursor-pointer border-[3px] shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
-                  TONE_BORDER_500[tone],
-                ].join(' ')}
-                style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                }}
-              >
-                <div className="absolute inset-0">
-                  <img
-                    src={currentCard.front.image}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
-                </div>
-
-                <div className="relative z-base flex flex-col items-center justify-center h-full p-section gap-stack text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
-                    <span className="text-[2rem] leading-none" aria-hidden>
-                      {currentCard.front.icon}
-                    </span>
-                  </div>
-
-                  <span className="inline-flex items-center px-4 py-1.5 rounded-pill bg-white/90 backdrop-blur-glass-light text-ink-900 text-micro font-bold uppercase tracking-wider">
-                    {currentCard.front.category}
-                  </span>
-
-                  <h2 className="m-0 font-display text-h3 sm:text-h2 font-bold text-white leading-tight max-w-prose [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
-                    {currentCard.front.title}
-                  </h2>
-
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/30">
-                    <RotateCw size={16} className="text-white" />
-                    <span className="font-body text-caption font-medium text-white">
-                      Cliquez pour voir la réponse
-                    </span>
-                  </div>
-                </div>
-              </button>
-
-              {/* Back */}
-              <button
-                type="button"
-                onClick={handleFlip}
-                aria-label="Retourner la flashcard"
-                className={[
-                  'absolute inset-0 rounded-2xl overflow-hidden cursor-pointer p-section border-[3px] shadow-[0_8px_32px_rgba(85,161,180,0.18)]',
-                  TONE_HERO_GRADIENT[tone],
-                  TONE_BORDER_500[tone],
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
-                ].join(' ')}
-                style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)',
-                }}
-              >
-                <div className="flex flex-col justify-center items-center h-full text-white text-center gap-stack-lg">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
-                    <span className="text-[1.75rem] leading-none" aria-hidden>
-                      {currentCard.front.icon}
-                    </span>
-                  </div>
-
-                  <p className="m-0 font-body text-h4 sm:text-h3 font-semibold leading-relaxed max-w-[600px]">
-                    {currentCard.back.content}
-                  </p>
-
-                  {currentCard.back.details && (
-                    <p className="m-0 font-body text-body-sm leading-relaxed opacity-90 max-w-[500px]">
-                      {currentCard.back.details}
-                    </p>
-                  )}
-                </div>
-              </button>
-            </div>
-          </div>
+          {/* ── Main flashcard (3D flip) ────────────────────────── */}
+          <FlipCard
+            front={currentCard.front}
+            back={currentCard.back}
+            isFlipped={isFlipped}
+            onFlip={handleFlip}
+            tone={tone}
+          />
 
           {/* ── Mark as understood (only when flipped + not done) ── */}
           {isFlipped && !completedCards.includes(currentCardIndex) && (

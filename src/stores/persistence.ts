@@ -175,6 +175,13 @@ export const useFilterPrefsStore = create<FilterPrefsState>()(
 
 /* ─── 5. Lesson progress (LessonPlayer) ─────────────────────────────────── */
 
+export interface ActionPlan {
+  objectif: string;
+  action1: string;
+  action2: string;
+  action3: string;
+}
+
 interface LessonProgressEntry {
   /** Last section index viewed. */
   lastSection: number;
@@ -184,6 +191,10 @@ interface LessonProgressEntry {
   totalSections: number;
   /** Last viewed timestamp (ms). */
   lastVisited: number;
+  /** Réfléchir section: keyed textarea answers (e.g. "q0", "q1"). */
+  reflections?: Record<string, string>;
+  /** Appliquer section: action plan fields. */
+  actionPlan?: ActionPlan;
 }
 
 interface LessonProgressState {
@@ -193,6 +204,10 @@ interface LessonProgressState {
   setSection: (lessonId: string, section: number, totalSections: number) => void;
   /** Mark section as completed. */
   completeSection: (lessonId: string, section: number) => void;
+  /** Persist a single reflection answer. */
+  setReflection: (lessonId: string, key: string, value: string) => void;
+  /** Persist the full action plan. */
+  setActionPlan: (lessonId: string, plan: ActionPlan) => void;
   /** Get entry for a lesson (or default if not started). */
   get: (lessonId: string) => LessonProgressEntry | null;
   /** Percent complete based on completed sections vs total. */
@@ -234,6 +249,31 @@ export const useLessonProgressStore = create<LessonProgressState>()(
                 completed: nextCompleted,
                 lastVisited: Date.now(),
               },
+            },
+          };
+        }),
+      setReflection: (lessonId, key, value) =>
+        set((state) => {
+          const existing = state.lessons[lessonId];
+          if (!existing) return state;
+          return {
+            lessons: {
+              ...state.lessons,
+              [lessonId]: {
+                ...existing,
+                reflections: { ...existing.reflections, [key]: value },
+              },
+            },
+          };
+        }),
+      setActionPlan: (lessonId, plan) =>
+        set((state) => {
+          const existing = state.lessons[lessonId];
+          if (!existing) return state;
+          return {
+            lessons: {
+              ...state.lessons,
+              [lessonId]: { ...existing, actionPlan: plan },
             },
           };
         }),
