@@ -379,3 +379,89 @@ export interface Correction {
   submittedAt: string;
   updatedAt: string;
 }
+
+// ─── Enterprise FO (Cahier #06) ──────────────────────────────────────────────
+
+/**
+ * Rôles utilisateur dans l'espace entreprise (Cahier #06 § Rôles).
+ * admin = DRH / responsable formation ; manager = responsable d'équipe ;
+ * member = collaborateur apprenant ; viewer = lecture seule (ex: coach externe)
+ */
+export type EnterpriseRole = 'admin' | 'manager' | 'member' | 'viewer';
+
+/** Statut d'invitation d'un membre */
+export type MemberStatus = 'active' | 'pending' | 'suspended';
+
+/** Membre d'une entreprise */
+export interface CompanyMember {
+  id: string;
+  companyId: string;
+  userId: string;
+  name: string;
+  email: string;
+  role: EnterpriseRole;
+  status: MemberStatus;
+  /** % de progression globale sur la plateforme */
+  progressPercent: number;
+  lastActiveAt?: string;
+  joinedAt: string;
+}
+
+/** Cohorte = groupe de membres sur un parcours commun (Cahier #06 § Cohortes) */
+export interface CompanyCohort {
+  id: string;
+  companyId: string;
+  name: string;
+  memberCount: number;
+  /** Niveau Dreyfus moyen de la cohorte */
+  avgDreyfusLevel: number;
+  coachName?: string;
+  learningPathId?: string;
+  createdAt: string;
+}
+
+/** Alerte manager (Cahier #06 § Alertes) */
+export type AlertSeverity = 'info' | 'warning' | 'danger';
+export type AlertType = 'atrophie' | 'budget' | 'deadline' | 'engagement';
+
+export interface ManagerAlert {
+  id: string;
+  companyId: string;
+  type: AlertType;
+  message: string;
+  severity: AlertSeverity;
+  createdAt: string;
+  /** true si l'admin a acknowledgedé l'alerte */
+  acknowledged?: boolean;
+}
+
+/** Statistiques globales de l'entreprise */
+export interface CompanyStats {
+  companyId: string;
+  activeMembers: number;
+  engagementRate: number;
+  activeFormations: number;
+  budgetUsedPercent: number;
+  totalHours: number;
+  completionRate: number;
+  updatedAt: string;
+}
+
+/** Projet de formation entreprise */
+export interface CompanyProject {
+  id: string;
+  companyId: string;
+  title: string;
+  team: string;
+  progressPercent: number;
+  status: 'on-track' | 'at-risk' | 'delayed' | 'completed';
+}
+
+/** Entreprise (tenant) */
+export interface Company {
+  id: string;
+  name: string;
+  plan: 'enterprise_standard' | 'enterprise_premium' | 'enterprise_custom';
+  maxSeats: number;
+  createdAt: string;
+}

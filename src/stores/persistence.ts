@@ -13,6 +13,7 @@
  *  - `useGamificationStore` (Cahier #05) : XPEvent + UserBadge + UserStreak
  *  - `useJournalStore` (Cahier #07) : JournalEntry (journal de bord réflexif)
  *  - `useCoachingStore` (Cahier #04) : CoachingSession + Correction
+ *  - `useEnterpriseStore` (Cahier #06) : CompanyMember + CompanyCohort + ManagerAlert + CompanyStats + CompanyProject
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -36,6 +37,11 @@ import type {
   JournalEntry,
   CoachingSession,
   Correction,
+  CompanyMember,
+  CompanyCohort,
+  ManagerAlert,
+  CompanyStats,
+  CompanyProject,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -49,6 +55,14 @@ import {
   MOCK_USER_BADGES,
   MOCK_USER_STREAK,
 } from '../data/gamification';
+import {
+  MOCK_COMPANY_MEMBERS,
+  MOCK_COMPANY_COHORTS,
+  MOCK_MANAGER_ALERTS,
+  MOCK_COMPANY_STATS,
+  MOCK_COMPANY_PROJECTS,
+  MOCK_COMPANY_ID,
+} from '../data/enterprise';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -772,6 +786,123 @@ export const useCoachingStore = create<CoachingState>()(
     }),
     {
       name: 'tls-coaching',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #12 — Enterprise (Cahier #06) ─────────────────────────────────────
+
+interface EnterpriseState {
+  members: Record<string, CompanyMember[]>;
+  cohorts: Record<string, CompanyCohort[]>;
+  alerts: Record<string, ManagerAlert[]>;
+  stats: Record<string, CompanyStats>;
+  projects: Record<string, CompanyProject[]>;
+  getMembers: (companyId: string) => CompanyMember[];
+  addMember: (member: CompanyMember) => void;
+  updateMember: (companyId: string, id: string, updates: Partial<CompanyMember>) => void;
+  getCohorts: (companyId: string) => CompanyCohort[];
+  getAlerts: (companyId: string) => ManagerAlert[];
+  acknowledgeAlert: (companyId: string, alertId: string) => void;
+  getStats: (companyId: string) => CompanyStats;
+  getProjects: (companyId: string) => CompanyProject[];
+  updateProject: (companyId: string, id: string, updates: Partial<CompanyProject>) => void;
+  clear: () => void;
+}
+
+export const useEnterpriseStore = create<EnterpriseState>()(
+  persist(
+    (set, get) => ({
+      members: {},
+      cohorts: {},
+      alerts: {},
+      stats: {},
+      projects: {},
+
+      getMembers: (companyId) => {
+        const existing = get().members[companyId];
+        if (existing) return existing;
+        const seeded = MOCK_COMPANY_MEMBERS.filter((m) => m.companyId === companyId);
+        set((state) => ({ members: { ...state.members, [companyId]: seeded } }));
+        return seeded;
+      },
+
+      addMember: (member) =>
+        set((state) => {
+          const existing = state.members[member.companyId] ?? [];
+          return { members: { ...state.members, [member.companyId]: [...existing, member] } };
+        }),
+
+      updateMember: (companyId, id, updates) =>
+        set((state) => ({
+          members: {
+            ...state.members,
+            [companyId]: (state.members[companyId] ?? []).map((m) =>
+              m.id === id ? { ...m, ...updates } : m
+            ),
+          },
+        })),
+
+      getCohorts: (companyId) => {
+        const existing = get().cohorts[companyId];
+        if (existing) return existing;
+        const seeded = MOCK_COMPANY_COHORTS.filter((c) => c.companyId === companyId);
+        set((state) => ({ cohorts: { ...state.cohorts, [companyId]: seeded } }));
+        return seeded;
+      },
+
+      getAlerts: (companyId) => {
+        const existing = get().alerts[companyId];
+        if (existing) return existing;
+        const seeded = MOCK_MANAGER_ALERTS.filter((a) => a.companyId === companyId);
+        set((state) => ({ alerts: { ...state.alerts, [companyId]: seeded } }));
+        return seeded;
+      },
+
+      acknowledgeAlert: (companyId, alertId) =>
+        set((state) => ({
+          alerts: {
+            ...state.alerts,
+            [companyId]: (state.alerts[companyId] ?? []).map((a) =>
+              a.id === alertId ? { ...a, acknowledged: true } : a
+            ),
+          },
+        })),
+
+      getStats: (companyId) => {
+        const existing = get().stats[companyId];
+        if (existing) return existing;
+        const fallback = MOCK_COMPANY_STATS.companyId === companyId
+          ? MOCK_COMPANY_STATS
+          : { ...MOCK_COMPANY_STATS, companyId };
+        set((state) => ({ stats: { ...state.stats, [companyId]: fallback } }));
+        return fallback;
+      },
+
+      getProjects: (companyId) => {
+        const existing = get().projects[companyId];
+        if (existing) return existing;
+        const seeded = MOCK_COMPANY_PROJECTS.filter((p) => p.companyId === companyId);
+        set((state) => ({ projects: { ...state.projects, [companyId]: seeded } }));
+        return seeded;
+      },
+
+      updateProject: (companyId, id, updates) =>
+        set((state) => ({
+          projects: {
+            ...state.projects,
+            [companyId]: (state.projects[companyId] ?? []).map((p) =>
+              p.id === id ? { ...p, ...updates } : p
+            ),
+          },
+        })),
+
+      clear: () => set({ members: {}, cohorts: {}, alerts: {}, stats: {}, projects: {} }),
+    }),
+    {
+      name: 'tls-enterprise',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

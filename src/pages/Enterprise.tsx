@@ -23,6 +23,9 @@ import type { SelectOption } from '../components/core/Select';
 import { FormGroup } from '../components/core/FormGroup';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { useEnterpriseStore } from '../stores/persistence';
+import { MOCK_COMPANY_ID } from '../data/enterprise';
+import type { EnterpriseRole } from '../types/learning';
 import {
   Building2,
   Users,
@@ -37,21 +40,12 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-/* ── Mock data ──────────────────────────────────────────────────────────── */
-
-const TEAM_MEMBERS = [
-  { name: 'Claire Dupont',  role: 'Manager',           progress: 82, lastActive: "Aujourd'hui",   tone: 'brand' as const },
-  { name: 'Marc Leroy',     role: 'Consultant Senior', progress: 67, lastActive: 'Hier',           tone: 'warm'  as const },
-  { name: 'Julie Petit',    role: 'Analyste',          progress: 45, lastActive: 'Il y a 3 jours', tone: 'sun'   as const },
-  { name: 'Thomas Renaud',  role: 'Chef de projet',    progress: 91, lastActive: "Aujourd'hui",   tone: 'brand' as const },
-];
-
-const ACCESS_USERS = [
-  { name: 'Claire Dupont',  email: 'claire@entreprise.fr',  role: 'Admin',  status: 'active'  as const },
-  { name: 'Marc Leroy',     email: 'marc@entreprise.fr',    role: 'Membre', status: 'active'  as const },
-  { name: 'Julie Petit',    email: 'julie@entreprise.fr',   role: 'Membre', status: 'active'  as const },
-  { name: 'Sophie Martin',  email: 'sophie@entreprise.fr',  role: 'Invité', status: 'pending' as const },
-];
+const ROLE_LABEL: Record<EnterpriseRole, string> = {
+  admin: 'Admin',
+  manager: 'Manager',
+  member: 'Membre',
+  viewer: 'Invité',
+};
 
 const REPORTS = [
   {
@@ -80,6 +74,21 @@ export const Enterprise: React.FC = () => {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('member');
 
+  const enterpriseStore = useEnterpriseStore();
+  const members = enterpriseStore.getMembers(MOCK_COMPANY_ID);
+  const stats = enterpriseStore.getStats(MOCK_COMPANY_ID);
+
+  const activeMembers = members.filter((m) => m.status === 'active');
+
+  const formatLastActive = (iso?: string) => {
+    if (!iso) return '–';
+    const diff = Date.now() - new Date(iso).getTime();
+    const days = Math.floor(diff / 86400000);
+    if (days === 0) return "Aujourd'hui";
+    if (days === 1) return 'Hier';
+    return `Il y a ${days} jours`;
+  };
+
   return (
     <div className="min-h-screen bg-surface">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
@@ -100,7 +109,7 @@ export const Enterprise: React.FC = () => {
             size="md"
             icon={<Users size={20} />}
             label="Collaborateurs"
-            value="24"
+            value={String(stats.activeMembers)}
             delta="+3 ce mois-ci"
             deltaDirection="up"
           />
@@ -109,7 +118,7 @@ export const Enterprise: React.FC = () => {
             size="md"
             icon={<Clock size={20} />}
             label="Heures de formation"
-            value="456"
+            value={String(stats.totalHours)}
             sub="h"
             delta="+18 % vs M-1"
             deltaDirection="up"
@@ -119,7 +128,7 @@ export const Enterprise: React.FC = () => {
             size="md"
             icon={<TrendingUp size={20} />}
             label="Taux de complétion"
-            value="72"
+            value={String(stats.completionRate)}
             sub="%"
             delta="+5 pts"
             deltaDirection="up"
@@ -130,7 +139,7 @@ export const Enterprise: React.FC = () => {
         <SectionCard
           title="Membres de l'équipe"
           titleIcon={<Users size={18} className="text-primary-600" />}
-          description={`${TEAM_MEMBERS.length} collaborateurs actifs`}
+          description={`${activeMembers.length} collaborateurs actifs`}
           headerAction={
             <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={13} />}>
               Voir tous
@@ -138,37 +147,41 @@ export const Enterprise: React.FC = () => {
           }
         >
           <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-6">
-            {TEAM_MEMBERS.map((m, idx) => (
-              <div
-                key={m.name}
-                className={[
-                  'flex items-center gap-4 px-5 sm:px-6 py-4',
-                  idx < TEAM_MEMBERS.length - 1 ? 'border-b border-ink-100' : '',
-                ].join(' ')}
-              >
-                <Avatar name={m.name} tint={m.tone === 'sun' ? 'sun' : m.tone === 'warm' ? 'warm' : 'brand'} size="md" />
-                <div className="flex-1 min-w-0">
-                  <p className="m-0 font-body text-body-sm font-bold text-ink-900 truncate">
-                    {m.name}
-                  </p>
-                  <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
-                    {m.role}
-                  </p>
-                </div>
-                <div className="hidden sm:flex flex-col gap-1 min-w-[140px] max-w-[200px] flex-1">
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-body text-micro text-ink-500">Progression</span>
-                    <span className="font-body text-micro font-bold text-primary-700 tabular-nums">
-                      {m.progress} %
-                    </span>
+            {activeMembers.map((m, idx) => {
+              const tones = ['brand', 'warm', 'sun', 'brand', 'warm'] as const;
+              const tone = tones[idx % tones.length];
+              return (
+                <div
+                  key={m.id}
+                  className={[
+                    'flex items-center gap-4 px-5 sm:px-6 py-4',
+                    idx < activeMembers.length - 1 ? 'border-b border-ink-100' : '',
+                  ].join(' ')}
+                >
+                  <Avatar name={m.name} tint={tone} size="md" />
+                  <div className="flex-1 min-w-0">
+                    <p className="m-0 font-body text-body-sm font-bold text-ink-900 truncate">
+                      {m.name}
+                    </p>
+                    <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
+                      {ROLE_LABEL[m.role]}
+                    </p>
                   </div>
-                  <ProgressBar value={m.progress} max={100} fill={m.tone === 'sun' ? 'sun' : m.tone === 'warm' ? 'warm' : 'brand'} size="sm" />
+                  <div className="hidden sm:flex flex-col gap-1 min-w-[140px] max-w-[200px] flex-1">
+                    <div className="flex justify-between items-baseline">
+                      <span className="font-body text-micro text-ink-500">Progression</span>
+                      <span className="font-body text-micro font-bold text-primary-700 tabular-nums">
+                        {m.progressPercent} %
+                      </span>
+                    </div>
+                    <ProgressBar value={m.progressPercent} max={100} fill={tone} size="sm" />
+                  </div>
+                  <span className="font-body text-caption text-ink-500 whitespace-nowrap shrink-0 hidden md:inline">
+                    {formatLastActive(m.lastActiveAt)}
+                  </span>
                 </div>
-                <span className="font-body text-caption text-ink-500 whitespace-nowrap shrink-0 hidden md:inline">
-                  {m.lastActive}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </SectionCard>
 
@@ -228,12 +241,12 @@ export const Enterprise: React.FC = () => {
           )}
 
           <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-6">
-            {ACCESS_USERS.map((u, idx) => (
+            {members.map((u, idx) => (
               <div
-                key={u.email}
+                key={u.id}
                 className={[
                   'flex flex-wrap items-center gap-4 px-5 sm:px-6 py-4',
-                  idx < ACCESS_USERS.length - 1 ? 'border-b border-ink-100' : '',
+                  idx < members.length - 1 ? 'border-b border-ink-100' : '',
                 ].join(' ')}
               >
                 <span className="shrink-0">
@@ -251,8 +264,8 @@ export const Enterprise: React.FC = () => {
                     {u.email}
                   </p>
                 </div>
-                <Badge variant={u.role === 'Admin' ? 'brand' : u.role === 'Invité' ? 'warm' : 'neutral'}>
-                  {u.role}
+                <Badge variant={u.role === 'admin' ? 'brand' : u.role === 'viewer' ? 'warm' : 'neutral'}>
+                  {ROLE_LABEL[u.role]}
                 </Badge>
                 <Badge variant={u.status === 'active' ? 'success' : 'warm'}>
                   {u.status === 'active' ? 'Actif' : 'En attente'}

@@ -13,41 +13,20 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { FilterChip } from '../components/ui/FilterChip';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
+import { useEnterpriseStore } from '../stores/persistence';
+import { MOCK_COMPANY_ID } from '../data/enterprise';
 
-// ─── Mock data ─────────────────────────────────────────────────────────────────
-
-const COMPANY_STATS = [
-  { label: 'Collaborateurs actifs', value: '47', delta: '+3', deltaDirection: 'up' as const },
-  { label: 'Taux d\'engagement', value: '78%', delta: '+5%', deltaDirection: 'up' as const },
-  { label: 'Formations actives', value: '12', delta: '', deltaDirection: 'up' as const },
-  { label: 'Budget utilisé', value: '62%', delta: '', deltaDirection: 'up' as const },
-];
-
-const TOP_PROJECTS = [
-  { title: 'Programme Leadership 2026', team: 'Direction', progress: 74, status: 'on-track' },
-  { title: 'Montée en compétences Data', team: 'Tech', progress: 48, status: 'at-risk' },
-  { title: 'Onboarding Q2 2026', team: 'RH', progress: 90, status: 'on-track' },
-];
-
-const ALERTS = [
-  { id: 1, type: 'atrophie', message: '3 collaborateurs inactifs depuis +90 jours', severity: 'warning' },
-  { id: 2, type: 'budget', message: 'Budget coaching à 80% de consommation', severity: 'warning' },
-  { id: 3, type: 'deadline', message: 'Certification "Leadership D4" échéance dans 14j', severity: 'danger' },
-];
-
-const COHORTS = [
-  { name: 'Direction Générale', count: 6, avg: 3.8, coach: 'Marie L.' },
-  { name: 'Équipe Tech', count: 14, avg: 3.2, coach: 'Thomas D.' },
-  { name: 'Équipe Commerciale', count: 18, avg: 2.9, coach: 'Amina B.' },
-  { name: 'Support & Ops', count: 9, avg: 2.5, coach: 'Paul M.' },
-];
+// ─── Component ────────────────────────────────────────────────────────────────
 
 const STATUS_STYLE = {
   'on-track': { label: 'En bonne voie', variant: 'success' as const },
   'at-risk': { label: 'À risque', variant: 'danger' as const },
+  'delayed': { label: 'En retard', variant: 'danger' as const },
+  'completed': { label: 'Terminé', variant: 'neutral' as const },
 };
 
 const SEVERITY_STYLE = {
+  info: 'bg-info-bg text-info-fg border-info-border',
   warning: 'bg-warning-bg text-warning-fg border-warning-border',
   danger: 'bg-danger-bg text-danger-fg border-danger-border',
 };
@@ -58,10 +37,21 @@ const TABS = [
   { id: 'budget', label: 'Budget & Licences' },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 export default function ManagerEnterprise() {
   const [activeTab, setActiveTab] = useState('overview');
+
+  const enterpriseStore = useEnterpriseStore();
+  const stats = enterpriseStore.getStats(MOCK_COMPANY_ID);
+  const alerts = enterpriseStore.getAlerts(MOCK_COMPANY_ID).filter((a) => !a.acknowledged);
+  const projects = enterpriseStore.getProjects(MOCK_COMPANY_ID);
+  const cohorts = enterpriseStore.getCohorts(MOCK_COMPANY_ID);
+
+  const COMPANY_STATS = [
+    { label: 'Collaborateurs actifs', value: String(stats.activeMembers), delta: '+3', deltaDirection: 'up' as const },
+    { label: 'Taux d\'engagement', value: `${stats.engagementRate}%`, delta: '+5%', deltaDirection: 'up' as const },
+    { label: 'Formations actives', value: String(stats.activeFormations), delta: '', deltaDirection: 'up' as const },
+    { label: 'Budget utilisé', value: `${stats.budgetUsedPercent}%`, delta: '', deltaDirection: 'up' as const },
+  ];
 
   return (
     <div className="flex flex-col gap-section">
@@ -94,16 +84,18 @@ export default function ManagerEnterprise() {
         </div>
 
         {/* Alerts */}
-        {ALERTS.length > 0 && (
+        {alerts.length > 0 && (
           <div className="flex flex-col gap-2">
-            {ALERTS.map((a) => (
+            {alerts.map((a) => (
               <div
                 key={a.id}
-                className={`flex items-center gap-3 p-3 rounded-lg border ${SEVERITY_STYLE[a.severity as keyof typeof SEVERITY_STYLE]}`}
+                className={`flex items-center gap-3 p-3 rounded-lg border ${SEVERITY_STYLE[a.severity]}`}
               >
                 <AlertTriangle size={16} className="shrink-0" />
                 <span className="text-body-sm flex-1">{a.message}</span>
-                <Button variant="ghost" size="sm">Voir</Button>
+                <Button variant="ghost" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
+                  Ignorer
+                </Button>
               </div>
             ))}
           </div>
@@ -121,10 +113,10 @@ export default function ManagerEnterprise() {
               headerAction={<Button variant="ghost" size="sm">Tout voir</Button>}
             >
               <div className="flex flex-col gap-stack">
-                {TOP_PROJECTS.map((p, i) => {
-                  const s = STATUS_STYLE[p.status as keyof typeof STATUS_STYLE];
+                {projects.map((p) => {
+                  const s = STATUS_STYLE[p.status];
                   return (
-                    <Card key={i} className="p-4 flex flex-col gap-2">
+                    <Card key={p.id} className="p-4 flex flex-col gap-2">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex flex-col gap-0.5">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
@@ -132,7 +124,7 @@ export default function ManagerEnterprise() {
                         </div>
                         <Badge variant={s.variant} size="sm">{s.label}</Badge>
                       </div>
-                      <ProgressBar value={p.progress} fill="brand" size="sm" showLabel label={`${p.progress}%`} />
+                      <ProgressBar value={p.progressPercent} fill="brand" size="sm" showLabel label={`${p.progressPercent}%`} />
                     </Card>
                   );
                 })}
@@ -145,18 +137,18 @@ export default function ManagerEnterprise() {
               headerAction={<Button variant="ghost" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
-                {COHORTS.map((c, i) => (
-                  <Card key={i} className="p-4 flex flex-col gap-2">
+                {cohorts.map((c) => (
+                  <Card key={c.id} className="p-4 flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
-                      <span className="text-caption text-ink-400">{c.count} membres</span>
+                      <span className="text-caption text-ink-400">{c.memberCount} membres</span>
                     </div>
                     <div className="flex items-center gap-2 text-caption text-ink-500">
-                      <span>Dreyfus moy. : <strong className="text-ink-800">{c.avg}</strong></span>
+                      <span>Dreyfus moy. : <strong className="text-ink-800">{c.avgDreyfusLevel}</strong></span>
                       <span>·</span>
-                      <span>Coach : {c.coach}</span>
+                      <span>Coach : {c.coachName ?? '–'}</span>
                     </div>
-                    <ProgressBar value={(c.avg / 5) * 100} fill="brand" size="sm" />
+                    <ProgressBar value={(c.avgDreyfusLevel / 5) * 100} fill="brand" size="sm" />
                   </Card>
                 ))}
               </div>
@@ -168,14 +160,14 @@ export default function ManagerEnterprise() {
         {activeTab === 'cohorts' && (
           <div className="flex flex-col gap-stack">
             <SectionHeader title="Gestion des cohortes" icon={<Users size={20} />} tone="primary" />
-            {COHORTS.map((c, i) => (
-              <Card key={i} className="p-4 flex items-center gap-4">
+            {cohorts.map((c) => (
+              <Card key={c.id} className="p-4 flex items-center gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
-                    <Badge variant="neutral" size="sm">{c.count} membres</Badge>
+                    <Badge variant="neutral" size="sm">{c.memberCount} membres</Badge>
                   </div>
-                  <div className="text-caption text-ink-400">Coach : {c.coach} · Dreyfus moy. {c.avg}/5</div>
+                  <div className="text-caption text-ink-400">Coach : {c.coachName ?? '–'} · Dreyfus moy. {c.avgDreyfusLevel}/5</div>
                 </div>
                 <Button variant="brand-ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                   Détail
@@ -204,7 +196,7 @@ export default function ManagerEnterprise() {
                     <p className="text-h3 font-display font-bold text-success-fg">18 240 €</p>
                   </Card>
                 </div>
-                <ProgressBar value={62} fill="warm" size="lg" showLabel label="62% consommé" />
+                <ProgressBar value={stats.budgetUsedPercent} fill="warm" size="lg" showLabel label={`${stats.budgetUsedPercent}% consommé`} />
                 <Button variant="brand-ghost" size="sm" leadingIcon={<Download size={14} />}>
                   Exporter rapport budget
                 </Button>
