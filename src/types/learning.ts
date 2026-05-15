@@ -106,6 +106,73 @@ export type ProgressionMode = 'STRICT' | 'FLEXIBLE' | 'FREE';
 
 export type ParcoursScope = 'Global' | 'Company';
 
+// ─── Passeport Compétences (Cahier #02) ──────────────────────────────────────
+
+/**
+ * Niveau courant d'un apprenant pour une compétence donnée.
+ * Agrégé dans le Passeport (snapshot "maintenant").
+ */
+export interface LearnerCompetency {
+  userId: string;
+  competenceId: string;
+  /** Niveau Dreyfus actuel (1–5) */
+  currentLevel: DreyfusLevel;
+  /** Niveau cible (objectif) */
+  targetLevel?: DreyfusLevel;
+  /** Points XP accumulés sur cette compétence */
+  points: number;
+  /** Points XP nécessaires pour passer au niveau suivant */
+  nextLevelPoints: number;
+  /** Jours depuis la dernière activité sur cette compétence (atrophie) */
+  daysSinceActivity: number;
+  /** ISO timestamp de la dernière mise à jour */
+  lastUpdated: string;
+}
+
+/**
+ * Objectif de montée en niveau sur une compétence.
+ * Créé par l'apprenant (ou suggéré par le coach/IA).
+ */
+export interface CompetencyObjective {
+  id: string;
+  userId: string;
+  competenceId: string;
+  /** Niveau Dreyfus à atteindre */
+  targetLevel: DreyfusLevel;
+  /** Niveau au moment de la création */
+  startLevel: DreyfusLevel;
+  status: 'active' | 'draft' | 'completed' | 'abandoned';
+  /** ISO deadline */
+  deadline: string;
+  /** Jalons intermédiaires */
+  milestones: Array<{
+    id: string;
+    label: string;
+    done: boolean;
+  }>;
+  /** 0–100 progression % calculée côté FO */
+  progressPct: number;
+  createdAt: string;
+}
+
+/**
+ * Événement dans la timeline du Passeport.
+ * Représente une progression Dreyfus, JAC validé, mission, ou formation.
+ */
+export interface CompetencyProgression {
+  id: string;
+  userId: string;
+  type: 'dreyfus-up' | 'jac' | 'mission' | 'formation';
+  competenceId: string;
+  /** Libellé humain pour affichage timeline */
+  title: string;
+  detail: string;
+  /** Niveau Dreyfus si type = dreyfus-up */
+  newLevel?: DreyfusLevel;
+  /** ISO date de l'événement */
+  occurredAt: string;
+}
+
 // ─── Positionnement (résultat utilisateur, Cahier #01) ───────────────────────
 
 export interface PositioningAnswer {

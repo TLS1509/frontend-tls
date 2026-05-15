@@ -8,6 +8,7 @@
  *  - `useFilterPrefsStore`           : filter selections (Veille, Notifications, Messages)
  *  - `useLessonProgressStore`        : dernière section vue par leçon (LessonPlayer)
  *  - `usePositioningStore` (Cahier #01) : UserPositioningResult (parcours positioning quiz results)
+ *  - `usePasseportStore` (Cahier #02) : LearnerCompetency + CompetencyObjective (Passeport)
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -16,7 +17,18 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { UserPositioningResult, PositioningAnswer } from '../types/learning';
+import type {
+  UserPositioningResult,
+  PositioningAnswer,
+  LearnerCompetency,
+  CompetencyObjective,
+} from '../types/learning';
+import {
+  MOCK_LEARNER_COMPETENCIES,
+  MOCK_COMPETENCY_OBJECTIVES,
+  MOCK_COMPETENCY_PROGRESSIONS,
+} from '../data/passeport';
+import type { CompetencyProgression } from '../types/learning';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -349,6 +361,122 @@ export const usePositioningStore = create<PositioningState>()(
     }),
     {
       name: 'tls-positioning',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+/* ─── 7. Passeport Compétences (Cahier #02) ──────────────────────────────── */
+
+interface PasseportState {
+  /** Map userId → LearnerCompetency[] */
+  competencies: Record<string, LearnerCompetency[]>;
+  /** Map userId → CompetencyObjective[] */
+  objectives: Record<string, CompetencyObjective[]>;
+  /** Map userId → CompetencyProgression[] (timeline) */
+  progressions: Record<string, CompetencyProgression[]>;
+
+  /** Get all competency entries for a user (seeds from mock if not yet set). */
+  getCompetencies: (userId: string) => LearnerCompetency[];
+  /** Update one competency entry. */
+  setCompetency: (entry: LearnerCompetency) => void;
+
+  /** Get all objectives for a user. */
+  getObjectives: (userId: string) => CompetencyObjective[];
+  /** Upsert an objective (create or update by id). */
+  setObjective: (objective: CompetencyObjective) => void;
+  /** Delete an objective by id. */
+  deleteObjective: (userId: string, objectiveId: string) => void;
+
+  /** Get progression timeline for a user (seeds from mock if not yet set). */
+  getProgressions: (userId: string) => CompetencyProgression[];
+  /** Append a progression event. */
+  addProgression: (event: CompetencyProgression) => void;
+
+  /** Reset all Passeport data (useful for testing). */
+  clear: () => void;
+}
+
+export const usePasseportStore = create<PasseportState>()(
+  persist(
+    (set, get) => ({
+      competencies: {},
+      objectives: {},
+      progressions: {},
+
+      getCompetencies: (userId) => {
+        const existing = get().competencies[userId];
+        if (existing) return existing;
+        // Seed from mock on first access
+        const seeded = MOCK_LEARNER_COMPETENCIES.filter((c) => c.userId === userId);
+        const fallback = seeded.length > 0 ? seeded : MOCK_LEARNER_COMPETENCIES;
+        set((state) => ({ competencies: { ...state.competencies, [userId]: fallback } }));
+        return fallback;
+      },
+
+      setCompetency: (entry) =>
+        set((state) => {
+          const existing = state.competencies[entry.userId] ?? [];
+          const updated = existing.some((c) => c.competenceId === entry.competenceId)
+            ? existing.map((c) => (c.competenceId === entry.competenceId ? entry : c))
+            : [...existing, entry];
+          return { competencies: { ...state.competencies, [entry.userId]: updated } };
+        }),
+
+      getObjectives: (userId) => {
+        const existing = get().objectives[userId];
+        if (existing) return existing;
+        const seeded = MOCK_COMPETENCY_OBJECTIVES.filter((o) => o.userId === userId);
+        const fallback = seeded.length > 0 ? seeded : MOCK_COMPETENCY_OBJECTIVES;
+        set((state) => ({ objectives: { ...state.objectives, [userId]: fallback } }));
+        return fallback;
+      },
+
+      setObjective: (objective) =>
+        set((state) => {
+          const existing = state.objectives[objective.userId] ?? [];
+          const updated = existing.some((o) => o.id === objective.id)
+            ? existing.map((o) => (o.id === objective.id ? objective : o))
+            : [...existing, objective];
+          return { objectives: { ...state.objectives, [objective.userId]: updated } };
+        }),
+
+      deleteObjective: (userId, objectiveId) =>
+        set((state) => {
+          const existing = state.objectives[userId] ?? [];
+          return {
+            objectives: {
+              ...state.objectives,
+              [userId]: existing.filter((o) => o.id !== objectiveId),
+            },
+          };
+        }),
+
+      getProgressions: (userId) => {
+        const existing = get().progressions[userId];
+        if (existing) return existing;
+        const seeded = MOCK_COMPETENCY_PROGRESSIONS.filter((p) => p.userId === userId);
+        const fallback = seeded.length > 0 ? seeded : MOCK_COMPETENCY_PROGRESSIONS;
+        set((state) => ({ progressions: { ...state.progressions, [userId]: fallback } }));
+        return fallback;
+      },
+
+      addProgression: (event) =>
+        set((state) => {
+          const existing = state.progressions[event.userId] ?? [];
+          return {
+            progressions: {
+              ...state.progressions,
+              [event.userId]: [event, ...existing],
+            },
+          };
+        }),
+
+      clear: () => set({ competencies: {}, objectives: {}, progressions: {} }),
+    }),
+    {
+      name: 'tls-passeport',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }
