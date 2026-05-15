@@ -1,122 +1,141 @@
-import { Users, Award, CheckCircle, TrendingUp, BookOpen, BarChart2, Target } from 'lucide-react';
-import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
-import StatCard from '../components/ui/StatCard';
-import Badge from '../components/ui/Badge';
-import Avatar from '../components/ui/Avatar';
-import { ProgressBar } from '../components/ui/ProgressBar';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, TrendingUp, Award, Target, Users } from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionCard } from '../components/patterns/SectionCard';
+import { StatCard } from '../components/ui/StatCard';
+import { Avatar } from '../components/ui/Avatar';
+import { useProjectsStore } from '../stores/persistence';
 
-const competences = [
-  { name: 'Analyse de données', fill: 78, niveau: 'D3', membres: 5 },
-  { name: 'Communication écrite', fill: 90, niveau: 'D4', membres: 7 },
-  { name: 'Gestion de projet', fill: 55, niveau: 'D2', membres: 4 },
-  { name: 'Pensée critique', fill: 65, niveau: 'D3', membres: 6 },
-  { name: 'Facilitation', fill: 40, niveau: 'D1', membres: 3 },
-];
+const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
-const niveauVariant: Record<string, 'brand' | 'warm' | 'sun' | 'success' | 'neutral'> = {
-  D1: 'neutral',
-  D2: 'info' as any,
-  D3: 'brand',
-  D4: 'warm',
-  D5: 'success',
+const SOURCE_LABELS: Record<string, string> = {
+  project_task: 'Tâche projet',
+  jac: 'JAC',
+  manual: 'Manuel',
 };
 
-const activites = [
-  { nom: 'Marie Dupont', action: 'a validé', competence: 'Analyse de données', date: '13 mai 2026', initiales: 'MD' },
-  { nom: 'Thomas Roux', action: 'a progressé en', competence: 'Communication écrite', date: '12 mai 2026', initiales: 'TR' },
-  { nom: 'Lucie Bernard', action: 'a atteint D3 en', competence: 'Gestion de projet', date: '11 mai 2026', initiales: 'LB' },
-  { nom: 'Ahmed Saïd', action: 'a débuté', competence: 'Facilitation', date: '10 mai 2026', initiales: 'AS' },
-  { nom: 'Claire Martin', action: 'a obtenu un badge en', competence: 'Pensée critique', date: '9 mai 2026', initiales: 'CM' },
-];
+export const ProjectPasseportFeed: React.FC = () => {
+  const { id: projectId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const store = useProjectsStore();
 
-export default function ProjectPasseportFeed() {
+  const enrichments = projectId ? store.getEnrichments(projectId) : [];
+  const teamMembers = projectId ? store.getTeamMembers(projectId) : [];
+
+  // Aggregate per collaborator
+  const collaboratorMap = new Map<string, { name: string; initials: string; count: number; competencies: string[] }>();
+  enrichments.forEach((e) => {
+    const existing = collaboratorMap.get(e.collaboratorId);
+    if (existing) {
+      existing.count += 1;
+      if (!existing.competencies.includes(e.competencyName)) {
+        existing.competencies.push(e.competencyName);
+      }
+    } else {
+      collaboratorMap.set(e.collaboratorId, {
+        name: e.collaboratorName,
+        initials: e.collaboratorInitials,
+        count: 1,
+        competencies: [e.competencyName],
+      });
+    }
+  });
+
+  const uniqueCompetencies = [...new Set(enrichments.map((e) => e.competencyName))];
+  const totalGain = enrichments.reduce((sum, e) => sum + (e.newDreyfusLevel - e.oldDreyfusLevel), 0);
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+
   return (
-    <div className="flex flex-col gap-section">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div>
+        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          Retour au projet
+        </Button>
+      </div>
+
       <EditorialHero
-        eyebrow="Projet · Passeport"
-        title="Feed Compétences du Projet"
-        summary="Visualisez les compétences mobilisées, les niveaux Dreyfus atteints et la progression collective de votre équipe."
-        tone="default"
+        eyebrow={{ label: 'Projet · Passeport' }}
+        title="Feed Passeport Compétences"
+        summary="Enrichissements Dreyfus générés par le projet — progressions validées par les experts."
+        tone="brand"
       />
 
-      <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-stack lg:grid-cols-4">
-          <StatCard
-            label="Compétences mobilisées"
-            value="12"
-            icon={<BookOpen size={20} />}
-            tone="brand"
-          />
-          <StatCard
-            label="Membres actifs"
-            value="8"
-            icon={<Users size={20} />}
-            tone="neutral"
-          />
-          <StatCard
-            label="Validations Dreyfus"
-            value="34"
-            icon={<CheckCircle size={20} />}
-            tone="brand"
-          />
-          <StatCard
-            label="Badges obtenus"
-            value="17"
-            icon={<Award size={20} />}
-            tone="warm"
-          />
-        </div>
-
-        {/* Compétences mobilisées */}
-        <SectionCard
-          titleIcon={<BarChart2 size={18} className="text-primary-600" />}
-          title="Compétences mobilisées"
-          description="Niveaux Dreyfus agrégés de l'équipe pour les compétences clés du projet."
-        >
-          <ul className="flex flex-col gap-stack-lg divide-y divide-ink-100">
-            {competences.map((c) => (
-              <li key={c.name} className="flex flex-col gap-stack-xs pt-stack-xs first:pt-0">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-body-sm font-semibold text-ink-900">{c.name}</span>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Badge variant={niveauVariant[c.niveau] ?? 'brand'} size="sm">{c.niveau}</Badge>
-                    <span className="text-caption text-ink-400 flex items-center gap-1">
-                      <Users size={12} />
-                      {c.membres}
-                    </span>
-                  </div>
-                </div>
-                <ProgressBar value={c.fill} fill="brand" size="sm" />
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
-
-        {/* Activité récente */}
-        <SectionCard
-          titleIcon={<TrendingUp size={18} className="text-primary-600" />}
-          title="Activité récente"
-          description="Les dernières actions de progression des membres de l'équipe."
-        >
-          <ul className="flex flex-col gap-stack divide-y divide-ink-100">
-            {activites.map((a, i) => (
-              <li key={i} className="flex items-start gap-3 pt-stack first:pt-0">
-                <Avatar name={a.nom} initials={a.initiales} size="sm" />
-                <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <p className="text-body-sm text-ink-900 m-0">
-                    <span className="font-semibold">{a.nom}</span>{' '}
-                    <span className="text-ink-500">{a.action}</span>{' '}
-                    <span className="text-primary-700 font-medium">{a.competence}</span>
-                  </p>
-                  <span className="text-caption text-ink-400">{a.date}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
+        <StatCard label="Enrichissements" value={enrichments.length} icon={<TrendingUp size={20} />} variant="brand" />
+        <StatCard label="Compétences enrichies" value={uniqueCompetencies.length} icon={<Target size={20} />} variant="warm" />
+        <StatCard label="Collaborateurs enrichis" value={collaboratorMap.size} icon={<Users size={20} />} variant="default" />
+        <StatCard label="Niveaux Dreyfus gagnés" value={totalGain} icon={<Award size={20} />} variant="default" />
       </div>
+
+      {enrichments.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-section gap-stack text-center">
+          <TrendingUp size={40} className="text-ink-300" />
+          <p className="text-body-sm text-ink-500 m-0">Aucun enrichissement Passeport pour ce projet.</p>
+          <p className="text-caption text-ink-400 m-0">Les enrichissements apparaîtront quand des JAC seront validés.</p>
+        </div>
+      ) : (
+        <>
+          {/* Feed chronologique */}
+          <SectionCard
+            title="Enrichissements récents"
+            titleIcon={<TrendingUp size={18} />}
+            description={`${enrichments.length} progression(s) validée(s)`}
+          >
+            <div className="flex flex-col gap-stack-xs">
+              {enrichments.map((e) => (
+                <div key={e.id} className="flex items-center gap-stack p-4 rounded-lg bg-success-bg border border-success-base/20">
+                  <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-body-sm font-semibold text-ink-900 m-0">
+                      {e.collaboratorName} — {e.competencyName}
+                    </p>
+                    <p className="text-caption text-success-fg m-0">
+                      D{e.oldDreyfusLevel} ({DREYFUS_LABELS[e.oldDreyfusLevel]}) → D{e.newDreyfusLevel} ({DREYFUS_LABELS[e.newDreyfusLevel]})
+                      · validé par {e.verifiedByName} · {formatDate(e.verifiedAt)}
+                    </p>
+                    <p className="text-caption text-ink-500 m-0">{SOURCE_LABELS[e.sourceType] ?? e.sourceType}</p>
+                  </div>
+                  <Badge variant="success">+{e.newDreyfusLevel - e.oldDreyfusLevel}</Badge>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+
+          {/* Synthèse par collaborateur */}
+          {collaboratorMap.size > 0 && (
+            <SectionCard
+              title="Synthèse par collaborateur"
+              titleIcon={<Users size={18} />}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
+                {[...collaboratorMap.values()].map((c) => (
+                  <div key={c.name} className="flex flex-col gap-stack-xs p-4 rounded-lg border border-ink-100 bg-ink-50">
+                    <div className="flex items-center gap-3">
+                      <Avatar initials={c.initials} size="md" tint="brand" />
+                      <div>
+                        <p className="text-body-sm font-semibold text-ink-900 m-0">{c.name}</p>
+                        <p className="text-caption text-ink-500 m-0">{c.count} enrichissement(s)</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {c.competencies.map((comp) => (
+                        <Badge key={comp} variant="brand">{comp}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+          )}
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default ProjectPasseportFeed;

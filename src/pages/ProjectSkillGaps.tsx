@@ -1,133 +1,191 @@
-import { AlertTriangle, BookOpen, UserCheck, Link2, BarChart2 } from 'lucide-react';
-import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
-import Badge from '../components/ui/Badge';
-import Alert from '../components/ui/Alert';
-import { ProgressBar } from '../components/ui/ProgressBar';
-import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, AlertTriangle, CheckCircle2, Target, BarChart2 } from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { Badge } from '../components/ui/Badge';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionCard } from '../components/patterns/SectionCard';
+import { StatCard } from '../components/ui/StatCard';
+import { useProjectsStore } from '../stores/persistence';
+import type { DreyfusLevel } from '../types/learning';
 
-const critiques = [
-  { nom: 'Architecture logicielle', requis: 'D4', actuel: 'D2', gap: 2 },
-  { nom: 'Sécurité des données', requis: 'D3', actuel: 'D1', gap: 2 },
-  { nom: 'DevOps & CI/CD', requis: 'D3', actuel: 'D2', gap: 1 },
-];
+const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
-const recommandations = [
-  {
-    type: 'parcours' as const,
-    label: 'Parcours',
-    texte: 'Parcours "Architecture logicielle avancée" — niveau D3→D4 · 8h',
-    icon: <BookOpen size={16} />,
-  },
-  {
-    type: 'coach' as const,
-    label: 'Coach',
-    texte: 'Jean-Marc Lebrun · Expert sécurité — disponible pour coaching individuel',
-    icon: <UserCheck size={16} />,
-  },
-  {
-    type: 'ressource' as const,
-    label: 'Ressource',
-    texte: 'Guide pratique DevOps CI/CD · 3 modules · évaluation Dreyfus incluse',
-    icon: <Link2 size={16} />,
-  },
-];
+export const ProjectSkillGaps: React.FC = () => {
+  const { id: projectId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const store = useProjectsStore();
 
-const toutesCompetences = [
-  { nom: 'Architecture logicielle', fill: 35, statut: 'gap' as const },
-  { nom: 'Sécurité des données', fill: 20, statut: 'gap' as const },
-  { nom: 'DevOps & CI/CD', fill: 55, statut: 'gap' as const },
-  { nom: 'Communication écrite', fill: 90, statut: 'ok' as const },
-  { nom: 'Gestion de projet', fill: 75, statut: 'ok' as const },
-  { nom: 'Analyse de données', fill: 78, statut: 'ok' as const },
-];
+  const project = store.getProject(projectId ?? '');
+  const teamMembers = projectId ? store.getTeamMembers(projectId) : [];
+  const collaborateurs = teamMembers.filter((m) => m.role === 'collaborateur');
 
-const niveauVariant: Record<string, 'brand' | 'warm' | 'neutral'> = {
-  D1: 'neutral',
-  D2: 'neutral',
-  D3: 'brand',
-  D4: 'warm',
-  D5: 'warm',
-};
+  if (!project) {
+    return (
+      <div className="max-w-page mx-auto px-4 py-section">
+        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+          Retour au projet
+        </Button>
+      </div>
+    );
+  }
 
-export default function ProjectSkillGaps() {
+  // Compute gaps per required competency
+  type GapEntry = {
+    competencyId: string;
+    competencyName: string;
+    required: DreyfusLevel;
+    requiredCount: number;
+    membersAtLevel: { name: string; initials: string; current: DreyfusLevel }[];
+    gap: boolean;
+  };
+
+  const gapEntries: GapEntry[] = project.skillProfile.map((req) => {
+    const membersAtLevel = collaborateurs
+      .map((m) => ({
+        name: m.name,
+        initials: m.initials,
+        current: (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel,
+      }))
+      .filter((m) => m.current >= req.dreyfusLevelRequired);
+
+    return {
+      competencyId: req.competencyId,
+      competencyName: req.competencyName,
+      required: req.dreyfusLevelRequired,
+      requiredCount: req.count,
+      membersAtLevel,
+      gap: membersAtLevel.length < req.count,
+    };
+  });
+
+  const criticalGaps = gapEntries.filter((e) => e.gap);
+  const coveredSkills = gapEntries.filter((e) => !e.gap);
+
   return (
-    <div className="flex flex-col gap-section">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div>
+        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          Retour au projet
+        </Button>
+      </div>
+
       <EditorialHero
-        eyebrow="Projet · Analyse"
-        title="Lacunes de Compétences"
-        summary="Identifiez les gaps entre les compétences requises pour le projet et les niveaux actuels de l'équipe."
-        tone="default"
+        eyebrow={{ label: 'Projet · Analyse' }}
+        title="Lacunes de compétences"
+        summary={`Comparaison entre les niveaux Dreyfus requis par le projet et les niveaux actuels de l'équipe.`}
+        tone="brand"
       />
 
-      <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">
-        <Alert variant="warning" title="3 compétences critiques manquantes pour ce projet">
-          Des gaps importants ont été détectés. Des actions correctives sont recommandées avant le lancement du projet.
-        </Alert>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-stack-xs">
+        <StatCard label="Compétences requises" value={gapEntries.length} icon={<Target size={20} />} variant="brand" />
+        <StatCard label="Gaps critiques" value={criticalGaps.length} icon={<AlertTriangle size={20} />} variant={criticalGaps.length > 0 ? 'warm' : 'default'} />
+        <StatCard label="Couvertes" value={coveredSkills.length} icon={<CheckCircle2 size={20} />} variant="default" />
+      </div>
 
-        {/* Gaps critiques */}
+      {criticalGaps.length > 0 && (
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
+          <AlertTriangle size={16} className="text-warning-fg mt-0.5 shrink-0" />
+          <p className="text-body-sm font-semibold text-warning-fg m-0">
+            {criticalGaps.length} compétence(s) insuffisamment couvertes — des recrutements ou formations sont recommandés avant le lancement.
+          </p>
+        </div>
+      )}
+
+      {/* Gaps critiques */}
+      {criticalGaps.length > 0 && (
         <SectionCard
-          titleIcon={<AlertTriangle size={18} className="text-warning-fg" />}
           title="Gaps critiques"
-          description="Compétences dont le niveau actuel de l'équipe est inférieur au niveau requis."
+          titleIcon={<AlertTriangle size={18} />}
+          description="Compétences dont le nombre de membres qualifiés est inférieur au requis"
         >
-          <ul className="flex flex-col gap-stack divide-y divide-ink-100">
-            {critiques.map((c) => (
-              <li key={c.nom} className="flex flex-col gap-stack-xs pt-stack first:pt-0 sm:flex-row sm:items-center sm:justify-between">
-                <span className="text-body-sm font-semibold text-ink-900 flex-1">{c.nom}</span>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-caption text-ink-500">Requis</span>
-                  <Badge variant={niveauVariant[c.requis] ?? 'brand'} size="sm">{c.requis}</Badge>
-                  <span className="text-caption text-ink-500">Actuel</span>
-                  <Badge variant="neutral" size="sm">{c.actuel}</Badge>
-                  <Badge variant="danger" size="sm">−{c.gap} niveau{c.gap > 1 ? 'x' : ''}</Badge>
+          <div className="flex flex-col gap-stack-xs">
+            {criticalGaps.map((entry) => {
+              const deficit = entry.requiredCount - entry.membersAtLevel.length;
+              return (
+                <div key={entry.competencyId} className="p-4 rounded-lg border border-warning-base/30 bg-warning-bg flex flex-col gap-stack-xs">
+                  <div className="flex items-center justify-between gap-stack flex-wrap">
+                    <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
+                    <div className="flex items-center gap-stack-xs">
+                      <Badge variant="brand">D{entry.required}+ requis ({DREYFUS_LABELS[entry.required]})</Badge>
+                      <Badge variant="danger">−{deficit} membre(s)</Badge>
+                    </div>
+                  </div>
+                  <p className="text-caption text-ink-600 m-0">
+                    {entry.membersAtLevel.length}/{entry.requiredCount} membres au niveau requis
+                    {entry.membersAtLevel.length > 0 && (
+                      <> · Qualifiés : {entry.membersAtLevel.map((m) => `${m.name} (D${m.current})`).join(', ')}</>
+                    )}
+                  </p>
                 </div>
-              </li>
-            ))}
-          </ul>
+              );
+            })}
+          </div>
         </SectionCard>
+      )}
 
-        {/* Recommandations IA */}
+      {/* Compétences couvertes */}
+      {coveredSkills.length > 0 && (
         <SectionCard
-          titleIcon={<BookOpen size={18} className="text-primary-600" />}
-          title="Recommandations IA"
-          description="Parcours, coaches et ressources suggérés pour combler les lacunes identifiées."
-          headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
+          title="Compétences couvertes"
+          titleIcon={<CheckCircle2 size={18} />}
+          description="Compétences suffisamment couvertes par l'équipe actuelle"
         >
-          <ul className="flex flex-col gap-stack">
-            {recommandations.map((r, i) => (
-              <li key={i} className="flex items-start gap-3 rounded-lg bg-ink-50 p-3">
-                <span className="shrink-0 mt-0.5 text-primary-600">{r.icon}</span>
-                <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <Badge variant="brand" size="sm" className="self-start">{r.label}</Badge>
-                  <p className="text-body-sm text-ink-700 m-0">{r.texte}</p>
+          <div className="flex flex-col gap-stack-xs">
+            {coveredSkills.map((entry) => (
+              <div key={entry.competencyId} className="p-3 rounded-lg border border-success-base/30 bg-success-bg flex items-center justify-between gap-stack flex-wrap">
+                <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
+                <div className="flex items-center gap-stack-xs">
+                  <Badge variant="brand">D{entry.required}+ ({DREYFUS_LABELS[entry.required]})</Badge>
+                  <Badge variant="success">{entry.membersAtLevel.length}/{entry.requiredCount} membres</Badge>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
-
-        {/* Toutes les compétences */}
-        <SectionCard
-          titleIcon={<BarChart2 size={18} className="text-primary-600" />}
-          title="Toutes les compétences"
-          description="Vue d'ensemble de la couverture des compétences requises par le projet."
-        >
-          <div className="grid grid-cols-1 gap-stack sm:grid-cols-2">
-            {toutesCompetences.map((c) => (
-              <div key={c.nom} className="flex flex-col gap-stack-xs">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-body-sm font-medium text-ink-800">{c.nom}</span>
-                  <Badge variant={c.statut === 'ok' ? 'success' : 'danger'} size="sm">
-                    {c.statut === 'ok' ? 'Couvert' : 'Gap'}
-                  </Badge>
-                </div>
-                <ProgressBar value={c.fill} fill={c.statut === 'ok' ? 'success' : 'danger'} size="sm" />
               </div>
             ))}
           </div>
         </SectionCard>
-      </div>
+      )}
+
+      {/* Vue d'ensemble */}
+      <SectionCard title="Vue d'ensemble par membre" titleIcon={<BarChart2 size={18} />}>
+        <div className="overflow-x-auto">
+          <table className="w-full text-caption">
+            <thead>
+              <tr className="border-b border-ink-100">
+                <th className="text-left font-semibold text-ink-600 pb-2 pr-4">Membre</th>
+                {project.skillProfile.map((req) => (
+                  <th key={req.competencyId} className="text-center font-semibold text-ink-600 pb-2 px-2 min-w-[100px]">
+                    {req.competencyName}
+                    <br />
+                    <span className="text-ink-400 font-normal">D{req.dreyfusLevelRequired}+ requis</span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {collaborateurs.map((m) => (
+                <tr key={m.userId} className="border-b border-ink-50 last:border-0">
+                  <td className="py-2 pr-4 font-semibold text-ink-800 whitespace-nowrap">{m.name}</td>
+                  {project.skillProfile.map((req) => {
+                    const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
+                    const ok = current >= req.dreyfusLevelRequired;
+                    return (
+                      <td key={req.competencyId} className="py-2 px-2 text-center">
+                        <span className={`px-2 py-0.5 rounded-pill text-caption font-semibold ${
+                          ok ? 'bg-success-bg text-success-fg' : 'bg-warning-bg text-warning-fg'
+                        }`}>
+                          D{current}
+                        </span>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </SectionCard>
     </div>
   );
-}
+};
+
+export default ProjectSkillGaps;

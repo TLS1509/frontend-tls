@@ -1,196 +1,271 @@
-import { CalendarDays, Eye, MessageCircle, FileText, BookOpen, Package } from 'lucide-react';
-import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
-import Card from '../components/core/Card';
-import Button from '../components/core/Button';
-import Badge from '../components/ui/Badge';
-import Avatar from '../components/ui/Avatar';
-import { ProgressBar } from '../components/ui/ProgressBar';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+  ArrowLeft, FileText, CheckSquare, Square, Send, CheckCircle2,
+  Clock, AlertCircle, RefreshCw, CalendarDays, Shield,
+} from 'lucide-react';
+import { Button } from '../components/core/Button';
+import { Card } from '../components/core/Card';
+import { Badge } from '../components/ui/Badge';
+import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionCard } from '../components/patterns/SectionCard';
+import { Avatar } from '../components/ui/Avatar';
 import FormGroup from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
+import { useProjectsStore } from '../stores/persistence';
+import type { TaskStatus } from '../types/projects';
 
-const competencesRequises = [
-  { nom: 'Analyse de données', actuel: 72, requis: 85 },
-  { nom: 'Visualisation', actuel: 60, requis: 80 },
-  { nom: 'Statistiques', actuel: 50, requis: 70 },
-];
+const MOCK_USER_ID = 'user-demo';
 
-const livrables = [
-  { nom: "Rapport d'analyse marché", statut: 'in-progress' as const, date: '20 mai 2026' },
-  { nom: 'Dashboard de synthèse', statut: 'upcoming' as const, date: '5 juin 2026' },
-];
-
-const commentaires = [
-  {
-    auteur: 'Marie Dupont',
-    texte: "Premier lot de données reçu. J'ai démarré l'exploration des tendances Q1-Q2 2026.",
-    date: '11 mai 2026',
-  },
-  {
-    auteur: 'Ahmed Saïd',
-    texte: 'Je travaille sur la segmentation géographique. Quelques anomalies dans le dataset — je signale ça en réunion.',
-    date: '12 mai 2026',
-  },
-];
-
-const statutVariant: Record<string, 'success' | 'brand' | 'neutral'> = {
-  completed: 'success',
-  'in-progress': 'brand',
-  upcoming: 'neutral',
+const STATUS_LABELS: Record<TaskStatus, string> = {
+  not_started: 'À faire',
+  in_progress: 'En cours',
+  submitted: 'Soumis',
+  approved: 'Validé',
+  rework: 'À retravailler',
 };
 
-const statutLabel: Record<string, string> = {
-  completed: 'Livré',
-  'in-progress': 'En cours',
-  upcoming: 'À faire',
+const STATUS_VARIANTS: Record<TaskStatus, 'neutral' | 'brand' | 'info' | 'success' | 'danger'> = {
+  not_started: 'neutral',
+  in_progress: 'brand',
+  submitted: 'info',
+  approved: 'success',
+  rework: 'danger',
 };
 
-export default function ProjectTask() {
+const STATUS_ICONS: Record<TaskStatus, React.ReactNode> = {
+  not_started: <Square size={14} />,
+  in_progress: <Clock size={14} />,
+  submitted: <Send size={14} />,
+  approved: <CheckCircle2 size={14} />,
+  rework: <RefreshCw size={14} />,
+};
+
+const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
+
+export const ProjectTask: React.FC = () => {
+  const { id: projectId, taskId } = useParams<{ id: string; taskId: string }>();
+  const navigate = useNavigate();
+  const store = useProjectsStore();
+
+  const task = store.getTask(taskId ?? '');
+  const taskJacs = taskId ? store.getTaskJacs(taskId) : [];
+  const gatingChecks = store.checkGating(MOCK_USER_ID, projectId ?? '');
+  const myGatingFails = gatingChecks.filter((c) => !c.passed);
+
+  const [deliverableUrl, setDeliverableUrl] = useState(task?.deliverableUrl ?? '');
+  const [notes, setNotes] = useState(task?.submissionNotes ?? '');
+  const [submitted, setSubmitted] = useState(false);
+
+  if (!task) {
+    return (
+      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+        <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="default" />
+        <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
+          Retour au projet
+        </Button>
+      </div>
+    );
+  }
+
+  const canSubmit = task.status === 'not_started' || task.status === 'in_progress' || task.status === 'rework';
+  const isApproved = task.status === 'approved';
+
+  const handleSubmit = () => {
+    if (!deliverableUrl.trim()) return;
+    store.submitTask(task.id, deliverableUrl.trim(), notes.trim());
+    setSubmitted(true);
+  };
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+
   return (
-    <div className="flex flex-col gap-section">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div>
+        <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
+          Retour au projet
+        </Button>
+      </div>
+
       <EditorialHero
-        eyebrow="Projet · Tâche"
-        title="Analyse de Données Marché"
-        summary="Exploration et modélisation des données de marché pour orienter la stratégie produit du trimestre."
-        tone="default"
+        eyebrow={{ label: `Projet · Tâche` }}
+        title={task.title}
+        summary={task.description}
+        tone="brand"
+        trailing={
+          <Badge variant={STATUS_VARIANTS[task.status]}>
+            <span className="inline-flex items-center gap-1.5">
+              {STATUS_ICONS[task.status]}
+              {STATUS_LABELS[task.status]}
+            </span>
+          </Badge>
+        }
+        meta={[
+          { icon: <CalendarDays size={12} />, label: `Échéance : ${formatDate(task.dueDate)}` },
+          { icon: <Shield size={12} />, label: `Dreyfus ${task.dreyfusLevelRequired}+ requis (${DREYFUS_LABELS[task.dreyfusLevelRequired]})` },
+          { icon: <Clock size={12} />, label: `${task.estimatedHours}h estimées` },
+        ]}
       />
 
-      <div className="px-6 flex flex-col gap-section max-w-page mx-auto w-full">
-        {/* Card header tâche */}
-        <Card className="p-5 flex flex-col gap-stack">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="brand" size="md">En cours</Badge>
-            <div className="flex items-center gap-1.5 text-caption text-ink-500">
-              <CalendarDays size={14} />
-              <span>Début : 5 mai 2026</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-caption text-ink-500">
-              <CalendarDays size={14} />
-              <span>Fin : 30 mai 2026</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-stack-xs">
-            <span className="text-caption text-ink-500 font-medium">Assigné à</span>
-            <div className="flex items-center gap-1.5">
-              <Avatar name="Ahmed Saïd" initials="AS" size="sm" />
-              <span className="text-body-sm font-semibold text-ink-800">Ahmed Saïd</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-caption text-ink-500 font-medium">Compétences requises</span>
-            <Badge variant="brand" size="sm">Analyse de données</Badge>
-            <Badge variant="brand" size="sm">Visualisation</Badge>
-            <Badge variant="brand" size="sm">Statistiques</Badge>
-          </div>
-        </Card>
-
-        {/* Description */}
-        <SectionCard
-          titleIcon={<FileText size={18} className="text-primary-600" />}
-          title="Description"
-        >
-          <p className="text-body text-ink-700 m-0 leading-relaxed">
-            Cette tâche consiste à explorer l'ensemble des données de marché collectées sur les marchés européens
-            pour la période Q4 2025 – Q1 2026. L'objectif est d'identifier les tendances émergentes, les segments
-            porteurs et les anomalies potentielles. Les résultats alimenteront directement la roadmap produit et
-            les décisions d'investissement du trimestre suivant.
-          </p>
-        </SectionCard>
-
-        {/* Compétences mobilisées */}
-        <SectionCard
-          titleIcon={<BookOpen size={18} className="text-primary-600" />}
-          title="Compétences mobilisées"
-          description="Comparaison entre le niveau actuel du membre assigné et le niveau requis pour la tâche."
-        >
-          <ul className="flex flex-col gap-stack-lg divide-y divide-ink-100">
-            {competencesRequises.map((c) => (
-              <li key={c.nom} className="flex flex-col gap-stack-xs pt-stack-xs first:pt-0">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-body-sm font-semibold text-ink-900">{c.nom}</span>
-                  <span className="text-caption text-ink-400">{c.actuel} / {c.requis}</span>
-                </div>
-                <div className="flex flex-col gap-tight">
-                  <div className="flex items-center gap-2">
-                    <span className="text-caption text-ink-400 w-14 shrink-0">Actuel</span>
-                    <ProgressBar value={c.actuel} fill="brand" size="sm" className="flex-1" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-caption text-ink-400 w-14 shrink-0">Requis</span>
-                    <ProgressBar value={c.requis} fill="danger" size="xs" className="flex-1" />
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
-
-        {/* Livrables */}
-        <SectionCard
-          titleIcon={<Package size={18} className="text-primary-600" />}
-          title="Livrables"
-          description="Documents et artefacts attendus pour cette tâche."
-        >
-          <ul className="flex flex-col gap-stack divide-y divide-ink-100">
-            {livrables.map((l) => (
-              <li key={l.nom} className="flex items-center justify-between gap-4 pt-stack first:pt-0">
-                <div className="flex flex-col gap-tight flex-1 min-w-0">
-                  <span className="text-body-sm font-semibold text-ink-900 truncate">{l.nom}</span>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={statutVariant[l.statut]} size="sm">{statutLabel[l.statut]}</Badge>
-                    <span className="text-caption text-ink-400 flex items-center gap-1">
-                      <CalendarDays size={12} />
-                      {l.date}
-                    </span>
-                  </div>
-                </div>
-                <Button variant="ghost" size="sm" leadingIcon={<Eye size={14} />} className="shrink-0">
-                  Voir
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
-
-        {/* Commentaires */}
-        <SectionCard
-          titleIcon={<MessageCircle size={18} className="text-primary-600" />}
-          title="Commentaires"
-          description="Échanges et mises à jour de l'équipe sur cette tâche."
-        >
-          <div className="flex flex-col gap-stack">
-            <ul className="flex flex-col gap-stack divide-y divide-ink-100">
-              {commentaires.map((c, i) => (
-                <li key={i} className="flex items-start gap-3 pt-stack first:pt-0">
-                  <Avatar name={c.auteur} size="sm" />
-                  <div className="flex flex-col gap-tight flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-body-sm font-semibold text-ink-900">{c.auteur}</span>
-                      <span className="text-caption text-ink-400">{c.date}</span>
-                    </div>
-                    <p className="text-body-sm text-ink-700 m-0">{c.texte}</p>
-                  </div>
+      {myGatingFails.length > 0 && (
+        <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
+          <AlertCircle size={16} className="text-warning-fg mt-0.5 shrink-0" />
+          <div>
+            <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
+            <ul className="m-0 pl-4 flex flex-col gap-tight">
+              {myGatingFails.map((f) => (
+                <li key={f.competencyId} className="text-caption text-warning-fg">
+                  {f.competencyName} — vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      )}
 
-            <div className="flex flex-col gap-stack-xs border-t border-ink-100 pt-stack">
-              <FormGroup label="Ajouter un commentaire">
-                <textarea
-                  rows={3}
-                  placeholder="Partagez une mise à jour ou une question…"
-                  className="w-full p-3 rounded-md border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                />
-              </FormGroup>
-              <div className="flex justify-end">
-                <Button variant="ghost" size="sm" leadingIcon={<MessageCircle size={14} />}>
-                  Commenter
-                </Button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-section">
+        <div className="lg:col-span-2 flex flex-col gap-section">
+          {/* Critères de succès */}
+          <SectionCard title="Critères de succès" titleIcon={<CheckSquare size={18} />}>
+            <div className="flex flex-col gap-stack-xs">
+              {task.successCriteria.map((sc, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-ink-50">
+                  {sc.checked ? (
+                    <CheckCircle2 size={16} className="text-success-base mt-0.5 shrink-0" />
+                  ) : (
+                    <Square size={16} className="text-ink-400 mt-0.5 shrink-0" />
+                  )}
+                  <span className={`text-body-sm ${sc.checked ? 'text-ink-500 line-through' : 'text-ink-800'}`}>
+                    {sc.criterion}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+
+          {/* Spécification du livrable */}
+          <SectionCard title="Livrable attendu" titleIcon={<FileText size={18} />}>
+            <div className="flex flex-col gap-stack-xs">
+              <p className="text-body-sm text-ink-700 m-0">{task.deliverableSpec.description}</p>
+              <Badge variant="neutral">Format : {task.deliverableSpec.format}</Badge>
+            </div>
+          </SectionCard>
+
+          {/* Soumission */}
+          {canSubmit && !submitted && (
+            <SectionCard title="Soumettre le livrable" titleIcon={<Send size={18} />}>
+              <div className="flex flex-col gap-stack">
+                <FormGroup label="URL du livrable *">
+                  <Input
+                    type="url"
+                    placeholder="https://..."
+                    value={deliverableUrl}
+                    onChange={(e) => setDeliverableUrl(e.target.value)}
+                  />
+                </FormGroup>
+                <FormGroup label="Notes de soumission (optionnel)">
+                  <textarea
+                    rows={3}
+                    placeholder="Décrivez votre approche, les points clés de votre livrable..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="w-full p-3 rounded-md border border-ink-200 font-body text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent h-auto min-h-[88px]"
+                  />
+                </FormGroup>
+                <div className="flex justify-end">
+                  <Button
+                    variant="primary"
+                    leadingIcon={<Send size={16} />}
+                    onClick={handleSubmit}
+                    disabled={!deliverableUrl.trim()}
+                  >
+                    Soumettre
+                  </Button>
+                </div>
+              </div>
+            </SectionCard>
+          )}
+
+          {(submitted || task.status === 'submitted') && (
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-info-bg border border-info-base/30">
+              <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
+              <div>
+                <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis — en attente de validation</p>
+                {task.deliverableUrl && (
+                  <a href={task.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-caption text-info-fg underline">
+                    {task.deliverableUrl}
+                  </a>
+                )}
               </div>
             </div>
-          </div>
-        </SectionCard>
+          )}
+
+          {isApproved && (
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-success-bg border border-success-base/30">
+              <CheckCircle2 size={16} className="text-success-fg mt-0.5 shrink-0" />
+              <p className="text-body-sm font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
+            </div>
+          )}
+
+          {task.expertFeedback && (
+            <SectionCard title="Feedback de l'expert">
+              <p className="text-body-sm text-ink-700 m-0 italic">"{task.expertFeedback}"</p>
+            </SectionCard>
+          )}
+
+          {/* JACs liés */}
+          {taskJacs.length > 0 && (
+            <SectionCard title="JAC liés à cette tâche" titleIcon={<CheckCircle2 size={18} />}>
+              <div className="flex flex-col gap-stack-xs">
+                {taskJacs.map((jac) => (
+                  <div key={jac.id} className="flex items-center gap-stack p-3 rounded-lg border border-ink-100">
+                    <Avatar initials={jac.collaboratorInitials} size="sm" tint="brand" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
+                      <p className="text-caption text-ink-500 m-0">{jac.competencyName}</p>
+                    </div>
+                    <Badge variant={jac.status === 'approved' ? 'success' : jac.status === 'pending' ? 'neutral' : 'danger'}>
+                      {jac.status === 'approved' ? 'Validé' : jac.status === 'pending' ? 'En attente' : 'À retravailler'}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+          )}
+        </div>
+
+        {/* Aside */}
+        <div className="flex flex-col gap-section">
+          <SectionCard title="Assigné à">
+            <div className="flex items-center gap-stack">
+              <Avatar initials={task.assignedToInitials} size="md" tint="brand" />
+              <div>
+                <p className="text-body-sm font-semibold text-ink-900 m-0">{task.assignedToName}</p>
+                <p className="text-caption text-ink-500 m-0">Collaborateur</p>
+              </div>
+            </div>
+          </SectionCard>
+
+          <Card className="p-4 flex flex-col gap-stack-xs">
+            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Statut</p>
+            <div className="flex items-center gap-2">
+              {STATUS_ICONS[task.status]}
+              <span className="text-body-sm font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
+            </div>
+            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-2">Échéance</p>
+            <p className="text-body-sm text-ink-800 m-0">{formatDate(task.dueDate)}</p>
+            {task.submissionDate && (
+              <>
+                <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-2">Soumis le</p>
+                <p className="text-body-sm text-ink-800 m-0">{formatDate(task.submissionDate)}</p>
+              </>
+            )}
+          </Card>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProjectTask;
