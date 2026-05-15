@@ -985,7 +985,7 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
 | 14.1 | 🎯 Première expérience | Onboarding → Questionnaire → Tutorial → Success → Dashboard | ✅ |
-| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | 🚧 (a ✅, b/c pending) |
+| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | 🚧 (a ✅, b ✅, c pending) |
 | 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ⬜ |
 | 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ⬜ |
 | 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
@@ -1103,7 +1103,21 @@ Sous-phase A du redesign Apprenant core (split 14.2 en 3 : a/b/c). Focus = unifi
 
 **Validation** : `npx tsc --noEmit` ✅ · preview AstucesViewer/FlashcardsViewer/LessonPlayer desktop ✅ · 0 console errors · close buttons 44 px (min-h-touch).
 
-**Restant en 14.2b/c** : tone propagation Dashboard/LearningPaths · LessonViewerShell complet · FlipCard extraction · vrai VideoPlayer · persistence forms réflexion/action.
+**Restant en 14.2c** : FlipCard extraction (170 LOC 3D de FlashcardsViewer) · vrai VideoPlayer (`<video>` natif) · persistence forms réflexion/action (Zustand).
+
+---
+
+### Phase 14.2b — Apprenant core : viewers restants ✅ (2026-05-15)
+
+Sous-phase B : migration des 2 viewers restants vers ViewerHeader + tone system. Tous les viewers partagent désormais le même shell.
+
+**Pages migrées** :
+- `ComplementaryContentViewer` — drop ViewerOverlay, ViewerHeader + useLessonContext (fallback primary), fixed inset-0 z-modal, tone-aware icon bubbles (TONE_BG_500), per-type badge variants (article→brand, video→warm, guide→sun, tool→neutral)
+- `VideoViewer` — drop ViewerOverlay(dark), ViewerHeader(primary), zone vidéo bg-ink-950 préservée comme section contenu, min-h-touch sur tous les contrôles player
+
+**Pattern consolidé (4 viewers unifiés)** : AstucesViewer · FlashcardsViewer · ComplementaryContentViewer · VideoViewer → tous utilisent `ViewerHeader + useLessonContext() + fixed inset-0 z-modal` (Complementary/Astuces/Flashcards) ou `min-h-screen + ViewerHeader` (VideoViewer — page Veille).
+
+**Validation** : `npx tsc --noEmit` ✅ · preview ComplementaryContentViewer ✅ · preview VideoViewer ✅ · 0 console errors.
 
 ---
 
