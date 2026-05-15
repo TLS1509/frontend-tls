@@ -14,6 +14,7 @@ import {
   Bookmark,
   BookmarkCheck,
 } from "lucide-react";
+import { Button } from "../components/core/Button";
 
 /* ─── Data ────────────────────────────────────────────────────────────────── */
 
@@ -162,7 +163,7 @@ export const VideoTutorial: React.FC = () => {
                   <div className="w-1 h-[22px] bg-white rounded-[2px]" />
                 </div>
               ) : (
-                <Play size={28} fill="white" color="white" className="ml-[3px]" />
+                <Play size={28} className="ml-[3px] fill-white text-white" />
               )}
             </button>
 
@@ -214,9 +215,7 @@ export const VideoTutorial: React.FC = () => {
                   {isActive && (
                     <Play
                       size={12}
-                      fill="#55A1B4"
-                      color="#55A1B4"
-                      className="shrink-0 mt-[2px] ml-auto"
+                      className="shrink-0 mt-[2px] ml-auto fill-primary-500 text-primary-500"
                     />
                   )}
                 </button>

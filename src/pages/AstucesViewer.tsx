@@ -238,7 +238,7 @@ export const AstucesViewer: React.FC = () => {
               type="button"
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-ink-700 font-body text-body-sm font-medium hover:bg-ink-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-base"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-ink-700 font-body text-body-sm font-medium hover:bg-ink-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-base"
             >
               <ChevronLeft size={16} />
               <span className="hidden sm:inline">Précédent</span>
@@ -252,7 +252,7 @@ export const AstucesViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-accent-400 text-white font-body text-body-sm font-semibold shadow-[0_4px_12px_rgba(248,176,68,0.3)] hover:bg-accent-500 hover:shadow-[0_6px_16px_rgba(248,176,68,0.4)] active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-accent-400 text-white font-body text-body-sm font-semibold shadow-[0_4px_12px_rgba(248,176,68,0.3)] hover:bg-accent-500 hover:shadow-[0_6px_16px_rgba(248,176,68,0.4)] active:scale-95 transition-all duration-base"
               >
                 <span className="hidden sm:inline">Suivant</span>
                 <ChevronRight size={16} />
@@ -261,7 +261,7 @@ export const AstucesViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleClose}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_12px_rgba(157,190,186,0.4)] hover:bg-success-fg active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_12px_rgba(157,190,186,0.4)] hover:bg-success-fg active:scale-95 transition-all duration-base"
               >
                 <Check size={16} />
                 <span className="hidden sm:inline">Terminer</span>

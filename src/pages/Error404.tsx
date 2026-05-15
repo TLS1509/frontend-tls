@@ -70,7 +70,7 @@ export const Error404: React.FC = () => {
       </div>
 
       {/* Suggestion grid */}
-      <div className="grid gap-6 w-full max-w-[960px] mb-10" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+      <div className="grid gap-6 w-full max-w-[960px] mb-10 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
         {suggestions.map((item, idx) => (
           <button
             key={idx}

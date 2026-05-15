@@ -270,7 +270,7 @@ Après phases 1-7, migrer les pages dans cet ordre :
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 11 + 12 + 13 + 14 + 15 + 16 ✅
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 10 (35/35 pages Tier 1+2+3) + 11 + 12 + 13 + 14 + 15 + 16 ✅
 **Composants validés :** ~121 / ~125 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives + 11 Phase 11–12–DS)
 **Pages scaffoldées :** 82 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 + Phase 14: 15 + Phase 15: 19 + Phase 16: 17 = **82 pages**)
 **Couverture sitemap FO_SCREENS_CONSOLIDATION :** 82/83 écrans (98.8 %) — seul "Notification Bell" reste comme composant global
@@ -551,17 +551,17 @@ Refaire toutes les pages restantes de la learning app pour une expérience UX/UI
 
 Ces pages ont des layouts plein-écran spécialisés (viewer / lecteur) — garder leur UI bespoke mais assurer cohérence des design tokens (spacing / blur / z-index / touch).
 
-| Page | Notes |
-|------|-------|
-| AstucesViewer | Viewer plein écran — vérifier tokens blur/z-index/touch |
-| FlashcardsViewer | 3D transform (exception runtime) — tokens spacing/touch |
-| VideoReels | Full-bleed vidéo — `z-modal` + `min-h-touch` controls |
-| VideoTutorial | Player + sidebar — tokens spacing semantic |
-| VideoViewer | Idem — cohérence avec VideoTutorial |
-| ComplementaryContentViewer | Reader plein écran — `max-w-prose` body, `gap-stack` |
-| CourseDetail | Hero + sections — possible upgrade léger `EditorialHero` + `SectionCard` |
-| Error404 | Centered illustration + CTA — assurer `min-h-touch`, tokens spacing |
-| Error500 | Idem 404 |
+| Page | Notes | Status |
+|------|-------|--------|
+| AstucesViewer | Nav buttons `py-2.5` → `py-3` (44px touch target) | ✅ |
+| FlashcardsViewer | Same touch fix + legit 3D `style={{}}` (perspective/backfaceVisibility) | ✅ |
+| VideoReels | `bg-ink-950` confirmed valid token. No fixes needed. | ✅ |
+| VideoTutorial | Added missing `Button` import · replaced hardcoded `#55A1B4` hex on Play icons → `fill-primary-500 text-primary-500` | ✅ |
+| VideoViewer | Clean — ViewerOverlay + DS tokens throughout | ✅ |
+| ComplementaryContentViewer | Clean — ViewerOverlay + DS tokens. Unused `expandedId` state minor. | ✅ |
+| CourseDetail | Legit decorative gradient `style={{}}`. Otherwise full DS tokens. | ✅ |
+| Error404 | `style={{ gridTemplateColumns }}` → Tailwind arbitrary `[grid-template-columns:...]` | ✅ |
+| Error500 | All `style={{}}` are legitimate (clamp font-size + decorative gradient) | ✅ |
 
 ### Methodology (workflow per page)
 

@@ -352,7 +352,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
               >
                 <Check size={16} />
                 Marquer comme compris
@@ -366,7 +366,7 @@ export const FlashcardsViewer: React.FC = () => {
               type="button"
               onClick={handlePrev}
               disabled={currentCardIndex === 0}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/70 backdrop-blur-glass-light border border-ink-100 text-ink-800 font-body text-body-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-base"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/70 backdrop-blur-glass-light border border-ink-100 text-ink-800 font-body text-body-sm font-medium hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-base"
             >
               <ChevronLeft size={16} />
               <span className="hidden sm:inline">Précédent</span>
@@ -396,7 +396,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent-400 text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(85,161,180,0.3)] hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-gradient-to-br from-primary-500 to-accent-400 text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(85,161,180,0.3)] hover:scale-105 active:scale-95 transition-all duration-base"
               >
                 <span className="hidden sm:inline">Suivant</span>
                 <ChevronRight size={16} />
@@ -405,7 +405,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleClose}
-                className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
               >
                 <Check size={16} />
                 <span className="hidden sm:inline">Terminer</span>
