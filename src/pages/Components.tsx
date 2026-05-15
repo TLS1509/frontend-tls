@@ -3320,21 +3320,23 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'forms/FilterBar.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
-    description: '⭐ Refactored Tailwind — barre de filtre horizontale avec pills clickables. Supporte multi-select / single-select, count badges, clear-all, 4 tons, 2 surfaces (tinted/plain), 2 sizes (sm/md). Pour toolbar inline (Search filtersSlot) ou standalone entre hero et listing.',
-    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all'],
+    usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
+    description: '⭐ Refactored Tailwind — barre de filtre horizontale avec pills clickables. Supporte multi-select / single-select, count badges, clear-all, 4 tons, 2 variantes (solid/glass), 2 surfaces (tinted/plain), 2 sizes (sm/md). Pour toolbar inline (Search filtersSlot) ou standalone entre hero et listing. Glass variant idéal pour héros gradients.',
+    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass'],
     render: () => {
       const FilterBarDemo: React.FC = () => {
         const [s1, setS1] = useState<string[]>(['all']);
         const [s2, setS2] = useState<string[]>(['unread', 'mention']);
         const [s3, setS3] = useState<string[]>([]);
+        const [s4, setS4] = useState<string[]>(['en cours']);
         return (
           <div className="flex flex-col gap-stack-lg">
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Single-select · brand · tinted</p>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Single-select · brand · tinted · solid</p>
               <FilterBar
                 surface="tinted"
                 tone="brand"
+                variant="solid"
                 multiSelect={false}
                 showClearAll={false}
                 options={[
@@ -3378,6 +3380,22 @@ const COMPONENTS: ComponentEntry[] = [
                 ]}
                 selected={s3}
                 onChange={setS3}
+              />
+            </div>
+
+            <div className="rounded-xl p-6 bg-gradient-to-r from-primary-500 to-primary-700">
+              <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
+              <FilterBar
+                tone="primary"
+                variant="glass"
+                size="sm"
+                options={[
+                  { id: 'en cours',      label: 'En cours',      count: 3 },
+                  { id: 'complété',      label: 'Terminés',     count: 1 },
+                  { id: 'non commencé',  label: 'Pas commencés', count: 2 },
+                ]}
+                selected={s4}
+                onChange={setS4}
               />
             </div>
           </div>

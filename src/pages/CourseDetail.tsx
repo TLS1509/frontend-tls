@@ -56,31 +56,32 @@ export const CourseDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface font-body">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
-
-        {/* ─ Back row ──────────────────────────────────────────────── */}
-        <div className="flex items-center justify-between gap-3">
-          <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)}>
+      {/* ─ Sticky header ─────────────────────────────────────────── */}
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+          <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
-          <span className="font-body text-caption text-ink-400">Cours #{id ?? '—'}</span>
+          <span className="font-body text-caption text-ink-500">Cours #{id ?? '—'}</span>
         </div>
+      </div>
 
-        {/* ─ Editorial hero ────────────────────────────────────────── */}
-        <section
-          className="rounded-2xl border border-primary-200 px-8 pt-8 pb-7 shadow-md flex flex-col gap-3 relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, rgba(85, 161, 180, 0.14) 0%, rgba(255, 255, 255, 0.88) 100%)' }}
-        >
-          <p className="font-body text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
-            Learning Space • Détail du cours
-          </p>
-          <h1 className="font-display text-h1 font-extrabold tracking-tight text-ink-900 m-0 leading-[1.1]">
-            {STATIC_COURSE.title}
-          </h1>
-          <p className="font-body text-body-lg leading-[1.65] text-ink-500 m-0">
-            {STATIC_COURSE.description}
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+
+        {/* ─ Course header section ──────────────────────────────── */}
+        <section className="flex flex-col gap-stack">
+          <div className="flex flex-col gap-tight">
+            <p className="font-body text-micro font-bold uppercase tracking-[0.06em] text-primary-700 m-0">
+              Learning Space • Détail du cours
+            </p>
+            <h1 className="font-display text-h1 font-extrabold tracking-tight text-ink-900 m-0 leading-[1.1]">
+              {STATIC_COURSE.title}
+            </h1>
+            <p className="font-body text-body-lg leading-[1.65] text-ink-500 m-0">
+              {STATIC_COURSE.description}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <Badge variant="info">{STATIC_COURSE.level}</Badge>
             <Badge variant="neutral">
               <span className="inline-flex items-center gap-1">

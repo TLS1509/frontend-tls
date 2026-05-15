@@ -567,36 +567,35 @@ export const LessonPlayer: React.FC = () => {
       `}</style>
 
       <div
-        className="fixed inset-0 z-modal bg-white/[0.98] backdrop-blur-glass-heavy flex flex-col overflow-hidden"
+        className="fixed inset-0 z-modal bg-white/[0.98] backdrop-blur-glass-heavy flex flex-col"
         role="dialog"
         aria-modal="true"
         aria-label={`Leçon : ${displayTitle}`}
       >
-        {/* SCROLLABLE BODY */}
-        <div className="flex-1 overflow-y-auto flex flex-col">
+        {/* HEADER */}
+        <ViewerHeader
+          tone={tone}
+          eyebrow={ctx?.step ? ctx.step.title : 'Leçon'}
+          title={displayTitle}
+          subtitle={(
+            <span className="inline-flex items-center gap-1.5">
+              <Clock3 size={12} /> {displayDuration}
+            </span>
+          )}
+          current={currentIndex + 1}
+          total={SECTIONS.length}
+          progress={progress}
+          onBack={() => navigate(-1)}
+          onClose={handleClose}
+        />
 
-          {/* HEADER */}
-          <ViewerHeader
-            tone={tone}
-            eyebrow={ctx?.step ? ctx.step.title : 'Leçon'}
-            title={displayTitle}
-            subtitle={(
-              <span className="inline-flex items-center gap-1.5">
-                <Clock3 size={12} /> {displayDuration}
-              </span>
-            )}
-            current={currentIndex + 1}
-            total={SECTIONS.length}
-            progress={progress}
-            onClose={handleClose}
-          />
-
-          {/* SECTION NAV */}
-          <nav
-            className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light px-10 py-3 border-b border-ink-100 max-md:px-4"
-            aria-label="Sections de la leçon"
-          >
-            <div className="lp-section-scroll flex gap-2 overflow-x-auto pb-0.5">
+        {/* SECTION NAV — Sticky, centered */}
+        <nav
+          className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
+          aria-label="Sections de la leçon"
+        >
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-3">
+            <div className="lp-section-scroll flex gap-2 overflow-x-auto pb-0.5 justify-center">
               {SECTIONS.map((section, index) => {
                 const isActive = index === currentIndex;
                 const isDone = completedSections.has(index) && !isActive;
@@ -630,34 +629,33 @@ export const LessonPlayer: React.FC = () => {
                 );
               })}
             </div>
-          </nav>
-
-          {/* CONTENT */}
-          <div className="flex-1 p-12 flex justify-center max-md:px-4 max-md:py-6">
-            <div
-              className="lp-card-anim bg-white rounded-2xl p-12 shadow-md mb-8 min-h-[440px] max-w-[900px] w-full max-md:p-6 max-md:min-h-[300px]"
-              key={currentSection.id}
-            >
-              {SECTION_RENDERERS[currentSection.id]()}
-            </div>
           </div>
+        </nav>
 
-          {/* BOTTOM NAV */}
-          <div className="px-8 pb-8 flex justify-center max-md:px-4 max-md:pb-6">
-            <div className="bg-white rounded-2xl p-5 shadow-sm max-w-[900px] w-full">
-              <LessonNavigation
-                tone={tone}
-                current={currentIndex + 1}
-                total={SECTIONS.length}
-                onPrev={handlePrev}
-                onNext={handleNext}
-                onFinish={handleNext}
-                onDotSelect={(idx) => goTo(idx)}
-                finishLabel="Terminer la leçon"
-              />
-            </div>
+        {/* CONTENT — Centered, scrollable internally */}
+        <div className="flex-1 overflow-y-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 py-8">
+          <div
+            className="lp-card-anim bg-white rounded-2xl p-8 sm:p-12 shadow-md w-full max-w-[900px]"
+            key={currentSection.id}
+          >
+            {SECTION_RENDERERS[currentSection.id]()}
           </div>
+        </div>
 
+        {/* BOTTOM NAV — Centered, fixed at bottom */}
+        <div className="px-4 sm:px-6 lg:px-8 py-6 flex justify-center border-t border-ink-100 bg-white/50 backdrop-blur-glass-light">
+          <div className="bg-white rounded-2xl p-5 shadow-sm w-full max-w-[900px]">
+            <LessonNavigation
+              tone={tone}
+              current={currentIndex + 1}
+              total={SECTIONS.length}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              onFinish={handleNext}
+              onDotSelect={(idx) => goTo(idx)}
+              finishLabel="Terminer la leçon"
+            />
+          </div>
         </div>
 
         {/* ─ Session Feedback Modal ─────────────────────────────────── */}

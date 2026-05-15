@@ -210,7 +210,7 @@ export const Project: React.FC = () => {
                 <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/skill-gaps`)}>
                   Lacunes compétences
                 </Button>
-                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport-feed`)}>
+                <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/passeport`)}>
                   Feed Passeport
                 </Button>
                 <Button variant="secondary" size="sm" fullWidth onClick={() => navigate(`/project/${project.id}/jac`)}>

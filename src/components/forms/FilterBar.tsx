@@ -40,6 +40,7 @@ export interface FilterBarOption {
 }
 
 export type FilterBarTone = 'brand' | 'warm' | 'sun' | 'neutral';
+export type FilterBarVariant = 'solid' | 'glass';
 
 export interface FilterBarProps {
   options: FilterBarOption[];
@@ -48,6 +49,7 @@ export interface FilterBarProps {
   onClearAll?: () => void;
   multiSelect?: boolean;
   tone?: FilterBarTone;
+  variant?: FilterBarVariant;
   size?: 'sm' | 'md';
   surface?: 'tinted' | 'plain';
   showClearAll?: boolean;
@@ -55,6 +57,18 @@ export interface FilterBarProps {
   label?: string;
   className?: string;
 }
+
+/* ── Variant base styles ────────────────────────────────────────────────── */
+
+const VARIANT_BASE: Record<FilterBarVariant, string> = {
+  solid: '',
+  glass: 'bg-white/15 border-white/25 backdrop-blur-glass-light text-white hover:bg-white/22',
+};
+
+const VARIANT_INACTIVE: Record<FilterBarVariant, string> = {
+  solid: 'bg-white border-ink-200 text-ink-700 hover:border-ink-300 hover:bg-ink-50',
+  glass: 'bg-white/10 border-white/20 text-white/80 hover:bg-white/15',
+};
 
 /* ── Tone styles ────────────────────────────────────────────────────────── */
 
@@ -101,6 +115,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   onClearAll,
   multiSelect = true,
   tone = 'brand',
+  variant = 'solid',
   size = 'md',
   surface = 'plain',
   showClearAll = true,
@@ -147,6 +162,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         const isActive = selected.includes(option.id);
         const isDisabled = option.disabled;
 
+        const pillClasses =
+          variant === 'glass'
+            ? isActive
+              ? `${VARIANT_BASE.glass} bg-white/20`
+              : VARIANT_INACTIVE.glass
+            : isActive
+            ? ACTIVE_PILL[tone]
+            : INACTIVE_PILL;
+
         return (
           <button
             key={option.id}
@@ -157,9 +181,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             className={[
               'inline-flex items-center font-body font-semibold border',
               'transition-colors duration-base cursor-pointer',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'focus-visible:outline-2 focus-visible:outline-offset-2',
+              variant === 'glass'
+                ? 'focus-visible:outline-white/50'
+                : 'focus-visible:outline-primary-500',
               SIZE_PILL[size],
-              isActive ? ACTIVE_PILL[tone] : INACTIVE_PILL,
+              pillClasses,
               isDisabled ? 'opacity-disabled cursor-not-allowed' : '',
             ]
               .filter(Boolean)
@@ -174,7 +201,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 className={[
                   'inline-flex items-center justify-center font-bold tabular-nums',
                   SIZE_COUNT[size],
-                  isActive ? ACTIVE_COUNT[tone] : INACTIVE_COUNT,
+                  variant === 'glass'
+                    ? 'bg-white/30 text-white'
+                    : isActive
+                    ? ACTIVE_COUNT[tone]
+                    : INACTIVE_COUNT,
                 ].join(' ')}
               >
                 {option.count}
@@ -186,11 +217,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
       {hasSelection && showClearAll && (
         <>
-          <span aria-hidden className="hidden sm:inline-block w-px h-5 bg-ink-200 mx-1" />
+          <span
+            aria-hidden
+            className={`hidden sm:inline-block w-px h-5 ${
+              variant === 'glass' ? 'bg-white/30' : 'bg-ink-200'
+            } mx-1`}
+          />
           <button
             type="button"
             onClick={handleClear}
-            className="inline-flex items-center gap-1 px-2.5 py-1 font-body text-micro font-semibold text-ink-500 hover:text-danger-fg bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill"
+            className={`inline-flex items-center gap-1 px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill ${
+              variant === 'glass'
+                ? 'text-white/70 hover:text-white'
+                : 'text-ink-500 hover:text-danger-fg'
+            }`}
             title="Effacer tous les filtres"
           >
             <X size={12} strokeWidth={2.5} />

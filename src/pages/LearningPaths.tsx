@@ -178,7 +178,7 @@ export const LearningPaths: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-0 pb-section flex flex-col gap-section">
 
         {/* Hero — EditorialHero tone="brand" (primary teal — Parcours = core content of TLS) */}
         <EditorialHero
@@ -187,61 +187,33 @@ export const LearningPaths: React.FC = () => {
           title="Mes Parcours"
           summary="Explorez vos parcours de formation et suivez votre progression au fil des leçons."
           trailing={
-            overallProgress > 0 ? (
-              <div
-                role="progressbar"
-                aria-valuenow={overallProgress}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Progression globale"
-                className="relative flex flex-col gap-stack-xs px-5 py-4 rounded-xl text-white bg-white/10 backdrop-blur-glass-medium border border-white/20 shadow-lg"
-              >
-                <div className="flex items-baseline justify-between font-body font-semibold">
-                  <span className="text-white/90">Progression globale</span>
-                  <strong className="font-display text-h3 text-white">{overallProgress}%</strong>
-                </div>
-                <div className="h-2 rounded-pill bg-white/20 overflow-hidden">
-                  <div
-                    className="h-full bg-white rounded-pill transition-[width] duration-base"
-                    style={{ width: `${overallProgress}%` }}
+            <Search
+              size="sm"
+              variant="glass"
+              value={query}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+              placeholder="Rechercher…"
+              aria-label="Rechercher un parcours"
+              filtersSlot={
+                <div className="flex flex-wrap items-center gap-2">
+                  <FilterBar
+                    options={STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }))}
+                    selected={Array.from(selectedStatuses)}
+                    onChange={(ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[]))}
+                    onClearAll={resetFilters}
+                    tone="primary"
+                    variant="glass"
+                    size="sm"
+                    surface="plain"
                   />
+                  <span className="font-body text-caption text-white/70 ml-auto">
+                    {filteredParcours.length} sur {total}
+                  </span>
                 </div>
-              </div>
-            ) : undefined
+              }
+            />
           }
         />
-
-        {/* KPI row */}
-        <section aria-label="Indicateurs clés" className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
-          <StatCard variant="brand"    size="sm" icon={<BookOpen size={18} />} label="Parcours actifs"   value={inProgress} />
-          <StatCard variant="warm"     size="sm" icon={<Trophy size={18} />}   label="Parcours terminés" value={completed} />
-          <StatCard variant="sun"      size="sm" icon={<Clock3 size={18} />}   label="Leçons complétées" value={completedLessons} sub={`/${totalLessons}`} />
-          <StatCard variant="elevated" size="sm" icon={<Flame size={18} />}    label="Progression"        value={overallProgress} sub="%" />
-        </section>
-
-        {/* Filters */}
-        <section aria-label="Filtres" className="flex flex-col gap-stack-xs">
-          <Search
-            value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
-            placeholder="Rechercher un parcours…"
-            aria-label="Rechercher un parcours"
-          />
-
-          <div className="flex flex-wrap items-center gap-3">
-            <FilterBar
-              options={STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }))}
-              selected={Array.from(selectedStatuses)}
-              onChange={(ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[]))}
-              onClearAll={resetFilters}
-              tone="brand"
-              size="sm"
-            />
-            <span className="ml-auto font-body text-caption text-ink-500">
-              {filteredParcours.length} sur {total}
-            </span>
-          </div>
-        </section>
 
         {/* Grid */}
         {filteredParcours.length === 0 ? (

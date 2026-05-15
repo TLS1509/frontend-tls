@@ -73,7 +73,7 @@ const SIZE_INPUT: Record<SearchSize, string> = {
 };
 
 const SIZE_ICON: Record<SearchSize, number> = {
-  sm: 14,
+  sm: 12,
   default: 18,
   lg: 20,
 };
@@ -191,7 +191,7 @@ export const Search: React.FC<SearchProps> = ({
      Always rendered ; wrappé dans un row container quand filtersSlot présent. */
   const inputRow = (
     <>
-      <span className={`inline-flex shrink-0 ${VARIANT_ICON[variant]}`}>
+      <span className={`inline-flex items-center justify-center shrink-0 ${VARIANT_ICON[variant]}`}>
         {leadingIcon ?? <SearchIcon size={SIZE_ICON[size]} strokeWidth={2} />}
       </span>
       <input

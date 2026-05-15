@@ -139,7 +139,7 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
 
   return (
     <header className={wrapperClasses} role="banner">
-      <div className="flex items-center gap-stack px-4 sm:px-6 lg:px-8 py-3">
+      <div className="flex items-center gap-stack px-4 sm:px-6 lg:px-8 py-2">
         {/* Back button (left) */}
         {onBack && (
           <button
@@ -197,45 +197,48 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
           </span>
         )}
 
-        {/* Prev / Next nav chevrons */}
-        {hasNav && (
-          <div className="shrink-0 flex items-center gap-1">
-            <button
-              type="button"
-              onClick={onPrev}
-              disabled={prevDisabled}
-              aria-label="Élément précédent"
-              className={navButtonBase}
-            >
-              <ChevronLeft size={18} strokeWidth={2.25} />
-            </button>
-            <button
-              type="button"
-              onClick={onNext}
-              disabled={nextDisabled}
-              aria-label="Élément suivant"
-              className={navButtonBase}
-            >
-              <ChevronRight size={18} strokeWidth={2.25} />
-            </button>
-          </div>
-        )}
+        {/* Prev / Next nav chevrons + Close button (right group) */}
+        <div className="shrink-0 flex items-center gap-1.5">
+          {/* Prev / Next nav chevrons */}
+          {hasNav && (
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={onPrev}
+                disabled={prevDisabled}
+                aria-label="Élément précédent"
+                className={navButtonBase}
+              >
+                <ChevronLeft size={18} strokeWidth={2.25} />
+              </button>
+              <button
+                type="button"
+                onClick={onNext}
+                disabled={nextDisabled}
+                aria-label="Élément suivant"
+                className={navButtonBase}
+              >
+                <ChevronRight size={18} strokeWidth={2.25} />
+              </button>
+            </div>
+          )}
 
-        {/* Close button (right) */}
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Fermer"
-            className={[
-              'shrink-0 inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill text-ink-700 bg-ink-50 hover:bg-danger-bg hover:text-danger-fg transition-colors',
-              'focus-visible:outline-2 focus-visible:outline-offset-2',
-              focusOutline,
-            ].join(' ')}
-          >
-            <X size={18} strokeWidth={2.25} />
-          </button>
-        )}
+          {/* Close button (right) */}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Fermer"
+              className={[
+                'shrink-0 inline-flex items-center justify-center min-w-touch min-h-touch w-11 h-11 rounded-pill text-ink-700 bg-ink-50 hover:bg-danger-bg hover:text-danger-fg transition-colors',
+                'focus-visible:outline-2 focus-visible:outline-offset-2',
+                focusOutline,
+              ].join(' ')}
+            >
+              <X size={18} strokeWidth={2.25} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Optional inline progress bar (under the header row) */}
