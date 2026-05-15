@@ -180,6 +180,7 @@ import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import { ProgressDots } from '../components/ui/ProgressDots';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { FlipCard } from '../components/patterns/FlipCard';
 import { Briefcase, HeartHandshake } from 'lucide-react';
 
 /* ============================================================================
@@ -440,6 +441,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // ── PHASE 14.2a — Apprenant core (viewer shell) ──────────────────────
   ProgressDots:           { category: 'Atoms',          subCategory: 'Indicators' },
   LessonNavigation:       { category: 'Composites',    subCategory: 'Group wrappers' },
+  FlipCard:               { category: 'Learning',      subCategory: 'Quiz & flashcards' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
@@ -4904,6 +4906,53 @@ const COMPONENTS: ComponentEntry[] = [
             <span className="text-caption text-ink-500 w-24">Sun · xs</span>
             <ProgressDots total={7} current={sunIdx} tone="sun" size="xs" onSelect={setSunIdx} />
           </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: 'FlipCard',
+    codeName: 'patterns/FlipCard.tsx',
+    cssBase: 'FlipCard',
+    category: 'Learning',
+    description: 'Carte 3D à retournement (flip). Front : image de fond + icône emoji + catégorie pill + titre. Verso : gradient tone-aware + contenu + détails optionnels. Mécanique CSS 3D : perspective 1500px, preserve-3d, rotateY(180deg), backfaceVisibility. Tone-aware (border + gradient).',
+    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone'],
+    usedBy: ['FlashcardsViewer'],
+    render: () => {
+      const [flipped, setFlipped] = React.useState(false);
+      const [tone, setTone] = React.useState<'primary' | 'warm' | 'sun'>('primary');
+      return (
+        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
+          <div className="flex gap-2 justify-center">
+            {(['primary', 'warm', 'sun'] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTone(t)}
+                className={`px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors ${tone === t ? 'bg-primary-500 text-white' : 'bg-ink-100 text-ink-700 hover:bg-ink-200'}`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          <FlipCard
+            front={{
+              image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
+              icon: '🎯',
+              category: 'PROMPT ENGINEERING',
+              title: 'Les 4 Piliers du Prompt',
+            }}
+            back={{
+              content: 'RÔLE — CONTEXTE — INSTRUCTION — FORMAT',
+              details: 'Ces 4 éléments structurent un prompt clair pour obtenir les meilleurs résultats.',
+            }}
+            isFlipped={flipped}
+            onFlip={() => setFlipped((f) => !f)}
+            tone={tone}
+          />
+          <p className="text-center font-body text-caption text-ink-500">
+            {flipped ? 'Verso visible — cliquer pour retourner' : 'Recto — cliquer pour voir la réponse'}
+          </p>
         </div>
       );
     },

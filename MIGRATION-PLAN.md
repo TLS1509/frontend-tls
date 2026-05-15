@@ -985,7 +985,7 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
 | 14.1 | 🎯 Première expérience | Onboarding → Questionnaire → Tutorial → Success → Dashboard | ✅ |
-| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | 🚧 (a ✅, b ✅, c pending) |
+| 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | ✅ |
 | 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ⬜ |
 | 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ⬜ |
 | 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
@@ -1103,7 +1103,7 @@ Sous-phase A du redesign Apprenant core (split 14.2 en 3 : a/b/c). Focus = unifi
 
 **Validation** : `npx tsc --noEmit` ✅ · preview AstucesViewer/FlashcardsViewer/LessonPlayer desktop ✅ · 0 console errors · close buttons 44 px (min-h-touch).
 
-**Restant en 14.2c** : FlipCard extraction (170 LOC 3D de FlashcardsViewer) · vrai VideoPlayer (`<video>` natif) · persistence forms réflexion/action (Zustand).
+**Terminé en 14.2c** → voir section Phase 14.2c ci-dessous.
 
 ---
 
@@ -1118,6 +1118,27 @@ Sous-phase B : migration des 2 viewers restants vers ViewerHeader + tone system.
 **Pattern consolidé (4 viewers unifiés)** : AstucesViewer · FlashcardsViewer · ComplementaryContentViewer · VideoViewer → tous utilisent `ViewerHeader + useLessonContext() + fixed inset-0 z-modal` (Complementary/Astuces/Flashcards) ou `min-h-screen + ViewerHeader` (VideoViewer — page Veille).
 
 **Validation** : `npx tsc --noEmit` ✅ · preview ComplementaryContentViewer ✅ · preview VideoViewer ✅ · 0 console errors.
+
+---
+
+### Phase 14.2c — Apprenant core : FlipCard + persistence + video ✅ (2026-05-15)
+
+Sous-phase C : extraction DS, persistence Zustand, vrai player vidéo.
+
+**Nouveaux composants DS** :
+- `patterns/FlipCard` — 3D flip card atom. Props: `front{image,icon,category,title}`, `back{content,details?}`, `isFlipped`, `onFlip`, `tone`. Extrait de FlashcardsViewer (~90 LOC enlevés du viewer). Tone-aware (border + back gradient via TONE_BORDER_500/TONE_HERO_GRADIENT).
+
+**Persistence étendue** (`stores/persistence.ts`) :
+- `LessonProgressEntry` + `reflections?: Record<string,string>` + `actionPlan?: ActionPlan`
+- Actions `setReflection(lessonId, key, value)` + `setActionPlan(lessonId, plan)` ajoutées au store Zustand
+- `LessonPlayer` Réfléchir textareas + Appliquer inputs initialisés depuis le store et écrivent à chaque `onChange` → survit à la navigation entre sections
+
+**VideoViewer** :
+- `<video ref>` natif remplace le bouton play placeholder
+- Contrôles wired : play/pause toggle, mute, barre de progression seekable (clic pour seeker), affichage temps live `formatTime()`, plein écran via `requestFullscreen()`
+- `onEnded` → `setIsPlaying(false)`
+
+**Validation** : `npx tsc --noEmit` ✅ · FlashcardsViewer flip ✅ · VideoViewer lecture ✅ · 0 console errors.
 
 ---
 
