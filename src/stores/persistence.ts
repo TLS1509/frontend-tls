@@ -14,6 +14,8 @@
  *  - `useJournalStore` (Cahier #07) : JournalEntry (journal de bord réflexif)
  *  - `useCoachingStore` (Cahier #04) : CoachingSession + Correction
  *  - `useEnterpriseStore` (Cahier #06) : CompanyMember + CompanyCohort + ManagerAlert + CompanyStats + CompanyProject
+ *  - `useNotificationPrefsStore` (Cahier #09) : UserNotificationPrefs (channel prefs + email tracking)
+ *  - `useInAppNotificationsStore` (Cahier #09) : InAppNotification feed (in-app channel, persisted)
  *
  * Tous utilisent le middleware `persist` qui écrit dans localStorage avec
  * versioning automatique (clés `tls-*`), sauf useNotificationsStore (in-memory).
@@ -42,6 +44,8 @@ import type {
   ManagerAlert,
   CompanyStats,
   CompanyProject,
+  UserNotificationPrefs,
+  InAppNotification,
 } from '../types/learning';
 import {
   MOCK_LEARNER_COMPETENCIES,
@@ -63,6 +67,10 @@ import {
   MOCK_COMPANY_PROJECTS,
   MOCK_COMPANY_ID,
 } from '../data/enterprise';
+import {
+  MOCK_IN_APP_NOTIFICATIONS,
+  MOCK_USER_NOTIFICATION_PREFS,
+} from '../data/notifications';
 
 /* ─── 1. Bookmarks ──────────────────────────────────────────────────────── */
 
@@ -903,6 +911,114 @@ export const useEnterpriseStore = create<EnterpriseState>()(
     }),
     {
       name: 'tls-enterprise',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #13 — Notification Preferences (Cahier #09) ───────────────────────
+
+interface NotificationPrefsState {
+  prefs: Record<string, UserNotificationPrefs>;
+  getPrefs: (userId: string) => UserNotificationPrefs;
+  updatePrefs: (userId: string, updates: Partial<UserNotificationPrefs>) => void;
+  clear: () => void;
+}
+
+export const useNotificationPrefsStore = create<NotificationPrefsState>()(
+  persist(
+    (set, get) => ({
+      prefs: {},
+
+      getPrefs: (userId) => {
+        const existing = get().prefs[userId];
+        if (existing) return existing;
+        const fallback = MOCK_USER_NOTIFICATION_PREFS.userId === userId
+          ? MOCK_USER_NOTIFICATION_PREFS
+          : { ...MOCK_USER_NOTIFICATION_PREFS, userId };
+        set((state) => ({ prefs: { ...state.prefs, [userId]: fallback } }));
+        return fallback;
+      },
+
+      updatePrefs: (userId, updates) =>
+        set((state) => ({
+          prefs: {
+            ...state.prefs,
+            [userId]: {
+              ...(state.prefs[userId] ?? MOCK_USER_NOTIFICATION_PREFS),
+              ...updates,
+              updatedAt: new Date().toISOString(),
+            },
+          },
+        })),
+
+      clear: () => set({ prefs: {} }),
+    }),
+    {
+      name: 'tls-notification-prefs',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);
+
+// ─── Store #14 — In-App Notifications (Cahier #09) ───────────────────────────
+
+interface InAppNotificationsState {
+  notifications: Record<string, InAppNotification[]>;
+  getNotifications: (userId: string) => InAppNotification[];
+  getUnreadCount: (userId: string) => number;
+  markAsRead: (userId: string, notifId: string) => void;
+  markAllAsRead: (userId: string) => void;
+  addNotification: (notif: InAppNotification) => void;
+  clear: () => void;
+}
+
+export const useInAppNotificationsStore = create<InAppNotificationsState>()(
+  persist(
+    (set, get) => ({
+      notifications: {},
+
+      getNotifications: (userId) => {
+        const existing = get().notifications[userId];
+        if (existing) return existing;
+        const seeded = MOCK_IN_APP_NOTIFICATIONS.filter((n) => n.userId === userId);
+        set((state) => ({ notifications: { ...state.notifications, [userId]: seeded } }));
+        return seeded;
+      },
+
+      getUnreadCount: (userId) =>
+        get().getNotifications(userId).filter((n) => !n.isRead).length,
+
+      markAsRead: (userId, notifId) =>
+        set((state) => ({
+          notifications: {
+            ...state.notifications,
+            [userId]: (state.notifications[userId] ?? []).map((n) =>
+              n.id === notifId ? { ...n, isRead: true } : n
+            ),
+          },
+        })),
+
+      markAllAsRead: (userId) =>
+        set((state) => ({
+          notifications: {
+            ...state.notifications,
+            [userId]: (state.notifications[userId] ?? []).map((n) => ({ ...n, isRead: true })),
+          },
+        })),
+
+      addNotification: (notif) =>
+        set((state) => {
+          const existing = state.notifications[notif.userId] ?? [];
+          return { notifications: { ...state.notifications, [notif.userId]: [notif, ...existing] } };
+        }),
+
+      clear: () => set({ notifications: {} }),
+    }),
+    {
+      name: 'tls-in-app-notifications',
       storage: createJSONStorage(() => localStorage),
       version: 1,
     }

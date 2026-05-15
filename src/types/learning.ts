@@ -380,6 +380,77 @@ export interface Correction {
   updatedAt: string;
 }
 
+// ─── Notifications (Cahier #09) ──────────────────────────────────────────────
+
+/**
+ * Canaux de notification (Cahier #09 § Multi-Channel Architecture).
+ * email + in_app = MVP · whatsapp = V1 · push = V2
+ */
+export type NotificationChannel = 'email' | 'in_app' | 'whatsapp' | 'push';
+
+/**
+ * Types d'événements déclencheurs (Cahier #09 § notification_queue.event_type).
+ * Chaque event_type correspond à un template côté backend.
+ */
+export type NotificationEventType =
+  | 'lesson_published'
+  | 'coaching_booked'
+  | 'coaching_confirmed'
+  | 'coaching_recap_ready'
+  | 'badge_earned'
+  | 'jac_pending'
+  | 'jac_approved'
+  | 'parcours_completed'
+  | 'session_reminder'
+  | 'newsletter_weekly'
+  | 'report_weekly'
+  | 'system';
+
+/** Préférence par canal et par catégorie d'événement */
+export interface NotificationChannelPrefs {
+  /** Activer les notifications in-app */
+  inApp: boolean;
+  /** Activer les emails transactionnels */
+  email: boolean;
+  /** Activer WhatsApp (V1) */
+  whatsapp: boolean;
+  /** Activer push mobile (V2) */
+  push: boolean;
+}
+
+/** Préférences de notifications complètes de l'utilisateur (Cahier #09) */
+export interface UserNotificationPrefs {
+  userId: string;
+  /** Fréquence du résumé d'activité */
+  summaryFrequency: 'immediate' | 'daily' | 'weekly';
+  /** Désactiver le tracking email (pixels + click tracking) */
+  emailTrackingDisabled: boolean;
+  /** Prefs par canal pour les leçons et contenus */
+  lessons: NotificationChannelPrefs;
+  /** Prefs par canal pour le coaching */
+  coaching: NotificationChannelPrefs;
+  /** Prefs par canal pour la gamification (badges, XP) */
+  achievements: NotificationChannelPrefs;
+  /** Prefs par canal pour les alertes manager (enterprise) */
+  managerAlerts: NotificationChannelPrefs;
+  /** Newsletter hebdomadaire */
+  newsletter: Pick<NotificationChannelPrefs, 'email'>;
+  updatedAt: string;
+}
+
+/** Notification in-app (Cahier #09 § In-App channel) */
+export interface InAppNotification {
+  id: string;
+  userId: string;
+  eventType: NotificationEventType;
+  title: string;
+  body: string;
+  isRead: boolean;
+  /** Deep link vers la page concernée */
+  deepLink?: string;
+  createdAt: string;
+}
+
 // ─── Enterprise FO (Cahier #06) ──────────────────────────────────────────────
 
 /**

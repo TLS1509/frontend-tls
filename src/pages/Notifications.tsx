@@ -10,7 +10,7 @@
  *   - 100% Tailwind + DS tokens.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -20,7 +20,9 @@ import {
   SkeletonGroup,
   NotificationRowSkeleton,
 } from '../components/patterns/SkeletonTemplates';
-import { useNotificationsStore, useFilterPrefsStore } from '../stores/persistence';
+import { useNotificationsStore, useFilterPrefsStore, useInAppNotificationsStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { NotificationEventType } from '../types/learning';
 import {
   Bell,
   BookOpen,
@@ -74,69 +76,34 @@ const TYPE_CONFIG: Record<
   system:      { tone: 'neutral', icon: <Bell size={15} />,         label: 'Système' },
 };
 
-/* ── Mock data ──────────────────────────────────────────────────────────── */
+/* ── Event type → display type mapping (Cahier #09) ────────────────────── */
 
-const INITIAL: Notif[] = [
-  {
-    id: 'n1',
-    type: 'correction',
-    title: 'Correction de projet final disponible',
-    body: "Votre projet « Chatbot IA pour la Formation » a été corrigé.",
-    time: 'Il y a 5 min',
-    isRead: false,
-    grade: '18/20',
-  },
-  {
-    id: 'n2',
-    type: 'achievement',
-    title: 'Nouveau badge débloqué',
-    body: "Vous avez débloqué le badge « Expert en Prompt Engineering ».",
-    time: 'Il y a 15 min',
-    isRead: false,
-    badgeName: 'Expert en Prompt Engineering',
-  },
-  {
-    id: 'n3',
-    type: 'lesson',
-    title: 'Nouvelle leçon disponible',
-    body: "« IA Générative et Créativité » est désormais dans votre parcours.",
-    time: 'Il y a 1h',
-    isRead: false,
-  },
-  {
-    id: 'n4',
-    type: 'completion',
-    title: 'Leçon complétée',
-    body: "« Fondamentaux du Prompt Engineering » — score 95 %.",
-    time: 'Il y a 2h',
-    isRead: true,
-    grade: '95 %',
-  },
-  {
-    id: 'n5',
-    type: 'report',
-    title: 'Compte-rendu de coaching',
-    body: "Le compte-rendu de votre session du 15 décembre est disponible.",
-    time: 'Hier',
-    isRead: true,
-  },
-  {
-    id: 'n6',
-    type: 'coaching',
-    title: 'Rappel : session de coaching demain',
-    body: "Votre session avec Sophie Martin est programmée demain à 14h.",
-    time: 'Hier',
-    isRead: true,
-  },
-  {
-    id: 'n7',
-    type: 'message',
-    title: 'Nouveau message',
-    body: "Sophie Martin vous a envoyé un message à propos de votre projet final.",
-    time: 'Il y a 3 jours',
-    isRead: true,
-  },
-];
+const EVENT_TO_NOTIF_TYPE: Record<NotificationEventType, NotifType> = {
+  lesson_published: 'lesson',
+  coaching_booked: 'coaching',
+  coaching_confirmed: 'coaching',
+  coaching_recap_ready: 'report',
+  badge_earned: 'achievement',
+  jac_pending: 'system',
+  jac_approved: 'achievement',
+  parcours_completed: 'completion',
+  session_reminder: 'coaching',
+  newsletter_weekly: 'report',
+  report_weekly: 'report',
+  system: 'system',
+};
+
+function formatRelativeTime(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "À l'instant";
+  if (mins < 60) return `Il y a ${mins} min`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `Il y a ${hours}h`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return 'Hier';
+  return `Il y a ${days} jours`;
+}
 
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
   { id: 'all',      label: 'Toutes',     icon: <Bell size={13} /> },
@@ -157,25 +124,41 @@ export const Notifications: React.FC = () => {
     setFilterRaw(f);
     setPersistedFilters('notifications', [f]);
   };
-  const [items, setItems] = useState<Notif[]>(INITIAL);
   const [loadCount, setLoadCount] = useState(10);
-  // Simulated loading state for skeleton demo — replace by real fetch state when API wired
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const t = setTimeout(() => setIsLoading(false), 700);
     return () => clearTimeout(t);
   }, []);
 
+  const notifStore = useInAppNotificationsStore();
+  const storeNotifs = notifStore.getNotifications(MOCK_USER_ID);
+
+  // Map InAppNotification → display Notif
+  const items: Notif[] = useMemo(
+    () =>
+      storeNotifs.map((n) => ({
+        id: n.id,
+        type: EVENT_TO_NOTIF_TYPE[n.eventType] ?? 'system',
+        title: n.title,
+        body: n.body,
+        time: formatRelativeTime(n.createdAt),
+        isRead: n.isRead,
+      })),
+    [storeNotifs]
+  );
+
   // Sync unread count to global store (powers Sidebar badge)
   const setUnreadCount = useNotificationsStore((s) => s.setUnreadCount);
   useEffect(() => {
-    const unread = items.filter((n) => !n.isRead).length;
+    const unread = storeNotifs.filter((n) => !n.isRead).length;
     setUnreadCount(unread);
-  }, [items, setUnreadCount]);
+  }, [storeNotifs, setUnreadCount]);
 
-  const markAllRead = () => setItems((prev) => prev.map((n) => ({ ...n, isRead: true })));
-  const markRead    = (id: string) => setItems((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
-  const deleteNotif = (id: string) => setItems((prev) => prev.filter((n) => n.id !== id));
+  const markAllRead = () => notifStore.markAllAsRead(MOCK_USER_ID);
+  const markRead    = (id: string) => notifStore.markAsRead(MOCK_USER_ID, id);
+  // deletion not in spec — keep in-app store items but mark read instead
+  const deleteNotif = (id: string) => notifStore.markAsRead(MOCK_USER_ID, id);
 
   const unread = items.filter((n) => !n.isRead).length;
 
