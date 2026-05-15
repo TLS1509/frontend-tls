@@ -988,39 +988,39 @@ La query DB a `has_more: true`. Items non confirmés dans les premiers résultat
 | 14.2 | 📚 Apprenant core | Dashboard → LearningPaths → PathDetail → Positionnement → LessonPlayer → 4 Viewers | ✅ |
 | 14.3 | 📚 Passeport & progression | Passeport → CompetenceDetail → Objectifs → Roadmap → Historique → JAC | ✅ |
 | 14.4 | 🎓 Coaching apprenant | Coaching → Booking → Session → CompteRendu → Corrections → Messages | ✅ |
-| 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ⬜ |
+| 14.5 | 📝 Journal réflexif | Journal → NewEntry → FreeEntry → Detail → Search | ✅ |
 
 #### Tier 2 — Engagement & contenu
 
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
-| 14.6 | 🎮 Gamification | Gamification → BadgeGallery → BadgeDetail → Streaks → XP → Achievements | ⬜ |
-| 14.7 | 📰 Veille | Veille hub → Magazine/Article/Dossier/MagazineArticle/Newsletter/WeeklyNews/VideoTutorial/VideoReels/Perplexity | ⬜ |
-| 14.8 | 👥 Social | Notifications → Messages → Collaboration → Leaderboard | ⬜ |
+| 14.6 | 🎮 Gamification | Gamification → BadgeGallery → BadgeDetail → Streaks → XP → Achievements | ✅ |
+| 14.7 | 📰 Veille | Veille hub → Magazine/Article/Dossier/MagazineArticle/Newsletter/WeeklyNews/VideoTutorial/VideoReels/Perplexity | ✅ |
+| 14.8 | 👥 Social | Notifications → Messages → Collaboration → Leaderboard | ✅ |
 
 #### Tier 3 — Coach back-office & Projects
 
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
-| 14.9 | 🎓 Coach backoffice | CoachDashboard → Apprenants → LearnerProfile/Analytics → Heatmap → Corrections → Engagement → Calendar → Journal → Recommendations → Stagnation → Enterprise/Team Dashboards | ⬜ |
-| 14.10 | 📁 Projects SBO | ProjectsList → Detail → Task → JAC → Team → SkillGaps → PasseportFeed | ⬜ |
+| 14.9 | 🎓 Coach backoffice | CoachDashboard → Apprenants → LearnerProfile/Analytics → Heatmap → Corrections → Engagement → Calendar → Journal → Recommendations → Stagnation → Enterprise/Team Dashboards | ✅ |
+| 14.10 | 📁 Projects SBO | ProjectsList → Detail → Task → JAC → Team → SkillGaps → PasseportFeed | ✅ |
 
 #### Tier 4 — Enterprise & événements
 
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
-| 14.11 | ⚙️ Manager/Enterprise | ManagerEnterprise → Cohort → Alerts → Export → ViewsBuilder → KPIs → Inactivité → ApiDocs → Webhooks | ⬜ |
-| 14.12 | 🎓 Masterclass / Ateliers / Événements | 3 hubs + variantes Pre/Live/Post/Replay/Survey/Waitlist/Presentiel | ⬜ |
+| 14.11 | ⚙️ Manager/Enterprise | ManagerEnterprise → Cohort → Alerts → Export → ViewsBuilder → KPIs → Inactivité → ApiDocs → Webhooks | ✅ |
+| 14.12 | 🎓 Masterclass / Ateliers / Événements | 3 hubs + variantes Pre/Live/Post/Replay/Survey/Waitlist/Presentiel | ✅ |
 
 #### Tier 5 — Auth, Settings, Support, Edge
 
 | # | Flow | Écrans clés | Statut |
 |---|------|-------------|--------|
-| 14.13 | 🔐 Auth | Login → Signup → VerifyEmail → MagicLink → ForgotPassword → ResetPassword | ⬜ |
-| 14.14 | ⚙️ Profile/Account | Profile → Account → Billing → Settings → Credits → Privacy/Consent/DSAR/Delete → NotificationPreferences | ⬜ |
-| 14.15 | ❓ Support | Help → Search → Article → Tickets → Tutorials | ⬜ |
-| 14.16 | 🤖 Chatbot | Assistant → History | ⬜ |
-| 14.17 | 🚫 Errors | 404 → 500 | ⬜ |
+| 14.13 | 🔐 Auth | Login → Signup → VerifyEmail → MagicLink → ForgotPassword → ResetPassword | ✅ |
+| 14.14 | ⚙️ Profile/Account | Profile → Account → Billing → Settings → Credits → Privacy/Consent/DSAR/Delete → NotificationPreferences | ✅ |
+| 14.15 | ❓ Support | Help → Search → Article → Tickets → Tutorials | ✅ |
+| 14.16 | 🤖 Chatbot | Assistant → History | ✅ |
+| 14.17 | 🚫 Errors | 404 → 500 | ✅ |
 
 ### Phase 14 close — critères
 

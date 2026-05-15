@@ -49,7 +49,7 @@ export default function HelpTicketDetail() {
           title="Réponse du support"
           titleIcon={<Headphones size={18} />}
         >
-          <Card tone="neutral">
+          <Card>
             <div className="flex gap-stack">
               <Avatar size="md" tint="brand">SP</Avatar>
               <div className="flex flex-col gap-stack-xs flex-1">

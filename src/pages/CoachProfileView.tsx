@@ -149,7 +149,7 @@ export default function CoachProfileView() {
             <SectionCard title="Témoignages">
               <div className="flex flex-col gap-stack">
                 {TESTIMONIALS.map((t) => (
-                  <Card key={t.id} tone="neutral" className="p-5 flex flex-col gap-stack-xs">
+                  <Card key={t.id} className="p-5 flex flex-col gap-stack-xs">
                     <div className="flex items-start justify-between gap-stack-xs flex-wrap">
                       <div className="flex items-center gap-stack-xs">
                         <Avatar name={t.name} initials={t.initials} size="sm" />
@@ -196,7 +196,7 @@ export default function CoachProfileView() {
             </div>
 
             {/* Next slot */}
-            <Card tone="neutral" className="p-4 flex flex-col gap-stack-xs">
+            <Card className="p-4 flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs text-body-sm text-ink-600">
                 <Clock3 size={15} className="text-secondary-500 shrink-0" />
                 <span className="font-semibold text-ink-900">Prochain créneau disponible</span>
