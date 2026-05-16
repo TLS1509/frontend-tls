@@ -1053,20 +1053,62 @@ const TabsDemo: React.FC = () => {
 
 const FilterChipDemo: React.FC = () => {
   const [active, setActive] = useState('all');
+  const [activeGlass, setActiveGlass] = useState('tous');
+  const TOPICS = ['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'];
   return (
-    <div className="flex gap-2 flex-wrap">
-      {['Tous', 'Leadership', 'IA', 'Formation', 'Coaching'].map((label, i) => {
-        const key = i === 0 ? 'all' : label.toLowerCase();
-        return (
-          <FilterChip
-            key={key}
-            label={label}
-            active={active === key}
-            onClick={() => setActive(key)}
-          />
-        );
-      })}
-      <FilterChip label="Réinitialiser" variant="reset" onClick={() => setActive('all')} />
+    <div className="flex flex-col gap-stack-lg">
+      {/* Default surface */}
+      <div className="flex flex-col gap-2">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default surface · single-select + reset</p>
+        <div className="flex gap-2 flex-wrap">
+          {TOPICS.map((label, i) => {
+            const key = i === 0 ? 'all' : label.toLowerCase();
+            return (
+              <FilterChip key={key} label={label} active={active === key} onClick={() => setActive(key)} />
+            );
+          })}
+          <FilterChip label="Réinitialiser" variant="reset" onClick={() => setActive('all')} />
+        </div>
+      </div>
+
+      {/* Default with count badges */}
+      <div className="flex flex-col gap-2">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default · avec count badges</p>
+        <div className="flex gap-2 flex-wrap">
+          <FilterChip label="En cours" active count={3} onClick={() => {}} />
+          <FilterChip label="Terminés" count={1} onClick={() => {}} />
+          <FilterChip label="Pas commencés" count={2} onClick={() => {}} />
+        </div>
+      </div>
+
+      {/* Glass variant */}
+      <div className="flex flex-col gap-2">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
+        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-4 py-5 flex gap-2 flex-wrap">
+          {TOPICS.map((label, i) => {
+            const key = i === 0 ? 'tous' : label.toLowerCase();
+            return (
+              <FilterChip
+                key={key}
+                label={label}
+                variant="glass"
+                active={activeGlass === key}
+                onClick={() => setActiveGlass(key)}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Glass with count badges */}
+      <div className="flex flex-col gap-2">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
+        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-4 py-5 flex gap-2 flex-wrap">
+          <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
+          <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
+          <FilterChip label="Invitations" variant="glass" onClick={() => {}} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -1781,16 +1823,17 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['LearningPaths', 'Veille', 'Journal', 'Courses', 'Help/Support', 'Messages', 'Leaderboard'],
-    description: 'Search bar with async suggestions, filtering, and multiple interaction patterns. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Features: shortcut badge, clear button, custom leading icon, trailing slot (filter/voice), inline filter chips (filtersSlot), suggestions dropdown (isLoading + suggestions + onSuggestionSelect), custom suggestion renderer.',
+    subCategory: 'Search & Filters',
+    usedBy: ['LearningPaths', 'Veille', 'Journal', 'Help/Support', 'Messages', 'Leaderboard', 'Recherche'],
+    description: 'Search bar composable. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. Glass variant pour fonds colorés/gradients.',
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
     render: () => {
       const [searchVal, setSearchVal] = React.useState('');
       const [suggestionsOpen, setSuggestionsOpen] = React.useState(false);
       const [isLoading, setIsLoading] = React.useState(false);
       const [filterQuery, setFilterQuery] = React.useState('');
+      const [glassFilters, setGlassFilters] = React.useState<string[]>(['en cours']);
 
-      // Mock suggestions based on search input
       const mockSuggestions = searchVal.length > 0
         ? [
             { id: '1', label: 'React Fundamentals', metadata: 'Parcours · 5 modules' },
@@ -1800,35 +1843,37 @@ const COMPONENTS: ComponentEntry[] = [
         : [];
 
       return (
-        <div className="flex flex-col gap-4 max-w-xl">
-          {/* Variants */}
-          <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
-          <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
-          <Search variant="ghost" placeholder="ghost — Rechercher…" />
-          {/* Glass on colored bg */}
-          <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
-            <Search variant="glass" placeholder="glass — Rechercher sur fond coloré…" shortcut="⌘K" />
-          </div>
-          {/* Sizes */}
+        <div className="flex flex-col gap-section max-w-xl">
+
+          {/* ── Variants ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
+            <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
+            <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
+            <Search variant="ghost" placeholder="ghost — Rechercher…" />
+            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
+              <Search variant="glass" placeholder="glass — sur fond coloré…" shortcut="⌘K" />
+            </div>
+          </div>
+
+          {/* ── Sizes ────────────────────────────────────────────── */}
+          <div className="flex flex-col gap-2">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes</p>
             <Search size="sm" placeholder="sm — compact" />
             <Search size="default" placeholder="default — standard" />
             <Search size="lg" placeholder="lg — large" shortcut="⌘K" />
           </div>
 
-          {/* ⭐ Suggestions dropdown — async search with isLoading + suggestions */}
+          {/* ── Suggestions (async) ───────────────────────────── */}
           <div className="flex flex-col gap-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions dropdown · async search</p>
-            <p className="text-caption text-ink-600 m-0">Type "react" to see suggestions dropdown. Integrated loading state, suggestion selection, and custom rendering.</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions · async + loading state</p>
             <Search
-              size="default"
               variant="filled"
               placeholder='Tape "react" pour suggestions…'
               value={searchVal}
               onChange={(e) => {
                 setSearchVal(e.target.value);
                 setSuggestionsOpen(e.target.value.length > 0);
-                // Simulate async loading
                 if (e.target.value.length > 0) {
                   setIsLoading(true);
                   setTimeout(() => setIsLoading(false), 600);
@@ -1838,20 +1883,16 @@ const COMPONENTS: ComponentEntry[] = [
               suggestions={mockSuggestions}
               suggestionsOpen={suggestionsOpen}
               onSuggestionsOpenChange={setSuggestionsOpen}
-              onSuggestionSelect={(suggestion) => {
-                setSearchVal(suggestion.label);
-                setSuggestionsOpen(false);
-              }}
+              onSuggestionSelect={(s) => { setSearchVal(s.label); setSuggestionsOpen(false); }}
             />
           </div>
 
-          {/* Trailing slot — filter button (drawer collapsible pattern) */}
+          {/* ── trailing slot ───────────────────────────────────────────── */}
           <div className="flex flex-col gap-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Trailing slot · filter button toggle (chips dans drawer collapsible)</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">trailing slot · filter button avec badge</p>
             <Search
-              size="default"
               variant="filled"
-              placeholder="Search avec filter button toggle…"
+              placeholder="Rechercher avec filtres…"
               trailing={
                 <button
                   type="button"
@@ -1859,73 +1900,65 @@ const COMPONENTS: ComponentEntry[] = [
                   aria-label="Filtres"
                 >
                   <SlidersHorizontal size={16} />
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">2</span>
+                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-400 text-white text-[10px] font-bold border border-white">2</span>
                 </button>
               }
             />
           </div>
 
-          {/* ⭐ filtersSlot — chips inline visibles dans le wrapper bordé */}
+          {/* ── filtersSlot (FilterChip inline) ──────────────────────── */}
           <div className="flex flex-col gap-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · chips inline visibles (alternative au drawer)</p>
-            <p className="text-caption text-ink-600 m-0">Quand on veut que les filtres soient TOUJOURS visibles dans le même bordered wrapper que la search bar.</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
             <Search
-              size="default"
-              variant="default"
-              placeholder="Search avec filter chips visibles…"
+              value={filterQuery}
+              onChange={(e) => setFilterQuery(e.target.value)}
+              placeholder="Rechercher dans Veille…"
               filtersSlot={
                 <>
-                  <FilterChip label="Tout" active />
-                  <FilterChip label="📰 Actus" />
-                  <FilterChip label="🎬 Tutoriels" />
-                  <FilterChip label="📂 Dossiers" />
-                  <FilterChip label="📚 Le Mag" />
+                  <FilterChip label="Tout" active={filterQuery === ''} onClick={() => setFilterQuery('')} />
+                  <FilterChip label="Actus" active={filterQuery === 'actu'} onClick={() => setFilterQuery('actu')} />
+                  <FilterChip label="Tutoriels" active={filterQuery === 'tuto'} onClick={() => setFilterQuery('tuto')} />
+                  <FilterChip label="Dossiers" active={filterQuery === 'dossier'} onClick={() => setFilterQuery('dossier')} />
                 </>
               }
             />
           </div>
 
-          {/* ⭐ PHASE 14.2 PATTERN: Search + FilterBar in glass variant (LearningPaths hero) */}
+          {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
           <div className="flex flex-col gap-2">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Phase 14.2: Search + FilterBar on glass bg (LearningPaths pattern)</p>
-            <p className="text-caption text-ink-600 m-0">Search with glass variant + FilterBar in filtersSlot. Fixed bugs: native close button suppressed (appearance-none), proper icon-to-text spacing (pr-1/2/3).</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
             <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-6 rounded-xl">
               <Search
                 size="sm"
                 variant="glass"
-                value={filterQuery}
-                onChange={(e) => setFilterQuery(e.target.value)}
-                placeholder="Rechercher…"
+                placeholder="Rechercher un parcours…"
                 aria-label="Rechercher un parcours"
                 filtersSlot={
                   <div className="flex flex-wrap items-center gap-2">
                     <FilterBar
                       options={[
-                        { id: 'en cours', label: 'En cours', count: 3 },
-                        { id: 'termine', label: 'Terminés', count: 1 },
-                        { id: 'pas commence', label: 'Pas commencés', count: 2 },
+                        { id: 'en cours',      label: 'En cours',      count: 3 },
+                        { id: 'termine',       label: 'Terminés',      count: 1 },
+                        { id: 'pas commence',  label: 'Pas commencés', count: 2 },
                       ]}
-                      selected={[]}
-                      onChange={() => {}}
-                      onClearAll={() => setFilterQuery('')}
+                      selected={glassFilters}
+                      onChange={setGlassFilters}
                       tone="primary"
                       variant="glass"
                       size="sm"
                       surface="plain"
                     />
-                    <span className="font-body text-caption text-white/70 ml-auto">
-                      3 sur 6
-                    </span>
+                    <span className="font-body text-caption text-white/70 ml-auto">3 sur 6</span>
                   </div>
                 }
               />
             </div>
           </div>
+
         </div>
       );
     },
   },
-
   /* ---- LEARNING --------------------------------------------------------- */
   {
     name: 'StatCard',
@@ -2250,10 +2283,12 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterChip',
     codeName: 'FilterChip.tsx',
-    cssBase: '.filter-chip',
-    category: 'Patterns',
-    description: 'Chip de filtrage cliquable avec état actif. Supporte icon, variante reset. Accessibilité: focus ring WCAG AA.',
-    keywords: ['filter', 'chip', 'tag', 'select', 'active'],
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Atoms',
+    subCategory: 'Chips & Pills',
+    usedBy: ['LearningPaths', 'Veille', 'Journal', 'Notifications'],
+    description: 'Chip de filtrage toggle avec état actif. 3 variants: default (fond solid), glass (glassmorphism sur gradient bg), reset (clear action). Count badge optionnel. Accessibilité: aria-pressed + focus ring WCAG AA.',
+    keywords: ['filter', 'chip', 'tag', 'select', 'active', 'glass', 'toggle', 'count'],
     render: () => <FilterChipDemo />,
   },
   {
@@ -2551,17 +2586,40 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Tag',
     codeName: 'Tag.tsx',
-    cssBase: '.tag / .tag--removable',
-    category: 'Content',
-    description: 'Étiquette de catégorie ou filtre actif. Neutre par défaut, supprimable pour les filtres actifs (bouton ×).',
-    keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip'],
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Atoms',
+    subCategory: 'Chips & Pills',
+    usedBy: ['Journal', 'Passeport', 'Recherche', 'Veille'],
+    description: 'Étiquette statique ou filtre actif supprimable. 4 tones (neutral/primary/warm/sun) + surface glass pour fonds colorés. Bouton × intégré pour la suppression. Icon optionnel.',
+    keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip', 'glass', 'tone'],
     render: () => (
-      <div className="hstack flex-wrap">
-        <Tag>Leadership</Tag>
-        <Tag>IA Générative</Tag>
-        <Tag leadingIcon={I.book}>Formation</Tag>
-        <Tag onRemove={() => {}}>Supprimable ×</Tag>
-        <Tag leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
+      <div className="flex flex-col gap-stack-lg">
+        {/* Tones solid */}
+        <div className="flex flex-col gap-2">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones · solid surface</p>
+          <div className="flex flex-wrap gap-2">
+            <Tag tone="neutral">Neutre</Tag>
+            <Tag tone="primary">Leadership</Tag>
+            <Tag tone="warm">Formation</Tag>
+            <Tag tone="sun">IA Générative</Tag>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Tag tone="neutral" leadingIcon={I.book}>Avec icon</Tag>
+            <Tag tone="primary" onRemove={() => {}}>Supprimable</Tag>
+            <Tag tone="warm" leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
+          </div>
+        </div>
+        {/* Glass surface */}
+        <div className="flex flex-col gap-2">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass surface · sur fond coloré</p>
+          <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-4 py-5 flex flex-wrap gap-2">
+            <Tag surface="glass">Leadership</Tag>
+            <Tag surface="glass">IA Générative</Tag>
+            <Tag surface="glass" leadingIcon={I.book}>Formation</Tag>
+            <Tag surface="glass" onRemove={() => {}}>Supprimable ×</Tag>
+            <Tag surface="glass" leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
+          </div>
+        </div>
       </div>
     ),
   },

@@ -2,11 +2,14 @@ import React from 'react';
 import { X } from 'lucide-react';
 
 export type TagTone = 'neutral' | 'primary' | 'warm' | 'sun';
+export type TagSurface = 'default' | 'glass';
 
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   onRemove?: () => void;
   leadingIcon?: React.ReactNode;
   tone?: TagTone;
+  /** 'glass' = glassmorphism — use on colored/gradient backgrounds */
+  surface?: TagSurface;
 }
 
 const TONE_CLASSES: Record<TagTone, string> = {
@@ -23,17 +26,23 @@ const REMOVE_HOVER: Record<TagTone, string> = {
   sun:     'hover:bg-accent-100 hover:text-accent-900',
 };
 
+const GLASS_BASE = 'bg-white/15 text-white border-white/30 backdrop-blur-glass-light';
+const GLASS_REMOVE = 'hover:bg-white/25 hover:text-white';
+
 export const Tag: React.FC<TagProps> = ({
   onRemove,
   leadingIcon,
   tone = 'neutral',
+  surface = 'default',
   className = '',
   children,
   ...rest
 }) => {
+  const isGlass = surface === 'glass';
+
   const classes = [
     'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap transition-colors',
-    TONE_CLASSES[tone],
+    isGlass ? GLASS_BASE : TONE_CLASSES[tone],
     className,
   ]
     .filter(Boolean)
@@ -55,7 +64,7 @@ export const Tag: React.FC<TagProps> = ({
           }}
           className={[
             'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors',
-            REMOVE_HOVER[tone],
+            isGlass ? GLASS_REMOVE : REMOVE_HOVER[tone],
           ].join(' ')}
         >
           <X size={11} strokeWidth={2.5} />
