@@ -14,11 +14,10 @@ import { motion } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
-  ArrowUpRight,
+  BookOpen,
   Clock,
   Quote,
   Share2,
-  BookOpen,
   Sparkles,
   Calendar,
   Hash,
@@ -33,7 +32,7 @@ import {
   GradientText,
   MagneticButton,
 } from '../../components/marketing/motion';
-import { ARTICLES, findArticle, getRelatedArticles } from '../../data/marketingArticles';
+import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
 
 const CATEGORY_TONES: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
@@ -167,173 +166,141 @@ const useActiveSection = (sectionIds: string[]): string | null => {
   return active;
 };
 
-// ─── Article body (intro + sections + pull quotes + conclusion) ───────────────
+// ─── Block renderer ───────────────────────────────────────────────────────────
+const PULLQUOTE_GRADIENTS = [
+  'from-primary-50 via-white to-accent-50/30 border-primary-100',
+  'from-secondary-50 via-white to-accent-50/30 border-secondary-100',
+  'from-accent-50 via-white to-primary-50/30 border-accent-100',
+];
+const PULLQUOTE_ICON_COLORS = ['text-primary-300', 'text-secondary-300', 'text-warning-fg/40'];
+
+const BodyBlock: React.FC<{ block: ArticleBodyBlock; pullquoteIndex: number }> = ({
+  block,
+  pullquoteIndex,
+}) => {
+  const gradIdx = pullquoteIndex % 3;
+
+  switch (block.type) {
+    case 'h2':
+      return (
+        <h2
+          id={headingToId(block.text)}
+          className="font-display text-[clamp(1.5rem,2.5vw,2rem)] font-extrabold text-ink-900 leading-tight m-0 scroll-mt-32 pt-stack"
+        >
+          {block.text}
+        </h2>
+      );
+    case 'h3':
+      return (
+        <h3 className="font-display text-[clamp(1.1rem,1.8vw,1.35rem)] font-bold text-ink-800 leading-snug m-0 pt-1">
+          {block.text}
+        </h3>
+      );
+    case 'p':
+      return (
+        <p className="font-body text-[clamp(1rem,1.3vw,1.125rem)] text-ink-700 leading-[1.8] m-0">
+          {block.text}
+        </p>
+      );
+    case 'ul':
+      return (
+        <ul className="flex flex-col gap-2 m-0 pl-0 list-none">
+          {block.items.map((item, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="shrink-0 mt-[0.45em] w-1.5 h-1.5 rounded-full bg-primary-400" />
+              <span className="font-body text-[clamp(0.9375rem,1.2vw,1rem)] text-ink-700 leading-relaxed">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      );
+    case 'pullquote':
+      return (
+        <blockquote
+          className={`relative my-2 rounded-3xl bg-gradient-to-br ${PULLQUOTE_GRADIENTS[gradIdx]} border p-section`}
+        >
+          <Quote
+            aria-hidden
+            size={48}
+            className={`absolute -top-4 left-section ${PULLQUOTE_ICON_COLORS[gradIdx]}`}
+          />
+          <p className="font-display text-[clamp(1.2rem,1.8vw,1.6rem)] font-medium text-ink-900 leading-snug m-0 italic">
+            « {block.text} »
+          </p>
+        </blockquote>
+      );
+    default:
+      return null;
+  }
+};
+
+// ─── Article body ─────────────────────────────────────────────────────────────
 const ArticleBody: React.FC<{
   intro: string;
-  sections: { heading: string; subheadings?: string[] }[];
-  quotes: string[];
+  body: ArticleBodyBlock[];
   conclusion: string;
   liveUrl: string;
-}> = ({ intro, sections, quotes, conclusion, liveUrl }) => (
-  <article className="flex flex-col gap-section">
-    {/* Intro */}
-    <FadeInWhenVisible direction="up">
-      <div className="prose-content">
+}> = ({ intro, body, conclusion, liveUrl }) => {
+  let pullquoteCount = 0;
+
+  return (
+    <article className="flex flex-col gap-stack-lg">
+      {/* Intro — drop cap */}
+      <FadeInWhenVisible direction="up">
         <p className="font-display text-[clamp(1.125rem,1.5vw,1.375rem)] text-ink-800 leading-relaxed m-0 first-letter:font-extrabold first-letter:text-[3rem] first-letter:leading-[0.85] first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:text-primary-600">
           {intro}
         </p>
-      </div>
-    </FadeInWhenVisible>
-
-    {/* Pull quote #1 */}
-    {quotes[0] && (
-      <FadeInWhenVisible direction="up" delay={0.05}>
-        <blockquote className="relative my-stack rounded-3xl bg-gradient-to-br from-primary-50 via-white to-accent-50/30 border border-primary-100 p-section">
-          <Quote
-            aria-hidden
-            size={48}
-            className="absolute -top-4 left-section text-primary-300"
-          />
-          <p className="font-display text-[clamp(1.25rem,2vw,1.75rem)] font-medium text-ink-900 leading-snug m-0 italic">
-            « {quotes[0]} »
-          </p>
-        </blockquote>
       </FadeInWhenVisible>
-    )}
 
-    {/* Sections (headings only — body lives on live site) */}
-    <FadeInWhenVisible direction="up">
-      <div className="flex flex-col gap-stack-lg">
-        <h2 className="font-display text-h2 font-extrabold text-ink-900 leading-tight m-0">
-          Le sommaire détaillé
-        </h2>
-        <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
-          Voici la structure complète de l'article. Le contenu in extenso est publié
-          sur le site canonique TLS — clique sur les sections pour y accéder.
-        </p>
-        <ol className="flex flex-col gap-2 m-0 p-0 list-none">
-          {sections.map((s, i) => {
-            const id = headingToId(s.heading);
-            return (
-              <li key={id} id={id} className="scroll-mt-32">
-                <motion.div
-                  whileHover={{ x: 4 }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                  className="rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-md transition-all duration-base group"
-                >
-                  <a
-                    href={liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-stack p-stack-lg"
-                  >
-                    <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-primary-50 text-primary-700 border border-primary-100 font-display font-extrabold text-body-sm tabular-nums">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <div className="flex-1 flex flex-col gap-1 min-w-0">
-                      <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-fast">
-                        {s.heading}
-                      </h3>
-                      {s.subheadings && (
-                        <ul className="flex flex-col gap-1 m-0 mt-1 p-0 list-none">
-                          {s.subheadings.map((sub) => (
-                            <li
-                              key={sub}
-                              className="font-body text-body-sm text-ink-600 leading-snug pl-3 border-l-2 border-ink-100"
-                            >
-                              {sub}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                    <ArrowUpRight
-                      size={16}
-                      className="text-ink-400 group-hover:text-primary-600 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-base shrink-0 mt-2"
-                    />
-                  </a>
-                </motion.div>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
-    </FadeInWhenVisible>
+      {/* Body blocks — no per-block animation for reading flow */}
+      {body.map((block, i) => {
+        const pqIdx = block.type === 'pullquote' ? pullquoteCount++ : -1;
+        if (block.type === 'h2') {
+          return (
+            <FadeInWhenVisible key={i} direction="up">
+              <BodyBlock block={block} pullquoteIndex={pqIdx} />
+            </FadeInWhenVisible>
+          );
+        }
+        return <BodyBlock key={i} block={block} pullquoteIndex={pqIdx} />;
+      })}
 
-    {/* Pull quote #2 */}
-    {quotes[1] && (
+      {/* Conclusion */}
       <FadeInWhenVisible direction="up">
-        <blockquote className="relative my-stack rounded-3xl bg-gradient-to-br from-secondary-50 via-white to-accent-50/30 border border-secondary-100 p-section">
-          <Quote
-            aria-hidden
-            size={48}
-            className="absolute -top-4 left-section text-secondary-300"
-          />
-          <p className="font-display text-[clamp(1.25rem,2vw,1.75rem)] font-medium text-ink-900 leading-snug m-0 italic">
-            « {quotes[1]} »
+        <div className="rounded-3xl bg-ink-50/40 border border-ink-100 p-section mt-stack">
+          <div className="flex items-center gap-2 mb-stack">
+            <Sparkles size={18} className="text-warning-fg" />
+            <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
+              Pour conclure
+            </span>
+          </div>
+          <p className="font-display text-[clamp(1.125rem,1.5vw,1.375rem)] text-ink-800 leading-relaxed m-0">
+            {conclusion}
           </p>
-        </blockquote>
+        </div>
       </FadeInWhenVisible>
-    )}
 
-    {/* Pull quote #3 */}
-    {quotes[2] && (
+      {/* Source link */}
       <FadeInWhenVisible direction="up">
-        <blockquote className="relative my-stack rounded-3xl bg-gradient-to-br from-accent-50 via-white to-primary-50/30 border border-accent-100 p-section">
-          <Quote
-            aria-hidden
-            size={48}
-            className="absolute -top-4 left-section text-warning-fg/40"
-          />
-          <p className="font-display text-[clamp(1.25rem,2vw,1.75rem)] font-medium text-ink-900 leading-snug m-0 italic">
-            « {quotes[2]} »
-          </p>
-        </blockquote>
-      </FadeInWhenVisible>
-    )}
-
-    {/* Conclusion */}
-    <FadeInWhenVisible direction="up">
-      <div className="rounded-3xl bg-ink-50/40 border border-ink-100 p-section">
-        <div className="flex items-center gap-2 mb-stack">
-          <Sparkles size={18} className="text-warning-fg" />
-          <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
-            Pour conclure
+        <div className="flex items-center gap-2 pt-stack border-t border-ink-100">
+          <ExternalLink size={14} className="text-ink-400 shrink-0" />
+          <span className="font-body text-caption text-ink-500">
+            Article publié sur{' '}
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-600 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast"
+            >
+              thelearningsociety.fr
+            </a>
           </span>
         </div>
-        <p className="font-display text-[clamp(1.125rem,1.5vw,1.375rem)] text-ink-800 leading-relaxed m-0">
-          {conclusion}
-        </p>
-      </div>
-    </FadeInWhenVisible>
-
-    {/* CTA full article */}
-    <FadeInWhenVisible direction="up">
-      <div className="rounded-3xl bg-gradient-to-br from-primary-700 to-primary-900 text-white p-section text-center flex flex-col items-center gap-stack-lg">
-        <BookOpen size={36} className="text-accent-400" />
-        <h3 className="font-display text-h3 font-extrabold m-0 leading-tight max-w-xl">
-          Lis l'article complet sur le site TLS
-        </h3>
-        <p className="font-body text-body text-white/85 m-0 max-w-prose">
-          Cette page présente la structure et les idées-clés. Le développement complet
-          (3 000 mots, exemples concrets, illustrations) est publié sur le site canonique.
-        </p>
-        <MagneticButton strength={12}>
-          <a href={liveUrl} target="_blank" rel="noopener noreferrer">
-            <Button
-              variant="ghost"
-              size="lg"
-              trailingIcon={<ExternalLink size={16} />}
-              className="!bg-white !text-primary-700 hover:!bg-accent-50 !border-0 shadow-2xl"
-            >
-              Lire sur thelearningsociety.fr
-            </Button>
-          </a>
-        </MagneticButton>
-      </div>
-    </FadeInWhenVisible>
-  </article>
-);
+      </FadeInWhenVisible>
+    </article>
+  );
+};
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export const MarketingArticleDetail: React.FC = () => {
@@ -440,8 +407,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <div className="min-w-0 max-w-3xl">
             <ArticleBody
               intro={article.intro}
-              sections={article.sections}
-              quotes={article.quotes}
+              body={article.body}
               conclusion={article.conclusion}
               liveUrl={article.liveUrl}
             />
