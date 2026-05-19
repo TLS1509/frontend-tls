@@ -27,23 +27,20 @@ export const Signup: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!acceptTerms) {
-      console.log('Please accept terms and conditions');
-      return;
-    }
-    console.log('Signup attempt:', { fullName, email, password });
+    if (!acceptTerms) return;
+    navigate('/auth/verify-email');
   };
 
   return (
     <AuthShell
-      brand={{ subtitle: 'Créez votre compte pour démarrer votre formation' }}
+      brand={{ subtitle: 'Crée ton compte pour démarrer ta formation' }}
       form={
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           <AuthField
             label="Nom complet"
             icon={<UserRound size={18} />}
             type="text"
-            placeholder="Votre nom"
+            placeholder="Ton nom"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
@@ -53,7 +50,7 @@ export const Signup: React.FC = () => {
             label="Adresse email"
             icon={<Mail size={18} />}
             type="email"
-            placeholder="vous@entreprise.com"
+            placeholder="toi@entreprise.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -74,6 +71,7 @@ export const Signup: React.FC = () => {
             label={
               <>
                 J'accepte les{' '}
+
                 <a href="#" className="text-white underline underline-offset-4 hover:text-white/85">
                   conditions d'utilisation
                 </a>{' '}

@@ -17,14 +17,14 @@ const ONBOARDING_PARCOURS_ID = 'onboarding-initial';
 
 /** 8 questions de positionnement initial, une par compétence H.S.O. canonique */
 const QUESTIONS = [
-  { id: 1, competenceId: 'communication',    q: 'Comment évaluez-vous votre aisance à communiquer clairement et à embarquer vos interlocuteurs ?' },
-  { id: 2, competenceId: 'leadership',       q: 'Avez-vous déjà piloté un projet transverse ou dirigé une équipe vers un objectif commun ?' },
-  { id: 3, competenceId: 'analyse',          q: 'Face à un problème complexe, décomposez-vous systématiquement la situation pour décider ?' },
-  { id: 4, competenceId: 'project_mgmt',     q: 'Réussissez-vous à planifier et respecter vos échéances même en charge importante ?' },
-  { id: 5, competenceId: 'cooperation',      q: 'Contribuez-vous activement aux décisions collectives et au travail en équipe ?' },
-  { id: 6, competenceId: 'adaptability',     q: "Face à un changement d'objectif soudain, ajustez-vous rapidement vos priorités ?" },
-  { id: 7, competenceId: 'critical_thinking', q: "Remettez-vous en question les sources et données qu'on vous fournit ?" },
-  { id: 8, competenceId: 'tech_tools',       q: 'Maîtrisez-vous les outils numériques du quotidien professionnel (suite office, outils cloud) ?' },
+  { id: 1, competenceId: 'communication',    q: 'Comment évalues-tu ton aisance à communiquer clairement et à embarquer tes interlocuteurs ?' },
+  { id: 2, competenceId: 'leadership',       q: 'As-tu déjà piloté un projet transverse ou dirigé une équipe vers un objectif commun ?' },
+  { id: 3, competenceId: 'analyse',          q: 'Face à un problème complexe, décomposes-tu systématiquement la situation pour décider ?' },
+  { id: 4, competenceId: 'project_mgmt',     q: 'Réussis-tu à planifier et respecter tes échéances même en charge importante ?' },
+  { id: 5, competenceId: 'cooperation',      q: 'Contribues-tu activement aux décisions collectives et au travail en équipe ?' },
+  { id: 6, competenceId: 'adaptability',     q: "Face à un changement d'objectif soudain, ajustes-tu rapidement tes priorités ?" },
+  { id: 7, competenceId: 'critical_thinking', q: "Remets-tu en question les sources et données qu'on te fournit ?" },
+  { id: 8, competenceId: 'tech_tools',       q: 'Maîtrises-tu les outils numériques du quotidien professionnel (suite office, outils cloud) ?' },
 ];
 
 const OnboardingQuestionnaire: React.FC = () => {

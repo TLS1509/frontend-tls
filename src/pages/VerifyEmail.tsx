@@ -56,8 +56,8 @@ export const VerifyEmail: React.FC = () => {
     <AuthShell
       brand={{
         icon: <MailCheck size={24} strokeWidth={1.75} className="text-white" />,
-        title: 'Vérifiez votre email',
-        subtitle: 'Une dernière étape pour activer votre compte',
+        title: 'Vérifie ton email',
+        subtitle: 'Une dernière étape pour activer ton compte',
       }}
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
@@ -79,8 +79,8 @@ export const VerifyEmail: React.FC = () => {
             </div>
 
             <p className="m-0 font-body text-body-sm text-white/75 leading-relaxed text-center">
-              Cliquez sur le lien de confirmation reçu dans votre boîte de réception pour activer votre compte.
-              Vérifiez aussi vos spams si besoin.
+              Clique sur le lien de confirmation reçu dans ta boîte de réception pour activer ton compte.
+              Vérifie aussi tes spams si besoin.
             </p>
 
             <div className="flex flex-col gap-3">
@@ -105,7 +105,7 @@ export const VerifyEmail: React.FC = () => {
           <AuthSuccess
             icon={<CheckCircle2 size={32} />}
             title="Email vérifié !"
-            description="Votre compte est actif. Continuez votre inscription en choisissant votre formule d'abonnement."
+            description="Ton compte est actif. Continue ton inscription en choisissant ta formule d'abonnement."
           >
             <div className="flex flex-col gap-3">
               <AuthPrimaryButton onClick={handleContinue}>

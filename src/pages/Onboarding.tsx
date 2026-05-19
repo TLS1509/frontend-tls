@@ -95,16 +95,16 @@ function StepProfil({
       </div>
       <div className="flex flex-col gap-tight">
         <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Dites-nous qui vous êtes
+          Dis-nous qui tu es
         </h2>
         <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Ces informations nous permettent de personnaliser vos recommandations.
+          Ces informations nous permettent de personnaliser tes recommandations.
         </p>
       </div>
 
       <Input
         id="firstName"
-        label="Votre prénom"
+        label="Ton prénom"
         required
         type="text"
         placeholder="Ex : Sophie"
@@ -114,7 +114,7 @@ function StepProfil({
 
       <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
         <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
-          Votre rôle <span className="text-danger-fg">*</span>
+          Ton rôle <span className="text-danger-fg">*</span>
         </legend>
         <OptionGrid
           tone="warm"
@@ -127,7 +127,7 @@ function StepProfil({
 
       <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
         <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
-          Votre secteur <span className="text-danger-fg">*</span>
+          Ton secteur <span className="text-danger-fg">*</span>
         </legend>
         <OptionGrid
           tone="warm"
@@ -164,10 +164,10 @@ function StepObjectifs({
       </div>
       <div className="flex flex-col gap-tight">
         <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Vos objectifs d'apprentissage
+          Tes objectifs d'apprentissage
         </h2>
         <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Sélectionnez tout ce qui vous correspond — plusieurs choix possibles.
+          Sélectionne tout ce qui te correspond — plusieurs choix possibles.
         </p>
       </div>
 
@@ -205,10 +205,10 @@ function StepRythme({
       </div>
       <div className="flex flex-col gap-tight">
         <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Votre rythme d'apprentissage
+          Ton rythme d'apprentissage
         </h2>
         <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Combien de temps souhaitez-vous consacrer à votre développement ?
+          Combien de temps souhaites-tu consacrer à ton développement ?
         </p>
       </div>
 
@@ -242,10 +242,10 @@ function StepConfirmation({
   ];
 
   const aiText = answers.goals.includes('Leadership') || answers.goals.includes('Coaching')
-    ? "Leadership & Impact — Développez vos compétences de pilotage et d'influence"
+    ? "Leadership & Impact — Développe tes compétences de pilotage et d'influence"
     : answers.goals.includes('IA & Tech')
-    ? "Tech & Innovation — Maîtrisez les outils IA pour gagner en productivité"
-    : "Développement professionnel personnalisé — basé sur vos objectifs déclarés";
+    ? "Tech & Innovation — Maîtrise les outils IA pour gagner en productivité"
+    : "Développement professionnel personnalisé — basé sur tes objectifs déclarés";
 
   const previewTags = answers.goals.length > 0 ? answers.goals.slice(0, 3) : ['Compétences clés'];
 
@@ -256,10 +256,10 @@ function StepConfirmation({
       </div>
       <div className="flex flex-col gap-tight">
         <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          {answers.firstName ? `Parfait, ${answers.firstName} !` : 'Votre profil est prêt !'}
+          {answers.firstName ? `Parfait, ${answers.firstName} !` : 'Ton profil est prêt !'}
         </h2>
         <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Voici un résumé de vos préférences et votre parcours suggéré.
+          Voici un résumé de tes préférences et ton parcours suggéré.
         </p>
       </div>
 
@@ -352,8 +352,8 @@ export const Onboarding: React.FC = () => {
         <EditorialHero
           tone="warm"
           eyebrow={{ icon: <Sparkles size={12} />, label: 'Démarrage personnalisé' }}
-          title="Personnalisons votre expérience"
-          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} — quelques questions pour adapter vos recommandations.`}
+          title="Personnalisons ton expérience"
+          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} — quelques questions pour adapter tes recommandations.`}
         />
 
         {/* ── Substep card ───────────────────────────────────────────────────── */}

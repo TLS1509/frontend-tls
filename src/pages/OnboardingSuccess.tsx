@@ -36,7 +36,7 @@ export default function OnboardingSuccess() {
       title: 'Consulte ton Passeport',
       description: 'Ton radar de compétences initial est prêt. Définis tes premiers objectifs.',
       cta: 'Voir mon passeport',
-      tone: 'sun',
+      tone: 'brand',
       onClick: () => navigate('/passeport'),
     },
   ];
@@ -67,7 +67,7 @@ export default function OnboardingSuccess() {
             variant="primary"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/dashboard?firstTime=1')}
             className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord

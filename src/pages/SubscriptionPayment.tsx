@@ -148,7 +148,7 @@ export const SubscriptionPayment: React.FC = () => {
     setShowConfirm(false);
     profileStore.patch({ subscriptionTier: selectedPlan });
     toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society !');
-    setTimeout(() => navigate('/'), 1200);
+    setTimeout(() => navigate('/onboarding'), 1200);
   };
 
   /* ── Layout ──────────────────────────────────────────────────────────── */
@@ -163,10 +163,10 @@ export const SubscriptionPayment: React.FC = () => {
             Étape 3 sur 3 · Abonnement
           </p>
           <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
-            Choisissez votre formule
+            Choisis ta formule
           </h1>
           <p className="m-0 font-body text-body text-ink-600 leading-relaxed max-w-prose mx-auto">
-            Démarrez en quelques secondes. Annulable à tout moment, sans frais.
+            Démarre en quelques secondes. Annulable à tout moment, sans frais.
           </p>
         </header>
 
@@ -350,7 +350,7 @@ export const SubscriptionPayment: React.FC = () => {
           </Button>
 
           <p className="m-0 font-body text-caption text-ink-500 text-center leading-relaxed">
-            En confirmant, vous acceptez les <a href="#" className="text-primary-700 hover:underline">conditions d'utilisation</a> et la <a href="#" className="text-primary-700 hover:underline">politique de remboursement</a> (14 jours).
+            En confirmant, tu acceptes les <a href="#" className="text-primary-700 hover:underline">conditions d'utilisation</a> et la <a href="#" className="text-primary-700 hover:underline">politique de remboursement</a> (14 jours).
           </p>
         </div>
 
@@ -362,7 +362,7 @@ export const SubscriptionPayment: React.FC = () => {
         onConfirm={handleConfirmPayment}
         variant="info"
         title={`Confirmer l'abonnement ${currentPlan.name}`}
-        message={`Vous allez être prélevé de ${price} €${periodLabel}. Le prélèvement sera reconduit automatiquement. Continuer ?`}
+        message={`Tu vas être prélevé de ${price} €${periodLabel}. Le prélèvement sera reconduit automatiquement. Continuer ?`}
         confirmText="Confirmer & payer"
         cancelText="Revenir"
       />

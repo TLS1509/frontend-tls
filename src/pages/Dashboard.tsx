@@ -126,7 +126,7 @@ export const Dashboard: React.FC = () => {
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
 
       {/* Content */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section md:gap-section-lg lg:gap-page">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section md:py-section-lg lg:py-page flex flex-col gap-section md:gap-section-lg lg:gap-page">
 
         {/* Hero — épuré, full width, brand blue gradient */}
         <EditorialHero
