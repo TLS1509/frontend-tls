@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Users, TrendingUp, AlertTriangle, Search as SearchIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Users, AlertTriangle, Search as SearchIcon } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
@@ -8,83 +9,7 @@ import { ProfileCard } from '../components/ui/ProfileCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Badge } from '../components/ui/Badge';
 import { EmptyState } from '../components/ui/EmptyState';
-
-// ─── Mock data ────────────────────────────────────────────────────────────────
-
-const APPRENANTS = [
-  {
-    id: 1,
-    name: 'Sophie Martin',
-    initials: 'SM',
-    role: 'Manager d\'équipe',
-    tags: ['Leadership D3', 'Communication D4'],
-    status: 'active',
-    lastActivity: '2j',
-    dreyfusAvg: 3.2,
-    nextSession: '22 mai',
-    streak: 14,
-  },
-  {
-    id: 2,
-    name: 'Pierre Bernard',
-    initials: 'PB',
-    role: 'Chef de projet',
-    tags: ['Communication D3', 'Analyse D1'],
-    status: 'stuck',
-    lastActivity: '8j',
-    dreyfusAvg: 2.1,
-    nextSession: null,
-    streak: 0,
-  },
-  {
-    id: 3,
-    name: 'Nadia Ferreira',
-    initials: 'NF',
-    role: 'Directrice Marketing',
-    tags: ['Leadership D4', 'Analyse D4'],
-    status: 'ahead',
-    lastActivity: '1j',
-    dreyfusAvg: 4.1,
-    nextSession: '20 mai',
-    streak: 21,
-  },
-  {
-    id: 4,
-    name: 'Julien Moreau',
-    initials: 'JM',
-    role: 'Responsable RH',
-    tags: ['Communication D3', 'Leadership D3'],
-    status: 'active',
-    lastActivity: '3j',
-    dreyfusAvg: 2.8,
-    nextSession: '25 mai',
-    streak: 6,
-  },
-  {
-    id: 5,
-    name: 'Camille Durand',
-    initials: 'CD',
-    role: 'Directrice Commerciale',
-    tags: ['Leadership D5', 'Analyse D5'],
-    status: 'ahead',
-    lastActivity: 'Hier',
-    dreyfusAvg: 4.3,
-    nextSession: '21 mai',
-    streak: 35,
-  },
-  {
-    id: 6,
-    name: 'Marc Lefebvre',
-    initials: 'ML',
-    role: 'Manager junior',
-    tags: ['Leadership D1', 'Tech D1'],
-    status: 'stuck',
-    lastActivity: '14j',
-    dreyfusAvg: 1.5,
-    nextSession: null,
-    streak: 0,
-  },
-];
+import { APPRENANTS } from '../data/apprenants';
 
 const FILTER_OPTIONS = [
   { id: 'all', label: 'Tous' },
@@ -102,6 +27,7 @@ const STATUS_BADGE: Record<string, { label: string; variant: 'neutral' | 'danger
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CoachApprenants() {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -204,7 +130,13 @@ export default function CoachApprenants() {
                       cta={
                         <div className="flex items-center gap-2">
                           <Badge variant={variant} size="sm">{label}</Badge>
-                          <Button variant="brand-ghost" size="sm">Profil</Button>
+                          <Button
+                            variant="brand-ghost"
+                            size="sm"
+                            onClick={() => navigate(`/coach/apprenant/${a.id}`)}
+                          >
+                            Profil
+                          </Button>
                         </div>
                       }
                     />

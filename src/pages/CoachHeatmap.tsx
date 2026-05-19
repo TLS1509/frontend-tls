@@ -1,29 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Users, Download, RefreshCw, AlertTriangle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Button } from '../components/core/Button';
 import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
-import { Tabs } from '../components/ui/Tabs';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { Badge } from '../components/ui/Badge';
-
-// ─── Mock data ────────────────────────────────────────────────────────────────
-
-const AXES = ['Leadership', 'Communication', 'Analyse', 'Tech & Outils', 'Créativité', 'Coopération'];
-
-const APPRENANTS = [
-  { name: 'Sophie Martin', initials: 'SM', scores: [3, 4, 2, 4, 2, 3], status: 'active' },
-  { name: 'Pierre Bernard', initials: 'PB', scores: [2, 3, 1, 2, 1, 2], status: 'stuck' },
-  { name: 'Nadia Ferreira', initials: 'NF', scores: [4, 5, 4, 4, 3, 4], status: 'ahead' },
-  { name: 'Julien Moreau', initials: 'JM', scores: [3, 3, 0, 3, 2, 3], status: 'active' },
-  { name: 'Camille Durand', initials: 'CD', scores: [5, 4, 5, 3, 4, 5], status: 'ahead' },
-  { name: 'Marc Lefebvre', initials: 'ML', scores: [1, 2, 2, 1, 0, 2], status: 'stuck' },
-  { name: 'Amélie Rousseau', initials: 'AR', scores: [3, 4, 3, 4, 3, 4], status: 'active' },
-  { name: 'Thomas Klein', initials: 'TK', scores: [2, 2, 2, 3, 1, 2], status: 'active' },
-];
+import { APPRENANTS, APPRENANT_AXES as AXES } from '../data/apprenants';
 
 const STATUS_TABS = [
   { id: 'all', label: 'Tous' },
@@ -41,6 +26,7 @@ const STATUS_BADGE: Record<string, { label: string; variant: 'neutral' | 'danger
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CoachHeatmap() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [selectedAxis, setSelectedAxis] = useState<string | null>(null);
 
@@ -100,7 +86,12 @@ export default function CoachHeatmap() {
                 Pierre Bernard et Marc Lefebvre montrent des scores bas sur plusieurs axes. Une intervention est recommandée.
               </p>
             </div>
-            <Button variant="ghost" size="sm" className="shrink-0 ml-auto">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="shrink-0 ml-auto"
+              onClick={() => navigate('/coach/apprenants?filter=stuck')}
+            >
               Voir les profils
             </Button>
           </div>
@@ -149,9 +140,9 @@ export default function CoachHeatmap() {
           <HeatmapGrid
             axes={AXES}
             rows={filteredRows.map(({ name, initials, scores }) => ({ name, initials, scores }))}
-            onCellClick={(rowIdx, colIdx) => {
+            onCellClick={(rowIdx) => {
               const apprenant = filteredRows[rowIdx];
-              alert(`${apprenant.name} — ${AXES[colIdx]} : D${apprenant.scores[colIdx]}`);
+              navigate(`/coach/apprenant/${apprenant.id}`);
             }}
           />
         </SectionCard>
@@ -165,7 +156,7 @@ export default function CoachHeatmap() {
                 Math.max(a.scores.filter((s) => s > 0).length, 1)).toFixed(1);
               return (
                 <div
-                  key={a.name}
+                  key={a.id}
                   className="flex items-center justify-between px-4 py-3 rounded-xl border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
                 >
                   <div className="flex items-center gap-stack">
@@ -177,7 +168,13 @@ export default function CoachHeatmap() {
                   <div className="flex items-center gap-3">
                     <span className="text-caption text-ink-500">Moy. D{avg}</span>
                     <Badge variant={variant}>{label}</Badge>
-                    <Button variant="ghost" size="sm">Profil</Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate(`/coach/apprenant/${a.id}`)}
+                    >
+                      Profil
+                    </Button>
                   </div>
                 </div>
               );

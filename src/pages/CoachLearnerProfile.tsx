@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { User, BookOpen, Activity, Calendar, FileText, Plus } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import ProgressBar from '../components/ui/ProgressBar';
@@ -8,8 +9,9 @@ import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/core/Button';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
+import { getApprenantById, dreyfusLabel } from '../data/apprenants';
 
-const LEARNER = {
+const FALLBACK_LEARNER = {
   name: 'Isabelle Fontaine',
   initials: 'IF',
   level: 'Niveau 3 — Compétent',
@@ -102,33 +104,69 @@ const SESSION_BADGE_LABEL: Record<SessionStatus, string> = {
   cancelled: 'Annulée',
 };
 
+const STATUS_BADGE_VARIANT: Record<'active' | 'stuck' | 'ahead', 'success' | 'danger' | 'info'> = {
+  active: 'success',
+  stuck: 'danger',
+  ahead: 'info',
+};
+
+const STATUS_BADGE_LABEL: Record<'active' | 'stuck' | 'ahead', string> = {
+  active: 'Actif',
+  stuck: 'En difficulté',
+  ahead: 'En avance',
+};
+
 export default function CoachLearnerProfile() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [note, setNote] = useState('');
+
+  const apprenant = id ? getApprenantById(id) : undefined;
+  const learner = apprenant
+    ? {
+        name: apprenant.name,
+        initials: apprenant.initials,
+        email: apprenant.email,
+        level: dreyfusLabel(apprenant.dreyfusAvg),
+        status: apprenant.status,
+        role: apprenant.role,
+      }
+    : { ...FALLBACK_LEARNER, status: 'active' as const, role: 'Apprenant' };
 
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow="Coach · Apprenant"
-        title="Fiche Apprenant"
-        summary="Suivi personnalisé, historique des sessions et notes pour accompagner la progression de l'apprenant."
+        title={`Fiche — ${learner.name}`}
+        summary={`Suivi personnalisé de ${learner.name}. Historique des sessions, progression Dreyfus et notes pour accompagner sa progression.`}
         tone="warm"
+        trailing={
+          <Button
+            variant="ghost"
+            size="md"
+            leadingIcon={<ArrowLeft size={16} />}
+            onClick={() => navigate('/coach/apprenants')}
+          >
+            Retour aux apprenants
+          </Button>
+        }
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section">
+      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
         {/* Header apprenant */}
         <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-6 shadow-xs">
           <Avatar
-            initials={LEARNER.initials}
-            name={LEARNER.name}
+            initials={learner.initials}
+            name={learner.name}
             size="xl"
             tint="warm"
           />
           <div className="flex flex-col gap-tight flex-1 min-w-0">
-            <h2 className="text-h3 font-display font-bold text-ink-900">{LEARNER.name}</h2>
-            <p className="text-body-sm text-ink-500">{LEARNER.email}</p>
+            <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
+            <p className="text-body-sm text-ink-500">{learner.role} · {learner.email}</p>
             <div className="flex flex-wrap items-center gap-stack-xs mt-1">
-              <Badge variant="info">{LEARNER.level}</Badge>
-              <Badge variant="success">Actif</Badge>
+              <Badge variant="info">{learner.level}</Badge>
+              <Badge variant={STATUS_BADGE_VARIANT[learner.status]}>{STATUS_BADGE_LABEL[learner.status]}</Badge>
             </div>
           </div>
         </div>
