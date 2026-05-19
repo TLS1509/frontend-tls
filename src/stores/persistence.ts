@@ -795,6 +795,8 @@ interface CoachingState {
   addSession: (session: CoachingSession) => void;
   updateSession: (userId: string, id: string, updates: Partial<CoachingSession>) => void;
   getCorrections: (userId: string) => Correction[];
+  /** Coach-side view : all corrections across all learners (seeds from MOCK on first access). */
+  getAllCorrections: () => Correction[];
   addCorrection: (correction: Correction) => void;
   updateCorrection: (userId: string, id: string, updates: Partial<Correction>) => void;
   clear: () => void;
@@ -834,6 +836,23 @@ export const useCoachingStore = create<CoachingState>()(
         const seeded = MOCK_CORRECTIONS.filter((c) => c.learnerId === userId);
         set((state) => ({ corrections: { ...state.corrections, [userId]: seeded } }));
         return seeded;
+      },
+
+      getAllCorrections: () => {
+        // Flatten all per-learner buckets. If nothing is seeded yet, fall back to MOCK_CORRECTIONS
+        // grouped by learnerId so the coach view never starts blank.
+        const buckets = get().corrections;
+        const keys = Object.keys(buckets);
+        if (keys.length === 0) {
+          // Seed everyone in MOCK at once so subsequent calls hit the cache.
+          const groups: Record<string, Correction[]> = {};
+          MOCK_CORRECTIONS.forEach((c) => {
+            groups[c.learnerId] = [...(groups[c.learnerId] ?? []), c];
+          });
+          set({ corrections: groups });
+          return MOCK_CORRECTIONS;
+        }
+        return keys.flatMap((k) => buckets[k]);
       },
 
       addCorrection: (correction) =>
