@@ -34,10 +34,11 @@ const FOOTER_LINKS = {
     { label: 'Learning App', href: '/marketing/learning-app' },
     { label: 'Tarifs & devis', href: '/marketing/contact' },
   ],
-  ressources: [
+  societe: [
+    { label: "L'équipe", href: '/marketing/equipe' },
+    { label: 'Notre méthode (STRIDE)', href: '/marketing/methode' },
+    { label: 'Cas clients', href: '/marketing/temoignages' },
     { label: 'Magazine', href: '/marketing/magazine' },
-    { label: 'Méthodologie STRIDE', href: '/marketing/magazine' },
-    { label: 'FAQ', href: '/marketing/formation#faq' },
     { label: 'Contact', href: '/marketing/contact' },
   ],
   legal: [
@@ -55,6 +56,8 @@ const TRUST_BADGES = [
   { icon: <CheckCircle2 size={16} />, label: 'RGPD & AI Act compliant' },
 ];
 
+// ⚠️ PLACEHOLDER — Chiffres en cours de consolidation.
+// À mettre à jour avec les vraies métriques avant production.
 const SOCIAL_PROOF = [
   { value: 200, suffix: '+', label: 'formateurs certifiés' },
   { value: 40, suffix: '+', label: 'organisations clientes' },
@@ -193,13 +196,13 @@ export const MarketingFooter: React.FC = () => (
           </ul>
         </div>
 
-        {/* Ressources */}
+        {/* Société */}
         <div className="flex flex-col gap-stack">
           <h3 className="font-display text-body font-bold text-white uppercase tracking-wide m-0">
-            Ressources
+            Société
           </h3>
           <ul className="flex flex-col gap-2 list-none p-0 m-0">
-            {FOOTER_LINKS.ressources.map(({ label, href }) => (
+            {FOOTER_LINKS.societe.map(({ label, href }) => (
               <li key={href + label}>
                 <Link
                   to={href}

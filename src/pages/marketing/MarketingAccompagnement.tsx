@@ -107,6 +107,8 @@ const PROCESS = [
   },
 ];
 
+// ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
+// À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
 const TESTIMONIALS = [
   {
     quote:

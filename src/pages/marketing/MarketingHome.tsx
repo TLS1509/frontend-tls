@@ -35,6 +35,9 @@ import {
   type StoryPanel,
 } from '../../components/marketing/motion';
 
+// ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
+// Le site live ne publie aucun logo client. À remplacer par les vraies orgs accompagnées
+// (avec accord écrit de chaque organisation) avant mise en production.
 const LOGOS = [
   'Renault',
   'BNP Paribas',
@@ -85,6 +88,8 @@ const PRINCIPLE_VISUALS = [
   },
 ];
 
+// ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
+// À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
 const TESTIMONIALS = [
   {
     quote:
@@ -259,6 +264,9 @@ export const MarketingHome: React.FC = () => {
               </span>
             ))}
           />
+          <p className="font-body text-micro text-ink-400 text-center italic m-0">
+            Exemples illustratifs — la liste réelle des partenaires sera publiée prochainement.
+          </p>
         </div>
       </section>
 
@@ -524,6 +532,9 @@ export const MarketingHome: React.FC = () => {
                 <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                   Les leaders L&D parlent mieux que nous.
                 </h2>
+                <p className="font-body text-caption text-ink-400 italic m-0">
+                  Témoignages illustratifs — de vrais retours clients seront publiés à mesure que les autorisations sont reçues.
+                </p>
               </div>
             </FadeInWhenVisible>
 

@@ -1,23 +1,59 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown, Users, Compass, Award } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { TlsLogo } from '../../../components/ui/TlsLogo';
 
-const NAV_ITEMS = [
+type NavItem = {
+  label: string;
+  href?: string;
+  highlight?: boolean;
+  dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
+};
+
+const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/marketing' },
   { label: 'Formation', href: '/marketing/formation' },
   { label: 'Accompagnement', href: '/marketing/accompagnement' },
   { label: 'Learning App', href: '/marketing/learning-app', highlight: true },
   { label: 'Magazine', href: '/marketing/magazine' },
+  {
+    label: 'À propos',
+    dropdown: [
+      {
+        label: 'L\'équipe',
+        href: '/marketing/equipe',
+        desc: 'Les humains derrière TLS',
+        icon: <Users size={16} />,
+      },
+      {
+        label: 'Notre méthode',
+        href: '/marketing/methode',
+        desc: 'STRIDE en 6 étapes',
+        icon: <Compass size={16} />,
+      },
+      {
+        label: 'Cas clients',
+        href: '/marketing/temoignages',
+        desc: 'Six transformations racontées',
+        icon: <Award size={16} />,
+      },
+    ],
+  },
   { label: 'Contact', href: '/marketing/contact' },
 ];
+
+const isPathActive = (pathname: string, href: string): boolean =>
+  pathname === href || (href !== '/marketing' && pathname.startsWith(href));
 
 export const MarketingHeader: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const { pathname } = useLocation();
+  const dropdownTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -28,19 +64,29 @@ export const MarketingHeader: React.FC = () => {
 
   useEffect(() => {
     setMenuOpen(false);
+    setOpenDropdown(null);
+    setMobileExpanded(null);
   }, [pathname]);
 
-  // Lock body scroll when mobile drawer open
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [menuOpen]);
+
+  const handleDropdownEnter = (label: string) => {
+    if (dropdownTimerRef.current) {
+      window.clearTimeout(dropdownTimerRef.current);
+      dropdownTimerRef.current = null;
+    }
+    setOpenDropdown(label);
+  };
+
+  const handleDropdownLeave = () => {
+    if (dropdownTimerRef.current) window.clearTimeout(dropdownTimerRef.current);
+    dropdownTimerRef.current = window.setTimeout(() => setOpenDropdown(null), 120);
+  };
 
   return (
     <header
@@ -68,25 +114,110 @@ export const MarketingHeader: React.FC = () => {
         </Link>
 
         {/* Desktop nav */}
-        <nav
-          className="hidden lg:flex items-center gap-0.5"
-          aria-label="Navigation principale"
-        >
-          {NAV_ITEMS.map(({ label, href, highlight }) => {
-            const active = pathname === href || (href !== '/marketing' && pathname.startsWith(href));
+        <nav className="hidden lg:flex items-center gap-0.5" aria-label="Navigation principale">
+          {NAV_ITEMS.map((item) => {
+            // Dropdown variant
+            if (item.dropdown) {
+              const isOpen = openDropdown === item.label;
+              const hasActiveChild = item.dropdown.some((d) => isPathActive(pathname, d.href));
+              return (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => handleDropdownEnter(item.label)}
+                  onMouseLeave={handleDropdownLeave}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenDropdown(isOpen ? null : item.label)}
+                    aria-expanded={isOpen}
+                    aria-haspopup="menu"
+                    className={[
+                      'relative px-2.5 py-1.5 rounded-md text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1',
+                      hasActiveChild ? 'text-primary-700' : 'text-ink-700 hover:text-ink-900',
+                    ].join(' ')}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform duration-base ${isOpen ? 'rotate-180' : ''}`}
+                    />
+                    {hasActiveChild && (
+                      <motion.span
+                        layoutId="marketing-nav-active"
+                        aria-hidden
+                        className="absolute left-2.5 right-2.5 -bottom-0.5 h-0.5 rounded-pill bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                        transition={{ duration: 0.18, ease: [0.21, 0.47, 0.32, 0.98] }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 rounded-2xl bg-white border border-ink-100 shadow-2xl overflow-hidden z-dropdown"
+                        role="menu"
+                      >
+                        <div className="p-2 flex flex-col gap-0.5">
+                          {item.dropdown.map((d) => {
+                            const active = isPathActive(pathname, d.href);
+                            return (
+                              <Link
+                                key={d.href}
+                                to={d.href}
+                                role="menuitem"
+                                className={`flex items-start gap-stack p-stack rounded-xl transition-colors duration-fast ${
+                                  active ? 'bg-primary-50' : 'hover:bg-ink-50'
+                                }`}
+                              >
+                                <span
+                                  className={`inline-flex items-center justify-center w-9 h-9 rounded-lg border shrink-0 ${
+                                    active
+                                      ? 'bg-primary-100 border-primary-200 text-primary-700'
+                                      : 'bg-ink-50 border-ink-100 text-ink-700'
+                                  }`}
+                                >
+                                  {d.icon}
+                                </span>
+                                <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                                  <span
+                                    className={`font-display text-body-sm font-bold leading-tight ${
+                                      active ? 'text-primary-700' : 'text-ink-900'
+                                    }`}
+                                  >
+                                    {d.label}
+                                  </span>
+                                  <span className="font-body text-caption text-ink-500 leading-snug">
+                                    {d.desc}
+                                  </span>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            }
+
+            // Regular link
+            const active = isPathActive(pathname, item.href!);
             return (
               <Link
-                key={href}
-                to={href}
+                key={item.href}
+                to={item.href!}
                 className={[
                   'relative px-2.5 py-1.5 rounded-md text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1.5',
-                  active
-                    ? 'text-primary-700'
-                    : 'text-ink-700 hover:text-ink-900',
+                  active ? 'text-primary-700' : 'text-ink-700 hover:text-ink-900',
                 ].join(' ')}
               >
-                {label}
-                {highlight && (
+                {item.label}
+                {item.highlight && (
                   <span className="inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
                     New
                   </span>
@@ -135,7 +266,6 @@ export const MarketingHeader: React.FC = () => {
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Scrim — opaque enough to block content behind */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -145,34 +275,88 @@ export const MarketingHeader: React.FC = () => {
               aria-hidden
               className="lg:hidden fixed inset-0 top-16 bg-ink-900/40 backdrop-blur-glass-light z-overlay"
             />
-            {/* Drawer */}
             <motion.div
               id="marketing-mobile-nav"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="lg:hidden relative bg-white border-t border-ink-100 shadow-xl z-modal"
+              className="lg:hidden relative bg-white border-t border-ink-100 shadow-xl z-modal max-h-[calc(100vh-4rem)] overflow-y-auto"
             >
-              <nav
-                className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1"
-                aria-label="Navigation mobile"
-              >
-                {NAV_ITEMS.map(({ label, href, highlight }) => {
-                  const active = pathname === href || (href !== '/marketing' && pathname.startsWith(href));
+              <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1" aria-label="Navigation mobile">
+                {NAV_ITEMS.map((item) => {
+                  if (item.dropdown) {
+                    const isExpanded = mobileExpanded === item.label;
+                    return (
+                      <div key={item.label} className="flex flex-col">
+                        <button
+                          type="button"
+                          onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
+                          aria-expanded={isExpanded}
+                          className="px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-2 text-ink-800 hover:bg-ink-50"
+                        >
+                          <span>{item.label}</span>
+                          <ChevronDown
+                            size={16}
+                            className={`ml-auto transition-transform duration-base ${
+                              isExpanded ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-stack-lg pt-1 flex flex-col gap-1">
+                                {item.dropdown.map((d) => {
+                                  const active = isPathActive(pathname, d.href);
+                                  return (
+                                    <Link
+                                      key={d.href}
+                                      to={d.href}
+                                      className={`flex items-start gap-stack p-stack rounded-lg ${
+                                        active
+                                          ? 'bg-primary-50 text-primary-700'
+                                          : 'text-ink-700 hover:bg-ink-50'
+                                      }`}
+                                    >
+                                      <span className="text-primary-600 mt-0.5 shrink-0">{d.icon}</span>
+                                      <div className="flex flex-col gap-0.5 min-w-0">
+                                        <span className="font-body text-body-sm font-bold leading-tight">
+                                          {d.label}
+                                        </span>
+                                        <span className="font-body text-caption text-ink-500 leading-snug">
+                                          {d.desc}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
+                  const active = isPathActive(pathname, item.href!);
                   return (
                     <Link
-                      key={href}
-                      to={href}
+                      key={item.href}
+                      to={item.href!}
                       className={[
                         'px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-2',
-                        active
-                          ? 'text-primary-700 bg-primary-50'
-                          : 'text-ink-800 hover:bg-ink-50',
+                        active ? 'text-primary-700 bg-primary-50' : 'text-ink-800 hover:bg-ink-50',
                       ].join(' ')}
                     >
-                      <span>{label}</span>
-                      {highlight && (
+                      <span>{item.label}</span>
+                      {item.highlight && (
                         <span className="ml-auto inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
                           New
                         </span>

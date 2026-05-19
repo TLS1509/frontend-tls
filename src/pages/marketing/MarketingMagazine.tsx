@@ -38,15 +38,17 @@ const CATEGORIES: Category[] = [
   "Retours d'expérience",
 ];
 
+// Articles aligned with the live site (thelearningsociety.fr/mag).
+// Featured article preserved verbatim; 9 supporting articles from live nav.
 const ARTICLES = [
   {
-    title: 'Le Référentiel des 5 Piliers de la formation augmentée',
+    title: 'Le Référentiel des 5 Piliers : la nouvelle matrice de compétences des professionnels L&D',
     category: 'Pédagogie' as const,
     date: 'Mai 2026',
-    readTime: '8 min',
+    readTime: '11 min',
     featured: true,
     summary:
-      "Comment structurer une approche pédagogique cohérente face à l'essor des outils d'IA générative dans les dispositifs de formation.",
+      "Comment la fonction formation glisse de l'improvisation digitale vers une véritable gouvernance algorithmique. Notre référentiel structurant pour les L&D en 2026.",
     cover: 'from-primary-200 via-primary-100 to-accent-100',
   },
   {
@@ -56,48 +58,88 @@ const ARTICLES = [
     readTime: '6 min',
     featured: false,
     summary:
-      "Comprendre pourquoi la facilité apparente des outils IA peut nuire à l'apprentissage profond et comment y remédier.",
+      "Pourquoi la facilité apparente des outils IA peut nuire à l'apprentissage profond — et comment y remédier en redessinant tes activités pédagogiques.",
     cover: 'from-secondary-200 via-secondary-100 to-accent-100',
   },
   {
-    title: 'Le "Digital Twin" de l\'apprenant',
+    title: "Le « Digital Twin » de l'apprenant",
     category: 'Innovation' as const,
     date: 'Avril 2026',
     readTime: '10 min',
     featured: false,
     summary:
-      'Vers une modélisation fine du profil apprenant pour des formations vraiment adaptatives — enjeux, limites et perspectives.',
+      "Vers une modélisation fine du profil apprenant pour des formations vraiment adaptatives. Enjeux, limites et perspectives concrètes.",
     cover: 'from-accent-200 via-accent-100 to-primary-100',
   },
   {
-    title: 'Prompt Engineering pour la formation : les 7 patterns clés',
-    category: 'Outils' as const,
-    date: 'Mars 2026',
-    readTime: '12 min',
+    title: 'Sous le capot de la « Dream Team »',
+    category: "Retours d'expérience" as const,
+    date: 'Avril 2026',
+    readTime: '8 min',
     featured: false,
     summary:
-      "Maîtriser les patterns de prompt les plus efficaces pour concevoir des activités pédagogiques avec l'IA générative.",
+      "Comment nous construisons nos équipes pédagogiques hybrides humain × IA chez The Learning Society. Méthodes, rituels et apprentissages.",
+    cover: 'from-secondary-200 via-secondary-100 to-primary-100',
+  },
+  {
+    title: 'Pourquoi l\'ère du « Chat » est terminée',
+    category: 'Innovation' as const,
+    date: 'Mars 2026',
+    readTime: '9 min',
+    featured: false,
+    summary:
+      "Le chat conversationnel n'est plus le format dominant de l'IA en formation. Voici les interfaces et workflows qui le remplacent dès 2026.",
     cover: 'from-primary-200 via-accent-100 to-secondary-100',
   },
   {
-    title: "Retour d'expérience : déploiement IA chez un grand groupe industriel",
-    category: "Retours d'expérience" as const,
+    title: 'Qualiopi sans la charge mentale',
+    category: 'Outils' as const,
     date: 'Mars 2026',
     readTime: '7 min',
     featured: false,
     summary:
-      "Comment une organisation de 500 personnes a intégré l'IA dans son dispositif formation en 3 mois — ce qui a marché, ce qui n'a pas.",
-    cover: 'from-secondary-200 via-secondary-100 to-primary-100',
+      "Automatiser la conformité Qualiopi avec l'IA : reporting, traçabilité, indicateurs. La compliance qui ne te bouffe plus tes vendredis soirs.",
+    cover: 'from-accent-200 via-primary-100 to-secondary-100',
   },
   {
-    title: 'Les biais algorithmiques dans les outils pédagogiques',
-    category: 'IA' as const,
+    title: 'La fin des QCM',
+    category: 'Pédagogie' as const,
     date: 'Février 2026',
-    readTime: '9 min',
+    readTime: '6 min',
     featured: false,
     summary:
-      'Panorama des biais les plus courants dans les IA génératives utilisées en formation et comment les identifier et les corriger.',
-    cover: 'from-accent-200 via-primary-100 to-secondary-100',
+      "Les QCM résistent depuis 60 ans. L'IA générative leur donne le coup de grâce. Voici par quoi les remplacer pour vraiment évaluer la compétence.",
+    cover: 'from-primary-200 via-primary-100 to-secondary-100',
+  },
+  {
+    title: 'IA et ingénierie pédagogique',
+    category: 'IA' as const,
+    date: 'Février 2026',
+    readTime: '10 min',
+    featured: false,
+    summary:
+      "Refonder l'ingénierie pédagogique à l'ère de l'IA générative. Méthodologie, outillage et gestes professionnels du concepteur augmenté.",
+    cover: 'from-secondary-200 via-accent-100 to-primary-100',
+  },
+  {
+    title: 'Workflow Learning',
+    category: 'Innovation' as const,
+    date: 'Janvier 2026',
+    readTime: '8 min',
+    featured: false,
+    summary:
+      "Apprendre dans le flux du travail : la prochaine frontière du L&D. Comment l'IA rend enfin possible la formation 'just-in-time' à grande échelle.",
+    cover: 'from-accent-200 via-secondary-100 to-primary-100',
+  },
+  {
+    title: '5 leviers d\'IA qui transforment stratégiquement les métiers L&D',
+    category: 'IA' as const,
+    date: 'Janvier 2026',
+    readTime: '12 min',
+    featured: false,
+    summary:
+      "Une analyse stratégique des 5 leviers IA qui redessinent le rôle des L&D en 2026 : du conception au pilotage de l'impact apprenant.",
+    cover: 'from-primary-200 via-secondary-100 to-accent-100',
   },
 ];
 

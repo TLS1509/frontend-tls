@@ -37,70 +37,90 @@ import {
   ParallaxLayer,
 } from '../../components/marketing/motion';
 
+// Module names aligned with the live site (thelearningsociety.fr/formation)
 const MODULES = [
   {
     n: '01',
-    title: "Comprendre l'IA pour mieux l'enseigner",
-    desc: "Fondamentaux de l'IA générative, LLMs et leurs usages pédagogiques. Vocabulaire commun, cartographie des outils.",
+    title: "Introduction à l'IA",
+    desc: "Fondamentaux de l'IA générative, des LLMs et de leurs usages pédagogiques. Vocabulaire commun, cartographie des outils du marché.",
     duration: '2h',
   },
   {
     n: '02',
-    title: 'Maîtriser le Prompt Engineering',
-    desc: "Techniques avancées pour concevoir des instructions efficaces et reproductibles. Library de prompts pédagogiques.",
+    title: 'Structurer ses Prompts',
+    desc: "Techniques de prompt engineering pour concevoir des instructions efficaces et reproductibles. Library de prompts pédagogiques prêts à l'emploi.",
     duration: '4h',
   },
   {
     n: '03',
-    title: 'Concevoir des formations augmentées',
-    desc: "Intégrer l'IA dans la conception pédagogique sans perdre l'intention humaine. Méthodologie STRIDE.",
-    duration: '6h',
+    title: 'Choisir ses Outils IA',
+    desc: "Panorama des outils IA pour la formation, critères de sélection, intégration dans ton stack pédagogique existant.",
+    duration: '3h',
   },
   {
     n: '04',
-    title: "Animer avec l'IA en séance",
-    desc: "Utilisation live de l'IA : démonstrations, quiz adaptatifs, feedback instantané. Posture et timing.",
-    duration: '3h',
+    title: 'IA & Conception de Formation',
+    desc: "Intégrer l'IA dans l'ingénierie pédagogique sans perdre l'intention humaine. Méthodologie STRIDE appliquée.",
+    duration: '6h',
   },
   {
     n: '05',
-    title: 'Automatiser les tâches administratives',
-    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible.",
-    duration: '2h',
-  },
-  {
-    n: '06',
-    title: "Mesurer l'impact des formations IA",
-    desc: 'KPIs, tableaux de bord, A/B testing pédagogique. Boucle damélioration continue.',
+    title: "IA pour l'Animation",
+    desc: "Utilisation live de l'IA en séance : démonstrations, quiz adaptatifs, feedback instantané. Posture du formateur augmenté.",
     duration: '3h',
   },
   {
+    n: '06',
+    title: 'Automatisation Augmentée',
+    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer ton temps.",
+    duration: '2h',
+  },
+  {
     n: '07',
-    title: 'Éthique, biais et responsabilité numérique',
-    desc: 'RGPD, propriété intellectuelle, biais algorithmiques. La posture du formateur augmenté responsable.',
+    title: 'Éthique & Responsabilité',
+    desc: 'RGPD, propriété intellectuelle, biais algorithmiques. La posture du formateur augmenté responsable et conforme.',
     duration: '3h',
   },
 ];
 
-const TARGETS = [
+// "Public cible du parcours" — 4 profils from live site
+const PUBLIC_CIBLE = [
   {
     icon: <BookOpen size={28} />,
-    role: 'Formateurs',
-    desc: "Vous concevez et animez des formations et souhaitez intégrer l'IA à vos pratiques sans perdre votre signature pédagogique.",
+    role: 'Formateurs / Animateurs',
+    desc: "Tu conçois et animes des formations et souhaites intégrer l'IA à tes pratiques sans perdre ta signature pédagogique.",
     tone: 'from-primary-500 to-primary-700',
   },
   {
     icon: <BarChart3 size={28} />,
-    role: 'Responsables formation',
-    desc: "Vous pilotez la stratégie formation d'une organisation et cherchez à moderniser durablement votre approche.",
+    role: 'Responsables Formation',
+    desc: "Tu pilotes la stratégie formation d'une organisation et cherches à moderniser durablement ton approche L&D.",
     tone: 'from-secondary-500 to-secondary-600',
   },
   {
     icon: <Wand2 size={28} />,
-    role: 'Concepteurs pédagogiques',
-    desc: "Vous créez des contenus et parcours d'apprentissage et voulez exploiter les nouvelles possibilités de l'IA générative.",
+    role: 'Concepteurs / Ingénieurs Pédagogiques',
+    desc: "Tu crées des contenus et parcours d'apprentissage et veux exploiter les nouvelles possibilités de l'IA générative.",
     tone: 'from-accent-400 to-secondary-500',
   },
+  {
+    icon: <Sparkles size={28} />,
+    role: 'Débutants & Initiés IA',
+    desc: "Tu commences avec l'IA ou tu as déjà quelques notions, mais tu veux structurer ta pratique pour l'appliquer à la formation.",
+    tone: 'from-primary-400 to-accent-400',
+  },
+];
+
+// "Compétences clés développées" — derived from live site sections
+const COMPETENCES_CLES = [
+  "Maîtriser les fondamentaux de l'IA générative et son vocabulaire",
+  'Concevoir des prompts pédagogiques reproductibles et efficaces',
+  'Choisir et orchestrer les outils IA adaptés à ton contexte',
+  "Intégrer l'IA dans l'ingénierie pédagogique (méthodologie STRIDE)",
+  "Animer des séances augmentées par l'IA en présentiel et distanciel",
+  "Automatiser les tâches administratives pour gagner 30 % de ton temps",
+  "Sécuriser ta pratique : RGPD, AI Act, propriété intellectuelle",
+  'Adopter la posture du Formateur Augmenté responsable',
 ];
 
 const PRICING = [
@@ -421,18 +441,18 @@ export const MarketingFormation: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Pour qui ─────────────────────────────────────────────────────── */}
+      {/* ── 3. Public cible du parcours (4 profils, depuis le live) ─────────── */}
       <section className="py-page bg-gradient-to-b from-white via-secondary-50/30 to-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
               <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-                Pour qui ?
+                Public cible du parcours
               </span>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois profils, une même{' '}
+                Quatre profils, une même{' '}
                 <GradientText
                   from="from-secondary-500"
                   via="via-secondary-600"
@@ -443,31 +463,167 @@ export const MarketingFormation: React.FC = () => {
                 .
               </h2>
             </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                Que tu commences avec l'IA ou que tu sois déjà initié·e, le parcours
+                s'adapte à ton niveau et à ton contexte professionnel.
+              </p>
+            </FadeInWhenVisible>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
-            {TARGETS.map((t, i) => (
-              <FadeInWhenVisible key={t.role} direction="up" delay={i * 0.1}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack">
+            {PUBLIC_CIBLE.map((t, i) => (
+              <FadeInWhenVisible key={t.role} direction="up" delay={i * 0.08}>
                 <motion.article
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="h-full rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-secondary-200 transition-shadow duration-base"
+                  className="h-full rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-xl hover:border-secondary-200 transition-shadow duration-base"
                 >
                   <span
-                    className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${t.tone} text-white shadow-md`}
+                    className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br ${t.tone} text-white shadow-md`}
                   >
                     {t.icon}
                   </span>
-                  <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
+                  <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0">
                     {t.role}
                   </h3>
-                  <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+                  <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                     {t.desc}
                   </p>
                 </motion.article>
               </FadeInWhenVisible>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── 3.5. Compétences clés développées (depuis le live) ──────────────── */}
+      <section className="py-page bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-page items-center">
+          <div className="flex flex-col gap-stack-lg">
+            <FadeInWhenVisible direction="up">
+              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
+                Compétences clés développées
+              </span>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.05}>
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Ce que tu sauras{' '}
+                <GradientText>vraiment faire</GradientText>
+                .
+              </h2>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
+                À la fin du parcours, tu as 8 compétences opérationnelles validées
+                par l'Open Badge — pas des concepts vagues, des gestes professionnels concrets.
+              </p>
+            </FadeInWhenVisible>
+          </div>
+
+          <FadeInWhenVisible direction="left" delay={0.15}>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 m-0 p-0 list-none">
+              {COMPETENCES_CLES.map((c, i) => (
+                <motion.li
+                  key={c}
+                  initial={{ opacity: 0, x: 12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.4, delay: i * 0.04, ease: [0.21, 0.47, 0.32, 0.98] }}
+                  className="flex items-start gap-2.5 p-3 rounded-xl bg-primary-50/50 border border-primary-100"
+                >
+                  <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
+                  <span className="font-body text-body-sm text-ink-800 leading-snug">{c}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── 3.75. Partenariat C-Campus (poids visuel dédié, depuis le live) ── */}
+      <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
+        <MeshGradientBg tone="brand" intensity="normal" />
+        <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-page items-center">
+          <div className="flex flex-col gap-stack-lg">
+            <FadeInWhenVisible direction="up">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20 w-fit">
+                <Award size={14} className="text-accent-400" />
+                <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
+                  Partenariat d'excellence
+                </span>
+              </span>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+                Certifié par{' '}
+                <GradientText
+                  from="from-accent-300"
+                  via="via-accent-400"
+                  to="to-secondary-400"
+                  duration={10}
+                >
+                  C-Campus
+                </GradientText>
+                .
+              </h2>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.2}>
+              <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-lg">
+                Le parcours est réalisé 100 % à distance en partenariat avec
+                <strong className="text-white"> C-Campus</strong>, organisme certifié Qualiopi.
+                Cette alliance garantit la reconnaissance professionnelle de ton Open Badge
+                et débloque la prise en charge OPCO ou CPF.
+              </p>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.3}>
+              <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                {[
+                  'Organisme de formation référencé Qualiopi',
+                  'Éligible CPF et prise en charge OPCO selon ton secteur',
+                  'Open Badge 2.0 vérifiable par cryptographie',
+                  'Reconnaissance LinkedIn et France Compétences',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-2 font-body text-body text-white/90">
+                    <CheckCircle2 size={18} className="text-accent-400 shrink-0 mt-0.5" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </FadeInWhenVisible>
+          </div>
+          <FadeInWhenVisible direction="left" delay={0.25}>
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="relative aspect-square max-w-sm mx-auto rounded-3xl bg-white/10 backdrop-blur-glass-medium border border-white/25 p-section flex flex-col items-center justify-center gap-stack shadow-2xl"
+            >
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-accent-400/20 via-transparent to-secondary-400/20 rounded-3xl" />
+              <div className="relative flex flex-col items-center gap-stack-lg text-center">
+                <Award size={64} className="text-accent-400" />
+                <div className="flex flex-col gap-1">
+                  <span className="font-display text-h2 font-extrabold text-white leading-none">
+                    C-Campus
+                  </span>
+                  <span className="font-body text-caption text-white/70 uppercase tracking-widest">
+                    Partenaire certifiant
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2 pt-stack">
+                  {['Qualiopi', 'OPCO', 'CPF'].map((b) => (
+                    <span
+                      key={b}
+                      className="inline-flex items-center px-2.5 py-1 rounded-pill bg-white/15 border border-white/25 text-white font-body text-caption font-bold uppercase tracking-wider"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
