@@ -42,10 +42,10 @@ const FOOTER_LINKS = {
     { label: 'Contact', href: '/marketing/contact' },
   ],
   legal: [
-    { label: 'Mentions légales', href: '#' },
-    { label: 'Politique de confidentialité', href: '#' },
-    { label: 'CGV / CGU', href: '#' },
-    { label: 'Charte IA & éthique', href: '#' },
+    { label: 'Mentions légales', href: '/marketing/mentions-legales' },
+    { label: 'Politique de confidentialité', href: '/marketing/politique-confidentialite' },
+    { label: 'CGV / CGU', href: '/marketing/cgv-cgu' },
+    { label: 'Charte IA & éthique', href: '/marketing/charte-ia' },
   ],
 };
 

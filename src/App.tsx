@@ -214,6 +214,12 @@ import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
+import {
+  MarketingMentionsLegales,
+  MarketingPolitiqueConfidentialite,
+  MarketingCgvCgu,
+  MarketingCharteIA,
+} from './pages/marketing/MarketingLegal';
 // CSS is centrally managed in globals.css — no direct imports needed here
 
 /**
@@ -512,6 +518,10 @@ function App() {
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />
           <Route path="contact" element={<MarketingContact />} />
+          <Route path="mentions-legales" element={<MarketingMentionsLegales />} />
+          <Route path="politique-confidentialite" element={<MarketingPolitiqueConfidentialite />} />
+          <Route path="cgv-cgu" element={<MarketingCgvCgu />} />
+          <Route path="charte-ia" element={<MarketingCharteIA />} />
         </Route>
 
         {isAuthenticated ? (
