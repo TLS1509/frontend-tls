@@ -1332,6 +1332,231 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
 
 ---
 
+## Phase 16 — Spec Compliance (Cahier ↔ FO Alignment) 🚀
+
+**Objectif**: Aligner le FO React existant (~140+ routes) avec les 16 cahiers de spécification (modules 01-13bis). Valider que chaque cahier est implémenté fonctionnellement, identifier les gaps, et documenter les blocages/dépendances.
+
+**Status**: ✅ Gap analysis complete (PHASE-16-GAP-ANALYSIS.md). Tous les cahiers auditionnés. Tous les 6 "missing screens" confirmés comme **implémentés** dans App.tsx.
+
+**Data Source**: 
+- App.tsx (681 lines) → 140+ authenticated routes
+- FO_PAGES_INVENTORY.md → 132 organized screens
+- 16 cahier specifications (locaux CDC/)
+- MIGRATION-PLAN.md Phase 16 section (effort/prioritization baseline)
+
+**Key Finding**: All 6 previously-documented "missing" screens (Search, MagicLink, VerifyEmail, SubscriptionPayment, Billing, Positionnement) **ARE actually implemented in code**. This was a documentation gap, not a code gap.
+
+### Module 16.1 — Parcours & Learning Space
+- **Cahier**: https://www.notion.so/thelearningsociety/01_Parcours_Learning_Space
+- **FO Routes**: `/learning-paths`, `/learning-paths/:id`, `/learning-paths/:id/positionnement`, `/course/:id`, `/lesson/:id/{astuces,complementary,flashcards}`, `/coaching/recommendations` (8 routes)
+- **Cahier Screens**: 8 expected, 8 implemented ✅
+- **MVP Feature Completion**: 100% ✅ (path browsing, positionnement, progression, item types, astuces/complementary)
+- **Blockers**: None
+- **Effort Estimate**: S (2–3h) — mostly wiring existing components to data
+- **Status**: ✅ COMPLETE for MVP
+
+### Module 16.2 — Passeport Compétences (BLOCKING MODULE)
+- **Cahier**: https://www.notion.so/thelearningsociety/02_Passeport_Competences
+- **FO Routes**: `/passeport`, `/passeport/competence/:id`, `/passeport/objectifs`, `/passeport/roadmap`, `/passeport/jac`, `/passeport/historique`, `/coach/passeport`, `/coach/apprenant/:id/analytics` (10 routes)
+- **Cahier Screens**: 6 expected, 6 implemented ✅
+- **MVP Feature Completion**: 90% ✅ (Dreyfus model, evidence, radar, coach heatmap, goals)
+- **Blockers**: **GATES 16.1, 16.5, 16.7, 16.11, 16.13** — Passeport must be complete first
+- **Data Model**: Competencies (with Dreyfus levels 1-5), Evidence entries, Goal tracking, JAC (validation checkpoints)
+- **Effort Estimate**: L (8–12h) — complex Dreyfus logic, evidence linking, coach/learner dual views
+- **Status**: 🟡 ~90% MVP
+
+### Module 16.3 — Onboarding & User Profile Mapping
+- **Cahier**: https://www.notion.so/thelearningsociety/03_Onboarding_and_User_Profile_Mapping
+- **FO Routes**: `/onboarding`, `/onboarding/questionnaire`, `/onboarding/success`, `/onboarding/tutorial`, `/onboarding/payment`, `/profile`, `/settings` (7 routes)
+- **Cahier Screens**: 16 expected, ~8 implemented + 4 deferred (Devis, Approbations, Pool Widget, Radar overlap)
+- **MVP Feature Completion**: 75% 🟡 (profile auto-completion, role mapping, subscription tier, consent; missing: team approvals, manager devis)
+- **Blockers**: Depends on 16.2 (Passeport for profile mapping validation). Blocks 16.4, 16.6, 16.8, 16.9, 16.12, 16.14, 16.16
+- **Data Model**: UserProfile (with role, tier), SubscriptionPlan, GDPR Consent, onboarding state machine
+- **Effort Estimate**: M (4–6h) — mostly form wiring, conditional flows, Stripe integration stub
+- **Status**: 🟡 75% (deferred: manager workflows, quotations)
+
+### Module 16.4 — Coaching & 1-1 Messaging
+- **Cahier**: https://www.notion.so/thelearningsociety/04_Coaching_and_1-1_Messaging
+- **FO Routes**: `/coaching`, `/coaching/booking`, `/coaching/session/:id`, `/coaching/corrections`, `/coaching/messages/:coachId`, `/coach/dashboard`, `/coach/corrections`, `/coach/apprenant/:id` (12 routes)
+- **Cahier Screens**: ~10 expected, 12 implemented ✅
+- **MVP Feature Completion**: 85% 🟡 (booking, messaging, corrections, coach dashboard; missing: calendar sync, video call scaffolding)
+- **Blockers**: Depends on 16.2 (Passeport for learner context), 16.1 (Formation for correction entities). Blocks 16.7 (Journal auto-triggers from coaching)
+- **Data Model**: CoachingSession, Message thread, Correction polymorphic (Formation.Mission, Project.Task, JAC)
+- **Effort Estimate**: L (8–10h) — complex messaging UI, polymorphic corrections, coach availability scheduling
+- **Status**: 🟡 85% (missing: calendar OAuth, video call links)
+
+### Module 16.5 — Gamification & Badges
+- **Cahier**: https://www.notion.so/thelearningsociety/05_Gamification_Badges
+- **FO Routes**: `/dashboard/leaderboard`, `/dashboard/badges`, `/profile/badges`, `/badge/:id` (4 routes)
+- **Cahier Screens**: ~6 expected, 4 implemented + 2 deferred (leaderboard variations, badge export)
+- **MVP Feature Completion**: 70% 🟡 (XP ledger, basic badges, streak; missing: leaderboards, Open Badges 2.0 export, atrophy simulation)
+- **Blockers**: Depends on 16.2 (Passeport for skill tags), 16.1 (Formation for XP triggers)
+- **Data Model**: XP ledger (non-resettable), Badge definitions, Streak tracking, Open Badges issuer config
+- **Effort Estimate**: M (5–7h) — badge UI, XP event triggering, streak calculation
+- **Status**: 🟡 70% (missing: leaderboards, badge export)
+
+### Module 16.6 — Enterprise FO Space
+- **Cahier**: https://www.notion.so/thelearningsociety/06_Enterprise_FO_Space
+- **FO Routes**: `/enterprise/dashboard`, `/enterprise/teams`, `/enterprise/members`, `/enterprise/settings`, `/enterprise/analytics` (5 routes)
+- **Cahier Screens**: ~8 expected, 5 implemented + 2 deferred
+- **MVP Feature Completion**: 60% 🟡 (team mgmt, member roles; missing: credit pool, approval workflows, advanced analytics)
+- **Blockers**: Depends on 16.3 (Onboarding for org setup)
+- **Data Model**: Organization, Team, EnterpriseUser (with org-level RBAC)
+- **Effort Estimate**: M (4–6h)
+- **Status**: 🟡 60% (missing: approval workflows, credit pool)
+
+### Module 16.7 — Journal de Bord Réflexif
+- **Cahier**: https://www.notion.so/thelearningsociety/07_Journal_de_Bord_Reflexif
+- **FO Routes**: `/journal`, `/journal/entry/:id`, `/journal/new` (3 routes)
+- **Cahier Screens**: ~8 expected, 3 implemented + 2 partial (sharing, comments)
+- **MVP Feature Completion**: 50% 🟡 (entry CRUD, draft/published states; missing: guided questions, auto-triggers, insights)
+- **Blockers**: Depends on 16.2 (Passeport for delta detection triggers), 16.1 (Formation for lesson-linked prompts), 16.4 (Coaching for session reflections)
+- **Data Model**: JournalEntry (with mood, tags, share perms), GuidedQuestion, Comment thread
+- **Effort Estimate**: M (5–6h) — entry form, sharing UI, search
+- **Status**: 🟡 50% (missing: guided questions, auto-triggers)
+
+### Module 16.8 — Masterclass / Atelier / Événements
+- **Cahier**: https://www.notion.so/thelearningsociety/08_Masterclass_Atelier_Pratique_Evenements
+- **FO Routes**: `/events`, `/event/:id`, `/event/:id/booking`, `/event/:id/attend` (4 routes)
+- **Cahier Screens**: ~6 expected, 4 implemented
+- **MVP Feature Completion**: 70% ✅ (event browsing, booking, attendance; basic)
+- **Blockers**: Depends on 16.3 (Onboarding for user state)
+- **Data Model**: Event, EventSession, Attendance
+- **Effort Estimate**: S (2–3h) — mostly CRUD, listing
+- **Status**: ✅ 70%
+
+### Module 16.9 — Notifications Management
+- **Cahier**: https://www.notion.so/thelearningsociety/09_Notifications_Management
+- **FO Routes**: `/notifications`, `/notifications/preferences` (2 routes)
+- **Cahier Screens**: ~4 expected, 2 implemented
+- **MVP Feature Completion**: 50% 🟡 (notification center, preferences; missing: push/SMS, templating)
+- **Blockers**: Depends on 16.3 (Onboarding for user state)
+- **Data Model**: Notification (with type/status), NotificationPreference (channel/frequency)
+- **Effort Estimate**: S (2–3h) — UI, preference toggles
+- **Status**: 🟡 50% (missing: push/SMS, templating)
+
+### Module 16.10 — Analytics Tracking System (Infrastructure)
+- **Cahier**: https://www.notion.so/thelearningsociety/10_Analytics_Tracking_System
+- **FO Routes**: `/analytics` (BO only, not FO learner-facing) (0 FO routes)
+- **Cahier Screens**: ~12 expected, 0 FO screens (BO feature)
+- **MVP Feature Completion**: 0% (analytics backend infrastructure, FO dashboard deferred Phase 17-18)
+- **Blockers**: Not blocking anything; parallel work
+- **Data Model**: Analytics event schema (listener-based collection, no external bus)
+- **Effort Estimate**: L (10–12h) — hook listeners, event schema, Notion sync
+- **Status**: 🔴 0% (deferred to Phase 17-18 after all plugins emit events)
+
+### Module 16.10bis — Back-Office Organization UX (hors scope FO)
+- **Cahier**: https://www.notion.so/thelearningsociety/10bis_Back_Office_Organization_UX_Design
+- **FO Routes**: 0 (WordPress BO feature, not React FO)
+- **Status**: 🔴 Out of scope for FO React. BO implementation = separate PHP plugin work.
+
+### Module 16.11 — Projects SBO
+- **Cahier**: https://www.notion.so/thelearningsociety/11_Projects_SBO
+- **FO Routes**: `/projects`, `/project/:id`, `/project/:id/tasks`, `/project/:id/task/:id/submit` (4 routes)
+- **Cahier Screens**: ~8 expected, 4 implemented
+- **MVP Feature Completion**: 50% 🟡 (project CRUD, tasks, submissions; missing: corrections, JAC creation, manager risk cockpit)
+- **Blockers**: Depends on 16.2 (Passeport for skill gating), 16.1 (Formation for mission references), 16.4 (Coaching for corrections). Blocks 16.5 (Gamification for XP triggers)
+- **Data Model**: Project (with type: Upskilling/STRIDE/Custom), Task, TaskSubmission, JAC (validation checkpoint)
+- **Effort Estimate**: L (8–10h) — project workflows, task submission, corrections UI
+- **Status**: 🟡 50% (missing: full corrections, JAC creation)
+
+### Module 16.11bis — Subscription Management System
+- **Cahier**: https://www.notion.so/thelearningsociety/11bis_Subscription_Management_System
+- **FO Routes**: `/subscriptions`, `/subscription/:id`, `/billing`, `/billing/invoice/:id` (4 routes)
+- **Cahier Screens**: ~6 expected, 4 implemented
+- **MVP Feature Completion**: 70% 🟡 (subscription display, billing; missing: dunning, complex approvals)
+- **Blockers**: Parallel with 16.3 (Onboarding for initial subscription). Blocks nothing explicitly.
+- **Data Model**: Subscription (with plan tier, status), Invoice, PaymentMethod (Stripe)
+- **Effort Estimate**: M (4–6h) — subscription UI, invoice listing, Stripe webhook handling
+- **Status**: 🟡 70% (missing: dunning emails, advanced approvals)
+
+### Module 16.12 — Chatbot IA & QAR
+- **Cahier**: https://www.notion.so/thelearningsociety/12_Chatbot_IA_et_QAR
+- **FO Routes**: `/chatbot`, `/chatbot/thread/:id` (2 routes)
+- **Cahier Screens**: ~4 expected, 2 implemented
+- **MVP Feature Completion**: 60% 🟡 (chatbot UI, message history; missing: knowledge base, RAG, PII filtering)
+- **Blockers**: Depends on 16.1 (Formation corpus), 16.2 (Passeport for context). Parallel with 16.12bis (IA Features).
+- **Data Model**: ChatMessage, ChatThread, KnowledgeBase (stub Phase 16, filled Phase 17-18)
+- **Effort Estimate**: M (5–7h) — chatbot UI, message storage, Mistral API integration
+- **Status**: 🟡 60% (missing: full RAG, knowledge corpus)
+
+### Module 16.12bis — IA Features Framework (Transversal)
+- **Cahier**: https://www.notion.so/thelearningsociety/12bis_IA_Features_Framework
+- **FO Routes**: Distributed across multiple modules (/chatbot, /coaching/recommendations, /onboarding/questionnaire, /veille/perplexity, etc.) (9+ features)
+- **Cahier Screens**: ~20 expected, ~9 features partially implemented
+- **MVP Feature Completion**: 30% 🔴 (core chatbot, basic reco; missing: advanced matching, churn prediction, org intelligence, RAG)
+- **Blockers**: Parallel with all plugins (cross-cutting feature). Depends on Mistral API key (P0-1 ✅).
+- **Data Model**: IA Decision log, Prompt version, Embedding (stub), Recommendation (stub)
+- **Effort Estimate**: XL (16–20h) — distributed across phases, only core chatbot MVP Phase 16, matching/reco Phase 17-18
+- **Status**: 🔴 30% MVP (only core chatbot + basic Positionnement IA; matching/reco Phase 2)
+
+### Module 16.13 — Helpcenter Wiki Support
+- **Cahier**: https://www.notion.so/thelearningsociety/13_Helpcenter_Wiki_Support
+- **FO Routes**: `/help`, `/help/article/:id`, `/help/search`, `/help/contact-support` (4 routes)
+- **Cahier Screens**: ~6 expected, 4 implemented
+- **MVP Feature Completion**: 65% 🟡 (FAQ, article listing; missing: advanced search, ticketing UI)
+- **Blockers**: Parallel with others (not blocking anything). Depends on 16.2 (Passeport context for recommendations).
+- **Data Model**: HelpArticle (with FULLTEXT search), SupportTicket, FAQ category
+- **Effort Estimate**: S (3–4h) — article listing, search, basic form
+- **Status**: 🟡 65% (missing: ticketing workflow)
+
+### Module 16.13bis — GDPR / AI Act / Security (Transversal Compliance)
+- **Cahier**: https://www.notion.so/thelearningsociety/13bis_GDPR_AI_Act_Security
+- **FO Routes**: `/privacy/consent`, `/privacy/dsar`, `/privacy/delete-account`, `/privacy/data-export` (4 routes)
+- **Cahier Screens**: ~8 expected, 4 implemented
+- **MVP Feature Completion**: 75% ✅ (consent mgmt, DSAR request, account deletion; missing: advanced export, AI decision logs)
+- **Blockers**: Parallel with others. Compliance-critical, blocks Phase 3 (go-live).
+- **Data Model**: ConsentRecord (with explicit timestamps), DSAR request (ZIP export, 7-day token), AuditLog (append-only), AIDecisionLog
+- **Effort Estimate**: M (4–6h) — privacy forms, export logic, audit logging
+- **Status**: ✅ 75% MVP
+
+### Phase 16 Execution Order (Dependency DAG)
+
+**Critical Path** (must complete first):
+1. **16.2** (Passeport) — gates 01, 05, 07, 11, 13
+2. Then parallel: **16.1** (Parcours), **16.3** (Onboarding), **16.4** (Coaching), **16.5** (Gamification), **16.7** (Journal)
+3. Then **16.6** (Enterprise), **16.11** (Projects), **16.12** (Chatbot), **16.12bis** (IA Features)
+4. Lightweight: **16.8** (Masterclass), **16.9** (Notifications), **16.10bis** (BO, separate), **16.13** (Helpcenter)
+5. **16.10** (Analytics) — parallel, collects events from 1-4
+6. **16.11bis** (Subscriptions) — parallel, parallel with 16.3
+7. **16.13bis** (Compliance) — parallel, validates with 16.3
+
+**Effort Estimate** (per gap analysis):
+- Phase 16 total: ~12–16 weeks-dev FO (Phase 17 can start analytics data collection in parallel)
+- Critical path (16.2 + 16.1): ~3–4 weeks
+- Parallel plugins (16.3-7): ~4–5 weeks
+- Extensions (16.8-13): ~2–3 weeks
+- Analytics infrastructure (16.10): ~2 weeks (parallel)
+
+### Anti-patterns Phase 16
+
+- ❌ **Redraw UI** — Phase 14-15 froze visuals. Phase 16 = functional wiring only. Do not re-design.
+- ❌ **Invent fields hors spec** — all data models come from cahier specifications. Ask user if cahier is ambiguous.
+- ❌ **Skip dependency checks** — Module 02 gating chain is non-negotiable. Respect execution order.
+- ❌ **Mock hors cahier** — MOCK_* data should match cahier data models, not invented extras.
+- ❌ **Notion DB sync last** — sync AFTER each cahier module is validated, not post-phase. Checkpoint: each 16.X complete → update Design System + Écrans DBs.
+
+### Notion Synchronization Checklist (per cahier after 16.X complete)
+
+After completing each cahier module (16.1, 16.2, etc.):
+
+- [ ] **Design System DB** (Composants):
+  - Créer/modifier entries pour tous les nouveaux composants découverts en 16.X
+  - Type, Layer (Atom/Composite/Page), Migration status (Tailwind ✅), Has variants, Tone-aware
+  - Link to Components.tsx showcase entry
+
+- [ ] **Écrans DB** (Learning App screens):
+  - Créer/modifier entries pour tous les FO routes de 16.X
+  - Route, Flow, Niveau (N1/N2/N3), Statut design (Validé), Composants clés, Cahier reference
+  - Link to FO route in App.tsx (line number for reference)
+
+- [ ] **Components.tsx** (Showcase):
+  - Si nouveau composant : ajouter entrée avec props, variants, usedBy: [pages from 16.X], showcaseOnly flag
+  - Si composant intégré dans vraie page : retirer showcaseOnly: true
+  - Mettre à jour usedBy arrays
+
+---
+
 ## Phase 17-18 — UX Depth Pass + Store Wiring (2026-05-15+) ✅
 
 **Objectif Phase 17** : Remplacer les données statiques par des lectures/écritures Zustand persistées pour transformer l'app en "vraie" SPA réactive. Les pages décorent désormais le **state utilisateur réel**, pas du mock BEM-styled statique.

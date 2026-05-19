@@ -718,6 +718,101 @@ Après Phase 17-18 :
 
 ---
 
-**Dernière mise à jour :** 2026-05-15
-**Phase actuelle :** 17-18 (UX Depth Pass & Store Wiring + Docs)
-**Prochains focus :** 18.2-18.4 (ManagerViewsBuilder, ItemRecommendations, PerplexityContentDetail) en V1
+## §6 — Tone Usage by Cahier (Phase 16 Guidance)
+
+### Tone Distribution Rules
+
+Chaque cahier a un tone **dominant** (primary/warm/sun/brand/neutral) et optionnellement un **accent** tone. Respecter cette cohérence à travers tous les écrans du cahier pour renforcer l'identité visuelle.
+
+| Cahier | Dominant | Accent | Rationale |
+|--------|----------|--------|-----------|
+| 01 Parcours | **primary** | warm (CTAs) | Leadership, structured learning |
+| 01bis Veille | **warm** | sun (trending badges) | Engagement, content discovery |
+| 02 Passeport | **primary** | sun (achievements) | Competence validation, growth |
+| 03 Onboarding | **warm → brand arc** | (no third tone) | Tone arc Phase 14.1 : warm (Profil/Questionnaire/Tutoriel — accueil chaleureux) → brand (Success/Dashboard cold-start — transition vers l'identité stable). 1 transition de tone autorisée dans le flow. Voir L262 pour détail. |
+| 04 Coaching | **warm** | primary (badges) | Relationship, personalized support |
+| 05 Gamification | **sun** | primary (streaks) | Celebration, achievement focus |
+| 06 Enterprise | **primary** | neutral (reports) | Authority, data-driven decisions |
+| 07 Journal | **warm** | sun (reflections) | Introspection, milestone celebration |
+| 08 Masterclass | **brand** | primary (featured) | Expert credibility, spotlight |
+| 09 Notifications | **neutral** | primary/warm (type-based) | Clarity, actionability |
+| 10 Analytics | **primary** | neutral (charts) | Data authority, insights |
+| 11 Projects | **primary** | warm (milestones) | Goal tracking, progress |
+| 11bis Subscriptions | **primary** | neutral (pricing) | Plan clarity, commitment |
+| 12 Chatbot | **warm** | primary (responses) | Conversational, helpful |
+| 12bis IA Features | **brand** | primary (IA badges) | Trust in automation, transparency |
+| 13 Helpcenter | **neutral** | primary (CTAs) | Clarity, findability |
+| 13bis Compliance | **primary** | neutral (checkmarks) | Trust, security assurance |
+
+**Application**: Au niveau du composant, utiliser la prop `tone=` sur `EditorialHero`, `SectionHeader`, `Card`, `Badge`, etc. avec le tone dominant du cahier.
+
+---
+
+## §7 — Data Model Patterns by Cahier (Phase 16 Implementation)
+
+### Reusable Entity Types
+
+Plusieurs cahiers partagent des entités structurelles. Voici le pattern pour chaque type:
+
+| Entity | Cahiers | Zustand Store | MOCK_* File | Pattern |
+|--------|---------|---|---|---------|
+| **User** (profile, avatar, tier) | 02, 03, 04, 06, 16 | `useUserProfileStore` | `MOCK_USERS` | Seed-on-first-access from store |
+| **Competency** (name, Dreyfus, evidence) | 02, 05, 07, 11 | `useUserProfileStore` (subset) | `MOCK_COMPETENCIES` | Hierarchy stored as parent_id |
+| **LearningPath** (items, progress) | 01, 02, 11 | `useLearningPathStore` | `MOCK_PATHS` | Polymorphic item types |
+| **Item** (lesson, article, video, etc.) | 01, 01bis, 07, 12 | `useLearningPathStore` | `MOCK_ITEMS` | Type union (discriminator pattern) |
+| **Badge** (achievement, criteria) | 05, 13bis | `useCoachingStore` (gamification subset) | `MOCK_BADGES` | Criteria enum-based |
+| **CoachingSession** (booking, notes, corrections) | 04, 07 | `useCoachingStore` | `MOCK_SESSIONS` | Timestamps (scheduled, completed) |
+| **JournalEntry** (draft/published, mood, tags) | 07, 12 | `useLearningPathStore` (subset) | `MOCK_ENTRIES` | Soft-delete via `published_at` null |
+| **Notification** (type, read, channel) | 09 | `useUIStore` (transient) | `MOCK_NOTIFICATIONS` | Expiring after 30 days |
+| **ConsentRecord** (explicit, timestamp, type) | 13bis | `usePrivacyStore` | `MOCK_CONSENTS` | Append-only, immutable |
+| **AuditLog** (action, entity, actor, timestamp) | 13bis | `usePrivacyStore` | `MOCK_AUDIT_LOGS` | Append-only event log |
+| **Organization** (name, credits, team_count) | 06, 11bis | `useEnterpriseStore` | `MOCK_ORGANIZATIONS` | Multi-tenancy scoping |
+| **Team** (organization_id, members, manager) | 06 | `useEnterpriseStore` | `MOCK_TEAMS` | Hierarchical org structure |
+| **Project** (type: Upskilling/STRIDE/Custom, tasks) | 11 | `useLearningPathStore` | `MOCK_PROJECTS` | Task list composition |
+| **Subscription** (plan_tier, start_date, auto_renew) | 11bis | `useUserProfileStore` | `MOCK_SUBSCRIPTIONS` | Period-based (monthly/annual) |
+| **ChatMessage** (thread_id, role: user/assistant, timestamp) | 12 | `useUIStore` (transient) or persistent | `MOCK_MESSAGES` | Chronological thread list |
+| **HelpArticle** (slug, content, category, searchable) | 13 | Static / server-side | `MOCK_ARTICLES` | FULLTEXT search on content |
+
+### Data Model Priorities (Phase 16 implementation order)
+
+1. **Tier 1 (MUST implement for MVP)**:
+   - User, Competency, LearningPath, Item, CoachingSession
+   - Dependency: User first (identity), then others
+
+2. **Tier 2 (SHOULD implement for Phase 16)**:
+   - Badge, JournalEntry, Organization, Team, Project, Subscription, ConsentRecord
+   - Dependency: After Tier 1
+
+3. **Tier 3 (CAN defer Phase 17+)**:
+   - Notification (transient, can be client-only initially)
+   - ChatMessage, HelpArticle (can stub API calls Phase 16)
+   - AuditLog (appended by listeners Phase 17+)
+
+### Type File Organization (src/types/)
+
+Create one file per cahier module with its primary entities:
+
+- `src/types/learning.ts` — LearningPath, Item, Competency (reused by multiple cahiers)
+- `src/types/coaching.ts` — CoachingSession, Correction, Message
+- `src/types/journal.ts` — JournalEntry, Comment, GuidedQuestion
+- `src/types/compliance.ts` — ConsentRecord, AuditLog, DSAR
+- `src/types/enterprise.ts` — Organization, Team, EnterpriseUser
+- etc.
+
+### MOCK_* File Organization (src/data/)
+
+Parallel structure, one MOCK_* file per cahier for seeding:
+
+- `src/data/learning.ts` — MOCK_PATHS, MOCK_ITEMS, MOCK_COMPETENCIES
+- `src/data/coaching.ts` — MOCK_SESSIONS, MOCK_CORRECTIONS, MOCK_MESSAGES
+- `src/data/journal.ts` — MOCK_ENTRIES, MOCK_COMMENTS
+- `src/data/compliance.ts` — MOCK_CONSENTS, MOCK_AUDIT_LOGS
+- etc.
+
+**Pattern**: Store hook calls `MOCK_*` on first access (`seed-on-first-access` — see CLAUDE.md §Patterns Phase 17).
+
+---
+
+**Dernière mise à jour :** 2026-05-19 (Phase 16 Tone & Data Models ajoutés)
+**Phase actuelle :** 16 (Spec Compliance — Gap Analysis Complete, Documentation Updates in Progress)
+**Prochains focus :** 17-18 (UX Depth Pass & Store Wiring) + 19+ (IA Matching, Analytics)
