@@ -198,6 +198,14 @@ import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import { PagesIndex } from './pages/PagesIndex';
 import { FloatingNavButton } from './components/FloatingNavButton';
+// Marketing site
+import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
+import { MarketingHome } from './pages/marketing/MarketingHome';
+import { MarketingFormation } from './pages/marketing/MarketingFormation';
+import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
+import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
+import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
+import { MarketingContact } from './pages/marketing/MarketingContact';
 // CSS is centrally managed in globals.css — no direct imports needed here
 
 /**
@@ -480,6 +488,16 @@ function App() {
       <ToastProvider>
       <ScrollToTop />
       <Routes>
+        {/* ── Marketing site (public — no auth required) ── */}
+        <Route path="/marketing" element={<MarketingLayout />}>
+          <Route index element={<MarketingHome />} />
+          <Route path="formation" element={<MarketingFormation />} />
+          <Route path="accompagnement" element={<MarketingAccompagnement />} />
+          <Route path="learning-app" element={<MarketingLearningApp />} />
+          <Route path="magazine" element={<MarketingMagazine />} />
+          <Route path="contact" element={<MarketingContact />} />
+        </Route>
+
         {isAuthenticated ? (
           // Authenticated routes
           <Route
