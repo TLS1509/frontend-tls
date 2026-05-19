@@ -32,6 +32,8 @@ import {
   GradientText,
   CountUp,
   ParallaxLayer,
+  TiltCard,
+  NoiseTexture,
 } from '../../components/marketing/motion';
 
 type SectorFilter = 'Tous' | 'Industrie' | 'Tech' | 'Finance' | 'Services' | 'Public';
@@ -181,6 +183,7 @@ export const MarketingTemoignages: React.FC = () => {
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <MeshGradientBg tone="brand" intensity="normal" />
+        <NoiseTexture opacity={0.05} />
         <ParallaxLayer amplitude={50} className="absolute -top-10 -left-20 pointer-events-none" aria-hidden>
           <div className="w-80 h-80 rounded-pill bg-accent-400/20 blur-3xl" />
         </ParallaxLayer>

@@ -8,10 +8,12 @@
 // ─── Compétences (Cahier #02 Passeport H.S.O.) ───────────────────────────────
 
 /**
- * H.S.O. = Humain / Savoirs / Organisation (Cahier #02 § Vue d'Ensemble).
+ * H.S.O. = Hard skills / Soft skills / Out skills (Cahier #02 § Vue d'Ensemble).
  * Domaine racine d'une compétence du référentiel.
+ *
+ * Display labels via `domainLabel(domain)` from `src/data/competencies.ts`.
  */
-export type CompetenceDomain = 'Humain' | 'Savoirs' | 'Organisation';
+export type CompetenceDomain = 'Soft' | 'Hard' | 'Out';
 
 /** Catégorie de niveau (Cahier #02 — `level_category`) */
 export type LevelCategory = 'Base' | 'Avancée' | 'Spécialisée';

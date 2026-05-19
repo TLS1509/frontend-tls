@@ -31,6 +31,7 @@ import {
   MagneticButton,
   GradientText,
   CountUp,
+  TiltCard,
 } from '../../components/marketing/motion';
 
 // ⚠️ PLACEHOLDER — équipe fictive. Remplacer par les vrais membres avant production.
@@ -252,6 +253,7 @@ export const MarketingEquipe: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
             {TEAM.map((m, i) => (
               <FadeInWhenVisible key={m.name} direction="up" delay={i * 0.08}>
+                <TiltCard maxRotation={6} className="h-full">
                 <motion.article
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
@@ -290,6 +292,7 @@ export const MarketingEquipe: React.FC = () => {
                     </div>
                   </div>
                 </motion.article>
+                </TiltCard>
               </FadeInWhenVisible>
             ))}
           </div>

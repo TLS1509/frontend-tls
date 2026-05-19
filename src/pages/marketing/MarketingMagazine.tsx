@@ -25,9 +25,11 @@ import {
   FadeInWhenVisible,
   MagneticButton,
   GradientText,
+  useMarketingToast,
 } from '../../components/marketing/motion';
+import { ARTICLES, type ArticleCategory } from '../../data/marketingArticles';
 
-type Category = 'Tous' | 'IA' | 'Pédagogie' | 'Outils' | 'Innovation' | "Retours d'expérience";
+type Category = 'Tous' | ArticleCategory;
 
 const CATEGORIES: Category[] = [
   'Tous',
@@ -38,110 +40,7 @@ const CATEGORIES: Category[] = [
   "Retours d'expérience",
 ];
 
-// Articles aligned with the live site (thelearningsociety.fr/mag).
-// Featured article preserved verbatim; 9 supporting articles from live nav.
-const ARTICLES = [
-  {
-    title: 'Le Référentiel des 5 Piliers : la nouvelle matrice de compétences des professionnels L&D',
-    category: 'Pédagogie' as const,
-    date: 'Mai 2026',
-    readTime: '11 min',
-    featured: true,
-    summary:
-      "Comment la fonction formation glisse de l'improvisation digitale vers une véritable gouvernance algorithmique. Notre référentiel structurant pour les L&D en 2026.",
-    cover: 'from-primary-200 via-primary-100 to-accent-100',
-  },
-  {
-    title: "L'IA et le syndrome de la réponse facile",
-    category: 'IA' as const,
-    date: 'Avril 2026',
-    readTime: '6 min',
-    featured: false,
-    summary:
-      "Pourquoi la facilité apparente des outils IA peut nuire à l'apprentissage profond — et comment y remédier en redessinant tes activités pédagogiques.",
-    cover: 'from-secondary-200 via-secondary-100 to-accent-100',
-  },
-  {
-    title: "Le « Digital Twin » de l'apprenant",
-    category: 'Innovation' as const,
-    date: 'Avril 2026',
-    readTime: '10 min',
-    featured: false,
-    summary:
-      "Vers une modélisation fine du profil apprenant pour des formations vraiment adaptatives. Enjeux, limites et perspectives concrètes.",
-    cover: 'from-accent-200 via-accent-100 to-primary-100',
-  },
-  {
-    title: 'Sous le capot de la « Dream Team »',
-    category: "Retours d'expérience" as const,
-    date: 'Avril 2026',
-    readTime: '8 min',
-    featured: false,
-    summary:
-      "Comment nous construisons nos équipes pédagogiques hybrides humain × IA chez The Learning Society. Méthodes, rituels et apprentissages.",
-    cover: 'from-secondary-200 via-secondary-100 to-primary-100',
-  },
-  {
-    title: 'Pourquoi l\'ère du « Chat » est terminée',
-    category: 'Innovation' as const,
-    date: 'Mars 2026',
-    readTime: '9 min',
-    featured: false,
-    summary:
-      "Le chat conversationnel n'est plus le format dominant de l'IA en formation. Voici les interfaces et workflows qui le remplacent dès 2026.",
-    cover: 'from-primary-200 via-accent-100 to-secondary-100',
-  },
-  {
-    title: 'Qualiopi sans la charge mentale',
-    category: 'Outils' as const,
-    date: 'Mars 2026',
-    readTime: '7 min',
-    featured: false,
-    summary:
-      "Automatiser la conformité Qualiopi avec l'IA : reporting, traçabilité, indicateurs. La compliance qui ne te bouffe plus tes vendredis soirs.",
-    cover: 'from-accent-200 via-primary-100 to-secondary-100',
-  },
-  {
-    title: 'La fin des QCM',
-    category: 'Pédagogie' as const,
-    date: 'Février 2026',
-    readTime: '6 min',
-    featured: false,
-    summary:
-      "Les QCM résistent depuis 60 ans. L'IA générative leur donne le coup de grâce. Voici par quoi les remplacer pour vraiment évaluer la compétence.",
-    cover: 'from-primary-200 via-primary-100 to-secondary-100',
-  },
-  {
-    title: 'IA et ingénierie pédagogique',
-    category: 'IA' as const,
-    date: 'Février 2026',
-    readTime: '10 min',
-    featured: false,
-    summary:
-      "Refonder l'ingénierie pédagogique à l'ère de l'IA générative. Méthodologie, outillage et gestes professionnels du concepteur augmenté.",
-    cover: 'from-secondary-200 via-accent-100 to-primary-100',
-  },
-  {
-    title: 'Workflow Learning',
-    category: 'Innovation' as const,
-    date: 'Janvier 2026',
-    readTime: '8 min',
-    featured: false,
-    summary:
-      "Apprendre dans le flux du travail : la prochaine frontière du L&D. Comment l'IA rend enfin possible la formation 'just-in-time' à grande échelle.",
-    cover: 'from-accent-200 via-secondary-100 to-primary-100',
-  },
-  {
-    title: '5 leviers d\'IA qui transforment stratégiquement les métiers L&D',
-    category: 'IA' as const,
-    date: 'Janvier 2026',
-    readTime: '12 min',
-    featured: false,
-    summary:
-      "Une analyse stratégique des 5 leviers IA qui redessinent le rôle des L&D en 2026 : du conception au pilotage de l'impact apprenant.",
-    cover: 'from-primary-200 via-secondary-100 to-accent-100',
-  },
-];
+// Articles importés depuis src/data/marketingArticles.ts (10 articles fidèles au live site).
 
 const CATEGORY_TONES: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
@@ -156,6 +55,7 @@ export const MarketingMagazine: React.FC = () => {
   const [query, setQuery] = useState('');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const { push: pushToast } = useMarketingToast();
 
   const filtered = useMemo(() => {
     return ARTICLES.filter((a) => {
@@ -290,7 +190,7 @@ export const MarketingMagazine: React.FC = () => {
                       <Sparkles size={12} />
                       À la une
                     </span>
-                    <Link to="/marketing/magazine" className="group block">
+                    <Link to={`/marketing/magazine/${featured.slug}`} className="group block">
                       <motion.article
                         whileHover={{ y: -4 }}
                         transition={{ type: 'spring', stiffness: 280, damping: 22 }}
@@ -353,7 +253,7 @@ export const MarketingMagazine: React.FC = () => {
                           exit={{ opacity: 0, y: -12 }}
                           transition={{ duration: 0.35, delay: i * 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
                         >
-                          <Link to="/marketing/magazine" className="group block h-full">
+                          <Link to={`/marketing/magazine/${a.slug}`} className="group block h-full">
                             <motion.article
                               whileHover={{ y: -4 }}
                               transition={{ type: 'spring', stiffness: 280, damping: 22 }}
@@ -445,7 +345,14 @@ export const MarketingMagazine: React.FC = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (email.trim()) setSubscribed(true);
+                  if (email.trim()) {
+                    setSubscribed(true);
+                    pushToast({
+                      tone: 'success',
+                      message: 'Inscription confirmée ✨',
+                      description: 'Premier email du Mag\' d\'ici 15 jours dans ta boîte.',
+                    });
+                  }
                 }}
                 className="w-full max-w-md flex flex-col sm:flex-row gap-2 pt-stack"
               >

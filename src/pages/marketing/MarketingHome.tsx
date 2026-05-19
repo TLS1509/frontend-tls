@@ -32,6 +32,8 @@ import {
   CountUp,
   StickyScrollStory,
   InteractiveAppMockup,
+  TiltCard,
+  NoiseTexture,
   type StoryPanel,
 } from '../../components/marketing/motion';
 
@@ -151,6 +153,7 @@ export const MarketingHome: React.FC = () => {
       {/* ── 1. Hero immersive ───────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <MeshGradientBg tone="brand" intensity="intense" />
+        <NoiseTexture opacity={0.06} />
 
         {/* Parallax decorative blobs */}
         <ParallaxLayer amplitude={80} className="absolute -top-10 -left-20 pointer-events-none" aria-hidden>
@@ -321,16 +324,16 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
             </div>
 
-            {/* Mockup column */}
+            {/* Mockup column — TiltCard for tactile dimensionality */}
             <FadeInWhenVisible direction="left" delay={0.15}>
               <div className="relative">
                 <div
                   aria-hidden
                   className="absolute -inset-8 bg-gradient-to-br from-primary-200/40 via-accent-200/30 to-secondary-200/40 blur-3xl pointer-events-none"
                 />
-                <div className="relative">
+                <TiltCard maxRotation={6} className="relative">
                   <InteractiveAppMockup />
-                </div>
+                </TiltCard>
               </div>
             </FadeInWhenVisible>
           </div>

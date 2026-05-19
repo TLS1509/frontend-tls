@@ -34,6 +34,8 @@ import {
   GradientText,
   CountUp,
   InteractiveAppMockup,
+  TiltCard,
+  NoiseTexture,
 } from '../../components/marketing/motion';
 
 const STATS = [
@@ -150,6 +152,7 @@ export const MarketingLearningApp: React.FC = () => {
       {/* ── 1. Hero with prominent mockup ──────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <MeshGradientBg tone="brand" intensity="intense" />
+        <NoiseTexture opacity={0.06} />
 
         <ParallaxLayer amplitude={60} className="absolute top-1/3 -left-32 pointer-events-none" aria-hidden>
           <div className="w-96 h-96 rounded-pill bg-accent-400/15 blur-3xl" />
@@ -224,16 +227,16 @@ export const MarketingLearningApp: React.FC = () => {
             </FadeInWhenVisible>
           </div>
 
-          {/* Hero mockup */}
+          {/* Hero mockup — TiltCard for tactile depth */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
               <div
                 aria-hidden
                 className="absolute -inset-8 bg-gradient-to-br from-accent-400/20 via-secondary-400/20 to-primary-400/30 blur-3xl pointer-events-none"
               />
-              <div className="relative">
+              <TiltCard maxRotation={7} className="relative">
                 <InteractiveAppMockup />
-              </div>
+              </TiltCard>
             </div>
           </FadeInWhenVisible>
         </div>

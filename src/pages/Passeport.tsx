@@ -14,15 +14,15 @@ import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
-import { getCompetenceById } from '../data/competencies';
+import { getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
 
 /** Couleur du tone par domaine H.S.O. (Cahier #02). */
 const DOMAIN_COLORS: Record<CompetenceDomain, 'brand' | 'warm' | 'sun'> = {
-  Humain: 'brand',
-  Savoirs: 'warm',
-  Organisation: 'sun',
+  Soft: 'brand',
+  Hard: 'warm',
+  Out: 'sun',
 };
 
 const TABS = [
@@ -47,7 +47,7 @@ export default function Passeport() {
     return {
       id: lc.competenceId,
       label: ref?.label ?? lc.competenceId,
-      domain: (ref?.domain ?? 'Humain') as CompetenceDomain,
+      domain: (ref?.domain ?? 'Soft') as CompetenceDomain,
       level: lc.currentLevel,
       target: lc.targetLevel ?? lc.currentLevel,
       daysSinceActivity: lc.daysSinceActivity,
@@ -191,7 +191,7 @@ export default function Passeport() {
                     <div className="flex flex-col gap-1">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
-                        {c.domain}
+                        {domainLabel(c.domain)}
                       </Badge>
                     </div>
                     <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />

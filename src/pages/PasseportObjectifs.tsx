@@ -12,7 +12,7 @@ import { Select } from '../components/core/Select';
 import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { usePasseportStore } from '../stores/persistence';
-import { COMPETENCES, getCompetenceById } from '../data/competencies';
+import { COMPETENCES, getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyObjective, DreyfusLevel } from '../types/learning';
 
@@ -46,7 +46,7 @@ const inSixMonthsDate = () => {
 
 const competencyOptions = COMPETENCES.map((c) => ({
   value: c.id,
-  label: `${c.label} · ${c.domain}`,
+  label: `${c.label} · ${domainLabel(c.domain)}`,
 }));
 
 export default function PasseportObjectifs() {
@@ -215,7 +215,7 @@ export default function PasseportObjectifs() {
                             {comp?.label ?? g.competenceId}
                           </span>
                           <span className="inline-flex items-center gap-1 text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
-                            {comp?.domain ?? g.competenceId}
+                            {comp ? domainLabel(comp.domain) : g.competenceId}
                           </span>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
@@ -304,7 +304,7 @@ export default function PasseportObjectifs() {
                   <Card key={g.id} variant="default" className="flex items-center justify-between px-4 py-3">
                     <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
-                      <span className="text-caption text-ink-400">{comp?.subdomain ?? comp?.domain} · D{g.startLevel}→D{g.targetLevel}</span>
+                      <span className="text-caption text-ink-400">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Button

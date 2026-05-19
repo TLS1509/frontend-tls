@@ -11,7 +11,7 @@ import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { StatCard } from '../components/ui/StatCard';
 import { usePasseportStore } from '../stores/persistence';
-import { getCompetenceById } from '../data/competencies';
+import { getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
 
@@ -24,9 +24,9 @@ const DREYFUS_DESC = [
 ] as const;
 
 const DOMAIN_TONE: Record<CompetenceDomain, 'default' | 'warm' | 'sun'> = {
-  Humain: 'default',
-  Savoirs: 'warm',
-  Organisation: 'sun',
+  Soft: 'default',
+  Hard: 'warm',
+  Out: 'sun',
 };
 
 export default function PasseportCompetenceDetail() {
@@ -45,7 +45,7 @@ export default function PasseportCompetenceDetail() {
   const points = lc?.points ?? 0;
   const nextLevelPoints = lc?.nextLevelPoints ?? 100;
   const daysSinceActivity = lc?.daysSinceActivity ?? 0;
-  const domain = (ref?.domain ?? 'Humain') as CompetenceDomain;
+  const domain = (ref?.domain ?? 'Soft') as CompetenceDomain;
   const label = ref?.label ?? (id ?? 'Compétence');
   const description = ref?.description ?? '';
 
@@ -70,7 +70,7 @@ export default function PasseportCompetenceDetail() {
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
-        eyebrow={`Passeport · ${domain}`}
+        eyebrow={`Passeport · ${domainLabel(domain)}`}
         title={label}
         summary={description || `Compétence du domaine ${domain} — suivi Dreyfus 1 à 5.`}
         tone={DOMAIN_TONE[domain]}

@@ -34,6 +34,7 @@ import {
   MagneticButton,
   GradientText,
   CountUp,
+  NoiseTexture,
 } from '../../components/marketing/motion';
 
 // ⚠️ PLACEHOLDER — Acronyme STRIDE illustratif. Remplacer par la vraie définition TLS.
@@ -147,6 +148,7 @@ export const MarketingMethode: React.FC = () => {
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <MeshGradientBg tone="brand" intensity="normal" />
+        <NoiseTexture opacity={0.05} />
         <ParallaxLayer amplitude={60} className="absolute top-1/3 -right-32 pointer-events-none" aria-hidden>
           <div className="w-96 h-96 rounded-pill bg-accent-400/15 blur-3xl" />
         </ParallaxLayer>

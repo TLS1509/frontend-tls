@@ -25,7 +25,7 @@ const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
   </svg>
 );
 import { TlsLogo } from '../../../components/ui/TlsLogo';
-import { CountUp } from '../../../components/marketing/motion';
+import { CountUp, useMarketingToast } from '../../../components/marketing/motion';
 
 const FOOTER_LINKS = {
   offres: [
@@ -67,11 +67,17 @@ const SOCIAL_PROOF = [
 const NewsletterSignup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const { push } = useMarketingToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
       setSubmitted(true);
+      push({
+        tone: 'success',
+        message: 'Inscription confirmée ✨',
+        description: 'Premier email du Mag\' d\'ici 15 jours dans ta boîte.',
+      });
       setEmail('');
       setTimeout(() => setSubmitted(false), 4000);
     }

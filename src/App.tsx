@@ -212,6 +212,7 @@ import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
+import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
 // CSS is centrally managed in globals.css — no direct imports needed here
 
@@ -506,6 +507,7 @@ function App() {
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
           <Route path="magazine" element={<MarketingMagazine />} />
+          <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
           <Route path="equipe" element={<MarketingEquipe />} />
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />
