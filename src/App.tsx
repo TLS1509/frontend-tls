@@ -201,6 +201,9 @@ import { FloatingNavButton } from './components/FloatingNavButton';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
+import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
+import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
+import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
@@ -491,6 +494,9 @@ function App() {
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/marketing" element={<MarketingLayout />}>
           <Route index element={<MarketingHome />} />
+          <Route path="home-a" element={<MarketingHomeA />} />
+          <Route path="home-b" element={<MarketingHomeB />} />
+          <Route path="home-c" element={<MarketingHomeC />} />
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
