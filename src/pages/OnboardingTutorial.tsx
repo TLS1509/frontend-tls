@@ -55,7 +55,7 @@ export default function OnboardingTutorial() {
 
   return (
     <main className="min-h-screen bg-surface">
-      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('tutoriel')} orientation="horizontal" />
 

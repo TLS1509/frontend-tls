@@ -1300,6 +1300,83 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
 
 ---
 
+## Marketing site v2 — Immersive direction (2026-05-19+) ✅ P1
+
+**Scope** : refonte du site marketing public (`/marketing/*`) au niveau PREMIUM IMMERSIF (Linear / Vercel / Apple / Stripe / Framer). Visuel travaillé : scroll-driven animations, sticky storytelling, mockup app jouable, magnetic CTAs, gradient text animé, marquee, count-up, parallax.
+
+### Dépendance ajoutée
+
+- **`framer-motion`** (35kb gz, tree-shakeable). Seule dépendance animation autorisée pour le site marketing. PAS de GSAP, PAS de Lenis, PAS de Three.js. View Transitions API native pour les transitions de routes.
+- Import : `import { motion, useScroll, useTransform, useReducedMotion, useInView, AnimatePresence } from 'framer-motion';`
+- **Toutes les animations doivent passer par `useReducedMotion`** — si l'utilisateur a `prefers-reduced-motion: reduce`, l'animation est désactivée ou réduite à un fade simple.
+
+### Architecture motion primitives
+
+Les primitives motion vivent dans `src/components/marketing/motion/` et sont **réservées au site marketing public** (n'utilise pas dans la learning app interne — la learning app garde son propre vocabulaire DS, ces primitives sont marketing-only par design).
+
+| Primitive | Fichier | Usage canonique |
+|-----------|---------|-----------------|
+| `MeshGradientBg` | MeshGradientBg.tsx | Fond mesh-gradient animé. 5 tones (primary/warm/sun/brand/ink), 3 intensités. Toujours `absolute inset-0 overflow-hidden pointer-events-none`. |
+| `FadeInWhenVisible` | FadeInWhenVisible.tsx | Wrapper IO + transition fade-up. Direction up/down/left/right/none, délai et durée custom. Trigger margin par défaut `-80px`. |
+| `ParallaxLayer` | ParallaxLayer.tsx | Y parallax bound au scroll progress dans le viewport. Multi-couches : back 80px / mid 40px / front 15px. |
+| `MagneticButton` | MagneticButton.tsx | Wrapper magnetic 12px max (configurable). Suit le curseur en spring. Désactivé sous reduced-motion et touch. **Wrap autour d'un `<Button>`** — n'altère pas la sémantique. |
+| `GradientText` | GradientText.tsx | Inline gradient text avec position animée (bg-size 200%, animate background-position 0→100%→0 sur 12s). |
+| `MarqueeRow` | MarqueeRow.tsx | Infinite scroll horizontal. Edge fade gauche/droite via mask-image, direction reverse, durée custom. Duplique items pour seamless loop. |
+| `CountUp` | CountUp.tsx | Number counter IO-triggered, easeOutCubic, locale FR. Decimals optionnels. Respect reduced-motion (jump direct). |
+| `StickyScrollStory` | StickyScrollStory.tsx | Section `N * 100vh` avec visual sticky + panels texte qui fadent au scroll. `visual` callback reçoit l'index actif. Mobile fallback : stack vertical. |
+| `InteractiveAppMockup` | InteractiveAppMockup.tsx | Mockup app jouable inline avec 4 tabs (Parcours/Coaching/Journal/Veille). Chaque panel a ses animations internes staggered. AnimatePresence + layoutId pour la pill active. |
+
+### Showcase
+
+- **`/marketing/_motion-lab`** — page dev qui démontre les 9 primitives en isolation. Reste accessible publiquement (route marketing publique). À supprimer une fois la refonte marketing complète et stable.
+- Les primitives ne sont **PAS** ajoutées à `src/pages/Components.tsx` (le showcase DS de la learning app) — elles ciblent un autre contexte d'usage.
+
+### Patterns spécifiques découverts en Phase 1.2/1.3
+
+1. **Hero immersive** : `bg-gradient-to-br from-primary-700 to-primary-900` + `MeshGradientBg tone="brand"` + 2 `ParallaxLayer` blobs + `useScroll` + `useTransform` pour scale/opacity du hero qui se rétracte au scroll. Titre en `text-[clamp(3rem,8vw,6.5rem)]` avec un `GradientText` inline sur 2-3 mots clés (PAS le titre entier — sinon trop chargé).
+
+2. **CTA pattern marketing** : `<MagneticButton strength={14}><Link><Button variant="warm">...</Button></Link></MagneticButton>`. Strength 12-16 pour primary CTA, 8 pour secondary. Au-delà de 20 ça devient gimmicky.
+
+3. **Ghost CTA sur fond sombre** : `<Button variant="ghost" className="!text-white hover:!bg-white/10 !border !border-white/30">`. Les `!` sont nécessaires car le variant ghost définit text-ink-900 par défaut. Exception légitime à la règle "pas de !important" car c'est une variante de surface (light vs dark) que le Button n'expose pas via prop.
+
+4. **Squiggly underline draw-on-scroll** : SVG inline avec `<motion.path>` + `initial={{ pathLength: 0 }}` + `whileInView={{ pathLength: 1 }}`. Tracer un quadratic bezier `Q ... T ... T ...` pour un effet "marker dessiné main".
+
+5. **Sticky storytelling visual morphing** : dans le `visual` callback de `StickyScrollStory`, retourner un `<motion.div key={i}>` avec `initial/animate/exit` — la prop `key={i}` force le remount qui déclenche l'animation entry à chaque changement de panel.
+
+6. **InteractiveAppMockup tab indicator** : `<motion.span layoutId="mockup-tab-bg">` pour transitionner la pill active d'un tab à l'autre — spring stiffness 380 damping 30, feels premium.
+
+7. **FAQ accordion** : `AnimatePresence` + `<motion.div>` avec `initial={{ height: 0 }}`, `animate={{ height: 'auto' }}`. Wrapper `overflow-hidden`. Header button avec icône Plus/Minus selon état.
+
+8. **Horizontal scroll snap timeline** : `overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 -mx-6` avec children `snap-start shrink-0 w-80`. Boutons prev/next via `scrollBy({ left: cardWidth * 1.5, behavior: 'smooth' })`. Mobile : swipe natif suffit, masquer les boutons.
+
+### Pièges Phase 1.2/1.3
+
+- **`py-page-lg` n'existe pas** — les tokens de spacing s'arrêtent à `--spacing-page` (48px). Si besoin de plus, ajouter un token au `@theme` plutôt qu'utiliser une valeur arbitraire.
+- **`whileInView` initial state** : framer-motion garde les éléments à leur état initial (opacity 0) si la `viewport.margin` est négative et qu'ils ne sont pas assez profonds dans le viewport au mount. Pour hero (premier viewport), s'assurer que les éléments sont au moins ~100px du top, ou réduire la margin négative.
+- **Style scale/opacity sur motion.div + scroll** : utiliser `useScroll()` global (pas bound à un target) + `useTransform` directement dans le hero. Sur reduced-motion, set scale/opacity à 1 pour éviter le shrink.
+- **CountUp valeur "1+" en attendant trigger** : c'est normal — `useInView` ne déclenche qu'à `margin: '-50px'`. Pour les counters dans le hero qui doivent se déclencher immédiatement, soit changer la margin à `'0px'`, soit accepter le visuel "1+" puis "200+".
+
+### Workflow par page marketing
+
+Même rigueur que Phase 14 flow-based, mais sur **chaque page marketing** (pas par flow) :
+
+1. **Audit & design** — section par section, identifier les primitives à utiliser
+2. **Build bottom-up** — primitives manquantes d'abord, puis sections, puis page
+3. **TS check + preview** — `npx tsc --noEmit` + screenshots mobile 375 + desktop 1440
+4. **Performance** — vérifier que les animations restent 60fps (DevTools Performance tab), pas de jank au scroll
+5. **a11y** — `prefers-reduced-motion` testé, ARIA labels sur les contrôles interactifs, focus states visibles
+6. **Commit** — `feat(marketing-v2): [page name] immersive redesign`
+
+### Anti-patterns marketing v2
+
+- ❌ Utiliser les primitives motion dans la learning app interne (mauvais contexte d'usage)
+- ❌ Empiler 3+ primitives sur le même élément (parallax + magnetic + gradient text + fade-in = overkill)
+- ❌ Animation lourdes au-dessus du fold qui retardent le LCP (hero MeshGradientBg OK car en background, mais pas de scrub-scroll animation sur le hero content)
+- ❌ Oublier `useReducedMotion` dans une primitive custom — bug d'accessibilité bloquant
+- ❌ `transition={{ duration: 2 }}` ou plus sur un élément interactif — trop lent, frustration
+
+---
+
 ## Ce qu'il NE FAUT PAS faire
 
 **Fichiers & structure**

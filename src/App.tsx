@@ -204,6 +204,7 @@ import { MarketingHome } from './pages/marketing/MarketingHome';
 import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
 import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
 import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
+import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
@@ -497,6 +498,7 @@ function App() {
           <Route path="home-a" element={<MarketingHomeA />} />
           <Route path="home-b" element={<MarketingHomeB />} />
           <Route path="home-c" element={<MarketingHomeC />} />
+          <Route path="_motion-lab" element={<MarketingMotionLab />} />
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
