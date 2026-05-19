@@ -32,14 +32,11 @@ import { MOCK_LEARNING_SPACE_ITEMS, ITEM_TYPE_LABELS } from '../data/items';
 import { DREYFUS_LABELS } from '../data/competencies';
 import type { ItemType, DreyfusLevel, SubscriptionTier } from '../types/learning';
 import { canAccessItem, getAccessDenialMessage, getGatingType } from '../lib/access-control';
-import { useUserProfileStore } from '../stores/persistence';
+import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
-const MOCK_COMPLETED_ITEMS = new Set(['item-1', 'item-4']); // Sample completed items
-const MOCK_LEARNER_COMPETENCY_LEVELS: Record<string, DreyfusLevel> = {
-  comp_leadership: 2,
-  comp_communication: 3,
-  comp_cooperation: 1,
-};
+/** Demo seed — items pré-marqués complétés tant que le tracking item-level n'est pas en place. */
+const SEED_COMPLETED_ITEMS = new Set(['item-1', 'item-4']);
 
 /* ─── Item icon mapping by type ──────────────────────────────────────── */
 
@@ -95,6 +92,29 @@ function getUniqueDurations(): string[] {
 export const LearningSpace: React.FC = () => {
   const profileStore = useUserProfileStore();
   const userTier = profileStore.get().subscriptionTier;
+
+  // Phase 16.1 #2 — wire access control context to real stores.
+  // Competency levels read from usePasseportStore so canAccessItem() matches the
+  // learner's actual radar. Lesson progress feeds item completion (best-effort —
+  // item-level completion store TBD).
+  const lessonsMap = useLessonProgressStore((s) => s.lessons);
+  const passeportStore = usePasseportStore();
+  const learnerCompetencyLevels = useMemo(() => {
+    const map: Record<string, DreyfusLevel> = {};
+    passeportStore.getCompetencies(MOCK_USER_ID).forEach((c) => {
+      map[c.competenceId] = c.currentLevel;
+    });
+    return map;
+  }, [passeportStore]);
+  const completedItemIds = useMemo(() => {
+    const ids = new Set<string>(SEED_COMPLETED_ITEMS);
+    Object.entries(lessonsMap).forEach(([lessonId, entry]) => {
+      if (entry.totalSections > 0 && entry.completed.length >= entry.totalSections) {
+        ids.add(lessonId);
+      }
+    });
+    return ids;
+  }, [lessonsMap]);
 
   const [query, setQuery] = useState('');
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
@@ -348,8 +368,8 @@ export const LearningSpace: React.FC = () => {
               {filteredItems.map((item) => {
                 const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
                   userSubscriptionTier: userTier,
-                  completedItemIds: MOCK_COMPLETED_ITEMS,
-                  learnerCompetencyLevels: MOCK_LEARNER_COMPETENCY_LEVELS,
+                  completedItemIds,
+                  learnerCompetencyLevels,
                 });
                 const gatingType = getGatingType(item.tierGate, item.prerequisites);
                 const isAccessible = accessCheck.allowed;
