@@ -323,6 +323,8 @@ interface LessonProgressState {
   get: (lessonId: string) => LessonProgressEntry | null;
   /** Percent complete based on completed sections vs total. */
   percent: (lessonId: string) => number;
+  /** True when all sections have been completed (percent >= 100). */
+  isLessonCompleted: (lessonId: string) => boolean;
   /** Reset one lesson. */
   reset: (lessonId: string) => void;
   /** Reset all. */
@@ -393,6 +395,11 @@ export const useLessonProgressStore = create<LessonProgressState>()(
         const entry = get().lessons[lessonId];
         if (!entry || entry.totalSections === 0) return 0;
         return Math.round((entry.completed.length / entry.totalSections) * 100);
+      },
+      isLessonCompleted: (lessonId) => {
+        const entry = get().lessons[lessonId];
+        if (!entry || entry.totalSections === 0) return false;
+        return entry.completed.length >= entry.totalSections;
       },
       reset: (lessonId) =>
         set((state) => {

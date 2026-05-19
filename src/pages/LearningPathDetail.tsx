@@ -58,6 +58,7 @@ import {
 import {
   MOCK_PARCOURS_DATA,
   getToneFromLevel,
+  getParcoursCompetenceIds,
   type Tone,
   type ResourceKind,
   type Lecon,
@@ -66,6 +67,10 @@ import {
   type FinalProject,
   type Parcours,
 } from '../data/learningPaths';
+import { useLessonProgressStore, usePositioningStore, usePasseportStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { COMPETENCES } from '../data/competencies';
+import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
 const RESOURCE_ICON: Record<ResourceKind, React.ComponentType<{ size?: number }>> = {
   guide: FileText,
@@ -113,7 +118,13 @@ export const LearningPathDetail: React.FC = () => {
   const [expandedSteps, setExpandedSteps] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'steps' | 'project'>('steps');
   const [showPositionnement, setShowPositionnement] = useState(false);
-  const [positioned, setPositioned] = useState(false);
+
+  // Phase 16.1 chantier #1+#3 — wire stores
+  const lessonsMap = useLessonProgressStore((s) => s.lessons);
+  const isLessonCompleted = useLessonProgressStore((s) => s.isLessonCompleted);
+  const positioningStore = usePositioningStore();
+  const passeportStore = usePasseportStore();
+  const positioned = id ? positioningStore.hasCompleted(MOCK_USER_ID, id) : false;
 
   useEffect(() => {
     if (id && MOCK_PARCOURS_DATA[id]) {
@@ -126,9 +137,18 @@ export const LearningPathDetail: React.FC = () => {
 
   const parcours = useMemo(() => {
     if (!parcoursData) return null;
-    const etapesWithUnlock = parcoursData.etapes.map((etape: Etape, idx: number) => ({
+    // Phase 16.1 #1 — override lesson.completed from useLessonProgressStore
+    // (a lesson is completed once all its EDRAC sections have been viewed).
+    const etapesWithProgress = parcoursData.etapes.map((etape: Etape) => ({
       ...etape,
-      unlocked: calculateStepUnlocked(idx, parcoursData.etapes),
+      lecons: etape.lecons.map((l) => ({
+        ...l,
+        completed: l.completed || isLessonCompleted(l.id),
+      })),
+    }));
+    const etapesWithUnlock = etapesWithProgress.map((etape: Etape, idx: number) => ({
+      ...etape,
+      unlocked: calculateStepUnlocked(idx, etapesWithProgress),
       completed: calculateStepCompleted(etape),
     }));
     const allStepsComplete = etapesWithUnlock.every((e) => e.completed);
@@ -139,7 +159,25 @@ export const LearningPathDetail: React.FC = () => {
         ? { ...parcoursData.finalProject, locked: !allStepsComplete }
         : undefined,
     };
-  }, [parcoursData]);
+    // lessonsMap is included so memo recomputes when any lesson progress changes.
+  }, [parcoursData, lessonsMap, isLessonCompleted]);
+
+  // Phase 16.1 #3 — auto-generate positionnement questions from parcours competenceIds.
+  // MUST sit before any conditional return to keep hook order stable across renders.
+  const positionnementQuestions = useMemo(() => {
+    if (!id) return undefined;
+    const competenceIds = getParcoursCompetenceIds(id);
+    if (competenceIds.length === 0) return undefined;
+    return competenceIds.map((cid, idx) => {
+      const comp = COMPETENCES.find((c) => c.id === cid);
+      return {
+        id: idx + 1,
+        title: comp?.label ?? cid,
+        description: comp?.description ?? 'Auto-évalue ton niveau actuel.',
+        competenceKey: cid,
+      };
+    });
+  }, [id]);
 
   if (!parcours) {
     return (
@@ -151,6 +189,7 @@ export const LearningPathDetail: React.FC = () => {
   }
 
   const tone = getToneFromLevel(parcours.level);
+
   const totalLessons = parcours.etapes.reduce((s: number, e: Etape) => s + e.lecons.length, 0);
   const completedLessons = parcours.etapes.reduce(
     (s: number, e: Etape) => s + e.lecons.filter((l: Lecon) => l.completed).length,
@@ -694,7 +733,31 @@ export const LearningPathDetail: React.FC = () => {
         onClose={() => setShowPositionnement(false)}
         courseTitle={parcours.title}
         courseId={parcours.id}
-        onPositionnementComplete={() => setPositioned(true)}
+        questions={positionnementQuestions}
+        onComplete={(_, competences) => {
+          // Phase 16.1 #3 — persist via usePositioningStore + sync to usePasseportStore
+          if (!id) return;
+          const answers: PositioningAnswer[] = Object.entries(competences).map(([competenceId, level]) => ({
+            competenceId,
+            level: level as DreyfusLevel,
+          }));
+          positioningStore.set(MOCK_USER_ID, id, answers);
+          // Seed competencies in passeport store (one entry per competence answered)
+          const existing = passeportStore.getCompetencies(MOCK_USER_ID);
+          answers.forEach((a) => {
+            const prev = existing.find((c) => c.competenceId === a.competenceId);
+            passeportStore.setCompetency({
+              userId: MOCK_USER_ID,
+              competenceId: a.competenceId,
+              currentLevel: a.level,
+              targetLevel: prev?.targetLevel ?? a.level,
+              points: prev?.points ?? 0,
+              nextLevelPoints: prev?.nextLevelPoints ?? 100,
+              daysSinceActivity: 0,
+              lastUpdated: new Date().toISOString(),
+            });
+          });
+        }}
         onStartCourse={() => {
           const firstEtape = parcours.etapes.find((e: Etape) => e.unlocked);
           if (firstEtape && firstEtape.lecons.length > 0) {
