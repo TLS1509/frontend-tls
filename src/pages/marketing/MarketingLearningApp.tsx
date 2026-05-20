@@ -42,7 +42,7 @@ const STATS = [
   { to: 120, suffix: '+', label: 'modules disponibles' },
   { to: 40, suffix: '+', label: 'formateurs actifs' },
   { to: 200, suffix: 'h', label: 'de contenu' },
-  { to: 84, suffix: ' %', label: 'taux de complétion' },
+  { to: 30, suffix: ' min', label: 'session moyenne' },
 ];
 
 const FEATURES_MAIN = [
@@ -221,7 +221,7 @@ export const MarketingLearningApp: React.FC = () => {
                   Beta
                 </span>
                 <span className="font-body text-body-sm text-white/70">
-                  En développement actif · prochaine release courant 2026
+                  En développement actif · accès progressif par invitation
                 </span>
               </div>
             </FadeInWhenVisible>

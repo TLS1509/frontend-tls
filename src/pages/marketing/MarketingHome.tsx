@@ -224,7 +224,7 @@ export const MarketingHome: React.FC = () => {
             ))}
           />
           <p className="font-body text-micro text-ink-400 text-center italic m-0">
-            Exemples illustratifs — la liste réelle des partenaires sera publiée prochainement.
+            Logos illustratifs · partenaires confirmés communiqués prochainement.
           </p>
         </div>
       </section>
@@ -303,14 +303,6 @@ export const MarketingHome: React.FC = () => {
           {/* Text */}
           <div className="flex flex-col gap-stack-lg">
             <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-accent-100 border border-accent-200 w-fit">
-                <Sparkles size={14} className="text-warning-fg" />
-                <span className="font-body text-caption font-bold text-warning-fg tracking-wider uppercase">
-                  Chapitre signature
-                </span>
-              </span>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 On n'apprend pas{' '}
                 <span className="relative inline-block">
@@ -398,16 +390,6 @@ export const MarketingHome: React.FC = () => {
                 <p className="font-body text-caption text-ink-500 m-0">
                   Sophie, promotion 2026
                 </p>
-              </motion.div>
-              {/* Accent badge top-right */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-                whileInView={{ opacity: 1, scale: 1, rotate: -4 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6, type: 'spring', stiffness: 220, damping: 14 }}
-                className="absolute -top-4 -right-4 bg-accent-400 text-ink-900 px-3 py-1.5 rounded-pill font-display font-bold text-caption uppercase tracking-wider shadow-lg"
-              >
-                Promo Septembre ouverte
               </motion.div>
             </div>
           </FadeInWhenVisible>

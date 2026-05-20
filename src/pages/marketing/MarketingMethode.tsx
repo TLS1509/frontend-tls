@@ -201,11 +201,6 @@ export const MarketingMethode: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          <FadeInWhenVisible direction="up" delay={0.5}>
-            <p className="font-body text-caption text-white/55 italic m-0">
-              Acronyme illustratif — la définition canonique TLS sera publiée prochainement.
-            </p>
-          </FadeInWhenVisible>
         </div>
       </section>
 

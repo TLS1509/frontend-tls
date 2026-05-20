@@ -433,7 +433,7 @@ export const MarketingFormation: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 Du fondamental à l'expert. Chaque module combine théorie, atelier pratique
-                et mise en situation supervisée. Scrolle horizontalement pour explorer.
+                et mise en situation supervisée.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -780,7 +780,7 @@ export const MarketingFormation: React.FC = () => {
         <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
             <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              Prête à rejoindre la promo de septembre ?
+              Prêt·e à rejoindre la prochaine promo ?
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
