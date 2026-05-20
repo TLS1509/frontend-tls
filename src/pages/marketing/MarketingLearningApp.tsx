@@ -1,8 +1,8 @@
 /**
- * MarketingLearningApp — Immersive Product Page (Phase P2.2)
+ * MarketingLearningApp — Refined Minimal Premium Product Page
  *
- * Direction: Interactive Product Demo (signature B) — the app is the hero.
- * Tone: brand teal dominant + warm CTAs + sun accents.
+ * Direction: Clean, minimalist, premium aesthetic with soft pastels
+ * Tone: soft primary teal + minimal accents + refined glassmorphism
  */
 
 import React, { useState } from 'react';
@@ -27,16 +27,14 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
-  ParallaxLayer,
   MagneticButton,
-  GradientText,
   CountUp,
   InteractiveAppMockup,
   TiltCard,
-  NoiseTexture,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const STATS = [
   { to: 120, suffix: '+', label: 'modules disponibles' },
@@ -53,10 +51,10 @@ const FEATURES_MAIN = [
     description:
       "Des parcours qui s'ajustent à ton niveau Dreyfus, tes objectifs et ton rythme. L'IA analyse tes progrès et recommande la suite la plus pertinente.",
     bullets: [
-      'Recommandations basées sur tes progrès',
-      'Contenu adapté à ton profil Dreyfus (Novice → Expert)',
-      'Plans de développement sur mesure',
-      'Objectifs SMART intégrés à ton passeport',
+      'Recommandations IA basées sur tes progrès réels',
+      'Niveau Dreyfus tracé à chaque étape (Novice → Expert)',
+      'Compétences validées inscrites dans ton Passeport de Compétences',
+      'Plans de développement alignés avec tes objectifs SBO',
     ],
     tone: 'from-primary-500 to-primary-700',
     pillBg: 'bg-primary-100 text-primary-700',
@@ -101,7 +99,7 @@ const FEATURE_TILES = [
   { icon: <Layers size={24} />, title: 'Contenus variés', desc: 'Vidéos, articles, podcasts, exercices.' },
   { icon: <Users size={24} />, title: 'Communauté', desc: 'Forums, co-apprentissage entre pairs.' },
   { icon: <Zap size={24} />, title: 'Chatbot pédago', desc: 'Assistant IA 24/7 contextualisé.' },
-  { icon: <Sparkles size={24} />, title: 'Analytics', desc: 'Forces, lacunes, progression visualisée.' },
+  { icon: <Sparkles size={24} />, title: 'Passeport Dreyfus', desc: 'Compétences tracées Novice → Expert, exportables.' },
 ];
 
 const USE_CASES = [
@@ -113,7 +111,6 @@ const USE_CASES = [
       'Génération de quiz adaptatifs IA',
       'Suivi individuel & collectif sans rétention',
     ],
-    tone: 'from-primary-50 to-white border-primary-100',
   },
   {
     badge: 'Apprenant',
@@ -123,17 +120,15 @@ const USE_CASES = [
       'Coach 1-1 accessible en 2 clics',
       'Journal qui ancre tes insights',
     ],
-    tone: 'from-secondary-50 to-white border-secondary-100',
   },
   {
     badge: 'Responsable L&D',
-    title: 'Pilote ta stratégie formation',
+    title: 'Déploie ta stratégie SBO',
     bullets: [
-      'Analytics par compétence et par cohorte',
-      'ROI par parcours',
+      'Passeports de Compétences agrégés par cohorte',
+      'Analytics Dreyfus : où en est chaque apprenant',
       'Reporting Qualiopi & OPCO en 1 clic',
     ],
-    tone: 'from-accent-50 to-white border-accent-100',
   },
 ];
 
@@ -149,47 +144,35 @@ export const MarketingLearningApp: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title="Learning App"
+        description="La plateforme qui connecte apprentissage, compétences et impact business. Parcours IA, Passeport de Compétences Dreyfus, coaching, gamification."
+        canonical="/marketing/learning-app"
+      />
       {/* ── 1. Hero with prominent mockup ──────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        <MeshGradientBg tone="brand" intensity="intense" />
-        <NoiseTexture opacity={0.06} />
-
-        <ParallaxLayer amplitude={60} className="absolute top-1/3 -left-32 pointer-events-none" aria-hidden>
-          <div className="w-96 h-96 rounded-pill bg-accent-400/15 blur-3xl" />
-        </ParallaxLayer>
-        <ParallaxLayer amplitude={40} className="absolute -bottom-20 -right-20 pointer-events-none" aria-hidden>
-          <div className="w-[500px] h-[500px] rounded-pill bg-secondary-500/20 blur-3xl" />
-        </ParallaxLayer>
-
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white to-primary-50">
         <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
           <div className="flex flex-col gap-stack-lg">
             <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20 w-fit">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
                 <Sparkles size={14} className="text-accent-400" />
-                <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                  La Learning App · accès anticipé
+                <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                  La Learning App SBO · Learn → Do → Match
                 </span>
               </span>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible direction="up" delay={0.1}>
-              <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
+              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
                 Une plateforme.{' '}
-                <GradientText
-                  from="from-accent-300"
-                  via="via-accent-400"
-                  to="to-secondary-400"
-                  duration={10}
-                >
-                  Tout un écosystème.
-                </GradientText>
+                <span className="text-accent-400">Tout un écosystème.</span>
               </h1>
             </FadeInWhenVisible>
 
             <FadeInWhenVisible direction="up" delay={0.2}>
-              <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-xl">
-                Parcours adaptatifs, coaching 1-1, journal réflexif, gamification, veille.
-                Tout est intégré, contextualisé, et pensé pour les professionnels qui apprennent en travaillant.
+              <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-xl">
+                Acquire les compétences (Learn), déploie-les sur de vrais projets (Do), fais matcher ton Passeport de Compétences avec les opportunités (Match).
+                Un écosystème SBO intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
               </p>
             </FadeInWhenVisible>
 
@@ -197,17 +180,16 @@ export const MarketingLearningApp: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 pt-stack">
                 <MagneticButton strength={14}>
                   <a href="#early-access">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Accès anticipé
                     </Button>
                   </a>
                 </MagneticButton>
                 <a href="#features">
                   <Button
-                    variant="ghost"
+                    variant="secondary"
                     size="lg"
                     trailingIcon={<ArrowUpRight size={18} />}
-                    className="!text-white hover:!bg-white/10 !border !border-white/30"
                   >
                     Voir les fonctionnalités
                   </Button>
@@ -220,7 +202,7 @@ export const MarketingLearningApp: React.FC = () => {
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
                   Beta
                 </span>
-                <span className="font-body text-body-sm text-white/70">
+                <span className="font-body text-body-sm text-ink-600">
                   En développement actif · accès progressif par invitation
                 </span>
               </div>
@@ -230,10 +212,6 @@ export const MarketingLearningApp: React.FC = () => {
           {/* Hero mockup — TiltCard for tactile depth */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
-              <div
-                aria-hidden
-                className="absolute -inset-8 bg-gradient-to-br from-accent-400/20 via-secondary-400/20 to-primary-400/30 blur-3xl pointer-events-none"
-              />
               <TiltCard maxRotation={7} className="relative">
                 <InteractiveAppMockup />
               </TiltCard>
@@ -247,7 +225,7 @@ export const MarketingLearningApp: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-stack">
           {STATS.map((s, i) => (
             <FadeInWhenVisible key={s.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col gap-1 p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 via-white to-accent-50/40 border border-ink-100">
+              <div className="flex flex-col gap-1 p-stack rounded-xl bg-ink-50 border border-ink-100">
                 <CountUp
                   to={s.to}
                   suffix={s.suffix}
@@ -268,7 +246,7 @@ export const MarketingLearningApp: React.FC = () => {
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
               <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Trois piliers
+                Learn · Do · Match
               </span>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
@@ -378,7 +356,7 @@ export const MarketingLearningApp: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
+              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
                 Pour qui ?
               </span>
             </FadeInWhenVisible>
@@ -393,11 +371,11 @@ export const MarketingLearningApp: React.FC = () => {
             {USE_CASES.map((u, i) => (
               <FadeInWhenVisible key={u.badge} direction="up" delay={i * 0.1}>
                 <motion.article
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className={`h-full rounded-3xl border bg-gradient-to-br ${u.tone} p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl transition-shadow duration-base`}
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:border-primary-200 transition-all duration-base"
                 >
-                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-white border border-ink-200 text-ink-900 font-body text-caption font-bold uppercase tracking-wider">
+                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider">
                     {u.badge}
                   </span>
                   <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
@@ -421,34 +399,24 @@ export const MarketingLearningApp: React.FC = () => {
       {/* ── 6. Early access ─────────────────────────────────────────────────── */}
       <section
         id="early-access"
-        className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950 py-page"
+        className="relative overflow-hidden bg-gradient-to-b from-white to-primary-50 py-page"
       >
-        <MeshGradientBg tone="ink" intensity="intense" />
-        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+        <div className="relative max-w-prose mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center">
               <Mail size={18} className="text-accent-400" />
-              <span className="font-body text-caption font-bold text-accent-400 uppercase tracking-widest">
+              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
                 Accès anticipé
               </span>
             </div>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              Sois parmi{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={8}
-              >
-                les premiers
-              </GradientText>
-              .
+            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+              Sois parmi <span className="text-accent-400">les premiers</span>.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
+            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0">
               La Learning App est en bêta. Inscris-toi pour être notifié·e en priorité et bénéficier d'un accès exclusif.
             </p>
           </FadeInWhenVisible>
@@ -459,18 +427,23 @@ export const MarketingLearningApp: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="bg-white/10 backdrop-blur-glass-medium border border-white/20 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-md"
+                className="bg-white/60 backdrop-blur-glass-medium border border-primary-200 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-md"
               >
-                <CheckCircle2 size={40} className="text-accent-400" />
-                <p className="font-display font-bold text-h4 text-white m-0">Merci ! Tu es sur la liste.</p>
-                <p className="font-body text-body-sm text-white/75 m-0">
+                <CheckCircle2 size={40} className="text-primary-600" />
+                <p className="font-display font-bold text-h4 text-ink-900 m-0">Merci ! Tu es sur la liste.</p>
+                <p className="font-body text-body-sm text-ink-700 m-0">
                   On te contacte dès que l'accès bêta est disponible.
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col gap-stack pt-stack">
+              <motion.form
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                onSubmit={handleSubmit}
+                className="w-full max-w-md flex flex-col gap-stack pt-stack bg-white/50 backdrop-blur-glass-medium border border-ink-100 rounded-2xl p-section"
+              >
                 <div className="flex flex-col gap-2 text-left">
-                  <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-white">
+                  <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-ink-900">
                     Email professionnel
                   </label>
                   <input
@@ -480,11 +453,11 @@ export const MarketingLearningApp: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="toi@organisation.fr"
-                    className="px-4 h-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-2 text-left">
-                  <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-white">
+                  <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-ink-900">
                     Ton rôle
                   </label>
                   <input
@@ -493,13 +466,13 @@ export const MarketingLearningApp: React.FC = () => {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     placeholder="Formateur · Responsable L&D · Concepteur pédagogique…"
-                    className="px-4 h-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-500 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
-                    variant="warm"
+                    variant="primary"
                     size="lg"
                     fullWidth
                     trailingIcon={<ArrowRight size={18} />}
@@ -507,14 +480,17 @@ export const MarketingLearningApp: React.FC = () => {
                     Demander l'accès anticipé
                   </Button>
                 </MagneticButton>
-                <p className="font-body text-caption text-white/50 text-center m-0">
+                <p className="font-body text-caption text-ink-600 text-center m-0">
                   Aucun spam. Désinscription en 1 clic.
                 </p>
-              </form>
+              </motion.form>
             )}
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* ── Footer ──────────────────────────────────────────────────────────── */}
+      <MarketingFooter />
     </div>
   );
 };
