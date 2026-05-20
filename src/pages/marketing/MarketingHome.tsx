@@ -127,21 +127,21 @@ export const MarketingHome: React.FC = () => {
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                La formation augmentée par l'IA
+                Certifiant · Qualiopi · Open Badge 2.0
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.15}>
             <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6.5rem)] max-w-4xl">
-              Former, c'est{' '}
+              La formation{' '}
               <GradientText
                 from="from-accent-300"
                 via="via-accent-400"
                 to="to-secondary-400"
                 duration={10}
               >
-                transmettre l'avenir
+                augmentée par l'IA
               </GradientText>
               .
             </h1>
@@ -149,9 +149,9 @@ export const MarketingHome: React.FC = () => {
 
           <FadeInWhenVisible direction="up" delay={0.3}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              The Learning Society conçoit la formation comme une œuvre.
-              Nous combinons intelligence artificielle et expertise pédagogique
-              pour créer des parcours qui transforment durablement.
+              Transforme ta pratique en combinant intelligence artificielle
+              et expertise pédagogique — des parcours qui mesurent l'impact
+              et développent des compétences durables.
             </p>
           </FadeInWhenVisible>
 
