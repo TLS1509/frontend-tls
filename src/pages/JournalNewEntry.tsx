@@ -229,10 +229,10 @@ export const JournalNewEntry: React.FC = () => {
       linkedItemId,
       linkedCompetenceId,
       xpAwarded: 20,
-      tags: [],
+      tags: [] as string[],
       createdAt: now,
       updatedAt: now,
-    } as const;
+    };
     journalStore.addEntry(entry);
     gamifStore.addXPEvent({
       id: `xp-journal-${Date.now()}`,

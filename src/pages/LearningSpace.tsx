@@ -414,7 +414,7 @@ export const LearningSpace: React.FC = () => {
                       {!isAccessible && (
                         <Badge
                           variant={
-                            accessCheck.reason === 'tier' ? 'warning' : 'info'
+                            accessCheck.reason === 'tier' ? 'sun' : 'info'
                           }
                           size="sm"
                           className="mt-auto flex items-center gap-1"

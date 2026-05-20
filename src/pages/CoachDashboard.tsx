@@ -176,7 +176,7 @@ export default function CoachDashboard() {
                     <div className="flex-1 min-w-0 flex flex-col gap-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
-                        {c.iterationCount === 0 && <Badge variant="warning" size="sm">Nouveau</Badge>}
+                        {c.iterationCount === 0 && <Badge variant="sun" size="sm">Nouveau</Badge>}
                       </div>
                       <div className="flex gap-3 text-caption text-ink-500 flex-wrap">
                         <span>{learner?.name ?? c.learnerId}</span>

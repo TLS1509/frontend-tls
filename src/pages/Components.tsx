@@ -1823,7 +1823,6 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    subCategory: 'Search & Filters',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'Help/Support', 'Messages', 'Leaderboard', 'Recherche'],
     description: 'Search bar composable. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. Glass variant pour fonds colorés/gradients.',
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
@@ -1943,7 +1942,7 @@ const COMPONENTS: ComponentEntry[] = [
                       ]}
                       selected={glassFilters}
                       onChange={setGlassFilters}
-                      tone="primary"
+                      tone="brand"
                       variant="glass"
                       size="sm"
                       surface="plain"
@@ -2284,8 +2283,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'FilterChip',
     codeName: 'FilterChip.tsx',
     cssBase: 'Tailwind (no BEM)',
-    category: 'Atoms',
-    subCategory: 'Chips & Pills',
+    category: 'Core',
     usedBy: ['LearningPaths', 'Veille', 'Journal', 'Notifications'],
     description: 'Chip de filtrage toggle avec état actif. 3 variants: default (fond solid), glass (glassmorphism sur gradient bg), reset (clear action). Count badge optionnel. Accessibilité: aria-pressed + focus ring WCAG AA.',
     keywords: ['filter', 'chip', 'tag', 'select', 'active', 'glass', 'toggle', 'count'],
@@ -2587,8 +2585,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Tag',
     codeName: 'Tag.tsx',
     cssBase: 'Tailwind (no BEM)',
-    category: 'Atoms',
-    subCategory: 'Chips & Pills',
+    category: 'Core',
     usedBy: ['Journal', 'Passeport', 'Recherche', 'Veille'],
     description: 'Étiquette statique ou filtre actif supprimable. 4 tones (neutral/primary/warm/sun) + surface glass pour fonds colorés. Bouton × intégré pour la suppression. Icon optionnel.',
     keywords: ['tag', 'label', 'category', 'filter', 'removable', 'chip', 'glass', 'tone'],
@@ -3482,7 +3479,7 @@ const COMPONENTS: ComponentEntry[] = [
             <div className="rounded-xl p-6 bg-gradient-to-r from-primary-500 to-primary-700">
               <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
               <FilterBar
-                tone="primary"
+                tone="brand"
                 variant="glass"
                 size="sm"
                 options={[

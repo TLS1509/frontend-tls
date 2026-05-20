@@ -15,15 +15,17 @@ import type { CorrectionStatus } from '../types/learning';
 
 const STATUS_LABELS: Record<CorrectionStatus, string> = {
   pending: 'En attente de correction',
+  'in-review': 'En cours de révision',
   'coach-feedback': 'Correction reçue',
-  'learner-resubmit': 'Resoumis',
+  'learner-response': 'Réponse envoyée',
   completed: 'Terminé',
 };
 
-const STATUS_VARIANTS: Record<CorrectionStatus, 'neutral' | 'info' | 'warning' | 'success'> = {
+const STATUS_VARIANTS: Record<CorrectionStatus, 'neutral' | 'info' | 'sun' | 'success'> = {
   pending: 'neutral',
+  'in-review': 'info',
   'coach-feedback': 'info',
-  'learner-resubmit': 'warning',
+  'learner-response': 'sun',
   completed: 'success',
 };
 
@@ -54,7 +56,7 @@ const CorrectionDetailLearner: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   const hasFeedback = !!correction.coachFeedback;
-  const canResubmit = correction.status === 'coach-feedback' || correction.status === 'learner-resubmit';
+  const canResubmit = correction.status === 'coach-feedback' || correction.status === 'learner-response';
 
   return (
     <div className="min-h-screen bg-surface">
@@ -78,7 +80,7 @@ const CorrectionDetailLearner: React.FC = () => {
             <span className="inline-flex items-center gap-1">
               {correction.status === 'pending' && <Clock size={12} />}
               {correction.status === 'coach-feedback' && <CheckCircle2 size={12} />}
-              {correction.status === 'learner-resubmit' && <RefreshCw size={12} />}
+              {correction.status === 'learner-response' && <RefreshCw size={12} />}
               {correction.status === 'completed' && <CheckCircle2 size={12} />}
               {STATUS_LABELS[correction.status]}
             </span>

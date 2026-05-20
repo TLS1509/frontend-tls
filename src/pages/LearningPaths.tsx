@@ -201,7 +201,7 @@ export const LearningPaths: React.FC = () => {
                     selected={Array.from(selectedStatuses)}
                     onChange={(ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[]))}
                     onClearAll={resetFilters}
-                    tone="primary"
+                    tone="brand"
                     variant="glass"
                     size="sm"
                     surface="plain"

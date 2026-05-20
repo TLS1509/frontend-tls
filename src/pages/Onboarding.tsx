@@ -119,7 +119,7 @@ function StepProfil({
         <OptionGrid
           tone="warm"
           value={answers.role}
-          onChange={(id) => onChange({ role: id })}
+          onChange={(id) => onChange({ role: id as UserRole })}
           options={ROLE_OPTIONS}
           columns={3}
         />
@@ -327,6 +327,7 @@ export const Onboarding: React.FC = () => {
       goals: answers.goals,
       rhythm: answers.rhythm,
       credits: { classic: 0, special: 0 },
+      subscriptionTier: 'free',
       completedAt: new Date().toISOString(),
     });
     navigate('/onboarding/questionnaire');

@@ -137,7 +137,7 @@ export default function CoachCorrectionsQueue() {
                   exerciceTitle={c.exerciseTitle}
                   competence={competence?.label ?? c.competenceId ?? ''}
                   submittedAt={submittedAtLabel(c.submittedAt)}
-                  status={bucketOf(c.status) === 'completed' ? 'corrected' : bucketOf(c.status)}
+                  status={(bucketOf(c.status) === 'completed' ? 'corrected' : bucketOf(c.status)) as 'pending' | 'in-review' | 'corrected'}
                   excerpt={c.submittedContent.slice(0, 220)}
                   feedbackCount={c.iterationCount}
                   surface={activeTab === 'pending' ? 'tinted' : 'card'}
