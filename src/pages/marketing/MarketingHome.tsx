@@ -1,15 +1,14 @@
 /**
- * MarketingHome — Immersive Fusion (Phase 1.2)
+ * MarketingHome — Premium Minimal (redesign)
  *
- * Direction: Editorial Cinematic (A) × Interactive Demo (B) × 1 chapter signature (C).
- * Tone: brand (teal) dominant + warm CTAs + sun accent on details.
- *
- * 7 sections, all 100% Tailwind, all motion primitives respect prefers-reduced-motion.
+ * Direction: soft, aéré, premium. Fond blanc/primary-50, glassmorphism light.
+ * Accents accent-400 stratégiques sur 1-2 mots clés.
+ * Suppression: MeshGradientBg, ParallaxLayer, GradientText, NoiseTexture.
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -20,21 +19,17 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
-  ParallaxLayer,
   MagneticButton,
-  GradientText,
   MarqueeRow,
   CountUp,
   InteractiveAppMockup,
   TiltCard,
-  NoiseTexture,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 // ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
-// Le site live ne publie aucun logo client. À remplacer par les vraies orgs accompagnées
-// (avec accord écrit de chaque organisation) avant mise en production.
 const LOGOS = [
   'Renault',
   'BNP Paribas',
@@ -46,8 +41,7 @@ const LOGOS = [
   'Société Générale',
 ];
 
-// ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
-// À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
+// ⚠️ PLACEHOLDER — Témoignages illustratifs.
 const TESTIMONIALS = [
   {
     quote:
@@ -75,15 +69,6 @@ const TESTIMONIALS = [
   },
 ];
 
-// ─── Hero scroll-bound scale: subtle zoom-out of hero portrait as user scrolls past ───
-const useHeroParallax = () => {
-  const reduced = useReducedMotion();
-  const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 600], reduced ? [1, 1] : [1, 0.92]);
-  const opacity = useTransform(scrollY, [0, 400], [1, 0.6]);
-  return { scale, opacity };
-};
-
 const HeroChevron: React.FC = () => {
   const reduced = useReducedMotion();
   return (
@@ -91,7 +76,7 @@ const HeroChevron: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-1 text-white/70"
+      className="flex flex-col items-center gap-1 text-ink-400"
     >
       <span className="font-body text-caption font-semibold uppercase tracking-widest">
         Scroll
@@ -102,76 +87,60 @@ const HeroChevron: React.FC = () => {
 };
 
 export const MarketingHome: React.FC = () => {
-  const { scale, opacity } = useHeroParallax();
-
   return (
     <div className="bg-white">
-      {/* ── 1. Hero immersive ───────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        <MeshGradientBg tone="brand" intensity="intense" />
-        <NoiseTexture opacity={0.06} />
+      <SEOHead
+        title="The Learning Society — Transformez vos équipes en organisation Skills-Based"
+        description="Méthode STRIDE, Learning App, Accompagnement : construisez une organisation Skills-Based qui apprend et s'adapte en continu."
+        canonical="/marketing"
+      />
 
-        {/* Parallax decorative blobs */}
-        <ParallaxLayer amplitude={80} className="absolute -top-10 -left-20 pointer-events-none" aria-hidden>
-          <div className="w-72 h-72 rounded-pill bg-accent-400/20 blur-3xl" />
-        </ParallaxLayer>
-        <ParallaxLayer amplitude={50} className="absolute top-1/3 -right-32 pointer-events-none" aria-hidden>
-          <div className="w-96 h-96 rounded-pill bg-secondary-400/20 blur-3xl" />
-        </ParallaxLayer>
+      {/* ── 1. Hero ────────────────────────────────────────────────────────── */}
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
+        {/* Soft background shape */}
+        <div aria-hidden className="absolute top-0 right-0 w-[600px] h-[600px] rounded-pill bg-primary-100/30 blur-3xl pointer-events-none -translate-y-1/3 translate-x-1/4" />
 
-        <motion.div
-          className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg"
-          style={{ scale, opacity }}
-        >
+        <div className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                Certifiant · Qualiopi · Open Badge 2.0
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                Skills-Based Organization · IA pédagogique · Passeport Compétences
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6.5rem)] max-w-4xl">
-              La formation{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={10}
-              >
-                augmentée par l'IA
-              </GradientText>
-              .
+            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.5rem,6.5vw,5.5rem)] max-w-4xl">
+              L'IA ne remplacera pas les formateurs.{' '}
+              <span className="text-accent-400">Les formateurs qui maîtrisent l'IA, si.</span>
             </h1>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Transforme ta pratique en combinant intelligence artificielle
-              et expertise pédagogique — des parcours qui mesurent l'impact
-              et développent des compétences durables.
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+              Transformez vos talents en avantage compétitif durable.
+              Parcours adaptatifs, Passeport de Compétences, matching IA —
+              un cycle complet <strong className="text-ink-900">Learn → Do → Match</strong>.
             </p>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.45}>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
-              <MagneticButton strength={14}>
+              <MagneticButton strength={12}>
                 <Link to="/marketing/formation">
-                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Devenir Formateur Augmenté
+                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    🎓 Je veux me former
                   </Button>
                 </Link>
               </MagneticButton>
-              <Link to="/marketing/learning-app">
+              <Link to="/marketing/accompagnement">
                 <Button
                   variant="ghost"
                   size="lg"
                   trailingIcon={<ArrowUpRight size={18} />}
-                  className="!text-white hover:!bg-white/10 !border !border-white/30"
                 >
-                  Découvrir la plateforme
+                  🏢 Je représente une entreprise
                 </Button>
               </Link>
             </div>
@@ -191,12 +160,12 @@ export const MarketingHome: React.FC = () => {
                     key={src}
                     src={src}
                     alt=""
-                    className="w-8 h-8 rounded-pill object-cover border-2 border-primary-800 shadow-sm"
+                    className="w-8 h-8 rounded-pill object-cover border-2 border-white shadow-sm"
                   />
                 ))}
               </div>
-              <span className="font-body text-caption font-semibold text-white/80">
-                <CountUp to={200} suffix="+" className="font-bold text-white" /> formateurs certifiés
+              <span className="font-body text-caption font-semibold text-ink-600">
+                <CountUp to={200} suffix="+" className="font-bold text-ink-900" /> formateurs certifiés
               </span>
             </div>
           </FadeInWhenVisible>
@@ -206,10 +175,10 @@ export const MarketingHome: React.FC = () => {
               <HeroChevron />
             </div>
           </FadeInWhenVisible>
-        </motion.div>
+        </div>
       </section>
 
-      {/* ── 2. Marquee logos ────────────────────────────────────────────────── */}
+      {/* ── 2. Marquee logos ─────────────────────────────────────────────────── */}
       <section className="border-y border-ink-100 py-stack-lg bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-stack">
           <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold">
@@ -229,7 +198,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Interactive Product Demo (signature B) ───────────────────────── */}
+      {/* ── 3. Interactive Product Demo ──────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white py-page">
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-page items-center">
@@ -237,13 +206,13 @@ export const MarketingHome: React.FC = () => {
             <div className="flex flex-col gap-stack-lg">
               <FadeInWhenVisible direction="up">
                 <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                  La Learning App
+                  La Learning App SBO
                 </span>
               </FadeInWhenVisible>
               <FadeInWhenVisible direction="up" delay={0.1}>
                 <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                   Essaie-la avant{' '}
-                  <GradientText>d'en parler à ton équipe</GradientText>.
+                  <span className="text-accent-400">d'en parler à ton équipe</span>.
                 </h2>
               </FadeInWhenVisible>
               <FadeInWhenVisible direction="up" delay={0.2}>
@@ -256,10 +225,10 @@ export const MarketingHome: React.FC = () => {
               <FadeInWhenVisible direction="up" delay={0.3}>
                 <ul className="flex flex-col gap-stack m-0 p-0 list-none pt-stack">
                   {[
-                    'Parcours adaptatifs avec progression Dreyfus',
-                    'Coaching 1-1 intégré (messagerie + visio)',
-                    'Journal de bord réflexif, IA-augmenté',
-                    'Veille pédagogique curée pour ton métier',
+                    'Passeport Compétences Dreyfus — Novice → Expert mesurable',
+                    'Matching Talents-Projets par IA (recommandations contextuelles)',
+                    'Coaching 1-1 intégré (messagerie, corrections, visio)',
+                    'Journal de bord réflexif + Veille pédagogique IA-augmentée',
                   ].map((f) => (
                     <li key={f} className="flex items-start gap-2.5">
                       <CheckCircle2 size={20} className="text-primary-600 shrink-0 mt-0.5" />
@@ -280,12 +249,12 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
             </div>
 
-            {/* Mockup column — TiltCard for tactile dimensionality */}
+            {/* Mockup column */}
             <FadeInWhenVisible direction="left" delay={0.15}>
               <div className="relative">
                 <div
                   aria-hidden
-                  className="absolute -inset-8 bg-gradient-to-br from-primary-200/40 via-accent-200/30 to-secondary-200/40 blur-3xl pointer-events-none"
+                  className="absolute -inset-8 bg-gradient-to-br from-primary-100/40 via-accent-100/30 to-primary-50/40 blur-3xl pointer-events-none"
                 />
                 <TiltCard maxRotation={6} className="relative">
                   <InteractiveAppMockup />
@@ -296,9 +265,8 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 4. Chapter signature (warm, signature C) ───────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-secondary-50 via-accent-50/40 to-white py-page">
-        <MeshGradientBg tone="warm" intensity="subtle" />
+      {/* ── 4. Chapter — humains + outils ────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-white via-secondary-50/20 to-white py-page">
         <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
           {/* Text */}
           <div className="flex flex-col gap-stack-lg">
@@ -328,13 +296,7 @@ export const MarketingHome: React.FC = () => {
                 </span>
                 <br />
                 On apprend{' '}
-                <GradientText
-                  from="from-secondary-500"
-                  via="via-secondary-600"
-                  to="to-accent-500"
-                >
-                  avec des humains
-                </GradientText>{' '}
+                <span className="text-accent-400">avec des humains</span>{' '}
                 — accompagnés par des outils.
               </h2>
             </FadeInWhenVisible>
@@ -349,7 +311,7 @@ export const MarketingHome: React.FC = () => {
               <div className="flex flex-wrap items-center gap-3 pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/formation">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Devenir Formateur Augmenté
                     </Button>
                   </Link>
@@ -366,15 +328,13 @@ export const MarketingHome: React.FC = () => {
           {/* Portrait + floating quote card */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
-              <ParallaxLayer amplitude={20} className="relative">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-ink-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=80&auto=format&fit=crop"
-                    alt="Formatrice augmentée en session"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </ParallaxLayer>
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-ink-100">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=80&auto=format&fit=crop"
+                  alt="Formatrice augmentée en session"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               {/* Floating quote card */}
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -383,7 +343,7 @@ export const MarketingHome: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="absolute -bottom-6 -left-6 max-w-xs bg-white rounded-2xl shadow-2xl border border-ink-100 p-stack-lg flex flex-col gap-2"
               >
-                <Quote size={20} className="text-secondary-500" />
+                <Quote size={20} className="text-primary-500" />
                 <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
                   "Je ne forme plus, je crée des expériences."
                 </p>
@@ -396,7 +356,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5. Metrics + Testimonials ───────────────────────────────────────── */}
+      {/* ── 5. Metrics + Testimonials ────────────────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
           {/* Metrics row */}
@@ -408,7 +368,7 @@ export const MarketingHome: React.FC = () => {
               { to: 97, suffix: ' %', label: 'satisfaction apprenants' },
             ].map((m, i) => (
               <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-                <div className="flex flex-col gap-1 p-5 rounded-2xl bg-gradient-to-br from-primary-50 via-white to-accent-50/40 border border-ink-100">
+                <div className="flex flex-col gap-1 p-5 rounded-2xl bg-ink-50 border border-ink-100 hover:border-primary-200 hover:bg-white hover:shadow-md transition-all duration-base">
                   <CountUp
                     to={m.to}
                     suffix={m.suffix}
@@ -439,7 +399,7 @@ export const MarketingHome: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
               {TESTIMONIALS.map(({ quote, author, role, portrait }, i) => (
                 <FadeInWhenVisible key={author} direction="up" delay={i * 0.1}>
-                  <article className="h-full rounded-2xl bg-ink-50/40 border border-ink-100 p-6 flex flex-col gap-stack-lg hover:bg-white hover:shadow-lg hover:border-primary-200 transition-all duration-base">
+                  <article className="h-full rounded-2xl bg-white border border-ink-100 p-6 flex flex-col gap-stack-lg hover:bg-ink-50/40 hover:shadow-lg hover:border-primary-200 transition-all duration-base">
                     <Quote size={20} className="text-primary-400" />
                     <p className="font-body text-body text-ink-800 leading-relaxed m-0 flex-1">
                       "{quote}"
@@ -465,67 +425,45 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Final CTA — magnetic, dark mesh ──────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900 py-page">
-        <MeshGradientBg tone="ink" intensity="intense" />
-        <ParallaxLayer
-          amplitude={40}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          aria-hidden
-        >
-          <div className="w-[600px] h-[600px] rounded-pill bg-primary-500/20 blur-3xl" />
-        </ParallaxLayer>
-
-        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+      {/* ── 6. Final CTA — glassmorphic card on light bg ─────────────────────── */}
+      <section className="py-page bg-gradient-to-b from-white to-primary-50">
+        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
-              <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                30 jours pour déployer
+            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-primary-50 border border-primary-200">
+                <Sparkles size={14} className="text-accent-400" />
+                <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                  30 jours pour déployer
+                </span>
               </span>
-            </span>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-extrabold text-white leading-[1.02] tracking-tight m-0">
-              Prêt à{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={8}
-              >
-                transformer ta pédagogie
-              </GradientText>
-              ?
-            </h2>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-              Échangeons 30 minutes pour comprendre tes enjeux et tracer le chemin le plus court vers l'impact.
-            </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
-              <MagneticButton strength={16}>
-                <Link to="/marketing/contact">
-                  <Button variant="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                    Réserver un échange
+              <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
+                Prêt à démarrer votre{' '}
+                <span className="text-accent-400">transformation SBO</span> ?
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+                Échangeons 30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers l'impact.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+                <MagneticButton strength={14}>
+                  <Link to="/marketing/contact">
+                    <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                      Réserver un échange
+                    </Button>
+                  </Link>
+                </MagneticButton>
+                <Link to="/marketing/learning-app">
+                  <Button variant="ghost" size="xl">
+                    Voir la démo
                   </Button>
                 </Link>
-              </MagneticButton>
-              <Link to="/marketing/learning-app">
-                <Button
-                  variant="ghost"
-                  size="xl"
-                  className="!text-white hover:!bg-white/10 !border !border-white/30"
-                >
-                  Voir la démo
-                </Button>
-              </Link>
+              </div>
             </div>
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* Footer */}
+      <MarketingFooter />
     </div>
   );
 };

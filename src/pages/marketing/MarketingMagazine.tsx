@@ -21,12 +21,12 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
   MagneticButton,
-  GradientText,
   useMarketingToast,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 import { ARTICLES, type ArticleCategory } from '../../data/marketingArticles';
 
 type Category = 'Tous' | ArticleCategory;
@@ -73,14 +73,18 @@ export const MarketingMagazine: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title="Magazine"
+        description="Ressources, articles et insights sur les Skills-Based Organizations, la pédagogie IA et la transformation L&D — par The Learning Society."
+        canonical="/marketing/magazine"
+      />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-secondary-50 via-white to-accent-50/40">
-        <MeshGradientBg tone="warm" intensity="subtle" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-secondary-200 shadow-xs">
-              <TrendingUp size={14} className="text-secondary-600" />
-              <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+              <TrendingUp size={14} className="text-primary-600" />
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                 Le Mag' · réflexions & analyses
               </span>
             </span>
@@ -88,15 +92,7 @@ export const MarketingMagazine: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,7vw,5rem)] max-w-4xl">
               Réflexions sur l'IA &{' '}
-              <GradientText
-                from="from-secondary-500"
-                via="via-secondary-600"
-                to="to-accent-500"
-                duration={10}
-              >
-                la formation
-              </GradientText>
-              .
+              <span className="text-accent-400">la formation</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
@@ -143,7 +139,7 @@ export const MarketingMagazine: React.FC = () => {
                   {isActive && (
                     <motion.span
                       layoutId="magazine-cat-bg"
-                      className="absolute inset-0 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 shadow-sm"
+                      className="absolute inset-0 rounded-pill bg-primary-600 shadow-sm"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -305,13 +301,12 @@ export const MarketingMagazine: React.FC = () => {
       </section>
 
       {/* ── Newsletter ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden py-page bg-gradient-to-br from-secondary-50 via-accent-50/40 to-white">
-        <MeshGradientBg tone="sun" intensity="subtle" />
+      <section className="relative overflow-hidden py-page bg-gradient-to-b from-white to-primary-50">
         <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-accent-200 shadow-xs">
-              <Mail size={14} className="text-warning-fg" />
-              <span className="font-body text-caption font-semibold text-warning-fg tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+              <Mail size={14} className="text-primary-600" />
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                 Newsletter bi-mensuelle
               </span>
             </span>
@@ -365,7 +360,7 @@ export const MarketingMagazine: React.FC = () => {
                   className="flex-1 min-w-0 px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all duration-base"
                 />
                 <MagneticButton strength={10}>
-                  <Button type="submit" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  <Button type="submit" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                     S'inscrire
                   </Button>
                 </MagneticButton>
@@ -379,6 +374,9 @@ export const MarketingMagazine: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* Footer */}
+      <MarketingFooter />
     </div>
   );
 };

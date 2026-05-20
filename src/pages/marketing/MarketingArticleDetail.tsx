@@ -27,12 +27,12 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
-  GradientText,
   MagneticButton,
 } from '../../components/marketing/motion';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
+import { SEOHead } from './components/SEOHead';
 
 const CATEGORY_TONES: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
@@ -327,9 +327,14 @@ export const MarketingArticleDetail: React.FC = () => {
 
   return (
     <div ref={ref} className="bg-white">
+      <SEOHead
+        title={article.title}
+        description={article.summary}
+        canonical={`/marketing/magazine/${article.slug}`}
+        ogType="article"
+      />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className={`relative pt-32 pb-page overflow-hidden bg-gradient-to-br ${article.cover}`}>
-        <MeshGradientBg tone="warm" intensity="subtle" />
 
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col gap-stack-lg">
           {/* Back link */}
@@ -466,7 +471,7 @@ export const MarketingArticleDetail: React.FC = () => {
               </span>
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Trois autres{' '}
-                <GradientText>analyses</GradientText> sur le même thème.
+                <span className="text-accent-400">analyses</span> sur le même thème.
               </h2>
             </div>
           </FadeInWhenVisible>
@@ -519,6 +524,9 @@ export const MarketingArticleDetail: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <MarketingFooter />
     </div>
   );
 };

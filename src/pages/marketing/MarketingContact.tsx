@@ -25,11 +25,11 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
   MagneticButton,
-  GradientText,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const QUICK_LINKS = [
   {
@@ -44,14 +44,14 @@ const QUICK_LINKS = [
     label: 'Accompagnement sur mesure',
     href: '/marketing/accompagnement',
     desc: 'Devis personnalisé',
-    tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
+    tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
     icon: <Smartphone size={20} />,
     label: 'Learning App — accès anticipé',
     href: '/marketing/learning-app',
     desc: 'Inscription bêta gratuite',
-    tone: 'bg-accent-50 text-warning-fg border-accent-100',
+    tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
 ];
 
@@ -69,9 +69,13 @@ export const MarketingContact: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title="Contact"
+        description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions, démarrez votre transformation Skills-Based."
+        canonical="/marketing/contact"
+      />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50/30">
-        <MeshGradientBg tone="primary" intensity="subtle" />
+      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
@@ -84,8 +88,7 @@ export const MarketingContact: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,6vw,4.5rem)]">
               Parlons de{' '}
-              <GradientText>ton projet</GradientText>
-              .
+              <span className="text-accent-400">ton projet</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
@@ -248,7 +251,7 @@ export const MarketingContact: React.FC = () => {
                     <MagneticButton strength={12}>
                       <Button
                         type="submit"
-                        variant="warm"
+                        variant="primary"
                         size="lg"
                         trailingIcon={<ArrowRight size={18} />}
                       >
@@ -265,21 +268,20 @@ export const MarketingContact: React.FC = () => {
           <div className="flex flex-col gap-stack-lg lg:sticky lg:top-20">
             {/* Booking card */}
             <FadeInWhenVisible direction="up" delay={0.05}>
-              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-700 to-primary-900 text-white p-stack-lg flex flex-col gap-stack-lg shadow-xl">
-                <div aria-hidden className="absolute -top-10 -right-10 w-40 h-40 rounded-pill bg-accent-400/20 blur-3xl" />
-                <div className="relative flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/10 border border-white/20 text-accent-400 text-caption font-bold uppercase tracking-wider w-fit">
+              <div className="relative overflow-hidden rounded-3xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
+                <div className="flex flex-col gap-stack">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold uppercase tracking-wider w-fit">
                     <Sparkles size={12} />
                     Plus rapide
                   </span>
-                  <h3 className="font-display text-h3 font-extrabold m-0 leading-tight">
+                  <h3 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
                     Réserve un échange de 30 min
                   </h3>
-                  <p className="font-body text-body-sm text-white/85 m-0 leading-relaxed">
+                  <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
                     Plus efficace qu'un email. Choisis ton créneau directement dans notre agenda.
                   </p>
                 </div>
-                <MagneticButton strength={10} className="relative">
+                <MagneticButton strength={10}>
                   <a
                     href="https://calendly.com/thelearningsociety/30min"
                     target="_blank"
@@ -287,11 +289,10 @@ export const MarketingContact: React.FC = () => {
                     className="block"
                   >
                     <Button
-                      variant="ghost"
+                      variant="primary"
                       size="md"
                       fullWidth
                       trailingIcon={<Calendar size={16} />}
-                      className="!bg-white !text-primary-700 hover:!bg-accent-50 !border-0"
                     >
                       Réserver maintenant
                     </Button>
@@ -394,6 +395,9 @@ export const MarketingContact: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <MarketingFooter />
     </div>
   );
 };

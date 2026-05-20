@@ -1,11 +1,11 @@
 /**
- * MarketingMethode — STRIDE methodology (Phase P3.5)
+ * MarketingMethode — STRIDE methodology — Premium Minimal (redesign)
  *
  * Direction: signature method page. Visual step-by-step (S-T-R-I-D-E) + principles + use cases.
- * Tone: brand primary dominant + sun accents.
+ * Suppression: MeshGradientBg, ParallaxLayer, GradientText, NoiseTexture.
+ * Fonds blanc/primary-50. Accents accent-400.
  *
- * ⚠️ PLACEHOLDER CONTENT — the STRIDE acronym expansion below is illustrative.
- * Replace with the real STRIDE definition from TLS before production.
+ * STRIDE = S'orienter · Tester · Réaliser · Intégrer · Déployer · Évoluer
  */
 
 import React from 'react';
@@ -28,70 +28,61 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
-  ParallaxLayer,
   MagneticButton,
-  GradientText,
   CountUp,
-  NoiseTexture,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
+import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
-// ⚠️ PLACEHOLDER — Acronyme STRIDE illustratif. Remplacer par la vraie définition TLS.
 const STRIDE_STEPS = [
   {
     letter: 'S',
-    word: 'Scope',
-    title: 'Cadrer le besoin',
-    desc: "On commence par comprendre le contexte, les contraintes et les objectifs. Pas de solution avant le diagnostic — un parcours mal cadré, c'est de l'énergie perdue.",
+    word: "S'orienter",
+    title: 'Audit de maturité & sensibilisation',
+    desc: "On part du réel. Audit de l'organisation, cartographie des compétences Dreyfus, identification des cas d'usage SBO prioritaires. Pas de solution avant le diagnostic — pas de diagnostic sans écoute.",
     icon: <Compass size={28} />,
-    deliverable: 'Brief pédagogique validé',
-    tone: 'from-primary-500 to-primary-700',
+    deliverable: 'Rapport audit + feuille de route SBO',
   },
   {
     letter: 'T',
-    word: 'Target',
-    title: 'Définir la cible',
-    desc: "Compétences visées, niveau Dreyfus de départ et d'arrivée, indicateurs de succès. La cible structure toutes les décisions suivantes.",
+    word: 'Tester',
+    title: 'Proof of concept sur un périmètre réel',
+    desc: "On valide le modèle avant de scaler. Des parcours sur-mesure créés dans la Learning App pour tester l'approche SBO avec une cohorte pilote. On mesure, on ajuste, on décide.",
     icon: <Target size={28} />,
-    deliverable: 'Référentiel compétences',
-    tone: 'from-primary-600 to-secondary-500',
+    deliverable: 'Dispositif pilote validé',
   },
   {
     letter: 'R',
-    word: 'Resource',
-    title: 'Concevoir les ressources',
-    desc: "Contenus, activités, évaluations. C'est là que l'IA accélère le plus : génération de variantes, adaptation par profil, qualité reproductible.",
+    word: 'Réaliser',
+    title: "Construction de l'infrastructure SBO",
+    desc: "Développement des agents IA, des référentiels de compétences et des parcours sur-mesure. Prototypage avec vos équipes — chaque brique est testée par vos apprenants pilotes avant déploiement.",
     icon: <BookOpen size={28} />,
-    deliverable: 'Catalogue de ressources IA-augmentées',
-    tone: 'from-secondary-500 to-secondary-600',
+    deliverable: 'Dispositif SBO conçu, testé et validé',
   },
   {
     letter: 'I',
-    word: 'Intervention',
-    title: 'Animer la séance',
-    desc: "Présentiel, distanciel, asynchrone. L'IA aide à personnaliser le rythme et le feedback en temps réel. Le formateur garde la main sur la dynamique.",
+    word: 'Intégrer',
+    title: 'Connexion à votre stack technique',
+    desc: "La solution se branche sur l'existant — LMS, SIRH, CRM. Pas de grand remplacement, pas de silo supplémentaire. Un seul écosystème cohérent, avec la Learning App comme colonne vertébrale.",
     icon: <Play size={28} />,
-    deliverable: 'Plan d\'animation augmenté',
-    tone: 'from-secondary-600 to-accent-500',
+    deliverable: 'Stack technique connectée',
   },
   {
     letter: 'D',
-    word: 'Debrief',
-    title: 'Évaluer & ancrer',
-    desc: "Le moment qu'on saute toujours et qui fait toute la différence. On mesure ce qui compte, on capture les apprentissages, on alimente le passeport.",
+    word: 'Déployer',
+    title: 'Mise en production & accompagnement au changement',
+    desc: "Lancement officiel auprès de tous les collaborateurs. Onboarding sur la Learning App, activation des Passeports de Compétences. L'adoption n'est pas un accident — elle se conçoit dès l'étape R.",
     icon: <Award size={28} />,
-    deliverable: 'Rapport d\'impact + Open Badges',
-    tone: 'from-accent-400 to-secondary-500',
+    deliverable: 'Solution déployée + tableau de bord SBO',
   },
   {
     letter: 'E',
-    word: 'Evolve',
-    title: 'Itérer en continu',
-    desc: "Le parcours vit. On collecte les signaux, on identifie les frictions, on améliore. STRIDE n'est pas un cycle fermé — c'est une boucle d'apprentissage permanente.",
+    word: 'Évoluer',
+    title: 'Amélioration continue pilotée par la donnée',
+    desc: "STRIDE ne s'arrête pas au déploiement. On analyse — vélocité des compétences, engagement, skill gaps émergents — pour mettre à jour les outils IA et les référentiels selon l'évolution du marché.",
     icon: <RefreshCw size={28} />,
-    deliverable: 'Backlog d\'amélioration mensuel',
-    tone: 'from-accent-400 to-primary-500',
+    deliverable: 'Tableau de bord SBO + backlog mensuel',
   },
 ];
 
@@ -124,62 +115,52 @@ const USE_CASES = [
     title: 'Onboarding commercial 2 jours',
     metric: '40 % de temps de conception en moins',
     desc: "Un grand groupe industriel a refondu son onboarding commercial via STRIDE en 5 semaines. L'IA a généré les variantes par secteur, le formateur a animé.",
-    tone: 'from-primary-50 to-white border-primary-100',
   },
   {
     badge: 'Parcours certifiant',
     title: 'Manager Augmenté · 8 semaines',
     metric: '92 % de complétion',
     desc: "Cohorte mixte managers + L&D. STRIDE a permis d'aligner le programme sur les vrais cas d'usage opérationnels, validés en JAC à chaque étape.",
-    tone: 'from-secondary-50 to-white border-secondary-100',
   },
   {
     badge: 'Workflow learning',
     title: 'Compagnon IA dans le CRM',
     metric: 'Adoption 78 % en 3 mois',
     desc: "Une scale-up tech a embarqué la méthode dans son outil métier. Apprentissage 'just-in-time' rythmé par les vrais moments du flux de travail.",
-    tone: 'from-accent-50 to-white border-accent-100',
   },
 ];
 
 export const MarketingMethode: React.FC = () => {
   return (
     <div className="bg-white">
+      <SEOHead
+        title="La Méthode STRIDE"
+        description="STRIDE : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. La méthode complète de The Learning Society pour construire une Skills-Based Organization."
+        canonical="/marketing/methode"
+      />
+
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        <MeshGradientBg tone="brand" intensity="normal" />
-        <NoiseTexture opacity={0.05} />
-        <ParallaxLayer amplitude={60} className="absolute top-1/3 -right-32 pointer-events-none" aria-hidden>
-          <div className="w-96 h-96 rounded-pill bg-accent-400/15 blur-3xl" />
-        </ParallaxLayer>
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
+        <div aria-hidden className="absolute top-0 right-0 w-[500px] h-[500px] rounded-pill bg-primary-100/25 blur-3xl pointer-events-none -translate-y-1/4 translate-x-1/4" />
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                 La méthode TLS · STRIDE
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6rem)]">
+            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6rem)]">
               Six étapes.{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={10}
-              >
-                Un cadre qui marche
-              </GradientText>
-              .
+              <span className="text-accent-400">Un cadre qui marche</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              STRIDE est notre méthodologie de conception de parcours augmentés par l'IA.
-              Six étapes claires, des livrables tangibles, une boucle d'amélioration continue.
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+              STRIDE est la méthode TLS pour déployer une organisation Skills-Based — de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
             </p>
           </FadeInWhenVisible>
 
@@ -193,14 +174,13 @@ export const MarketingMethode: React.FC = () => {
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ type: 'spring', stiffness: 240, damping: 16, delay: 0.4 + i * 0.05 }}
-                  className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-white/30 hover:text-accent-400 transition-colors duration-base tabular-nums leading-none"
+                  className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-ink-300 hover:text-primary-600 transition-colors duration-base tabular-nums leading-none"
                 >
                   {s.letter}
                 </motion.span>
               ))}
             </div>
           </FadeInWhenVisible>
-
         </div>
       </section>
 
@@ -235,7 +215,7 @@ export const MarketingMethode: React.FC = () => {
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true, margin: '-50px' }}
                       transition={{ type: 'spring', stiffness: 240, damping: 16, delay: i * 0.05 }}
-                      className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br ${s.tone} text-white font-display font-extrabold text-[3rem] shadow-xl shrink-0 leading-none`}
+                      className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary-100 border-2 border-primary-400 text-primary-700 font-display font-extrabold text-[3rem] shrink-0 leading-none"
                     >
                       {s.letter}
                     </motion.span>
@@ -281,21 +261,14 @@ export const MarketingMethode: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
+              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
                 Principes de la méthode
               </span>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Quatre règles qu'on ne casse{' '}
-                <GradientText
-                  from="from-secondary-500"
-                  via="via-secondary-600"
-                  to="to-accent-500"
-                >
-                  jamais
-                </GradientText>
-                .
+                <span className="text-accent-400">jamais</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -308,7 +281,7 @@ export const MarketingMethode: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                   className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
                 >
-                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary-50 to-accent-50 text-primary-700 border border-primary-100">
+                  <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700 border border-primary-100">
                     {p.icon}
                   </span>
                   <h3 className="font-display text-h5 font-bold text-ink-900 leading-tight m-0">
@@ -329,7 +302,7 @@ export const MarketingMethode: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
+              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
                 STRIDE en action
               </span>
             </FadeInWhenVisible>
@@ -351,19 +324,19 @@ export const MarketingMethode: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className={`h-full rounded-3xl border bg-gradient-to-br ${u.tone} p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl transition-shadow duration-base`}
+                  className="h-full rounded-3xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
                 >
-                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-white border border-ink-200 text-ink-900 font-body text-caption font-bold uppercase tracking-wider">
+                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-ink-700 font-body text-caption font-bold uppercase tracking-wider">
                     {u.badge}
                   </span>
                   <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight m-0">
                     {u.title}
                   </h3>
-                  <div className="inline-flex self-start items-center gap-2 px-3 py-1.5 rounded-pill bg-white/80 border border-ink-200">
-                    <Sparkles size={14} className="text-warning-fg" />
-                    <span className="font-display font-bold text-body-sm text-ink-900">{u.metric}</span>
+                  <div className="inline-flex self-start items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
+                    <Sparkles size={14} className="text-accent-400" />
+                    <span className="font-display font-bold text-body-sm text-primary-700">{u.metric}</span>
                   </div>
-                  <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0 flex-1">
+                  <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
                     {u.desc}
                   </p>
                 </motion.article>
@@ -373,52 +346,39 @@ export const MarketingMethode: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
-        <MeshGradientBg tone="ink" intensity="intense" />
-        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+      {/* ── CTA — glassmorphic card on light bg ───────────────────────────── */}
+      <section className="py-page bg-gradient-to-b from-white to-primary-50">
+        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              On applique STRIDE{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={8}
-              >
-                à ton contexte
-              </GradientText>
-              ?
-            </h2>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-              On démarre par un diagnostic gratuit de 90 min. On repart avec un cadrage de l'étape Scope.
-            </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
-              <MagneticButton strength={14}>
-                <Link to="/marketing/contact">
-                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Demander un diagnostic
+            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+              <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                On applique STRIDE{' '}
+                <span className="text-accent-400">à ton contexte</span> ?
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+                On démarre par un diagnostic de 90 min — audit de maturité SBO et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+                <MagneticButton strength={12}>
+                  <Link to="/marketing/contact">
+                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                      Demander un diagnostic
+                    </Button>
+                  </Link>
+                </MagneticButton>
+                <Link to="/marketing/accompagnement">
+                  <Button variant="ghost" size="lg" trailingIcon={<Briefcase size={16} />}>
+                    Voir l'accompagnement
                   </Button>
                 </Link>
-              </MagneticButton>
-              <Link to="/marketing/accompagnement">
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  trailingIcon={<Briefcase size={16} />}
-                  className="!text-white hover:!bg-white/10 !border !border-white/30"
-                >
-                  Voir l'accompagnement
-                </Button>
-              </Link>
+              </div>
             </div>
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* Footer */}
+      <MarketingFooter />
     </div>
   );
 };
