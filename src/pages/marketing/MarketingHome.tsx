@@ -16,9 +16,6 @@ import {
   ArrowUpRight,
   ChevronDown,
   Quote,
-  Brain,
-  BookOpen,
-  Target,
   CheckCircle2,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
@@ -30,11 +27,9 @@ import {
   GradientText,
   MarqueeRow,
   CountUp,
-  StickyScrollStory,
   InteractiveAppMockup,
   TiltCard,
   NoiseTexture,
-  type StoryPanel,
 } from '../../components/marketing/motion';
 
 // ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
@@ -49,45 +44,6 @@ const LOGOS = [
   'Decathlon',
   'Orange',
   'Société Générale',
-];
-
-const PRINCIPLE_PANELS: StoryPanel[] = [
-  {
-    eyebrow: 'Principe 01',
-    title: "L'intelligence augmente, ne remplace pas.",
-    body: "L'IA est un copilote pour vos formateurs. Elle accélère la conception, personnalise les parcours, libère du temps pour l'accompagnement humain qui fait la vraie différence.",
-  },
-  {
-    eyebrow: 'Principe 02',
-    title: 'La pédagogie reste reine.',
-    body: "Avant chaque feature, une question : est-ce qu'elle améliore l'apprentissage profond ? Nous ne shippons pas de gadgets — nous concevons des outils au service de la transmission.",
-  },
-  {
-    eyebrow: 'Principe 03',
-    title: "L'éthique se code dans les fondations.",
-    body: "RGPD, AI Act, audit trail des décisions IA : tout est intégré dès le design, jamais en patch. La confiance se construit, elle ne se promet pas.",
-  },
-];
-
-const PRINCIPLE_VISUALS = [
-  {
-    icon: <Brain size={56} />,
-    label: "L'IA assiste",
-    tone: 'from-primary-500 to-primary-700',
-    accent: 'ring-primary-200',
-  },
-  {
-    icon: <BookOpen size={56} />,
-    label: 'La pédagogie guide',
-    tone: 'from-secondary-500 to-secondary-600',
-    accent: 'ring-secondary-200',
-  },
-  {
-    icon: <Target size={56} />,
-    label: "L'éthique cadre",
-    tone: 'from-accent-400 via-secondary-500 to-primary-600',
-    accent: 'ring-accent-200',
-  },
 ];
 
 // ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
@@ -340,50 +296,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 4. Sticky Scroll 3 principes (signature A) ──────────────────────── */}
-      <section className="bg-white border-t border-ink-100">
-        <div className="max-w-7xl mx-auto px-6 pt-page pb-section">
-          <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-stack max-w-3xl">
-              <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
-                Notre conviction
-              </span>
-              <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois principes qui guident tout ce que nous concevons.
-              </h2>
-            </div>
-          </FadeInWhenVisible>
-        </div>
-        <StickyScrollStory
-          panels={PRINCIPLE_PANELS}
-          eyebrowToneClass="text-warning-fg"
-          visual={(i) => {
-            const v = PRINCIPLE_VISUALS[i];
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.85, rotate: 6 }}
-                transition={{ duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className={`relative w-full aspect-square max-w-md rounded-3xl overflow-hidden bg-gradient-to-br ${v.tone} flex items-center justify-center text-white shadow-2xl ring-8 ${v.accent}/40`}
-              >
-                <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/15" />
-                <div className="relative flex flex-col items-center gap-stack">
-                  <div className="p-5 rounded-2xl bg-white/15 backdrop-blur-glass-light border border-white/25">
-                    {v.icon}
-                  </div>
-                  <span className="font-display text-h2 font-extrabold tracking-tight">
-                    {v.label}
-                  </span>
-                </div>
-              </motion.div>
-            );
-          }}
-        />
-      </section>
-
-      {/* ── 5. Chapter signature (warm, signature C) ───────────────────────── */}
+      {/* ── 4. Chapter signature (warm, signature C) ───────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-secondary-50 via-accent-50/40 to-white py-page">
         <MeshGradientBg tone="warm" intensity="subtle" />
         <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
@@ -501,7 +414,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Metrics + Testimonials ───────────────────────────────────────── */}
+      {/* ── 5. Metrics + Testimonials ───────────────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
           {/* Metrics row */}
@@ -570,7 +483,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 7. Final CTA — magnetic, dark mesh ──────────────────────────────── */}
+      {/* ── 6. Final CTA — magnetic, dark mesh ──────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900 py-page">
         <MeshGradientBg tone="ink" intensity="intense" />
         <ParallaxLayer
