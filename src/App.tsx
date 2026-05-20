@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+import { MarketingError404 } from './pages/marketing/MarketingError404';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { ToastProvider } from './contexts/ToastContext';
 import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
@@ -522,11 +523,13 @@ function App() {
           <Route path="politique-confidentialite" element={<MarketingPolitiqueConfidentialite />} />
           <Route path="cgv-cgu" element={<MarketingCgvCgu />} />
           <Route path="charte-ia" element={<MarketingCharteIA />} />
+          <Route path="*" element={<MarketingError404 />} />
         </Route>
 
         {/* ── Error pages + preview — plein écran, hors AppLayout ── */}
-        <Route path="/error/404" element={<Error404 />} />
-        <Route path="/error/500" element={<Error500 />} />
+        {/* Wrapper style 100vw nécessaire : hors AppLayout, le parent route est width:0 */}
+        <Route path="/error/404" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error404 /></div>} />
+        <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
         {isAuthenticated ? (
           // Authenticated routes
           <Route

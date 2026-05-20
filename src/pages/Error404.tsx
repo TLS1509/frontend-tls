@@ -1,7 +1,8 @@
 /**
  * Error404 — Page non trouvée
- * Direction : Cinematic Immersion (V1 validé Phase 19.2)
- * Fond teal deep · parallax mouse · blobs breathing · frosted glass buttons
+ * Direction : Soft Cloud (DA light — cohérente avec l'app)
+ * Fond gradient primary-50→white, blobs doux breathing, texte ink-900
+ * Suggestions cards verre léger, CTA primary standard
  */
 
 import React from 'react';
@@ -28,10 +29,8 @@ function useMouseParallax(strength = 20) {
   const handleMove = (e: React.MouseEvent<HTMLElement>) => {
     if (reduce) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const relX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-    const relY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-    x.set(relX * strength);
-    y.set(relY * strength);
+    x.set(((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * strength);
+    y.set(((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * strength);
   };
 
   const reset = () => { x.set(0); y.set(0); };
@@ -51,78 +50,78 @@ const SUGGESTIONS = [
 
 export const Error404: React.FC = () => {
   const navigate = useNavigate();
-  const parallax = useMouseParallax(30);
+  const parallax = useMouseParallax(28);
   const codeX = useTransform(parallax.x, (v) => v * 1.2);
   const codeY = useTransform(parallax.y, (v) => v * 1.2);
-  const subX = useTransform(parallax.x, (v) => v * 0.45);
-  const subY = useTransform(parallax.y, (v) => v * 0.45);
+  const subX  = useTransform(parallax.x, (v) => v * 0.45);
+  const subY  = useTransform(parallax.y, (v) => v * 0.45);
 
   return (
     <section
       onMouseMove={parallax.handleMove}
       onMouseLeave={parallax.reset}
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 flex items-center justify-center px-6 py-page"
+      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-50/60 flex items-center justify-center px-6 py-page"
     >
-      {/* Blobs breathing */}
+      {/* Blobs doux breathing */}
       <motion.div
         aria-hidden
-        animate={!parallax.reduce ? { x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.05, 1] } : undefined}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute -top-32 -left-32 w-[640px] h-[640px] rounded-full bg-primary-400/25 blur-ambient"
+        animate={!parallax.reduce ? { x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.06, 1] } : undefined}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -top-40 -left-32 w-[600px] h-[600px] rounded-full bg-primary-100/70 blur-ambient"
       />
       <motion.div
         aria-hidden
-        animate={!parallax.reduce ? { x: [0, -25, 0], y: [0, 20, 0], scale: [1, 1.08, 1] } : undefined}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute bottom-[8%] -right-24 w-[460px] h-[460px] rounded-full bg-accent-400/[0.10] blur-ambient"
+        animate={!parallax.reduce ? { x: [0, -22, 0], y: [0, 18, 0], scale: [1, 1.08, 1] } : undefined}
+        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute bottom-0 -right-24 w-[520px] h-[520px] rounded-full bg-accent-100/50 blur-ambient"
       />
       <motion.div
         aria-hidden
-        animate={!parallax.reduce ? { opacity: [0.12, 0.22, 0.12] } : undefined}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="pointer-events-none absolute top-1/2 left-1/4 -translate-y-1/2 w-[280px] h-[280px] rounded-full bg-primary-300/18 blur-ambient"
+        animate={!parallax.reduce ? { opacity: [0.4, 0.7, 0.4] } : undefined}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute top-1/3 left-1/4 w-[260px] h-[260px] rounded-full bg-primary-100/50 blur-ambient"
       />
 
       <div className="relative z-base text-center max-w-4xl w-full flex flex-col items-center">
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, duration: 0.55 }}
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-white/65 inline-flex items-center gap-2 mb-4"
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-2 mb-4"
         >
-          <Compass size={14} /> Navigation perdue
+          <Compass size={13} /> Navigation perdue
         </motion.p>
 
-        {/* Giant 404 — deeper parallax layer */}
+        {/* Giant 404 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.15, duration: 0.85, ease: [0.2, 0, 0, 1.1] }}
+          transition={{ delay: 0.15, duration: 0.8, ease: [0.2, 0, 0, 1.1] }}
           style={{ x: codeX, y: codeY }}
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-6"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-white via-primary-100 to-accent-200 bg-clip-text text-transparent drop-shadow-[0_4px_30px_rgba(85,161,180,0.35)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-primary-700 via-primary-500 to-primary-400 bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
             404
           </span>
         </motion.div>
 
         {/* Title + description */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.55 }}
+          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
           style={{ x: subX, y: subY }}
           className="flex flex-col items-center gap-3 mb-10"
         >
-          <h1 className="font-display text-h1 font-bold text-white leading-tight max-w-2xl">
+          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
             On vous remet sur la bonne route
           </h1>
-          <p className="font-body text-body-lg text-white/70 leading-relaxed max-w-xl">
+          <p className="font-body text-body-lg text-ink-500 leading-relaxed max-w-xl">
             Cette page n'existe pas ou a été déplacée. Voici par où repartir.
           </p>
         </motion.div>
 
-        {/* Suggestion cards — frosted glass */}
+        {/* Suggestion cards */}
         <motion.div
           initial="hidden"
           animate="visible"
@@ -136,29 +135,28 @@ export const Error404: React.FC = () => {
             <motion.button
               key={s.to}
               variants={{
-                hidden: { opacity: 0, y: 14 },
+                hidden: { opacity: 0, y: 12 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0, 0, 0.2, 1] } },
               }}
-              whileHover={!parallax.reduce ? { y: -4, scale: 1.03 } : undefined}
+              whileHover={!parallax.reduce ? { y: -3, scale: 1.02 } : undefined}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(s.to)}
-              className="flex flex-col items-center gap-2 px-4 py-4 rounded-xl backdrop-blur-glass-medium bg-white/10 border border-white/20 text-white hover:bg-white/18 hover:border-white/35 transition-colors min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+              className="flex flex-col items-center gap-2 px-4 py-4 rounded-xl bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
             >
-              <span className="text-white/80">{s.icon}</span>
-              <span className="font-body text-caption font-semibold text-white/90 leading-tight text-center">{s.label}</span>
+              <span className="text-primary-500">{s.icon}</span>
+              <span className="font-body text-caption font-semibold text-ink-700 leading-tight text-center">{s.label}</span>
             </motion.button>
           ))}
         </motion.div>
 
         {/* Primary CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.45 }}
+          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.85, duration: 0.4 }}
         >
           <Button
             size="lg"
             onClick={() => navigate('/dashboard')}
-            className="!backdrop-blur-glass-medium !bg-white/85 !text-primary-800 !shadow-[0_12px_40px_-8px_rgba(0,0,0,0.35)] hover:!bg-white hover:!shadow-[0_18px_50px_-10px_rgba(0,0,0,0.45)] hover:!-translate-y-0.5 transition-all"
             trailingIcon={<ArrowRight size={18} />}
           >
             Tableau de bord
