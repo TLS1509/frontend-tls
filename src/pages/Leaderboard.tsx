@@ -120,7 +120,7 @@ export const Leaderboard: React.FC = () => {
             variant="sun"
             size="sm"
             icon={<Flame strokeWidth={1.8} />}
-            value={`${currentUserStreak.maxStreak}j`}
+            value={`${currentUserStreak.longestStreak}j`}
             label="Meilleur streak"
           />
         </div>

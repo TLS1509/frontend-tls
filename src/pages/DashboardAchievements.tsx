@@ -141,8 +141,8 @@ export default function DashboardAchievements() {
             tone="warm"
             surface="tinted"
             icon={<Flame size={20} />}
-            delta={`Meilleur : ${streak.maxStreak}j`}
-            deltaDirection={streak.currentStreak >= streak.maxStreak ? 'up' : 'down'}
+            delta={`Meilleur : ${streak.longestStreak}j`}
+            deltaDirection={streak.currentStreak >= streak.longestStreak ? 'up' : 'down'}
           />
           <StatCard
             label="Rang leaderboard"
