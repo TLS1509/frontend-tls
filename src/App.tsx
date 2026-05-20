@@ -525,6 +525,11 @@ function App() {
           <Route path="charte-ia" element={<MarketingCharteIA />} />
         </Route>
 
+        {/* ── Error pages + preview — plein écran, hors AppLayout ── */}
+        <Route path="/error/404" element={<Error404 />} />
+        <Route path="/error/500" element={<Error500 />} />
+        <Route path="/preview/error-variants" element={<PreviewErrorVariants />} />
+
         {isAuthenticated ? (
           // Authenticated routes
           <Route
@@ -667,9 +672,6 @@ function App() {
                   <Route path="/auth/reset-password" element={<ResetPassword />} />
                   <Route path="/auth/verify-email" element={<VerifyEmail />} />
                   <Route path="/auth/magic-link" element={<MagicLink />} />
-                  <Route path="/error/404" element={<Error404 />} />
-                  <Route path="/error/500" element={<Error500 />} />
-                  <Route path="/preview/error-variants" element={<PreviewErrorVariants />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/course/:id" element={<CourseDetail />} />
@@ -684,7 +686,7 @@ function App() {
                   <Route path="/profile/credits" element={<CreditsPage />} />
                   <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
                   <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />
-                  <Route path="*" element={<Error404 />} />
+                  <Route path="*" element={<Navigate to="/error/404" replace />} />
                 </Routes>
               </AppLayout>
             }
