@@ -180,6 +180,7 @@ import {
   Account,
   Error404,
   Error500,
+  PreviewErrorVariants,
   Help,
   Enterprise,
   CourseDetail,
@@ -668,6 +669,7 @@ function App() {
                   <Route path="/auth/magic-link" element={<MagicLink />} />
                   <Route path="/error/404" element={<Error404 />} />
                   <Route path="/error/500" element={<Error500 />} />
+                  <Route path="/preview/error-variants" element={<PreviewErrorVariants />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/course/:id" element={<CourseDetail />} />
