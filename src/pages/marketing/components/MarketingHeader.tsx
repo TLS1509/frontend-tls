@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Users, Compass, Award } from 'lucide-react';
+import { Menu, X, ChevronDown, Users, Compass, Award, Newspaper } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { TlsLogo } from '../../../components/ui/TlsLogo';
@@ -8,21 +8,25 @@ import { TlsLogo } from '../../../components/ui/TlsLogo';
 type NavItem = {
   label: string;
   href?: string;
-  highlight?: boolean;
   dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
 };
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/marketing' },
+  { label: 'Learning App', href: '/marketing/learning-app' },
   { label: 'Formation', href: '/marketing/formation' },
   { label: 'Accompagnement', href: '/marketing/accompagnement' },
-  { label: 'Learning App', href: '/marketing/learning-app', highlight: true },
-  { label: 'Magazine', href: '/marketing/magazine' },
   {
-    label: 'À propos',
+    label: 'Ressources',
     dropdown: [
       {
-        label: 'L\'équipe',
+        label: 'Magazine',
+        href: '/marketing/magazine',
+        desc: 'Articles, analyses, tendances EdTech & IA',
+        icon: <Newspaper size={16} />,
+      },
+      {
+        label: "L'équipe",
         href: '/marketing/equipe',
         desc: 'Les humains derrière TLS',
         icon: <Users size={16} />,
@@ -41,7 +45,6 @@ const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-  { label: 'Contact', href: '/marketing/contact' },
 ];
 
 const isPathActive = (pathname: string, href: string): boolean =>
@@ -217,11 +220,6 @@ export const MarketingHeader: React.FC = () => {
                 ].join(' ')}
               >
                 {item.label}
-                {item.highlight && (
-                  <span className="inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
-                    New
-                  </span>
-                )}
                 {active && (
                   <motion.span
                     layoutId="marketing-nav-active"
@@ -239,12 +237,12 @@ export const MarketingHeader: React.FC = () => {
         <div className="hidden lg:flex items-center gap-2 shrink-0">
           <Link to="/marketing/contact">
             <Button variant="ghost" size="sm" className="whitespace-nowrap">
-              Demander un devis
+              Contact
             </Button>
           </Link>
-          <Link to="/marketing/formation">
-            <Button variant="warm" size="sm" className="whitespace-nowrap">
-              Voir la formation
+          <Link to="/login">
+            <Button variant="primary" size="sm" className="whitespace-nowrap">
+              Connexion
             </Button>
           </Link>
         </div>
@@ -356,23 +354,18 @@ export const MarketingHeader: React.FC = () => {
                       ].join(' ')}
                     >
                       <span>{item.label}</span>
-                      {item.highlight && (
-                        <span className="ml-auto inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
-                          New
-                        </span>
-                      )}
                     </Link>
                   );
                 })}
                 <div className="pt-3 mt-1 border-t border-ink-100 flex flex-col gap-2">
                   <Link to="/marketing/contact">
                     <Button variant="ghost" size="md" fullWidth>
-                      Demander un devis
+                      Contact
                     </Button>
                   </Link>
-                  <Link to="/marketing/formation">
-                    <Button variant="warm" size="md" fullWidth>
-                      Voir la formation
+                  <Link to="/login">
+                    <Button variant="primary" size="md" fullWidth>
+                      Connexion
                     </Button>
                   </Link>
                 </div>

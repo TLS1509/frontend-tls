@@ -252,7 +252,7 @@ export const MarketingLearningApp: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Tout ce qu'il faut pour{' '}
-                <GradientText>apprendre vraiment</GradientText>.
+                <span className="text-accent-400">apprendre vraiment</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
