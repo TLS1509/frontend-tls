@@ -79,7 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
                 type="button"
                 onClick={onClose}
                 aria-label="Fermer"
-                className="row-span-2 col-start-2 w-8 h-8 rounded-md bg-ink-50 border-0 text-ink-600 cursor-pointer inline-flex items-center justify-center transition-colors hover:bg-ink-100 hover:text-ink-900 p-0"
+                className="row-span-2 col-start-2 w-8 h-8 rounded-md bg-ink-50 border-0 text-ink-600 cursor-pointer inline-flex items-center justify-center transition-colors hover:bg-ink-100 hover:text-ink-900 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <X size={18} />
               </button>

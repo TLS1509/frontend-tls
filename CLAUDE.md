@@ -1820,3 +1820,75 @@ Phase 18.1 a mis à jour `src/pages/Components.tsx` avec :
 - Ajout de `usedBy: [...]` arrays listant les pages qui consomment chaque composant
 
 Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pages qui les utilisent.
+
+---
+
+## Phase 19 — Design Excellence (UX intuitivité + DS unification) 🚀
+
+**Objectif** : passe finale qualité avant V1. Audit UX intuitivité de toutes les pages, rationalisation des familles fragmentées, intégration ou sunset des `showcaseOnly`, synchro Notion à jour. **Pas** de redesign visuel structurel (Phase 14-15 reste verrouillée) ni de nouvelle fonctionnalité spec (Phase 16 close).
+
+**Approche** : flow-by-flow (UX + DS combinés). Audit global d'abord → priorisation utilisateur → itérations workflow A→F par flow (plan → DS rationalisation → polish pages → vérif → Notion batch sync → commit).
+
+**Livrables initiaux** :
+- [`AUDIT-PHASE-19-NOTION-DELTA.md`](../AUDIT-PHASE-19-NOTION-DELTA.md) — sync préalable Notion (Étape 0 ✅)
+- [`AUDIT-PHASE-19.md`](../AUDIT-PHASE-19.md) — matrice scorée 142 pages (Étape 1 ✅)
+
+### Phase 19.1 — Foundations transverses (ErrorPage + a11y) ✅
+
+**Livré** :
+- ✅ `src/components/patterns/ErrorPage.tsx` (~170 LOC) — pattern canonique pour pages d'erreur. Props : `code, eyebrow, icon, title, description, callout, suggestions[], primaryAction, secondaryAction, tone (default|danger)`. Mobile-first, `min-h-touch` sur cards interactives, `focus-visible` géré.
+- ✅ Audit `focus-visible` sur primitives core : **Button, Card (clickable), Input, Tabs, Sidebar/NavItem** — tous OK. Fix appliqué sur **Modal close button** + **Tag remove button** (manquaient).
+- ✅ Entry Components.tsx showcase + Notion DS DB sync.
+
+### Convention a11y — règle obligatoire (à appliquer flow-by-flow)
+
+**Interactive elements** (boutons, liens cliquables, cards `role="button"`, items navigation) **DOIVENT** respecter :
+
+1. **Touch target ≥ 44px** (WCAG AA, Apple HIG). Tailwind utility : `min-h-touch` (= `min-height: 2.75rem` = 44px) ou Button `size="lg"` (h-12 = 48px).
+   - ⚠️ Button `size="sm"` (h-8 = 32px) et `size="md"` (h-10 = 40px) sont **en-dessous** du seuil. Réserver `sm` aux toolbars denses non-critiques (badges, chips). `md` reste acceptable si bouton entouré de marge ≥ 8px.
+   - Pages mobile-first : préférer `size="lg"` ou ajouter explicitement `min-h-touch` à toutes les CTAs.
+
+2. **Focus visible** (`focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`). Pattern obligatoire sur tout élément focusable custom (`<button>`, `<div role="button">`, `<a>` stylé en bouton).
+
+3. **Contraste AA** texte/fond : utiliser les tokens DS (`text-ink-900` sur `bg-white`, `text-white` sur `bg-primary-600+`). Éviter `text-ink-500` sur fond très clair pour titres/CTA.
+
+**Audit transverse découvert** (à corriger flow-by-flow durant Phase 19.2+) — 25 composants composites où `focus-visible` n'est pas garanti :
+
+| Layer | Composants concernés |
+|-------|---------------------|
+| **patterns/** | ActivityFeed, AppBreadcrumb, CoachCardGrid, DataTable, EmptyDashboardState, Flashcard, FormLayout, LearningPathGrid, LessonNavigation, MultiStepForm, NewsletterSignupCard, ResourceCardGrid, StepTutorial, TableOfContents, ViewerOverlay |
+| **ui/** | AIOverrideButton, AchievementBadge, ActionCard, CompetencyRadar, CorrectionCard, CourseCard, HeatmapGrid, MetaPillGroup, ProfileCard, Search |
+
+> ⚠️ La plupart de ces composites consomment des primitives (Button, Card) qui ont `focus-visible` — donc l'a11y est partiellement OK via composition. Mais les éléments interactifs custom (cards `<button>` inline, items navigation, headers cliquables) doivent ajouter explicitement la triple `focus-visible:outline-*`. À corriger systématiquement quand le composant est touché dans un flow Phase 19.2+.
+
+### Pattern ErrorPage — usage canonique
+
+```tsx
+// 404 - informational
+<ErrorPage
+  code="404"
+  title="Oups, page non trouvée"
+  description="La page demandée n'existe pas."
+  suggestions={[
+    { icon: <Home size={20} />, title: 'Dashboard', onClick: () => navigate('/dashboard'), tone: 'primary' },
+    { icon: <Search size={20} />, title: 'Parcours', onClick: () => navigate('/learning-paths'), tone: 'sun' },
+  ]}
+  primaryAction={<Button leadingIcon={<Home size={16} />}>Retour</Button>}
+/>
+
+// 500 - danger / server error
+<ErrorPage
+  tone="danger"
+  code="500"
+  eyebrow="Système • Incident"
+  title="Erreur serveur"
+  description="Une erreur technique s'est produite."
+  callout={<>Diagnostic rapide : Code 500, équipe notifiée.</>}
+  primaryAction={<Button>Réessayer</Button>}
+  secondaryAction={<Button variant="secondary">Tableau de bord</Button>}
+/>
+```
+
+**Tones** : `default` (gradient primary→secondary, ton informationnel) · `danger` (gradient danger→secondary, erreur serveur/critique).
+
+**Sera consommé par** : Error404, Error500 (Phase 19.2). Réutilisable pour tout fallback futur (403 forbidden, 410 gone, paywall, maintenance).

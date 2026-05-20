@@ -63,7 +63,7 @@ export const Tag: React.FC<TagProps> = ({
             onRemove();
           }}
           className={[
-            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors',
+            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
             isGlass ? GLASS_REMOVE : REMOVE_HOVER[tone],
           ].join(' ')}
         >

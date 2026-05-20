@@ -99,6 +99,7 @@ import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
+import { ErrorPage } from '../components/patterns/ErrorPage';
 // (DashboardHero deprecated → use HeroSection variant="gradient" instead)
 import { CardGrid } from '../components/patterns/CardGrid';
 import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
@@ -182,6 +183,7 @@ import { ProgressDots } from '../components/ui/ProgressDots';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { FlipCard } from '../components/patterns/FlipCard';
 import { Briefcase, HeartHandshake } from 'lucide-react';
+import { Home as HomeIcon, HelpCircle, Search as SearchIcon } from 'lucide-react';
 
 /* ============================================================================
  * TYPES
@@ -312,6 +314,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   'Toast + useToast':   { category: 'Feedback', subCategory: 'Status messages' },
   Toast:                { category: 'Feedback', subCategory: 'Status messages' },
   EmptyState:           { category: 'Feedback', subCategory: 'Empty/zero states' },
+  ErrorPage:            { category: 'Feedback', subCategory: 'Error & fallback' },
   Celebration:          { category: 'Feedback', subCategory: 'Celebrations' },
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
@@ -1792,6 +1795,45 @@ const COMPONENTS: ComponentEntry[] = [
           title="Commencez votre premier parcours"
           description="Explorez la bibliothèque et sélectionnez un parcours adapté à vos objectifs."
           actions={<Button variant="warm">Explorer</Button>}
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'ErrorPage',
+    codeName: 'ErrorPage.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Error404', 'Error500'],
+    description: 'Pattern canonique pour pages d\'erreur (404, 500, 403, etc.) et fallbacks critiques. Props : code (gradient text), eyebrow, icon, title, description, callout, suggestions (grille de navigation), primaryAction, secondaryAction. 2 tones : default (informational) / danger (server-side). Mobile-first, min-h-touch sur cartes interactives, focus-visible géré.',
+    keywords: ['error', '404', '500', 'fallback', 'not found', 'oops', 'crash', 'recovery'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <ErrorPage
+          code="404"
+          title="Oups, page non trouvée"
+          description="La page demandée n'existe pas ou a été déplacée."
+          suggestions={[
+            { icon: <HomeIcon size={20} />, title: 'Tableau de bord', description: 'Retourner à votre espace', onClick: () => {}, tone: 'primary' },
+            { icon: <SearchIcon size={20} />, title: 'Parcours', description: 'Explorer les cursus', onClick: () => {}, tone: 'sun' },
+            { icon: <HelpCircle size={20} />, title: 'Support', description: 'Contacter l\'équipe', onClick: () => {}, tone: 'warm' },
+          ]}
+          primaryAction={<Button leadingIcon={<HomeIcon size={16} />}>Retour au tableau de bord</Button>}
+        />
+        <ErrorPage
+          tone="danger"
+          code="500"
+          eyebrow="Système • Incident"
+          title="Erreur serveur"
+          description="Une erreur technique s'est produite. Vous pouvez réessayer ou retourner au tableau de bord."
+          callout={
+            <>
+              <p className="font-body text-body-sm font-semibold text-ink-900 m-0">Diagnostic rapide</p>
+              <p className="font-body text-caption text-ink-500 m-0">Code: 500 • Notification équipe envoyée • Réessayer dans quelques instants.</p>
+            </>
+          }
+          primaryAction={<Button>Réessayer</Button>}
+          secondaryAction={<Button variant="secondary">Tableau de bord</Button>}
         />
       </div>
     ),
