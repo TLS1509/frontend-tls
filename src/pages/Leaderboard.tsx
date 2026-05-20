@@ -1,29 +1,15 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { StatCard } from '../components/ui/StatCard';
-import { Badge } from '../components/ui/Badge';
 import { Pagination } from '../components/ui/Pagination';
 import { RankingCard } from '../components/learning/RankingCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { Flame, Medal, Sparkles, Trophy, Users, Zap, ArrowUp, Minus, ArrowDown, Star } from 'lucide-react';
-
-const PODIUM_USERS = [
-  { name: 'Sophie Martin',  points: 1240, streak: 18, initials: 'SM', rank: 1, level: 12, xp: 4820, badges: 9 },
-  { name: 'Pierre Bernard', points: 1120, streak: 13, initials: 'PB', rank: 2, level: 11, xp: 4110, badges: 7 },
-  { name: 'Nadia Ferreira', points: 980,  streak: 9,  initials: 'NF', rank: 3, level: 10, xp: 3540, badges: 6 },
-];
-
-const FULL_RANKING = [
-  { rank: 4,  name: 'Julien Moreau',    initials: 'JM', points: 870, trend: 'up'   as const, level: 9,  xp: 3020, badges: 5, isCurrentUser: false },
-  { rank: 5,  name: 'Amina Benali',     initials: 'AB', points: 820, trend: 'same' as const, level: 9,  xp: 2880, badges: 4, isCurrentUser: false },
-  { rank: 6,  name: 'Thomas Dupont',    initials: 'TD', points: 760, trend: 'down' as const, level: 8,  xp: 2650, badges: 4, isCurrentUser: false },
-  { rank: 7,  name: 'Claire Fontaine',  initials: 'CF', points: 710, trend: 'up'   as const, level: 8,  xp: 2480, badges: 3, isCurrentUser: false },
-  { rank: 8,  name: 'Vous',             initials: 'VT', points: 680, trend: 'same' as const, level: 7,  xp: 2240, badges: 3, isCurrentUser: true  },
-  { rank: 9,  name: 'Lucie Perrot',     initials: 'LP', points: 640, trend: 'up'   as const, level: 7,  xp: 2100, badges: 2, isCurrentUser: false },
-  { rank: 10, name: 'Antoine Garnier',  initials: 'AG', points: 600, trend: 'down' as const, level: 6,  xp: 1980, badges: 2, isCurrentUser: false },
-];
+import { Flame, Medal, Sparkles, Trophy, Users, Zap, Star } from 'lucide-react';
+import { useGamificationStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import { buildLeaderboard, type LeaderboardRow } from '../data/apprenants';
 
 const PERIODS = [
   { id: 'week'  as const, label: 'Cette semaine' },
@@ -31,13 +17,6 @@ const PERIODS = [
   { id: 'all'   as const, label: 'Tout temps' },
 ];
 
-const TREND_ICON: Record<'up' | 'same' | 'down', React.ReactNode> = {
-  up:   <ArrowUp   size={11} className="text-success-fg" />,
-  same: <Minus     size={11} className="text-ink-400" />,
-  down: <ArrowDown size={11} className="text-secondary-600" />,
-};
-
-// Per-rank visual config — Tailwind classes only
 const PODIUM_CONFIG = [
   {
     label: '1er',
@@ -72,25 +51,46 @@ const ITEMS_PER_PAGE = 4;
 
 export const Leaderboard: React.FC = () => {
   const navigate = useNavigate();
+  const gamificationStore = useGamificationStore();
   const [period, setPeriod] = useState<'week' | 'month' | 'all'>('week');
   const [rankPage, setRankPage] = useState(1);
 
-  const totalRankPages = Math.ceil(FULL_RANKING.length / ITEMS_PER_PAGE);
-  const paginatedRanking = FULL_RANKING.slice(
+  // Phase 16.5 #3 — live ranking built from shared APPRENANTS + current user state
+  const currentUserXP = gamificationStore.getTotalXP(MOCK_USER_ID);
+  const currentUserStreak = gamificationStore.getStreak(MOCK_USER_ID);
+  const currentUserBadges = gamificationStore.getBadges(MOCK_USER_ID);
+
+  const fullRanking = useMemo<LeaderboardRow[]>(
+    () =>
+      buildLeaderboard({
+        currentUserName: 'Toi',
+        currentUserInitials: 'VT',
+        currentUserXP,
+        currentUserStreak: currentUserStreak.currentStreak,
+        currentUserBadgeCount: currentUserBadges.length,
+      }),
+    [currentUserXP, currentUserStreak.currentStreak, currentUserBadges.length],
+  );
+
+  const podium = fullRanking.slice(0, 3);
+  const restRanking = fullRanking.slice(3);
+  const currentUserRow = fullRanking.find((r) => r.isCurrentUser);
+  const totalRankPages = Math.ceil(restRanking.length / ITEMS_PER_PAGE);
+  const paginatedRanking = restRanking.slice(
     (rankPage - 1) * ITEMS_PER_PAGE,
     rankPage * ITEMS_PER_PAGE,
   );
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+      <div className="flex-1 max-w-wide mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
           tone="sun"
           eyebrow={{ icon: <Trophy size={12} />, label: 'Progression communauté' }}
           title="Leaderboard"
-          summary="Classement communautaire hebdomadaire — les apprenants les plus engagés mis à l'honneur."
+          summary="Classement communautaire — les apprenants les plus engagés mis à l'honneur."
         />
 
         {/* KPI Row */}
@@ -99,28 +99,28 @@ export const Leaderboard: React.FC = () => {
             variant="brand"
             size="sm"
             icon={<Users strokeWidth={1.8} />}
-            value={PODIUM_USERS.length + FULL_RANKING.length}
+            value={fullRanking.length}
             label="Participants"
           />
           <StatCard
             variant="warm"
             size="sm"
             icon={<Trophy strokeWidth={1.8} />}
-            value="#8"
-            label="Votre classement"
+            value={currentUserRow ? `#${currentUserRow.rank}` : '—'}
+            label="Ton classement"
           />
           <StatCard
             variant="sun"
             size="sm"
             icon={<Zap strokeWidth={1.8} />}
-            value="2 240"
-            label="Votre XP total"
+            value={currentUserXP.toLocaleString('fr-FR')}
+            label="Ton XP total"
           />
           <StatCard
             variant="sun"
             size="sm"
             icon={<Flame strokeWidth={1.8} />}
-            value="18j"
+            value={`${currentUserStreak.maxStreak}j`}
             label="Meilleur streak"
           />
         </div>
@@ -151,11 +151,11 @@ export const Leaderboard: React.FC = () => {
 
         {/* Podium Cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {PODIUM_USERS.map((entry, index) => {
+          {podium.map((entry, index) => {
             const pod = PODIUM_CONFIG[index];
             return (
               <Card
-                key={entry.name}
+                key={entry.id}
                 className={`p-6 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200 cursor-default ${pod.cardClasses}`}
               >
                 {/* Rank badge + points */}
@@ -189,11 +189,17 @@ export const Leaderboard: React.FC = () => {
                   </span>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Zap size={12} className={pod.iconClasses} />
-                    {entry.xp.toLocaleString()} XP
+                    {entry.xp.toLocaleString('fr-FR')} XP
                   </span>
                 </div>
 
-                <Button size="sm" variant="secondary" className="self-start">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="self-start"
+                  onClick={() => !entry.isCurrentUser && navigate(`/coach/apprenant/${entry.id}`)}
+                  disabled={entry.isCurrentUser}
+                >
                   <Medal size={13} /> Voir le profil
                 </Button>
               </Card>
@@ -203,31 +209,41 @@ export const Leaderboard: React.FC = () => {
 
         {/* Full ranking list */}
         <div className="flex flex-col gap-4">
-          {/* Current user banner */}
-          <Card variant="tinted" tone="primary" className="flex items-center gap-4 p-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
-              VT
-            </div>
-            <div className="flex-1">
-              <div className="font-body text-body-sm font-bold text-ink-900">Vous</div>
-              <div className="font-body text-caption text-ink-500">Niveau 7 · 2 240 XP</div>
-            </div>
-            <div className="text-right">
-              <div className="font-display text-h3 font-extrabold text-primary-600 leading-none">#8</div>
-              <div className="font-body text-caption text-ink-500">classement</div>
-            </div>
-          </Card>
+          {/* Current user banner — only show if they're not on the podium */}
+          {currentUserRow && currentUserRow.rank > 3 && (
+            <Card variant="tinted" tone="primary" className="flex items-center gap-4 p-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
+                {currentUserRow.initials}
+              </div>
+              <div className="flex-1">
+                <div className="font-body text-body-sm font-bold text-ink-900">{currentUserRow.name}</div>
+                <div className="font-body text-caption text-ink-500">
+                  Niveau {currentUserRow.level} · {currentUserRow.xp.toLocaleString('fr-FR')} XP
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-display text-h3 font-extrabold text-primary-600 leading-none">
+                  #{currentUserRow.rank}
+                </div>
+                <div className="font-body text-caption text-ink-500">classement</div>
+              </div>
+            </Card>
+          )}
 
           <div className="flex flex-col gap-3">
             {paginatedRanking.map((entry) => (
               <RankingCard
-                key={entry.rank}
+                key={entry.id}
                 rank={entry.rank}
                 name={entry.name}
                 points={entry.points}
                 streak={undefined}
                 variant={entry.isCurrentUser ? 'brand' : 'neutral'}
-                onViewProfile={() => navigate(`/profile/${entry.rank}`)}
+                onViewProfile={() =>
+                  entry.isCurrentUser
+                    ? navigate('/profile/badges/competences')
+                    : navigate(`/coach/apprenant/${entry.id}`)
+                }
               />
             ))}
           </div>
@@ -237,7 +253,7 @@ export const Leaderboard: React.FC = () => {
               page={rankPage}
               totalPages={totalRankPages}
               onChange={setRankPage}
-              info={<span className="text-caption text-ink-500">{FULL_RANKING.length} participants</span>}
+              info={<span className="text-caption text-ink-500">{restRanking.length} participants</span>}
             />
           )}
         </div>
@@ -254,7 +270,7 @@ export const Leaderboard: React.FC = () => {
                 Objectif de la semaine
               </h3>
               <p className="m-0 font-body text-body-sm text-ink-500">
-                Complétez 3 activités réflexives et 2 modules pour intégrer le top 3.
+                Complète 3 activités réflexives et 2 modules pour intégrer le top 3.
               </p>
             </div>
           </div>

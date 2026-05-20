@@ -171,3 +171,71 @@ export const dreyfusLabel = (level: number): string => {
   if (level >= 1.5) return 'Niveau 2 — Débutant avancé';
   return 'Niveau 1 — Novice';
 };
+
+/**
+ * Synthetic leaderboard projection.
+ *
+ * The platform doesn't (yet) track XP per shared apprenant — each apprenant only
+ * has a `dreyfusAvg` and a `streak`. To build a community ranking we project a
+ * plausible XP / level / badge count derived from those fields so the leaderboard
+ * UI can be populated without inventing extra mock fields.
+ *
+ * Returned rows are sorted by XP descending. The current learner (passed via
+ * `currentUserXP`/`currentUserStreak`) is inserted as { isCurrentUser: true } so
+ * the page can highlight "Vous" / "Toi" wherever they land in the ranking.
+ */
+export interface LeaderboardRow {
+  rank: number;
+  id: string;
+  name: string;
+  initials: string;
+  points: number;
+  level: number;
+  xp: number;
+  badges: number;
+  streak: number;
+  trend: 'up' | 'same' | 'down';
+  isCurrentUser: boolean;
+}
+
+export const buildLeaderboard = (opts: {
+  currentUserName?: string;
+  currentUserInitials?: string;
+  currentUserXP: number;
+  currentUserStreak: number;
+  currentUserBadgeCount: number;
+}): LeaderboardRow[] => {
+  const apprenantRows: Omit<LeaderboardRow, 'rank'>[] = APPRENANTS.map((a) => {
+    const xp = Math.round(a.dreyfusAvg * 1000 + a.streak * 12);
+    const level = Math.max(1, Math.floor(a.dreyfusAvg * 3));
+    return {
+      id: a.id,
+      name: a.name,
+      initials: a.initials,
+      points: Math.round(xp / 4),
+      level,
+      xp,
+      badges: Math.max(1, Math.round(a.dreyfusAvg * 2)),
+      streak: a.streak,
+      trend: a.status === 'ahead' ? 'up' : a.status === 'stuck' ? 'down' : 'same',
+      isCurrentUser: false,
+    };
+  });
+
+  const currentUserRow: Omit<LeaderboardRow, 'rank'> = {
+    id: 'current-user',
+    name: opts.currentUserName ?? 'Toi',
+    initials: opts.currentUserInitials ?? 'VT',
+    points: Math.round(opts.currentUserXP / 4),
+    level: Math.max(1, Math.floor(opts.currentUserXP / 350)),
+    xp: opts.currentUserXP,
+    badges: opts.currentUserBadgeCount,
+    streak: opts.currentUserStreak,
+    trend: 'same',
+    isCurrentUser: true,
+  };
+
+  return [...apprenantRows, currentUserRow]
+    .sort((a, b) => b.xp - a.xp)
+    .map((row, idx) => ({ ...row, rank: idx + 1 }));
+};
