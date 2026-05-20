@@ -48,7 +48,6 @@ export { ResetPassword } from './ResetPassword';
 export { Account } from './Account';
 export { Error404 } from './Error404';
 export { Error500 } from './Error500';
-export { PreviewErrorVariants } from './PreviewErrorVariants';
 export { Help } from './Help';
 export { Enterprise } from './Enterprise';
 export { CourseDetail } from './CourseDetail';

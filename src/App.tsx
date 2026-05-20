@@ -180,7 +180,6 @@ import {
   Account,
   Error404,
   Error500,
-  PreviewErrorVariants,
   Help,
   Enterprise,
   CourseDetail,
@@ -528,8 +527,6 @@ function App() {
         {/* ── Error pages + preview — plein écran, hors AppLayout ── */}
         <Route path="/error/404" element={<Error404 />} />
         <Route path="/error/500" element={<Error500 />} />
-        <Route path="/preview/error-variants" element={<PreviewErrorVariants />} />
-
         {isAuthenticated ? (
           // Authenticated routes
           <Route
