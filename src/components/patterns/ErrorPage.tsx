@@ -70,6 +70,24 @@ const SUGGESTION_TONE_BG: Record<ErrorSuggestionTone, string> = {
   neutral: 'bg-ink-50 text-ink-700',
 };
 
+/* Tone-aware hover border + shadow — matches the icon tone of the card
+ * (cf. DS Card.tsx TONE_INTERACTIVE_HOVER pattern). The hover color reflects
+ * the icon's tone so the user gets a visual cue "this is the warm/sun/etc.
+ * card". */
+const SUGGESTION_HOVER_BORDER: Record<ErrorSuggestionTone, string> = {
+  primary: 'hover:border-primary-400',
+  warm: 'hover:border-secondary-400',
+  sun: 'hover:border-accent-400',
+  neutral: 'hover:border-ink-400',
+};
+
+const SUGGESTION_HOVER_SHADOW: Record<ErrorSuggestionTone, string> = {
+  primary: 'hover:shadow-brand-sm',
+  warm: 'hover:shadow-warm-sm',
+  sun: 'hover:shadow-sun-sm',
+  neutral: 'hover:shadow-md',
+};
+
 /* ── Motion variants ─────────────────────────────────────────────────────── */
 
 const containerVariants: Variants = {
@@ -155,7 +173,12 @@ const SuggestionCard: React.FC<SuggestionCardProps> = ({
       variants={suggestionVariants}
       whileHover={magnetic ? undefined : { y: -4 }}
       style={magnetic ? { x: springX, y: springY } : undefined}
-      className="flex flex-col items-start gap-stack-xs p-stack-lg rounded-xl border border-ink-200 bg-white text-left shadow-sm hover:border-primary-300 hover:shadow-lg transition-[border-color,box-shadow] duration-base ease-standard cursor-pointer min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+      className={[
+        'flex flex-col items-start gap-stack-xs p-stack-lg rounded-xl border border-ink-200 bg-white text-left shadow-sm',
+        SUGGESTION_HOVER_BORDER[tone],
+        SUGGESTION_HOVER_SHADOW[tone],
+        'transition-[border-color,box-shadow] duration-base ease-standard cursor-pointer min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+      ].join(' ')}
     >
       <div
         className={[

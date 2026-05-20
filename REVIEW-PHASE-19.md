@@ -173,6 +173,18 @@ Document vivant. Mis à jour après chaque phase (19.1, 19.2, ...). Coche ce que
 
 ---
 
+### Patch 19.2.1 — Hover border tone-matched icon (ErrorPage SuggestionCard)
+
+- [ ] **http://localhost:5173/error/404** — hover sur chaque carte :
+  - "Tableau de bord" (icône teal) → border **primary** au hover
+  - "Parcours disponibles" (icône jaune) → border **accent (jaune)** au hover ✅
+  - "Veille & Ressources" (icône orange) → border **secondary (orange)** au hover ✅
+  - "Support & Questions" (icône teal) → border **primary** au hover
+- [ ] Le shadow au hover match aussi (shadow-sun-sm / shadow-warm-sm / shadow-brand-sm)
+- **Note** : la Card DS (`src/components/core/Card.tsx`) avait **déjà** ce comportement via `TONE_INTERACTIVE_HOVER` quand utilisée avec `variant="interactive"` + `tone`. C'est SuggestionCard du pattern ErrorPage qui n'en bénéficiait pas (custom motion.button). Maintenant aligné.
+
+---
+
 ## 🔜 Phase 19.3 — Onboarding flow (à venir)
 
 **Scope prévu** :
