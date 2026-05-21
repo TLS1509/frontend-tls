@@ -526,10 +526,20 @@ function App() {
           <Route path="*" element={<MarketingError404 />} />
         </Route>
 
-        {/* ── Error pages + preview — plein écran, hors AppLayout ── */}
+        {/* ── Error pages — plein écran, hors AppLayout ── */}
         {/* Wrapper style 100vw nécessaire : hors AppLayout, le parent route est width:0 */}
         <Route path="/error/404" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error404 /></div>} />
         <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
+
+        {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
+        {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
+        <Route path="/auth/login"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Login /></div>} />
+        <Route path="/auth/signup"         element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Signup /></div>} />
+        <Route path="/auth/forgot-password" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><ForgotPassword /></div>} />
+        <Route path="/auth/reset-password" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><ResetPassword /></div>} />
+        <Route path="/auth/verify-email"   element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><VerifyEmail /></div>} />
+        <Route path="/auth/magic-link"     element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><MagicLink /></div>} />
+
         {isAuthenticated ? (
           // Authenticated routes
           <Route
@@ -666,12 +676,6 @@ function App() {
                   <Route path="/journal/search" element={<JournalSearch />} />
                   <Route path="/profile/privacy/dsar" element={<PrivacyDsar />} />
                   <Route path="/profile/privacy/delete-account" element={<PrivacyDeleteAccount />} />
-                  <Route path="/auth/login" element={<Login />} />
-                  <Route path="/auth/signup" element={<Signup />} />
-                  <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/auth/reset-password" element={<ResetPassword />} />
-                  <Route path="/auth/verify-email" element={<VerifyEmail />} />
-                  <Route path="/auth/magic-link" element={<MagicLink />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/course/:id" element={<CourseDetail />} />
@@ -692,15 +696,8 @@ function App() {
             }
           />
         ) : (
-          <>
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/signup" element={<Signup />} />
-            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
-            <Route path="/auth/verify-email" element={<VerifyEmail />} />
-            <Route path="/auth/magic-link" element={<MagicLink />} />
-            <Route path="*" element={<Navigate to="/auth/login" replace />} />
-          </>
+          // Non authentifié : toute autre route → login
+          <Route path="*" element={<Navigate to="/auth/login" replace />} />
         )}
       </Routes>
       </ToastProvider>
