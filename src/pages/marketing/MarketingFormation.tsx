@@ -33,7 +33,6 @@ import {
   MagneticButton,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 import CountUp from '../../components/marketing/motion/CountUp';
 
 // Module names aligned with the live site (thelearningsociety.fr/formation)
@@ -336,25 +335,30 @@ export const MarketingFormation: React.FC = () => {
         canonical="/marketing/formation"
       />
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white to-primary-50">
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-secondary-600 via-secondary-700 to-primary-800">
+        {/* Radial halo */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-secondary-500/30 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-pill bg-accent-400/10 blur-3xl" />
+        </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 shadow-xs">
-              <Award size={14} className="text-primary-700" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+              <Award size={14} className="text-accent-400" />
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Programme certifiant · Open Badge 2.0
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
               Deviens <span className="text-accent-400">Formateur Augmenté</span>.
             </h1>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               7 modules, 23 heures, 8 semaines. Maîtrise l'IA pédagogique,
               intègre la méthode STRIDE et enrichis ton Passeport de Compétences —
               certifié Qualiopi en partenariat avec C-Campus.
@@ -371,7 +375,7 @@ export const MarketingFormation: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#modules">
-                <Button variant="ghost" size="lg" trailingIcon={<ChevronDown size={18} />}>
+                <Button variant="glass" size="lg" trailingIcon={<ChevronDown size={18} />}>
                   Découvrir le programme
                 </Button>
               </a>
@@ -380,7 +384,7 @@ export const MarketingFormation: React.FC = () => {
 
           {/* Metric strip */}
           <FadeInWhenVisible direction="up" delay={0.4}>
-            <div className="grid grid-cols-3 gap-stack-lg pt-section pb-stack border-t border-secondary-100 mt-stack-lg max-w-2xl">
+            <div className="grid grid-cols-3 gap-stack-lg pt-section pb-stack border-t border-white/20 mt-stack-lg max-w-2xl">
               {[
                 { value: 7, suffix: '', label: 'modules' },
                 { value: 23, suffix: 'h', label: 'de contenu' },
@@ -390,9 +394,9 @@ export const MarketingFormation: React.FC = () => {
                   <CountUp
                     to={m.value}
                     suffix={m.suffix}
-                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-secondary-700 leading-none"
+                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-white leading-none"
                   />
-                  <span className="font-body text-caption text-ink-600 mt-1 uppercase tracking-wider font-semibold">
+                  <span className="font-body text-caption text-white/70 mt-1 uppercase tracking-wider font-semibold">
                     {m.label}
                   </span>
                 </div>
@@ -428,7 +432,7 @@ export const MarketingFormation: React.FC = () => {
       </section>
 
       {/* ── 3. Public cible du parcours (4 profils, depuis le live) ─────────── */}
-      <section className="py-page bg-white">
+      <section className="py-page bg-gradient-to-b from-primary-50/30 via-white to-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
@@ -455,7 +459,7 @@ export const MarketingFormation: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base"
+                  className="h-full rounded-2xl bg-gradient-to-br from-white to-secondary-50/30 border border-secondary-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-secondary-200 transition-all duration-base"
                 >
                   <span
                     className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 text-primary-600 shadow-sm"
@@ -742,16 +746,19 @@ export const MarketingFormation: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Final CTA ────────────────────────────────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50">
-        <div className="max-w-3xl mx-auto px-6 rounded-2xl bg-white/50 backdrop-blur-glass-medium border border-ink-100 p-section-lg flex flex-col items-center text-center gap-stack-lg">
+      {/* ── 6. Final CTA — warm gradient ──────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-br from-secondary-600 via-secondary-700 to-primary-800 relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-secondary-500/25 blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+            <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
               Prêt·e à rejoindre la prochaine promo ?
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-prose">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
               On échange 30 minutes pour comprendre ton contexte et te recommander le bon parcours.
             </p>
           </FadeInWhenVisible>
@@ -760,7 +767,7 @@ export const MarketingFormation: React.FC = () => {
               <MagneticButton strength={14}>
                 <Link to="/marketing/contact">
                   <Button
-                    variant="primary"
+                    variant="warm"
                     size="lg"
                     trailingIcon={<ArrowRight size={18} />}
                   >
@@ -770,7 +777,7 @@ export const MarketingFormation: React.FC = () => {
               </MagneticButton>
               <Link to="/marketing/learning-app">
                 <Button
-                  variant="ghost"
+                  variant="glass"
                   size="lg"
                   trailingIcon={<ArrowUpRight size={18} />}
                 >
@@ -783,7 +790,6 @@ export const MarketingFormation: React.FC = () => {
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <MarketingFooter />
     </div>
   );
 };

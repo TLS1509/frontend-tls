@@ -27,7 +27,6 @@ import {
   TiltCard,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 // ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
 const LOGOS = [
@@ -76,7 +75,7 @@ const HeroChevron: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-1 text-ink-400"
+      className="flex flex-col items-center gap-1 text-white/60"
     >
       <span className="font-body text-caption font-semibold uppercase tracking-widest">
         Scroll
@@ -96,32 +95,35 @@ export const MarketingHome: React.FC = () => {
       />
 
       {/* ── 1. Hero ────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
-        {/* Soft background shape */}
-        <div aria-hidden className="absolute top-0 right-0 w-[600px] h-[600px] rounded-pill bg-primary-100/30 blur-3xl pointer-events-none -translate-y-1/3 translate-x-1/4" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        {/* Radial halo — matches EditorialHero brand tone */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-pill bg-primary-500/30 blur-3xl" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-pill bg-accent-400/5 blur-3xl" />
+        </div>
 
         <div className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Skills-Based Organization · IA pédagogique · Passeport Compétences
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.5rem,6.5vw,5.5rem)] max-w-4xl">
+            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(2.5rem,6.5vw,5.5rem)] max-w-4xl">
               L'IA ne remplacera pas les formateurs.{' '}
               <span className="text-accent-400">Les formateurs qui maîtrisent l'IA, si.</span>
             </h1>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Transformez vos talents en avantage compétitif durable.
               Parcours adaptatifs, Passeport de Compétences, matching IA —
-              un cycle complet <strong className="text-ink-900">Learn → Do → Match</strong>.
+              un cycle complet <strong className="text-white">Learn → Do → Match</strong>.
             </p>
           </FadeInWhenVisible>
 
@@ -129,14 +131,14 @@ export const MarketingHome: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
               <MagneticButton strength={12}>
                 <Link to="/marketing/formation">
-                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                     🎓 Je veux me former
                   </Button>
                 </Link>
               </MagneticButton>
               <Link to="/marketing/accompagnement">
                 <Button
-                  variant="ghost"
+                  variant="glass"
                   size="lg"
                   trailingIcon={<ArrowUpRight size={18} />}
                 >
@@ -160,12 +162,12 @@ export const MarketingHome: React.FC = () => {
                     key={src}
                     src={src}
                     alt=""
-                    className="w-8 h-8 rounded-pill object-cover border-2 border-white shadow-sm"
+                    className="w-8 h-8 rounded-pill object-cover border-2 border-white/30 shadow-sm"
                   />
                 ))}
               </div>
-              <span className="font-body text-caption font-semibold text-ink-600">
-                <CountUp to={200} suffix="+" className="font-bold text-ink-900" /> formateurs certifiés
+              <span className="font-body text-caption font-semibold text-white/80">
+                <CountUp to={200} suffix="+" className="font-bold text-white" /> formateurs certifiés
               </span>
             </div>
           </FadeInWhenVisible>
@@ -179,7 +181,7 @@ export const MarketingHome: React.FC = () => {
       </section>
 
       {/* ── 2. Marquee logos ─────────────────────────────────────────────────── */}
-      <section className="border-y border-ink-100 py-stack-lg bg-white">
+      <section className="border-b border-ink-100 py-stack-lg bg-gradient-to-b from-primary-50/40 to-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-stack">
           <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold">
             <CountUp to={40} suffix="+" className="text-ink-900 font-bold" /> organisations leur font confiance
@@ -368,7 +370,7 @@ export const MarketingHome: React.FC = () => {
               { to: 97, suffix: ' %', label: 'satisfaction apprenants' },
             ].map((m, i) => (
               <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-                <div className="flex flex-col gap-1 p-5 rounded-2xl bg-ink-50 border border-ink-100 hover:border-primary-200 hover:bg-white hover:shadow-md transition-all duration-base">
+                <div className="flex flex-col gap-1 p-5 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 hover:border-primary-300 hover:shadow-md transition-all duration-base">
                   <CountUp
                     to={m.to}
                     suffix={m.suffix}
@@ -399,7 +401,7 @@ export const MarketingHome: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
               {TESTIMONIALS.map(({ quote, author, role, portrait }, i) => (
                 <FadeInWhenVisible key={author} direction="up" delay={i * 0.1}>
-                  <article className="h-full rounded-2xl bg-white border border-ink-100 p-6 flex flex-col gap-stack-lg hover:bg-ink-50/40 hover:shadow-lg hover:border-primary-200 transition-all duration-base">
+                  <article className="h-full rounded-2xl bg-gradient-to-br from-white to-primary-50/40 border border-primary-100 p-6 flex flex-col gap-stack-lg hover:shadow-lg hover:border-primary-200 transition-all duration-base">
                     <Quote size={20} className="text-primary-400" />
                     <p className="font-body text-body text-ink-800 leading-relaxed m-0 flex-1">
                       "{quote}"
@@ -425,34 +427,37 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Final CTA — glassmorphic card on light bg ─────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50">
-        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
+      {/* ── 6. Final CTA — brand gradient + glassmorphic card ─────────────────── */}
+      <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-primary-50 border border-primary-200">
+            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/15 border border-white/25">
                 <Sparkles size={14} className="text-accent-400" />
-                <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                   30 jours pour déployer
                 </span>
               </span>
-              <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
+              <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-extrabold text-white leading-[1.02] tracking-tight m-0">
                 Prêt à démarrer votre{' '}
                 <span className="text-accent-400">transformation SBO</span> ?
               </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+              <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
                 Échangeons 30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers l'impact.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
                 <MagneticButton strength={14}>
                   <Link to="/marketing/contact">
-                    <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                    <Button variant="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                       Réserver un échange
                     </Button>
                   </Link>
                 </MagneticButton>
                 <Link to="/marketing/learning-app">
-                  <Button variant="ghost" size="xl">
+                  <Button variant="glass" size="xl">
                     Voir la démo
                   </Button>
                 </Link>
@@ -463,7 +468,6 @@ export const MarketingHome: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

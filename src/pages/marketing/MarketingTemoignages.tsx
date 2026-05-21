@@ -30,7 +30,6 @@ import {
   TiltCard,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 type SectorFilter = 'Tous' | 'Industrie' | 'Tech' | 'Finance' | 'Services' | 'Public';
 
@@ -171,26 +170,29 @@ export const MarketingTemoignages: React.FC = () => {
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
-        <div aria-hidden className="absolute top-0 left-0 w-[500px] h-[500px] rounded-pill bg-primary-100/25 blur-3xl pointer-events-none -translate-x-1/3 -translate-y-1/3" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
+          <div className="absolute top-0 right-0 w-[350px] h-[350px] rounded-pill bg-accent-400/5 blur-3xl" />
+        </div>
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Cas clients · histoires de transformation
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
               Six équipes,{' '}
               <span className="text-accent-400">six transformations</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Comment des organisations de l'industrie, de la tech, du conseil et du public
               ont déployé l'IA dans leur formation avec TLS. Méthode STRIDE, résultats mesurés.
             </p>
@@ -198,7 +200,7 @@ export const MarketingTemoignages: React.FC = () => {
 
           {/* Aggregate metrics */}
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="grid grid-cols-3 gap-section pt-stack-lg border-t border-ink-100 mt-stack-lg max-w-2xl">
+            <div className="grid grid-cols-3 gap-section pt-stack-lg border-t border-white/20 mt-stack-lg max-w-2xl">
               {[
                 { to: 40, suffix: '+', label: 'missions livrées' },
                 { to: 12, suffix: '+', label: 'secteurs' },
@@ -208,9 +210,9 @@ export const MarketingTemoignages: React.FC = () => {
                   <CountUp
                     to={m.to}
                     suffix={m.suffix}
-                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-primary-700 leading-none"
+                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-white leading-none"
                   />
-                  <span className="font-body text-caption text-ink-500 mt-1 uppercase tracking-wider font-semibold">
+                  <span className="font-body text-caption text-white/70 mt-1 uppercase tracking-wider font-semibold">
                     {m.label}
                   </span>
                 </div>
@@ -218,7 +220,7 @@ export const MarketingTemoignages: React.FC = () => {
             </div>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.4}>
-            <p className="font-body text-caption text-ink-400 italic m-0">
+            <p className="font-body text-caption text-white/50 italic m-0">
               Cas illustratifs — les vrais témoignages publiés à mesure des autorisations.
             </p>
           </FadeInWhenVisible>
@@ -414,29 +416,33 @@ export const MarketingTemoignages: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA — glassmorphic card on light bg ───────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50">
-        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
+      {/* ── CTA — brand dark gradient ─────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-500/25 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-pill bg-accent-400/5 blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
               <Award size={36} className="text-accent-400" />
-              <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+              <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
                 Ton équipe sera-t-elle la prochaine ?
               </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+              <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-prose">
                 Diagnostic gratuit de 90 min. On comprend ton contexte, on évalue le potentiel,
                 on propose un chemin.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
-                    <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                    <Button variant="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                       Réserver un diagnostic
                     </Button>
                   </Link>
                 </MagneticButton>
                 <Link to="/marketing/methode">
-                  <Button variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+                  <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                     Voir notre méthode
                   </Button>
                 </Link>
@@ -447,7 +453,6 @@ export const MarketingTemoignages: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

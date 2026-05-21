@@ -31,7 +31,6 @@ import {
   TiltCard,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const TEAM = [
   {
@@ -91,44 +90,47 @@ export const MarketingEquipe: React.FC = () => {
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
-        <div aria-hidden className="absolute top-0 left-0 w-[500px] h-[500px] rounded-pill bg-primary-100/20 blur-3xl pointer-events-none -translate-x-1/3 -translate-y-1/3" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
+        </div>
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
-              <Users size={14} className="text-primary-600" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+              <Users size={14} className="text-accent-400" />
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 La Dream Team
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
               On est{' '}
               <span className="text-accent-400">pédagogues</span>,<br />
               augmentés par l'IA.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Une équipe d'experts en pédagogie, en IA appliquée et en stratégie Skills-Based. Pas des consultants déconnectés — des praticiens qui ont construit de vraies organisations SBO, qui les accompagnent au quotidien, et qui transmettent ce qu'ils ont appris.
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-stack-lg pt-stack">
               <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-primary-600" />
-                <span className="font-body text-body-sm text-ink-700 font-semibold">Paris, France</span>
+                <MapPin size={16} className="text-accent-400" />
+                <span className="font-body text-body-sm text-white/85 font-semibold">Paris, France</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar size={16} className="text-primary-600" />
-                <span className="font-body text-body-sm text-ink-700 font-semibold">Fondée en 2024</span>
+                <Calendar size={16} className="text-accent-400" />
+                <span className="font-body text-body-sm text-white/85 font-semibold">Fondée en 2024</span>
               </div>
               <div className="flex items-center gap-2">
-                <Users size={16} className="text-primary-600" />
-                <span className="font-body text-body-sm text-ink-700 font-semibold">
-                  <CountUp to={2} className="font-bold" /> co-fondateurs
+                <Users size={16} className="text-accent-400" />
+                <span className="font-body text-body-sm text-white/85 font-semibold">
+                  <CountUp to={2} className="font-bold text-white" /> co-fondateurs
                 </span>
               </div>
             </div>
@@ -159,9 +161,9 @@ export const MarketingEquipe: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-3xl bg-gradient-to-br from-white to-primary-50/30 border border-primary-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
                 >
-                  <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-50 border border-primary-200 text-primary-600">
+                  <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-100 border border-primary-200 text-primary-700">
                     {v.icon}
                   </span>
                   <h3 className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
@@ -292,27 +294,30 @@ export const MarketingEquipe: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA — glassmorphic card on light bg ───────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50">
-        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
+      {/* ── CTA — brand gradient ──────────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
               <Quote size={36} className="text-accent-400" />
-              <blockquote className="font-display text-[clamp(1.5rem,3vw,2.5rem)] font-medium text-ink-900 leading-snug m-0 max-w-3xl italic">
+              <blockquote className="font-display text-[clamp(1.5rem,3vw,2.5rem)] font-medium text-white leading-snug m-0 max-w-3xl italic">
                 "On ne forme pas pour transmettre du contenu.
                 On forme pour transformer des gens."
               </blockquote>
-              <p className="font-body text-body text-ink-500 m-0">— L'équipe TLS, Paris ✨</p>
+              <p className="font-body text-body text-white/60 m-0">— L'équipe TLS, Paris ✨</p>
               <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
-                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Échanger avec nous
                     </Button>
                   </Link>
                 </MagneticButton>
                 <Link to="/marketing/methode">
-                  <Button variant="ghost" size="lg" trailingIcon={<Sparkles size={16} />}>
+                  <Button variant="glass" size="lg" trailingIcon={<Sparkles size={16} />}>
                     Découvrir notre méthode
                   </Button>
                 </Link>
@@ -323,7 +328,6 @@ export const MarketingEquipe: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

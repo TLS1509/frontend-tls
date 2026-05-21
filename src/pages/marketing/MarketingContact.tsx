@@ -29,7 +29,6 @@ import {
   MagneticButton,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const QUICK_LINKS = [
   {
@@ -75,24 +74,27 @@ export const MarketingContact: React.FC = () => {
         canonical="/marketing/contact"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
+      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+        </div>
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
-              <MessageSquare size={14} className="text-primary-700" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+              <MessageSquare size={14} className="text-accent-400" />
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 On adore les conversations qui démarrent
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,6vw,4.5rem)]">
+            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,6vw,4.5rem)]">
               Parlons de{' '}
               <span className="text-accent-400">ton projet</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Question sur nos formations, projet d'accompagnement, ou envie d'en savoir plus sur la Learning App ?
               On te répond sous 48h ouvrées.
             </p>
@@ -397,7 +399,6 @@ export const MarketingContact: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

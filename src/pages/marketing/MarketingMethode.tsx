@@ -33,7 +33,6 @@ import {
   CountUp,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const STRIDE_STEPS = [
   {
@@ -140,26 +139,29 @@ export const MarketingMethode: React.FC = () => {
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
-        <div aria-hidden className="absolute top-0 right-0 w-[500px] h-[500px] rounded-pill bg-primary-100/25 blur-3xl pointer-events-none -translate-y-1/4 translate-x-1/4" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-pill bg-accent-400/5 blur-3xl" />
+        </div>
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 La méthode TLS · STRIDE
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6rem)]">
+            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6rem)]">
               Six étapes.{' '}
               <span className="text-accent-400">Un cadre qui marche</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               STRIDE est la méthode TLS pour déployer une organisation Skills-Based — de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
             </p>
           </FadeInWhenVisible>
@@ -174,7 +176,7 @@ export const MarketingMethode: React.FC = () => {
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ type: 'spring', stiffness: 240, damping: 16, delay: 0.4 + i * 0.05 }}
-                  className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-ink-300 hover:text-primary-600 transition-colors duration-base tabular-nums leading-none"
+                  className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-white/30 hover:text-accent-400 transition-colors duration-base tabular-nums leading-none"
                 >
                   {s.letter}
                 </motion.span>
@@ -346,28 +348,31 @@ export const MarketingMethode: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA — glassmorphic card on light bg ───────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50">
-        <div className="max-w-3xl mx-auto px-6 flex flex-col items-center">
+      {/* ── CTA — brand gradient ──────────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <div className="w-full rounded-3xl bg-white/70 backdrop-blur-glass-medium border border-ink-100 shadow-xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
-              <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+              <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
                 On applique STRIDE{' '}
                 <span className="text-accent-400">à ton contexte</span> ?
               </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+              <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
                 On démarre par un diagnostic de 90 min — audit de maturité SBO et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
-                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Demander un diagnostic
                     </Button>
                   </Link>
                 </MagneticButton>
                 <Link to="/marketing/accompagnement">
-                  <Button variant="ghost" size="lg" trailingIcon={<Briefcase size={16} />}>
+                  <Button variant="glass" size="lg" trailingIcon={<Briefcase size={16} />}>
                     Voir l'accompagnement
                   </Button>
                 </Link>
@@ -378,7 +383,6 @@ export const MarketingMethode: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

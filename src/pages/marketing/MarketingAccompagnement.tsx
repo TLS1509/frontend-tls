@@ -29,7 +29,6 @@ import {
   CountUp,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 
 const SERVICES = [
   {
@@ -136,23 +135,28 @@ export const MarketingAccompagnement: React.FC = () => {
         canonical="/marketing/accompagnement"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-white to-primary-50">
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+        {/* Radial halo */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
+        </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
-              <Briefcase size={14} className="text-primary-700" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light">
+              <Briefcase size={14} className="text-accent-400" />
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Transition Skills-Based Organization · Méthode STRIDE
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
               Passez à une organisation <span className="text-accent-400">Skills-Based</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Des experts en pédagogie et en IA, sans bullshit. Nous auditons, concevons, déployons
               et mesurons — avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
               Des livrables tangibles à chaque étape.
@@ -168,11 +172,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#services">
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  className="text-ink-700 hover:bg-ink-100 border-ink-200"
-                >
+                <Button variant="glass" size="lg">
                   Voir les services
                 </Button>
               </a>
@@ -288,7 +288,7 @@ export const MarketingAccompagnement: React.FC = () => {
       </section>
 
       {/* ── Metrics ───────────────────────────────────────────────────────── */}
-      <section className="py-section bg-white">
+      <section className="py-section bg-gradient-to-b from-primary-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-stack">
           {[
             { to: 40, suffix: '+', label: 'missions livrées' },
@@ -297,7 +297,7 @@ export const MarketingAccompagnement: React.FC = () => {
             { to: 12, suffix: '+', label: 'secteurs accompagnés' },
           ].map((m, i) => (
             <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col items-center text-center gap-1 p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
+              <div className="flex flex-col items-center text-center gap-1 p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
                 <CountUp
                   to={m.to}
                   suffix={m.suffix}
@@ -361,24 +361,27 @@ export const MarketingAccompagnement: React.FC = () => {
       {/* ── Contact form ──────────────────────────────────────────────────── */}
       <section
         id="contact-form"
-        className="py-page bg-gradient-to-b from-white to-primary-50"
+        className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden"
       >
-        <div className="max-w-3xl mx-auto px-6 rounded-2xl bg-white/50 backdrop-blur-glass-medium border border-ink-100 p-section-lg flex flex-col items-center text-center gap-stack-lg">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-gradient-radial from-primary-500/25 to-transparent blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
-              <Sparkles size={14} className="text-primary-700" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25">
+              <Sparkles size={14} className="text-accent-400" />
+              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Première rencontre gratuite
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
               Parlons de votre projet.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-prose">
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
               Décrivez-nous votre contexte. Nous vous répondons sous 48h ouvrées avec une proposition de RDV.
             </p>
           </FadeInWhenVisible>
@@ -389,11 +392,11 @@ export const MarketingAccompagnement: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="bg-primary-50 border border-primary-200 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
+                className="bg-white/15 border border-white/25 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
               >
-                <CheckCircle2 size={40} className="text-primary-600" />
-                <p className="font-display font-bold text-h4 text-ink-900 m-0">Demande reçue !</p>
-                <p className="font-body text-body-sm text-ink-700 m-0">
+                <CheckCircle2 size={40} className="text-accent-400" />
+                <p className="font-display font-bold text-h4 text-white m-0">Demande reçue !</p>
+                <p className="font-body text-body-sm text-white/80 m-0">
                   Nous vous répondons sous 48h ouvrées avec une proposition de créneau.
                 </p>
               </motion.div>
@@ -404,7 +407,7 @@ export const MarketingAccompagnement: React.FC = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-ink-900">
+                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-white/90">
                       Prénom et nom *
                     </label>
                     <input
@@ -414,11 +417,11 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Marie Dupont"
-                      className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-ink-900">
+                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-white/90">
                       Email pro *
                     </label>
                     <input
@@ -428,12 +431,12 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="marie@organisation.fr"
-                      className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-ink-900">
+                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-white/90">
                     Organisation
                   </label>
                   <input
@@ -442,11 +445,11 @@ export const MarketingAccompagnement: React.FC = () => {
                     value={form.org}
                     onChange={(e) => setForm({ ...form, org: e.target.value })}
                     placeholder="Nom de l'entreprise"
-                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-ink-900">
+                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-white/90">
                     Votre besoin
                   </label>
                   <textarea
@@ -455,13 +458,13 @@ export const MarketingAccompagnement: React.FC = () => {
                     value={form.need}
                     onChange={(e) => setForm({ ...form, need: e.target.value })}
                     placeholder="Décrivez brièvement votre contexte et vos objectifs SBO…"
-                    className="px-4 py-3 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
+                    className="px-4 py-3 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
                   />
                 </div>
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
-                    variant="primary"
+                    variant="warm"
                     size="lg"
                     fullWidth
                     trailingIcon={<ArrowRight size={18} />}
@@ -469,7 +472,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     Envoyer ma demande
                   </Button>
                 </MagneticButton>
-                <p className="font-body text-caption text-ink-600 text-center m-0">
+                <p className="font-body text-caption text-white/60 text-center m-0">
                   Vos données restent confidentielles. RGPD respecté.
                 </p>
               </form>
@@ -479,7 +482,6 @@ export const MarketingAccompagnement: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };

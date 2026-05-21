@@ -30,7 +30,6 @@ import {
   FadeInWhenVisible,
   MagneticButton,
 } from '../../components/marketing/motion';
-import { MarketingFooter } from '../../components/marketing/FooterMinimal';
 import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
 import { SEOHead } from './components/SEOHead';
 
@@ -526,7 +525,6 @@ export const MarketingArticleDetail: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <MarketingFooter />
     </div>
   );
 };
