@@ -1,13 +1,22 @@
 /**
- * MarketingHome — Premium Minimal (redesign)
+ * MarketingHome — DS-aligned redesign
  *
- * Direction: soft, aéré, premium. Fond blanc/primary-50, glassmorphism light.
- * Accents accent-400 stratégiques sur 1-2 mots clés.
- * Suppression: MeshGradientBg, ParallaxLayer, GradientText, NoiseTexture.
+ * Direction : composants du DS (StatCard, IconFeatureCard, CardGrid, SectionHeader)
+ * + motion primitives marketing (FadeInWhenVisible, MagneticButton, CountUp, Marquee…).
+ *
+ * Structure 8 sections :
+ *   1. Hero           — brand gradient primary-700→900, chips, trust strip
+ *   2. Marquee logos  — CountUp + défilement horizontal
+ *   3. Nos 3 leviers  — SectionHeader + CardGrid + IconFeatureCard (warm/brand/sun)
+ *   4. Product Demo   — TiltCard + InteractiveAppMockup
+ *   5. Humains+outils — édito 2-col + squiggly underline draw-on-scroll
+ *   6. Métriques      — SectionHeader + 4×StatCard (CountUp dans value)
+ *   7. Témoignages    — SectionHeader + 3 cartes de citation
+ *   8. CTA finale     — brand gradient + glassmorphic card
  */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   Sparkles,
@@ -16,6 +25,14 @@ import {
   ChevronDown,
   Quote,
   CheckCircle2,
+  GraduationCap,
+  Smartphone,
+  Compass,
+  Users,
+  Building2,
+  BookOpen,
+  TrendingUp,
+  Star,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -26,9 +43,13 @@ import {
   InteractiveAppMockup,
   TiltCard,
 } from '../../components/marketing/motion';
+import { StatCard } from '../../components/ui/StatCard';
+import { IconFeatureCard } from '../../components/ui/IconFeatureCard';
+import { CardGrid } from '../../components/patterns/CardGrid';
+import { SectionHeader } from '../../components/patterns/SectionHeader';
 import { SEOHead } from './components/SEOHead';
 
-// ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
+// ⚠️ PLACEHOLDER — logos illustratifs.
 const LOGOS = [
   'Renault',
   'BNP Paribas',
@@ -77,15 +98,15 @@ const HeroChevron: React.FC = () => {
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
       className="flex flex-col items-center gap-1 text-white/60"
     >
-      <span className="font-body text-caption font-semibold uppercase tracking-widest">
-        Scroll
-      </span>
+      <span className="font-body text-caption font-semibold uppercase tracking-widest">Scroll</span>
       <ChevronDown size={18} />
     </motion.div>
   );
 };
 
 export const MarketingHome: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white">
       <SEOHead
@@ -94,15 +115,16 @@ export const MarketingHome: React.FC = () => {
         canonical="/marketing"
       />
 
-      {/* ── 1. Hero ────────────────────────────────────────────────────────── */}
+      {/* ── 1. Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        {/* Radial halo — matches EditorialHero brand tone */}
+        {/* Halo radial ambiant */}
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-pill bg-primary-500/30 blur-3xl" />
           <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-pill bg-accent-400/5 blur-3xl" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+          {/* Eyebrow chip */}
           <FadeInWhenVisible direction="up" delay={0.05}>
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
@@ -112,6 +134,7 @@ export const MarketingHome: React.FC = () => {
             </span>
           </FadeInWhenVisible>
 
+          {/* Headline */}
           <FadeInWhenVisible direction="up" delay={0.15}>
             <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(2.5rem,6.5vw,5.5rem)] max-w-4xl">
               L'IA ne remplacera pas les formateurs.{' '}
@@ -119,30 +142,28 @@ export const MarketingHome: React.FC = () => {
             </h1>
           </FadeInWhenVisible>
 
+          {/* Subtitle */}
           <FadeInWhenVisible direction="up" delay={0.3}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Transformez vos talents en avantage compétitif durable.
-              Parcours adaptatifs, Passeport de Compétences, matching IA —
-              un cycle complet <strong className="text-white">Learn → Do → Match</strong>.
+              Transformez vos talents en avantage compétitif durable. Parcours adaptatifs, Passeport
+              de Compétences, matching IA — un cycle complet{' '}
+              <strong className="text-white">Learn → Do → Match</strong>.
             </p>
           </FadeInWhenVisible>
 
+          {/* CTAs */}
           <FadeInWhenVisible direction="up" delay={0.45}>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
               <MagneticButton strength={12}>
                 <Link to="/marketing/formation">
                   <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    🎓 Je veux me former
+                    Je veux me former
                   </Button>
                 </Link>
               </MagneticButton>
               <Link to="/marketing/accompagnement">
-                <Button
-                  variant="glass"
-                  size="lg"
-                  trailingIcon={<ArrowUpRight size={18} />}
-                >
-                  🏢 Je représente une entreprise
+                <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                  Je représente une entreprise
                 </Button>
               </Link>
             </div>
@@ -172,6 +193,7 @@ export const MarketingHome: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
+          {/* Scroll chevron */}
           <FadeInWhenVisible direction="none" delay={0.9}>
             <div className="pt-section">
               <HeroChevron />
@@ -180,16 +202,20 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 2. Marquee logos ─────────────────────────────────────────────────── */}
+      {/* ── 2. Marquee logos ──────────────────────────────────────────────────── */}
       <section className="border-b border-ink-100 py-stack-lg bg-gradient-to-b from-primary-50/40 to-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-stack">
           <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold">
-            <CountUp to={40} suffix="+" className="text-ink-900 font-bold" /> organisations leur font confiance
+            <CountUp to={40} suffix="+" className="text-ink-900 font-bold" /> organisations leur font
+            confiance
           </p>
           <MarqueeRow
             duration={50}
             items={LOGOS.map((name) => (
-              <span className="font-display text-h3 font-bold text-ink-400 tracking-tight whitespace-nowrap">
+              <span
+                key={name}
+                className="font-display text-h3 font-bold text-ink-400 tracking-tight whitespace-nowrap"
+              >
                 {name}
               </span>
             ))}
@@ -200,11 +226,67 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Interactive Product Demo ──────────────────────────────────────── */}
+      {/* ── 3. Nos 3 leviers ──────────────────────────────────────────────────── */}
+      <section className="py-page bg-white">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg">
+          <FadeInWhenVisible direction="up">
+            <SectionHeader
+              variant="accent"
+              tone="primary"
+              size="lg"
+              title="Trois leviers pour transformer votre organisation"
+              subtitle="Formation, technologie et accompagnement — un cycle complet au service de la montée en compétences Skills-Based."
+            />
+          </FadeInWhenVisible>
+
+          <CardGrid layout="default" gapSize="lg">
+            <FadeInWhenVisible direction="up" delay={0}>
+              <IconFeatureCard
+                icon={<GraduationCap size={28} />}
+                title="Formation certifiante"
+                description="Formateurs Augmentés, méthode STRIDE, pédagogie active. Devenez architecte de l'apprentissage IA-augmenté."
+                tone="warm"
+                iconStyle="bubble"
+                iconSize="lg"
+                surface="tinted"
+                onClick={() => navigate('/marketing/formation')}
+              />
+            </FadeInWhenVisible>
+
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <IconFeatureCard
+                icon={<Smartphone size={28} />}
+                title="Learning App SBO"
+                description="Parcours adaptatifs, Passeport Dreyfus, coaching intégré. Une plateforme qui apprend avec vous et pour vous."
+                tone="brand"
+                iconStyle="bubble"
+                iconSize="lg"
+                surface="tinted"
+                onClick={() => navigate('/marketing/learning-app')}
+              />
+            </FadeInWhenVisible>
+
+            <FadeInWhenVisible direction="up" delay={0.2}>
+              <IconFeatureCard
+                icon={<Compass size={28} />}
+                title="Accompagnement SBO"
+                description="Conseil stratégique, déploiement sur mesure, pilotage Skills-Based. Avec vous, pas pour vous."
+                tone="sun"
+                iconStyle="bubble"
+                iconSize="lg"
+                surface="tinted"
+                onClick={() => navigate('/marketing/accompagnement')}
+              />
+            </FadeInWhenVisible>
+          </CardGrid>
+        </div>
+      </section>
+
+      {/* ── 4. Interactive Product Demo ───────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white py-page">
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-page items-center">
-            {/* Text column */}
+            {/* Colonne texte */}
             <div className="flex flex-col gap-stack-lg">
               <FadeInWhenVisible direction="up">
                 <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
@@ -219,8 +301,8 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
               <FadeInWhenVisible direction="up" delay={0.2}>
                 <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-lg">
-                  Pas besoin de demo call, pas besoin de slides.
-                  Clique sur les onglets de la maquette, regarde l'app vivre, comprends en 30 secondes.
+                  Pas besoin de demo call, pas besoin de slides. Clique sur les onglets de la
+                  maquette, regarde l'app vivre, comprends en 30 secondes.
                 </p>
               </FadeInWhenVisible>
 
@@ -251,7 +333,7 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
             </div>
 
-            {/* Mockup column */}
+            {/* Colonne mockup */}
             <FadeInWhenVisible direction="left" delay={0.15}>
               <div className="relative">
                 <div
@@ -267,10 +349,10 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 4. Chapter — humains + outils ────────────────────────────────────── */}
+      {/* ── 5. Humains + outils ───────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-white via-secondary-50/20 to-white py-page">
         <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
-          {/* Text */}
+          {/* Texte */}
           <div className="flex flex-col gap-stack-lg">
             <FadeInWhenVisible direction="up">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
@@ -297,16 +379,15 @@ export const MarketingHome: React.FC = () => {
                   </svg>
                 </span>
                 <br />
-                On apprend{' '}
-                <span className="text-accent-400">avec des humains</span>{' '}
-                — accompagnés par des outils.
+                On apprend <span className="text-accent-400">avec des humains</span> — accompagnés
+                par des outils.
               </h2>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
-                Nos formateurs deviennent des architectes de l'apprentissage.
-                Des pédagogues qui maîtrisent l'IA sans s'y soumettre.
-                Des artisans qui combinent technologie et présence.
+                Nos formateurs deviennent des architectes de l'apprentissage. Des pédagogues qui
+                maîtrisent l'IA sans s'y soumettre. Des artisans qui combinent technologie et
+                présence.
               </p>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.3}>
@@ -327,7 +408,7 @@ export const MarketingHome: React.FC = () => {
             </FadeInWhenVisible>
           </div>
 
-          {/* Portrait + floating quote card */}
+          {/* Portrait + floating quote */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
               <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-ink-100">
@@ -337,7 +418,6 @@ export const MarketingHome: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {/* Floating quote card */}
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -349,85 +429,99 @@ export const MarketingHome: React.FC = () => {
                 <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
                   "Je ne forme plus, je crée des expériences."
                 </p>
-                <p className="font-body text-caption text-ink-500 m-0">
-                  Sophie, promotion 2026
-                </p>
+                <p className="font-body text-caption text-ink-500 m-0">Sophie, promotion 2026</p>
               </motion.div>
             </div>
           </FadeInWhenVisible>
         </div>
       </section>
 
-      {/* ── 5. Metrics + Testimonials ────────────────────────────────────────── */}
-      <section className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
-          {/* Metrics row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-            {[
-              { to: 200, suffix: '+', label: 'formateurs certifiés' },
-              { to: 40, suffix: '+', label: 'organisations clientes' },
-              { to: 120, suffix: '+', label: 'modules pédagogiques' },
-              { to: 97, suffix: ' %', label: 'satisfaction apprenants' },
-            ].map((m, i) => (
-              <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-                <div className="flex flex-col gap-1 p-5 rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 hover:border-primary-300 hover:shadow-md transition-all duration-base">
-                  <CountUp
-                    to={m.to}
-                    suffix={m.suffix}
-                    className="font-display text-[clamp(2rem,3.5vw,3rem)] font-extrabold text-primary-700 leading-none"
-                  />
-                  <span className="font-body text-caption text-ink-600 mt-1">{m.label}</span>
-                </div>
+      {/* ── 6. Métriques ─────────────────────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-b from-white to-primary-50/40">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg">
+          <FadeInWhenVisible direction="up">
+            <SectionHeader
+              variant="default"
+              tone="primary"
+              size="lg"
+              icon={TrendingUp}
+              title="Des résultats mesurables"
+              subtitle="Chaque chiffre raconte une transformation. La nôtre, et la vôtre."
+            />
+          </FadeInWhenVisible>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-lg">
+            {(
+              [
+                { to: 200, suffix: '+', label: 'formateurs certifiés', Icon: Users },
+                { to: 40, suffix: '+', label: 'organisations clientes', Icon: Building2 },
+                { to: 120, suffix: '+', label: 'modules pédagogiques', Icon: BookOpen },
+                { to: 97, suffix: ' %', label: 'satisfaction apprenants', Icon: Star },
+              ] as const
+            ).map(({ to, suffix, label, Icon }, i) => (
+              <FadeInWhenVisible key={label} direction="up" delay={i * 0.08}>
+                <StatCard
+                  tone="brand"
+                  surface="tinted"
+                  size="md"
+                  icon={<Icon size={20} />}
+                  value={<CountUp to={to} suffix={suffix} />}
+                  label={label}
+                />
               </FadeInWhenVisible>
             ))}
-          </div>
-
-          {/* Testimonials */}
-          <div className="flex flex-col gap-section">
-            <FadeInWhenVisible direction="up">
-              <div className="flex flex-col gap-stack max-w-3xl">
-                <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                  Ce qu'ils en disent
-                </span>
-                <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                  Les leaders L&D parlent mieux que nous.
-                </h2>
-                <p className="font-body text-caption text-ink-400 italic m-0">
-                  Témoignages illustratifs — de vrais retours clients seront publiés à mesure que les autorisations sont reçues.
-                </p>
-              </div>
-            </FadeInWhenVisible>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
-              {TESTIMONIALS.map(({ quote, author, role, portrait }, i) => (
-                <FadeInWhenVisible key={author} direction="up" delay={i * 0.1}>
-                  <article className="h-full rounded-2xl bg-gradient-to-br from-white to-primary-50/40 border border-primary-100 p-6 flex flex-col gap-stack-lg hover:shadow-lg hover:border-primary-200 transition-all duration-base">
-                    <Quote size={20} className="text-primary-400" />
-                    <p className="font-body text-body text-ink-800 leading-relaxed m-0 flex-1">
-                      "{quote}"
-                    </p>
-                    <div className="flex items-center gap-3 pt-stack border-t border-ink-100">
-                      <img
-                        src={portrait}
-                        alt=""
-                        className="w-10 h-10 rounded-pill object-cover"
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-display font-bold text-body-sm text-ink-900">
-                          {author}
-                        </span>
-                        <span className="font-body text-caption text-ink-500">{role}</span>
-                      </div>
-                    </div>
-                  </article>
-                </FadeInWhenVisible>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 6. Final CTA — brand gradient + glassmorphic card ─────────────────── */}
+      {/* ── 7. Témoignages ───────────────────────────────────────────────────── */}
+      <section className="py-page bg-white">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack">
+              <SectionHeader
+                variant="accent"
+                tone="warm"
+                size="lg"
+                title="Ce qu'ils en disent"
+                subtitle="Les leaders L&D parlent mieux que nous."
+              />
+              <p className="font-body text-caption text-ink-400 italic m-0 pl-4">
+                Témoignages illustratifs — de vrais retours clients seront publiés à mesure que les
+                autorisations sont reçues.
+              </p>
+            </div>
+          </FadeInWhenVisible>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+            {TESTIMONIALS.map(({ quote, author, role, portrait }, i) => (
+              <FadeInWhenVisible key={author} direction="up" delay={i * 0.1}>
+                <article className="h-full rounded-2xl bg-gradient-to-br from-white to-primary-50/40 border border-primary-100 p-6 flex flex-col gap-stack-lg hover:shadow-lg hover:border-primary-200 transition-all duration-base">
+                  <Quote size={20} className="text-primary-400" />
+                  <p className="font-body text-body text-ink-800 leading-relaxed m-0 flex-1">
+                    "{quote}"
+                  </p>
+                  <div className="flex items-center gap-3 pt-stack border-t border-ink-100">
+                    <img
+                      src={portrait}
+                      alt=""
+                      className="w-10 h-10 rounded-pill object-cover"
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-display font-bold text-body-sm text-ink-900">
+                        {author}
+                      </span>
+                      <span className="font-body text-caption text-ink-500">{role}</span>
+                    </div>
+                  </div>
+                </article>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. CTA finale — brand gradient + glassmorphic card ────────────────── */}
       <section className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden">
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-500/25 blur-3xl" />
@@ -446,7 +540,8 @@ export const MarketingHome: React.FC = () => {
                 <span className="text-accent-400">transformation SBO</span> ?
               </h2>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-                Échangeons 30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers l'impact.
+                Échangeons 30 minutes pour comprendre vos enjeux et tracer le chemin le plus court
+                vers l'impact.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
                 <MagneticButton strength={14}>
@@ -466,8 +561,6 @@ export const MarketingHome: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
-
-      {/* Footer */}
     </div>
   );
 };
