@@ -165,7 +165,7 @@ export const SubscriptionPayment: React.FC = () => {
   /* ── Layout ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-gradient-page-ambient-warm">
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-section">
 
         {/* Cross-screen Stepper (matches Onboarding flow) */}

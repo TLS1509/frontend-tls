@@ -45,38 +45,38 @@ interface OnboardingAnswers {
 
 const SUBSTEP_LABELS = ['Profil', 'Objectifs', 'Rythme', 'Confirmation'];
 
-/** 5 rôles canoniques Cahier #03 */
+/** 5 rôles canoniques Cahier #03 — emojis pour côté ludique */
 const ROLE_OPTIONS: OptionGridItem[] = [
-  { id: 'apprenant', label: 'Apprenant',  icon: BookOpen },
-  { id: 'manager',   label: 'Manager',    icon: Briefcase },
-  { id: 'coach',     label: 'Coach',      icon: HeartHandshake },
-  { id: 'expert',    label: 'Expert',     icon: GraduationCap },
-  { id: 'admin',     label: 'Admin',      icon: ShieldCheck },
+  { id: 'apprenant', label: 'Apprenant',  icon: BookOpen,       emoji: '📚' },
+  { id: 'manager',   label: 'Manager',    icon: Briefcase,      emoji: '💼' },
+  { id: 'coach',     label: 'Coach',      icon: HeartHandshake, emoji: '🤝' },
+  { id: 'expert',    label: 'Expert',     icon: GraduationCap,  emoji: '🎓' },
+  { id: 'admin',     label: 'Admin',      icon: ShieldCheck,    emoji: '🛡️' },
 ];
 
 const SECTOR_OPTIONS: OptionGridItem[] = [
-  { id: 'Tech',       label: 'Tech',       icon: Code2 },
-  { id: 'RH',         label: 'RH',         icon: Users },
-  { id: 'Formation',  label: 'Formation',  icon: GraduationCap },
-  { id: 'Santé',      label: 'Santé',      icon: Stethoscope },
-  { id: 'Finance',    label: 'Finance',    icon: Wallet },
-  { id: 'Autre',      label: 'Autre',      icon: Building2 },
+  { id: 'Tech',       label: 'Tech',       icon: Code2,         emoji: '💻' },
+  { id: 'RH',         label: 'RH',         icon: Users,         emoji: '👥' },
+  { id: 'Formation',  label: 'Formation',  icon: GraduationCap, emoji: '🎯' },
+  { id: 'Santé',      label: 'Santé',      icon: Stethoscope,   emoji: '🏥' },
+  { id: 'Finance',    label: 'Finance',    icon: Wallet,        emoji: '💰' },
+  { id: 'Autre',      label: 'Autre',      icon: Building2,     emoji: '🌐' },
 ];
 
 const GOAL_OPTIONS: OptionGridItem[] = [
-  { id: 'Leadership',        label: 'Leadership',        icon: TrendingUp },
-  { id: 'Communication',     label: 'Communication',     icon: Users },
-  { id: 'IA & Tech',         label: 'IA & Tech',         icon: Brain },
-  { id: 'Gestion de projet', label: 'Gestion de projet', icon: Target },
-  { id: 'Coaching',          label: 'Coaching',          icon: HeartHandshake },
-  { id: 'Productivité',      label: 'Productivité',      icon: Zap },
+  { id: 'Leadership',        label: 'Leadership',        icon: TrendingUp,     emoji: '🚀' },
+  { id: 'Communication',     label: 'Communication',     icon: Users,          emoji: '💬' },
+  { id: 'IA & Tech',         label: 'IA & Tech',         icon: Brain,          emoji: '🧠' },
+  { id: 'Gestion de projet', label: 'Gestion de projet', icon: Target,         emoji: '🎯' },
+  { id: 'Coaching',          label: 'Coaching',          icon: HeartHandshake, emoji: '🤝' },
+  { id: 'Productivité',      label: 'Productivité',      icon: Zap,            emoji: '⚡' },
 ];
 
 const RHYTHM_OPTIONS: OptionGridItem[] = [
-  { id: '15min', label: '15 min / jour', description: 'Micro-apprentissage quotidien' },
-  { id: '30min', label: '30 min / jour', description: 'Progression régulière' },
-  { id: '1h',    label: '1h / jour',     description: 'Immersion intensive' },
-  { id: 'flex',  label: 'Flexible',      description: "À mon rythme, sans contrainte" },
+  { id: '15min', label: '15 min / jour', description: 'Micro-apprentissage quotidien', emoji: '☕' },
+  { id: '30min', label: '30 min / jour', description: 'Progression régulière',         emoji: '📖' },
+  { id: '1h',    label: '1h / jour',     description: 'Immersion intensive',           emoji: '🏃' },
+  { id: 'flex',  label: 'Flexible',      description: "À mon rythme, sans contrainte", emoji: '🌊' },
 ];
 
 /* ─── Step 0 — Profil ────────────────────────────────────────────────────── */
@@ -368,29 +368,35 @@ export const Onboarding: React.FC = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-gradient-page-ambient-warm">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
         <Stepper items={buildOnboardingStepperItems('profil', onboardingStore.accountType)} orientation="horizontal" />
 
-        {/* ── Hero éditorial DS (tone warm — accueil chaleureux) ───────────────── */}
-        <EditorialHero
-          tone="warm"
-          eyebrow={{ icon: <Sparkles size={12} />, label: 'Démarrage personnalisé' }}
-          title="Personnalisons ton expérience"
-          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} — quelques questions pour adapter tes recommandations.`}
-        />
+        {/* ── Section header (simple, no hero block) ──────────────────────────── */}
+        <header className="flex flex-col gap-tight text-center">
+          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <Sparkles size={14} aria-hidden="true" />
+            Démarrage personnalisé
+          </p>
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+            Personnalisons ton expérience
+          </h1>
+          <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
+            Étape {substep + 1} sur {SUBSTEP_LABELS.length} · {SUBSTEP_LABELS[substep]} — quelques questions pour adapter tes recommandations.
+          </p>
+        </header>
 
-        {/* ── Substep card ───────────────────────────────────────────────────── */}
-        <div className="rounded-2xl bg-white border border-ink-200 overflow-hidden">
+        {/* ── Substep card — glassy surface for a soft, premium feel ───────────── */}
+        <div className="rounded-2xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg overflow-hidden">
 
           <div className="p-6 sm:p-8 animate-in fade-in slide-in-from-right-2 duration-300" key={substep}>
             {stepComponents[substep]}
           </div>
 
           {/* Footer nav — responsive button layout (stacked on mobile) */}
-          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
             {substep === 0 ? (
               <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">
                 Passer pour l'instant

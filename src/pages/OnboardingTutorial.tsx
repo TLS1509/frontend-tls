@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, GraduationCap, Target, BarChart3, Bell, MessageSquare } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { BookOpen, GraduationCap, Target, BarChart3, Bell, MessageSquare, Compass } from 'lucide-react';
 import { StepTutorial } from '../components/patterns/StepTutorial';
 import { Stepper } from '../components/ui/Stepper';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
@@ -62,17 +61,23 @@ export default function OnboardingTutorial() {
   };
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-gradient-page-ambient-warm">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('tutoriel', onboardingStore.accountType)} orientation="horizontal" />
 
-        <EditorialHero
-          tone="warm"
-          eyebrow="Onboarding · Tutoriel"
-          title="Découvre la plateforme"
-          summary="Un tour rapide des fonctionnalités clés pour démarrer efficacement."
-        />
+        <header className="flex flex-col gap-tight text-center">
+          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <Compass size={14} aria-hidden="true" />
+            Tutoriel plateforme
+          </p>
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+            Découvre la plateforme
+          </h1>
+          <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
+            Un tour rapide des fonctionnalités clés pour démarrer efficacement.
+          </p>
+        </header>
 
         <StepTutorial
           steps={TUTORIAL_STEPS}

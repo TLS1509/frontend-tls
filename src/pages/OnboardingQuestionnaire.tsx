@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Save } from 'lucide-react';
-import EditorialHero from '../components/patterns/EditorialHero';
+import { ChevronLeft, ChevronRight, Save, Target } from 'lucide-react';
 import SectionCard from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
@@ -90,17 +89,23 @@ const OnboardingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-gradient-page-ambient-warm">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
-        <EditorialHero
-          tone="warm"
-          eyebrow="Onboarding · Positionnement Dreyfus"
-          title="Évaluons ton niveau de départ"
-          summary={`${total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.`}
-        />
+        <header className="flex flex-col gap-tight text-center">
+          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <Target size={14} aria-hidden="true" />
+            Positionnement Dreyfus
+          </p>
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+            Évaluons ton niveau de départ
+          </h1>
+          <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
+            {total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.
+          </p>
+        </header>
 
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-stack">
           <div className="flex-1 flex flex-col gap-tight">
@@ -117,6 +122,7 @@ const OnboardingQuestionnaire: React.FC = () => {
         <SectionCard
           title={q.q}
           description={`Compétence évaluée : ${getCompetenceById(q.competenceId)?.label ?? q.competenceId}`}
+          className="!bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg"
         >
           <DreyfusLevelSelector tone="warm" value={selected} onChange={handleAnswer} />
         </SectionCard>

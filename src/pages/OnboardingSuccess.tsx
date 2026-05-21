@@ -51,7 +51,7 @@ export default function OnboardingSuccess() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-page-ambient">
+    <main className="min-h-screen bg-gradient-page-ambient-warm">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
 
         <Stepper items={buildOnboardingStepperItems('pret', onboardingStore.accountType)} orientation="horizontal" />

@@ -24,6 +24,8 @@ export interface OptionGridItem {
   label: string;
   description?: string;
   icon?: React.ComponentType<{ size?: number }>;
+  /** Optional emoji rendered inside (or instead of) the icon bubble — adds a playful touch in onboarding. */
+  emoji?: string;
 }
 
 interface OptionGridBaseProps {
@@ -101,7 +103,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
 
   return (
     <div className={baseGrid} role={props.multi ? 'group' : 'radiogroup'}>
-      {options.map(({ id, label, description, icon: Icon }) => {
+      {options.map(({ id, label, description, icon: Icon, emoji }) => {
         const selected = isSelected(id);
 
         const buttonClasses = [
@@ -142,9 +144,13 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
             onClick={() => props.onChange(id)}
             className={buttonClasses}
           >
-            {Icon && layout !== 'text-only' && (
+            {(Icon || emoji) && layout !== 'text-only' && (
               <span className={iconWrapClasses}>
-                <Icon size={18} />
+                {emoji ? (
+                  <span aria-hidden="true" className="text-[20px] leading-none">{emoji}</span>
+                ) : Icon ? (
+                  <Icon size={18} />
+                ) : null}
               </span>
             )}
 
