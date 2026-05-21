@@ -6,11 +6,15 @@ export interface TlsLogoProps {
   /** Add a glass background bubble + shadow around the logo. Default: true */
   withBubble?: boolean;
   /**
-   * Color variant.
-   * - `"color"` (default): branded palette (primary-500, secondary-600, accent-400)
-   * - `"light"`: all-white translucent — for dark/glass surfaces (AuthShell, dark heroes)
+   * Color variant — matches the app tone system.
+   * - `"color"` (default): branded multicolor (primary-500 / secondary-600 / accent-400)
+   * - `"light"`: all-white translucent — dark/glass surfaces (AuthShell, dark heroes)
+   * - `"primary"`: monochrome teal — tinted primary backgrounds
+   * - `"warm"`: warm amber-white — secondary/warm tone surfaces
+   * - `"sun"`: golden translucent — sun/accent tone surfaces
+   * - `"ink"`: dark ink monochrome — print, invert, high-contrast contexts
    */
-  variant?: 'color' | 'light';
+  variant?: 'color' | 'light' | 'primary' | 'warm' | 'sun' | 'ink';
   className?: string;
 }
 
@@ -24,18 +28,47 @@ export interface TlsLogoProps {
 // ── Fill palettes ────────────────────────────────────────────────────────────
 
 const FILLS = {
+  // ── Branded multicolor (default) ──────────────────────────────────────────
   color: {
     main:   'var(--color-primary-500)',
     center: 'var(--color-primary-300)',
     dotTop: 'var(--color-secondary-600)',
     dotBot: 'var(--color-accent-400)',
   },
+  // ── All-white glass — dark/teal surfaces (AuthShell, dark heroes) ─────────
   light: {
-    // All-white glass — for dark/teal surfaces (AuthShell, dark heroes)
     main:   'rgba(255,255,255,0.88)',
     center: 'rgba(255,255,255,0.50)',
     dotTop: 'rgba(255,255,255,0.72)',
     dotBot: 'rgba(255,255,255,0.72)',
+  },
+  // ── Monochrome teal — tinted primary/glass backgrounds ───────────────────
+  primary: {
+    main:   'rgba(85,161,180,0.90)',   // primary-500
+    center: 'rgba(85,161,180,0.45)',
+    dotTop: 'rgba(61,119,134,0.85)',   // primary-700
+    dotBot: 'rgba(61,119,134,0.75)',
+  },
+  // ── Warm amber-white — secondary/warm tone surfaces ───────────────────────
+  warm: {
+    main:   'rgba(237,132,58,0.88)',   // secondary-500
+    center: 'rgba(237,132,58,0.45)',
+    dotTop: 'rgba(255,255,255,0.80)',
+    dotBot: 'rgba(192,105,32,0.80)',   // secondary-600
+  },
+  // ── Golden translucent — sun/accent tone surfaces ─────────────────────────
+  sun: {
+    main:   'rgba(248,176,68,0.90)',   // accent-400
+    center: 'rgba(248,176,68,0.48)',
+    dotTop: 'rgba(255,255,255,0.85)',
+    dotBot: 'rgba(223,158,61,0.82)',   // accent-500
+  },
+  // ── Dark ink monochrome — print, invert, high-contrast ───────────────────
+  ink: {
+    main:   'rgba(26,26,26,0.88)',     // ink-900
+    center: 'rgba(26,26,26,0.38)',
+    dotTop: 'rgba(26,26,26,0.72)',
+    dotBot: 'rgba(26,26,26,0.60)',
   },
 } as const;
 

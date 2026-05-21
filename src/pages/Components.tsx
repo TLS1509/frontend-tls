@@ -4255,16 +4255,121 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (SVG inline)',
     category: 'Core',
     usedBy: ['Sidebar', 'AuthShell'],
-    description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages). ⚠️ **Pas de similar** — composant unique.',
-    keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
+    description: '⭐ Logo officiel The Learning Society — mark SVG inline avec palette swap par variant. 6 variants couvrent tous les contextes de surface : color / light / primary / warm / sun / ink. Props : size (px), withBubble (glass bubble), variant.',
+    keywords: ['logo', 'brand', 'mark', 'tls', 'variant', 'color', 'light', 'warm', 'sun', 'ink'],
     render: () => (
-      <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sur fond blanc</p>
-        <TlsLogo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Sur fond brand (gradient)</p>
-        <div className="p-stack rounded-lg bg-gradient-brand-deep">
-          <TlsLogo />
+      <div className="flex flex-col gap-section max-w-2xl">
+
+        {/* ── Sizes (withBubble=true, variant="color") ── */}
+        <div>
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-400 m-0 mb-stack-xs">Tailles — withBubble</p>
+          <div className="flex items-end gap-stack-xs flex-wrap">
+            {([24, 32, 36, 44, 56, 72] as const).map((s) => (
+              <div key={s} className="flex flex-col items-center gap-2">
+                <TlsLogo size={s} withBubble />
+                <span className="text-micro text-ink-400">{s}px</span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* ── variant="color" — surface blanche / claire ── */}
+        <div className="rounded-xl bg-white border border-ink-100 p-stack">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-400 m-0 mb-stack">
+            variant="color" — surface blanche
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble variant="color" />
+            <TlsLogo size={48} withBubble={false} variant="color" />
+          </div>
+        </div>
+
+        {/* ── variant="light" — surface dark / glass teal ── */}
+        <div className="rounded-xl p-stack" style={{ background: 'linear-gradient(135deg, #2F5F6A 0%, #1F3E45 60%, #2a3d50 100%)' }}>
+          <p className="text-caption font-bold uppercase tracking-wider text-white/50 m-0 mb-stack">
+            variant="light" — surface dark glass (AuthShell)
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble={false} variant="light" />
+            <TlsLogo size={64} withBubble={false} variant="light" />
+          </div>
+        </div>
+
+        {/* ── variant="primary" — surface teal tintée ── */}
+        <div className="rounded-xl p-stack bg-primary-100">
+          <p className="text-caption font-bold uppercase tracking-wider text-primary-600 m-0 mb-stack">
+            variant="primary" — surface teal tintée
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble variant="primary" />
+            <TlsLogo size={48} withBubble={false} variant="primary" />
+          </div>
+        </div>
+
+        {/* ── variant="warm" — surface warm/secondary ── */}
+        <div className="rounded-xl p-stack bg-secondary-50">
+          <p className="text-caption font-bold uppercase tracking-wider text-secondary-600 m-0 mb-stack">
+            variant="warm" — surface warm (tone secondary)
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble variant="warm" />
+            <TlsLogo size={48} withBubble={false} variant="warm" />
+          </div>
+        </div>
+
+        {/* ── variant="sun" — surface accent/golden ── */}
+        <div className="rounded-xl p-stack bg-accent-50">
+          <p className="text-caption font-bold uppercase tracking-wider text-accent-500 m-0 mb-stack">
+            variant="sun" — surface sun/accent (tone accent)
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble variant="sun" />
+            <TlsLogo size={48} withBubble={false} variant="sun" />
+          </div>
+        </div>
+
+        {/* ── variant="ink" — impression / haute contraste ── */}
+        <div className="rounded-xl p-stack bg-white border border-ink-100">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-400 m-0 mb-stack">
+            variant="ink" — impression / monochrome
+          </p>
+          <div className="flex items-center gap-stack">
+            <TlsLogo size={48} withBubble variant="ink" />
+            <TlsLogo size={48} withBubble={false} variant="ink" />
+          </div>
+        </div>
+
+        {/* ── Grille récap tous variants sans bulle ── */}
+        <div className="rounded-xl border border-ink-100 overflow-hidden">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-400 px-stack pt-stack pb-0 m-0">
+            Récap — withBubble=false, size=40
+          </p>
+          <div className="grid grid-cols-3 sm:grid-cols-6">
+            {(['color', 'light', 'primary', 'warm', 'sun', 'ink'] as const).map((v) => (
+              <div
+                key={v}
+                className="flex flex-col items-center justify-center gap-2 p-stack"
+                style={{
+                  background: v === 'light' ? '#2F5F6A'
+                    : v === 'primary' ? '#DCEBEF'
+                    : v === 'warm' ? '#FFF3EB'
+                    : v === 'sun' ? '#FFF9EE'
+                    : v === 'ink' ? '#f9fafb'
+                    : '#ffffff',
+                }}
+              >
+                <TlsLogo size={40} withBubble={false} variant={v} />
+                <span
+                  className="text-micro font-mono"
+                  style={{ color: v === 'light' ? 'rgba(255,255,255,0.65)' : 'rgba(26,26,26,0.45)' }}
+                >
+                  {v}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     ),
   },
