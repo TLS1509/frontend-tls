@@ -1991,6 +1991,38 @@ export { MOCK_PROJECT_COMPANY_ID };
 
 export type OnboardingAccountType = 'individual' | 'invited';
 
+/**
+ * Canonical WP role slug (CDC #03 §RBAC) — derived from accountType + selected
+ * role in the Onboarding flow. Mirrors `tls_*` slugs used by the WP backend.
+ */
+export type CanonicalWpRole =
+  | 'tls_individual_learner'   // self-signup, individual credits, Stripe billing
+  | 'tls_company_learner'      // invited by manager, company pool credits
+  | 'tls_company_manager'      // manages entire company (pool, devis, users) — #06 #11bis
+  | 'tls_team_manager'         // manages a team within a company (scope: team_id)
+  | 'tls_coach'                // coaching FO, validates corrections
+  | 'tls_expert'               // post-launch (Marketplace, cross-company)
+  | 'administrator';           // Super-Admin (BO WP only)
+
+/**
+ * Map (accountType + selected UI role) → canonical WP slug.
+ * Used to know which role this user *will* receive once onboarding completes.
+ */
+export function deriveCanonicalRole(
+  accountType: OnboardingAccountType,
+  selectedRole: UserRole | null | undefined,
+  managerScope?: 'company' | 'team'
+): CanonicalWpRole {
+  if (selectedRole === 'coach') return 'tls_coach';
+  if (selectedRole === 'expert') return 'tls_expert';
+  if (selectedRole === 'admin') return 'administrator';
+  if (selectedRole === 'manager') {
+    return managerScope === 'team' ? 'tls_team_manager' : 'tls_company_manager';
+  }
+  // selectedRole === 'apprenant' (or unset → default apprenant)
+  return accountType === 'invited' ? 'tls_company_learner' : 'tls_individual_learner';
+}
+
 export type OnboardingStep =
   | 'profile'        // role + sector
   | 'goals'          // objectives
@@ -2032,7 +2064,7 @@ interface OnboardingState {
   // ── Actions ───────────────────────────────────────────────────────────
   setAccountType: (type: OnboardingAccountType, opts?: { invitationToken?: string; company?: string }) => void;
   patch: (updates: Partial<Omit<OnboardingState,
-    'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent'
+    'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent' | 'getCanonicalRole'
   >>) => void;
   goToStep: (step: OnboardingStep) => void;
   markStepComplete: (step: OnboardingStep) => void;
@@ -2043,6 +2075,8 @@ interface OnboardingState {
   getStepSequence: () => OnboardingStep[];
   getStepIndex: (step?: OnboardingStep) => number;
   getProgressPercent: () => number;
+  /** CDC #03 — Resolve the WP role slug this user will receive. */
+  getCanonicalRole: (managerScope?: 'company' | 'team') => CanonicalWpRole;
 }
 
 const ONBOARDING_INITIAL: Omit<OnboardingState,
@@ -2101,6 +2135,9 @@ export const useOnboardingStore = create<OnboardingState>()(
         const idx = seq.indexOf(get().currentStep);
         return idx < 0 ? 0 : Math.round((idx / (seq.length - 1)) * 100);
       },
+
+      getCanonicalRole: (managerScope) =>
+        deriveCanonicalRole(get().accountType, get().role, managerScope),
     }),
     {
       name: 'tls-onboarding',

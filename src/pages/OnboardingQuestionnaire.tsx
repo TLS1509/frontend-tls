@@ -7,6 +7,7 @@ import { Stepper } from '../components/ui/Stepper';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { buildOnboardingQuestionnaire } from '../lib/onboarding-questionnaire';
 import { usePositioningStore, usePasseportStore, useOnboardingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
@@ -14,23 +15,18 @@ import type { DreyfusLevel } from '../types/learning';
 
 const ONBOARDING_PARCOURS_ID = 'onboarding-initial';
 
-/** 8 questions de positionnement initial, une par compétence H.S.O. canonique */
-const QUESTIONS = [
-  { id: 1, competenceId: 'communication',    q: 'Comment évalues-tu ton aisance à communiquer clairement et à embarquer tes interlocuteurs ?' },
-  { id: 2, competenceId: 'leadership',       q: 'As-tu déjà piloté un projet transverse ou dirigé une équipe vers un objectif commun ?' },
-  { id: 3, competenceId: 'analyse',          q: 'Face à un problème complexe, décomposes-tu systématiquement la situation pour décider ?' },
-  { id: 4, competenceId: 'project_mgmt',     q: 'Réussis-tu à planifier et respecter tes échéances même en charge importante ?' },
-  { id: 5, competenceId: 'cooperation',      q: 'Contribues-tu activement aux décisions collectives et au travail en équipe ?' },
-  { id: 6, competenceId: 'adaptability',     q: "Face à un changement d'objectif soudain, ajustes-tu rapidement tes priorités ?" },
-  { id: 7, competenceId: 'critical_thinking', q: "Remets-tu en question les sources et données qu'on te fournit ?" },
-  { id: 8, competenceId: 'tech_tools',       q: 'Maîtrises-tu les outils numériques du quotidien professionnel (suite office, outils cloud) ?' },
-];
-
 const OnboardingQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
   const positioningStore = usePositioningStore();
   const passeportStore = usePasseportStore();
   const onboardingStore = useOnboardingStore();
+
+  // ── CDC §03 — dynamic 3-30 questions based on user's selected goals ──
+  const QUESTIONS = React.useMemo(
+    () => buildOnboardingQuestionnaire(onboardingStore.goals),
+    [onboardingStore.goals]
+  );
+
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const total = QUESTIONS.length;
