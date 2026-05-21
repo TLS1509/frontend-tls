@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
           />
 
           {/* Remember + Forgot */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <AuthCheckbox
               checked={rememberMe}
               onChange={setRememberMe}
@@ -61,7 +61,7 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/auth/forgot-password')}
-              className="bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors"
+              className="bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm"
             >
               Mot de passe oublié ?
             </button>
@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
 
           {/* Divider + Socials */}
           <AuthDivider>ou continuer avec</AuthDivider>
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>

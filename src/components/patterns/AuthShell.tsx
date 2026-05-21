@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Eye, EyeOff, Lock } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { TlsLogo } from '../ui/TlsLogo';
 
 /**
@@ -63,6 +64,8 @@ export const AuthShell: React.FC<AuthShellProps> = ({
   footer,
   className = '',
 }) => {
+  const reduce = useReducedMotion();
+
   // Default branding (TLS) — can be overridden or disabled with brand={null}
   const brandContent =
     brand === null
@@ -88,17 +91,23 @@ export const AuthShell: React.FC<AuthShellProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Diffuse ambient blobs — large + heavily blurred for depth */}
-      <div
+      {/* Diffuse ambient blobs — animated breathing for depth */}
+      <motion.div
         aria-hidden="true"
+        animate={!reduce ? { x: [0, 24, 0], y: [0, -18, 0], scale: [1, 1.07, 1] } : undefined}
+        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
         className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-full bg-primary-400/25 blur-ambient"
       />
-      <div
+      <motion.div
         aria-hidden="true"
+        animate={!reduce ? { x: [0, -20, 0], y: [0, 16, 0], scale: [1, 1.09, 1] } : undefined}
+        transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut', delay: 7 }}
         className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-full bg-primary-300/20 blur-ambient"
       />
-      <div
+      <motion.div
         aria-hidden="true"
+        animate={!reduce ? { opacity: [0.15, 0.28, 0.15], scale: [1, 1.12, 1] } : undefined}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
         className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full bg-primary-500/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
       />
 
@@ -108,36 +117,47 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Back link */}
           {backLink && (
-            <button
+            <motion.button
               type="button"
               onClick={backLink.onClick}
-              className="inline-flex items-center gap-1.5 self-start bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/75 hover:text-white transition-colors"
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, ease: [0, 0, 0.2, 1] }}
+              className="inline-flex items-center gap-1.5 self-start bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/75 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm"
             >
               <ArrowLeft size={14} />
               {backLink.label}
-            </button>
+            </motion.button>
           )}
 
-          {/* Glass dark Card */}
-          <section
+          {/* Glass dark Card — entrance animation */}
+          <motion.section
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
             className={[
               'relative rounded-3xl px-8 py-10 sm:px-10 sm:py-12',
               'bg-white/10 backdrop-blur-glass-medium',
               'border border-white/20',
-              'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
+              'shadow-[0_24px_64px_-12px_rgba(0,0,0,0.35),0_4px_20px_-4px_rgba(0,0,0,0.15)]',
               'flex flex-col gap-6',
             ].join(' ')}
           >
             {/* Inner highlight on top edge for glass premium feel */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-3xl"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent rounded-t-3xl"
             />
 
             {/* Branding */}
             {brandContent && (
-              <header className="flex flex-col items-center text-center gap-3">
-                <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
+              <motion.header
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.4, ease: [0, 0, 0.2, 1] }}
+                className="flex flex-col items-center text-center gap-3"
+              >
+                <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-[0_0_28px_-4px_rgba(255,255,255,0.18),0_4px_12px_rgba(0,0,0,0.12)]">
                   {brandContent.icon}
                 </span>
                 <h1 className="font-display text-h2 font-bold text-white m-0 leading-tight tracking-tight">
@@ -148,24 +168,41 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                     {brandContent.subtitle}
                   </p>
                 )}
-              </header>
+              </motion.header>
             )}
 
             {/* Form slot */}
-            <div className="flex flex-col gap-4">{form}</div>
-          </section>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.25, duration: 0.4 }}
+              className="flex flex-col gap-4"
+            >
+              {form}
+            </motion.div>
+          </motion.section>
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-2xl px-6 py-5 bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85">
+            <motion.aside
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45, duration: 0.4, ease: [0, 0, 0.2, 1] }}
+              className="rounded-2xl px-6 py-5 bg-white/8 backdrop-blur-glass-light border border-white/15 text-white/85"
+            >
               {aside}
-            </aside>
+            </motion.aside>
           )}
 
           {/* Footer */}
-          <p className="text-center text-caption text-white/60 m-0">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
+            className="text-center text-caption text-white/60 m-0"
+          >
             {footer ?? defaultFooter}
-          </p>
+          </motion.p>
         </div>
       </div>
     </div>
@@ -258,6 +295,7 @@ export const AuthInlineLink: React.FC<React.ButtonHTMLAttributes<HTMLButtonEleme
     type="button"
     className={[
       'bg-transparent border-0 p-0 cursor-pointer text-body-sm font-semibold text-white underline-offset-4 hover:underline transition-colors',
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm',
       className,
     ]
       .filter(Boolean)
