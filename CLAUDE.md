@@ -13,7 +13,7 @@ Stack : React 19 · TypeScript 6 · Vite 8 · **Tailwind CSS 4** · React Router
 src/
 ├── components/
 │   ├── core/        Button, Card, Input, Select, FormGroup
-│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard… (51 composants)
+│   ├── ui/          Badge (incl. StatusBadge+TrendingBadge), Alert, Avatar, Modal, Toast, StatCard, TlsLogo… (51 composants)
 │   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
 │   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
 │   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (40 composants)
@@ -69,6 +69,23 @@ src/
 | `patterns/SectionCard` | Card sectionnée — title + description + footer actions. Pour blocs autonomes dans pages éditoriales. (8 pages) |
 | `patterns/RelatedItemList` | Liste verticale d'items reliés / cross-links. (5 pages) |
 | `patterns/ResumeLessonCard` | Hero card "Reprendre ta leçon" Dashboard. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1, meta pills (level/duration/lessons), progress bar + CTA pill. |
+
+## TlsLogo — système à 6 variants
+
+`ui/TlsLogo.tsx` expose le logo mark SVG avec palette swap par `variant` prop. Couvre tous les contextes de surface :
+
+| variant | Surface cible | Fills |
+|---------|--------------|-------|
+| `color` (défaut) | Blanc / clair | Multicolor branded (primary-500 / secondary-600 / accent-400) |
+| `light` | Dark / glass teal (AuthShell, dark heroes) | All-white rgba |
+| `primary` | Surface teal tintée (primary-50/100) | Monochrome teal (primary-500) |
+| `warm` | Surface warm/secondary | Amber-white (secondary-500) |
+| `sun` | Surface sun/accent | Golden (accent-400) |
+| `ink` | Impression / monochrome / haute contraste | Dark ink-900 |
+
+**Règle** : toujours passer `variant="light"` sur fond dark/glass (AuthShell = `withBubble={false} variant="light"`). Ne jamais hardcoder `fill="#..."` dans le SVG — étendre `FILLS` dans `TlsLogo.tsx`.
+
+---
 
 ## Auth components — dark glass vs light fields (dualité)
 
