@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
           />
 
           {/* Remember + Forgot */}
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-2">
             <AuthCheckbox
               checked={rememberMe}
               onChange={setRememberMe}
@@ -61,7 +61,7 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/auth/forgot-password')}
-              className="bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm"
+              className="shrink-0 bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/85 hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm whitespace-nowrap"
             >
               Mot de passe oublié ?
             </button>

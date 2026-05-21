@@ -71,7 +71,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
     brand === null
       ? null
       : {
-          icon: brand?.icon ?? <TlsLogo size={40} withBubble={false} />,
+          icon: brand?.icon ?? <TlsLogo size={40} withBubble={false} variant="light" />,
           title: brand?.title ?? 'The Learning Society',
           subtitle: brand?.subtitle ?? 'Connectez-vous pour accéder à vos formations',
         };
@@ -534,7 +534,7 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
       aria-hidden
       className="mt-0.5 inline-flex items-center justify-center w-5 h-5 shrink-0 rounded-sm border-2 border-white/40 bg-white/10 transition-all peer-checked:bg-white peer-checked:border-white after:content-['✓'] after:text-primary-700 after:font-bold after:text-[13px] after:opacity-0 peer-checked:after:opacity-100"
     />
-    <span className="text-body-sm text-white/85 leading-snug">{label}</span>
+    <span className="text-caption sm:text-body-sm text-white/85 leading-snug">{label}</span>
   </label>
 );
 
