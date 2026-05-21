@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   UserRound,
   Target,
@@ -27,7 +27,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { OptionGrid } from '../components/patterns/OptionGrid';
 import type { OptionGridItem } from '../components/patterns/OptionGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { useUserProfileStore } from '../stores/persistence';
+import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import type { UserRole } from '../types/learning';
 import { MOCK_USER_ID } from '../data/passeport';
 
@@ -266,7 +266,7 @@ function StepConfirmation({
       {/* Summary table */}
       <div className="rounded-xl border border-ink-200 bg-ink-50 overflow-hidden">
         {summaryRows.map((row) => (
-          <div key={row.key} className="flex justify-between items-start gap-4 px-5 py-3 border-b border-ink-200 last:border-b-0">
+          <div key={row.key} className="flex justify-between items-start gap-stack px-5 py-3 border-b border-ink-200 last:border-b-0">
             <span className="font-body text-body-sm font-bold text-ink-500 whitespace-nowrap">{row.key}</span>
             <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
           </div>
@@ -301,18 +301,41 @@ function StepConfirmation({
 
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const profileStore = useUserProfileStore();
+  const onboardingStore = useOnboardingStore();
+
+  // ── Detect invitation context (via ?invite=<token> or ?company=<id>) ──
+  useEffect(() => {
+    const token = searchParams.get('invite');
+    const company = searchParams.get('company');
+    if (token || company) {
+      onboardingStore.setAccountType('invited', { invitationToken: token ?? undefined, company: company ?? undefined });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Local substep is fine (UI-only), domain data flows through store ──
   const [substep, setSubstep] = useState(0);
-  const [answers, setAnswers] = useState<OnboardingAnswers>({
-    firstName: '',
-    role:      '',
-    sector:    '',
-    goals:     [],
-    rhythm:    '',
-  });
+
+  // Hydrate local form state from the persisted store so refresh keeps progress.
+  const answers: OnboardingAnswers = {
+    firstName: onboardingStore.firstName,
+    role:      (onboardingStore.role ?? '') as UserRole | '',
+    sector:    onboardingStore.sector,
+    goals:     onboardingStore.goals,
+    rhythm:    onboardingStore.rhythm,
+  };
 
   function patch(updates: Partial<OnboardingAnswers>) {
-    setAnswers(prev => ({ ...prev, ...updates }));
+    const patched: Parameters<typeof onboardingStore.patch>[0] = {
+      ...(updates.firstName !== undefined && { firstName: updates.firstName }),
+      ...(updates.role !== undefined && { role: (updates.role || null) as UserRole | null }),
+      ...(updates.sector !== undefined && { sector: updates.sector }),
+      ...(updates.goals !== undefined && { goals: updates.goals }),
+      ...(updates.rhythm !== undefined && { rhythm: updates.rhythm }),
+    };
+    onboardingStore.patch(patched);
   }
 
   function prev() { setSubstep(s => Math.max(0, s - 1)); }
@@ -330,6 +353,8 @@ export const Onboarding: React.FC = () => {
       subscriptionTier: 'free',
       completedAt: new Date().toISOString(),
     });
+    onboardingStore.markStepComplete('profile');
+    onboardingStore.goToStep('questionnaire');
     navigate('/onboarding/questionnaire');
   }
 
@@ -347,7 +372,7 @@ export const Onboarding: React.FC = () => {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
-        <Stepper items={buildOnboardingStepperItems('profil')} orientation="horizontal" />
+        <Stepper items={buildOnboardingStepperItems('profil', onboardingStore.accountType)} orientation="horizontal" />
 
         {/* ── Hero éditorial DS (tone warm — accueil chaleureux) ───────────────── */}
         <EditorialHero

@@ -5,6 +5,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { StepTutorial } from '../components/patterns/StepTutorial';
 import { Stepper } from '../components/ui/Stepper';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { useOnboardingStore } from '../stores/persistence';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -51,13 +52,20 @@ const TUTORIAL_STEPS = [
 
 export default function OnboardingTutorial() {
   const navigate = useNavigate();
+  const onboardingStore = useOnboardingStore();
   const [step, setStep] = useState(0);
+
+  const handleDone = () => {
+    onboardingStore.markStepComplete('tutorial');
+    onboardingStore.goToStep('success');
+    navigate('/onboarding/success');
+  };
 
   return (
     <main className="min-h-screen bg-surface">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
-        <Stepper items={buildOnboardingStepperItems('tutoriel')} orientation="horizontal" />
+        <Stepper items={buildOnboardingStepperItems('tutoriel', onboardingStore.accountType)} orientation="horizontal" />
 
         <EditorialHero
           tone="warm"
@@ -72,8 +80,8 @@ export default function OnboardingTutorial() {
           tone="warm"
           onNext={() => setStep((s) => Math.min(s + 1, TUTORIAL_STEPS.length - 1))}
           onPrev={() => setStep((s) => Math.max(s - 1, 0))}
-          onComplete={() => navigate('/onboarding/success')}
-          onSkip={() => navigate('/onboarding/success')}
+          onComplete={handleDone}
+          onSkip={handleDone}
         />
       </div>
     </main>

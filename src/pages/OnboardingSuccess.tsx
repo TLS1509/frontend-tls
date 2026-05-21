@@ -7,9 +7,18 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { useOnboardingStore } from '../stores/persistence';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
+  const onboardingStore = useOnboardingStore();
+
+  // Mark final step on mount so subsequent visits know onboarding is fully done.
+  React.useEffect(() => {
+    onboardingStore.markStepComplete('success');
+    onboardingStore.goToStep('success');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const nextSteps: NextStepItem[] = [
     {
@@ -45,7 +54,7 @@ export default function OnboardingSuccess() {
     <main className="min-h-screen bg-gradient-page-ambient">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
 
-        <Stepper items={buildOnboardingStepperItems('pret')} orientation="horizontal" />
+        <Stepper items={buildOnboardingStepperItems('pret', onboardingStore.accountType)} orientation="horizontal" />
 
         <CongratulationsCard
           tone="brand"

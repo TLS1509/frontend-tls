@@ -8,7 +8,7 @@ import { Stepper } from '../components/ui/Stepper';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { usePositioningStore, usePasseportStore } from '../stores/persistence';
+import { usePositioningStore, usePasseportStore, useOnboardingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { DreyfusLevel } from '../types/learning';
@@ -31,6 +31,7 @@ const OnboardingQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
   const positioningStore = usePositioningStore();
   const passeportStore = usePasseportStore();
+  const onboardingStore = useOnboardingStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const total = QUESTIONS.length;
@@ -64,7 +65,16 @@ const OnboardingQuestionnaire: React.FC = () => {
       });
     });
 
-    navigate('/onboarding/tutorial');
+    onboardingStore.markStepComplete('questionnaire');
+
+    // ── CDC §03 §User Journey #1a/#1b — payment only for self-signup ──
+    if (onboardingStore.requiresPayment()) {
+      onboardingStore.goToStep('payment');
+      navigate('/onboarding/payment');
+    } else {
+      onboardingStore.goToStep('tutorial');
+      navigate('/onboarding/tutorial');
+    }
   };
 
   const handleNext = () => {
@@ -83,7 +93,7 @@ const OnboardingQuestionnaire: React.FC = () => {
     <main className="min-h-screen bg-surface">
       <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
 
-        <Stepper items={buildOnboardingStepperItems('positionnement')} orientation="horizontal" />
+        <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
         <EditorialHero
           tone="warm"
@@ -129,7 +139,11 @@ const OnboardingQuestionnaire: React.FC = () => {
             disabled={!selected}
             className="flex-1 sm:flex-none"
           >
-            {currentQ < total - 1 ? 'Suivant' : 'Continuer vers le tutoriel'}
+            {currentQ < total - 1
+              ? 'Suivant'
+              : onboardingStore.requiresPayment()
+              ? 'Continuer vers le paiement'
+              : 'Continuer vers le tutoriel'}
           </Button>
         </div>
       </div>

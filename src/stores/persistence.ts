@@ -1974,3 +1974,138 @@ export const useProjectsStore = create<ProjectsState & ProjectsActions>()(
 );
 
 export { MOCK_PROJECT_COMPANY_ID };
+
+/* ─── 22. Onboarding (Cahier #03 — Phase 19.4) ──────────────────────────── */
+/**
+ * Centralized onboarding state — tracks progression across pages, persists to
+ * localStorage so user can refresh/close-and-reopen without losing progress.
+ *
+ * AccountType drives flow shape (per Cahier #03 §User Journey #1a/#1b) :
+ * - `individual`      : self-signup, payment REQUIRED at end of onboarding
+ * - `invited`         : invited by manager/admin, NO payment (company credits or invited role)
+ *
+ * Step sequence is computed dynamically via `getStepSequence()` :
+ * - individual : profile → goals → rhythm → confirmation → questionnaire → payment → tutorial → success
+ * - invited    : profile → goals → rhythm → confirmation → questionnaire → tutorial → success
+ */
+
+export type OnboardingAccountType = 'individual' | 'invited';
+
+export type OnboardingStep =
+  | 'profile'        // role + sector
+  | 'goals'          // objectives
+  | 'rhythm'         // pace / cadence
+  | 'confirmation'  // review collected data
+  | 'questionnaire' // positioning Q&A (Dreyfus)
+  | 'payment'       // ONLY if accountType === 'individual'
+  | 'tutorial'      // app tour
+  | 'success';      // completion screen
+
+export type SubscriptionPlanId = 'plan_1' | 'plan_2' | 'plan_3';
+
+const ONBOARDING_STEPS_INDIVIDUAL: OnboardingStep[] = [
+  'profile', 'goals', 'rhythm', 'confirmation', 'questionnaire', 'payment', 'tutorial', 'success',
+];
+
+const ONBOARDING_STEPS_INVITED: OnboardingStep[] = [
+  'profile', 'goals', 'rhythm', 'confirmation', 'questionnaire', 'tutorial', 'success',
+];
+
+interface OnboardingState {
+  // ── Entry context ─────────────────────────────────────────────────────
+  accountType: OnboardingAccountType;
+  invitationToken: string | null;
+  invitedByCompany: string | null;
+
+  // ── Progression ───────────────────────────────────────────────────────
+  currentStep: OnboardingStep;
+  completedSteps: OnboardingStep[];
+
+  // ── Collected data ────────────────────────────────────────────────────
+  firstName: string;
+  role: UserRole | null;
+  sector: string;
+  goals: string[];
+  rhythm: string;
+  selectedPlan: SubscriptionPlanId | null;
+
+  // ── Actions ───────────────────────────────────────────────────────────
+  setAccountType: (type: OnboardingAccountType, opts?: { invitationToken?: string; company?: string }) => void;
+  patch: (updates: Partial<Omit<OnboardingState,
+    'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent'
+  >>) => void;
+  goToStep: (step: OnboardingStep) => void;
+  markStepComplete: (step: OnboardingStep) => void;
+  reset: () => void;
+
+  // ── Selectors ─────────────────────────────────────────────────────────
+  requiresPayment: () => boolean;
+  getStepSequence: () => OnboardingStep[];
+  getStepIndex: (step?: OnboardingStep) => number;
+  getProgressPercent: () => number;
+}
+
+const ONBOARDING_INITIAL: Omit<OnboardingState,
+  'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent'
+> = {
+  accountType: 'individual',
+  invitationToken: null,
+  invitedByCompany: null,
+  currentStep: 'profile',
+  completedSteps: [],
+  firstName: '',
+  role: null,
+  sector: '',
+  goals: [],
+  rhythm: '',
+  selectedPlan: null,
+};
+
+export const useOnboardingStore = create<OnboardingState>()(
+  persist(
+    (set, get) => ({
+      ...ONBOARDING_INITIAL,
+
+      setAccountType: (type, opts) =>
+        set({
+          accountType: type,
+          invitationToken: opts?.invitationToken ?? null,
+          invitedByCompany: opts?.company ?? null,
+        }),
+
+      patch: (updates) => set((state) => ({ ...state, ...updates })),
+
+      goToStep: (step) => set({ currentStep: step }),
+
+      markStepComplete: (step) =>
+        set((state) => ({
+          completedSteps: state.completedSteps.includes(step)
+            ? state.completedSteps
+            : [...state.completedSteps, step],
+        })),
+
+      reset: () => set({ ...ONBOARDING_INITIAL }),
+
+      requiresPayment: () => get().accountType === 'individual',
+
+      getStepSequence: () =>
+        get().accountType === 'individual' ? ONBOARDING_STEPS_INDIVIDUAL : ONBOARDING_STEPS_INVITED,
+
+      getStepIndex: (step) => {
+        const seq = get().getStepSequence();
+        return seq.indexOf(step ?? get().currentStep);
+      },
+
+      getProgressPercent: () => {
+        const seq = get().getStepSequence();
+        const idx = seq.indexOf(get().currentStep);
+        return idx < 0 ? 0 : Math.round((idx / (seq.length - 1)) * 100);
+      },
+    }),
+    {
+      name: 'tls-onboarding',
+      storage: createJSONStorage(() => localStorage),
+      version: 1,
+    }
+  )
+);

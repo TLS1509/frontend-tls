@@ -35,7 +35,9 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Badge } from '../components/ui/Badge';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
-import { useUserProfileStore } from '../stores/persistence';
+import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
+import { Stepper } from '../components/ui/Stepper';
+import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import type { SubscriptionTier } from '../types/learning';
 
 /* ─── Types & data ──────────────────────────────────────────────────────── */
@@ -124,9 +126,12 @@ export const SubscriptionPayment: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToastContext();
   const profileStore = useUserProfileStore();
+  const onboardingStore = useOnboardingStore();
 
   const [billing, setBilling] = useState<Billing>('monthly');
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>('plan_2');
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>(
+    (onboardingStore.selectedPlan as PlanId | null) ?? 'plan_2'
+  );
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [cardName, setCardName] = useState('');
@@ -147,8 +152,14 @@ export const SubscriptionPayment: React.FC = () => {
   const handleConfirmPayment = () => {
     setShowConfirm(false);
     profileStore.patch({ subscriptionTier: selectedPlan });
+    // Persist selected plan + mark payment step done in onboarding store
+    if (selectedPlan === 'plan_1' || selectedPlan === 'plan_2' || selectedPlan === 'plan_3') {
+      onboardingStore.patch({ selectedPlan });
+    }
+    onboardingStore.markStepComplete('payment');
+    onboardingStore.goToStep('tutorial');
     toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society !');
-    setTimeout(() => navigate('/onboarding'), 1200);
+    setTimeout(() => navigate('/onboarding/tutorial'), 1200);
   };
 
   /* ── Layout ──────────────────────────────────────────────────────────── */
@@ -157,10 +168,13 @@ export const SubscriptionPayment: React.FC = () => {
     <div className="min-h-screen bg-surface">
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-section">
 
+        {/* Cross-screen Stepper (matches Onboarding flow) */}
+        <Stepper items={buildOnboardingStepperItems('paiement', onboardingStore.accountType)} orientation="horizontal" />
+
         {/* Header */}
         <header className="flex flex-col gap-tight text-center">
           <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
-            Étape 3 sur 3 · Abonnement
+            Étape paiement · Abonnement
           </p>
           <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
             Choisis ta formule
@@ -194,7 +208,7 @@ export const SubscriptionPayment: React.FC = () => {
         </div>
 
         {/* Plans grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
           {PLANS.map((plan) => {
             const isSelected = plan.id === selectedPlan;
             const planPrice = billing === 'monthly' ? plan.monthly : plan.yearly;
