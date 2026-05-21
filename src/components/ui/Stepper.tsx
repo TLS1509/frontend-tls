@@ -54,7 +54,7 @@ export const Stepper: React.FC<StepperProps> = ({
 
   const stepClasses = isVertical
     ? 'relative flex flex-row items-start gap-3 min-h-[60px] text-left'
-    : 'relative flex-1 flex flex-col items-center gap-2 text-center';
+    : 'relative flex-1 min-w-0 basis-0 flex flex-col items-center gap-2 text-center';
 
   return (
     <ol className={wrapperClasses} {...rest}>
@@ -87,7 +87,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 )}
               </div>
             ) : (
-              <p className={`m-0 text-caption leading-snug ${LABEL_STATE[item.state]}`}>
+              <p className={`m-0 text-[11px] sm:text-caption leading-tight break-words ${LABEL_STATE[item.state]}`}>
                 {item.label}
               </p>
             )}

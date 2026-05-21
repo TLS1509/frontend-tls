@@ -17,9 +17,11 @@
 
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Award, TrendingUp, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { ProgressBar } from '../components/ui/ProgressBar';
+import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
@@ -30,50 +32,6 @@ import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
 /* ─── Mock userId (placeholder — Phase 16.2 will use actual auth) ──────────── */
 const MOCK_USER_ID = 'user-placeholder';
-
-/* ─── Dreyfus level selector UI ──────────────────────────────────────────── */
-
-interface DreyfusLevelSelectorProps {
-  competenceId: string;
-  competenceLabel: string;
-  competenceDescription?: string;
-  selectedLevel: DreyfusLevel | null;
-  onSelect: (level: DreyfusLevel) => void;
-}
-
-const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
-  competenceLabel,
-  competenceDescription,
-  selectedLevel,
-  onSelect,
-}) => {
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
-        <h3 className="text-body font-semibold text-ink-900">{competenceLabel}</h3>
-        {competenceDescription && (
-          <p className="text-body-sm text-ink-600">{competenceDescription}</p>
-        )}
-      </div>
-      <div className="grid grid-cols-5 gap-2">
-        {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
-          <button
-            key={level}
-            onClick={() => onSelect(level)}
-            className={`flex flex-col items-center justify-center gap-1 p-3 rounded-lg border-2 transition-all ${
-              selectedLevel === level
-                ? 'border-primary-500 bg-primary-50'
-                : 'border-ink-200 bg-white hover:border-primary-300'
-            }`}
-          >
-            <span className="text-h3 font-display font-bold text-primary-600">{level}</span>
-            <span className="text-micro text-ink-600 text-center">{DREYFUS_LABELS[level]}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -154,7 +112,7 @@ export const Positionnement: React.FC = () => {
     );
 
     return (
-      <div className="min-h-screen bg-surface flex flex-col">
+      <div className="min-h-screen bg-gradient-page-ambient flex flex-col">
         <ViewerHeader
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
@@ -244,24 +202,22 @@ export const Positionnement: React.FC = () => {
               <span>Compétence {currentIndex + 1} sur {total}</span>
               <span className="font-bold text-primary-700 tabular-nums">{progressPct}%</span>
             </div>
-            <div className="w-full h-2 bg-ink-200 rounded-pill overflow-hidden">
-              <div
-                className="h-full bg-primary-500 transition-all duration-300"
-                style={{ width: `${progressPct}%` }}
-              />
-            </div>
+            <ProgressBar value={progressPct} max={100} fill="brand" size="md" valueLabel={false} />
           </div>
 
-          {/* Question */}
-          <div className="p-6 bg-white rounded-xl border border-ink-200">
+          {/* Question — uses canonical DS components */}
+          <SectionCard
+            title={currentQuestion.competenceLabel}
+            description={currentQuestion.competenceDescription}
+            className="!bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg"
+          >
             <DreyfusLevelSelector
-              competenceId={currentQuestion.competenceId}
-              competenceLabel={currentQuestion.competenceLabel}
-              competenceDescription={currentQuestion.competenceDescription}
-              selectedLevel={currentAnswer ?? null}
-              onSelect={handleSelect}
+              tone="brand"
+              value={currentAnswer ?? undefined}
+              onChange={(lv) => handleSelect(lv as DreyfusLevel)}
+              aria-label={`Niveau Dreyfus pour ${currentQuestion.competenceLabel}`}
             />
-          </div>
+          </SectionCard>
 
           {/* Footer nav */}
           <div className="flex items-center justify-between gap-stack">
