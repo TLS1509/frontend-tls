@@ -18,7 +18,7 @@ import { Send } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import type { ChatMessage } from '../components/patterns/ConversationalChat';
-import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
+import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { getCompetenceById } from '../data/competencies';
 import {
@@ -30,8 +30,7 @@ import {
 import type { OnboardingQuestion } from '../lib/onboarding-questionnaire';
 import type { DreyfusLevel } from '../types/learning';
 
-const AI_TYPING_MS = 600;
-const AI_REPLY_GAP_MS = 350;
+const AI_MESSAGE_DELAY_MS = 450; // pause between AI bubbles — no typing indicator
 
 export interface OnboardingQuestionnaireConversationalProps {
   questions: OnboardingQuestion[];
@@ -57,37 +56,41 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
   const [textValue, setTextValue] = useState('');
   const [isClosed, setIsClosed] = useState(false);
   const seqRef = useRef(0);
-  const initRef = useRef(false);
 
   const newId = () => `m-${seqRef.current++}`;
 
-  // ── Helpers : push messages with simulated AI typing delay ──
+  // Track active timers so we can cancel them on unmount (avoids StrictMode races
+  // where a stale timer would push an empty/duplicate bubble onto fresh state).
+  const timersRef = useRef<number[]>([]);
+  const cancelTimers = () => {
+    timersRef.current.forEach((id) => window.clearTimeout(id));
+    timersRef.current = [];
+  };
+
+  // ── Helpers : queue AI messages with a small delay between them ──
+  // No typing indicator — empty/falsy lines are skipped defensively.
   function appendAiSequence(lines: string[], cb?: () => void) {
-    let i = 0;
-    const step = () => {
-      if (i >= lines.length) { cb?.(); return; }
-      // Show typing indicator
-      const typingId = newId();
-      setMessages((prev) => [...prev, { id: typingId, type: 'typing' }]);
-      window.setTimeout(() => {
-        setMessages((prev) =>
-          prev
-            .filter((m) => m.id !== typingId)
-            .concat({ id: newId(), type: 'ai', content: lines[i] })
-        );
-        i++;
-        window.setTimeout(step, AI_REPLY_GAP_MS);
-      }, AI_TYPING_MS);
-    };
-    step();
+    const valid = lines.filter((l) => typeof l === 'string' && l.trim().length > 0);
+    valid.forEach((line, idx) => {
+      const t = window.setTimeout(() => {
+        setMessages((prev) => [...prev, { id: newId(), type: 'ai', content: line }]);
+      }, 200 + idx * AI_MESSAGE_DELAY_MS);
+      timersRef.current.push(t);
+    });
+    if (cb) {
+      const t = window.setTimeout(cb, 200 + valid.length * AI_MESSAGE_DELAY_MS);
+      timersRef.current.push(t);
+    }
   }
 
   // ── Greeting + first question on mount ──
+  // No init-ref guard: rely on cleanup to cancel timers in StrictMode dev double-mount.
+  // Each mount schedules its own timers; previous mount's are cancelled by cleanup.
   useEffect(() => {
-    if (initRef.current) return;
-    initRef.current = true;
+    setMessages([]); // ensure clean slate (StrictMode-safe)
     const greeting = buildGreeting(firstName, total);
     appendAiSequence(greeting, () => askQuestion(0));
+    return cancelTimers;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -159,13 +162,14 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     </div>
   ) : (
     <div className="flex flex-col gap-stack-xs">
-      <DreyfusLevelSelector
+      <DreyfusSlider
         tone="warm"
+        variant="effect"
         value={selectedLevel}
         onChange={(lv) => setSelectedLevel(lv as DreyfusLevel)}
         aria-label="Choisis ton niveau Dreyfus"
       />
-      <div className="flex items-end gap-2">
+      <div className="flex items-center gap-2">
         <textarea
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
@@ -175,12 +179,13 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         />
         <Button
           variant="warm"
-          size="md"
+          size="lg"
           iconOnly
-          trailingIcon={<Send size={16} />}
+          trailingIcon={<Send size={18} />}
           aria-label="Envoyer la réponse"
           disabled={selectedLevel === undefined}
           onClick={handleSend}
+          className="self-center shrink-0"
         />
       </div>
     </div>

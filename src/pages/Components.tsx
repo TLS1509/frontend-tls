@@ -176,6 +176,7 @@ import { StepTutorial } from '../components/patterns/StepTutorial';
 import { NewsletterSignupCard } from '../components/patterns/NewsletterSignupCard';
 import { OptionGrid } from '../components/patterns/OptionGrid';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
+import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
@@ -433,6 +434,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // ── PHASE 14.1 — Première expérience flow ─────────────────────────────
   OptionGrid:             { category: 'Forms',          subCategory: 'Composite forms' },
   DreyfusLevelSelector:   { category: 'Learning',       subCategory: 'Compétences' },
+  DreyfusSlider:          { category: 'Learning',       subCategory: 'Compétences' },
   CongratulationsCard:    { category: 'Feedback',       subCategory: 'Celebrations' },
   NextStepsGrid:          { category: 'Lists & Feeds',  subCategory: 'Grids' },
   EmptyDashboardState:    { category: 'Feedback',       subCategory: 'Empty/zero states' },
@@ -5110,15 +5112,50 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/DreyfusLevelSelector.tsx',
     cssBase: 'DreyfusLevelSelector',
     category: 'Patterns',
-    description: 'Sélecteur 5-niveaux Dreyfus (Novice → Expert) pour positionnement compétences. Responsive 1 → 5 cols (fix le pb cramped tablet de la v1). Tone-aware. Levels customisables via prop. Module #4 Phase 14.1.',
-    keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert'],
-    usedBy: ['OnboardingQuestionnaire'],
+    description: 'Sélecteur 5-niveaux Dreyfus (Novice → Expert) — variante grille verticale. Tone-aware. Roving tabindex + arrow-key nav a11y. Pour formulaires classiques (Onboarding company learner, Positionnement parcours).',
+    keywords: ['dreyfus', 'level', 'positionnement', 'competence', 'likert', 'self-assessment', 'questionnaire', 'novice', 'expert', 'grid'],
+    usedBy: ['OnboardingQuestionnaire (variant invited)', 'Positionnement (parcours)'],
     render: () => {
       const [level, setLevel] = React.useState<number | undefined>(3);
       return (
         <div className="flex flex-col gap-stack max-w-3xl">
           <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · niveau 3 sélectionné</span>
           <DreyfusLevelSelector tone="warm" value={level} onChange={setLevel} />
+        </div>
+      );
+    },
+  },
+  {
+    name: 'DreyfusSlider',
+    codeName: 'ui/DreyfusSlider.tsx',
+    cssBase: 'DreyfusSlider',
+    category: 'Patterns',
+    description: '⭐ Slider Dreyfus 1-5 horizontal — variante compacte du DreyfusLevelSelector. 4 variants (solid / glass / light / effect), 3 tones (brand / warm / sun), animations togglable. Couleurs TLS sans gradient. Native input[type=range] hidden pour a11y (arrow keys + Home/End). Utilisé dans OnboardingQuestionnaireConversational (Phase 19.5b/e).',
+    keywords: ['dreyfus', 'slider', 'range', 'level', 'positionnement', 'horizontal', 'compact', 'novice', 'expert', 'glass', 'effect'],
+    usedBy: ['OnboardingQuestionnaireConversational'],
+    render: () => {
+      const [v1, setV1] = React.useState<number | undefined>(3);
+      const [v2, setV2] = React.useState<number | undefined>(2);
+      const [v3, setV3] = React.useState<number | undefined>(4);
+      const [v4, setV4] = React.useState<number | undefined>(5);
+      return (
+        <div className="flex flex-col gap-section max-w-3xl">
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">variant: solid · tone: warm · animate</span>
+            <DreyfusSlider variant="solid" tone="warm" value={v1} onChange={setV1} />
+          </div>
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">variant: effect · tone: brand · glow + animate</span>
+            <DreyfusSlider variant="effect" tone="brand" value={v2} onChange={setV2} />
+          </div>
+          <div className="flex flex-col gap-stack p-stack rounded-xl bg-gradient-page-ambient-warm">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">variant: glass · tone: sun · sur gradient</span>
+            <DreyfusSlider variant="glass" tone="sun" value={v3} onChange={setV3} />
+          </div>
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">variant: light · tone: brand · pas d'animation</span>
+            <DreyfusSlider variant="light" tone="brand" value={v4} onChange={setV4} animate={false} />
+          </div>
         </div>
       );
     },
