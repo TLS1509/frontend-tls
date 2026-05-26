@@ -250,7 +250,7 @@ export const JournalNewEntry: React.FC = () => {
     <div className="min-h-screen bg-surface font-body flex flex-col">
 
       {/* Top bar */}
-      <header className="flex items-center px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
+      <header className="flex items-center px-4 sm:px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
         <Button
           variant="ghost"
           size="sm"
@@ -294,7 +294,7 @@ export const JournalNewEntry: React.FC = () => {
       </header>
 
       {/* Content */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-6 py-8">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8">
 
         {/* Type selector */}
         <div className="mb-6">

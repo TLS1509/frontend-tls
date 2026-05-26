@@ -373,7 +373,7 @@ export const LessonPlayer: React.FC = () => {
     return (
       <div>
         <h2 className={SECTION_TITLE}>{lessonData.engagement.heading}</h2>
-        <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+        <div className="grid gap-5 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
           {lessonData.engagement.pillars.map((pillar, i) => {
             const t = PILLAR_TONES[i % PILLAR_TONES.length];
             return (
