@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight, Save, Target } from 'lucide-react';
 import SectionCard from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
@@ -74,8 +76,23 @@ const OnboardingQuestionnaire: React.FC = () => {
   // ── Conversational variant : Individual (CDC §UJ #1a) ──
   if (isIndividual) {
     return (
-      <main className="min-h-screen bg-gradient-page-ambient-warm">
-        <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
+      <main className="relative min-h-screen overflow-x-hidden">
+        <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+        <AmbientBlobs intensity="subtle" />
+        <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+
+          {/* Brand bar */}
+          <div className="flex items-center justify-between">
+            <div className="w-20" />
+            <a href="/dashboard" aria-label="The Learning Society" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+              <TlsLogo size={36} variant="color" withBubble />
+            </a>
+            <div className="w-20 flex justify-end">
+              <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
+                Passer
+              </button>
+            </div>
+          </div>
 
           <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
@@ -84,10 +101,10 @@ const OnboardingQuestionnaire: React.FC = () => {
               <Target size={14} aria-hidden="true" />
               Positionnement Dreyfus
             </p>
-            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+            <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
               Évaluons ton niveau de départ
             </h1>
-            <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
+            <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
               Une conversation guidée — {total} compétences à évaluer.
             </p>
           </header>
@@ -125,8 +142,23 @@ const OnboardingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-page-ambient-warm">
-      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
+    <main className="relative min-h-screen overflow-x-hidden">
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+      <AmbientBlobs intensity="subtle" />
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+
+        {/* Brand bar */}
+        <div className="flex items-center justify-between">
+          <div className="w-20" />
+          <a href="/dashboard" aria-label="The Learning Society" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={36} variant="color" withBubble />
+          </a>
+          <div className="w-20 flex justify-end">
+            <button onClick={() => navigate('/dashboard')} className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center">
+              Passer
+            </button>
+          </div>
+        </div>
 
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
@@ -135,10 +167,10 @@ const OnboardingQuestionnaire: React.FC = () => {
             <Target size={14} aria-hidden="true" />
             Positionnement Dreyfus
           </p>
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             Évaluons ton niveau de départ
           </h1>
-          <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
+          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
             {total} questions pour adapter ton parcours. Tu pourras ajuster ces niveaux à tout moment depuis ton Passeport.
           </p>
         </header>
