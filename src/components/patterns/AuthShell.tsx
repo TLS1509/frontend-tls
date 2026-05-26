@@ -4,20 +4,37 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { TlsLogo } from '../ui/TlsLogo';
 
 /**
- * AuthShell — full-bleed branded auth layout.
+ * AuthShell — full-bleed branded auth layout (split-screen, dark glass card).
  *
- * Visual:
- *   - Page bg : deep teal gradient (primary-600 → primary-800)
- *   - Ambient diffuse blobs (blur-ambient)
- *   - Centered glass Card (max-w-[480px]) on dark — `bg-white/10` + `backdrop-blur-glass-medium`
- *   - Branded header inside card : icon bubble + brand title + subtitle (all white)
- *   - Form slot
- *   - Optional aside footer slot (below the card, e.g. recommendations on ResetPassword)
- *   - Optional copyright footer
+ * ── File structure (1 layout + 11 surface-specific sub-components) ──
  *
- * Used by Login, Signup, ForgotPassword, ResetPassword.
+ * LAYOUT
+ *   • AuthShell                  — page wrapper : gradient bg + ambient blobs + centered glass card
  *
- * For glassy form fields inside, use the `AUTH_INPUT_CLASSES` helper exported below.
+ * BRANDING / COPY
+ *   • AuthDivider                — « ou continuer avec » horizontal rule, glass-dark tone
+ *   • AuthInlineLink             — secondary text link (white on dark)
+ *
+ * BUTTONS
+ *   • AuthPrimaryButton          — white-on-dark inverse CTA (main action)
+ *   • AuthGhostButton            — outlined white-border button (secondary)
+ *   • AuthSocialButton           — white card button with provider icon (Google/LinkedIn)
+ *
+ * FORM FIELDS (glass-dark surface only)
+ *   • AuthField                  — labeled text input with optional icon + error
+ *   • AuthPasswordField          — password field with built-in eye toggle
+ *   • AuthCheckbox               — peer/sr-only checkbox with ✓ pseudo-element
+ *
+ * STATE
+ *   • AuthSuccess                — success state block (icon + title + description)
+ *
+ * BRAND ICONS (inline SVG — exception to Lucide rule since these are corporate logos)
+ *   • AuthGoogleIcon · AuthLinkedinIcon
+ *
+ * STYLE TOKENS (for inline use on raw inputs)
+ *   • AUTH_INPUT_CLASSES · AUTH_LABEL_CLASSES
+ *
+ * Used by Login, Signup, ForgotPassword, ResetPassword, MagicLink, VerifyEmail.
  */
 
 export interface AuthShellProps {
@@ -324,26 +341,10 @@ export const AuthLinkedinIcon: React.FC = () => (
   </svg>
 );
 
-export interface AuthFeatureProps {
-  icon?: React.ReactNode;
-  title: React.ReactNode;
-  description?: React.ReactNode;
-}
-
-/** @deprecated AuthFeature was for split-screen aside (legacy). Use plain divs in `aside` prop. */
-export const AuthFeature: React.FC<AuthFeatureProps> = ({
-  icon,
-  title,
-  description,
-}) => (
-  <div className="rounded-lg bg-white/10 border border-white/20 p-4 backdrop-blur-glass-light">
-    <h4 className="font-display text-body font-semibold text-white m-0 mb-1.5 inline-flex items-center gap-2">
-      {icon}
-      {title}
-    </h4>
-    {description && <p className="m-0 text-body-sm text-white/75 leading-relaxed">{description}</p>}
-  </div>
-);
+// NOTE: `AuthFeature` (legacy split-screen aside callout) was removed 2026-05-26.
+// It was @deprecated since 2026-05-09 with zero consumers in the codebase.
+// To render content alongside the form, use the AuthShell `aside` prop directly
+// with plain divs or the glass-dark style helpers (AUTH_INPUT_CLASSES / AUTH_LABEL_CLASSES).
 
 // ─── Form sub-components (high-level — to use inside AuthShell.form) ────────
 
