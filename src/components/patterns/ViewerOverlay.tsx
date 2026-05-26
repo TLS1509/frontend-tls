@@ -151,7 +151,8 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
           onClick={onClose}
           aria-label="Fermer le lecteur"
           className={[
-            'shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg cursor-pointer transition-colors duration-base',
+            'shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-lg cursor-pointer transition-colors duration-base',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             TONE_CLOSE_BTN[tone],
           ].join(' ')}
         >
@@ -231,7 +232,8 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onPrev}
             aria-label="Précédent"
             className={[
-              'inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'
                 : 'text-ink-700 hover:bg-ink-50 disabled:text-ink-300 disabled:cursor-not-allowed',
@@ -259,7 +261,8 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onNext}
             aria-label="Suivant"
             className={[
-              'inline-flex items-center gap-1.5 px-3 py-2 rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'
                 : 'text-ink-700 hover:bg-ink-50 disabled:text-ink-300 disabled:cursor-not-allowed',

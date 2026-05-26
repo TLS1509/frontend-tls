@@ -58,7 +58,7 @@ const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_BASE =
-  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5';
+  'w-full p-4 min-h-touch rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',

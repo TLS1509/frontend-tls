@@ -255,6 +255,7 @@ const ActivityRow: React.FC<{
                 onClick={item.onActionClick}
                 className={[
                   'inline-flex items-center gap-1 px-3 py-1 rounded-pill text-caption font-semibold border cursor-pointer transition-colors',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   TONE_ACTION[tone],
                 ].join(' ')}
               >
@@ -368,7 +369,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 min-h-touch rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Voir plus d’activités
             <ArrowRight size={15} strokeWidth={2.25} />

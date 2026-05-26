@@ -33,7 +33,7 @@ const buildPages = (page: number, totalPages: number, siblings: number): (number
 };
 
 const BTN_BASE =
-  'inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-xl border text-body-sm font-semibold font-body cursor-pointer transition-all ' +
+  'inline-flex items-center justify-center min-w-11 h-11 px-3 rounded-xl border text-body-sm font-semibold font-body cursor-pointer transition-all ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 

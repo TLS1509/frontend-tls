@@ -181,7 +181,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
           <button
             type="button"
             onClick={onSkip}
-            className="text-caption text-ink-400 hover:text-ink-600 underline underline-offset-2 transition-colors duration-fast"
+            className="text-caption text-ink-400 hover:text-ink-600 underline underline-offset-2 transition-colors duration-fast min-h-touch px-2 py-2 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Passer le tutoriel
           </button>

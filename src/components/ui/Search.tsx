@@ -209,6 +209,7 @@ export const Search: React.FC<SearchProps> = ({
             tabIndex={-1}
             className={[
               'inline-flex items-center justify-center w-5 h-5 p-0 border-0 rounded-sm cursor-pointer shrink-0 transition-all',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isGlass
                 ? 'bg-white/20 text-white/80 hover:bg-white/30 hover:text-white'
                 : 'bg-ink-50 text-ink-600 hover:bg-ink-200 hover:text-ink-900',

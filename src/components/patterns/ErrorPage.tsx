@@ -48,9 +48,11 @@ export interface ErrorPageProps {
   className?: string;
 }
 
-const TONE_CODE_GRADIENT: Record<ErrorPageTone, string> = {
-  default: 'bg-gradient-to-br from-primary-300 to-secondary-200',
-  danger: 'bg-gradient-to-br from-danger-base to-secondary-500',
+// Solid code color (per DESIGN-IMPECCABLE §11 — no gradient text outside marketing GradientText).
+// Emphasis comes from weight + size (font-black at clamp 6–9rem), not from chroma.
+const TONE_CODE_COLOR: Record<ErrorPageTone, string> = {
+  default: 'text-primary-200',
+  danger: 'text-danger-base/70',
 };
 
 const TONE_ICON_BG: Record<ErrorPageTone, string> = {
@@ -257,9 +259,9 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           <motion.div
             variants={codeVariants}
             className={[
-              'font-display font-black bg-clip-text text-transparent tracking-tight m-0',
-              TONE_CODE_GRADIENT[tone],
-              'text-[clamp(4rem,12vw,7rem)] leading-none',
+              'font-display font-black tracking-tight m-0',
+              TONE_CODE_COLOR[tone],
+              'text-[clamp(5rem,14vw,9rem)] leading-none',
             ].join(' ')}
             aria-hidden="true"
           >

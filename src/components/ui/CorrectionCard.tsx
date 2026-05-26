@@ -85,11 +85,13 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
         </span>
       </div>
 
-      {/* Excerpt */}
+      {/* Excerpt — blockquote with background tint (no side-stripe, per DESIGN-IMPECCABLE §11) */}
       {excerpt && (
-        <p className="text-body-sm text-ink-500 line-clamp-2 italic border-l-2 border-ink-200 pl-3">
-          {excerpt}
-        </p>
+        <div className="rounded-lg bg-ink-50/70 px-3 py-2">
+          <p className="text-body-sm text-ink-600 line-clamp-2 italic">
+            « {excerpt} »
+          </p>
+        </div>
       )}
 
       {/* Footer */}

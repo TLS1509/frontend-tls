@@ -90,7 +90,7 @@ export const Toast: React.FC<ToastProps> = ({
         <button
           type="button"
           onClick={onAction}
-          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 rounded-md transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+          className="shrink-0 self-center bg-transparent border-0 text-current font-semibold text-caption cursor-pointer px-2.5 py-1.5 min-h-touch rounded-md transition-all hover:bg-black/[0.06] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           {actionLabel}
         </button>
