@@ -34,3 +34,6 @@ CDC/
 User_Journeys/
 sitemap_fo_learning_app_sbo*.html
 IMPLEMENTATION_ORDER.md
+
+# MCP server config (contains API keys — never commit)
+.mcp.json

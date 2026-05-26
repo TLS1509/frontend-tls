@@ -100,13 +100,12 @@ import { GoalProgress } from '../components/ui/GoalProgress';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { ErrorPage } from '../components/patterns/ErrorPage';
-// (DashboardHero deprecated → use HeroSection variant="gradient" instead)
+// (DashboardHero + HeroSection deprecated Phase 19.B-2026-05-26 → use PageHero from EditorialHero.tsx)
 import { CardGrid } from '../components/patterns/CardGrid';
 import { CoachCardGrid } from '../components/patterns/CoachCardGrid';
-import { HeroSection } from '../components/patterns/HeroSection';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
-// (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
+// (LearningPathHeader deprecated → use PageHero with backLink + progress slots)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
@@ -3110,119 +3109,26 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   /* ---- PATTERNS (additional) -------------------------------------------- */
+  // HeroSection entry retiré Phase 19.B-2026-05-26 — sunset progressif vers PageHero
+  // (backLink + progress + meta + trailing slots absorbés). Le fichier patterns/HeroSection.tsx
+  // sera supprimé après validation. Voir PageHero showcase entry pour les nouveaux archetypes.
   {
-    name: 'HeroSection',
+    name: 'HeroSection (deprecated — use PageHero)',
     codeName: 'patterns/HeroSection.tsx',
-    cssBase: 'Tailwind (no BEM)',
+    cssBase: 'DEPRECATED — Phase 19.B sunset',
     category: 'Patterns',
-    usedBy: ['LearningPathDetail', 'Coaching'],
-    description: 'Hero canonique (absorbe DashboardHero + LearningPathHeader). 4 variants × 5 tones × 3 sizes. Props clés : showBackButton+onBack, progress+progressLabel, metadata (pills), kpis (grid KPI), actions, eyebrow. → Pour hero éditorial text-focused sans stats, utiliser EditorialHero.',
-    keywords: ['hero', 'section', 'header', 'gradient', 'glass', 'media', 'minimal', 'variants', 'dashboard', 'learning path', 'kpi', 'progress'],
+    usedBy: [],
+    description: 'DEPRECATED Phase 19.B-2026-05-26 — sunset progressif. Features absorbées dans PageHero (backLink + progress + meta + trailing slots). Les 2 consumers (LearningPathDetail, Recherche) ont été migrés. Le fichier patterns/HeroSection.tsx sera supprimé en B.4. Voir PageHero showcase entry pour archetypes équivalents.',
+    keywords: ['hero', 'section', 'deprecated', 'sunset', 'page-hero-migration'],
     render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        {/* DNA 1 : LearningPath archetype — back btn + progress + metadata pills + KPIs (gradient saturé) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « LearningPath » — gradient · lg · back btn · progress · metadata · KPIs
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="primary"
-            size="lg"
-            showBackButton
-            onBack={() => {}}
-            eyebrow="Leadership"
-            title="Fondamentaux du Leadership"
-            description="Apprenez les principes essentiels du leadership moderne et développez vos compétences de management."
-            metadata={[
-              { icon: <GraduationCap size={14} />, text: 'Marie Dubois' },
-              { icon: <Clock3 size={14} />, text: '6 semaines' },
-              { icon: <BookOpen size={14} />, text: '12 leçons' },
-            ]}
-            progress={65}
-            progressLabel="8 / 12 leçons complétées"
-          />
-        </div>
-
-        {/* DNA 2 : Dashboard archetype — gradient + KPIs grid + dual CTA (white primary / glass ghost) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Dashboard » — gradient · KPIs grid · dual CTA
-          </p>
-          <HeroSection
-            variant="gradient"
-            tone="warm"
-            eyebrow="Bienvenue"
-            title="Bonjour Jeanne"
-            description="Vous avez progressé de 12% cette semaine — continuez sur votre lancée."
-            kpis={[
-              { icon: <BookOpen size={20} />, value: 12, label: 'Cours complétés' },
-              { icon: <Trophy size={20} />, value: '2 450', label: 'Points XP' },
-              { icon: <Flame size={20} />, value: '7j', label: 'Série actuelle' },
-            ]}
-            actions={
-              <>
-                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
-                  Continuer mon parcours
-                </button>
-                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
-                  Explorer
-                </button>
-              </>
-            }
-          />
-        </div>
-
-        {/* DNA 3 : Glass archetype — frosted glass + texte sombre (pour pages secondaires) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Glass » — glass · texte sombre (pages secondaires)
-          </p>
-          <HeroSection
-            variant="glass"
-            tone="primary"
-            icon={GraduationCap}
-            eyebrow="Mon apprentissage"
-            title="Mes Parcours"
-            description="Reprenez là où vous vous êtes arrêté(e) et explorez vos prochaines étapes."
-            size="md"
-          />
-        </div>
-
-        {/* DNA 4 : Minimal archetype — soft bg + outline (utility pages) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Minimal » — soft bg · outline (pages utilitaires)
-          </p>
-          <HeroSection
-            variant="minimal"
-            tone="sun"
-            icon={Lightbulb}
-            eyebrow="Tip"
-            title="Coaching 1-to-1"
-            description="Sessions personnalisées avec des experts certifiés."
-            size="sm"
-          />
-        </div>
-
-        {/* DNA 5 : Media archetype — gradient + sparkles décoratives (celebration) */}
-        <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">
-            Archetype « Media » — gradient · sparkles décoratives (milestones / celebrations)
-          </p>
-          <HeroSection
-            variant="media"
-            tone="warm"
-            icon={Trophy}
-            eyebrow="Milestone"
-            title="Parcours complété"
-            description="Félicitations ! Continuez votre lancée avec le prochain parcours recommandé."
-            align="center"
-          />
-        </div>
+      <div className="rounded-2xl border border-warning-base/30 bg-warning-bg/40 px-6 py-5 flex flex-col gap-stack-xs">
+        <p className="font-mono text-eyebrow font-bold tracking-[0.08em] uppercase text-warning-fg m-0">⚠️ Deprecated — Phase 19.B sunset</p>
+        <p className="text-body-sm text-ink-800 m-0">HeroSection est en sunset progressif. Toutes ses features (back button, progress bar, metadata pills, trailing actions) sont désormais disponibles dans <code className="font-mono bg-white/60 px-1 rounded">PageHero</code> via les nouveaux slots <code className="font-mono bg-white/60 px-1 rounded">backLink</code> et <code className="font-mono bg-white/60 px-1 rounded">progress</code>.</p>
+        <p className="text-caption text-ink-600 m-0">Le pattern « KPI grid hero » n'a plus de consumer actif — sera réintroduit via un wrapper spécialisé sur PageHero si besoin futur.</p>
       </div>
     ),
   },
+  /* Legacy HeroSection demos removed Phase 19.B-2026-05-26 — see git history before sunset. */
   {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
@@ -4375,6 +4281,7 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
+
   /* ─── BATCH #2 — composants SANS similarité (Phase 10 audit) ────────────── */
   {
     name: 'Flashcard',
@@ -4609,13 +4516,13 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    name: 'EditorialHero',
+    name: 'PageHero (alias: EditorialHero)',
     codeName: 'patterns/EditorialHero.tsx',
-    cssBase: 'EditorialHero (glass hero band)',
+    cssBase: 'PageHero (universal page-opening hero · ex-EditorialHero)',
     category: 'Patterns',
-    usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Settings'],
-    description: 'Bandeau hero éditorial plein-largeur. Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs.',
-    keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
+    usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Settings', '... 90+ pages total'],
+    description: 'Hero canonique de page (Phase 19.B-2026-05-26 : renommé PageHero, ex-EditorialHero). Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs. **Nouveau code → préférer `PageHero` (universel)**. `EditorialHero` reste alias rétrocompat + canonical pour surfaces éditoriales réelles (Magazine, Veille, Articles) où une variante éditoriale spécialisée pourra émerger.',
+    keywords: ['hero', 'page-hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass', 'universal'],
     render: () => (
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={12} />, label: 'Le mag du mois' }}
@@ -6133,6 +6040,70 @@ const Components: React.FC = () => {
           </div>
         }
       />
+
+      {/* -------------------------------- AUDIT BANNER ------------------------ */}
+      {/* Phase 19.1 health · link to /design-showcase for visual validation */}
+      <div className="my-section-lg rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-accent-50/40 p-5 sm:p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-stack-lg">
+          {/* Left — score */}
+          <div className="flex items-center gap-stack-lg shrink-0">
+            <div className="relative inline-flex items-center justify-center size-16 rounded-2xl bg-primary-600 text-white shadow-brand-sm">
+              <span className="font-display text-h3 font-bold leading-none">15</span>
+              <span className="absolute -bottom-1 -right-1 text-[0.625rem] font-mono font-bold text-primary-700 bg-white rounded-full px-1.5 py-0.5 border border-primary-200">
+                /20
+              </span>
+            </div>
+            <div className="flex flex-col gap-tight">
+              <span className="font-mono text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary-700">
+                Phase 19.1 · Audit
+              </span>
+              <h2 className="font-display text-h4 font-semibold text-ink-900">
+                Health score · Good
+              </h2>
+              <p className="text-caption text-ink-600">
+                113 composants scorés · 2 P0 fixés · 8/10 P1 en cours
+              </p>
+            </div>
+          </div>
+
+          {/* Middle — dim chips */}
+          <div className="flex flex-wrap items-center gap-2 flex-1">
+            {[
+              { label: 'A11y', score: 3, tone: 'primary' as const },
+              { label: 'Perf', score: 3, tone: 'primary' as const },
+              { label: 'Theme', score: 4, tone: 'success' as const },
+              { label: 'Resp.', score: 2, tone: 'warm' as const },
+              { label: 'Anti-pat', score: 3, tone: 'primary' as const },
+            ].map((d) => {
+              const cls = {
+                primary: 'bg-primary-100 text-primary-800 border-primary-200',
+                success: 'bg-success-bg/40 text-primary-700 border-success-base/40',
+                warm: 'bg-secondary-100 text-secondary-800 border-secondary-200',
+              }[d.tone];
+              return (
+                <span
+                  key={d.label}
+                  className={`inline-flex items-center gap-1.5 rounded-pill border px-2.5 py-1 text-caption font-semibold ${cls}`}
+                >
+                  <span>{d.label}</span>
+                  <span className="font-mono font-bold tabular-nums">{d.score}/4</span>
+                </span>
+              );
+            })}
+          </div>
+
+          {/* Right — CTA */}
+          <button
+            type="button"
+            onClick={() => navigate('/design-showcase')}
+            className="inline-flex items-center justify-center gap-2 min-h-touch px-5 py-2.5 rounded-pill bg-primary-600 text-white font-semibold text-button shadow-sm hover:bg-primary-700 hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shrink-0"
+          >
+            <SparklesIcon size={16} />
+            Voir le Design Showcase
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </div>
 
       {/* -------------------------------- CONTROLS (sticky) ------------------- */}
       <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-3 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">

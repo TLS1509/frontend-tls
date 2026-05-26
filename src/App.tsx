@@ -198,6 +198,8 @@ import CreditsPage from './pages/CreditsPage';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import { PagesIndex } from './pages/PagesIndex';
+import DesignShowcase from './pages/DesignShowcase';
+import TestLogoModernized from './pages/_TestLogoModernized';
 import { FloatingNavButton } from './components/FloatingNavButton';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
@@ -531,6 +533,9 @@ function App() {
         <Route path="/error/404" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error404 /></div>} />
         <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
 
+        {/* ── Pages test temporaires ── */}
+        <Route path="/_test-logo-modernized" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogoModernized /></div>} />
+
         {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
         {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
         <Route path="/auth/login"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Login /></div>} />
@@ -552,6 +557,7 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/components" element={<Components />} />
+                  <Route path="/design-showcase" element={<DesignShowcase />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />

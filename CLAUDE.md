@@ -48,11 +48,15 @@ src/
 `BreadcrumbNav.tsx` = thin re-export `export { Breadcrumb as BreadcrumbNav }`.
 **Utiliser `<Breadcrumb variant="nav">` pour les nouveaux usages.**
 
-### Famille Pills — 5 composants distincts (garder séparés)
+### Famille Pills — 4 wrappers sur Chip primitive (Phase 19.A · 2026-05-26)
+Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) qui owne les style tokens partagés : `CHIP_BASE`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`. Helper `resolveChipClasses({size, tone, surface, interactive, hover})` retourne la chaîne complète.
+
+**4 wrappers publics conservés** (APIs spécialisées, pas de fusion) :
+
 | Composant | Usage |
 |-----------|-------|
-| `Pill` | glass/surface chip — hero overlays, compteurs. `children: ReactNode`, pas de tone. |
-| `MetaPill` | metadata chip — cards. `text: string`, `tone: semantic`. Clickable optionnel. |
+| `Pill` | glass/surface chip — hero overlays, compteurs. `children: ReactNode`, pas de tone. Variants : `surface` / `glass-light` / `glass-dark`. |
+| `MetaPill` | metadata chip — cards. `text: string`, `tone: semantic`. Clickable optionnel → rend un **vrai `<button>`** (Phase 19.A fix : avant c'était `role="button"` span, anti-pattern WCAG). |
 | `MetaPillGroup` | layout wrapper pour tableaux de MetaPills. |
 | `Tag` | removable filter chip avec X button. |
 | `FilterChip` | toggle interactif avec active state gradient. |
@@ -63,8 +67,8 @@ src/
 
 | Composant | Usage canonique |
 |-----------|-----------------|
-| `patterns/EditorialHero` | Bandeau hero plein-largeur. `tone: default \| brand \| warm \| sun`. **`brand`** (gradient saturé primary-500→700, texte blanc, border/halo blanc) = Dashboard, Journal. Autre tons = pages auth/éditoriales. Consommé par 14 pages. |
-| `patterns/AuthShell` | Layout split-screen pour pages auth. Sous-composants : `AuthFeature`, `AuthDivider`, `AuthSocialButton`, `AuthSuccess`. Consommé par Login, Signup, ForgotPassword, ResetPassword. |
+| `patterns/EditorialHero.tsx` → exports **`PageHero`** (canonical) + `EditorialHero` (alias) | Hero universel page-opening. `tone: default \| brand \| warm \| sun`. **`brand`** (gradient saturé primary-500→700, texte blanc) = Dashboard, Journal. Autre tons = auth/éditoriales/detail. **Consommé par 101+ pages.** Phase 19.B-2026-05-26 : renommé `EditorialHero` → `PageHero` (nom universel). `EditorialHero` reste un alias rétrocompat + nom canonical pour surfaces réellement éditoriales (Magazine, Veille, Articles). Nouveaux usages → `PageHero`. |
+| `patterns/AuthShell` | Layout split-screen pour pages auth. Sous-composants : `AuthDivider`, `AuthSocialButton`, `AuthSuccess`, + champs glass-dark (`AuthField`, `AuthPasswordField`, `AuthCheckbox`) + boutons (`AuthPrimaryButton`, `AuthGhostButton`). Consommé par Login, Signup, ForgotPassword, ResetPassword, MagicLink, VerifyEmail. **`AuthFeature` supprimé Phase 19.C-2026-05-26** (deprecated depuis 2026-05-09, 0 consumer). |
 | `patterns/EditorialLayout` | 2-col main + sticky aside, stack mobile-first. Pour pages MagazineArticle, ArticleDetail, Newsletter, WeeklyNewsDetail, Project, etc. (7 pages). |
 | `patterns/SectionCard` | Card sectionnée — title + description + footer actions. Pour blocs autonomes dans pages éditoriales. (8 pages) |
 | `patterns/RelatedItemList` | Liste verticale d'items reliés / cross-links. (5 pages) |
@@ -1856,6 +1860,68 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 - ✅ `src/components/patterns/ErrorPage.tsx` (~170 LOC) — pattern canonique pour pages d'erreur. Props : `code, eyebrow, icon, title, description, callout, suggestions[], primaryAction, secondaryAction, tone (default|danger)`. Mobile-first, `min-h-touch` sur cards interactives, `focus-visible` géré.
 - ✅ Audit `focus-visible` sur primitives core : **Button, Card (clickable), Input, Tabs, Sidebar/NavItem** — tous OK. Fix appliqué sur **Modal close button** + **Tag remove button** (manquaient).
 - ✅ Entry Components.tsx showcase + Notion DS DB sync.
+
+### Phase 19.B2 — HeroSection sunset (2026-05-26) ✅
+
+**Livré** :
+- ✅ `patterns/HeroSection.tsx` **supprimé** (était 436 LOC pour 3 consumers — disproportionné).
+- ✅ `PageHero` étendu avec 2 nouveaux slots optionnels :
+  - **`backLink`** : `{ label?, onClick }` ou `ReactNode` — chip top-left avec ArrowLeft, tone-aware (white sur saturé, primary sur default).
+  - **`progress`** : `number` 0-100 + **`progressLabel`** : `ReactNode` — barre tone-aware au-dessus du trailing slot, role="progressbar" + aria valuenow/min/max.
+- ✅ `LearningPathDetail.tsx` migré : `HeroSection variant="gradient" tone="primary"` → `PageHero tone="brand"` (mapping primary → brand) avec backLink + progress + meta + trailing.
+- ✅ `Recherche.tsx` migré : `HeroSection` simple → `PageHero` avec eyebrow object.
+- ✅ `Components.tsx` : 5 archetype demos HeroSection retirés, entry deprecated affiche bannière Phase 19.B-2026-05-26 sunset.
+- ✅ Barrel export `src/components/index.ts` : `HeroSection` retiré + commentaire migration path.
+- ✅ 0 erreur tsc · Search page smoke test OK (h1 "Trouvez ce dont vous avez besoin", PageHero rendered).
+
+**Pas migré** :
+- KPI grid pattern (HeroSection.kpis) — aucun consumer actif n'utilisait cette feature en V1. Si besoin futur → créer un wrapper spécialisé sur PageHero (`DashboardHero` ou `StrategicHero` avec slot kpis) plutôt que polluer l'API publique de PageHero.
+
+### Phase 19.B — Header family renaming (2026-05-26) ✅
+
+**Contexte** : audit Phase 19 a révélé que `EditorialHero` est utilisé sur **101+ pages** (Dashboard, Auth, Coaching, Settings, etc.) — pas du tout éditoriales. Le nom était trompeur. Phase 19.B clarifie le nommage **sans sunset ni migration mass** :
+
+**Livré** :
+- ✅ `patterns/EditorialHero.tsx` exporte désormais **`PageHero` (canonical universal name)** + `EditorialHero` (alias rétrocompat).
+- ✅ Types : `PageHeroProps`, `PageHeroTone`, `PageHeroEyebrow`, `PageHeroMetaItem` exposés. Anciens types (`EditorialHero*`) conservés comme aliases `@deprecated` pointant vers les nouveaux (rétrocompat 0 break, 0 consumer touché).
+- ✅ Barrel export `src/components/index.ts` met `PageHero` en premier, `EditorialHero` en alias.
+- ✅ `Components.tsx` showcase entry renommée `"PageHero (alias: EditorialHero)"` avec description complète du dual naming.
+- ✅ `CLAUDE.md` ligne 66 documente le rename + convention : nouveaux usages → `PageHero`, surfaces éditoriales (Veille, Magazine, Articles) → `EditorialHero`.
+- ✅ Notion DS DB sync (à venir dans la même session).
+- ✅ 0 erreur tsc · Dashboard smoke test OK (h1 "Bienvenue Dev", hero rendered, 0 runtime error).
+
+**Pas dans cette phase** :
+- ❌ Migration mass des 101 consumers (pas nécessaire grâce à l'alias — peut se faire progressivement)
+- ❌ Sunset `HeroSection` (3 consumers, 436 LOC bloated) — décision séparée à prendre
+- ❌ Création variante `EditorialHero` réellement spécialisée pour Veille/Magazine (defaults max-w-prose, italic eyebrow, author/date meta) — à faire si/quand le besoin se concrétise
+
+**Conventions naming (réf)** :
+- `PageHero` = universal page-opening hero (Dashboard, Auth, Coaching, Settings, detail pages, etc.)
+- `EditorialHero` = alias rétrocompat + canonical name pour surfaces réellement éditoriales (Magazine, Veille, Articles, Newsletter, WeeklyNews)
+- `PageHeader` = utility page header (Settings, Billing, Privacy — pages purement fonctionnelles)
+- `SectionHeader` = within-page section heading (h2/h3, déjà universel)
+- `ViewerHeader` = specialized pour lesson player overlay
+- `HeroSection` = TBD (variantes KPI-driven, décision en attente)
+
+### Phase 19.A — Chip base extraction (2026-05-26) ✅
+
+**Livré** :
+- ✅ `src/components/ui/Chip.tsx` (~214 LOC) — primitive interne + style tokens partagés (`CHIP_BASE`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`) + helper `resolveChipClasses({size, tone, surface, interactive, hover})` + composant `<Chip>` polymorphique (`asButton`, `active`, `leadingIcon`, `trailingIcon`).
+- ✅ 4 wrappers refactorés vers Chip tokens, **APIs publiques préservées** (rétrocompat 0 break) : `Pill` (61 LOC), `Tag` (91 LOC), `MetaPill` (106 LOC), `FilterChip` (111 LOC).
+- ✅ **A11y win** : `MetaPill` clickable rend désormais un vrai `<button>` au lieu de `role="button"` span (fix WCAG 4.1.2 Name/Role/Value).
+- ✅ Tone maps dédupliqués (avant : 4× la même map neutral/primary/warm/sun). Future addition d'un tone = 1 fichier au lieu de 4.
+- ✅ Glass variants partagés via `CHIP_SURFACE_MAP` (glass-light/glass-dark/glass-tinted/solid-white).
+- ✅ 29 pages consumer non touchées · 0 erreur tsc · 17 pills + 3 FilterChips rendus sur /learning-paths smoke test.
+
+**À garder en tête** : LOC total a légèrement augmenté (302 → 583) parce que Chip primitive carry des constantes + JSDoc + helper. Le vrai gain est DRYness et single-source-of-truth, pas LOC. Trade-off accepté.
+
+### Phase 19.C — AuthShell distill (2026-05-26) ✅
+
+**Livré** :
+- ✅ Suppression `AuthFeature` (deprecated depuis 2026-05-09, 0 consumer dans le codebase). Retrait du fichier + barrel export (`src/components/index.ts`).
+- ✅ JSDoc structure du fichier `AuthShell.tsx` : 1 layout + 11 sub-components catégorisés (Branding/Copy · Buttons · Form fields · State · Brand icons · Style tokens). Lecture beaucoup plus claire.
+- ✅ Logo loading animation upgrade **V0 pulse → V0.5 rotation spinner** (2.4s cubic-bezier, breath subtil + opacity flicker, like Claude loading mark). Documented dans DESIGN-IMPECCABLE.md §13 Signature 4. V1 shape-morph reste TODO en attente du brand refresh (Canva + Notion guidelines).
+- ✅ Fix log kanban `/design-showcase` réorganisé en board 3 colonnes (Fait / En cours / À faire).
 
 ### Convention a11y — règle obligatoire (à appliquer flow-by-flow)
 
