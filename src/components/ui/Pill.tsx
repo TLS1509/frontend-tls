@@ -1,22 +1,25 @@
 import React from 'react';
+import { CHIP_BASE, CHIP_SIZE, CHIP_SURFACE_MAP, type ChipSize } from './Chip';
 
 /**
- * Pill — Generic chip with icon + text.
+ * Pill — Generic chip with icon + text on white/glass surfaces.
+ *
+ * Phase 19.A — refactored on top of Chip primitive (shared `CHIP_*` style tokens).
+ * Public API unchanged; surface tokens reused for visual consistency with Tag, MetaPill, FilterChip.
  *
  * Differs from:
  *   - Badge (uppercase status indicator, micro size)
  *   - MetaPill (metadata in cards, tone-tinted bg-50)
  *   - FilterChip (interactive tab/filter with active state)
  *
- * Pill is a soft chip used in announcements, hero overlays, counters.
  * Variants:
- *   - surface: white bg + border (Login/Signup/Help banners)
- *   - glass-light: translucent white + backdrop-blur (on colored hero)
- *   - glass-dark: translucent black + backdrop-blur (on media overlay)
+ *   - surface     : white bg + ink border (Login/Signup/Help banners)
+ *   - glass-light : translucent white + backdrop-blur (on colored hero)
+ *   - glass-dark  : translucent black + backdrop-blur (on media overlay)
  */
 
 export type PillVariant = 'surface' | 'glass-light' | 'glass-dark';
-export type PillSize = 'sm' | 'md' | 'lg';
+export type PillSize = ChipSize;
 
 export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   icon?: React.ReactNode;
@@ -24,22 +27,10 @@ export interface PillProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: PillSize;
 }
 
-const BASE =
-  'inline-flex items-center rounded-pill font-body font-medium whitespace-nowrap';
-
-const SIZE_CLASSES: Record<PillSize, string> = {
-  sm: 'gap-1 px-2.5 py-1 text-micro',
-  md: 'gap-2 px-3 py-2 text-caption',
-  lg: 'gap-2 px-4 py-2.5 text-body-sm',
-};
-
-const VARIANT_CLASSES: Record<PillVariant, string> = {
-  surface:
-    'bg-white border border-ink-200 text-ink-500',
-  'glass-light':
-    'bg-white/15 backdrop-blur-glass-light border border-white/30 text-white',
-  'glass-dark':
-    'bg-black/40 backdrop-blur-glass-light border border-white/15 text-white/80',
+const VARIANT_TO_SURFACE: Record<PillVariant, keyof typeof CHIP_SURFACE_MAP> = {
+  surface:       'solid-white',
+  'glass-light': 'glass-light',
+  'glass-dark':  'glass-dark',
 };
 
 export const Pill: React.FC<PillProps> = ({
@@ -50,7 +41,12 @@ export const Pill: React.FC<PillProps> = ({
   children,
   ...rest
 }) => {
-  const classes = [BASE, SIZE_CLASSES[size], VARIANT_CLASSES[variant], className]
+  const classes = [
+    CHIP_BASE,
+    CHIP_SIZE[size],
+    CHIP_SURFACE_MAP[VARIANT_TO_SURFACE[variant]],
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
