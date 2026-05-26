@@ -34,6 +34,8 @@ import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { Badge } from '../components/ui/Badge';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { Stepper } from '../components/ui/Stepper';
@@ -165,10 +167,29 @@ export const SubscriptionPayment: React.FC = () => {
   /* ── Layout ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-screen bg-gradient-page-ambient-warm">
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-section">
+    <div className="relative min-h-screen overflow-x-hidden">
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+      <AmbientBlobs intensity="subtle" />
 
-        {/* Cross-screen Stepper (matches Onboarding flow) */}
+      <div className="relative z-base max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-section flex flex-col gap-section">
+
+        {/* Brand bar */}
+        <div className="flex items-center justify-between">
+          <div className="w-20" />
+          <a href="/dashboard" aria-label="The Learning Society" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={36} variant="color" withBubble />
+          </a>
+          <div className="w-20 flex justify-end">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+            >
+              Passer
+            </button>
+          </div>
+        </div>
+
+        {/* Cross-screen Stepper */}
         <Stepper items={buildOnboardingStepperItems('paiement', onboardingStore.accountType)} orientation="horizontal" />
 
         {/* Header */}
@@ -176,10 +197,10 @@ export const SubscriptionPayment: React.FC = () => {
           <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
             Étape paiement · Abonnement
           </p>
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             Choisis ta formule
           </h1>
-          <p className="m-0 font-body text-body text-ink-600 leading-relaxed max-w-prose mx-auto">
+          <p className="m-0 font-body text-body text-ink-500 leading-relaxed max-w-prose mx-auto">
             Démarre en quelques secondes. Annulable à tout moment, sans frais.
           </p>
         </header>
@@ -219,11 +240,12 @@ export const SubscriptionPayment: React.FC = () => {
                 onClick={() => setSelectedPlan(plan.id)}
                 aria-pressed={isSelected}
                 className={[
-                  'group relative text-left flex flex-col gap-stack p-5 rounded-2xl border-2 bg-white transition-all duration-base cursor-pointer',
+                  'group relative text-left flex flex-col gap-stack p-5 rounded-2xl border-2 transition-all duration-base cursor-pointer',
                   isSelected
-                    ? 'border-primary-500 shadow-md ring-2 ring-primary-200'
-                    : 'border-ink-100 hover:border-primary-300 hover:shadow-sm',
-                  plan.highlight && !isSelected ? 'ring-1 ring-primary-100' : '',
+                    ? 'bg-white border-primary-500 shadow-card-hover ring-2 ring-primary-200 -translate-y-1'
+                    : plan.highlight
+                    ? 'bg-gradient-to-br from-primary-50 to-white border-primary-300 shadow-card hover:shadow-card-hover hover:-translate-y-0.5'
+                    : 'bg-white border-ink-100 hover:border-primary-200 hover:shadow-sm',
                 ].join(' ')}
               >
                 {plan.badge && (
