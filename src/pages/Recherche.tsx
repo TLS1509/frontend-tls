@@ -29,7 +29,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Spinner } from '../components/ui/Spinner';
-import { HeroSection } from '../components/patterns/HeroSection';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { FilterBar } from '../components/forms/FilterBar';
 import { CardGrid } from '../components/patterns/CardGrid';
 import { ParcoursCard } from '../components/patterns/ParcoursCard';
@@ -216,11 +216,11 @@ export const Recherche: React.FC = () => {
     <div className="min-h-screen bg-surface">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
-        {/* Hero */}
-        <HeroSection
-          eyebrow="Recherche"
+        {/* Hero — PageHero (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
+        <PageHero
+          eyebrow={{ label: 'Recherche' }}
           title="Trouvez ce dont vous avez besoin"
-          description="Parcours, articles, vidéos et coachs — tout au même endroit."
+          summary="Parcours, articles, vidéos et coachs — tout au même endroit."
         />
 
         {/* Search bar */}

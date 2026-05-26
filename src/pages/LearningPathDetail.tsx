@@ -17,7 +17,7 @@ import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { Badge } from '../components/ui/Badge';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { CardGrid } from '../components';
-import { HeroSection } from '../components/patterns/HeroSection';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Tabs } from '../components/ui/Tabs';
 import type { TabItem } from '../components/ui/Tabs';
@@ -246,25 +246,22 @@ export const LearningPathDetail: React.FC = () => {
       <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
-          {/* Hero — HeroSection variant="gradient" tone-aware */}
-          <HeroSection
-            variant="gradient"
-            tone={tone}
-            size="lg"
-            showBackButton
-            onBack={() => navigate(parcours.backUrl)}
+          {/* Hero — PageHero tone-aware (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
+          <PageHero
+            tone={tone === 'primary' ? 'brand' : tone}
+            backLink={{ onClick: () => navigate(parcours.backUrl) }}
             eyebrow={parcours.category}
             title={parcours.title}
-            description={parcours.description}
-            metadata={[
-              { icon: <GraduationCap size={14} />, text: parcours.instructor },
-              { icon: <Clock3 size={14} />, text: parcours.duration },
-              { icon: <BookOpen size={14} />, text: `${totalLessons} leçons` },
-              { icon: <Layers size={14} />, text: parcours.level },
+            summary={parcours.description}
+            meta={[
+              { icon: <GraduationCap size={14} />, label: parcours.instructor },
+              { icon: <Clock3 size={14} />, label: parcours.duration },
+              { icon: <BookOpen size={14} />, label: `${totalLessons} leçons` },
+              { icon: <Layers size={14} />, label: parcours.level },
             ]}
             progress={progressPct > 0 ? progressPct : undefined}
             progressLabel={`${completedLessons} / ${totalLessons} leçons complétées`}
-            actions={
+            trailing={
               progressPct === 0 && !positioned ? (
                 <Button variant="glass" onClick={() => setShowPositionnement(true)}>
                   🎯 Se positionner &amp; commencer
