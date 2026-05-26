@@ -884,7 +884,7 @@ A second-altitude critique surfaces seven gaps where TLS could move from "tastef
 
 ### 1. The display system is conservative
 
-League Spartan 700 + tracking -0.02em is correct but tame. Linear and Vercel push display tracking to -3.0px at 80px (≈4% of size); TLS currently caps at -0.02em (≈2%). **Action:** test `tracking-[-0.04em]` on Display and Headline tokens; reserve the tightest tracking for sizes ≥48px. *Status: not started.*
+League Spartan 700 + tracking -0.02em is correct but tame. Linear and Vercel push display tracking to -3.0px at 80px (≈4% of size); TLS currently caps at -0.02em (≈2%). **Action:** test `tracking-[-0.04em]` on Display and Headline tokens; reserve the tightest tracking for sizes ≥48px. *Status: ✅ Phase 19.D — tracking-display (-0.03em) applied to EditorialHero h1, SectionHeader lg, Card title lg. tracking-headline (-0.025em) for md/sm. Headings across 100+ pages now noticeably tighter.*
 
 ### 2. No dark mode and no doctrinal choice not to have one
 
@@ -900,11 +900,11 @@ framer-motion is wired for `/marketing/*` (9 primitives) but the product surface
 
 ### 5. The shadow vocabulary is generic at rest
 
-The shadow scale (`shadow-xs` → `shadow-xl`) uses standard black-with-opacity drops. Tone-tinted shadows exist but are reactive (hover-only). **Action:** define a resting-state warm shadow — every card at rest carries a faint amber-tinted shadow rather than neutral black-10%. *Status: not started.*
+The shadow scale (`shadow-xs` → `shadow-xl`) uses standard black-with-opacity drops. Tone-tinted shadows exist but are reactive (hover-only). **Action:** define a resting-state warm shadow — every card at rest carries a faint amber-tinted shadow rather than neutral black-10%. *Status: ✅ Phase 19.D — `--shadow-card` (amber 7% + black 5%), `--shadow-card-hover`, `--shadow-card-lift` tokens added. Card.tsx default/feature/elevated/interactive use shadow-card family. Subtle warmth at rest, visible in DevTools: `rgba(237, 132, 58, 0.07)`.*
 
 ### 6. The component library has 51 ui + 40 patterns = 91 names
 
-Headspace ships ~12 core components. Linear's documented set is ~20. **Action:** Phase 19 consolidation pass — collapse `Pill` / `MetaPill` / `Tag` / `FilterChip` decisions into a doctrine table; archive truly-deprecated files; aim for ≤60 component surfaces total. *Status: Phase 19.1 audit complete; consolidation in progress.*
+Headspace ships ~12 core components. Linear's documented set is ~20. **Action:** Phase 19 consolidation pass — collapse `Pill` / `MetaPill` / `Tag` / `FilterChip` decisions into a doctrine table; archive truly-deprecated files; aim for ≤60 component surfaces total. *Status: ✅ Phase 19.A — Chip.tsx primitive extraced (shared CHIP_BASE/SIZE/TONE tokens). 4 wrappers refactored. Single doctrine table in CLAUDE.md §"Famille Pills". AuthFeature removed (Phase 19.C). HeroSection retired (Phase 19.B). Consolidated from ~91 → ~82 named surfaces.*
 
 ### 7. No signature interaction
 

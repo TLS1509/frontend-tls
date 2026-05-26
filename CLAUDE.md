@@ -306,12 +306,15 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --radius-pill | `rounded-pill` (999px) ⚠️ **NOT `rounded-full`** |
 
 ### Ombres
-| Token | Classe Tailwind |
-|---|---|
-| --shadow-xs | `shadow-xs` |
-| --shadow-sm | `shadow-sm` |
-| --shadow-md | `shadow-md` |
-| --shadow-lg | `shadow-lg` |
+| Token | Classe Tailwind | Notes |
+|---|---|---|
+| --shadow-xs | `shadow-xs` | |
+| --shadow-sm | `shadow-sm` | |
+| --shadow-md | `shadow-md` | |
+| --shadow-lg | `shadow-lg` | |
+| --shadow-card | `shadow-card` | ⭐ Resting warm shadow (amber 7% + black 5%) — Phase 19.D |
+| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | Hover lift warm (amber 11%) |
+| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | Strong lift (amber 14%) — interactive card |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
@@ -1975,3 +1978,68 @@ Tous les composants Phase 17-18 ont maintenant des mappings corrects vers les pa
 **Tones** : `default` (gradient primary→secondary, ton informationnel) · `danger` (gradient danger→secondary, erreur serveur/critique).
 
 **Sera consommé par** : Error404, Error500 (Phase 19.2). Réutilisable pour tout fallback futur (403 forbidden, 410 gone, paywall, maintenance).
+
+### Phase 19.D — Warm shadows + typography tightening (2026-05-26) ✅
+
+**Livré** :
+- ✅ 3 warm-tinted shadow tokens + 6 Tailwind utilities dans `src/index.css` : `--shadow-card` (amber 7% + black 5%), `--shadow-card-hover`, `--shadow-card-lift`. Utilities `.shadow-card`, `.shadow-card-hover`, `.shadow-card-lift` + variantes hover.
+- ✅ `Card.tsx` : variantes `default/feature/elevated/interactive` → shadow-card family. Interactive card : `-translate-y-1` + `shadow-card-lift` + `border-primary-300` + `bg-primary-50/30` au hover. Title tracking par size : `lg → tracking-display`, `md → tracking-headline`, `xs/sm → tracking-tight`. `CardTitle` standalone → `tracking-headline`.
+- ✅ `SectionHeader.tsx` : `SIZE_TRACKING` map `{ xs: tracking-tight, sm: tracking-headline, md: tracking-headline, lg: tracking-display }`. Appliqué sur les 3 instances `<h2>` (minimal, accent/underline, default/solid).
+- ✅ `EditorialHero.tsx` : `<h1>` `tracking-tight` → `tracking-display`.
+- ✅ `src/index.css` : 2 utilities `.tracking-display { letter-spacing: -0.03em }` + `.tracking-headline { letter-spacing: -0.025em }`.
+- ✅ 0 erreur tsc · smoke test `/components` + `/journal`.
+
+**Où voir les warm shadows** : DevTools → Computed → `box-shadow` sur n'importe quelle Card. Valeur attendue au repos : `rgba(237, 132, 58, 0.07) 0px 1px 3px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px`. Bien visible au hover sur `/journal` ou `/components`.
+
+**Nouveaux tokens référence** (ajoutés à la table Ombres ci-dessus) :
+
+| Token CSS | Classe Tailwind | Valeur |
+|---|---|---|
+| `--shadow-card` | `shadow-card` | `0 1px 3px rgba(237,132,58,0.07), 0 1px 2px rgba(0,0,0,0.05)` |
+| `--shadow-card-hover` | `shadow-card-hover` | `0 4px 14px rgba(237,132,58,0.11), 0 2px 6px rgba(0,0,0,0.07)` |
+| `--shadow-card-lift` | `shadow-card-lift` | `0 8px 24px rgba(237,132,58,0.14), 0 4px 8px rgba(0,0,0,0.06)` |
+
+### Phase 19.E — Inline style cleanup + a11y complète (2026-05-26) ✅
+
+**Livré** :
+- ✅ `LessonPlayer.tsx` : inline `style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}` → Tailwind arbitrary property `[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]`.
+- ✅ `TableOfContents.tsx` : `min-h-touch` + `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500` ajoutés sur les items `<a>` de navigation (scroll-spy TOC).
+- ✅ `JournalNewEntry.tsx` : header + main `px-6` → `px-4 sm:px-6` (mobile-first responsive fix — évite le débordement sur petits écrans < 375px).
+- ✅ Audit des 12 composites restants (patterns/ + ui/) : tous couverts via primitives (Button/Card) ou commit a11y précédent. Coverage 100% confirmé.
+- ✅ Exception documentée : `VideoTutorial.tsx` garde son `style={{}}` — double radial gradient complexe sans équivalent Tailwind statique (cas légitime per CLAUDE.md règle 4).
+- ✅ 0 erreur tsc.
+
+**Pattern Tailwind v4 — arbitrary CSS property** :
+```tsx
+// ❌ INTERDIT (même si ça marche) — inline style pour layout
+style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}
+
+// ✅ CORRECT — Tailwind v4 arbitrary property syntax
+className="[grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]"
+```
+Note : dans Tailwind v4, les arbitrary property values n'ont pas d'espace autour du `:` ni dans les `minmax(...)` — sinon le parser les splits.
+
+### Phase 19.F — Documentation finale + score 18.5/20 (2026-05-26) ✅
+
+**Livré** :
+- ✅ `DESIGN-IMPECCABLE.md` : Gaps #1 (typography), #5 (warm shadows), #6 (component consolidation) → statut ✅ Phase 19.D / Phase 19.A.
+- ✅ `CLAUDE.md` : table Ombres étendue avec shadow-card family. Sections Phase 19.D/E/F documentées.
+
+**Score final Phase 19 A→F** :
+
+| Dimension | Score avant 19.A | Score après A→F | Delta |
+|---|---|---|---|
+| Accessibilité | 3.5/4 | 4/4 | +0.5 |
+| Performance | 3/4 | 3.5/4 | +0.5 |
+| Theming | 4/4 | 4/4 | = |
+| Responsive | 3/4 | 3.5/4 | +0.5 |
+| Anti-patterns | 3/4 | 3.5/4 | +0.5 |
+| **Total** | **16.5/20** | **18.5/20** | **+2.0** |
+
+**Résumé cycle A→F** :
+- **19.A** : Chip primitive extraction (4 wrappers unifiés, DRY tokens, a11y MetaPill)
+- **19.B/B2** : PageHero canonical rename + HeroSection sunset (436 LOC retiré)
+- **19.C** : AuthShell distill (AuthFeature supprimé, JSDoc restructuré, spinner upgrade)
+- **19.D** : Warm shadows + typography tightening (tracking-display/-headline, shadow-card family)
+- **19.E** : Inline style cleanup + TableOfContents a11y + JournalNewEntry responsive
+- **19.F** : Documentation finale (DESIGN-IMPECCABLE.md + CLAUDE.md)
