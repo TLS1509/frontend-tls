@@ -131,6 +131,11 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22), 0 8px 16px rgba(18, 24, 28, 0.06);
+  /* Warm-tinted card resting shadows — faint amber wash on top of neutral base
+     Replaces generic black-only shadows to bring warmth at rest (Phase 19.D gap #5) */
+  --shadow-card:       0 1px 3px rgba(237, 132, 58, 0.07), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 4px 14px rgba(237, 132, 58, 0.11), 0 2px 6px rgba(0, 0, 0, 0.07);
+  --shadow-card-lift:  0 8px 24px rgba(237, 132, 58, 0.14), 0 4px 8px rgba(0, 0, 0, 0.06);
   --shadow-brand-sm: 0 4px 12px rgba(85, 161, 180, 0.25);
   --shadow-brand-md: 0 6px 16px rgba(85, 161, 180, 0.40);
   --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.20);
@@ -554,6 +559,10 @@
   .shadow-warm-sm { box-shadow: var(--shadow-warm-sm); }
   .shadow-warm-md { box-shadow: var(--shadow-warm-md); }
   .shadow-sun-sm { box-shadow: var(--shadow-sun-sm); }
+  /* Warm-tinted card shadows (Phase 19.D) */
+  .shadow-card       { box-shadow: var(--shadow-card); }
+  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
+  .shadow-card-lift  { box-shadow: var(--shadow-card-lift); }
   .hover\:shadow-xs:hover { box-shadow: var(--shadow-xs); }
   .hover\:shadow-sm:hover { box-shadow: var(--shadow-sm); }
   .hover\:shadow-md:hover { box-shadow: var(--shadow-md); }
@@ -564,4 +573,11 @@
   .hover\:shadow-warm-sm:hover { box-shadow: var(--shadow-warm-sm); }
   .hover\:shadow-warm-md:hover { box-shadow: var(--shadow-warm-md); }
   .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
+  .hover\:shadow-card:hover       { box-shadow: var(--shadow-card); }
+  .hover\:shadow-card-hover:hover { box-shadow: var(--shadow-card-hover); }
+  .hover\:shadow-card-lift:hover  { box-shadow: var(--shadow-card-lift); }
+  /* Display-level typography tracking (Phase 19.D gap #1)
+     Use on League Spartan at ≥2rem sizes for premium tightness */
+  .tracking-display { letter-spacing: -0.03em; }
+  .tracking-headline { letter-spacing: -0.025em; }
 }

@@ -84,10 +84,12 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
-  default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',
-  feature: 'bg-white shadow-md hover:shadow-lg',
-  elevated: 'bg-white shadow-md hover:shadow-lg',
-  interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
+  // shadow-card: warm-tinted resting shadow (Phase 19.D gap #5)
+  // shadow-card-hover on hover → lift still uses shadow-card-lift for strong elevation
+  default: 'bg-white border border-ink-200 shadow-card hover:border-ink-300 hover:shadow-card-hover',
+  feature: 'bg-white shadow-card-hover hover:shadow-card-lift',
+  elevated: 'bg-white shadow-card-hover hover:shadow-card-lift',
+  interactive: 'bg-white border border-ink-200 shadow-card cursor-pointer hover:-translate-y-1 hover:shadow-card-lift hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/70 to-white/35 border border-white/60 shadow-sm hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[22%] to-primary-500/[6%] border border-primary-500/25 shadow-sm hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-500/[12%] to-accent-400/5 border border-secondary-500/[15%] shadow-sm hover:shadow-warm-sm',
@@ -215,7 +217,8 @@ export const Card: React.FC<CardProps> = ({
   const hasPropsContent = eyebrow || title || description || footer || icon;
 
   const eyebrowClass = `font-mono text-micro font-bold uppercase tracking-[0.08em] ${tone ? TONE_EYEBROW_CLASSES[tone] : 'text-ink-500'}`;
-  const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight tracking-tight ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
+  // tracking-display for large/medium titles (≥h3 = 1.375rem) for premium tightness
+  const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight ${size === 'lg' ? 'tracking-display' : size === 'md' ? 'tracking-headline' : 'tracking-tight'} ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
   const descriptionClass = `m-0 p-0 ${DESC_SIZE[size]} leading-normal text-ink-600`;
   const footerClass = 'flex items-center justify-between gap-3 mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
   const iconClass = `flex items-center justify-center shrink-0 mb-2 ${ICON_SIZE[size]} [&>svg]:text-current`;
@@ -274,7 +277,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   ...rest
 }) => (
   <h3
-    className={`m-0 p-0 font-display text-h4 font-semibold leading-tight tracking-tight text-ink-900 ${className}`}
+    className={`m-0 p-0 font-display text-h4 font-semibold leading-tight tracking-headline text-ink-900 ${className}`}
     {...rest}
   />
 );

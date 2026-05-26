@@ -95,6 +95,15 @@ const SIZE_TITLE: Record<SectionHeaderSize, string> = {
   lg: 'text-h2',
 };
 
+// tracking-display (-0.03em) for lg, tracking-headline (-0.025em) for md/sm,
+// tracking-tight (Tailwind default -0.025em) for xs. Phase 19.D typography tightening.
+const SIZE_TRACKING: Record<SectionHeaderSize, string> = {
+  xs: 'tracking-tight',
+  sm: 'tracking-headline',
+  md: 'tracking-headline',
+  lg: 'tracking-display',
+};
+
 const SIZE_BUBBLE: Record<SectionHeaderSize, string> = {
   xs: 'w-8 h-8',
   sm: 'w-9 h-9',
@@ -191,6 +200,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   const size: SectionHeaderSize = sizeProp ?? (compact ? 'sm' : 'md');
 
   const titleSize = SIZE_TITLE[size];
+  const titleTracking = SIZE_TRACKING[size];
   const bubbleSize = SIZE_BUBBLE[size];
   const bubbleRadius = SIZE_BUBBLE_RADIUS[size];
   const glyphSize = SIZE_GLYPH[size];
@@ -253,7 +263,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       <div className={wrapperBase}>
         <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
           {renderInlineIcon()}
-          <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0 tracking-tight', titleSize].join(' ')}>
+          <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
             {title}
           </h2>
           {subtitle && (
@@ -275,7 +285,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
             <div className="flex items-center gap-2">
               {renderInlineIcon()}
-              <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0 tracking-tight', titleSize].join(' ')}>
+              <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
                 {title}
               </h2>
             </div>
@@ -293,7 +303,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <div className="flex items-end gap-2 flex-1 min-w-0">
           {renderInlineIcon()}
           <div className="flex flex-col flex-1 min-w-0">
-            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight m-0 tracking-tight', titleSize].join(' ')}>
+            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
               <span className="relative">
                 {title}
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-full', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
