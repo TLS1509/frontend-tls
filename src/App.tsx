@@ -200,6 +200,7 @@ import WebhooksManagement from './pages/WebhooksManagement';
 import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
 import TestLogoModernized from './pages/_TestLogoModernized';
+import TestLogoProposals from './pages/_TestLogoProposals';
 import { FloatingNavButton } from './components/FloatingNavButton';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
@@ -535,6 +536,7 @@ function App() {
 
         {/* ── Pages test temporaires ── */}
         <Route path="/_test-logo-modernized" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogoModernized /></div>} />
+        <Route path="/_test-logo-proposals" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogoProposals /></div>} />
 
         {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
         {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
@@ -544,6 +546,14 @@ function App() {
         <Route path="/auth/reset-password" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><ResetPassword /></div>} />
         <Route path="/auth/verify-email"   element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><VerifyEmail /></div>} />
         <Route path="/auth/magic-link"     element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><MagicLink /></div>} />
+
+        {/* ── Onboarding — plein écran, hors AppLayout ── */}
+        {/* Flow focalisé sans sidebar : même pattern que auth pages. overflow:auto car contenu > 100vh */}
+        <Route path="/onboarding"                  element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><Onboarding /></div>} />
+        <Route path="/onboarding/questionnaire"    element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingQuestionnaire /></div>} />
+        <Route path="/onboarding/payment"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><SubscriptionPayment /></div>} />
+        <Route path="/onboarding/tutorial"         element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingTutorial /></div>} />
+        <Route path="/onboarding/success"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingSuccess /></div>} />
 
         {isAuthenticated ? (
           // Authenticated routes
@@ -586,8 +596,7 @@ function App() {
                   <Route path="/journal/free-entry" element={<JournalFreeEntry />} />
                   <Route path="/project/:id" element={<Project />} />
                   <Route path="/learning-space" element={<LearningSpace />} />
-                  <Route path="/onboarding" element={<Onboarding />} />
-                  <Route path="/onboarding/payment" element={<SubscriptionPayment />} />
+                  {/* /onboarding routes → déplacées hors AppLayout (plein écran, voir ci-dessus) */}
                   <Route path="/coaching/booking" element={<CoachingBookingFlow />} />
                   <Route path="/coaching/pre-questionnaire" element={<PreCoachingQuestionnaire />} />
                   <Route path="/coaching/pre-questionnaire/response" element={<PreCoachingQuestionnaireResponse />} />
@@ -604,8 +613,6 @@ function App() {
                   <Route path="/passeport/competence/:id" element={<PasseportCompetenceDetail />} />
                   <Route path="/passeport/objectifs" element={<PasseportObjectifs />} />
                   <Route path="/coach/passeport" element={<CoachHeatmap />} />
-                  <Route path="/onboarding/success" element={<OnboardingSuccess />} />
-                  <Route path="/onboarding/tutorial" element={<OnboardingTutorial />} />
                   <Route path="/coaching/session/:id" element={<CoachingSessionDetail />} />
                   <Route path="/coaching/corrections" element={<CoachingCorrections />} />
                   <Route path="/coach/corrections" element={<CoachCorrectionsQueue />} />
@@ -666,7 +673,6 @@ function App() {
                   <Route path="/notifications/preferences" element={<NotificationPreferences />} />
                   {/* Phase 16 — Sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION) */}
                   <Route path="/veille/perplexity/:id" element={<PerplexityContentDetail />} />
-                  <Route path="/onboarding/questionnaire" element={<OnboardingQuestionnaire />} />
                   <Route path="/coaching/correction/:id" element={<CorrectionDetailLearner />} />
                   <Route path="/coaching/messages/:coachId" element={<MessagingThread />} />
                   <Route path="/coach/calendar" element={<CoachCalendar />} />

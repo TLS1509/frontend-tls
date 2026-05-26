@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { Card, Button, Badge, Stepper, Input } from '../components';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { OptionGrid } from '../components/patterns/OptionGrid';
 import type { OptionGridItem } from '../components/patterns/OptionGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
@@ -368,34 +370,67 @@ export const Onboarding: React.FC = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-page-ambient-warm">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
+    <main className="relative min-h-screen overflow-x-hidden">
+      {/* ── Fixed background — gradient + blobs always fill the viewport ─────── */}
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+      <AmbientBlobs intensity="subtle" />
+
+      <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+
+        {/* ── Brand bar — logo centered, "Déjà inscrit ?" right ─────────────── */}
+        <div className="flex items-center justify-between">
+          <div className="w-24" /> {/* spacer to keep logo centered */}
+          <a href="/dashboard" aria-label="The Learning Society — retour accueil" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={36} variant="color" withBubble />
+          </a>
+          <div className="w-24 flex justify-end">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+            >
+              Déjà inscrit ?
+            </button>
+          </div>
+        </div>
 
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
         <Stepper items={buildOnboardingStepperItems('profil', onboardingStore.accountType)} orientation="horizontal" />
 
-        {/* ── Section header (simple, no hero block) ──────────────────────────── */}
+        {/* ── Section header ────────────────────────────────────────────────── */}
         <header className="flex flex-col gap-tight text-center">
           <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
             <Sparkles size={14} aria-hidden="true" />
             Démarrage personnalisé
           </p>
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
             Personnalisons ton expérience
           </h1>
-          <p className="m-0 font-body text-body text-ink-600 max-w-prose mx-auto leading-relaxed">
-            Étape {substep + 1} sur {SUBSTEP_LABELS.length} · {SUBSTEP_LABELS[substep]} — quelques questions pour adapter tes recommandations.
+          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+            {SUBSTEP_LABELS[substep]} — {substep < 2 ? 'quelques questions pour adapter tes recommandations' : substep === 2 ? 'définis ton rythme idéal' : 'vérifie et confirme ton profil'}
           </p>
         </header>
 
-        {/* ── Substep card — glassy surface for a soft, premium feel ───────────── */}
-        <div className="rounded-2xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg overflow-hidden">
+        {/* ── Substep card ─────────────────────────────────────────────────── */}
+        <div className="rounded-2xl bg-white/75 backdrop-blur-glass-medium border border-white/60 shadow-card overflow-hidden">
+
+          {/* Segmented substep progress bar */}
+          <div className="flex h-1 gap-px bg-ink-100" aria-hidden="true">
+            {SUBSTEP_LABELS.map((_, i) => (
+              <div
+                key={i}
+                className={[
+                  'flex-1 transition-all duration-300 ease-standard',
+                  i <= substep ? 'bg-secondary-500' : 'bg-transparent',
+                ].join(' ')}
+              />
+            ))}
+          </div>
 
           <div className="p-6 sm:p-8 animate-in fade-in slide-in-from-right-2 duration-300" key={substep}>
             {stepComponents[substep]}
           </div>
 
-          {/* Footer nav — responsive button layout (stacked on mobile) */}
+          {/* Footer nav */}
           <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
             {substep === 0 ? (
               <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">
@@ -408,7 +443,7 @@ export const Onboarding: React.FC = () => {
             )}
 
             <div className="flex items-center gap-3 flex-1 sm:flex-none justify-between sm:justify-start">
-              <span className="font-body text-caption text-ink-500 tabular-nums hidden sm:inline">
+              <span className="font-body text-caption text-ink-400 tabular-nums hidden sm:inline select-none">
                 {substep + 1} / {SUBSTEP_LABELS.length}
               </span>
               {isLast ? (

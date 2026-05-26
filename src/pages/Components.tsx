@@ -286,8 +286,9 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
-  HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
+  HeroSection:          { category: 'Headers & Sections', subCategory: 'Deprecated' },
   EditorialHero:        { category: 'Headers & Sections', subCategory: 'Heroes' },
+  PageHero:             { category: 'Headers & Sections', subCategory: 'Heroes' },
   // 'PageHero archetypes' supprimé — proposals non encore implémentées
   AmbientBlobs:         { category: 'Foundations', subCategory: 'Backgrounds' },
   PageHeader:           { category: 'Headers & Sections', subCategory: 'Page headers' },
