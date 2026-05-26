@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { BookOpen, GraduationCap, Target, ArrowRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
@@ -51,8 +53,19 @@ export default function OnboardingSuccess() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-page-ambient-warm">
-      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
+    <main className="relative min-h-screen overflow-x-hidden">
+      {/* Sun gradient — celebration tone (orange→white→yellow) */}
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
+      <AmbientBlobs intensity="normal" />
+
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-page flex flex-col gap-section-lg">
+
+        {/* ── Brand bar ── */}
+        <div className="flex items-center justify-center">
+          <a href="/dashboard" aria-label="The Learning Society" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={40} variant="color" withBubble />
+          </a>
+        </div>
 
         <Stepper items={buildOnboardingStepperItems('pret', onboardingStore.accountType)} orientation="horizontal" />
 
