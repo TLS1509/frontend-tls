@@ -237,7 +237,7 @@
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 10 (35/35 pages Tier 1+2+3) + 11 + 12 + 13 + 14 + 15 + 16 ✅
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 10 (35/35 pages Tier 1+2+3) + 11 + 12 + 13 + 14 + 15 + 16 + 17 (Zustand wiring) + 18 (Components.tsx + store sync) + 19 (Design Excellence A→F, score 18.5/20) ✅ | **Phase 20** (Figma DS audit + pixel-perfect — 5 gaps comblés, 143 variables vérifiées ✅)
 **Composants validés :** ~121 / ~125 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives + 11 Phase 11–12–DS)
 **Pages scaffoldées :** 82 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 + Phase 14: 15 + Phase 15: 19 + Phase 16: 17 = **82 pages**)
 **Couverture sitemap FO_SCREENS_CONSOLIDATION :** 82/83 écrans (98.8 %) — seul "Notification Bell" reste comme composant global
@@ -1438,4 +1438,80 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 2. Update Notion Écrans DB (6 Phase 17 pages + statut)
 3. Optional: Plan Phase 18.2-18.4 for future iteration
 4. Optional: Plan Phase 19 (remaining audit/edge cases)
+
+---
+
+## PHASE 20 — Figma DS Audit & Pixel-Perfect Reproduction (2026-05-27)
+
+**Objectif** : Reproduire pixel-perfect les composants DS React dans Figma. Code = source de vérité. Figma = handoff design/dev.
+
+**Fichier Figma** : `LccBZ1GKWQVwVzPtsSzk5Y` (Design System — TLS)
+- Atoms page : `1095:2`
+- Composites page : `1122:2`
+
+### Audit préalable (variables)
+
+143 variables auditées dans 5 collections (TLS/Colors, TLS/Spacing, TLS/Radius, TLS/Effects, semantic). Toutes les correspondances code ↔ Figma vérifiées :
+
+| Token code | Valeur | Variable Figma | Statut |
+|---|---|---|---|
+| text-body-sm | 0.9375rem = **15px** | Body/body-sm = 15px | ✅ Aligné |
+| radius-pill | 999px | pill = 999px | ✅ Aligné |
+| shadow-card/hover/lift | amber tints | Effect Styles shadow/card family | ✅ Présents |
+
+### Corrections appliquées (session 2026-05-27)
+
+| # | Correction | Composant | Figma Node | Statut |
+|---|---|---|---|---|
+| 20.1 | Ajout tone=info manquant | MetaPill | ComponentSet `1113:24` → nouveau variant `2106:2` | ✅ |
+| 20.2 | Création Input text field | Input (NOUVEAU) | ComponentSet `2119:22` — 5 variants | ✅ |
+| 20.3 | Suppression ProfileCard dupliqué | ProfileCard `1861:50` (h=10, broken) | Supprimé | ✅ |
+| 20.4 | Clarification StarRating vs QualitativeRating | `1846:90` renommé → QualitativeRating | Renommé | ✅ |
+| 20.5 | Création Tooltip | Tooltip (NOUVEAU) | ComponentSet `2140:18` — 4 directions | ✅ |
+
+### Détail Input Component (20.2)
+
+**5 variants créés** (status=default/focus/success/error/disabled) :
+- Structure : Label (13px SemiBold) + Field (40px, cornerRadius=10) + Helper (13px Regular)
+- Placeholder : 15px Regular (piège #5 respecté)
+- Variable bindings : border/default, primary/500, semantic/danger-base, semantic/success-base, surface/muted
+- Position : §03 Form Controls, x=1184, y=132 (droite de Textarea)
+
+### Détail Tooltip Component (20.5)
+
+**4 variants** (direction=top/bottom/left/right) :
+- Body : ink/900 bg, text/inverse, cornerRadius=6, padding 10×6px
+- Arrow : 8×8px rectangle 45° rotated, ink/900 fill
+- z-index attendu : z/tooltip (70)
+- Position : §09 Overlays & Navigation, x=48, y=900
+
+### Composants vérifiés (Phase 19 consolidations)
+
+| Composant | Statut Figma |
+|---|---|
+| HeroSection (sunset) | ✅ Absent de toutes les pages Figma |
+| AuthFeature (deleted) | ✅ Absent |
+| shadow/card + hover + lift | ✅ Présents dans Effect Styles |
+| TlsLogo 6 variants (color/light/primary/warm/sun/ink) | ✅ Présents |
+| MetaPill 7 tones (+ info ajouté) | ✅ Complet |
+| StarRating 2027:32 (5 rating states) | ✅ Présent |
+| QualitativeRating 1846:90 (ex-StarRating, renommé) | ✅ Clarifié |
+
+### Non créés (déférés — n'existent pas dans le code React)
+
+- **Combobox** : pas de composant React existant → à créer code first
+- **Popover** : idem
+- Tailles Input (sm/md/lg) : React a 3 tailles, Figma a 1 (à étendre)
+
+### Progrès Phase 20
+
+| Livrable | Statut |
+|---|---|
+| Variables audit (143 vars) | ✅ |
+| Atoms page audit (30 top-level sections) | ✅ |
+| Composites page audit (37 top-level) | ✅ |
+| Phase 19 consolidations vérifiées | ✅ |
+| Gaps identifiés et corrigés | ✅ 5 corrections |
+| Notion DS DB sync | ⬜ À faire |
+| Components.tsx usedBy update pour Input/Tooltip | ⬜ À faire |
 
