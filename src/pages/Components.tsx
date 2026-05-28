@@ -636,6 +636,17 @@ const PAGE_TEMPLATES: PageTemplate[] = [
     tags: ['editor', 'mood selector', 'dynamic tags', 'sticky header', 'sidebar'],
     icon: '🗒️',
   },
+  {
+    id: 'journal-search',
+    name: 'Recherche journal',
+    description: 'Recherche full-text dans les entrées de journal + filtres par sentiment (Tous/Positif/Neutre/Difficile) et par période (Toutes/7j/30j/3 mois). Hero brand + résultats Card avec mood icon.',
+    path: '/journal/search',
+    family: 'Journal',
+    color: 'var(--tls-primary-600)',
+    bg: 'var(--tls-primary-50)',
+    tags: ['search', 'filter chips', 'mood filter', 'period filter'],
+    icon: '🔍',
+  },
   /* ── Veille ── */
   {
     id: 'veille',
@@ -3228,7 +3239,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/KeyFindingCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)'],
+    usedBy: ['Dossier (Tier 2)', 'MagazineArticle (Tier 2)', 'JournalDetail'],
     description: '⭐ Glass card horizontale pour "points clés / insights / data findings". Icon-bubble gradient tone-aware + title + description ou metric (big value + label). Layout `horizontal` (default) ou `stacked`.',
     keywords: ['key', 'finding', 'insight', 'data', 'metric', 'glass', 'icon-bubble'],
     render: () => (
