@@ -1453,6 +1453,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Core',
     description: 'Form field. Label always above. Includes Checkbox, Radio, Switch sub-components.',
     keywords: ['form', 'text', 'checkbox', 'radio', 'switch', 'textarea'],
+    usedBy: ['Settings', 'Account', 'SubscriptionPayment', 'NotificationPreferences', 'HelpTicketNew', 'PurchaseCredits', 'PasseportObjectifs', 'JournalSearch', 'ProfileConsent', 'Newsletter', 'ProjectTask', 'CoachCorrectionInterface'],
     render: () => (
       <div className="vstack max-w-[480px]">
         <Input
