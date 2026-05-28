@@ -197,10 +197,11 @@ import OpenBadgesSection from './pages/OpenBadgesSection';
 import CreditsPage from './pages/CreditsPage';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
+import OnboardingPreview from './pages/OnboardingPreview';
+import { OnboardingUnified } from './pages/OnboardingUnified';
 import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
-import TestLogoModernized from './pages/_TestLogoModernized';
-import TestLogoProposals from './pages/_TestLogoProposals';
+import TestLogo from './pages/_TestLogo';
 import { FloatingNavButton } from './components/FloatingNavButton';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
@@ -535,8 +536,7 @@ function App() {
         <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
 
         {/* ── Pages test temporaires ── */}
-        <Route path="/_test-logo-modernized" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogoModernized /></div>} />
-        <Route path="/_test-logo-proposals" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogoProposals /></div>} />
+        <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
 
         {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
         {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
@@ -549,11 +549,13 @@ function App() {
 
         {/* ── Onboarding — plein écran, hors AppLayout ── */}
         {/* Flow focalisé sans sidebar : même pattern que auth pages. overflow:auto car contenu > 100vh */}
-        <Route path="/onboarding"                  element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><Onboarding /></div>} />
+        <Route path="/onboarding"                  element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingUnified /></div>} />
+        <Route path="/onboarding/legacy"           element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><Onboarding /></div>} />
         <Route path="/onboarding/questionnaire"    element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingQuestionnaire /></div>} />
         <Route path="/onboarding/payment"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><SubscriptionPayment /></div>} />
         <Route path="/onboarding/tutorial"         element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingTutorial /></div>} />
         <Route path="/onboarding/success"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingSuccess /></div>} />
+        <Route path="/onboarding-preview"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingPreview /></div>} />
 
         {isAuthenticated ? (
           // Authenticated routes

@@ -306,15 +306,15 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --radius-pill | `rounded-pill` (999px) ⚠️ **NOT `rounded-full`** |
 
 ### Ombres
-| Token | Classe Tailwind | Notes |
-|---|---|---|
-| --shadow-xs | `shadow-xs` | |
-| --shadow-sm | `shadow-sm` | |
-| --shadow-md | `shadow-md` | |
-| --shadow-lg | `shadow-lg` | |
-| --shadow-card | `shadow-card` | ⭐ Resting warm shadow (amber 7% + black 5%) — Phase 19.D |
-| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | Hover lift warm (amber 11%) |
-| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | Strong lift (amber 14%) — interactive card |
+| Token | Classe Tailwind | Valeur | Usage |
+|---|---|---|---|
+| --shadow-xs | `shadow-xs` | `0px 1px 2px rgba(0,0,0,0.05)` | Micro-interactions (hover buttons, chips) |
+| --shadow-sm | `shadow-sm` | `0px 2px 4px rgba(0,0,0,0.08)` | Input focus, subtle card elevation |
+| --shadow-md | `shadow-md` | `0px 4px 8px rgba(0,0,0,0.10)` | Standard cards, dropdowns |
+| --shadow-lg | `shadow-lg` | `0px 8px 16px rgba(0,0,0,0.12)` | Modals, floating panels |
+| --shadow-card | `shadow-card` | `0px 1px 3px rgba(237,132,58,0.07), 0px 1px 2px rgba(0,0,0,0.05)` | ⭐ Resting Card state (warm amber tint 7% + black 5%) — Phase 19.D |
+| --shadow-card-hover | `shadow-card-hover` / `hover:shadow-card-hover` | `0px 4px 14px rgba(237,132,58,0.11), 0px 2px 6px rgba(0,0,0,0.07)` | Card hover lift (warm amber 11%) — interactive signal |
+| --shadow-card-lift | `shadow-card-lift` / `hover:shadow-card-lift` | `0px 8px 24px rgba(237,132,58,0.14), 0px 4px 8px rgba(0,0,0,0.06)` | Strong card lift (warm amber 14%) — interactive card active state |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
@@ -1094,32 +1094,43 @@ Voir `MIGRATION-PLAN.md` § PHASE 16 pour le tracking case-à-cocher.
 
 ---
 
-## Documentation Notion — Règle de synchronisation (OBLIGATOIRE)
+## Documentation Notion + Figma — Règle de synchronisation triple (OBLIGATOIRE)
 
-Tout ajout, modification ou suppression dans le design system ou les pages de l'app **doit être reflété dans les bases de données Notion**.
+Tout ajout, modification ou suppression dans le design system, les composants, ou les pages de l'app **doit être reflété dans LES TROIS sources de vérité parallèles** :
 
-### Bases de données Notion
+1. **Code** (`src/components/`, `src/index.css`, `src/pages/Components.tsx`) — source primaire
+2. **Notion** (Design System DB + Écrans Learning App DB) — documentation business / handoff
+3. **Figma file Design System TLS** — design tokens + components + patterns visuels
 
-| DB | URL | Contenu |
-|---|---|---|
-| **Design System — Claude** | https://www.notion.so/thelearningsociety/fc727adea430439bb45590fd908ba134 | Tokens, composants, patterns, guidelines |
-| **Écrans Learning App** | https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4 | Pages, routes, flows, statuts design |
+Aucun des trois ne doit jamais être en retard sur les autres. Si tu modifies un composant en code, tu DOIS aussi le mettre à jour dans Figma ET dans Notion dans la même session de travail.
+
+### Sources de vérité
+
+| Source | URL / chemin | Contenu | Rôle |
+|---|---|---|---|
+| **Code** | `/Users/chloemimault/Projects/frontend-tls/src/` | Composants React, tokens Tailwind @theme, types, props | Implementation live |
+| **Components.tsx** | `src/pages/Components.tsx` | Showcase visuel de TOUS les composants avec props, variants, usedBy | Source de vérité visuelle interne |
+| **Notion — Design System DB** | https://www.notion.so/thelearningsociety/fc727adea430439bb45590fd908ba134 | Items tokens / composants / patterns / guidelines avec statut migration | Doc business + handoff |
+| **Notion — Écrans Learning App DB** | https://www.notion.so/thelearningsociety/c60f30c775c8473fa15a8446f96142d4 | Pages, routes, flows, statuts design | Tracking app coverage |
+| **Figma Design System TLS** | https://www.figma.com/design/LccBZ1GKWQVwVzPtsSzk5Y/Design-System---TLS | Variables (Colors/Spacing/Radius/Effects), Text Styles, Effect Styles, Components avec descriptions + variants | Design tokens + maquettes visuelles |
 
 ### Quoi mettre à jour et quand
 
-| Changement dans le code | DB Notion | Champs à modifier | Showcase |
-|---|---|---|---|
-| Nouveau composant créé | Design System | Créer l'item : Type, Category, Layer, Migration status, Has variants | Ajouter entrée dans `Components.tsx` |
-| Composant supprimé / déprécié | Design System | Status → `Deprecated` | Retirer entrée + usedBy associés |
-| Migration Tailwind terminée | Design System | Migration status → `Tailwind ✅` | — |
-| Composant devient tone-aware | Design System | Tone-aware → true | Ajouter demo multi-tone dans showcase |
-| Nouveau variant ou prop ajouté | Design System | Has variants → true, Notes | Ajouter le variant dans showcase |
-| Nouvelle page créée | Écrans | Créer l'item : Route, Flow, Niveau, Disponible, Composants clés, Objectif | Retirer `showcaseOnly: true` sur composants activés |
-| Page supprimée | Écrans | Supprimer l'item ou Statut design → `Deprecated` | — |
-| Route renommée | Écrans | Champ Route | — |
-| Statut design avancé | Écrans | Statut design | — |
-| Nouveau token `@theme` | Design System | Créer item Token : Category, Layer | — |
-| Nouveau pattern/guideline | Design System | Créer item Guideline : Status = Approved | Documenter dans `DESIGN.md` §4 |
+| Changement dans le code | Notion DS DB | Notion Écrans DB | Components.tsx | **Figma file** |
+|---|---|---|---|---|
+| Nouveau composant créé | Créer item : Type, Category, Layer, Migration status, Has variants | — | Ajouter entrée props + usedBy | **Reproduire le composant sur la page Atoms ou Composites, ajouter description complète, lier aux Variables** |
+| Composant supprimé / déprécié | Status → `Deprecated` | — | Retirer entrée + usedBy associés | **Status → Deprecated dans description, ou supprimer le component Figma** |
+| Migration Tailwind terminée | Migration status → `Tailwind ✅` | — | — | — |
+| Composant devient tone-aware | Tone-aware → true | — | Ajouter demo multi-tone | **Ajouter Property Variant tone avec options primary/warm/sun** |
+| Nouveau variant ou prop ajouté | Has variants → true, Notes | — | Ajouter le variant dans showcase | **Ajouter Variant Figma dans le Component Set + update description** |
+| Visual modifié (couleur, spacing, radius, shadow) | — | — | — | **Mettre à jour le rendu Figma + rebind aux nouvelles Variables si applicable** |
+| Nouvelle page créée | — | Créer item : Route, Flow, Niveau, Disponible, Composants clés, Objectif | Retirer `showcaseOnly: true` sur composants activés | — |
+| Page supprimée | — | Supprimer item ou Statut design → `Deprecated` | — | — |
+| Route renommée | — | Champ Route | — | — |
+| Statut design avancé | — | Statut design | — | — |
+| Nouveau token `@theme` (couleur/spacing/radius/shadow) | Créer item Token : Category, Layer | — | — | **Créer la Variable correspondante dans la collection appropriée (TLS / Colors, TLS / Spacing, TLS / Radius, TLS / Effects) + démo visuelle sur Foundations page si applicable** |
+| Nouveau Text Style typo | Créer item Token : Category = Typography | — | — | **Créer le Text Style dans Figma (Heading/H/Body/Caption/Eyebrow/Display/Button/Mono)** |
+| Nouveau pattern/guideline | Créer item Guideline : Status = Approved | — | Documenter dans `DESIGN.md` §4 | **Construire le pattern visuel sur page Composites avec description exhaustive** |
 
 ### Process de quality check — checklist obligatoire
 
@@ -1129,7 +1140,7 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
 - un token `@theme` est ajouté ou supprimé dans `index.css`
 - une règle ou guideline DS est modifiée dans `CLAUDE.md` / `DESIGN.md`
 
-**Les 5 points à vérifier dans l'ordre :**
+**Les 6 points à vérifier dans l'ordre :**
 
 ```
 ☐ 1. CODE → NOTION (synchronisation sortante)
@@ -1137,36 +1148,77 @@ Tout ajout, modification ou suppression dans le design system ou les pages de l'
       → Écrans DB : créer/modifier l'item de la page concernée
       → Ne jamais cocher "Tailwind ✅" ou "Disponible: YES" sans avoir vérifié dans le code
 
-☐ 2. NOTION → CODE (synchronisation entrante — cross-check)
+☐ 2. CODE → FIGMA (synchronisation sortante — DESIGN SYSTEM FILE) ⭐ NOUVEAU
+      → Nouveau composant: reproduire sur page "Components v2 — Atoms" (si primitive) ou "Components v2 — Composites" (si composite/pattern)
+        avec description exhaustive (structure, props, variants, états, "Utilisé dans"), construit comme COMPONENT Figma natif
+      → Couleur/spacing/radius/shadow modifié: rebind aux Variables existantes (TLS / Colors, TLS / Spacing, TLS / Radius, TLS / Effects)
+      → Nouveau token @theme: créer la Variable correspondante dans la collection appropriée + démo visuelle sur Foundations page
+      → Nouveau Text Style: créer dans Figma (Heading/H/Body/Caption/Eyebrow/Display/Button/Mono)
+      → Nouvel Effect Style (shadow): créer dans collection Effect Styles
+      → Composant tone-aware: créer Component Property "tone" avec options primary/warm/sun et bind fills aux Variables tone-aware
+      → Composant déprécié: status "Deprecated" dans description Figma OU suppression du component
+      → Toutes les valeurs visuelles doivent être BINDÉES aux Variables (pas hardcodées) pour pixel-perfect parity
+      → Icons: utiliser Lucide SVG strictement (pas d'emojis dans les composants Figma)
+
+☐ 3. NOTION → CODE (synchronisation entrante — cross-check)
       → Si un item Notion indique "Tailwind ✅" : grep le composant, confirmer qu'aucune classe BEM ne subsiste
       → Si "Disponible: YES" : confirmer que la route existe dans App.tsx
       → Si "Deprecated" : confirmer que le fichier est supprimé ou réexporte uniquement
 
-☐ 3. COMPONENTS.TSX SHOWCASE (src/pages/Components.tsx)
+☐ 4. FIGMA → CODE (synchronisation entrante — cross-check) ⭐ NOUVEAU
+      → Si une Variable Figma existe (ex: primary/500), vérifier qu'elle correspond à la valeur dans src/index.css @theme
+      → Si un Component Figma existe, vérifier que le fichier .tsx correspondant existe encore
+      → Si description Figma mentionne "Utilisé dans: Page X", vérifier que Page X importe bien le composant
+      → Détecter drift: si valeur dans Figma ≠ valeur dans code, mettre à jour Figma (code = source de vérité)
+
+☐ 5. COMPONENTS.TSX SHOWCASE (src/pages/Components.tsx)
       → Nouveau composant : ajouter une entrée avec props, variants, usedBy
       → Variant/prop ajouté : mettre à jour la démo existante
       → Composant supprimé : retirer l'entrée et ses usedBy dans les autres entrées
       → Composant activé dans une vraie page : retirer showcaseOnly: true
       → Composant devenu tone-aware : ajouter démo multi-tone
 
-☐ 4. DOCS INTERNES (si pattern ou règle nouvelle)
+☐ 6. DOCS INTERNES (si pattern ou règle nouvelle)
       → Nouveau pattern découvert → ajouter dans DESIGN.md §4 "Patterns canoniques"
       → Nouveau piège CSS/Tailwind → ajouter dans CLAUDE.md "Pièges connus" + DESIGN.md §5
       → Nouveau token → ajouter dans CLAUDE.md "Référence Tailwind → Design Tokens"
       → Nouvelle règle → ajouter dans CLAUDE.md "Règles absolues" ou "Ce qu'il NE FAUT PAS faire"
+      → Toute nouvelle Variable / Text Style / Effect Style Figma → mentionner ici aussi pour traçabilité
 
-☐ 5. MIGRATION-PLAN.MD (si tâche complétée)
+☐ 7. MIGRATION-PLAN.MD (si tâche complétée)
       → Cocher ✅ la case de la tâche terminée
       → Mettre à jour "Progrès global" si applicable
       → Si nouveau bloc de travail identifié → ajouter une section Phase
 ```
 
+### Pour mettre à jour Figma : process technique
+
+Utiliser le skill `figma-use` et le tool `mcp__18afc236-bea0-4964-b6d4-074a260039c3__use_figma` avec file key `LccBZ1GKWQVwVzPtsSzk5Y`.
+
+**Pages cibles selon le type de modification :**
+- Token (couleur, spacing, radius, shadow, opacity, z-index, duration, blur) → modifier la Variable dans la collection appropriée (`TLS / Colors`, `TLS / Spacing`, `TLS / Radius`, `TLS / Effects`) + mettre à jour la démo visuelle sur page `🎨 Foundations v2 — Tokens` si nouveau token
+- Atom (Button, Card, Badge, Pill, Input, Alert, etc.) → page `🧩 Components v2 — Atoms` (id 1095:2)
+- Composite / pattern / modal / page-level → page `🧩 Components v2 — Composites` (id 1122:2)
+
+**Pattern obligatoire pour chaque composant Figma :**
+1. Construire comme `figma.createComponentFromNode(rootFrame)` (jamais un simple Frame)
+2. Set `component.description` avec : structure visuelle / props complets / variants disponibles / états (hover/focus/active/disabled) / "Utilisé dans: PageA, PageB, PageC" cross-référencé avec usedBy de Components.tsx
+3. **Binder** fills/strokes/cornerRadius/itemSpacing/padding aux Variables existantes via `node.setBoundVariable('fills', variable)` etc. (pas de hardcoded RGB/numbers)
+4. **Appliquer** les Text Styles aux nodes texte (pas de fontSize/fontName inline)
+5. **Appliquer** les Effect Styles aux ombres
+6. Si tone-aware ou size-variable: créer un vrai Component Set avec Properties (pas des frames juxtaposés)
+7. Utiliser Lucide SVG icons (pas d'emojis) — disponibles via les composants Figma de la library iconographie, ou en copiant les paths depuis lucide.dev
+
 **Anti-patterns à ne jamais faire :**
 - Créer un composant sans entrée dans `Components.tsx` — le showcase est la source de vérité visuelle
+- Modifier un composant en code sans le répercuter dans Figma (drift) — la session de travail n'est COMPLÈTE que lorsque les 3 sources matchent
+- Hardcoder une couleur/spacing/radius/shadow dans un composant Figma alors qu'une Variable existe — TOUJOURS binder
+- Utiliser un emoji dans un composant Figma au lieu de Lucide SVG icon — drift visuel garanti avec le rendu code
 - Marquer "Tailwind ✅" dans Notion sans audit Tailwind (tableau 8 critères) validé par l'utilisateur
 - Modifier une API de composant sans mettre à jour `usedBy` dans toutes les entrées du showcase
 - Supprimer un fichier composant sans vérifier ses imports avec `grep -rn "import.*NomDuComposant" src/`
 - Laisser `showcaseOnly: true` sur un composant utilisé dans une vraie page
+- Construire un composant Figma comme `Frame` au lieu de `Component` — perd la description, les variants, et la lien library
 
 **Voir `DESIGN.md` §0 pour le process détaillé côté design system.**
 
@@ -2043,3 +2095,175 @@ Note : dans Tailwind v4, les arbitrary property values n'ont pas d'espace autour
 - **19.D** : Warm shadows + typography tightening (tracking-display/-headline, shadow-card family)
 - **19.E** : Inline style cleanup + TableOfContents a11y + JournalNewEntry responsive
 - **19.F** : Documentation finale (DESIGN-IMPECCABLE.md + CLAUDE.md)
+
+---
+
+## Phase 20 — Figma pixel-perfect reproduction (flow par flow)
+
+**Objectif** : reproduire pixel-perfect dans Figma chaque flow de l'app React à partir du code source et des screenshots live. Chaque frame Figma doit être une source de vérité visuelle fidèle au code, utilisable pour handoff design/dev.
+
+### Workflow Figma reproduction — 6 étapes (OBLIGATOIRE)
+
+```
+ÉTAPE 1 — SCREENSHOTS LIVE (référence visuelle)
+  1.1 Démarrer le dev server : npm run dev (port 5173)
+  1.2 Naviguer vers chaque page du flow
+  1.3 Injecter le CSS anti-animation pour forcer l'affichage :
+      const style = document.createElement('style');
+      style.textContent = '* { opacity: 1 !important; transform: none !important;
+        transition: none !important; animation: none !important; }';
+      document.head.appendChild(style);
+  1.4 Prendre un screenshot via preview_screenshot (serverId du preview_start)
+  1.5 Faire ça pour TOUTES les pages du flow avant de toucher Figma
+
+ÉTAPE 2 — AUDIT CODE → COMPOSANTS
+  2.1 Lire le fichier source .tsx de chaque page + les composants patterns utilisés
+  2.2 Identifier tous les sous-composants, tokens, espacements, couleurs
+  2.3 Dresser un tableau : | Élément | Valeur CSS/Tailwind | Notes |
+  2.4 Points critiques à vérifier :
+      - Font sizes : text-caption(13px) / text-body-sm(14px) / text-body(16px) / etc.
+      - Border radius : rounded-xl(12px) / rounded-2xl(16px) / rounded-3xl(24px)
+      - Heights : h-12=48px (touch targets), h-14=56px, etc.
+      - Glass tokens : bg-white/10, bg-white/8, bg-white/15, border border-white/20
+      - Spacing : gap-4(16px) / gap-5(20px) / gap-6(24px) / px-8(32px) / py-10(40px)
+
+ÉTAPE 3 — AUDIT DS FIGMA EXISTANT (avant toute création)
+  3.1 Lister tous les composants Figma existants :
+      figma.root.findAll(n => n.type === 'COMPONENT' || n.type === 'COMPONENT_SET')
+  3.2 Pour chaque composant du code, chercher un équivalent Figma (nom peut différer !)
+      Exemples de correspondances non-évidentes :
+      - AuthField (code) → AuthField (Figma, id existant)
+      - AuthPrimaryButton → variant=inverse sur Button existant
+      - AuthGhostButton → variant=ghost-dark sur Button existant
+      - AuthDivider → tone=glass-dark sur Divider existant
+  3.3 Matrice de décision :
+      REUSE   : composant Figma existant fait le job tel quel → utiliser instance
+      EXTEND  : variante manquante sur composant existant → ajouter le variant
+      CREATE  : aucun équivalent → créer nouveau composant dans la bonne page DS
+  3.4 TOUJOURS proposer à l'utilisateur avant de créer/modifier quoi que ce soit
+
+ÉTAPE 4 — CORRECTION / CONSTRUCTION FIGMA
+  4.1 Bottom-up : corriger/créer les composants DS AVANT les frames screens
+  4.2 Framer-motion issues :
+      - Les animations framer-motion rendent les éléments opacity:0 dans les screenshots
+      - FIX : injecter le CSS anti-animation (voir étape 1.3) avant chaque screenshot
+  4.3 Tokens Figma → vérifier que les valeurs correspondent exactement au code :
+      | Token code              | Valeur Figma attendue                    |
+      | bg-primary-600          | Fill: r=0.290 g=0.561 b=0.631            |
+      | bg-primary-700          | Fill: r=0.239 g=0.467 b=0.525            |
+      | bg-primary-800          | Fill: r=0.184 g=0.373 b=0.416            |
+      | rounded-3xl             | cornerRadius: 24                         |
+      | rounded-xl              | cornerRadius: 12                         |
+      | rounded-2xl             | cornerRadius: 16                         |
+      | h-12 (48px)             | height: 48                               |
+      | gap-6                   | itemSpacing: 24                          |
+      | gap-5                   | itemSpacing: 20                          |
+      | gap-4                   | itemSpacing: 16                          |
+      | px-8 py-10              | paddingLeft/Right: 32, paddingTop/Bottom: 40 |
+      | text-body (16px)        | fontSize: 16                             |
+      | text-body-sm (14px)     | fontSize: 14                             |
+      | text-caption (13px)     | fontSize: 13                             |
+      | font-display League Spartan Extra Bold h2 | fontSize: 30, fontFamily: League Spartan, style: Extra Bold |
+      | bg-white/10             | Fill: white opacity 10%                  |
+      | bg-white/15             | Fill: white opacity 15%                  |
+      | border border-white/20  | Stroke: white opacity 20%, width: 1      |
+  4.4 Police : charger les fonts avant d'écrire du texte
+      await figma.loadFontAsync({ family: "Nunito", style: "Semi Bold" });
+      await figma.loadFontAsync({ family: "League Spartan", style: "Extra Bold" });
+  4.5 Pièges connus :
+      - Placeholder text : garder à 15px (légèrement plus petit que text-body pour visuel)
+      - Copyright : vérifier qu'il est SOUS le dernier élément, jamais chevauchant
+      - Boutons ghost font : text-body = 16px, pas 15px
+      - Emoji vs Lucide icon : toujours vérifier que les icônes sont des instances Figma
+        et non du texte emoji (chercher par nom : figma.root.findAll(n => n.type==='COMPONENT' && n.name==='Sparkles'))
+
+ÉTAPE 5 — VÉRIFICATION VISUELLE (Figma screenshot vs live app)
+  5.1 Exporter chaque frame :
+      const bytes = await frame.exportAsync({ format: 'PNG', constraint: { type: 'SCALE', value: 0.5 } });
+      return { img: figma.base64Encode(bytes) };
+      OU utiliser mcp__18afc236-bea0-4964-b6d4-074a260039c3__get_screenshot (node_id de la frame)
+      + curl pour télécharger + Read pour visualiser
+  5.2 Comparer côte-à-côte Figma vs live :
+      - Positions et espacements cohérents
+      - Couleurs identiques
+      - Icons : instances Figma (pas emoji ni vecteurs custom)
+      - Copyright non chevauchant
+  5.3 Si un écart est détecté → corriger dans Figma (pas dans le code)
+
+ÉTAPE 6 — DS SYNC + VALIDATION USER
+  6.1 Présenter à l'utilisateur :
+      - Liste des corrections appliquées (tableau Before/After)
+      - Liste des nouveaux composants proposés avec catégorie (Atom/Composite/Pattern)
+      - Screenshots avant/après pour chaque frame modifiée
+  6.2 Attendre validation explicite AVANT de créer les nouveaux composants DS dans Figma
+  6.3 Après validation :
+      - Créer les composants DS sur la bonne page (Atoms ou Composites)
+      - Mettre à jour Components.tsx si composant aussi dans le code
+      - Notion DS DB sync
+  6.4 Commit doc : docs(phase-20.X): figma reproduction [flow name]
+```
+
+### Prompt template pour nouvelle session Figma reproduction
+
+```
+Reproduis pixel-perfect dans Figma le flow "[NOM DU FLOW]" à partir du code source React.
+
+Fichier Figma : LccBZ1GKWQVwVzPtsSzk5Y
+Page cible : [NOM PAGE FIGMA] (id: [PAGE_ID])
+Dev server : http://localhost:5173
+
+Pages du flow :
+- [route] → [NOM FRAME FIGMA] (id: [FRAME_ID])
+- ...
+
+Workflow OBLIGATOIRE (voir CLAUDE.md § Phase 20) :
+1. Screenshots live de toutes les pages (avec CSS anti-animation framer-motion)
+2. Audit code : lire .tsx de chaque page + composants patterns
+3. Audit DS Figma : chercher équivalents AVANT de créer
+4. Présenter matrice REUSE/EXTEND/CREATE → attendre validation user
+5. Corriger les frames existantes
+6. Screenshots Figma de vérification
+7. Proposer les nouveaux composants DS validés → créer après accord
+
+Règles critiques :
+- NE PAS créer de composants DS sans validation user explicite
+- Les placeholder/input text = 15px (pas 16px)
+- Les boutons (primary + ghost) = 16px (text-body)
+- Charger les fonts avant toute écriture texte (Nunito Semi Bold + League Spartan Extra Bold)
+- Vérifier que copyright n'est jamais chevauchant avec le dernier élément
+- Emoji ≠ Lucide icon : toujours vérifier les icônes dans les boutons
+```
+
+### Pièges Figma reproduction découverts (2026-05-27)
+
+1. **Framer-motion opacity:0** : les pages avec framer-motion (= presque toutes) affichent un écran blanc au screenshot. **Fix** : injecter `style.textContent = '* { opacity: 1 !important; transform: none !important; animation: none !important; }'` via `preview_eval` avant chaque `preview_screenshot`.
+
+2. **Copyright chevauchant** (AUTH 4) : quand la frame contient card + aside + copyright, la hauteur totale peut dépasser 900px. **Fix** : calculer la hauteur du contenu et repositionner — ou étendre la frame height. Formule : `card_height + gap(24) + aside_height + gap(32) + copyright(16) + padding_top(48) + padding_bottom(48)`.
+
+3. **Emoji vs Lucide icon dans les boutons** : les sessions précédentes (Figma Make prototype) avaient remplacé des icônes par des emojis texte (ex. "✨" au lieu de Sparkles). **Fix** : `figma.root.findAll(n => n.type === 'COMPONENT' && n.name === 'Sparkles')` pour trouver l'ID du component, puis `createInstance()`.
+
+4. **Font size 15 vs 16 inadvertie** : lors d'un fix global des boutons (fontSize 15→16), les textes de placeholder/input ont aussi été touchés. **Fix** : cibler uniquement les textes bouton par leur `characters` (ex. `'Retour connexion'`, `'Se connecter avec mot de passe'`) pas par fontSize seul.
+
+5. **Positions Figma en coordonnées absolues** : les frames Figma ne sont pas auto-layout par défaut. Les positions `.x` et `.y` des enfants sont absolues dans le frame parent. Pour repositionner proprement, calculer depuis le haut en utilisant la même logique que le CSS flex-center : `y_debut_contenu = (frame_height - total_content_height) / 2`.
+
+6. **`layoutPositioning = 'ABSOLUTE'` doit être mis APRÈS appendChild** : si on ajoute un node à un auto-layout frame et qu'on veut ensuite le positionner en absolu, il faut d'abord l'appendre puis changer `layoutPositioning`. L'inverse génère une erreur.
+
+7. **Framer-motion opacity:0** (ÉTAPE 1.3) : les pages avec framer-motion rendent opacity:0 au premier render, affichant un écran blanc. **Fix** : injecter le CSS anti-animation dans `preview_eval` AVANT chaque screenshot : `const style = document.createElement('style'); style.textContent = '* { opacity: 1 !important; transform: none !important; animation: none !important; }'; document.head.appendChild(style);`
+
+8. **Copyright chevauchant — calcul de hauteur** (ÉTAPE 2.2, ÉTAPE 4.2) : quand la frame contient multiple sections (card + aside + copyright), la hauteur totale peut dépasser 900px et le copyright se chevauche avec l'élément au-dessus. **Fix** : calculer explicitement `total_height = card_height + gap(24) + aside_height + gap(32) + copyright(16) + padding_top(48) + padding_bottom(48)`. Si dépasse 900px, étendre la frame height ou réduire les gaps.
+
+### Exemples de correspondances composants code → DS Figma (flow AUTH)
+
+| Code (AuthShell.tsx) | DS Figma | Action |
+|---|---|---|
+| `AuthField` | `AuthField` (id: 1112:70, status=default/success/error) | ✅ REUSE — déjà existant |
+| `AuthPasswordField` | Extension de `AuthField` + Eye icon | EXTEND AuthField |
+| `AuthPrimaryButton` | `Button` → ajouter `variant=inverse` | EXTEND Button |
+| `AuthGhostButton` | `Button` → ajouter `variant=ghost-dark` | EXTEND Button |
+| `AuthSocialButton` | Aucun équivalent | CREATE — Atoms |
+| `AuthDivider` | `Divider` → ajouter `tone=glass-dark` | EXTEND Divider |
+| `AuthCheckbox` | `Checkbox` → ajouter `surface=dark` | EXTEND Checkbox |
+| `AuthInlineLink` | `Button variant=link` (light) → ajouter `surface=dark` | EXTEND Button |
+| `AuthSuccess` | Aucun équivalent (≠ EmptyState) | CREATE — Composites |
+| `back-link` (← Retour) | Aucun équivalent standalone | CREATE — Atoms |
+| `AuthShell` (glass card layout) | `Card variant=glass-dark` (partiel) | Pattern-level, pas de composant |

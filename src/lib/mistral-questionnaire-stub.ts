@@ -28,9 +28,7 @@ import type { DreyfusLevel } from '../types/learning';
 export function buildGreeting(firstName: string, totalQuestions: number): string[] {
   const name = firstName.trim() || 'à toi';
   return [
-    `Bonjour ${name} ! 👋 Je suis l'assistant IA de The Learning Society.`,
-    `Je vais te poser ${totalQuestions} questions courtes pour évaluer ton niveau sur les compétences clés de ton parcours. Tu peux développer tes réponses si tu veux — ça m'aide à mieux te recommander la suite.`,
-    `On y va ?`,
+    `Bonjour ${name} ! Je vais te poser ${totalQuestions} questions pour calibrer ton parcours. Réponds librement, ou choisis parmi les propositions si tu préfères aller vite.`,
   ];
 }
 

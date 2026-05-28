@@ -14,7 +14,48 @@ import { usePositioningStore, usePasseportStore, useOnboardingStore } from '../s
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import { OnboardingQuestionnaireConversational } from './OnboardingQuestionnaireConversational';
+import type { QuestionnaireVariant } from './OnboardingQuestionnaireConversational';
 import type { DreyfusLevel } from '../types/learning';
+
+/** Max questions for the Individual path MVP. Configurable for V2. */
+const INDIVIDUAL_MAX_Q = 5;
+
+// ── Variant switcher (dev + user testing tool) ──────────────────────────────
+const VARIANT_LABELS: Record<QuestionnaireVariant, string> = {
+  a: 'Chat',
+  b: 'Focus',
+  c: 'Immersif',
+};
+
+const VariantSwitcher: React.FC<{
+  current: QuestionnaireVariant;
+  onChange: (v: QuestionnaireVariant) => void;
+}> = ({ current, onChange }) => (
+  <div
+    className="fixed bottom-6 right-5 z-toast flex items-center gap-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/60 shadow-lg px-1.5 py-1"
+    role="group"
+    aria-label="Changer de variante"
+  >
+    <span className="text-micro text-ink-400 px-2 shrink-0 select-none">Variante</span>
+    {(['a', 'b', 'c'] as QuestionnaireVariant[]).map((v) => (
+      <button
+        key={v}
+        type="button"
+        onClick={() => onChange(v)}
+        aria-pressed={current === v}
+        className={[
+          'rounded-pill px-3 py-1 text-caption font-semibold transition-all duration-200 min-h-[32px]',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+          current === v
+            ? 'bg-secondary-500 text-white shadow-sm'
+            : 'text-ink-500 hover:text-ink-900 hover:bg-ink-50',
+        ].join(' ')}
+      >
+        {VARIANT_LABELS[v]}
+      </button>
+    ))}
+  </div>
+);
 
 const ONBOARDING_PARCOURS_ID = 'onboarding-initial';
 
@@ -24,18 +65,22 @@ const OnboardingQuestionnaire: React.FC = () => {
   const passeportStore = usePasseportStore();
   const onboardingStore = useOnboardingStore();
 
-  // ── CDC §03 — dynamic 3-30 questions based on user's selected goals ──
-  const QUESTIONS = React.useMemo(
-    () => buildOnboardingQuestionnaire(onboardingStore.goals),
-    [onboardingStore.goals]
-  );
+  // ── Variant switcher state (Individual path only) ──
+  const [qVariant, setQVariant] = useState<QuestionnaireVariant>('a');
+
+  // ── CDC §03 — dynamic questions based on user's selected goals ──
+  // Individual: capped at INDIVIDUAL_MAX_Q for MVP (configurable).
+  // Company: full 3-30 range per spec.
+  const isIndividual = onboardingStore.accountType === 'individual';
+
+  const QUESTIONS = React.useMemo(() => {
+    const all = buildOnboardingQuestionnaire(onboardingStore.goals);
+    return isIndividual ? all.slice(0, INDIVIDUAL_MAX_Q) : all;
+  }, [onboardingStore.goals, isIndividual]);
 
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const total = QUESTIONS.length;
-
-  // ── CDC §UJ #1a vs #1b — Individual gets conversational, invited gets form ──
-  const isIndividual = onboardingStore.accountType === 'individual';
 
   const persistAndContinue = (
     finalAnswers: Record<number, DreyfusLevel | number>,
@@ -99,23 +144,29 @@ const OnboardingQuestionnaire: React.FC = () => {
           <header className="flex flex-col gap-tight text-center">
             <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
               <Target size={14} aria-hidden="true" />
-              Positionnement Dreyfus
+              Positionnement
             </p>
             <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
               Évaluons ton niveau de départ
             </h1>
             <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
-              Une conversation guidée — {total} compétences à évaluer.
+              {total} compétences à évaluer — réponds en tapant sur une proposition.
             </p>
           </header>
 
+          {/* key={qVariant} forces a clean remount when the variant changes */}
           <OnboardingQuestionnaireConversational
+            key={qVariant}
             questions={QUESTIONS}
             firstName={onboardingStore.firstName}
             requiresPayment={onboardingStore.requiresPayment()}
+            variant={qVariant}
             onComplete={(ans, elab) => persistAndContinue(ans, elab)}
           />
         </div>
+
+        {/* Variant switcher — fixed bottom-right */}
+        <VariantSwitcher current={qVariant} onChange={setQVariant} />
       </main>
     );
   }
