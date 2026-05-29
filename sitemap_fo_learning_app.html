@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.app {
+  display: flex; flex-direction: column;
+  height: 680px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg, #ffffff); color: var(--text, #111827); overflow: hidden;
+  font-size: 13px;
+}
+
+/* HEADER */
+.header {
+  padding: 12px 20px; border-bottom: 1px solid var(--border, #e5e7eb);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-title { font-size: 14px; font-weight: 700; }
+.header-sub { font-size: 11px; color: #6b7280; }
+.legend { display: flex; gap: 12px; align-items: center; }
+.leg { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #6b7280; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+.leg-mvp { background: #3b82f6; }
+.leg-v1 { background: #8b5cf6; }
+.leg-v2 { background: #9ca3af; }
+
+/* LAYOUT */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 210px; border-right: 1px solid var(--border, #e5e7eb);
+  overflow-y: auto; flex-shrink: 0; padding: 8px 0;
+}
+.sidebar-section { padding: 6px 12px 2px; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; }
+.mod-item {
+  padding: 7px 12px; cursor: pointer; display: flex; align-items: center;
+  gap: 8px; border-left: 3px solid transparent; transition: all 0.1s;
+}
+.mod-item:hover { background: #f9fafb; }
+.mod-item.active { border-left-color: #6366f1; background: #f5f3ff; font-weight: 600; }
+.mod-icon { font-size: 14px; flex-shrink: 0; }
+.mod-info { flex: 1; min-width: 0; }
+.mod-name { font-size: 11.5px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mod-num { font-size: 10px; color: #9ca3af; }
+.phase-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* CONTENT */
+.content { flex: 1; overflow-y: auto; padding: 16px 20px; }
+
+/* BREADCRUMB */
+.breadcrumb { display: flex; align-items: center; gap: 6px; margin-bottom: 16px;
+  font-size: 12px; color: #6b7280; flex-wrap: wrap; }
+.bc-link { cursor: pointer; color: #6366f1; }
+.bc-link:hover { text-decoration: underline; }
+.bc-sep { color: #d1d5db; }
+.bc-current { color: #111827; font-weight: 600; }
+
+/* HOME VIEW */
+.home-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.home-sub { font-size: 12px; color: #6b7280; margin-bottom: 16px; }
+.phase-group { margin-bottom: 20px; }
+.phase-label { font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.phase-mvp { color: #2563eb; }
+.phase-v1 { color: #7c3aed; }
+.phase-v2 { color: #6b7280; }
+.phase-line { flex: 1; height: 1px; background: currentColor; opacity: 0.2; }
+
+.mod-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.mod-card {
+  border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; cursor: pointer;
+  transition: all 0.15s; position: relative; overflow: hidden;
+}
+.mod-card:hover { border-color: #6366f1; box-shadow: 0 4px 12px rgba(99,102,241,0.12);
+  transform: translateY(-1px); }
+.mod-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 10px 10px 0 0; }
+.mod-card-icon { font-size: 22px; margin-bottom: 8px; }
+.mod-card-num { font-size: 10px; font-weight: 700; color: #9ca3af; margin-bottom: 3px; }
+.mod-card-name { font-size: 12px; font-weight: 600; line-height: 1.4; margin-bottom: 10px; }
+.mod-card-stats { display: flex; align-items: center; justify-content: space-between; }
+.stat-count { font-size: 11px; color: #6b7280; }
+.warn-count { font-size: 10px; background: #fffbeb; color: #d97706; padding: 1px 5px;
+  border-radius: 4px; font-weight: 600; border: 1px solid #fde68a; }
+
+/* SCREENS VIEW */
+.screens-header { margin-bottom: 14px; }
+.screens-title { font-size: 15px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
+.screens-sub { font-size: 12px; color: #6b7280; }
+.screens-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+
+.screen-card {
+  border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; cursor: pointer;
+  transition: all 0.15s;
+}
+.screen-card:hover { border-color: #6366f1; box-shadow: 0 2px 8px rgba(99,102,241,0.1);
+  transform: translateY(-1px); }
+.screen-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; margin-bottom: 8px; }
+.screen-name { font-size: 12.5px; font-weight: 600; line-height: 1.3; flex: 1; }
+.screen-status { font-size: 13px; flex-shrink: 0; }
+.screen-route { font-size: 10px; color: #9ca3af; font-family: monospace; margin-bottom: 6px;
+  background: #f9fafb; padding: 2px 5px; border-radius: 3px; display: inline-block; }
+.screen-roles { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.role-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  background: #f3f4f6; color: #6b7280; }
+.role-apprenant { background: #dbeafe; color: #1d4ed8; }
+.role-coach { background: #d1fae5; color: #065f46; }
+.role-manager { background: #ede9fe; color: #5b21b6; }
+.role-admin { background: #fee2e2; color: #991b1b; }
+.role-public { background: #f0fdf4; color: #166534; }
+.role-collab { background: #fef3c7; color: #92400e; }
+.role-expert { background: #fce7f3; color: #9d174d; }
+.role-dev { background: #e0e7ff; color: #3730a3; }
+
+.prio { font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 4px; }
+.p0 { background: #fee2e2; color: #dc2626; }
+.p1 { background: #fef3c7; color: #d97706; }
+.p2 { background: #f3f4f6; color: #9ca3af; }
+
+/* MODAL */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.modal {
+  background: var(--bg, #fff); border-radius: 12px; width: 100%; max-width: 480px;
+  max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-head {
+  padding: 18px 20px 14px; border-bottom: 1px solid #e5e7eb;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+  position: sticky; top: 0; background: var(--bg, #fff); z-index: 1;
+}
+.modal-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.modal-close {
+  border: none; background: #f3f4f6; cursor: pointer; width: 28px; height: 28px;
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #6b7280; flex-shrink: 0; transition: background 0.1s;
+}
+.modal-close:hover { background: #e5e7eb; }
+.modal-body { padding: 16px 20px 20px; }
+.m-section { margin-bottom: 14px; }
+.m-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: #9ca3af; margin-bottom: 5px; }
+.m-value { font-size: 13px; line-height: 1.5; color: #374151; }
+.m-route { font-family: monospace; font-size: 12px; background: #f9fafb;
+  padding: 4px 8px; border-radius: 5px; border: 1px solid #e5e7eb; display: inline-block; }
+.m-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.warn-box {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 7px;
+  padding: 10px 12px; font-size: 12px; color: #92400e; display: flex; gap: 8px;
+  margin-top: 10px;
+}
+.ok-box {
+  background: #f0fdf4; border: 1px solid #86efac; border-radius: 7px;
+  padding: 10px 12px; font-size: 12px; color: #166534; display: flex; gap: 8px;
+  margin-top: 10px;
+}
+.mod-ref { display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
+  background: #f5f3ff; color: #6d28d9; padding: 3px 8px; border-radius: 5px;
+  font-weight: 600; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+</style>
+
+<div class="app" id="app">
+  <div class="header">
+    <div class="header-left">
+      <div>
+        <div class="header-title">📱 Sitemap Front-Office — Learning App SBO</div>
+        <div class="header-sub">83 écrans · 14 modules · MVP Juillet + V1 Septembre</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot leg-mvp"></div> MVP Juillet</div>
+      <div class="leg"><div class="leg-dot leg-v1"></div> V1 Septembre</div>
+      <div class="leg"><div class="leg-dot leg-v2"></div> V2+</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<div id="modal-container"></div>
+
+<script>
+const PHASES = {
+  MVP: { color: '#3b82f6', label: 'MVP Juillet' },
+  V1:  { color: '#8b5cf6', label: 'V1 Septembre' },
+  V2:  { color: '#9ca3af', label: 'V2+' }
+};
+
+const ROLES_CLASS = {
+  'Apprenant': 'role-apprenant',
+  'Coach': 'role-coach',
+  'Manager': 'role-manager',
+  'Manager Entreprise': 'role-manager',
+  'Manager Cohort': 'role-manager',
+  'Admin': 'role-admin',
+  'Super-Admin': 'role-admin',
+  'Public': 'role-public',
+  'Collaborateur': 'role-collab',
+  'Expert': 'role-expert',
+  'Developer': 'role-dev',
+  'Tous rôles': 'role-tag',
+  'Attendee': 'role-apprenant',
+  'Apprenant premium': 'role-apprenant',
+  'Apprenant entreprise': 'role-apprenant',
+};
+
+const modules = [
+  {
+    id: 'm1', num: '#1', name: 'Formation & Learning Paths', phase: 'MVP', icon: '🎓',
+    cahier: '01_Parcours_Learning_Space',
+    screens: [
+      { name: "Page d'Accueil Parcours", route: '/parcours', roles: ['Apprenant'],
+        desc: "Liste filtrable des parcours accessibles : image, titre, durée, niveau. Bouton 'Commencer' ou 'Reprendre'. Statut personnel visible (Pas commencé / En cours / Terminé). Pagination.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Modale Positionnement Initial', route: '/parcours/:id/positionnement', roles: ['Apprenant'],
+        desc: "Questionnaire Dreyfus 1-5 auto-généré basé sur les compétences du parcours. Progression 'Question 3/8'. Boutons 'Valider réponses' et 'Passer'. Submit enregistre et ferme la modale.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Vue Parcours (Progression)', route: '/parcours/:id', roles: ['Apprenant'],
+        desc: "Séquence d'étapes avec statuts (✓ Complétée / ◯ En cours / ◯ Verrouillée). Titre + description + nb leçons par étape. Barre de progression globale %.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Détail Étape (Leçons)', route: '/parcours/:id/etape/:etapeId', roles: ['Apprenant'],
+        desc: "Liste leçons principales avec verrou pré-requis. Complémentaires en section libre. Chaque item : titre + durée + type (icône) + statut + badge 🔒.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Page Learning Space', route: '/learning-space', roles: ['Apprenant'],
+        desc: "Agrégateur de tous items accessibles : micro-learning (6 types), missions, masterclass. Filtres (Thématique / Type / Durée / Niveau / Statut). Recherche textuelle. Accès contrôlé (abonnement + pré-requis).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Détail Item (Lecteur)', route: '/learning-space/:itemId', roles: ['Apprenant'],
+        desc: "Affichage contenu type-spécifique (vidéo / article / flashcard / etc.). Header + Footer 'Marquer comme complété'. Tracking automatique (XP, temps, completion). Nav next/prev.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm1b', num: '#1bis', name: 'Items & Veille', phase: 'MVP', icon: '📚',
+    cahier: '01bis_Items_Apprentissage_Veille',
+    screens: [
+      { name: 'Items Détail [Type X]', route: '/learning-space/:itemId/[type]', roles: ['Apprenant'],
+        desc: "Affichage type-spécifique : Flashcard quiz, Video player, Lesson steps, Exercice, Micro-learning, etc. (9+ types rendus différemment selon le contenu).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Veille Feed', route: '/veille', roles: ['Apprenant'],
+        desc: "Timeline des items de veille (Dossier, Mag, Tutoriel, Actualité, Perplexity). Filtres par thématique / type. Lecture tracking.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Contenu Détail Perplexity', route: '/veille/:itemId/perplexity', roles: ['Apprenant'],
+        desc: "Affichage article/contenu sourcé via Perplexity avec attribution des sources originales.",
+        priority: 'P0', status: 'warn', suspens: 'Perplexity API key + fréquence sync TBD — à valider Phase 14' },
+      { name: 'Item Recommendations', route: '/coaching/recommendations', roles: ['Apprenant'],
+        desc: "Recommandations coach 'Tu devrais lire/regarder cet item'. Liste d'items suggérés par le coach avec raison.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm2', num: '#2', name: 'Passeport Compétences', phase: 'MVP', icon: '🧠',
+    cahier: '02_Passeport_Competences',
+    screens: [
+      { name: 'Radar Personnel', route: '/passeport', roles: ['Apprenant'],
+        desc: "Vue principale : radar SVG 6 axes (actuels vs objectifs), liste compétences par domaine H/S/O avec niveaux Dreyfus, filtres par domaine.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Détail Compétence', route: '/passeport/competence/:id', roles: ['Apprenant'],
+        desc: "Modal : définition, niveau actuel, objectif, critères Dreyfus 1-5, prochaines étapes, roadmap personnelle. Visualisation progression.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Définir Objectifs', route: '/passeport/objectifs', roles: ['Apprenant'],
+        desc: "Form : sélectionner compétence, choisir niveau cible (1-5), date limite, confirmation. Notification coach à la création.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Dashboard Coach (Heatmap)', route: '/coach/passeport', roles: ['Coach'],
+        desc: "Heatmap équipe (compétences × apprenants), codes couleur Dreyfus, drill-down par compétence ou par apprenant.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Détail Apprenant', route: '/coach/apprenant/:id', roles: ['Coach'],
+        desc: "Profil apprenant : radar, objectifs actifs, progressions, boutons assignation (Formation / Mission Apprenante).",
+        priority: 'P1', status: 'ok' },
+      { name: 'Historique Progression', route: '/passeport/historique', roles: ['Apprenant', 'Coach'],
+        desc: "Timeline ou graphique : évolution niveaux Dreyfus (6 derniers mois), événements (JAC, missions complétées, formations).",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm3', num: '#3', name: 'Onboarding & Profil', phase: 'MVP', icon: '👤',
+    cahier: '03_Onboarding_and_User_Profile_Mapping',
+    screens: [
+      { name: 'Public Signup Form', route: '/signup', roles: ['Public'],
+        desc: "Email, password, sélection entreprise (pré-remplie ou recherchable), acceptation CGU, CTA vers paiement WooCommerce.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Signup Confirmation', route: '/signup/confirm', roles: ['Apprenant'],
+        desc: "Vérification email + invitation onboarding. Option re-send link.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Onboarding Welcome', route: '/onboarding', roles: ['Apprenant'],
+        desc: "1er écran après inscription : message d'accueil, explication du rôle, lien vers questionnaire de positionnement.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Positionnement Questionnaire', route: '/onboarding/questionnaire', roles: ['Apprenant'],
+        desc: "~20-30 questions Dreyfus (nb exact TBD), barre de progression, save draft, submit → auto-seed Passeport Compétences.",
+        priority: 'P0', status: 'warn', suspens: 'Nombre exact de questions (20-30) à valider avec Pierre avant dev' },
+      { name: 'Onboarding Success', route: '/onboarding/success', roles: ['Apprenant'],
+        desc: "Confirmation + CTA dashboard, prochaines étapes personnalisées selon le rôle (formation, mission, etc.).",
+        priority: 'P0', status: 'ok' },
+      { name: 'My Profile', route: '/profile', roles: ['Tous rôles'],
+        desc: "Nom, email, photo, rôle, équipe, entreprise, toggle public/privé, formulaire d'édition (propre profil uniquement).",
+        priority: 'P0', status: 'ok' },
+      { name: 'XP Dashboard', route: '/profile/xp', roles: ['Apprenant'],
+        desc: "XP total, XP par catégorie (formation, missions, coaching, veille), progression de niveau, activités récentes.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Credits Display', route: '/profile/credits', roles: ['Apprenant', 'Coach'],
+        desc: "Solde personnel + pool entreprise (si visible selon rôle), bouton achat si activé, historique transactions.",
+        priority: 'P0', status: 'warn', suspens: 'Règles de visibilité du pool entreprise par rôle à valider avec Pierre' },
+      { name: 'Purchase Credits', route: '/profile/credits/buy', roles: ['Apprenant'],
+        desc: "Liste produits (100 cr 50€, 500 cr 200€, etc.), panier, checkout WooCommerce (iframe ou redirect).",
+        priority: 'P1', status: 'ok' },
+      { name: 'Platform Tutorial', route: '/onboarding/tutorial', roles: ['Apprenant'],
+        desc: "Guide interactif step-by-step 5-7 étapes : dashboard, radar compétences, learning paths, système crédits, fonctionnalités clés. Titre + description + screenshot + Next/Skip.",
+        priority: 'P0', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm4', num: '#4', name: 'Coaching & 1-1 Messaging', phase: 'MVP', icon: '💬',
+    cahier: '04_Coaching_and_1-1_Messaging',
+    screens: [
+      { name: 'Coaching Hub', route: '/coaching', roles: ['Apprenant'],
+        desc: "Overview apprenant : coach assigné, sessions à venir, corrections en attente, accès messagerie.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Book Session', route: '/coaching/book', roles: ['Apprenant'],
+        desc: "Demander une session avec son coach assigné, sélectionner un créneau depuis le calendrier du coach.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Session Detail', route: '/coaching/session/:id', roles: ['Apprenant'],
+        desc: "Infos session (coach, heure, lien Google Meet), notes pré-session, feedback post-session.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Corrections Inbox', route: '/coaching/corrections', roles: ['Apprenant'],
+        desc: "Liste travaux à corriger (Missions, JAC, Projects, Assignments) avec feedback coach et statut.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Correction Detail', route: '/coaching/correction/:id', roles: ['Apprenant'],
+        desc: "Commentaires coach par section + statut (À resoumettre / Approuvé). Possibilité de resoumettre.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Messaging Thread', route: '/coaching/messages/:coachId', roles: ['Apprenant', 'Coach'],
+        desc: "Conversation avec coach : texte, commentaires, read receipts. WebSocket temps réel.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Assigned Coach Profile', route: '/coaching/coach/:id', roles: ['Apprenant'],
+        desc: "Biographie coach, expertise, disponibilité, informations de contact.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Coach Dashboard', route: '/coach/dashboard', roles: ['Coach'],
+        desc: "Overview coach : sessions en attente, corrections à reviewer, inbox messagerie. Vue de tous ses apprenants.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Session Calendar', route: '/coach/calendar', roles: ['Coach'],
+        desc: "Calendrier personnel (Google Calendar + Outlook synchro), gestion des disponibilités. MVP = Google. V1 = +Outlook.",
+        priority: 'P0', status: 'warn', suspens: 'OAuth Google MVP confirmé. OAuth Outlook = V1 Septembre — à séparer clairement dans le dev' },
+      { name: 'Corrections Queue', route: '/coach/corrections', roles: ['Coach'],
+        desc: "Liste travaux en attente de review par apprenant (Missions, JAC, Projects, Assignments).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Correction Interface', route: '/coach/correction/:id', roles: ['Coach'],
+        desc: "Vue soumission apprenant, zone commentaires par section, mise à jour statut (À réviser / Approuvé / etc.).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Assigned Apprenants', route: '/coach/apprenants', roles: ['Coach'],
+        desc: "Liste apprenants assignés à ce coach, accès profils, résumé progression individuelle.",
+        priority: 'P0', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm5', num: '#5', name: 'Gamification & Badges', phase: 'MVP', icon: '🏆',
+    cahier: '05_Gamification_Badges',
+    screens: [
+      { name: 'Gamification Dashboard', route: '/gamification', roles: ['Apprenant'],
+        desc: "Page personnelle : streaks actifs + milestones, badges gagnés (Plateforme + Compétences + Open Badges), timeline 'recently unlocked', next badges in progress avec progress bars.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Badge Detail Modal', route: '/gamification/badge/:id', roles: ['Apprenant'],
+        desc: "Popup : badge icon, nom, description, rarity/couleur, condition d'unlock, date d'obtention, bouton share achievement.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Open Badges Section', route: '/profile/open-badges', roles: ['Apprenant'],
+        desc: "Liste Open Badges Officiels validés (Projet Final) : badge, émetteur logo, date. Boutons [Download Certificate, Verify, Share to LinkedIn] + QR code.",
+        priority: 'P0', status: 'warn', suspens: 'Prestataire Open Badges non choisi : Credly / Badgr / Applaud — décision requise avant dev' },
+      { name: 'Compétences Badges Section', route: '/profile/badges/competences', roles: ['Apprenant'],
+        desc: "Grille badges Dreyfus par compétence (5 niveaux : Bleu D1, Argent D2, Or D3, Platinum D4, Diamant D5). Atrophie indicator si inactif 90j.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Badge Gallery (Profile)', route: '/profile/badges', roles: ['Apprenant'],
+        desc: "Sur profil : 3 sections (Plateforme + Compétences + Open Badges). Grille 3-4 colonnes responsive, unlock dates, tooltip hover.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Streak Detail View', route: '/gamification/streaks', roles: ['Apprenant'],
+        desc: "Section expandable : streak actuel, date début, log par jour (✅/❌), prochaine milestone. Reset hour configurable.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Coach Engagement Analytics', route: '/coach/engagement', roles: ['Coach'],
+        desc: "Dashboard : apprenants + streaks actifs, badges earned (Plateforme + Compétences), XP semaine, tendance engagement, atrophie warning (badges dégradés).",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm6', num: '#6', name: 'Enterprise FO Space', phase: 'MVP', icon: '🏢',
+    cahier: '06_Enterprise_FO_Space',
+    screens: [
+      { name: 'Manager Entreprise Portal', route: '/manager/enterprise', roles: ['Manager Entreprise'],
+        desc: "Landing page : 4 sections (Enterprise Overview KPIs, Budget & Licenses, Top Projects, Alerts & Insights). Multi-filtres, custom view builder, exports. Vue filtrée par company_id.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Manager Cohort Dashboard', route: '/manager/cohort', roles: ['Manager Cohort'],
+        desc: "Team Progress (apprenants, actifs, taux complétion), Project Tracking (3 types), Team Performance (JAC%, badges, couverture compétences). Filtres par cohorte uniquement.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Coach Dashboard (Enterprise)', route: '/coach/enterprise-dashboard', roles: ['Coach'],
+        desc: "Team roster (apprenants, statut JAC), Validation Queue (JAC soumis prêts pour review), Team Analytics (tendances complétion, performance compétences).",
+        priority: 'P1', status: 'ok' },
+      { name: 'Alerts Configuration', route: '/manager/alerts', roles: ['Manager Entreprise', 'Manager Cohort'],
+        desc: "UI pour configurer seuils d'engagement (jours inactivité), alertes projets, seuil budget (%). Enable/disable par type d'alerte.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Custom Views Builder', route: '/manager/views/builder', roles: ['Manager Entreprise', 'Manager Cohort'],
+        desc: "Interface drag-drop : sélectionner métriques, filtres, groupements, type graphique, sauvegarder vue personnalisée.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Export Dialog', route: '/manager/export', roles: ['Manager Entreprise', 'Manager Cohort'],
+        desc: "Sélectionner type rapport (apprenants, projects, compétences, budgets), format (CSV/PDF), plage de dates, déclencher export.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Webhooks Management (View)', route: '/manager/webhooks', roles: ['Manager Entreprise'],
+        desc: "Vue statut + logs des webhooks de son entreprise. Lecture seule — création/édition réservée Super-Admin BO.",
+        priority: 'P2', status: 'ok' },
+      { name: 'API Documentation', route: '/api-docs', roles: ['Developer'],
+        desc: "Docs API auto-générées (Swagger/OpenAPI), endpoints, authentication, rate limits, exemples de requêtes/réponses.",
+        priority: 'P0', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm7', num: '#7', name: 'Journal de Bord Réflexif', phase: 'V1', icon: '📔',
+    cahier: '07_Journal_de_Bord_Reflexif',
+    screens: [
+      { name: 'Journal Dashboard', route: '/journal', roles: ['Apprenant'],
+        desc: "Vue principale : timeline entrées + bouton 'Nouvelle Entrée' + stats miniatures (entrées ce mois, mood trend).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Nouvelle Entrée', route: '/journal/new', roles: ['Apprenant'],
+        desc: "Modal/Form : titre + texte libre + sections structurées (3 Q lesson-spécifiques) + mood + boutons Brouillon/Publier.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Détail Entrée', route: '/journal/:entryId', roles: ['Apprenant'],
+        desc: "Vue entrée complète : titre, contenu, metadata (date, mood), commentaires coach, boutons Éditer/Supprimer.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Liste Supervisée (Coach)', route: '/coach/journal/:apprenantId', roles: ['Coach'],
+        desc: "Tableau entrées apprenant assigné : date, titre, sentiment, statut (new/commented/replied). Clic → détail.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Détail + Supervision (Coach)', route: '/coach/journal/entry/:entryId', roles: ['Coach'],
+        desc: "Entrée apprenant + zone commentaires coach (write comment) + thread replies. Supervision non-intrusive.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Search & Filter', route: '/journal/search', roles: ['Apprenant'],
+        desc: "Recherche texte plein + filtres (date range, sentiment) + résultats en timeline.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm8', num: '#8', name: 'Masterclass & Événements', phase: 'V1', icon: '🎤',
+    cahier: '08_Masterclass_Atelier_Pratique_Evenements',
+    screens: [
+      { name: 'Masterclass List', route: '/masterclass', roles: ['Apprenant premium'],
+        desc: "Filtres (Upcoming/Replays), carte par masterclass (titre, expert photo, date, CTA 'Register'/'View Replay').",
+        priority: 'P0', status: 'ok' },
+      { name: 'Masterclass Detail (Pre-Live)', route: '/masterclass/:id', roles: ['Apprenant premium'],
+        desc: "Expert, titre, date/heure/durée, description, bouton [Register] si éligible, détails inscription (ouverture 30j avant, clôture J0 15h).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Masterclass Detail (Live)', route: '/masterclass/:id/live', roles: ['Apprenant premium'],
+        desc: "Badge 'EN DIRECT 🔴', Google Meet embed ou lien, Q&A + chat accessibles en temps réel.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Masterclass Detail (Post-Live)', route: '/masterclass/:id/replay', roles: ['Apprenant premium'],
+        desc: "Badge 'REPLAY DISPONIBLE', 'You participated ✓', XP awarded, Vimeo iframe, matériaux téléchargeables, enquête satisfaction.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Satisfaction Survey Modal', route: '/masterclass/:id/survey', roles: ['Apprenant premium'],
+        desc: "Q1 : rating 5 points Likert emoji (😞😐🙂😄😍), Q2 : feedback texte optionnel, [Submit].",
+        priority: 'P0', status: 'ok' },
+      { name: 'Atelier List', route: '/ateliers', roles: ['Apprenant entreprise'],
+        desc: "Filtres (Upcoming/Past), carte par atelier (titre, coach, date, location si présentiel). Vue filtrée par entreprise uniquement.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Atelier Detail (Pre-Live)', route: '/ateliers/:id', roles: ['Apprenant entreprise'],
+        desc: "Coach photo+nom, titre, date/heure, mode (Distanciel/Présentiel), localisation si présentiel, capacité (X/12), bouton [Register] ou Waitlist si complet.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Atelier Detail (Live - Distanciel)', route: '/ateliers/:id/live', roles: ['Apprenant entreprise'],
+        desc: "Badge 'EN DIRECT 🔴', Google Meet embed, section ressources (PDFs + liens uploadés par le coach).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Atelier Detail (Live - Présentiel)', route: '/ateliers/:id/presentiel', roles: ['Apprenant entreprise'],
+        desc: "Adresse + carte, section ressources, pas de Meet embed. Informations pratiques du lieu.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Atelier Detail (Post-Session)', route: '/ateliers/:id/recap', roles: ['Apprenant entreprise'],
+        desc: "'COMPLETED ✓', coach, XP awarded, ressources téléchargeables, enquête satisfaction, réponses passées visibles.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Waitlist Confirmation', route: '/ateliers/:id/waitlist', roles: ['Apprenant entreprise'],
+        desc: "Modal : 'Vous êtes sur la liste d'attente (position #3). Manager notifié de la demande.'",
+        priority: 'P0', status: 'ok' },
+      { name: 'Event List', route: '/evenements', roles: ['Public', 'Apprenant'],
+        desc: "Filtres (Upcoming/Past, mode Distanciel/Présentiel), carte par événement (titre, date, capacité, CTA Public ou Private).",
+        priority: 'P1', status: 'ok' },
+      { name: 'Event Detail (Pre-Event)', route: '/evenements/:id', roles: ['Public', 'Apprenant'],
+        desc: "Titre, description, date/heure, organisateur, mode, localisation, capacité (soft limit, non-bloquant), [Register].",
+        priority: 'P1', status: 'ok' },
+      { name: 'Event Detail (Live)', route: '/evenements/:id/live', roles: ['Attendee'],
+        desc: "Badge 'EN DIRECT 🔴', Google Meet embed, ressources si fournies par l'organisateur.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Event Detail (Post-Event)', route: '/evenements/:id/recap', roles: ['Attendee'],
+        desc: "'COMPLETED ✓', organisateur, download ressources, enquête satisfaction basique (optionnelle).",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm9', num: '#9', name: 'Notifications', phase: 'MVP', icon: '🔔',
+    cahier: '09_Notifications_Management',
+    screens: [
+      { name: 'Notification Bell', route: '/[global component]', roles: ['Apprenant'],
+        desc: "Bell icon avec unread count dans la navbar. Clic → liste des notifications récentes (MVP). Composant global présent sur toutes les pages.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Notification Center', route: '/profile/notifications', roles: ['Apprenant'],
+        desc: "Page complète : inbox, archive, gestion des préférences par catégorie. Route V1 Septembre.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Preferences Panel', route: '/profile/notifications/preferences', roles: ['Apprenant'],
+        desc: "On/off par catégorie : Learning Space, Veille, Coaching, Parcours, Badges, Onboarding. Sauvegarde instantanée.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm10', num: '#10', name: 'Analytics & Tracking', phase: 'MVP', icon: '📊',
+    cahier: '10_Analytics_Tracking_System',
+    screens: [
+      { name: 'Dashboard Learner', route: '/dashboard', roles: ['Apprenant'],
+        desc: "Vue personnelle : radar Dreyfus, XP total, badges gagnés, items recommandés, milestones récents. Responsive mobile.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Progress Detail View', route: '/dashboard/competence/:id', roles: ['Apprenant'],
+        desc: "Clic sur compétence → progression détaillée (échelle Dreyfus, objectifs, milestones, feedback coach), temps estimé au prochain niveau.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Badge & Achievement Wall', route: '/dashboard/achievements', roles: ['Apprenant'],
+        desc: "Showcase badges, certificats, achievements avec timestamps + options de partage.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Coach Team Dashboard', route: '/coach/team-dashboard', roles: ['Coach'],
+        desc: "Liste apprenants filtrable par statut (stuck / active / ahead) + métriques rapides : temps investi, dernière activité, prochaine milestone.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Fiche Apprenant (Coach View)', route: '/coach/apprenant/:id/analytics', roles: ['Coach'],
+        desc: "Détail 1 apprenant : historique consommation, radar Dreyfus, timeline progression, feedback donné, messages.",
+        priority: 'P0', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm11', num: '#11', name: 'Projects SBO', phase: 'V1', icon: '🚀',
+    cahier: '11_Projects_SBO',
+    screens: [
+      { name: 'Project Dashboard', route: '/projects', roles: ['Collaborateur', 'Manager'],
+        desc: "Vue temps-réel : tâches assignées, statut JAC, mises à jour Passeport en direct.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Task Detail + Execution', route: '/projects/:id/task/:taskId', roles: ['Collaborateur'],
+        desc: "Spec complète de la tâche, checklist, soumission, feedback de l'expert.",
+        priority: 'P0', status: 'ok' },
+      { name: 'JAC Validation Form', route: '/projects/:id/jac/:jacId', roles: ['Expert', 'Manager'],
+        desc: "Évaluer si Dreyfus 3+ atteint, approuver ou demander des modifications avec commentaires.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Team Overview', route: '/projects/:id/team', roles: ['Manager'],
+        desc: "Tous membres de l'équipe, tâches actuelles, niveaux Dreyfus, progression, risk flags en rouge.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Skill Gap Analysis', route: '/projects/:id/skill-gaps', roles: ['Manager'],
+        desc: "Comparer niveaux Dreyfus équipe vs requis mission, recommandations upskilling prioritaires.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Passeport Enrichment Feed', route: '/projects/:id/passeport-feed', roles: ['Collaborateur'],
+        desc: "Voir compétences mises à jour en temps réel au fil des validations JAC du projet.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm12', num: '#12', name: 'Chatbot IA & Q&R', phase: 'V1', icon: '🤖',
+    cahier: '12_Chatbot_IA_et_QAR',
+    screens: [
+      { name: 'Chat Interface', route: '/chat', roles: ['Apprenant', 'Manager'],
+        desc: "Zone input (texte + bouton envoyer), historique conversation, indicateur typing, panneau sources RAG. Mistral en backend.",
+        priority: 'P0', status: 'warn', suspens: 'Mistral hébergement TBD — on-premise vs cloud. Décision P0 Blocker Phase 14' },
+      { name: 'Chat History Panel', route: '/chat/history', roles: ['Apprenant', 'Manager'],
+        desc: "Liste conversations passées par session, recherche dans l'historique, delete conversation, export.",
+        priority: 'P1', status: 'warn', suspens: 'Dépend hébergement Mistral — même blocage que Chat Interface' },
+      { name: 'Feedback Modal', route: '/chat/[modal]', roles: ['Apprenant', 'Manager'],
+        desc: "'Was this helpful?' oui/non + champ texte suggestion optionnel. Déclenché après chaque réponse.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Sources Drawer', route: '/chat/[drawer]', roles: ['Apprenant', 'Manager'],
+        desc: "Liste des sources citées avec liens directs (leçon, mission, ressource), breadcrumbs module d'origine.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Confidence Warning', route: '/chat/[inline]', roles: ['Apprenant', 'Manager'],
+        desc: "Si score confiance < seuil : 'Je ne suis pas sûr. Contactez support ou votre coach.' — message inline.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Data Blocker Warning', route: '/chat/[inline]', roles: ['Apprenant', 'Manager'],
+        desc: "Si tentative accès données confidentielles : message de blocage + explication RGPD.",
+        priority: 'P0', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm13', num: '#13', name: 'Helpcenter & Support', phase: 'V1', icon: '🛟',
+    cahier: '13_Helpcenter_Wiki_Support',
+    screens: [
+      { name: 'Helpcenter Landing', route: '/help', roles: ['Apprenant', 'Coach'],
+        desc: "Accueil : search bar prominente, catégories principales (FAQ, Tutoriels, Guides, Ressources), lien wiki Notion externe.",
+        priority: 'P0', status: 'ok' },
+      { name: 'FAQ Search Results', route: '/help/search', roles: ['Apprenant', 'Coach'],
+        desc: "Résultats de recherche avec snippets, catégorisation, articles liés, filtres par type/compétence.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Article Details', route: '/help/article/:id', roles: ['Apprenant', 'Coach'],
+        desc: "Contenu article avec screenshots/vidéos embeddées, table des matières, réactions emoji, 'Helpful?', suggestions d'articles liés.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Tutorials Hub', route: '/help/tutorials', roles: ['Apprenant', 'Coach'],
+        desc: "3 tutoriels interactifs (texte + vidéo), barre de progression, navigation Prev/Next, option Skip.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Tutorial Step', route: '/help/tutorials/:id/step/:step', roles: ['Apprenant', 'Coach'],
+        desc: "Vue étape unique : titre, description, screenshot/vidéo, points clés, navigation.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Support Tickets List', route: '/help/tickets', roles: ['Apprenant', 'Coach', 'Admin'],
+        desc: "Liste mes tickets, filtrer par statut (Ouvert/En cours/Résolu), recherche, créer nouveau ticket.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Ticket Details', route: '/help/tickets/:id', roles: ['Apprenant', 'Coach', 'Admin'],
+        desc: "Contenu ticket, statut, réponse admin assigné, ajouter commentaire de suivi.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Create Ticket', route: '/help/tickets/new', roles: ['Apprenant', 'Coach', 'Admin'],
+        desc: "Form : Catégorie, Sujet, Description, Pièces jointes (optionnel), Priorité (user-selected ou suggérée).",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+  {
+    id: 'm13b', num: '#13bis', name: 'GDPR, AI Act & Sécurité', phase: 'MVP', icon: '🔒',
+    cahier: '13bis_GDPR_AI_Act_Security',
+    screens: [
+      { name: 'Consent Banner', route: '/[global component]', roles: ['Apprenant', 'Coach', 'Manager'],
+        desc: "Bandeau consentement initial (cookies, analytiques, marketing). GDPR-compliant. Composant global affiché au premier accès.",
+        priority: 'P0', status: 'ok' },
+      { name: 'Consent Management Settings', route: '/profile/privacy', roles: ['Apprenant', 'Coach', 'Manager'],
+        desc: "Mettre à jour ses consentements à tout moment : accepter/révoquer par type (essentiel, analytiques, marketing).",
+        priority: 'P0', status: 'ok' },
+      { name: 'Data Access Request (DSAR)', route: '/profile/privacy/dsar', roles: ['Apprenant'],
+        desc: "Bouton 'Télécharger mes données' → déclenchement workflow DSAR → email avec lien téléchargement ZIP.",
+        priority: 'P1', status: 'ok' },
+      { name: 'Account Deletion (RTBF)', route: '/profile/privacy/delete-account', roles: ['Apprenant'],
+        desc: "'Supprimer définitivement mon compte' → dialog confirmation en 2 étapes → workflow suppression + anonymisation.",
+        priority: 'P1', status: 'ok' },
+      { name: 'AI Transparency Indicator', route: '/[global component]', roles: ['Apprenant', 'Coach'],
+        desc: "Badge/label visuel 'This is AI recommendation' sur tout contenu généré par Mistral. Composant transversal à injecter dans tous les modules IA.",
+        priority: 'P0', status: 'ok' },
+      { name: 'AI Override Button', route: '/[global component]', roles: ['Coach', 'Admin'],
+        desc: "Bouton 'Override this recommendation' ou 'Reject this suggestion' avec raison obligatoire. Composant transversal.",
+        priority: 'P1', status: 'ok' },
+    ]
+  },
+];
+
+// -------
+// STATE
+// -------
+let currentView = 'home'; // 'home' | 'module'
+let currentModule = null;
+let modalScreen = null;
+
+// -------
+// SIDEBAR
+// -------
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const sections = [
+    { label: 'MVP Juillet', phase: 'MVP', ids: ['m1','m1b','m2','m3','m4','m5','m6','m9','m10','m13b'] },
+    { label: 'V1 Septembre', phase: 'V1', ids: ['m7','m8','m11','m12','m13'] },
+  ];
+  let html = '';
+  sections.forEach(sec => {
+    html += `<div class="sidebar-section">${sec.label}</div>`;
+    modules.filter(m => sec.ids.includes(m.id)).forEach(m => {
+      const warns = m.screens.filter(s => s.status === 'warn').length;
+      const isActive = currentView === 'module' && currentModule && currentModule.id === m.id;
+      html += `<div class="mod-item ${isActive ? 'active' : ''}" onclick="selectModule('${m.id}')">
+        <span class="mod-icon">${m.icon}</span>
+        <div class="mod-info">
+          <div class="mod-name">${m.name}</div>
+          <div class="mod-num">${m.num} · ${m.screens.length} écrans</div>
+        </div>
+        <div class="phase-dot" style="background:${PHASES[m.phase].color}"></div>
+      </div>`;
+    });
+  });
+  sidebar.innerHTML = html;
+}
+
+// -------
+// HOME
+// -------
+function renderHome() {
+  const sections = [
+    { phase: 'MVP', label: 'MVP Juillet 2026', ids: ['m1','m1b','m2','m3','m4','m5','m6','m9','m10','m13b'] },
+    { phase: 'V1', label: 'V1 Septembre 2026', ids: ['m7','m8','m11','m12','m13'] },
+  ];
+  let html = `<div class="breadcrumb"><span class="bc-current">📱 Tous les modules</span></div>`;
+  sections.forEach(sec => {
+    const mods = modules.filter(m => sec.ids.includes(m.id));
+    const total = mods.reduce((a, m) => a + m.screens.length, 0);
+    html += `<div class="phase-group">
+      <div class="phase-label phase-${sec.phase.toLowerCase()}">
+        <span>${sec.label} — ${mods.length} modules · ${total} écrans</span>
+        <span class="phase-line"></span>
+      </div>
+      <div class="mod-cards">`;
+    mods.forEach(m => {
+      const warns = m.screens.filter(s => s.status === 'warn').length;
+      html += `<div class="mod-card" onclick="selectModule('${m.id}')">
+        <div class="mod-card-accent" style="background:${PHASES[m.phase].color}"></div>
+        <div class="mod-card-icon">${m.icon}</div>
+        <div class="mod-card-num">${m.num}</div>
+        <div class="mod-card-name">${m.name}</div>
+        <div class="mod-card-stats">
+          <span class="stat-count">${m.screens.length} écrans</span>
+          ${warns > 0 ? `<span class="warn-count">⚠️ ${warns}</span>` : ''}
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('content').innerHTML = html;
+}
+
+// -------
+// MODULE VIEW
+// -------
+function renderModule(m) {
+  const warns = m.screens.filter(s => s.status === 'warn').length;
+  let html = `<div class="breadcrumb">
+    <span class="bc-link" onclick="goHome()">📱 Tous les modules</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-current">${m.icon} ${m.num} ${m.name}</span>
+  </div>
+  <div class="screens-header">
+    <div class="screens-title">
+      ${m.icon} ${m.name}
+      <span class="prio p0" style="font-size:11px;font-weight:600">MVP</span>
+    </div>
+    <div class="screens-sub">${m.screens.length} écrans FO${warns > 0 ? ` · <span style="color:#d97706">⚠️ ${warns} point(s) suspens</span>` : ''} · Cahier ${m.num}</div>
+  </div>
+  <div class="screens-grid">`;
+  m.screens.forEach(s => {
+    const roles = s.roles.map(r => `<span class="role-tag ${ROLES_CLASS[r] || 'role-tag'}">${r}</span>`).join('');
+    html += `<div class="screen-card" onclick="showModal('${m.id}','${escapeId(s.name)}')">
+      <div class="screen-card-top">
+        <div class="screen-name">${s.name}</div>
+        <span class="screen-status">${s.status === 'warn' ? '🟡' : '✅'}</span>
+      </div>
+      <div class="screen-route">${s.route}</div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px;">
+        <span class="prio ${s.priority.toLowerCase()}">${s.priority}</span>
+        ${roles}
+      </div>
+    </div>`;
+  });
+  html += `</div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+// -------
+// MODAL
+// -------
+function showModal(moduleId, screenName) {
+  const m = modules.find(x => x.id === moduleId);
+  const s = m.screens.find(x => x.name === screenName);
+  if (!s) return;
+  const roles = s.roles.map(r => `<span class="role-tag ${ROLES_CLASS[r] || 'role-tag'}">${r}</span>`).join('');
+  const statusBox = s.status === 'warn'
+    ? `<div class="warn-box"><span>⚠️</span><span><strong>Point suspens :</strong> ${s.suspens}</span></div>`
+    : `<div class="ok-box"><span>✅</span><span>Écran validé — prêt pour le développement</span></div>`;
+  document.getElementById('modal-container').innerHTML = `
+    <div class="overlay" onclick="closeModal(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-head">
+          <div class="modal-title">${s.name}</div>
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="m-section">
+            <div class="m-label">Module source</div>
+            <div class="m-value"><span class="mod-ref">${m.icon} ${m.num} ${m.name}</span></div>
+          </div>
+          <div class="m-section">
+            <div class="m-label">Route React</div>
+            <div class="m-value"><span class="m-route">${s.route}</span></div>
+          </div>
+          <div class="m-section">
+            <div class="m-label">Rôle(s)</div>
+            <div class="m-value m-tags">${roles}</div>
+          </div>
+          <div class="m-section">
+            <div class="m-label">Priorité</div>
+            <div class="m-value"><span class="prio ${s.priority.toLowerCase()}">${s.priority}</span></div>
+          </div>
+          <div class="m-section">
+            <div class="m-label">Description fonctionnelle</div>
+            <div class="m-value">${s.desc}</div>
+          </div>
+          ${statusBox}
+        </div>
+      </div>
+    </div>`;
+}
+
+function closeModal(event) {
+  if (!event || event.target.classList.contains('overlay')) {
+    document.getElementById('modal-container').innerHTML = '';
+  }
+}
+
+// -------
+// NAV
+// -------
+function escapeId(name) { return name.replace(/'/g, "\\'"); }
+
+function selectModule(id) {
+  const m = modules.find(x => x.id === id);
+  currentView = 'module'; currentModule = m;
+  renderSidebar(); renderModule(m);
+}
+
+function goHome() {
+  currentView = 'home'; currentModule = null;
+  renderSidebar(); renderHome();
+}
+
+// -------
+// INIT
+// -------
+renderSidebar();
+renderHome();
+</script>
