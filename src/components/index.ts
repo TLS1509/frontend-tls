@@ -267,6 +267,12 @@ export type { ResourceCardGridProps } from './patterns/ResourceCardGrid';
 export { VeilleCardFeed } from './patterns/VeilleCardFeed';
 export type { VeilleCardFeedProps } from './patterns/VeilleCardFeed';
 
+export { VeilleFormatShortcutCards } from './patterns/VeilleFormatShortcutCards';
+export type {
+  VeilleFormatShortcutCardsProps,
+  VeilleFormatCard,
+} from './patterns/VeilleFormatShortcutCards';
+
 /* ============================================================================
  * Phase 14.1 — Première expérience flow
  * ============================================================================ */

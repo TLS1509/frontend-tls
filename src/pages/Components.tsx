@@ -145,6 +145,7 @@ import {
 import { ResourceCardGrid } from '../components/patterns/ResourceCardGrid';
 // (SettingsSection deprecated → use SectionCard with `actions` footer slot)
 import { VeilleCardFeed, VeilleCard, VeilleCardListItem, FeaturedSpotlight } from '../components/patterns/VeilleCardFeed';
+import { VeilleFormatShortcutCards } from '../components/patterns/VeilleFormatShortcutCards';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
 import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
@@ -3997,6 +3998,20 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       );
     },
+  },
+  {
+    name: 'VeilleFormatShortcutCards',
+    codeName: 'patterns/VeilleFormatShortcutCards.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Veille'],
+    description: 'Grille 2×4 de cartes dark-glass de navigation vers les formats éditoriaux de la Veille (Magazine TLS / Actu hebdo / Vidéo Reels / Newsletter). Conçu pour être posé sur fond saturé dark/glass (hero Veille). Props : `cards?: VeilleFormatCard[]` (surcharge les 4 cartes canoniques), `className?`. Chaque carte : icon bubble 32×32 `bg-white/8` + title/subtitle + ArrowRight au hover.',
+    keywords: ['veille', 'navigation', 'shortcut', 'dark-glass', 'editorial', 'format', 'magazine', 'newsletter', 'video', 'reels', 'glass', 'cards'],
+    render: () => (
+      <div className="bg-primary-800 p-6 rounded-2xl">
+        <VeilleFormatShortcutCards />
+      </div>
+    ),
   },
   {
     name: 'EditorialCard',
