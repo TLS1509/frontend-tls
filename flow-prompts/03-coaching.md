@@ -39,7 +39,7 @@ Routes : voir `src/App.tsx` (`/coaching`, `/coaching/booking`, `/coaching/sessio
 5. **Validation** : `npx tsc --noEmit` + `tsc -b` = 0. Tester via **MCP Claude_Preview** (375 + 1280) : booking → session → correction → message, reload → état conservé.
 
 ## Contraintes
-- Réutiliser/ÉTENDRE le DS ; nouveau composant → `Components.tsx` (usedBy).
+- Réutiliser/ÉTENDRE le DS ; nouveau composant → `Components.tsx` (usedBy) **+ sync Figma DS (`LccBZ1GKWQVwVzPtsSzk5Y`) + Notion, ou trace dans `DS-SYNC-TODO.md`** (cf. README §Sync DS).
 - 100% Tailwind tokens, 0 inline style layout/couleur, rounded-pill, Lucide.
 - Ne PAS toucher hors flow. Commit par écran : `feat(coaching): <écran>`.
 

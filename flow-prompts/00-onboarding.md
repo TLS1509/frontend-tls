@@ -44,7 +44,7 @@ Routes : voir `src/App.tsx`.
 5. **Validation** : `npx tsc --noEmit` + `tsc -b` = 0 erreur. Tester le flow complet via le **MCP Claude_Preview** (mobile 375 + desktop 1280) : Signup → Dashboard sans glitch.
 
 ## Contraintes
-- Réutiliser/ÉTENDRE les composants DS avant d'en créer ; tout nouveau composant → entrée dans `src/pages/Components.tsx` (usedBy).
+- Réutiliser/ÉTENDRE les composants DS avant d'en créer ; tout nouveau composant → entrée dans `src/pages/Components.tsx` (usedBy) **+ sync Figma DS (`LccBZ1GKWQVwVzPtsSzk5Y`) + Notion, ou trace dans `DS-SYNC-TODO.md`** (cf. README §Sync DS).
 - 100% Tailwind tokens, 0 inline style layout/couleur, rounded-pill, Lucide.
 - Ne PAS toucher aux pages hors de ce flow.
 - Commit par étape validée : `feat(onboarding): <écran/étape>`.

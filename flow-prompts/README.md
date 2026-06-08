@@ -47,5 +47,13 @@ Chaque fichier est complet : copie tout le contenu dans une nouvelle session.
 6. **`npx tsc --noEmit`** + **`tsc -b`** = 0 erreur
 7. **`verify`** skill end-to-end → **`/code-review`** → commit `feat(<flow>): <écran>`
 
+## ⚠️ Sync DS — si tu ajoutes ou étends un composant
+Le design system est verrouillé, mais si un écran révèle un **composant manquant** (ou que tu en étends un), la synchro est **obligatoire sur 3 fronts** (règle CLAUDE.md) :
+1. **Code** — `src/pages/Components.tsx` (showcase = source de vérité) : entrée avec props, variants, `usedBy`.
+2. **Figma** — fichier DS `LccBZ1GKWQVwVzPtsSzk5Y` : ajouter le composant à la bonne page (🔵 03 Atoms ou 🟢 04 Composites), dans une section avec banner + doc card, **bindé aux variables** (pas de hex hardcodé), conventions agency-grade.
+3. **Notion** — Design System DB (composant) + Écrans DB (page) à jour.
+
+> Si la session code **n'a pas le MCP Figma**, ne bloque pas : **logge le composant dans `DS-SYNC-TODO.md`** à la racine (nom · fichier · variants · usedBy · page Figma cible) pour une passe de sync Figma+Notion ultérieure. Ne jamais ajouter un composant sans au minimum le tracer.
+
 ## Definition of Done (commune)
-Le flow s'enchaîne de bout en bout, l'état persiste au reload (localStorage/Zustand), 0 erreur tsc/build, testé en preview mobile 375 + desktop 1280, pas de MOCK importé en page (tout via les stores).
+Le flow s'enchaîne de bout en bout, l'état persiste au reload (localStorage/Zustand), 0 erreur tsc/build, testé en preview mobile 375 + desktop 1280, pas de MOCK importé en page (tout via les stores). **Tout composant DS ajouté/étendu est synchronisé (Components.tsx + Figma + Notion) ou tracé dans `DS-SYNC-TODO.md`.**

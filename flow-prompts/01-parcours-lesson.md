@@ -34,7 +34,7 @@ Routes : voir `src/App.tsx` (`/learning-paths`, `/learning-paths/:id`, `/course/
 5. **Validation** : `npx tsc --noEmit` + `tsc -b` = 0. Tester via **MCP Claude_Preview** (375 + 1280) : hub → leçon → 1 viewer → quiz → retour avec progression visible.
 
 ## Contraintes
-- Étendre le DS avant d'en créer ; nouveau composant → `Components.tsx` (usedBy).
+- Étendre le DS avant d'en créer ; nouveau composant → `Components.tsx` (usedBy) **+ sync Figma DS (`LccBZ1GKWQVwVzPtsSzk5Y`) + Notion, ou trace dans `DS-SYNC-TODO.md`** (cf. README §Sync DS).
 - 100% Tailwind tokens, 0 inline style layout/couleur, rounded-pill, Lucide.
 - Ne PAS toucher hors de ce flow. Commit par écran : `feat(learning): <écran>`.
 

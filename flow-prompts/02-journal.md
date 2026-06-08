@@ -35,7 +35,7 @@ Routes : voir `src/App.tsx` (`/journal`, `/journal/new`, `/journal/entry/:id`, .
 5. **Validation** : `npx tsc --noEmit` + `tsc -b` = 0. Tester via **MCP Claude_Preview** (375 + 1280).
 
 ## Contraintes
-- Réutiliser les composants extraits ; nouveau composant → `Components.tsx` (usedBy).
+- Réutiliser les composants extraits ; nouveau composant → `Components.tsx` (usedBy) **+ sync Figma DS (`LccBZ1GKWQVwVzPtsSzk5Y`) + Notion, ou trace dans `DS-SYNC-TODO.md`** (cf. README §Sync DS).
 - 100% Tailwind tokens, 0 inline style layout/couleur, rounded-pill, Lucide.
 - Ne PAS toucher hors flow. Commit par écran : `feat(journal): <écran>`.
 
