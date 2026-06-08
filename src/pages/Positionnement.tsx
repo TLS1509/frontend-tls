@@ -26,54 +26,11 @@ import { useToastContext } from '../contexts/ToastContext';
 import { getFirstLessonId, getParcoursCompetenceIds } from '../data/learningPaths';
 import { getCompetenceById, DREYFUS_LABELS } from '../data/competencies';
 import { usePositioningStore } from '../stores/persistence';
+import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
 /* ─── Mock userId (placeholder — Phase 16.2 will use actual auth) ──────────── */
 const MOCK_USER_ID = 'user-placeholder';
-
-/* ─── Dreyfus level selector UI ──────────────────────────────────────────── */
-
-interface DreyfusLevelSelectorProps {
-  competenceId: string;
-  competenceLabel: string;
-  competenceDescription?: string;
-  selectedLevel: DreyfusLevel | null;
-  onSelect: (level: DreyfusLevel) => void;
-}
-
-const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
-  competenceLabel,
-  competenceDescription,
-  selectedLevel,
-  onSelect,
-}) => {
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-1">
-        <h3 className="text-body font-semibold text-ink-900">{competenceLabel}</h3>
-        {competenceDescription && (
-          <p className="text-body-sm text-ink-600">{competenceDescription}</p>
-        )}
-      </div>
-      <div className="grid grid-cols-5 gap-2">
-        {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
-          <button
-            key={level}
-            onClick={() => onSelect(level)}
-            className={`flex flex-col items-center justify-center gap-1 p-3 rounded-lg border-2 transition-all ${
-              selectedLevel === level
-                ? 'border-primary-500 bg-primary-50'
-                : 'border-ink-200 bg-white hover:border-primary-300'
-            }`}
-          >
-            <span className="text-h3 font-display font-bold text-primary-600">{level}</span>
-            <span className="text-micro text-ink-600 text-center">{DREYFUS_LABELS[level]}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -254,12 +211,10 @@ export const Positionnement: React.FC = () => {
 
           {/* Question */}
           <div className="p-6 bg-white rounded-xl border border-ink-200">
-            <DreyfusLevelSelector
-              competenceId={currentQuestion.competenceId}
-              competenceLabel={currentQuestion.competenceLabel}
-              competenceDescription={currentQuestion.competenceDescription}
-              selectedLevel={currentAnswer ?? null}
-              onSelect={handleSelect}
+            <DreyfusSlider
+              value={currentAnswer ?? null}
+              onChange={handleSelect}
+              tone="brand"
             />
           </div>
 

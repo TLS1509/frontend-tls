@@ -8,7 +8,6 @@ import {
   Send,
   Star,
   Clock3,
-  CheckCheck,
   Paperclip,
   File,
   Image as ImageIcon,
@@ -16,6 +15,7 @@ import {
   ArrowLeft,
   MessageSquarePlus,
 } from 'lucide-react';
+import { MessageBubble } from '../components/ui/MessageBubble';
 import { Search as SearchInput } from '../components/ui/Search';
 import { FilterBar } from '../components/forms/FilterBar';
 import { Avatar } from '../components/ui/Avatar';
@@ -380,68 +380,52 @@ export const Messages: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-6 bg-ink-50 flex flex-col gap-3">
             {currentConversation.messages.map((msg) => {
               const isUser = msg.role === 'user';
+              const senderTint =
+                currentConversation.participantRole === 'coach'
+                  ? ('brand' as const)
+                  : currentConversation.participantRole === 'support'
+                  ? ('warm' as const)
+                  : ('sun' as const);
               return (
-                <div
+                <MessageBubble
                   key={msg.id}
-                  className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                  variant={isUser ? 'user' : 'assistant'}
+                  content={msg.content}
+                  timestamp={msg.timestamp}
+                  context="messaging"
+                  senderInitials={!isUser ? currentConversation.participantInitials : undefined}
+                  senderTint={!isUser ? senderTint : undefined}
+                  senderName={!isUser ? msg.senderName : undefined}
+                  showReadReceipt={isUser}
                 >
-                  {!isUser && (
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-extrabold shrink-0 ${AVATAR_CLASSES[msg.role === 'coach' ? 'coach' : 'support']}`}>
-                      {currentConversation.participantInitials}
+                  {msg.attachments && msg.attachments.length > 0 && (
+                    <div className="mt-2 flex flex-col gap-stack-xs">
+                      {msg.attachments.map((att, i) => (
+                        <div
+                          key={i}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
+                        >
+                          <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
+                            {att.type === 'image'
+                              ? <ImageIcon size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
+                              : <File size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
+                            }
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className={`m-0 font-body text-caption font-semibold overflow-hidden text-ellipsis whitespace-nowrap ${isUser ? 'text-white' : 'text-ink-900'}`}>
+                              {att.name}
+                            </p>
+                            {att.size && (
+                              <p className={`m-0 font-body text-micro ${isUser ? 'text-white/70' : 'text-ink-400'}`}>
+                                {att.size}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   )}
-
-                  <div className={`max-w-[68%] flex flex-col gap-1 ${isUser ? 'items-end' : 'items-start'}`}>
-                    {!isUser && (
-                      <span className="font-body text-micro text-ink-500 font-semibold pl-1">
-                        {msg.senderName}
-                      </span>
-                    )}
-
-                    {/* Bubble */}
-                    <div className={[
-                      'px-4 py-3 rounded-xl',
-                      isUser
-                        ? 'bg-primary-500 text-white shadow-md rounded-br-[4px]'
-                        : 'bg-white text-ink-900 border border-ink-200 shadow-xs rounded-bl-[4px]',
-                    ].join(' ')}>
-                      <p className="m-0 font-body text-body-sm leading-relaxed">{msg.content}</p>
-
-                      {msg.attachments && msg.attachments.length > 0 && (
-                        <div className="mt-2 flex flex-col gap-2">
-                          {msg.attachments.map((att, i) => (
-                            <div
-                              key={i}
-                              className={`flex items-center gap-2 px-3 py-2 rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
-                            >
-                              <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
-                                {att.type === 'image'
-                                  ? <ImageIcon size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
-                                  : <File size={14} className={isUser ? 'text-white' : 'text-primary-500'} />
-                                }
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <p className={`m-0 font-body text-[11px] font-semibold overflow-hidden text-ellipsis whitespace-nowrap ${isUser ? 'text-white' : 'text-ink-900'}`}>
-                                  {att.name}
-                                </p>
-                                {att.size && (
-                                  <p className={`m-0 font-body text-[10px] ${isUser ? 'text-white/70' : 'text-ink-400'}`}>
-                                    {att.size}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <span className="font-body text-micro text-ink-400 flex items-center gap-1 px-1">
-                      {msg.timestamp}
-                      {isUser && <CheckCheck size={11} className="text-primary-400" />}
-                    </span>
-                  </div>
-                </div>
+                </MessageBubble>
               );
             })}
             <div ref={messagesEndRef} />

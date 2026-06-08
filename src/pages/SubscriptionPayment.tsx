@@ -75,8 +75,8 @@ const PLANS: Plan[] = [
     id: 'plan_1',
     name: 'Plan 1',
     tagline: 'Accès complet au contenu',
-    monthly: 19,
-    yearly: 182,
+    monthly: 29,
+    yearly: 278,
     icon: <BookOpen size={20} />,
     features: [
       'Accès 100% du contenu',
@@ -90,8 +90,8 @@ const PLANS: Plan[] = [
     id: 'plan_2',
     name: 'Plan 2',
     tagline: 'Contenu + IA (chatbot, matching)',
-    monthly: 29,
-    yearly: 278,
+    monthly: 49,
+    yearly: 470,
     icon: <Brain size={20} />,
     highlight: true,
     badge: 'Recommandé',
@@ -106,8 +106,8 @@ const PLANS: Plan[] = [
     id: 'plan_3',
     name: 'Plan 3',
     tagline: 'Contenu + IA + 1 crédit/mois',
-    monthly: 39,
-    yearly: 374,
+    monthly: 79,
+    yearly: 758,
     icon: <Crown size={20} />,
     features: [
       'Tout du Plan 2',
@@ -138,17 +138,37 @@ export const SubscriptionPayment: React.FC = () => {
   const price = billing === 'monthly' ? currentPlan.monthly : currentPlan.yearly;
   const periodLabel = billing === 'monthly' ? '/mois' : '/an';
 
+  const isFree = selectedPlan === 'free';
+
   const isFormValid =
-    cardName.trim().length > 2 &&
-    cardNumber.replace(/\s/g, '').length >= 12 &&
-    cardExpiry.length >= 4 &&
-    cardCvc.length >= 3;
+    isFree ||
+    (cardName.trim().length > 2 &&
+      cardNumber.replace(/\s/g, '').length >= 12 &&
+      cardExpiry.length >= 4 &&
+      cardCvc.length >= 3);
+
+  function commitPlan() {
+    const initialCredits = selectedPlan === 'plan_3'
+      ? { classic: 1, special: 0 }
+      : { classic: 0, special: 0 };
+    profileStore.patch({
+      subscriptionTier: selectedPlan,
+      credits: initialCredits,
+      onboardingStep: 'tutorial',
+    });
+  }
+
+  const handleStartFree = () => {
+    commitPlan();
+    toast.success('Compte activé', 'Bienvenue dans The Learning Society !');
+    navigate('/onboarding/tutorial');
+  };
 
   const handleConfirmPayment = () => {
     setShowConfirm(false);
-    profileStore.patch({ subscriptionTier: selectedPlan });
+    commitPlan();
     toast.success('Paiement confirmé', 'Bienvenue dans The Learning Society !');
-    setTimeout(() => navigate('/onboarding'), 1200);
+    setTimeout(() => navigate('/onboarding/tutorial'), 1200);
   };
 
   /* ── Layout ──────────────────────────────────────────────────────────── */
@@ -267,90 +287,106 @@ export const SubscriptionPayment: React.FC = () => {
           })}
         </div>
 
-        {/* Payment form */}
-        <SectionCard
-          title="Informations de paiement"
-          description="Paiement sécurisé par Stripe. Aucune donnée bancaire n'est stockée sur nos serveurs."
-        >
-          <div className="flex flex-col gap-stack">
-            <FormGroup label="Nom sur la carte" id="card-name" required>
-              <Input
-                id="card-name"
-                type="text"
-                value={cardName}
-                onChange={(e) => setCardName(e.target.value)}
-                placeholder="Marie Dupont"
-                leadingIcon={<CreditCard size={16} />}
-              />
-            </FormGroup>
-
-            <FormGroup label="Numéro de carte" id="card-number" required>
-              <Input
-                id="card-number"
-                type="text"
-                value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
-                placeholder="4242 4242 4242 4242"
-                inputMode="numeric"
-                autoComplete="cc-number"
-              />
-            </FormGroup>
-
-            <div className="grid grid-cols-2 gap-stack">
-              <FormGroup label="Expiration" id="card-expiry" required>
+        {/* Payment form — masqué pour le plan gratuit */}
+        {!isFree && (
+          <SectionCard
+            title="Informations de paiement"
+            description="Paiement sécurisé par Stripe. Aucune donnée bancaire n'est stockée sur nos serveurs."
+          >
+            <div className="flex flex-col gap-stack">
+              <FormGroup label="Nom sur la carte" id="card-name" required>
                 <Input
-                  id="card-expiry"
+                  id="card-name"
                   type="text"
-                  value={cardExpiry}
-                  onChange={(e) => setCardExpiry(e.target.value)}
-                  placeholder="MM / AA"
-                  leadingIcon={<Calendar size={16} />}
-                  autoComplete="cc-exp"
+                  value={cardName}
+                  onChange={(e) => setCardName(e.target.value)}
+                  placeholder="Marie Dupont"
+                  leadingIcon={<CreditCard size={16} />}
                 />
               </FormGroup>
-              <FormGroup label="CVC" id="card-cvc" required>
+
+              <FormGroup label="Numéro de carte" id="card-number" required>
                 <Input
-                  id="card-cvc"
+                  id="card-number"
                   type="text"
-                  value={cardCvc}
-                  onChange={(e) => setCardCvc(e.target.value)}
-                  placeholder="123"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
+                  placeholder="4242 4242 4242 4242"
                   inputMode="numeric"
-                  leadingIcon={<Lock size={16} />}
-                  autoComplete="cc-csc"
+                  autoComplete="cc-number"
                 />
               </FormGroup>
+
+              <div className="grid grid-cols-2 gap-stack">
+                <FormGroup label="Expiration" id="card-expiry" required>
+                  <Input
+                    id="card-expiry"
+                    type="text"
+                    value={cardExpiry}
+                    onChange={(e) => setCardExpiry(e.target.value)}
+                    placeholder="MM / AA"
+                    leadingIcon={<Calendar size={16} />}
+                    autoComplete="cc-exp"
+                  />
+                </FormGroup>
+                <FormGroup label="CVC" id="card-cvc" required>
+                  <Input
+                    id="card-cvc"
+                    type="text"
+                    value={cardCvc}
+                    onChange={(e) => setCardCvc(e.target.value)}
+                    placeholder="123"
+                    inputMode="numeric"
+                    leadingIcon={<Lock size={16} />}
+                    autoComplete="cc-csc"
+                  />
+                </FormGroup>
+              </div>
             </div>
-          </div>
-        </SectionCard>
+          </SectionCard>
+        )}
 
         {/* Summary + CTA */}
         <div className="flex flex-col gap-stack p-5 rounded-2xl bg-primary-50/60 border border-primary-200">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
               <p className="m-0 font-body text-caption text-ink-500 uppercase tracking-wider font-semibold">
-                Total à payer
+                {isFree ? 'Formule sélectionnée' : 'Total à payer'}
               </p>
               <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">
-                {price} €<span className="font-body text-body-sm font-normal text-ink-500">{periodLabel}</span>
+                {isFree
+                  ? 'Gratuit'
+                  : <>{price} €<span className="font-body text-body-sm font-normal text-ink-500">{periodLabel}</span></>
+                }
               </p>
             </div>
             <Badge variant="brand">{currentPlan.name}</Badge>
           </div>
 
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            leadingIcon={<ShieldCheck size={18} />}
-            disabled={!isFormValid}
-            onClick={() => setShowConfirm(true)}
-          >
-            Confirmer le paiement
-          </Button>
+          {isFree ? (
+            <Button
+              variant="primary"
+              size="lg"
+              fullWidth
+              onClick={handleStartFree}
+            >
+              Commencer gratuitement
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              size="lg"
+              fullWidth
+              leadingIcon={<ShieldCheck size={18} />}
+              disabled={!isFormValid}
+              onClick={() => setShowConfirm(true)}
+            >
+              Confirmer le paiement
+            </Button>
+          )}
 
           <p className="m-0 font-body text-caption text-ink-500 text-center leading-relaxed">
-            En confirmant, tu acceptes les <a href="#" className="text-primary-700 hover:underline">conditions d'utilisation</a> et la <a href="#" className="text-primary-700 hover:underline">politique de remboursement</a> (14 jours).
+            En confirmant, tu acceptes les <a href="#" className="text-primary-700 hover:underline">conditions d'utilisation</a>{!isFree && <> et la <a href="#" className="text-primary-700 hover:underline">politique de remboursement</a> (14 jours)</>}.
           </p>
         </div>
 

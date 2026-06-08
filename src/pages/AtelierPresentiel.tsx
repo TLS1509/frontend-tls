@@ -6,6 +6,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { ResourceListItem } from '../components/learning/ResourceListItem';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -131,20 +132,17 @@ export default function AtelierPresentiel() {
         >
           <div className="flex flex-col gap-stack-xs">
             {RESSOURCES.map((res, idx) => (
-              <Card key={idx} variant="default" className="flex items-center justify-between p-3">
-                <div className="flex items-center gap-stack-xs">
-                  <FileText size={14} className="text-ink-400 shrink-0" />
-                  <span className="text-caption text-ink-700">{res.label}</span>
-                  <Badge variant="neutral" size="sm">{res.type}</Badge>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  leadingIcon={<Download size={14} />}
-                >
-                  Télécharger
-                </Button>
-              </Card>
+              <ResourceListItem
+                key={idx}
+                icon={<FileText size={14} />}
+                label={res.label}
+                badge={<Badge variant="neutral" size="sm">{res.type}</Badge>}
+                action={
+                  <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
+                    Télécharger
+                  </Button>
+                }
+              />
             ))}
           </div>
         </SectionCard>

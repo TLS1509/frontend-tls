@@ -43,6 +43,7 @@
   --color-secondary-700: #8F5017;
   --color-secondary-800: #5E3710;
   --color-secondary-900: #3B2109;
+  --color-secondary-650: #BF693B; /* mid-step between 600 and 700 — synced with Figma secondary/650 */
 
   /* ── Couleurs Accent (jaune TLS) — synced with --tls-yellow-* ──
      Base canonique = accent-400 (#F8B044, "TLS Yellow"). Tailwind step
@@ -203,10 +204,12 @@
        slow     300ms → larger movements (card flip, modal entrance)
        glacial  600ms → strong emphasis (celebration, achievement reveal)
   */
-  --duration-fast:    150ms;
-  --duration-base:    200ms;
-  --duration-slow:    300ms;
-  --duration-glacial: 600ms;
+  --duration-instant:    80ms;  /* near-instant feedback (toggle, checkbox check) */
+  --duration-fast:      150ms;
+  --duration-base:      200ms;
+  --duration-slow:      300ms;
+  --duration-glacial:   600ms;
+  --duration-expressive:800ms;  /* cinematic reveals (onboarding, celebration) */
 
   /* ── Easings ── SEMANTIC TIMING FUNCTIONS
      Tailwind v4 auto-generates `ease-{name}` :
@@ -380,6 +383,19 @@
   --color-info-bg:      #E8F4F7;
   --color-info-fg:      #1F3E45;
   --color-info-base:    #55A1B4;
+
+  /* Achievement — bronze/gold tones for gamification (badges, XP, streaks) */
+  --color-achievement-base:  #965014; /* warm bronze — default achievement tint */
+  --color-achievement-dark:  #8C630C; /* deep gold — borders, strong emphasis */
+  --color-achievement-light: #B07010; /* bright gold — fills, icons */
+
+  /* Success extended — richer variants for special success moments */
+  --color-success-vivid:  #347572; /* deeper teal-green — milestone completion */
+  --color-success-bright: #228B55; /* classic green — level-up / top achievement */
+
+  /* Specialty accent colors — future features / editorial diversity */
+  --color-sage:         #73A68C; /* muted sage green — nature/wellbeing contexts */
+  --color-purple-accent:#7272CD; /* soft purple — AI features, insights, premium */
 }
 
 /* ============================================

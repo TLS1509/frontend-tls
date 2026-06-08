@@ -114,12 +114,22 @@ import { ArticleCard } from '../components/learning/ArticleCard';
 import { MagazineCard } from '../components/learning/MagazineCard';
 import { PromptCard } from '../components/learning/PromptCard';
 import { VideoCard } from '../components/learning/VideoCard';
+import { MoodSelector } from '../components/ui/MoodSelector';
+import type { MoodLevel } from '../components/ui/MoodSelector';
+import { JournalChatCompose } from '../components/ui/JournalChatCompose';
+import { StructuredQuestionAccordion } from '../components/ui/StructuredQuestionAccordion';
+import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
+import { JournalTypeTile, JOURNAL_TYPE_ORDER } from '../components/cards/JournalTypeTile';
+import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
+import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { RankingCard } from '../components/learning/RankingCard';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { Flashcard } from '../components/patterns/Flashcard';
 import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
 import { DataTable } from '../components/patterns/DataTable';
-// MessageThreadCard supprimé Phase 10 — design simpliste vs Messages.tsx chat-like
+// MessageThreadCard supprimé Phase 10 — remplacé par MessageBubble + ConversationalChat
+import { MessageBubble } from '../components/ui/MessageBubble';
+import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import { RatingModal } from '../components/patterns/RatingModal';
 import { ProjectCard } from '../components/learning/ProjectCard';
 // SocialButton supprimé (Phase 10) — utiliser AuthSocialButton (depuis AuthShell)
@@ -179,9 +189,33 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import { ProgressDots } from '../components/ui/ProgressDots';
+import {
+  ParcoursCardSkeleton,
+  NotificationRowSkeleton,
+  EditorialCardSkeleton,
+} from '../components/patterns/SkeletonTemplates';
+import { ActivityTimeline } from '../components/patterns/ActivityTimeline';
+import { TabsWithContent } from '../components/patterns/TabsWithContent';
+import { FormLayout } from '../components/patterns/FormLayout';
+import { ViewerOverlay } from '../components/patterns/ViewerOverlay';
+import { HeaderNav } from '../components/patterns/HeaderNav';
+import { AppBreadcrumb } from '../components/patterns/AppBreadcrumb';
+import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import { Pill } from '../components/ui/Pill';
+import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { FlipCard } from '../components/patterns/FlipCard';
-import { Briefcase, HeartHandshake } from 'lucide-react';
+import { Combobox } from '../components/ui/Combobox';
+import { QualitativeRating } from '../components/ui/QualitativeRating';
+import { DreyfusSlider } from '../components/ui/DreyfusSlider';
+import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
+import { VeilleFormatShortcutCards } from '../components/patterns/VeilleFormatShortcutCards';
+import { VeilleHeroFilterChips } from '../components/patterns/VeilleHeroFilterChips';
+import { AstucesCard } from '../components/learning/AstucesCard';
+import { ResourceListItem } from '../components/learning/ResourceListItem';
+import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
+import { AuthBackLink } from '../components/patterns/AuthShell';
+import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
 
 /* ============================================================================
  * TYPES
@@ -241,6 +275,8 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Radio:                { category: 'Atoms', subCategory: 'Form fields' },
   Switch:               { category: 'Atoms', subCategory: 'Form fields' },
   Select:               { category: 'Atoms', subCategory: 'Form fields' },
+  Combobox:             { category: 'Atoms', subCategory: 'Form fields' },
+  QualitativeRating:    { category: 'Atoms', subCategory: 'Form fields' },
   FormGroup:            { category: 'Atoms', subCategory: 'Form fields' },
   // FormField supprimé (Phase 10) — fusionné dans Input + FormGroup
 
@@ -267,8 +303,9 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // Indicators
   ProgressBar:          { category: 'Atoms', subCategory: 'Indicators' },
   InlineProgress:       { category: 'Atoms', subCategory: 'Indicators' },
-  // ProgressRing supprimé — mentionné dans ProgressBar description
+  ProgressRing:         { category: 'Atoms', subCategory: 'Indicators' },
   Skeleton:             { category: 'Atoms', subCategory: 'Indicators' },
+  SkeletonTemplates:    { category: 'Atoms', subCategory: 'Indicators' },
   Spinner:              { category: 'Atoms', subCategory: 'Indicators' },
 
   // Decoration
@@ -341,10 +378,19 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // 'TLS KPI Pattern' supprimé — redondant avec StatCard
 
   // Communication (chat-bubble)
+  MessageBubble:        { category: 'Cards', subCategory: 'Communication' },
+  ConversationalChat:   { category: 'Lists & Feeds', subCategory: 'Feeds (chronological)' },
   PromptCard:           { category: 'Cards', subCategory: 'Communication' },
-  // 'Chat Bubbles' supprimé — documenté dans PromptCard + MessagingThread
   JournalEntryCard:     { category: 'Cards', subCategory: 'Communication' },
+  JournalBubbleCard:    { category: 'Cards', subCategory: 'Communication' },
+  JournalTypeTile:      { category: 'Cards', subCategory: 'Communication' },
   NotificationCard:     { category: 'Cards', subCategory: 'Communication' },
+  // Journal Form components
+  MoodSelector:             { category: 'Forms', subCategory: 'Inputs' },
+  StructuredQuestionAccordion: { category: 'Forms', subCategory: 'Inputs' },
+  JournalChatCompose:       { category: 'Forms', subCategory: 'Inputs' },
+  // Journal Patterns
+  WritingPromptsAside:      { category: 'Headers & Sections', subCategory: 'Section patterns' },
   // MessageThreadCard supprimé Phase 10
 
   // Learning content cards
@@ -439,6 +485,16 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   LessonNavigation:       { category: 'Composites',    subCategory: 'Group wrappers' },
   FlipCard:               { category: 'Learning',      subCategory: 'Quiz & flashcards' },
 
+  // ── FIGMA DS — extracted shared components ────────────────────────────
+  AstucesCard:            { category: 'Learning',      subCategory: 'Viewer content' },
+  ResourceListItem:       { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
+  EtapeAccordion:         { category: 'Composites',    subCategory: 'Group wrappers' },
+  AuthBackLink:           { category: 'Auth Family',   subCategory: 'Shell & layout' },
+  DreyfusSlider:          { category: 'Learning',      subCategory: 'Compétences' },
+  BehavioralTileGrid:     { category: 'Learning',      subCategory: 'Viewer content' },
+  VeilleFormatShortcutCards: { category: 'Cards',      subCategory: 'Editorial content' },
+  VeilleHeroFilterChips:  { category: 'Navigation',    subCategory: 'Secondary nav' },
+
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
 };
@@ -471,7 +527,7 @@ const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   Cards: ['Generic', 'KPI & Stats', 'Communication', 'Learning content', 'Editorial content', 'Domain (coaching/project)', 'Activity'],
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms'],
-  Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards'],
+  Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards', 'Viewer content'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media'],
   'Auth Family': ['Shell & layout'],
   'Pages & Templates': [],
@@ -1539,6 +1595,126 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
+  // ── Combobox ───────────────────────────────────────────────────────────────
+  {
+    name: 'Combobox',
+    codeName: 'ui/Combobox.tsx',
+    cssBase: 'combobox',
+    category: 'Core',
+    description:
+      'Searchable single-select: <input> that filters a dropdown list. Keyboard nav (↑ ↓ Enter Esc Tab), selected state with Check icon. Sizes sm/md/lg, status default/success/error. Follows Select visual pattern.',
+    keywords: ['combobox', 'autocomplete', 'searchable', 'select', 'dropdown', 'filter', 'keyboard', 'typeahead'],
+    showcaseOnly: true,
+    render: () => {
+      const LANGS = [
+        { value: 'fr', label: 'Français' },
+        { value: 'en', label: 'English' },
+        { value: 'es', label: 'Español' },
+        { value: 'de', label: 'Deutsch' },
+        { value: 'pt', label: 'Português' },
+        { value: 'it', label: 'Italiano' },
+        { value: 'nl', label: 'Nederlands' },
+      ];
+      const [val1, setVal1] = React.useState('');
+      const [val2, setVal2] = React.useState('fr');
+      return (
+        <div className="flex flex-col gap-stack max-w-[480px]">
+          <Combobox
+            label="Langue"
+            hint="Tapez pour filtrer la liste"
+            options={LANGS}
+            value={val1}
+            onChange={setVal1}
+            placeholder="Rechercher une langue…"
+          />
+          <Combobox
+            label="Pré-sélectionné"
+            options={LANGS}
+            value={val2}
+            onChange={setVal2}
+          />
+          <Combobox
+            label="Status error"
+            error="Ce champ est requis"
+            status="error"
+            required
+            options={LANGS}
+            value=""
+            onChange={() => {}}
+          />
+          <Combobox
+            label="Désactivé"
+            disabled
+            options={LANGS}
+            value="en"
+            onChange={() => {}}
+          />
+        </div>
+      );
+    },
+  },
+  // ── QualitativeRating ──────────────────────────────────────────────────────
+  {
+    name: 'QualitativeRating',
+    codeName: 'ui/QualitativeRating.tsx',
+    cssBase: 'qualitative-rating',
+    category: 'Core',
+    description:
+      'Labelled pill selector for qualitative feedback. A row of text pills (default: 5-level À améliorer→Excellent). Distinct from numeric star rating. Tone-aware (primary/warm/sun), sizes sm/md, wrap optional.',
+    keywords: ['rating', 'qualitative', 'feedback', 'pills', 'satisfaction', 'evaluation', 'survey', 'scale'],
+    showcaseOnly: true,
+    render: () => {
+      const [primary, setPrimary] = React.useState('');
+      const [warm, setWarm]       = React.useState('4');
+      const [sun, setSun]         = React.useState('3');
+      const [sm, setSm]           = React.useState('');
+      return (
+        <div className="flex flex-col gap-stack max-w-2xl">
+          <QualitativeRating
+            label="Tone primary (aucune sélection)"
+            tone="primary"
+            value={primary}
+            onChange={setPrimary}
+          />
+          <QualitativeRating
+            label="Tone warm · Très bien présélectionné"
+            tone="warm"
+            value={warm}
+            onChange={setWarm}
+          />
+          <QualitativeRating
+            label="Tone sun"
+            tone="sun"
+            value={sun}
+            onChange={setSun}
+          />
+          <QualitativeRating
+            label="Taille sm"
+            size="sm"
+            value={sm}
+            onChange={setSm}
+          />
+          <QualitativeRating
+            label="Options personnalisées"
+            tone="warm"
+            value=""
+            onChange={() => {}}
+            options={[
+              { value: 'non', label: 'Pas du tout' },
+              { value: 'un-peu', label: 'Un peu' },
+              { value: 'beaucoup', label: 'Beaucoup' },
+            ]}
+          />
+          <QualitativeRating
+            label="Désactivé"
+            disabled
+            value="3"
+            onChange={() => {}}
+          />
+        </div>
+      );
+    },
+  },
   {
     name: 'FormGroup',
     codeName: 'FormGroup.tsx',
@@ -1819,6 +1995,40 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    name: 'SkeletonTemplates',
+    codeName: 'patterns/SkeletonTemplates.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Feedback',
+    usedBy: ['Notifications', 'LearningPaths', 'Dashboard', 'Veille', 'Journal'],
+    description: 'Templates shimmer pré-construits correspondant aux silhouettes des cards principales. Évite la duplication de placeholders. Templates disponibles : `ParcoursCardSkeleton`, `NotificationRowSkeleton`, `EditorialCardSkeleton`, `ResumeLessonSkeleton`, `ActivityItemSkeleton`. `SkeletonGrid` : wrap N templates dans une grille responsive.',
+    keywords: ['skeleton', 'loading', 'placeholder', 'shimmer', 'template', 'grid', 'card'],
+    render: () => (
+      <div className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ParcoursCardSkeleton</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ParcoursCardSkeleton />
+            <ParcoursCardSkeleton />
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">NotificationRowSkeleton</p>
+          <div className="flex flex-col gap-2">
+            <NotificationRowSkeleton />
+            <NotificationRowSkeleton />
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">EditorialCardSkeleton</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <EditorialCardSkeleton />
+            <EditorialCardSkeleton />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
     name: 'Search',
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
@@ -2010,6 +2220,26 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
 
+  {
+    name: 'ProgressRing',
+    codeName: 'ui/ProgressRing.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    usedBy: ['Profile', 'CompetencyRadar', 'ReadingProgressRing'],
+    description: 'Anneau SVG circulaire de progression (0–100). 5 tones (brand/warm/sun/success/danger). Gradient interne + halo glow optionnel. Animate 0→value au mount. Slots `label` (centré) et `valueLabel`. Sizes arbitraires via prop `size`, `thickness`.',
+    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone'],
+    render: () => (
+      <div className="flex gap-6 flex-wrap items-center py-2">
+        <ProgressRing value={78} tone="brand" label={<span className="text-micro font-bold text-primary-700">PARCOURS</span>} />
+        <ProgressRing value={54} tone="warm" label={<span className="text-micro font-bold text-secondary-700">COACHING</span>} />
+        <ProgressRing value={92} tone="sun" label={<span className="text-micro font-bold text-accent-700">BADGES</span>} />
+        <ProgressRing value={33} tone="success" label={<span className="text-micro font-bold text-success-fg">CERTIF</span>} />
+        <ProgressRing value={20} tone="danger" size={80} thickness={8} />
+        <ProgressRing value={65} tone="brand" size={60} thickness={6} glow={false} />
+      </div>
+    ),
+  },
+
   /* ---- CONTENT & DISPLAY ------------------------------------------------ */
   {
     name: 'ActionCard',
@@ -2192,6 +2422,43 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
 
+  {
+    name: 'Pill',
+    codeName: 'ui/Pill.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Core',
+    usedBy: ['AuthShell', 'HeroSection', 'EditorialHero', 'ResumeLessonCard', 'Marketing'],
+    description: 'Chip générique icône + texte. 3 variants : **surface** (bg-white border — banners clairs), **glass-light** (translucide blanc + backdrop-blur — héros colorés), **glass-dark** (translucide noir — overlays media/vidéo). 3 sizes : sm/md/lg. Différent de MetaPill (metadata card, tone-tinted) et FilterChip (toggle interactif).',
+    keywords: ['pill', 'chip', 'glass', 'surface', 'tag', 'icon', 'overlay', 'hero', 'frosted', 'banner'],
+    render: () => (
+      <div className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">surface — fond clair</p>
+          <div className="flex gap-2 flex-wrap">
+            <Pill icon={<BookOpen size={14} />} size="sm">Parcours</Pill>
+            <Pill icon={<Clock3 size={14} />} size="md">6 semaines</Pill>
+            <Pill icon={<Users size={14} />} size="lg">1 242 apprenants</Pill>
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700">
+          <p className="text-caption font-bold uppercase tracking-wider text-white/80 m-0">glass-light — fond coloré (hero gradient)</p>
+          <div className="flex gap-2 flex-wrap">
+            <Pill variant="glass-light" icon={<Flame size={14} />} size="sm">Trending</Pill>
+            <Pill variant="glass-light" icon={<Trophy size={14} />} size="md">Certifié</Pill>
+            <Pill variant="glass-light" size="lg">14 jours de streak</Pill>
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-ink-900">
+          <p className="text-caption font-bold uppercase tracking-wider text-white/70 m-0">glass-dark — fond sombre / vidéo overlay</p>
+          <div className="flex gap-2 flex-wrap">
+            <Pill variant="glass-dark" icon={<Video size={14} />} size="sm">12 min</Pill>
+            <Pill variant="glass-dark" size="md">4K · HD</Pill>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
   /* ---- NAVIGATION ------------------------------------------------------- */
   {
     name: 'Sidebar',
@@ -2357,6 +2624,52 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    name: 'AchievementBadge',
+    codeName: 'ui/AchievementBadge.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    showcaseOnly: true,
+    usedBy: ['Badges', 'Profile'],
+    description: 'Carte badge d\'accomplissement standalone. 4 colors (primary/warm/sun/success) × 3 sizes (sm/md/lg). Cercle icône gradient + titre + description + date de déverrouillage + bouton partage. État `isLocked` avec opacité réduite et icône cadenas.',
+    keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
+    render: () => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <AchievementBadge
+          icon={<Trophy size={48} className="text-white" />}
+          title="Pionnier IA"
+          description="Premier parcours terminé avec succès"
+          unlockedDate="15 janv. 2026"
+          color="primary"
+          size="md"
+        />
+        <AchievementBadge
+          icon={<Flame size={48} className="text-white" />}
+          title="Streak Master"
+          description="14 jours d'apprentissage consécutifs"
+          unlockedDate="28 mars 2026"
+          color="warm"
+          size="md"
+        />
+        <AchievementBadge
+          icon={<Star size={48} className="text-white" />}
+          title="Expert Certifié"
+          description="Niveau Expert validé en Leadership"
+          unlockedDate="3 mai 2026"
+          color="sun"
+          size="md"
+        />
+        <AchievementBadge
+          icon={<CheckCircle2 size={48} className="text-white" />}
+          title="Mentor"
+          description="Débloque quand vous aidez 5 collègues"
+          isLocked
+          color="success"
+          size="md"
+        />
+      </div>
+    ),
+  },
+  {
     name: 'Stepper',
     codeName: 'Stepper.tsx',
     cssBase: '.stepper / .stepper__step',
@@ -2390,6 +2703,53 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       );
     },
+  },
+
+  {
+    name: 'TabsWithContent',
+    codeName: 'patterns/TabsWithContent.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Navigation',
+    usedBy: ['LearningPathDetail', 'Profile', 'Coaching', 'Account'],
+    description: 'Tabs avec gestion de contenu intégrée (state actif + rendu du panel). 3 variants : **underline** (ligne sous onglet actif), **boxed** (onglet plein sur fond blanc), **pill** (toggle pill sur ink-100). Badge numérique optionnel, disabled support, onTabChange callback.',
+    keywords: ['tabs', 'tabbed', 'content', 'panel', 'underline', 'pill', 'boxed', 'nav', 'switch', 'state'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="underline" (défaut)</p>
+          <TabsWithContent
+            variant="underline"
+            tabs={[
+              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-4 text-body text-ink-600">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
+              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-4 text-body text-ink-600">Liste des 8 leçons avec état de progression pour chacune.</div> },
+              { id: 'resources', label: 'Ressources', content: <div className="py-4 text-body text-ink-600">Ressources complémentaires et liens utiles.</div> },
+            ]}
+          />
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="pill"</p>
+          <TabsWithContent
+            variant="pill"
+            tabs={[
+              { id: 'all', label: 'Tout', content: <div className="py-3 text-body text-ink-600">Tous les éléments combinés.</div> },
+              { id: 'coaching', label: 'Coaching', content: <div className="py-3 text-body text-ink-600">Sessions de coaching planifiées.</div> },
+              { id: 'notes', label: 'Notes', content: <div className="py-3 text-body text-ink-600">Vos notes de session.</div> },
+            ]}
+          />
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="boxed"</p>
+          <TabsWithContent
+            variant="boxed"
+            tabs={[
+              { id: 'profile', label: 'Profil', content: <div className="py-4 text-body text-ink-600">Données de profil et compétences.</div> },
+              { id: 'account', label: 'Compte', content: <div className="py-4 text-body text-ink-600">Informations de compte et sécurité.</div> },
+              { id: 'settings', label: 'Paramètres', content: <div className="py-4 text-body text-ink-600">Préférences et notifications.</div> },
+            ]}
+          />
+        </div>
+      </div>
+    ),
   },
 
   /* ---- FEEDBACK --------------------------------------------------------- */
@@ -2519,6 +2879,42 @@ const COMPONENTS: ComponentEntry[] = [
           />
           <div className="p-4 text-caption text-ink-500">sticky — blur + border-bottom</div>
         </div>
+      </div>
+    ),
+  },
+  {
+    name: 'AppBreadcrumb',
+    codeName: 'patterns/AppBreadcrumb.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Navigation',
+    usedBy: ['AppLayout (global)', 'LearningPathDetail', 'ArticleDetail', 'VeilleContent'],
+    description: 'Fil d\'Ariane auto-généré depuis `useLocation`. Rendu si ≥ 2 segments seulement (évite "Accueil > Parcours" sur les hubs top-level). Includes bouton Retour sur mobile. Routes mappées statiquement pour des labels humainement lisibles.',
+    keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs p-4 bg-ink-50 rounded-xl border border-ink-200">
+        <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
+        <div className="flex items-center gap-1.5 text-caption text-ink-500">
+          <span className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
+            <BookOpen size={13} /> Parcours
+          </span>
+          <span className="text-ink-300">›</span>
+          <span className="text-ink-900 font-semibold">Prompt Engineering Avancé</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'AccountFamilyNav',
+    codeName: 'patterns/AccountFamilyNav.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Navigation',
+    usedBy: ['Profile', 'Account', 'Settings', 'Billing'],
+    description: 'Sub-navigation pour les pages "compte" (Profil / Mon compte / Facturation / Paramètres). Pills scrollables avec label + description courte du rôle de chaque page. Clarifie la séparation des responsabilités.',
+    keywords: ['account', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'tabs', 'secondary'],
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <AccountFamilyNav active="profile" />
+        <AccountFamilyNav active="settings" />
       </div>
     ),
   },
@@ -3209,6 +3605,26 @@ const COMPONENTS: ComponentEntry[] = [
     },
   },
 
+  {
+    name: 'ActivityTimeline',
+    codeName: 'patterns/ActivityTimeline.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching'],
+    description: 'Timeline verticale d\'activités avec connecteur et dot tonal. 5 tones (primary/warm/sun/success/warning). Statuts : completed / pending / in-progress (pulse animé). Différent d\'ActivityFeed : plus compact, pensé pour les flux séquentiels (historique linéaire).',
+    keywords: ['timeline', 'activity', 'events', 'vertical', 'connector', 'tone', 'status', 'dot', 'chronological'],
+    render: () => (
+      <ActivityTimeline
+        items={[
+          { id: '1', title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: 'Il y a 2h', tone: 'primary', status: 'completed', icon: <CheckCircle2 size={16} /> },
+          { id: '2', title: 'Session en cours', description: 'Coaching avec Sophie Martin', timestamp: 'Aujourd\'hui 14h', tone: 'warm', status: 'in-progress', icon: <MessageSquare size={16} /> },
+          { id: '3', title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: 'Hier', tone: 'sun', status: 'completed', icon: <Star size={16} /> },
+          { id: '4', title: 'Objectif à venir', description: 'Compléter 5 leçons cette semaine', timestamp: 'Dans 3 jours', tone: 'success', status: 'pending', icon: <Target size={16} /> },
+        ]}
+      />
+    ),
+  },
+
   /* ---- TIER 2 EDITORIAL ATOMS (Phase 10) --------------------------------- */
   {
     name: 'AuthorStrip',
@@ -3702,6 +4118,77 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    name: 'HeaderNav',
+    codeName: 'patterns/HeaderNav.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Onboarding (questionnaire)', 'Positionnement', 'OnboardingTutorial'],
+    description: 'Header sticky pour flows multi-étapes (onboarding, questionnaire, configurateur). Back button pill (gauche) + barre de progression optionnelle (centre, avec label) + bouton Enregistrer (droite). Glass-light backdrop-blur. Responsive : progress label hidden mobile.',
+    keywords: ['header', 'nav', 'sticky', 'back', 'save', 'progress', 'onboarding', 'wizard', 'glass', 'multi-step'],
+    render: () => (
+      <div className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Avec progression + Enregistrer</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200">
+            <HeaderNav
+              backLabel="Quitter le questionnaire"
+              onBack={() => {}}
+              progress={65}
+              progressLabel="Étape 4/6"
+              onSave={() => {}}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Simple back only</p>
+          <div className="rounded-xl overflow-hidden border border-ink-200">
+            <HeaderNav
+              backLabel="Retour"
+              onBack={() => {}}
+              showProgressBar={false}
+            />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'ViewerOverlay',
+    codeName: 'patterns/ViewerOverlay.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['LessonPlayer', 'AstucesViewer', 'FlashcardsViewer', 'VideoTutorial', 'VideoViewer', 'ComplementaryContentViewer'],
+    description: 'Wrapper full-screen standardisé pour les pages viewer immersives. Header sticky glass + barre de progression + footer prev/next + slot children. 5 tones (light/brand/warm/sun/dark). Keyboard: Esc → close, ArrowLeft/Right → prev/next. Safe-area mobile.',
+    keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs">
+        <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
+        <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
+          <div className="flex items-center justify-between px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
+            <button className="inline-flex items-center gap-1.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
+              <ArrowLeft size={14} /> Retour
+            </button>
+            <div className="flex-1 text-center">
+              <p className="m-0 text-caption text-ink-500">Carte 3 sur 12</p>
+              <p className="m-0 text-body-sm font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
+            </div>
+            <div className="flex items-center gap-1">
+              <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
+              <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
+            </div>
+          </div>
+          <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
+          <div className="flex-1 flex items-center justify-center p-8 text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
+          <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-2 rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
+            <span className="text-caption text-ink-500">3 / 12</span>
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-2 rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
     name: 'MultiStepForm',
     codeName: 'patterns/MultiStepForm.tsx',
     cssBase: 'MultiStepForm (form progress)',
@@ -3710,6 +4197,40 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Wrapper de formulaire séquentiel: stepper visuel (numéros + labels + état done/active/upcoming), slot enfant pour le contenu de l\'étape, boutons Précédent/Suivant et validation par étape. À utiliser pour onboarding ou wizards de configuration.',
     keywords: ['form', 'multi-step', 'progress', 'navigation', 'wizard'],
     render: () => <MultiStepFormDemo />,
+  },
+  {
+    name: 'FormLayout',
+    codeName: 'patterns/FormLayout.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    showcaseOnly: true,
+    usedBy: ['Account', 'Settings', 'Profile (edit)'],
+    description: 'Wrapper de formulaire structuré avec sections titrées. Titre + description globaux, sections avec champs `label + helpText + error + input slot`. Boutons submit/cancel intégrés. Isomorphe : chaque `input` est un slot React → compatible avec Input, Select, Switch, etc.',
+    keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
+    render: () => (
+      <FormLayout
+        title="Informations personnelles"
+        description="Modifiez vos informations de profil visibles par vos pairs."
+        sections={[
+          {
+            title: 'Identité',
+            fields: [
+              { name: 'name', label: 'Nom complet', required: true, input: <Input placeholder="Marie Dupont" defaultValue="Marie Dupont" /> },
+              { name: 'title', label: 'Titre professionnel', helpText: 'Visible sur votre profil public.', input: <Input placeholder="Lead Designer @ TLS" /> },
+            ],
+          },
+          {
+            title: 'Contact',
+            fields: [
+              { name: 'email', label: 'Email', required: true, input: <Input type="email" placeholder="marie@company.com" defaultValue="marie@company.com" /> },
+              { name: 'notify', label: 'Notifications email', input: <Switch /> },
+            ],
+          },
+        ]}
+        onSubmit={() => {}}
+        onCancel={() => {}}
+      />
+    ),
   },
   {
     name: 'PageCard',
@@ -4035,6 +4556,84 @@ const COMPONENTS: ComponentEntry[] = [
       );
     },
   },
+
+  // ─── Figma DS extract — VeilleFormatShortcutCards ────────────────────────────
+  {
+    name: 'VeilleFormatShortcutCards',
+    codeName: 'patterns/VeilleFormatShortcutCards.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    description: 'Grille 2×2 (mobile) → 4-col (sm+) de cartes de navigation vers les formats éditoriaux Veille. Variant dark (glass sur gradient, défaut) ou light (surface claire). Icône + label + description courte + flèche révélée au hover. Répond à `onClick` par card.',
+    keywords: ['veille', 'format', 'shortcut', 'navigation', 'cards', 'editorial', 'magazine', 'newsletter', 'glass', 'dark'],
+    usedBy: ['Veille'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <div className="flex flex-col gap-stack">
+          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant dark (défaut — sur dégradé)</span>
+          <div className="p-6 rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+            <VeilleFormatShortcutCards
+              items={[
+                { label: 'Magazine TLS', desc: 'Mensuel · analyses',      icon: <BookOpen  size={15} strokeWidth={2} />, iconClassName: 'text-primary-200' },
+                { label: 'Actu hebdo',   desc: 'Chaque vendredi',         icon: <TrendingUp size={15} strokeWidth={2} />, iconClassName: 'text-secondary-200' },
+                { label: 'Vidéo Reels',  desc: 'Short formats · 60 sec',  icon: <Video     size={15} strokeWidth={2} />, iconClassName: 'text-white/70' },
+                { label: 'Newsletter',   desc: 'Abonnement & archives',   icon: <Mail      size={15} strokeWidth={2} />, iconClassName: 'text-accent-300' },
+              ]}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack">
+          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant light (surface claire)</span>
+          <VeilleFormatShortcutCards
+            variant="light"
+            items={[
+              { label: 'Magazine TLS', desc: 'Mensuel · analyses',     icon: <BookOpen   size={15} strokeWidth={2} />, iconClassName: 'text-primary-600' },
+              { label: 'Actu hebdo',   desc: 'Chaque vendredi',        icon: <TrendingUp size={15} strokeWidth={2} />, iconClassName: 'text-secondary-600' },
+              { label: 'Vidéo Reels',  desc: 'Short formats · 60 sec', icon: <Video      size={15} strokeWidth={2} />, iconClassName: 'text-ink-500' },
+              { label: 'Newsletter',   desc: 'Abonnement & archives',  icon: <Mail       size={15} strokeWidth={2} />, iconClassName: 'text-accent-500' },
+            ]}
+          />
+        </div>
+      </div>
+    ),
+  },
+
+  // ─── Figma DS extract — VeilleHeroFilterChips ────────────────────────────────
+  {
+    name: 'VeilleHeroFilterChips',
+    codeName: 'patterns/VeilleHeroFilterChips.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    description: 'Barre de filtres glass pour le hero éditorial Veille. Compose FilterChip(variant="glass") : chips type de contenu + toggle Sauvegardés (Bookmark) + séparateur vertical + lien Réinitialiser + compteur résultats à droite. Conçu pour surfaces sombres/dégradées.',
+    keywords: ['veille', 'filter', 'chips', 'hero', 'glass', 'bookmark', 'saved', 'editorial', 'reset', 'count'],
+    usedBy: ['Veille'],
+    render: () => {
+      const [active, setActive] = React.useState('all');
+      const [savedActive, setSavedActive] = React.useState(false);
+      const hasFilter = active !== 'all' || savedActive;
+      return (
+        <div className="p-6 rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+          <VeilleHeroFilterChips
+            filters={[
+              { id: 'all',      label: 'Tout' },
+              { id: 'actu',     label: 'Actus',     icon: <TrendingUp size={12} strokeWidth={2.5} />, count: 4 },
+              { id: 'tutoriel', label: 'Tutoriels',  icon: <Video     size={12} strokeWidth={2.5} />, count: 2 },
+              { id: 'dossier',  label: 'Dossiers',   icon: <FolderOpen size={12} strokeWidth={2.5} />, count: 1 },
+              { id: 'magazine', label: 'Magazine',   icon: <BookOpen  size={12} strokeWidth={2.5} />, count: 1 },
+            ]}
+            value={active}
+            onChange={setActive}
+            savedCount={3}
+            isSavedActive={savedActive}
+            onSavedToggle={() => setSavedActive((v) => !v)}
+            hasActiveFilter={hasFilter}
+            onReset={() => { setActive('all'); setSavedActive(false); }}
+            resultsCount={8}
+          />
+        </div>
+      );
+    },
+  },
+
   {
     name: 'EditorialCard',
     codeName: 'learning/ArticleCard.tsx · learning/MagazineCard.tsx · learning/VideoCard.tsx',
@@ -4188,6 +4787,110 @@ const COMPONENTS: ComponentEntry[] = [
           onClick={() => {}}
         />
       </div>
+    ),
+  },
+  {
+    name: 'MessageBubble',
+    codeName: 'ui/MessageBubble.tsx',
+    cssBase: 'Tailwind',
+    category: 'Core',
+    usedBy: ['ChatInterface', 'Messages'],
+    description: '⭐ Bulle de message réutilisable pour chats et messagerie. 2 variants : `user` (aligné droite) et `assistant` (aligné gauche + avatar). 2 contextes : `chatbot` (fond soft primary-100/ink-50, radius 2xl) et `messaging` (filled primary-500/white, radius xl + shadow). Fonctionnalités AI chatbot : score de confiance (< 0.6 → banner warning), privacy block, citations de sources pills, feedback thumbs-up/down. Messagerie : read receipt `showReadReceipt`, nom expéditeur, slot `children` pour pièces jointes. Markdown léger (**bold**, newlines). ⚠️ Similaire à `PromptCard`/`JournalEntryCard` — eux sont standalone cards cliquables, MessageBubble est un élément de thread.',
+    keywords: ['message', 'bubble', 'chat', 'chatbot', 'messaging', 'assistant', 'user', 'conversation', 'coaching'],
+    render: () => (
+      <div className="flex flex-col gap-section max-w-2xl">
+        <div>
+          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : chatbot</p>
+          <div className="flex flex-col gap-stack p-4 bg-ink-50 rounded-xl border border-ink-200">
+            <MessageBubble
+              variant="user"
+              content="Comment développer mes compétences en leadership ?"
+              timestamp="14:32"
+              context="chatbot"
+            />
+            <MessageBubble
+              variant="assistant"
+              content="**Le leadership transformationnel** repose sur 4 piliers : vision inspirante, communication claire, empowerment de l'équipe, et exemplarité."
+              timestamp="14:32"
+              context="chatbot"
+              confidenceScore={0.87}
+              sourcesCited={[{ sourceModule: 'formation', sourceId: 's1', title: 'Parcours Leadership', relevanceScore: 0.92 }]}
+            />
+            <MessageBubble
+              variant="assistant"
+              content="Je ne peux pas répondre à cette question pour des raisons de confidentialité."
+              timestamp="14:33"
+              context="chatbot"
+              privacyBlocked
+            />
+            <MessageBubble
+              variant="assistant"
+              content="Je n'ai pas d'informations très précises sur ce sujet dans ma base de connaissance."
+              timestamp="14:34"
+              context="chatbot"
+              confidenceScore={0.4}
+            />
+          </div>
+        </div>
+        <div>
+          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : messaging (coaching)</p>
+          <div className="flex flex-col gap-stack p-4 bg-white rounded-xl border border-ink-200">
+            <MessageBubble
+              variant="user"
+              content="Bonjour ! J'ai une question sur notre prochaine session de coaching."
+              timestamp="10:15"
+              context="messaging"
+              showReadReceipt
+            />
+            <MessageBubble
+              variant="assistant"
+              content="Bonjour ! Bien sûr, je suis disponible. Quelle est ta question ?"
+              timestamp="10:16"
+              context="messaging"
+              senderInitials="SC"
+              senderTint="brand"
+              senderName="Sophie C."
+            />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'ConversationalChat',
+    codeName: 'patterns/ConversationalChat.tsx',
+    cssBase: 'Tailwind',
+    category: 'Patterns',
+    usedBy: ['ChatInterface'],
+    description: '⭐ Wrapper de fil de conversation complet — liste scrollable de `MessageBubble` + indicateur de frappe animé (3 dots bounce) + auto-scroll-to-bottom (`useRef + useEffect`). Props : `messages: ChatMessage[]`, `isTyping`, `onFeedback`, `emptyState`, `className` (pour contraindre la hauteur). État vide affiché si 0 messages. Encapsule un `<Card>` avec overflow-y-auto. ⚠️ `animationDelay` via `style={{}}` (exception légitime — pas d\'utility Tailwind pour animation-delay sur keyframes).',
+    keywords: ['chat', 'conversation', 'thread', 'messages', 'typing', 'auto-scroll', 'chatbot', 'feed'],
+    render: () => (
+      <ConversationalChat
+        messages={[
+          {
+            id: 'm1',
+            role: 'user',
+            content: 'Bonjour ! Je voudrais progresser en gestion de projet.',
+            timestamp: '14:30',
+          },
+          {
+            id: 'm2',
+            role: 'assistant',
+            content: '**Bonne initiative !** Je vois dans ton Passeport que tu as déjà validé les bases. Je te recommande de commencer par le module Agile & Scrum du parcours Management de Projet.',
+            timestamp: '14:30',
+            confidenceScore: 0.91,
+            sourcesCited: [{ sourceModule: 'formation', sourceId: 's1', title: 'Parcours Management', relevanceScore: 0.95 }],
+          },
+          {
+            id: 'm3',
+            role: 'user',
+            content: 'Super, combien de temps ça prend ?',
+            timestamp: '14:31',
+          },
+        ]}
+        isTyping={false}
+        className="max-h-[380px]"
+      />
     ),
   },
   {
@@ -4976,6 +5679,39 @@ const COMPONENTS: ComponentEntry[] = [
       );
     },
   },
+
+  // ─── Figma DS extract — DreyfusSlider ────────────────────────────────────────
+  {
+    name: 'DreyfusSlider',
+    codeName: 'ui/DreyfusSlider.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    description: 'Sélecteur Dreyfus compact en piste horizontale (D1–D5). Distinct de DreyfusLevelSelector (grille de cartes pour questionnaires). Nœuds 44px tactiles + connecteurs remplis à gauche de la sélection + labels sous la piste (centrés). Tone-aware brand/warm/sun. Utilise les DREYFUS_LABELS canoniques (Cahier #02 Passeport).',
+    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch'],
+    usedBy: ['Positionnement'],
+    render: () => {
+      const [v1, setV1] = React.useState<null | 1 | 2 | 3 | 4 | 5>(null);
+      const [v2, setV2] = React.useState<null | 1 | 2 | 3 | 4 | 5>(3);
+      const [v3, setV3] = React.useState<null | 1 | 2 | 3 | 4 | 5>(2);
+      return (
+        <div className="flex flex-col gap-section max-w-xl">
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone brand · rien sélectionné</span>
+            <DreyfusSlider value={v1} onChange={setV1} tone="brand" />
+          </div>
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · D3 sélectionné</span>
+            <DreyfusSlider value={v2} onChange={setV2} tone="warm" />
+          </div>
+          <div className="flex flex-col gap-stack">
+            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone sun · D2 sélectionné</span>
+            <DreyfusSlider value={v3} onChange={setV3} tone="sun" />
+          </div>
+        </div>
+      );
+    },
+  },
+
   {
     name: 'CongratulationsCard',
     codeName: 'patterns/CongratulationsCard.tsx',
@@ -5109,6 +5845,45 @@ const COMPONENTS: ComponentEntry[] = [
       );
     },
   },
+
+  // ─── Figma DS extract — BehavioralTileGrid ───────────────────────────────────
+  {
+    name: 'BehavioralTileGrid',
+    codeName: 'patterns/BehavioralTileGrid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    description: 'Grille auto-fit responsive de tuiles de piliers comportementaux / compétences. 4 palettes ton cycliques (primary/warm/sun/primary-alt). Chaque tuile : indicateur décoratif accentué + titre + description + pills optionnelles. Utilisé dans LessonPlayer (section Engagement) pour présenter les dimensions comportementales d\'une compétence.',
+    keywords: ['behavioral', 'tile', 'grid', 'pillar', 'competence', 'engagement', 'lesson', 'viewer', 'auto-fit'],
+    usedBy: ['LessonPlayer'],
+    render: () => (
+      <BehavioralTileGrid
+        heading="Les 4 Piliers du Leadership"
+        tiles={[
+          {
+            title: 'Vision & Stratégie',
+            description: 'Définir une direction claire et inspirer les équipes vers un objectif commun.',
+            tags: ['Vision', 'Stratégie'],
+          },
+          {
+            title: 'Communication',
+            description: 'Transmettre les idées avec clarté et écouter activement pour mieux collaborer.',
+            tags: ['Oral', 'Écrit'],
+          },
+          {
+            title: 'Décision & Action',
+            description: 'Prendre des décisions rapides avec des informations incomplètes et s\'y tenir.',
+            tags: ['Décision', 'Biais'],
+          },
+          {
+            title: 'Développement d\'équipe',
+            description: 'Faire grandir chaque collaborateur selon ses forces et ses axes de progression.',
+            tags: ['Coaching', 'Feedback'],
+          },
+        ]}
+      />
+    ),
+  },
+
   {
     name: 'LessonNavigation',
     codeName: 'patterns/LessonNavigation.tsx',
@@ -5134,6 +5909,243 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       );
     },
+  },
+
+  // ── FIGMA DS — extracted shared components ────────────────────────────────
+
+  {
+    name: 'AstucesCard',
+    codeName: 'learning/AstucesCard.tsx',
+    cssBase: 'AstucesCard (tip scroll-story card)',
+    category: 'Learning',
+    usedBy: ['AstucesViewer'],
+    description: 'Card "Astuce" pour le viewer scroll-story. Affiche un numéro, badge catégorie, image pleine largeur, titre, description et liste d\'exemples. Border colorée tone-aware (primary-400/secondary-400/accent-400). Ombre jaune-ambrée par défaut (sun tone). Tone-aware (primary/warm/sun).',
+    keywords: ['astuce', 'tip', 'viewer', 'scroll-story', 'card', 'learning', 'tone-aware', 'example'],
+    render: () => (
+      <div className="max-w-xl mx-auto">
+        <AstucesCard
+          number={1}
+          badge="ASTUCE PRODUCTIVITÉ"
+          image="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80"
+          title="Raccourcis Clavier"
+          description="Gagnez du temps avec les raccourcis essentiels pour naviguer rapidement dans l'application."
+          examples={['Ctrl+Shift+P : Palette de commandes', 'Ctrl+K : Recherche rapide', 'Alt+Tab : Changer de fenêtre']}
+          tone="sun"
+        />
+      </div>
+    ),
+  },
+
+  {
+    name: 'ResourceListItem',
+    codeName: 'learning/ResourceListItem.tsx',
+    cssBase: 'ResourceListItem (resource row)',
+    category: 'Patterns',
+    usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
+    description: 'Ligne de ressource complémentaire : icône + label + badge optionnel + action slot. Se rend en `<button>` si `onClick` fourni, sinon `<div>`. Utilisé dans les sidebars "Matériaux" et "Ressources" des viewers masterclass et atelier.',
+    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar'],
+    render: () => (
+      <div className="flex flex-col gap-stack-xs max-w-sm">
+        <ResourceListItem
+          icon={<FileText size={14} />}
+          label="Support de l'atelier"
+          badge={<Badge variant="neutral" size="sm">PDF</Badge>}
+          action={<Button variant="ghost" size="sm">Télécharger</Button>}
+        />
+        <ResourceListItem
+          icon={<Video size={14} />}
+          label="Replay vidéo de la session"
+          onClick={() => {}}
+        />
+        <ResourceListItem
+          label="Fiche mémo stress & récupération"
+        />
+      </div>
+    ),
+  },
+
+  {
+    name: 'EtapeAccordion',
+    codeName: 'patterns/EtapeAccordion.tsx',
+    cssBase: 'EtapeAccordion (step accordion)',
+    category: 'Patterns',
+    usedBy: ['CourseDetail', 'LearningPathDetail'],
+    description: 'Accordéon d\'étape de parcours. Deux variants : `default` (liste compacte bordée, CourseDetail) et `panel` (grande card padded, LearningPathDetail). Prop `header` pour un slot custom (remplace title/duration). Prop `locked` : désactive le clic et masque le chevron (locked items = non-interactifs). Le `bodyClassName` contrôle le style du wrapper contenu.',
+    keywords: ['accordion', 'step', 'etape', 'parcours', 'programme', 'expand', 'collapse', 'locked', 'lesson'],
+    render: () => {
+      const [open1, setOpen1] = React.useState(true);
+      const [open2, setOpen2] = React.useState(false);
+      return (
+        <div className="flex flex-col gap-stack max-w-lg">
+          <EtapeAccordion
+            title="Les fondamentaux du prompt"
+            duration="45 min"
+            isOpen={open1}
+            onToggle={() => setOpen1((o) => !o)}
+            className="mb-0"
+            bodyClassName="px-4 pb-4"
+          >
+            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
+          </EtapeAccordion>
+          <EtapeAccordion
+            title="Devenir prompt designer"
+            duration="1h 30"
+            isOpen={open2}
+            onToggle={() => setOpen2((o) => !o)}
+            locked
+            className="mb-0"
+          >
+            <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu verrouillé</p>
+          </EtapeAccordion>
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'AuthBackLink',
+    codeName: 'patterns/AuthShell.tsx',
+    cssBase: 'AuthBackLink (auth back-navigation link)',
+    category: 'Patterns',
+    usedBy: ['MagicLink', 'VerifyEmail'],
+    description: 'Lien de retour "← label" pour les pages auth sur fond glass-dark. Texte blanc/75 avec flèche ArrowLeft Lucide. Hover → blanc 100%. Part de la famille Auth* (glass-dark only — ne pas utiliser sur fond clair). Exposé comme named export depuis AuthShell.tsx.',
+    keywords: ['auth', 'back', 'link', 'retour', 'connexion', 'glass-dark', 'AuthShell', 'navigation'],
+    render: () => (
+      <div className="bg-primary-800 p-8 rounded-2xl">
+        <AuthBackLink label="Retour à la connexion" onClick={() => {}} />
+      </div>
+    ),
+  },
+
+  /* ── Journal DS components ──────────────────────────────────────────────── */
+  {
+    name: 'MoodSelector',
+    codeName: 'ui/MoodSelector.tsx',
+    cssBase: 'MoodSelector',
+    category: 'Core',
+    description: 'Sélecteur de niveau d\'humeur pour le journal (5 niveaux : very-sad → very-happy). Emoji + label par niveau, highlight actif bg-primary-100/border-primary-500. API : `value: MoodLevel` + `onChange`. Mobile-first flex wrap.',
+    keywords: ['mood', 'journal', 'humeur', 'emoji', 'selector', 'feeling', 'MoodLevel'],
+    usedBy: ['JournalNewEntry'],
+    render: () => {
+      const [mood, setMood] = React.useState<MoodLevel>('neutral');
+      return <MoodSelector value={mood} onChange={setMood} />;
+    },
+  },
+
+  {
+    name: 'JournalTypeTile',
+    codeName: 'cards/JournalTypeTile.tsx',
+    cssBase: 'JournalTypeTile',
+    category: 'Content',
+    description: 'Tuile de sélection du type d\'entrée journal (5 types : réflexion libre, apprentissage, pratique pro, coaching, eurêka). Icône Lucide + label + check badge coloré quand sélectionné. `selected` = bordure colorée + bg teinté + rounded-pill check badge. Utiliser avec `JOURNAL_TYPE_ORDER` pour l\'ordre canonique.',
+    keywords: ['journal', 'entry', 'type', 'tile', 'select', 'reflexion', 'apprentissage', 'coaching', 'eureka'],
+    usedBy: ['JournalNewEntry'],
+    render: () => {
+      const [selected, setSelected] = React.useState<string>('apprentissage');
+      return (
+        <div className="grid grid-cols-3 gap-3 max-w-lg">
+          {JOURNAL_TYPE_ORDER.map((type) => (
+            <JournalTypeTile
+              key={type}
+              type={type}
+              selected={selected === type}
+              onClick={() => setSelected(type)}
+            />
+          ))}
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'JournalBubbleCard',
+    codeName: 'cards/JournalBubbleCard.tsx',
+    cssBase: 'JournalBubbleCard',
+    category: 'Content',
+    description: 'Bulle Apple Messages pour afficher les entrées journal dans la liste. Surface tintée par type, queue speech-bubble bas-droite, badge type pill, actions glass-light. 7 types : guided / free / learning / coaching / insight / questionnaire / compte-rendu. Distinct de JournalEntryCard (layout traditionnel card).',
+    keywords: ['journal', 'bubble', 'chat', 'entry', 'apple-messages', 'speech-bubble', 'glass-light', 'JournalBubbleType'],
+    usedBy: ['Journal'],
+    render: () => (
+      <div className="flex flex-col gap-stack max-w-xl">
+        {(['learning', 'coaching', 'insight'] as JournalBubbleType[]).map((type) => (
+          <JournalBubbleCard
+            key={type}
+            type={type}
+            title={type === 'learning' ? 'Ce que j\'ai retenu de la session' : type === 'coaching' ? 'Session coaching du 10 mai' : 'Prise de conscience sur mon leadership'}
+            excerpt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            date="12 mai 2026"
+            readingTime="2 min"
+            onRead={() => {}}
+            onContinue={() => {}}
+          />
+        ))}
+      </div>
+    ),
+  },
+
+  {
+    name: 'JournalChatCompose',
+    codeName: 'ui/JournalChatCompose.tsx',
+    cssBase: 'JournalChatCompose',
+    category: 'Core',
+    description: 'Barre de composition style chat pour démarrer une entrée journal. Bulle Apple Messages (queue bas-gauche), textarea h-auto, emoji ✍️, bouton "Continuer", hint ⌘+Entrée. Utilisé en haut de la page Journal pour le quick-compose.',
+    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send'],
+    usedBy: ['Journal'],
+    render: () => {
+      const [value, setValue] = React.useState('');
+      return (
+        <div className="max-w-xl">
+          <JournalChatCompose
+            value={value}
+            onChange={setValue}
+            onSubmit={() => {}}
+          />
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'StructuredQuestionAccordion',
+    codeName: 'ui/StructuredQuestionAccordion.tsx',
+    cssBase: 'StructuredQuestionAccordion',
+    category: 'Content',
+    description: 'Accordéon de questions structurantes pour le journal (EDRA-R template ou questions génériques). Gère l\'état open/closed en interne. `answers` contrôlé (Record<string, string>). Chaque item : titre + description + textarea h-auto min-h-[96px] (contourne piège #10). Préfixe label configurable.',
+    keywords: ['accordion', 'journal', 'EDRA-R', 'structured', 'questions', 'textarea', 'collapsible'],
+    usedBy: ['JournalNewEntry'],
+    render: () => {
+      const [answers, setAnswers] = React.useState<Record<string, string>>({});
+      return (
+        <div className="max-w-xl">
+          <StructuredQuestionAccordion
+            questions={[
+              { id: 'q1', title: 'Explorer', description: 'Qu\'avez-vous observé dans votre pratique ?', placeholder: 'Décrivez l\'observation...' },
+              { id: 'q2', title: 'Décoder', description: 'Quelle signification donnez-vous à cette observation ?', placeholder: 'Votre analyse...' },
+              { id: 'q3', title: 'Réorienter', description: 'Comment allez-vous adapter votre pratique ?', placeholder: 'Vos intentions...' },
+            ]}
+            answers={answers}
+            onChange={setAnswers}
+            label="Template EDRA-R (optionnel)"
+          />
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'WritingPromptsAside',
+    codeName: 'patterns/WritingPromptsAside.tsx',
+    cssBase: 'WritingPromptsAside',
+    category: 'Patterns',
+    description: 'Panel de 3 prompts de réflexion journal (Apprentissage / Pratique pro / Coaching). SectionHeader minimal sun + grille 1/2/3 col de PromptCards + lien "Ouvrir mon journal". Défauts canoniques TLS inclus. `prompts` override optionnel. `onNavigate` + `onOpenJournal` callbacks.',
+    keywords: ['journal', 'prompts', 'aside', 'writing', 'reflection', 'PromptCard', 'SectionHeader', 'dashboard'],
+    usedBy: ['Dashboard'],
+    render: () => (
+      <WritingPromptsAside
+        onNavigate={() => {}}
+        onOpenJournal={() => {}}
+      />
+    ),
   },
 ];
 

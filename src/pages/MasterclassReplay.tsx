@@ -7,6 +7,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { ResourceListItem } from '../components/learning/ResourceListItem';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -91,15 +92,16 @@ export default function MasterclassReplay() {
             <SectionCard title="Matériaux" titleIcon={<FileText size={18} />}>
               <div className="flex flex-col gap-stack-xs">
                 {MATERIALS.map((m) => (
-                  <div key={m.id} className="flex items-center justify-between gap-stack-xs p-3 rounded-xl bg-ink-50">
-                    <div className="flex items-center gap-stack-xs min-w-0">
-                      <span className="text-ink-400 shrink-0">{m.icon}</span>
-                      <span className="text-caption text-ink-700 truncate">{m.label}</span>
-                    </div>
-                    <Button variant="ghost" size="sm" leadingIcon={<Download size={13} />}>
-                      Télécharger
-                    </Button>
-                  </div>
+                  <ResourceListItem
+                    key={m.id}
+                    icon={m.icon}
+                    label={m.label}
+                    action={
+                      <Button variant="ghost" size="sm" leadingIcon={<Download size={13} />}>
+                        Télécharger
+                      </Button>
+                    }
+                  />
                 ))}
               </div>
             </SectionCard>

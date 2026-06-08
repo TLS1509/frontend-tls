@@ -49,7 +49,7 @@ export const VerifyEmail: React.FC = () => {
   };
 
   const handleContinue = () => {
-    navigate('/onboarding/payment');
+    navigate('/onboarding');
   };
 
   return (

@@ -23,3 +23,9 @@ export type { MagazineCardProps } from './MagazineCard';
 
 export { VideoCard } from './VideoCard';
 export type { VideoCardProps } from './VideoCard';
+
+export { AstucesCard } from './AstucesCard';
+export type { AstucesCardProps } from './AstucesCard';
+
+export { ResourceListItem } from './ResourceListItem';
+export type { ResourceListItemProps } from './ResourceListItem';

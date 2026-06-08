@@ -108,14 +108,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Back link */}
           {backLink && (
-            <button
-              type="button"
-              onClick={backLink.onClick}
-              className="inline-flex items-center gap-1.5 self-start bg-transparent border-0 p-0 cursor-pointer text-body-sm font-medium text-white/75 hover:text-white transition-colors"
-            >
-              <ArrowLeft size={14} />
-              {backLink.label}
-            </button>
+            <AuthBackLink label={backLink.label} onClick={backLink.onClick} />
           )}
 
           {/* Glass dark Card */}
@@ -173,6 +166,34 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 };
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
+
+export interface AuthBackLinkProps {
+  label: string;
+  onClick: () => void;
+  className?: string;
+}
+
+/**
+ * AuthBackLink — "← Retour à la connexion" back-navigation link styled for the
+ * glass-dark auth surface (white/75 text, no background, ArrowLeft icon).
+ * Used standalone above the glass card, or internally by AuthShell via the
+ * `backLink` prop.
+ */
+export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, className = '' }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={[
+      'inline-flex items-center gap-1.5 self-start',
+      'bg-transparent border-0 p-0 cursor-pointer',
+      'text-body-sm font-medium text-white/75 hover:text-white transition-colors',
+      className,
+    ].filter(Boolean).join(' ')}
+  >
+    <ArrowLeft size={14} />
+    {label}
+  </button>
+);
 
 export interface AuthDividerProps {
   children?: React.ReactNode;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   UserRound,
@@ -302,6 +302,15 @@ function StepConfirmation({
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
   const profileStore = useUserProfileStore();
+
+  // Guard — si l'utilisateur a déjà complété l'onboarding, renvoyer au dashboard
+  useEffect(() => {
+    const profile = profileStore.get(MOCK_USER_ID);
+    if (profile?.isOnboarded) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, []);
+
   const [substep, setSubstep] = useState(0);
   const [answers, setAnswers] = useState<OnboardingAnswers>({
     firstName: '',
@@ -329,6 +338,8 @@ export const Onboarding: React.FC = () => {
       credits: { classic: 0, special: 0 },
       subscriptionTier: 'free',
       completedAt: new Date().toISOString(),
+      onboardingStep: 'questionnaire',
+      isOnboarded: false,
     });
     navigate('/onboarding/questionnaire');
   }

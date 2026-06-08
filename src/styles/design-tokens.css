@@ -66,20 +66,26 @@
   --tls-yellow-800: #956A29;
   --tls-yellow-900: #7C5822;
 
-  /* ---------- NEUTRALS (single source of truth) ---------- */
-  --tls-ink-0:   #FFFFFF;
+  /* ---------- NEUTRALS — single source of truth = index.css @theme ----------
+     Phase-16 token-unification: legacy --tls-ink-* now ALIAS the Tailwind
+     @theme --color-ink-* tokens (neutral grays) so the BEM cascade and the
+     Tailwind utilities render identical greys, and the Figma DS (synced on
+     index.css) matches both. Previously these were teal-tinted (#252B37…),
+     which diverged from index.css (#1a1a1a…). See CLAUDE.md "Pièges".
+     --tls-ink-25 has no @theme equivalent — kept as a neutral literal. */
+  --tls-ink-0:   var(--color-ink-0);
   --tls-ink-25:  #FAFBFC;
-  --tls-ink-50:  #F5F8F8;
-  --tls-ink-100: #EEF2F4;
-  --tls-ink-200: #E0E6E9;
-  --tls-ink-300: #C8D2D6;
-  --tls-ink-400: #9AA8AE;
-  --tls-ink-500: #6B7981;
-  --tls-ink-600: #535B62;
-  --tls-ink-700: #3A474B;
-  --tls-ink-800: #2A3538;
-  --tls-ink-900: #252B37;   /* Body text */
-  --tls-ink-950: #12181C;
+  --tls-ink-50:  var(--color-ink-50);
+  --tls-ink-100: var(--color-ink-100);
+  --tls-ink-200: var(--color-ink-200);
+  --tls-ink-300: var(--color-ink-300);
+  --tls-ink-400: var(--color-ink-400);
+  --tls-ink-500: var(--color-ink-500);
+  --tls-ink-600: var(--color-ink-600);
+  --tls-ink-700: var(--color-ink-700);
+  --tls-ink-800: var(--color-ink-800);
+  --tls-ink-900: var(--color-ink-900);   /* Body text — now #1a1a1a */
+  --tls-ink-950: var(--color-ink-950);
 
   /* ---------- SEMANTIC (map to brand) ----------
      Convention :
@@ -240,7 +246,7 @@
   --r-md: 10px;
   --r-lg: 14px;
   --r-xl: 20px;
-  --r-2xl: 28px;
+  --r-2xl: var(--radius-2xl); /* was 28px — unified to index.css @theme (24px) */
   --r-pill: 999px;
 
   /* ---------- ELEVATION (Liquid Glass influenced) ---------- */

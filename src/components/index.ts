@@ -341,3 +341,45 @@ export type { RatingModalProps } from './patterns/RatingModal';
 
 export { ActivityTimeline } from './patterns/ActivityTimeline';
 export type { ActivityTimelineProps, TimelineItem, TimelineTone } from './patterns/ActivityTimeline';
+
+/* ============================================================================
+ * Figma DS — missing UI components (Combobox, QualitativeRating)
+ * ============================================================================ */
+
+export { Combobox } from './ui/Combobox';
+export type { ComboboxProps, ComboboxOption, ComboboxSize, ComboboxStatus } from './ui/Combobox';
+
+export { QualitativeRating, DEFAULT_QUALITATIVE_OPTIONS } from './ui/QualitativeRating';
+export type {
+  QualitativeRatingProps,
+  QualitativeRatingOption,
+  QualitativeRatingTone,
+  QualitativeRatingSize,
+} from './ui/QualitativeRating';
+
+
+export { EtapeAccordion } from './patterns/EtapeAccordion';
+export type { EtapeAccordionProps, EtapeAccordionVariant } from './patterns/EtapeAccordion';
+
+export { AuthBackLink } from './patterns/AuthShell';
+export type { AuthBackLinkProps } from './patterns/AuthShell';
+
+/* ============================================================================
+ * Figma DS — Journal components
+ * ============================================================================ */
+
+export { MoodSelector } from './ui/MoodSelector';
+export type { MoodLevel, MoodSelectorProps } from './ui/MoodSelector';
+
+export { JournalChatCompose } from './ui/JournalChatCompose';
+export type { JournalChatComposeProps } from './ui/JournalChatCompose';
+
+export { StructuredQuestionAccordion } from './ui/StructuredQuestionAccordion';
+export type { StructuredQuestion, StructuredQuestionAccordionProps } from './ui/StructuredQuestionAccordion';
+
+export { WritingPromptsAside } from './patterns/WritingPromptsAside';
+export type { WritingPrompt, WritingPromptsAsideProps } from './patterns/WritingPromptsAside';
+
+export { JournalTypeTile, JOURNAL_TYPE_ORDER } from './cards/JournalTypeTile';
+export { JournalBubbleCard } from './cards/JournalBubbleCard';
+export type { JournalBubbleType, JournalBubbleCardProps } from './cards/JournalBubbleCard';

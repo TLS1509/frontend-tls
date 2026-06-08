@@ -24,6 +24,7 @@ import type { TabItem } from '../components/ui/Tabs';
 import { IconFeatureCard } from '../components/ui/IconFeatureCard';
 import { ResourceCard } from '../components/ui/ResourceCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
+import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import {
   TONE_TEXT,
   TONE_BG_50,
@@ -35,8 +36,6 @@ import {
 import {
   Clock3,
   BookOpen,
-  ChevronDown,
-  ChevronUp,
   Lock,
   Play,
   CheckCircle2,
@@ -384,94 +383,85 @@ export const LearningPathDetail: React.FC = () => {
                   : TONE_BG_500[tone];
 
                 return (
-                  <div
+                  <EtapeAccordion
                     key={etape.id}
-                    className={[
-                      'rounded-2xl border-2 overflow-hidden transition-colors',
-                      etape.unlocked ? 'bg-white' : 'bg-ink-50',
-                      stepBorderClass,
-                    ].join(' ')}
-                  >
-                    <button
-                      onClick={() => toggleStep(etape.id)}
-                      className="w-full flex items-start gap-5 p-6 bg-transparent border-0 cursor-pointer text-left"
-                    >
-                      <div
-                        className={[
-                          'w-16 h-16 rounded-xl shrink-0 flex items-center justify-center text-white',
-                          badgeBgClass,
-                          etape.unlocked && !etape.completed ? 'shadow-md' : '',
-                        ].join(' ')}
-                      >
-                        {!etape.unlocked ? (
-                          <Lock size={22} />
-                        ) : etape.completed ? (
-                          <CheckCircle2 size={26} />
-                        ) : (
-                          <span className="font-display font-bold text-h2 leading-none">
-                            {idx + 1}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="mb-2 flex items-center gap-2">
-                          {!etape.unlocked ? (
-                            <Badge variant="neutral">VERROUILLÉ</Badge>
-                          ) : etape.completed ? (
-                            <Badge variant="success">VALIDÉ</Badge>
-                          ) : (
-                            <Badge variant="brand">EN COURS</Badge>
-                          )}
-                          {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
-                            <Badge variant="info" size="sm">⚠️ Accès souple</Badge>
-                          )}
-                        </div>
-
-                        <h3
+                    variant="panel"
+                    isOpen={isOpen}
+                    onToggle={() => toggleStep(etape.id)}
+                    locked={!etape.unlocked}
+                    className={[etape.unlocked ? 'bg-white' : 'bg-ink-50', stepBorderClass].join(' ')}
+                    bodyClassName="border-t border-ink-200 px-6 pt-4 pb-6"
+                    header={
+                      <>
+                        <div
                           className={[
-                            'font-display text-h3 font-bold m-0 mb-3 leading-tight',
-                            etape.unlocked ? 'text-ink-900' : 'text-ink-500',
+                            'w-16 h-16 rounded-xl shrink-0 flex items-center justify-center text-white',
+                            badgeBgClass,
+                            etape.unlocked && !etape.completed ? 'shadow-md' : '',
                           ].join(' ')}
                         >
-                          {etape.title}
-                        </h3>
-
-                        <MetaPillGroup
-                          items={[
-                            { icon: <BookOpen size={12} />, text: `${etape.lecons.length} leçons` },
-                            { icon: <Clock3 size={12} />, text: etape.duration },
-                            ...(etape.unlocked && !etape.completed
-                              ? [
-                                  {
-                                    icon: <Target size={12} />,
-                                    text: `${etape.progress.completed}/${etape.progress.total} complétées`,
-                                  },
-                                ]
-                              : []),
-                          ]}
-                          size="sm"
-                        />
-
-                        {etape.unlocked && !etape.completed && stepPct > 0 && (
-                          <div className="mt-stack-xs">
-                            <InlineProgress value={stepPct} tone={tone as any} showLabel={false} size="sm" />
-                          </div>
-                        )}
-                      </div>
-
-                      {etape.unlocked && (
-                        <div className="shrink-0 text-ink-500 pt-2">
-                          {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                          {!etape.unlocked ? (
+                            <Lock size={22} />
+                          ) : etape.completed ? (
+                            <CheckCircle2 size={26} />
+                          ) : (
+                            <span className="font-display font-bold text-h2 leading-none">
+                              {idx + 1}
+                            </span>
+                          )}
                         </div>
-                      )}
-                    </button>
 
-                    {isOpen && etape.unlocked && (
-                      <div className="border-t border-ink-200 px-6 pt-4 pb-6">
-                        <div
-                          className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
-                        >
+                        <div className="flex-1 min-w-0">
+                          <div className="mb-2 flex items-center gap-2">
+                            {!etape.unlocked ? (
+                              <Badge variant="neutral">VERROUILLÉ</Badge>
+                            ) : etape.completed ? (
+                              <Badge variant="success">VALIDÉ</Badge>
+                            ) : (
+                              <Badge variant="brand">EN COURS</Badge>
+                            )}
+                            {etape.progression_mode === 'FLEXIBLE' && !etape.completed && idx > 0 && !parcours.etapes[idx - 1]?.completed && (
+                              <Badge variant="info" size="sm">⚠️ Accès souple</Badge>
+                            )}
+                          </div>
+
+                          <h3
+                            className={[
+                              'font-display text-h3 font-bold m-0 mb-3 leading-tight',
+                              etape.unlocked ? 'text-ink-900' : 'text-ink-500',
+                            ].join(' ')}
+                          >
+                            {etape.title}
+                          </h3>
+
+                          <MetaPillGroup
+                            items={[
+                              { icon: <BookOpen size={12} />, text: `${etape.lecons.length} leçons` },
+                              { icon: <Clock3 size={12} />, text: etape.duration },
+                              ...(etape.unlocked && !etape.completed
+                                ? [
+                                    {
+                                      icon: <Target size={12} />,
+                                      text: `${etape.progress.completed}/${etape.progress.total} complétées`,
+                                    },
+                                  ]
+                                : []),
+                            ]}
+                            size="sm"
+                          />
+
+                          {etape.unlocked && !etape.completed && stepPct > 0 && (
+                            <div className="mt-stack-xs">
+                              <InlineProgress value={stepPct} tone={tone as any} showLabel={false} size="sm" />
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    }
+                  >
+                    <div
+                      className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
+                    >
                           {etape.lecons.map((lecon: Lecon) => {
                             const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
                             const isCurrent = !lecon.completed && etape.lecons.indexOf(lecon) === firstIncomplete;
@@ -552,9 +542,7 @@ export const LearningPathDetail: React.FC = () => {
                             </CardGrid>
                           </div>
                         )}
-                      </div>
-                    )}
-                  </div>
+                  </EtapeAccordion>
                 );
               })}
             </div>

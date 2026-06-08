@@ -31,6 +31,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
+import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
 
@@ -362,46 +363,12 @@ export const LessonPlayer: React.FC = () => {
     </div>
   );
 
-  const renderEngagement = () => {
-    const PILLAR_TONES = [
-      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-500/20',   square: 'bg-primary-500',  tag: 'bg-primary-100 text-primary-700' },
-      { card: 'bg-secondary-50 border-secondary-100', accent: 'bg-secondary-600/20', square: 'bg-secondary-600', tag: 'bg-secondary-100 text-secondary-700' },
-      { card: 'bg-accent-50 border-accent-100',       accent: 'bg-accent-600/20',    square: 'bg-accent-600',   tag: 'bg-accent-100 text-accent-700' },
-      { card: 'bg-primary-50 border-primary-100',     accent: 'bg-primary-400/20',   square: 'bg-primary-400',  tag: 'bg-primary-100 text-primary-600' },
-    ];
-
-    return (
-      <div>
-        <h2 className={SECTION_TITLE}>{lessonData.engagement.heading}</h2>
-        <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-          {lessonData.engagement.pillars.map((pillar, i) => {
-            const t = PILLAR_TONES[i % PILLAR_TONES.length];
-            return (
-              <div key={i} className={`rounded-xl p-6 border ${t.card}`}>
-                <div className={`w-10 h-10 rounded-md flex items-center justify-center mb-4 ${t.accent}`}>
-                  <div className={`w-4 h-4 rounded-sm ${t.square}`} />
-                </div>
-                <h3 className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">{pillar.title}</h3>
-                <p className="m-0 mb-3 font-body text-body-sm text-ink-500 leading-relaxed">
-                  {pillar.description}
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {pillar.tags.map((tag, ti) => (
-                    <span
-                      key={ti}
-                      className={`text-micro px-2 py-0.5 rounded-pill font-semibold ${t.tag}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
+  const renderEngagement = () => (
+    <BehavioralTileGrid
+      heading={lessonData.engagement.heading}
+      tiles={lessonData.engagement.pillars}
+    />
+  );
 
   const renderDecouvrir = () => {
     const { decouvrir: d } = lessonData;

@@ -8,7 +8,7 @@ import { Stepper } from '../components/ui/Stepper';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { usePositioningStore, usePasseportStore } from '../stores/persistence';
+import { usePositioningStore, usePasseportStore, useUserProfileStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { DreyfusLevel } from '../types/learning';
@@ -31,6 +31,7 @@ const OnboardingQuestionnaire: React.FC = () => {
   const navigate = useNavigate();
   const positioningStore = usePositioningStore();
   const passeportStore = usePasseportStore();
+  const profileStore = useUserProfileStore();
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const total = QUESTIONS.length;
@@ -64,7 +65,8 @@ const OnboardingQuestionnaire: React.FC = () => {
       });
     });
 
-    navigate('/onboarding/tutorial');
+    profileStore.patch({ onboardingStep: 'payment' });
+    navigate('/onboarding/payment');
   };
 
   const handleNext = () => {

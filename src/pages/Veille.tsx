@@ -17,10 +17,8 @@ import {
   Search as SearchIcon,
   Mail,
   X,
-  Bookmark,
   Newspaper,
   Clapperboard,
-  ArrowRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
@@ -30,6 +28,8 @@ import {
   VeilleCardFeed,
   type VeilleFeedItem,
 } from '../components/patterns/VeilleCardFeed';
+import { VeilleFormatShortcutCards } from '../components/patterns/VeilleFormatShortcutCards';
+import { VeilleHeroFilterChips, type VeilleHeroFilter } from '../components/patterns/VeilleHeroFilterChips';
 
 import { useBookmarksStore, useFilterPrefsStore } from '../stores/persistence';
 import { useToastContext } from '../contexts/ToastContext';
@@ -190,84 +190,33 @@ export const Veille: React.FC = () => {
           </div>
 
           {/* Filtres type + Sauvegardés */}
-          <div className="flex flex-wrap items-center gap-2">
-            {TYPE_FILTERS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelected(id)}
-                className={[
-                  'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
-                  selected === id
-                    ? 'bg-white text-ink-900 border-white shadow-md'
-                    : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
-                ].join(' ')}
-              >
-                {Icon && <Icon size={12} strokeWidth={2.5} />}
-                {label}
-                {id !== 'all' && <span className={selected === id ? 'text-ink-400' : 'text-white/35'}>{counts[id]}</span>}
-              </button>
-            ))}
-
-            <span aria-hidden className="w-px h-4 bg-white/20 mx-0.5" />
-
-            <button
-              type="button"
-              onClick={() => setShowSavedOnly((v) => !v)}
-              className={[
-                'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
-                showSavedOnly
-                  ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
-                  : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
-              ].join(' ')}
-            >
-              <Bookmark size={12} strokeWidth={2.5} />
-              Sauvegardés
-              {savedIds.size > 0 && <span className={showSavedOnly ? 'text-ink-600' : 'text-white/35'}>{savedIds.size}</span>}
-            </button>
-
-            {hasActiveFilter && (
-              <button
-                type="button"
-                onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-                className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1"
-              >
-                Réinitialiser
-              </button>
-            )}
-
-            {hasActiveFilter && (
-              <span className="font-body text-caption text-white/40 ml-auto">
-                <strong className="text-white/70">{filteredItems.length}</strong> résultat{filteredItems.length !== 1 ? 's' : ''}
-              </span>
-            )}
-          </div>
+          <VeilleHeroFilterChips
+            filters={TYPE_FILTERS.map(({ id, label, Icon }): VeilleHeroFilter => ({
+              id,
+              label,
+              icon: Icon ? <Icon size={12} strokeWidth={2.5} /> : undefined,
+              count: id !== 'all' ? counts[id] : undefined,
+            }))}
+            value={selected}
+            onChange={(id) => setSelected(id as 'all' | VeilleType)}
+            savedCount={savedIds.size}
+            isSavedActive={showSavedOnly}
+            onSavedToggle={() => setShowSavedOnly((v) => !v)}
+            hasActiveFilter={hasActiveFilter}
+            onReset={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
+            resultsCount={filteredItems.length}
+          />
 
           {/* Formats éditoriaux — 4 cartes navigation, dark-glass */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-            {[
-              { label: 'Magazine TLS',  desc: 'Mensuel · analyses',          Icon: BookOpen,    iconCls: 'text-primary-200',   route: '/veille/magazine' },
-              { label: 'Actu hebdo',    desc: 'Chaque vendredi',             Icon: Newspaper,   iconCls: 'text-secondary-200', route: '/veille/weekly-newsletter' },
-              { label: 'Vidéo Reels',   desc: 'Short formats · 60 sec',      Icon: Clapperboard,iconCls: 'text-white/70',      route: '/veille/video-reels' },
-              { label: 'Newsletter',    desc: 'Abonnement & archives',       Icon: Mail,        iconCls: 'text-accent-300',    route: '/veille/newsletter' },
-            ].map(({ label, desc, Icon, iconCls, route }) => (
-              <button
-                key={route}
-                type="button"
-                onClick={() => navigate(route)}
-                className="group flex items-center gap-2.5 p-3 rounded-xl bg-white/6 border border-white/12 hover:bg-white/12 hover:border-white/25 transition-all duration-base text-left"
-              >
-                <span className={['shrink-0', iconCls].join(' ')}>
-                  <Icon size={15} strokeWidth={2} />
-                </span>
-                <span className="flex-1 min-w-0 flex flex-col gap-0">
-                  <span className="font-body text-caption font-semibold text-white leading-tight">{label}</span>
-                  <span className="font-body text-micro text-white/40 leading-tight hidden sm:block">{desc}</span>
-                </span>
-                <ArrowRight size={12} className="shrink-0 text-white/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            ))}
-          </div>
+          <VeilleFormatShortcutCards
+            className="pt-1"
+            items={[
+              { label: 'Magazine TLS',  desc: 'Mensuel · analyses',     icon: <BookOpen     size={15} strokeWidth={2} />, iconClassName: 'text-primary-200',   onClick: () => navigate('/veille/magazine') },
+              { label: 'Actu hebdo',    desc: 'Chaque vendredi',        icon: <Newspaper    size={15} strokeWidth={2} />, iconClassName: 'text-secondary-200', onClick: () => navigate('/veille/weekly-newsletter') },
+              { label: 'Vidéo Reels',   desc: 'Short formats · 60 sec', icon: <Clapperboard size={15} strokeWidth={2} />, iconClassName: 'text-white/70',      onClick: () => navigate('/veille/video-reels') },
+              { label: 'Newsletter',    desc: 'Abonnement & archives',  icon: <Mail         size={15} strokeWidth={2} />, iconClassName: 'text-accent-300',    onClick: () => navigate('/veille/newsletter') },
+            ]}
+          />
 
         </div>
       </section>

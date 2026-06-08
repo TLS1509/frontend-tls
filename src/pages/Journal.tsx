@@ -4,36 +4,29 @@ import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { JournalEntryType } from '../types/learning';
 import { Card } from '../components/core/Card';
-import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Search } from '../components/ui/Search';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
+import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
+import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
+import { JournalChatCompose } from '../components/ui/JournalChatCompose';
 import {
   PenSquare,
-  BookOpen,
-  ArrowRight,
   Sparkles,
   X,
-  Lightbulb,
-  GraduationCap,
-  ClipboardList,
-  FileText,
-  Zap,
-  Send,
   SlidersHorizontal,
 } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
-type EntryType = 'guided' | 'free' | 'learning' | 'coaching' | 'insight' | 'questionnaire' | 'compte-rendu';
 type PeriodFilter = 'all' | 'week' | 'month' | '3months';
-type TypeFilter = 'all' | EntryType;
+type TypeFilter = 'all' | JournalBubbleType;
 
 interface JournalEntry {
   id: string;
-  type: EntryType;
+  type: JournalBubbleType;
   title: string;
   excerpt: string;
   date: string;
@@ -44,62 +37,11 @@ interface JournalEntry {
 
 /* ─── Style maps — Tailwind only ─────────────────────────────────────────── */
 
-/**
- * Badge pill colors per entry type — affiché top-right de l'EntryCard
- * pour rapidement identifier le type (en complément de la surface tinted).
- */
-const TYPE_BADGE: Record<EntryType, string> = {
-  guided:        'bg-primary-100 text-primary-700 border border-primary-200',
-  free:          'bg-ink-100 text-ink-700 border border-ink-200',
-  learning:      'bg-secondary-100 text-secondary-700 border border-secondary-200',
-  coaching:      'bg-secondary-100 text-secondary-700 border border-secondary-200',
-  insight:       'bg-accent-100 text-accent-700 border border-accent-200',
-  questionnaire: 'bg-primary-100 text-primary-700 border border-primary-200',
-  'compte-rendu':'bg-success-bg text-success-fg border border-success-base/30',
-};
-
-/**
- * Surface tinted per entry type — convey le type d'entrée via le ton de fond.
- * 'free' reste en surface card (white) pour distinguer les notes libres.
- */
-const TYPE_SURFACE: Record<EntryType, string> = {
-  guided:        'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-  free:          'bg-white border-ink-200 hover:border-ink-300',
-  learning:      'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
-  coaching:      'bg-secondary-50/70 border-secondary-100 hover:border-secondary-200 hover:bg-secondary-50',
-  insight:       'bg-accent-50/70 border-accent-100 hover:border-accent-200 hover:bg-accent-50',
-  questionnaire: 'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-  'compte-rendu':'bg-primary-50/70 border-primary-100 hover:border-primary-200 hover:bg-primary-50',
-};
-
-/**
- * Speech bubble tail color — matches the type surface bg (so tail blends seamlessly).
- */
-const TYPE_TAIL: Record<EntryType, string> = {
-  guided:        'bg-primary-50/70 border-primary-100',
-  free:          'bg-white border-ink-200',
-  learning:      'bg-secondary-50/70 border-secondary-100',
-  coaching:      'bg-secondary-50/70 border-secondary-100',
-  insight:       'bg-accent-50/70 border-accent-100',
-  questionnaire: 'bg-primary-50/70 border-primary-100',
-  'compte-rendu':'bg-primary-50/70 border-primary-100',
-};
-
-const TYPE_META: Record<EntryType, { emoji: string; label: string; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
-  guided:        { emoji: '🧭', label: 'Guidé',         icon: GraduationCap },
-  free:          { emoji: '✍️', label: 'Libre',          icon: PenSquare },
-  learning:      { emoji: '📖', label: 'Apprentissage',  icon: BookOpen },
-  coaching:      { emoji: '🎯', label: 'Coaching',       icon: Zap },
-  insight:       { emoji: '💡', label: 'Insight',        icon: Lightbulb },
-  questionnaire: { emoji: '📋', label: 'Questionnaire',  icon: ClipboardList },
-  'compte-rendu':{ emoji: '📊', label: 'Compte rendu',   icon: FileText },
-};
-
 /* ─── Store → display mapping ────────────────────────────────────────────── */
 
 const now = Date.now();
 
-const SPEC_TO_DISPLAY: Record<JournalEntryType, EntryType> = {
+const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
   'reflexion-libre':  'free',
   'apprentissage':    'learning',
   'pratique-pro':     'guided',
@@ -129,87 +71,6 @@ const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
 
 const PERIOD_MS: Record<PeriodFilter, number> = {
   all: 0, week: 7 * 86_400_000, month: 30 * 86_400_000, '3months': 90 * 86_400_000,
-};
-
-/* ─── EntryCard ──────────────────────────────────────────────────────────── */
-
-interface EntryCardProps {
-  entry: JournalEntry;
-  onNavigate: (id: string) => void;
-  onCoachingAction?: () => void;
-}
-
-const EntryCard: React.FC<EntryCardProps> = ({ entry, onNavigate, onCoachingAction }) => {
-  const meta     = TYPE_META[entry.type];
-  const TypeIcon = meta.icon;
-
-  return (
-    <div
-      className={[
-        // Apple Messages chat bubble : very rounded + visible overflow for the tail
-        'relative !overflow-visible rounded-3xl border p-5 flex flex-col gap-stack',
-        'transition-all duration-base hover:-translate-y-1 hover:shadow-md',
-        // Surface tinted tone-aware par type
-        TYPE_SURFACE[entry.type],
-      ].join(' ')}
-    >
-      {/* Speech bubble tail — bottom-right (color matches surface for seamless blend) */}
-      <span
-        aria-hidden="true"
-        className={[
-          'absolute -bottom-2 right-8 w-5 h-5 rotate-45 rounded-br-[6px]',
-          'border-r border-b transition-colors duration-200',
-          TYPE_TAIL[entry.type],
-        ].join(' ')}
-      />
-
-      {/* Header — title + date inline + TYPE_BADGE pill top-right. */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-snug">{entry.title}</h3>
-          <span className="font-body text-caption text-ink-500 leading-tight">
-            {entry.date} · {entry.readingTime}
-          </span>
-        </div>
-        <span
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill font-body text-caption font-semibold shrink-0 whitespace-nowrap ${TYPE_BADGE[entry.type]}`}
-        >
-          <TypeIcon size={12} />
-          {meta.label}
-        </span>
-      </div>
-
-      {/* Excerpt */}
-      <p className="font-body text-body text-ink-700 leading-relaxed m-0">{entry.excerpt}</p>
-
-      {/* Coaching quick action */}
-      {(entry.type === 'questionnaire' || entry.type === 'compte-rendu') && onCoachingAction && (
-        <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={13} />} onClick={onCoachingAction}>
-          {entry.type === 'questionnaire' ? 'Voir les réponses' : 'Voir le rapport complet'}
-        </Button>
-      )}
-
-      {/* Actions — boutons glassy DS (variant glass-light filled + glass-light-ghost) */}
-      <div className="flex gap-stack-xs pt-stack-xs border-t border-white/60">
-        <Button
-          variant="glass-light"
-          size="md"
-          leadingIcon={<BookOpen size={16} />}
-          onClick={() => onNavigate(entry.id)}
-        >
-          Lire
-        </Button>
-        <Button
-          variant="glass-light-ghost"
-          size="md"
-          trailingIcon={<ArrowRight size={16} />}
-          onClick={() => onNavigate(entry.id)}
-        >
-          Continuer
-        </Button>
-      </div>
-    </div>
-  );
 };
 
 /* ─── Main page ──────────────────────────────────────────────────────────── */
@@ -257,7 +118,7 @@ export const Journal: React.FC = () => {
 
   /* Types user-initiables (les 4 disponibles depuis la section "Compose new entry").
      Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
-  const COMPOSE_TYPES: { type: EntryType; emoji: string; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
+  const COMPOSE_TYPES: { type: JournalBubbleType; emoji: string; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
     { type: 'guided',       emoji: '🧭', label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
     { type: 'free',         emoji: '✍️', label: 'Libre',          tone: 'brand', subtitle: 'Écris comme tu veux' },
     { type: 'insight',      emoji: '💡', label: 'Insight',        tone: 'sun',   subtitle: 'Une prise de conscience' },
@@ -304,49 +165,12 @@ export const Journal: React.FC = () => {
             subtitle="Démarre une entrée libre ou choisis un format guidé"
           />
 
-          {/* Chat-style prompt card — input qui ressemble à une bulle de messagerie */}
-          <Card className="!p-0 !rounded-3xl !gap-0 !overflow-visible relative bg-white border border-primary-100 shadow-sm hover:shadow-md transition-shadow">
-            {/* Speech bubble tail */}
-            <span
-              aria-hidden="true"
-              className="absolute -bottom-2 left-8 w-4 h-4 rotate-45 rounded-br-[4px] bg-white border-r border-b border-primary-100"
-            />
-            <div className="flex items-end gap-3 p-4">
-              <span className="text-h2 leading-none shrink-0 select-none" aria-hidden="true">✍️</span>
-              <div className="flex-1 min-w-0">
-                <label className="sr-only" htmlFor="journal-compose">Écris une pensée du jour</label>
-                <textarea
-                  id="journal-compose"
-                  rows={2}
-                  value={composeText}
-                  onChange={(e) => setComposeText(e.target.value)}
-                  placeholder="Tape une pensée, un insight, une question qui t'a traversé(e)…"
-                  className="w-full resize-none border-0 outline-0 bg-transparent font-body text-body text-ink-900 placeholder:text-ink-400 leading-relaxed h-auto min-h-[44px] focus:outline-0"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleComposeSubmit();
-                  }}
-                />
-              </div>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={handleComposeSubmit}
-                aria-label="Continuer l'entrée"
-                leadingIcon={<Send size={15} />}
-                className="shrink-0"
-              >
-                Continuer
-              </Button>
-            </div>
-            <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-2 flex-wrap">
-              <span className="font-body text-caption text-ink-500">
-                Tu pourras affiner le format & ajouter des tags à l'étape suivante.
-              </span>
-              <span className="font-body text-micro text-ink-400 hidden sm:inline">
-                <kbd className="px-1.5 py-0.5 rounded bg-ink-50 border border-ink-200 text-ink-600 font-mono text-[10px]">⌘ + Entrée</kbd> pour envoyer
-              </span>
-            </div>
-          </Card>
+          {/* Chat-style prompt card */}
+          <JournalChatCompose
+            value={composeText}
+            onChange={setComposeText}
+            onSubmit={handleComposeSubmit}
+          />
 
           {/* Or pick a guided format — 4 emoji buttons */}
           <div className="flex flex-col gap-stack-xs">
@@ -463,10 +287,14 @@ export const Journal: React.FC = () => {
         ) : (
           <div className="flex flex-col gap-stack">
             {filteredEntries.map((entry) => (
-              <EntryCard
+              <JournalBubbleCard
                 key={entry.id}
-                entry={entry}
-                onNavigate={(id) => navigate(`/journal/detail/${id}`)}
+                type={entry.type}
+                title={entry.title}
+                excerpt={entry.excerpt}
+                date={`${entry.date} · ${entry.readingTime}`}
+                onRead={() => navigate(`/journal/detail/${entry.id}`)}
+                onContinue={() => navigate(`/journal/detail/${entry.id}`)}
                 onCoachingAction={
                   entry.type === 'questionnaire' ? () => navigate('/coaching/pre-questionnaire')
                   : entry.type === 'compte-rendu' ? () => navigate('/coaching/compte-rendu/1')

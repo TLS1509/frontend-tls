@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, GraduationCap, Target, ArrowRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
@@ -7,9 +7,36 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { useGamificationStore, useUserProfileStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
+  const profileStore = useUserProfileStore();
+  const gamificationStore = useGamificationStore();
+
+  useEffect(() => {
+    // Marquer l'onboarding comme complété (persist à travers les reloads)
+    profileStore.patch({ isOnboarded: true, onboardingStep: 'completed' });
+
+    // Attribuer badge + XP "Premier pas" une seule fois
+    if (!gamificationStore.hasBadge(MOCK_USER_ID, 'first-login')) {
+      gamificationStore.awardBadge({
+        userId: MOCK_USER_ID,
+        badgeId: 'first-login',
+        earnedAt: new Date().toISOString(),
+        xpAwarded: 150,
+      });
+      gamificationStore.addXPEvent({
+        id: 'xp-onboarding-first-login',
+        userId: MOCK_USER_ID,
+        trigger: 'badge_earned',
+        xp: 150,
+        description: 'Onboarding terminé — Badge Premier pas',
+        occurredAt: new Date().toISOString(),
+      });
+    }
+  }, []);
 
   const nextSteps: NextStepItem[] = [
     {

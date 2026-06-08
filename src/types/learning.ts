@@ -80,6 +80,12 @@ export interface UserProfile {
   /** Plan souscrit (Cahier #11bis) */
   subscriptionTier: SubscriptionTier;
   completedAt?: string;
+  /** Étape courante du flow onboarding (persist across reloads) */
+  onboardingStep?: 'profil' | 'questionnaire' | 'payment' | 'tutorial' | 'completed';
+  /** true dès que OnboardingSuccess est affiché */
+  isOnboarded?: boolean;
+  /** Nombre de visites du Dashboard (0 = first-time state) */
+  dashboardVisitCount?: number;
 }
 
 // ─── Subscription tiers (Cahier #11bis MVP) ──────────────────────────────────

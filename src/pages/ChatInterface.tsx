@@ -1,160 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, BookOpen, Target, FileText, ThumbsUp, ThumbsDown, ExternalLink, AlertTriangle, ShieldOff } from 'lucide-react';
+import React, { useState } from 'react';
+import { Send, Sparkles, BookOpen, Target, FileText } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
 import { useChatStore, MOCK_CHAT_SESSION_ID } from '../stores/persistence';
 import { simulateRAGResponse, CHAT_SUGGESTIONS, PRIVACY_BLOCKLIST } from '../data/chatbot';
 import type { ChatMessage, ChatFeedback } from '../types/learning';
 
-const CONFIDENCE_THRESHOLD = 0.6;
-const MOCK_USER_ID = 'user-demo';
-
 function formatTime(): string {
   const d = new Date();
   return `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
-}
-
-// ─── Sub-components ────────────────────────────────────────────────────────────
-
-function UserBubble({ message }: { message: ChatMessage }) {
-  return (
-    <div className="flex flex-col items-end gap-stack-xs">
-      <div className="max-w-[75%] bg-primary-100 text-primary-900 rounded-2xl rounded-br-sm px-4 py-3 text-body-sm leading-relaxed">
-        {message.content}
-      </div>
-      <span className="text-micro text-ink-400 px-1">{message.timestamp}</span>
-    </div>
-  );
-}
-
-function AssistantBubble({
-  message,
-  onFeedback,
-}: {
-  message: ChatMessage;
-  onFeedback: (messageId: string, rating: ChatFeedback['rating']) => void;
-}) {
-  const isLowConfidence = message.confidenceScore !== undefined && message.confidenceScore < CONFIDENCE_THRESHOLD;
-  const isPrivacyBlocked = message.privacyBlocked;
-
-  const lines = message.content.split('\n');
-  const hasFeedback = message.feedback?.rating !== undefined && message.feedback.rating !== 'skip';
-
-  return (
-    <div className="flex gap-stack-xs items-start">
-      <Avatar initials="IA" tint="brand" size="sm" className="shrink-0 mt-1" />
-      <div className="flex flex-col gap-stack-xs flex-1 min-w-0">
-        {/* Message bubble */}
-        <div className={[
-          'max-w-[82%] rounded-2xl rounded-bl-sm px-4 py-3 text-body-sm leading-relaxed',
-          isPrivacyBlocked
-            ? 'bg-danger-bg border border-danger-border text-danger-fg'
-            : isLowConfidence
-              ? 'bg-warning-bg border border-warning-border text-ink-800'
-              : 'bg-ink-50 border border-ink-200 text-ink-800',
-        ].join(' ')}>
-          {isPrivacyBlocked && (
-            <div className="flex items-center gap-2 mb-2 text-danger-fg">
-              <ShieldOff size={14} />
-              <span className="text-caption font-semibold">Contenu bloqué</span>
-            </div>
-          )}
-          {isLowConfidence && !isPrivacyBlocked && (
-            <div className="flex items-center gap-2 mb-2 text-warning-fg">
-              <AlertTriangle size={14} />
-              <span className="text-caption font-semibold">Confiance limitée</span>
-            </div>
-          )}
-          {lines.map((line, i) => {
-            if (line === '') return <br key={i} />;
-            // Bold markdown **text**
-            const parts = line.split(/(\*\*[^*]+\*\*)/g);
-            return (
-              <p key={i} className="mb-0.5 last:mb-0">
-                {parts.map((part, j) =>
-                  part.startsWith('**') && part.endsWith('**')
-                    ? <strong key={j}>{part.slice(2, -2)}</strong>
-                    : part
-                )}
-              </p>
-            );
-          })}
-        </div>
-
-        {/* Timestamp + sources */}
-        <div className="flex items-start gap-2 pl-1 flex-wrap">
-          <span className="text-micro text-ink-400 shrink-0">{message.timestamp}</span>
-          {message.sourcesCited && message.sourcesCited.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {message.sourcesCited.map((src) => (
-                <span
-                  key={src.sourceId}
-                  className="inline-flex items-center gap-1 text-micro bg-primary-50 text-primary-700 border border-primary-200 rounded-pill px-2 py-0.5"
-                >
-                  {src.url ? (
-                    <a href={src.url} className="hover:underline flex items-center gap-1">
-                      {src.title}
-                      <ExternalLink size={10} />
-                    </a>
-                  ) : (
-                    src.title
-                  )}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Feedback buttons — only for assistant messages with non-blocked content */}
-        {!isPrivacyBlocked && (
-          <div className="flex items-center gap-2 pl-1">
-            {hasFeedback ? (
-              <span className="text-micro text-ink-400">
-                {message.feedback?.rating === 'yes' ? '✓ Utile' : '✗ Pas utile'} — merci pour ton retour
-              </span>
-            ) : (
-              <>
-                <span className="text-micro text-ink-400">Utile ?</span>
-                <button
-                  onClick={() => onFeedback(message.id, 'yes')}
-                  className="inline-flex items-center gap-1 text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
-                  aria-label="Marquer comme utile"
-                >
-                  <ThumbsUp size={12} /> Oui
-                </button>
-                <button
-                  onClick={() => onFeedback(message.id, 'no')}
-                  className="inline-flex items-center gap-1 text-micro text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
-                  aria-label="Marquer comme pas utile"
-                >
-                  <ThumbsDown size={12} /> Non
-                </button>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function TypingIndicator() {
-  return (
-    <div className="flex gap-stack-xs items-start">
-      <Avatar initials="IA" tint="brand" size="sm" className="shrink-0 mt-1" />
-      <div className="bg-ink-50 border border-ink-200 rounded-2xl rounded-bl-sm px-4 py-3">
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '300ms' }} />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
@@ -162,16 +20,11 @@ function TypingIndicator() {
 export default function ChatInterface() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const chatStore = useChatStore();
   // Seed session on first access
   const session = chatStore.getSession(MOCK_CHAT_SESSION_ID);
   const messages: ChatMessage[] = session?.messages ?? [];
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
 
   const isPrivacyQuestion = (q: string) => {
     const lower = q.toLowerCase();
@@ -253,20 +106,17 @@ export default function ChatInterface() {
           <div className="flex-1 min-w-0 flex flex-col gap-stack">
 
             {/* Message list */}
-            <Card className="flex flex-col gap-stack p-4 md:p-6 min-h-[460px] max-h-[600px] overflow-y-auto">
-              {messages.length === 0 && (
+            <ConversationalChat
+              messages={messages}
+              isTyping={isTyping}
+              onFeedback={handleFeedback}
+              emptyState={
                 <p className="text-body-sm text-ink-400 text-center mt-8">
                   Commencez par poser une question ci-dessous.
                 </p>
-              )}
-              {messages.map((msg) =>
-                msg.role === 'user'
-                  ? <UserBubble key={msg.id} message={msg} />
-                  : <AssistantBubble key={msg.id} message={msg} onFeedback={handleFeedback} />
-              )}
-              {isTyping && <TypingIndicator />}
-              <div ref={messagesEndRef} />
-            </Card>
+              }
+              className="min-h-[460px] max-h-[600px]"
+            />
 
             {/* Input area */}
             <Card className="p-4 flex flex-col gap-stack-xs">

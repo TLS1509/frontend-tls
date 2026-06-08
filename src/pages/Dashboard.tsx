@@ -12,23 +12,21 @@
  * Container: max-w-6xl on desktop for proper width usage.
  */
 
-import React, { useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useUserProfileStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
-import { PromptCard } from '../components/learning/PromptCard';
+import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import {
   Sparkles,
-  BookOpen,
-  Briefcase,
-  Target,
-  PenLine,
   Compass,
   GraduationCap,
   Newspaper,
@@ -44,63 +42,23 @@ const DAILY_QUOTES = [
   'Un petit progrès chaque jour mène à de grands changements.',
 ];
 
-interface JournalPrompt {
-  /** Catégorie de réflexion — pédagogiquement ancrée dans un moment d'apprenance. */
-  label: string;
-  icon: React.ReactNode;
-  text: string;
-  /** Couleur du badge — info=teal (libre), warm=orange (apprentissage post-leçon), sun=jaune (coaching). */
-  variant: 'info' | 'warm' | 'sun';
-  /** Lien vers nouvelle entrée journal pré-remplie avec le contexte. */
-  href: string;
-}
-
-/**
- * 3 contextes canoniques de self-reflection learner-centric (formation + pratique pro) :
- *  - Apprentissage : self-reflection sur une leçon/parcours/projet/lecture veille — ce que tu retiens, ce qui résonne
- *  - Pratique pro  : transfert au travail — comment tu vas activer ce que tu viens d'apprendre dans ton équipe/posture
- *  - Coaching      : préparation pré-session (questions à apporter) OU restitution post-session (ce que tu retiens)
- *
- * Pas de gratitude / daily reflection — c'est un journal d'apprenance pro.
- *
- * Extensible vers : Veille (post-article/vidéo lié à pratique) et Projet (pré/post deliverable) en V2.
- */
-/**
- * IMPORTANT: `href` aligné avec `EntryType` de JournalNewEntry.
- * Le type passé en URL pré-sélectionne automatiquement le bon entry type
- * dans le formulaire (avec questionClass, bodyPlaceholder et question contextualisés).
- */
-const JOURNAL_PROMPTS: JournalPrompt[] = [
-  {
-    label: 'Apprentissage',
-    icon: <BookOpen size={36} strokeWidth={1.7} className="text-primary-600" />,
-    text: 'Quelle idée vas-tu retenir de ta dernière leçon — et pourquoi ?',
-    variant: 'info',
-    href: '/journal/new-entry?type=apprentissage',
-  },
-  {
-    label: 'Pratique pro',
-    icon: <Briefcase size={36} strokeWidth={1.7} className="text-secondary-600" />,
-    text: 'Comment vas-tu activer cet apprentissage dans ton travail cette semaine ?',
-    variant: 'warm',
-    href: '/journal/new-entry?type=pratique-pro',
-  },
-  {
-    label: 'Coaching',
-    icon: <Target size={36} strokeWidth={1.7} className="text-accent-700" />,
-    text: "Quelle question veux-tu apporter à ta prochaine session ?",
-    variant: 'sun',
-    href: '/journal/new-entry?type=session-coaching',
-  },
-];
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [searchParams] = useSearchParams();
-  // Cold-start state for first-time users : opt-in via `?firstTime=1` until
-  // backend exposes a real `isOnboarded` / `hasStartedParcours` flag.
-  const isFirstTime = searchParams.get('firstTime') === '1';
+  const profileStore = useUserProfileStore();
+  const profile = profileStore.get(MOCK_USER_ID);
+
+  // First-time detection : capture at render (before the useEffect increments the counter)
+  // so the UI doesn't flash between states on the same mount.
+  const isFirstTimeRef = useRef((profile?.dashboardVisitCount ?? 0) === 0 && profile?.isOnboarded === true);
+  const isFirstTime = isFirstTimeRef.current;
+
+  useEffect(() => {
+    if (profile) {
+      profileStore.patch({ dashboardVisitCount: (profile.dashboardVisitCount ?? 0) + 1 });
+    }
+  }, []);
 
   const formattedDate = useMemo(() => {
     return new Date()
@@ -202,35 +160,10 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
         </section>
 
         {/* ③ TON JOURNAL — 3 contextual reflection prompts */}
-        <section className="flex flex-col gap-stack">
-          <SectionHeader
-            title="Journal de bord"
-            subtitle="Self-reflection sur ta formation et tes pratiques professionnelles"
-            icon={PenLine}
-            variant="minimal"
-            tone="sun"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
-            {JOURNAL_PROMPTS.map((prompt) => (
-              <PromptCard
-                key={prompt.label}
-                label={prompt.label}
-                icon={prompt.icon}
-                text={prompt.text}
-                variant={prompt.variant}
-                onClick={() => navigate(prompt.href)}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => navigate('/journal')}
-            className="self-start inline-flex items-center gap-1.5 text-body-sm font-semibold text-primary-600 hover:text-primary-700 underline-offset-4 hover:underline transition-colors bg-transparent border-0 p-0 cursor-pointer"
-          >
-            Ouvrir mon journal
-            <ArrowRight size={14} />
-          </button>
-        </section>
+        <WritingPromptsAside
+          onNavigate={navigate}
+          onOpenJournal={() => navigate('/journal')}
+        />
 
         {/* ④ À DÉCOUVRIR — Activity feed timeline: veille + feedback + nouveautés */}
         <section className="flex flex-col gap-stack">

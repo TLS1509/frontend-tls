@@ -3,11 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import {
   ArrowLeft,
   BookOpen,
-  ChevronDown,
-  ChevronUp,
   Clock,
   GraduationCap,
   Lock,
@@ -143,40 +142,30 @@ export const CourseDetail: React.FC = () => {
               {STEPS.map((step) => {
                 const open = openStep === step.id;
                 return (
-                  <div key={step.id} className="border border-ink-200 rounded-lg bg-white mb-3 overflow-hidden">
-                    <button
-                      type="button"
-                      className="w-full flex items-center justify-between gap-3 px-4 py-4 border-0 bg-ink-50 font-body text-left cursor-pointer text-ink-900 hover:bg-ink-100 transition-colors duration-150"
-                      onClick={() => setOpenStep(open ? null : step.id)}
-                      aria-expanded={open}
-                    >
-                      <span>
-                        <strong className="font-semibold">{step.title}</strong>
-                        <span className="block mt-1 font-body text-caption text-ink-400">
-                          {step.duration}
+                  <EtapeAccordion
+                    key={step.id}
+                    title={step.title}
+                    duration={step.duration}
+                    isOpen={open}
+                    onToggle={() => setOpenStep(open ? null : step.id)}
+                    className="mb-3"
+                    bodyClassName="px-4 pb-4"
+                  >
+                    {step.lessons.map((lesson) => (
+                      <div
+                        key={lesson.id}
+                        className="flex items-center justify-between gap-3 py-3 border-b border-ink-100 last:border-b-0 font-body text-body-sm text-ink-700"
+                      >
+                        <span className="flex items-center gap-2">
+                          {lesson.locked && <Lock size={14} className="text-ink-400 shrink-0" />}
+                          {lesson.title}{' '}
+                          <span className="text-caption text-ink-400">({lesson.duration})</span>
                         </span>
-                      </span>
-                      {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                    </button>
-                    {open && (
-                      <div className="px-4 pb-4">
-                        {step.lessons.map((lesson) => (
-                          <div
-                            key={lesson.id}
-                            className="flex items-center justify-between gap-3 py-3 border-b border-ink-100 last:border-b-0 font-body text-body-sm text-ink-700"
-                          >
-                            <span className="flex items-center gap-2">
-                              {lesson.locked && <Lock size={14} className="text-ink-400 shrink-0" />}
-                              {lesson.title}{' '}
-                              <span className="text-caption text-ink-400">({lesson.duration})</span>
-                            </span>
-                            {lesson.current && <Badge variant="brand">En cours</Badge>}
-                            {lesson.done && <Badge variant="success">Fait</Badge>}
-                          </div>
-                        ))}
+                        {lesson.current && <Badge variant="brand">En cours</Badge>}
+                        {lesson.done && <Badge variant="success">Fait</Badge>}
                       </div>
-                    )}
-                  </div>
+                    ))}
+                  </EtapeAccordion>
                 );
               })}
             </div>
