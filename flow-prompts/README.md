@@ -28,7 +28,9 @@ Chaque fichier est complet : copie tout le contenu dans une nouvelle session.
 | `run` | Démarrer l'app si pas déjà fait |
 | `verify` | **À la fin de chaque écran** — lance l'app et observe que le comportement est correct (pas juste "ça compile") |
 | `/code-review` | **Avant chaque commit** — review le diff (bugs + simplification) |
-| `impeccable` (ou `design-taste-frontend` / `web-design-guidelines`) | Quand un écran rendu **paraît générique/plat** — pour le hausser au niveau premium |
+| **`impeccable`** | **À invoquer SYSTÉMATIQUEMENT à l'étape high-fi de chaque écran** — design/redesign, hiérarchie visuelle, charge cognitive, polish premium. C'est le skill principal de qualité UI. |
+| `design-taste-frontend` · `gpt-taste` · `high-end-visual-design` | Goût visuel / direction esthétique premium quand un écran doit être hissé d'un cran |
+| `frontend-design` · `web-design-guidelines` | Aide design frontend + audit selon guidelines |
 | `copywriting` / `writing-guidelines` | Si les microcopies (CTA, vides, erreurs) sont à écrire/affiner |
 
 ### ❌ Ne PAS appeler
