@@ -17,9 +17,9 @@ src/
 │   ├── patterns/    ParcoursCard, CardGrid, SectionHeader, PageHeader, HeroSection,
 │   │                EditorialHero, AuthShell, EditorialLayout, SectionCard,
 │   │                RelatedItemList, ResumeLessonCard, ViewerHeader, AmbientBlobs… (40 composants)
-│   ├── learning/    LessonCard, ArticleCard, SessionCard, VideoCard, PromptCard…
+│   ├── learning/    LessonCard, ArticleCard, SessionCard, VideoCard, PromptCard, AstucesCard, ResourceListItem…
 │   ├── modals/      BookingModal, SuccessModal, VideoPlayerModal…
-│   ├── cards/       NotificationCard, JournalEntryCard
+│   ├── cards/       NotificationCard, JournalEntryCard, JournalBubbleCard, JournalTypeTile
 │   ├── forms/       FilterBar
 │   └── layout/      Sidebar, NavItem
 ├── pages/           ~140 pages app (route-level) — toutes routées dans App.tsx ✅
@@ -28,6 +28,29 @@ src/
 ```
 
 > ✅ **Sitemap complet** — toutes les pages sont créées et wired (Recherche, MagicLink, VerifyEmail, SubscriptionPayment, Billing, Positionnement incluses). Voir MIGRATION-PLAN.md pour l'historique des phases.
+
+### Sync DS ↔ Figma & extractions (2026-06)
+
+**18 composants extraits** de leur implémentation inline dans les pages vers `src/components/` (matchent désormais le DS Figma 1-pour-1) :
+
+| Composant | Emplacement | Extrait depuis |
+|-----------|-------------|----------------|
+| `MoodSelector` | `ui/` | JournalNewEntry |
+| `JournalTypeTile` · `JournalBubbleCard` | `cards/` | Journal* |
+| `JournalChatCompose` · `StructuredQuestionAccordion` | `ui/` | Journal |
+| `WritingPromptsAside` | `patterns/` | Dashboard/journal |
+| `MessageBubble` (ui/) · `ConversationalChat` (patterns/) | | ChatInterface (UserBubble/AssistantBubble) |
+| `DreyfusSlider` | `ui/` | Passeport (utilise `DREYFUS_LABELS` de `data/competencies`) |
+| `BehavioralTileGrid` | `patterns/` | LessonPlayer/onboarding |
+| `AstucesCard` · `ResourceListItem` | `learning/` | AstucesViewer / LessonPlayer |
+| `EtapeAccordion` | `patterns/` | CourseDetail |
+| `VeilleFormatShortcutCards` · `VeilleHeroFilterChips` | `patterns/` | Veille/Newsletter |
+| `Combobox` · `QualitativeRating` | `ui/` | build / SessionFeedbackModal |
+| `HeroSection` | `patterns/` | ajouté au Figma DS (sync inverse) |
+
+**Règle** : ces composants existent en DS — réutiliser, ne PAS réimplémenter inline. Tous dans le showcase `Components.tsx`.
+
+**Figma** : le fichier (`LccBZ1GKWQVwVzPtsSzk5Y`) est agency-grade (17/17 pages), avec **153 Figma Variables** (TLS/Colors·Spacing·Radius·Effects), 23 text styles, 20 effect styles. **98% des fills des composants sont bindés aux variables** (token-driven, "DS vivant"). Le dossier mort `components/documentation/` a été supprimé.
 
 ## Familles de composants — Décisions de rationalisation (2026-05-09)
 
@@ -232,8 +255,10 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 | ink-50 | `bg-ink-50` / `text-ink-50` | #f9fafb |
 | ink-100 | `bg-ink-100` / `text-ink-100` | #f3f4f6 |
 | ink-900 | `bg-ink-900` / `text-ink-900` | #1a1a1a |
+| **color-sage** 🆕 | `bg-sage` / `text-sage` | **#73A68C — sage muted (nature / wellbeing)** |
+| **color-purple-accent** 🆕 | `bg-purple-accent` / `text-purple-accent` | **#7272CD — soft purple (AI features / insights / premium)** |
 
-(Liste complète dans `src/index.css` @theme — 50 couleurs)
+(Liste complète dans `src/index.css` @theme — 50+ couleurs, incl. `sage` + `purple-accent` ajoutées 2026-06)
 
 ### Couleurs sémantiques (états : success / danger / warning / info)
 
@@ -291,6 +316,9 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --shadow-sm | `shadow-sm` |
 | --shadow-md | `shadow-md` |
 | --shadow-lg | `shadow-lg` |
+| --shadow-brand-sm / -md 🆕 | `shadow-brand-sm` / `shadow-brand-md` (teal teinté — CTA/hero brand) |
+| --shadow-warm-sm / -md 🆕 | `shadow-warm-sm` / `shadow-warm-md` (orange teinté) |
+| --shadow-sun-sm 🆕 | `shadow-sun-sm` (golden teinté) |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
@@ -603,6 +631,14 @@ Pour chaque composant ou page, **toutes ces étapes sont OBLIGATOIRES** dans cet
 2. **Tailwind v4 + custom shadows en @theme** : Les utilities `.shadow-X` Tailwind v4 utilisent `--tw-shadow` qui ne fonctionne PAS avec des custom shadows définies en `@theme`. Solution : ajouter dans `@layer utilities` des classes `.shadow-X { box-shadow: var(--shadow-X); }` ET `.hover:shadow-X:hover { box-shadow: var(--shadow-X); }` (déjà fait dans index.css).
 
 3. **Tokens identiques entre @theme et design-tokens.css** : Une variable CSS définie aux deux endroits avec des valeurs différentes peut causer des bugs visuels subtils. Toujours vérifier `getComputedStyle()`.
+
+   **⚠️ Cas particulier — noms DIFFÉRENTS mais même concept (divergence silencieuse)** : quand `@theme` et `design-tokens.css` nomment le même concept différemment (`--color-ink-*` vs `--tls-ink-*`, `--radius-2xl` vs `--r-2xl`), il n'y a PAS de collision de cascade → les deux coexistent avec des valeurs différentes, et selon qu'un composant est Tailwind (`bg-ink-900` → `#1a1a1a` neutre) ou legacy BEM (`var(--tls-ink-900)` → ancien `#252B37` teinté teal), l'app affiche **deux gris différents**. Idem `rounded-2xl` (24px) vs `var(--r-2xl)` (28px).
+   **Résolution (2026-06-08, token-unification)** : `design-tokens.css` aliase désormais ces tokens sur `@theme` → **source de vérité unique = `index.css`** :
+   ```css
+   --tls-ink-900: var(--color-ink-900);  /* etc. ink-0…950 — sauf ink-25 (pas d'équivalent @theme) */
+   --r-2xl:       var(--radius-2xl);
+   ```
+   Impact : ~164 usages `var(--tls-ink-*)` (surtout `components/documentation/*`) passent de teal-tinté à neutre. **Le Figma DS est synchronisé sur `index.css` (neutre)** — donc Figma ↔ Tailwind ↔ BEM rendent enfin les mêmes gris. **Règle générale** : ne JAMAIS redéfinir une valeur de couleur/radius dans `design-tokens.css` ; toujours `var(--color-*)` / `var(--radius-*)` depuis `@theme`. NB : les `--shadow-*` ont le MÊME nom dans les deux fichiers → `@theme` (chargé après) gagne déjà, pas d'action.
 
 4. **CSS importés SANS `@layer` dans globals.css** : Tout fichier CSS importé sans `layer(...)` se retrouve dans la cascade NON-LAYERED, qui **gagne sur toutes les couches nommées** (utilities, components, base). Pendant la migration de Input.tsx, on a découvert que `animations-polish.css` était importé sans layer et ses `.transition-colors` / `.transition-all` / `.transition-shadow` / `.transition-transform` legacy écrasaient les versions Tailwind. Symptôme : transitions de couleur très lentes (~400 ms au lieu de 200 ms), focus border qui semble ne jamais s'activer en mesure synchrone. **Fix appliqué** : `@import './animations-polish.css' layer(components);` dans `globals.css`. **Action générale** : auditer tous les `@import` de `globals.css` et confirmer qu'ils ont `layer(...)` ou que leurs sélecteurs ne collisionnent pas avec Tailwind.
 
