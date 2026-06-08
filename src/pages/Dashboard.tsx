@@ -16,7 +16,6 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useUserProfileStore } from '../stores/persistence';
-import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
@@ -47,7 +46,7 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const profileStore = useUserProfileStore();
-  const profile = profileStore.get(MOCK_USER_ID);
+  const profile = profileStore.get();
 
   // First-time detection : capture at render (before the useEffect increments the counter)
   // so the UI doesn't flash between states on the same mount.

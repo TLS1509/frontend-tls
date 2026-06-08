@@ -305,7 +305,7 @@ export const Onboarding: React.FC = () => {
 
   // Guard — si l'utilisateur a déjà complété l'onboarding, renvoyer au dashboard
   useEffect(() => {
-    const profile = profileStore.get(MOCK_USER_ID);
+    const profile = profileStore.get();
     if (profile?.isOnboarded) {
       navigate('/dashboard', { replace: true });
     }
