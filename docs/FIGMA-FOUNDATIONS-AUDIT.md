@@ -37,8 +37,10 @@ Scan automatisé de **177 composants** (80 Atoms / 97 Composites, ~570 variants)
 
 **Décoratif accepté (non touché)** : glyphes emoji (medals ★🏆🔒, moods 🌱⚡, ActionCard 🎯📓💬) et guillemets/▶ — choix de design, pas un problème de token. NB : CLAUDE.md préfère Lucide aux emoji en *code* — séparé de cet audit.
 
-### 🟠 Décision en attente — Button destructive
-Variantes `destructive` (default `#d56c42`, hover `#bd5a32`) : coral non-bindé, **sans token danger-button** dans TLS (palette danger = `danger-base #F28559` / `danger-fg`). Le code utilise `bg-red-600` (tailwind brut) — lui-même hors-charte TLS (« pas de red brut »). À trancher : (a) créer `danger-strong`/`danger-deep` (code + Figma), (b) bind sur `danger-base` existant (perd la distinction hover), (c) laisser raw + documenter.
+### 🟠 Button destructive — décision : (c) laisser raw, TODO tokens harmonisés
+Variantes `destructive` (default `#d56c42`, hover `#bd5a32`) : coral non-bindé, **sans token danger-button** dans TLS. Code = `bg-red-600` (tailwind brut, hors-charte). **Décision (2026-06-09)** : laisser raw pour l'instant (aucun changement Figma/code).
+
+**TODO futur** : rechercher/définir une couleur destructive qui **harmonise avec les couleurs principales TLS** (primary teal `#55A1B4`, secondary orange `#ED843A`, accent `#F8B044`, danger coral `#F28559`) — p.ex. un terracotta/brique-rouge saturé distinct de secondary mais clairement « danger », à ajouter comme `danger-strong`/`danger-deep` dans `index.css` @theme + Figma, puis rebinder Button destructive (code + Figma). PAS de red tailwind brut.
 
 ---
 
