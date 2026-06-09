@@ -4,7 +4,49 @@
 > (`LccBZ1GKWQVwVzPtsSzk5Y`, page `1093:2`) et les design tokens du code (`src/index.css` @theme).
 > Source de vérité = **`src/index.css` @theme**. Figma doit refléter le code, jamais l'inverse.
 
-Dernière passe : **2026-06-09** (session 5). Scope traité : Foundations 9/9 ✅ · **audit Atoms (80) + Composites (97)**.
+Dernière passe : **2026-06-09** (session 6). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · **Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅**.
+
+---
+
+## 0b. Audit Flows & Écrans + autres pages (2026-06-09 — session 6)
+
+Scan automatisé de **toutes les pages restantes** : 05 Onboarding → 14 Veille & Magazine + Brand Identity (💠) + Icons (🔷) + Marketing Motion (🎬).
+
+### Résultat global : pages fill-clean ✅
+
+| Page | RAW_FILL réels fixés | NON_TLS_FONT fixés | NO_TEXT_STYLE restant | Statut |
+|------|---------------------|--------------------|-----------------------|--------|
+| 💠 Brand Identity | 0 | 0 | 0 | ✅ clean |
+| 🔷 Icons | 5 (labels sections) → bindés ink/400-500 | 0 | 0 | ✅ fixed |
+| 🚀 05 Onboarding | 0 (logos Google/LinkedIn = brand literals) | 0 | 0 | ✅ clean |
+| 🔐 06 Auth & Security | 0 | 0 | 0 | ✅ clean |
+| 📚 07 Learning Paths | 0 réels (BadCard/BadLabelBg = intentionnels) | 0 | ~203 (voir note) | 🟡 text styles |
+| 🎯 08 Coaching | ~17 card/panel → bindés surface/default | 0 | ~80 active (+ 87 archive) | 🟡 text styles |
+| 📔 09 Journal | 0 fills | 0 | 178 (voir note) | 🟡 text styles |
+| 🏠 10 Dashboard | 3 écrans → bindés surface/default | 0 | 0 | ✅ fixed |
+| 🏆 11 Gamification | 4 écrans + 1 "Period filter" → surface/default + ink/100 | 0 | 0 | ✅ fixed |
+| 🎓 12 Passeport | 6 écrans → bindés surface/default | 0 | 0 | ✅ fixed |
+| 👤 13 Profile & Account | 5 écrans → bindés surface/default | 0 | 0 | ✅ fixed |
+| 📰 14 Veille & Magazine | 0 | 0 | 0 | ✅ clean |
+| 🎬 Marketing Motion | 0 | 0 | 0 | ✅ clean |
+
+**Total fixé cette session : 42 bindings** (36 screen frames → `surface/default`, 5 icon labels → `ink/400`/`ink/500`, 1 "Period filter" → `ink/100`).
+
+### Faux positifs identifiés et exclus
+
+- **Section frames `#ffffff`** (toutes pages) : fond canvas Figma organisationnel — normal, pas bindé intentionnellement.
+- **Brand logos VECTOR** (Onboarding) : chemins Google (#ea4335/#4285f4/#34a853/#fbbc05) et LinkedIn (#0a66c2) — couleurs de marque tierces, ne peuvent pas être bindées aux tokens TLS.
+- **`BadCard`/`BadLabelBg`** (Learning Paths, inside `LessonCard` component) : frames "mauvais exemple" dans le showcase du composant — intentionnels, laissés as-is.
+- **Archive sections** (Coaching, 87 violations dans `ARCHIVE — F series`) : vieux frames Figma Make dépréciés, cleanup différé.
+
+### ⚠️ NO_TEXT_STYLE — Backlog design (pages 07-09)
+
+~460 nœuds TEXT dans les frames écrans (07/08/09) sans text style appliqué. Ces nœuds sont **hors** des instances de composants (les instances héritent déjà des styles). Il s'agit de text layers directs placés sur les frames avant que le système de text styles soit établi.
+
+**Cause** : screens pré-système de styles + frames Figma Make auto-générés.
+**Risque d'auto-fix** : high (460+ nœuds — assigner un style sans review visuelle risque des mauvaises correspondances).
+**Action recommandée** : pass de review manuelle dans Figma, page par page, en appliquant les styles depuis le panel `Text` → Figma text style picker.
+**Priorité** : P2 (non bloquant — les composants sous-jacents ont leurs styles corrects ; ces layers sont des annotations de design).
 
 ---
 
