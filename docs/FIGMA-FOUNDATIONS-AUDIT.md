@@ -4,7 +4,64 @@
 > (`LccBZ1GKWQVwVzPtsSzk5Y`, page `1093:2`) et les design tokens du code (`src/index.css` @theme).
 > Source de vérité = **`src/index.css` @theme**. Figma doit refléter le code, jamais l'inverse.
 
-Dernière passe : **2026-06-09** (session 6). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · **Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅**.
+Dernière passe : **2026-06-09** (session 7). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅ · **Button variants audit & glass variants ✅**.
+
+---
+
+## 0c. Audit Button variants + glass variants (2026-06-09 — session 7)
+
+### Priorité 1 — Tokens danger/strong et danger/deep ✅ (déjà fait session précédente)
+Variables `semantic/danger-strong` (VariableID:3357:26, #C0432A) et `semantic/danger-deep` (VariableID:3357:27, #9B2F1B) présentes et correctement bindées sur tous les variants destructive (rest/hover/focus/disabled → danger-strong, active → danger-deep).
+
+### Priorité 2 — Corrections de bindings variants existants ✅
+
+| Variant · State | Avant | Après | Variable |
+|---|---|---|---|
+| primary / hover bg | primary/700 (#3d7786 — trop sombre) | **primary/500** (#55A1B4) | VariableID:1080:8 |
+| warm / hover bg | VariableID:2539:2 (#b07010 olive — WRONG) | **secondary/400** (#F18A4C) | VariableID:1081:6 |
+| accent / hover bg | accent/500 (#DF9E3D — direction inversée) | **accent/300** (#FFC15A) | VariableID:1081:15 |
+| secondary / hover stroke | ink/200 | **primary/300** (#96C3CF) | VariableID:1080:6 |
+
+Stratégie hover validée dans Button.tsx : « hover = même couleur ou plus claire + shadow coloré ». Active = toujours plus sombre.
+
+### Priorité 3 — 5 glass variants ajoutés dans 1109:58 ✅
+
+40 composants créés (5 variants × 4 rest + 4 états md). Component set 1109:58 : 65 → **105 enfants**.
+
+| Variant | bg rest | stroke rest | bg hover | bg active | texte |
+|---|---|---|---|---|---|
+| `glass-light` | ink/0 @ 0.70 | ink/0 @ 0.70 | ink/0 @ 0.90 | ink/0 @ 1.0 | ink/900 |
+| `glass-light-ghost` | ink/0 @ 0.40 | ink/0 @ 0.50 | ink/0 @ 0.60 | ink/0 @ 0.70 | ink/800 |
+| `glass-brand` | primary/100 @ 0.70 | primary/200 @ 0.80 | primary/100 @ 1.0 | primary/200 @ 1.0 | primary/800 |
+| `glass-warm` | secondary/100 @ 0.70 | secondary/200 @ 0.80 | secondary/100 @ 1.0 | secondary/200 @ 1.0 | secondary/800 |
+| `glass-sun` | accent/100 @ 0.70 | accent/200 @ 0.80 | accent/100 @ 1.0 | accent/200 @ 1.0 | accent/800 |
+
+Technique : opacités via `boundVariables` direct (pas `setBoundVariableForPaint` qui ne préserve pas `paint.opacity`).
+
+### Priorité 4 — Button/Glass component set (1109:67) ✅
+
+- **Bug corrigé** : fills liés à `text/inverse` (variable sémantique — mauvais) → raw white sans variable (intentionnel, opacités glass non-bindables)
+- **Renommage** : `variant=glass, size=X` → `variant=glass, size=X, state=rest` (dimension state ajoutée)
+- **Ajouté** : `state=hover` (white/0.35, border white/0.50), `state=disabled` (white/0.20, node opacity 0.5)
+- **Omis** : `state=active` — intentionnel, Button.tsx ne définit pas d'`active:` pour `glass`
+- Total : 4 → **6 enfants** dans 1109:67
+
+### ⚠️ Discrepancy ghost/secondary — décision requise
+
+Le code **Button.tsx actuel** (source de vérité) diverge du CLAUDE.md + de la table du brief :
+
+| Variant | Figma actuel | Code Button.tsx | CLAUDE.md (outdated) |
+|---|---|---|---|
+| `variant=ghost` | transparent, text ink/900 | **bg-primary-50, text-primary-800** | bg-transparent |
+| `variant=secondary` | gray outline (ink/100 bg) | **bg-secondary-500 = orange** | bg-neutral-100 |
+| `variant=brand-ghost` | bg primary/50 (= code ghost) | Deprecated alias de ghost | bg-primary-50 |
+
+**Action laissée à l'utilisateur** : décider si le code a été intentionnellement mis à jour ou s'il faut revenir en arrière. Options :
+1. ✅ Mettre à jour Figma `ghost` → primary/50 bg + primary/800 text (pour matcher le code)
+2. ✅ Renommer Figma `secondary` → `secondary-outline` (ou autre) pour distinguer du orange
+3. ❓ Revenir sur le code (remettre ghost=transparent, secondary=gray)
+
+Non touché pour éviter de casser les screens existants.
 
 ---
 

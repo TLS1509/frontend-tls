@@ -30,7 +30,7 @@
   /* ── Surface pastels (ultra-light backgrounds, used in gradients) ── */
   --color-surface-cyan:  #f0f9ff; /* very light cyan-tinted white */
   --color-surface-mist:  #f8fbfd; /* near-white with subtle blue mist */
-  --color-surface-cream: #fef3e2; /* soft cream/peach */
+  --color-surface-cream: #fefaf5; /* soft cream — adouci (était #fef3e2 trop orangé) */
 
   /* ── Couleurs Secondary (orange) — synced with --tls-orange-* ── */
   --color-secondary-50: #FFF3EB;
@@ -521,10 +521,9 @@
   /* ── Soft pastel gradients (3 stops & 2 stops, surface pastels) ────── */
 
   /* Soft pastel 3-stop — cyan → mist → cream.
-     5 variants directionnels (miroirs des style presets Canva Brand Kit TLS) :
+     4 variants directionnels (miroirs des style presets Canva Brand Kit TLS) :
        default  135° diagonal ↘ — pages éditoriales, fond auth alternative
        -h       90°  horizontal → — cards larges en pleine largeur
-       -v       180° vertical  ↓ — sections pleine-hauteur (hero alternatif)
        -rev     315° diagonal ↖ — variante reverse (cream en haut-gauche)
        -radial  radial center  — spots de lumière, hero centered */
   .bg-gradient-soft-pastel {
@@ -538,14 +537,6 @@
   .bg-gradient-soft-pastel-h {
     background: linear-gradient(
       90deg,
-      var(--color-surface-cyan) 0%,
-      var(--color-surface-mist) 50%,
-      var(--color-surface-cream) 100%
-    );
-  }
-  .bg-gradient-soft-pastel-v {
-    background: linear-gradient(
-      180deg,
       var(--color-surface-cyan) 0%,
       var(--color-surface-mist) 50%,
       var(--color-surface-cream) 100%
@@ -568,12 +559,13 @@
     );
   }
 
-  /* Soft pastel 2-stop — cyan → cream (diagonal 135°, plus marqué).
-     Variante minimaliste pour fond de cards larges, hero soft. */
+  /* Soft pastel simple — cyan → mist → cream (diagonal 135°).
+     Variante plus marquée, fond de cards larges, hero soft. */
   .bg-gradient-soft-duo {
     background: linear-gradient(
       135deg,
       var(--color-surface-cyan) 0%,
+      var(--color-surface-mist) 50%,
       var(--color-surface-cream) 100%
     );
   }
@@ -606,13 +598,11 @@
   .bg-gradient-brand-deep-v      { background: linear-gradient(180deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
   .bg-gradient-brand-deep-d      { background: linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
   .bg-gradient-brand-deep-rev    { background: linear-gradient(315deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
-  .bg-gradient-brand-deep-radial { background: radial-gradient(ellipse at center, var(--color-primary-500) 0%, var(--color-primary-950) 100%); }
+  .bg-gradient-brand-deep-radial { background: radial-gradient(ellipse at center, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
 
-  /* WARM orange (secondary-500 → secondary-600) */
-  .bg-gradient-cta-warm-v        { background: linear-gradient(180deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
-  .bg-gradient-cta-warm-d        { background: linear-gradient(135deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+  /* WARM orange (secondary-600 dark → secondary-500 bright) */
   .bg-gradient-cta-warm-rev      { background: linear-gradient(315deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
-  .bg-gradient-cta-warm-radial   { background: radial-gradient(ellipse at center, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+  .bg-gradient-cta-warm-radial   { background: radial-gradient(ellipse at center, var(--color-secondary-600) 0%, var(--color-secondary-500) 100%); }
 
   /* SUN yellow→orange (accent-400 → secondary-500) */
   .bg-gradient-cta-sun-v         { background: linear-gradient(180deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
@@ -620,14 +610,6 @@
   .bg-gradient-cta-sun-rev       { background: linear-gradient(315deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
   .bg-gradient-cta-sun-radial    { background: radial-gradient(ellipse at center, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
 
-  /* ── Hero gradients — dark full-bleed, vertical ─────────────────────────
-     Miroirs des paint styles Figma Gradient/Hero/*. */
-  .bg-gradient-hero-brand-deep {
-    background: linear-gradient(180deg, var(--color-primary-700) 0%, var(--color-primary-900) 100%);
-  }
-  .bg-gradient-hero-brand-navy {
-    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-950) 100%);
-  }
 
   /* ── Bubble / chat gradients — pastels doux, diagonal ───────────────────
      Miroirs des paint styles Figma Gradient/Bubble/*. */
