@@ -137,15 +137,33 @@ Sources comparées :
 | effect styles (ombres) | shadow-xs→xl, brand, warm, sun… | **20 effect styles** | ✅ |
 | text styles | — | **23 text styles** | ✅ |
 
-### Gradients — ✅ réconciliés (session 2)
+### Gradients — ✅ réconciliés (session 2 + session 7 Canva audit)
 
-- **Figma : 9 paint styles** — tous les stops liés à des variables Figma.
-- **CSS : 9 utilities** ajoutées dans `@layer utilities` de `src/index.css` :
-  - `.bg-gradient-cta-{brand,warm,sun,success}`
-  - `.bg-gradient-hero-brand-{deep,navy}`
-  - `.bg-gradient-bubble-{brand,warm,sun}-light`
-- Les page-ambient existants (`bg-gradient-page-ambient`, `-sun`, `-warm`) restent séparés (fond de page full-bleed, 3 stops).
-- §08 GRADIENTS showcase : 9 cards avec paint style + label + CSS class name.
+**Session 2 (9 paint styles + 9 CSS utilities) :**
+- `.bg-gradient-cta-{brand,warm,sun,success}`
+- `.bg-gradient-hero-brand-{deep,navy}`
+- `.bg-gradient-bubble-{brand,warm,sun}-light`
+- Les page-ambient (`bg-gradient-page-ambient`, `-sun`, `-warm`) restent séparés (fond full-bleed 3 stops, pas de paint style).
+
+**Session 7 — Canva Brand Kit audit (6 nouveaux paint styles + 5 CSS utilities) :**
+
+Audit Canva Brand Kit TLS (`IG-FxaFkgzeXktc`) : 5 gradients inventoriés → 1 manquant en code+Figma.
+
+| # | Canva | Code | Figma | Statut |
+|---|-------|------|-------|--------|
+| 1 | `#f0f9ff → #fef3e2` | `bg-gradient-soft-duo` | — | ✅ code |
+| 2 | `#f8b044 → #ed843a` | `bg-gradient-cta-sun` | `Gradient/CTA/Sun` | ✅ |
+| 3 | `#55a1b4 → #164267` | **`bg-gradient-brand-teal-deep`** 🆕 | **`Gradient/Brand/Teal-Deep`** 🆕 | ✅ ajouté |
+| 4 | `#164267 → #55a1b4` | `bg-gradient-brand-deep` | — | ✅ code |
+| 5 | `#f0f9ff → #f8fbfd → #fef3e2` (3 stops) | `bg-gradient-soft-pastel` | **`Gradient/Soft/Pastel`** 🆕 | ✅ ajouté |
+
+De plus, ajout des 4 variantes directionnelles du soft-pastel (miroirs des 5 style presets Canva) :
+- `Gradient/Soft/Pastel-H` → `.bg-gradient-soft-pastel-h` (90°) 🆕
+- `Gradient/Soft/Pastel-V` → `.bg-gradient-soft-pastel-v` (180°) 🆕
+- `Gradient/Soft/Pastel-Rev` → `.bg-gradient-soft-pastel-rev` (315°) 🆕
+- `Gradient/Soft/Pastel-Radial` → `.bg-gradient-soft-pastel-radial` (radial) 🆕
+
+**Total final : 15 paint styles · 20 CSS gradient utilities · §08 showcase étendu à 15 cards.**
 
 ---
 
@@ -181,12 +199,12 @@ Sources comparées :
 | 05 | SHADOWS | `1579:7` | ✅ | Terminé. |
 | 06 | EFFECTS | `1579:8` | ✅ | 6 `fg.opacity` bindés aux `opacity/*` NUMBER vars. Titre interne "Utility Tokens"→"Effects" (collision §09 résolue). |
 | 07 | MOTION | `2615:6` | ✅ | `instant(80ms)` + `expressive(800ms)` ajoutés au showcase. 6/6 durées. |
-| 08 | GRADIENTS | `2735:2` | ✅ | 9 paint styles + stops variabilisés + 9 CSS utilities + showcase. |
+| 08 | GRADIENTS | `2735:2` | ✅ | 15 paint styles + 20 CSS utilities + showcase 15 cards. +6 session 7 (brand-teal-deep + soft-pastel ×5 variants). |
 | 09 | UTILITY TOKENS | `2767:2` | ✅ | OPACITY SCALE supprimée (dup §06, §06 canonique car variable-bound). Footer recompté 149/23/20. Header desc nettoyé. |
 
 ### ✅ Foundations page complète — 9/9 sections en parité (2026-06-09)
 
-Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 9 paint styles (gradients)**.
+Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 15 paint styles (gradients)**.
 Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effects (31).
 
 ### Observation non-tranchée — overlap §06 ↔ §07

@@ -507,15 +507,63 @@
     );
   }
 
+  /* Brand teal deep — primary-500 → primary-950 (horizontal teal → navy).
+     Inverse de brand-deep. Pour CTA immersifs, cards feature saturées, sections
+     "fading to dark". Correspond au gradient 3 du Brand Kit Canva TLS. */
+  .bg-gradient-brand-teal-deep {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-500) 0%,
+      var(--color-primary-950) 100%
+    );
+  }
+
   /* ── Soft pastel gradients (3 stops & 2 stops, surface pastels) ────── */
 
-  /* Soft pastel 3-stop — cyan → mist → cream (diagonal 135°).
-     Pour pages éditoriales très douces, fond auth alternative, splash screens. */
+  /* Soft pastel 3-stop — cyan → mist → cream.
+     5 variants directionnels (miroirs des style presets Canva Brand Kit TLS) :
+       default  135° diagonal ↘ — pages éditoriales, fond auth alternative
+       -h       90°  horizontal → — cards larges en pleine largeur
+       -v       180° vertical  ↓ — sections pleine-hauteur (hero alternatif)
+       -rev     315° diagonal ↖ — variante reverse (cream en haut-gauche)
+       -radial  radial center  — spots de lumière, hero centered */
   .bg-gradient-soft-pastel {
     background: linear-gradient(
       135deg,
       var(--color-surface-cyan) 0%,
       var(--color-surface-mist) 50%,
+      var(--color-surface-cream) 100%
+    );
+  }
+  .bg-gradient-soft-pastel-h {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-cyan) 0%,
+      var(--color-surface-mist) 50%,
+      var(--color-surface-cream) 100%
+    );
+  }
+  .bg-gradient-soft-pastel-v {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-cyan) 0%,
+      var(--color-surface-mist) 50%,
+      var(--color-surface-cream) 100%
+    );
+  }
+  .bg-gradient-soft-pastel-rev {
+    background: linear-gradient(
+      315deg,
+      var(--color-surface-cyan) 0%,
+      var(--color-surface-mist) 50%,
+      var(--color-surface-cream) 100%
+    );
+  }
+  .bg-gradient-soft-pastel-radial {
+    background: radial-gradient(
+      ellipse at center,
+      var(--color-surface-mist) 0%,
+      var(--color-surface-cyan) 50%,
       var(--color-surface-cream) 100%
     );
   }
