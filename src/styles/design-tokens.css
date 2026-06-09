@@ -139,8 +139,8 @@
   --surface:        var(--tls-ink-0);
   --surface-muted:  var(--tls-ink-50);
   --surface-sunken: var(--tls-ink-100);
-  --border:         rgba(37, 43, 55, 0.08);
-  --border-strong:  rgba(37, 43, 55, 0.14);
+  --border:         rgba(26, 26, 26, 0.08);
+  --border-strong:  rgba(26, 26, 26, 0.14);
   --text:           var(--tls-ink-900);
   --text-muted:     var(--tls-ink-600);
   --text-soft:      var(--tls-ink-500);

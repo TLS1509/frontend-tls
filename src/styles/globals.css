@@ -115,29 +115,29 @@
   }
 }
 
-/* Selection styles */
-::selection {
-  background-color: var(--tls-primary-200);
-  color: var(--tls-primary-900);
-}
+@layer base {
+  ::selection {
+    background-color: var(--tls-primary-200);
+    color: var(--tls-primary-900);
+  }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--surface-muted);
-}
+  ::-webkit-scrollbar-track {
+    background: var(--surface-muted);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--tls-ink-300);
-  border-radius: var(--r-xs);
-}
+  ::-webkit-scrollbar-thumb {
+    background: var(--tls-ink-300);
+    border-radius: var(--r-xs);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--tls-ink-400);
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--tls-ink-400);
+  }
 }
 
 /* Hide native search input cancel/decoration buttons — replaced by custom clear button */
