@@ -87,17 +87,25 @@ Sources comparées :
 
 ## 3. Ce qui reste à faire (par section)
 
-| § | Section | Figma id | Statut | À auditer |
-|---|---------|----------|--------|-----------|
+| § | Section | Figma id | Statut | Notes |
+|---|---------|----------|--------|-------|
 | 01 | COLORS | `1579:2` | ✅ | 76/76 parité. ink/450+550 supprimés. |
-| 02 | TYPOGRAPHY | `1579:4` | 🟡 | Re-vérifier les **23 text styles** affichés vs `@theme` |
-| 03 | SPACING | `1579:5` | ⬜ | Vérifier semantic spacing (7) + touch + scale vs CSS |
-| 04 | BORDER RADIUS | `1579:6` | ⬜ | 7 radius (xs→pill) — vérif valeurs + démo |
+| 02 | TYPOGRAPHY | `1579:4` | ✅ | 23 text styles vérifiés 1-pour-1 vs `@theme` (h1-h4, body, caption, micro, eyebrow, display, button, mono). Sous-titre corrigé "28→23". |
+| 03 | SPACING | `1579:5` | ✅ | Variables FLOAT correctes (7 sémantiques + touch + scale). Barres visuelles 2× scale intentionnel. |
+| 04 | BORDER RADIUS | `1579:6` | ✅ | 7 `box.cornerRadius` bindés aux NUMBER vars xs→pill via `setBoundVariable`. |
 | 05 | SHADOWS | `1579:7` | ✅ | Terminé. |
-| 06 | EFFECTS | `1579:8` | ⬜ | opacity/blur/glass — vérif header interne |
-| 07 | MOTION | `2615:6` | 🟡 | Variables OK — vérifier showcase instant(80ms) + expressive(800ms) |
-| 08 | GRADIENTS | `2735:2` | ✅ | 9 paint styles + stops variabilisés + 9 CSS utilities + showcase |
-| 09 | UTILITY TOKENS | `2767:2` | ⬜ | Dédupliquer vs §03/§06 ; normaliser |
+| 06 | EFFECTS | `1579:8` | ✅ | 6 `fg.opacity` bindés aux `opacity/*` NUMBER vars. Titre interne "Utility Tokens"→"Effects" (collision §09 résolue). |
+| 07 | MOTION | `2615:6` | ✅ | `instant(80ms)` + `expressive(800ms)` ajoutés au showcase. 6/6 durées. |
+| 08 | GRADIENTS | `2735:2` | ✅ | 9 paint styles + stops variabilisés + 9 CSS utilities + showcase. |
+| 09 | UTILITY TOKENS | `2767:2` | ✅ | OPACITY SCALE supprimée (dup §06, §06 canonique car variable-bound). Footer recompté 149/23/20. Header desc nettoyé. |
+
+### ✅ Foundations page complète — 9/9 sections en parité (2026-06-09)
+
+Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 9 paint styles (gradients)**.
+Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effects (31).
+
+### Observation non-tranchée — overlap §06 ↔ §07
+§06 EFFECTS conserve un bloc « duration-ease-blur » (4 durations + 4 blurs) qui chevauche §07 MOTION (showcase complet : 6 durations + 4 ease + 6 keyframes + 4 blurs). C'est un pattern *overview (§06) vs detail (§07)* — pas supprimé car hors du périmètre dédup explicite (§09 vs §03/§06). À trancher avec l'utilisateur si on veut un home canonique unique pour duration/blur.
 
 ### Incohérences transverses résolues
 - ✅ **Nommage sections** : §08 → "08 — GRADIENTS", §09 → "09 — UTILITY TOKENS" (préfixe `§ ` retiré)
