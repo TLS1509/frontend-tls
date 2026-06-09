@@ -6175,8 +6175,8 @@ const COLOR_TOKENS: TokenEntry[] = [
   ]),
   ...buildColorScale('Yellow (Sun)', 'yellow', [
     ['50', '#FFF9EE'], ['100', '#FFECC8'], ['200', '#FFD791'], ['300', '#FFC15A'],
-    ['400', '#F8B044'], ['500', '#DF9E3D'], ['600', '#C68D36'], ['700', '#AE7B30'],
-    ['800', '#956A29'], ['900', '#7C5822'],
+    ['400', '#F8B044'], ['500', '#DF9E3D'], ['600', '#C68D36'], ['700', '#A85F0A'],
+    ['800', '#7E4006'], ['900', '#5F2E05'],
   ]),
   ...buildColorScale('Ink (Neutrals)', 'ink', [
     ['0', '#FFFFFF'], ['25', '#FAFBFC'], ['50', '#F5F8F8'], ['100', '#EEF2F4'],
@@ -6192,7 +6192,7 @@ const SEMANTIC_TOKENS: TokenEntry[] = [
   { name: 'Success fg', cssVar: '--tls-success-fg', value: '#335A56', group: 'Semantic', type: 'color' },
   { name: 'Warning base', cssVar: '--tls-warning-base', value: '#F8B044', group: 'Semantic', type: 'color' },
   { name: 'Warning bg', cssVar: '--tls-warning-bg', value: '#FFF9EE', group: 'Semantic', type: 'color' },
-  { name: 'Warning fg', cssVar: '--tls-warning-fg', value: '#7C5822', group: 'Semantic', type: 'color' },
+  { name: 'Warning fg', cssVar: '--tls-warning-fg', value: '#2f1c13', group: 'Semantic', type: 'color' },
   { name: 'Danger base', cssVar: '--tls-danger-base', value: '#F28559', group: 'Semantic', type: 'color' },
   { name: 'Danger bg', cssVar: '--tls-danger-bg', value: '#FEF4F0', group: 'Semantic', type: 'color' },
   { name: 'Danger fg', cssVar: '--tls-danger-fg', value: '#8F2A0E', group: 'Semantic', type: 'color' },

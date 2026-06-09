@@ -115,7 +115,7 @@
 
   /* Warning — TLS Yellow base */
   --tls-warning-bg:     #FFF9EE;
-  --tls-warning-fg:     #7C5822;
+  --tls-warning-fg:     var(--color-warning-fg);  /* = #2f1c13 dark editorial brown */
   --tls-warning-base:   #F8B044;
   --tls-warning-light:  rgba(248, 176, 68, 0.08);
   --tls-warning-border: rgba(248, 176, 68, 0.30);
