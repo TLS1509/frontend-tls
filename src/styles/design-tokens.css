@@ -88,7 +88,7 @@
   --tls-ink-600: var(--color-ink-600);
   --tls-ink-700: var(--color-ink-700);
   --tls-ink-800: var(--color-ink-800);
-  --tls-ink-900: var(--color-ink-900);   /* Body text — now #1a1a1a */
+  --tls-ink-900: var(--color-ink-900);   /* Body text — #252B37 (TLS teal-tinted dark) */
   --tls-ink-950: var(--color-ink-950);
 
   /* ---------- SEMANTIC (map to brand) ----------

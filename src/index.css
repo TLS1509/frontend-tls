@@ -57,9 +57,9 @@
   --color-accent-400: #F8B044;  /* ⭐ Base canonique TLS Yellow */
   --color-accent-500: #DF9E3D;
   --color-accent-600: #C68D36;
-  --color-accent-700: #AE7B30;
-  --color-accent-800: #956A29;
-  --color-accent-900: #7C5822;
+  --color-accent-700: #A85F0A;  /* warm amber — recalibré (anti-olive) */
+  --color-accent-800: #7E4006;  /* deep amber */
+  --color-accent-900: #5F2E05;  /* dark amber — anchors the dark end of the scale */
   /* Semantic alias — point to the canonical Base. Allows `bg-accent` /
      `text-accent` shorthand without specifying a step. */
   --color-accent: var(--color-accent-400);
@@ -75,7 +75,7 @@
   --color-ink-600: #4b5563;
   --color-ink-700: #374151;
   --color-ink-800: #1f2937;
-  --color-ink-900: #1a1a1a;
+  --color-ink-900: #252B37;  /* TLS body text — original teal-tinted dark (restored) */
   --color-ink-950: #0f172a;
 
   /* ── Polices ── */
@@ -286,7 +286,7 @@
        text-subtle   : least emphasis, placeholders, disabled — ink-400
        text-inverse  : on saturated bg (heroes, dark cards) — white
   */
-  --color-text-strong:  #1a1a1a;  /* = ink-900 */
+  --color-text-strong:  var(--color-ink-900);  /* = ink-900 = #252B37 TLS teal-tinted dark */
   --color-text-default: #374151;  /* = ink-700 */
   --color-text-muted:   #6b7280;  /* = ink-500 */
   --color-text-subtle:  #9ca3af;  /* = ink-400 */
@@ -383,7 +383,7 @@
 
   /* Warning — synced with TLS Yellow base */
   --color-warning-bg:   #FFF9EE;
-  --color-warning-fg:   #7C5822;
+  --color-warning-fg:   #2f1c13;  /* dark editorial brown — AAA on all yellow surfaces */
   --color-warning-base: #F8B044;
 
   /* Info — synced with TLS Primary (teal) */
@@ -391,10 +391,8 @@
   --color-info-fg:      #1F3E45;
   --color-info-base:    #55A1B4;
 
-  /* Achievement — bronze/gold tones for gamification (badges, XP, streaks) */
-  --color-achievement-base:  #965014; /* warm bronze — default achievement tint */
-  --color-achievement-dark:  #8C630C; /* deep gold — borders, strong emphasis */
-  --color-achievement-light: #B07010; /* bright gold — fills, icons */
+  /* Brown — dark warm brown for editorial typography & warning-fg */
+  --color-brown-editorial: #2f1c13;  /* AAA everywhere — also used as warning-fg */
 
   /* Success extended — richer variants for special success moments */
   --color-success-vivid:  #347572; /* deeper teal-green — milestone completion */
