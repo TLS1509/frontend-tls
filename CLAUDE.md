@@ -255,10 +255,8 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 | ink-50 | `bg-ink-50` / `text-ink-50` | #f9fafb |
 | ink-100 | `bg-ink-100` / `text-ink-100` | #f3f4f6 |
 | ink-900 | `bg-ink-900` / `text-ink-900` | #1a1a1a |
-| **color-sage** 🆕 | `bg-sage` / `text-sage` | **#73A68C — sage muted (nature / wellbeing)** |
-| **color-purple-accent** 🆕 | `bg-purple-accent` / `text-purple-accent` | **#7272CD — soft purple (AI features / insights / premium)** |
 
-(Liste complète dans `src/index.css` @theme — 50+ couleurs, incl. `sage` + `purple-accent` ajoutées 2026-06)
+(Liste complète dans `src/index.css` @theme — 50+ couleurs)
 
 ### Couleurs sémantiques (états : success / danger / warning / info)
 

@@ -29,42 +29,46 @@
 }
 
 :root {
-  /* ---------- BRAND COLORS ---------- */
-  /* Primary — Teal Blue (core identity) */
-  --tls-primary-50:  #E8F4F7;
-  --tls-primary-100: #DCEBEF;
-  --tls-primary-200: #B9D7DF;
-  --tls-primary-300: #96C3CF;
-  --tls-primary-400: #73AFBF;
-  --tls-primary-500: #55A1B4;  /* Base */
-  --tls-primary-600: #4A8FA1;
-  --tls-primary-700: #3D7786;
-  --tls-primary-800: #2F5F6A;
-  --tls-primary-900: #1F3E45;
+  /* ---------- BRAND COLORS — alias @theme (source de vérité = index.css) ----------
+     Token-unification 2026-06: --tls-primary/orange/yellow-* aliasent désormais les
+     tokens Tailwind @theme, comme déjà fait pour --tls-ink-*. Toute valeur hex legacy
+     est supprimée : un seul endroit à maintenir (index.css). */
 
-  /* Secondary — Warm Orange */
-  --tls-orange-50:  #FFF3EB;
-  --tls-orange-100: #FDDCC7;
-  --tls-orange-200: #FCBB93;
-  --tls-orange-300: #F59A5F;
-  --tls-orange-400: #F18A4C;
-  --tls-orange-500: #ED843A;  /* Base */
-  --tls-orange-600: #C06920;
-  --tls-orange-700: #8F5017;
-  --tls-orange-800: #5E3710;
-  --tls-orange-900: #3B2109;
+  /* Primary — Teal Blue */
+  --tls-primary-50:  var(--color-primary-50);
+  --tls-primary-100: var(--color-primary-100);
+  --tls-primary-200: var(--color-primary-200);
+  --tls-primary-300: var(--color-primary-300);
+  --tls-primary-400: var(--color-primary-400);
+  --tls-primary-500: var(--color-primary-500);
+  --tls-primary-600: var(--color-primary-600);
+  --tls-primary-700: var(--color-primary-700);
+  --tls-primary-800: var(--color-primary-800);
+  --tls-primary-900: var(--color-primary-900);
 
-  /* Accent — Golden Yellow */
-  --tls-yellow-50:  #FFF9EE;
-  --tls-yellow-100: #FFECC8;
-  --tls-yellow-200: #FFD791;
-  --tls-yellow-300: #FFC15A;
-  --tls-yellow-400: #F8B044;  /* Base */
-  --tls-yellow-500: #DF9E3D;
-  --tls-yellow-600: #C68D36;
-  --tls-yellow-700: #AE7B30;
-  --tls-yellow-800: #956A29;
-  --tls-yellow-900: #7C5822;
+  /* Secondary — Warm Orange (legacy name: --tls-orange-*) */
+  --tls-orange-50:  var(--color-secondary-50);
+  --tls-orange-100: var(--color-secondary-100);
+  --tls-orange-200: var(--color-secondary-200);
+  --tls-orange-300: var(--color-secondary-300);
+  --tls-orange-400: var(--color-secondary-400);
+  --tls-orange-500: var(--color-secondary-500);
+  --tls-orange-600: var(--color-secondary-600);
+  --tls-orange-700: var(--color-secondary-700);
+  --tls-orange-800: var(--color-secondary-800);
+  --tls-orange-900: var(--color-secondary-900);
+
+  /* Accent — Golden Yellow (legacy name: --tls-yellow-*) */
+  --tls-yellow-50:  var(--color-accent-50);
+  --tls-yellow-100: var(--color-accent-100);
+  --tls-yellow-200: var(--color-accent-200);
+  --tls-yellow-300: var(--color-accent-300);
+  --tls-yellow-400: var(--color-accent-400);
+  --tls-yellow-500: var(--color-accent-500);
+  --tls-yellow-600: var(--color-accent-600);
+  --tls-yellow-700: var(--color-accent-700);
+  --tls-yellow-800: var(--color-accent-800);
+  --tls-yellow-900: var(--color-accent-900);
 
   /* ---------- NEUTRALS — single source of truth = index.css @theme ----------
      Phase-16 token-unification: legacy --tls-ink-* now ALIAS the Tailwind

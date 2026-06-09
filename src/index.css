@@ -393,9 +393,6 @@
   --color-success-vivid:  #347572; /* deeper teal-green — milestone completion */
   --color-success-bright: #228B55; /* classic green — level-up / top achievement */
 
-  /* Specialty accent colors — future features / editorial diversity */
-  --color-sage:         #73A68C; /* muted sage green — nature/wellbeing contexts */
-  --color-purple-accent:#7272CD; /* soft purple — AI features, insights, premium */
 }
 
 /* ============================================
@@ -524,6 +521,42 @@
       var(--color-surface-cyan) 0%,
       var(--color-surface-cream) 100%
     );
+  }
+
+  /* ── CTA gradients — boutons/interactif, gauche→droite ─────────────────
+     Miroirs des paint styles Figma Gradient/CTA/*. */
+  .bg-gradient-cta-brand {
+    background: linear-gradient(90deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+  }
+  .bg-gradient-cta-warm {
+    background: linear-gradient(90deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%);
+  }
+  .bg-gradient-cta-sun {
+    background: linear-gradient(90deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%);
+  }
+  .bg-gradient-cta-success {
+    background: linear-gradient(90deg, var(--color-success-base) 0%, var(--color-primary-500) 100%);
+  }
+
+  /* ── Hero gradients — dark full-bleed, vertical ─────────────────────────
+     Miroirs des paint styles Figma Gradient/Hero/*. */
+  .bg-gradient-hero-brand-deep {
+    background: linear-gradient(180deg, var(--color-primary-700) 0%, var(--color-primary-900) 100%);
+  }
+  .bg-gradient-hero-brand-navy {
+    background: linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-950) 100%);
+  }
+
+  /* ── Bubble / chat gradients — pastels doux, diagonal ───────────────────
+     Miroirs des paint styles Figma Gradient/Bubble/*. */
+  .bg-gradient-bubble-brand-light {
+    background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%);
+  }
+  .bg-gradient-bubble-warm-light {
+    background: linear-gradient(135deg, var(--color-secondary-100) 0%, var(--color-secondary-200) 100%);
+  }
+  .bg-gradient-bubble-sun-light {
+    background: linear-gradient(135deg, var(--color-accent-100) 0%, var(--color-accent-200) 100%);
   }
 }
 
