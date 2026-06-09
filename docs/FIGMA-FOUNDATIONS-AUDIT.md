@@ -4,7 +4,7 @@
 > (`LccBZ1GKWQVwVzPtsSzk5Y`, page `1093:2`) et les design tokens du code (`src/index.css` @theme).
 > Source de vérité = **`src/index.css` @theme**. Figma doit refléter le code, jamais l'inverse.
 
-Dernière passe : **2026-06-09** (session 7). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅ · **Button variants audit & glass variants ✅**.
+Dernière passe : **2026-06-09** (session 9). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅ · **Button variants audit & glass variants ✅** · **Foundations page §08 GRADIENTS nettoyée & réorganisée ✅**.
 
 ---
 
@@ -239,6 +239,16 @@ De plus, variantes directionnelles du soft-pastel :
 
 **Total final : 22 paint styles · 27 CSS gradient utilities.**
 
+**Session 9 — Foundations page §08 cleanup (2026-06-09) :**
+- Supprimés du canvas : 2 panneaux de review test (`§ Gradient Review — Canva vs Code` + `§ Gradient Review — État final`)
+- Supprimés de la section §08 : HEROES header + 2 swatch containers (Hero/Brand-Deep, Hero/Brand-Navy)
+- Supprimés de la section §08 : Soft/Pastel-V · CTA/Warm-V · CTA/Warm-D (styles déjà supprimés en session 8)
+- Compaction Soft Pastel row : Rev → x=1072 · Radial → x=1584 (comble le slot Pastel-V)
+- Compaction Warm Orange row : Warm-Rev → x=48 · Warm-Radial → x=560 (comble les slots V+D)
+- Tout décalé de 340px vers le haut (section Heroes ≈ 340px de hauteur libérée)
+- Descriptions mises à jour : cream `#fef3e2 → #fefaf5`, stop-orders radiaux corrigés (Brand/Deep-Radial navy center · Warm-Radial dark center)
+- Label compteur : "27 gradients" → **"22 gradients"** · "SOFT PASTEL (5 VARIANTS)" → **"(4 VARIANTS)"**
+
 ---
 
 ## 2. Ce qui a été fait
@@ -273,12 +283,12 @@ De plus, variantes directionnelles du soft-pastel :
 | 05 | SHADOWS | `1579:7` | ✅ | Terminé. |
 | 06 | EFFECTS | `1579:8` | ✅ | 6 `fg.opacity` bindés aux `opacity/*` NUMBER vars. Titre interne "Utility Tokens"→"Effects" (collision §09 résolue). |
 | 07 | MOTION | `2615:6` | ✅ | `instant(80ms)` + `expressive(800ms)` ajoutés au showcase. 6/6 durées. |
-| 08 | GRADIENTS | `2735:2` | ✅ | 27 paint styles + 32 CSS utilities + showcase 27 cards. +6 session 7 (brand-teal-deep + soft-pastel ×5) + 12 session 7b (brand/warm/sun directional ×4 each). |
+| 08 | GRADIENTS | `2735:2` | ✅ | 22 paint styles · showcase 22 cards · section nettoyée session 9 (Heroes + test panels supprimés, Pastel-V/Warm-V/D retirés, rangées compactées, descriptions synchro). |
 | 09 | UTILITY TOKENS | `2767:2` | ✅ | OPACITY SCALE supprimée (dup §06, §06 canonique car variable-bound). Footer recompté 149/23/20. Header desc nettoyé. |
 
 ### ✅ Foundations page complète — 9/9 sections en parité (2026-06-09)
 
-Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 27 paint styles (gradients)**.
+Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 22 paint styles (gradients)**.
 Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effects (31).
 
 ### Observation non-tranchée — overlap §06 ↔ §07
