@@ -4,7 +4,41 @@
 > (`LccBZ1GKWQVwVzPtsSzk5Y`, page `1093:2`) et les design tokens du code (`src/index.css` @theme).
 > Source de vérité = **`src/index.css` @theme**. Figma doit refléter le code, jamais l'inverse.
 
-Dernière passe : **2026-06-09** (session 2). Scope traité : §01 ink cleanup · §08 GRADIENTS · design-tokens.css dedup · section renaming.
+Dernière passe : **2026-06-09** (session 5). Scope traité : Foundations 9/9 ✅ · **audit Atoms (80) + Composites (97)**.
+
+---
+
+## 0. Audit Atoms & Composites (2026-06-09)
+
+Scan automatisé de **177 composants** (80 Atoms / 97 Composites, ~570 variants) pour détecter : fills opaques non-bindés à une variable, TEXT sans text-style, ombres sans effect-style, polices non-TLS.
+
+### Résultat global : pages quasi-pristines ✅
+
+| Page | Composants | Raw fills (réels) restants | Polices non-TLS | Variants mal nommés | Overlaps |
+|------|-----------|---------------------------|-----------------|--------------------|-------|
+| 🔵 Atoms | 80 | **2** (Button destructive — flaggé) | 0 ✅ | 0 ✅ | 0 ✅ |
+| 🟢 Composites | 97 | **0** ✅ | 0 ✅ | 0 ✅ | 0 ✅ |
+
+### Corrigé cette session
+
+**Polices Inter → Nunito (8 nœuds)** — seule police non-TLS trouvée :
+- Atoms : `AuthSuccess` ✓ · Composites : `EtapeAccordion` ×6 (lettres d'étape + chevrons), `ResourceListItem` "A".
+- ⚠️ Idéalement les chevrons `^`/`v` et le ✓ devraient être des icônes **Lucide** (cohérent CLAUDE.md) — swap Nunito = fix minimal anti-Inter.
+
+**Couleurs raw → variables TLS (16 binds)** :
+- `SkillBar` track → `accent/100` · `SectionCard` titres warm ×2 → `secondary/800`
+- `VeilleCard`/`VeilleCardListItem` meta gris ×6 → `ink/400` · catégorie → `accent/800`
+- `Badge` "Succès"/"Erreur" → `semantic/success-fg` / `danger-fg` (+ instance `GoalProgress` héritée auto ✅)
+- `DataTable` "Terminé"/"En attente" (raw `#16a34a`/`#d97706` tailwind) → `semantic/success-fg` / `warning-fg`
+- `EtapeAccordion` chevron gris → `ink/400` · `StreakCelebrationModal` "14" → `secondary/500`
+- `ErrorPage` CTA → `secondary/600` · icône alerte → `semantic/danger-base`
+
+**Nettoyage layout** : label de section orphelin flottant `§ 02 — Resume & Parcours` (doublon hors-frame) supprimé.
+
+**Décoratif accepté (non touché)** : glyphes emoji (medals ★🏆🔒, moods 🌱⚡, ActionCard 🎯📓💬) et guillemets/▶ — choix de design, pas un problème de token. NB : CLAUDE.md préfère Lucide aux emoji en *code* — séparé de cet audit.
+
+### 🟠 Décision en attente — Button destructive
+Variantes `destructive` (default `#d56c42`, hover `#bd5a32`) : coral non-bindé, **sans token danger-button** dans TLS (palette danger = `danger-base #F28559` / `danger-fg`). Le code utilise `bg-red-600` (tailwind brut) — lui-même hors-charte TLS (« pas de red brut »). À trancher : (a) créer `danger-strong`/`danger-deep` (code + Figma), (b) bind sur `danger-base` existant (perd la distinction hover), (c) laisser raw + documenter.
 
 ---
 
