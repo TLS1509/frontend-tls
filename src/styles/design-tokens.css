@@ -126,6 +126,9 @@
   --tls-danger-base:    #F28559;
   --tls-danger-light:   rgba(242, 133, 89, 0.06);   /* idle error overlay */
   --tls-danger-border:  rgba(242, 133, 89, 0.25);   /* error-state border */
+  /* Danger button — saturated fills (source de vérité = index.css @theme) */
+  --tls-danger-strong:  var(--color-danger-strong);
+  --tls-danger-deep:    var(--color-danger-deep);
 
   /* Info — TLS Primary teal */
   --tls-info-bg:        #E8F4F7;

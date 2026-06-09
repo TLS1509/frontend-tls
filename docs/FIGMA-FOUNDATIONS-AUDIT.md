@@ -37,10 +37,17 @@ Scan automatisé de **177 composants** (80 Atoms / 97 Composites, ~570 variants)
 
 **Décoratif accepté (non touché)** : glyphes emoji (medals ★🏆🔒, moods 🌱⚡, ActionCard 🎯📓💬) et guillemets/▶ — choix de design, pas un problème de token. NB : CLAUDE.md préfère Lucide aux emoji en *code* — séparé de cet audit.
 
-### 🟠 Button destructive — décision : (c) laisser raw, TODO tokens harmonisés
-Variantes `destructive` (default `#d56c42`, hover `#bd5a32`) : coral non-bindé, **sans token danger-button** dans TLS. Code = `bg-red-600` (tailwind brut, hors-charte). **Décision (2026-06-09)** : laisser raw pour l'instant (aucun changement Figma/code).
+### ✅ Button destructive — tokens harmonisés (2026-06-09)
+Variantes `destructive` : code migré de `bg-red-600` (tailwind brut) vers tokens TLS-charter.
 
-**TODO futur** : rechercher/définir une couleur destructive qui **harmonise avec les couleurs principales TLS** (primary teal `#55A1B4`, secondary orange `#ED843A`, accent `#F8B044`, danger coral `#F28559`) — p.ex. un terracotta/brique-rouge saturé distinct de secondary mais clairement « danger », à ajouter comme `danger-strong`/`danger-deep` dans `index.css` @theme + Figma, puis rebinder Button destructive (code + Figma). PAS de red tailwind brut.
+**Tokens définis (`src/index.css` @theme) :**
+- `--color-danger-strong: #C0432A` — terracotta brique saturé, WCAG AA ~5:1 sur blanc, hue ≈10° (distinct orange secondaire hue 25°)
+- `--color-danger-deep: #9B2F1B` — active/press, plus foncé
+- `--shadow-danger-md: 0 6px 16px rgba(192,67,42,0.40)` — glow hover
+
+**Button.tsx** : `bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm`
+
+**Figma TODO** : créer variables `TLS/Colors/danger/strong` (#C0432A) + `danger/deep` (#9B2F1B) dans la collection TLS/Colors, rebinder les fills du composant Button/destructive (Atoms page, component set 1109:58, variants ~3016:30/3016:32), ajouter swatches dans §01 COLORS semantic section.
 
 ---
 

@@ -137,6 +137,7 @@
   --shadow-warm-sm: 0 4px 12px rgba(237, 132, 58, 0.20);
   --shadow-warm-md: 0 2px 8px rgba(237, 132, 58, 0.40);
   --shadow-sun-sm: 0 4px 12px rgba(255, 183, 77, 0.30);
+  --shadow-danger-md: 0 6px 16px rgba(192, 67, 42, 0.40);
 
   /* ── Rayons — synced with --r-* in design-tokens.css ── */
   --radius-xs: 4px;
@@ -373,6 +374,12 @@
   --color-danger-bg:    #FEF4F0;
   --color-danger-fg:    #8F2A0E;
   --color-danger-base:  #F28559;
+  /* Danger button — saturated terracotta for destructive actions.
+     Distinct from soft coral (danger-base, alerts/badges) and from secondary
+     orange (hue 25°). These two tokens are the ONLY charter-compliant fills
+     for the Button destructive variant. */
+  --color-danger-strong: #C0432A;  /* button default fill — brick terracotta, WCAG AA on white */
+  --color-danger-deep:   #9B2F1B;  /* button active/press — darker terracotta */
 
   /* Warning — synced with TLS Yellow base */
   --color-warning-bg:   #FFF9EE;
@@ -613,4 +620,6 @@
   .hover\:shadow-warm-sm:hover { box-shadow: var(--shadow-warm-sm); }
   .hover\:shadow-warm-md:hover { box-shadow: var(--shadow-warm-md); }
   .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
+  .shadow-danger-md { box-shadow: var(--shadow-danger-md); }
+  .hover\:shadow-danger-md:hover { box-shadow: var(--shadow-danger-md); }
 }

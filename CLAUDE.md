@@ -265,7 +265,7 @@ className={tone === 'primary' ? 'bg-primary-500' : 'bg-secondary-500'}
 | État | bg | fg | base | Hex base | Notes |
 |---|---|---|---|---|---|
 | **success** | `bg-success-bg` | `text-success-fg` | `bg-success-base` | **#9DBEBA** | muted teal-green (PAS bright green) |
-| **danger**  | `bg-danger-bg`  | `text-danger-fg`  | `bg-danger-base`  | **#F28559** | soft coral (PAS bright red) |
+| **danger**  | `bg-danger-bg`  | `text-danger-fg`  | `bg-danger-base`  | **#F28559** | soft coral (PAS bright red) — pour alerts/badges. Pour **bouton destructive** : `bg-danger-strong` (#C0432A) rest · `active:bg-danger-deep` (#9B2F1B) — NE PAS utiliser `bg-red-600` |
 | **warning** | `bg-warning-bg` | `text-warning-fg` | `bg-warning-base` | **#F8B044** | TLS Yellow (= accent-400) |
 | **info**    | `bg-info-bg`    | `text-info-fg`    | `bg-info-base`    | **#55A1B4** | TLS Primary (= primary-500) |
 
@@ -317,6 +317,7 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --shadow-brand-sm / -md 🆕 | `shadow-brand-sm` / `shadow-brand-md` (teal teinté — CTA/hero brand) |
 | --shadow-warm-sm / -md 🆕 | `shadow-warm-sm` / `shadow-warm-md` (orange teinté) |
 | --shadow-sun-sm 🆕 | `shadow-sun-sm` (golden teinté) |
+| --shadow-danger-md 🆕 | `shadow-danger-md` (terracotta glow — bouton destructive hover) |
 
 Fichier de référence complet : `src/index.css` (@theme block)
 
