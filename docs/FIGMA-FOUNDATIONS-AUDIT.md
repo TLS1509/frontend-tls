@@ -208,26 +208,36 @@ Audit Canva Brand Kit TLS (`IG-FxaFkgzeXktc`) : 5 gradients inventoriés → 1 m
 
 | # | Canva | Code | Figma | Statut |
 |---|-------|------|-------|--------|
-| 1 | `#f0f9ff → #fef3e2` | `bg-gradient-soft-duo` | — | ✅ code |
-| 2 | `#f8b044 → #ed843a` | `bg-gradient-cta-sun` | `Gradient/CTA/Sun` | ✅ |
-| 3 | `#55a1b4 → #164267` | **`bg-gradient-brand-teal-deep`** 🆕 | **`Gradient/Brand/Teal-Deep`** 🆕 | ✅ ajouté |
+| 1 | `#f0f9ff → #fefaf5` | `bg-gradient-soft-duo` | — | ✅ code (cream adouci) |
+| 2 | `#f8b044 → #ed843a` | `bg-gradient-cta-sun` | `Gradient/CTA/Orange/Sun` | ✅ |
+| 3 | `#55a1b4 → #164267` | `bg-gradient-brand-teal-deep` | `Gradient/Brand/Teal-Deep` | ✅ |
 | 4 | `#164267 → #55a1b4` | `bg-gradient-brand-deep` | — | ✅ code |
-| 5 | `#f0f9ff → #f8fbfd → #fef3e2` (3 stops) | `bg-gradient-soft-pastel` | **`Gradient/Soft/Pastel`** 🆕 | ✅ ajouté |
+| 5 | `#f0f9ff → #f8fbfd → #fefaf5` (3 stops) | `bg-gradient-soft-pastel` | `Gradient/Soft/Pastel` | ✅ (cream adouci) |
 
-De plus, ajout des 4 variantes directionnelles du soft-pastel (miroirs des 5 style presets Canva) :
-- `Gradient/Soft/Pastel-H` → `.bg-gradient-soft-pastel-h` (90°) 🆕
-- `Gradient/Soft/Pastel-V` → `.bg-gradient-soft-pastel-v` (180°) 🆕
-- `Gradient/Soft/Pastel-Rev` → `.bg-gradient-soft-pastel-rev` (315°) 🆕
-- `Gradient/Soft/Pastel-Radial` → `.bg-gradient-soft-pastel-radial` (radial) 🆕
+De plus, variantes directionnelles du soft-pastel :
+- `Gradient/Soft/Pastel-H` → `.bg-gradient-soft-pastel-h` (90°)
+- ~~`Gradient/Soft/Pastel-V`~~ → ~~`.bg-gradient-soft-pastel-v`~~ (180°) — **supprimé** (absent Canva)
+- `Gradient/Soft/Pastel-Rev` → `.bg-gradient-soft-pastel-rev` (315°)
+- `Gradient/Soft/Pastel-Radial` → `.bg-gradient-soft-pastel-radial` (radial)
 
-**Session 7 total : 15 paint styles · 20 CSS gradient utilities · §08 showcase étendu à 15 cards.**
+**Session 7 total : 14 paint styles · 19 CSS gradient utilities.**
 
-**Session 7b — Directional variants brand/warm/sun (12 nouvelles) :**
-- `Gradient/Brand/Deep-{V,D,Rev,Radial}` → `.bg-gradient-brand-deep-{v,d,rev,radial}` 🆕
-- `Gradient/CTA/Warm-{V,D,Rev,Radial}` → `.bg-gradient-cta-warm-{v,d,rev,radial}` 🆕
-- `Gradient/CTA/Sun-{V,D,Rev,Radial}` → `.bg-gradient-cta-sun-{v,d,rev,radial}` 🆕
+**Session 7b — Directional variants brand/warm/sun :**
+- `Gradient/Brand/Deep-{V,D,Rev,Radial}` → `.bg-gradient-brand-deep-{v,d,rev,radial}`
+- ~~`Gradient/CTA/Warm-{V,D}`~~ — **supprimés** (absent Canva) · `Gradient/CTA/Orange/Warm-{Rev,Radial}` conservés
+- `Gradient/CTA/Orange/Sun-{V,D,Rev,Radial}` → `.bg-gradient-cta-sun-{v,d,rev,radial}`
 
-**Total final : 27 paint styles · 32 CSS gradient utilities · §08 showcase 27 cards.**
+**Session 8 — Canva sync + cleanup (2026-06-09) :**
+- `surface/cream` : `#fef3e2` → **`#fefaf5`** (moins orangé) — Figma variable + code + paint styles
+- Supprimés : `Gradient/CTA/Warm-V`, `Gradient/CTA/Warm-D`, `Gradient/Soft/Pastel-V`
+- Corrigé stop order : `Gradient/Brand/Deep-Radial` (navy center) · `Gradient/CTA/Orange/Warm-Radial` (dark center)
+- Regroupement : `Gradient/CTA/Warm-*` + `Gradient/CTA/Sun-*` → `Gradient/CTA/Orange/Warm-*` + `Gradient/CTA/Orange/Sun-*`
+- `soft-duo` : 2 stops → 3 stops avec mist (aligne sur Canva)
+- `Hero/Brand-Deep` + `Hero/Brand-Navy` : supprimés (paint styles + code)
+- Button ghost/brand-ghost : ajout `border border-primary-100 shadow-xs`
+- `Button.figma.tsx` + `figma.config.ts` : Code Connect préparé (publish quand Org plan)
+
+**Total final : 22 paint styles · 27 CSS gradient utilities.**
 
 ---
 

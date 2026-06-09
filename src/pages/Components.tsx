@@ -5129,13 +5129,13 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
             <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-pastel</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fef3e2</p>
+              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
             <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-duo</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → cream #fef3e2</p>
+              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
         </div>
