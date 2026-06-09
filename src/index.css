@@ -579,7 +579,8 @@
   }
 
   /* ── CTA gradients — boutons/interactif, gauche→droite ─────────────────
-     Miroirs des paint styles Figma Gradient/CTA/*. */
+     Miroirs des paint styles Figma Gradient/CTA/*.
+     Le 90° horizontal est le défaut (-h). Variants directionnels ci-dessous. */
   .bg-gradient-cta-brand {
     background: linear-gradient(90deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
   }
@@ -592,6 +593,32 @@
   .bg-gradient-cta-success {
     background: linear-gradient(90deg, var(--color-success-base) 0%, var(--color-primary-500) 100%);
   }
+
+  /* ── Directional variants — brand · warm · sun ───────────────────────────
+     4 directions × 3 familles de couleur TLS (pour héros, sections, cards).
+       -v     180° vertical  T→B  — hero pleine-hauteur, sections stacked
+       -d     135° diagonal  TL→BR — fond décoratif, cards premium
+       -rev   315° diagonal  BL→TR — variante miroir (warm-to-cool en bas)
+       -radial radial center — spot lumineux, illustration background
+     Stops identiques à la famille CTA de base (même palette, direction différente). */
+
+  /* BRAND teal (primary-950 navy → primary-500 teal) */
+  .bg-gradient-brand-deep-v      { background: linear-gradient(180deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-d      { background: linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-rev    { background: linear-gradient(315deg, var(--color-primary-950) 0%, var(--color-primary-500) 100%); }
+  .bg-gradient-brand-deep-radial { background: radial-gradient(ellipse at center, var(--color-primary-500) 0%, var(--color-primary-950) 100%); }
+
+  /* WARM orange (secondary-500 → secondary-600) */
+  .bg-gradient-cta-warm-v        { background: linear-gradient(180deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+  .bg-gradient-cta-warm-d        { background: linear-gradient(135deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+  .bg-gradient-cta-warm-rev      { background: linear-gradient(315deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+  .bg-gradient-cta-warm-radial   { background: radial-gradient(ellipse at center, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%); }
+
+  /* SUN yellow→orange (accent-400 → secondary-500) */
+  .bg-gradient-cta-sun-v         { background: linear-gradient(180deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
+  .bg-gradient-cta-sun-d         { background: linear-gradient(135deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
+  .bg-gradient-cta-sun-rev       { background: linear-gradient(315deg, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
+  .bg-gradient-cta-sun-radial    { background: radial-gradient(ellipse at center, var(--color-accent-400) 0%, var(--color-secondary-500) 100%); }
 
   /* ── Hero gradients — dark full-bleed, vertical ─────────────────────────
      Miroirs des paint styles Figma Gradient/Hero/*. */

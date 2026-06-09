@@ -163,7 +163,14 @@ De plus, ajout des 4 variantes directionnelles du soft-pastel (miroirs des 5 sty
 - `Gradient/Soft/Pastel-Rev` → `.bg-gradient-soft-pastel-rev` (315°) 🆕
 - `Gradient/Soft/Pastel-Radial` → `.bg-gradient-soft-pastel-radial` (radial) 🆕
 
-**Total final : 15 paint styles · 20 CSS gradient utilities · §08 showcase étendu à 15 cards.**
+**Session 7 total : 15 paint styles · 20 CSS gradient utilities · §08 showcase étendu à 15 cards.**
+
+**Session 7b — Directional variants brand/warm/sun (12 nouvelles) :**
+- `Gradient/Brand/Deep-{V,D,Rev,Radial}` → `.bg-gradient-brand-deep-{v,d,rev,radial}` 🆕
+- `Gradient/CTA/Warm-{V,D,Rev,Radial}` → `.bg-gradient-cta-warm-{v,d,rev,radial}` 🆕
+- `Gradient/CTA/Sun-{V,D,Rev,Radial}` → `.bg-gradient-cta-sun-{v,d,rev,radial}` 🆕
+
+**Total final : 27 paint styles · 32 CSS gradient utilities · §08 showcase 27 cards.**
 
 ---
 
@@ -199,12 +206,12 @@ De plus, ajout des 4 variantes directionnelles du soft-pastel (miroirs des 5 sty
 | 05 | SHADOWS | `1579:7` | ✅ | Terminé. |
 | 06 | EFFECTS | `1579:8` | ✅ | 6 `fg.opacity` bindés aux `opacity/*` NUMBER vars. Titre interne "Utility Tokens"→"Effects" (collision §09 résolue). |
 | 07 | MOTION | `2615:6` | ✅ | `instant(80ms)` + `expressive(800ms)` ajoutés au showcase. 6/6 durées. |
-| 08 | GRADIENTS | `2735:2` | ✅ | 15 paint styles + 20 CSS utilities + showcase 15 cards. +6 session 7 (brand-teal-deep + soft-pastel ×5 variants). |
+| 08 | GRADIENTS | `2735:2` | ✅ | 27 paint styles + 32 CSS utilities + showcase 27 cards. +6 session 7 (brand-teal-deep + soft-pastel ×5) + 12 session 7b (brand/warm/sun directional ×4 each). |
 | 09 | UTILITY TOKENS | `2767:2` | ✅ | OPACITY SCALE supprimée (dup §06, §06 canonique car variable-bound). Footer recompté 149/23/20. Header desc nettoyé. |
 
 ### ✅ Foundations page complète — 9/9 sections en parité (2026-06-09)
 
-Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 15 paint styles (gradients)**.
+Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 27 paint styles (gradients)**.
 Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effects (31).
 
 ### Observation non-tranchée — overlap §06 ↔ §07
