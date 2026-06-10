@@ -1394,8 +1394,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Button.tsx',
     cssBase: '.btn',
     category: 'Core',
-    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 9 variants : primary, secondary (orange), accent (yellow), ghost (light teal), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), link.',
-    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'destructive', 'link', 'glass', 'frosted'],
+    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 11 variants : primary, secondary (orange), accent (yellow), ghost (light teal fill), outline (transparent + teal border), outline-warm (transparent + orange border), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), link.',
+    keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'outline-warm', 'destructive', 'link', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="hstack">
@@ -1405,6 +1405,11 @@ const COMPONENTS: ComponentEntry[] = [
           <Button variant="ghost">Ghost</Button>
           <Button variant="destructive">Destructive</Button>
           <Button variant="link">Link</Button>
+        </div>
+        {/* Outline variants — transparent bg + colored border */}
+        <div className="hstack">
+          <Button variant="outline">Outline primary</Button>
+          <Button variant="outline-warm">Outline warm</Button>
         </div>
         <div className="hstack">
           <Button size="sm">Small</Button>

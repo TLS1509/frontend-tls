@@ -7,7 +7,9 @@ import React from 'react';
  *   - primary:           one per screen, main task (teal #4A8FA1)
  *   - secondary:         alternative actions / warm CTA (orange #ED843A)
  *   - accent:            celebration / highlight (yellow #DF9E3D)
- *   - ghost:             soft brand action (light teal bg)
+ *   - ghost:             soft brand action (light teal bg, very subtle border)
+ *   - outline:          transparent bg + visible teal border (mid-weight between ghost and primary)
+ *   - outline-warm:     transparent bg + visible orange border
  *   - destructive:       delete / irreversible
  *   - glass:             on DARK tinted/gradient surfaces (text-white, semi-transparent)
  *   - glass-light:       ⭐ on LIGHT tinted surfaces (cards EntryCard/SessionCard tinted) — filled frosted white
@@ -32,6 +34,8 @@ export type ButtonVariant =
   | 'secondary'
   | 'accent'
   | 'ghost'
+  | 'outline'
+  | 'outline-warm'
   | 'destructive'
   | 'glass'
   | 'glass-light'
@@ -64,7 +68,7 @@ export interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
 }
 
-const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer border-none transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow + subtle lift via translate-y
@@ -75,6 +79,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
   accent:      'bg-accent-400 text-ink-900 shadow-sm hover:shadow-sun-sm hover:bg-accent-300 active:bg-accent-600 active:shadow-sm',
   ghost:       'bg-primary-50 text-primary-800 border border-primary-100 shadow-xs hover:bg-primary-100 hover:border-primary-200 hover:shadow-sm active:bg-primary-200 active:border-primary-200',
+  /* outline : transparent bg + visible colored border — mid-weight between ghost and primary */
+  outline:     'bg-transparent text-primary-700 border border-primary-400 shadow-xs hover:bg-primary-50 hover:border-primary-500 hover:shadow-sm active:bg-primary-100 active:border-primary-500',
+  'outline-warm': 'bg-transparent text-secondary-700 border border-secondary-400 shadow-xs hover:bg-secondary-50 hover:border-secondary-500 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-500',
   destructive: 'bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
   /* glass : pour surfaces DARK (hero brand, auth glass-dark) — semi-transparent + text-white */
   glass:       'bg-white/20 text-white border border-white/30 backdrop-blur-sm hover:bg-white/35 hover:border-white/50',
