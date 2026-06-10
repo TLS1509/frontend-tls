@@ -774,6 +774,28 @@ const SectionHeader = (...) => (
 
 **Action générale** : auditer tout composant exporté qui applique `mb-*` / `mt-*` sur son root → retirer et confier au parent. Exception : composants standalone qui assument leur propre layout (ex. `PageHeader` peut avoir un `mb-section` car il définit le top-of-page rhythm).
 
+### ⚠️ Piège n°13 : `border-none` dans BASE bloque les `border` des variants
+
+Tailwind v4 `border-none` set **`border-style: none`** (pas seulement `border-width: 0`). Si BASE contient `border-none`, tous les variants qui ajoutent `border border-X-Y` se retrouvent avec `border-style: none` — la bordure existe dans le DOM (width=1px, color=X) mais n'est **pas rendue** car le style est `none`.
+
+**Symptôme** : ghost, outline, glass-brand → `borderTopWidth: 1px` en JS mais visuellement invisible. `getComputedStyle(btn).borderTopStyle` retourne `"none"`.
+
+**Pourquoi `border-0` ne règle pas le problème** : `border-0` set seulement `border-width: 0`. Dans le CSS généré par Tailwind, `.border-0` apparaît APRÈS `.border` → `border-0` gagne sur la valeur de width du variant.
+
+**Fix** : **ne mettre aucun reset border dans BASE**. Tailwind Preflight (`@import "tailwindcss"`) déjà reset tous les éléments à `border-width: 0; border-style: solid`. Les variants avec `border border-X-Y` fonctionnent donc directement : width passe à 1px, style reste `solid`, color = X. Les variants sans `border` gardent width=0 → pas de bordure.
+
+```tsx
+// ❌ MAUVAIS — border-none écrase border-style:solid du Preflight
+const BASE = '... border-none ...';
+// variant ghost: 'border border-primary-100 ...' → border-style:none → invisible !
+
+// ✅ BON — pas de reset border dans BASE
+const BASE = '... transition-all ...';  // Preflight gère le défaut à 0/solid
+// variant ghost: 'border border-primary-100 ...' → 1px solid primary-100 ✅
+```
+
+**Action générale** : ne jamais ajouter `border-none` ou `border-0` dans la BASE d'un composant qui a des variants avec `border`. Vérifier avec `getComputedStyle(el).borderTopStyle === 'solid'` après migration.
+
 ### ⚠️ Règle : pas de SVG inline custom — utiliser Lucide
 
 `lucide-react` est notre librairie d'icônes par défaut. **Ne jamais hardcoder un `<svg>` inline** dans un composant si Lucide propose l'équivalent.
