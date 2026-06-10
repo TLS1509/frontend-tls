@@ -43,8 +43,8 @@ const SIZE_CLASSES: Record<InputSize, string> = {
 
 const STATUS_CLASSES: Record<InputStatus, string> = {
   default: 'border-ink-300',
-  success: 'border-emerald-500',
-  error: 'border-red-500',
+  success: 'border-success-base',
+  error: 'border-danger-base',
 };
 
 const DISABLED_CLASSES =
@@ -95,7 +95,7 @@ export const Input: React.FC<InputProps> = ({
         >
           {label}
           {required && (
-            <span className="text-red-600 ml-0.5" aria-hidden="true">
+            <span className="text-danger-fg ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -142,7 +142,7 @@ export const Input: React.FC<InputProps> = ({
           id={`${fieldId}-message`}
           className={
             error
-              ? 'text-caption text-red-700 flex items-center gap-1'
+              ? 'text-caption text-danger-fg flex items-center gap-1'
               : 'text-caption text-ink-500'
           }
           role={error ? 'alert' : undefined}

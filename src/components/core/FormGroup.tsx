@@ -36,7 +36,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
 
   const labelClasses = [
     'text-body-sm font-semibold flex items-center gap-1',
-    hasError ? 'text-red-600' : 'text-ink-900',
+    hasError ? 'text-danger-fg' : 'text-ink-900',
     layout === 'horizontal' && 'sm:shrink-0 sm:min-w-[150px]',
   ]
     .filter(Boolean)
@@ -48,7 +48,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
         <label htmlFor={id} className={labelClasses}>
           {label}
           {required && (
-            <span className="text-red-600 font-bold" aria-hidden="true">
+            <span className="text-danger-fg font-bold" aria-hidden="true">
               *
             </span>
           )}
@@ -58,7 +58,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
       <div className="flex-1 flex flex-col gap-2">
         {children}
         {hasError ? (
-          <p className="text-caption text-red-700 flex items-center gap-1" role="alert">
+          <p className="text-caption text-danger-fg flex items-center gap-1" role="alert">
             {error}
           </p>
         ) : hint ? (

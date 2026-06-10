@@ -373,7 +373,7 @@ export const AuthField: React.FC<AuthFieldProps> = ({
         className={[
           INPUT_WITH_ICON_BASE,
           AUTH_INPUT_CLASSES,
-          hasError ? '!border-rose-300/70 !bg-rose-500/10' : '',
+          hasError ? '!border-danger-base/70 !bg-danger-base/10' : '',
         ]
           .filter(Boolean)
           .join(' ')}
@@ -382,7 +382,7 @@ export const AuthField: React.FC<AuthFieldProps> = ({
         <input id={inputId} className={RAW_INPUT_CLASSES} {...rest} />
         {trailing}
       </div>
-      {error && <p className="m-0 text-caption text-rose-200">{error}</p>}
+      {error && <p className="m-0 text-caption text-danger-base">{error}</p>}
     </div>
   );
 };
