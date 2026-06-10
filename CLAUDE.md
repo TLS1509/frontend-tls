@@ -296,6 +296,19 @@ Pour les **overlays diffus** (lesson cards, error states, completion borders), u
 | --font-body | `font-body` |
 | --font-mono | `font-mono` |
 
+#### Letter-spacing (tracking) — échelle graduée (2026-06-10)
+
+Tracking **gradué** : plus le titre est gros, plus on serre ; le corps reste neutre. Aligné 1:1 sur les text styles Figma (h1 -3% · h2/h3 -2.5% · h4 -2% · body 0). Les utilities `text-h1`…`text-h4` portent désormais le letter-spacing via `--text-h*--letter-spacing` ; les règles élément `h1-h4` (globals.css / design-tokens.css) consomment les mêmes tokens.
+
+| Token | Valeur | Appliqué à |
+|---|---|---|
+| `--tracking-display` | -0.03em | display, h1 (`text-h1`) |
+| `--tracking-headline` | -0.025em | h2, h3 (`text-h2`/`text-h3`) |
+| `--tracking-snug` | -0.02em | h4 (`text-h4`) |
+| (neutre) | 0 | body, caption, micro, button |
+
+> ⚠️ Ne **jamais** revenir à un `-0.02em` plat sur tous les headings (flat scale = anti-pattern). Le marketing BEM (`display-*`, `pole__title`) garde son propre tracking — hors de ce système `@theme`.
+
 ### Espaces & Rayons
 | Token | Classe Tailwind |
 |---|---|
@@ -397,7 +410,7 @@ Fichier de référence complet : `src/index.css` (@theme block)
 | `--ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` | DEFAULT |
 | `--ease-decelerate` | `cubic-bezier(0, 0, 0.2, 1)` | entrées (modal-in, dropdown) |
 | `--ease-accelerate` | `cubic-bezier(0.4, 0, 1, 1)` | sorties (modal-out) |
-| `--ease-emphasis` | `cubic-bezier(0.2, 0, 0, 1.15)` | overshoot léger (celebration) |
+| `--ease-emphasis` | `cubic-bezier(0.22, 1, 0.36, 1)` | ease-out-quint expressif (celebration, achievement reveal) — pas de rebond |
 
 ```tsx
 <div className="transition-all duration-base ease-standard" />

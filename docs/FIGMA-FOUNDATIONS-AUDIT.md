@@ -4,7 +4,52 @@
 > (`LccBZ1GKWQVwVzPtsSzk5Y`, page `1093:2`) et les design tokens du code (`src/index.css` @theme).
 > Source de vérité = **`src/index.css` @theme**. Figma doit refléter le code, jamais l'inverse.
 
-Dernière passe : **2026-06-09** (session 9). Scope traité : Foundations 9/9 ✅ · Atoms (80) ✅ · Composites (97) ✅ · Flows & Écrans (10 pages) ✅ · Brand Identity ✅ · Icons ✅ · Marketing Motion ✅ · **Button variants audit & glass variants ✅** · **Foundations page §08 GRADIENTS nettoyée & réorganisée ✅**.
+Dernière passe : **2026-06-10** (session 10). Foundations agency-grade : **12/12 sections** (§10 GRID & LAYOUT, §11 STATES & FOCUS, §12 CONTRAST ajoutées) · tracking gradué propagé au code · `ease/emphasis` aligné · panneaux review nettoyés.
+
+---
+
+## 0e. Session 10 — Foundations agency-grade + parité tracking (2026-06-10)
+
+### Décisions de tokens propagées (session 9.5 → 10)
+- **Body text** : `--color-ink-900` restauré à **#252B37** (TLS teal-tinted, AAA) — code + Figma var `ink/900` + `text/strong` (alias ink/900).
+- **warning-fg** : **#2f1c13** (dark editorial brown, AAA 8.70:1 sur accent-400 jaune — vérifié §12) — code + Figma var.
+- **brown/editorial** : nouvelle var #2f1c13 (= warning-fg, dispo pour usage éditorial).
+- **achievement/*** : supprimés (code + 3 Figma vars).
+
+### `ease/emphasis` — aligné sur le code
+Figma var + label §07 MOTION + CLAUDE.md : `cubic-bezier(0.2, 0, 0, 1.15)` (overshoot) → **`cubic-bezier(0.22, 1, 0.36, 1)`** (ease-out-quint, sans rebond). Source de vérité = code.
+
+### Tracking gradué — promu dans le code (parité Figma↔app)
+Les text styles Figma portaient déjà une échelle graduée (h1 -3% · h2/h3 -2.5% · h4 -2%) ; le code était plat (-0.02em). **Code rattrapé** :
+- `@theme` : `--tracking-display` (-0.03), `--tracking-headline` (-0.025), `--tracking-snug` (-0.02) + sub-props `--text-h{1-4}--letter-spacing`.
+- `globals.css` + `design-tokens.css` : règles élément h1-h4 → tokens.
+- Vérifié computed : `text-h1` -0.03em · `text-h2` -0.025em · `text-h4` -0.02em ✅ (1:1 Figma).
+- §02 doc : 3ᵉ carte `--tracking-snug` ajoutée, carte headline corrigée (h2,h3).
+- Marketing BEM (`display-*`/`pole__title`) intouché — système séparé.
+
+### 3 nouvelles sections agency-grade
+| § | Section | Node | Contenu |
+|---|---------|------|---------|
+| 10 | GRID & LAYOUT | `3481:26` | 5 breakpoints Tailwind v4 (sm 640→2xl 1536) + grille 12-col + ref containers §03 |
+| 11 | STATES & FOCUS | `3482:26` | state model bouton (rest/hover/active/focus-visible/disabled) + focus ring spec |
+| 12 | CONTRAST | `3484:26` | matrice WCAG 8 paires clés, ratios calculés + badges AA/AAA/FAIL |
+
+Chaque section clone le panneau « TOKEN GUIDELINES » de §03 (`3116:36`) pour cohérence stricte.
+
+### ⚠️ Finding §12 — contrastes échoués (à traiter hors Foundations)
+- **white / secondary-500 (#ED843A) = 2.64:1 → FAIL** (variant `warm` de Button.tsx). Affecte tous les CTA orange.
+- **white / primary-600 = 3.66:1 → AA Large seulement** (limite pour labels semibold).
+- → tâche séparée spawn (fix couleur CTA), **pas** corrigé en session 10 (décision brand app-wide).
+
+### Cleanup
+3 panneaux review session-10 supprimés du canvas (Dark Yellow Calibration, Comparaison body text, Décisions body/warning — décisions actées).
+
+### Audit component sets post-token-changes (Atoms 1095:2 + Composites 1122:2)
+Scan parité après restauration ink-900 #252B37 / warning-fg #2f1c13 / suppression achievement :
+- **42 fills TEXT raw `#1a1a1a`** (ancien ink-900) → **rebindés sur var `ink/900`** (#252B37). En-têtes de groupes (League Spartan 17) + textes d'exemple de composants.
+- **0** binding cassé vers vars achievement supprimées · **0** raw warning-fg (#7C5822) stale (usages étaient bindés → auto-MAJ).
+- Après fix : **0** `#1a1a1a` raw restant · **195** nodes texte bindés `ink/900` résolvant #252b37.
+- Notion DS DB : 3 tokens tracking + 3 sections Foundations (Guideline) créés.
 
 ---
 
@@ -46,22 +91,19 @@ Technique : opacités via `boundVariables` direct (pas `setBoundVariableForPaint
 - **Omis** : `state=active` — intentionnel, Button.tsx ne définit pas d'`active:` pour `glass`
 - Total : 4 → **6 enfants** dans 1109:67
 
-### ⚠️ Discrepancy ghost/secondary — décision requise
+### ✅ ghost/secondary — résolu (2026-06-09, vérification API directe)
 
-Le code **Button.tsx actuel** (source de vérité) diverge du CLAUDE.md + de la table du brief :
+Vérification via Plugin API (use_figma) sur le component set `1109:58` :
 
-| Variant | Figma actuel | Code Button.tsx | CLAUDE.md (outdated) |
+| Variant | Figma (vérifié) | Code Button.tsx | Statut |
 |---|---|---|---|
-| `variant=ghost` | transparent, text ink/900 | **bg-primary-50, text-primary-800** | bg-transparent |
-| `variant=secondary` | gray outline (ink/100 bg) | **bg-secondary-500 = orange** | bg-neutral-100 |
-| `variant=brand-ghost` | bg primary/50 (= code ghost) | Deprecated alias de ghost | bg-primary-50 |
+| `variant=ghost` | fill `primary/50` (#E8F4F7) · text `primary/800` (#2F5F6A) | `bg-primary-50 text-primary-800` | ✅ aligné |
+| `variant=secondary` | **n'existe pas** dans le component set | alias de `warm` (même classes) | ✅ pas de divergence |
+| `variant=brand-ghost` | existe, identique à ghost | alias de `ghost` (même classes) | ✅ aligné |
 
-**Action laissée à l'utilisateur** : décider si le code a été intentionnellement mis à jour ou s'il faut revenir en arrière. Options :
-1. ✅ Mettre à jour Figma `ghost` → primary/50 bg + primary/800 text (pour matcher le code)
-2. ✅ Renommer Figma `secondary` → `secondary-outline` (ou autre) pour distinguer du orange
-3. ❓ Revenir sur le code (remettre ghost=transparent, secondary=gray)
+Variants présents dans Figma : `primary · warm · ghost · brand-ghost · destructive · link · accent · glass-light · glass-light-ghost · glass-brand · glass-warm · glass-sun`
 
-Non touché pour éviter de casser les screens existants.
+Le doc précédent capturait un état déjà corrigé. Aucune action requise.
 
 ---
 
@@ -285,8 +327,11 @@ De plus, variantes directionnelles du soft-pastel :
 | 07 | MOTION | `2615:6` | ✅ | `instant(80ms)` + `expressive(800ms)` ajoutés au showcase. 6/6 durées. |
 | 08 | GRADIENTS | `2735:2` | ✅ | 22 paint styles · showcase 22 cards · section nettoyée session 9 (Heroes + test panels supprimés, Pastel-V/Warm-V/D retirés, rangées compactées, descriptions synchro). |
 | 09 | UTILITY TOKENS | `2767:2` | ✅ | OPACITY SCALE supprimée (dup §06, §06 canonique car variable-bound). Footer recompté 149/23/20. Header desc nettoyé. |
+| 10 | GRID & LAYOUT | `3481:26` | ✅ | NEW (session 10). 5 breakpoints Tailwind v4 + grille 12-col + ref containers §03. |
+| 11 | STATES & FOCUS | `3482:26` | ✅ | NEW (session 10). State model bouton + focus ring spec. |
+| 12 | CONTRAST | `3484:26` | ✅ | NEW (session 10). Matrice WCAG 8 paires, ratios calculés. Findings: secondary-500 FAIL, primary-600 AA-Large. |
 
-### ✅ Foundations page complète — 9/9 sections en parité (2026-06-09)
+### ✅ Foundations page complète — 12/12 sections en parité (2026-06-10)
 
 Compteurs finaux vérifiés via Plugin API : **149 variables · 23 text styles · 20 effect styles · 22 paint styles (gradients)**.
 Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effects (31).
@@ -299,11 +344,17 @@ Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effec
 
 ---
 
-## 4. Décisions résolues (session 2)
+## 4. Décisions résolues
 
-1. ✅ **`ink/450` + `ink/550`** — option (b) choisie : supprimés de Figma, rebindés sur ink/400 et ink/500.
+1. ✅ **`ink/450` + `ink/550`** — supprimés de Figma, rebindés sur ink/400 et ink/500.
 2. ✅ **`design-tokens.css` palettes hardcodées** — aliasées sur `var(--color-*)`.
 3. ✅ **§08 GRADIENTS** — 9 utilities CSS créées + stops Figma variabilisés.
+4. ✅ **Button ghost/secondary** — alignés (vérifié API 2026-06-09). Pas d'action.
+5. ✅ **success-vivid/bright** — existent en Figma (`#347572` / `#228b55`), confirmés identiques au code.
+6. ✅ **Text style binding — règle arrêtée (2026-06-09)** :
+   - **Niveau 1 — composants** : binding obligatoire (production path).
+   - **Niveau 2 — screens/frames** : binding obligatoire (~460 orphelins pages 07-09, backlog P2).
+   - **Niveau 3 — documentation DS canvas** (labels Foundations, descriptions, annotations) : non requis — doc interne, jamais en production.
 
 ---
 
