@@ -73,7 +73,7 @@ const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-bo
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:     'bg-primary-600 text-white shadow-sm hover:shadow-brand-md hover:bg-primary-500 active:bg-primary-800 active:shadow-sm',
   secondary:   'bg-secondary-500 text-white shadow-sm hover:shadow-warm-md hover:bg-secondary-400 active:bg-secondary-700 active:shadow-sm',
-  accent:      'bg-accent-400 text-white shadow-sm hover:shadow-sun-sm hover:bg-accent-300 active:bg-accent-600 active:shadow-sm',
+  accent:      'bg-accent-400 text-ink-900 shadow-sm hover:shadow-sun-sm hover:bg-accent-300 active:bg-accent-600 active:shadow-sm',
   ghost:       'bg-primary-50 text-primary-800 border border-primary-100 shadow-xs hover:bg-primary-100 hover:border-primary-200 hover:shadow-sm active:bg-primary-200 active:border-primary-200',
   destructive: 'bg-danger-strong text-white shadow-sm hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
   /* glass : pour surfaces DARK (hero brand, auth glass-dark) — semi-transparent + text-white */

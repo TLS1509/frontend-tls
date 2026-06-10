@@ -51,6 +51,14 @@ Scan parité après restauration ink-900 #252B37 / warning-fg #2f1c13 / suppress
 - Après fix : **0** `#1a1a1a` raw restant · **195** nodes texte bindés `ink/900` résolvant #252b37.
 - Notion DS DB : 3 tokens tracking + 3 sections Foundations (Guideline) créés.
 
+### Audit détaillé Button component set (1109:58, 97 variants) vs Button.tsx
+Comparaison variant × état (bg/border/text bound vars) :
+- ✅ primary · warm · ghost · brand-ghost · destructive · link · glass-light · glass-light-ghost · glass-brand · glass-warm · glass-sun — **bg/border/text + tous états (hover/active/focus/disabled) matchent le code** 1:1.
+- ✅ destructive → `semantic/danger-strong` (rest/hover) + `danger-deep` (active). ghost → primary-50 + border primary-100. focus → border primary/500 sw2 (= focus ring).
+- ⚠️ **FIX code** : variant `accent` avait `text-white` (sur accent-400 jaune = ~1.6:1 FAIL WCAG). Figma = `ink/900` (correct). **Button.tsx corrigé** : `accent` → `text-ink-900` (vérifié /components : rgb(37,43,55) sur jaune = lisible, ~8.8:1 AAA).
+- 🔎 Mineur non bloquant : BASE Button a `tracking-tight` (-0.025em) sur les labels alors que les Button text styles Figma sont à 0%. Imperceptible, non corrigé.
+- Rappel : variant `glass` (dark) vit dans le set séparé `1109:67` (non re-audité ici).
+
 ---
 
 ## 0c. Audit Button variants + glass variants (2026-06-09 — session 7)
