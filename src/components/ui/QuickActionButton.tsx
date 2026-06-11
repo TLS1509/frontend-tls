@@ -94,7 +94,7 @@ const SURFACE_TONE: Record<QuickActionSurface, Record<QuickActionTone, string>> 
 };
 
 const BASE =
-  'group flex items-center gap-3 w-full px-4 py-3 rounded-xl border text-left cursor-pointer transition-all duration-base hover:shadow-sm hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0';
+  'group flex items-center gap-3 w-full px-4 py-3 rounded-xl border text-left cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis hover:shadow-sm hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0';
 
 export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   icon,
@@ -119,7 +119,7 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
       <span
         aria-hidden="true"
         className={[
-          'inline-flex items-center justify-center w-10 h-10 rounded-lg shrink-0 transition-colors',
+          'inline-flex items-center justify-center w-10 h-10 rounded-lg shrink-0 transition-[background-color] duration-fast ease-emphasis',
           TONE_BUBBLE[tone],
         ].join(' ')}
       >
@@ -144,7 +144,7 @@ export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
         strokeWidth={2.25}
         aria-hidden="true"
         className={[
-          'shrink-0 transition-transform group-hover:translate-x-0.5 group-disabled:hidden',
+          'shrink-0 transition-[transform] duration-fast ease-emphasis group-hover:translate-x-0.5 group-disabled:hidden',
           TONE_CHEVRON[tone],
         ].join(' ')}
       />

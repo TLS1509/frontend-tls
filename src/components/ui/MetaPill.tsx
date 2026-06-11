@@ -13,7 +13,7 @@ export interface MetaPillProps {
 }
 
 const BASE =
-  'inline-flex items-center rounded-pill font-body font-medium whitespace-nowrap select-none transition-all duration-200 border';
+  'inline-flex items-center rounded-pill font-body font-medium whitespace-nowrap select-none transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis border';
 
 const SIZE_CLASSES: Record<MetaPillSize, string> = {
   sm: 'text-micro px-2 py-0.5 gap-1',
@@ -34,7 +34,7 @@ const TONE_CLASSES: Record<MetaPillTone, string> = {
 };
 
 const CLICKABLE =
-  'cursor-pointer hover:-translate-y-px hover:shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'cursor-pointer hover:-translate-y-px hover:shadow-xs active:translate-y-0 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 const ICON_OPACITY = '[&_svg]:opacity-75';
 
