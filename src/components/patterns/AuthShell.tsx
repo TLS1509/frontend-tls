@@ -331,7 +331,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
 
 // ─── Form sub-components (high-level — to use inside AuthShell.form) ────────
 
-export interface AuthFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+export interface AuthFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'> {
   /** Field label rendered above the input. */
   label: React.ReactNode;
   /** Optional leading icon (e.g. <Mail size={18} />). */

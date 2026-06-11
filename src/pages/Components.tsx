@@ -235,7 +235,7 @@ import { FilterableCardGrid } from '../components/ui/FilterableCardGrid';
  * ============================================================================ */
 
 // Legacy category (kept for backward compat with existing entries — overridden by REMAP below)
-type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals' | 'Feedback';
+type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals' | 'Feedback' | 'Composites';
 
 // New rules-based taxonomy (13 categories)
 type NewCategory =
@@ -261,6 +261,7 @@ interface ComponentEntry {
   codeName: string;          // File: Button.tsx
   cssBase: string;           // .btn
   category: Category;        // legacy — kept for backward compat
+  subCategory?: SubCategory; // optional inline sub-category (used when entry is not in REMAP)
   description: string;
   keywords: string[];        // extra searchable terms
   /** True when the component is only referenced from the Components showcase (not consumed by any real app page). */
@@ -572,6 +573,7 @@ const resolveMeta = (entry: ComponentEntry): { category: NewCategory; subCategor
     Content: 'Cards',
     Navigation: 'Navigation',
     Modals: 'Modals',
+    Composites: 'Composites',
   };
   return { category: legacyToNew[entry.category] ?? 'Cards', subCategory: 'Other' };
 };

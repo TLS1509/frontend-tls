@@ -87,7 +87,7 @@ const STAT_TONE: Record<'brand' | 'warm' | 'sun', { value: string; trend: string
 export const Dossier: React.FC = () => {
   const navigate = useNavigate();
   const { id = '1' } = useParams<{ id: string }>();
-  const articleRef = useRef<HTMLElement>(null);
+  const articleRef = useRef<HTMLDivElement>(null);
   const bookmarkKey = `dossier-${id}`;
   const saved = useBookmarksStore((s) => s.ids.includes(bookmarkKey));
   const toggleBookmark = useBookmarksStore((s) => s.toggle);

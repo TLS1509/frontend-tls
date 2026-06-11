@@ -74,7 +74,7 @@ const RELATED = [
 export const WeeklyNewsDetail: React.FC = () => {
   const navigate   = useNavigate();
   const { id = '1' } = useParams<{ id: string }>();
-  const articleRef = useRef<HTMLElement>(null);
+  const articleRef = useRef<HTMLDivElement>(null);
   const bookmarkKey = `weekly-news-${id}`;
   const saved   = useBookmarksStore((s) => s.ids.includes(bookmarkKey));
   const toggleBookmark = useBookmarksStore((s) => s.toggle);

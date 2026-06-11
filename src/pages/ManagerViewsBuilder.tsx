@@ -95,7 +95,7 @@ const ManagerViewsBuilder: React.FC = () => {
                   <button
                     key={c.v}
                     onClick={() => setChartType(c.v)}
-                    className={`p-3 rounded-lg border-2 flex flex-col items-center gap-1 transition-all ${
+                    className={`p-3 rounded-lg border-2 flex flex-col items-center gap-1 transition-[border-color,background-color] duration-fast ease-standard ${
                       chartType === c.v ? 'border-primary-500 bg-primary-50' : 'border-ink-200 hover:border-primary-300'
                     }`}
                   >

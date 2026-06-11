@@ -84,7 +84,7 @@ const TODOS = [
 
 export const JournalDetail: React.FC = () => {
   const navigate = useNavigate();
-  const articleRef = useRef<HTMLElement>(null);
+  const articleRef = useRef<HTMLDivElement>(null);
   const [todos, setTodos] = useState(TODOS);
 
   const toggleTodo = (i: number) =>
