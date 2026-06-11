@@ -51,7 +51,7 @@ export const AUTH_INPUT_CLASSES =
   'focus:border-white/40 focus:bg-white/15 focus:ring-2 focus:ring-white/20 ' +
   'hover:border-white/30';
 
-export const AUTH_LABEL_CLASSES = 'text-white/85 font-semibold';
+export const AUTH_LABEL_CLASSES = 'text-white font-semibold';
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -332,7 +332,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
 
 const FIELD_WRAPPER = 'flex flex-col gap-1.5';
 const INPUT_WITH_ICON_BASE =
-  'flex items-center gap-2 h-12 rounded-xl px-3.5 transition-all duration-200';
+  'flex items-center gap-2 h-12 rounded-xl px-3.5 py-2.5 transition-all duration-200';
 const RAW_INPUT_CLASSES =
   'flex-1 bg-transparent border-0 outline-none text-white placeholder:text-white/55 focus:outline-none';
 
