@@ -559,6 +559,7 @@ export const LessonPlayer: React.FC = () => {
     persistedEntry?.actionPlan ?? { objectif: '', action1: '', action2: '', action3: '' }
   );
   const [showFeedback, setShowFeedback] = useState(false);
+  const [uploadedSrcs, setUploadedSrcs] = useState<Record<number, string>>({});
 
   const ctx = resolveLessonContext(pathId, lessonId);
   const lessonData = LESSON_DATA[lessonId] ?? DEFAULT_LESSON_DATA;
@@ -849,18 +850,33 @@ export const LessonPlayer: React.FC = () => {
           '1/1': 'aspect-square', '3/2': 'aspect-[3/2]',
         };
         const arClass = ASPECT[block.aspectRatio ?? '16/9'];
+        const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
           <div key={key} className="mb-6">
-            {block.src ? (
+            {resolvedSrc ? (
               <div className={`w-full ${arClass} overflow-hidden rounded-xl`}>
-                <img src={block.src} alt={block.alt} className="w-full h-full object-cover" />
+                <img src={resolvedSrc} alt={block.alt} className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-2`}>
+              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-3`}>
                 <ImageIcon size={32} className="text-ink-400" />
                 <span className="font-body text-body-sm text-ink-500 text-center px-4">
                   Image à connecter · Unsplash / Backoffice
                 </span>
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
+                    }}
+                  />
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                    <ImageIcon size={13} /> Choisir un fichier
+                  </span>
+                </label>
               </div>
             )}
             {block.caption && (
@@ -872,18 +888,33 @@ export const LessonPlayer: React.FC = () => {
 
       case 'video': {
         const arClass = (block.aspectRatio ?? '16/9') === '16/9' ? 'aspect-video' : 'aspect-[4/3]';
+        const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
           <div key={key} className="mb-6">
-            {block.src ? (
+            {resolvedSrc ? (
               <div className={`w-full ${arClass} overflow-hidden rounded-xl bg-ink-900`}>
-                <video src={block.src} poster={block.poster} controls className="w-full h-full object-cover" />
+                <video src={resolvedSrc} poster={block.poster} controls className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-900/5 flex flex-col items-center justify-center gap-3`}>
+              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-900/5 flex flex-col items-center justify-center gap-4`}>
                 <div className="w-14 h-14 rounded-full bg-ink-200 flex items-center justify-center">
                   <Play size={24} className="text-ink-600 ml-1" />
                 </div>
                 <span className="font-body text-body-sm text-ink-500">Vidéo à brancher</span>
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
+                    }}
+                  />
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                    <Play size={13} /> Choisir une vidéo
+                  </span>
+                </label>
               </div>
             )}
             {block.caption && (
@@ -894,9 +925,31 @@ export const LessonPlayer: React.FC = () => {
       }
 
       case 'gif': {
+        const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
           <div key={key} className="mb-6">
-            <img src={block.src} alt={block.alt} loading="lazy" className="w-full rounded-xl" />
+            {resolvedSrc ? (
+              <img src={resolvedSrc} alt={block.alt} loading="lazy" className="w-full rounded-xl" />
+            ) : (
+              <div className="w-full aspect-video rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-3">
+                <ImageIcon size={32} className="text-ink-400" />
+                <span className="font-body text-body-sm text-ink-500">GIF à connecter</span>
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/gif,image/*"
+                    className="sr-only"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
+                    }}
+                  />
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                    <ImageIcon size={13} /> Choisir un GIF
+                  </span>
+                </label>
+              </div>
+            )}
             {block.caption && (
               <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
             )}

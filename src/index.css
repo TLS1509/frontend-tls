@@ -520,6 +520,37 @@
 }
 
 /* ============================================
+   SPRINT 1: Premium Motion — Input/Button/Card
+   ============================================ */
+
+@keyframes input-focus-ring {
+  from {
+    box-shadow: 0 0 0 0px rgba(85, 161, 180, 0.1);
+  }
+  to {
+    box-shadow: 0 0 0 8px rgba(85, 161, 180, 0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0px rgba(85, 161, 180, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(85, 161, 180, 0);
+  }
+}
+
+@keyframes glow-pulse-warm {
+  0%, 100% {
+    box-shadow: 0 0 0 0px rgba(237, 132, 58, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(237, 132, 58, 0);
+  }
+}
+
+/* ============================================
    PAGE BACKGROUND GRADIENTS (utility tokens DS)
    ============================================
    Tokenized full-page gradients — utilisés par les pages Tier 1 pour fond ambient TLS.
@@ -686,6 +717,32 @@
   }
   .bg-gradient-bubble-sun-light {
     background: linear-gradient(135deg, var(--color-accent-100) 0%, var(--color-accent-200) 100%);
+  }
+
+  /* ── SPRINT 1: Premium Motion Utilities ──────────────────────────────── */
+
+  /* Input focus glow — smooth ring animation on focus-within */
+  .animate-input-focus {
+    animation: input-focus-ring var(--duration-base) var(--ease-emphasis) forwards;
+  }
+
+  /* Loading pulse glow — brand teal */
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  /* Loading pulse glow — warm orange */
+  .animate-glow-pulse-warm {
+    animation: glow-pulse-warm 2s ease-in-out infinite;
+  }
+
+  /* Prefers-reduced-motion: disable animations */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-input-focus,
+    .animate-glow-pulse,
+    .animate-glow-pulse-warm {
+      animation: none !important;
+    }
   }
 }
 

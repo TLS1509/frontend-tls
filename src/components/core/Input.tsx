@@ -37,7 +37,7 @@ export interface InputProps
 const FIELD_BASE = 'flex flex-col gap-2 font-body';
 
 const CONTROL_BASE =
-  'flex items-center gap-2 w-full border rounded-md font-body transition-[border-color,box-shadow] duration-fast ease-emphasis';
+  'flex items-center gap-2 w-full border rounded-md font-body transition-[border-color,box-shadow] duration-base ease-standard';
 
 // Light surface (default)
 const CONTROL_LIGHT = 'bg-white text-ink-900';

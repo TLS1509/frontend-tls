@@ -140,7 +140,7 @@ export const Button: React.FC<ButtonProps> = ({
   // Spinner icon (replaces leadingIcon when loading)
   const spinner = (
     <span
-      className="inline-flex items-center justify-center shrink-0 animate-spin"
+      className="inline-flex items-center justify-center shrink-0 animate-spin animate-glow-pulse"
       style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}
       aria-hidden="true"
     >
