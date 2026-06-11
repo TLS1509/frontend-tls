@@ -113,7 +113,7 @@ export const Alert: React.FC<AlertProps> = ({
           type="button"
           onClick={onDismiss}
           aria-label="Fermer"
-          className="shrink-0 -mr-1 p-1 rounded-md cursor-pointer text-current opacity-50 transition-all duration-150 hover:opacity-100 hover:bg-black/[0.08] hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 focus-visible:opacity-100"
+          className="shrink-0 -mr-1 p-1 rounded-md cursor-pointer text-current opacity-50 transition-[opacity,background-color,transform] duration-fast ease-emphasis hover:opacity-100 hover:bg-black/[0.08] hover:scale-110 active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 focus-visible:opacity-100"
         >
           <X size={iconSize - 2} strokeWidth={2} aria-hidden />
         </button>

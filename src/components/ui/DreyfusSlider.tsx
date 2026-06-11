@@ -115,7 +115,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                 'w-11 h-11 rounded-pill border-2 shrink-0',
                 'font-display font-bold text-caption',
                 'flex items-center justify-center',
-                'transition-all duration-fast cursor-pointer',
+                'transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis cursor-pointer active:scale-[0.97]',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
                 TONE_FOCUS[tone],
                 nodeClass,

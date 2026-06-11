@@ -52,7 +52,7 @@ const NavItem: React.FC<{
 }> = ({ item, index, isCurrent, isEllipsis, onNavigate }) => {
   const isClickable = !isCurrent && !isEllipsis && (item.href || onNavigate);
 
-  const baseClasses = 'inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-all text-body-sm';
+  const baseClasses = 'inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-[background-color,color] duration-fast ease-emphasis text-body-sm';
   const currentClasses = 'bg-primary-50 text-ink-900 font-semibold';
   const defaultClasses = 'text-ink-500';
   const clickableClasses = 'cursor-pointer hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';

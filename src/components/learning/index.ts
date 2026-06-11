@@ -29,3 +29,6 @@ export type { AstucesCardProps } from './AstucesCard';
 
 export { ResourceListItem } from './ResourceListItem';
 export type { ResourceListItemProps } from './ResourceListItem';
+
+export { CourseCard } from './CourseCard';
+export type { CourseCardProps, CourseCardTone } from './CourseCard';

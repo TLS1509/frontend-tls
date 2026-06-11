@@ -72,7 +72,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({
   const clickable = Boolean(onClick);
 
   const classes = [
-    'group flex items-center gap-4 p-6 rounded-lg transition-all duration-base',
+    'group flex items-center gap-4 p-6 rounded-lg transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis',
     SURFACE_TONE[surface][tone],
     'hover:shadow-md hover:-translate-y-[3px]',
     clickable && 'cursor-pointer text-left w-full !h-auto !overflow-visible !items-center !font-normal',

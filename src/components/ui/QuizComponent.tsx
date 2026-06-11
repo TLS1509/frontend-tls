@@ -13,7 +13,7 @@ export interface QuizComponentProps {
 }
 
 const BTN_BASE =
-  'inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-all ' +
+  'inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-body-sm font-semibold cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.98] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
 const BTN_PRIMARY = 'bg-primary-600 text-white hover:bg-primary-700';
@@ -131,7 +131,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ questions, onCompl
               <label
                 key={idx}
                 className={[
-                  'relative flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all',
+                  'relative flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-[background-color,border-color] duration-fast ease-emphasis',
                   isSelected
                     ? 'border-primary-500 bg-primary-50'
                     : 'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50',

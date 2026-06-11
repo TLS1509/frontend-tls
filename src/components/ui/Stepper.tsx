@@ -16,7 +16,7 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
 }
 
 const CIRCLE_BASE =
-  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full border-2 font-body font-bold text-caption shrink-0 transition-all duration-200';
+  'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const CIRCLE_STATE: Record<StepperState, string> = {
   done:     'bg-gradient-to-br from-success-base to-success-fg border-transparent text-white shadow-md ring-4 ring-success-bg',

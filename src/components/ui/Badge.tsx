@@ -44,7 +44,7 @@ const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   sun:      'bg-accent-50 text-accent-800 border-accent-200',
   success:  'bg-success-bg text-success-fg border-success-base/30',
   danger:   'bg-danger-bg text-danger-fg border-danger-base/30',
-  info:     'bg-primary-50 text-primary-700 border-primary-200',
+  info:     'bg-info-bg text-info-fg border-info-base/30',
 };
 
 const DOT_CLASSES: Record<BadgeVariant, string> = {
@@ -54,7 +54,7 @@ const DOT_CLASSES: Record<BadgeVariant, string> = {
   sun:      'bg-accent-500',
   success:  'bg-success-base',
   danger:   'bg-danger-base',
-  info:     'bg-primary-500',
+  info:     'bg-info-base',
 };
 
 export const Badge: React.FC<BadgeProps> = ({

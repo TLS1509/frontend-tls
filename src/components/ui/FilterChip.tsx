@@ -13,14 +13,14 @@ export interface FilterChipProps {
 }
 
 const BASE =
-  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill border-[1.5px] bg-transparent font-body text-caption font-semibold cursor-pointer whitespace-nowrap transition-all ' +
+  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill border-[1.5px] bg-transparent font-body text-caption font-semibold cursor-pointer whitespace-nowrap transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.97] ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2';
 
 /* ── Solid surface ──────────────────────────────────────────────── */
 const SOLID_INACTIVE =
   'border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-ink-900 hover:-translate-y-px focus-visible:outline-primary-500';
 const SOLID_ACTIVE =
-  'bg-gradient-to-br from-primary-50 to-primary-100/60 border-primary-500 text-primary-800 font-bold shadow-brand-xs hover:from-primary-100 hover:to-primary-100 hover:-translate-y-px focus-visible:outline-primary-500';
+  'bg-primary-100 border-primary-600 text-primary-900 font-bold shadow-brand-xs hover:bg-primary-200 hover:border-primary-700 hover:-translate-y-px focus-visible:outline-primary-500';
 const SOLID_RESET =
   'border-ink-200 text-ink-500 gap-1.5 hover:bg-ink-50 hover:border-ink-300 hover:text-ink-700 focus-visible:outline-primary-500';
 

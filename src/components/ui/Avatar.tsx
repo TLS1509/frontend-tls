@@ -15,6 +15,8 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   shape?: AvatarShape;
   status?: AvatarStatus;
   level?: number;
+  /** Show ring-2 ring-white separator. Default false. Set to true when avatar sits on a dark/colored surface. */
+  ring?: boolean;
 }
 
 const TINTS: AvatarTint[] = ['brand', 'warm', 'sun', 'ink'];
@@ -34,7 +36,7 @@ const getInitials = (name?: string, initials?: string): string => {
 };
 
 const BASE =
-  'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none ring-2 ring-white';
+  'relative inline-flex items-center justify-center font-body font-bold overflow-visible shrink-0 select-none';
 
 const SIZE_CLASSES: Record<AvatarSize, string> = {
   xs: 'w-6 h-6 text-[10px]',
@@ -86,6 +88,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   shape = 'circle',
   status,
   level,
+  ring = false,
   className = '',
   ...rest
 }) => {
@@ -99,6 +102,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     SIZE_CLASSES[size],
     TINT_CLASSES[resolvedTint],
     shapeClass,
+    ring && 'ring-2 ring-white',
     className,
   ]
     .filter(Boolean)

@@ -33,7 +33,7 @@ export interface InputProps
 const FIELD_BASE = 'flex flex-col gap-2 font-body';
 
 const CONTROL_BASE =
-  'flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
+  'flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-[border-color,box-shadow] duration-fast ease-emphasis';
 
 const SIZE_CLASSES: Record<InputSize, string> = {
   sm: 'h-9 px-3 text-caption',

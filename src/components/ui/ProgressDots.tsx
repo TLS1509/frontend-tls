@@ -72,7 +72,7 @@ export const ProgressDots: React.FC<ProgressDotsProps> = ({
         const isActive = idx === current;
         const isDone = idx < current;
         const dotClasses = [
-          'rounded-pill transition-all duration-base',
+          'rounded-pill transition-[width,background-color] duration-base ease-emphasis',
           isActive ? sizes.active : sizes.base,
           isActive
             ? TONE_ACTIVE[tone]

@@ -84,7 +84,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-[box-shadow,border-color,transform,background-color] duration-base ease-emphasis [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
-  default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',
+  default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300',
   feature: 'bg-white shadow-md hover:shadow-lg',
   elevated: 'bg-white shadow-md hover:shadow-lg',
   interactive: 'bg-white border border-ink-200 shadow-sm cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',

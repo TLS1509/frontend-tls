@@ -92,7 +92,7 @@ import { ToastContainer } from '../components';
 import { useToast } from '../hooks/useToast';
 // Components not yet in main index — direct imports
 import { ProfileCard } from '../components/ui/ProfileCard';
-import { CourseCard } from '../components/ui/CourseCard';
+import { CourseCard } from '../components/learning/CourseCard';
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 import { ResourceCard } from '../components/ui/ResourceCard';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';

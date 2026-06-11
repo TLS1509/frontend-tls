@@ -135,10 +135,10 @@ const SURFACE_FROSTED =
    pour des grids homogènes (typique des quick actions, KPI tiles, etc.). */
 /* BASE — padding ajouté via PADDING_BY_SIZE (scale avec iconSize). */
 const BASE_DISPLAY =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-all duration-base hover:shadow-md hover:-translate-y-1';
+  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis hover:shadow-md hover:-translate-y-1';
 
 const BASE_BUTTON =
-  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-all duration-base cursor-pointer hover:shadow-md hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0';
+  'group flex flex-col items-center justify-center text-center gap-stack-xs rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0 active:scale-[0.98] active:translate-y-0';
 
 /* Square aspect — garde l'aspect bouton-compact responsive (ratio 1:1) */
 const SQUARE_ASPECT = 'aspect-square';
