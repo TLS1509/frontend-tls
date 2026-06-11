@@ -99,10 +99,11 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       />
 
       <div className="relative p-8 flex flex-col gap-stack h-full min-w-0">
-        {/* Titre — pas de truncate, wrap strict (anywhere) pour éviter overflow sur longs mots,
-            hyphens-auto pour césure FR propre, text-wrap:balance pour wrap équilibré. */}
+        {/* Titre — pas de truncate, overflow-wrap:anywhere évite le dépassement sur longs mots,
+            hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
+            pour wrap équilibré. */}
         <h3
-          className={`font-display text-h3 font-bold leading-[1.15] m-0 [overflow-wrap:anywhere] hyphens-auto max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
+          className={`font-display text-h3 font-bold leading-[1.15] m-0 [overflow-wrap:anywhere] hyphens-none max-md:text-h4 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
           title={title}
         >
           {title}

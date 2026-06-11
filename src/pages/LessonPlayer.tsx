@@ -1853,10 +1853,13 @@ export const LessonPlayer: React.FC = () => {
 
         {/* SECTION NAV — compact pills */}
         <nav
-          className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
+          className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100 relative"
           aria-label="Sections de la leçon"
         >
-          <div className="lp-section-scroll flex gap-1.5 overflow-x-auto px-stack py-stack-xs justify-center">
+          {/* Fade masks for scroll affordance on mobile */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white/95 to-transparent z-10" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white/95 to-transparent z-10" aria-hidden="true" />
+          <div className="lp-section-scroll flex gap-1.5 overflow-x-auto px-stack py-stack-xs sm:justify-center">
             {SECTIONS.map((section, index) => {
               const isActive = index === currentIndex;
               const isDone = completedSections.has(index) && !isActive;
@@ -1898,7 +1901,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handlePrev}
           disabled={isFirst}
-          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
           aria-label="Section précédente"
         >
           <ChevronLeft size={18} />
@@ -1906,7 +1909,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={false}
-          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150"
+          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150"
           aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
         >
           <ChevronRight size={18} />

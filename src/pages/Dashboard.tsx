@@ -92,7 +92,7 @@ export const Dashboard: React.FC = () => {
           eyebrow={{ icon: <Sparkles size={12} />, label: formattedDate }}
           title={
             <>
-              Bienvenue {firstName} <span className="inline-block">👋</span>
+              Bienvenue {firstName} <span className="inline-block" aria-hidden="true">👋</span>
             </>
           }
           summary={
