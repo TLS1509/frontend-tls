@@ -38,13 +38,20 @@ const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
 const TONE_BORDER: Record<LessonTone, string> = {
   primary: 'border-l-primary-500',
   warm:    'border-l-secondary-500',
-  sun:     'border-l-accent-500',
+  sun:     'border-l-accent-400',
 };
 
+// Sprint 3 glow classes — tone-aware ripple on hover
 const TONE_HOVER_GLOW: Record<LessonTone, string> = {
-  primary: 'hover:shadow-[0_8px_24px_rgba(85,161,180,0.15)]',
-  warm:    'hover:shadow-[0_8px_24px_rgba(237,132,58,0.18)]',
-  sun:     'hover:shadow-[0_8px_24px_rgba(248,176,68,0.20)]',
+  primary: 'hover-glow-primary',
+  warm:    'hover-glow-warm',
+  sun:     'hover-glow-sun',
+};
+
+const TONE_CTA_TEXT: Record<LessonTone, string> = {
+  primary: 'group-hover:text-primary-600',
+  warm:    'group-hover:text-secondary-600',
+  sun:     'group-hover:text-accent-700',
 };
 
 const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
@@ -70,6 +77,12 @@ const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
   },
 };
 
+const PROGRESS_LABEL = (progress: number) => {
+  if (progress === 0) return 'Commencer';
+  if (progress >= 100) return 'Revoir';
+  return 'Continuer';
+};
+
 export const LessonCard: React.FC<LessonCardProps> = ({
   title,
   description,
@@ -86,12 +99,15 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   return (
     <div
       className={[
-        'group relative border-l-4 rounded-2xl p-5 transition-all duration-300',
+        'group relative border-l-4 rounded-2xl p-5',
+        'transition-all duration-slow ease-emphasis',
         SURFACE_TONE[surface][tone],
         TONE_BORDER[tone],
+        // Sprint 3 glow (when unlocked)
+        !locked && TONE_HOVER_GLOW[tone],
         locked
           ? 'cursor-not-allowed'
-          : `cursor-pointer hover:-translate-y-1 ${TONE_HOVER_GLOW[tone]} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500`,
+          : 'cursor-pointer hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         className,
       ]
         .filter(Boolean)
@@ -102,26 +118,29 @@ export const LessonCard: React.FC<LessonCardProps> = ({
       onKeyDown={
         !locked
           ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                onClick?.();
-              }
+              if (e.key === 'Enter' || e.key === ' ') onClick?.();
             }
           : undefined
       }
       aria-label={`${title}${locked ? ' (verrouillé)' : ''}`}
     >
+      {/* Locked overlay — glass blur with icon */}
       {locked && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/85 backdrop-blur-sm">
+        <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/80 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-2">
-            <div className="w-14 h-14 rounded-full bg-ink-100 text-ink-500 flex items-center justify-center shadow-inner">
-              <Lock size={26} />
+            {/* Double-bezel lock icon */}
+            <div className="p-1.5 rounded-2xl bg-ink-100/60 ring-1 ring-ink-200/40">
+              <div className="w-12 h-12 rounded-xl bg-white text-ink-500 flex items-center justify-center shadow-inner">
+                <Lock size={22} strokeWidth={1.75} />
+              </div>
             </div>
             <span className="text-caption font-semibold text-ink-500">Verrouillée</span>
           </div>
         </div>
       )}
 
-      <div className={['flex flex-col gap-3', locked ? 'opacity-50' : ''].filter(Boolean).join(' ')}>
+      <div className={['flex flex-col gap-3', locked ? 'opacity-40' : ''].filter(Boolean).join(' ')}>
+        {/* Title + Badge */}
         <div className="flex items-start justify-between gap-3">
           <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug line-clamp-2 flex-1">
             {title}
@@ -129,8 +148,10 @@ export const LessonCard: React.FC<LessonCardProps> = ({
           <Badge variant={DIFFICULTY_VARIANTS[difficulty]}>{DIFFICULTY_LABELS[difficulty]}</Badge>
         </div>
 
+        {/* Description */}
         <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
+        {/* Meta */}
         <div className="flex flex-wrap items-center gap-3 text-caption text-ink-500">
           <div className="inline-flex items-center gap-1.5">
             <Clock size={14} aria-hidden="true" className="text-ink-400" />
@@ -144,16 +165,25 @@ export const LessonCard: React.FC<LessonCardProps> = ({
           )}
         </div>
 
+        {/* Progress */}
         <div className="mt-1">
-          <ProgressBar value={progress} size="sm" showLabel={true} />
+          <ProgressBar value={progress} size="sm" showLabel />
         </div>
 
+        {/* CTA footer */}
         {!locked && (
           <div className="flex items-center justify-between pt-2 border-t border-ink-100">
-            <span className="text-caption font-semibold text-ink-500">
-              {progress === 0 ? 'Commencer' : progress >= 100 ? 'Revoir' : 'Continuer'}
+            <span className={['text-caption font-semibold text-ink-500 transition-colors duration-fast', TONE_CTA_TEXT[tone]].join(' ')}>
+              {PROGRESS_LABEL(progress)}
             </span>
-            <ArrowRight size={16} className="text-ink-400 group-hover:text-primary-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight
+              size={16}
+              className={[
+                'transition-all duration-fast ease-standard text-ink-400',
+                TONE_CTA_TEXT[tone],
+                'group-hover:translate-x-1',
+              ].join(' ')}
+            />
           </div>
         )}
       </div>

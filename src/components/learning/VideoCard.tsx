@@ -19,6 +19,14 @@ export interface VideoCardProps {
   className?: string;
 }
 
+// Sprint 3 hover-glow — brand maps to primary (same teal family)
+const TONE_HOVER_GLOW: Record<VideoCardTone, string> = {
+  primary: 'hover-glow-primary',
+  warm:    'hover-glow-warm',
+  sun:     'hover-glow-sun',
+  brand:   'hover-glow-primary',
+};
+
 const TONE_THUMB: Record<VideoCardTone, string> = {
   primary: 'bg-gradient-to-br from-primary-400 via-primary-600 to-primary-800',
   warm:    'bg-gradient-to-br from-secondary-400 via-secondary-600 to-secondary-800',
@@ -40,7 +48,8 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <Card
       className={[
-        'group flex flex-col gap-3 transition-all hover:-translate-y-0.5 hover:shadow-md overflow-hidden',
+        'group flex flex-col gap-3 transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md overflow-hidden',
+        TONE_HOVER_GLOW[tone],
         className,
       ]
         .filter(Boolean)

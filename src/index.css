@@ -592,6 +592,18 @@
   }
 }
 
+@keyframes card-hover-glow-sun {
+  0% {
+    box-shadow: 0 0 0 0px rgba(248, 176, 68, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(248, 176, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(248, 176, 68, 0);
+  }
+}
+
 @keyframes stripe-loader {
   0% {
     transform: translateX(-100%);
@@ -832,6 +844,19 @@
     animation: card-hover-glow-warm var(--duration-slow) var(--ease-standard) forwards;
   }
 
+  /* Card hover glow — sun golden ripple */
+  .hover-glow-sun {
+    position: relative;
+  }
+  .hover-glow-sun:hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    animation: card-hover-glow-sun var(--duration-slow) var(--ease-standard) forwards;
+  }
+
   /* Stripe-style loader overlay (use on loading container) */
   .stripe-loader {
     position: relative;
@@ -861,6 +886,7 @@
     .placeholder-fade-on-focus::placeholder,
     .hover-glow-primary:hover::after,
     .hover-glow-warm:hover::after,
+    .hover-glow-sun:hover::after,
     .stripe-loader::before {
       animation: none !important;
     }

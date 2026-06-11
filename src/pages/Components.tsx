@@ -109,6 +109,7 @@ import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
 // (LearningPathHeader deprecated → use HeroSection variant="gradient" with size="lg" showBackButton progress)
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
+import { LessonCard } from '../components/learning/LessonCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';
@@ -217,6 +218,11 @@ import { ResourceListItem } from '../components/learning/ResourceListItem';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { AuthBackLink } from '../components/patterns/AuthShell';
 import { Briefcase, HeartHandshake, FileText } from 'lucide-react';
+import { FloatLabel } from '../components/core/FloatLabel';
+import { RadioGroup } from '../components/ui/RadioGroup';
+import { CheckboxGroup } from '../components/ui/CheckboxGroup';
+import { FormSection } from '../components/ui/FormSection';
+import { InputGroup } from '../components/ui/InputGroup';
 
 /* ============================================================================
  * TYPES
@@ -320,6 +326,11 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
   // Steps supprimé — fusionné dans Stepper entry
   Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
+  // Phase 19 — Form composites
+  RadioGroup:           { category: 'Composites', subCategory: 'Form groups' },
+  CheckboxGroup:        { category: 'Composites', subCategory: 'Form groups' },
+  FormSection:          { category: 'Composites', subCategory: 'Form groups' },
+  InputGroup:           { category: 'Composites', subCategory: 'Form groups' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
@@ -521,7 +532,7 @@ const CATEGORY_ORDER: NewCategory[] = [
 const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   Foundations: ['Design Tokens', 'Layout Primitives'],
   Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
-  Composites: ['Group wrappers'],
+  Composites: ['Group wrappers', 'Form groups'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers'],
   Feedback: ['Status messages', 'Empty/zero states', 'Celebrations'],
   Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Search'],
@@ -4641,6 +4652,76 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
+    name: 'LessonCard',
+    codeName: 'learning/LessonCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    description: 'Card de leçon tone-aware avec barre de progression, badge de difficulté, left-border accent, états locked/unlocked. Sprint 3 : hover-glow ripple animé, double-bezel overlay sur lock, CTA arrow translateX au hover. Surfaces : card / tinted / glass / frosted. Tones : primary / warm / sun.',
+    keywords: ['lesson', 'leçon', 'progress', 'difficulty', 'locked', 'tone', 'glow', 'hover', 'card', 'learning'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Unlocked — 3 tones</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <LessonCard
+            title="Introduction au microlearning"
+            description="Comprendre les fondements cognitifs de l'apprentissage court et son impact sur la mémorisation durable."
+            progress={0}
+            duration="15 min"
+            difficulty="beginner"
+            instructor="M. Dupont"
+            tone="primary"
+            surface="card"
+            onClick={() => {}}
+          />
+          <LessonCard
+            title="Feedback et ancrage mémoriel"
+            description="Comment le feedback immédiat renforce les connexions neuronales et accélère la consolidation."
+            progress={62}
+            duration="20 min"
+            difficulty="intermediate"
+            tone="warm"
+            surface="tinted"
+            onClick={() => {}}
+          />
+          <LessonCard
+            title="Biais cognitifs & décisions"
+            description="Cartographie des biais les plus impactants en contexte professionnel. Exercices de détection."
+            progress={100}
+            duration="25 min"
+            difficulty="advanced"
+            instructor="Dr. Martin"
+            tone="sun"
+            surface="card"
+            onClick={() => {}}
+          />
+        </div>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Locked — double-bezel overlay</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-2xl">
+          <LessonCard
+            title="Neurosciences de l'apprentissage"
+            description="Module avancé — nécessite de compléter les modules précédents."
+            progress={0}
+            duration="30 min"
+            difficulty="advanced"
+            tone="primary"
+            locked
+          />
+          <LessonCard
+            title="Pédagogie inversée (Flipped Classroom)"
+            description="Techniques de mise en pratique du modèle inversé en contexte corporate."
+            progress={0}
+            duration="40 min"
+            difficulty="intermediate"
+            tone="warm"
+            surface="tinted"
+            locked
+          />
+        </div>
+      </div>
+    ),
+  },
+
+  {
     name: 'EditorialCard',
     codeName: 'learning/ArticleCard.tsx · learning/MagazineCard.tsx · learning/VideoCard.tsx',
     cssBase: 'Tailwind (no BEM)',
@@ -6006,6 +6087,129 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       );
     },
+  },
+
+  /* ── Phase 19 — Form Composites ──────────────────────────────────────────── */
+  {
+    name: 'RadioGroup',
+    codeName: 'ui/RadioGroup.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['Onboarding', 'Positionnement', 'SessionFeedback'],
+    description: 'Groupe de boutons radio avec sémantique fieldset/legend. 2 variants : **default** (inline radio) · **card** (sélection carte). 3 orientations : vertical · horizontal. Tone-aware (primary/warm/sun). Props : name, options (value/label/description/disabled), value, onChange, error, hint, required.',
+    keywords: ['radio', 'group', 'form', 'select', 'choice', 'fieldset', 'card', 'tone'],
+    render: () => {
+      const [v1, setV1] = React.useState('intermediate');
+      const [v2, setV2] = React.useState('coaching');
+      const opts1 = [
+        { value: 'beginner', label: 'Débutant', description: 'Moins de 2 ans d\'expérience' },
+        { value: 'intermediate', label: 'Intermédiaire', description: '2 à 5 ans d\'expérience' },
+        { value: 'advanced', label: 'Avancé', description: 'Plus de 5 ans' },
+      ];
+      const opts2 = [
+        { value: 'solo', label: 'Apprentissage solo' },
+        { value: 'coaching', label: 'Avec coaching' },
+        { value: 'enterprise', label: 'Formation équipe', disabled: true },
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <div className="flex flex-wrap gap-section items-start">
+            <RadioGroup name="level" label="Niveau actuel" required value={v1} onChange={setV1} options={opts1} orientation="vertical" />
+            <RadioGroup name="mode" label="Mode d'apprentissage" value={v2} onChange={setV2} options={opts2} orientation="horizontal" hint="Certaines options nécessitent un abonnement" />
+          </div>
+          <div>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-4">Variant card — tone primary / warm / sun</p>
+            <div className="flex flex-col gap-stack">
+              <RadioGroup name="goal" label="Objectif" variant="card" tone="primary" value={v1} onChange={setV1} options={opts1.slice(0,2)} orientation="horizontal" />
+              <RadioGroup name="goalw" label="Ton warm" variant="card" tone="warm" value="coaching" onChange={() => {}} options={opts2.slice(0,2)} orientation="horizontal" />
+            </div>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'CheckboxGroup',
+    codeName: 'ui/CheckboxGroup.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['Onboarding', 'FilterBar', 'Settings'],
+    description: 'Groupe de cases à cocher multi-sélection avec sémantique fieldset/legend. 2 variants : **default** (inline checkbox) · **card** (case carte). Tone-aware (primary/warm/sun). value: string[] — tableau des valeurs cochées. Props identiques à RadioGroup sauf onChange retourne string[].',
+    keywords: ['checkbox', 'group', 'multi', 'select', 'form', 'fieldset', 'card', 'tone'],
+    render: () => {
+      const [vals, setVals] = React.useState<string[]>(['newsletter', 'badges']);
+      const opts = [
+        { value: 'newsletter', label: 'Newsletter hebdo', description: 'Récap des nouveautés chaque lundi' },
+        { value: 'badges', label: 'Notifications badges', description: 'Récompenses et achievements' },
+        { value: 'coaching', label: 'Rappels coaching', description: 'J-1 avant chaque session' },
+        { value: 'system', label: 'Messages système', disabled: true },
+      ];
+      const optsSmall = opts.slice(0, 3);
+      return (
+        <div className="flex flex-col gap-section">
+          <div className="flex flex-wrap gap-section items-start">
+            <CheckboxGroup name="notifs" label="Notifications" value={vals} onChange={setVals} options={opts} />
+            <CheckboxGroup name="notifsh" label="Horizontal" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" hint={`${vals.length} sélectionnée(s)`} />
+          </div>
+          <div>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-4">Variant card — tone primary</p>
+            <CheckboxGroup name="notifsc" label="Préférences" variant="card" tone="primary" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" />
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'FormSection',
+    codeName: 'ui/FormSection.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['Settings', 'Profile', 'Account'],
+    description: 'Section de formulaire avec titre, description et séparateur. Optionnellement rétractable (collapsible) avec animation. Props : title, description, titleIcon, collapsible (default false), defaultExpanded (default true). Conteneur sémantique <section>.',
+    keywords: ['form', 'section', 'group', 'title', 'collapsible', 'accordion', 'settings'],
+    render: () => (
+      <div className="flex flex-col gap-section max-w-lg">
+        <FormSection title="Informations personnelles" description="Ces informations sont utilisées pour personnaliser votre expérience d'apprentissage." titleIcon={<UserIcon size={16} />}>
+          <Input label="Prénom" placeholder="Marie" size="md" />
+          <Input label="Nom de famille" placeholder="Dupont" size="md" />
+        </FormSection>
+        <FormSection title="Préférences de contact" description="Contrôlez comment nous vous contactons." collapsible defaultExpanded={false}>
+          <Input label="Email" placeholder="marie@example.com" size="md" />
+        </FormSection>
+      </div>
+    ),
+  },
+
+  {
+    name: 'InputGroup',
+    codeName: 'ui/InputGroup.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['Settings', 'Profile', 'Onboarding'],
+    description: 'Wrapper de disposition pour groupes d\'inputs. 3 layouts : **vertical** (stack), **horizontal** (row), **grid** (colonnes). Prop columns (2/3/4) en mode grid. Label + hint + error de groupe partagés. Mobile-first : grid collapse à 1 colonne.',
+    keywords: ['input', 'group', 'layout', 'form', 'grid', 'horizontal', 'vertical', 'columns'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Grid 2 cols</p>
+        <InputGroup label="Adresse postale" layout="grid" columns={2}>
+          <Input label="Rue" placeholder="12 rue de la Paix" />
+          <Input label="Code postal" placeholder="75001" />
+          <Input label="Ville" placeholder="Paris" />
+          <Input label="Pays" placeholder="France" />
+        </InputGroup>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Horizontal (row)</p>
+        <InputGroup layout="horizontal">
+          <Input label="Prénom" placeholder="Marie" />
+          <Input label="Nom" placeholder="Dupont" />
+        </InputGroup>
+      </div>
+    ),
   },
 
   {

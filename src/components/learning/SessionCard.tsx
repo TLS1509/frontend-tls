@@ -97,8 +97,15 @@ function getSurfaceClasses(surface: SessionCardSurface, tone: SessionCardTone): 
   }
 }
 
+// Sprint 3 hover-glow ripple — tone-aware animated ::after pseudo-element
+const TONE_HOVER_GLOW: Record<SessionCardTone, string> = {
+  primary: 'hover-glow-primary',
+  warm:    'hover-glow-warm',
+  sun:     'hover-glow-sun',
+};
+
 const BASE =
-  'group flex flex-col gap-stack p-6 rounded-2xl transition-all duration-base hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2';
+  'group flex flex-col gap-stack p-6 rounded-2xl transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2';
 
 export const SessionCard: React.FC<SessionCardProps> = ({
   title,
@@ -133,6 +140,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     BASE,
     getSurfaceClasses(surface, tone),
     FOCUS_TONE[tone],
+    TONE_HOVER_GLOW[tone],
     className,
   ].filter(Boolean).join(' ');
 
