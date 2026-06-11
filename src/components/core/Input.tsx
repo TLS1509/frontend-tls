@@ -33,7 +33,7 @@ export interface InputProps
 const FIELD_BASE = 'flex flex-col gap-2 font-body';
 
 const CONTROL_BASE =
-  'flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-colors duration-200';
+  'flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
 
 const SIZE_CLASSES: Record<InputSize, string> = {
   sm: 'h-9 px-3 text-caption',
@@ -42,9 +42,9 @@ const SIZE_CLASSES: Record<InputSize, string> = {
 };
 
 const STATUS_CLASSES: Record<InputStatus, string> = {
-  default: 'border-ink-300',
-  success: 'border-success-base',
-  error: 'border-danger-base',
+  default: 'border-ink-300 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20',
+  success: 'border-success-base focus-within:ring-2 focus-within:ring-success-base/35',
+  error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
 
 const DISABLED_CLASSES =
