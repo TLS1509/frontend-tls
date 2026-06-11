@@ -30,10 +30,13 @@ import {
   CheckCircle2,
   XCircle,
   ChevronRight,
+  ChevronLeft,
   ArrowUpRight,
   ImageIcon,
   Play,
   Cpu,
+  Globe,
+  Link2,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
 import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
@@ -105,8 +108,34 @@ type ContentBlock =
       url?: string;
       title?: string;
       caption?: string;
-      provider?: 'canva' | 'google-doc' | 'google-slides' | 'figma' | 'other';
+      provider?: 'youtube' | 'vimeo' | 'loom' | 'canva' | 'google-doc' | 'google-slides' | 'figma' | 'other';
       aspectRatio?: '16/9' | '4/3' | '1/1';
+    }
+  | {
+      type: 'split';
+      left: ContentBlock[];
+      right: ContentBlock[];
+      ratio?: '1/1' | '2/1' | '1/2';
+      caption?: string;
+    }
+  | {
+      type: 'bento';
+      title?: string;
+      cells: {
+        size?: 'sm' | 'md' | 'full';
+        blocks: ContentBlock[];
+        tone?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'dark';
+        label?: string;
+      }[];
+      caption?: string;
+    }
+  | {
+      type: 'table';
+      title?: string;
+      headers: string[];
+      rows: (string | number)[][];
+      caption?: string;
+      highlightCol?: number;
     };
 
 /* ─── Lesson content data (extended per lessonId) ────────────────────────── */
@@ -392,6 +421,17 @@ const LESSON_DATA: Record<string, LessonData> = {
           ],
         },
         {
+          title: 'Embed — Canva / Google Slides / Figma',
+          blocks: [
+            {
+              type: 'embed' as const,
+              provider: 'canva' as const,
+              caption: 'Colle l\'URL de partage — l\'embed se charge automatiquement',
+              aspectRatio: '16/9' as const,
+            },
+          ],
+        },
+        {
           title: 'Graphique — données et métriques',
           blocks: [
             {
@@ -415,6 +455,161 @@ const LESSON_DATA: Record<string, LessonData> = {
                 { label: 'Composites (Card, Modal…)', value: 24 },
                 { label: 'Patterns (Section, Hero…)', value: 14 },
                 { label: 'Pages', value: 4 },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Split screen — comparaison côte à côte',
+          blocks: [
+            {
+              type: 'split' as const,
+              ratio: '1/1' as const,
+              caption: 'Avant / Après migration Tailwind',
+              left: [
+                {
+                  type: 'image' as const,
+                  alt: 'Avant — classes BEM',
+                  caption: '❌ Avant — classes BEM inline',
+                  aspectRatio: '4/3' as const,
+                },
+                {
+                  type: 'schema' as const,
+                  items: [
+                    { label: '.btn--primary', desc: 'hardcodé dans tls-components.css', color: 'neutral' },
+                    { label: 'style={{ color: "#55A1B4" }}', desc: 'inline style interdit', color: 'neutral' },
+                  ],
+                  layout: 'vertical' as const,
+                },
+              ],
+              right: [
+                {
+                  type: 'image' as const,
+                  alt: 'Après — Tailwind tokens',
+                  caption: '✅ Après — Tailwind tokens',
+                  aspectRatio: '4/3' as const,
+                },
+                {
+                  type: 'schema' as const,
+                  items: [
+                    { label: 'bg-primary-600', desc: 'token mappé dans @theme', color: 'primary' },
+                    { label: 'text-white rounded-pill', desc: 'utilities vérifiées au build', color: 'primary' },
+                  ],
+                  layout: 'vertical' as const,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Bento grid — vue d\'ensemble système',
+          blocks: [
+            {
+              type: 'bento' as const,
+              title: 'Design System TLS — architecture en un coup d\'œil',
+              caption: 'Chaque cellule = une couche du système',
+              cells: [
+                {
+                  size: 'full' as const,
+                  tone: 'primary' as const,
+                  label: '🎨 Tokens (source de vérité)',
+                  blocks: [
+                    {
+                      type: 'schema' as const,
+                      items: [
+                        { label: 'Couleurs', desc: 'primary-50…900 · secondary · accent · ink · semantic', color: 'primary' },
+                        { label: 'Typographie', desc: 'text-h1…micro · font-display · font-body', color: 'primary' },
+                        { label: 'Spacing', desc: 'gap-stack · gap-section · gap-page (7 tokens)', color: 'primary' },
+                      ],
+                      layout: 'flow' as const,
+                    },
+                  ],
+                },
+                {
+                  size: 'md' as const,
+                  tone: 'secondary' as const,
+                  label: '🧩 Composants (51 UI)',
+                  blocks: [
+                    {
+                      type: 'schema' as const,
+                      items: [
+                        { label: 'Atoms', desc: 'Button, Badge, Avatar, Input…' },
+                        { label: 'Composites', desc: 'Card, Modal, Toast, Alert…' },
+                        { label: 'Patterns', desc: 'SectionHeader, EditorialHero…' },
+                      ],
+                      layout: 'vertical' as const,
+                    },
+                  ],
+                },
+                {
+                  size: 'sm' as const,
+                  tone: 'accent' as const,
+                  label: '✅ Coverage',
+                  blocks: [
+                    {
+                      type: 'chart' as const,
+                      chartType: 'donut' as const,
+                      data: [
+                        { label: 'Tailwind', value: 92 },
+                        { label: 'BEM restant', value: 8 },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  size: 'sm' as const,
+                  tone: 'neutral' as const,
+                  label: '📐 Figma',
+                  blocks: [
+                    {
+                      type: 'schema' as const,
+                      items: [
+                        { label: '153 variables', desc: 'bindées aux composants', num: 1 },
+                        { label: '98% coverage', desc: 'fills token-driven', num: 2 },
+                      ],
+                      layout: 'vertical' as const,
+                    },
+                  ],
+                },
+                {
+                  size: 'md' as const,
+                  tone: 'dark' as const,
+                  label: '🚀 Pipeline',
+                  blocks: [
+                    {
+                      type: 'schema' as const,
+                      items: [
+                        { num: 1, label: 'Figma Variables', desc: 'source design', color: 'primary' },
+                        { num: 2, label: 'CSS @theme', desc: 'src/index.css', color: 'primary' },
+                        { num: 3, label: 'Tailwind utilities', desc: 'bg-primary-500', color: 'primary' },
+                      ],
+                      layout: 'horizontal' as const,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: 'Tableau — référence tokens',
+          blocks: [
+            {
+              type: 'table' as const,
+              title: 'Référence rapide — tokens couleur TLS',
+              highlightCol: 1,
+              caption: 'Source de vérité : src/index.css @theme block',
+              headers: ['Token', 'Classe Tailwind', 'Hex', 'Usage principal'],
+              rows: [
+                ['primary-500', 'bg-primary-500', '#55A1B4', 'Liens, icônes actives, CTA secondaire'],
+                ['primary-600', 'bg-primary-600', '#4A8FA1', 'Bouton primary rest'],
+                ['primary-700', 'bg-primary-700', '#3D7786', 'Bouton primary hover'],
+                ['secondary-500', 'bg-secondary-500', '#ED843A', 'CTA warm, badges secondary'],
+                ['accent-400', 'bg-accent-400', '#F8B044', 'Warning, progress dots, étoiles'],
+                ['ink-900', 'bg-ink-900', '#1a1a1a', 'Texte principal'],
+                ['ink-500', 'text-ink-500', '#6B7280', 'Texte secondaire / captions'],
+                ['success-base', 'bg-success-base', '#9DBEBA', 'États succès (muted teal)'],
+                ['danger-base', 'bg-danger-base', '#F28559', 'Erreurs (soft coral)'],
               ],
             },
           ],
@@ -647,7 +842,9 @@ export const LessonPlayer: React.FC = () => {
     persistedEntry?.actionPlan ?? { objectif: '', action1: '', action2: '', action3: '' }
   );
   const [showFeedback, setShowFeedback] = useState(false);
-  const [uploadedSrcs, setUploadedSrcs] = useState<Record<number, string>>({});
+  const [uploadedSrcs, setUploadedSrcs] = useState<Record<string, string>>({});
+  const [embeddedUrls, setEmbeddedUrls] = useState<Record<string, string>>({});
+  const [embedInputs, setEmbedInputs] = useState<Record<string, string>>({});
   const [decouvrirStep, setDecouvrirStep] = useState(0);
 
   const ctx = resolveLessonContext(pathId, lessonId);
@@ -769,48 +966,55 @@ export const LessonPlayer: React.FC = () => {
         {d.steps && d.steps.length > 0 && (() => {
           const step = d.steps![decouvrirStep];
           const total = d.steps!.length;
+          const progress = Math.round(((decouvrirStep + 1) / total) * 100);
           return (
             <div className="mt-6 border border-ink-200 rounded-xl overflow-hidden">
-              {/* Step header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-ink-50 border-b border-ink-200">
-                <span className="font-body text-caption font-semibold text-ink-500">
+              {/* Progress bar */}
+              <div className="h-1 bg-ink-100">
+                <div
+                  className="h-full bg-accent-400 transition-all duration-300 ease-standard"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              {/* Step header: count + dots */}
+              <div className="flex items-center justify-between px-4 pt-3 pb-2">
+                <span className="font-body text-caption text-ink-400">
                   Étape {decouvrirStep + 1} / {total}
                 </span>
-                {step.title && (
-                  <span className="font-body text-body-sm font-semibold text-ink-900 text-center flex-1 px-3 truncate">
-                    {step.title}
-                  </span>
-                )}
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   {d.steps!.map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setDecouvrirStep(i)}
-                      className={`w-2 h-2 rounded-full transition-colors duration-150 ${
-                        i === decouvrirStep ? 'bg-primary-500' : 'bg-ink-300 hover:bg-ink-400'
-                      }`}
                       aria-label={`Étape ${i + 1}`}
+                      className={`rounded-pill transition-all duration-200 ${
+                        i === decouvrirStep
+                          ? 'w-4 h-1.5 bg-accent-400'
+                          : i < decouvrirStep
+                          ? 'w-1.5 h-1.5 bg-success-base'
+                          : 'w-1.5 h-1.5 bg-ink-200 hover:bg-ink-300'
+                      }`}
                     />
                   ))}
                 </div>
               </div>
               {/* Step content */}
-              <div className="p-5">
+              <div className="px-5 pb-2">
                 {step.blocks.map((block, i) => renderContentBlock(block, i))}
               </div>
-              {/* Step nav */}
-              <div className="flex items-center justify-between px-4 py-3 border-t border-ink-200 bg-ink-50">
+              {/* Prev / Next */}
+              <div className="flex items-center justify-between px-4 py-3 border-t border-ink-100">
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-150"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base"
                 >
-                  <ChevronRight size={14} className="rotate-180" /> Précédent
+                  <ChevronLeft size={14} /> Précédent
                 </button>
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-150"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base"
                 >
                   Suivant <ChevronRight size={14} />
                 </button>
@@ -982,8 +1186,9 @@ export const LessonPlayer: React.FC = () => {
     'var(--color-info-base)',
   ];
 
-  const renderContentBlock = (block: ContentBlock, index: number): React.ReactNode => {
+  const renderContentBlock = (block: ContentBlock, index: number | string, compact = false): React.ReactNode => {
     const key = `cb-${index}`;
+    const mb = compact ? 'mb-2' : 'mb-6';
 
     switch (block.type) {
 
@@ -995,7 +1200,7 @@ export const LessonPlayer: React.FC = () => {
         const arClass = ASPECT[block.aspectRatio ?? '16/9'];
         const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
-          <div key={key} className="mb-6">
+          <div key={key} className={mb}>
             {resolvedSrc ? (
               <div className={`w-full ${arClass} overflow-hidden rounded-xl`}>
                 <img src={resolvedSrc} alt={block.alt} className="w-full h-full object-cover" />
@@ -1033,7 +1238,7 @@ export const LessonPlayer: React.FC = () => {
         const arClass = (block.aspectRatio ?? '16/9') === '16/9' ? 'aspect-video' : 'aspect-[4/3]';
         const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
-          <div key={key} className="mb-6">
+          <div key={key} className={mb}>
             {resolvedSrc ? (
               <div className={`w-full ${arClass} overflow-hidden rounded-xl bg-ink-900`}>
                 <video src={resolvedSrc} poster={block.poster} controls className="w-full h-full object-cover" />
@@ -1070,7 +1275,7 @@ export const LessonPlayer: React.FC = () => {
       case 'gif': {
         const resolvedSrc = uploadedSrcs[index] ?? block.src;
         return (
-          <div key={key} className="mb-6">
+          <div key={key} className={mb}>
             {resolvedSrc ? (
               <img src={resolvedSrc} alt={block.alt} loading="lazy" className="w-full rounded-xl" />
             ) : (
@@ -1104,8 +1309,8 @@ export const LessonPlayer: React.FC = () => {
         if (block.chartType === 'bar') {
           const max = Math.max(...block.data.map(d => d.value), 1);
           return (
-            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6">
-              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
+              {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
               <div className="flex flex-col gap-3">
                 {block.data.map((item, i) => (
                   <div key={i}>
@@ -1130,11 +1335,12 @@ export const LessonPlayer: React.FC = () => {
           const r = 38; const circumference = 2 * Math.PI * r;
           const total = block.data.reduce((s, d) => s + d.value, 0) || 1;
           let accumulated = 0;
+          const svgSize = compact ? 80 : 120;
           return (
-            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6">
-              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
-              <div className="flex flex-col sm:flex-row items-center gap-6">
-                <svg width="120" height="120" viewBox="0 0 100 100" className="shrink-0" aria-hidden="true">
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
+              {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              <div className={`flex flex-col ${compact ? 'gap-3' : 'sm:flex-row items-center gap-6'}`}>
+                <svg width={svgSize} height={svgSize} viewBox="0 0 100 100" className="shrink-0 mx-auto" aria-hidden="true">
                   <circle cx="50" cy="50" r={r} fill="none" stroke="var(--color-ink-100)" strokeWidth="10" />
                   {block.data.map((item, i) => {
                     const segLen = (item.value / total) * circumference;
@@ -1177,8 +1383,8 @@ export const LessonPlayer: React.FC = () => {
             return `${x},${y}`;
           }).join(' ');
           return (
-            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6 overflow-hidden">
-              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+            <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb} overflow-hidden`}>
+              {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
               <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
                 <polyline points={pts} fill="none" stroke="var(--color-primary-500)"
                   strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
@@ -1202,28 +1408,31 @@ export const LessonPlayer: React.FC = () => {
       case 'schema': {
         const layout = block.layout ?? 'vertical';
         const getColors = (c?: string) => SCHEMA_COLOR_MAP[c ?? 'primary'] ?? SCHEMA_COLOR_MAP['primary'];
+        const itemPad = compact ? 'p-2' : 'p-3';
+        const labelCls = compact ? 'font-body text-caption font-semibold text-ink-900 leading-tight' : 'font-body text-body-sm font-semibold text-ink-900 leading-tight';
+        const descCls = compact ? 'font-body text-micro text-ink-500 leading-tight' : 'font-body text-caption text-ink-500 leading-tight';
 
         if (layout === 'horizontal') {
           return (
-            <div key={key} className="mb-6">
-              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
-              <div className="flex flex-wrap items-stretch gap-2">
+            <div key={key} className={mb}>
+              {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              <div className="flex flex-wrap items-stretch gap-1.5">
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
                     <React.Fragment key={i}>
-                      <div className={`flex flex-col gap-1 p-3 rounded-xl border flex-1 min-w-[90px] ${card}`}>
+                      <div className={`flex flex-col gap-1 ${itemPad} rounded-lg border flex-1 min-w-[72px] ${card}`}>
                         {item.num !== undefined && (
-                          <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
+                          <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
                             {item.num}
                           </span>
                         )}
-                        <span className="font-body text-body-sm font-semibold text-ink-900 leading-tight">{item.label}</span>
-                        <span className="font-body text-caption text-ink-500 leading-tight">{item.desc}</span>
+                        <span className={labelCls}>{item.label}</span>
+                        <span className={descCls}>{item.desc}</span>
                       </div>
                       {i < block.items.length - 1 && (
                         <div className="flex items-center shrink-0">
-                          <ChevronRight size={16} className="text-ink-400" />
+                          <ChevronRight size={14} className="text-ink-400" />
                         </div>
                       )}
                     </React.Fragment>
@@ -1236,20 +1445,20 @@ export const LessonPlayer: React.FC = () => {
 
         if (layout === 'flow') {
           return (
-            <div key={key} className="mb-6">
-              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div key={key} className={mb}>
+              {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
+              <div className={`grid gap-2 ${compact ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3'}`}>
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
-                    <div key={i} className={`flex flex-col gap-1.5 p-4 rounded-xl border ${card}`}>
+                    <div key={i} className={`flex flex-col gap-1 ${itemPad} rounded-lg border ${card}`}>
                       {item.num !== undefined && (
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
+                        <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
                           {item.num}
                         </span>
                       )}
-                      <span className="font-body text-body-sm font-semibold text-ink-900">{item.label}</span>
-                      <span className="font-body text-caption text-ink-500 leading-tight">{item.desc}</span>
+                      <span className={labelCls}>{item.label}</span>
+                      <span className={descCls}>{item.desc}</span>
                     </div>
                   );
                 })}
@@ -1260,19 +1469,19 @@ export const LessonPlayer: React.FC = () => {
 
         // vertical (default)
         return (
-          <div key={key} className="flex flex-col gap-3 mb-6">
-            {block.title && <h4 className="m-0 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+          <div key={key} className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-3'} ${mb}`}>
+            {block.title && <h4 className={`m-0 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
             {block.items.map((item, i) => {
               const { card, num } = getColors(item.color);
               return (
-                <div key={i} className={`flex items-start gap-3 p-4 rounded-xl border ${card}`}>
+                <div key={i} className={`flex items-start gap-2 ${itemPad} rounded-lg border ${card}`}>
                   {item.num !== undefined && (
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
+                    <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
                       {item.num}
                     </span>
                   )}
                   <div>
-                    <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{item.label}</p>
+                    <p className={`m-0 ${labelCls}`}>{item.label}</p>
                     <p className="m-0 mt-0.5 font-body text-caption text-ink-500">{item.desc}</p>
                   </div>
                 </div>
@@ -1284,7 +1493,7 @@ export const LessonPlayer: React.FC = () => {
 
       case 'interactive': {
         return (
-          <div key={key} className="bg-primary-50 border border-primary-200 rounded-xl p-6 mb-6 flex items-start gap-4">
+          <div key={key} className={`bg-primary-50 border border-primary-200 rounded-xl ${compact ? 'p-3' : 'p-6'} ${mb} flex items-start gap-3`}>
             <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center shrink-0">
               <Cpu size={20} className="text-primary-600" />
             </div>
@@ -1304,7 +1513,7 @@ export const LessonPlayer: React.FC = () => {
       case 'annotation': {
         const annotValue = reflections[block.journalKey] ?? '';
         return (
-          <div key={key} className="bg-secondary-50 border border-secondary-500/30 rounded-xl p-5 mb-6">
+          <div key={key} className={`bg-secondary-50 border border-secondary-500/30 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
             <div className="flex items-center gap-2 mb-3">
               <BookOpen size={16} className="text-secondary-600 shrink-0" />
               <span className="font-body text-caption font-semibold text-secondary-600">Lié au Journal</span>
@@ -1319,6 +1528,245 @@ export const LessonPlayer: React.FC = () => {
               }}
               placeholder={block.placeholder ?? 'Écrivez votre réflexion ici…'}
             />
+          </div>
+        );
+      }
+
+      case 'embed': {
+        const PROVIDER_LABELS: Record<string, string> = {
+          'youtube': 'YouTube', 'vimeo': 'Vimeo', 'loom': 'Loom',
+          'canva': 'Canva', 'google-doc': 'Google Doc',
+          'google-slides': 'Google Slides', 'figma': 'Figma', 'other': 'Lien externe',
+        };
+        const ASPECT: Record<string, string> = {
+          '16/9': 'aspect-video', '4/3': 'aspect-[4/3]', '1/1': 'aspect-square',
+        };
+        const arClass = ASPECT[block.aspectRatio ?? '16/9'];
+
+        const normalizeEmbedUrl = (raw: string): string => {
+          try {
+            const url = new URL(raw.trim());
+            // YouTube watch → embed
+            if (url.hostname.includes('youtube.com') && url.searchParams.has('v')) {
+              return `https://www.youtube.com/embed/${url.searchParams.get('v')}?rel=0`;
+            }
+            // YouTube short link youtu.be/ID
+            if (url.hostname === 'youtu.be') {
+              return `https://www.youtube.com/embed${url.pathname}?rel=0`;
+            }
+            // Vimeo vimeo.com/ID → player
+            if (url.hostname === 'vimeo.com') {
+              return `https://player.vimeo.com/video${url.pathname}`;
+            }
+            // Loom share → embed
+            if (url.hostname.includes('loom.com') && url.pathname.startsWith('/share/')) {
+              return raw.replace('/share/', '/embed/');
+            }
+            // Google Slides: /edit → /embed
+            if (url.hostname === 'docs.google.com' && url.pathname.includes('/presentation/')) {
+              return raw.replace(/\/edit.*$/, '/embed?start=false&loop=false&delayms=3000');
+            }
+            // Google Docs: /edit → /preview
+            if (url.hostname === 'docs.google.com' && url.pathname.includes('/document/')) {
+              return raw.replace(/\/edit.*$/, '/preview');
+            }
+            // Canva: add ?embed if missing
+            if (url.hostname.includes('canva.com') && !url.searchParams.has('embed')) {
+              return raw + (raw.includes('?') ? '&' : '?') + 'embed';
+            }
+            // Figma: wrap in embed URL
+            if (url.hostname.includes('figma.com') && !url.pathname.startsWith('/embed')) {
+              return `https://www.figma.com/embed?embed_host=astra&url=${encodeURIComponent(raw)}`;
+            }
+          } catch { /* invalid URL, return as-is */ }
+          return raw.trim();
+        };
+
+        const resolvedUrl = embeddedUrls[index] ?? block.url;
+
+        return (
+          <div key={key} className={mb}>
+            {block.title && (
+              <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>
+            )}
+            {resolvedUrl ? (
+              <div className={`w-full ${arClass} rounded-xl overflow-hidden border border-ink-200 shadow-sm`}>
+                <iframe
+                  src={resolvedUrl}
+                  title={block.title ?? 'Contenu embarqué'}
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div className="rounded-xl border-2 border-dashed border-ink-300 bg-ink-50 p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Globe size={18} className="text-ink-400 shrink-0" />
+                  <span className="font-body text-body-sm font-semibold text-ink-700">
+                    {block.provider ? PROVIDER_LABELS[block.provider] : 'Embed externe'}
+                  </span>
+                  <span className="ml-auto font-body text-caption text-ink-400">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    className="flex-1 h-10 px-3 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                    placeholder="YouTube, Vimeo, Loom, Canva, Google Slides, Figma…"
+                    value={embedInputs[index] ?? ''}
+                    onChange={(e) => setEmbedInputs((prev) => ({ ...prev, [index]: e.target.value }))}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && embedInputs[index]) {
+                        setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      if (embedInputs[index]) {
+                        setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-4 h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0"
+                  >
+                    <Link2 size={13} /> Charger
+                  </button>
+                </div>
+                {resolvedUrl === undefined && embeddedUrls[index] && (
+                  <p className="m-0 mt-2 font-body text-caption text-danger-fg">URL invalide ou non supportée</p>
+                )}
+              </div>
+            )}
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+            {resolvedUrl && (
+              <div className="flex justify-end mt-1">
+                <button
+                  onClick={() => {
+                    setEmbeddedUrls((prev) => { const n = { ...prev }; delete n[index]; return n; });
+                    setEmbedInputs((prev) => ({ ...prev, [index]: '' }));
+                  }}
+                  className="font-body text-caption text-ink-400 hover:text-ink-600 transition-colors duration-150"
+                >
+                  Changer l'URL
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      case 'split': {
+        const RATIO: Record<string, string> = {
+          '1/1': 'grid-cols-2',
+          '2/1': 'grid-cols-[2fr_1fr]',
+          '1/2': 'grid-cols-[1fr_2fr]',
+        };
+        return (
+          <div key={key} className={mb}>
+            <div className={`grid ${RATIO[block.ratio ?? '1/1']} gap-4 items-start`}>
+              <div className="flex flex-col">
+                {block.left.map((b, i) => renderContentBlock(b, `${key}-L${i}`, compact))}
+              </div>
+              <div className="flex flex-col">
+                {block.right.map((b, i) => renderContentBlock(b, `${key}-R${i}`, compact))}
+              </div>
+            </div>
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+          </div>
+        );
+      }
+
+      case 'bento': {
+        const CELL_SPAN: Record<string, string> = {
+          sm:   'col-span-1',
+          md:   'col-span-2',
+          full: 'col-span-3',
+        };
+        const CELL_TONE: Record<string, { bg: string; label: string }> = {
+          primary:   { bg: 'bg-primary-50 border-primary-200',        label: 'text-primary-700' },
+          secondary: { bg: 'bg-secondary-50 border-secondary-500/20', label: 'text-secondary-600' },
+          accent:    { bg: 'bg-accent-50 border-accent-400/30',       label: 'text-accent-500' },
+          neutral:   { bg: 'bg-ink-50 border-ink-200',                label: 'text-ink-500' },
+          dark:      { bg: 'bg-ink-900 border-ink-800',               label: 'text-ink-300' },
+        };
+        return (
+          <div key={key} className={mb}>
+            {block.title && (
+              <h4 className="m-0 mb-3 font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+            )}
+            <div className="grid grid-cols-3 gap-3 auto-rows-min">
+              {block.cells.map((cell, ci) => {
+                const tone = CELL_TONE[cell.tone ?? 'neutral'];
+                return (
+                  <div
+                    key={ci}
+                    className={`${CELL_SPAN[cell.size ?? 'sm']} ${tone.bg} border rounded-xl p-3 flex flex-col gap-1 min-w-0`}
+                  >
+                    {cell.label && (
+                      <span className={`font-body text-caption font-semibold mb-1 ${tone.label}`}>{cell.label}</span>
+                    )}
+                    {cell.blocks.map((b, bi) => renderContentBlock(b, `${key}-C${ci}-${bi}`, true))}
+                  </div>
+                );
+              })}
+            </div>
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+          </div>
+        );
+      }
+
+      case 'table': {
+        return (
+          <div key={key} className="mb-6 overflow-x-auto rounded-xl border border-ink-200">
+            {block.title && (
+              <div className="px-4 py-3 bg-ink-50 border-b border-ink-200">
+                <h4 className="m-0 font-display text-h4 font-bold text-ink-900">{block.title}</h4>
+              </div>
+            )}
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-ink-50 border-b border-ink-200">
+                  {block.headers.map((h, i) => (
+                    <th
+                      key={i}
+                      className={`px-4 py-3 text-left font-display text-caption font-bold whitespace-nowrap ${
+                        block.highlightCol === i ? 'text-primary-700 bg-primary-50' : 'text-ink-700'
+                      }`}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rows.map((row, ri) => (
+                  <tr key={ri} className="border-b border-ink-100 last:border-0 hover:bg-ink-50 transition-colors duration-100">
+                    {row.map((cell, ci) => (
+                      <td
+                        key={ci}
+                        className={`px-4 py-3 font-body text-body-sm ${
+                          ci === 0 ? 'font-semibold text-ink-900' : 'text-ink-700'
+                        } ${block.highlightCol === ci ? 'font-semibold text-primary-700' : ''}`}
+                      >
+                        {String(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {block.caption && (
+              <div className="px-4 py-2 bg-ink-50 border-t border-ink-200">
+                <p className="m-0 font-body text-caption text-ink-500 italic">{block.caption}</p>
+              </div>
+            )}
           </div>
         );
       }
@@ -1360,90 +1808,127 @@ export const LessonPlayer: React.FC = () => {
         aria-modal="true"
         aria-label={`Leçon : ${displayTitle}`}
       >
-        {/* HEADER */}
-        <ViewerHeader
-          tone={tone}
-          eyebrow={ctx?.step ? ctx.step.title : 'Leçon'}
-          title={displayTitle}
-          subtitle={(
-            <span className="inline-flex items-center gap-1.5">
-              <Clock3 size={12} /> {displayDuration}
-            </span>
-          )}
-          current={currentIndex + 1}
-          total={SECTIONS.length}
-          progress={progress}
-          onBack={() => navigate(-1)}
-          onClose={handleClose}
-        />
+        {/* HEADER — compact single row */}
+        <header className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100">
+          <div className="flex items-center gap-3 px-4 h-11">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-1 text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0"
+              aria-label="Retour"
+            >
+              <ChevronLeft size={15} />
+              <span className="hidden sm:inline">Retour</span>
+            </button>
+            <div className="flex-1 min-w-0 flex flex-col items-center">
+              {ctx?.step && (
+                <span className="font-body text-micro text-ink-400 uppercase tracking-wider leading-none mb-0.5 truncate max-w-full">
+                  {ctx.step.title}
+                </span>
+              )}
+              <span className="font-display text-body-sm font-bold text-ink-900 truncate max-w-full leading-tight">
+                {displayTitle}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <span className="font-body text-caption text-ink-400 hidden sm:inline">
+                <Clock3 size={11} className="inline mr-1 -mt-0.5" />{displayDuration}
+              </span>
+              <span className="font-body text-caption font-semibold text-ink-500">
+                {currentIndex + 1}<span className="text-ink-300"> / </span>{SECTIONS.length}
+              </span>
+              <button
+                onClick={handleClose}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-400 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150"
+                aria-label="Fermer"
+              >
+                <XCircle size={16} />
+              </button>
+            </div>
+          </div>
+          {/* Progress line */}
+          <div className="h-0.5 bg-ink-100">
+            <div className="h-full bg-accent-400 transition-all duration-slow" style={{ width: `${progress}%` }} />
+          </div>
+        </header>
 
-        {/* SECTION NAV : Sticky, centered */}
+        {/* SECTION NAV — compact pills */}
         <nav
-          className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
+          className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
           aria-label="Sections de la leçon"
         >
-          <Container width="page" className="py-3">
-            <div className="lp-section-scroll flex gap-2 overflow-x-auto pb-0.5 justify-center">
-              {SECTIONS.map((section, index) => {
-                const isActive = index === currentIndex;
-                const isDone = completedSections.has(index) && !isActive;
-                const Icon = section.icon;
-                return (
-                  <button
-                    key={section.id}
-                    className={[
-                      'inline-flex items-center gap-2 px-4 py-2 rounded-xl border-none font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap relative tracking-[-0.01em]',
-                      isActive
-                        ? 'bg-primary-500 text-white font-bold shadow-sm'
-                        : 'bg-primary-50 text-ink-900 font-medium hover:bg-primary-100',
-                    ].join(' ')}
-                    onClick={() => goTo(index)}
-                    aria-current={isActive ? 'step' : undefined}
-                  >
-                    <Icon size={14} />
-                    <span>{section.title}</span>
-                    {isActive && (
-                      <div className="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shrink-0">
-                        <div className="w-[7px] h-[7px] rounded-full bg-white" />
-                      </div>
-                    )}
-                    {isDone && (
-                      <span
-                        className="absolute top-1 right-1 w-2 h-2 rounded-full bg-success-base"
-                        aria-hidden="true"
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </Container>
+          <div className="lp-section-scroll flex gap-1.5 overflow-x-auto px-4 py-2 justify-center">
+            {SECTIONS.map((section, index) => {
+              const isActive = index === currentIndex;
+              const isDone = completedSections.has(index) && !isActive;
+              const Icon = section.icon;
+              return (
+                <button
+                  key={section.id}
+                  className={[
+                    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative',
+                    isActive
+                      ? 'bg-primary-500 text-white font-bold shadow-sm'
+                      : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
+                  ].join(' ')}
+                  onClick={() => goTo(index)}
+                  aria-current={isActive ? 'step' : undefined}
+                >
+                  <Icon size={12} />
+                  <span>{section.title}</span>
+                  {isDone && (
+                    <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-success-base" aria-hidden="true" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </nav>
 
-        {/* CONTENT : Centered, scrollable internally */}
-        <div className="flex-1 overflow-y-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 py-8">
+        {/* CONTENT — scrollable, padded bottom for progress dots */}
+        <div className="flex-1 overflow-y-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-6 pb-16">
           <div
-            className="lp-card-anim bg-white rounded-2xl p-8 sm:p-12 shadow-md w-full max-w-[900px]"
+            className="lp-card-anim bg-white rounded-2xl p-8 sm:p-10 shadow-md w-full max-w-[900px]"
             key={currentSection.id}
           >
             {SECTION_RENDERERS[currentSection.id]()}
           </div>
         </div>
 
-        {/* BOTTOM NAV : Centered, fixed at bottom */}
-        <div className="px-4 sm:px-6 lg:px-8 py-6 flex justify-center border-t border-ink-100 bg-white/50 backdrop-blur-glass-light">
-          <div className="bg-white rounded-2xl p-5 shadow-sm w-full max-w-[900px]">
-            <LessonNavigation
-              tone={tone}
-              current={currentIndex + 1}
-              total={SECTIONS.length}
-              onPrev={handlePrev}
-              onNext={handleNext}
-              onFinish={handleNext}
-              onDotSelect={(idx) => goTo(idx)}
-              finishLabel="Terminer la leçon"
+        {/* SIDE ARROWS — fixed, vertically centered */}
+        <button
+          onClick={handlePrev}
+          disabled={isFirst}
+          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          aria-label="Section précédente"
+        >
+          <ChevronLeft size={18} />
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={false}
+          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-10 h-10 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150"
+          aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
+        >
+          <ChevronRight size={18} />
+        </button>
+
+        {/* BOTTOM PROGRESS — fixed, centered */}
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-1.5 px-3 py-2 bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
+          {SECTIONS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Aller à ${SECTIONS[i].title}`}
+              className={[
+                'rounded-pill transition-all duration-200',
+                i === currentIndex
+                  ? 'w-5 h-2 bg-accent-400'
+                  : completedSections.has(i)
+                  ? 'w-2 h-2 bg-accent-400/50 hover:bg-accent-400/80'
+                  : 'w-2 h-2 bg-ink-300 hover:bg-ink-400',
+              ].join(' ')}
             />
-          </div>
+          ))}
         </div>
 
         {/* ─ Session Feedback Modal ─────────────────────────────────── */}
