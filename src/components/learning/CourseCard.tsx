@@ -29,10 +29,18 @@ const categoryToneMap: Record<string, CourseCardTone> = {
   'Design Systems': 'sun',
 };
 
-const CARD_BASE =
-  'flex flex-col h-full rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-[box-shadow,transform] duration-base ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]';
+// Sprint 3 glow — tone-aware ripple. overflow-hidden removed from wrapper so ::after box-shadow isn't clipped.
+const TONE_HOVER_GLOW: Record<CourseCardTone, string> = {
+  brand: 'hover-glow-primary',
+  warm:  'hover-glow-warm',
+  sun:   'hover-glow-sun',
+};
 
-const HERO_BASE = 'aspect-video relative overflow-hidden flex items-center justify-center';
+const CARD_BASE =
+  'flex flex-col h-full rounded-lg border border-ink-200 bg-white shadow-sm transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
+
+// rounded-t-lg clips hero gradient to the card's top corners (overflow-hidden moved here from CARD_BASE)
+const HERO_BASE = 'aspect-video relative rounded-t-lg overflow-hidden flex items-center justify-center';
 
 const HERO_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'bg-gradient-to-br from-primary-600 to-primary-800',
@@ -81,7 +89,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const resolvedTone: CourseCardTone = tone ?? categoryToneMap[category] ?? 'brand';
 
   return (
-    <div className={CARD_BASE}>
+    <div className={[CARD_BASE, TONE_HOVER_GLOW[resolvedTone]].join(' ')}>
       <div className={`${HERO_BASE} ${HERO_TONE_CLASSES[resolvedTone]}`}>
         <div className="opacity-90">{getCategoryIcon(category)}</div>
       </div>

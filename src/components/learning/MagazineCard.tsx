@@ -18,6 +18,14 @@ export interface MagazineCardProps {
   className?: string;
 }
 
+// Sprint 3 hover-glow — brand maps to primary (same teal family)
+const TONE_HOVER_GLOW: Record<MagazineCardTone, string> = {
+  primary: 'hover-glow-primary',
+  warm:    'hover-glow-warm',
+  sun:     'hover-glow-sun',
+  brand:   'hover-glow-primary',
+};
+
 const TONE_GRADIENT: Record<MagazineCardTone, string> = {
   primary: 'from-primary-700 via-primary-800 to-primary-900',
   warm:    'from-secondary-500 via-secondary-700 to-secondary-800',
@@ -64,15 +72,16 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
       onClick={onClick}
       onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
       className={[
-        'group relative flex flex-col overflow-hidden rounded-2xl shadow-sm cursor-pointer',
-        'transition-all duration-base hover:-translate-y-0.5 hover:shadow-md',
+        'group relative flex flex-col rounded-2xl shadow-sm cursor-pointer',
+        'transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md',
         'focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2',
+        TONE_HOVER_GLOW[tone],
         className,
       ].filter(Boolean).join(' ')}
     >
       {/* ── Cover body ── */}
       <div className={[
-        'relative flex flex-col gap-stack p-6 overflow-hidden bg-gradient-to-br min-h-[200px]',
+        'relative flex flex-col gap-stack p-6 overflow-hidden rounded-t-2xl bg-gradient-to-br min-h-[200px]',
         TONE_GRADIENT[tone],
       ].join(' ')}>
 
@@ -134,7 +143,7 @@ export const MagazineCard: React.FC<MagazineCardProps> = ({
       </div>
 
       {/* ── Footer strip ── */}
-      <div className="relative flex items-center gap-3 px-5 py-3 bg-white border-t border-ink-100">
+      <div className="relative flex items-center gap-3 px-5 py-3 bg-white border-t border-ink-100 rounded-b-2xl">
         <MetaPill
           icon={<FileText size={13} />}
           text={`${articleCount} article${articleCount > 1 ? 's' : ''}`}

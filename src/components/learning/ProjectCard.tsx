@@ -52,7 +52,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Card
-      className={['group flex flex-col gap-4 transition-all hover:-translate-y-0.5 hover:shadow-md', className]
+      className={['group flex flex-col gap-4 transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md hover-glow-primary', className]
         .filter(Boolean)
         .join(' ')}
     >
