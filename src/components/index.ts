@@ -376,6 +376,9 @@ export type { SelectCheckboxProps, SelectCheckboxOption } from './ui/SelectCheck
 export { SelectCheckboxCategory } from './ui/SelectCheckboxCategory';
 export type { SelectCheckboxCategoryProps, CategoryOption } from './ui/SelectCheckboxCategory';
 
+export { SearchWithSuggestions } from './ui/SearchWithSuggestions';
+export type { SearchWithSuggestionsProps, SearchSuggestion } from './ui/SearchWithSuggestions';
+
 export { EtapeAccordion } from './patterns/EtapeAccordion';
 export type { EtapeAccordionProps, EtapeAccordionVariant } from './patterns/EtapeAccordion';
 

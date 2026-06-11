@@ -28,7 +28,7 @@ import {
   VideoPlayerModal,
   CelebrationModal,
 } from '../components/modals';
-import { SelectCheckbox, SelectCheckboxCategory } from '../components';
+import { SelectCheckbox, SelectCheckboxCategory, SearchWithSuggestions, type SearchSuggestion } from '../components';
 import {
   // Core
   Button,
@@ -6969,6 +6969,58 @@ const Components: React.FC = () => {
     }
   }, [filteredComponents, componentsWithMeta]);
 
+  // Generate search suggestions from all sources
+  const searchSuggestions = useMemo<SearchSuggestion[]>(() => {
+    const suggestions: SearchSuggestion[] = [];
+
+    // Add components
+    componentsWithMeta.forEach((c) => {
+      suggestions.push({
+        id: c.codeName,
+        type: 'component',
+        label: c.name,
+        description: c.description,
+        query: c.name,
+      });
+    });
+
+    // Add categories
+    CATEGORY_OPTIONS.forEach((cat) => {
+      if (cat.id !== 'all') {
+        suggestions.push({
+          id: cat.id,
+          type: 'category',
+          label: cat.label,
+          query: cat.label,
+        });
+      }
+    });
+
+    // Add tokens
+    ALL_TOKENS.slice(0, 20).forEach((t) => {
+      suggestions.push({
+        id: t.name,
+        type: 'token',
+        label: t.name,
+        description: `${t.value}`,
+        query: t.name,
+      });
+    });
+
+    // Add pages
+    PAGE_TEMPLATES.forEach((p) => {
+      suggestions.push({
+        id: p.id,
+        type: 'page',
+        label: p.name,
+        description: p.description,
+        query: p.name,
+      });
+    });
+
+    return suggestions;
+  }, [componentsWithMeta]);
+
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Compute dynamic stats for the hero
@@ -7036,18 +7088,26 @@ const Components: React.FC = () => {
 
       {/* -------------------------------- CONTROLS (sticky) ------------------- */}
       <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-4 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">
-        {/* Search input */}
-        <Search
+        {/* ===== SEARCH WITH SUGGESTIONS (primary) ===== */}
+        <SearchWithSuggestions
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
+          onChange={(value) => {
+            setQuery(value);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
+          suggestions={searchSuggestions}
+          onSuggestionSelect={(suggestion) => {
+            // When user clicks a suggestion, also set the category if it's a category type
+            if (suggestion.type === 'category' && suggestion.id !== 'all') {
+              setSelectedCategory(suggestion.id);
+            }
+          }}
           size="lg"
-          placeholder="Rechercher un composant, un token, une classe CSS…"
+          placeholder="Rechercher un composant, un token, une catégorie…"
+          className="w-full"
         />
 
-        {/* Selects row */}
+        {/* ===== FILTERS ROW (secondary) ===== */}
         <div className="flex gap-stack sm:gap-stack-lg flex-col sm:flex-row">
           <SelectCheckboxCategory
             categories={CATEGORY_OPTIONS}
