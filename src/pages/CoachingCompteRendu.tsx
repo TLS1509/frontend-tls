@@ -318,7 +318,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Coach info card */}
             <Card variant="feature">
               <div className="flex flex-col gap-4">
-                <h3 className="font-body text-caption font-bold text-ink-500 m-0 uppercase tracking-wider">
+                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Votre coach
                 </h3>
                 <div className="flex gap-3 items-center">
@@ -346,7 +346,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Satisfaction */}
             <Card variant="feature">
               <div className="flex flex-col gap-3">
-                <h3 className="font-body text-caption font-bold text-ink-500 m-0 uppercase tracking-wider">
+                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Satisfaction de la session
                 </h3>
                 <div className="flex items-center gap-3">
@@ -364,7 +364,7 @@ export const CoachingCompteRendu: React.FC = () => {
             {/* Next session */}
             <Card variant="feature" className="bg-gradient-to-br from-primary-50 to-white">
               <div className="flex flex-col gap-3">
-                <h3 className="font-body text-caption font-bold text-ink-500 m-0 uppercase tracking-wider">
+                <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Session suivante
                 </h3>
                 <div className="flex items-center gap-2">

@@ -305,7 +305,7 @@ export const Coaching: React.FC = () => {
               <div className="p-6 lg:p-8 flex flex-col gap-stack-lg">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex flex-col gap-tight min-w-0">
-                    <p className="m-0 font-body text-caption font-bold uppercase tracking-wider text-primary-700">
+                    <p className="m-0 font-body text-caption font-medium text-primary-700">
                       Prochaine session
                     </p>
                     <h2 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
@@ -379,7 +379,7 @@ export const Coaching: React.FC = () => {
                   <CalendarPlus size={28} strokeWidth={1.75} />
                 </span>
                 <div className="flex flex-col gap-tight max-w-[520px]">
-                  <p className="m-0 font-body text-caption font-bold uppercase tracking-wider text-primary-700">
+                  <p className="m-0 font-body text-caption font-medium text-primary-700">
                     Aucune session programmée
                   </p>
                   <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">

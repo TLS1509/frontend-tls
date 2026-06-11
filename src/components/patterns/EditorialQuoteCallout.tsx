@@ -88,7 +88,7 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
           {eyebrow && (
             <span
               className={[
-                'inline-flex font-body text-caption font-bold uppercase tracking-wider',
+                'inline-flex font-body text-caption font-medium',
                 EYEBROW[tone],
               ].join(' ')}
             >

@@ -107,7 +107,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         {/* Top row — eyebrow + meta pills */}
         <div className="flex flex-wrap items-center gap-3 justify-between">
           {eyebrow && (
-            <span className={['inline-flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider', EYEBROW_TONE[tone]].join(' ')}>
+            <span className={['inline-flex items-center gap-1.5 text-caption font-medium', EYEBROW_TONE[tone]].join(' ')}>
               {eyebrow}
             </span>
           )}

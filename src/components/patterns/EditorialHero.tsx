@@ -138,7 +138,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
       {eyebrow && (
         <div className="relative">
           {isEyebrowObject(eyebrow) ? (
-            <span className={['inline-flex items-center gap-1.5 text-micro font-bold uppercase tracking-wider', TONE_EYEBROW[tone]].join(' ')}>
+            <span className={['inline-flex items-center gap-1.5 text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>
               {eyebrow.icon}
               {eyebrow.label}
             </span>

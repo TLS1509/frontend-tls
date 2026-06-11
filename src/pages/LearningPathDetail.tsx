@@ -518,7 +518,7 @@ export const LearningPathDetail: React.FC = () => {
 
                         {idx === 0 && carouselItems.length > 0 && (
                           <div className="flex flex-col gap-stack-xs">
-                            <p className="text-caption font-bold uppercase tracking-wider text-ink-500">
+                            <p className="text-caption font-medium text-ink-500">
                               Ressources complémentaires
                             </p>
                             <CardGrid layout="default" autoFit gapSize="md">

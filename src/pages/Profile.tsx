@@ -392,7 +392,7 @@ export const Profile: React.FC = () => {
               <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack-lg">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={14} className="text-primary-600" />
-                  <h3 className="m-0 font-body text-caption font-bold uppercase tracking-wider text-ink-500">
+                  <h3 className="m-0 font-body text-caption font-medium text-ink-500">
                     Vue détaillée
                   </h3>
                 </div>

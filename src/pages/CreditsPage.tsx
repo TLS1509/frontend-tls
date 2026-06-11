@@ -99,7 +99,7 @@ export default function CreditsPage() {
           className="p-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-section"
         >
           <div className="flex flex-col gap-stack text-center md:text-left">
-            <p className="m-0 text-caption font-bold uppercase tracking-wider text-secondary-600">Solde actuel</p>
+            <p className="m-0 text-caption font-medium text-secondary-600">Solde actuel</p>
             {/* Classic credits */}
             <div className="flex items-center gap-stack-xs justify-center md:justify-start">
               <div className="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-secondary-100 text-secondary-600 shrink-0">
