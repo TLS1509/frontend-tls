@@ -92,7 +92,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   const padding = variant === 'minimal' ? 'p-4' : 'p-6';
 
   const classes = [
-    'relative border rounded-xl flex flex-col gap-4 transition-all no-underline text-inherit',
+    'relative border rounded-xl flex flex-col gap-4 transition-[box-shadow,transform] duration-base ease-emphasis no-underline text-inherit',
     'hover:-translate-y-0.5 hover:shadow-md',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     toneBg,
@@ -167,7 +167,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               onClick={cta.onClick}
               className={[
                 'inline-flex items-center gap-2 px-3 py-2 bg-transparent border-0 rounded-md',
-                'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-all',
+                'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
                 accentText,
                 ctaHover,

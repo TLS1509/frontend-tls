@@ -189,7 +189,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
   // Horizontal variant : flex-row, avatar left, info center, cta right (responsive stacks on mobile)
   const cardClasses = [
-    'rounded-2xl border bg-white shadow-sm transition-all duration-200 hover:shadow-md',
+    'rounded-2xl border bg-white shadow-sm transition-[box-shadow] duration-base ease-emphasis hover:shadow-md',
     isHorizontal
       ? 'flex flex-col md:flex-row md:items-center'
       : ['flex flex-col', isCentered ? 'items-center text-center' : 'items-start text-left'].join(' '),
@@ -253,7 +253,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   href={c.href}
                   target={c.type === 'email' || c.type === 'phone' ? undefined : '_blank'}
                   rel={c.type === 'email' || c.type === 'phone' ? undefined : 'noopener noreferrer'}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors no-underline font-body text-caption font-medium"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
                 >
                   <span className={TONE_ROLE[tone]}>{CONTACT_ICON[c.type]}</span>
                   <span className="truncate max-w-[180px]">{c.label ?? CONTACT_DEFAULT_LABEL[c.type]}</span>
@@ -344,7 +344,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               href={c.href}
               target={c.type === 'email' || c.type === 'phone' ? undefined : '_blank'}
               rel={c.type === 'email' || c.type === 'phone' ? undefined : 'noopener noreferrer'}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors no-underline font-body text-caption font-medium"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
             >
               <span className={TONE_ROLE[tone]}>{CONTACT_ICON[c.type]}</span>
               <span className="truncate">{c.label ?? CONTACT_DEFAULT_LABEL[c.type]}</span>

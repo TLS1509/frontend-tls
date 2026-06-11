@@ -161,7 +161,7 @@ export const Search: React.FC<SearchProps> = ({
   const isGlass = variant === 'glass';
 
   const wrapperClasses = [
-    'flex flex-col transition-all duration-150',
+    'flex flex-col transition-[background-color,border-color,box-shadow] duration-fast ease-emphasis',
     SIZE_WRAPPER[size],
     VARIANT_WRAPPER[variant],
     wrapperClassName,
@@ -208,7 +208,7 @@ export const Search: React.FC<SearchProps> = ({
             aria-label="Effacer la recherche"
             tabIndex={-1}
             className={[
-              'inline-flex items-center justify-center w-5 h-5 p-0 border-0 rounded-sm cursor-pointer shrink-0 transition-all',
+              'inline-flex items-center justify-center w-5 h-5 p-0 border-0 rounded-sm cursor-pointer shrink-0 transition-[background-color,color] duration-fast ease-emphasis',
               isGlass
                 ? 'bg-white/20 text-white/80 hover:bg-white/30 hover:text-white'
                 : 'bg-ink-50 text-ink-600 hover:bg-ink-200 hover:text-ink-900',
@@ -263,6 +263,7 @@ export const Search: React.FC<SearchProps> = ({
               className={[
                 'flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-all',
                 isGlass ? 'hover:bg-white/15 text-white' : 'hover:bg-ink-50 text-ink-900',
+                'transition-[background-color] duration-fast ease-emphasis',
               ].join(' ')}
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}

@@ -41,7 +41,7 @@ export const Tag: React.FC<TagProps> = ({
   const isGlass = surface === 'glass';
 
   const classes = [
-    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap transition-colors',
+    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap transition-[background-color,border-color] duration-fast ease-emphasis',
     isGlass ? GLASS_BASE : TONE_CLASSES[tone],
     className,
   ]
@@ -63,7 +63,7 @@ export const Tag: React.FC<TagProps> = ({
             onRemove();
           }}
           className={[
-            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors',
+            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-[background-color,color] duration-fast ease-emphasis active:scale-[0.9]',
             isGlass ? GLASS_REMOVE : REMOVE_HOVER[tone],
           ].join(' ')}
         >

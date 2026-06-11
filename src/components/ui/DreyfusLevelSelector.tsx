@@ -82,7 +82,7 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
       {levels.map((lv) => {
         const selected = value === lv.v;
         const btnClasses = [
-          'min-h-touch p-4 rounded-lg border-2 text-left transition-all duration-base bg-white cursor-pointer',
+          'min-h-touch p-4 rounded-lg border-2 text-left transition-[background-color,border-color] duration-base ease-emphasis bg-white cursor-pointer',
           'focus-visible:outline-2 focus-visible:outline-offset-2',
           TONE_FOCUS[tone],
           selected ? TONE_SELECTED[tone] : `border-ink-200 ${TONE_HOVER[tone]}`,

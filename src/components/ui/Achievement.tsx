@@ -55,7 +55,7 @@ export const Achievement: React.FC<AchievementProps> = ({
     maxProgress > 0 ? Math.min(((progress || 0) / maxProgress) * 100, 100) : 0;
 
   const classes = [
-    'flex items-center border-2 rounded-2xl transition-all',
+    'flex items-center border-2 rounded-2xl transition-[box-shadow,transform] duration-base ease-emphasis',
     SIZE_CLASSES[size],
     VARIANT_CARD[variant],
     isClickable

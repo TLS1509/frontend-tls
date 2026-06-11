@@ -14,7 +14,7 @@ export interface StepsProps extends React.HTMLAttributes<HTMLOListElement> {
 }
 
 const MARKER_BASE =
-  'absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-caption font-bold border-2 transition-all';
+  'absolute left-0 top-0 w-9 h-9 rounded-full flex items-center justify-center text-caption font-bold border-2 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const MARKER_STATE: Record<StepState, string> = {
   done:     'bg-gradient-to-br from-primary-500 to-primary-700 border-transparent text-white shadow-brand-sm',

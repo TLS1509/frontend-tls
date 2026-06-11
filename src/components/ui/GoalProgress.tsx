@@ -16,7 +16,7 @@ export interface GoalProgressProps {
   showDetails?: boolean;
 }
 
-const CONTAINER_BASE = 'rounded-2xl border font-body transition-all duration-200';
+const CONTAINER_BASE = 'rounded-2xl border font-body transition-[background-color,border-color] duration-base ease-standard';
 
 const CONTAINER_TONE_CLASSES: Record<GoalProgressTone, string> = {
   primary: 'bg-gradient-to-br from-primary-50 to-primary-50/50 border-primary-200',
