@@ -52,7 +52,7 @@ export const Newsletter: React.FC = () => {
         </Container>
       </div>
 
-      <main className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="py-section flex flex-col gap-section">
         <EditorialHero
           eyebrow={{ icon: <Newspaper size={12} />, label: 'Abonnement Veille' }}
           title="Newsletter TLS"
@@ -115,7 +115,7 @@ export const Newsletter: React.FC = () => {
             </SectionCard>
           }
         />
-      </main>
+      </Container>
     </div>
   );
 };

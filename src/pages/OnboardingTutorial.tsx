@@ -55,7 +55,7 @@ export default function OnboardingTutorial() {
   const [step, setStep] = useState(0);
 
   return (
-    <main className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface">
       <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('tutoriel')} orientation="horizontal" />
@@ -77,6 +77,6 @@ export default function OnboardingTutorial() {
           onSkip={() => navigate('/onboarding/success')}
         />
       </Container>
-    </main>
+    </div>
   );
 }

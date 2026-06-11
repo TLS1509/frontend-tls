@@ -203,7 +203,7 @@ export const FlashcardsViewer: React.FC = () => {
         onClose={handleClose}
       />
 
-      <main className="py-stack-lg px-4 sm:px-6 lg:px-8">
+      <div className="py-stack-lg px-4 sm:px-6 lg:px-8">
         <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
 
           {/* ── Title block ─────────────────────────────────────── */}
@@ -292,7 +292,7 @@ export const FlashcardsViewer: React.FC = () => {
             finishLabel="Terminer les flashcards"
           />
         </Container>
-      </main>
+      </div>
     </div>
   );
 };

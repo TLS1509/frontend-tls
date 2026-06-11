@@ -119,7 +119,7 @@ export const Positionnement: React.FC = () => {
           title="Résultats"
         />
 
-        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-section">
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-section">
           <div className="w-full max-w-2xl flex flex-col gap-section">
             <SectionCard
               tone="brand"
@@ -175,7 +175,7 @@ export const Positionnement: React.FC = () => {
               </Button>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     );
   }
@@ -192,7 +192,7 @@ export const Positionnement: React.FC = () => {
         total={total}
       />
 
-      <main className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
         <div className="max-w-content w-full mx-auto flex flex-col gap-section">
 
           {/* Progress */}
@@ -240,7 +240,7 @@ export const Positionnement: React.FC = () => {
             </Button>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

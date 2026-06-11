@@ -92,7 +92,7 @@ export const WeeklyNewsletter: React.FC = () => {
         </Container>
       </div>
 
-      <main className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="py-section flex flex-col gap-section">
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
@@ -292,7 +292,7 @@ export const WeeklyNewsletter: React.FC = () => {
             </Button>
           </form>
         </section>
-      </main>
+      </Container>
     </div>
   );
 };

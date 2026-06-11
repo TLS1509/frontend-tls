@@ -112,7 +112,7 @@ export const WeeklyNewsDetail: React.FC = () => {
         </Container>
       </div>
 
-      <main ref={articleRef} className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <div ref={articleRef} className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section">
         <EditorialLayout
           main={
             <div className="flex flex-col gap-section">
@@ -204,7 +204,7 @@ export const WeeklyNewsDetail: React.FC = () => {
             </SectionCard>
           }
         />
-      </main>
+      </div>
     </div>
   );
 };

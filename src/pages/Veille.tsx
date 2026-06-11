@@ -223,7 +223,7 @@ export const Veille: React.FC = () => {
       </section>
 
       {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
-      <main className="max-w-page mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">
+      <Container width="page" className="py-section flex flex-col gap-section flex-1">
 
         <VeilleCardFeed
           items={filteredItems}
@@ -233,7 +233,7 @@ export const Veille: React.FC = () => {
           onItemClick={handleOpen}
           emptyMessage="Aucun résultat — essayez d'élargir vos filtres."
         />
-      </main>
+      </Container>
 
       {/* ── 4. BANDE MAILING — glassy minimale ──────────────────────────── */}
       <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">

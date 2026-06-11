@@ -119,7 +119,7 @@ export const JournalDetail: React.FC = () => {
         </div>
       </div>
 
-      <main
+      <div
         ref={articleRef}
         className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
       >
@@ -277,7 +277,7 @@ export const JournalDetail: React.FC = () => {
             Nouvelle entrée
           </Button>
         </section>
-      </main>
+      </div>
     </div>
   );
 };

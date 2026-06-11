@@ -219,7 +219,7 @@ export const ArticleDetail: React.FC = () => {
         </Container>
       </div>
 
-      <main
+      <div
         ref={articleRef}
         className="max-w-medium mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
       >
@@ -318,7 +318,7 @@ export const ArticleDetail: React.FC = () => {
             </div>
           }
         />
-      </main>
+      </div>
     </div>
   );
 };

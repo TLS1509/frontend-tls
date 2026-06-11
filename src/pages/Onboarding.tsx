@@ -355,7 +355,7 @@ export const Onboarding: React.FC = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface">
       <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
@@ -405,6 +405,6 @@ export const Onboarding: React.FC = () => {
           </div>
         </div>
       </Container>
-    </main>
+    </div>
   );
 };

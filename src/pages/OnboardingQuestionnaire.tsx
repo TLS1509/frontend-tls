@@ -83,7 +83,7 @@ const OnboardingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface">
       <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('positionnement')} orientation="horizontal" />
@@ -136,7 +136,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
         </div>
       </Container>
-    </main>
+    </div>
   );
 };
 

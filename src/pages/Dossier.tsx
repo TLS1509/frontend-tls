@@ -131,7 +131,7 @@ export const Dossier: React.FC = () => {
         </Container>
       </div>
 
-      <main ref={articleRef}>
+      <div ref={articleRef}>
         {/* Hero warm bounded */}
         <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
           <Container width="page" className="py-section flex flex-col gap-stack-lg">
@@ -327,7 +327,7 @@ export const Dossier: React.FC = () => {
             </Button>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
