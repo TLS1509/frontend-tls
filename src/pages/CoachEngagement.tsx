@@ -9,6 +9,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 
 interface Learner {
   name: string;
@@ -46,7 +47,7 @@ const CoachEngagement: React.FC = () => {
         tone="warm"
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Apprenants actifs" value="3/5" sub="60%" />
           <StatCard label="Streak moyen" value="10.2j" sub="+2 vs S-1" />
@@ -96,7 +97,7 @@ const CoachEngagement: React.FC = () => {
             </div>
           </Card>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { Flame, Medal, Sparkles, Trophy, Users, Zap, Star } from 'lucide-react';
 import { useGamificationStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { buildLeaderboard, type LeaderboardRow } from '../data/apprenants';
+import { Container } from '../components/layout';
 
 const PERIODS = [
   { id: 'week'  as const, label: 'Cette semaine' },
@@ -83,7 +84,7 @@ export const Leaderboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <div className="flex-1 max-w-wide mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+      <Container width="wide" className="flex-1 py-8 sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -276,7 +277,7 @@ export const Leaderboard: React.FC = () => {
           </div>
           <Button onClick={() => navigate('/learning-paths')}>Continuer mon parcours</Button>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 };

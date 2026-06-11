@@ -7,6 +7,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -65,7 +66,7 @@ export default function AtelierPresentiel() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* Adresse card */}
         <Card variant="tinted" tone="warm" className="p-6 flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
@@ -146,7 +147,7 @@ export default function AtelierPresentiel() {
             ))}
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

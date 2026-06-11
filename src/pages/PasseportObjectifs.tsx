@@ -15,6 +15,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { COMPETENCES, getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyObjective, DreyfusLevel } from '../types/learning';
+import { Container } from '../components/layout';
 
 type ModalState = null | { mode: 'create' } | { mode: 'edit'; id: string };
 
@@ -152,7 +153,7 @@ export default function PasseportObjectifs() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Summary row */}
         <div className="grid grid-cols-3 gap-stack">
@@ -339,7 +340,7 @@ export default function PasseportObjectifs() {
           </SectionCard>
         )}
 
-      </div>
+      </Container>
 
       {/* Create / Edit modal */}
       <Modal

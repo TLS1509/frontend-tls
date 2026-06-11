@@ -7,6 +7,7 @@ import { Button } from '../components/core/Button';
 import { StatCard } from '../components/ui/StatCard';
 import { ProjectCard } from '../components/learning/ProjectCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Container } from '../components/layout';
 import {
   CheckCircle2,
   Layers,
@@ -93,7 +94,7 @@ export const Collaboration: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <div className="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="flex-1 py-section flex flex-col gap-section">
 
         <EditorialHero
           tone="warm"
@@ -171,7 +172,7 @@ export const Collaboration: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

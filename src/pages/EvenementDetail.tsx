@@ -17,6 +17,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -84,7 +85,7 @@ export default function EvenementDetail() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full flex flex-col gap-section">
+      <Container width="content" padding={false} className="flex flex-col gap-section">
         {/* Organizer */}
         <Card variant="tinted" tone="sun" className="flex items-center gap-section p-6">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
@@ -169,7 +170,7 @@ export default function EvenementDetail() {
             <p className="text-micro text-ink-400 m-0">Annulation possible jusqu'à J-1</p>
           </div>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -175,7 +176,7 @@ export default function PasseportRoadmap() {
       />
 
       {/* Body */}
-      <div className="max-w-wide mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -284,7 +285,7 @@ export default function PasseportRoadmap() {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

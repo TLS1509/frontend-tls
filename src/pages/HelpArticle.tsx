@@ -6,6 +6,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
+import { Container } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const MOCK_USER_ID = 'user-demo';
@@ -42,11 +43,11 @@ export default function HelpArticle() {
           summary="Cet article n'existe pas ou a été déplacé."
           tone="default"
         />
-        <div className="max-w-page mx-auto w-full px-4 pb-page">
+        <Container className="pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
             Retour à l'aide
           </Button>
-        </div>
+        </Container>
       </div>
     );
   }
@@ -71,7 +72,7 @@ export default function HelpArticle() {
         }
       />
 
-      <div className="max-w-page mx-auto w-full px-4 pb-page">
+      <Container className="pb-page">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-section items-start">
           <div className="flex flex-col gap-section">
             <Alert variant="info">Mis à jour le {updatedDate}</Alert>
@@ -135,7 +136,7 @@ export default function HelpArticle() {
             )}
           </aside>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

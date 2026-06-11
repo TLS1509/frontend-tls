@@ -7,6 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { Container } from '../components/layout';
 
 interface Recommendation {
   id: string;
@@ -72,7 +73,7 @@ const ItemRecommendations: React.FC = () => {
         tone="default"
       />
 
-      <div className="max-w-content mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="flex items-center justify-between gap-stack">
           <div>
             <div className="text-h4 font-semibold">{RECOMMENDATIONS.length} recommandations actives</div>
@@ -117,7 +118,7 @@ const ItemRecommendations: React.FC = () => {
             })}
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 };

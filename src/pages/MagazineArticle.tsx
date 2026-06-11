@@ -33,6 +33,7 @@ import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
+import { Container } from '../components/layout';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
@@ -86,7 +87,7 @@ export const MagazineArticle: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="medium" className="h-14 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => navigate('/veille/magazine')}
@@ -110,12 +111,12 @@ export const MagazineArticle: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
 
       <main
         ref={articleRef}
-        className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+        className="max-w-medium mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">

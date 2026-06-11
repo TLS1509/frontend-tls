@@ -27,6 +27,7 @@ import {
 import { Button } from '../components/core/Button';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { Container } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -71,7 +72,7 @@ export const Magazine: React.FC = () => {
     <div className="min-h-screen bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -98,7 +99,7 @@ export const Magazine: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* Full-bleed dark hero */}
@@ -115,14 +116,14 @@ export const Magazine: React.FC = () => {
           style={{ background: 'radial-gradient(circle, rgba(245,154,95,0.6) 0%, transparent 70%)' }}
         />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section sm:py-page flex flex-col gap-stack-lg">
+        <Container width="page" className="relative py-section sm:py-page flex flex-col gap-stack-lg">
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
             <BookOpen size={12} />
             Magazine TLS · Édition Printemps 2026
           </span>
 
-          <h1 className="m-0 font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] font-extrabold text-white leading-[1.05] tracking-tight max-w-3xl">
+          <h1 className="m-0 font-display text-h1 sm:text-[3.25rem] lg:text-[4rem] font-extrabold text-white leading-[1.05] tracking-tight max-w-content">
             L'IA au cœur de la formation
           </h1>
 
@@ -144,11 +145,11 @@ export const Magazine: React.FC = () => {
               <Download size={13} /> 1 240 téléchargements
             </span>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Body — Editorial layout aside-left (Synthèse) + Sommaire main */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <Container width="page" className="py-section">
         <EditorialLayout
           asideFirst
           aside={
@@ -219,7 +220,7 @@ export const Magazine: React.FC = () => {
             </SectionCard>
           }
         />
-      </div>
+      </Container>
     </div>
   );
 };

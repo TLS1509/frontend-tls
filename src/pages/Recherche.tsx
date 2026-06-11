@@ -39,6 +39,7 @@ import {
   SkeletonGroup,
   EditorialCardSkeleton,
 } from '../components/patterns/SkeletonTemplates';
+import { Container } from '../components/layout';
 
 /* ─── Types & Mock data ─────────────────────────────────────────────────── */
 
@@ -214,7 +215,7 @@ export const Recherche: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
         {/* Hero */}
         <HeroSection
@@ -284,7 +285,7 @@ export const Recherche: React.FC = () => {
             {results.map(renderResult)}
           </CardGrid>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

@@ -14,6 +14,7 @@ import FormGroup from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { useProjectsStore } from '../stores/persistence';
 import type { TaskStatus } from '../types/projects';
+import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -59,12 +60,12 @@ export const ProjectTask: React.FC = () => {
 
   if (!task) {
     return (
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
         <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
-      </div>
+      </Container>
     );
   }
 
@@ -81,7 +82,7 @@ export const ProjectTask: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
@@ -264,7 +265,7 @@ export const ProjectTask: React.FC = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

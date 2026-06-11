@@ -8,6 +8,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { StatCard } from '../components/ui/StatCard';
 import { useProjectsStore } from '../stores/persistence';
 import type { DreyfusLevel } from '../types/learning';
+import { Container } from '../components/layout';
 
 const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
@@ -22,11 +23,11 @@ export const ProjectSkillGaps: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="max-w-page mx-auto px-4 py-section">
+      <Container width="page" padding={false} className="px-4 py-section">
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
-      </div>
+      </Container>
     );
   }
 
@@ -63,7 +64,7 @@ export const ProjectSkillGaps: React.FC = () => {
   const coveredSkills = gapEntries.filter((e) => !e.gap);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
@@ -184,7 +185,7 @@ export const ProjectSkillGaps: React.FC = () => {
           </table>
         </div>
       </SectionCard>
-    </div>
+    </Container>
   );
 };
 

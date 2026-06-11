@@ -32,6 +32,7 @@ import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore } from '../stores/persistence';
 import type { SubscriptionTier } from '../types/learning';
+import { Container } from '../components/layout';
 
 /* ─── Mock data ─────────────────────────────────────────────────────────── */
 
@@ -85,7 +86,7 @@ export const Billing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
+      <Container width="content" padding={false} className="px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
 
         {/* Family nav */}
         <AccountFamilyNav active="billing" />
@@ -254,7 +255,7 @@ export const Billing: React.FC = () => {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
 
       {/* Confirm modal */}
       <ConfirmModal

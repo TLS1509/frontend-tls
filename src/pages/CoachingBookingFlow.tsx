@@ -5,6 +5,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
+import { Container } from '../components/layout';
 import { CalendarDays, Clock3, MapPin, Sparkles, UserRound, Coins } from 'lucide-react';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore, useCoachingStore } from '../stores/persistence';
@@ -60,7 +61,7 @@ export const CoachingBookingFlow: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
         eyebrow={{ icon: <Sparkles size={12} />, label: 'Coaching personnalisé' }}
         title="Coaching Booking Flow"
@@ -118,7 +119,7 @@ export const CoachingBookingFlow: React.FC = () => {
           </SectionCard>
         }
       />
-    </div>
+    </Container>
   );
 };
 

@@ -6,6 +6,7 @@ import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
 import { useGamificationStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 
 const XP_CATEGORIES = [
@@ -35,7 +36,7 @@ export default function XPDashboard() {
         tone="sun"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
@@ -123,7 +124,7 @@ export default function XPDashboard() {
             ))}
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

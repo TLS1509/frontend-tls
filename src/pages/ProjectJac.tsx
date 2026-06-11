@@ -12,6 +12,7 @@ import FormGroup from '../components/core/FormGroup';
 import { useProjectsStore } from '../stores/persistence';
 import type { JacStatus, DreyfusRubricScore } from '../types/projects';
 import type { DreyfusLevel } from '../types/learning';
+import { Container } from '../components/layout';
 
 const MOCK_EXPERT_ID = 'expert-jean-marc';
 const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
@@ -205,7 +206,7 @@ export const ProjectJac: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
@@ -355,7 +356,7 @@ export const ProjectJac: React.FC = () => {
           <p className="text-body-sm text-ink-500 m-0">Aucun JAC soumis pour ce projet.</p>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

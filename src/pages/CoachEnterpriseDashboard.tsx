@@ -8,6 +8,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Tabs } from '../components/ui/Tabs';
 import { Avatar } from '../components/ui/Avatar';
+import { Container } from '../components/layout';
 import { useEnterpriseStore, useCoachingStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -46,7 +47,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
         tone="warm"
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Apprenants suivis" value={stats.activeMembers} sub={`${members.length} membres total`} />
           <StatCard label="Taux de complétion" value={`${stats.completionRate}%`} sub="formations" />
@@ -125,7 +126,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
             </div>
           </SectionCard>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

@@ -14,6 +14,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
+import { Container } from '../components/layout';
 
 const DREYFUS_DESC = [
   { level: 1, label: 'Novice',     desc: 'Applique des règles simples sans contexte.' },
@@ -86,7 +87,7 @@ export default function PasseportCompetenceDetail() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -226,7 +227,7 @@ export default function PasseportCompetenceDetail() {
           </Button>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

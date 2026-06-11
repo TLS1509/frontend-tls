@@ -9,6 +9,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Alert } from '../components/ui/Alert';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { Switch } from '../components/core/Input';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -76,7 +77,7 @@ export default function ProfilePrivacy() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Info alert */}
         <Alert variant="info" icon={<Shield size={18} />}>
@@ -192,7 +193,7 @@ export default function ProfilePrivacy() {
           ))}
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

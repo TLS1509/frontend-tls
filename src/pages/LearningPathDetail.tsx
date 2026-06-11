@@ -20,6 +20,7 @@ import { CardGrid } from '../components';
 import { HeroSection } from '../components/patterns/HeroSection';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Tabs } from '../components/ui/Tabs';
+import { Container } from '../components/layout';
 import type { TabItem } from '../components/ui/Tabs';
 import { IconFeatureCard } from '../components/ui/IconFeatureCard';
 import { ResourceCard } from '../components/ui/ResourceCard';
@@ -243,7 +244,7 @@ export const LearningPathDetail: React.FC = () => {
   return (
     <>
       <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+        <Container width="page" className="relative py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
           {/* Hero — HeroSection variant="gradient" tone-aware */}
           <HeroSection
@@ -713,7 +714,7 @@ export const LearningPathDetail: React.FC = () => {
               />
             </section>
           )}
-        </div>
+        </Container>
       </div>
 
       <PositionnementModal

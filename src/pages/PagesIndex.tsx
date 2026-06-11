@@ -16,6 +16,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { BookOpen, ArrowRight, LayoutGrid } from 'lucide-react';
+import { Container } from '../components/layout';
 
 interface PageItem {
   id: string;
@@ -144,7 +145,7 @@ export const PagesIndex: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="py-section flex flex-col gap-section">
 
         <EditorialHero
           tone="default"
@@ -179,7 +180,7 @@ export const PagesIndex: React.FC = () => {
           );
         })}
 
-      </div>
+      </Container>
     </div>
   );
 };

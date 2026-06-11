@@ -19,6 +19,7 @@ import {
   Clock, User, ChevronDown, ChevronUp,
 } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { Container } from '../components/layout';
 
 interface VideoData {
   id: string;
@@ -139,7 +140,7 @@ export const VideoViewer: React.FC = () => {
 
       {/* ── Video Player Area ──────────────────────────────────── */}
       <div className="bg-ink-950 flex-none">
-        <div className="max-w-5xl mx-auto relative">
+        <Container width="medium" padding={false} className="relative">
           {/* Native video element — hidden controls (custom UI below) */}
           <video
             ref={videoRef}
@@ -213,12 +214,12 @@ export const VideoViewer: React.FC = () => {
               <Maximize2 size={18} />
             </button>
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* ── Content Section ─────────────────────────────────────── */}
       <div className="flex-1 bg-white py-section px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section">
+        <Container width="medium" padding={false} className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section">
 
           {/* Main content */}
           <div className="flex flex-col gap-stack">
@@ -286,7 +287,7 @@ export const VideoViewer: React.FC = () => {
               </div>
             </Card>
           </div>
-        </div>
+        </Container>
       </div>
     </div>
   );

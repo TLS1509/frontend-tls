@@ -8,6 +8,7 @@ import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
+import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -44,7 +45,7 @@ export default function MasterclassLive() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section">
+      <Container width="wide" padding={false} className="px-4 py-section">
         <div className="grid md:grid-cols-3 gap-section">
           {/* Player embed — col span 2 */}
           <div className="md:col-span-2">
@@ -113,7 +114,7 @@ export default function MasterclassLive() {
             </SectionCard>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

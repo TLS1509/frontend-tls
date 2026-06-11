@@ -6,6 +6,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 
 const CURRENT_STEP = 3;
 const TOTAL_STEPS = 5;
@@ -36,7 +37,7 @@ export default function HelpTutorialStep() {
         tone="default"
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center justify-between text-caption text-ink-500">
             <span>Progression du tutoriel</span>
@@ -129,7 +130,7 @@ export default function HelpTutorialStep() {
             })}
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

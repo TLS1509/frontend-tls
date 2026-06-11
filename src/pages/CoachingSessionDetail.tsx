@@ -8,6 +8,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { SessionCard } from '../components/learning/SessionCard';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ export default function CoachingSessionDetail() {
         }
       />
 
-      <div className="max-w-page mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Info cards row */}
         <div className="grid md:grid-cols-3 gap-stack">
@@ -171,7 +172,7 @@ export default function CoachingSessionDetail() {
           </Button>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

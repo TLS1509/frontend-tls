@@ -31,6 +31,7 @@ import { IconFeatureCard } from '../components/ui/IconFeatureCard';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/core/Button';
 import { SessionCard } from '../components/learning';
+import { Container } from '../components/layout';
 import {
   CalendarClock,
   Video,
@@ -209,7 +210,7 @@ export const Coaching: React.FC = () => {
     <>
       <div className="relative min-h-screen bg-gradient-page-ambient">
         <AmbientBlobs />
-        <div className="relative z-base max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+        <Container width="page" className="relative z-base py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
           {/* Hero — EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
           <EditorialHero
@@ -219,8 +220,8 @@ export const Coaching: React.FC = () => {
             summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
           />
 
-          {/* DEV CONTROLS — bandeau temporaire pour tester les states & modales. */}
-          <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-accent-50 border border-accent-200 text-caption">
+          {/* DEV CONTROLS — masqué en production */}
+          {import.meta.env.DEV && <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-accent-50 border border-accent-200 text-caption">
             <span className="inline-flex items-center gap-1 font-bold text-accent-900">
               <Sparkles size={14} /> DEV
             </span>
@@ -262,7 +263,7 @@ export const Coaching: React.FC = () => {
             <Button size="sm" variant="ghost" onClick={() => setShowFeedback(true)}>Feedback</Button>
             <Button size="sm" variant="ghost" onClick={() => setShowBookingSuccess(true)}>Success Booking</Button>
             <Button size="sm" variant="ghost" onClick={() => setShowCancelSuccess(true)}>Success Cancel</Button>
-          </div>
+          </div>}
 
           {/* (Section coach strip supprimée — intégré DANS la session card upcoming pour
               le state coach + session. Pas de section dédiée quand pas de coach assigné
@@ -461,7 +462,7 @@ export const Coaching: React.FC = () => {
               ))}
             </div>
           </section>
-        </div>
+        </Container>
       </div>
 
       {/* BookingModal — réservation d'une session. onBookingConfirmed crée la session + ouvre SuccessModal */}

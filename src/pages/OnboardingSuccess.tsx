@@ -9,6 +9,7 @@ import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import { useGamificationStore, useUserProfileStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ export default function OnboardingSuccess() {
 
   return (
     <main className="min-h-screen bg-gradient-page-ambient">
-      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
+      <Container width="content" className="pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
 
         <Stepper items={buildOnboardingStepperItems('pret')} orientation="horizontal" />
 
@@ -94,7 +95,7 @@ export default function OnboardingSuccess() {
             variant="primary"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
-            onClick={() => navigate('/dashboard?firstTime=1')}
+            onClick={() => navigate('/dashboard')}
             className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord
@@ -107,7 +108,7 @@ export default function OnboardingSuccess() {
             Revoir le tutoriel de la plateforme
           </button>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }

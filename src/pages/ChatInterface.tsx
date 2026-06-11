@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { useChatStore, MOCK_CHAT_SESSION_ID } from '../stores/persistence';
 import { simulateRAGResponse, CHAT_SUGGESTIONS, PRIVACY_BLOCKLIST } from '../data/chatbot';
 import type { ChatMessage, ChatFeedback } from '../types/learning';
+import { Container } from '../components/layout';
 
 function formatTime(): string {
   const d = new Date();
@@ -99,7 +100,7 @@ export default function ChatInterface() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
         <div className="flex flex-col lg:flex-row gap-section items-start">
 
           {/* ── Chat area ──────────────────────────────────────────────── */}
@@ -193,7 +194,7 @@ export default function ChatInterface() {
             </Card>
           </aside>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

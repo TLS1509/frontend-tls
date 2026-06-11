@@ -33,6 +33,7 @@ import {
   BarChart2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { Container } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { TableOfContents } from '../components/patterns/TableOfContents';
 import type { TocItem } from '../components/patterns/TableOfContents';
@@ -99,7 +100,7 @@ export const Dossier: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -127,13 +128,13 @@ export const Dossier: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
 
       <main ref={articleRef}>
         {/* Hero warm bounded */}
         <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-stack-lg">
+          <Container width="page" className="py-section flex flex-col gap-stack-lg">
             <div className="flex items-start gap-4 sm:gap-stack-lg">
               <span aria-hidden className="shrink-0 inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-secondary-100 border border-secondary-200 text-3xl sm:text-4xl">
                 🧠
@@ -142,7 +143,7 @@ export const Dossier: React.FC = () => {
                 <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
                   Dossier thématique
                 </span>
-                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-3xl">
+                <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>
                 <div className="flex items-center gap-4 flex-wrap font-body text-caption text-ink-600">
@@ -156,11 +157,11 @@ export const Dossier: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Container>
         </header>
 
         {/* Body — EditorialLayout aside-left (TOC) + main */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+        <Container width="page" className="py-section">
           <EditorialLayout
             asideFirst
             aside={
@@ -305,7 +306,7 @@ export const Dossier: React.FC = () => {
               </div>
             }
           />
-        </div>
+        </Container>
 
         {/* Download CTA centered */}
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-10 pb-section">

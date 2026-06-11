@@ -8,6 +8,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 interface Message {
   id: string;
@@ -56,7 +57,7 @@ const MessagingThread: React.FC = () => {
         tone="default"
       />
 
-      <div className="flex-1 max-w-content mx-auto w-full px-4 py-section flex flex-col gap-stack">
+      <Container width="content" padding={false} className="flex-1 px-4 py-section flex flex-col gap-stack">
         <Card className="p-4 flex items-center gap-3">
           <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">
@@ -111,7 +112,7 @@ const MessagingThread: React.FC = () => {
             Envoyer
           </Button>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 };

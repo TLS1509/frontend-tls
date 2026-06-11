@@ -15,6 +15,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { useTheme } from '../hooks/useTheme';
+import { Container } from '../components/layout';
 import {
   BellRing,
   LockKeyhole,
@@ -91,7 +92,7 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" padding={false} className="px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
       <AccountFamilyNav active="settings" />
       <EditorialHero
         eyebrow={{ icon: <Settings2 size={12} />, label: 'Compte & Préférences' }}
@@ -201,7 +202,7 @@ export const Settings: React.FC = () => {
         Conservez les alertes critiques actives et limitez les résumés pour réduire la
         surcharge d'informations.
       </Alert>
-    </div>
+    </Container>
   );
 };
 

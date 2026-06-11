@@ -12,6 +12,7 @@ import { SectionHeader } from '../components/patterns/SectionHeader';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
+import { Container } from '../components/layout';
 import {
   PenSquare,
   Sparkles,
@@ -142,7 +143,7 @@ export const Journal: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20 flex flex-col">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section w-full">
+      <Container width="page" className="py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
         {/* Hero — EditorialHero brand standalone (sans trailing) */}
         <EditorialHero
@@ -304,7 +305,7 @@ export const Journal: React.FC = () => {
             ))}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

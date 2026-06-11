@@ -30,6 +30,7 @@ import {
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
+import { Container } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -71,7 +72,7 @@ export const WeeklyNewsletter: React.FC = () => {
     <div className="min-h-screen bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -88,10 +89,10 @@ export const WeeklyNewsletter: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <main className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">

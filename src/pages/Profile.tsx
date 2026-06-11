@@ -24,6 +24,7 @@ import type { TabItem } from '../components/ui/Tabs';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import type { SkillEntry } from '../components/ui/CompetencyMatrix';
+import { Container } from '../components/layout';
 import {
   Mail,
   MapPin,
@@ -135,7 +136,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+      <Container width="medium" className="py-8 sm:py-section flex flex-col gap-section">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="profile" />
@@ -402,7 +403,7 @@ export const Profile: React.FC = () => {
             </section>
           )}
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

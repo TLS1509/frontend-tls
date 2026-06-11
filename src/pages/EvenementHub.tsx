@@ -7,6 +7,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 import { useEventsStore } from '../stores/persistence';
 
 const MOCK_USER_ID = 'user-demo';
@@ -74,7 +75,7 @@ export default function EvenementHub() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Événements à venir" value={upcomingCount} variant="brand" icon={<Calendar size={20} />} />
@@ -235,7 +236,7 @@ export default function EvenementHub() {
         <p className="text-caption text-ink-400 text-center">
           {totalRegistered} participants au total · {evenements.length} événements
         </p>
-      </div>
+      </Container>
     </div>
   );
 }

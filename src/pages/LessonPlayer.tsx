@@ -17,6 +17,7 @@ import { SessionFeedbackModal } from '../components/modals';
 import { QuizComponent } from '../components/ui/QuizComponent';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { Container } from '../components/layout';
 import {
   Clock3,
   BookOpen,
@@ -561,7 +562,7 @@ export const LessonPlayer: React.FC = () => {
           className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
           aria-label="Sections de la leçon"
         >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-3">
+          <Container width="page" className="py-3">
             <div className="lp-section-scroll flex gap-2 overflow-x-auto pb-0.5 justify-center">
               {SECTIONS.map((section, index) => {
                 const isActive = index === currentIndex;
@@ -596,7 +597,7 @@ export const LessonPlayer: React.FC = () => {
                 );
               })}
             </div>
-          </div>
+          </Container>
         </nav>
 
         {/* CONTENT — Centered, scrollable internally */}

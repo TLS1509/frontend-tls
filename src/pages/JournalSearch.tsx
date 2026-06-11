@@ -9,6 +9,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { JournalMoodLevel } from '../types/learning';
+import { Container } from '../components/layout';
 
 type MoodFilter = 'all' | JournalMoodLevel;
 
@@ -62,7 +63,7 @@ const JournalSearch: React.FC = () => {
         tone="brand"
       />
 
-      <div className="max-w-content mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         <Card className="p-4">
           <Input
             value={query}
@@ -126,7 +127,7 @@ const JournalSearch: React.FC = () => {
             })}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

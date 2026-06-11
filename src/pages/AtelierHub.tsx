@@ -9,6 +9,7 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { useEventsStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -54,7 +55,7 @@ export default function AtelierHub() {
         trailing={<Badge variant="info" size="md">Accès entreprise</Badge>}
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="warm" surface="tinted" />
@@ -169,7 +170,7 @@ export default function AtelierHub() {
             })}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

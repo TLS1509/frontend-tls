@@ -6,6 +6,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
+import { Container } from '../components/layout';
 
 const MY_ENTRIES = [
   {
@@ -104,7 +105,7 @@ export default function CoachJournal() {
         }
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
         {tab === 'mine' && (
@@ -158,7 +159,7 @@ export default function CoachJournal() {
             })}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

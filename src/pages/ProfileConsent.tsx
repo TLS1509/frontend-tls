@@ -13,6 +13,7 @@ import { AIOverrideButton } from '../components/ui/AIOverrideButton';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { useToastContext } from '../contexts/ToastContext';
+import { Container } from '../components/layout';
 
 // ─── AI consent item definitions ─────────────────────────────────────────────
 
@@ -77,7 +78,7 @@ export default function ProfileConsent() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* ConsentBanner GDPR — dismiss persisted (Cahier #13bis) */}
         {!gdpr.bannerDismissed && (
@@ -208,7 +209,7 @@ export default function ProfileConsent() {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

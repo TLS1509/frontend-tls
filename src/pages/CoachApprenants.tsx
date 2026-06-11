@@ -10,6 +10,7 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Badge } from '../components/ui/Badge';
 import { EmptyState } from '../components/ui/EmptyState';
 import { APPRENANTS } from '../data/apprenants';
+import { Container } from '../components/layout';
 
 const FILTER_OPTIONS = [
   { id: 'all', label: 'Tous' },
@@ -51,7 +52,7 @@ export default function CoachApprenants() {
         tone="default"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -147,7 +148,7 @@ export default function CoachApprenants() {
           )}
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

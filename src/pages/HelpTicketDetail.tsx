@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
+import { Container } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 import type { BadgeVariant } from '../components';
 
@@ -51,11 +52,11 @@ export default function HelpTicketDetail() {
           summary="Ce ticket n'existe pas ou vous n'y avez pas accès."
           tone="default"
         />
-        <div className="max-w-page mx-auto w-full px-4 pb-page">
+        <Container width="page" padding={false} className="px-4 pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
-        </div>
+        </Container>
       </div>
     );
   }
@@ -72,7 +73,7 @@ export default function HelpTicketDetail() {
         trailing={<Badge variant={badge.variant}>{badge.label}</Badge>}
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
         <div className="flex items-center gap-stack-xs">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
@@ -144,7 +145,7 @@ export default function HelpTicketDetail() {
             </div>
           </SectionCard>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

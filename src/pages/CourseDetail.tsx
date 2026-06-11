@@ -4,6 +4,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
+import { Container } from '../components/layout';
 import {
   ArrowLeft,
   BookOpen,
@@ -57,15 +58,15 @@ export const CourseDetail: React.FC = () => {
     <div className="min-h-screen bg-surface font-body">
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="medium" className="h-14 flex items-center justify-between gap-3">
           <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
           <span className="font-body text-caption text-ink-500">Cours #{id ?? '—'}</span>
-        </div>
+        </Container>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="medium" className="py-section flex flex-col gap-section">
 
         {/* ─ Course header section ──────────────────────────────── */}
         <section className="flex flex-col gap-stack">
@@ -202,7 +203,7 @@ export const CourseDetail: React.FC = () => {
             </div>
           </aside>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

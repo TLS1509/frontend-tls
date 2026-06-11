@@ -7,6 +7,7 @@ import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Input } from '../components/core/Input';
+import { Container } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
@@ -54,8 +55,8 @@ export default function HelpSearch() {
         tone="default"
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
-        <div className="max-w-content mx-auto w-full">
+      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
+        <Container width="content" padding={false}>
           <Input
             placeholder="Rechercher un article, une question…"
             value={query}
@@ -63,7 +64,7 @@ export default function HelpSearch() {
             leadingIcon={<BookOpen size={16} />}
             size="lg"
           />
-        </div>
+        </Container>
 
         {cats.length > 0 && (
           <SectionCard title="Catégories" titleIcon={<BookOpen size={18} />}>
@@ -105,7 +106,7 @@ export default function HelpSearch() {
             ))
           )}
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

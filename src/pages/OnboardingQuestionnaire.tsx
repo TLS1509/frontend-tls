@@ -12,6 +12,7 @@ import { usePositioningStore, usePasseportStore, useUserProfileStore } from '../
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { DreyfusLevel } from '../types/learning';
+import { Container } from '../components/layout';
 
 const ONBOARDING_PARCOURS_ID = 'onboarding-initial';
 
@@ -83,7 +84,7 @@ const OnboardingQuestionnaire: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-surface">
-      <div className="max-w-content mx-auto w-full px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
+      <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         <Stepper items={buildOnboardingStepperItems('positionnement')} orientation="horizontal" />
 
@@ -131,10 +132,10 @@ const OnboardingQuestionnaire: React.FC = () => {
             disabled={!selected}
             className="flex-1 sm:flex-none"
           >
-            {currentQ < total - 1 ? 'Suivant' : 'Continuer vers le tutoriel'}
+            {currentQ < total - 1 ? 'Suivant' : 'Choisir mon plan'}
           </Button>
         </div>
-      </div>
+      </Container>
     </main>
   );
 };

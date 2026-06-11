@@ -142,6 +142,19 @@ export type {
 export { FloatingNavButton } from './FloatingNavButton';
 
 /* ============================================================================
+ * Layout primitives — structural vocabulary (Container / PageShell / Stack /
+ * Cluster / Grid). Own width + spacing rhythm + flow only; never color/type.
+ * ============================================================================ */
+export { Container, PageShell, Stack, Cluster, Grid } from './layout';
+export type {
+  ContainerWidth,
+  StackAlign,
+  ClusterAlign,
+  ClusterJustify,
+  Space,
+} from './layout';
+
+/* ============================================================================
  * UI — Utilities & New Components
  * ============================================================================ */
 export { Spinner } from './ui/Spinner';

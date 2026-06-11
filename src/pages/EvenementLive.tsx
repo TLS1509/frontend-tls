@@ -15,6 +15,7 @@ import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -68,7 +69,7 @@ export default function EvenementLive() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full grid md:grid-cols-3 gap-section">
+      <Container width="wide" padding={false} className="grid md:grid-cols-3 gap-section">
         {/* Player — col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-section">
           <Card className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">
@@ -161,7 +162,7 @@ export default function EvenementLive() {
             <p className="text-caption text-ink-500 m-0">participants en direct</p>
           </Card>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { StatCard } from '../components/ui/StatCard';
 import { useProjectsStore } from '../stores/persistence';
 import type { ProjectType, ProjectStatus, TaskStatus } from '../types/projects';
+import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -62,12 +63,12 @@ export const Project: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
         <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
           Retour aux projets
         </Button>
-      </div>
+      </Container>
     );
   }
 
@@ -79,7 +80,7 @@ export const Project: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/projects')}>
           Retour aux projets
@@ -221,7 +222,7 @@ export const Project: React.FC = () => {
           </div>
         }
       />
-    </div>
+    </Container>
   );
 };
 

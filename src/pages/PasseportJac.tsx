@@ -16,6 +16,7 @@ import { Badge } from '../components/ui/Badge';
 import { Alert } from '../components/ui/Alert';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -152,7 +153,7 @@ export default function PasseportJac() {
       />
 
       {/* Body */}
-      <div className="max-w-content mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
 
         {/* Info banner */}
         <Alert
@@ -289,7 +290,7 @@ export default function PasseportJac() {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

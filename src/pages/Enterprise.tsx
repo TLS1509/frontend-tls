@@ -23,6 +23,7 @@ import type { SelectOption } from '../components/core/Select';
 import { FormGroup } from '../components/core/FormGroup';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { Container } from '../components/layout';
 import { useEnterpriseStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
 import type { EnterpriseRole } from '../types/learning';
@@ -91,7 +92,7 @@ export const Enterprise: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -325,7 +326,7 @@ export const Enterprise: React.FC = () => {
           </div>
         </section>
 
-      </div>
+      </Container>
     </div>
   );
 };

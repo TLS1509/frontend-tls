@@ -8,6 +8,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -49,7 +50,7 @@ export default function MasterclassDetail() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* Expert card */}
         <Card variant="tinted" tone="primary" className="flex items-center gap-section p-6">
           <Avatar name="Marie Fontaine" initials="MF" size="xl" />
@@ -123,7 +124,7 @@ export default function MasterclassDetail() {
             ))}
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

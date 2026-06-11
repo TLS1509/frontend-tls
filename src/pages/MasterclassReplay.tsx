@@ -8,6 +8,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
+import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -39,7 +40,7 @@ export default function MasterclassReplay() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section">
+      <Container width="wide" padding={false} className="px-4 py-section">
         <div className="md:grid md:grid-cols-3 gap-section flex flex-col">
           {/* Colonne principale — span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
@@ -116,7 +117,7 @@ export default function MasterclassReplay() {
             </Card>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

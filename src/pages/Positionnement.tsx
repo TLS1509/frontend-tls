@@ -193,7 +193,7 @@ export const Positionnement: React.FC = () => {
       />
 
       <main className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
-        <div className="max-w-3xl w-full mx-auto flex flex-col gap-section">
+        <div className="max-w-content w-full mx-auto flex flex-col gap-section">
 
           {/* Progress */}
           <div className="flex flex-col gap-tight">

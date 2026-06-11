@@ -14,6 +14,7 @@ import { BADGE_DEFS } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { BadgeDef } from '../types/learning';
+import { Container } from '../components/layout';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
 
@@ -120,7 +121,7 @@ export default function ProfileBadgesCompetences() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Radar overview */}
         <div className="grid md:grid-cols-2 gap-section">
@@ -226,7 +227,7 @@ export default function ProfileBadgesCompetences() {
           )}
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

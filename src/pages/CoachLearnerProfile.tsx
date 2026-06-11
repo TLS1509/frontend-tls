@@ -9,6 +9,7 @@ import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/core/Button';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
+import { Container } from '../components/layout';
 import { getApprenantById, dreyfusLabel } from '../data/apprenants';
 
 const FALLBACK_LEARNER = {
@@ -152,7 +153,7 @@ export default function CoachLearnerProfile() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
         {/* Header apprenant */}
         <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-6 shadow-xs">
           <Avatar
@@ -255,7 +256,7 @@ export default function CoachLearnerProfile() {
             </div>
           )}
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

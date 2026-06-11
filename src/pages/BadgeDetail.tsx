@@ -13,6 +13,7 @@ import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { BadgeDef } from '../types/learning';
+import { Container } from '../components/layout';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
 
@@ -115,7 +116,7 @@ export default function BadgeDetail() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Badge showcase */}
         <div className="flex flex-col md:flex-row gap-section items-center md:items-start">
@@ -238,7 +239,7 @@ export default function BadgeDetail() {
           </Button>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { Avatar, AvatarGroup } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { EmptyState } from '../components/ui/EmptyState';
+import { PageShell } from '../components/layout';
 import { useProjectsStore, MOCK_PROJECT_COMPANY_ID } from '../stores/persistence';
 import type { ProjectType, ProjectStatus } from '../types/projects';
 
@@ -91,7 +92,7 @@ const ProjectsList: React.FC = () => {
         }
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <PageShell width="page">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Projets actifs" value={active} icon={<Target size={20} />} variant="brand" />
           <StatCard label="Planifiés" value={planned} icon={<Calendar size={20} />} variant="warm" />
@@ -172,7 +173,7 @@ const ProjectsList: React.FC = () => {
             })}
           </div>
         )}
-      </div>
+      </PageShell>
     </div>
   );
 };

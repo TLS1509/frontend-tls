@@ -10,6 +10,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -124,7 +125,7 @@ export default function AlerteStagnation() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
@@ -286,7 +287,7 @@ export default function AlerteStagnation() {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

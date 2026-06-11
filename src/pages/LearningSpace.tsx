@@ -34,6 +34,7 @@ import type { ItemType, DreyfusLevel, SubscriptionTier } from '../types/learning
 import { canAccessItem, getAccessDenialMessage, getGatingType } from '../lib/access-control';
 import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 /** Demo seed — items pré-marqués complétés tant que le tracking item-level n'est pas en place. */
 const SEED_COMPLETED_ITEMS = new Set(['item-1', 'item-4']);
@@ -239,7 +240,7 @@ export const LearningSpace: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" className="py-section flex flex-col gap-section">
 
         {/* ── Hero ────────────────────────────────────────────── */}
         <EditorialHero
@@ -443,7 +444,7 @@ export const LearningSpace: React.FC = () => {
             </div>
           )}
         </section>
-      </div>
+      </Container>
     </div>
   );
 };

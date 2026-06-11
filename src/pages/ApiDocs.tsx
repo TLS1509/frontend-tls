@@ -6,6 +6,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Tabs } from '../components/ui/Tabs';
+import { Container } from '../components/layout';
 
 const ENDPOINTS = [
   { method: 'GET', path: '/v1/users/:id', desc: 'Récupère le profil d\'un utilisateur', auth: 'Bearer' },
@@ -36,7 +37,7 @@ const ApiDocs: React.FC = () => {
         trailing={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="flex flex-wrap gap-stack-xs">
           <Badge variant="info">v1.4.2</Badge>
           <Badge variant="success">Stable</Badge>
@@ -122,7 +123,7 @@ const ApiDocs: React.FC = () => {
             </Card>
           </SectionCard>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

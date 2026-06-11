@@ -6,6 +6,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
+import { Container } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -127,7 +128,7 @@ export default function ChatHistoryPanel() {
         tone="brand"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Filter bar */}
         <div className="flex items-center gap-stack-xs flex-wrap">
@@ -169,7 +170,7 @@ export default function ChatHistoryPanel() {
             </Button>
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

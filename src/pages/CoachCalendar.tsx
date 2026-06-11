@@ -7,6 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
+import { Container } from '../components/layout';
 
 interface Session {
   id: string;
@@ -43,7 +44,7 @@ const CoachCalendar: React.FC = () => {
         trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
-      <div className="max-w-wide mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
@@ -100,7 +101,7 @@ const CoachCalendar: React.FC = () => {
             <Badge variant="warm">Mer · ½ journée bloquée</Badge>
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 };

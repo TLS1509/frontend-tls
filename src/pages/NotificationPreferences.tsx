@@ -10,6 +10,7 @@ import { useNotificationPrefsStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { UserNotificationPrefs, NotificationChannelPrefs } from '../types/learning';
 import { useToastContext } from '../contexts/ToastContext';
+import { Container } from '../components/layout';
 
 const FREQUENCY_OPTIONS = [
   { value: 'immediate', label: 'Immédiat' },
@@ -78,7 +79,7 @@ export default function NotificationPreferences() {
         tone="default"
       />
 
-      <div className="max-w-content mx-auto w-full px-4 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 flex flex-col gap-section">
 
         {/* In-App */}
         <SectionCard
@@ -176,7 +177,7 @@ export default function NotificationPreferences() {
             Enregistrer les préférences
           </Button>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { Search as SearchInput } from '../components/ui/Search';
 import { FilterBar } from '../components/forms/FilterBar';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Container } from '../components/layout';
 import type { BadgeVariant } from '../components';
 import {
   ChevronDown,
@@ -100,7 +101,7 @@ export const Help: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <div className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+      <Container width="medium" className="flex-1 py-8 sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -265,7 +266,7 @@ export const Help: React.FC = () => {
           </div>
         </section>
 
-      </div>
+      </Container>
     </div>
   );
 };

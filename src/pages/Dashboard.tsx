@@ -9,7 +9,7 @@
  *
  * Hero: EditorialHero épuré (date + greeting + quote, no stats).
  * Background: subtle brand→warm gradient with noise.
- * Container: max-w-6xl on desktop for proper width usage.
+ * Container: max-w-page on desktop for proper width usage.
  */
 
 import React, { useEffect, useRef, useMemo } from 'react';
@@ -24,6 +24,7 @@ import { SessionCard } from '../components/learning/SessionCard';
 import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
+import { PageShell } from '../components/layout';
 import {
   Sparkles,
   Compass,
@@ -83,7 +84,7 @@ export const Dashboard: React.FC = () => {
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
 
       {/* Content */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section md:py-section-lg lg:py-page flex flex-col gap-section md:gap-section-lg lg:gap-page">
+      <PageShell width="page" className="relative md:gap-section-lg lg:gap-page">
 
         {/* Hero — épuré, full width, brand blue gradient */}
         <EditorialHero
@@ -107,7 +108,7 @@ export const Dashboard: React.FC = () => {
         ) : (
           <DashboardContent navigate={navigate} />
         )}
-      </div>
+      </PageShell>
     </div>
   );
 };

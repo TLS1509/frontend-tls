@@ -17,6 +17,7 @@ import { Badge } from '../components/ui/Badge';
 import { MetaPill } from '../components/ui/MetaPill';
 import { ExternalLink, BookOpen, Video, FileText, Wrench, Clock, ArrowRight, Library } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
+import { Container } from '../components/layout';
 import { useLessonContext } from '../lib/lesson-context';
 import { TONE_BG_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
@@ -138,7 +139,7 @@ export const ComplementaryContentViewer: React.FC = () => {
       />
 
       <main className="py-stack-lg px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto flex flex-col gap-stack-lg">
+        <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
 
           {/* ── Title block ─────────────────────────────────────── */}
           <header className="flex items-center gap-stack">
@@ -262,7 +263,7 @@ export const ComplementaryContentViewer: React.FC = () => {
               </Card>
             </div>
           </div>
-        </div>
+        </Container>
       </main>
     </div>
   );

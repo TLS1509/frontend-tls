@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -63,7 +64,7 @@ export default function CoachCorrectionInterface() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 grid md:grid-cols-[1fr_360px] gap-section items-start">
+      <Container width="wide" padding={false} className="px-4 md:px-8 grid md:grid-cols-[1fr_360px] gap-section items-start">
 
         {/* Main — submitted work */}
         <div className="flex flex-col gap-section">
@@ -177,7 +178,7 @@ export default function CoachCorrectionInterface() {
           </SectionCard>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

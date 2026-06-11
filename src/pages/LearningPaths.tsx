@@ -25,6 +25,7 @@ import type { ParcoursTone, ParcoursStatus } from '../components/patterns/Parcou
 import { CardGrid } from '../components/patterns/CardGrid';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Button } from '../components/core/Button';
+import { Container } from '../components/layout';
 
 interface Parcours {
   id: string;
@@ -178,7 +179,7 @@ export const LearningPaths: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-0 pb-section flex flex-col gap-section">
+      <Container width="page" className="relative pt-0 pb-section flex flex-col gap-section">
 
         {/* Hero — EditorialHero tone="brand" (primary teal — Parcours = core content of TLS) */}
         <EditorialHero
@@ -246,7 +247,7 @@ export const LearningPaths: React.FC = () => {
             ))}
           </CardGrid>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { StatCard } from '../components/ui/StatCard';
 import { Avatar } from '../components/ui/Avatar';
 import { useProjectsStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
@@ -51,7 +52,7 @@ export const ProjectPasseportFeed: React.FC = () => {
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <div>
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
@@ -134,7 +135,7 @@ export const ProjectPasseportFeed: React.FC = () => {
           )}
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

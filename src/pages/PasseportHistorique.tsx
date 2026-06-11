@@ -10,6 +10,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyProgression } from '../types/learning';
+import { Container } from '../components/layout';
 
 const TYPE_CONFIG: Record<CompetencyProgression['type'], { icon: React.ElementType; color: string; bg: string; label: string }> = {
   jac: { icon: Award, color: 'text-success-fg', bg: 'bg-success-bg', label: 'JAC' },
@@ -49,7 +50,7 @@ const PasseportHistorique: React.FC = () => {
         tone="default"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Niveaux Dreyfus gagnés" value={`+${dreyfusUps}`} sub="depuis le début" deltaDirection="up" />
           <StatCard label="JAC validés" value={String(jacs)} />
@@ -99,7 +100,7 @@ const PasseportHistorique: React.FC = () => {
             </div>
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 };

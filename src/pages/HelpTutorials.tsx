@@ -7,6 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { useHelpcenterStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 const FILTERS = [
   { id: 'all', label: 'Tous' },
@@ -33,7 +34,7 @@ export default function HelpTutorials() {
         tone="default"
       />
 
-      <div className="max-w-page mx-auto w-full px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
         <div className="flex flex-wrap gap-stack-xs">
           {FILTERS.map((f) => (
             <FilterChip
@@ -82,7 +83,7 @@ export default function HelpTutorials() {
             );
           })}
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
+import { Container } from '../components/layout';
 
 const MOCK_BADGES = [
   {
@@ -100,7 +101,7 @@ export default function OpenBadgesSection() {
         tone="sun"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
         {/* Stats bar */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Badges obtenus" value="8" variant="brand" />
@@ -193,7 +194,7 @@ export default function OpenBadgesSection() {
             </div>
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -14,6 +14,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
+import { Container } from '../components/layout';
 import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
 import { useCoachingStore } from '../stores/persistence';
 
@@ -68,7 +69,7 @@ export default function CoachDashboard() {
         tone="default"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -215,7 +216,7 @@ export default function CoachDashboard() {
           />
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

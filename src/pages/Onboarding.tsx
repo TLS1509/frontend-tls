@@ -30,6 +30,7 @@ import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import { useUserProfileStore } from '../stores/persistence';
 import type { UserRole } from '../types/learning';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
@@ -355,7 +356,7 @@ export const Onboarding: React.FC = () => {
 
   return (
     <main className="min-h-screen bg-surface">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-14 md:pt-section pb-section flex flex-col gap-section">
+      <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
 
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
         <Stepper items={buildOnboardingStepperItems('profil')} orientation="horizontal" />
@@ -403,7 +404,7 @@ export const Onboarding: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 };

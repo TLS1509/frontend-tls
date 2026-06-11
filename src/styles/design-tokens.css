@@ -204,12 +204,13 @@
   --bp-desktop: 1280px;    /* Desktop monitors */
   --bp-wide: 1920px;       /* Ultra-wide screens */
 
-  /* ---------- CONTAINER & LAYOUT (flexible, modify as needed) ---------- */
-  /* Page container widths */
-  --container-narrow: 600px;   /* Narrow content: articles, single column */
-  --container-default: 900px;  /* Standard: learning paths, coaching, journal */
-  --container-wide: 1200px;    /* Wide: dashboard, veille overview */
-  --container-full: 100%;      /* Full width with horizontal padding */
+  /* ---------- CONTAINER & LAYOUT ----------
+     ⚠️ Container widths are owned by index.css @theme (--container-prose /
+     -content / -page / -wide = the single source of truth, consumed by the
+     <Container> primitive + `max-w-*` utilities). The legacy --container-narrow
+     /-default/-wide/-full vars previously declared here were dead (zero var()
+     refs) AND silently overrode --container-wide (1200px) vs the @theme 80rem.
+     Removed to restore source-of-truth parity. */
 
   /* Standard page padding (applies to horizontal padding) */
   --page-padding-mobile: var(--s-4);   /* 16px on mobile */

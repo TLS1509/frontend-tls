@@ -8,6 +8,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { Alert } from '../components/ui/Alert';
 import { useUserProfileStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 interface Pack {
   id: string;
@@ -48,7 +49,7 @@ const PurchaseCredits: React.FC = () => {
         tone="brand"
       />
 
-      <div className="max-w-content mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         {purchased && (
           <Alert variant="success" title="Achat confirmé !">
             {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à ton compte.` : 'Crédits ajoutés.'}
@@ -130,7 +131,7 @@ const PurchaseCredits: React.FC = () => {
             </div>
           </Card>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

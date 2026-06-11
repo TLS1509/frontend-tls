@@ -37,6 +37,7 @@ import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore } from '../stores/persistence';
 import type { SubscriptionTier } from '../types/learning';
+import { Container } from '../components/layout';
 
 /* ─── Types & data ──────────────────────────────────────────────────────── */
 
@@ -175,7 +176,7 @@ export const SubscriptionPayment: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-section">
 
         {/* Header */}
         <header className="flex flex-col gap-tight text-center">
@@ -390,7 +391,7 @@ export const SubscriptionPayment: React.FC = () => {
           </p>
         </div>
 
-      </div>
+      </Container>
 
       <ConfirmModal
         isOpen={showConfirm}

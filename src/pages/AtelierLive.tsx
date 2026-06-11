@@ -9,6 +9,7 @@ import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { StatCard } from '../components/ui/StatCard';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ export default function AtelierLive() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section">
+      <Container width="wide" padding={false} className="px-4 py-section">
         <div className="grid md:grid-cols-3 gap-section">
           {/* Zone player — col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
@@ -155,7 +156,7 @@ export default function AtelierLive() {
             </SectionCard>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

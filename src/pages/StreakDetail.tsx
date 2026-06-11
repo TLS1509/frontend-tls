@@ -8,6 +8,7 @@ import { Card } from '../components/core/Card';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
+import { Container } from '../components/layout';
 
 // Milestone tone → icon bubble classes
 const MILESTONE_BUBBLE: Record<string, string> = {
@@ -50,7 +51,7 @@ const StreakDetail: React.FC = () => {
         tone="warm"
       />
 
-      <div className="max-w-wide mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="🔥 Actif" />
           <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />
@@ -112,7 +113,7 @@ const StreakDetail: React.FC = () => {
             <p className="text-body-sm text-ink-700">Termine une leçon ou écris une entrée de journal avant minuit pour maintenir ta streak.</p>
           </div>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 };

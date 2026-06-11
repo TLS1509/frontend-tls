@@ -8,6 +8,7 @@ import { Badge } from '../components/ui/Badge';
 import { FormGroup } from '../components/core/FormGroup';
 import { Select } from '../components/core/Select';
 import { Alert } from '../components/ui/Alert';
+import { Container } from '../components/layout';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -51,7 +52,7 @@ export default function ManagerExport() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Success alert */}
         {exported && (
@@ -151,7 +152,7 @@ export default function ManagerExport() {
           Les données exportées peuvent être anonymisées sur demande. Contactez l'administrateur pour configurer l'anonymisation automatique.
         </Alert>
 
-      </div>
+      </Container>
     </div>
   );
 }

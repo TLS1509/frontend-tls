@@ -16,6 +16,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Alert } from '../components/ui/Alert';
 import type { DataTableColumn, DataTableRow } from '../components/patterns/DataTable';
+import { Container } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -159,7 +160,7 @@ export default function WebhooksManagement() {
       />
 
       {/* ── Main content ── */}
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section py-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section py-section">
 
         {/* Info alert */}
         <Alert
@@ -264,7 +265,7 @@ export default function WebhooksManagement() {
             </div>
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

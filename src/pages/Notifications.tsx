@@ -23,6 +23,7 @@ import {
 import { useNotificationsStore, useFilterPrefsStore, useInAppNotificationsStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { NotificationEventType } from '../types/learning';
+import { Container } from '../components/layout';
 import {
   Bell,
   BookOpen,
@@ -177,7 +178,7 @@ export const Notifications: React.FC = () => {
   return (
     <div className="min-h-screen bg-surface">
       {/* Container compact, lisible, intégrable ailleurs (max-w-content) */}
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
+      <Container width="content" padding={false} className="px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
 
         {/* ── Header épuré ───────────────────────────────────────────── */}
         <header className="flex flex-wrap items-center justify-between gap-stack">
@@ -294,7 +295,7 @@ export const Notifications: React.FC = () => {
             </div>
           )}
         </section>
-      </div>
+      </Container>
     </div>
   );
 };

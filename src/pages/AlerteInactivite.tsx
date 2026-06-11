@@ -10,6 +10,7 @@ import { Select } from '../components/core/Select';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Alert } from '../components/ui/Alert';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -134,7 +135,7 @@ export default function AlerteInactivite() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
@@ -234,7 +235,7 @@ export default function AlerteInactivite() {
           />
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

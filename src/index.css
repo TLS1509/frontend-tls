@@ -143,6 +143,10 @@
   --text-h4--line-height: 1.625rem;
   --text-h4--font-weight: 600;
   --text-h4--letter-spacing: -0.02em;
+  --text-h5: 1rem;                      /* 16px */
+  --text-h5--line-height: 1.5rem;       /* 24px */
+  --text-h5--font-weight: 600;
+  --text-h5--letter-spacing: -0.01em;
 
   /* ── Typographie — Body ── */
   --text-body-lg: 1.125rem;
@@ -268,12 +272,18 @@
      or future `@container` query usage.
 
        prose    65ch    → article reading width (long-form text)
-       content  768px   → narrow page (forms, focused content)
-       page     1152px  → DEFAULT — full content pages
-       wide     1280px  → dashboard / data-rich pages
+       content  768px   → narrow page (forms, focused content)        (= max-w-3xl)
+       medium   1024px  → mid-width content (detail pages, split views) (= max-w-5xl)
+       page     1152px  → DEFAULT — full content pages                 (= max-w-6xl)
+       wide     1280px  → dashboard / data-rich pages                  (= max-w-7xl)
+
+     ⚠️ `page` collides with --spacing-page (3rem) in the max-w-* namespace —
+     corrected by an unlayered rule below. `medium` has no spacing twin, so its
+     max-w-medium utility resolves cleanly.
   */
   --container-prose:   65ch;
   --container-content: 48rem;
+  --container-medium:  64rem;
   --container-page:    72rem;
   --container-wide:    80rem;
 
@@ -436,6 +446,22 @@
   --color-success-vivid:  #347572; /* deeper teal-green — milestone completion */
   --color-success-bright: #228B55; /* classic green — level-up / top achievement */
 
+}
+
+/* ============================================
+   UTILITY OVERRIDES
+   ============================================ */
+/* `max-w-page` name collision — the key `page` is registered in BOTH the
+   spacing namespace (--spacing-page: 3rem → gap-page/py-page) AND the container
+   namespace (--container-page: 72rem). Tailwind v4 resolves `max-w-page` from
+   the SPACING token (→ 48px), which silently collapses every page wrapper using
+   `max-w-page mx-auto` to a 48px column (25 files affected). This forces it back
+   to the intended container width. The <Container> primitive also relies on it.
+   Declared UNLAYERED (outside @layer) so it wins over Tailwind's layered
+   utility regardless of emission order — same trick is safe here because no
+   page wrapper overrides its own max-width responsively. */
+.max-w-page {
+  max-width: var(--container-page);
 }
 
 /* ============================================
@@ -715,4 +741,22 @@
   .hover\:shadow-sun-sm:hover { box-shadow: var(--shadow-sun-sm); }
   .shadow-danger-md { box-shadow: var(--shadow-danger-md); }
   .hover\:shadow-danger-md:hover { box-shadow: var(--shadow-danger-md); }
+}
+
+/* ============================================
+   REDUCED MOTION — respecte prefers-reduced-motion (a11y, obligatoire PRODUCT.md)
+   Neutralise les animations/transitions CSS pour qui demande moins d'animation.
+   framer-motion gère le sien via useReducedMotion ; ceci couvre tout le CSS :
+   keyframes @theme (alert-slide, skeleton-shimmer, float, toast, scrim, modal,
+   dd-slide…) + toutes les transitions.
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
+import { Container } from '../components/layout';
 import {
   ArrowLeft,
   PenLine,
@@ -100,7 +101,7 @@ export const JournalFreeEntry: React.FC = () => {
       </div>
 
       {/* Two-column layout */}
-      <div className="flex-1 max-w-5xl mx-auto w-full px-8 py-6 grid grid-cols-[1fr_280px] gap-section items-start">
+      <Container width="medium" padding={false} className="flex-1 px-8 py-6 grid grid-cols-[1fr_280px] gap-section items-start">
 
         {/* Main editor */}
         <div>
@@ -284,7 +285,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
         </aside>
-      </div>
+      </Container>
     </div>
   );
 };

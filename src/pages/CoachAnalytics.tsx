@@ -10,6 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { ProfileCard } from '../components/ui/ProfileCard';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -126,7 +127,7 @@ export default function CoachAnalytics() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -328,7 +329,7 @@ export default function CoachAnalytics() {
           </div>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

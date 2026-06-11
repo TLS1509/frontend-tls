@@ -8,6 +8,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -60,7 +61,7 @@ export default function AtelierDetail() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* Coach card */}
         <Card variant="tinted" tone="warm" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-6">
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
@@ -128,7 +129,7 @@ export default function AtelierDetail() {
           <Clock size={14} className="text-ink-400 ml-stack-xs" />
           <span>10h00 – 13h00</span>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

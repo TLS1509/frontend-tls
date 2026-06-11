@@ -8,6 +8,7 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { FormGroup } from '../components/core/FormGroup';
 import { useHelpcenterStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -57,7 +58,7 @@ export default function HelpTicketNew() {
         tone="default"
       />
 
-      <div className="max-w-content mx-auto w-full px-4 pb-page">
+      <Container width="content" padding={false} className="px-4 pb-page">
         <Card>
           <div className="flex flex-col gap-stack-lg">
             <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
@@ -115,7 +116,7 @@ export default function HelpTicketNew() {
             </div>
           </div>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 }

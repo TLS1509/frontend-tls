@@ -17,6 +17,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
+import { Container } from '../components/layout';
 
 /** Couleur du tone par domaine H.S.O. (Cahier #02). */
 const DOMAIN_COLORS: Record<CompetenceDomain, 'brand' | 'warm' | 'sun'> = {
@@ -87,7 +88,7 @@ export default function Passeport() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Tab navigation */}
         <Tabs
@@ -260,7 +261,7 @@ export default function Passeport() {
           </div>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

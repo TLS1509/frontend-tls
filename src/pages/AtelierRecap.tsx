@@ -7,6 +7,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -42,7 +43,7 @@ export default function AtelierRecap() {
         }
       />
 
-      <div className="max-w-content mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* XP celebratoire */}
         <Card variant="tinted" tone="primary" className="text-center py-8 flex flex-col items-center gap-stack">
           <Award size={40} className="text-primary-600" />
@@ -107,7 +108,7 @@ export default function AtelierRecap() {
             </Card>
           </div>
         </SectionCard>
-      </div>
+      </Container>
     </div>
   );
 }

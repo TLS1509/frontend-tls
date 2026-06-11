@@ -6,12 +6,13 @@ import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { CalendarDays, CheckCircle2, Clock3, Sparkles } from 'lucide-react';
+import { Container } from '../components/layout';
 
 export const PreCoachingQuestionnaireResponse: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <Container width="medium" className="py-section flex flex-col gap-section">
       <EditorialHero
         eyebrow={{ icon: <Sparkles size={12} />, label: 'Coaching prep' }}
         title="Questionnaire Response"
@@ -54,7 +55,7 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
           </SectionCard>
         }
       />
-    </div>
+    </Container>
   );
 };
 

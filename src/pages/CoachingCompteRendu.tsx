@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
+import { Container } from '../components/layout';
 import {
   ArrowLeft,
   Star,
@@ -175,7 +176,7 @@ export const CoachingCompteRendu: React.FC = () => {
           Retour
         </Button>
 
-        <div className="max-w-6xl mx-auto">
+        <Container width="page" padding={false}>
           <div className="flex flex-wrap gap-4 items-start justify-between">
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -216,11 +217,11 @@ export const CoachingCompteRendu: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* ── Page body ── */}
-      <div className="flex-1 p-8 max-w-6xl mx-auto w-full">
+      <Container width="page" padding={false} className="flex-1 p-8">
         <div className="grid grid-cols-[1fr_320px] gap-section items-start">
 
           {/* ── Left column ── */}
@@ -404,7 +405,7 @@ export const CoachingCompteRendu: React.FC = () => {
           </div>
 
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

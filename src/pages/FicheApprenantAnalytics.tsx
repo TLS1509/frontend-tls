@@ -14,6 +14,7 @@ import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { useAnalyticsStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 import { MOCK_COACH_ID } from '../data/analytics';
 import type { LearnerStatus } from '../types/learning';
 
@@ -55,9 +56,9 @@ export default function FicheApprenantAnalytics() {
     return (
       <div className="flex flex-col gap-section">
         <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans ton équipe." tone="warm" />
-        <div className="max-w-wide mx-auto w-full px-4 md:px-8">
+        <Container width="wide" padding={false} className="px-4 md:px-8">
           <p className="text-body-sm text-ink-500">Aucune donnée pour l'identifiant : {id}</p>
-        </div>
+        </Container>
       </div>
     );
   }
@@ -102,7 +103,7 @@ export default function FicheApprenantAnalytics() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Profile header */}
         <Card variant="default" className="flex items-center gap-section p-6 flex-wrap">
@@ -196,7 +197,7 @@ export default function FicheApprenantAnalytics() {
           </SectionCard>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

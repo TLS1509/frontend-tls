@@ -10,6 +10,7 @@ import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { Container } from '../components/layout';
 
 const PrivacyDeleteAccount: React.FC = () => {
   const store = usePrivacyStore();
@@ -44,7 +45,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         tone="default"
       />
 
-      <div className="max-w-content mx-auto px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
         <Alert variant="warning" title="⚠️ Action irréversible">
           Cette action est définitive. Tu ne pourras pas récupérer ton compte ni tes données après confirmation. Pense à exporter tes données avant via la demande DSAR.
         </Alert>
@@ -133,7 +134,7 @@ const PrivacyDeleteAccount: React.FC = () => {
             Ton compte sera supprimé sous 30 jours. Tu recevras un email de confirmation à chaque étape (initiation, anonymisation, suppression finale). Tu peux annuler cette demande pendant les 7 prochains jours en nous écrivant à privacy@tls.io.
           </Alert>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

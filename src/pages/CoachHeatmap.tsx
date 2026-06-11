@@ -8,6 +8,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { Badge } from '../components/ui/Badge';
+import { Container } from '../components/layout';
 import { APPRENANTS, APPRENANT_AXES as AXES } from '../data/apprenants';
 
 const STATUS_TABS = [
@@ -57,7 +58,7 @@ export default function CoachHeatmap() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -182,7 +183,7 @@ export default function CoachHeatmap() {
           </div>
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

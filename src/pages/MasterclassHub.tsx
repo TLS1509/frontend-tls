@@ -8,6 +8,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { useEventsStore } from '../stores/persistence';
+import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -52,7 +53,7 @@ export default function MasterclassHub() {
         summary="Accède aux sessions live avec des experts de l'industrie. Format 90 min. Questions live. Replay illimité."
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="brand" surface="tinted" />
@@ -161,7 +162,7 @@ export default function MasterclassHub() {
             })}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -84,7 +85,7 @@ export default function EnterpriseAnalyticsDashboard() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Period filter */}
         <div className="flex flex-wrap gap-2">
@@ -217,7 +218,7 @@ export default function EnterpriseAnalyticsDashboard() {
           </SectionCard>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

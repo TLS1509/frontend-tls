@@ -1394,7 +1394,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Button.tsx',
     cssBase: '.btn',
     category: 'Core',
-    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 11 variants : primary, secondary (orange), accent (yellow), ghost (light teal fill), outline (transparent + teal border), outline-warm (transparent + orange border), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), link.',
+    description: 'Single action trigger. Pill shape, clear hierarchy. One primary per screen. 14 variants : primary, secondary (orange), accent (yellow), ghost (light teal fill), outline (transparent + teal border), outline-warm (transparent + orange border), destructive, **glass** (DARK bg), **glass-light** + **glass-light-ghost** (LIGHT tinted bg), **glass-brand** + **glass-warm** + **glass-sun** (tone-aware frosted), link.',
     keywords: ['cta', 'action', 'primary', 'secondary', 'accent', 'ghost', 'outline', 'outline-warm', 'destructive', 'link', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -4431,7 +4431,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* HZ-1 — Badge sur l'image, meta sous le titre */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
-            <div className="flex flex-col gap-stack-xs max-w-3xl">
+            <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
                   {/* Image avec badge en overlay bottom */}
@@ -4468,7 +4468,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* HZ-2 — Tinted row avec badge sur zone icône */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
-            <div className="flex flex-col gap-2 max-w-3xl">
+            <div className="flex flex-col gap-2 max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
                   {/* Zone icône avec badge en dessous */}
@@ -4499,7 +4499,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* HZ-3 — Compact inbox (ultra-dense, 1 ligne) */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
-            <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-3xl">
+            <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className="flex items-center gap-3 px-4 py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
                   {/* Icône + label badge empilés */}
@@ -4686,7 +4686,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">MagazineCard — numéros magazine</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-5xl">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack max-w-medium">
           <MagazineCard
             title="Tendances EdTech 2026"
             issueNumber={14}
@@ -4727,7 +4727,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">VideoCard — vidéos standalone</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-3xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-content">
           <VideoCard
             title="Construire un prompt structuré en 5 étapes"
             category="Prompt Engineering"
@@ -4776,7 +4776,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: '⭐ Card chat-bubble (Apple Messages style) pour les prompts d\'invitation à l\'action sur le Dashboard. Icon + label eyebrow + text body + speech bubble tail + hover tinted bg. 7 variants BadgeVariant (brand/warm/sun/info/neutral/success/danger). 2 sizes : `default` (compact grid) ou `featured` (hero dashboard). ⚠️ **Similaire à `JournalEntryCard`** — chat-bubble sibling (l\'un pour CTA prompts, l\'autre pour entries journal). Garder séparés (use cases distincts).',
     keywords: ['prompt', 'chat-bubble', 'speech', 'invitation', 'cta', 'dashboard'],
     render: () => (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-3xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack max-w-content">
         <PromptCard
           variant="brand"
           icon={<PenLine size={18} />}
@@ -5677,7 +5677,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => {
       const [level, setLevel] = React.useState<number | undefined>(3);
       return (
-        <div className="flex flex-col gap-stack max-w-3xl">
+        <div className="flex flex-col gap-stack max-w-content">
           <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · niveau 3 sélectionné</span>
           <DreyfusLevelSelector tone="warm" value={level} onChange={setLevel} />
         </div>
@@ -5746,7 +5746,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['next steps', 'actions', 'cta', 'cards', 'onboarding success', 'guide', 'next'],
     usedBy: ['OnboardingSuccess', 'EmptyDashboardState'],
     render: () => (
-      <div className="max-w-3xl">
+      <div className="max-w-content">
         <NextStepsGrid
           items={[
             { id: 'parcours', icon: <BookOpen size={22} />, title: 'Explore tes parcours', description: 'Découvre les parcours adaptés à ton profil.', cta: 'Voir les parcours', tone: 'brand', onClick: () => {} },

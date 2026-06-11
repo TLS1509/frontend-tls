@@ -8,6 +8,7 @@ import { useGamificationStore } from '../stores/persistence';
 import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { BadgeType } from '../types/learning';
+import { Container } from '../components/layout';
 
 type FilterKey = 'all' | BadgeType;
 
@@ -100,7 +101,7 @@ export default function BadgeGallery() {
         tone="sun"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 flex flex-col gap-section">
         {/* Filters */}
         <div className="flex flex-wrap gap-stack-xs">
           {FILTERS.map((f) => (
@@ -162,7 +163,7 @@ export default function BadgeGallery() {
             </div>
           </SectionCard>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

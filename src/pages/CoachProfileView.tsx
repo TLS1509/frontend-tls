@@ -17,6 +17,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { StatCard } from '../components/ui/StatCard';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { ProfileCard } from '../components/ui/ProfileCard';
+import { Container } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -100,7 +101,7 @@ export default function CoachProfileView() {
       />
 
       {/* ── Main layout ── */}
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section py-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section py-section">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-section items-start">
 
           {/* ── Left — Bio + Approach + Testimonials ── */}
@@ -219,7 +220,7 @@ export default function CoachProfileView() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

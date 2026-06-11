@@ -11,6 +11,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { Tabs } from '../components/ui/Tabs';
+import { Container } from '../components/layout';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -98,7 +99,7 @@ export default function Gamification() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -293,7 +294,7 @@ export default function Gamification() {
           </div>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

@@ -30,6 +30,7 @@ import {
   ReadingProgressBar,
   ReadingProgressRing,
 } from '../components/patterns/ReadingProgress';
+import { Container } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -84,7 +85,7 @@ export const WeeklyNewsDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -108,10 +109,10 @@ export const WeeklyNewsDetail: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </div>
+        </Container>
       </div>
 
-      <main ref={articleRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <main ref={articleRef} className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section">
         <EditorialLayout
           main={
             <div className="flex flex-col gap-section">

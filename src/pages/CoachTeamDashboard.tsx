@@ -11,6 +11,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { Tabs } from '../components/ui/Tabs';
 import { FilterChip } from '../components/ui/FilterChip';
+import { Container } from '../components/layout';
 import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
 import type { LearnerStatus } from '../types/learning';
@@ -84,7 +85,7 @@ export default function CoachTeamDashboard() {
         }
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -279,7 +280,7 @@ export default function CoachTeamDashboard() {
           </SectionCard>
         )}
 
-      </div>
+      </Container>
     </div>
   );
 }

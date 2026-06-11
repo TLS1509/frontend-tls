@@ -9,6 +9,7 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
+import { Container } from '../components/layout';
 
 const METRICS = [
   'Taux complétion parcours',
@@ -48,7 +49,7 @@ const ManagerViewsBuilder: React.FC = () => {
         tone="default"
       />
 
-      <div className="max-w-page mx-auto px-4 py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">
+      <Container width="page" padding={false} className="px-4 py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">
         {/* Builder Panel */}
         <div className="flex flex-col gap-stack">
           <SectionCard title="1. Nom de la vue">
@@ -136,7 +137,7 @@ const ManagerViewsBuilder: React.FC = () => {
             ))}
           </div>
         </Card>
-      </div>
+      </Container>
     </div>
   );
 };

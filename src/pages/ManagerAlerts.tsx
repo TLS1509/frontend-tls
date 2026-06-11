@@ -10,6 +10,7 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { DataTable } from '../components/patterns/DataTable';
 import { Alert } from '../components/ui/Alert';
+import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -94,7 +95,7 @@ export default function ManagerAlerts() {
         }
       />
 
-      <div className="max-w-page mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
         {/* Summary */}
         <div className="grid grid-cols-3 gap-stack">
@@ -173,7 +174,7 @@ export default function ManagerAlerts() {
           />
         </SectionCard>
 
-      </div>
+      </Container>
     </div>
   );
 }

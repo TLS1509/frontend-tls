@@ -6,6 +6,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
 import { StatCard } from '../components/ui/StatCard';
+import { Container } from '../components/layout';
 import { useUserProfileStore } from '../stores/persistence';
 
 const MOCK_TRANSACTIONS = [
@@ -90,7 +91,7 @@ export default function CreditsPage() {
         tone="warm"
       />
 
-      <div className="max-w-wide mx-auto w-full px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
         {/* Hero balance card */}
         <Card
           variant="tinted"
@@ -202,7 +203,7 @@ export default function CreditsPage() {
         <Alert variant="info" title="Comment fonctionnent les crédits ?">
           Les crédits sont valables 12 mois à partir de la date d'achat ou d'attribution. Ils ne sont pas remboursables mais peuvent être transférés à un autre membre de votre organisation. Les crédits offerts (gagnés par vos accomplissements) expirent à la fin de l'année civile en cours.
         </Alert>
-      </div>
+      </Container>
     </div>
   );
 }
