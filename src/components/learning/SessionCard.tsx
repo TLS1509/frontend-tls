@@ -49,7 +49,7 @@ export interface SessionCardProps {
 }
 
 const ACTION_BTN_BASE =
-  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-all hover:-translate-y-px';
+  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px';
 
 const ACTION_BTN_TONES = {
   primary:   'border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 hover:border-primary-300 hover:shadow-brand-xs active:bg-primary-200',

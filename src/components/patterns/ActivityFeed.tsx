@@ -206,7 +206,7 @@ const ActivityRow: React.FC<{
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-3 rounded-xl transition-colors duration-200',
+        'group/item relative flex items-start gap-3 rounded-xl transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
         layout === 'cards'
           ? 'p-4 bg-white border border-ink-200 hover:border-primary-300 hover:shadow-sm'
           : `p-3 ${TONE_HOVER_BG[tone]}`,
@@ -368,7 +368,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-[background-color,border-color,transform,box-shadow] duration-base ease-emphasis"
           >
             Voir plus d’activités
             <ArrowRight size={15} strokeWidth={2.25} />

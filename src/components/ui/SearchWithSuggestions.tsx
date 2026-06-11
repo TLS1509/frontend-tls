@@ -191,7 +191,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     onClick={() => handleSuggestionClick(suggestion)}
                     className={`
                       w-full flex items-start gap-2 px-3 py-2 rounded-lg
-                      transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
+                      transition-[background-color,color] duration-fast ease-emphasis
                       text-left
                       ${
                         highlightedIdx === idx

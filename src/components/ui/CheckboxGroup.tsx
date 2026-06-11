@@ -104,7 +104,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                 key={option.value}
                 className={[
                   'relative flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer',
-                  'transition-all duration-base ease-standard select-none',
+                  'transition-[border-color,background-color,transform,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]
                     : 'border-ink-200 bg-white hover:border-ink-300 hover:-translate-y-px hover:shadow-sm',
@@ -128,7 +128,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                   aria-hidden="true"
                   className={[
                     'mt-0.5 w-5 h-5 shrink-0 rounded-sm border-2 flex items-center justify-center',
-                    'transition-all duration-base ease-standard',
+                    'transition-[border-color,background-color] duration-base ease-standard',
                     isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
                   ].join(' ')}
                 >
@@ -174,7 +174,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                 aria-hidden="true"
                 className={[
                   'mt-0.5 w-5 h-5 shrink-0 rounded-sm border-2 flex items-center justify-center',
-                  'transition-all duration-base ease-standard',
+                  'transition-[border-color,background-color] duration-base ease-standard',
                   'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500',
                   isChecked ? TONE_CHECKBOX[tone] : 'border-ink-300 bg-white',
                 ].join(' ')}

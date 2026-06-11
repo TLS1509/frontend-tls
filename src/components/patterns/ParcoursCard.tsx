@@ -54,7 +54,7 @@ const TITLE_TONE_CLASSES: Record<ParcoursTone, string> = {
 };
 
 const CTA_BASE =
-  'flex items-center justify-center gap-2 w-full h-11 rounded-pill px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-all duration-150 hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
+  'flex items-center justify-center gap-2 w-full h-11 rounded-pill px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 // Tone-aware CTA classes — includes tone-matched focus outline.
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
@@ -89,12 +89,12 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       tone={tone}
       onClick={() => onClick?.(id)}
       aria-label={`${title} — ${status}`}
-      className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
     >
       {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-base ease-standard"
         style={GLOW_BG[tone]}
       />
 

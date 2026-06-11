@@ -78,7 +78,7 @@ export const StepCard: React.FC<StepCardProps> = ({
   const label = STATUS_LABEL[status];
 
   const classes = [
-    'relative bg-white border-2 rounded-2xl p-6 flex flex-col gap-4 transition-all',
+    'relative bg-white border-2 rounded-2xl p-6 flex flex-col gap-4 transition-[transform,box-shadow,border-color] duration-base ease-standard',
     !isLocked && 'hover:-translate-y-0.5 hover:shadow-md',
     STATUS_BORDER[status],
     className,
@@ -153,7 +153,7 @@ export const StepCard: React.FC<StepCardProps> = ({
             <span>{isExpanded ? 'Masquer les leçons' : 'Voir les leçons'}</span>
             <ChevronDown
               size={16}
-              className={['transition-transform duration-200', isExpanded ? 'rotate-180' : ''].join(' ')}
+              className={['transition-transform duration-base ease-emphasis', isExpanded ? 'rotate-180' : ''].join(' ')}
             />
           </button>
 

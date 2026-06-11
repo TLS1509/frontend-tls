@@ -69,7 +69,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
               <ChevronRight
                 size={16}
                 strokeWidth={2.25}
-                className="shrink-0 mt-1 text-ink-400 transition-all duration-200 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-primary-600"
+                className="shrink-0 mt-1 text-ink-400 transition-[transform,opacity,color] duration-fast ease-emphasis opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-primary-600"
               />
             )}
           </article>

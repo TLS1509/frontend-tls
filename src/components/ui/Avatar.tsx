@@ -160,7 +160,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({
       className={[
         'inline-flex items-center',
         '[&>span]:-ml-2.5 [&>span:first-child]:ml-0',
-        '[&>span]:transition-transform [&>span]:duration-200',
+        '[&>span]:transition-transform [&>span]:duration-base [&>span]:ease-emphasis',
         '[&>span:hover]:-translate-y-1 [&>span:hover]:z-[1]',
         className,
       ]

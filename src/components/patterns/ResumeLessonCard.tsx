@@ -94,12 +94,12 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       tone={tone === 'sun' ? 'sun' : tone === 'warm' ? 'warm' : 'primary'}
       onClick={() => onClick?.(id)}
       aria-label={`Reprendre ${parcoursTitle}`}
-      className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
     >
       {/* Radial glow on hover */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-slow ease-standard"
         style={GLOW_BG[tone]}
       />
 
@@ -143,7 +143,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           <button
             type="button"
             className={[
-              'inline-flex items-center justify-center gap-2 h-12 px-6 rounded-pill text-body font-body font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all duration-150',
+              'inline-flex items-center justify-center gap-2 h-12 px-6 rounded-pill text-body font-body font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis',
               'hover:-translate-y-px active:translate-y-0',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',
               CTA_TONE[tone],

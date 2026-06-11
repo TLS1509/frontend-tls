@@ -35,7 +35,7 @@ const SIDEBAR_BASE =
   // Right edge: subtle inner border + soft outer drop shadow (teal-tinted)
   'border-r border-white/70 ring-1 ring-inset ring-primary-100/40 ' +
   'shadow-[8px_0_32px_-12px_rgba(85,161,180,0.18),2px_0_8px_-2px_rgba(85,161,180,0.08)] ' +
-  'transition-[width] duration-300 ease-out';
+  'transition-[width] duration-slow ease-decelerate';
 
 export const Sidebar: React.FC<SidebarProps> = ({
   collapsed = false,
@@ -71,7 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           // Mobile: fixed drawer, hidden by default (z-50 above backdrop)
           'max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:w-[280px] max-md:shadow-xl',
           mobileOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full',
-          'max-md:transition-transform max-md:duration-300',
+          'max-md:transition-transform max-md:duration-slow max-md:ease-decelerate',
           className,
         ]
           .filter(Boolean)
@@ -159,7 +159,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative flex items-center gap-3 font-body font-semibold text-body-sm no-underline transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative flex items-center gap-3 font-body font-semibold text-body-sm no-underline transition-[background-color,color,box-shadow] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 // Inactive items keep the soft pill shape; active items snap to a rounded
 // square ("anchored" feel) with brand gradient + shadow.
@@ -273,7 +273,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
         aria-label={`Menu ${name}${notificationCount > 0 ? ` · ${notificationCount} notifications non lues` : ''}`}
         aria-expanded={menuOpen}
         className={[
-          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
+          'relative flex items-center justify-center w-12 h-12 mx-auto rounded-xl bg-primary-100 text-primary-700 hover:bg-primary-200 transition-[background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 cursor-pointer border-0 p-0',
           menuOpen && 'ring-2 ring-primary-300',
           className,
         ]
@@ -291,7 +291,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
       onClick={onClick}
       aria-expanded={menuOpen}
       className={[
-        'flex items-center gap-3 w-full px-3 py-2.5 rounded-2xl bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+        'flex items-center gap-3 w-full px-3 py-2.5 rounded-2xl bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-[background-color,border-color,box-shadow] duration-base ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         menuOpen && 'border-primary-400 bg-white',
         className,
       ]

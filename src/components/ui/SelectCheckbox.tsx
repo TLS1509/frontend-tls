@@ -118,7 +118,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                     key={opt.id}
                     className={`
                       flex items-center gap-2 px-3 py-2 rounded-lg
-                      cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
+                      cursor-pointer transition-[background-color] duration-base ease-emphasis
                       hover:bg-primary-50
                     `}
                   >
@@ -132,7 +132,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                     <div
                       className={`
                         w-5 h-5 rounded-md border-2 flex items-center justify-center
-                        transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
+                        transition-[background-color,border-color] duration-base ease-emphasis
                         ${
                           selected.includes(opt.id)
                             ? 'bg-primary-500 border-primary-500'
@@ -144,7 +144,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                         <span className="text-white text-caption font-bold">✓</span>
                       )}
                     </div>
-                    <span className={`text-body-sm transition-colors duration-200 ${selected.includes(opt.id) ? 'text-ink-900 font-semibold' : 'text-ink-600'}`}>
+                    <span className={`text-body-sm transition-colors duration-base ${selected.includes(opt.id) ? 'text-ink-900 font-semibold' : 'text-ink-600'}`}>
                       {opt.label}
                     </span>
                   </label>
@@ -158,13 +158,13 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                     onChange([]);
                     setIsOpen(false);
                   }}
-                  className="flex-1 px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
+                  className="flex-1 px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-[background-color,color] duration-fast ease-standard"
                 >
                   Réinitialiser
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 px-3 py-2 text-body-sm text-white font-medium bg-primary-500 rounded-lg hover:bg-primary-600 transition-all duration-200"
+                  className="flex-1 px-3 py-2 text-body-sm text-white font-medium bg-primary-500 rounded-lg hover:bg-primary-600 transition-[background-color] duration-fast ease-standard"
                 >
                   Fermer
                 </button>
