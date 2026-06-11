@@ -6784,6 +6784,15 @@ const Components: React.FC = () => {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showShowcaseOnly, setShowShowcaseOnly] = useState(false);
+  const [showToneAware, setShowToneAware] = useState(false);
+  const [showHasVariants, setShowHasVariants] = useState(false);
+  const [showUsedByPages, setShowUsedByPages] = useState(true);
+
+  // Auto-scroll to top when filter or query changes
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [filter, query]);
 
   // Show back-to-top button once scrolled past hero
   React.useEffect(() => {
@@ -6817,6 +6826,10 @@ const Components: React.FC = () => {
       if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
       const result = componentsWithMeta.filter((c) => {
         if (filter !== 'all' && c._meta.category !== filter) return false;
+        if (showShowcaseOnly && !c.showcaseOnly) return false;
+        if (showToneAware && !c.toneAware) return false;
+        if (showHasVariants && !c.hasVariants) return false;
+        if (!showUsedByPages && c.usedBy && c.usedBy.length > 0) return false;
         if (!q) return true;
         const haystack = [
           c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
@@ -6829,7 +6842,7 @@ const Components: React.FC = () => {
       console.error('Error computing filteredComponents:', error);
       throw error;
     }
-  }, [q, filter, componentsWithMeta]);
+  }, [q, filter, componentsWithMeta, showShowcaseOnly, showToneAware, showHasVariants, showUsedByPages]);
 
   const filteredTokens = useMemo(() => {
     if (filter !== 'all' && filter !== 'Tokens' && filter !== 'Foundations') return [];
@@ -6986,6 +6999,31 @@ const Components: React.FC = () => {
               {f.label}
             </button>
           ))}
+        </div>
+
+        {/* Advanced filters (checkboxes) */}
+        <div className="flex flex-wrap gap-stack-xs items-center text-body-sm">
+          <span className="text-ink-500 font-semibold">Filtres :</span>
+          <Checkbox
+            label="showcaseOnly"
+            checked={showShowcaseOnly}
+            onChange={(e) => setShowShowcaseOnly(e.target.checked)}
+          />
+          <Checkbox
+            label="tone-aware"
+            checked={showToneAware}
+            onChange={(e) => setShowToneAware(e.target.checked)}
+          />
+          <Checkbox
+            label="has variants"
+            checked={showHasVariants}
+            onChange={(e) => setShowHasVariants(e.target.checked)}
+          />
+          <Checkbox
+            label="used by pages"
+            checked={showUsedByPages}
+            onChange={(e) => setShowUsedByPages(e.target.checked)}
+          />
         </div>
       </div>
 
