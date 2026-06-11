@@ -211,6 +211,7 @@ import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
 import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
 import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
 import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
+import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
@@ -515,6 +516,7 @@ function App() {
           <Route path="home-b" element={<MarketingHomeB />} />
           <Route path="home-c" element={<MarketingHomeC />} />
           <Route path="_motion-lab" element={<MarketingMotionLab />} />
+          <Route path="_showcase-scroll" element={<StickyScrollShowcase />} />
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />

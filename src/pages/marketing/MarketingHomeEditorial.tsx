@@ -25,8 +25,17 @@ import {
   StickyScrollStory,
   MeshGradientBg,
   MagneticButton,
+  MorphingSVGVisualizer,
+  CounterAnimation,
+  ParallexTextLayers,
   type StoryPanel,
 } from '../../components/marketing/motion';
+import {
+  ParallaxSection,
+  ScrollReveal,
+  StaggerGroup,
+  ScrollProgressIndicator,
+} from '../../components/marketing/scroll-effects';
 import { LearnDoMatchVisual } from './components/LearnDoMatchVisual';
 import { CinematicHero } from './components/CinematicHero';
 
@@ -168,8 +177,12 @@ const PROOFS: { title: string; detail: string }[] = [
 export const MarketingHomeEditorial: React.FC = () => {
   return (
     <div className="bg-white text-ink-900">
+      <ScrollProgressIndicator height={3} />
+
       {/* ── 1. Hero : Direction C cinematic (Illustrated Glass) ────────────────── */}
-      <CinematicHero />
+      <ParallaxSection speed={0.5}>
+        <CinematicHero />
+      </ParallaxSection>
 
       {/* ── 2. Conviction : one committed teal stripe ──────────────────────────── */}
       <section className="bg-primary-700 text-white">
@@ -213,12 +226,43 @@ export const MarketingHomeEditorial: React.FC = () => {
           </Reveal>
         </div>
 
-        <StickyScrollStory
-          className="pt-section"
-          panels={STORY}
-          eyebrowToneClass="text-secondary-600"
-          visual={(active) => <LearnDoMatchVisual active={active} />}
-        />
+        <div className="pt-section">
+          <div className="max-w-wide mx-auto px-6 mb-section-lg">
+            <Reveal>
+              <CounterAnimation
+                currentStep={0}
+                totalSteps={3}
+                label="Étape"
+                colorClass="text-secondary-600"
+              />
+            </Reveal>
+          </div>
+          <StickyScrollStory
+            className="pt-0"
+            panels={STORY}
+            eyebrowToneClass="text-secondary-600"
+            visual={(active) => (
+              <div className="flex flex-col items-center gap-section-lg">
+                <MorphingSVGVisualizer
+                  activeIndex={active}
+                  size={140}
+                  colorClass="text-secondary-600"
+                />
+                <LearnDoMatchVisual active={active} />
+              </div>
+            )}
+            renderText={(panel) => (
+              <ParallexTextLayers
+                eyebrow={panel.eyebrow}
+                eyebrowSpeed={0.3}
+                title={panel.title}
+                titleSpeed={0.5}
+                body={panel.body}
+                bodySpeed={0.7}
+              />
+            )}
+          />
+        </div>
       </section>
 
       {/* ── 4. Show, don't tell : the playable product mockup ──────────────────── */}
@@ -362,10 +406,11 @@ export const MarketingHomeEditorial: React.FC = () => {
       </section>
 
       {/* ── 7. Proof : honest, no invented metric, no fake logo ────────────────── */}
-      <section className="bg-gradient-page-ambient-warm">
-        <div className="max-w-wide mx-auto px-6 py-page">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-start">
-            <div className="lg:col-span-5">
+      <ParallaxSection speed={0.6} className="bg-gradient-page-ambient-warm">
+        <section>
+          <div className="max-w-wide mx-auto px-6 py-page">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-start">
+              <div className="lg:col-span-5">
               <Reveal>
                 <div className="flex flex-col gap-stack-lg">
                   <span className="font-body text-caption font-bold uppercase tracking-widest text-secondary-600 m-0">
@@ -402,7 +447,8 @@ export const MarketingHomeEditorial: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+        </section>
+      </ParallaxSection>
 
       {/* ── 8. Blog teaser : editorial cross-link, no card chrome ──────────────── */}
       <section className="bg-white">
@@ -436,7 +482,7 @@ export const MarketingHomeEditorial: React.FC = () => {
       {/* ── 9. Final CTA : the one dark section, ONE primary action ────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 pb-page">
-          <Reveal>
+          <ScrollReveal distance={32} duration={800}>
             <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-page sm:px-section-lg">
               <MeshGradientBg tone="ink" intensity="subtle" />
               <div className="relative max-w-content flex flex-col gap-stack-lg">
@@ -463,7 +509,7 @@ export const MarketingHomeEditorial: React.FC = () => {
                 </div>
               </div>
             </div>
-          </Reveal>
+          </ScrollReveal>
         </div>
       </section>
     </div>

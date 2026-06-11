@@ -15,6 +15,8 @@ type Props = {
   eyebrowToneClass?: string;
   /** Side of the visual. 'right' (default) = text left, visual right. */
   visualSide?: 'left' | 'right';
+  /** Optional render function for custom text layout (e.g., with parallax layers). */
+  renderText?: (panel: StoryPanel, index: number, isActive: boolean) => React.ReactNode;
   className?: string;
 };
 
@@ -33,6 +35,7 @@ export const StickyScrollStory: React.FC<Props> = ({
   visual,
   eyebrowToneClass = 'text-warning-fg',
   visualSide = 'right',
+  renderText,
   className = '',
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -77,17 +80,23 @@ export const StickyScrollStory: React.FC<Props> = ({
                   className={i === 0 ? 'relative flex flex-col gap-stack-lg' : 'absolute inset-0 flex flex-col gap-stack-lg'}
                   style={{ pointerEvents: active === i ? 'auto' : 'none' }}
                 >
-                  {panel.eyebrow && (
-                    <span className={`font-body text-caption font-bold ${eyebrowToneClass} uppercase tracking-widest`}>
-                      {panel.eyebrow}
-                    </span>
+                  {renderText ? (
+                    renderText(panel, i, active === i)
+                  ) : (
+                    <>
+                      {panel.eyebrow && (
+                        <span className={`font-body text-caption font-bold ${eyebrowToneClass} uppercase tracking-widest`}>
+                          {panel.eyebrow}
+                        </span>
+                      )}
+                      <h3 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                        {panel.title}
+                      </h3>
+                      <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
+                        {panel.body}
+                      </p>
+                    </>
                   )}
-                  <h3 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                    {panel.title}
-                  </h3>
-                  <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
-                    {panel.body}
-                  </p>
                   <div className="flex items-center gap-2 pt-stack">
                     {panels.map((_, j) => (
                       <span
@@ -114,17 +123,23 @@ export const StickyScrollStory: React.FC<Props> = ({
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
           {panels.map((panel, i) => (
             <div key={i} className="flex flex-col gap-stack-lg">
-              {panel.eyebrow && (
-                <span className={`font-body text-caption font-bold ${eyebrowToneClass} uppercase tracking-widest`}>
-                  {panel.eyebrow}
-                </span>
+              {renderText ? (
+                renderText(panel, i, true)
+              ) : (
+                <>
+                  {panel.eyebrow && (
+                    <span className={`font-body text-caption font-bold ${eyebrowToneClass} uppercase tracking-widest`}>
+                      {panel.eyebrow}
+                    </span>
+                  )}
+                  <h3 className="font-display text-h2 font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                    {panel.title}
+                  </h3>
+                  <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                    {panel.body}
+                  </p>
+                </>
               )}
-              <h3 className="font-display text-h2 font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                {panel.title}
-              </h3>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-                {panel.body}
-              </p>
               <div className="flex items-center justify-center">{visual(i)}</div>
             </div>
           ))}

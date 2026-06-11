@@ -12,3 +12,16 @@ export { TiltCard } from './TiltCard';
 export { ScrollProgress } from './ScrollProgress';
 export { NoiseTexture } from './NoiseTexture';
 export { MarketingToastProvider, useMarketingToast } from './Toast';
+// Direction C animation effects (Phase 2B)
+export { MorphingSVGVisualizer } from './morphing-svg-visualizer';
+export { CounterAnimation } from './counter-animation';
+export { ParallexTextLayers } from './parallax-text-layers';
+// Premium motion effects
+export { FloatingParticles } from './floating-particles';
+export { HoverLiftCard } from './hover-lift-card';
+export { SpotlightBorder } from './spotlight-border';
+export { BadgeEarnAnimation } from './badge-earn-animation';
+export { LessonProgressArc } from './lesson-progress-arc';
+export { ShimmerLoading } from './shimmer-loading';
+export { ChatMessageStagger } from './chat-message-stagger';
+export { ScoreCounter } from './score-counter';
