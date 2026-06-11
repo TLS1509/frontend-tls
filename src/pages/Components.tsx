@@ -7323,15 +7323,8 @@ class ComponentPreviewErrorBoundary extends React.Component<
 const Components: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState<Filter>('all');
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  // Auto-scroll to top when filter or query changes
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [filter, query]);
 
   // Show back-to-top button once scrolled past hero
   React.useEffect(() => {
@@ -7342,71 +7335,42 @@ const Components: React.FC = () => {
 
   const q = query.trim().toLowerCase();
 
-  React.useEffect(() => {
-    console.log('Query changed:', { query, q, filter });
-  }, [query, filter]);
-
-  // Components enriched with new meta (category + subCategory)
-  const componentsWithMeta = useMemo(() => {
-    console.log('Computing componentsWithMeta...');
-    try {
-      const result = COMPONENTS.map((c) => ({ ...c, _meta: resolveMeta(c) }));
-      console.log('componentsWithMeta computed:', result.length, 'components');
-      return result;
-    } catch (error) {
-      console.error('Error computing componentsWithMeta:', error);
-      throw error;
-    }
-  }, []);
+  // Components enriched with meta (category + subCategory)
+  const componentsWithMeta = useMemo(
+    () => COMPONENTS.map((c) => ({ ...c, _meta: resolveMeta(c) })),
+    [],
+  );
 
   const filteredComponents = useMemo(() => {
-    console.log('Computing filteredComponents...');
-    try {
-      if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
-      const result = componentsWithMeta.filter((c) => {
-        // Category filter: selectedCategory (from SelectCheckboxCategory)
-        if (selectedCategory !== 'all' && c._meta.category !== selectedCategory) return false;
-        // Or keep old filter for backward compat
-        if (filter !== 'all' && c._meta.category !== filter) return false;
-
-        // Apply selected filters from SelectCheckbox
-        if (selectedFilters.includes('showcaseOnly') && !c.showcaseOnly) return false;
-        if (selectedFilters.includes('toneAware') && !c.toneAware) return false;
-        if (selectedFilters.includes('hasVariants') && !c.hasVariants) return false;
-        // 'usedByPages' inverts the logic: if checked, HIDE items without usedBy
-        if (selectedFilters.includes('usedByPages') && (!c.usedBy || c.usedBy.length === 0)) return false;
-
-        if (!q) return true;
-        const haystack = [
-          c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
-        ].join(' ').toLowerCase();
-        return haystack.includes(q);
-      });
-      console.log('filteredComponents computed:', result.length, 'components');
-      return result;
-    } catch (error) {
-      console.error('Error computing filteredComponents:', error);
-      throw error;
-    }
-  }, [q, filter, componentsWithMeta, selectedFilters, selectedCategory]);
+    return componentsWithMeta.filter((c) => {
+      if (selectedCategory !== 'all' && c._meta.category !== selectedCategory) return false;
+      if (!q) return true;
+      const haystack = [
+        c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
+      ].join(' ').toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [q, componentsWithMeta, selectedCategory]);
 
   const filteredTokens = useMemo(() => {
-    if (filter !== 'all' && filter !== 'Tokens' && filter !== 'Foundations') return [];
+    // Hide tokens when a component category is active
+    if (selectedCategory !== 'all') return [];
     return ALL_TOKENS.filter((t) => {
       if (!q) return true;
       const haystack = [t.name, t.cssVar, t.value, t.group, t.type].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, filter]);
+  }, [q, selectedCategory]);
 
   const filteredPages = useMemo(() => {
-    if (filter !== 'all' && filter !== 'Pages & Templates') return [];
+    // Hide page templates when a component category is active
+    if (selectedCategory !== 'all') return [];
     return PAGE_TEMPLATES.filter((p) => {
       if (!q) return true;
       const haystack = [p.name, p.description, p.family, ...p.tags].join(' ').toLowerCase();
       return haystack.includes(q);
     });
-  }, [q, filter]);
+  }, [q, selectedCategory]);
 
   const pagesByFamily = useMemo(() => {
     const order = ['Core', 'Journal', 'Veille', 'Coaching'];
@@ -7429,36 +7393,26 @@ const Components: React.FC = () => {
     return Array.from(map.entries());
   }, [filteredTokens]);
 
-  // Group by NEW category → subCategory (2 levels)
+  // Group by category → subCategory (2 levels)
   const componentsByCategory = useMemo(() => {
-    console.log('Computing componentsByCategory...');
-    try {
-      const result = CATEGORY_ORDER
-        .map((cat) => {
-          const inCat = filteredComponents.filter((c) => c._meta.category === cat);
-          if (inCat.length === 0) return null;
-          // Sub-group by subCategory respecting SUBCATEGORY_ORDER
-          const subMap = new Map<string, typeof inCat>();
-          inCat.forEach((c) => {
-            const sub = c._meta.subCategory;
-            if (!subMap.has(sub)) subMap.set(sub, []);
-            subMap.get(sub)!.push(c);
-          });
-          const subOrder = SUBCATEGORY_ORDER[cat] ?? [];
-          const orderedSubs: Array<readonly [string, typeof inCat]> = [
-            ...subOrder.filter((s) => subMap.has(s)).map((s) => [s, subMap.get(s)!] as const),
-            // Any subCategory not in the predefined order, appended at the end
-            ...Array.from(subMap.entries()).filter(([s]) => !subOrder.includes(s)),
-          ];
-          return [cat, orderedSubs, inCat.length] as const;
-        })
-        .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
-      console.log('componentsByCategory computed:', result.length, 'categories');
-      return result;
-    } catch (error) {
-      console.error('Error computing componentsByCategory:', error);
-      throw error;
-    }
+    return CATEGORY_ORDER
+      .map((cat) => {
+        const inCat = filteredComponents.filter((c) => c._meta.category === cat);
+        if (inCat.length === 0) return null;
+        const subMap = new Map<string, typeof inCat>();
+        inCat.forEach((c) => {
+          const sub = c._meta.subCategory;
+          if (!subMap.has(sub)) subMap.set(sub, []);
+          subMap.get(sub)!.push(c);
+        });
+        const subOrder = SUBCATEGORY_ORDER[cat] ?? [];
+        const orderedSubs: Array<readonly [string, typeof inCat]> = [
+          ...subOrder.filter((s) => subMap.has(s)).map((s) => [s, subMap.get(s)!] as const),
+          ...Array.from(subMap.entries()).filter(([s]) => !subOrder.includes(s)),
+        ];
+        return [cat, orderedSubs, inCat.length] as const;
+      })
+      .filter((x): x is readonly [NewCategory, (readonly [string, typeof componentsWithMeta])[], number] => x !== null);
   }, [filteredComponents, componentsWithMeta]);
 
   // Generate search suggestions from all sources
@@ -7583,13 +7537,15 @@ const Components: React.FC = () => {
         value={query}
         onChange={(value) => {
           setQuery(value);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
         }}
         suggestions={searchSuggestions}
         onSuggestionSelect={(suggestion) => {
           if (suggestion.type === 'category' && suggestion.id !== 'all') {
             setSelectedCategory(suggestion.id);
+            setQuery('');
           }
+          window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
         }}
         size="lg"
         placeholder="Rechercher un composant, un token, une catégorie…"
@@ -7601,14 +7557,12 @@ const Components: React.FC = () => {
         <EmptyState
           title="Aucun résultat"
           description={`Rien ne correspond à « ${query} ». Essayez un autre terme.`}
-          actions={<Button variant="primary" onClick={() => { setQuery(''); setFilter('all'); }}>Réinitialiser</Button>}
+          actions={<Button variant="primary" onClick={() => { setQuery(''); setSelectedCategory('all'); }}>Réinitialiser</Button>}
         />
       ) : (
         <>
           {/* ---- Components by category → subCategory ---- */}
-          {componentsByCategory.map(([cat, subGroups, total]) => {
-            console.log(`Rendering category: ${cat}, subGroups: ${subGroups.length}`);
-            return (
+          {componentsByCategory.map(([cat, subGroups, total]) => (
             <section key={cat} className="ds-section" id={`cat-${cat.replace(/[^a-z]/gi, '-').toLowerCase()}`}>
               <div className="ds-section__head">
                 <h2 className="ds-section__title">{cat}</h2>
@@ -7626,9 +7580,7 @@ const Components: React.FC = () => {
                   )}
 
                   <div className="ds-component-list">
-                    {list.map((c) => {
-                      console.log(`Rendering component: ${c.name}`);
-                      return (
+                    {list.map((c) => (
                       <article key={c.name} className="ds-component">
                         <header className="ds-component__head">
                           <div>
@@ -7663,14 +7615,12 @@ const Components: React.FC = () => {
                           </ComponentPreviewErrorBoundary>
                         </div>
                       </article>
-                    );
-                    })}
+                    ))}
                   </div>
                 </div>
               ))}
             </section>
-          );
-          })}
+          ))}
 
           {/* ---- Pages & Templates ---- */}
           {pagesByFamily.map(([family, pages]) => (
