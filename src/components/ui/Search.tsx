@@ -261,9 +261,8 @@ export const Search: React.FC<SearchProps> = ({
               role="option"
               onClick={() => handleSuggestionSelect(suggestion)}
               className={[
-                'flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-all',
+                'flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-[background-color] duration-fast ease-emphasis',
                 isGlass ? 'hover:bg-white/15 text-white' : 'hover:bg-ink-50 text-ink-900',
-                'transition-[background-color] duration-fast ease-emphasis',
               ].join(' ')}
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
