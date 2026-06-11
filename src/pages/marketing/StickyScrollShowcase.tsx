@@ -12,9 +12,9 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Button } from '../../components/core/Button'
-import { MorphingSVGVisualizer } from '../../components/marketing/morphing-svg-visualizer'
-import { CounterAnimation } from '../../components/marketing/counter-animation'
-import { ParallexTextLayers } from '../../components/marketing/parallax-text-layers'
+import { MorphingSVGVisualizer } from '../../components/marketing/motion/morphing-svg-visualizer'
+import { CounterAnimation } from '../../components/marketing/motion/counter-animation'
+import { ParallexTextLayers } from '../../components/marketing/motion/parallax-text-layers'
 
 const StickyScrollShowcase: React.FC = () => {
   const [activePanel, setActivePanel] = useState(0)
