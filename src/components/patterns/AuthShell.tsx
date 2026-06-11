@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Eye, EyeOff, Lock } from 'lucide-react';
 import { TlsLogo } from '../ui/TlsLogo';
+import { Input } from '../core/Input';
 
 /**
  * AuthShell — full-bleed branded auth layout.
@@ -330,12 +331,6 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
 
 // ─── Form sub-components (high-level — to use inside AuthShell.form) ────────
 
-const FIELD_WRAPPER = 'flex flex-col gap-1.5';
-const INPUT_WITH_ICON_BASE =
-  'flex items-center gap-2 h-12 rounded-xl px-3.5 py-2.5 transition-all duration-200';
-const RAW_INPUT_CLASSES =
-  'flex-1 bg-transparent border-0 outline-none text-white placeholder:text-white/55 focus:outline-none';
-
 export interface AuthFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   /** Field label rendered above the input. */
   label: React.ReactNode;
@@ -350,42 +345,28 @@ export interface AuthFieldProps extends Omit<React.InputHTMLAttributes<HTMLInput
 }
 
 /**
- * AuthField — labeled glass-dark input field with optional icon + error.
- * Use inside AuthShell.form for all standard text/email/etc. inputs.
+ * AuthField — thin wrapper over <Input surface="glass"> for auth forms.
+ * Maps icon → leadingIcon and trailing → trailingIcon.
  */
 export const AuthField: React.FC<AuthFieldProps> = ({
   label,
   icon,
   error,
   trailing,
-  id,
   className = '',
   ...rest
-}) => {
-  const inputId = id ?? `auth-field-${Math.random().toString(36).slice(2, 8)}`;
-  const hasError = Boolean(error);
-  return (
-    <div className={[FIELD_WRAPPER, className].filter(Boolean).join(' ')}>
-      <label htmlFor={inputId} className={`text-body-sm ${AUTH_LABEL_CLASSES}`}>
-        {label}
-      </label>
-      <div
-        className={[
-          INPUT_WITH_ICON_BASE,
-          AUTH_INPUT_CLASSES,
-          hasError ? '!border-danger-base/70 !bg-danger-base/10' : '',
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {icon && <span className="text-white/70 shrink-0 inline-flex items-center">{icon}</span>}
-        <input id={inputId} className={RAW_INPUT_CLASSES} {...rest} />
-        {trailing}
-      </div>
-      {error && <p className="m-0 text-caption text-danger-base">{error}</p>}
-    </div>
-  );
-};
+}) => (
+  <Input
+    surface="glass"
+    size="lg"
+    label={label}
+    error={error}
+    leadingIcon={icon}
+    trailingIcon={trailing}
+    className={className}
+    {...rest}
+  />
+);
 
 export interface AuthPasswordFieldProps extends Omit<AuthFieldProps, 'type' | 'icon' | 'trailing'> {
   /** Show Lock icon by default. Pass `false` to hide. */
@@ -414,7 +395,7 @@ export const AuthPasswordField: React.FC<AuthPasswordFieldProps> = ({
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-          className="bg-transparent border-0 p-1 cursor-pointer text-white/70 hover:text-white transition-colors inline-flex items-center justify-center"
+          className="bg-transparent border-0 p-1 cursor-pointer text-white/60 hover:text-white transition-colors inline-flex items-center justify-center"
         >
           {show ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>

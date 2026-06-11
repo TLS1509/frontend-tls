@@ -15,6 +15,7 @@ export type {
   SwitchProps,
   InputSize,
   InputStatus,
+  InputSurface,
 } from './core/Input';
 
 export { FormGroup } from './core/FormGroup';
