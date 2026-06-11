@@ -226,6 +226,9 @@ import { InputGroup } from '../components/ui/InputGroup';
 import { SimpleTable } from '../components/ui/SimpleTable';
 import { PaginatedList } from '../components/ui/PaginatedList';
 import { FilteredList } from '../components/ui/FilteredList';
+import { StepIndicator } from '../components/ui/StepIndicator';
+import { ModalForm } from '../components/ui/ModalForm';
+import { CardGrid } from '../components/ui/CardGrid';
 
 /* ============================================================================
  * TYPES
@@ -338,6 +341,10 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   SimpleTable:          { category: 'Composites', subCategory: 'List composites' },
   PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
   FilteredList:         { category: 'Composites', subCategory: 'List composites' },
+  // Phase 19 Tier 3 — Form/Step/Grid composites
+  StepIndicator:        { category: 'Composites', subCategory: 'Form groups' },
+  ModalForm:            { category: 'Composites', subCategory: 'Form groups' },
+  CardGrid:             { category: 'Composites', subCategory: 'List composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
@@ -6317,6 +6324,157 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           )}
           listClassName="border border-ink-200 rounded-xl overflow-hidden"
+        />
+      );
+    },
+  },
+
+  /* ── Phase 19 Tier 3 ───────────────────────────────────────────────────── */
+  {
+    name: 'StepIndicator',
+    codeName: 'ui/StepIndicator.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['Onboarding', 'BookingModal', 'MultiStepForm'],
+    description: 'Indicateur de progression par étapes. Props : **steps** (`{ label, description? }[]`), **currentStep** (0-based index), **orientation** (`horizontal` | `vertical`), **tone** (primary/warm/sun). Bubble numérotée → ✓ check à la complétion. Connecteur animé entre les étapes.',
+    keywords: ['steps', 'étapes', 'onboarding', 'progression', 'wizard', 'checkout', 'stepper'],
+    render: () => {
+      const STEPS = [
+        { label: 'Profil', description: 'Infos personnelles' },
+        { label: 'Parcours', description: 'Ton premier parcours' },
+        { label: 'Objectifs', description: 'Ce que tu veux atteindre' },
+        { label: 'Confirmation' },
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <div>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Horizontal — step 2/4</p>
+            <StepIndicator steps={STEPS} currentStep={2} orientation="horizontal" tone="primary" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — primary</p>
+              <StepIndicator steps={STEPS} currentStep={1} orientation="vertical" tone="primary" />
+            </div>
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — warm</p>
+              <StepIndicator steps={STEPS} currentStep={2} orientation="vertical" tone="warm" />
+            </div>
+            <div>
+              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — sun</p>
+              <StepIndicator steps={STEPS} currentStep={3} orientation="vertical" tone="sun" />
+            </div>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'ModalForm',
+    codeName: 'ui/ModalForm.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'Form groups',
+    usedBy: ['BookingModal', 'ConfirmDeleteModal', 'ProfileEdit'],
+    description: 'Modal formulaire native `<dialog>` avec header titre + description, zone body scrollable, footer Cancel/Submit. Props : **open**, **onClose**, **onSubmit**, **title**, **submitLabel**, **submitting** (spinner), **destructiveLabel** + **onDestructive** (bouton destructif gauche), **size** (xs/sm/md/lg). Fermeture sur backdrop click ou touche Esc.',
+    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit'],
+    render: () => {
+      const [open, setOpen] = React.useState(false);
+      const [submitting, setSubmitting] = React.useState(false);
+      const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setTimeout(() => { setSubmitting(false); setOpen(false); }, 1500);
+      };
+      return (
+        <div className="flex flex-wrap gap-stack">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center px-4 py-2 rounded-pill bg-primary-600 text-white text-body-sm font-semibold hover:bg-primary-700 transition-colors"
+          >
+            Ouvrir ModalForm
+          </button>
+          <ModalForm
+            open={open}
+            onClose={() => setOpen(false)}
+            onSubmit={handleSubmit}
+            title="Modifier le profil"
+            description="Tes informations sont visibles de ton coach et des membres de ton équipe."
+            submitLabel="Enregistrer"
+            submitting={submitting}
+            destructiveLabel="Supprimer le compte"
+            onDestructive={() => setOpen(false)}
+            size="sm"
+          >
+            <div className="flex flex-col gap-stack-xs">
+              <label className="text-body-sm font-semibold text-ink-900">Prénom</label>
+              <input className="w-full h-10 px-3 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
+            </div>
+            <div className="flex flex-col gap-stack-xs">
+              <label className="text-body-sm font-semibold text-ink-900">Rôle</label>
+              <select className="w-full h-10 px-3 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
+                <option>Apprenante</option>
+                <option>Manager</option>
+                <option>Coach</option>
+              </select>
+            </div>
+          </ModalForm>
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'CardGrid',
+    codeName: 'ui/CardGrid.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'List composites',
+    usedBy: ['LearningPaths', 'Veille', 'EnterpriseMembers', 'Components'],
+    description: 'Grille de cards filtrable avec barre de recherche, chips de catégorie, et toggle grille/liste. Props : **filterFn** (optionnel), **categories** + **categoryFn** (filtres par catégorie), **columns** (2/3/4), **allowLayoutToggle**, **renderCard(item, index, layout)** (callback — layout passé pour adapter le rendu). `useDeferredValue` pour la perf.',
+    keywords: ['grid', 'grille', 'cards', 'filtre', 'catégories', 'layout', 'search', 'toggle'],
+    render: () => {
+      type Resource = { id: string; title: string; cat: string; author: string };
+      const RESOURCES: Resource[] = [
+        { id: '1', title: 'Introduction au microlearning', cat: 'Pédagogie', author: 'M. Dupont' },
+        { id: '2', title: 'Biais cognitifs en entreprise', cat: 'Psychologie', author: 'Dr. Bernard' },
+        { id: '3', title: 'Prompt Engineering avancé', cat: 'IA & Outils', author: 'L. Petit' },
+        { id: '4', title: 'Leadership situationnel', cat: 'Management', author: 'S. Martin' },
+        { id: '5', title: 'Feedback et ancrage mémoriel', cat: 'Pédagogie', author: 'C. Lefèvre' },
+        { id: '6', title: 'Gestion du changement', cat: 'Management', author: 'A. Moreau' },
+        { id: '7', title: 'Éthique de l\'IA', cat: 'IA & Outils', author: 'P. Durand' },
+        { id: '8', title: 'Communication non-violente', cat: 'Psychologie', author: 'N. Fontaine' },
+        { id: '9', title: 'Design pédagogique', cat: 'Pédagogie', author: 'O. Simon' },
+      ];
+      return (
+        <CardGrid
+          items={RESOURCES}
+          filterFn={(item, q) => item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q) || item.author.toLowerCase().includes(q)}
+          categories={['Pédagogie', 'Psychologie', 'IA & Outils', 'Management']}
+          categoryFn={(item) => item.cat}
+          columns={3}
+          allowLayoutToggle={true}
+          emptyLabel="Aucune ressource ne correspond à ta recherche."
+          renderCard={(item, _, layout) =>
+            layout === 'grid' ? (
+              <div key={item.id} className="flex flex-col gap-stack-xs p-4 rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
+                <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold">{item.cat}</span>
+                <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
+                <p className="text-caption text-ink-500 m-0">{item.author}</p>
+              </div>
+            ) : (
+              <div key={item.id} className="flex items-center justify-between px-4 py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold shrink-0">{item.cat}</span>
+                  <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
+                </div>
+                <p className="text-caption text-ink-500 m-0 shrink-0 ml-3">{item.author}</p>
+              </div>
+            )
+          }
         />
       );
     },
