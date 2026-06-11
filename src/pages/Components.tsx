@@ -2659,8 +2659,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/AchievementBadge.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
-    showcaseOnly: true,
-    usedBy: ['Badges', 'Profile'],
+    usedBy: ['DashboardAchievements', 'BadgeGallery', 'BadgeDetail', 'ProfileBadgesCompetences', 'PasseportJac', 'Gamification'],
     description: 'Carte badge d\'accomplissement standalone. 4 colors (primary/warm/sun/success) × 3 sizes (sm/md/lg). Cercle icône gradient + titre + description + date de déverrouillage + bouton partage. État `isLocked` avec opacité réduite et icône cadenas.',
     keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
     render: () => (
