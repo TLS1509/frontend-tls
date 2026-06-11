@@ -72,7 +72,7 @@ type ContentBlock =
     }
   | {
       type: 'gif';
-      src: string;
+      src?: string;
       alt: string;
       caption?: string;
     }
@@ -99,6 +99,14 @@ type ContentBlock =
       prompt: string;
       journalKey: string;
       placeholder?: string;
+    }
+  | {
+      type: 'embed';
+      url?: string;
+      title?: string;
+      caption?: string;
+      provider?: 'canva' | 'google-doc' | 'google-slides' | 'figma' | 'other';
+      aspectRatio?: '16/9' | '4/3' | '1/1';
     };
 
 /* ─── Lesson content data (extended per lessonId) ────────────────────────── */
@@ -122,6 +130,7 @@ interface LessonData {
     bad: { label: string; title: string; description: string; points: string[] };
     good: { label: string; title: string; description: string; points: string[] };
     blocks?: ContentBlock[];
+    steps?: { title?: string; blocks: ContentBlock[] }[];
   };
   quiz: {
     questions: {
@@ -280,6 +289,19 @@ const LESSON_DATA: Record<string, LessonData> = {
         'Créer votre premier token spreadsheet (couleurs, typo, spacing)',
         'Vous situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
       ],
+      blocks: [
+        {
+          type: 'image' as const,
+          alt: 'Aperçu du Design System TLS',
+          caption: 'Capture : vue d\'ensemble du DS dans Figma',
+          aspectRatio: '16/9' as const,
+        },
+        {
+          type: 'video' as const,
+          caption: 'Vidéo d\'introduction au bootcamp (2 min)',
+          aspectRatio: '16/9' as const,
+        },
+      ],
     },
     engagement: {
       heading: 'Pourquoi les Design Systems changent tout',
@@ -334,6 +356,67 @@ const LESSON_DATA: Record<string, LessonData> = {
             { num: 2, label: 'CSS custom props', desc: '--color-primary-500', color: 'secondary' },
             { num: 3, label: 'Tailwind utilities', desc: 'text-primary-500', color: 'accent' },
             { num: 4, label: 'Composant React', desc: '<Button variant="primary" />', color: 'primary' },
+          ],
+        },
+      ],
+      steps: [
+        {
+          title: 'Photo — capture d\'écran ou illustration',
+          blocks: [
+            {
+              type: 'image' as const,
+              alt: 'Exemple d\'image dans une étape',
+              caption: 'Upload une capture Figma, une photo ou une illustration',
+              aspectRatio: '16/9' as const,
+            },
+          ],
+        },
+        {
+          title: 'Vidéo — tutoriel ou démo screen-record',
+          blocks: [
+            {
+              type: 'video' as const,
+              caption: 'Upload une vidéo MP4 ou WebM (screen-record, tutoriel…)',
+              aspectRatio: '16/9' as const,
+            },
+          ],
+        },
+        {
+          title: 'Animation — GIF ou micro-interaction',
+          blocks: [
+            {
+              type: 'gif' as const,
+              alt: 'Animation ou micro-interaction',
+              caption: 'Upload un GIF animé pour illustrer une interaction',
+            },
+          ],
+        },
+        {
+          title: 'Graphique — données et métriques',
+          blocks: [
+            {
+              type: 'chart' as const,
+              chartType: 'bar' as const,
+              title: 'Adoption des design tokens par couche',
+              data: [
+                { label: 'Couleurs', value: 98 },
+                { label: 'Typographie', value: 85 },
+                { label: 'Espacement', value: 72 },
+                { label: 'Rayons', value: 90 },
+                { label: 'Ombres', value: 61 },
+              ],
+            },
+            {
+              type: 'chart' as const,
+              chartType: 'donut' as const,
+              title: 'Répartition des composants DS',
+              data: [
+                { label: 'Atoms (Button, Badge…)', value: 18 },
+                { label: 'Composites (Card, Modal…)', value: 24 },
+                { label: 'Patterns (Section, Hero…)', value: 14 },
+                { label: 'Pages', value: 4 },
+              ],
+            },
           ],
         },
       ],
@@ -552,6 +635,11 @@ export const LessonPlayer: React.FC = () => {
     setSectionInStore(lessonId, currentIndex, SECTIONS.length);
   }, [lessonId, currentIndex, setSectionInStore]);
 
+  // Reset step navigation when lesson changes
+  useEffect(() => {
+    setDecouvrirStep(0);
+  }, [lessonId]);
+
   const [reflections, setReflections] = useState<Record<string, string>>(
     persistedEntry?.reflections ?? {}
   );
@@ -560,6 +648,7 @@ export const LessonPlayer: React.FC = () => {
   );
   const [showFeedback, setShowFeedback] = useState(false);
   const [uploadedSrcs, setUploadedSrcs] = useState<Record<number, string>>({});
+  const [decouvrirStep, setDecouvrirStep] = useState(0);
 
   const ctx = resolveLessonContext(pathId, lessonId);
   const lessonData = LESSON_DATA[lessonId] ?? DEFAULT_LESSON_DATA;
@@ -626,6 +715,7 @@ export const LessonPlayer: React.FC = () => {
           </div>
         ))}
       </div>
+      {lessonData.intro.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
 
@@ -675,6 +765,59 @@ export const LessonPlayer: React.FC = () => {
           ))}
         </div>
         {d.blocks?.map((block, i) => renderContentBlock(block, i))}
+
+        {d.steps && d.steps.length > 0 && (() => {
+          const step = d.steps![decouvrirStep];
+          const total = d.steps!.length;
+          return (
+            <div className="mt-6 border border-ink-200 rounded-xl overflow-hidden">
+              {/* Step header */}
+              <div className="flex items-center justify-between px-4 py-3 bg-ink-50 border-b border-ink-200">
+                <span className="font-body text-caption font-semibold text-ink-500">
+                  Étape {decouvrirStep + 1} / {total}
+                </span>
+                {step.title && (
+                  <span className="font-body text-body-sm font-semibold text-ink-900 text-center flex-1 px-3 truncate">
+                    {step.title}
+                  </span>
+                )}
+                <div className="flex items-center gap-1">
+                  {d.steps!.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setDecouvrirStep(i)}
+                      className={`w-2 h-2 rounded-full transition-colors duration-150 ${
+                        i === decouvrirStep ? 'bg-primary-500' : 'bg-ink-300 hover:bg-ink-400'
+                      }`}
+                      aria-label={`Étape ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              {/* Step content */}
+              <div className="p-5">
+                {step.blocks.map((block, i) => renderContentBlock(block, i))}
+              </div>
+              {/* Step nav */}
+              <div className="flex items-center justify-between px-4 py-3 border-t border-ink-200 bg-ink-50">
+                <button
+                  onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
+                  disabled={decouvrirStep === 0}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-150"
+                >
+                  <ChevronRight size={14} className="rotate-180" /> Précédent
+                </button>
+                <button
+                  onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
+                  disabled={decouvrirStep === total - 1}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-150"
+                >
+                  Suivant <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       </div>
     );
   };
