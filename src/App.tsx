@@ -190,6 +190,7 @@ import {
   VideoViewer,
   CoachingCompteRendu,
 } from './pages';
+import MotionSprintShowcase from './pages/MotionSprintShowcase';
 import ChatInterface from './pages/ChatInterface';
 import ChatHistoryPanel from './pages/ChatHistoryPanel';
 import OpenBadgesSection from './pages/OpenBadgesSection';
@@ -536,6 +537,7 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/components" element={<Components />} />
+                  <Route path="/motion-sprints" element={<MotionSprintShowcase />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
