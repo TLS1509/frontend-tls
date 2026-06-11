@@ -5351,7 +5351,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Variante onClick (button)</p>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">onClick → &lt;button&gt;</p>
           <RelatedItemList
             items={[
               { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
@@ -5360,16 +5360,16 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Variante href (anchor &lt;a&gt;)</p>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
           <RelatedItemList
             items={[
-              { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', href: '/veille/magazine-article/1' },
-              { id: '5', title: 'Newsletter #18', description: 'Tendances EdTech 2026', meta: 'Newsletter', href: '/veille/weekly-newsletter' },
+              { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
+              { id: '5', title: 'Newsletter #18', description: 'Tendances EdTech 2026', meta: 'Newsletter', onClick: () => {} },
             ]}
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Avec icône</p>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Sans interaction (display-only)</p>
           <RelatedItemList
             items={[
               { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
