@@ -57,16 +57,16 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
   return (
     <div className={`relative inline-block ${className}`}>
       {/* ===== OUTER SHELL (Double-Bezel) ===== */}
-      <div className="p-1 bg-black/5 rounded-[1.25rem] border border-ink-200">
+      <div className="p-0.5 bg-black/5 rounded-xl border border-ink-200">
         {/* ===== INNER CORE ===== */}
         <button
           ref={triggerRef}
           onClick={() => setIsOpen(!isOpen)}
           className={`
-            w-full px-4 py-2.5 bg-white rounded-[calc(1.25rem-0.25rem)]
+            w-full px-4 py-3 bg-white rounded-lg
             text-body-sm font-medium text-ink-900
             border border-ink-100
-            shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]
+            shadow-[inset_0_1px_1px_white/15]
             flex items-center justify-between gap-2
             transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
             hover:border-ink-200 hover:bg-ink-50
@@ -98,7 +98,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
               ref={dropdownRef}
               className={`
                 absolute top-full left-0 right-0 mt-2 z-50
-                bg-white border border-ink-200 rounded-[1.25rem]
+                bg-white border border-ink-200 rounded-xl
                 shadow-lg backdrop-blur-glass-medium
                 overflow-hidden
                 animate-in fade-in slide-in-from-top-2 duration-300
@@ -112,12 +112,12 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
               </div>
 
               {/* Options */}
-              <div className="p-2 max-h-[240px] overflow-y-auto space-y-1">
+              <div className="p-2 max-h-80 overflow-y-auto space-y-0.5">
                 {options.map((opt) => (
                   <label
                     key={opt.id}
                     className={`
-                      flex items-center gap-3 px-3 py-2.5 rounded-lg
+                      flex items-center gap-2 px-3 py-2 rounded-lg
                       cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                       hover:bg-primary-50
                     `}
@@ -152,19 +152,19 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-2.5 border-t border-ink-100 flex gap-2">
+              <div className="px-4 py-3 border-t border-ink-100 flex gap-2">
                 <button
                   onClick={() => {
                     onChange([]);
                     setIsOpen(false);
                   }}
-                  className="flex-1 px-3 py-1.5 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
+                  className="flex-1 px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-all duration-200"
                 >
                   Réinitialiser
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 px-3 py-1.5 text-body-sm text-white font-medium bg-primary-500 rounded-lg hover:bg-primary-600 transition-all duration-200"
+                  className="flex-1 px-3 py-2 text-body-sm text-white font-medium bg-primary-500 rounded-lg hover:bg-primary-600 transition-all duration-200"
                 >
                   Fermer
                 </button>

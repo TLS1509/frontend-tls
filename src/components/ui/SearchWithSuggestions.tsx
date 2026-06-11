@@ -132,12 +132,12 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       {/* ===== OUTER SHELL (Double-Bezel) ===== */}
-      <div className="p-1 bg-black/5 rounded-[1.25rem] border border-ink-200">
+      <div className="p-0.5 bg-black/5 rounded-xl border border-ink-200">
         {/* ===== INNER CORE ===== */}
-        <div className="relative flex items-center bg-white rounded-[calc(1.25rem-0.25rem)] border border-ink-100 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] overflow-hidden">
+        <div className="relative flex items-center gap-2 bg-white rounded-lg border border-ink-100 shadow-[inset_0_1px_1px_white/15] overflow-hidden px-4">
           <SearchIcon
             size={20}
-            className="ml-4 text-ink-400 pointer-events-none flex-shrink-0"
+            className="text-ink-400 pointer-events-none flex-shrink-0"
           />
           <input
             ref={inputRef}
@@ -152,7 +152,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             className={`
-              flex-1 ml-3 mr-4 bg-transparent border-0
+              flex-1 bg-transparent border-0
               text-body-sm font-medium text-ink-900 placeholder-ink-400
               focus:outline-none
               ${sizeClasses[size]}
@@ -170,27 +170,27 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             <div
               className={`
                 absolute top-full left-0 right-0 mt-2 z-50
-                bg-white border border-ink-200 rounded-[1.25rem]
+                bg-white border border-ink-200 rounded-xl
                 shadow-lg backdrop-blur-glass-medium
                 overflow-hidden
                 animate-in fade-in slide-in-from-top-2 duration-300
               `}
             >
               {/* Header */}
-              <div className="px-4 py-2.5 border-b border-ink-100">
+              <div className="px-4 py-3 border-b border-ink-100">
                 <p className="text-micro font-bold uppercase tracking-[0.15em] text-ink-500">
                   Suggestions {filteredSuggestions.length > 0 && `(${filteredSuggestions.length})`}
                 </p>
               </div>
 
               {/* Suggestions list */}
-              <div className="max-h-[320px] overflow-y-auto p-2 space-y-1">
+              <div className="max-h-96 overflow-y-auto p-2 space-y-0.5">
                 {filteredSuggestions.map((suggestion, idx) => (
                   <button
                     key={`${suggestion.type}-${suggestion.id}`}
                     onClick={() => handleSuggestionClick(suggestion)}
                     className={`
-                      w-full flex items-start gap-3 px-3 py-2.5 rounded-lg
+                      w-full flex items-start gap-2 px-3 py-2 rounded-lg
                       transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
                       text-left
                       ${
@@ -237,7 +237,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
               {/* Footer — show if suggestions are truncated */}
               {q && suggestions.length > filteredSuggestions.length && (
-                <div className="px-4 py-2 border-t border-ink-100 text-micro text-ink-500 text-center">
+                <div className="px-4 py-2.5 border-t border-ink-100 text-micro text-ink-500 text-center">
                   +{suggestions.length - filteredSuggestions.length} résultats supplémentaires
                 </div>
               )}
@@ -255,7 +255,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             <div
               className={`
                 absolute top-full left-0 right-0 mt-2 z-50
-                bg-white border border-ink-200 rounded-[1.25rem]
+                bg-white border border-ink-200 rounded-xl
                 shadow-lg backdrop-blur-glass-medium
                 overflow-hidden
                 animate-in fade-in slide-in-from-top-2 duration-300
