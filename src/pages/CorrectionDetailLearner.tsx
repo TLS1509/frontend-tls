@@ -127,12 +127,22 @@ const CorrectionDetailLearner: React.FC = () => {
         {/* CTAs */}
         <div className="flex flex-wrap gap-stack-xs">
           {canResubmit && (
-            <Button variant="primary" leadingIcon={<RotateCcw size={16} />}>
+            <Button
+              variant="primary"
+              size="lg"
+              leadingIcon={<RotateCcw size={16} />}
+              aria-label="Resoumettre une nouvelle version de l'exercice"
+            >
               Resoumettre une nouvelle version
             </Button>
           )}
           {hasFeedback && (
-            <Button variant="secondary" leadingIcon={<Send size={16} />}>
+            <Button
+              variant="secondary"
+              size="lg"
+              leadingIcon={<Send size={16} />}
+              aria-label="Répondre au feedback du coach"
+            >
               Répondre au coach
             </Button>
           )}

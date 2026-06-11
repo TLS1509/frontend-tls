@@ -685,6 +685,19 @@
     );
   }
 
+  /* Veille hero — diagonal teal deep-to-light (150°, 4 stops). Token-based
+     replacement for the inline style{{ background: 'linear-gradient(150deg, #2F5F6A ...)' }}
+     previously in Veille.tsx. */
+  .bg-gradient-veille-hero {
+    background: linear-gradient(
+      150deg,
+      var(--color-primary-800) 0%,
+      var(--color-primary-700) 40%,
+      var(--color-primary-500) 75%,
+      var(--color-primary-400) 100%
+    );
+  }
+
   /* ── Soft pastel gradients (3 stops & 2 stops, surface pastels) ────── */
 
   /* Soft pastel 3-stop — cyan → mist → cream.
@@ -984,6 +997,21 @@
   .duration-slow       { transition-duration: var(--duration-slow); }
   .duration-glacial    { transition-duration: var(--duration-glacial); }
   .duration-expressive { transition-duration: var(--duration-expressive); }
+
+  /* A11y baseline — focus visibility for keyboard navigation (Phase 19.1)
+     Ensures all interactive elements have visible focus indicators per WCAG 2.4.7.
+     Use on button, input, link, [role="button"], [role="tab"] elements. */
+  .focus-visible {
+    outline: 2px solid;
+    outline-color: var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Touch target minimum — 44px for all interactive elements (Phase 19.1, WCAG AA)
+     Use on buttons, clickable cards, inputs, and other interactive UI. */
+  .min-h-touch {
+    min-height: 2.75rem; /* 44px */
+  }
 }
 
 /* ============================================

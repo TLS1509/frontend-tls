@@ -143,8 +143,7 @@ export const Veille: React.FC = () => {
       {/* ── 1. HERO full-bleed remixé ─────────────────────────────────────── */}
       <section
         aria-label="Veille & Actualités TLS"
-        className="relative w-full overflow-hidden"
-        style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #3D7786 40%, #55A1B4 75%, #73AFBF 100%)' }}
+        className="relative w-full overflow-hidden bg-gradient-veille-hero"
       >
         {/* Ambient glows */}
         <div aria-hidden className="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-white/10 blur-[100px] pointer-events-none" />
@@ -152,6 +151,7 @@ export const Veille: React.FC = () => {
         <div aria-hidden className="absolute bottom-0 right-1/3 w-56 h-32 rounded-full bg-white/8 blur-[60px] pointer-events-none" />
 
         {/* Decorative grid — subtle texture */}
+        {/* Repeating grid texture — exempt per CLAUDE.md rule 4: complex repeating pattern, no static Tailwind equivalent */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none opacity-faint"

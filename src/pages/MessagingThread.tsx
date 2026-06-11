@@ -104,8 +104,8 @@ const MessagingThread: React.FC = () => {
                 send();
               }
             }}
-            placeholder="Tape ton message..."
-            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-none text-body-sm"
+            placeholder="Écris ton message..."
+            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-2 focus:outline-offset-2 focus:outline-primary-500 text-body-sm"
             rows={1}
           />
           <Button variant="primary" size="sm" trailingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>

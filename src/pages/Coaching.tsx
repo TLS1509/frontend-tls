@@ -340,7 +340,7 @@ export const Coaching: React.FC = () => {
                   </div>
                   <Button
                     variant="glass-warm"
-                    size="sm"
+                    size="md"
                     leadingIcon={<MessageCircle size={14} />}
                     onClick={() => navigate('/messages')}
                     aria-label={`Envoyer un message à ${coach.name}`}
