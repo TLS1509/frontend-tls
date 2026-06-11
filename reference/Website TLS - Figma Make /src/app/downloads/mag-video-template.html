@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Article Vidéo - The Learning Society Magazine">
+  <title>Article Vidéo - The Learning Society Magazine</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    /* ================================
+       RESET & BASE
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      /* Colors */
+      --primary-500: #55A1B4;
+      --primary-600: #4A8FA1;
+      --primary-700: #3D7786;
+      --secondary-500: #ED843A;
+      --secondary-600: #C06920;
+      --accent-400: #F8B044;
+      --neutral-50: #F5F8F8;
+      --neutral-100: #EEF6F8;
+      --neutral-600: #6B7D82;
+      --neutral-900: #252B37;
+      --text-primary: #252B37;
+      --border: rgba(0, 0, 0, 0.1);
+      
+      /* Typography */
+      --font-display: "League Spartan", system-ui, sans-serif;
+      --font-body: "Nunito", system-ui, sans-serif;
+      --leading-tight: 1.25;
+      --leading-relaxed: 1.625;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      
+      /* Spacing */
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      
+      /* Radius */
+      --radius-xl: 1rem;
+      --radius-2xl: 1.5rem;
+      
+      /* Shadows */
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: #ffffff;
+      line-height: var(--leading-relaxed);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    @media (min-width: 768px) {
+      .container { padding: 0 2rem; }
+    }
+    
+    /* ================================
+       HEADER
+       ================================ */
+    .header {
+      background: var(--primary-500);
+      padding: var(--space-6) 0;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-semibold);
+      transition: gap 0.3s;
+    }
+    
+    .back-link:hover {
+      gap: 0.75rem;
+    }
+    
+    /* ================================
+       VIDEO SECTION
+       ================================ */
+    .video-section {
+      background: linear-gradient(180deg, var(--neutral-900) 0%, var(--primary-700) 100%);
+      padding: var(--space-12) 0;
+    }
+    
+    .video-header {
+      max-width: 72rem;
+      margin: 0 auto var(--space-8);
+      text-align: center;
+      color: white;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(10px);
+      margin-bottom: var(--space-6);
+    }
+    
+    .video-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-6);
+    }
+    
+    .video-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+      opacity: 0.9;
+    }
+    
+    .video-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* ================================
+       VIDEO PLAYER
+       ================================ */
+    .video-container {
+      max-width: 72rem;
+      margin: 0 auto;
+      position: relative;
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+    
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    
+    .video-wrapper iframe,
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .video-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(85, 161, 180, 0.9), rgba(237, 132, 58, 0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .video-placeholder:hover {
+      background: linear-gradient(135deg, rgba(85, 161, 180, 1), rgba(237, 132, 58, 1));
+    }
+    
+    .play-button {
+      width: 5rem;
+      height: 5rem;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-500);
+      transition: all 0.3s;
+    }
+    
+    .video-placeholder:hover .play-button {
+      transform: scale(1.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* ================================
+       CONTENT SECTION
+       ================================ */
+    .content-section {
+      padding: var(--space-20) 0;
+    }
+    
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+    
+    /* Main Content */
+    .main-content h2 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: var(--font-weight-bold);
+      line-height: var(--leading-tight);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+      color: var(--text-primary);
+    }
+    
+    .main-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-semibold);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+    
+    .main-content p {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: 2;
+      margin-bottom: var(--space-6);
+    }
+    
+    .main-content ul {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: 2;
+      margin-bottom: var(--space-6);
+      padding-left: var(--space-8);
+    }
+    
+    /* Timestamps Box */
+    .timestamps-box {
+      background: var(--neutral-50);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      margin: var(--space-8) 0;
+    }
+    
+    .timestamps-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .timestamps-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .timestamp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-3);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .timestamp-item:hover {
+      background: white;
+    }
+    
+    .timestamp-time {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-500);
+      min-width: 4rem;
+    }
+    
+    .timestamp-label {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: var(--space-8);
+      height: fit-content;
+    }
+    
+    .sidebar-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    
+    .sidebar-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--space-4);
+    }
+    
+    .resource-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3);
+      background: var(--neutral-50);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      transition: all 0.3s;
+    }
+    
+    .resource-link:hover {
+      background: var(--primary-500);
+      color: white;
+      transform: translateX(4px);
+    }
+    
+    .resource-link-text {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .author-card {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+    }
+    
+    .author-avatar {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: var(--font-weight-bold);
+      margin-bottom: 0.25rem;
+    }
+    
+    .author-info p {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--neutral-600);
+      margin: 0;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: var(--space-3);
+      background: var(--neutral-50);
+      border-radius: 0.5rem;
+    }
+    
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-500);
+    }
+    
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--neutral-600);
+    }
+    
+    /* ================================
+       RELATED VIDEOS
+       ================================ */
+    .related-section {
+      background: var(--neutral-50);
+      padding: var(--space-20) 0;
+    }
+    
+    .related-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: var(--font-weight-bold);
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+    
+    .related-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+      .related-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .related-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .related-thumbnail {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--neutral-900);
+    }
+    
+    .related-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    
+    .related-card:hover .related-thumbnail img {
+      transform: scale(1.1);
+    }
+    
+    .video-duration {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .related-card:hover .play-overlay {
+      opacity: 1;
+    }
+    
+    .play-icon {
+      width: 3rem;
+      height: 3rem;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-500);
+    }
+    
+    .related-content {
+      padding: var(--space-4);
+    }
+    
+    .related-card-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: var(--font-weight-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: 0.5rem;
+      transition: color 0.3s;
+    }
+    
+    .related-card:hover .related-card-title {
+      color: var(--primary-500);
+    }
+    
+    .related-meta {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--neutral-600);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+      <a href="mag.html" class="back-link">
+        <i data-lucide="arrow-left" style="width: 20px; height: 20px;"></i>
+        Retour au Mag'
+      </a>
+    </div>
+  </header>
+
+  <!-- VIDEO SECTION -->
+  <section class="video-section">
+    <div class="container">
+      <!-- Video Header -->
+      <div class="video-header">
+        <span class="badge">
+          <i data-lucide="video" style="width: 16px; height: 16px;"></i>
+          TUTORIEL VIDÉO
+        </span>
+        
+        <h1 class="video-title">
+          Maîtriser ChatGPT pour créer vos contenus pédagogiques
+        </h1>
+        
+        <div class="video-meta">
+          <div class="video-meta-item">
+            <i data-lucide="user" style="width: 16px; height: 16px;"></i>
+            <span>Olivia Rhye</span>
+          </div>
+          <div class="video-meta-item">
+            <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+            <span>20 Janvier 2025</span>
+          </div>
+          <div class="video-meta-item">
+            <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+            <span>15 min</span>
+          </div>
+          <div class="video-meta-item">
+            <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+            <span>2.4K vues</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Video Player -->
+      <div class="video-container">
+        <div class="video-wrapper">
+          <!-- Replace with your actual video embed (YouTube, Vimeo, etc.) -->
+          <!-- Example with YouTube: -->
+          <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe> -->
+          
+          <!-- Placeholder (remove when adding real video) -->
+          <div class="video-placeholder" onclick="loadVideo()">
+            <div class="play-button">
+              <i data-lucide="play" style="width: 32px; height: 32px;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT SECTION -->
+  <section class="content-section">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Main Content -->
+        <div class="main-content">
+          <h2>À propos de ce tutoriel</h2>
+          
+          <p>
+            Dans ce tutoriel complet, vous découvrirez comment utiliser ChatGPT pour créer 
+            des contenus pédagogiques de qualité professionnelle. De la rédaction de supports 
+            de cours à la création d'exercices interactifs, vous apprendrez toutes les techniques 
+            essentielles pour gagner du temps tout en maintenant un niveau d'exigence élevé.
+          </p>
+          
+          <!-- Video Timestamps -->
+          <div class="timestamps-box">
+            <h3 class="timestamps-title">
+              <i data-lucide="list" style="width: 20px; height: 20px;"></i>
+              Chapitres de la vidéo
+            </h3>
+            <ul class="timestamps-list">
+              <li class="timestamp-item" onclick="seekToTime(0)">
+                <span class="timestamp-time">00:00</span>
+                <span class="timestamp-label">Introduction et objectifs du tutoriel</span>
+              </li>
+              <li class="timestamp-item" onclick="seekToTime(120)">
+                <span class="timestamp-time">02:00</span>
+                <span class="timestamp-label">Les bases du prompt engineering pour la pédagogie</span>
+              </li>
+              <li class="timestamp-item" onclick="seekToTime(300)">
+                <span class="timestamp-time">05:00</span>
+                <span class="timestamp-label">Créer un plan de cours structuré</span>
+              </li>
+              <li class="timestamp-item" onclick="seekToTime(480)">
+                <span class="timestamp-time">08:00</span>
+                <span class="timestamp-label">Générer des exercices et des quiz</span>
+              </li>
+              <li class="timestamp-item" onclick="seekToTime(660)">
+                <span class="timestamp-time">11:00</span>
+                <span class="timestamp-label">Adapter le contenu à différents niveaux</span>
+              </li>
+              <li class="timestamp-item" onclick="seekToTime(780)">
+                <span class="timestamp-time">13:00</span>
+                <span class="timestamp-label">Bonnes pratiques et pièges à éviter</span>
+              </li>
+            </ul>
+          </div>
+          
+          <h2>Ce que vous allez apprendre</h2>
+          
+          <ul>
+            <li>Les principes fondamentaux du prompt engineering appliqué à la pédagogie</li>
+            <li>Comment structurer vos prompts pour obtenir des résultats cohérents</li>
+            <li>Des techniques avancées pour générer du contenu personnalisé</li>
+            <li>Comment itérer et affiner vos contenus avec l'IA</li>
+            <li>Les bonnes pratiques pour maintenir la qualité pédagogique</li>
+          </ul>
+          
+          <h2>Pour qui est ce tutoriel ?</h2>
+          
+          <p>
+            Ce tutoriel s'adresse aux formateurs, ingénieurs pédagogiques et responsables de 
+            formation qui souhaitent intégrer l'IA dans leur processus de création de contenu. 
+            Aucune compétence technique préalable n'est requise, mais une familiarité de base 
+            avec ChatGPT est recommandée.
+          </p>
+          
+          <h3>Prérequis</h3>
+          
+          <ul>
+            <li>Un compte ChatGPT (gratuit ou Plus)</li>
+            <li>Connaissance de base des principes pédagogiques</li>
+            <li>Un projet de formation en cours ou à venir</li>
+          </ul>
+        </div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <!-- Resources Card -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title">Ressources à télécharger</h3>
+            
+            <a href="#" class="resource-link">
+              <div class="resource-link-text">
+                <i data-lucide="file-text" style="width: 20px; height: 20px;"></i>
+                <span>Guide des prompts</span>
+              </div>
+              <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+            </a>
+            
+            <a href="#" class="resource-link">
+              <div class="resource-link-text">
+                <i data-lucide="file-code" style="width: 20px; height: 20px;"></i>
+                <span>Templates de prompts</span>
+              </div>
+              <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+            </a>
+            
+            <a href="#" class="resource-link">
+              <div class="resource-link-text">
+                <i data-lucide="presentation" style="width: 20px; height: 20px;"></i>
+                <span>Slides de présentation</span>
+              </div>
+              <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+            </a>
+          </div>
+          
+          <!-- Author Card -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title">À propos de l'auteur</h3>
+            
+            <div class="author-card">
+              <img 
+                src="https://i.pravatar.cc/150?img=1" 
+                alt="Olivia Rhye" 
+                class="author-avatar"
+              >
+              <div class="author-info">
+                <h4>Olivia Rhye</h4>
+                <p>Experte en IA pédagogique</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Stats Card -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title">Statistiques</h3>
+            
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value">2.4K</div>
+                <div class="stat-label">Vues</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">156</div>
+                <div class="stat-label">Likes</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">42</div>
+                <div class="stat-label">Partages</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Satisfaction</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- RELATED VIDEOS -->
+  <section class="related-section">
+    <div class="container">
+      <h2 class="related-title">Vidéos Recommandées</h2>
+      
+      <div class="related-grid">
+        <!-- Video 1 -->
+        <div class="related-card">
+          <div class="related-thumbnail">
+            <img src="https://images.unsplash.com/photo-1765806464581-812b097d0687?w=600" alt="Video 1">
+            <span class="video-duration">12:34</span>
+            <div class="play-overlay">
+              <div class="play-icon">
+                <i data-lucide="play" style="width: 24px; height: 24px;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="related-content">
+            <h3 class="related-card-title">Créer des quiz interactifs avec l'IA</h3>
+            <p class="related-meta">15 Jan 2025 • 1.8K vues</p>
+          </div>
+        </div>
+        
+        <!-- Video 2 -->
+        <div class="related-card">
+          <div class="related-thumbnail">
+            <img src="https://images.unsplash.com/photo-1759884247289-f9f3db44988e?w=600" alt="Video 2">
+            <span class="video-duration">18:45</span>
+            <div class="play-overlay">
+              <div class="play-icon">
+                <i data-lucide="play" style="width: 24px; height: 24px;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="related-content">
+            <h3 class="related-card-title">Scénariser un module e-learning avec l'IA</h3>
+            <p class="related-meta">12 Jan 2025 • 2.1K vues</p>
+          </div>
+        </div>
+        
+        <!-- Video 3 -->
+        <div class="related-card">
+          <div class="related-thumbnail">
+            <img src="https://images.unsplash.com/photo-1762329388386-22bf162a9368?w=600" alt="Video 3">
+            <span class="video-duration">21:16</span>
+            <div class="play-overlay">
+              <div class="play-icon">
+                <i data-lucide="play" style="width: 24px; height: 24px;"></i>
+              </div>
+            </div>
+          </div>
+          <div class="related-content">
+            <h3 class="related-card-title">Les meilleurs outils IA pour formateurs</h3>
+            <p class="related-meta">10 Jan 2025 • 3.2K vues</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Init Lucide Icons
+    lucide.createIcons();
+    
+    // Load video function (replace placeholder with actual video)
+    function loadVideo() {
+      const wrapper = document.querySelector('.video-wrapper');
+      // Example with YouTube embed:
+      // wrapper.innerHTML = '<iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+      
+      // For demo purposes:
+      alert('Chargement de la vidéo...\nRemplacez cette fonction par votre embed vidéo réel (YouTube, Vimeo, etc.)');
+    }
+    
+    // Seek to timestamp
+    function seekToTime(seconds) {
+      // This would work with an actual video player
+      // For YouTube iframe API, Vimeo player API, etc.
+      alert(`Passage à ${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}\n\nIntégrez votre lecteur vidéo pour activer cette fonctionnalité.`);
+    }
+    
+    // Resource download tracking
+    document.querySelectorAll('.resource-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const resourceName = this.querySelector('span').textContent;
+        console.log('Téléchargement:', resourceName);
+        alert(`Téléchargement de "${resourceName}"...\n\nAjoutez vos vrais liens de téléchargement ici.`);
+      });
+    });
+    
+    // Fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '0';
+          entry.target.style.transform = 'translateY(20px)';
+          entry.target.style.transition = 'all 0.6s ease-out';
+          
+          setTimeout(() => {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, 100);
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.related-card').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

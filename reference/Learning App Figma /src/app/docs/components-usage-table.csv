@@ -1,0 +1,50 @@
+Component,FilePath,UsedInPages,PageCount,UsageContext,Criticality
+OptimizedSidebar,/components/ui/optimized-sidebar.tsx,"DashboardPageUpgraded, ParcoursPageUpgraded, CoachingPageUpgraded, ProfilePage, VeillePage, AccountPage, EntreprisePageComplete, JournalPageUpgraded, LeaderboardPage, MessagesPage, NotificationsPageUltra, DesignSystemChangelogPage, DesignSystemFlowsPage, NotificationSystemDemoPage, PageHeaderDemo, CoachingBookingFlowPage, VeilleContentPage, NewsletterPage, WeeklyNewsletterPage, WeeklyNewsDetailPage, MagazinePage, MagazineArticlePage, DossierPage, VideoTutorialPage, VideoReelsPage, CourseDetailPageUpdated, ProjectPage, JournalDetailPage, JournalFreeEntryPage, JournalNewEntryPage, PreCoachingQuestionnairePage, PreCoachingQuestionnaireResponsePage, SandboxJournalPrompts",33,Navigation sidebar,CRITIQUE
+BackgroundBlobs,/components/ui/background-blobs.tsx,"DashboardPageUpgraded, ParcoursPageUpgraded, CoachingPageUpgraded, ProfilePage, VeillePage, AccountPage, EntreprisePageComplete, JournalPageUpgraded, LeaderboardPage, NotificationSystemDemoPage, PageHeaderDemo, VeilleContentPage, NewsletterPage, WeeklyNewsletterPage, WeeklyNewsDetailPage, MagazinePage, MagazineArticlePage, DossierPage, VideoTutorialPage, VideoReelsPage, CourseDetailPageUpdated, ProjectPage, JournalDetailPage, JournalFreeEntryPage, JournalNewEntryPage, PreCoachingQuestionnairePage, PreCoachingQuestionnaireResponsePage, SandboxJournalPrompts, Error404Page, Error500Page, LearningSpacePage, NotificationsPageUltra",32,Background animated,HAUTE
+Button,/components/ui/button.tsx,"LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, PMProLoginPage, AccountPage, CelebrationsDemo, CourseDetailPageUpdated, CourseViewerEDRAC, JournalDetailPage, JournalFreeEntryPage, JournalNewEntryPage, LearningSpacePage, LessonViewer, MessagesPage, ProjectPage",16,Buttons forms/actions,CRITIQUE
+ButtonEnhanced,/components/ui/button-enhanced.tsx,"CoachingPageUpgraded, EntreprisePageComplete, JournalPageUpgraded, LeaderboardPage, PageHeaderDemo, ParcoursPageUpgraded, SandboxJournalPrompts, VeilleContentPage",8,Enhanced CTA buttons,CRITIQUE
+Input,/components/ui/input.tsx,"LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, PMProLoginPage, MessagesPage, DesignSystemRealPage",7,Form inputs,CRITIQUE
+SectionHeader,/components/common/SectionHeader.tsx,"CoachingPageUpgraded, JournalPageUpgraded, ParcoursPageUpgraded, DesignSystemRealPage, ColoredGlowDemo",5,Section headers,MOYENNE
+Badge,/components/ui/badge.tsx,"AccountPage, JournalFreeEntryPage, LearningSpacePage, PMProLoginPage",4,Status badges,MOYENNE
+BadgeDisplay,/components/ui/badge-display.tsx,LeaderboardPage,1,Achievement badges,MOYENNE
+PageHeaderSimple,/components/common/PageHeaderSimple.tsx,"CoachingPageUpgraded, JournalPageUpgraded, ParcoursPageUpgraded, CoachingBookingFlowPage",4,Page headers,MOYENNE
+PageHeaderFinal,/components/common/PageHeaderFinal.tsx,PageHeaderDemo,1,Page headers demo,BASSE
+Tabs,/components/ui/tabs.tsx,"AccountPage, LearningSpacePage",2,Tab navigation,MOYENNE
+Textarea,/components/ui/textarea.tsx,"MessagesPage, DesignSystemRealPage",2,Multiline inputs,MOYENNE
+DashboardHeroV3Simple,/components/DashboardHeroV3Simple.tsx,"DashboardPageUpgraded, DashboardHeroDemo",2,Dashboard hero,CRITIQUE
+CardPatterns,/components/patterns/CardPatterns.tsx,"DashboardPageUpgraded, DesignSystemRealPage, ColoredGlowDemo",3,Card patterns (ActionCard/JournalPromptCard/ActivityCard),CRITIQUE
+SearchBar,/components/common/SearchBar.tsx,DesignSystemRealPage,1,Search input,BASSE
+SearchBarWithFilters,/components/common/SearchBarWithFilters.tsx,JournalPageUpgraded,1,Search with filters,BASSE
+AdvancedFilterBar,/components/common/AdvancedFilterBar.tsx,JournalPageUpgraded,1,Advanced filters,BASSE
+SectionContainer,/components/common/SectionContainer.tsx,ColoredGlowDemo,1,Section container,BASSE
+Card (common),/components/common/Card.tsx,DesignSystemRealPage,1,Card component showcase,INFO
+Button (common),/components/common/Button.tsx,DesignSystemRealPage,1,Button component showcase,INFO
+Badge (common),/components/common/Badge.tsx,DesignSystemRealPage,1,Badge component showcase,INFO
+Card (UI),/components/ui/card.tsx,CelebrationsDemo,1,UI Card demo,INFO
+AlertBanner,/components/ui/AlertBanner.tsx,DesignSystemRealPage,1,Alert banners,BASSE
+SuccessAlertBanner,/components/ui/SuccessAlertBanner.tsx,DesignSystemRealPage,1,Success alerts,BASSE
+ProgressBarEnhanced,/components/ui/progress-bar-enhanced.tsx,EntreprisePageComplete,1,Progress bars,BASSE
+BookingModalMinimal,/components/coaching/BookingModalMinimal.tsx,CoachingPageUpgraded,1,Booking modal,CRITIQUE
+CancelSessionModal,/components/coaching/CancelSessionModal.tsx,CoachingPageUpgraded,1,Cancel session modal,MOYENNE
+UpcomingSessionCard,/components/coaching/UpcomingSessionCard.tsx,CoachingPageUpgraded,1,Session card,MOYENNE
+BookingConfirmationModal,/components/modals/BookingConfirmationModal.tsx,CoachingBookingFlowPage,1,Booking confirmation,BASSE
+PositionnementModal,/components/modals/PositionnementModal.tsx,"ParcoursPageUpgraded, DesignSystemRealPage",2,Competence positioning,MOYENNE
+BookingConfirmedModal,/components/celebrations/BookingConfirmedModal.tsx,CelebrationsDemo,1,Booking celebration,BASSE
+CelebrationCard,/components/celebrations/CelebrationCard.tsx,CelebrationsDemo,1,Mini celebrations,BASSE
+ButtonShowcase,/components/design-system/ButtonShowcase.tsx,CelebrationsDemo,1,Button showcase,INFO
+OnboardingFlow,/components/onboarding/OnboardingFlow.tsx,OnboardingPageUpgraded,1,Onboarding flow,CRITIQUE
+EmojiWaveGlass,/components/EmojiWaveGlass.tsx,EmojiStyleDemo,1,Emoji glass style,INFO
+EmojiWaveInline,/components/EmojiWaveInline.tsx,EmojiStyleDemo,1,Emoji inline style,INFO
+LearnerPositioningModal,/components/assessment/LearnerPositioningModal.tsx,None,0,Positioning modal,NON_UTILISE
+SatisfactionModal,/components/feedback/SatisfactionModal.tsx,None,0,Satisfaction feedback,NON_UTILISE
+StarRatingModal,/components/feedback/StarRatingModal.tsx,None,0,Star rating,NON_UTILISE
+AdvancedFilters (veille),/components/veille/AdvancedFilters.tsx,None,0,Advanced filters veille,NON_UTILISE
+HorizontalFilters,/components/veille/HorizontalFilters.tsx,None,0,Horizontal filters,NON_UTILISE
+JournalPromptCards,/components/journal/JournalPromptCards.tsx,None,0,Journal prompts,NON_UTILISE
+BannerNotification,/components/notifications/BannerNotification.tsx,None,0,Banner notifications,NON_UTILISE
+ToastWithAction,/components/notifications/ToastWithAction.tsx,None,0,Toast notifications,NON_UTILISE
+QuizSystem,/components/quiz/QuizSystem.tsx,None,0,Quiz system,NON_UTILISE
+RatingSystem,/components/rating/RatingSystem.tsx,None,0,Rating system,NON_UTILISE
+Heading,/components/typography/Heading.tsx,None,0,Typography heading,NON_UTILISE
+Text,/components/typography/Text.tsx,None,0,Typography text,NON_UTILISE
+NavigationDebugger,/components/debug/NavigationDebugger.tsx,None,0,Debug navigation,NON_UTILISE

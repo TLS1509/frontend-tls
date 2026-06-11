@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Pages placeholder (contenu non validé)
+Disallow: /marketing/equipe
+Disallow: /marketing/methode
+
+# Variantes de développement (non destinées à la production)
+Disallow: /marketing/home-a
+Disallow: /marketing/home-b
+Disallow: /marketing/home-c
+Disallow: /marketing/home-preserve
+Disallow: /marketing/home-editorial
+Disallow: /marketing/home-bold
+Disallow: /marketing/_motion-lab
+Disallow: /marketing/temoignages
+
+# Pages app (authentification requise)
+Disallow: /app/
+Disallow: /dashboard
+
+Sitemap: https://thelearningsociety.fr/sitemap.xml

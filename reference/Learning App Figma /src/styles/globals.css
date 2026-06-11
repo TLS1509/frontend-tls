@@ -1,0 +1,885 @@
+/* ========================================
+   FONTS - Google Fonts
+   League Spartan (Display/Headings) + Nunito (Body)
+   
+   Note: Fonts chargées via WebFontLoader dans App.tsx
+   car @import ne fonctionne pas dans cet environnement
+   ======================================== */
+
+/* LEGACY — Dark mode non prévu pour l'App
+@custom-variant dark (&:is(.dark *));
+*/
+
+:root {
+  /* ========================================
+     FONDATION - THE LEARNING SOCIETY
+     ======================================== */
+  
+  /* Base Font Size */
+  --font-size: 16px;
+  
+  /* ========================================
+     COLORS - Brand & Semantic
+     ======================================== */
+  
+  /* Brand Colors - TLS Identity */
+  --primary: #55A1B4;
+  --primary-foreground: #f8fbfd;
+  --primary-hover: #4A8FA1;
+  --primary-light: #7BC4D4;
+  --primary-lighter: #E8F4F7;
+  
+  /* Primary Blue Variations - Full Scale */
+  --primary-50: #E8F4F7;
+  --primary-100: #DCEBEF;
+  --primary-200: #B9D7DF;
+  --primary-300: #96C3CF;
+  --primary-400: #73AFBF;
+  --primary-500: #55A1B4;  /* Base Primary */
+  --primary-600: #4A8FA1;
+  --primary-700: #3D7786;
+  --primary-800: #2F5F6A;
+  --primary-900: #1F3E45;
+  
+  /* Secondary Orange - Full Scale */
+  --secondary: #ED843A;
+  --secondary-foreground: #f8fbfd;
+  --secondary-hover: #C06920;
+  --secondary-light: #F5A868;
+  --secondary-lighter: #FFF4E6;
+  
+  --secondary-50: #FFF3EB;
+  --secondary-100: #FDDCC7;
+  --secondary-200: #FCBB93;
+  --secondary-300: #F59A5F;
+  --secondary-400: #F18A4C;
+  --secondary-500: #ED843A;  /* Base Secondary Orange */
+  --secondary-600: #C06920;
+  --secondary-700: #8F5017;
+  --secondary-800: #5E3710;
+  --secondary-900: #3B2109;
+  
+  /* Accent Yellow - Full Scale */
+  --accent: #F8B044;
+  --accent-foreground: #252B37;
+  --accent-hover: #C68D36;
+  --accent-light: #FFC977;
+  --accent-lighter: #FFF9EE;
+  
+  --accent-50: #FFF9EE;
+  --accent-100: #FFECC8;
+  --accent-200: #FFD791;
+  --accent-300: #FFC15A;
+  --accent-400: #F8B044;  /* Base Accent Yellow */
+  --accent-500: #DF9E3D;
+  --accent-600: #C68D36;
+  --accent-700: #AE7B30;
+  --accent-800: #956A29;
+  --accent-900: #7C5822;
+  
+  /* ========== LEGACY — NE PAS UTILISER ========== */
+  
+  /* LEGACY — Teal (Bleu-Vert) - Remplacé par SUCCESS #4A8C6E
+  --teal: #9dbeba;
+  --teal-foreground: #252B37;
+  --teal-hover: #88aaa6;
+  --teal-light: #b8d1cd;
+  --teal-lighter: #e8f2f0;
+  
+  --teal-50: #e8f2f0;
+  --teal-100: #d1e5e1;
+  --teal-200: #b8d1cd;
+  --teal-300: #9dbeba;
+  --teal-400: #88aaa6;
+  --teal-500: #729692;
+  --teal-600: #5d827e;
+  --teal-700: #486e6a;
+  --teal-800: #335a56;
+  --teal-900: #1e4642;
+  */
+  
+  /* LEGACY — Coral (Orange Saumon) - Remplacé par DESTRUCTIVE #A93226
+  --coral: #f49a76;
+  --coral-foreground: #252B37;
+  --coral-hover: #f28559;
+  --coral-light: #f7b595;
+  --coral-lighter: #fef4f0;
+  
+  --coral-50: #fef4f0;
+  --coral-100: #fce9e1;
+  --coral-200: #f9d3c3;
+  --coral-300: #f7b595;
+  --coral-400: #f49a76;
+  --coral-500: #f28559;
+  --coral-600: #f0703b;
+  --coral-700: #d4551f;
+  --coral-800: #a64318;
+  --coral-900: #783111;
+  */
+  
+  /* Neutral Colors - TLS Palette */
+  --neutral-light: #F5F8F8;       /* Neutral Light - background ou text sur fond foncé */
+  --neutral-dark: #252B37;        /* Neutral Dark - text color */
+  
+  /* Neutral Scale */
+  --neutral-50: #F5F8F8;
+  --neutral-100: #EEF6F8;
+  --neutral-200: #E0E8EA;
+  --neutral-300: #C8D4D7;
+  --neutral-400: #9AABB0;
+  --neutral-500: #6B7D82;
+  --neutral-600: #535B62;         /* Neutral Light */
+  --neutral-700: #3A474B;
+  --neutral-800: #2A3538;
+  --neutral-900: #252B37;         /* Neutral Dark */
+  
+  /* Semantic Colors - Base */
+  --background: #ffffff;
+  --foreground: #252B37;          /* Text color - Neutral Dark */
+  --surface: #ffffff;
+  
+  /* Semantic Colors - Components */
+  --card: #ffffff;
+  --card-foreground: #252B37;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  
+  /* Semantic Colors - States - TLS Based */
+  --muted: #f5f5f5;
+  --muted-foreground: #6b7280;
+  
+  /* SUCCESS — #4A8C6E (vert harmonieux TLS) - Validé 01/04/2026 */
+  --success-50: #F0F7F4;
+  --success-100: #D6EDE5;
+  --success-200: #AEDACB;
+  --success-300: #7EC2A9;
+  --success-400: #56A886;
+  --success-500: #4A8C6E;   /* BASE — valeur canonique */
+  --success-600: #3A7059;
+  --success-700: #2C5544;
+  --success-800: #1E3A2F;
+  --success-900: #101F19;
+  
+  --success: var(--success-500);
+  --success-foreground: #FFFFFF;
+  
+  /* DESTRUCTIVE — #A93226 (rouge sémantique TLS) - Validé 01/04/2026 */
+  --destructive-50: #FDF3F2;
+  --destructive-100: #FAE1DF;
+  --destructive-200: #F4BCBA;
+  --destructive-300: #EC8D8A;
+  --destructive-400: #E05E59;
+  --destructive-500: #C03530;
+  --destructive-600: #A93226;   /* BASE — valeur canonique */
+  --destructive-700: #8A261C;
+  --destructive-800: #6B1A12;
+  --destructive-900: #3D0D09;
+  
+  --destructive: var(--destructive-600);
+  --error: var(--destructive-600);
+  --destructive-foreground: #FFFFFF;
+  
+  /* WARNING — Alias de ACCENT (#F8B044) */
+  --warning: #F8B044;             /* Jaune TLS 400 */
+  --warning-foreground: #252B37;  /* Texte foncé OBLIGATOIRE */
+  
+  /* INFO — Alias de PRIMARY-600 (#2E8F98) */
+  --info: #2E8F98;                /* Primary-600 */
+  --info-foreground: #FFFFFF;
+  
+  /* Warning Scale - Accent Yellow Variations */
+  --warning-50: #FFF9EE;
+  --warning-100: #FFECC8;
+  --warning-200: #FFD791;
+  --warning-300: #FFC15A;
+  --warning-400: #F8B044;
+  --warning-500: #F8A733;
+  --warning-600: #D69020;
+  --warning-700: #9B6818;
+  --warning-800: #664410;
+  --warning-900: #3D2909;
+  
+  /* Info Scale - Blue TLS Plus Foncé */
+  --info-50: #E8F4F7;
+  --info-100: #DCEBEF;
+  --info-200: #B9D7DF;
+  --info-300: #96C3CF;
+  --info-400: #4A8FA1;
+  --info-500: #3D7786;
+  --info-600: #2F5F6A;
+  --info-700: #1F3E45;
+  --info-800: #1A3339;
+  --info-900: #14282C;
+  
+  /* Borders & Inputs */
+  --border: rgba(0, 0, 0, 0.1);
+  --border-hover: rgba(0, 0, 0, 0.2);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --input-border: rgba(0, 0, 0, 0.15);
+  --switch-background: #cbced4;
+  --ring: #55A1B4;
+  
+  /* Chart Colors */
+  --chart-1: #55A1B4;
+  --chart-2: #F8B044;
+  --chart-3: #EB7724;
+  --chart-4: #7BC4D4;
+  --chart-5: #FFCB77;
+  
+  /* Sidebar (if needed) */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #55A1B4;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: rgba(0, 0, 0, 0.1);
+  --sidebar-ring: #55A1B4;
+  
+  /* Fill */
+  --fill-0: #55A1B4;
+  
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+  
+  /* Font Families */
+  /* LEGACY — Redondante avec --font-body
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  */
+  --font-display: 'League Spartan', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+  --text-6xl: 3.75rem;     /* 60px */
+  
+  /* Font Weights */
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Font Weights - Shorter Aliases */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+  
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  
+  /* ========================================
+     SPACING
+     ======================================== */
+  
+  --space-0: 0;
+  --space-0-5: 0.125rem; /* 2px */
+  --space-1: 0.25rem;    /* 4px */
+  --space-1-5: 0.375rem; /* 6px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-2-5: 0.625rem; /* 10px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-3-5: 0.875rem; /* 14px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px */
+  
+  /* ========================================
+     AUTO-LAYOUT - Card Padding System
+     ======================================== */
+  
+  /* Horizontal Padding (left/right) */
+  --card-padding-x: 1.5rem;        /* 24px - Standard horizontal padding */
+  --card-padding-x-compact: 1rem;  /* 16px - Compact horizontal padding */
+  --card-padding-x-large: 2rem;    /* 32px - Large horizontal padding */
+  
+  /* Vertical Padding (top/bottom) */
+  --card-padding-y: 1.5rem;        /* 24px - Standard vertical padding */
+  --card-padding-y-compact: 1rem;  /* 16px - Compact vertical padding */
+  --card-padding-y-large: 2rem;    /* 32px - Large vertical padding */
+  
+  /* Gap between card elements */
+  --card-gap: 1rem;                /* 16px - Standard gap between elements */
+  --card-gap-sm: 0.75rem;          /* 12px - Small gap */
+  --card-gap-lg: 1.5rem;           /* 24px - Large gap */
+  
+  /* ========================================
+     BORDERS & RADIUS
+     ======================================== */
+  
+  /* Border Widths */
+  --border-width: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  
+  /* Border Radius */
+  --radius: 0.625rem;    /* 10px - Base radius */
+  --radius-none: 0;
+  --radius-sm: 0.375rem; /* 6px */
+  --radius-md: 0.5rem;   /* 8px */
+  --radius-lg: 0.625rem; /* 10px - Same as base */
+  --radius-xl: 1rem;     /* 16px */
+  --radius-2xl: 1.5rem;  /* 24px */
+  --radius-3xl: 2rem;    /* 32px */
+  --radius-full: 9999px;
+  
+  /* ========================================
+     SHADOWS
+     ======================================== */
+  
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  
+  /* ========================================
+     TRANSITIONS & ANIMATIONS
+     ======================================== */
+  
+  /* Duration */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  
+  /* Timing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* ========================================
+     Z-INDEX SCALE
+     ======================================== */
+  
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  
+  /* ========================================
+     GRADIENTS
+     ======================================== */
+  
+  /* ========== CLASSIQUES (14 gradients de base) ========== */
+  
+  /* Primary Blue Gradients (2 variants) */
+  --gradient-primary: linear-gradient(135deg, #55A1B4 0%, #4A8FA1 50%, #3D7786 100%);
+  --gradient-primary-glass: linear-gradient(135deg, rgba(85, 161, 180, 0.95) 0%, rgba(74, 143, 161, 0.9) 50%, rgba(61, 119, 134, 0.85) 100%);
+  --gradient-primary-metallic: linear-gradient(135deg, #55A1B4 0%, #7BC4D4 25%, #55A1B4 50%, #3D7786 75%, #2F5F6A 100%);
+  --gradient-primary-radial: radial-gradient(circle at 50% 50%, rgb(85, 161, 180) 0%, rgb(58, 112, 125) 50%, rgb(45, 87, 97) 75%, rgb(31, 62, 69) 100%);
+  
+  /* Secondary Orange Gradients (3 variants) */
+  --gradient-secondary: linear-gradient(156.232deg, rgb(241, 138, 76) 0%, rgb(192, 105, 32) 100%);
+  --gradient-secondary-light: linear-gradient(135deg, #FCBB93 0%, #F59A5F 100%);
+  --gradient-secondary-radial: radial-gradient(circle at 50% 50%, rgb(241, 138, 76) 0%, rgb(204, 117, 61) 25%, rgb(168, 97, 46) 50%, rgb(131, 76, 31) 75%, rgb(94, 55, 16) 100%);
+  
+  /* Accent Yellow Gradients (3 variants) */
+  --gradient-accent-light: linear-gradient(135deg, #FFD791 0%, #F8B044 100%);
+  --gradient-accent-warm: linear-gradient(135deg, #F8B044 0%, #D69020 100%);
+  --gradient-accent-radial: radial-gradient(circle at 50% 50%, rgb(248, 176, 68) 0%, rgb(212, 149, 55) 25%, rgb(175, 122, 42) 50%, rgb(139, 95, 29) 75%, rgb(102, 68, 16) 100%);
+  
+  /* Mixed Color Gradients (4 variants) */
+  --gradient-warm: linear-gradient(156.232deg, rgb(241, 138, 76) 0%, rgb(248, 176, 68) 100%);
+  --gradient-cool: linear-gradient(156.232deg, rgb(61, 119, 134) 0%, rgb(49, 95, 107) 100%);
+  --gradient-sunset: linear-gradient(156.232deg, rgb(237, 132, 58) 0%, rgb(255, 193, 90) 50%, rgb(245, 154, 95) 100%);
+  --gradient-ocean: linear-gradient(156.232deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 50%, rgb(85, 161, 180) 100%);
+  --gradient-fire: linear-gradient(156.232deg, rgb(248, 167, 51) 0%, rgb(192, 105, 32) 100%);
+  --gradient-brand: linear-gradient(156.232deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 30%, rgb(74, 143, 161) 60%, rgb(85, 161, 180) 100%);
+  
+  /* Primary Blue Multi-Shades (5 gradients) */
+  --gradient-primary-spectrum: linear-gradient(135deg, rgb(232, 244, 247) 0%, rgb(185, 215, 223) 25%, rgb(150, 195, 207) 50%, rgb(115, 175, 191) 75%, rgb(85, 161, 180) 100%);
+  --gradient-primary-depth: linear-gradient(135deg, rgb(85, 161, 180) 0%, rgb(73, 143, 161) 33%, rgb(61, 119, 134) 66%, rgb(49, 95, 107) 100%);
+  --gradient-primary-soft: linear-gradient(135deg, rgb(220, 235, 239) 0%, rgb(185, 215, 223) 50%, rgb(150, 195, 207) 100%);
+  --gradient-primary-medium: linear-gradient(135deg, rgb(123, 196, 212) 0%, rgb(96, 178, 197) 50%, rgb(85, 161, 180) 100%);
+  --gradient-primary-dark: linear-gradient(135deg, rgb(61, 119, 134) 0%, rgb(49, 95, 107) 50%, rgb(37, 71, 80) 100%);
+  
+  /* Secondary Orange Multi-Shades (5 gradients) */
+  --gradient-secondary-spectrum: linear-gradient(135deg, rgb(255, 243, 235) 0%, rgb(252, 223, 203) 25%, rgb(252, 187, 147) 50%, rgb(241, 138, 76) 75%, rgb(237, 132, 58) 100%);
+  --gradient-secondary-depth: linear-gradient(135deg, rgb(237, 132, 58) 0%, rgb(220, 119, 44) 33%, rgb(192, 105, 32) 66%, rgb(164, 89, 21) 100%);
+  --gradient-secondary-soft: linear-gradient(135deg, rgb(252, 223, 203) 0%, rgb(252, 187, 147) 50%, rgb(241, 138, 76) 100%);
+  --gradient-secondary-medium: linear-gradient(135deg, rgb(241, 138, 76) 0%, rgb(237, 132, 58) 50%, rgb(220, 119, 44) 100%);
+  --gradient-secondary-vibrant: linear-gradient(135deg, rgb(255, 154, 90) 0%, rgb(241, 138, 76) 50%, rgb(237, 132, 58) 100%);
+  
+  /* Accent Yellow Multi-Shades (5 gradients) */
+  --gradient-accent-spectrum: linear-gradient(135deg, rgb(255, 249, 238) 0%, rgb(255, 232, 187) 25%, rgb(255, 215, 145) 50%, rgb(255, 193, 119) 75%, rgb(248, 176, 68) 100%);
+  --gradient-accent-depth: linear-gradient(135deg, rgb(248, 176, 68) 0%, rgb(232, 158, 51) 33%, rgb(216, 140, 34) 66%, rgb(200, 122, 17) 100%);
+  --gradient-accent-soft: linear-gradient(135deg, rgb(255, 232, 187) 0%, rgb(255, 215, 145) 50%, rgb(255, 193, 119) 100%);
+  --gradient-accent-medium: linear-gradient(135deg, rgb(255, 193, 119) 0%, rgb(248, 176, 68) 50%, rgb(232, 158, 51) 100%);
+  --gradient-accent-rich: linear-gradient(135deg, rgb(255, 176, 51) 0%, rgb(248, 176, 68) 50%, rgb(232, 158, 51) 100%);
+  
+  /* ========== TLS v5.2 (28 gradients avancés) ========== */
+  
+  /* Hero & Directional (6 variants) - Bleus-verts foncés */
+  --gradient-hero-tls: linear-gradient(90deg, rgb(61, 119, 134) 0%, rgb(85, 161, 180) 25%, rgb(237, 132, 58) 70%, rgb(248, 176, 68) 100%);
+  --gradient-circular-tls: radial-gradient(circle at 0% 0%, rgb(85, 161, 180) 0%, rgb(58, 112, 125) 50%, rgb(45, 87, 97) 75%, rgb(31, 62, 69) 100%);
+  --gradient-tls: linear-gradient(156.232deg, rgb(61, 119, 134) 0%, rgb(74, 143, 161) 30%, rgb(85, 161, 180) 50%, rgb(237, 132, 58) 85%, rgb(248, 176, 68) 100%);
+  --gradient-tls-hover: linear-gradient(156.232deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 40%, rgb(192, 105, 32) 100%);
+  --gradient-tls-full: linear-gradient(156.232deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 25%, rgb(85, 161, 180) 50%, rgb(237, 132, 58) 80%, rgb(248, 176, 68) 100%);
+  --gradient-tls-full-reverse: linear-gradient(156.232deg, rgb(248, 176, 68) 0%, rgb(237, 132, 58) 20%, rgb(85, 161, 180) 50%, rgb(61, 119, 134) 75%, rgb(49, 95, 107) 100%);
+  
+  /* Horizontal (2 variants - 90deg) - Bleus-verts foncés */
+  --gradient-tls-horizontal: linear-gradient(90deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 20%, rgb(85, 161, 180) 40%, rgb(237, 132, 58) 75%, rgb(248, 176, 68) 100%);
+  --gradient-tls-horizontal-reverse: linear-gradient(90deg, rgb(248, 176, 68) 0%, rgb(237, 132, 58) 25%, rgb(85, 161, 180) 60%, rgb(61, 119, 134) 80%, rgb(49, 95, 107) 100%);
+  
+  /* Vertical (2 variants - 180deg) - Bleus-verts foncés */
+  --gradient-tls-vertical: linear-gradient(180deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 20%, rgb(85, 161, 180) 40%, rgb(237, 132, 58) 75%, rgb(248, 176, 68) 100%);
+  --gradient-tls-vertical-reverse: linear-gradient(180deg, rgb(248, 176, 68) 0%, rgb(237, 132, 58) 25%, rgb(85, 161, 180) 60%, rgb(61, 119, 134) 80%, rgb(49, 95, 107) 100%);
+  
+  /* Diagonal (2 variants - 45deg) - Bleus-verts foncés */
+  --gradient-tls-diagonal: linear-gradient(45deg, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 20%, rgb(85, 161, 180) 40%, rgb(237, 132, 58) 75%, rgb(248, 176, 68) 100%);
+  --gradient-tls-diagonal-reverse: linear-gradient(45deg, rgb(248, 176, 68) 0%, rgb(237, 132, 58) 25%, rgb(85, 161, 180) 60%, rgb(61, 119, 134) 80%, rgb(49, 95, 107) 100%);
+  
+  /* Radial (2 variants) - Bleus-verts foncés */
+  --gradient-tls-radial: radial-gradient(circle at 50% 50%, rgb(49, 95, 107) 0%, rgb(61, 119, 134) 25%, rgb(85, 161, 180) 45%, rgb(237, 132, 58) 75%, rgb(248, 176, 68) 100%);
+  --gradient-tls-radial-reverse: radial-gradient(circle at 50% 50%, rgb(248, 176, 68) 0%, rgb(237, 132, 58) 25%, rgb(85, 161, 180) 55%, rgb(61, 119, 134) 75%, rgb(49, 95, 107) 100%);
+  
+  /* Soft & Transparent (2 variants - 80% opacity) */
+  --gradient-tls-soft: linear-gradient(156.232deg, rgba(85, 161, 180, 0.8) 0%, rgba(237, 132, 58, 0.8) 100%);
+  --gradient-tls-soft-light: linear-gradient(156.232deg, rgba(85, 161, 180, 0.4) 0%, rgba(237, 132, 58, 0.4) 100%);
+  
+  /* Glass & Overlays (4 variants) */
+  --gradient-tls-glass: linear-gradient(156.232deg, rgba(85, 161, 180, 0.25) 0%, rgba(237, 132, 58, 0.25) 100%);
+  --gradient-tls-glass-warm: linear-gradient(156.232deg, rgba(237, 132, 58, 0.25) 0%, rgba(248, 176, 68, 0.25) 100%);
+  --gradient-tls-overlay: linear-gradient(156.232deg, rgba(85, 161, 180, 0.1) 0%, rgba(237, 132, 58, 0.1) 50%, rgba(248, 176, 68, 0.1) 100%);
+  --gradient-tls-overlay-strong: linear-gradient(156.232deg, rgba(85, 161, 180, 0.3) 0%, rgba(237, 132, 58, 0.3) 50%, rgba(248, 176, 68, 0.3) 100%);
+  
+  /* Subtle & Mesh (4 variants - très légers) */
+  --gradient-tls-subtle: linear-gradient(156.232deg, rgba(85, 161, 180, 0.05) 0%, rgba(237, 132, 58, 0.05) 100%);
+  --gradient-tls-subtle-reverse: linear-gradient(156.232deg, rgba(237, 132, 58, 0.05) 0%, rgba(248, 176, 68, 0.05) 100%);
+  --gradient-tls-mesh: radial-gradient(at 20% 20%, rgba(85, 161, 180, 0.4) 0px, rgba(43, 81, 90, 0.2) 25%, transparent 50%),
+                       radial-gradient(at 80% 0%, rgba(237, 132, 58, 0.3) 0px, rgba(119, 66, 29, 0.15) 25%, transparent 50%),
+                       radial-gradient(at 0% 50%, rgba(248, 176, 68, 0.3) 0px, rgba(124, 88, 34, 0.15) 25%, transparent 50%),
+                       radial-gradient(at 80% 50%, rgba(85, 161, 180, 0.2) 0px, rgba(43, 81, 90, 0.1) 25%, transparent 50%),
+                       radial-gradient(at 0% 100%, rgba(237, 132, 58, 0.2) 0px, rgba(119, 66, 29, 0.1) 25%, transparent 50%);
+  
+  /* Text & UI Elements - TEXTE UNIQUEMENT (gradients multicouleurs autorisés pour texte/headings) */
+  --gradient-tls-text: linear-gradient(135deg, rgb(85, 161, 180) 0%, rgb(237, 132, 58) 50%, rgb(248, 176, 68) 100%);
+  --gradient-tls-text-warm: linear-gradient(135deg, rgb(237, 132, 58) 0%, rgb(248, 176, 68) 100%);
+  --gradient-tls-text-cool: linear-gradient(135deg, rgb(85, 161, 180) 0%, rgb(123, 196, 212) 100%);
+  --gradient-tls-text-hero: linear-gradient(120deg, rgb(85, 161, 180) 0%, rgb(237, 132, 58) 50%, rgb(248, 176, 68) 100%);
+  --gradient-tls-text-hero-light: linear-gradient(120deg, rgba(85, 161, 180, 0.85) 0%, rgba(237, 132, 58, 0.85) 50%, rgba(248, 176, 68, 0.85) 100%);
+  
+  /* Background Gradients (Subtle) */
+  --bg-gradient-primary-subtle: linear-gradient(180deg, var(--primary-50) 0%, transparent 100%);
+  --bg-gradient-secondary-subtle: linear-gradient(180deg, var(--secondary-50) 0%, transparent 100%);
+  --bg-gradient-accent-subtle: linear-gradient(180deg, var(--accent-50) 0%, transparent 100%);
+  --bg-gradient-neutral-subtle: linear-gradient(180deg, var(--neutral-50) 0%, transparent 100%);
+  
+  /* Mesh Gradients (Complex) - Legacy support */
+  --gradient-mesh-primary: radial-gradient(at 0% 0%, var(--primary-200) 0px, transparent 50%),
+                          radial-gradient(at 100% 0%, var(--primary-300) 0px, transparent 50%),
+                          radial-gradient(at 100% 100%, var(--primary-100) 0px, transparent 50%),
+                          radial-gradient(at 0% 100%, var(--primary-50) 0px, transparent 50%);
+  
+  --gradient-mesh-warm: radial-gradient(at 0% 0%, var(--secondary-100) 0px, transparent 50%),
+                       radial-gradient(at 100% 0%, var(--accent-100) 0px, transparent 50%),
+                       radial-gradient(at 100% 100%, var(--secondary-50) 0px, transparent 50%),
+                       radial-gradient(at 0% 100%, var(--accent-50) 0px, transparent 50%);
+  
+  /* Circular Gradient (legacy) */
+  --gradient-circular: radial-gradient(circle at 0% 0%, #55a1b4, #164267);
+  
+  /* ========================================
+     AUTHENTICATION PAGES BACKGROUND
+     ======================================== */
+  
+  /* Main gradient background (clair en haut à gauche → foncé en bas à droite) */
+  --auth-bg-gradient: radial-gradient(circle at 0% 0%, rgb(85, 161, 180) 0%, rgb(58, 112, 125) 50%, rgb(45, 87, 97) 75%, rgb(31, 62, 69) 100%);
+  
+  /* Animated blobs */
+  --auth-blob-primary: radial-gradient(circle, rgba(85, 161, 180, 0.3), transparent); /* Bleu TLS 30% */
+  --auth-blob-secondary: radial-gradient(circle, rgba(237, 132, 58, 0.2), transparent); /* Orange TLS 20% */
+  
+  /* Usage:
+   * Background principal : background: var(--auth-bg-gradient);
+   * Blob 1 (top-right) : background: var(--auth-blob-primary); + opacity-30 blur-3xl animate-pulse (4s)
+   * Blob 2 (bottom-left) : background: var(--auth-blob-secondary); + opacity-20 blur-3xl animate-pulse (6s delay 1s)
+   */
+  
+  /* Semantic Gradients - TLS Based */
+  --gradient-success: linear-gradient(135deg, #96C3CF 0%, #73AFBF 50%, #55A1B4 100%);
+  --gradient-destructive: linear-gradient(135deg, #F59A5F 0%, #F18A4C 50%, #ED843A 100%);
+  --gradient-warning: linear-gradient(135deg, #FFD791 0%, #FFC15A 50%, #F8B044 100%);
+  --gradient-info: linear-gradient(135deg, #73AFBF 0%, #4A8FA1 50%, #3D7786 100%);
+  
+  /* ========== NOUVEAUX GRADIENTS - Variations Palettes TLS ========== */
+  
+  /* Primary Blue Variations (Light to Medium) */
+  --gradient-primary-sky: linear-gradient(135deg, #E8F4F7 0%, #B9D7DF 50%, #96C3CF 100%);
+  --gradient-primary-ocean: linear-gradient(135deg, #96C3CF 0%, #73AFBF 50%, #55A1B4 100%);
+  --gradient-primary-deep: linear-gradient(135deg, #55A1B4 0%, #4A8FA1 50%, #3D7786 100%);
+  
+  /* Secondary Orange Variations (Light to Medium) */
+  --gradient-secondary-peach: linear-gradient(135deg, #FDDCC7 0%, #FCBB93 50%, #F59A5F 100%);
+  --gradient-secondary-sunset: linear-gradient(135deg, #F59A5F 0%, #F18A4C 50%, #ED843A 100%);
+  --gradient-secondary-amber: linear-gradient(135deg, #ED843A 0%, #C06920 50%, #8F5017 100%);
+  
+  /* Accent Yellow Variations (Light to Medium) */
+  --gradient-accent-sunshine: linear-gradient(135deg, #FFF9EE 0%, #FFD791 50%, #FFC15A 100%);
+  --gradient-accent-gold: linear-gradient(135deg, #FFC15A 0%, #F8B044 50%, #D69020 100%);
+  --gradient-accent-honey: linear-gradient(135deg, #F8B044 0%, #D69020 50%, #9B6818 100%);
+  
+  /* Combined Gradients - Blue Dominant */
+  --gradient-blue-orange-soft: linear-gradient(135deg, rgba(150, 195, 207, 0.7) 0%, rgba(185, 215, 223, 0.5) 50%, rgba(252, 187, 147, 0.3) 100%);
+  --gradient-blue-yellow-soft: linear-gradient(135deg, rgba(150, 195, 207, 0.7) 0%, rgba(185, 215, 223, 0.5) 50%, rgba(255, 215, 145, 0.3) 100%);
+  --gradient-blue-blend: linear-gradient(135deg, rgba(185, 215, 223, 0.8) 0%, rgba(150, 195, 207, 0.6) 40%, rgba(123, 196, 212, 0.4) 70%, rgba(220, 235, 239, 0.3) 100%);
+}
+
+/* ========================================
+   ANIMATIONS - Background Blobs
+   ======================================== */
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Hero Text Gradient Animation - Subtle & Classy */
+@keyframes heroGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ========== ANIMATIONS CARD "REPRENDRE LE COURS" ========== */
+
+/* 1. Pulse Glow - Glow orange qui respire */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* 2. Pulse Button - Bouton qui pulse */
+@keyframes pulseButton {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px rgba(237, 132, 58, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(237, 132, 58, 0.4);
+  }
+}
+
+/* 3. Shimmer - Effet brillant qui traverse la card */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(25deg);
+  }
+}
+
+/* 7. Button Shine - Effet métallique/lumière sur bouton (gauche → droite) */
+@keyframes buttonShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* 4. Breathe - Shadow qui respire doucement */
+@keyframes breathe {
+  0%, 100% {
+    box-shadow: 0 4px 16px rgba(237, 132, 58, 0.08), 0 1px 0 0 rgba(255, 255, 255, 0.8) inset;
+  }
+  50% {
+    box-shadow: 0 8px 32px rgba(237, 132, 58, 0.16), 0 1px 0 0 rgba(255, 255, 255, 0.9) inset;
+  }
+}
+
+/* 5. Bounce - Icône flèche qui rebondit */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+/* 6. Border Glow Rotation - Bordure lumineuse qui tourne */
+@keyframes borderGlowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== ANIMATIONS MODAL POSITIONNEMENT ========== */
+
+/* Fade In + Scale - Apparition douce avec zoom */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide In from Top - Banner qui arrive du haut */
+@keyframes slideInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse - Animation de respiration douce */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   BASE STYLES - Global Typography
+   ======================================== */
+
+/* HTML & Body Base Styles */
+html {
+  font-size: var(--font-size);
+}
+
+/* Apply System Fonts to body */
+body {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--foreground);
+}
+
+/* Apply League Spartan to headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+  color: var(--foreground);
+  margin: 0; /* ✅ GAP-BASED LAYOUT: No margin-bottom, spacing managed by gap */
+}
+
+/* Paragraphs - GAP-BASED LAYOUT */
+p {
+  margin: 0; /* ✅ GAP-BASED LAYOUT: No margin, spacing managed by gap */
+}
+
+/* ======================================== */
+
+/* ========================================
+   ACCESSIBILITY - WCAG 2.1 AA
+   ======================================== */
+
+/* Universal Focus States */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Input Focus States */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px rgba(85, 161, 180, 0.1);
+}
+
+/* Button Focus States */
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+}
+
+/* Link Focus States */
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip to Main Content */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: var(--z-tooltip);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+}
+
+.skip-to-main:focus {
+  top: var(--space-4);
+  left: var(--space-4);
+}
+
+/* Remove default focus outline when focus-visible is used */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  :root {
+    --primary: #3D7786;
+    --secondary: #C06920;
+    --accent: #D69020;
+    --border: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Not Screen Reader Only (when focused) */
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ========================================
+   ANIMATIONS - Spinner
+   ======================================== */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -370,6 +370,11 @@ export type {
   QualitativeRatingSize,
 } from './ui/QualitativeRating';
 
+export { SelectCheckbox } from './ui/SelectCheckbox';
+export type { SelectCheckboxProps, SelectCheckboxOption } from './ui/SelectCheckbox';
+
+export { SelectCheckboxCategory } from './ui/SelectCheckboxCategory';
+export type { SelectCheckboxCategoryProps, CategoryOption } from './ui/SelectCheckboxCategory';
 
 export { EtapeAccordion } from './patterns/EtapeAccordion';
 export type { EtapeAccordionProps, EtapeAccordionVariant } from './patterns/EtapeAccordion';

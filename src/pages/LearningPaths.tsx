@@ -119,6 +119,19 @@ const MOCK_PARCOURS: Parcours[] = [
     status: 'en cours',
     category: 'Digital',
   },
+  {
+    id: 'bootcamp',
+    title: 'UX/UI Design System Bootcamp',
+    description:
+      'Master design systems by building the Learning App frontend, then apply to SBO, Site, Logo, and Procreate. Learn design tokens, React components, animations, and WCAG AA accessibility in 12 weeks.',
+    instructor: 'Design System Mastery Team',
+    level: 'avancé',
+    duration: '12 semaines',
+    lessons: 34,
+    progress: 0,
+    status: 'non commencé',
+    category: 'Design Systems & Frontend',
+  },
 ];
 
 const TONES: ParcoursTone[] = ['primary', 'warm', 'sun'];

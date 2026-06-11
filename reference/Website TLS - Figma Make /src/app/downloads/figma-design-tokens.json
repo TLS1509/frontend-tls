@@ -1,0 +1,125 @@
+{
+  "global": {
+    "colors": {
+      "primary": {
+        "50": { "value": "#E8F4F7", "type": "color" },
+        "100": { "value": "#DCEBEF", "type": "color" },
+        "200": { "value": "#B9D7DF", "type": "color" },
+        "300": { "value": "#96C3CF", "type": "color" },
+        "400": { "value": "#73AFBF", "type": "color" },
+        "500": { "value": "#55A1B4", "type": "color", "description": "Primary Blue - Académie/Formation" },
+        "600": { "value": "#4A8FA1", "type": "color" },
+        "700": { "value": "#3D7786", "type": "color" },
+        "800": { "value": "#2F5F6A", "type": "color" },
+        "900": { "value": "#1F3E45", "type": "color" }
+      },
+      "secondary": {
+        "50": { "value": "#FFF3EB", "type": "color" },
+        "100": { "value": "#FDDCC7", "type": "color" },
+        "200": { "value": "#FCBB93", "type": "color" },
+        "300": { "value": "#F59A5F", "type": "color" },
+        "400": { "value": "#F18A4C", "type": "color" },
+        "500": { "value": "#ED843A", "type": "color", "description": "Secondary Orange - Agence/Conception" },
+        "600": { "value": "#C06920", "type": "color" },
+        "700": { "value": "#8F5017", "type": "color" },
+        "800": { "value": "#5E3710", "type": "color" },
+        "900": { "value": "#3B2109", "type": "color" }
+      },
+      "accent": {
+        "50": { "value": "#FFF9EE", "type": "color" },
+        "100": { "value": "#FFECC8", "type": "color" },
+        "200": { "value": "#FFD791", "type": "color" },
+        "300": { "value": "#FFC15A", "type": "color" },
+        "400": { "value": "#F8B044", "type": "color", "description": "Accent Yellow - Conseil/Stratégie" },
+        "500": { "value": "#F8A733", "type": "color" },
+        "600": { "value": "#D69020", "type": "color" },
+        "700": { "value": "#9B6818", "type": "color" },
+        "800": { "value": "#664410", "type": "color" },
+        "900": { "value": "#3D2909", "type": "color" }
+      },
+      "neutral": {
+        "50": { "value": "#F5F8F8", "type": "color" },
+        "100": { "value": "#EEF6F8", "type": "color" },
+        "200": { "value": "#E0E8EA", "type": "color" },
+        "300": { "value": "#C8D4D7", "type": "color" },
+        "400": { "value": "#9AABB0", "type": "color" },
+        "500": { "value": "#6B7D82", "type": "color" },
+        "600": { "value": "#5f8f8f", "type": "color" },
+        "700": { "value": "#3A474B", "type": "color" },
+        "800": { "value": "#2A3538", "type": "color" },
+        "900": { "value": "#252B37", "type": "color", "description": "Neutral Dark - Text" }
+      }
+    },
+    "typography": {
+      "fontFamilies": {
+        "display": { "value": "League Spartan", "type": "fontFamilies", "description": "Pour les titres" },
+        "body": { "value": "Nunito", "type": "fontFamilies", "description": "Pour le corps de texte" }
+      },
+      "fontSize": {
+        "xs": { "value": "12px", "type": "fontSizes" },
+        "sm": { "value": "14px", "type": "fontSizes" },
+        "base": { "value": "16px", "type": "fontSizes" },
+        "lg": { "value": "18px", "type": "fontSizes" },
+        "xl": { "value": "20px", "type": "fontSizes" },
+        "2xl": { "value": "24px", "type": "fontSizes" },
+        "3xl": { "value": "30px", "type": "fontSizes" },
+        "4xl": { "value": "36px", "type": "fontSizes" },
+        "5xl": { "value": "48px", "type": "fontSizes" },
+        "6xl": { "value": "60px", "type": "fontSizes" }
+      },
+      "fontWeight": {
+        "light": { "value": "300", "type": "fontWeights" },
+        "normal": { "value": "400", "type": "fontWeights" },
+        "medium": { "value": "500", "type": "fontWeights" },
+        "semibold": { "value": "600", "type": "fontWeights" },
+        "bold": { "value": "700", "type": "fontWeights" }
+      },
+      "lineHeight": {
+        "none": { "value": "1", "type": "lineHeights" },
+        "tight": { "value": "1.25", "type": "lineHeights" },
+        "snug": { "value": "1.375", "type": "lineHeights" },
+        "normal": { "value": "1.5", "type": "lineHeights" },
+        "relaxed": { "value": "1.625", "type": "lineHeights" },
+        "loose": { "value": "2", "type": "lineHeights" }
+      }
+    },
+    "spacing": {
+      "0": { "value": "0px", "type": "spacing" },
+      "1": { "value": "4px", "type": "spacing" },
+      "2": { "value": "8px", "type": "spacing" },
+      "3": { "value": "12px", "type": "spacing" },
+      "4": { "value": "16px", "type": "spacing" },
+      "5": { "value": "20px", "type": "spacing" },
+      "6": { "value": "24px", "type": "spacing" },
+      "8": { "value": "32px", "type": "spacing" },
+      "10": { "value": "40px", "type": "spacing" },
+      "12": { "value": "48px", "type": "spacing" },
+      "16": { "value": "64px", "type": "spacing" },
+      "20": { "value": "80px", "type": "spacing" },
+      "24": { "value": "96px", "type": "spacing" },
+      "32": { "value": "128px", "type": "spacing" }
+    },
+    "borderRadius": {
+      "none": { "value": "0px", "type": "borderRadius" },
+      "sm": { "value": "6px", "type": "borderRadius" },
+      "md": { "value": "8px", "type": "borderRadius" },
+      "lg": { "value": "10px", "type": "borderRadius" },
+      "xl": { "value": "16px", "type": "borderRadius" },
+      "2xl": { "value": "24px", "type": "borderRadius" },
+      "full": { "value": "9999px", "type": "borderRadius" }
+    },
+    "boxShadow": {
+      "xs": { "value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)", "type": "boxShadow" },
+      "sm": { "value": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)", "type": "boxShadow" },
+      "md": { "value": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)", "type": "boxShadow" },
+      "lg": { "value": "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)", "type": "boxShadow" },
+      "xl": { "value": "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)", "type": "boxShadow" },
+      "2xl": { "value": "0 25px 50px -12px rgba(0, 0, 0, 0.25)", "type": "boxShadow" }
+    }
+  },
+  "$metadata": {
+    "name": "The Learning Society Design System",
+    "version": "1.0.0",
+    "description": "Design tokens pour TLS - Formation augmentée par l'IA"
+  }
+}

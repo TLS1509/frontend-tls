@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conseil & Stratégie IA — The Learning Society</title>
+  <meta name="description" content="Accompagnement stratégique pour Départements L&D et Organismes de Formation. Structurez votre transition IA avec méthode.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50:'#E8F4F7', 100:'#DCEBEF', 500:'#55A1B4', 600:'#4A8FA1', 700:'#3D7786', 800:'#2F5F6A', 900:'#1F3E45' },
+            secondary: { 50:'#FFF3EB', 500:'#ED843A', 600:'#C06920' },
+            accent: { 50:'#FFF9EE', 100:'#FEE9C3', 400:'#F8B044', 500:'#DF9E3D', 600:'#C07A1E', 700:'#9A6010' },
+            ink: { 50:'#f9fafb', 100:'#f3f4f6', 200:'#e5e7eb', 300:'#d1d5db', 500:'#6b7280', 700:'#374151', 900:'#1a1a1a' }
+          },
+          fontFamily: {
+            display: ["'League Spartan'", 'Arial', 'sans-serif'],
+            body: ["'Nunito'", 'system-ui', 'sans-serif'],
+          },
+          borderRadius: { pill:'999px' }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', system-ui, sans-serif; color: #1a1a1a; background: #fff; }
+    h1,h2,h3,h4 { font-family: 'League Spartan', Arial, sans-serif; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-ink-100">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="font-display font-bold text-lg text-ink-900 tracking-tight">The Learning Society</a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-body font-semibold text-ink-500">
+      <a href="/academie.html" class="hover:text-primary-600 transition-colors">Académie</a>
+      <a href="/agence.html" class="hover:text-secondary-500 transition-colors">Agence</a>
+      <a href="/conseil.html" class="text-accent-600 font-bold">Conseil</a>
+      <a href="/marketing/magazine" class="hover:text-ink-700 transition-colors">Magazine</a>
+    </div>
+    <a href="/marketing/contact" class="bg-accent-400 hover:bg-accent-500 text-white font-body font-semibold text-sm px-5 py-2 rounded-pill transition-colors">
+      Nous contacter
+    </a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden bg-gradient-to-br from-accent-50 via-white to-white pt-20 pb-24">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-accent-100 rounded-full blur-3xl opacity-40 pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+  <div class="max-w-5xl mx-auto px-6 text-center relative">
+    <div class="inline-flex items-center gap-2 bg-accent-50 border border-accent-200 text-accent-700 font-body font-semibold text-xs px-4 py-2 rounded-pill mb-8">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      Pôle Stratégique
+    </div>
+    <h1 class="font-display font-bold text-ink-900 mb-6 leading-tight" style="font-size:clamp(2.25rem,5vw,3.75rem);text-wrap:balance">
+      Ne subissez pas l'IA.<br>Structurez-la.
+    </h1>
+    <p class="font-body text-ink-700 text-lg leading-relaxed max-w-2xl mx-auto mb-10" style="text-wrap:balance">
+      Accompagnement stratégique pour Départements L&D et Organismes de Formation.
+      Sécurisez votre transition, garantissez votre conformité, maximisez votre ROI.
+    </p>
+    <a href="/marketing/contact" class="inline-flex items-center gap-2 bg-accent-400 hover:bg-accent-500 text-white font-body font-bold text-base px-8 py-4 rounded-pill transition-colors shadow-lg">
+      Réserver un Audit de Maturité
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+    <div class="flex flex-wrap items-center justify-center gap-6 mt-10 text-sm font-body text-ink-500">
+      <span class="flex items-center gap-2"><svg class="w-4 h-4 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Premier échange gratuit</span>
+      <span class="flex items-center gap-2"><svg class="w-4 h-4 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Audit personnalisé</span>
+      <span class="flex items-center gap-2"><svg class="w-4 h-4 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Sans engagement</span>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT CARD -->
+<section class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="rounded-2xl border-2 border-accent-200 bg-accent-50 p-10 text-center shadow-lg">
+      <div class="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <h2 class="font-display font-bold text-ink-900 text-2xl mb-4">L'Audit de Maturité IA & Pédagogie</h2>
+      <p class="font-body text-ink-700 text-base leading-relaxed mb-6 max-w-xl mx-auto">
+        Avant de déployer, il faut cartographier. Nous analysons vos outils actuels, les compétences
+        de vos équipes et vos processus de production pour définir votre feuille de route.
+      </p>
+      <div class="bg-white rounded-xl border border-accent-200 p-5 mb-8 inline-block">
+        <p class="font-body font-semibold text-ink-900 text-base">
+          Le coût de cet audit est <span class="text-accent-600 font-bold">100% déduit</span> si vous signez l'accompagnement au déploiement.
+        </p>
+      </div>
+      <div class="block">
+        <a href="/marketing/contact" class="inline-flex items-center gap-2 bg-accent-400 hover:bg-accent-500 text-white font-body font-bold text-base px-7 py-3.5 rounded-pill transition-colors">
+          Demander un chiffrage
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTHODOLOGIE -->
+<section class="py-20 bg-ink-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="font-display font-bold text-ink-900 text-3xl mb-3">Une méthode de déploiement éprouvée</h2>
+      <p class="font-body text-ink-500 text-base">Six phases structurées, dans cet ordre, sans raccourcis.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">1</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Cadrage & Audit</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Analyse de l'existant, des objectifs business et de l'écosystème technique actuel.</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">2</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Acculturation</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Conférences et ateliers pour embarquer les équipes et lever les freins culturels.</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">3</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Tech Stack & Sécurité</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Sélection des outils IA adaptés à votre contexte et sécurisation des données (RGPD).</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">4</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Upskilling</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Formation des référents IA et des équipes opérationnelles sur les outils sélectionnés.</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">5</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Pilote (POC)</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Lancement d'un premier projet test sur un périmètre restreint pour valider l'approche.</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-ink-200 p-7 hover:border-accent-300 hover:shadow-md transition-all">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-9 h-9 bg-accent-400 text-white font-display font-bold text-sm rounded-lg flex items-center justify-center flex-shrink-0">6</span>
+          <h3 class="font-display font-bold text-ink-900 text-base">Scale & Industrialisation</h3>
+        </div>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Déploiement généralisé, mesure de l'impact et optimisation continue du ROI.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROFILS -->
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="font-display font-bold text-ink-900 text-3xl mb-3">Une approche adaptée à votre structure</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-7">
+
+      <div class="rounded-2xl border border-ink-200 bg-white p-9 hover:border-accent-200 hover:shadow-md transition-all">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-accent-50 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          </div>
+          <div>
+            <h3 class="font-display font-bold text-ink-900 text-xl">Département L&D</h3>
+            <p class="font-body text-ink-500 text-sm">Moderniser l'appareil de formation interne</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Content Factory IA</p>
+              <p class="font-body text-ink-500 text-sm">Transformez vos équipes en producteurs autonomes de contenus pédagogiques.</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Charte d'usage IA</p>
+              <p class="font-body text-ink-500 text-sm">Cadre de gouvernance pour un usage responsable et sécurisé de l'IA.</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Optimisation budgets</p>
+              <p class="font-body text-ink-500 text-sm">Réinternaliser la production via l'IA et réduire la dépendance aux prestataires.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8">
+          <a href="/marketing/contact" class="inline-flex items-center gap-2 font-body font-semibold text-sm text-accent-600 hover:text-accent-700 transition-colors">
+            Discuter de mon projet
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-ink-200 bg-white p-9 hover:border-accent-200 hover:shadow-md transition-all">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-accent-50 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-display font-bold text-ink-900 text-xl">Organisme de Formation</h3>
+            <p class="font-body text-ink-500 text-sm">Rentabilité, Conformité & Vente</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Qualiopi Augmenté</p>
+              <p class="font-body text-ink-500 text-sm">Automatisation de la veille réglementaire et de la gestion documentaire via l'IA.</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Refonte de l'Offre</p>
+              <p class="font-body text-ink-500 text-sm">Intégrer l'IA dans vos parcours pour justifier des tarifs premium.</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <svg class="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div>
+              <p class="font-body font-semibold text-ink-900 text-sm">Efficacité Commerciale</p>
+              <p class="font-body text-ink-500 text-sm">Aide à la rédaction de propositions pédagogiques gagnantes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8">
+          <a href="/marketing/contact" class="inline-flex items-center gap-2 font-body font-semibold text-sm text-accent-600 hover:text-accent-700 transition-colors">
+            Discuter de mon projet
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section class="py-20 bg-ink-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <h2 class="font-display font-bold text-ink-900 text-3xl mb-3">Pourquoi nous confier votre stratégie ?</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-xl border border-ink-200 p-8 text-center">
+        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-5">
+          <svg class="w-7 h-7 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-ink-900 text-lg mb-3">Double Expertise</h3>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Ingénieurs pédagogiques avant techniciens. La technologie sert la pédagogie, pas l'inverse.</p>
+      </div>
+      <div class="bg-white rounded-xl border border-ink-200 p-8 text-center">
+        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-5">
+          <svg class="w-7 h-7 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-ink-900 text-lg mb-3">Terrain</h3>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Nous utilisons ces outils quotidiennement pour notre propre Académie et nos productions clients.</p>
+      </div>
+      <div class="bg-white rounded-xl border border-ink-200 p-8 text-center">
+        <div class="w-14 h-14 bg-accent-50 rounded-xl flex items-center justify-center mx-auto mb-5">
+          <svg class="w-7 h-7 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-ink-900 text-lg mb-3">Sécurité</h3>
+        <p class="font-body text-ink-500 text-sm leading-relaxed">Nous connaissons les enjeux RGPD et confidentialité des données liés à l'usage de l'IA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINALE -->
+<section class="py-24 bg-accent-400 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10 pointer-events-none">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full blur-3xl"></div>
+  </div>
+  <div class="relative max-w-3xl mx-auto px-6 text-center">
+    <h2 class="font-display font-bold text-white text-3xl md:text-4xl mb-5" style="text-wrap:balance">Prêt à structurer votre transition IA ?</h2>
+    <p class="font-body text-white/90 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+      Discutons de vos objectifs. Premier échange sans engagement pour évaluer ensemble le meilleur point de départ.
+    </p>
+    <a href="/marketing/contact" class="inline-flex items-center gap-2 bg-white hover:bg-ink-50 text-accent-700 font-body font-bold text-base px-8 py-4 rounded-pill transition-colors shadow-lg">
+      Prendre rendez-vous avec un consultant
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+    <div class="flex flex-wrap items-center justify-center gap-7 mt-10 text-sm font-body text-white/80">
+      <span>Réponse sous 24h</span>
+      <span>·</span>
+      <span>Devis personnalisé</span>
+      <span>·</span>
+      <span>NDA signé</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-ink-900 text-ink-300 py-12">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div>
+      <p class="font-display font-bold text-white text-base mb-1">The Learning Society</p>
+      <p class="font-body text-xs">La formation augmentée par l'IA</p>
+    </div>
+    <div class="flex items-center gap-7 text-sm font-body">
+      <a href="/academie.html" class="hover:text-white transition-colors">Académie</a>
+      <a href="/agence.html" class="hover:text-white transition-colors">Agence</a>
+      <a href="/conseil.html" class="text-white font-semibold">Conseil</a>
+      <a href="/marketing/contact" class="hover:text-white transition-colors">Contact</a>
+    </div>
+    <p class="text-xs font-body">© 2026 The Learning Society</p>
+  </div>
+</footer>
+
+</body>
+</html>

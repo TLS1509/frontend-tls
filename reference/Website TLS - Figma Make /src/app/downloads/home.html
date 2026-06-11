@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Learning Society - Formation, production et stratégie : tout ce qu'il vous faut pour maîtriser l'IA en formation. L'IA ne remplacera pas les formateurs. Les formateurs qui maîtrisent l'IA, si.">
+  <title>Accueil - The Learning Society | Formation IA Pédagogique</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    /* ================================
+       RESET & BASE
+       ================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* ================================
+       DESIGN SYSTEM - TLS
+       ================================ */
+    :root {
+      /* Colors - Primary Blue */
+      --primary-50: #E8F4F7;
+      --primary-100: #DCEBEF;
+      --primary-200: #B9D7DF;
+      --primary-500: #55A1B4;
+      --primary-600: #4A8FA1;
+      --primary-700: #3D7786;
+      --primary-900: #1F3E45;
+      
+      /* Colors - Secondary Orange */
+      --secondary-50: #FFF3EB;
+      --secondary-200: #FCBB93;
+      --secondary-500: #ED843A;
+      --secondary-600: #C06920;
+      --secondary-700: #8F5017;
+      
+      /* Colors - Accent Yellow */
+      --accent-50: #FFF9EE;
+      --accent-400: #F8B044;
+      --accent-600: #D69020;
+      
+      /* Colors - Neutral */
+      --neutral-50: #F5F8F8;
+      --neutral-100: #EEF6F8;
+      --neutral-600: #6B7D82;
+      --neutral-700: #3A474B;
+      --neutral-900: #252B37;
+      
+      /* Semantic */
+      --text-primary: #252B37;
+      --border: rgba(0, 0, 0, 0.1);
+      
+      /* Typography */
+      --font-display: "League Spartan", system-ui, sans-serif;
+      --font-body: "Nunito", system-ui, sans-serif;
+      --leading-tight: 1.25;
+      --leading-relaxed: 1.625;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      
+      /* Spacing */
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      
+      /* Radius */
+      --radius-lg: 0.625rem;
+      --radius-xl: 1rem;
+      --radius-2xl: 1.5rem;
+      --radius-full: 9999px;
+      
+      /* Gradients */
+      --gradient-hero: linear-gradient(135deg, #55A1B4 0%, #EB7724 50%, #F8B044 100%);
+      --gradient-blue: linear-gradient(135deg, #55A1B4, #4A9AAD, #3E8FA6);
+      --gradient-orange: linear-gradient(135deg, #EB7724, #E56B1E, #D95F18);
+      --gradient-yellow: linear-gradient(135deg, #F8B044, #F5A535, #F29A26);
+      --gradient-dark-blue: linear-gradient(135deg, #3E8FA6, #327A8C, #266572);
+    }
+    
+    body {
+      font-family: var(--font-body);
+      color: var(--text-primary);
+      background: #ffffff;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    
+    /* ================================
+       CONTAINER
+       ================================ */
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .container { padding: 0 1.5rem; }
+    }
+    
+    @media (min-width: 1024px) {
+      .container { padding: 0 2rem; }
+    }
+    
+    /* ================================
+       SECTIONS
+       ================================ */
+    .section {
+      position: relative;
+      padding: 3rem 0;
+      overflow: hidden;
+    }
+    
+    @media (min-width: 768px) {
+      .section { padding: 4rem 0; }
+    }
+    
+    /* ================================
+       HERO SECTION
+       ================================ */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #F0F9FB 0%, #ffffff 50%, #FEF8F1 100%);
+    }
+    
+    .hero-blob-1 {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(85, 161, 180, 0.1) 0%, rgba(85, 161, 180, 0.05) 50%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(60px);
+      transform: translate(25%, -50%);
+    }
+    
+    .hero-blob-2 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(248, 176, 68, 0.1) 0%, rgba(248, 176, 68, 0.05) 50%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(60px);
+      transform: translate(-25%, 50%);
+    }
+    
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0iIzU1QTFCNCIgb3BhY2l0eT0iMC4wNSIvPjwvZz48L3N2Zz4=');
+      opacity: 0.3;
+    }
+    
+    .hero-content {
+      position: relative;
+      max-width: 64rem;
+      margin: 0 auto;
+      text-align: center;
+      padding: var(--space-16) 0;
+    }
+    
+    @media (min-width: 768px) {
+      .hero-content { padding: 6rem 0; }
+    }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.1;
+      margin-bottom: var(--space-6);
+      color: var(--text-primary);
+    }
+    
+    .gradient-text {
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(1.125rem, 2vw, 1.25rem);
+      line-height: var(--leading-relaxed);
+      color: var(--neutral-600);
+      max-width: 48rem;
+      margin: 0 auto var(--space-12);
+    }
+    
+    /* ================================
+       BUTTONS
+       ================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: var(--font-weight-semibold);
+      border: none;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary {
+      background: var(--primary-500);
+      color: white;
+      box-shadow: 0 10px 25px rgba(85, 161, 180, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(85, 161, 180, 0.4);
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #4A8FA2, #55A1B4, #60B3C7);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .btn-primary:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-primary > span {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-outline:hover {
+      border-color: var(--secondary-500);
+      color: var(--secondary-500);
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+    }
+    
+    .btn-white {
+      background: white;
+      color: var(--primary-700);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-white:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    @media (min-width: 640px) {
+      .btn-group {
+        flex-direction: row;
+      }
+      
+      .btn-group .btn {
+        width: auto;
+      }
+    }
+    
+    .btn-icon {
+      transition: transform 0.3s;
+    }
+    
+    .btn:hover .btn-icon {
+      transform: translateX(4px);
+    }
+    
+    /* ================================
+       LOGOS CLIENTS
+       ================================ */
+    .logos-section {
+      position: relative;
+      padding: 0 0 var(--space-16);
+    }
+    
+    .logos-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--leading-tight);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .logos-divider {
+      width: 5rem;
+      height: 2px;
+      background: var(--gradient-hero);
+      margin: 0 auto var(--space-12);
+      border-radius: var(--radius-full);
+    }
+    
+    .logos-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .logos-fade-left,
+    .logos-fade-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6rem;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    .logos-fade-left {
+      left: 0;
+      background: linear-gradient(90deg, #F0F9FB 0%, transparent 100%);
+    }
+    
+    .logos-fade-right {
+      right: 0;
+      background: linear-gradient(90deg, transparent 0%, #FEF8F1 100%);
+    }
+    
+    .logos-track {
+      display: flex;
+      gap: 3rem;
+      animation: scroll-logos 30s linear infinite;
+    }
+    
+    .logos-track:hover {
+      animation-play-state: paused;
+    }
+    
+    .logo-item {
+      flex-shrink: 0;
+      min-width: 180px;
+      filter: grayscale(100%);
+      opacity: 0.5;
+      transition: all 0.3s;
+    }
+    
+    .logo-item:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+      cursor: pointer;
+    }
+    
+    .logo-item img {
+      height: 4rem;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+    }
+    
+    @keyframes scroll-logos {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-33.333%); }
+    }
+    
+    /* ================================
+       SOLUTIONS CARDS
+       ================================ */
+    .solutions-section {
+      background: linear-gradient(180deg, #ffffff 0%, rgba(240, 249, 251, 0.3) 100%);
+      padding: var(--space-12) 0;
+    }
+    
+    @media (min-width: 768px) {
+      .solutions-section { padding: var(--space-16) 0; }
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-16);
+    }
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+    }
+    
+    .section-divider {
+      width: 6rem;
+      height: 4px;
+      background: var(--gradient-hero);
+      margin: 0 auto;
+      border-radius: var(--radius-full);
+    }
+    
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .solutions-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+    }
+    
+    .solution-card {
+      position: relative;
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .solution-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .solution-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+    
+    .solution-card:hover .solution-bg {
+      opacity: 1;
+    }
+    
+    .solution-bg-blue { background: var(--gradient-blue); }
+    .solution-bg-orange { background: var(--gradient-orange); }
+    .solution-bg-yellow { background: var(--gradient-yellow); }
+    
+    .solution-shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 1s;
+    }
+    
+    .solution-card:hover .solution-shine {
+      transform: translateX(100%);
+    }
+    
+    .solution-circle-1,
+    .solution-circle-2 {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+    
+    .solution-circle-1 {
+      top: 0;
+      right: 0;
+      width: 8rem;
+      height: 8rem;
+      transform: translate(50%, -50%);
+    }
+    
+    .solution-circle-2 {
+      bottom: 0;
+      left: 0;
+      width: 6rem;
+      height: 6rem;
+      transform: translate(-50%, 50%);
+    }
+    
+    .solution-content {
+      position: relative;
+      padding: 2.5rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.375rem 0.75rem;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      margin-bottom: var(--space-6);
+      width: fit-content;
+    }
+    
+    .solution-icon {
+      width: 4rem;
+      height: 4rem;
+      margin-bottom: var(--space-4);
+      transition: transform 0.3s;
+    }
+    
+    .solution-card:hover .solution-icon {
+      transform: scale(1.1);
+    }
+    
+    .solution-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--leading-tight);
+      margin-bottom: var(--space-3);
+    }
+    
+    .solution-description {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: var(--leading-relaxed);
+      opacity: 0.9;
+      margin-bottom: var(--space-6);
+      flex-grow: 1;
+    }
+    
+    .solution-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-medium);
+      transition: gap 0.3s;
+    }
+    
+    .solution-card:hover .solution-link {
+      gap: 0.75rem;
+    }
+    
+    .solution-link-icon {
+      transition: transform 0.3s;
+    }
+    
+    .solution-card:hover .solution-link-icon {
+      transform: translateX(8px);
+    }
+    
+    /* ================================
+       DNA SECTION
+       ================================ */
+    .dna-section {
+      background: var(--gradient-dark-blue);
+      padding: var(--space-12) 0;
+      position: relative;
+    }
+    
+    @media (min-width: 768px) {
+      .dna-section { padding: var(--space-16) 0; }
+    }
+    
+    .dna-circle-1,
+    .dna-circle-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+    
+    .dna-circle-1 {
+      top: 0;
+      right: 0;
+      width: 24rem;
+      height: 24rem;
+      background: rgba(255, 255, 255, 0.05);
+      transform: translate(25%, -50%);
+    }
+    
+    .dna-circle-2 {
+      bottom: 0;
+      left: 0;
+      width: 20rem;
+      height: 20rem;
+      background: rgba(248, 176, 68, 0.1);
+      transform: translate(-25%, 50%);
+    }
+    
+    .dna-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC4wNSIvPjwvZz48L3N2Zz4=');
+      opacity: 0.3;
+    }
+    
+    .dna-content {
+      position: relative;
+      max-width: 64rem;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    .badge-dark {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+    
+    .dna-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.2;
+      margin-bottom: var(--space-6);
+    }
+    
+    .dna-text {
+      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 42rem;
+      margin: 0 auto var(--space-8);
+    }
+    
+    .dna-text-large {
+      font-size: 1.25rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    .dna-text-normal {
+      font-size: 1rem;
+    }
+    
+    /* ================================
+       BLOG SECTION
+       ================================ */
+    .blog-section {
+      background: linear-gradient(180deg, #ffffff 0%, rgba(240, 249, 251, 0.2) 100%);
+      padding: var(--space-12) 0;
+      position: relative;
+    }
+    
+    @media (min-width: 768px) {
+      .blog-section { padding: var(--space-16) 0; }
+    }
+    
+    .blog-circle-1,
+    .blog-circle-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+    
+    .blog-circle-1 {
+      top: 0;
+      left: 25%;
+      width: 24rem;
+      height: 24rem;
+      background: rgba(85, 161, 180, 0.05);
+    }
+    
+    .blog-circle-2 {
+      bottom: 0;
+      right: 25%;
+      width: 20rem;
+      height: 20rem;
+      background: rgba(248, 176, 68, 0.05);
+    }
+    
+    .badge-primary {
+      background: var(--primary-500);
+      color: white;
+      border: none;
+    }
+    
+    .blog-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+      margin-bottom: var(--space-10);
+    }
+    
+    @media (min-width: 768px) {
+      .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .blog-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-card-featured {
+      grid-row: span 2;
+    }
+    
+    .blog-card-horizontal {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @media (min-width: 640px) {
+      .blog-card-horizontal {
+        flex-direction: row;
+      }
+    }
+    
+    .blog-image-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .blog-image-featured {
+      aspect-ratio: 4/3;
+    }
+    
+    @media (min-width: 768px) {
+      .blog-image-featured {
+        height: 400px;
+      }
+    }
+    
+    .blog-image-horizontal {
+      aspect-ratio: 16/9;
+      width: 100%;
+    }
+    
+    @media (min-width: 640px) {
+      .blog-image-horizontal {
+        width: 40%;
+        aspect-ratio: auto;
+      }
+    }
+    
+    .blog-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s;
+    }
+    
+    .blog-card:hover .blog-image {
+      transform: scale(1.1);
+    }
+    
+    .blog-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.6) 100%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    
+    .blog-card:hover .blog-overlay {
+      opacity: 1;
+    }
+    
+    .blog-badge-container {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+    
+    .badge-blue {
+      background: var(--primary-500);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(85, 161, 180, 0.3);
+    }
+    
+    .badge-orange {
+      background: var(--secondary-500);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(237, 132, 58, 0.3);
+    }
+    
+    .badge-yellow {
+      background: var(--accent-400);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(248, 176, 68, 0.3);
+    }
+    
+    .blog-content {
+      padding: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    @media (min-width: 640px) {
+      .blog-content-horizontal {
+        width: 60%;
+        padding: 1.5rem;
+      }
+    }
+    
+    .blog-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.2;
+      margin-bottom: var(--space-4);
+      transition: color 0.3s;
+    }
+    
+    .blog-card:hover .blog-title-blue { color: var(--primary-500); }
+    .blog-card:hover .blog-title-orange { color: var(--secondary-500); }
+    .blog-card:hover .blog-title-yellow { color: var(--accent-400); }
+    
+    .blog-title-small {
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+      margin-bottom: var(--space-3);
+    }
+    
+    .blog-excerpt {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: var(--leading-relaxed);
+      color: var(--neutral-600);
+      margin-bottom: var(--space-6);
+      flex-grow: 1;
+    }
+    
+    .blog-excerpt-small {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-4);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .blog-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-medium);
+      transition: gap 0.3s;
+    }
+    
+    .blog-link-blue { color: var(--primary-500); }
+    .blog-link-orange { color: var(--secondary-500); }
+    .blog-link-yellow { color: var(--accent-400); }
+    
+    .blog-card:hover .blog-link {
+      gap: 0.75rem;
+    }
+    
+    .blog-link-icon {
+      transition: transform 0.3s;
+    }
+    
+    .blog-card:hover .blog-link-icon {
+      transform: translateX(8px);
+    }
+    
+    /* ================================
+       CTA SECTION
+       ================================ */
+    .cta-section {
+      background: linear-gradient(135deg, #266572 0%, #327A8C 50%, #3E8FA6 100%);
+      padding: var(--space-12) 0;
+      position: relative;
+    }
+    
+    @media (min-width: 768px) {
+      .cta-section { padding: var(--space-16) 0; }
+    }
+    
+    .cta-circle-1,
+    .cta-circle-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+    
+    .cta-circle-1 {
+      top: 0;
+      right: 0;
+      width: 37.5rem;
+      height: 37.5rem;
+      background: rgba(248, 176, 68, 0.1);
+      transform: translate(25%, -50%);
+    }
+    
+    .cta-circle-2 {
+      bottom: 0;
+      left: 0;
+      width: 31.25rem;
+      height: 31.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      transform: translate(-25%, 50%);
+    }
+    
+    .cta-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iMC4wMyIvPjwvZz48L3N2Zz4=');
+      opacity: 0.4;
+    }
+    
+    .cta-content {
+      position: relative;
+      max-width: 64rem;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    
+    .badge-yellow {
+      background: var(--accent-400);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(248, 176, 68, 0.4);
+    }
+    
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: var(--font-weight-bold);
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+    }
+    
+    .cta-description {
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: var(--leading-relaxed);
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 42rem;
+      margin: 0 auto var(--space-8);
+    }
+    
+    .cta-box {
+      max-width: 36rem;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-2xl);
+      padding: 2rem;
+      position: relative;
+    }
+    
+    @media (min-width: 768px) {
+      .cta-box { padding: 2.5rem; }
+    }
+    
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+      border-radius: var(--radius-2xl);
+      pointer-events: none;
+    }
+    
+    .cta-box-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.2;
+      margin-bottom: var(--space-3);
+    }
+    
+    .cta-divider {
+      width: 5rem;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-400), var(--secondary-500));
+      border-radius: var(--radius-full);
+      margin: 0 auto var(--space-6);
+    }
+    
+    .cta-list {
+      list-style: none;
+      margin-bottom: var(--space-6);
+    }
+    
+    .cta-list-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .cta-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-400);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    /* ================================
+       ANIMATIONS
+       ================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    /* ================================
+       UTILITY CLASSES
+       ================================ */
+    .scroll-mt-20 {
+      scroll-margin-top: 5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <section class="section">
+    <div class="hero-bg"></div>
+    <div class="hero-blob-1"></div>
+    <div class="hero-blob-2"></div>
+    <div class="hero-pattern"></div>
+    
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          L'IA ne remplacera pas les formateurs.<br>
+          <span class="gradient-text">Les formateurs qui maîtrisent l'IA, si.</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+          Formation, production et stratégie : tout ce qu'il vous faut pour maîtriser l'IA en formation
+        </p>
+        
+        <div class="btn-group">
+          <a href="#" class="btn btn-primary">
+            <span style="display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+              Je veux me former
+              <i data-lucide="arrow-right" class="btn-icon" style="width: 16px; height: 16px;"></i>
+            </span>
+          </a>
+          <a href="#solutions" class="btn btn-outline">
+            <i data-lucide="briefcase" style="width: 20px; height: 20px;"></i>
+            Je représente une entreprise
+            <i data-lucide="arrow-right" class="btn-icon" style="width: 16px; height: 16px;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LOGOS CLIENTS -->
+    <div class="logos-section">
+      <div class="container">
+        <h3 class="logos-title">Ils transforment leur formation avec nous</h3>
+        <div class="logos-divider"></div>
+        
+        <div class="logos-container">
+          <div class="logos-fade-left"></div>
+          <div class="logos-fade-right"></div>
+          
+          <div class="logos-track">
+            <!-- First set -->
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+A" alt="Client A"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+B" alt="Client B"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+C" alt="Client C"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+D" alt="Client D"></div>
+            <!-- Second set (duplicate) -->
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+A" alt="Client A"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+B" alt="Client B"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+C" alt="Client C"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+D" alt="Client D"></div>
+            <!-- Third set (duplicate) -->
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+A" alt="Client A"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+B" alt="Client B"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+C" alt="Client C"></div>
+            <div class="logo-item"><img src="https://via.placeholder.com/120x60/cccccc/666666?text=Client+D" alt="Client D"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS SECTION -->
+  <section id="solutions" class="solutions-section scroll-mt-20">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Un écosystème complet pour chaque besoin</h2>
+        <div class="section-divider"></div>
+      </div>
+      
+      <div class="solutions-grid">
+        <!-- Card 1 - Se Former -->
+        <div class="solution-card">
+          <div class="solution-bg solution-bg-blue"></div>
+          <div class="solution-shine"></div>
+          <div class="solution-circle-1"></div>
+          <div class="solution-circle-2"></div>
+          
+          <div class="solution-content">
+            <span class="badge">INDÉPENDANTS</span>
+            <i data-lucide="graduation-cap" class="solution-icon"></i>
+            <h3 class="solution-title">Se Former</h3>
+            <p class="solution-description">
+              Maîtrisez l'IA pédagogique en autonomie ou coaché.
+            </p>
+            <div class="solution-link">
+              <span>En savoir plus</span>
+              <i data-lucide="arrow-right" class="solution-link-icon" style="width: 20px; height: 20px;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 2 - Produire & Former -->
+        <div class="solution-card">
+          <div class="solution-bg solution-bg-orange"></div>
+          <div class="solution-shine"></div>
+          <div class="solution-circle-1"></div>
+          <div class="solution-circle-2"></div>
+          
+          <div class="solution-content">
+            <span class="badge">ENTREPRISES (OPÉRATIONNEL)</span>
+            <i data-lucide="briefcase" class="solution-icon"></i>
+            <h3 class="solution-title">Produire & Former</h3>
+            <p class="solution-description">
+              Upskilling d'équipe et Studio de production assisté par IA.
+            </p>
+            <div class="solution-link">
+              <span>En savoir plus</span>
+              <i data-lucide="arrow-right" class="solution-link-icon" style="width: 20px; height: 20px;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 3 - Transformer -->
+        <div class="solution-card">
+          <div class="solution-bg solution-bg-yellow"></div>
+          <div class="solution-shine"></div>
+          <div class="solution-circle-1"></div>
+          <div class="solution-circle-2"></div>
+          
+          <div class="solution-content">
+            <span class="badge">ENTREPRISES (STRATÉGIQUE)</span>
+            <i data-lucide="compass" class="solution-icon"></i>
+            <h3 class="solution-title">Transformer</h3>
+            <p class="solution-description">
+              Audit, Conformité Qualiopi et Stratégie de déploiement.
+            </p>
+            <div class="solution-link">
+              <span>En savoir plus</span>
+              <i data-lucide="arrow-right" class="solution-link-icon" style="width: 20px; height: 20px;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DNA SECTION -->
+  <section class="dna-section">
+    <div class="dna-circle-1"></div>
+    <div class="dna-circle-2"></div>
+    <div class="dna-pattern"></div>
+    
+    <div class="container">
+      <div class="dna-content">
+        <span class="badge badge-dark">NOTRE ADN</span>
+        <h2 class="dna-title">L'alliance de la Méthode et de la Tech.</h2>
+        <div class="dna-text">
+          <span class="dna-text-large">Nous ne sommes pas juste des formateurs.</span>
+          <span class="dna-text-normal">
+            Nous combinons une méthodologie structurée avec notre propre technologie 
+            pour transformer durablement vos pratiques de formation.
+          </span>
+        </div>
+        <a href="#" class="btn btn-white">
+          Découvrir notre vision
+          <i data-lucide="arrow-right" class="btn-icon" style="width: 20px; height: 20px;"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION -->
+  <section class="blog-section">
+    <div class="blog-circle-1"></div>
+    <div class="blog-circle-2"></div>
+    
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-primary">RESSOURCES</span>
+        <h2 class="section-title">Le Mag'</h2>
+        <p class="hero-subtitle">Veille, réflexions et actualités sur l'IA en formation.</p>
+      </div>
+      
+      <div class="blog-grid">
+        <!-- Featured Article -->
+        <div class="blog-card blog-card-featured">
+          <div class="blog-image-container blog-image-featured">
+            <img 
+              src="https://images.unsplash.com/photo-1765806464581-812b097d0687?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" 
+              alt="Maîtriser le Prompt Engineering" 
+              class="blog-image"
+            >
+            <div class="blog-overlay"></div>
+            <div class="blog-badge-container">
+              <span class="badge badge-blue">Tuto</span>
+            </div>
+          </div>
+          <div class="blog-content">
+            <h3 class="blog-title blog-title-blue">Maîtriser le Prompt Engineering</h3>
+            <p class="blog-excerpt">
+              L'art de parler aux IA pour obtenir des résultats pédagogiques parfaitement adaptés.
+            </p>
+            <div class="blog-link blog-link-blue">
+              <span>Lire l'article</span>
+              <i data-lucide="arrow-right" class="blog-link-icon" style="width: 20px; height: 20px;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Article 2 -->
+        <div class="blog-card blog-card-horizontal">
+          <div class="blog-image-container blog-image-horizontal">
+            <img 
+              src="https://images.unsplash.com/photo-1759884247289-f9f3db44988e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" 
+              alt="Collaboration augmentée par l'IA" 
+              class="blog-image"
+            >
+            <div class="blog-badge-container">
+              <span class="badge badge-orange">Réflexion</span>
+            </div>
+          </div>
+          <div class="blog-content blog-content-horizontal">
+            <h3 class="blog-title blog-title-small blog-title-orange">Collaboration augmentée par l'IA</h3>
+            <p class="blog-excerpt blog-excerpt-small">
+              Comment les équipes L&D utilisent l'IA pour produire plus vite et mieux.
+            </p>
+            <div class="blog-link blog-link-orange">
+              <span>Lire</span>
+              <i data-lucide="arrow-right" class="blog-link-icon" style="width: 16px; height: 16px;"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Article 3 -->
+        <div class="blog-card blog-card-horizontal">
+          <div class="blog-image-container blog-image-horizontal">
+            <img 
+              src="https://images.unsplash.com/photo-1762329388386-22bf162a9368?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" 
+              alt="Les outils IA incontournables" 
+              class="blog-image"
+            >
+            <div class="blog-badge-container">
+              <span class="badge badge-yellow">Tendance</span>
+            </div>
+          </div>
+          <div class="blog-content blog-content-horizontal">
+            <h3 class="blog-title blog-title-small blog-title-yellow">Les outils IA incontournables</h3>
+            <p class="blog-excerpt blog-excerpt-small">
+              Notre sélection des meilleurs outils d'IA pour les formateurs en 2026.
+            </p>
+            <div class="blog-link blog-link-yellow">
+              <span>Lire</span>
+              <i data-lucide="arrow-right" class="blog-link-icon" style="width: 16px; height: 16px;"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="#" class="btn btn-outline">
+          Voir tous les articles
+          <i data-lucide="arrow-right" class="btn-icon" style="width: 16px; height: 16px;"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="cta-section">
+    <div class="cta-circle-1"></div>
+    <div class="cta-circle-2"></div>
+    <div class="cta-pattern"></div>
+    
+    <div class="container">
+      <div class="cta-content">
+        <span class="badge badge-yellow">OFFRE DÉCOUVERTE</span>
+        <h2 class="cta-title">Vous ne savez pas par où commencer ?</h2>
+        <p class="cta-description">
+          Audit personnalisé de 90 minutes pour faire le point sur votre maturité IA 
+          et obtenir une feuille de route claire.
+        </p>
+        
+        <div class="cta-box">
+          <h3 class="cta-box-title">Audit de Maturité IA</h3>
+          <div class="cta-divider"></div>
+          
+          <ul class="cta-list">
+            <li class="cta-list-item">
+              <div class="cta-bullet"></div>
+              <span>Session de 90 minutes en visio</span>
+            </li>
+            <li class="cta-list-item">
+              <div class="cta-bullet"></div>
+              <span>Diagnostic sur-mesure de vos besoins</span>
+            </li>
+            <li class="cta-list-item">
+              <div class="cta-bullet"></div>
+              <span>Plan d'action personnalisé</span>
+            </li>
+          </ul>
+          
+          <div style="text-align: center;">
+            <a href="#" class="btn btn-white">
+              Réserver mon Audit Gratuit
+              <i data-lucide="arrow-right" class="btn-icon" style="width: 20px; height: 20px;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Init Lucide Icons
+    lucide.createIcons();
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+    
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all cards
+    document.querySelectorAll('.solution-card, .blog-card').forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Parallax effect on scroll for decorative circles
+    let lastScrollY = window.scrollY;
+    
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const scrollDelta = scrollY - lastScrollY;
+      
+      // Hero blobs
+      const heroBlob1 = document.querySelector('.hero-blob-1');
+      const heroBlob2 = document.querySelector('.hero-blob-2');
+      
+      if (heroBlob1) {
+        heroBlob1.style.transform = `translate(25%, -50%) translateY(${scrollY * 0.3}px)`;
+      }
+      if (heroBlob2) {
+        heroBlob2.style.transform = `translate(-25%, 50%) translateY(${scrollY * 0.2}px)`;
+      }
+      
+      lastScrollY = scrollY;
+    });
+    
+    // Add hover effect enhancement for buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px)';
+      });
+      
+      btn.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+  </script>
+
+</body>
+</html>

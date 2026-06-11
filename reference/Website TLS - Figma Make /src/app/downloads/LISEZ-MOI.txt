@@ -1,0 +1,272 @@
+═══════════════════════════════════════════════════════════════════════
+  📦 PACKAGE DE TÉLÉCHARGEMENT - THE LEARNING SOCIETY
+═══════════════════════════════════════════════════════════════════════
+
+🎉 BIENVENUE !
+
+Ce dossier contient tous les fichiers pour utiliser le site web TLS.
+
+───────────────────────────────────────────────────────────────────────
+📂 FICHIERS INCLUS
+───────────────────────────────────────────────────────────────────────
+
+✅ agence-demo.html
+   → Page Agence complète (HTML standalone)
+   → Ouvrez-le directement dans votre navigateur !
+
+✅ figma-design-tokens.json
+   → Tokens de design pour Figma
+   → Importez-le avec le plugin "Tokens Studio for Figma"
+
+✅ README-HTML.md
+   → Guide complet d'utilisation (détails techniques)
+
+✅ guide-telechargement.md
+   → Instructions de téléchargement et déploiement
+
+✅ INDEX.md
+   → Sommaire et documentation complète
+
+✅ LISEZ-MOI.txt
+   → Ce fichier (démarrage rapide)
+
+───────────────────────────────────────────────────────────────────────
+🚀 DÉMARRAGE RAPIDE (3 ÉTAPES)
+───────────────────────────────────────────────────────────────────────
+
+1. Double-cliquez sur "agence-demo.html"
+   → Votre navigateur s'ouvre automatiquement
+
+2. Testez le responsive
+   → Redimensionnez la fenêtre ou testez sur mobile
+
+3. Personnalisez si besoin
+   → Ouvrez le fichier avec un éditeur de code
+   → Modifiez les textes, couleurs, images
+
+───────────────────────────────────────────────────────────────────────
+🎨 DESIGN SYSTEM TLS
+───────────────────────────────────────────────────────────────────────
+
+COULEURS PRINCIPALES
+  • Bleu Primary    : #55A1B4 (Académie/Formation)
+  • Orange Secondary: #ED843A (Agence/Conception)
+  • Jaune Accent    : #F8B044 (Conseil/Stratégie)
+  • Gris Neutral    : #252B37 (Texte principal)
+
+POLICES
+  • League Spartan  : Titres (moderne, géométrique)
+  • Nunito          : Texte (lisible, chaleureux)
+
+RESPONSIVE
+  • Mobile  : < 768px
+  • Tablet  : 768px - 1023px
+  • Desktop : ≥ 1024px
+
+───────────────────────────────────────────────────────────────────────
+💡 COMMENT UTILISER
+───────────────────────────────────────────────────────────────────────
+
+POUR TESTER
+  → Double-cliquez sur agence-demo.html
+  → Testez sur différents écrans (mobile, tablet, desktop)
+  → Partagez le fichier par email (il fonctionne seul)
+
+POUR PERSONNALISER
+  → Ouvrez agence-demo.html avec un éditeur de code
+  → Recherchez le texte à modifier dans le HTML
+  → Sauvegardez et rafraîchissez le navigateur
+
+POUR FIGMA
+  → Installez le plugin "Tokens Studio for Figma"
+  → Importez figma-design-tokens.json
+  → Tous les tokens sont synchronisés !
+
+POUR DÉVELOPPEURS
+  → Copiez le CSS dans votre projet
+  → Réutilisez les composants (badge, button, card)
+  → Adaptez selon vos besoins
+
+───────────────────────────────────────────────────────────────────────
+🔧 PERSONNALISATION FACILE
+───────────────────────────────────────────────────────────────────────
+
+CHANGER LES COULEURS
+  1. Ouvrez agence-demo.html avec un éditeur
+  2. Cherchez "<style>" au début du fichier
+  3. Trouvez "--primary-500: #55A1B4;"
+  4. Remplacez par votre couleur
+
+CHANGER LES TEXTES
+  1. Cherchez le texte dans le HTML
+  2. Remplacez par votre contenu
+  3. Sauvegardez
+
+AJOUTER DES ICÔNES
+  → Liste complète sur : https://lucide.dev/icons
+  → Copiez : <i data-lucide="nom-de-icone"></i>
+  → Exemples : sparkles, arrow-right, check-circle
+
+───────────────────────────────────────────────────────────────────────
+📱 COMPATIBILITÉ
+───────────────────────────────────────────────────────────────────────
+
+NAVIGATEURS
+  ✅ Chrome / Edge 90+
+  ✅ Firefox 88+
+  ✅ Safari 14+
+  ✅ Opera 76+
+
+APPAREILS
+  ✅ iPhone (Safari)
+  ✅ iPad (Safari)
+  ✅ Android (Chrome)
+  ✅ Desktop (tous navigateurs)
+
+───────────────────────────────────────────────────────────────────────
+📋 STRUCTURE DU FICHIER HTML
+───────────────────────────────────────────────────────────────────────
+
+agence-demo.html contient :
+
+  1. HERO SECTION
+     • Badge + Titre + Description
+     • Bouton CTA
+     • Banner "Philosophie" (glassmorphism)
+
+  2. SERVICES SECTION
+     • 4 services en grille
+     • 2 grandes cartes + 2 standard
+     • Responsive automatique
+
+  3. TIMELINE SECTION
+     • 3 étapes (Cadrage, Prototype, Scale)
+     • Layout horizontal compact
+
+  4. CTA SECTION
+     • Titre + Description
+     • 2 boutons CTA
+     • Trust indicators
+
+───────────────────────────────────────────────────────────────────────
+🎯 CRÉER D'AUTRES PAGES
+───────────────────────────────────────────────────────────────────────
+
+Utilisez agence-demo.html comme template pour :
+
+  1. home.html      → Page d'accueil
+  2. academie.html  → Pôle Académie (formations)
+  3. conseil.html   → Pôle Conseil (stratégie)
+  4. tech.html      → Pôle Tech (solutions)
+  5. mag.html       → Magazine (articles)
+
+MÉTHODE :
+  1. Dupliquez agence-demo.html
+  2. Renommez le fichier
+  3. Modifiez le contenu
+  4. Gardez la structure CSS
+
+───────────────────────────────────────────────────────────────────────
+✅ CHECKLIST
+───────────────────────────────────────────────────────────────────────
+
+AVANT DE MODIFIER
+  ☐ Testez agence-demo.html dans un navigateur
+  ☐ Testez le responsive (redimensionnez la fenêtre)
+  ☐ Faites une copie de backup
+
+PENDANT LA MODIFICATION
+  ☐ Modifiez une section à la fois
+  ☐ Sauvegardez et testez après chaque changement
+  ☐ Vérifiez que tout fonctionne
+
+APRÈS LA MODIFICATION
+  ☐ Testez sur Chrome, Firefox, Safari
+  ☐ Testez sur mobile réel
+  ☐ Vérifiez les liens
+  ☐ Optimisez les images
+
+───────────────────────────────────────────────────────────────────────
+🌟 COMPOSANTS RÉUTILISABLES
+───────────────────────────────────────────────────────────────────────
+
+Ces composants HTML sont déjà stylés et prêts à l'emploi :
+
+• Badge           → Petits labels avec icône
+• Button          → Boutons CTA avec animations
+• Card            → Cartes pour services/contenus
+• Icon Box        → Boîtes d'icônes avec gradient
+• Timeline Card   → Cartes pour processus/étapes
+
+Copiez-collez simplement le HTML !
+
+───────────────────────────────────────────────────────────────────────
+📞 BESOIN D'AIDE ?
+───────────────────────────────────────────────────────────────────────
+
+📧 Email  : contact@thelearningsociety.fr
+🌐 Web    : https://thelearningsociety.fr
+
+RESSOURCES UTILES
+  → Google Fonts   : https://fonts.google.com/
+  → Lucide Icons   : https://lucide.dev/icons
+  → Figma Tokens   : https://tokens.studio/
+
+───────────────────────────────────────────────────────────────────────
+🎁 BONUS
+───────────────────────────────────────────────────────────────────────
+
+TOUT EST INCLUS DANS LE FICHIER HTML :
+  ✓ Polices (Google Fonts)
+  ✓ Icônes (Lucide via CDN)
+  ✓ Styles CSS complets
+  ✓ Animations et transitions
+  ✓ Responsive mobile-first
+  ✓ Effets glassmorphism
+  ✓ Gradients de couleurs
+
+PAS BESOIN DE :
+  ✗ Installer des dépendances
+  ✗ Compiler du code
+  ✗ Configurer un serveur
+  ✗ Télécharger des librairies
+
+Juste ouvrir et c'est prêt ! 🚀
+
+───────────────────────────────────────────────────────────────────────
+📜 LICENCE
+───────────────────────────────────────────────────────────────────────
+
+© 2024 The Learning Society. Tous droits réservés.
+
+AUTORISÉ :
+  ✅ Usage personnel et professionnel
+  ✅ Modification et personnalisation
+  ✅ Intégration dans vos projets
+
+INTERDIT :
+  ❌ Revente du design ou code
+  ❌ Redistribution sans autorisation
+
+───────────────────────────────────────────────────────────────────────
+🚀 PROCHAINES ÉTAPES
+───────────────────────────────────────────────────────────────────────
+
+1. Testez agence-demo.html
+2. Lisez README-HTML.md pour plus de détails
+3. Importez figma-design-tokens.json dans Figma
+4. Créez vos autres pages (home, academie, etc.)
+5. Personnalisez selon vos besoins
+6. Déployez sur votre serveur web
+
+───────────────────────────────────────────────────────────────────────
+
+Bonne utilisation ! 🎉
+
+Si vous avez des questions, contactez-nous.
+
+Version : 1.0.0
+Date : Décembre 2024
+Design System : TLS v1.0
+
+═══════════════════════════════════════════════════════════════════════

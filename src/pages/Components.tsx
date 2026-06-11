@@ -28,6 +28,7 @@ import {
   VideoPlayerModal,
   CelebrationModal,
 } from '../components/modals';
+import { SelectCheckbox, SelectCheckboxCategory } from '../components';
 import {
   // Core
   Button,
@@ -6744,6 +6745,54 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: 'Tokens',             label: 'Tokens' },
 ];
 
+// Filter options for SelectCheckbox
+const FILTER_OPTIONS = [
+  { id: 'showcaseOnly', label: 'Showcase only' },
+  { id: 'toneAware', label: 'Tone-aware' },
+  { id: 'hasVariants', label: 'Has variants' },
+  { id: 'usedByPages', label: 'Used by pages' },
+];
+
+// Category options with subcategories for SelectCheckboxCategory
+const CATEGORY_OPTIONS = [
+  { id: 'all', label: 'Toutes les catégories' },
+  {
+    id: 'Atoms',
+    label: 'Atoms',
+    subcategories: [
+      { id: 'Atoms-Basis', label: 'Basis' },
+      { id: 'Atoms-Typography', label: 'Typography' },
+    ],
+  },
+  {
+    id: 'Forms',
+    label: 'Forms',
+    subcategories: [
+      { id: 'Forms-Inputs', label: 'Inputs' },
+      { id: 'Forms-Controls', label: 'Controls' },
+    ],
+  },
+  {
+    id: 'Cards',
+    label: 'Cards',
+    subcategories: [
+      { id: 'Cards-Content', label: 'Content Cards' },
+      { id: 'Cards-Data', label: 'Data Cards' },
+    ],
+  },
+  { id: 'Feedback', label: 'Feedback' },
+  { id: 'Navigation', label: 'Navigation' },
+  { id: 'Learning', label: 'Learning' },
+  { id: 'Headers & Sections', label: 'Headers & Sections' },
+  { id: 'Composites', label: 'Composites' },
+  { id: 'Auth Family', label: 'Auth Family' },
+  { id: 'Lists & Feeds', label: 'Lists & Feeds' },
+  { id: 'Modals', label: 'Modals' },
+  { id: 'Foundations', label: 'Foundations' },
+  { id: 'Pages & Templates', label: 'Pages & Templates' },
+  { id: 'Tokens', label: 'Tokens' },
+];
+
 // Wraps each render() in its own React component scope so hooks are independent.
 // Without this, calling c.render() directly in the parent's map() makes all
 // useState/useEffect calls share the parent's hook call order — changing the
@@ -6784,10 +6833,8 @@ const Components: React.FC = () => {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [showShowcaseOnly, setShowShowcaseOnly] = useState(false);
-  const [showToneAware, setShowToneAware] = useState(false);
-  const [showHasVariants, setShowHasVariants] = useState(false);
-  const [showUsedByPages, setShowUsedByPages] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   // Auto-scroll to top when filter or query changes
   React.useEffect(() => {
@@ -6825,11 +6872,18 @@ const Components: React.FC = () => {
     try {
       if (filter === 'Tokens' || filter === 'Pages & Templates') return [];
       const result = componentsWithMeta.filter((c) => {
+        // Category filter: selectedCategory (from SelectCheckboxCategory)
+        if (selectedCategory !== 'all' && c._meta.category !== selectedCategory) return false;
+        // Or keep old filter for backward compat
         if (filter !== 'all' && c._meta.category !== filter) return false;
-        if (showShowcaseOnly && !c.showcaseOnly) return false;
-        if (showToneAware && !c.toneAware) return false;
-        if (showHasVariants && !c.hasVariants) return false;
-        if (!showUsedByPages && c.usedBy && c.usedBy.length > 0) return false;
+
+        // Apply selected filters from SelectCheckbox
+        if (selectedFilters.includes('showcaseOnly') && !c.showcaseOnly) return false;
+        if (selectedFilters.includes('toneAware') && !c.toneAware) return false;
+        if (selectedFilters.includes('hasVariants') && !c.hasVariants) return false;
+        // 'usedByPages' inverts the logic: if checked, HIDE items without usedBy
+        if (selectedFilters.includes('usedByPages') && (!c.usedBy || c.usedBy.length === 0)) return false;
+
         if (!q) return true;
         const haystack = [
           c.name, c.codeName, c.cssBase, c.description, c._meta.category, c._meta.subCategory, ...c.keywords,
@@ -6842,7 +6896,7 @@ const Components: React.FC = () => {
       console.error('Error computing filteredComponents:', error);
       throw error;
     }
-  }, [q, filter, componentsWithMeta, showShowcaseOnly, showToneAware, showHasVariants, showUsedByPages]);
+  }, [q, filter, componentsWithMeta, selectedFilters, selectedCategory]);
 
   const filteredTokens = useMemo(() => {
     if (filter !== 'all' && filter !== 'Tokens' && filter !== 'Foundations') return [];
@@ -6981,48 +7035,39 @@ const Components: React.FC = () => {
       />
 
       {/* -------------------------------- CONTROLS (sticky) ------------------- */}
-      <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-3 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">
+      <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-4 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">
+        {/* Search input */}
         <Search
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           size="lg"
           placeholder="Rechercher un composant, un token, une classe CSS…"
         />
-        <div className="flex flex-wrap gap-stack-xs overflow-x-auto">
-          {FILTERS.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              className={`ds-filter${filter === f.id ? ' ds-filter--active' : ''}`}
-              onClick={() => setFilter(f.id)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
 
-        {/* Advanced filters (checkboxes) */}
-        <div className="flex flex-wrap gap-stack-xs items-center text-body-sm">
-          <span className="text-ink-500 font-semibold">Filtres :</span>
-          <Checkbox
-            label="showcaseOnly"
-            checked={showShowcaseOnly}
-            onChange={(e) => setShowShowcaseOnly(e.target.checked)}
+        {/* Selects row */}
+        <div className="flex gap-stack sm:gap-stack-lg flex-col sm:flex-row">
+          <SelectCheckboxCategory
+            categories={CATEGORY_OPTIONS}
+            selected={selectedCategory}
+            onChange={(selected) => {
+              setSelectedCategory(selected);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            placeholder="Catégories"
+            className="flex-1"
           />
-          <Checkbox
-            label="tone-aware"
-            checked={showToneAware}
-            onChange={(e) => setShowToneAware(e.target.checked)}
-          />
-          <Checkbox
-            label="has variants"
-            checked={showHasVariants}
-            onChange={(e) => setShowHasVariants(e.target.checked)}
-          />
-          <Checkbox
-            label="used by pages"
-            checked={showUsedByPages}
-            onChange={(e) => setShowUsedByPages(e.target.checked)}
+          <SelectCheckbox
+            options={FILTER_OPTIONS}
+            selected={selectedFilters}
+            onChange={(selected) => {
+              setSelectedFilters(selected);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            placeholder="Filtres"
+            className="flex-1"
           />
         </div>
       </div>
