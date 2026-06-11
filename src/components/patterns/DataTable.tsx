@@ -94,7 +94,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                     'px-4 py-3 font-semibold text-ink-700 select-none',
                     ALIGN[column.align ?? 'left'],
                     column.sortable
-                      ? 'cursor-pointer hover:bg-ink-100 transition-colors'
+                      ? 'cursor-pointer hover:bg-ink-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500'
                       : '',
                   ]
                     .filter(Boolean)

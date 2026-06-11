@@ -1,5 +1,5 @@
 /**
- * Positionnement : Test de positionnement initial pour un parcours.
+ * Positionnement — Test de positionnement initial pour un parcours.
  *
  * Cahier #01 Phase 16.1.2 : auto-génère 1 question par compétence du parcours,
  * using Dreyfus level selector (1–5 scale). Results persisted to usePositioningStore.
@@ -17,19 +17,20 @@
 
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Award, TrendingUp, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { ProgressBar } from '../components/ui/ProgressBar';
+import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
 import { getFirstLessonId, getParcoursCompetenceIds } from '../data/learningPaths';
 import { getCompetenceById, DREYFUS_LABELS } from '../data/competencies';
 import { usePositioningStore } from '../stores/persistence';
-import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
-/* ─── Mock userId (placeholder : Phase 16.2 will use actual auth) ──────────── */
+/* ─── Mock userId (placeholder — Phase 16.2 will use actual auth) ──────────── */
 const MOCK_USER_ID = 'user-placeholder';
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
@@ -111,7 +112,7 @@ export const Positionnement: React.FC = () => {
     );
 
     return (
-      <div className="min-h-screen bg-surface flex flex-col">
+      <div className="min-h-screen bg-gradient-page-ambient flex flex-col">
         <ViewerHeader
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
@@ -119,7 +120,7 @@ export const Positionnement: React.FC = () => {
           title="Résultats"
         />
 
-        <div className="flex-1 flex items-center justify-center px-stack sm:px-stack-lg lg:px-section-lg py-section">
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-section">
           <div className="w-full max-w-2xl flex flex-col gap-section">
             <SectionCard
               tone="brand"
@@ -128,7 +129,7 @@ export const Positionnement: React.FC = () => {
               description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">
-                <div className="flex items-baseline gap-stack-xs">
+                <div className="flex items-baseline gap-2">
                   <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
                   <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
@@ -138,9 +139,9 @@ export const Positionnement: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-stack-xs p-stack bg-primary-50 rounded-lg border border-primary-200">
+              <div className="flex flex-col gap-2 p-4 bg-primary-50 rounded-lg border border-primary-200">
                 <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
-                <div className="flex flex-wrap gap-stack-xs">
+                <div className="flex flex-wrap gap-2">
                   {Object.entries(answers).map(([compId, level]) => {
                     const comp = getCompetenceById(compId);
                     return (
@@ -175,7 +176,7 @@ export const Positionnement: React.FC = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     );
   }
@@ -192,8 +193,8 @@ export const Positionnement: React.FC = () => {
         total={total}
       />
 
-      <div className="flex-1 px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section">
-        <div className="max-w-content w-full mx-auto flex flex-col gap-section">
+      <main className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+        <div className="max-w-3xl w-full mx-auto flex flex-col gap-section">
 
           {/* Progress */}
           <div className="flex flex-col gap-tight">
@@ -201,22 +202,22 @@ export const Positionnement: React.FC = () => {
               <span>Compétence {currentIndex + 1} sur {total}</span>
               <span className="font-bold text-primary-700 tabular-nums">{progressPct}%</span>
             </div>
-            <div className="w-full h-2 bg-ink-200 rounded-pill overflow-hidden">
-              <div
-                className="h-full bg-primary-500 transition-all duration-300"
-                style={{ width: `${progressPct}%` }}
-              />
-            </div>
+            <ProgressBar value={progressPct} max={100} fill="brand" size="md" valueLabel={false} />
           </div>
 
-          {/* Question */}
-          <div className="p-stack-lg bg-white rounded-xl border border-ink-200">
-            <DreyfusSlider
-              value={currentAnswer ?? null}
-              onChange={handleSelect}
+          {/* Question — uses canonical DS components */}
+          <SectionCard
+            title={currentQuestion.competenceLabel}
+            description={currentQuestion.competenceDescription}
+            className="!bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg"
+          >
+            <DreyfusLevelSelector
               tone="brand"
+              value={currentAnswer ?? undefined}
+              onChange={(lv) => handleSelect(lv as DreyfusLevel)}
+              aria-label={`Niveau Dreyfus pour ${currentQuestion.competenceLabel}`}
             />
-          </div>
+          </SectionCard>
 
           {/* Footer nav */}
           <div className="flex items-center justify-between gap-stack">
@@ -240,7 +241,7 @@ export const Positionnement: React.FC = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

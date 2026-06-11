@@ -209,8 +209,8 @@ export type { InlineProgressProps } from './patterns/InlineProgress';
 // ToneAwareCard deprecated → use <Card variant="tinted" tone="primary|warm|sun">
 
 
-export { HeroSection } from './patterns/HeroSection';
-export type { HeroSectionProps } from './patterns/HeroSection';
+// HeroSection sunset Phase 19.B-2026-05-26 → use PageHero from './patterns/EditorialHero'
+// (features absorbées : backLink + progress + meta + trailing slots).
 
 export { ParcoursCard } from './patterns/ParcoursCard';
 export type { ParcoursCardProps, ParcoursTone, ParcoursStatus } from './patterns/ParcoursCard';
@@ -225,8 +225,7 @@ export type { ActivityFeedProps } from './patterns/ActivityFeed';
 export { CoachCardGrid } from './patterns/CoachCardGrid';
 export type { CoachCardGridProps } from './patterns/CoachCardGrid';
 
-// DashboardHero deprecated → use HeroSection variant="gradient"
-// LearningPathHeader deprecated → use HeroSection variant="gradient" size="lg" showBackButton
+// DashboardHero + LearningPathHeader deprecated → use PageHero (with backLink + progress slots if needed)
 
 export { LearningPathGrid } from './patterns/LearningPathGrid';
 export type { LearningPathGridProps } from './patterns/LearningPathGrid';
@@ -240,8 +239,18 @@ export type { PageCardItem, PageCardGridProps } from './patterns/PageCard';
 export { ResumeLessonCard } from './patterns/ResumeLessonCard';
 export type { ResumeLessonCardProps, ResumeLessonTone } from './patterns/ResumeLessonCard';
 
-export { EditorialHero } from './patterns/EditorialHero';
-export type { EditorialHeroProps, EditorialHeroEyebrow, EditorialHeroMetaItem } from './patterns/EditorialHero';
+export { PageHero, EditorialHero } from './patterns/EditorialHero';
+export type {
+  PageHeroProps,
+  PageHeroEyebrow,
+  PageHeroMetaItem,
+  PageHeroTone,
+  // Rétrocompat aliases (same shapes as PageHero*)
+  EditorialHeroProps,
+  EditorialHeroEyebrow,
+  EditorialHeroMetaItem,
+  EditorialHeroTone,
+} from './patterns/EditorialHero';
 
 export { EditorialLayout } from './patterns/EditorialLayout';
 export type { EditorialLayoutProps } from './patterns/EditorialLayout';
@@ -254,14 +263,12 @@ export type { RelatedItemListProps, RelatedItem } from './patterns/RelatedItemLi
 
 export {
   AuthShell,
-  AuthFeature,
   AuthDivider,
   AuthSocialButton,
   AuthSuccess,
 } from './patterns/AuthShell';
 export type {
   AuthShellProps,
-  AuthFeatureProps,
   AuthSocialButtonProps,
   AuthSuccessProps,
 } from './patterns/AuthShell';
@@ -273,6 +280,12 @@ export type { ResourceCardGridProps } from './patterns/ResourceCardGrid';
 
 export { VeilleCardFeed } from './patterns/VeilleCardFeed';
 export type { VeilleCardFeedProps } from './patterns/VeilleCardFeed';
+
+export { VeilleFormatShortcutCards } from './patterns/VeilleFormatShortcutCards';
+export type {
+  VeilleFormatShortcutCardsProps,
+  VeilleFormatCard,
+} from './patterns/VeilleFormatShortcutCards';
 
 /* ============================================================================
  * Phase 14.1 — Première expérience flow

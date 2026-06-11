@@ -1,162 +1,221 @@
 /**
- * DreyfusSlider — Compact horizontal track-style 5-step Dreyfus level selector.
+ * DreyfusSlider — horizontal 1-5 Likert picker with multiple visual variants.
  *
- * Figma DS name: DreyfusSlider.
- * Distinct from DreyfusLevelSelector (responsive card-grid for questionnaire contexts).
+ * Designed as a more compact / engaging alternative to DreyfusLevelSelector
+ * (which uses a vertical grid). Especially useful inside a conversational
+ * chat where vertical real estate is limited.
  *
- * Renders as a horizontal track with 5 circular nodes (D1–D5), a filled connector
- * rail between nodes, and shortlabels below. Ideal for within-card assessments,
- * positionnement flows, and any space-constrained Dreyfus picker.
+ * Variants × tones :
+ *  - `variant`   : 'solid' (TLS color filled track) · 'glass' (white/blur track)
+ *                  · 'light' (ink-50 track, minimal) · 'effect' (solid + soft glow)
+ *  - `tone`      : 'brand' (primary teal) · 'warm' (secondary orange) · 'sun' (accent)
+ *  - `animate`   : true → smooth thumb transition + value flash on change
  *
- * - Always horizontal (no responsive stacking)
- * - Touch-safe: w-11 h-11 (44px) interactive nodes
- * - Tone-aware: brand / warm / sun
- * - Uses canonical DREYFUS_LABELS from data/competencies (Cahier #02)
- *
- * Replaces inline DreyfusLevelSelector in Positionnement.tsx.
+ * A11y : single composite `<input type="range">` for screen readers + 5 native
+ * tick buttons over it for mouse/touch. Arrow keys & Home/End supported.
  */
 
 import React from 'react';
-import type { DreyfusLevel } from '../../types/learning';
-import { DREYFUS_LABELS } from '../../data/competencies';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
+export type DreyfusSliderVariant = 'solid' | 'glass' | 'light' | 'effect';
 export type DreyfusSliderTone = 'brand' | 'warm' | 'sun';
 
+export interface DreyfusSliderLevel {
+  v: number;
+  label: string;
+  desc?: string;
+  emoji?: string;
+}
+
+const DEFAULT_LEVELS: DreyfusSliderLevel[] = [
+  { v: 1, label: 'Novice',          desc: 'Je découvre',                emoji: '🌱' },
+  { v: 2, label: 'Débutant avancé', desc: 'Je connais les bases',       emoji: '🌿' },
+  { v: 3, label: 'Compétent',       desc: 'Je sais faire en autonomie', emoji: '🌳' },
+  { v: 4, label: 'Maîtrise',        desc: 'Je sais expliquer',          emoji: '🏆' },
+  { v: 5, label: 'Expert',          desc: 'Je sais innover et former',  emoji: '✨' },
+];
+
 export interface DreyfusSliderProps {
-  /** Current selected level (null = nothing selected yet) */
-  value: DreyfusLevel | null;
-  onChange: (level: DreyfusLevel) => void;
+  value?: number;
+  onChange: (level: number) => void;
+  levels?: DreyfusSliderLevel[];
+  variant?: DreyfusSliderVariant;
   tone?: DreyfusSliderTone;
+  animate?: boolean;
+  showLabels?: boolean;
   className?: string;
   'aria-label'?: string;
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// ─── Tone palettes (solid TLS colors — no gradient) ──────────────────────────
 
-const LEVELS: DreyfusLevel[] = [1, 2, 3, 4, 5];
-
-/** Active/selected node: filled with tone colour */
-const TONE_NODE_ACTIVE: Record<DreyfusSliderTone, string> = {
-  brand: 'bg-primary-500 border-primary-500 text-white shadow-sm',
-  warm:  'bg-secondary-500 border-secondary-500 text-white shadow-sm',
-  sun:   'bg-accent-400 border-accent-400 text-ink-900 shadow-sm',
-};
-
-/** Past nodes (to the left of selection): lightly tinted */
-const TONE_NODE_DONE: Record<DreyfusSliderTone, string> = {
-  brand: 'bg-primary-50 border-primary-300 text-primary-700',
-  warm:  'bg-secondary-50 border-secondary-300 text-secondary-700',
-  sun:   'bg-accent-50 border-accent-300 text-accent-700',
-};
-
-/** Future nodes (to the right of selection): neutral */
-const NODE_IDLE = 'bg-white border-ink-200 text-ink-500 hover:border-ink-400 hover:text-ink-700';
-
-/** Filled connector colour */
-const TONE_CONNECTOR: Record<DreyfusSliderTone, string> = {
-  brand: 'bg-primary-400',
-  warm:  'bg-secondary-400',
+const TRACK_FILL: Record<DreyfusSliderTone, string> = {
+  brand: 'bg-primary-500',
+  warm:  'bg-secondary-500',
   sun:   'bg-accent-400',
 };
 
-/** Active label colour */
-const TONE_LABEL_ACTIVE: Record<DreyfusSliderTone, string> = {
+const THUMB_FILL: Record<DreyfusSliderTone, string> = {
+  brand: 'bg-primary-600 border-white',
+  warm:  'bg-secondary-600 border-white',
+  sun:   'bg-accent-500 border-white',
+};
+
+const THUMB_GLOW: Record<DreyfusSliderTone, string> = {
+  brand: 'shadow-[0_0_0_6px_rgba(85,161,180,0.18),0_4px_12px_-2px_rgba(85,161,180,0.45)]',
+  warm:  'shadow-[0_0_0_6px_rgba(237,132,58,0.18),0_4px_12px_-2px_rgba(237,132,58,0.45)]',
+  sun:   'shadow-[0_0_0_6px_rgba(248,176,68,0.18),0_4px_12px_-2px_rgba(248,176,68,0.45)]',
+};
+
+const TICK_ACTIVE: Record<DreyfusSliderTone, string> = {
   brand: 'text-primary-700',
   warm:  'text-secondary-700',
   sun:   'text-accent-700',
 };
 
-/** Focus ring colour */
-const TONE_FOCUS: Record<DreyfusSliderTone, string> = {
-  brand: 'focus-visible:outline-primary-500',
-  warm:  'focus-visible:outline-secondary-500',
-  sun:   'focus-visible:outline-accent-400',
+// ─── Variant backgrounds (track unfilled portion) ────────────────────────────
+
+const TRACK_BG: Record<DreyfusSliderVariant, string> = {
+  solid:  'bg-ink-100',
+  glass:  'bg-white/50 backdrop-blur-glass-light border border-white/60',
+  light:  'bg-ink-50',
+  effect: 'bg-ink-100',
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 
 export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
   value,
   onChange,
-  tone = 'brand',
+  levels = DEFAULT_LEVELS,
+  variant = 'solid',
+  tone = 'warm',
+  animate = true,
+  showLabels = true,
   className = '',
   'aria-label': ariaLabel = 'Niveau Dreyfus',
-}) => (
-  <div className={['w-full select-none', className].filter(Boolean).join(' ')}>
+}) => {
+  const current = value ?? 0;
+  const isSet = value !== undefined && value !== null;
+  // Position thumb at center of active tick (1..5 maps to 0%..100%)
+  const pct = isSet ? ((current - 1) / (levels.length - 1)) * 100 : 0;
 
-    {/* ── Track + Nodes ───────────────────────────────────────────────────── */}
-    <div
-      className="flex items-center"
-      role="radiogroup"
-      aria-label={ariaLabel}
-    >
-      {LEVELS.map((lv, idx) => {
-        const isActive = value === lv;
-        const isPast   = value !== null && lv < value;
-        // Connector between this node and the next is filled when value >= lv + 1
-        const connectorFilled = value !== null && value > lv;
+  const filledTrackClasses = [
+    'absolute left-0 top-0 h-full rounded-pill',
+    TRACK_FILL[tone],
+    animate ? 'transition-all duration-300 ease-out' : '',
+  ].filter(Boolean).join(' ');
 
-        let nodeClass: string;
-        if (isActive) nodeClass = TONE_NODE_ACTIVE[tone];
-        else if (isPast) nodeClass = TONE_NODE_DONE[tone];
-        else nodeClass = NODE_IDLE;
+  const thumbClasses = [
+    'absolute top-1/2 -translate-x-1/2 -translate-y-1/2',
+    'w-7 h-7 rounded-pill border-2',
+    THUMB_FILL[tone],
+    variant === 'effect' ? THUMB_GLOW[tone] : 'shadow-md',
+    animate ? 'transition-all duration-300 ease-out' : '',
+    isSet ? 'opacity-100' : 'opacity-0 pointer-events-none',
+  ].filter(Boolean).join(' ');
 
-        return (
-          <React.Fragment key={lv}>
-            <button
-              type="button"
-              role="radio"
-              aria-checked={isActive}
-              aria-label={`Niveau ${lv} — ${DREYFUS_LABELS[lv]}`}
-              onClick={() => onChange(lv)}
-              className={[
-                'w-11 h-11 rounded-pill border-2 shrink-0',
-                'font-display font-bold text-caption',
-                'flex items-center justify-center',
-                'transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis cursor-pointer active:scale-[0.97]',
-                'focus-visible:outline-2 focus-visible:outline-offset-2',
-                TONE_FOCUS[tone],
-                nodeClass,
-              ].join(' ')}
-            >
-              D{lv}
-            </button>
+  const trackClasses = [
+    'relative h-2.5 rounded-pill',
+    TRACK_BG[variant],
+  ].join(' ');
 
-            {/* Connector line — not rendered after the last node */}
-            {idx < LEVELS.length - 1 && (
-              <div
-                aria-hidden
+  return (
+    <div className={['flex flex-col gap-stack-xs', className].filter(Boolean).join(' ')}>
+      {/* Track + thumb */}
+      <div className="relative px-3 py-3">
+        <div className={trackClasses} role="presentation">
+          <div className={filledTrackClasses} style={{ width: `${pct}%` }} aria-hidden="true" />
+          <div className={thumbClasses} style={{ left: `${pct}%` }} aria-hidden="true" />
+
+          {/* Hidden native range for keyboard a11y */}
+          <input
+            type="range"
+            min={1}
+            max={levels.length}
+            step={1}
+            value={current || 1}
+            onChange={(e) => onChange(Number(e.target.value))}
+            aria-label={ariaLabel}
+            aria-valuemin={1}
+            aria-valuemax={levels.length}
+            aria-valuenow={isSet ? current : undefined}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-pill"
+          />
+        </div>
+
+        {/* Tick buttons (click to set discrete value) */}
+        <div className="absolute inset-x-3 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+          {levels.map((lv, idx) => {
+            const tickPct = (idx / (levels.length - 1)) * 100;
+            const isActive = isSet && current === lv.v;
+            const isPast = isSet && current > lv.v;
+            return (
+              <button
+                key={lv.v}
+                type="button"
+                onClick={() => onChange(lv.v)}
+                style={{ left: `${tickPct}%` }}
+                aria-label={`Niveau ${lv.v} — ${lv.label}`}
+                aria-pressed={isActive}
                 className={[
-                  'flex-1 h-0.5 transition-colors duration-base',
-                  connectorFilled ? TONE_CONNECTOR[tone] : 'bg-ink-200',
+                  'absolute -translate-x-1/2 w-5 h-5 rounded-pill pointer-events-auto cursor-pointer',
+                  'flex items-center justify-center transition-all duration-base',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  isActive
+                    ? 'opacity-0'
+                    : isPast
+                    ? `${TRACK_FILL[tone]} opacity-60 hover:opacity-100 scale-100 hover:scale-110`
+                    : 'bg-white border border-ink-300 hover:border-primary-400 scale-100 hover:scale-110',
                 ].join(' ')}
-              />
-            )}
-          </React.Fragment>
-        );
-      })}
-    </div>
+              >
+                {!isPast && !isActive && (
+                  <span className="text-[10px] font-bold text-ink-500 leading-none">{lv.v}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-    {/* ── Labels row — aligns with nodes via justify-between + w-11 per label ─ */}
-    <div className="flex justify-between mt-1" aria-hidden>
-      {LEVELS.map((lv) => (
-        <span
-          key={lv}
+      {/* Labels under each tick */}
+      {showLabels && (
+        <div className="flex justify-between px-3">
+          {levels.map((lv) => {
+            const isActive = isSet && current === lv.v;
+            return (
+              <div
+                key={lv.v}
+                className={[
+                  'flex flex-col items-center gap-0.5 w-1/5 text-center min-w-0',
+                  'transition-all duration-base',
+                  isActive ? `${TICK_ACTIVE[tone]} font-bold scale-105` : 'text-ink-500',
+                ].join(' ')}
+              >
+                {lv.emoji && <span aria-hidden="true" className="text-[16px] leading-none">{lv.emoji}</span>}
+                <span className="text-[10px] sm:text-caption font-semibold leading-tight">{lv.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Selected level description (animate value flash) */}
+      {isSet && levels[current - 1]?.desc && (
+        <p
+          key={current}
           className={[
-            'w-11 text-center text-micro leading-tight',
-            value === lv
-              ? `font-bold ${TONE_LABEL_ACTIVE[tone]}`
-              : 'font-medium text-ink-400',
-          ].join(' ')}
+            'm-0 text-center text-caption text-ink-600',
+            animate ? 'animate-in fade-in duration-300' : '',
+          ].filter(Boolean).join(' ')}
         >
-          {DREYFUS_LABELS[lv]}
-        </span>
-      ))}
+          <span className="font-semibold text-ink-900">D{current} · {levels[current - 1].label}</span>
+          {' — '}
+          {levels[current - 1].desc}
+        </p>
+      )}
     </div>
-
-  </div>
-);
+  );
+};
 
 export default DreyfusSlider;

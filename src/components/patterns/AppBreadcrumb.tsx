@@ -254,13 +254,13 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
         className,
       ].join(' ')}
     >
-      {/* Back button (mobile-first) — touche 40x40 = WCAG touch target, pill light bg pour visibilité */}
+      {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, pill light bg, focus-visible */}
       {parentHref && (
         <button
           type="button"
           onClick={() => navigate(parentHref)}
           aria-label={`Retour à ${parentCrumb.label}`}
-          className="sm:hidden inline-flex items-center justify-center w-10 h-10 rounded-pill bg-ink-50 border border-ink-200 text-ink-800 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 active:scale-95 transition-all duration-base shrink-0"
+          className="sm:hidden inline-flex items-center justify-center w-11 h-11 rounded-pill bg-ink-50 border border-ink-200 text-ink-800 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 active:scale-95 transition-all duration-base shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <ArrowLeft size={18} strokeWidth={2.25} />
         </button>

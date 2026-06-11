@@ -1,6 +1,11 @@
 # 🎨 DESIGN.md — The Learning Society Design System
 
-> **Purpose** : Reference unique pour comprendre le DS — pour dev, designer, PM, et IA assistants.
+> **Purpose** : Reference opérationnelle du DS — process Notion sync, tokens techniques, taxonomie, patterns, pièges, workflow migration. Pour dev, designer, PM, et IA assistants.
+>
+> **🧭 Source stratégique** : [`PRODUCT.md`](./PRODUCT.md) — North Star "Augmented Mastery", mechanism (practice as verb), doctrine (AI augments, never substitutes), users by role, cadence reality, voice rules. **À lire en premier.**
+>
+> **🎨 Source design system canonique** : [`DESIGN-IMPECCABLE.md`](./DESIGN-IMPECCABLE.md) — Spec YAML Stitch (palette/typo/tokens), Per-Altitude rules, Practice Grammar, AI Transparency Kit, Cadence Patterns, Per-Flow Tone Mapping. **Source de vérité visuelle.**
+>
 > **Source live** : visite `/components` dans l'app pour le showcase visuel interactif.
 > **Source code** : `src/components/` (core / ui / patterns / learning / modals / layout)
 > **Source tokens** : `src/index.css` (`@theme` block — 170+ tokens)
@@ -77,6 +82,24 @@ Toute modification impactant le design system ou les pages de l'app **doit être
 ---
 
 ## 1. Principes design fondamentaux
+
+> **Source amont** : [`PRODUCT.md`](./PRODUCT.md) §Design Principles définit les 6 principes stratégiques. [`DESIGN-IMPECCABLE.md`](./DESIGN-IMPECCABLE.md) §6-§10 les opérationnalise visuellement (Per-Altitude / Practice Grammar / AI Kit / Cadence / Tone Mapping).
+
+### Les 6 principes Augmented Mastery (rappel)
+
+1. **L'apprenant est protagoniste — toujours.** Chaque écran apprenant répond à « quelle est mon action maintenant ? » en moins de 3 secondes. Hiérarchie : action du jour en hero, historique secondaire, analytics tertiaire. Aucun écran ne sert deux rôles à la fois.
+2. **L'IA est instrument transparent, jamais spectacle.** Label « IA » visible, source citée, score de confiance affiché, bouton override accessible. Aucun purple-gradient « intelligence », aucune sparkle iconography. Voir DESIGN-IMPECCABLE.md §8.
+3. **Une altitude par viewport.** Strategic (CLO/manager) OU Operational (coach/apprenant) — jamais les deux dans la même surface. Voir DESIGN-IMPECCABLE.md §6.
+4. **Pratique validée > complétion de contenu.** Hiérarchie visuelle privilégie JAC, FAST, EDRA, projet validé. Les progress bars de cours sont secondaires. Le Passeport est source de vérité, pas le taux de complétion.
+5. **Cadence hebdomadaire respectée.** Pas de streak punitif quotidien. Pas de notification weekend par défaut. Dashboard ouvre sur l'action du jour. Pause-reprise first-class. Atrophie signalée calmement, jamais en rouge alerte. Voir DESIGN-IMPECCABLE.md §9.
+6. **Warmth as moat.** Le default catégorie est froid (LMS Enterprise) ou cold-clever (AI SaaS). TLS gagne en étant warm ET rigoureux. Chaque token, chaque pairing typo, chaque copy choice signale le respect de l'humain qui pratique.
+
+### Practice grammar — le langage
+
+Verbes approuvés : *reprends*, *valide*, *soumets*, *maîtrise*, *pratique*, *réfléchis*.
+Verbes interdits : ❌ *visionne*, *termine*, *complète*, *suis*, *consomme*.
+
+Voir DESIGN-IMPECCABLE.md §7 pour la matrice complète + voice (tu/vous).
 
 ### Tone narratif
 4 tones sémantiques pour exprimer l'intention de chaque surface :

@@ -1,5 +1,5 @@
 /**
- * Recherche : Page de recherche transversale (parcours / articles / vidéos / coachs).
+ * Recherche — Page de recherche transversale (parcours / articles / vidéos / coachs).
  *
  * Flow : Navigation transversale. Page plein-largeur avec Sidebar.
  *
@@ -29,7 +29,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Spinner } from '../components/ui/Spinner';
-import { HeroSection } from '../components/patterns/HeroSection';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { FilterBar } from '../components/forms/FilterBar';
 import { CardGrid } from '../components/patterns/CardGrid';
 import { ParcoursCard } from '../components/patterns/ParcoursCard';
@@ -39,7 +39,6 @@ import {
   SkeletonGroup,
   EditorialCardSkeleton,
 } from '../components/patterns/SkeletonTemplates';
-import { Container } from '../components/layout';
 
 /* ─── Types & Mock data ─────────────────────────────────────────────────── */
 
@@ -179,7 +178,7 @@ export const Recherche: React.FC = () => {
         />
       );
     }
-    // Coach card (inline DS card : pas de pattern dédié)
+    // Coach card (inline DS card — pas de pattern dédié)
     return (
       <article
         key={item.id}
@@ -215,13 +214,13 @@ export const Recherche: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <Container width="page" padding={false} className="px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
 
-        {/* Hero */}
-        <HeroSection
-          eyebrow="Recherche"
+        {/* Hero — PageHero (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
+        <PageHero
+          eyebrow={{ label: 'Recherche' }}
           title="Trouvez ce dont vous avez besoin"
-          description="Parcours, articles, vidéos et coachs : tout au même endroit."
+          summary="Parcours, articles, vidéos et coachs — tout au même endroit."
         />
 
         {/* Search bar */}
@@ -236,7 +235,7 @@ export const Recherche: React.FC = () => {
         />
 
         {/* Filters */}
-        <div className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light py-stack -mx-4 sm:-mx-6 lg:-mx-10 px-stack sm:px-stack-lg lg:px-section-lg border-b border-ink-100">
+        <div className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light py-stack -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 border-b border-ink-100">
           <FilterBar
             options={FILTERS.map((f) => ({
               id: f.id,
@@ -285,7 +284,7 @@ export const Recherche: React.FC = () => {
             {results.map(renderResult)}
           </CardGrid>
         )}
-      </Container>
+      </div>
     </div>
   );
 };

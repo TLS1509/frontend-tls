@@ -1,87 +1,148 @@
+/**
+ * ConversationalChat — chat-like message shell for AI-driven flows.
+ *
+ * Used by the Onboarding conversational questionnaire (CDC §03 §UJ #1a)
+ * but kept generic enough to host any LLM-driven Q&A: bubbles, typing
+ * indicator, auto-scroll, sticky input area.
+ *
+ * Message types :
+ *  - `ai`        : AI bubble (left-aligned, brand-tinted, with TlsLogo avatar)
+ *  - `user`      : User bubble (right-aligned, warm filled, no avatar)
+ *  - `typing`    : 3-dot typing indicator (auto-removed when next message arrives)
+ *  - `inline`    : Inline interactive element (e.g. Dreyfus selector) — full width
+ *
+ * Auto-scrolls to bottom on every new message.
+ */
+
 import React, { useEffect, useRef } from 'react';
-import { Avatar } from '../ui/Avatar';
-import { Card } from '../core/Card';
-import { MessageBubble } from '../ui/MessageBubble';
-import type { ChatMessage, ChatFeedback } from '../../types/learning';
+import { TlsLogo } from '../ui/TlsLogo';
 
-// ── Typing indicator ──────────────────────────────────────────────────────────
-
-function TypingIndicator() {
-  return (
-    <div className="flex gap-stack-xs items-start">
-      <Avatar initials="IA" tint="brand" size="sm" className="shrink-0 mt-1" />
-      <div className="bg-ink-50 border border-ink-200 rounded-2xl rounded-bl-sm px-4 py-3">
-        <div className="flex items-center gap-1">
-          {/* animationDelay is intentional: no Tailwind utility for animation-delay on keyframes */}
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="w-2 h-2 rounded-full bg-ink-300 animate-bounce" style={{ animationDelay: '300ms' }} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── ConversationalChat ────────────────────────────────────────────────────────
+export type ChatMessage =
+  | { id: string; type: 'ai'; content: React.ReactNode }
+  | { id: string; type: 'user'; content: React.ReactNode }
+  | { id: string; type: 'typing' }
+  | { id: string; type: 'inline'; content: React.ReactNode };
 
 export interface ConversationalChatProps {
   messages: ChatMessage[];
-  /** Show the animated typing indicator below the last message */
-  isTyping?: boolean;
-  /** Feedback callback forwarded to each AssistantBubble */
-  onFeedback?: (messageId: string, rating: ChatFeedback['rating']) => void;
-  /** Content shown when the message list is empty */
-  emptyState?: React.ReactNode;
-  /**
-   * Extra className applied to the Card wrapper.
-   * Use to control height constraints, e.g. `"min-h-[460px] max-h-[600px]"`.
-   */
+  /** Sticky footer slot — typically input + send button. */
+  footer?: React.ReactNode;
+  /** Optional title shown at top of chat surface. */
+  title?: React.ReactNode;
   className?: string;
 }
 
-/**
- * Full chat thread — scrollable list of MessageBubbles + optional typing
- * indicator + auto-scroll-to-bottom.
- *
- * Used by: ChatInterface
- */
+/** Markdown-lite : turns **text** into <strong> for AI message readability. */
+function renderInlineMarkdown(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) => {
+    if (p.startsWith('**') && p.endsWith('**')) {
+      return <strong key={i} className="font-semibold text-primary-700">{p.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={i}>{p}</React.Fragment>;
+  });
+}
+
+const TypingDots: React.FC = () => (
+  <span className="inline-flex items-center gap-1" aria-label="L'assistant écrit">
+    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '0ms' }} />
+    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '200ms' }} />
+    <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '400ms' }} />
+  </span>
+);
+
+const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-end gap-2 max-w-[88%] sm:max-w-[78%] mr-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
+    <span className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white border border-primary-200 shadow-sm">
+      <TlsLogo size={28} withBubble={false} variant="primary" />
+    </span>
+    <div className="rounded-2xl rounded-bl-md bg-white/90 backdrop-blur-glass-light border border-primary-100 px-4 py-3 text-body-sm text-ink-900 leading-relaxed shadow-sm">
+      {children}
+    </div>
+  </div>
+);
+
+const UserBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-end justify-end gap-2 max-w-[88%] sm:max-w-[78%] ml-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
+    <div className="rounded-2xl rounded-br-md bg-secondary-500 text-white px-4 py-3 text-body-sm leading-relaxed shadow-sm">
+      {children}
+    </div>
+  </div>
+);
+
+const InlineBlock: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="w-full animate-in fade-in slide-in-from-bottom-1 duration-300">
+    {children}
+  </div>
+);
+
 export const ConversationalChat: React.FC<ConversationalChatProps> = ({
   messages,
-  isTyping = false,
-  onFeedback,
-  emptyState,
+  footer,
+  title,
   className = '',
 }) => {
-  const endRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
+  // Auto-scroll to bottom on each new message
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+    const el = scrollerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages.length]);
 
   return (
-    <Card
-      className={`flex flex-col gap-stack p-4 md:p-6 overflow-y-auto ${className}`}
+    <section
+      className={[
+        'flex flex-col rounded-2xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-lg overflow-hidden',
+        'min-h-[60vh] max-h-[75vh]',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      aria-label="Conversation d'onboarding"
     >
-      {messages.length === 0 && emptyState}
+      {title && (
+        <header className="shrink-0 px-5 py-3 border-b border-white/50 bg-white/40 backdrop-blur-glass-light text-body-sm font-semibold text-ink-700">
+          {title}
+        </header>
+      )}
 
-      {messages.map((msg) => (
-        <MessageBubble
-          key={msg.id}
-          variant={msg.role === 'user' ? 'user' : 'assistant'}
-          content={msg.content}
-          timestamp={msg.timestamp}
-          context="chatbot"
-          messageId={msg.id}
-          confidenceScore={msg.confidenceScore}
-          privacyBlocked={msg.privacyBlocked}
-          sourcesCited={msg.sourcesCited}
-          feedback={msg.feedback}
-          onFeedback={onFeedback}
-        />
-      ))}
+      <div
+        ref={scrollerRef}
+        className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 flex flex-col gap-3 scroll-smooth"
+        role="log"
+        aria-live="polite"
+        aria-atomic="false"
+      >
+        {messages.map((m) => {
+          if (m.type === 'ai') {
+            return (
+              <AiBubble key={m.id}>
+                {typeof m.content === 'string' ? renderInlineMarkdown(m.content) : m.content}
+              </AiBubble>
+            );
+          }
+          if (m.type === 'user') {
+            return <UserBubble key={m.id}>{m.content}</UserBubble>;
+          }
+          if (m.type === 'typing') {
+            return (
+              <AiBubble key={m.id}>
+                <TypingDots />
+              </AiBubble>
+            );
+          }
+          return <InlineBlock key={m.id}>{m.content}</InlineBlock>;
+        })}
+      </div>
 
-      {isTyping && <TypingIndicator />}
-      <div ref={endRef} />
-    </Card>
+      {footer && (
+        <footer className="shrink-0 px-4 sm:px-5 py-3 border-t border-white/50 bg-white/60 backdrop-blur-glass-light">
+          {footer}
+        </footer>
+      )}
+    </section>
   );
 };
+
+export default ConversationalChat;

@@ -7,6 +7,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Shield, ScrollText, Brain } from 'lucide-react';
 import { Button } from '../../components/core/Button';
+import { SEOHead } from './components/SEOHead';
 
 interface LegalPageProps {
   icon: React.ReactNode;
@@ -14,10 +15,12 @@ interface LegalPageProps {
   subtitle: string;
   lastUpdated: string;
   sections: { heading: string; body: string }[];
+  canonical: string;
 }
 
-const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdated, sections }) => (
+const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdated, sections, canonical }) => (
   <div className="min-h-screen bg-white">
+    <SEOHead title={title} description={subtitle} canonical={canonical} noIndex />
     {/* Hero */}
     <div className="bg-gradient-to-br from-primary-700 to-primary-900 text-white pt-32 pb-16 px-6">
       <div className="max-w-page mx-auto">
@@ -73,6 +76,7 @@ export const MarketingMentionsLegales: React.FC = () => (
     title="Mentions légales"
     subtitle="Informations légales relatives à l'éditeur et à l'hébergeur du site."
     lastUpdated="Mai 2026"
+    canonical="/marketing/mentions-legales"
     sections={[
       {
         heading: 'Éditeur du site',
@@ -102,6 +106,7 @@ export const MarketingPolitiqueConfidentialite: React.FC = () => (
     title="Politique de confidentialité"
     subtitle="Comment nous collectons, utilisons et protégeons vos données personnelles."
     lastUpdated="Mai 2026"
+    canonical="/marketing/politique-confidentialite"
     sections={[
       {
         heading: 'Responsable du traitement',
@@ -139,6 +144,7 @@ export const MarketingCgvCgu: React.FC = () => (
     title="CGV & CGU"
     subtitle="Conditions Générales de Vente et d'Utilisation applicables aux prestations et à la plateforme The Learning Society."
     lastUpdated="Mai 2026"
+    canonical="/marketing/cgv-cgu"
     sections={[
       {
         heading: 'Champ d\'application',
@@ -172,6 +178,7 @@ export const MarketingCharteIA: React.FC = () => (
     title="Charte IA & éthique"
     subtitle="Nos engagements sur l'usage responsable de l'intelligence artificielle dans nos formations et notre plateforme."
     lastUpdated="Mai 2026"
+    canonical="/marketing/charte-ia"
     sections={[
       {
         heading: 'IA augmentée, jamais substitutive',

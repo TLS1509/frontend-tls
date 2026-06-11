@@ -44,8 +44,9 @@ export const Modal: React.FC<ModalProps> = ({
   if (!open) return null;
 
   const dialogClasses = [
-    'relative bg-white rounded-2xl p-8 max-w-[480px] w-full shadow-xl',
-    'flex flex-col gap-5 max-h-[90vh] overflow-y-auto',
+    // Mobile-first: 16px gutter via parent p-4 (scrim) + full width; desktop: 480px cap
+    'relative bg-white rounded-2xl shadow-xl w-full sm:max-w-[480px]',
+    'p-6 sm:p-8 flex flex-col gap-5 max-h-[90vh] overflow-y-auto',
     'animate-[modal-scale-in-flat_0.25s_cubic-bezier(0.34,1.56,0.64,1)_both]',
     className,
   ].filter(Boolean).join(' ');
@@ -79,7 +80,7 @@ export const Modal: React.FC<ModalProps> = ({
                 type="button"
                 onClick={onClose}
                 aria-label="Fermer"
-                className="row-span-2 col-start-2 w-8 h-8 rounded-md bg-ink-50 border-0 text-ink-600 cursor-pointer inline-flex items-center justify-center transition-colors hover:bg-ink-100 hover:text-ink-900 p-0"
+                className="row-span-2 col-start-2 w-8 h-8 rounded-md bg-ink-50 border-0 text-ink-600 cursor-pointer inline-flex items-center justify-center transition-colors hover:bg-ink-100 hover:text-ink-900 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 <X size={18} />
               </button>

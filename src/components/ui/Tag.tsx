@@ -1,7 +1,25 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import {
+  CHIP_BASE,
+  CHIP_SIZE,
+  CHIP_TONE_SOLID,
+  CHIP_SURFACE_MAP,
+  type ChipTone,
+} from './Chip';
 
-export type TagTone = 'neutral' | 'primary' | 'warm' | 'sun';
+/**
+ * Tag — Removable filter chip with optional leading icon + X dismiss button.
+ *
+ * Phase 19.A — refactored on top of Chip style tokens. The nested remove `<button>`
+ * stays here (can't go through Chip's trailingIcon slot — needs its own focus management
+ * + click-stop-propagation).
+ *
+ * Tones: neutral / primary / warm / sun.
+ * Surfaces: default (tinted solid) / glass (translucent on colored bg).
+ */
+
+export type TagTone = ChipTone;
 export type TagSurface = 'default' | 'glass';
 
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -12,22 +30,15 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
   surface?: TagSurface;
 }
 
-const TONE_CLASSES: Record<TagTone, string> = {
-  neutral: 'bg-ink-50 text-ink-700 border-ink-200',
-  primary: 'bg-primary-50 text-primary-800 border-primary-200',
-  warm:    'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:     'bg-accent-50 text-accent-700 border-accent-200',
-};
-
 const REMOVE_HOVER: Record<TagTone, string> = {
   neutral: 'hover:bg-ink-200 hover:text-ink-900',
   primary: 'hover:bg-primary-100 hover:text-primary-900',
   warm:    'hover:bg-secondary-100 hover:text-secondary-800',
   sun:     'hover:bg-accent-100 hover:text-accent-900',
+  brand:   'hover:bg-primary-100 hover:text-primary-900',
 };
 
-const GLASS_BASE = 'bg-white/15 text-white border-white/30 backdrop-blur-glass-light';
-const GLASS_REMOVE = 'hover:bg-white/25 hover:text-white';
+const GLASS_REMOVE_HOVER = 'hover:bg-white/25 hover:text-white';
 
 export const Tag: React.FC<TagProps> = ({
   onRemove,
@@ -41,8 +52,10 @@ export const Tag: React.FC<TagProps> = ({
   const isGlass = surface === 'glass';
 
   const classes = [
-    'inline-flex items-center gap-1.5 px-2.5 py-1 border rounded-pill text-caption font-medium whitespace-nowrap transition-[background-color,border-color] duration-fast ease-emphasis',
-    isGlass ? GLASS_BASE : TONE_CLASSES[tone],
+    CHIP_BASE,
+    CHIP_SIZE.md, // Tag is always md
+    'transition-colors',
+    isGlass ? CHIP_SURFACE_MAP['glass-light'] : CHIP_TONE_SOLID[tone],
     className,
   ]
     .filter(Boolean)
@@ -63,8 +76,9 @@ export const Tag: React.FC<TagProps> = ({
             onRemove();
           }}
           className={[
-            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-[background-color,color] duration-fast ease-emphasis active:scale-[0.9]',
-            isGlass ? GLASS_REMOVE : REMOVE_HOVER[tone],
+            'inline-flex items-center justify-center w-4 h-4 -mr-0.5 rounded-full bg-transparent border-0 p-0 cursor-pointer text-current transition-colors',
+            'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
+            isGlass ? GLASS_REMOVE_HOVER : REMOVE_HOVER[tone],
           ].join(' ')}
         >
           <X size={11} strokeWidth={2.5} />

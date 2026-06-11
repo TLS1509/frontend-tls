@@ -119,7 +119,8 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                         disabled={!isClickable}
                         title={`${row.name} — ${axes[colIdx]} : ${LEGEND[clampedScore]?.label ?? '—'}`}
                         className={[
-                          'inline-flex items-center justify-center w-10 h-10 rounded-md text-micro font-bold transition-[background-color,box-shadow,transform] duration-fast ease-emphasis mx-auto',
+                          'inline-flex items-center justify-center w-10 h-10 rounded-md text-micro font-bold transition-all duration-fast mx-auto',
+                          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                           colorClass,
                           isClickable ? 'cursor-pointer hover:scale-110 hover:shadow-md' : 'cursor-default',
                         ].join(' ')}

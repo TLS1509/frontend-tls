@@ -1,98 +1,170 @@
+/**
+ * Error404 — Page non trouvée
+ * Direction : Soft Cloud (DA light — cohérente avec l'app)
+ * Fond gradient primary-50→white, blobs doux breathing, texte ink-900
+ * Suggestions cards verre léger, CTA primary standard
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+} from 'framer-motion';
+import { Compass, Home, BookOpen, Zap, HelpCircle, ArrowRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Compass, Home, Search, Zap, HelpCircle } from 'lucide-react';
+
+/* ── Parallax hook ────────────────────────────────────────────────────────── */
+
+function useMouseParallax(strength = 20) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 80, damping: 18, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 80, damping: 18, mass: 0.5 });
+  const reduce = useReducedMotion();
+
+  const handleMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduce) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set(((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * strength);
+    y.set(((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * strength);
+  };
+
+  const reset = () => { x.set(0); y.set(0); };
+  return { x: springX, y: springY, handleMove, reset, reduce };
+}
+
+/* ── Navigation suggestions ───────────────────────────────────────────────── */
+
+const SUGGESTIONS = [
+  { icon: <Home size={18} />, label: 'Tableau de bord', to: '/dashboard' },
+  { icon: <BookOpen size={18} />, label: 'Mes parcours', to: '/learning-paths' },
+  { icon: <Zap size={18} />, label: 'Veille & Ressources', to: '/veille' },
+  { icon: <HelpCircle size={18} />, label: 'Support', to: '/help' },
+];
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
 
 export const Error404: React.FC = () => {
   const navigate = useNavigate();
-
-  const suggestions = [
-    {
-      icon: <Home size={20} />,
-      title: 'Tableau de bord',
-      desc: "Retourner à votre espace personnel",
-      action: () => navigate('/dashboard'),
-      iconBgClass: 'bg-primary-50',
-      iconColorClass: 'text-primary-600',
-    },
-    {
-      icon: <Search size={20} />,
-      title: 'Parcours disponibles',
-      desc: "Explorer tous les cursus d'apprentissage",
-      action: () => navigate('/learning-paths'),
-      iconBgClass: 'bg-accent-50',
-      iconColorClass: 'text-accent-500',
-    },
-    {
-      icon: <Zap size={20} />,
-      title: 'Veille & Ressources',
-      desc: 'Découvrir vidéos et contenus récents',
-      action: () => navigate('/veille'),
-      iconBgClass: 'bg-secondary-50',
-      iconColorClass: 'text-secondary-500',
-    },
-    {
-      icon: <HelpCircle size={20} />,
-      title: 'Support & Questions',
-      desc: "Contacter notre équipe d'assistance",
-      action: () => navigate('/messages'),
-      iconBgClass: 'bg-primary-50',
-      iconColorClass: 'text-primary-600',
-    },
-  ];
+  const parallax = useMouseParallax(28);
+  const codeX = useTransform(parallax.x, (v) => v * 1.2);
+  const codeY = useTransform(parallax.y, (v) => v * 1.2);
+  const subX  = useTransform(parallax.x, (v) => v * 0.45);
+  const subY  = useTransform(parallax.y, (v) => v * 0.45);
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-stack-lg font-body">
+    <section
+      onMouseMove={parallax.handleMove}
+      onMouseLeave={parallax.reset}
+      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-50/60 flex items-center justify-center px-6 py-page"
+    >
+      {/* Blobs doux breathing */}
+      <motion.div
+        aria-hidden
+        animate={!parallax.reduce ? { x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.06, 1] } : undefined}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute -top-40 -left-32 w-[600px] h-[600px] rounded-full bg-primary-100/70 blur-ambient"
+      />
+      <motion.div
+        aria-hidden
+        animate={!parallax.reduce ? { x: [0, -22, 0], y: [0, 18, 0], scale: [1, 1.08, 1] } : undefined}
+        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute bottom-0 -right-24 w-[520px] h-[520px] rounded-full bg-accent-100/50 blur-ambient"
+      />
+      <motion.div
+        aria-hidden
+        animate={!parallax.reduce ? { opacity: [0.4, 0.7, 0.4] } : undefined}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="pointer-events-none absolute top-1/3 left-1/4 w-[260px] h-[260px] rounded-full bg-primary-100/50 blur-ambient"
+      />
 
-      {/* Hero */}
-      <div className="text-center max-w-[520px] mb-page flex flex-col items-center">
-
-        {/* Compass icon */}
-        <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-200 flex items-center justify-center mx-auto mb-section text-primary-600 shadow-md">
-          <Compass size={56} strokeWidth={1.5} />
-        </div>
-
-        {/* 404 gradient number */}
-        <div
-          className="font-display font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-300 to-secondary-200 mb-stack tracking-tight"
-          style={{ fontSize: 'clamp(4rem, 10vw, 6rem)', lineHeight: 1 }}
-          aria-hidden="true"
+      <div className="relative z-base text-center max-w-4xl w-full flex flex-col items-center">
+        {/* Eyebrow */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, duration: 0.5 }}
+          style={{ x: subX, y: subY }}
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-2 mb-4"
         >
-          404
-        </div>
+          <Compass size={13} /> Navigation perdue
+        </motion.p>
 
-        <h1 className="font-display text-h2 font-bold text-ink-900 m-0 mb-3">
-          Oups, page non trouvée
-        </h1>
-        <p className="font-body text-body text-ink-500 m-0 mb-section leading-relaxed">
-          La page demandée n&apos;existe pas ou a été déplacée. Pas de problème, nous vous proposons ces raccourcis utiles.
-        </p>
-      </div>
+        {/* Giant 404 */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, duration: 0.8, ease: [0.2, 0, 0, 1.1] }}
+          style={{ x: codeX, y: codeY }}
+          aria-hidden
+          className="font-display font-black tracking-tighter leading-none mb-6"
+        >
+          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-primary-700 via-primary-500 to-primary-400 bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
+            404
+          </span>
+        </motion.div>
 
-      {/* Suggestion grid */}
-      <div className="grid gap-stack-lg w-full max-w-[960px] mb-section-lg [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
-        {suggestions.map((item, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={item.action}
-            className="flex flex-col items-start gap-3 p-5 rounded-xl border border-ink-200 bg-white cursor-pointer text-left shadow-sm hover:border-primary-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+        {/* Title + description */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
+          style={{ x: subX, y: subY }}
+          className="flex flex-col items-center gap-3 mb-10"
+        >
+          <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
+            On vous remet sur la bonne route
+          </h1>
+          <p className="font-body text-body-lg text-ink-500 leading-relaxed max-w-xl">
+            Cette page n'existe pas ou a été déplacée. Voici par où repartir.
+          </p>
+        </motion.div>
+
+        {/* Suggestion cards */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08, delayChildren: 0.5 } },
+          }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs w-full max-w-2xl mb-10"
+        >
+          {SUGGESTIONS.map((s) => (
+            <motion.button
+              key={s.to}
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0, 0, 0.2, 1] } },
+              }}
+              whileHover={!parallax.reduce ? { y: -3, scale: 1.02 } : undefined}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate(s.to)}
+              className="flex flex-col items-center gap-2 px-4 py-4 rounded-xl bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+            >
+              <span className="text-primary-500">{s.icon}</span>
+              <span className="font-body text-caption font-semibold text-ink-700 leading-tight text-center">{s.label}</span>
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Primary CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.85, duration: 0.4 }}
+        >
+          <Button
+            size="lg"
+            onClick={() => navigate('/dashboard')}
+            trailingIcon={<ArrowRight size={18} />}
           >
-            <div className={['w-10 h-10 rounded-lg flex items-center justify-center', item.iconBgClass, item.iconColorClass].join(' ')}>
-              {item.icon}
-            </div>
-            <div>
-              <h3 className="font-body text-body-sm font-bold text-ink-900 m-0 mb-1">{item.title}</h3>
-              <p className="font-body text-caption text-ink-500 m-0 leading-relaxed">{item.desc}</p>
-            </div>
-          </button>
-        ))}
+            Tableau de bord
+          </Button>
+        </motion.div>
       </div>
-
-      {/* Primary CTA */}
-      <Button onClick={() => navigate('/dashboard')} leadingIcon={<Home size={16} />}>
-        Retour au tableau de bord
-      </Button>
-    </div>
+    </section>
   );
 };
+
+export default Error404;

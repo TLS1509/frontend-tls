@@ -33,12 +33,12 @@ const buildPages = (page: number, totalPages: number, siblings: number): (number
 };
 
 const BTN_BASE =
-  'inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-xl border text-body-sm font-semibold font-body cursor-pointer transition-[background-color,border-color,color,box-shadow,transform] duration-fast ease-emphasis ' +
+  'inline-flex items-center justify-center min-w-11 h-11 px-3 rounded-xl border text-body-sm font-semibold font-body cursor-pointer transition-all ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-1 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 const BTN_DEFAULT =
-  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700 hover:-translate-y-px active:translate-y-0 active:scale-[0.95]';
+  'bg-white border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700 hover:-translate-y-px active:translate-y-0';
 
 const BTN_NAV =
   'bg-white border-ink-200 text-ink-500 hover:bg-ink-50 hover:border-ink-300 hover:text-primary-700';

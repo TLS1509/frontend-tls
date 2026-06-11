@@ -1,4 +1,23 @@
 import React from 'react';
+import {
+  CHIP_BASE,
+  CHIP_TONE_SOLID,
+  CHIP_TONE_SOLID_ACTIVE,
+  CHIP_TONE_HOVER,
+} from './Chip';
+
+/**
+ * FilterChip — Interactive toggle chip with active state + optional count badge.
+ *
+ * Phase 19.A — refactored on top of Chip style tokens. Border kept at `border-[1.5px]`
+ * (heavier than Chip's default border) because filter toggles need stronger visual
+ * commitment than passive Pill/Tag chips.
+ *
+ * Variants:
+ *   - default : solid tinted, primary tone when active (gradient + bold border)
+ *   - reset   : passive neutral, no active state — used for "Clear filters" button
+ *   - glass   : translucent white-alpha (hero overlays)
+ */
 
 export interface FilterChipProps {
   label: string;
@@ -6,29 +25,21 @@ export interface FilterChipProps {
   onClick?: () => void;
   icon?: React.ReactNode;
   count?: number;
-  /** 'default' = solid surface · 'glass' = glassmorphism (use on colored/gradient bg) */
+  /** 'default' = solid surface · 'reset' = passive · 'glass' = glassmorphism */
   variant?: 'default' | 'reset' | 'glass';
   className?: string;
   'aria-label'?: string;
 }
 
-const BASE =
-  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill border-[1.5px] bg-transparent font-body text-caption font-semibold cursor-pointer whitespace-nowrap transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.97] ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2';
+const BORDER_OVERRIDE = 'border-[1.5px]';
+const INTERACTIVE_LIFT =
+  'cursor-pointer hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2';
 
-/* ── Solid surface ──────────────────────────────────────────────── */
-const SOLID_INACTIVE =
-  'border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-ink-300 hover:text-ink-900 hover:-translate-y-px focus-visible:outline-primary-500';
-const SOLID_ACTIVE =
-  'bg-primary-100 border-primary-600 text-primary-900 font-bold shadow-brand-xs hover:bg-primary-200 hover:border-primary-700 hover:-translate-y-px focus-visible:outline-primary-500';
-const SOLID_RESET =
-  'border-ink-200 text-ink-500 gap-1.5 hover:bg-ink-50 hover:border-ink-300 hover:text-ink-700 focus-visible:outline-primary-500';
-
-/* ── Glass surface ──────────────────────────────────────────────── */
+/* ── Glass surface — keeps its own classes (white-alpha logic distinct from solid tone) ─ */
 const GLASS_INACTIVE =
-  'bg-white/10 border-white/25 text-white/80 backdrop-blur-glass-light hover:bg-white/20 hover:border-white/40 hover:text-white hover:-translate-y-px focus-visible:outline-white/60';
+  'bg-white/10 border-white/25 text-white/80 backdrop-blur-glass-light hover:bg-white/20 hover:border-white/40 hover:text-white focus-visible:outline-white/60';
 const GLASS_ACTIVE =
-  'bg-white/30 border-white/70 text-white font-bold shadow-xs hover:bg-white/35 hover:-translate-y-px focus-visible:outline-white/60';
+  'bg-white/30 border-white/70 text-white font-bold shadow-xs hover:bg-white/35 focus-visible:outline-white/60';
 
 export const FilterChip: React.FC<FilterChipProps> = ({
   label,
@@ -47,12 +58,25 @@ export const FilterChip: React.FC<FilterChipProps> = ({
   if (isGlass) {
     stateClass = active ? GLASS_ACTIVE : GLASS_INACTIVE;
   } else if (isReset) {
-    stateClass = SOLID_RESET;
+    // Reset: passive neutral with subtle hover, no active toggle
+    stateClass = [CHIP_TONE_SOLID.neutral, CHIP_TONE_HOVER.neutral, 'focus-visible:outline-primary-500'].join(' ');
   } else {
-    stateClass = active ? SOLID_ACTIVE : SOLID_INACTIVE;
+    stateClass = active
+      ? [CHIP_TONE_SOLID_ACTIVE.primary, 'focus-visible:outline-primary-500'].join(' ')
+      : [CHIP_TONE_SOLID.neutral, CHIP_TONE_HOVER.neutral, 'focus-visible:outline-primary-500'].join(' ');
   }
 
-  const classes = [BASE, stateClass, className].filter(Boolean).join(' ');
+  const classes = [
+    CHIP_BASE,
+    // FilterChip uses its own padding (heavier touch target than passive chips)
+    'gap-1.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
+    BORDER_OVERRIDE,
+    INTERACTIVE_LIFT,
+    stateClass,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const countBg = isGlass
     ? active

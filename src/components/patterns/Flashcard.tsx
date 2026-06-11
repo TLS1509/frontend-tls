@@ -47,7 +47,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
 
   return (
     <div
-      className={`flashcard ${className}`}
+      className={`flashcard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-xl ${className}`}
       onClick={handleFlip}
       onKeyDown={handleKeyDown}
       role="button"

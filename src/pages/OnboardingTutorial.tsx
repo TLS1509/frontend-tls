@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, GraduationCap, Target, BarChart3, Bell, MessageSquare } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { BookOpen, GraduationCap, Target, BarChart3, Bell, MessageSquare, Compass } from 'lucide-react';
 import { StepTutorial } from '../components/patterns/StepTutorial';
 import { Stepper } from '../components/ui/Stepper';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { Container } from '../components/layout';
+import { useOnboardingStore } from '../stores/persistence';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -52,20 +53,52 @@ const TUTORIAL_STEPS = [
 
 export default function OnboardingTutorial() {
   const navigate = useNavigate();
+  const onboardingStore = useOnboardingStore();
   const [step, setStep] = useState(0);
 
+  const handleDone = () => {
+    onboardingStore.markStepComplete('tutorial');
+    onboardingStore.goToStep('success');
+    navigate('/onboarding/success');
+  };
+
   return (
-    <div className="min-h-screen bg-surface">
-      <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
+    <main className="relative min-h-screen overflow-x-hidden">
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+      <AmbientBlobs intensity="subtle" />
 
-        <Stepper items={buildOnboardingStepperItems('tutoriel')} orientation="horizontal" />
+      <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
 
-        <EditorialHero
-          tone="warm"
-          eyebrow="Onboarding · Tutoriel"
-          title="Découvre la plateforme"
-          summary="Un tour rapide des fonctionnalités clés pour démarrer efficacement."
-        />
+        {/* ── Brand bar ── */}
+        <div className="flex items-center justify-between">
+          <div className="w-24" />
+          <a href="/dashboard" aria-label="The Learning Society — retour accueil" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={36} variant="color" withBubble />
+          </a>
+          <div className="w-24 flex justify-end">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+            >
+              Passer
+            </button>
+          </div>
+        </div>
+
+        <Stepper items={buildOnboardingStepperItems('tutoriel', onboardingStore.accountType)} orientation="horizontal" />
+
+        <header className="flex flex-col gap-tight text-center">
+          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <Compass size={14} aria-hidden="true" />
+            Tutoriel plateforme
+          </p>
+          <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+            Découvre la plateforme
+          </h1>
+          <p className="m-0 font-body text-body text-ink-500 leading-relaxed">
+            Un tour rapide des fonctionnalités clés pour démarrer efficacement.
+          </p>
+        </header>
 
         <StepTutorial
           steps={TUTORIAL_STEPS}
@@ -73,10 +106,10 @@ export default function OnboardingTutorial() {
           tone="warm"
           onNext={() => setStep((s) => Math.min(s + 1, TUTORIAL_STEPS.length - 1))}
           onPrev={() => setStep((s) => Math.max(s - 1, 0))}
-          onComplete={() => navigate('/onboarding/success')}
-          onSkip={() => navigate('/onboarding/success')}
+          onComplete={handleDone}
+          onSkip={handleDone}
         />
-      </Container>
-    </div>
+      </div>
+    </main>
   );
 }

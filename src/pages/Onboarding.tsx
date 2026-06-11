@@ -1,53 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  UserRound,
-  Target,
-  Clock,
-  CheckCircle2,
-  Sparkles,
-  ChevronLeft,
-  ChevronRight,
-  Brain,
-  Briefcase,
-  GraduationCap,
-  Users,
-  Zap,
-  BookOpen,
-  Code2,
-  HeartHandshake,
-  TrendingUp,
-  Building2,
-  Stethoscope,
-  Wallet,
-  ShieldCheck,
-} from 'lucide-react';
-import { Card, Button, Badge, Stepper, Input } from '../components';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { OptionGrid } from '../components/patterns/OptionGrid';
-import type { OptionGridItem } from '../components/patterns/OptionGrid';
-import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { useUserProfileStore } from '../stores/persistence';
+/**
+ * Onboarding — Guide IA chat-driven profile collection.
+ *
+ * CDC #03 Onboarding flow Step 1: Collect only firstName + role via conversational chat.
+ * - AI greeting → asks name → asks role (quick-reply tiles) → transition → navigate to questionnaire
+ * - Streaming pattern: typing indicator → word-by-word fill for realistic chatbot feel
+ * - Timing: 600-1400ms initial pause, 50ms/word for natural cadence
+ *
+ * Next steps (Phase 16+):
+ * - Replace buildGreeting/buildRoleQuestion stubs with Mistral calls
+ * - Integrate with real Mistral API for question generation & level inference
+ */
+
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Send, Sparkles, BookOpen, Briefcase, HeartHandshake, GraduationCap, ShieldCheck } from 'lucide-react';
+import { Button, Input } from '../components';
+import { ConversationalChat } from '../components/patterns/ConversationalChat';
+import type { ChatMessage } from '../components/patterns/ConversationalChat';
+import { TlsLogo } from '../components/ui/TlsLogo';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import type { UserRole } from '../types/learning';
 import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
+/* ─── Timing constants — match OnboardingQuestionnaireConversational ─────── */
+const TYPING_MS_MIN = 600;
+const TYPING_MS_MAX = 1400;
+const WORD_DELAY_MS = 50;
 
-interface OnboardingAnswers {
-  firstName: string;
-  role:      UserRole | '';
-  sector:    string;
-  goals:     string[];
-  rhythm:    string;
-}
-
-/* ─── Constants ──────────────────────────────────────────────────────────── */
-
-const SUBSTEP_LABELS = ['Profil', 'Objectifs', 'Rythme', 'Confirmation'];
-
-/** 5 rôles canoniques Cahier #03 */
-const ROLE_OPTIONS: OptionGridItem[] = [
+/* ─── Role options for quick-reply tiles ─────────────────────────────────── */
+const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType<{ size: number }> }> = [
   { id: 'apprenant', label: 'Apprenant',  icon: BookOpen },
   { id: 'manager',   label: 'Manager',    icon: Briefcase },
   { id: 'coach',     label: 'Coach',      icon: HeartHandshake },
@@ -55,356 +37,407 @@ const ROLE_OPTIONS: OptionGridItem[] = [
   { id: 'admin',     label: 'Admin',      icon: ShieldCheck },
 ];
 
-const SECTOR_OPTIONS: OptionGridItem[] = [
-  { id: 'Tech',       label: 'Tech',       icon: Code2 },
-  { id: 'RH',         label: 'RH',         icon: Users },
-  { id: 'Formation',  label: 'Formation',  icon: GraduationCap },
-  { id: 'Santé',      label: 'Santé',      icon: Stethoscope },
-  { id: 'Finance',    label: 'Finance',    icon: Wallet },
-  { id: 'Autre',      label: 'Autre',      icon: Building2 },
-];
-
-const GOAL_OPTIONS: OptionGridItem[] = [
-  { id: 'Leadership',        label: 'Leadership',        icon: TrendingUp },
-  { id: 'Communication',     label: 'Communication',     icon: Users },
-  { id: 'IA & Tech',         label: 'IA & Tech',         icon: Brain },
-  { id: 'Gestion de projet', label: 'Gestion de projet', icon: Target },
-  { id: 'Coaching',          label: 'Coaching',          icon: HeartHandshake },
-  { id: 'Productivité',      label: 'Productivité',      icon: Zap },
-];
-
-const RHYTHM_OPTIONS: OptionGridItem[] = [
-  { id: '15min', label: '15 min / jour', description: 'Micro-apprentissage quotidien' },
-  { id: '30min', label: '30 min / jour', description: 'Progression régulière' },
-  { id: '1h',    label: '1h / jour',     description: 'Immersion intensive' },
-  { id: 'flex',  label: 'Flexible',      description: "À mon rythme, sans contrainte" },
-];
-
-/* ─── Step 0 : Profil ────────────────────────────────────────────────────── */
-
-function StepProfil({
-  answers,
-  onChange,
-}: {
-  answers: OnboardingAnswers;
-  onChange: (patch: Partial<OnboardingAnswers>) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-secondary-50 text-secondary-600">
-        <UserRound size={28} />
-      </div>
-      <div className="flex flex-col gap-tight">
-        <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Dis-nous qui tu es
-        </h2>
-        <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Ces informations nous permettent de personnaliser tes recommandations.
-        </p>
-      </div>
-
-      <Input
-        id="firstName"
-        label="Ton prénom"
-        required
-        type="text"
-        placeholder="Ex : Sophie"
-        value={answers.firstName}
-        onChange={e => onChange({ firstName: e.target.value })}
-      />
-
-      <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
-        <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
-          Ton rôle <span className="text-danger-fg">*</span>
-        </legend>
-        <OptionGrid
-          tone="warm"
-          value={answers.role}
-          onChange={(id) => onChange({ role: id as UserRole })}
-          options={ROLE_OPTIONS}
-          columns={3}
-        />
-      </fieldset>
-
-      <fieldset className="flex flex-col gap-stack m-0 p-0 border-0">
-        <legend className="font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
-          Ton secteur <span className="text-danger-fg">*</span>
-        </legend>
-        <OptionGrid
-          tone="warm"
-          value={answers.sector}
-          onChange={(id) => onChange({ sector: id })}
-          options={SECTOR_OPTIONS}
-          columns={3}
-        />
-      </fieldset>
-    </div>
-  );
+/* ─── AI message builders (stub — to be replaced by Mistral in Phase 16.12bis) ──── */
+function buildGreeting(): string[] {
+  return [
+    'Salut ! 👋 Je suis ton assistant IA de The Learning Society.',
+    'Je vais te poser quelques questions pour créer un profil personnalisé.',
+  ];
 }
 
-/* ─── Step 1 : Objectifs ─────────────────────────────────────────────────── */
+function buildNameQuestion(): string {
+  return 'Commençons par le commencement — quel est ton prénom ?';
+}
 
-function StepObjectifs({
-  answers,
-  onChange,
-}: {
-  answers: OnboardingAnswers;
-  onChange: (patch: Partial<OnboardingAnswers>) => void;
-}) {
-  function toggle(goal: string) {
-    const next = answers.goals.includes(goal)
-      ? answers.goals.filter(g => g !== goal)
-      : [...answers.goals, goal];
-    onChange({ goals: next });
+function buildRoleQuestion(): string {
+  return 'Parfait ! Quel est ton rôle dans l\'organisation ?';
+}
+
+function buildAckName(firstName: string): string {
+  return `Enchanté, ${firstName} ! 😊`;
+}
+
+function buildAckRole(role: UserRole): string {
+  const roleLabel = ROLE_TILES.find((r) => r.id === role)?.label ?? role;
+  return `Super, tu es ${roleLabel}. On va vraiment pouvoir t'adapter un parcours !`;
+}
+
+function buildTransition(): string[] {
+  return [
+    'Maintenant, passons au positionnement — je vais évaluer tes compétences avec quelques questions.',
+    'Après ça, tu auras une view complète de ton Passeport de compétences. Prêt ?',
+  ];
+}
+
+/* ─── Streaming helper (same as OnboardingQuestionnaireConversational) ───── */
+interface StreamingState {
+  messages: ChatMessage[];
+  seqId: number;
+  timersRef: number[];
+}
+
+function createStreamingState(): StreamingState {
+  return {
+    messages: [],
+    seqId: 0,
+    timersRef: [],
+  };
+}
+
+function newId(state: StreamingState): string {
+  return `m-${state.seqId++}`;
+}
+
+function cancelTimers(timersRef: number[]) {
+  timersRef.forEach((id) => window.clearTimeout(id));
+}
+
+function streamLine(
+  text: string,
+  state: StreamingState,
+  setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>,
+  onDone: () => void
+) {
+  const typingId = newId(state);
+  const msgId = newId(state);
+
+  setMessages((prev) => [...prev, { id: typingId, type: 'typing' }]);
+
+  const typingMs = Math.min(TYPING_MS_MAX, Math.max(TYPING_MS_MIN, text.length * 4));
+
+  const t1 = window.setTimeout(() => {
+    const words = text.trim().split(/\s+/);
+    setMessages((prev) => [
+      ...prev.filter((m) => m.id !== typingId),
+      { id: msgId, type: 'ai', content: '' },
+    ]);
+
+    let built = '';
+    words.forEach((word, idx) => {
+      const t2 = window.setTimeout(() => {
+        built = built ? `${built} ${word}` : word;
+        const snap = built;
+        setMessages((prev) =>
+          prev.map((m) => (m.id === msgId ? { ...m, content: snap } : m))
+        );
+        if (idx === words.length - 1) {
+          const t3 = window.setTimeout(onDone, 80);
+          state.timersRef.push(t3);
+        }
+      }, idx * WORD_DELAY_MS);
+      state.timersRef.push(t2);
+    });
+  }, typingMs);
+
+  state.timersRef.push(t1);
+}
+
+function appendAiSequence(
+  lines: string[],
+  state: StreamingState,
+  setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>,
+  cb?: () => void
+) {
+  const valid = lines.filter((l) => typeof l === 'string' && l.trim().length > 0);
+  let i = 0;
+
+  function next() {
+    if (i >= valid.length) {
+      cb?.();
+      return;
+    }
+    streamLine(valid[i++], state, setMessages, next);
   }
 
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-secondary-50 text-secondary-600">
-        <Target size={28} />
-      </div>
-      <div className="flex flex-col gap-tight">
-        <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Tes objectifs d'apprentissage
-        </h2>
-        <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Sélectionne tout ce qui te correspond : plusieurs choix possibles.
-        </p>
-      </div>
-
-      <OptionGrid
-        multi
-        tone="warm"
-        value={answers.goals}
-        onChange={toggle}
-        options={GOAL_OPTIONS}
-        columns={3}
-      />
-
-      {answers.goals.length > 0 && (
-        <p className="font-body text-caption text-secondary-700 font-semibold m-0">
-          {answers.goals.length} objectif{answers.goals.length > 1 ? 's' : ''} sélectionné{answers.goals.length > 1 ? 's' : ''}
-        </p>
-      )}
-    </div>
-  );
+  next();
 }
 
-/* ─── Step 2 : Rythme ────────────────────────────────────────────────────── */
+/* ─── Types ──────────────────────────────────────────────────────────────── */
 
-function StepRythme({
-  answers,
-  onChange,
-}: {
-  answers: OnboardingAnswers;
-  onChange: (patch: Partial<OnboardingAnswers>) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-secondary-50 text-secondary-600">
-        <Clock size={28} />
-      </div>
-      <div className="flex flex-col gap-tight">
-        <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          Ton rythme d'apprentissage
-        </h2>
-        <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Combien de temps souhaites-tu consacrer à ton développement ?
-        </p>
-      </div>
+type Step = 'greeting' | 'name' | 'role' | 'transition' | 'done';
 
-      <OptionGrid
-        tone="warm"
-        value={answers.rhythm}
-        onChange={(id) => onChange({ rhythm: id })}
-        options={RHYTHM_OPTIONS}
-        columns={2}
-        layout="text-only"
-      />
-    </div>
-  );
+interface ProfileAnswers {
+  firstName: string;
+  role: UserRole | '';
 }
 
-/* ─── Step 3 : Confirmation ──────────────────────────────────────────────── */
-
-function StepConfirmation({
-  answers,
-}: {
-  answers: OnboardingAnswers;
-  onStart: () => void;
-}) {
-  const rhythmLabel = RHYTHM_OPTIONS.find(r => r.id === answers.rhythm)?.label ?? ':';
-
-  const summaryRows = [
-    { key: 'Rôle',      val: answers.role   || ':' },
-    { key: 'Secteur',   val: answers.sector || ':' },
-    { key: 'Objectifs', val: answers.goals.length > 0 ? answers.goals.join(', ') : ':' },
-    { key: 'Rythme',    val: rhythmLabel },
-  ];
-
-  const aiText = answers.goals.includes('Leadership') || answers.goals.includes('Coaching')
-    ? "Leadership & Impact : Développe tes compétences de pilotage et d'influence"
-    : answers.goals.includes('IA & Tech')
-    ? "Tech & Innovation : Maîtrise les outils IA pour gagner en productivité"
-    : "Développement professionnel personnalisé : basé sur tes objectifs déclarés";
-
-  const previewTags = answers.goals.length > 0 ? answers.goals.slice(0, 3) : ['Compétences clés'];
-
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-success-bg text-success-fg">
-        <CheckCircle2 size={28} />
-      </div>
-      <div className="flex flex-col gap-tight">
-        <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0 leading-tight">
-          {answers.firstName ? `Parfait, ${answers.firstName} !` : 'Ton profil est prêt !'}
-        </h2>
-        <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Voici un résumé de tes préférences et ton parcours suggéré.
-        </p>
-      </div>
-
-      {/* Summary table */}
-      <div className="rounded-xl border border-ink-200 bg-ink-50 overflow-hidden">
-        {summaryRows.map((row) => (
-          <div key={row.key} className="flex justify-between items-start gap-stack px-5 py-3 border-b border-ink-200 last:border-b-0">
-            <span className="font-body text-body-sm font-bold text-ink-500 whitespace-nowrap">{row.key}</span>
-            <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* AI suggestion card */}
-      <Card className="mt-stack-xs p-5 border border-secondary-200 flex flex-col gap-3 bg-gradient-to-br from-secondary-50 to-white">
-        <div className="flex items-start gap-3">
-          <Brain size={20} className="text-secondary-600 shrink-0 mt-0.5" />
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-stack-xs">
-              <span className="font-body text-body font-bold text-ink-900">Parcours recommandé</span>
-              <Badge variant="warm">IA</Badge>
-            </div>
-            <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0">{aiText}</p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-stack-xs">
-          {previewTags.map(g => (
-            <span key={g} className="inline-flex px-3 py-1 rounded-pill bg-secondary-100 text-secondary-700 font-body text-caption font-bold">
-              {g}
-            </span>
-          ))}
-        </div>
-      </Card>
-    </div>
-  );
-}
-
-/* ─── Main Page ──────────────────────────────────────────────────────────── */
+/* ─── Main Component ─────────────────────────────────────────────────────── */
 
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const profileStore = useUserProfileStore();
+  const onboardingStore = useOnboardingStore();
 
-  // Guard : si l'utilisateur a déjà complété l'onboarding, renvoyer au dashboard
+  // ── Detect invitation context ──
   useEffect(() => {
-    const profile = profileStore.get();
-    if (profile?.isOnboarded) {
-      navigate('/dashboard', { replace: true });
+    const token = searchParams.get('invite');
+    const company = searchParams.get('company');
+    if (token || company) {
+      onboardingStore.setAccountType('invited', {
+        invitationToken: token ?? undefined,
+        company: company ?? undefined,
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [substep, setSubstep] = useState(0);
-  const [answers, setAnswers] = useState<OnboardingAnswers>({
-    firstName: '',
-    role:      '',
-    sector:    '',
-    goals:     [],
-    rhythm:    '',
+  // ── State management ──
+  const [step, setStep] = useState<Step>('greeting');
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [answers, setAnswers] = useState<ProfileAnswers>({
+    firstName: onboardingStore.firstName || '',
+    role: (onboardingStore.role ?? '') as UserRole | '',
   });
+  const [transitioning, setTransitioning] = useState(false);
+  const [nameInput, setNameInput] = useState('');
 
-  function patch(updates: Partial<OnboardingAnswers>) {
-    setAnswers(prev => ({ ...prev, ...updates }));
+  const streamingState = useRef(createStreamingState());
+
+  // ── Cleanup on unmount ──
+  useEffect(() => {
+    return () => cancelTimers(streamingState.current.timersRef);
+  }, []);
+
+  // ── Initialize with greeting ──
+  useEffect(() => {
+    const greeting = buildGreeting();
+    appendAiSequence(greeting, streamingState.current, setMessages, () => {
+      setStep('name');
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Handle name submission ──
+  function handleNameSubmit() {
+    const name = nameInput.trim();
+    if (!name || transitioning) return;
+
+    setTransitioning(true);
+    setAnswers((prev) => ({ ...prev, firstName: name }));
+
+    // User bubble
+    setMessages((prev) => [...prev, { id: `m-${streamingState.current.seqId++}`, type: 'user', content: name }]);
+
+    // AI acknowledgment + question for role
+    appendAiSequence(
+      [buildAckName(name), buildRoleQuestion()],
+      streamingState.current,
+      setMessages,
+      () => {
+        setStep('role');
+        setNameInput('');
+        setTransitioning(false);
+      }
+    );
   }
 
-  function prev() { setSubstep(s => Math.max(0, s - 1)); }
-  function next() { setSubstep(s => Math.min(3, s + 1)); }
+  // ── Handle role selection ──
+  function handleRoleSelect(selectedRole: UserRole) {
+    if (transitioning) return;
 
-  function handleComplete() {
+    setTransitioning(true);
+    setAnswers((prev) => ({ ...prev, role: selectedRole }));
+
+    // User bubble showing role label
+    const roleLabel = ROLE_TILES.find((r) => r.id === selectedRole)?.label ?? selectedRole;
+    setMessages((prev) => [
+      ...prev,
+      { id: `m-${streamingState.current.seqId++}`, type: 'user', content: roleLabel },
+    ]);
+
+    // AI acknowledgment + transition
+    appendAiSequence(
+      [buildAckRole(selectedRole), ...buildTransition()],
+      streamingState.current,
+      setMessages,
+      () => {
+        setStep('transition');
+        handleComplete(selectedRole);
+      }
+    );
+  }
+
+  // ── Handle completion: save profile and navigate ──
+  function handleComplete(selectedRole: UserRole) {
+    const finalRole = selectedRole || ('apprenant' as UserRole);
+
+    // Update stores
+    onboardingStore.patch({
+      firstName: answers.firstName,
+      role: finalRole,
+    });
+
     profileStore.set({
       userId: MOCK_USER_ID,
       firstName: answers.firstName,
-      role: (answers.role || 'apprenant') as UserRole,
-      sector: answers.sector,
-      goals: answers.goals,
-      rhythm: answers.rhythm,
+      role: finalRole,
+      sector: '', // simplified — not collected in variant A
+      goals: [],  // simplified — not collected in variant A
+      rhythm: '',  // simplified — not collected in variant A
       credits: { classic: 0, special: 0 },
       subscriptionTier: 'free',
       completedAt: new Date().toISOString(),
-      onboardingStep: 'questionnaire',
-      isOnboarded: false,
     });
-    navigate('/onboarding/questionnaire');
+
+    onboardingStore.markStepComplete('profile');
+    onboardingStore.goToStep('questionnaire');
+
+    // Small delay before navigating (so transition message is visible)
+    const t = window.setTimeout(() => {
+      navigate('/onboarding/questionnaire');
+    }, 800);
+
+    streamingState.current.timersRef.push(t);
   }
 
-  const isLast = substep === 3;
+  // ── Render based on step ──
 
-  const stepComponents = [
-    <StepProfil       key={0} answers={answers} onChange={patch} />,
-    <StepObjectifs    key={1} answers={answers} onChange={patch} />,
-    <StepRythme       key={2} answers={answers} onChange={patch} />,
-    <StepConfirmation key={3} answers={answers} onStart={handleComplete} />,
-  ];
-
-  return (
-    <div className="min-h-screen bg-surface">
-      <Container width="content" className="pt-14 md:pt-section pb-section flex flex-col gap-section">
-
-        {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
-        <Stepper items={buildOnboardingStepperItems('profil')} orientation="horizontal" />
-
-        {/* ── Hero éditorial DS (tone warm : accueil chaleureux) ───────────────── */}
-        <EditorialHero
-          tone="warm"
-          eyebrow={{ icon: <Sparkles size={12} />, label: 'Démarrage personnalisé' }}
-          title="Personnalisons ton expérience"
-          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} : quelques questions pour adapter tes recommandations.`}
+  // Step: Name input with text field
+  if (step === 'name') {
+    const footer = (
+      <div className="flex items-end gap-2">
+        <textarea
+          value={nameInput}
+          onChange={(e) => setNameInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleNameSubmit();
+            }
+          }}
+          placeholder="Entre ton prénom…"
+          rows={1}
+          disabled={transitioning}
+          className="flex-1 resize-none rounded-xl border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 leading-relaxed placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-secondary-300 focus:border-secondary-400 transition-all duration-base disabled:opacity-disabled"
+          style={{ maxHeight: '96px', overflowY: 'auto' }}
+          autoFocus
         />
+        <Button
+          variant="warm"
+          size="md"
+          iconOnly
+          trailingIcon={<Send size={16} />}
+          aria-label="Envoyer"
+          disabled={!nameInput.trim() || transitioning}
+          onClick={handleNameSubmit}
+          className="shrink-0 self-end mb-0.5"
+        />
+      </div>
+    );
 
-        {/* ── Substep card ───────────────────────────────────────────────────── */}
-        <div className="rounded-2xl bg-white border border-ink-200 overflow-hidden">
+    return (
+      <main className="relative min-h-screen overflow-x-hidden">
+        <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+        <AmbientBlobs intensity="subtle" />
 
-          <div className="p-stack-lg sm:p-section animate-in fade-in slide-in-from-right-2 duration-300" key={substep}>
-            {stepComponents[substep]}
-          </div>
-
-          {/* Footer nav : responsive button layout (stacked on mobile) */}
-          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-stack-lg sm:px-section py-5 border-t border-ink-100 bg-ink-50">
-            {substep === 0 ? (
-              <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">
-                Passer pour l'instant
-              </Button>
-            ) : (
-              <Button variant="secondary" size="sm" leadingIcon={<ChevronLeft size={14} />} onClick={prev} className="sm:flex-none flex-1">
-                Retour
-              </Button>
-            )}
-
-            <div className="flex items-center gap-3 flex-1 sm:flex-none justify-between sm:justify-start">
-              <span className="font-body text-caption text-ink-500 tabular-nums hidden sm:inline">
-                {substep + 1} / {SUBSTEP_LABELS.length}
-              </span>
-              {isLast ? (
-                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={handleComplete} className="flex-1 sm:flex-none">
-                  Continuer vers le positionnement
-                </Button>
-              ) : (
-                <Button variant="warm" trailingIcon={<ChevronRight size={14} />} onClick={next} className="flex-1 sm:flex-none">
-                  Continuer
-                </Button>
-              )}
+        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section">
+          {/* Brand bar */}
+          <div className="flex items-center justify-between">
+            <div className="w-24" />
+            <a
+              href="/dashboard"
+              aria-label="The Learning Society — retour accueil"
+              className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
+            >
+              <TlsLogo size={36} variant="color" withBubble />
+            </a>
+            <div className="w-24 flex justify-end">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="font-body text-caption text-ink-500 hover:text-ink-900 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm min-h-touch flex items-center"
+              >
+                Déjà inscrit ?
+              </button>
             </div>
           </div>
+
+          {/* Header */}
+          <header className="flex flex-col gap-tight text-center">
+            <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+              <Sparkles size={14} aria-hidden="true" />
+              Démarrage personnalisé
+            </p>
+            <h1 className="m-0 font-display text-h2 font-extrabold tracking-display text-ink-900 leading-tight">
+              Bienvenue !
+            </h1>
+          </header>
+
+          {/* Chat window */}
+          <ConversationalChat
+            title={<span className="font-body text-body-sm font-semibold text-ink-700">Guide IA</span>}
+            messages={messages}
+            footer={footer}
+            className="min-h-[62vh] max-h-[72vh]"
+          />
         </div>
-      </Container>
-    </div>
+      </main>
+    );
+  }
+
+  // Step: Role selection with tiles (inline quick-replies)
+  if (step === 'role') {
+    const footer = (
+      <div className="flex flex-wrap gap-2 justify-center">
+        {ROLE_TILES.map((roleOption) => {
+          const Icon = roleOption.icon;
+          return (
+            <button
+              key={roleOption.id}
+              onClick={() => handleRoleSelect(roleOption.id)}
+              disabled={transitioning}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-pill border-2 border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 hover:border-secondary-400 transition-all duration-base disabled:opacity-disabled cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+            >
+              <Icon size={16} />
+              <span className="font-body text-body-sm font-medium">{roleOption.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+
+    return (
+      <main className="relative min-h-screen overflow-x-hidden">
+        <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+        <AmbientBlobs intensity="subtle" />
+
+        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section">
+          {/* Brand bar */}
+          <div className="flex items-center justify-between">
+            <div className="w-24" />
+            <a
+              href="/dashboard"
+              aria-label="The Learning Society — retour accueil"
+              className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
+            >
+              <TlsLogo size={36} variant="color" withBubble />
+            </a>
+            <div className="w-24" />
+          </div>
+
+          {/* Chat window */}
+          <ConversationalChat
+            title={<span className="font-body text-body-sm font-semibold text-ink-700">Guide IA</span>}
+            messages={messages}
+            footer={footer}
+            className="min-h-[62vh] max-h-[72vh]"
+          />
+        </div>
+      </main>
+    );
+  }
+
+  // Step: Transition (navigating to questionnaire)
+  return (
+    <main className="relative min-h-screen overflow-x-hidden flex items-center justify-center">
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
+      <AmbientBlobs intensity="subtle" />
+
+      <div className="relative z-base text-center">
+        <p className="font-body text-body text-ink-500">Redirection en cours…</p>
+      </div>
+    </main>
   );
 };
+
+export default Onboarding;

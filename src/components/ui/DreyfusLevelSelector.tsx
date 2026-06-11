@@ -70,6 +70,28 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
   className = '',
   'aria-label': ariaLabel = 'Niveau Dreyfus',
 }) => {
+  // Arrow-key roving tabindex for accessible radiogroup navigation.
+  const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
+    const isHorizontal = e.key === 'ArrowRight' || e.key === 'ArrowLeft';
+    const isVertical = e.key === 'ArrowDown' || e.key === 'ArrowUp';
+    if (!isHorizontal && !isVertical && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+
+    let nextIdx = idx;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextIdx = (idx + 1) % levels.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextIdx = (idx - 1 + levels.length) % levels.length;
+    else if (e.key === 'Home') nextIdx = 0;
+    else if (e.key === 'End') nextIdx = levels.length - 1;
+
+    onChange(levels[nextIdx].v);
+    refs.current[nextIdx]?.focus();
+  };
+
+  // Determine which radio gets tabIndex=0 (selected one, or first if nothing selected).
+  const tabbableIdx = Math.max(0, levels.findIndex((lv) => lv.v === value));
+
   const gridClasses = [
     'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-stack-xs',
     className,
@@ -79,7 +101,7 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
 
   return (
     <div className={gridClasses} role="radiogroup" aria-label={ariaLabel}>
-      {levels.map((lv) => {
+      {levels.map((lv, idx) => {
         const selected = value === lv.v;
         const btnClasses = [
           'min-h-touch p-4 rounded-lg border-2 text-left transition-[background-color,border-color] duration-base ease-emphasis bg-white cursor-pointer',
@@ -91,9 +113,12 @@ export const DreyfusLevelSelector: React.FC<DreyfusLevelSelectorProps> = ({
         return (
           <button
             key={lv.v}
+            ref={(el) => { refs.current[idx] = el; }}
             type="button"
             role="radio"
             aria-checked={selected}
+            tabIndex={idx === tabbableIdx ? 0 : -1}
+            onKeyDown={(e) => handleKeyDown(e, idx)}
             onClick={() => onChange(lv.v)}
             className={btnClasses}
           >

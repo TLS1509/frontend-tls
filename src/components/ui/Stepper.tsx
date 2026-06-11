@@ -19,19 +19,19 @@ const CIRCLE_BASE =
   'relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-full border-2 font-body font-bold text-caption shrink-0 transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis';
 
 const CIRCLE_STATE: Record<StepperState, string> = {
-  done:     'bg-gradient-to-br from-success-base to-success-fg border-transparent text-white shadow-md ring-4 ring-success-bg',
+  done:     'bg-success-base border-success-base text-white shadow-sm',
   current:  'bg-white border-primary-600 text-primary-700 shadow-brand-sm ring-4 ring-primary-100 scale-110',
   upcoming: 'bg-white border-ink-200 text-ink-400',
 };
 
 const LABEL_STATE: Record<StepperState, string> = {
-  done:     'text-success-fg font-semibold',
+  done:     'text-success-base font-semibold',
   current:  'text-ink-900 font-bold',
   upcoming: 'text-ink-500 font-medium',
 };
 
 const LINE_STATE: Record<StepperState, string> = {
-  done:     'bg-success-base',
+  done:     'bg-success-base/70',
   current:  'bg-ink-200',
   upcoming: 'bg-ink-200',
 };
@@ -54,7 +54,7 @@ export const Stepper: React.FC<StepperProps> = ({
 
   const stepClasses = isVertical
     ? 'relative flex flex-row items-start gap-3 min-h-[60px] text-left'
-    : 'relative flex-1 flex flex-col items-center gap-2 text-center';
+    : 'relative flex-1 min-w-0 basis-0 flex flex-col items-center gap-2 text-center';
 
   return (
     <ol className={wrapperClasses} {...rest}>
@@ -87,7 +87,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 )}
               </div>
             ) : (
-              <p className={`m-0 text-caption leading-snug ${LABEL_STATE[item.state]}`}>
+              <p className={`m-0 text-[11px] sm:text-caption leading-tight break-words ${LABEL_STATE[item.state]}`}>
                 {item.label}
               </p>
             )}

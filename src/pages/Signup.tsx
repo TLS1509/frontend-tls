@@ -72,11 +72,11 @@ export const Signup: React.FC = () => {
               <>
                 J'accepte les{' '}
 
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85">
+                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   conditions d'utilisation
                 </a>{' '}
                 et la{' '}
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85">
+                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   politique de confidentialité
                 </a>
               </>
@@ -89,7 +89,7 @@ export const Signup: React.FC = () => {
 
           {/* Divider + Socials */}
           <AuthDivider>ou continuer avec</AuthDivider>
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Users, Compass, Award } from 'lucide-react';
+import { Menu, X, ChevronDown, Users, Compass, Award, Newspaper } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { TlsLogo } from '../../../components/ui/TlsLogo';
@@ -8,21 +8,25 @@ import { TlsLogo } from '../../../components/ui/TlsLogo';
 type NavItem = {
   label: string;
   href?: string;
-  highlight?: boolean;
   dropdown?: { label: string; href: string; desc: string; icon: React.ReactNode }[];
 };
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/marketing' },
+  { label: 'Learning App', href: '/marketing/learning-app' },
   { label: 'Formation', href: '/marketing/formation' },
   { label: 'Accompagnement', href: '/marketing/accompagnement' },
-  { label: 'Learning App', href: '/marketing/learning-app', highlight: true },
-  { label: 'Magazine', href: '/marketing/magazine' },
   {
-    label: 'À propos',
+    label: 'Ressources',
     dropdown: [
       {
-        label: 'L\'équipe',
+        label: 'Magazine',
+        href: '/marketing/magazine',
+        desc: 'Articles, analyses, tendances EdTech & IA',
+        icon: <Newspaper size={16} />,
+      },
+      {
+        label: "L'équipe",
         href: '/marketing/equipe',
         desc: 'Les humains derrière TLS',
         icon: <Users size={16} />,
@@ -41,7 +45,6 @@ const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
-  { label: 'Contact', href: '/marketing/contact' },
 ];
 
 const isPathActive = (pathname: string, href: string): boolean =>
@@ -91,10 +94,10 @@ export const MarketingHeader: React.FC = () => {
   return (
     <header
       className={[
-        'fixed top-0 inset-x-0 z-sticky transition-all duration-base',
+        'fixed top-0 inset-x-0 z-sticky transition-all duration-base backdrop-blur-glass-heavy border-b',
         scrolled
-          ? 'bg-white/85 backdrop-blur-glass-heavy shadow-sm border-b border-ink-100/80'
-          : 'bg-white/60 backdrop-blur-glass-medium border-b border-transparent',
+          ? 'bg-white/75 shadow-sm border-white/40'
+          : 'bg-white/40 border-white/20',
       ].join(' ')}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
@@ -133,23 +136,23 @@ export const MarketingHeader: React.FC = () => {
                     aria-expanded={isOpen}
                     aria-haspopup="menu"
                     className={[
-                      'relative px-2.5 py-1.5 rounded-md text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1',
-                      hasActiveChild ? 'text-primary-700' : 'text-ink-700 hover:text-ink-900',
+                      'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1',
+                      hasActiveChild ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                     ].join(' ')}
                   >
-                    {item.label}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform duration-base ${isOpen ? 'rotate-180' : ''}`}
-                    />
                     {hasActiveChild && (
                       <motion.span
                         layoutId="marketing-nav-active"
                         aria-hidden
-                        className="absolute left-2.5 right-2.5 -bottom-0.5 h-0.5 rounded-pill bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500"
+                        className="absolute inset-0 rounded-pill bg-primary-50/80 border border-primary-100"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
+                    <span className="relative z-10">{item.label}</span>
+                    <ChevronDown
+                      size={14}
+                      className={`relative z-10 transition-transform duration-base ${isOpen ? 'rotate-180' : ''}`}
+                    />
                   </button>
                   <AnimatePresence>
                     {isOpen && (
@@ -158,7 +161,7 @@ export const MarketingHeader: React.FC = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -8, scale: 0.97 }}
                         transition={{ duration: 0.18, ease: [0.21, 0.47, 0.32, 0.98] }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 rounded-2xl bg-white border border-ink-100 shadow-2xl overflow-hidden z-dropdown"
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 rounded-2xl bg-white/90 backdrop-blur-glass-heavy border border-white/50 shadow-2xl overflow-hidden z-dropdown"
                         role="menu"
                       >
                         <div className="p-2 flex flex-col gap-0.5">
@@ -212,24 +215,19 @@ export const MarketingHeader: React.FC = () => {
                 key={item.href}
                 to={item.href!}
                 className={[
-                  'relative px-2.5 py-1.5 rounded-md text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1.5',
-                  active ? 'text-primary-700' : 'text-ink-700 hover:text-ink-900',
+                  'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1.5',
+                  active ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                 ].join(' ')}
               >
-                {item.label}
-                {item.highlight && (
-                  <span className="inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
-                    New
-                  </span>
-                )}
                 {active && (
                   <motion.span
                     layoutId="marketing-nav-active"
                     aria-hidden
-                    className="absolute left-2.5 right-2.5 -bottom-0.5 h-0.5 rounded-pill bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-500"
+                    className="absolute inset-0 rounded-pill bg-primary-50/80 border border-primary-100"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
+                <span className="relative z-10">{item.label}</span>
               </Link>
             );
           })}
@@ -239,12 +237,12 @@ export const MarketingHeader: React.FC = () => {
         <div className="hidden lg:flex items-center gap-2 shrink-0">
           <Link to="/marketing/contact">
             <Button variant="ghost" size="sm" className="whitespace-nowrap">
-              Demander un devis
+              Contact
             </Button>
           </Link>
-          <Link to="/marketing/formation">
-            <Button variant="warm" size="sm" className="whitespace-nowrap">
-              Voir la formation
+          <Link to="/login">
+            <Button variant="primary" size="sm" className="whitespace-nowrap">
+              Connexion
             </Button>
           </Link>
         </div>
@@ -281,7 +279,7 @@ export const MarketingHeader: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="lg:hidden relative bg-white border-t border-ink-100 shadow-xl z-modal max-h-[calc(100vh-4rem)] overflow-y-auto"
+              className="lg:hidden relative bg-white/95 backdrop-blur-glass-heavy border-t border-white/50 shadow-xl z-modal max-h-[calc(100vh-4rem)] overflow-y-auto"
             >
               <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1" aria-label="Navigation mobile">
                 {NAV_ITEMS.map((item) => {
@@ -356,23 +354,18 @@ export const MarketingHeader: React.FC = () => {
                       ].join(' ')}
                     >
                       <span>{item.label}</span>
-                      {item.highlight && (
-                        <span className="ml-auto inline-block px-1.5 py-0.5 rounded-pill bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-micro font-bold tracking-wider uppercase">
-                          New
-                        </span>
-                      )}
                     </Link>
                   );
                 })}
                 <div className="pt-3 mt-1 border-t border-ink-100 flex flex-col gap-2">
                   <Link to="/marketing/contact">
                     <Button variant="ghost" size="md" fullWidth>
-                      Demander un devis
+                      Contact
                     </Button>
                   </Link>
-                  <Link to="/marketing/formation">
-                    <Button variant="warm" size="md" fullWidth>
-                      Voir la formation
+                  <Link to="/login">
+                    <Button variant="primary" size="md" fullWidth>
+                      Connexion
                     </Button>
                   </Link>
                 </div>

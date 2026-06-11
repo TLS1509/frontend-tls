@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+import { MarketingError404 } from './pages/marketing/MarketingError404';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { ToastProvider } from './contexts/ToastContext';
 import { AppBreadcrumb } from './components/patterns/AppBreadcrumb';
@@ -197,7 +198,11 @@ import OpenBadgesSection from './pages/OpenBadgesSection';
 import CreditsPage from './pages/CreditsPage';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
+import OnboardingPreview from './pages/OnboardingPreview';
+import { OnboardingUnified } from './pages/OnboardingUnified';
 import { PagesIndex } from './pages/PagesIndex';
+import DesignShowcase from './pages/DesignShowcase';
+import TestLogo from './pages/_TestLogo';
 import { FloatingNavButton } from './components/FloatingNavButton';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
@@ -523,7 +528,35 @@ function App() {
           <Route path="politique-confidentialite" element={<MarketingPolitiqueConfidentialite />} />
           <Route path="cgv-cgu" element={<MarketingCgvCgu />} />
           <Route path="charte-ia" element={<MarketingCharteIA />} />
+          <Route path="*" element={<MarketingError404 />} />
         </Route>
+
+        {/* ── Error pages — plein écran, hors AppLayout ── */}
+        {/* Wrapper style 100vw nécessaire : hors AppLayout, le parent route est width:0 */}
+        <Route path="/error/404" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error404 /></div>} />
+        <Route path="/error/500" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Error500 /></div>} />
+
+        {/* ── Pages test temporaires ── */}
+        <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
+
+        {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
+        {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
+        <Route path="/auth/login"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Login /></div>} />
+        <Route path="/auth/signup"         element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><Signup /></div>} />
+        <Route path="/auth/forgot-password" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><ForgotPassword /></div>} />
+        <Route path="/auth/reset-password" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><ResetPassword /></div>} />
+        <Route path="/auth/verify-email"   element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><VerifyEmail /></div>} />
+        <Route path="/auth/magic-link"     element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'hidden' }}><MagicLink /></div>} />
+
+        {/* ── Onboarding — plein écran, hors AppLayout ── */}
+        {/* Flow focalisé sans sidebar : même pattern que auth pages. overflow:auto car contenu > 100vh */}
+        <Route path="/onboarding"                  element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingUnified /></div>} />
+        <Route path="/onboarding/legacy"           element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><Onboarding /></div>} />
+        <Route path="/onboarding/questionnaire"    element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingQuestionnaire /></div>} />
+        <Route path="/onboarding/payment"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><SubscriptionPayment /></div>} />
+        <Route path="/onboarding/tutorial"         element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingTutorial /></div>} />
+        <Route path="/onboarding/success"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingSuccess /></div>} />
+        <Route path="/onboarding-preview"          element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><OnboardingPreview /></div>} />
 
         {isAuthenticated ? (
           // Authenticated routes
@@ -538,6 +571,7 @@ function App() {
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/components" element={<Components />} />
                   <Route path="/motion-sprints" element={<MotionSprintShowcase />} />
+                  <Route path="/design-showcase" element={<DesignShowcase />} />
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
@@ -566,8 +600,7 @@ function App() {
                   <Route path="/journal/free-entry" element={<JournalFreeEntry />} />
                   <Route path="/project/:id" element={<Project />} />
                   <Route path="/learning-space" element={<LearningSpace />} />
-                  <Route path="/onboarding" element={<Onboarding />} />
-                  <Route path="/onboarding/payment" element={<SubscriptionPayment />} />
+                  {/* /onboarding routes → déplacées hors AppLayout (plein écran, voir ci-dessus) */}
                   <Route path="/coaching/booking" element={<CoachingBookingFlow />} />
                   <Route path="/coaching/pre-questionnaire" element={<PreCoachingQuestionnaire />} />
                   <Route path="/coaching/pre-questionnaire/response" element={<PreCoachingQuestionnaireResponse />} />
@@ -584,8 +617,6 @@ function App() {
                   <Route path="/passeport/competence/:id" element={<PasseportCompetenceDetail />} />
                   <Route path="/passeport/objectifs" element={<PasseportObjectifs />} />
                   <Route path="/coach/passeport" element={<CoachHeatmap />} />
-                  <Route path="/onboarding/success" element={<OnboardingSuccess />} />
-                  <Route path="/onboarding/tutorial" element={<OnboardingTutorial />} />
                   <Route path="/coaching/session/:id" element={<CoachingSessionDetail />} />
                   <Route path="/coaching/corrections" element={<CoachingCorrections />} />
                   <Route path="/coach/corrections" element={<CoachCorrectionsQueue />} />
@@ -646,7 +677,6 @@ function App() {
                   <Route path="/notifications/preferences" element={<NotificationPreferences />} />
                   {/* Phase 16 — Sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION) */}
                   <Route path="/veille/perplexity/:id" element={<PerplexityContentDetail />} />
-                  <Route path="/onboarding/questionnaire" element={<OnboardingQuestionnaire />} />
                   <Route path="/coaching/correction/:id" element={<CorrectionDetailLearner />} />
                   <Route path="/coaching/messages/:coachId" element={<MessagingThread />} />
                   <Route path="/coach/calendar" element={<CoachCalendar />} />
@@ -662,14 +692,6 @@ function App() {
                   <Route path="/journal/search" element={<JournalSearch />} />
                   <Route path="/profile/privacy/dsar" element={<PrivacyDsar />} />
                   <Route path="/profile/privacy/delete-account" element={<PrivacyDeleteAccount />} />
-                  <Route path="/auth/login" element={<Login />} />
-                  <Route path="/auth/signup" element={<Signup />} />
-                  <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/auth/reset-password" element={<ResetPassword />} />
-                  <Route path="/auth/verify-email" element={<VerifyEmail />} />
-                  <Route path="/auth/magic-link" element={<MagicLink />} />
-                  <Route path="/error/404" element={<Error404 />} />
-                  <Route path="/error/500" element={<Error500 />} />
                   <Route path="/help" element={<Help />} />
                   <Route path="/enterprise" element={<Enterprise />} />
                   <Route path="/course/:id" element={<CourseDetail />} />
@@ -684,21 +706,14 @@ function App() {
                   <Route path="/profile/credits" element={<CreditsPage />} />
                   <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
                   <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />
-                  <Route path="*" element={<Error404 />} />
+                  <Route path="*" element={<Navigate to="/error/404" replace />} />
                 </Routes>
               </AppLayout>
             }
           />
         ) : (
-          <>
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/signup" element={<Signup />} />
-            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
-            <Route path="/auth/verify-email" element={<VerifyEmail />} />
-            <Route path="/auth/magic-link" element={<MagicLink />} />
-            <Route path="*" element={<Navigate to="/auth/login" replace />} />
-          </>
+          // Non authentifié : toute autre route → login
+          <Route path="*" element={<Navigate to="/auth/login" replace />} />
         )}
       </Routes>
       </ToastProvider>

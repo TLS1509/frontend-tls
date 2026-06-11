@@ -69,7 +69,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
   const innerIconSize = ICON_INNER_PX[size];
 
   const cardClasses = [
-    'bg-white rounded-lg border-2 text-center transition-[border-color,box-shadow,transform,opacity] duration-slow ease-emphasis',
+    'bg-white rounded-lg border-2 text-center transition-all duration-300',
     SIZE_PADDING[size],
     isLocked ? 'border-ink-200 opacity-60 scale-95' : COLOR_BORDER[color],
   ].join(' ');
@@ -123,8 +123,8 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
           type="button"
           onClick={onShare}
           className={[
-            'mt-4 px-5 py-3 text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-[background-color,box-shadow,transform] duration-fast ease-emphasis',
-            'hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
+            'mt-4 px-5 py-3 min-h-touch text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
+            'hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             COLOR_BTN[color],
           ].join(' ')}
         >

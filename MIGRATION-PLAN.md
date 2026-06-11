@@ -237,7 +237,7 @@
 
 ## Progrès global
 
-**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 10 (35/35 pages Tier 1+2+3) + 11 + 12 + 13 + 14 + 15 + 16 ✅
+**Phases complètes :** 1 + 2 + 2.6 + 3 + 4 + 5 (100 %) + 6 (~97 %) + 7 (100 %) + 9 (cleanup) + 10 (35/35 pages Tier 1+2+3) + 11 + 12 + 13 + 14 + 15 + 16 + 17 (Zustand wiring) + 18 (Components.tsx + store sync) + 19 (Design Excellence A→F, score 18.5/20) ✅ | **Phase 20** (Figma DS audit + pixel-perfect — 5 gaps comblés, 143 variables vérifiées ✅)
 **Composants validés :** ~121 / ~125 (28 patterns + 11 learning + 36 UI + 8 modales + 5 Core + 11 primitives + 11 Phase 11–12–DS)
 **Pages scaffoldées :** 82 routes wired in App.tsx (Phase 11: 5 + Phase 12: 19 + Phase 13: 7 + Phase 14: 15 + Phase 15: 19 + Phase 16: 17 = **82 pages**)
 **Couverture sitemap FO_SCREENS_CONSOLIDATION :** 82/83 écrans (98.8 %) — seul "Notification Bell" reste comme composant global
@@ -1438,4 +1438,140 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 2. Update Notion Écrans DB (6 Phase 17 pages + statut)
 3. Optional: Plan Phase 18.2-18.4 for future iteration
 4. Optional: Plan Phase 19 (remaining audit/edge cases)
+
+---
+
+## PHASE 20 — Figma DS Audit & Pixel-Perfect Reproduction (2026-05-27)
+
+**Objectif** : Reproduire pixel-perfect les composants DS React dans Figma. Code = source de vérité. Figma = handoff design/dev.
+
+**Fichier Figma** : `LccBZ1GKWQVwVzPtsSzk5Y` (Design System — TLS)
+- Atoms page : `1095:2`
+- Composites page : `1122:2`
+
+### Audit préalable (variables)
+
+143 variables auditées dans 5 collections (TLS/Colors, TLS/Spacing, TLS/Radius, TLS/Effects, semantic). Toutes les correspondances code ↔ Figma vérifiées :
+
+| Token code | Valeur | Variable Figma | Statut |
+|---|---|---|---|
+| text-body-sm | 0.9375rem = **15px** | Body/body-sm = 15px | ✅ Aligné |
+| radius-pill | 999px | pill = 999px | ✅ Aligné |
+| shadow-card/hover/lift | amber tints | Effect Styles shadow/card family | ✅ Présents |
+
+### Corrections appliquées (session 2026-05-27)
+
+| # | Correction | Composant | Figma Node | Statut |
+|---|---|---|---|---|
+| 20.1 | Ajout tone=info manquant | MetaPill | ComponentSet `1113:24` → nouveau variant `2106:2` | ✅ |
+| 20.2 | Création Input text field | Input (NOUVEAU) | ComponentSet `2119:22` — 5 variants | ✅ |
+| 20.3 | Suppression ProfileCard dupliqué | ProfileCard `1861:50` (h=10, broken) | Supprimé | ✅ |
+| 20.4 | Clarification StarRating vs QualitativeRating | `1846:90` renommé → QualitativeRating | Renommé | ✅ |
+| 20.5 | Création Tooltip | Tooltip (NOUVEAU) | ComponentSet `2140:18` — 4 directions | ✅ |
+
+### Détail Input Component (20.2)
+
+**5 variants créés** (status=default/focus/success/error/disabled) :
+- Structure : Label (13px SemiBold) + Field (40px, cornerRadius=10) + Helper (13px Regular)
+- Placeholder : 15px Regular (piège #5 respecté)
+- Variable bindings : border/default, primary/500, semantic/danger-base, semantic/success-base, surface/muted
+- Position : §03 Form Controls, x=1184, y=132 (droite de Textarea)
+
+### Détail Tooltip Component (20.5)
+
+**4 variants** (direction=top/bottom/left/right) :
+- Body : ink/900 bg, text/inverse, cornerRadius=6, padding 10×6px
+- Arrow : 8×8px rectangle 45° rotated, ink/900 fill
+- z-index attendu : z/tooltip (70)
+- Position : §09 Overlays & Navigation, x=48, y=900
+
+### Composants vérifiés (Phase 19 consolidations)
+
+| Composant | Statut Figma |
+|---|---|
+| HeroSection (sunset) | ✅ Absent de toutes les pages Figma |
+| AuthFeature (deleted) | ✅ Absent |
+| shadow/card + hover + lift | ✅ Présents dans Effect Styles |
+| TlsLogo 6 variants (color/light/primary/warm/sun/ink) | ✅ Présents |
+| MetaPill 7 tones (+ info ajouté) | ✅ Complet |
+| StarRating 2027:32 (5 rating states) | ✅ Présent |
+| QualitativeRating 1846:90 (ex-StarRating, renommé) | ✅ Clarifié |
+| **Input** — 3 tailles × 5 statuts = 15 variants | ✅ ComponentSet `2119:22` — sm(h=32) / md(h=40) / lg(h=48) × default/focus/error/disabled/success |
+| **Stepper** — 2 orientations | ✅ ComponentSet `2234:3` — horizontal `1304:3` + vertical `2234:2` |
+| **QuizComponent** — 4 états | ✅ ComponentSet `2242:22` — question / answered / results-success / results-fail |
+| FlipCard duplicate `1701:2` | ✅ DELETED |
+
+### Session 2 (2026-05-28) — Corrections appliquées
+
+| # | Correction | Composant | Figma Node | Statut |
+|---|---|---|---|---|
+| 6 | Input size variants sm + lg ajoutés | Input | `2218:2–47` | ✅ |
+| 7 | QuizComponent rebuild (h=40 cassé → 4 états) | QuizComponent | `2242:18–21` | ✅ |
+| 8 | Stepper orientation=vertical ajouté, ComponentSet créé | Stepper | `2234:3` | ✅ |
+
+### Session 3 (2026-05-28) — Nettoyage orphelins + Notion sync
+
+| # | Correction | Composant | Figma Node | Statut |
+|---|---|---|---|---|
+| 9 | Suppression QuizComponent solo cassé (ancien, remplacé) | QuizComponent | `1273:186` DELETED | ✅ |
+| 10 | Création ComponentSet Button / Auth Variants (inverse + ghost-dark) | Button variants | `2252:7` | ✅ |
+| 11 | Création ComponentSet Checkbox / Auth Variants (unchecked + checked surface=dark) | Checkbox variants | `2252:8` | ✅ |
+| 12 | Création ComponentSet Divider / Auth Variants (tone=glass-dark) | Divider variants | `2253:7` | ✅ |
+| 13 | Suppression EmptyState duplicate (2026:2) en Atoms v2 | EmptyState | `2026:2` DELETED | ✅ |
+| 14 | Suppression AuthSuccess duplicate (1799:2) en Composites v2 | AuthSuccess | `1799:2` DELETED | ✅ |
+| 15 | Notion DS DB — création entrée Tooltip | Tooltip | `36dcdd69-6db6-81ae-...` | ✅ |
+| 16 | Components.tsx — usedBy ajouté pour Input (12 pages) | Input | code | ✅ |
+
+### Session 4 (2026-05-28) — UserInfo, CourseCard, text styles, auth cleanup
+
+| # | Correction | Composant | Figma Node | Statut |
+|---|---|---|---|---|
+| 17 | CourseCard ComponentSet layout fixed (3 variants côte-à-côte) | CourseCard | `2266:43` (888×366) | ✅ |
+| 18 | UserInfo ComponentSet confirmé (3 sizes: sm/md/lg) | UserInfo | `2261:34` | ✅ |
+| 19 | Notion DS DB — création entrée UserInfo | UserInfo | `36dcdd69-6db6-8186-...` | ✅ |
+| 20 | Notion DS DB — création entrée CourseCard | CourseCard | `36dcdd69-6db6-818b-...` | ✅ |
+| 21 | Suppression AuthPrimaryButton standalone (remplacé par ComponentSet 2252:7) | AuthPrimaryButton | `1702:7` DELETED | ✅ |
+| 22 | Suppression AuthGhostButton standalone (remplacé par ComponentSet 2252:7) | AuthGhostButton | `1702:9` DELETED | ✅ |
+| 23 | 6 Text Styles créés dans Figma (14px Regular, 11px SemiBold, 15px/32px/36px LS Bold, 38px Bold) | Text Styles | Figma styles | ✅ |
+
+### Text styles créés (Session 4)
+
+| Style Figma | Font | Size | Line-height | Usage |
+|---|---|---|---|---|
+| `Text/Body-sm Regular` | Nunito Regular | 14px | 20px | Message body, conversation |
+| `Text/Micro Semi Bold` | Nunito Semi Bold | 11px | 14px | HeatmapGrid cells, data labels |
+| `Text/Label Bold` | League Spartan Bold | 15px | 18px | ContentChip titles, nav labels |
+| `Text/Display-sm Bold` | League Spartan Bold | 32px | 36px | CongratulationsCard heading |
+| `Text/Display-md Extra Bold` | League Spartan Extra Bold | 36px | 40px | CelebrationModal heading |
+| `Text/Hero Bold` | Nunito Bold | 38px | 44px | AuthShell hero text |
+
+### Gaps restants (non résolvables sans code React)
+
+| Gap | Raison | Action |
+|---|---|---|
+| 9px Nunito | CompetencyRadar axis labels — trop petite pour text style global | Skip |
+| 8px Nunito | ConversationalChat avatar initials — inside avatar circle, pas de style global | Skip |
+| Combobox | Pas de composant React → à créer code first | Déféré |
+| Popover | Idem | Déféré |
+
+### Non créés (déférés — n'existent pas dans le code React)
+
+- **Combobox** : pas de composant React existant → à créer code first
+- **Popover** : idem
+
+### Progrès Phase 20
+
+| Livrable | Statut |
+|---|---|
+| Variables audit (143 vars) | ✅ |
+| Atoms page audit (30 top-level sections) | ✅ |
+| Composites page audit (37 top-level) | ✅ |
+| Phase 19 consolidations vérifiées | ✅ |
+| Session 1 gaps corrigés (5 corrections) | ✅ |
+| Session 2 : Input size variants (15 vars), Stepper ComponentSet, QuizComponent rebuild | ✅ 2026-05-28 |
+| Session 3 : Orphelins nettoyés, auth variants combinés, Tooltip Notion, Input usedBy | ✅ 2026-05-28 |
+| Session 4 : UserInfo+CourseCard ComponentSets, Notion sync, auth cleanup, 6 text styles | ✅ 2026-05-28 |
+| Notion DS DB sync | ✅ (Tooltip, Input, Stepper, QuizComponent, UserInfo, CourseCard) |
+| Components.tsx usedBy update pour Input | ✅ |
+| Text styles gaps comblés (6/8 — 2 skippés car trop spécifiques) | ✅ |
 

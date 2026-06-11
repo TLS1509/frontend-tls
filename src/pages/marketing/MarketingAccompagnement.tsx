@@ -24,13 +24,11 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
-  MeshGradientBg,
   FadeInWhenVisible,
-  ParallaxLayer,
   MagneticButton,
-  GradientText,
   CountUp,
 } from '../../components/marketing/motion';
+import { SEOHead } from './components/SEOHead';
 
 const SERVICES = [
   {
@@ -38,42 +36,36 @@ const SERVICES = [
     pill: 'Stratégie',
     title: 'Diagnostic & Stratégie',
     desc: "Audit de votre dispositif existant, identification des cas d'usage IA prioritaires, feuille de route alignée sur vos résultats métier.",
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
     icon: <PenLine size={24} />,
     pill: 'Création',
     title: 'Conception Pédagogique',
     desc: 'Conception de parcours blended/digital, création de prompts et contenus multimédias, ingénierie pédagogique augmentée.',
-    tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   },
   {
     icon: <Cog size={24} />,
     pill: 'Production',
     title: 'Industrialisation & Outils',
     desc: "Déploiement d'automatisations, mise en place de chartes qualité et de guidelines pour vos équipes.",
-    tone: 'bg-accent-50 text-warning-fg border-accent-100',
   },
   {
     icon: <Users size={24} />,
     pill: 'Accompagnement',
     title: 'Animation & Coaching',
     desc: "Coaching d'équipe pour l'adoption de l'IA, facilitation d'ateliers et de communautés de pratique.",
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
     icon: <BarChart3 size={24} />,
     pill: 'Analytics',
     title: "Mesure d'Impact",
     desc: "KPIs, tableaux de bord, A/B testing pédagogique et reporting d'impact pour vos décideurs.",
-    tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   },
   {
     icon: <Shield size={24} />,
     pill: 'Gouvernance',
     title: 'Conformité & Éthique',
     desc: "Encadrement RGPD, propriété intellectuelle, gouvernance de l'IA responsable.",
-    tone: 'bg-accent-50 text-warning-fg border-accent-100',
   },
 ];
 
@@ -81,8 +73,8 @@ const PROCESS = [
   {
     num: '01',
     duration: '2 semaines',
-    title: 'Diagnostic',
-    desc: "Rencontre d'exploration (90 min), audit du dispositif existant, identification des cas d'usage prioritaires. Livrable : rapport + recommandations stratégiques.",
+    title: "S'orienter",
+    desc: "Rencontre d'exploration (90 min), audit de maturité SBO, cartographie des compétences Dreyfus et identification des cas d'usage prioritaires. Livrable : rapport + feuille de route stratégique.",
     accent: 'bg-primary-500',
     accentLight: 'bg-primary-50',
     accentText: 'text-primary-700',
@@ -90,8 +82,8 @@ const PROCESS = [
   {
     num: '02',
     duration: '4–8 semaines',
-    title: 'Co-construction',
-    desc: "Ateliers de co-conception, prototypage de solutions, formation des équipes impliquées. Livrable : parcours ou dispositif conçu et testé.",
+    title: 'Tester · Réaliser',
+    desc: "Validation du modèle sur une cohorte pilote (Tester), puis développement des agents IA, référentiels de compétences et parcours sur-mesure avec vos équipes (Réaliser). Livrable : dispositif SBO conçu, testé et validé.",
     accent: 'bg-secondary-500',
     accentLight: 'bg-secondary-50',
     accentText: 'text-secondary-700',
@@ -99,8 +91,8 @@ const PROCESS = [
   {
     num: '03',
     duration: '2–4 semaines',
-    title: 'Déploiement',
-    desc: "Mise en production, formation des utilisateurs finaux, suivi des indicateurs d'impact. Livrable : solution déployée + tableau de bord.",
+    title: 'Intégrer · Déployer · Évoluer',
+    desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences — puis amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord SBO.",
     accent: 'bg-accent-400',
     accentLight: 'bg-accent-50',
     accentText: 'text-warning-fg',
@@ -137,40 +129,37 @@ export const MarketingAccompagnement: React.FC = () => {
 
   return (
     <div className="bg-white">
+      <SEOHead
+        title="Accompagnement STRIDE"
+        description="Déployez une organisation Skills-Based en 3 phases : S'orienter, Tester·Réaliser, Intégrer·Déployer·Évoluer. Un accompagnement sur-mesure pour transformer vos équipes."
+        canonical="/marketing/accompagnement"
+      />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        <MeshGradientBg tone="brand" intensity="normal" />
-        <ParallaxLayer amplitude={60} className="absolute -top-10 -right-32 pointer-events-none" aria-hidden>
-          <div className="w-96 h-96 rounded-pill bg-secondary-400/20 blur-3xl" />
-        </ParallaxLayer>
-
+        {/* Radial halo */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
+        </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light">
               <Briefcase size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                Consulting & accompagnement sur mesure
+                Transition Skills-Based Organization · Méthode STRIDE
               </span>
             </span>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
-              On co-construit{' '}
-              <GradientText
-                from="from-accent-300"
-                via="via-accent-400"
-                to="to-secondary-400"
-                duration={10}
-              >
-                ta stratégie IA
-              </GradientText>
-              .
+              Passez à une organisation <span className="text-accent-400">Skills-Based</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Des experts en pédagogie et en IA, sans bullshit. On audit, on conçoit, on déploie,
-              on mesure. Trois phases claires, des livrables tangibles.
+              Des experts en pédagogie et en IA, sans bullshit. Nous auditons, concevons, déployons
+              et mesurons — avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
+              Des livrables tangibles à chaque étape.
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
@@ -183,11 +172,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#services">
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  className="!text-white hover:!bg-white/10 !border !border-white/30"
-                >
+                <Button variant="glass" size="lg">
                   Voir les services
                 </Button>
               </a>
@@ -212,8 +197,8 @@ export const MarketingAccompagnement: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Tu n'as besoin que d'un audit ? Top. D'un programme complet ? On y va.
-                On s'adapte à ton contexte, jamais l'inverse.
+                Vous n'avez besoin que d'un audit ? Parfait. D'un programme SBO complet ?
+                On y va. Nous nous adaptons à votre contexte, jamais l'inverse.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -227,10 +212,10 @@ export const MarketingAccompagnement: React.FC = () => {
                   className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl border ${s.tone}`}>
+                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 text-primary-600">
                       {s.icon}
                     </span>
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-pill border ${s.tone} font-body text-micro font-bold uppercase tracking-wider`}>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
                       {s.pill}
                     </span>
                   </div>
@@ -248,25 +233,17 @@ export const MarketingAccompagnement: React.FC = () => {
       </section>
 
       {/* ── Process timeline ──────────────────────────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white via-primary-50/30 to-white">
+      <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
-                Méthode
+              <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
+                Méthode STRIDE
               </span>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois phases.{' '}
-                <GradientText
-                  from="from-secondary-500"
-                  via="via-secondary-600"
-                  to="to-accent-500"
-                >
-                  Du diagnostic au déploiement
-                </GradientText>
-                .
+                Trois phases pour déployer <span className="text-accent-400">votre stratégie SBO</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -311,7 +288,7 @@ export const MarketingAccompagnement: React.FC = () => {
       </section>
 
       {/* ── Metrics ───────────────────────────────────────────────────────── */}
-      <section className="py-section bg-white">
+      <section className="py-section bg-gradient-to-b from-primary-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-stack">
           {[
             { to: 40, suffix: '+', label: 'missions livrées' },
@@ -320,7 +297,7 @@ export const MarketingAccompagnement: React.FC = () => {
             { to: 12, suffix: '+', label: 'secteurs accompagnés' },
           ].map((m, i) => (
             <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col items-center text-center gap-1 p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 via-white to-accent-50/40 border border-ink-100">
+              <div className="flex flex-col items-center text-center gap-1 p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
                 <CountUp
                   to={m.to}
                   suffix={m.suffix}
@@ -336,11 +313,11 @@ export const MarketingAccompagnement: React.FC = () => {
       </section>
 
       {/* ── Testimonials ──────────────────────────────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white via-secondary-50/30 to-white">
+      <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
+              <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
                 Ils nous ont fait confiance
               </span>
             </FadeInWhenVisible>
@@ -384,12 +361,14 @@ export const MarketingAccompagnement: React.FC = () => {
       {/* ── Contact form ──────────────────────────────────────────────────── */}
       <section
         id="contact-form"
-        className="relative overflow-hidden py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900"
+        className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden"
       >
-        <MeshGradientBg tone="brand" intensity="normal" />
-        <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-500/25 blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/10 backdrop-blur-glass-medium border border-white/20">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Première rencontre gratuite
@@ -398,12 +377,12 @@ export const MarketingAccompagnement: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.05}>
             <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              Parlons de ton projet.
+              Parlons de votre projet.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-              Décris-nous ton contexte. On te répond sous 48h ouvrées avec une proposition de RDV.
+              Décrivez-nous votre contexte. Nous vous répondons sous 48h ouvrées avec une proposition de RDV.
             </p>
           </FadeInWhenVisible>
 
@@ -413,12 +392,12 @@ export const MarketingAccompagnement: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="bg-white/10 backdrop-blur-glass-medium border border-white/20 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
+                className="bg-white/15 border border-white/25 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
               >
                 <CheckCircle2 size={40} className="text-accent-400" />
                 <p className="font-display font-bold text-h4 text-white m-0">Demande reçue !</p>
-                <p className="font-body text-body-sm text-white/75 m-0">
-                  On te répond sous 48h ouvrées avec une proposition de créneau.
+                <p className="font-body text-body-sm text-white/80 m-0">
+                  Nous vous répondons sous 48h ouvrées avec une proposition de créneau.
                 </p>
               </motion.div>
             ) : (
@@ -428,7 +407,7 @@ export const MarketingAccompagnement: React.FC = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-white">
+                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-white/90">
                       Prénom et nom *
                     </label>
                     <input
@@ -438,11 +417,11 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Marie Dupont"
-                      className="px-4 h-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-white">
+                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-white/90">
                       Email pro *
                     </label>
                     <input
@@ -452,12 +431,12 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="marie@organisation.fr"
-                      className="px-4 h-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-white">
+                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-white/90">
                     Organisation
                   </label>
                   <input
@@ -466,20 +445,20 @@ export const MarketingAccompagnement: React.FC = () => {
                     value={form.org}
                     onChange={(e) => setForm({ ...form, org: e.target.value })}
                     placeholder="Nom de l'entreprise"
-                    className="px-4 h-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-white">
-                    Ton besoin
+                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-white/90">
+                    Votre besoin
                   </label>
                   <textarea
                     id="ac-need"
                     rows={4}
                     value={form.need}
                     onChange={(e) => setForm({ ...form, need: e.target.value })}
-                    placeholder="Décris brièvement ton contexte et tes objectifs…"
-                    className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
+                    placeholder="Décrivez brièvement votre contexte et vos objectifs SBO…"
+                    className="px-4 py-3 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
                   />
                 </div>
                 <MagneticButton strength={10} className="w-full pt-stack">
@@ -493,14 +472,16 @@ export const MarketingAccompagnement: React.FC = () => {
                     Envoyer ma demande
                   </Button>
                 </MagneticButton>
-                <p className="font-body text-caption text-white/55 text-center m-0">
-                  Tes données restent confidentielles. RGPD respecté.
+                <p className="font-body text-caption text-white/60 text-center m-0">
+                  Vos données restent confidentielles. RGPD respecté.
                 </p>
               </form>
             )}
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* Footer */}
     </div>
   );
 };

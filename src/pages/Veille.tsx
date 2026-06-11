@@ -1,9 +1,9 @@
 /**
- * Veille : Hub éditorial (refonte v8)
+ * Veille — Hub éditorial (refonte v8)
  *
  * Structure :
- *  1. Hero full-bleed remixé : titre + sous-titre + search + category chips intégrés
- *  2. Feed vertical (VeilleCardFeed list) : tous les contenus filtrés
+ *  1. Hero full-bleed remixé — titre + sous-titre + search + category chips intégrés
+ *  2. Feed vertical (VeilleCardFeed list) — tous les contenus filtrés
  *  3. Bande mailing glassy minimale
  */
 
@@ -17,8 +17,7 @@ import {
   Search as SearchIcon,
   Mail,
   X,
-  Newspaper,
-  Clapperboard,
+  Bookmark,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
@@ -29,11 +28,9 @@ import {
   type VeilleFeedItem,
 } from '../components/patterns/VeilleCardFeed';
 import { VeilleFormatShortcutCards } from '../components/patterns/VeilleFormatShortcutCards';
-import { VeilleHeroFilterChips, type VeilleHeroFilter } from '../components/patterns/VeilleHeroFilterChips';
 
 import { useBookmarksStore, useFilterPrefsStore } from '../stores/persistence';
 import { useToastContext } from '../contexts/ToastContext';
-import { Container } from '../components/layout';
 
 /* ─── Types & data ───────────────────────────────────────────────────────── */
 
@@ -154,26 +151,26 @@ export const Veille: React.FC = () => {
         <div aria-hidden className="absolute top-1/3 -left-16 w-64 h-64 rounded-full bg-primary-900/20 blur-[80px] pointer-events-none" />
         <div aria-hidden className="absolute bottom-0 right-1/3 w-56 h-32 rounded-full bg-white/8 blur-[60px] pointer-events-none" />
 
-        {/* Decorative grid : subtle texture */}
+        {/* Decorative grid — subtle texture */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none opacity-faint"
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
         />
 
-        <Container width="page" padding={false} className="relative z-10 px-stack sm:px-stack-lg lg:px-section-lg pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-stack-lg">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-6">
 
           {/* Titre + sous-titre */}
-          <div className="flex flex-col gap-stack-xs">
+          <div className="flex flex-col gap-2">
             <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight" style={{ fontSize: 'clamp(2.25rem, 4vw, 3.25rem)' }}>
               Veille &amp; Actualités
             </h1>
             <p className="m-0 font-body text-body text-white/55 leading-relaxed max-w-2xl">
-              Articles, vidéos, dossiers et le magazine TLS : leadership, IA et formation professionnelle.
+              Articles, vidéos, dossiers et le magazine TLS — leadership, IA et formation professionnelle.
             </p>
           </div>
 
-          {/* Search bar glass : pleine largeur container */}
+          {/* Search bar glass — pleine largeur container */}
           <div className="relative">
             <SearchIcon size={18} strokeWidth={2} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
@@ -191,39 +188,67 @@ export const Veille: React.FC = () => {
           </div>
 
           {/* Filtres type + Sauvegardés */}
-          <VeilleHeroFilterChips
-            filters={TYPE_FILTERS.map(({ id, label, Icon }): VeilleHeroFilter => ({
-              id,
-              label,
-              icon: Icon ? <Icon size={12} strokeWidth={2.5} /> : undefined,
-              count: id !== 'all' ? counts[id] : undefined,
-            }))}
-            value={selected}
-            onChange={(id) => setSelected(id as 'all' | VeilleType)}
-            savedCount={savedIds.size}
-            isSavedActive={showSavedOnly}
-            onSavedToggle={() => setShowSavedOnly((v) => !v)}
-            hasActiveFilter={hasActiveFilter}
-            onReset={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-            resultsCount={filteredItems.length}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            {TYPE_FILTERS.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setSelected(id)}
+                className={[
+                  'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                  selected === id
+                    ? 'bg-white text-ink-900 border-white shadow-md'
+                    : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
+                ].join(' ')}
+              >
+                {Icon && <Icon size={12} strokeWidth={2.5} />}
+                {label}
+                {id !== 'all' && <span className={selected === id ? 'text-ink-400' : 'text-white/35'}>{counts[id]}</span>}
+              </button>
+            ))}
 
-          {/* Formats éditoriaux : 4 cartes navigation, dark-glass */}
-          <VeilleFormatShortcutCards
-            className="pt-1"
-            items={[
-              { label: 'Magazine TLS',  desc: 'Mensuel · analyses',     icon: <BookOpen     size={15} strokeWidth={2} />, iconClassName: 'text-primary-200',   onClick: () => navigate('/veille/magazine') },
-              { label: 'Actu hebdo',    desc: 'Chaque vendredi',        icon: <Newspaper    size={15} strokeWidth={2} />, iconClassName: 'text-secondary-200', onClick: () => navigate('/veille/weekly-newsletter') },
-              { label: 'Vidéo Reels',   desc: 'Short formats · 60 sec', icon: <Clapperboard size={15} strokeWidth={2} />, iconClassName: 'text-white/70',      onClick: () => navigate('/veille/video-reels') },
-              { label: 'Newsletter',    desc: 'Abonnement & archives',  icon: <Mail         size={15} strokeWidth={2} />, iconClassName: 'text-accent-300',    onClick: () => navigate('/veille/newsletter') },
-            ]}
-          />
+            <span aria-hidden className="w-px h-4 bg-white/20 mx-0.5" />
 
-        </Container>
+            <button
+              type="button"
+              onClick={() => setShowSavedOnly((v) => !v)}
+              className={[
+                'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                showSavedOnly
+                  ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
+                  : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
+              ].join(' ')}
+            >
+              <Bookmark size={12} strokeWidth={2.5} />
+              Sauvegardés
+              {savedIds.size > 0 && <span className={showSavedOnly ? 'text-ink-600' : 'text-white/35'}>{savedIds.size}</span>}
+            </button>
+
+            {hasActiveFilter && (
+              <button
+                type="button"
+                onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
+                className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1"
+              >
+                Réinitialiser
+              </button>
+            )}
+
+            {hasActiveFilter && (
+              <span className="font-body text-caption text-white/40 ml-auto">
+                <strong className="text-white/70">{filteredItems.length}</strong> résultat{filteredItems.length !== 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+
+          {/* Formats éditoriaux — 4 cartes navigation, dark-glass */}
+          <VeilleFormatShortcutCards className="pt-1" />
+
+        </div>
       </section>
 
       {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
-      <Container width="page" className="py-section flex flex-col gap-section flex-1">
+      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">
 
         <VeilleCardFeed
           items={filteredItems}
@@ -231,24 +256,24 @@ export const Veille: React.FC = () => {
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
-          emptyMessage="Aucun résultat : essayez d'élargir vos filtres."
+          emptyMessage="Aucun résultat — essayez d'élargir vos filtres."
         />
-      </Container>
+      </main>
 
-      {/* ── 4. BANDE MAILING : glassy minimale ──────────────────────────── */}
+      {/* ── 4. BANDE MAILING — glassy minimale ──────────────────────────── */}
       <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">
-        <Container width="page" padding={false} className="px-stack sm:px-stack-lg lg:px-section-lg py-stack">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
           <form
             onSubmit={handleSubscribe}
             className="flex flex-col sm:flex-row items-start sm:items-center gap-3"
           >
-            <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
+            <div className="flex items-center gap-2 text-ink-600 shrink-0">
               <Mail size={14} className="text-ink-400" />
               <span className="font-body text-body-sm">
                 Recevoir les actus veille dans votre boîte mail
               </span>
             </div>
-            <div className="flex items-center gap-stack-xs sm:ml-auto">
+            <div className="flex items-center gap-2 sm:ml-auto">
               <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
               <Input
                 id={emailId}
@@ -272,7 +297,7 @@ export const Veille: React.FC = () => {
               </button>
             </div>
           </form>
-        </Container>
+        </div>
       </div>
 
       {videoModal.item && (

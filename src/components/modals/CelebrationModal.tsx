@@ -116,10 +116,10 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
           {icon ?? <Trophy size={36} strokeWidth={2} fill="currentColor" />}
         </div>
 
-        {/* Title with gradient text */}
+        {/* Title — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */}
         <h2
           id="celebration-modal-title"
-          className="relative m-0 mb-3 font-display text-h1 font-bold tracking-tight leading-tight bg-gradient-to-br from-secondary-700 via-secondary-600 to-accent-700 bg-clip-text text-transparent"
+          className="relative m-0 mb-3 font-display text-h1 font-extrabold tracking-display leading-tight text-secondary-700"
         >
           {title}
         </h2>

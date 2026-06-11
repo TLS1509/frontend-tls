@@ -1,125 +1,112 @@
 /**
- * VeilleFormatShortcutCards — Navigation shortcut cards for Veille editorial formats.
+ * VeilleFormatShortcutCards
  *
- * Figma DS name: VeilleFormatShortcutCards.
+ * Grille de 4 cartes dark-glass de navigation vers les formats éditoriaux de la Veille
+ * (Magazine TLS / Actu hebdo / Vidéo Reels / Newsletter).
  *
- * Renders a 2×2 (mobile) → 4-col (sm+) grid of compact navigation cards,
- * each with an icon, a label and a short description. Designed for placement
- * inside the Veille hero (dark-gradient surface) by default, with an optional
- * `variant="light"` for use on white/light surfaces.
+ * Usage canonique :
+ *   <VeilleFormatShortcutCards />                        — cartes par défaut
+ *   <VeilleFormatShortcutCards cards={customCards} />    — cartes personnalisées
  *
- * Props:
- *  - items     — array of { label, desc?, icon, iconClassName?, onClick }
- *  - variant   — 'dark' (default, glass on gradient) | 'light' (on white surface)
- *  - className — extra classes on the root grid wrapper
+ * Conçu pour être utilisé sur fond saturé dark/glass (hero Veille).
  */
 
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { BookOpen, Newspaper, Clapperboard, Mail, ArrowRight } from 'lucide-react';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+/* ── Types publics ─────────────────────────────────────────────────────────── */
 
-export interface VeilleFormatShortcutItem {
-  label: string;
-  desc?: string;
-  /** Rendered icon node — pass a sized Lucide icon: `<BookOpen size={15} strokeWidth={2} />` */
+export interface VeilleFormatCard {
+  /** Icône affichée dans le bubble 32×32. Passer un <Icon size={16} /> coloré. */
   icon: React.ReactNode;
-  /** Colour class applied to the icon wrapper, e.g. `'text-primary-200'` */
-  iconClassName?: string;
-  onClick?: () => void;
+  title: string;
+  subtitle: string;
+  /** Route SPA vers laquelle naviguer au clic. */
+  href: string;
 }
 
-export type VeilleFormatShortcutVariant = 'dark' | 'light';
-
 export interface VeilleFormatShortcutCardsProps {
-  items: VeilleFormatShortcutItem[];
-  variant?: VeilleFormatShortcutVariant;
+  /** Surcharge les 4 cartes par défaut. Si omis, les cartes canoniques Veille sont utilisées. */
+  cards?: VeilleFormatCard[];
   className?: string;
 }
 
-// ─── Variant maps ─────────────────────────────────────────────────────────────
+/* ── Cartes par défaut ─────────────────────────────────────────────────────── */
 
-const CARD: Record<VeilleFormatShortcutVariant, string> = {
-  dark:  'bg-white/[0.06] border border-white/[0.12] hover:bg-white/[0.12] hover:border-white/25',
-  light: 'bg-ink-50 border border-ink-200 hover:bg-ink-100 hover:border-ink-300',
-};
+const DEFAULT_CARDS: VeilleFormatCard[] = [
+  {
+    icon: <BookOpen size={16} strokeWidth={2} className="text-primary-200" />,
+    title: 'Magazine TLS',
+    subtitle: 'Mensuel · analyses',
+    href: '/veille/magazine',
+  },
+  {
+    icon: <Newspaper size={16} strokeWidth={2} className="text-secondary-200" />,
+    title: 'Actu hebdo',
+    subtitle: 'Chaque vendredi',
+    href: '/veille/weekly-newsletter',
+  },
+  {
+    icon: <Clapperboard size={16} strokeWidth={2} className="text-white/70" />,
+    title: 'Vidéo Reels',
+    subtitle: 'Short formats · 60 sec',
+    href: '/veille/video-reels',
+  },
+  {
+    icon: <Mail size={16} strokeWidth={2} className="text-accent-300" />,
+    title: 'Newsletter',
+    subtitle: 'Abonnement & archives',
+    href: '/veille/newsletter',
+  },
+];
 
-const LABEL: Record<VeilleFormatShortcutVariant, string> = {
-  dark:  'text-white',
-  light: 'text-ink-900',
-};
-
-const DESC: Record<VeilleFormatShortcutVariant, string> = {
-  dark:  'text-white/40',
-  light: 'text-ink-400',
-};
-
-const ARROW: Record<VeilleFormatShortcutVariant, string> = {
-  dark:  'text-white/30',
-  light: 'text-ink-300',
-};
-
-// ─── Component ────────────────────────────────────────────────────────────────
+/* ── Composant ────────────────────────────────────────────────────────────── */
 
 export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps> = ({
-  items,
-  variant = 'dark',
+  cards = DEFAULT_CARDS,
   className = '',
-}) => (
-  <div
-    className={[
-      'grid grid-cols-2 sm:grid-cols-4 gap-2',
-      className,
-    ].filter(Boolean).join(' ')}
-  >
-    {items.map((item, i) => (
-      <button
-        key={i}
-        type="button"
-        onClick={item.onClick}
-        disabled={!item.onClick}
-        className={[
-          'group flex items-center gap-2.5 p-3 rounded-xl text-left',
-          'transition-all duration-base',
-          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-          item.onClick ? 'cursor-pointer' : 'cursor-default',
-          CARD[variant],
-        ].join(' ')}
-      >
-        {/* Icon */}
-        <span
-          className={['shrink-0', item.iconClassName ?? ''].filter(Boolean).join(' ')}
-          aria-hidden
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <div
+      className={[
+        'grid grid-cols-2 gap-3 md:grid-cols-4',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {cards.map(({ icon, title, subtitle, href }) => (
+        <button
+          key={href}
+          type="button"
+          onClick={() => navigate(href)}
+          className="group flex items-center gap-3 p-4 rounded-2xl bg-white/10 backdrop-blur-glass-medium border border-white/20 hover:bg-white/15 transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
         >
-          {item.icon}
-        </span>
-
-        {/* Text */}
-        <span className="flex-1 min-w-0 flex flex-col gap-0">
-          <span className={['font-body text-caption font-semibold leading-tight', LABEL[variant]].join(' ')}>
-            {item.label}
+          {/* Icon bubble */}
+          <span className="shrink-0 w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center">
+            {icon}
           </span>
-          {item.desc && (
-            <span className={['font-body text-micro leading-tight hidden sm:block', DESC[variant]].join(' ')}>
-              {item.desc}
+
+          {/* Text */}
+          <span className="flex-1 min-w-0 flex flex-col gap-0">
+            <span className="font-body text-body-sm font-bold text-white leading-tight">
+              {title}
             </span>
-          )}
-        </span>
+            <span className="font-body text-micro text-white/60 leading-tight">
+              {subtitle}
+            </span>
+          </span>
 
-        {/* Arrow — reveals on hover */}
-        {item.onClick && (
+          {/* Arrow */}
           <ArrowRight
-            size={12}
-            className={[
-              'shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-base',
-              ARROW[variant],
-            ].join(' ')}
-            aria-hidden
+            size={14}
+            className="shrink-0 text-white/40 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-base"
           />
-        )}
-      </button>
-    ))}
-  </div>
-);
-
-export default VeilleFormatShortcutCards;
+        </button>
+      ))}
+    </div>
+  );
+};

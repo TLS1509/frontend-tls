@@ -1,42 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, GraduationCap, Target, ArrowRight } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
+import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { TlsLogo } from '../components/ui/TlsLogo';
 import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { useGamificationStore, useUserProfileStore } from '../stores/persistence';
-import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
+import { useOnboardingStore } from '../stores/persistence';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
-  const profileStore = useUserProfileStore();
-  const gamificationStore = useGamificationStore();
+  const onboardingStore = useOnboardingStore();
 
-  useEffect(() => {
-    // Marquer l'onboarding comme complété (persist à travers les reloads)
-    profileStore.patch({ isOnboarded: true, onboardingStep: 'completed' });
-
-    // Attribuer badge + XP "Premier pas" une seule fois
-    if (!gamificationStore.hasBadge(MOCK_USER_ID, 'first-login')) {
-      gamificationStore.awardBadge({
-        userId: MOCK_USER_ID,
-        badgeId: 'first-login',
-        earnedAt: new Date().toISOString(),
-        xpAwarded: 150,
-      });
-      gamificationStore.addXPEvent({
-        id: 'xp-onboarding-first-login',
-        userId: MOCK_USER_ID,
-        trigger: 'badge_earned',
-        xp: 150,
-        description: 'Onboarding terminé : Badge Premier pas',
-        occurredAt: new Date().toISOString(),
-      });
-    }
+  // Mark final step on mount so subsequent visits know onboarding is fully done.
+  React.useEffect(() => {
+    onboardingStore.markStepComplete('success');
+    onboardingStore.goToStep('success');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const nextSteps: NextStepItem[] = [
@@ -70,10 +53,21 @@ export default function OnboardingSuccess() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-page-ambient">
-      <Container width="content" className="pt-14 md:pt-page pb-page flex flex-col gap-section-lg">
+    <main className="relative min-h-screen overflow-x-hidden">
+      {/* Sun gradient — celebration tone (orange→white→yellow) */}
+      <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
+      <AmbientBlobs intensity="normal" />
 
-        <Stepper items={buildOnboardingStepperItems('pret')} orientation="horizontal" />
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-page flex flex-col gap-section-lg">
+
+        {/* ── Brand bar ── */}
+        <div className="flex items-center justify-center">
+          <a href="/dashboard" aria-label="The Learning Society" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+            <TlsLogo size={40} variant="color" withBubble />
+          </a>
+        </div>
+
+        <Stepper items={buildOnboardingStepperItems('pret', onboardingStore.accountType)} orientation="horizontal" />
 
         <CongratulationsCard
           tone="brand"
@@ -95,7 +89,7 @@ export default function OnboardingSuccess() {
             variant="primary"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/dashboard?firstTime=1')}
             className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord
@@ -108,7 +102,7 @@ export default function OnboardingSuccess() {
             Revoir le tutoriel de la plateforme
           </button>
         </div>
-      </Container>
-    </div>
+      </div>
+    </main>
   );
 }
