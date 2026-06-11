@@ -1,5 +1,5 @@
 /**
- * MarketingContact — Polished Contact Page (Phase P2.5)
+ * MarketingContact : Polished Contact Page (Phase P2.5)
  *
  * Direction: form-first with sticky aside (contact info + quick links + booking).
  * Tone: brand primary + warm CTA.
@@ -36,7 +36,7 @@ const QUICK_LINKS = [
     icon: <BookOpen size={20} />,
     label: 'Formation Formateur Augmenté',
     href: '/marketing/formation',
-    desc: 'À partir de 249€ — 7 modules',
+    desc: 'À partir de 249€ : 7 modules',
     tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
@@ -48,7 +48,7 @@ const QUICK_LINKS = [
   },
   {
     icon: <Smartphone size={20} />,
-    label: 'Learning App — accès anticipé',
+    label: 'Learning App : accès anticipé',
     href: '/marketing/learning-app',
     desc: 'Inscription bêta gratuite',
     tone: 'bg-accent-50 text-warning-fg border-accent-100',

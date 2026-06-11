@@ -18,7 +18,7 @@ const QA_QUESTIONS = [
 ];
 
 const RESOURCES = [
-  { id: 1, label: 'Slides — Leadership en crise', type: 'PDF' },
+  { id: 1, label: 'Slides : Leadership en crise', type: 'PDF' },
   { id: 2, label: 'Bibliographie recommandée', type: 'PDF' },
 ];
 
@@ -47,7 +47,7 @@ export default function MasterclassLive() {
 
       <Container width="wide" padding={false} className="px-4 py-section">
         <div className="grid md:grid-cols-3 gap-section">
-          {/* Player embed — col span 2 */}
+          {/* Player embed : col span 2 */}
           <div className="md:col-span-2">
             <Card variant="default" className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">
               <div className="flex flex-col items-center gap-stack text-white">

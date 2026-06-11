@@ -80,7 +80,7 @@ export default function ProfileConsent() {
 
       <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
 
-        {/* ConsentBanner GDPR — dismiss persisted (Cahier #13bis) */}
+        {/* ConsentBanner GDPR : dismiss persisted (Cahier #13bis) */}
         {!gdpr.bannerDismissed && (
           <ConsentBanner
             onAcceptAll={() => privacyStore.updateGdprConsents(MOCK_USER_ID, { analytics: true, marketing: true, bannerDismissed: true })}
@@ -89,11 +89,11 @@ export default function ProfileConsent() {
           />
         )}
 
-        {/* Consentements GDPR — 3 types spec (Cahier #13bis § Consent Management) */}
+        {/* Consentements GDPR : 3 types spec (Cahier #13bis § Consent Management) */}
         <SectionCard
           title="Cookies & Données"
           titleIcon={<Cookie size={18} />}
-          description="Consentements RGPD — essential (requis), analytique, marketing."
+          description="Consentements RGPD : essential (requis), analytique, marketing."
         >
           <div className="flex flex-col gap-3">
             {[
@@ -121,7 +121,7 @@ export default function ProfileConsent() {
           </div>
         </SectionCard>
 
-        {/* AITransparencyLabel — carte explicative */}
+        {/* AITransparencyLabel : carte explicative */}
         <Card variant="tinted" tone="primary" className="flex flex-col gap-stack">
           <div className="flex items-center gap-2">
             <AITransparencyLabel variant="assisted" size="md" />
@@ -130,7 +130,7 @@ export default function ProfileConsent() {
           <p className="text-body-sm text-primary-800 leading-relaxed">
             Nos modèles IA traitent tes données d'apprentissage uniquement sur les bases légales que tu as acceptées.
             Chaque traitement est documenté, auditable et conforme à l'IA Act européen (2024/1689).
-            Tu peux modifier tes préférences à tout moment — les changements prennent effet immédiatement.
+            Tu peux modifier tes préférences à tout moment : les changements prennent effet immédiatement.
           </p>
           <div className="flex items-center gap-2 flex-wrap">
             <Badge variant="info" size="sm">Hébergement EU</Badge>
@@ -175,9 +175,9 @@ export default function ProfileConsent() {
           </div>
         </SectionCard>
 
-        {/* Droits IA — Article 22 RGPD */}
+        {/* Droits IA : Article 22 RGPD */}
         <SectionCard
-          title="Décisions IA — Droit à l'explication"
+          title="Décisions IA : Droit à l'explication"
           titleIcon={<Shield size={18} />}
           description="Tu peux contester toute décision automatisée et demander une intervention humaine."
         >

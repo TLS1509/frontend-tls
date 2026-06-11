@@ -9,7 +9,7 @@ import {
 } from '../../../components/marketing/motion';
 
 /**
- * MarketingLayout — public marketing site shell.
+ * MarketingLayout: public marketing site shell.
  *
  * - Sticky header + footer
  * - Global scroll progress bar (just below header)

@@ -1,5 +1,5 @@
 /**
- * MarketingHome — Immersive Fusion (Phase 1.2)
+ * MarketingHome : Immersive Fusion (Phase 1.2)
  *
  * Direction: Editorial Cinematic (A) × Interactive Demo (B) × 1 chapter signature (C).
  * Tone: brand (teal) dominant + warm CTAs + sun accent on details.
@@ -32,7 +32,7 @@ import {
   NoiseTexture,
 } from '../../components/marketing/motion';
 
-// ⚠️ PLACEHOLDER — Exemples de logos illustratifs.
+// ⚠️ PLACEHOLDER : Exemples de logos illustratifs.
 // Le site live ne publie aucun logo client. À remplacer par les vraies orgs accompagnées
 // (avec accord écrit de chaque organisation) avant mise en production.
 const LOGOS = [
@@ -46,7 +46,7 @@ const LOGOS = [
   'Société Générale',
 ];
 
-// ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
+// ⚠️ PLACEHOLDER : Témoignages illustratifs. Le site live n'en publie aucun.
 // À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
 const TESTIMONIALS = [
   {
@@ -150,7 +150,7 @@ export const MarketingHome: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.3}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Transforme ta pratique en combinant intelligence artificielle
-              et expertise pédagogique — des parcours qui mesurent l'impact
+              et expertise pédagogique : des parcours qui mesurent l'impact
               et développent des compétences durables.
             </p>
           </FadeInWhenVisible>
@@ -280,7 +280,7 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
             </div>
 
-            {/* Mockup column — TiltCard for tactile dimensionality */}
+            {/* Mockup column : TiltCard for tactile dimensionality */}
             <FadeInWhenVisible direction="left" delay={0.15}>
               <div className="relative">
                 <div
@@ -335,7 +335,7 @@ export const MarketingHome: React.FC = () => {
                 >
                   avec des humains
                 </GradientText>{' '}
-                — accompagnés par des outils.
+                : accompagnés par des outils.
               </h2>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.2}>
@@ -431,7 +431,7 @@ export const MarketingHome: React.FC = () => {
                   Les leaders L&D parlent mieux que nous.
                 </h2>
                 <p className="font-body text-caption text-ink-400 italic m-0">
-                  Témoignages illustratifs — de vrais retours clients seront publiés à mesure que les autorisations sont reçues.
+                  Témoignages illustratifs : de vrais retours clients seront publiés à mesure que les autorisations sont reçues.
                 </p>
               </div>
             </FadeInWhenVisible>
@@ -465,7 +465,7 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Final CTA — magnetic, dark mesh ──────────────────────────────── */}
+      {/* ── 6. Final CTA : magnetic, dark mesh ──────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900 py-page">
         <MeshGradientBg tone="ink" intensity="intense" />
         <ParallaxLayer

@@ -1,5 +1,5 @@
 /**
- * CoachProfileView — Apprenant's view of their assigned coach profile.
+ * CoachProfileView : Apprenant's view of their assigned coach profile.
  * Route: /coaching/coach/:id
  *
  * Distinct from CoachDashboard (coach's own workspace).
@@ -104,7 +104,7 @@ export default function CoachProfileView() {
       <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section py-section">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-section items-start">
 
-          {/* ── Left — Bio + Approach + Testimonials ── */}
+          {/* ── Left : Bio + Approach + Testimonials ── */}
           <div className="flex flex-col gap-section">
 
             {/* À propos */}
@@ -139,9 +139,9 @@ export default function CoachProfileView() {
                 </ul>
                 <div className="rounded-lg bg-primary-50 border border-primary-100 p-4">
                   <p className="text-body-sm text-primary-800 italic leading-relaxed">
-                    "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée — pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
+                    "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée : pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
                   </p>
-                  <p className="mt-2 text-caption text-primary-600 font-semibold">— Sophie Martin</p>
+                  <p className="mt-2 text-caption text-primary-600 font-semibold">: Sophie Martin</p>
                 </div>
               </div>
             </SectionCard>
@@ -171,7 +171,7 @@ export default function CoachProfileView() {
             </SectionCard>
           </div>
 
-          {/* ── Right — Sticky sidebar ── */}
+          {/* ── Right : Sticky sidebar ── */}
           <div className="flex flex-col gap-stack sticky top-24">
 
             {/* Profile card */}

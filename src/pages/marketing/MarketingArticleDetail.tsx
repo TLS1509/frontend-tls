@@ -1,5 +1,5 @@
 /**
- * MarketingArticleDetail — Article reading experience (Phase P4.2)
+ * MarketingArticleDetail : Article reading experience (Phase P4.2)
  *
  * Direction: editorial premium. Reading progress bar, sticky TOC, pull quotes,
  * related articles, share. Inspired by Stripe Press, Anthropic, Notion blog.
@@ -94,7 +94,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Silent fail — share API not available
+      // Silent fail : share API not available
     }
   };
 
@@ -246,14 +246,14 @@ const ArticleBody: React.FC<{
 
   return (
     <article className="flex flex-col gap-stack-lg">
-      {/* Intro — drop cap */}
+      {/* Intro : drop cap */}
       <FadeInWhenVisible direction="up">
         <p className="font-display text-[clamp(1.125rem,1.5vw,1.375rem)] text-ink-800 leading-relaxed m-0 first-letter:font-extrabold first-letter:text-[3rem] first-letter:leading-[0.85] first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:text-primary-600">
           {intro}
         </p>
       </FadeInWhenVisible>
 
-      {/* Body blocks — no per-block animation for reading flow */}
+      {/* Body blocks : no per-block animation for reading flow */}
       {body.map((block, i) => {
         const pqIdx = block.type === 'pullquote' ? pullquoteCount++ : -1;
         if (block.type === 'h2') {

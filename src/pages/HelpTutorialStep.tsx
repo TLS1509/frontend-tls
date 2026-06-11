@@ -33,7 +33,7 @@ export default function HelpTutorialStep() {
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
         title="Tutoriel : Paramétrer mon profil"
-        summary={`Étape ${CURRENT_STEP} sur ${TOTAL_STEPS} — Renseigner vos informations personnelles`}
+        summary={`Étape ${CURRENT_STEP} sur ${TOTAL_STEPS} : Renseigner vos informations personnelles`}
         tone="default"
       />
 

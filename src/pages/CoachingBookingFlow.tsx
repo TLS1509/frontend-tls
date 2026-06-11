@@ -73,7 +73,7 @@ export const CoachingBookingFlow: React.FC = () => {
           <SectionCard
             title="Choisir un créneau"
             titleIcon={<CalendarDays size={16} className="text-primary-600" />}
-            description="Sélectionnez le créneau souhaité — 1 crédit Classic sera déduit à la confirmation."
+            description="Sélectionnez le créneau souhaité : 1 crédit Classic sera déduit à la confirmation."
             actions={
               <>
                 <Button

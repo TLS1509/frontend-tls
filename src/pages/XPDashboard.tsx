@@ -70,7 +70,7 @@ export default function XPDashboard() {
         <SectionCard
           title="Progression vers le Niveau 8"
           titleIcon={<TrendingUp size={18} />}
-          description={`${totalXP} / ${xpNextLevel} XP — encore ${xpNextLevel - totalXP} XP pour passer au niveau suivant`}
+          description={`${totalXP} / ${xpNextLevel} XP : encore ${xpNextLevel - totalXP} XP pour passer au niveau suivant`}
         >
           <ProgressBar
             value={xpProgress}

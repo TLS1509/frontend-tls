@@ -1,5 +1,5 @@
 /**
- * MarketingDossierDetail — lecture d'un Dossier (contenu de fond, sourcé).
+ * MarketingDossierDetail : lecture d'un Dossier (contenu de fond, sourcé).
  *
  * Modèle calqué sur MarketingArticleDetail (hero light + cover, sommaire sticky,
  * corps chapitré) MAIS :

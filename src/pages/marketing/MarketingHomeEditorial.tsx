@@ -1,11 +1,11 @@
 /**
- * MarketingHome (Editorial base, redesigned) — live at `/`.
+ * MarketingHome (Editorial base, redesigned) : live at `/`.
  *
  * Lane: LIGHT · WARM · BOLD sans (League Spartan) · editorial · dosed motion.
  * Wins through type, hierarchy and whitespace, with ONE immersive moment (the
  * Learn → Do → Match sticky scroll-story that SHOWS the competency system) and
  * ONE dark section (final CTA). Human stays in the frame through voice and real
- * product UI — no stock photography.
+ * product UI : no stock photography.
  *
  * Discipline: register = VOUS (B2B). Tokens only (no hex / arbitrary). No
  * gradient-text. No invented metrics, no fake logos, no testimonials presented
@@ -31,7 +31,7 @@ import { LearnDoMatchVisual } from './components/LearnDoMatchVisual';
 import { CinematicHero } from './components/CinematicHero';
 
 /**
- * Reveal — minimal scroll-in wrapper. Content is VISIBLE BY DEFAULT (opacity:1);
+ * Reveal : minimal scroll-in wrapper. Content is VISIBLE BY DEFAULT (opacity:1);
  * on first intersection a one-shot upward translateY settles to 0. Transform-only
  * means an entrance can NEVER strand a block invisible. Reduced motion / no IO →
  * no transform. `className` is preserved so it can carry grid-column classes.
@@ -82,19 +82,19 @@ const Reveal: React.FC<{
   );
 };
 
-// ─── Learn → Do → Match — the system, told in three beats ─────────────────────
+// ─── Learn → Do → Match : the system, told in three beats ─────────────────────
 const STORY: StoryPanel[] = [
   {
     eyebrow: 'Learn',
     title: 'Apprendre, à votre rythme.',
     body:
-      "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier — pas un catalogue de vidéos à consommer.",
+      "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier : pas un catalogue de vidéos à consommer.",
   },
   {
     eyebrow: 'Do',
     title: 'Mettre en pratique, sur du concret.',
     body:
-      "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel — accompagné, jamais seul.",
+      "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel : accompagné, jamais seul.",
   },
   {
     eyebrow: 'Match',
@@ -104,7 +104,7 @@ const STORY: StoryPanel[] = [
   },
 ];
 
-// ─── Learning App features — plain list ───────────────────────────────────────
+// ─── Learning App features : plain list ───────────────────────────────────────
 const FEATURES = [
   'Parcours adaptatifs avec progression Dreyfus',
   'Coaching 1-1 intégré (messagerie et visio)',
@@ -112,7 +112,7 @@ const FEATURES = [
   'Veille pédagogique curée pour votre métier',
 ];
 
-// ─── The three offers — a disciplined index, tone-coded ───────────────────────
+// ─── The three offers : a disciplined index, tone-coded ───────────────────────
 const OFFERS: {
   no: string;
   kicker: string;
@@ -139,7 +139,7 @@ const OFFERS: {
     kicker: 'Conseil',
     title: 'Le Studio',
     body:
-      "Audit, stratégie IA et déploiement sur-mesure pour les organismes de formation et les entreprises. On part de vos contraintes réelles, via la méthode STRIDE — pas d'un modèle générique.",
+      "Audit, stratégie IA et déploiement sur-mesure pour les organismes de formation et les entreprises. On part de vos contraintes réelles, via la méthode STRIDE : pas d'un modèle générique.",
     cta: 'Parler de votre projet',
     to: '/marketing/accompagnement',
     num: 'text-secondary-200',
@@ -158,7 +158,7 @@ const OFFERS: {
   },
 ];
 
-// ─── Honest proof — what we can claim today, nothing more ─────────────────────
+// ─── Honest proof : what we can claim today, nothing more ─────────────────────
 const PROOFS: { title: string; detail: string }[] = [
   { title: 'Certification Qualiopi', detail: 'délivrée via C-Campus, organisme certificateur reconnu.' },
   { title: 'Open Badge vérifiable', detail: 'une preuve de compétence numérique, à la fin du parcours.' },
@@ -168,10 +168,10 @@ const PROOFS: { title: string; detail: string }[] = [
 export const MarketingHomeEditorial: React.FC = () => {
   return (
     <div className="bg-white text-ink-900">
-      {/* ── 1. Hero — Direction C cinematic (Illustrated Glass) ────────────────── */}
+      {/* ── 1. Hero : Direction C cinematic (Illustrated Glass) ────────────────── */}
       <CinematicHero />
 
-      {/* ── 2. Conviction — one committed teal stripe ──────────────────────────── */}
+      {/* ── 2. Conviction : one committed teal stripe ──────────────────────────── */}
       <section className="bg-primary-700 text-white">
         <div className="max-w-wide mx-auto px-6 py-page lg:py-section-lg">
           <Reveal>
@@ -189,7 +189,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Learn → Do → Match — the immersive system story ─────────────────── */}
+      {/* ── 3. Learn → Do → Match : the immersive system story ─────────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 pt-page lg:pt-section-lg">
           <Reveal>
@@ -203,7 +203,7 @@ export const MarketingHomeEditorial: React.FC = () => {
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 On n'apprend pas pour cocher une case, mais pour appliquer,
                 prouver et faire reconnaître de vraies compétences. Apprendre,
-                mettre en pratique, valoriser — sans rupture.
+                mettre en pratique, valoriser : sans rupture.
               </p>
               <p className="font-body text-caption text-ink-500 italic m-0">
                 À notre connaissance, le seul dispositif français qui relie les
@@ -221,7 +221,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         />
       </section>
 
-      {/* ── 4. Show, don't tell — the playable product mockup ──────────────────── */}
+      {/* ── 4. Show, don't tell : the playable product mockup ──────────────────── */}
       <section className="bg-ink-50">
         <div className="max-w-wide mx-auto px-6 py-page">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
@@ -268,7 +268,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5. What it is — the three offers as a disciplined index ────────────── */}
+      {/* ── 5. What it is : the three offers as a disciplined index ────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 py-page">
           <Reveal>
@@ -325,7 +325,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6. Method — STRIDE callout ─────────────────────────────────────────── */}
+      {/* ── 6. Method : STRIDE callout ─────────────────────────────────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 pb-page">
           <Reveal>
@@ -361,7 +361,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 7. Proof — honest, no invented metric, no fake logo ────────────────── */}
+      {/* ── 7. Proof : honest, no invented metric, no fake logo ────────────────── */}
       <section className="bg-gradient-page-ambient-warm">
         <div className="max-w-wide mx-auto px-6 py-page">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-start">
@@ -376,7 +376,7 @@ export const MarketingHomeEditorial: React.FC = () => {
                   </h2>
                   <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-sm">
                     Pas de métriques gonflées ni de logos empruntés. Voici ce
-                    qu'on peut affirmer aujourd'hui — le reste viendra avec les
+                    qu'on peut affirmer aujourd'hui : le reste viendra avec les
                     premiers parcours terminés.
                   </p>
                 </div>
@@ -390,21 +390,21 @@ export const MarketingHomeEditorial: React.FC = () => {
                     <BadgeCheck size={24} className="text-primary-600 shrink-0 mt-0.5" />
                     <p className="font-body text-body-lg leading-snug m-0">
                       <span className="font-bold text-ink-900">{p.title}</span>
-                      <span className="text-ink-600"> — {p.detail}</span>
+                      <span className="text-ink-600"> • {p.detail}</span>
                     </p>
                   </div>
                 </Reveal>
               ))}
               <p className="font-body text-caption text-ink-500 italic mt-stack-lg m-0">
                 Les retours de nos formateurs et clients seront publiés ici, avec
-                leur accord — pas avant.
+                leur accord : pas avant.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 8. Blog teaser — editorial cross-link, no card chrome ──────────────── */}
+      {/* ── 8. Blog teaser : editorial cross-link, no card chrome ──────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 py-page">
           <Reveal>
@@ -433,7 +433,7 @@ export const MarketingHomeEditorial: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 9. Final CTA — the one dark section, ONE primary action ────────────── */}
+      {/* ── 9. Final CTA : the one dark section, ONE primary action ────────────── */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 pb-page">
           <Reveal>

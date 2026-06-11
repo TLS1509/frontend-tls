@@ -1,9 +1,9 @@
 /**
- * MarketingInfographieSBO — ressource interactive : l'organisation par les compétences (SBO),
+ * MarketingInfographieSBO: ressource interactive : l'organisation par les compétences (SBO),
  * en scrollytelling. Pièce signature de la section Ressources.
  *
  * Direction : sticky scroll storytelling (StickyScrollStory) + compteurs (CountUp), lane light+warm.
- * Données chiffrées ATTRIBUÉES (WEF, Deloitte) — aucune métrique TLS inventée (FACTS-CANON C7).
+ * Données chiffrées ATTRIBUÉES (WEF, Deloitte): aucune métrique TLS inventée (FACTS-CANON C7).
  * Le dossier de fond correspondant : /dossiers/organisation-par-les-competences-sbo.
  */
 

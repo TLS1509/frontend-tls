@@ -27,10 +27,10 @@ interface FormState {
 }
 
 const DREYFUS_OPTIONS: { value: string; label: string }[] = [
-  { value: '2', label: 'D2 — Débutant avancé' },
-  { value: '3', label: 'D3 — Compétent' },
-  { value: '4', label: 'D4 — Performant' },
-  { value: '5', label: 'D5 — Expert' },
+  { value: '2', label: 'D2 : Débutant avancé' },
+  { value: '3', label: 'D3 : Compétent' },
+  { value: '4', label: 'D4 : Performant' },
+  { value: '5', label: 'D5 : Expert' },
 ];
 
 const STATUS_OPTIONS: { value: string; label: string }[] = [
@@ -263,7 +263,7 @@ export default function PasseportObjectifs() {
         {/* Selected goal milestones */}
         {goal && goal.milestones.length > 0 && (
           <SectionCard
-            title={`Jalons — ${getCompetenceById(goal.competenceId)?.label ?? goal.competenceId}`}
+            title={`Jalons : ${getCompetenceById(goal.competenceId)?.label ?? goal.competenceId}`}
             titleIcon={<CheckCircle2 size={18} />}
           >
             <div className="flex flex-col gap-2">
@@ -374,7 +374,7 @@ export default function PasseportObjectifs() {
             />
           </FormGroup>
 
-          <FormGroup label="Échéance" required hint="Format ISO — défaut +6 mois">
+          <FormGroup label="Échéance" required hint="Format ISO : défaut +6 mois">
             <Input
               type="date"
               value={form.deadline}

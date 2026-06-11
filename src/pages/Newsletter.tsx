@@ -1,8 +1,8 @@
 /**
- * Newsletter — Phase 10 Tier 2 polish.
+ * Newsletter : Phase 10 Tier 2 polish.
  *
  * Page utilitaire abonnement / préférences newsletter + archives.
- * Petite page (S complexity) — utilise EditorialHero + EditorialLayout + SectionCard.
+ * Petite page (S complexity) : utilise EditorialHero + EditorialLayout + SectionCard.
  */
 
 import React from 'react';
@@ -83,7 +83,7 @@ export const Newsletter: React.FC = () => {
               <SectionCard
                 title="Dernière édition publiée"
                 titleIcon={<Calendar size={18} className="text-primary-600" />}
-                description="Édition de la semaine #17 — Lundi 28 avril 2026"
+                description="Édition de la semaine #17 : Lundi 28 avril 2026"
               >
                 <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">
                   Consultez la dernière synthèse hebdomadaire pour capter les tendances utiles en

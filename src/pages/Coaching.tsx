@@ -1,5 +1,5 @@
 /**
- * Coaching Page — Phase 10 refactor v2
+ * Coaching Page: Phase 10 refactor v2
  *
  * Décision UX (user feedback) : suppression de la section ProfileCard coach.
  * Le coach card n'apporte pas de valeur tant qu'on n'a pas de session active.
@@ -108,9 +108,9 @@ export const Coaching: React.FC = () => {
     if (!active) return null;
     const d = new Date(active.scheduledAt);
     return {
-      title: active.theme ?? `Session coaching — ${active.coachName}`,
+      title: active.theme ?? `Session coaching: ${active.coachName}`,
       dateLabel: d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
-      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} — ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
+      hourLabel: `${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}: ${new Date(d.getTime() + active.durationMinutes * 60_000).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`,
     };
   }, [storeSessions]);
 
@@ -126,7 +126,7 @@ export const Coaching: React.FC = () => {
       .filter((s) => s.status === 'completed')
       .map((s) => ({
         id: s.id,
-        title: s.theme ?? `Session coaching — ${s.coachName}`,
+        title: s.theme ?? `Session coaching: ${s.coachName}`,
         coachName: s.coachName,
         description: s.coachSpeciality ?? '',
         dateLabel: new Date(s.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
@@ -137,7 +137,7 @@ export const Coaching: React.FC = () => {
       })),
   [storeSessions]);
 
-  /* Tiles outils — section content (plus dans le hero trailing).
+  /* Tiles outils: section content (plus dans le hero trailing).
      Surface tinted tone-aware (brand/warm/sun) sur fond clair, icône md (32px). */
   const outilsTiles = (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack max-w-[640px]">
@@ -172,7 +172,7 @@ export const Coaching: React.FC = () => {
   );
 
   /* Génère un fichier .ics (invite calendrier standard) et déclenche le download.
-     Stub minimal — en prod, parser dateLabel/hourLabel proprement et inclure timezone. */
+     Stub minimal: en prod, parser dateLabel/hourLabel proprement et inclure timezone. */
   const handleDownloadCalendarInvite = () => {
     if (!upcoming) return;
     const ics = [
@@ -212,7 +212,7 @@ export const Coaching: React.FC = () => {
         <AmbientBlobs />
         <Container width="page" className="relative z-base py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
-          {/* Hero — EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
+          {/* Hero: EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
           <EditorialHero
             tone="brand"
             eyebrow={{ icon: <CalendarClock size={12} />, label: 'Mon accompagnement' }}
@@ -220,7 +220,7 @@ export const Coaching: React.FC = () => {
             summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
           />
 
-          {/* DEV CONTROLS — masqué en production */}
+          {/* DEV CONTROLS: masqué en production */}
           {import.meta.env.DEV && <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-accent-50 border border-accent-200 text-caption">
             <span className="inline-flex items-center gap-1 font-bold text-accent-900">
               <Sparkles size={14} /> DEV
@@ -265,11 +265,11 @@ export const Coaching: React.FC = () => {
             <Button size="sm" variant="ghost" onClick={() => setShowCancelSuccess(true)}>Success Cancel</Button>
           </div>}
 
-          {/* (Section coach strip supprimée — intégré DANS la session card upcoming pour
+          {/* (Section coach strip supprimée: intégré DANS la session card upcoming pour
               le state coach + session. Pas de section dédiée quand pas de coach assigné
               ni quand pas de session : l'empty state action zone suffit.) */}
 
-          {/* PRIMARY ACTION ZONE — 3 cases :
+          {/* PRIMARY ACTION ZONE: 3 cases :
               - pas coach           → empty state "Demander un coach"
               - coach + pas session → empty state "Réserver une session"
               - coach + session     → upcoming session card */}
@@ -325,7 +325,7 @@ export const Coaching: React.FC = () => {
                   gap="sm"
                 />
 
-                {/* Coach row : avatar + name + role + Message button — intégré ici
+                {/* Coach row : avatar + name + role + Message button: intégré ici
                     (au lieu d'une section strip dédiée) car c'est dans le contexte de la
                     session que contacter son coach a du sens. */}
                 <div className="flex flex-wrap items-center gap-3 p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
@@ -368,7 +368,7 @@ export const Coaching: React.FC = () => {
               </div>
             </Card>
           ) : (
-            // Empty state — no session scheduled, prompt to book
+            // Empty state: no session scheduled, prompt to book
             <Card
               variant="tinted"
               tone="primary"
@@ -411,7 +411,7 @@ export const Coaching: React.FC = () => {
             </Card>
           )}
 
-          {/* OUTILS — Préparer / Compte-rendu / Réflexions
+          {/* OUTILS: Préparer / Compte-rendu / Réflexions
               IconFeatureCard tinted tone-aware (brand/warm/sun) en contenu page. */}
           <section aria-label="Outils de coaching" className="flex flex-col gap-stack">
             <SectionHeader
@@ -444,7 +444,7 @@ export const Coaching: React.FC = () => {
               {sessions.map((session) => (
                 <SessionCard
                   key={session.id}
-                  /* Past sessions all in tinted warm (secondary-50/70) — consistant theme orange clair. */
+                  /* Past sessions all in tinted warm (secondary-50/70): consistant theme orange clair. */
                   surface="tinted"
                   tone="warm"
                   title={session.title}
@@ -465,7 +465,7 @@ export const Coaching: React.FC = () => {
         </Container>
       </div>
 
-      {/* BookingModal — réservation d'une session. onBookingConfirmed crée la session + ouvre SuccessModal */}
+      {/* BookingModal: réservation d'une session. onBookingConfirmed crée la session + ouvre SuccessModal */}
       <BookingModal
         isOpen={showBooking}
         onClose={() => setShowBooking(false)}
@@ -490,12 +490,12 @@ export const Coaching: React.FC = () => {
         companyName="The Learning Society"
       />
 
-      {/* CancelSessionModal — annulation : flip vers empty state + SuccessModal */}
+      {/* CancelSessionModal: annulation : flip vers empty state + SuccessModal */}
       <CancelSessionModal
         isOpen={showCancel}
         onClose={() => setShowCancel(false)}
         onCancel={(reason) => {
-          console.log('❌ Session annulée — motif:', reason);
+          console.log('❌ Session annulée: motif:', reason);
           setUpcoming(null);
           setShowCancel(false);
           setShowCancelSuccess(true);
@@ -505,10 +505,10 @@ export const Coaching: React.FC = () => {
           setShowBooking(true);
         }}
         sessionTitle={upcoming?.title ?? ''}
-        sessionDate={upcoming ? `${upcoming.dateLabel} — ${upcoming.hourLabel}` : ''}
+        sessionDate={upcoming ? `${upcoming.dateLabel}: ${upcoming.hourLabel}` : ''}
       />
 
-      {/* SessionFeedbackModal — feedback post-session */}
+      {/* SessionFeedbackModal: feedback post-session */}
       <SessionFeedbackModal
         isOpen={showFeedback}
         onClose={() => setShowFeedback(false)}
@@ -520,7 +520,7 @@ export const Coaching: React.FC = () => {
         subtitle="Comment évaluez-vous cette session de coaching ?"
       />
 
-      {/* SuccessModal — confirmation booking */}
+      {/* SuccessModal: confirmation booking */}
       <SuccessModal
         isOpen={showBookingSuccess}
         onClose={() => setShowBookingSuccess(false)}
@@ -532,7 +532,7 @@ export const Coaching: React.FC = () => {
         }
       />
 
-      {/* SuccessModal — confirmation annulation */}
+      {/* SuccessModal: confirmation annulation */}
       <SuccessModal
         isOpen={showCancelSuccess}
         onClose={() => setShowCancelSuccess(false)}

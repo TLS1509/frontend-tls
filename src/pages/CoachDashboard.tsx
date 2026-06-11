@@ -46,7 +46,7 @@ export default function CoachDashboard() {
   const [activeTab, setActiveTab] = useState('apprenants');
   const [selectedApprenantId, setSelectedApprenantId] = useState<string | null>(null);
 
-  // Phase 16.4 #1 — load corrections from store, group by status
+  // Phase 16.4 #1 : load corrections from store, group by status
   const coachingStore = useCoachingStore();
   const allCorrections = coachingStore.getAllCorrections();
   const pendingCorrections = useMemo(
@@ -136,7 +136,7 @@ export default function CoachDashboard() {
             {selected && (
               <div className="w-full lg:w-80 sticky top-4">
                 <SectionCard
-                  title={`Radar — ${selected.name}`}
+                  title={`Radar : ${selected.name}`}
                   description="Niveau actuel Dreyfus par compétence"
                 >
                   <CompetencyRadar axes={radarFor(selected.scores)} size="sm" showLegend />
@@ -211,7 +211,7 @@ export default function CoachDashboard() {
         {activeTab === 'sessions' && (
           <EmptyState
             title="Gestion des sessions"
-            description="Calendrier et synchronisation Google/Outlook — disponible avec la configuration OAuth."
+            description="Calendrier et synchronisation Google/Outlook : disponible avec la configuration OAuth."
             icon={<Clock3 size={32} />}
           />
         )}

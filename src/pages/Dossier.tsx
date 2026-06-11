@@ -1,5 +1,5 @@
 /**
- * Dossier — Phase 10 Tier 2 refonte.
+ * Dossier : Phase 10 Tier 2 refonte.
  *
  * Page dossier thématique long-form, tone warm.
  *
@@ -7,7 +7,7 @@
  *  1. ReadingProgressBar fixed top + sticky glass header (back, ring, download CTA)
  *  2. Hero warm bounded (gradient subtle bg, breadcrumb 2-niveaux, emoji-bubble, h1, meta)
  *  3. IntroCallout (résumé exécutif, tone warm, quote icon)
- *  4. EditorialLayout asideFirst — TOC sticky gauche + sections numérotées
+ *  4. EditorialLayout asideFirst : TOC sticky gauche + sections numérotées
  *  5. KeyFindingCard grid 2-cols (Points clés)
  *  6. Conclusion brand gradient card
  *  7. Download CTA centered
@@ -160,7 +160,7 @@ export const Dossier: React.FC = () => {
           </Container>
         </header>
 
-        {/* Body — EditorialLayout aside-left (TOC) + main */}
+        {/* Body : EditorialLayout aside-left (TOC) + main */}
         <Container width="page" className="py-section">
           <EditorialLayout
             asideFirst
@@ -191,7 +191,7 @@ export const Dossier: React.FC = () => {
                 {/* Section 1 */}
                 <section id="sec-contexte" className="flex flex-col gap-stack scroll-mt-24">
                   <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
-                    01 — Contexte & enjeux 2026
+                    01 : Contexte & enjeux 2026
                   </h2>
                   <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
                     La transformation des organisations par l'IA générative est désormais un fait structurel,
@@ -210,12 +210,12 @@ export const Dossier: React.FC = () => {
                 {/* Section 2 */}
                 <section id="sec-transfo" className="flex flex-col gap-stack scroll-mt-24">
                   <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
-                    02 — Transformation par l'IA
+                    02 : Transformation par l'IA
                   </h2>
                   <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
                     Notre enquête terrain révèle une polarisation nette entre les organisations qui ont engagé
                     une transformation structurée et celles qui expérimentent encore de façon isolée. Les
-                    premières — 34 % de notre panel — ont mis en place des cellules dédiées, des indicateurs
+                    premières : 34 % de notre panel : ont mis en place des cellules dédiées, des indicateurs
                     de maturité IA et des budgets sanctuarisés.
                   </p>
                   <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
@@ -225,10 +225,10 @@ export const Dossier: React.FC = () => {
                   </p>
                 </section>
 
-                {/* Section 3 — KeyFinding grid */}
+                {/* Section 3 : KeyFinding grid */}
                 <section id="sec-points" className="flex flex-col gap-stack scroll-mt-24">
                   <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
-                    03 — Points clés & enseignements
+                    03 : Points clés & enseignements
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
                     {KEY_FINDINGS.map((k, i) => (
@@ -244,10 +244,10 @@ export const Dossier: React.FC = () => {
                   </div>
                 </section>
 
-                {/* Section 4 — Big stats */}
+                {/* Section 4 : Big stats */}
                 <section id="sec-data" className="flex flex-col gap-stack scroll-mt-24">
                   <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
-                    04 — Données & Analyses
+                    04 : Données & Analyses
                   </h2>
 
                   <div className="grid grid-cols-2 gap-stack">
@@ -269,15 +269,15 @@ export const Dossier: React.FC = () => {
                   <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-2 text-ink-400">
                     <BarChart2 size={32} className="opacity-50" />
                     <span className="font-body text-body-sm">
-                      Graphique — Évolution de l'adoption IA en formation (2023–2026)
+                      Graphique : Évolution de l'adoption IA en formation (2023–2026)
                     </span>
                   </div>
                 </section>
 
-                {/* Section 5 — Conclusion brand card */}
+                {/* Section 5 : Conclusion brand card */}
                 <section id="sec-conclusion" className="flex flex-col gap-stack scroll-mt-24">
                   <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight pb-3 border-b border-secondary-200">
-                    05 — Conclusions & recommandations
+                    05 : Conclusions & recommandations
                   </h2>
 
                   <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-6 sm:p-8 text-white">

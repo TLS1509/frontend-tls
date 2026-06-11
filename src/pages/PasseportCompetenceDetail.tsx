@@ -73,7 +73,7 @@ export default function PasseportCompetenceDetail() {
       <EditorialHero
         eyebrow={`Passeport · ${domainLabel(domain)}`}
         title={label}
-        summary={description || `Compétence du domaine ${domain} — suivi Dreyfus 1 à 5.`}
+        summary={description || `Compétence du domaine ${domain} : suivi Dreyfus 1 à 5.`}
         tone={DOMAIN_TONE[domain]}
         trailing={
           <div className="flex items-center gap-3">

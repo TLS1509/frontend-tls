@@ -1,5 +1,5 @@
 /**
- * Variant C — "Pedagogical Warm"
+ * Variant C: "Pedagogical Warm"
  * Inspirations : Brilliant, Maven, MasterClass, Duolingo marketing.
  * Mood : Chaleureux humain, magazine-style éditorial, learner journeys prominents.
  * Identity TLS : warm secondary-500 dominant + brand teal accent, accent-400 yellow = insights.
@@ -71,7 +71,7 @@ const VOICES = [
   },
 ];
 
-/** SVG decorative — line annotation style "marker" */
+/** SVG decorative: line annotation style "marker" */
 const SquigglyUnderline: React.FC<{ className?: string }> = ({ className = '' }) => (
   <svg viewBox="0 0 200 12" fill="none" className={className} aria-hidden>
     <path d="M2 8 Q 25 1, 50 6 T 100 6 T 150 6 T 198 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
@@ -88,7 +88,7 @@ const HandArrow: React.FC<{ className?: string }> = ({ className = '' }) => (
 export const MarketingHomeC: React.FC = () => (
   <div className="bg-gradient-to-b from-secondary-50/30 via-white to-accent-50/20">
 
-    {/* ── Hero — magazine éditorial asymétrique ───────────────────────────── */}
+    {/* ── Hero: magazine éditorial asymétrique ───────────────────────────── */}
     <section className="relative pt-28 pb-page overflow-hidden">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute top-32 -right-20 w-[500px] h-[500px] rounded-full bg-secondary-200/40 blur-[100px]" />
@@ -132,7 +132,7 @@ export const MarketingHomeC: React.FC = () => (
           </div>
         </div>
 
-        {/* Portrait card — single learner */}
+        {/* Portrait card: single learner */}
         <div className="relative">
           <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
             <img
@@ -157,7 +157,7 @@ export const MarketingHomeC: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Conviction band — manifesto ───────────────────────────────────────── */}
+    {/* ── Conviction band: manifesto ───────────────────────────────────────── */}
     <section className="bg-secondary-500 py-section-lg relative overflow-hidden">
       <div aria-hidden className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-accent-400 blur-[80px]" />
@@ -168,12 +168,12 @@ export const MarketingHomeC: React.FC = () => (
         </p>
         <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] font-extrabold text-white leading-[1.15] tracking-tight m-0">
           On n'apprend pas avec des outils.<br />
-          <span className="text-accent-400">On apprend avec des humains</span> — accompagnés par des outils.
+          <span className="text-accent-400">On apprend avec des humains</span>: accompagnés par des outils.
         </h2>
       </div>
     </section>
 
-    {/* ── Journey — storyboard 4 chapitres ──────────────────────────────────── */}
+    {/* ── Journey: storyboard 4 chapitres ──────────────────────────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-6xl mx-auto px-6 flex flex-col gap-page">
         <div className="flex flex-col gap-stack items-center text-center max-w-2xl mx-auto">
@@ -217,7 +217,7 @@ export const MarketingHomeC: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Voices — testimonials avec portraits prominents ───────────────────── */}
+    {/* ── Voices: testimonials avec portraits prominents ───────────────────── */}
     <section className="py-page bg-secondary-50/40">
       <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
         <div className="flex flex-col gap-stack items-center text-center max-w-2xl mx-auto">
@@ -244,7 +244,7 @@ export const MarketingHomeC: React.FC = () => (
                   </span>{parts[1]}"
                 </blockquote>
                 <p className="font-body text-caption text-secondary-700 font-bold m-0 uppercase tracking-wider">
-                  — {author}
+                 : {author}
                 </p>
               </article>
             );
@@ -308,7 +308,7 @@ export const MarketingHomeC: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Final invitation — warm letter style ──────────────────────────────── */}
+    {/* ── Final invitation: warm letter style ──────────────────────────────── */}
     <section className="py-page bg-gradient-to-br from-secondary-100/40 via-accent-50/30 to-white">
       <div className="max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
         <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
@@ -332,7 +332,7 @@ export const MarketingHomeC: React.FC = () => (
           </Link>
         </div>
         <p className="font-body text-caption text-ink-500 m-0 mt-stack italic">
-          — L'équipe TLS, depuis Paris ✨
+         : L'équipe TLS, depuis Paris ✨
         </p>
       </div>
     </section>

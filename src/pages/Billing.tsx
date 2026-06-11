@@ -1,5 +1,5 @@
 /**
- * Billing — Gestion abonnement & facturation.
+ * Billing : Gestion abonnement & facturation.
  *
  * Flow : Account family page (Profil / Mon compte / Paramètres).
  *
@@ -93,7 +93,7 @@ export const Billing: React.FC = () => {
 
         {/* Header minimal */}
         <header className="flex flex-col gap-tight">
-          <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
+          <p className="m-0 font-body text-caption font-medium text-primary-600">
             Mon compte · Facturation
           </p>
           <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">

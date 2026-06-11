@@ -20,7 +20,7 @@ const TABS = [
   { id: 'completed', label: 'Terminés' },
 ];
 
-/** Display status mapping — the cahier has 5 internal statuses but the queue collapses them to 3 buckets. */
+/** Display status mapping : the cahier has 5 internal statuses but the queue collapses them to 3 buckets. */
 const bucketOf = (s: Correction['status']): 'pending' | 'in-review' | 'completed' => {
   switch (s) {
     case 'pending':           return 'pending';
@@ -50,7 +50,7 @@ export default function CoachCorrectionsQueue() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'pending' | 'in-review' | 'completed'>('pending');
 
-  // Phase 16.4 #2 — read corrections live from store (seeded from MOCK on first access).
+  // Phase 16.4 #2 : read corrections live from store (seeded from MOCK on first access).
   const coachingStore = useCoachingStore();
   const all = coachingStore.getAllCorrections();
 

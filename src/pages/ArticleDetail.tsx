@@ -1,5 +1,5 @@
 /**
- * ArticleDetail — Phase 10 Tier 2 refonte.
+ * ArticleDetail : Phase 10 Tier 2 refonte.
  *
  * Page article éditorial (sources : Magazine / Newsletter / Dossier).
  *
@@ -75,11 +75,11 @@ const BLOCKS: ContentBlock[] = [
   },
   {
     type: 'paragraph',
-    text: "Trois lignes de force se dégagent. Premièrement, la flexibilité spatiale n'est plus négociable — elle est un standard implicite, même chez les sceptiques. Deuxièmement, la performance se mesure désormais à l'output et non à la présence. Troisièmement, l'apprentissage continu devient un mode de management à part entière.",
+    text: "Trois lignes de force se dégagent. Premièrement, la flexibilité spatiale n'est plus négociable : elle est un standard implicite, même chez les sceptiques. Deuxièmement, la performance se mesure désormais à l'output et non à la présence. Troisièmement, l'apprentissage continu devient un mode de management à part entière.",
   },
   {
     type: 'quote',
-    text: "Le travail hybride n'est plus une réponse à une crise sanitaire — c'est devenu la grammaire du travail qualifié.",
+    text: "Le travail hybride n'est plus une réponse à une crise sanitaire : c'est devenu la grammaire du travail qualifié.",
     attribution: 'Étude Deloitte, mars 2026',
   },
   {
@@ -92,12 +92,12 @@ const BLOCKS: ContentBlock[] = [
   },
   {
     type: 'image',
-    placeholder: 'Schéma — Cartographie des 5 compétences distribuées',
+    placeholder: 'Schéma : Cartographie des 5 compétences distribuées',
     caption: "Source : TLS Research Lab, mars 2026 (n=412)",
   },
   {
     type: 'paragraph',
-    text: "Le constat est net : ces compétences ne sont enseignées dans aucun cursus initial. Elles s'apprennent en situation, dans des dispositifs de coaching court et de pair-learning structuré — ce qui plaide pour une refonte des plans de formation 2026-2028.",
+    text: "Le constat est net : ces compétences ne sont enseignées dans aucun cursus initial. Elles s'apprennent en situation, dans des dispositifs de coaching court et de pair-learning structuré : ce qui plaide pour une refonte des plans de formation 2026-2028.",
   },
   {
     type: 'heading',
@@ -139,7 +139,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
           </blockquote>
           {block.attribution && (
             <figcaption className="mt-2 font-body text-caption text-ink-500">
-              — {block.attribution}
+              : {block.attribution}
             </figcaption>
           )}
         </figure>
@@ -187,7 +187,7 @@ export const ArticleDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Top reading progress bar — fixed */}
+      {/* Top reading progress bar : fixed */}
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
       {/* Sticky glass header */}
@@ -262,9 +262,9 @@ export const ArticleDetail: React.FC = () => {
                 </div>
               </figure>
 
-              {/* Intro callout — lead paragraph */}
+              {/* Intro callout : lead paragraph */}
               <IntroCallout tone="brand" withQuoteIcon>
-                Six ans après le grand bascule, le travail hybride a pris une forme stable. Notre analyse de 412 organisations en mars 2026 montre que ce n'est plus une exception — c'est devenu la norme du travail qualifié.
+                Six ans après le grand bascule, le travail hybride a pris une forme stable. Notre analyse de 412 organisations en mars 2026 montre que ce n'est plus une exception : c'est devenu la norme du travail qualifié.
               </IntroCallout>
 
               {/* Body blocks */}

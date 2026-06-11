@@ -1,5 +1,5 @@
 /**
- * Messages Page — two-pane chat interface
+ * Messages Page : two-pane chat interface
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -66,7 +66,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     lastMessageTime: 'Il y a 5 min',
     unreadCount: 2,
     isStarred: true,
-    context: { type: 'project', title: 'Projet Final — Chatbot IA' },
+    context: { type: 'project', title: 'Projet Final : Chatbot IA' },
     messages: [
       {
         id: 'm1', senderId: 'coach1', senderName: 'Sophie Martin', role: 'coach',
@@ -100,11 +100,11 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     lastMessageTime: 'Il y a 2h',
     unreadCount: 1,
     isStarred: false,
-    context: { type: 'lesson', title: 'Leçon 3 — Prompt Engineering Avancé' },
+    context: { type: 'lesson', title: 'Leçon 3 : Prompt Engineering Avancé' },
     messages: [
       {
         id: 'm5', senderId: 'coach2', senderName: 'Marc Dubois', role: 'coach',
-        content: "Bonjour ! La correction de votre exercice sur les prompts est maintenant disponible. Vous avez obtenu 18/20 — très bon travail !",
+        content: "Bonjour ! La correction de votre exercice sur les prompts est maintenant disponible. Vous avez obtenu 18/20 : très bon travail !",
         timestamp: "Aujourd'hui à 13:15", isRead: false,
       },
     ],

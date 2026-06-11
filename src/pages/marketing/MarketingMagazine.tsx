@@ -1,5 +1,5 @@
 /**
- * MarketingMagazine — Editorial article grid (Phase P2.4)
+ * MarketingMagazine: Editorial article grid (Phase P2.4)
  *
  * Direction: Editorial magazine. Featured article hero + filterable grid + newsletter.
  * Tone: brand primary + warm category accents + sun accents.

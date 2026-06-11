@@ -36,7 +36,7 @@ const RECOMMENDATIONS: Recommendation[] = [
   {
     id: '2',
     type: 'video',
-    title: 'Storytelling pour managers — Stanford GSB',
+    title: 'Storytelling pour managers : Stanford GSB',
     reason: 'Suite à notre dernière session sur ta présentation Q2, ce talk va beaucoup t\'aider à structurer tes pitchs.',
     coachName: 'Marie Dubois',
     coachInitials: 'MD',

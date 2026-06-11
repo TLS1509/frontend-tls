@@ -23,7 +23,7 @@ import { Container } from '../components/layout';
 
 const EVENT = {
   id: '1',
-  title: "Conférence TLS 2026 — L'Avenir du Learning",
+  title: "Conférence TLS 2026 : L'Avenir du Learning",
   subtitle: "Keynotes, tables rondes et networking autour de l'avenir de la formation professionnelle.",
   date: '20 juin 2026',
   time: '14h00',

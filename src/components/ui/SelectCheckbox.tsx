@@ -141,7 +141,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                       `}
                     >
                       {selected.includes(opt.id) && (
-                        <span className="text-white text-[10px] font-bold">✓</span>
+                        <span className="text-white text-caption font-bold">✓</span>
                       )}
                     </div>
                     <span className={`text-body-sm transition-colors duration-200 ${selected.includes(opt.id) ? 'text-ink-900 font-semibold' : 'text-ink-600'}`}>

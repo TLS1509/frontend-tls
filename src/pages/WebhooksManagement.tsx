@@ -1,5 +1,5 @@
 /**
- * WebhooksManagement — Enterprise webhooks management (admin read-only view).
+ * WebhooksManagement : Enterprise webhooks management (admin read-only view).
  * Route: /enterprise/webhooks
  *
  * Allows enterprise admins to view, test, and configure webhook integrations

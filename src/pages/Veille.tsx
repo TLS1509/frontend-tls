@@ -1,9 +1,9 @@
 /**
- * Veille — Hub éditorial (refonte v8)
+ * Veille : Hub éditorial (refonte v8)
  *
  * Structure :
- *  1. Hero full-bleed remixé — titre + sous-titre + search + category chips intégrés
- *  2. Feed vertical (VeilleCardFeed list) — tous les contenus filtrés
+ *  1. Hero full-bleed remixé : titre + sous-titre + search + category chips intégrés
+ *  2. Feed vertical (VeilleCardFeed list) : tous les contenus filtrés
  *  3. Bande mailing glassy minimale
  */
 
@@ -154,7 +154,7 @@ export const Veille: React.FC = () => {
         <div aria-hidden className="absolute top-1/3 -left-16 w-64 h-64 rounded-full bg-primary-900/20 blur-[80px] pointer-events-none" />
         <div aria-hidden className="absolute bottom-0 right-1/3 w-56 h-32 rounded-full bg-white/8 blur-[60px] pointer-events-none" />
 
-        {/* Decorative grid — subtle texture */}
+        {/* Decorative grid : subtle texture */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none opacity-faint"
@@ -169,11 +169,11 @@ export const Veille: React.FC = () => {
               Veille &amp; Actualités
             </h1>
             <p className="m-0 font-body text-body text-white/55 leading-relaxed max-w-2xl">
-              Articles, vidéos, dossiers et le magazine TLS — leadership, IA et formation professionnelle.
+              Articles, vidéos, dossiers et le magazine TLS : leadership, IA et formation professionnelle.
             </p>
           </div>
 
-          {/* Search bar glass — pleine largeur container */}
+          {/* Search bar glass : pleine largeur container */}
           <div className="relative">
             <SearchIcon size={18} strokeWidth={2} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
@@ -208,7 +208,7 @@ export const Veille: React.FC = () => {
             resultsCount={filteredItems.length}
           />
 
-          {/* Formats éditoriaux — 4 cartes navigation, dark-glass */}
+          {/* Formats éditoriaux : 4 cartes navigation, dark-glass */}
           <VeilleFormatShortcutCards
             className="pt-1"
             items={[
@@ -231,11 +231,11 @@ export const Veille: React.FC = () => {
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
-          emptyMessage="Aucun résultat — essayez d'élargir vos filtres."
+          emptyMessage="Aucun résultat : essayez d'élargir vos filtres."
         />
       </Container>
 
-      {/* ── 4. BANDE MAILING — glassy minimale ──────────────────────────── */}
+      {/* ── 4. BANDE MAILING : glassy minimale ──────────────────────────── */}
       <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">
         <Container width="page" padding={false} className="px-4 sm:px-6 lg:px-10 py-4">
           <form

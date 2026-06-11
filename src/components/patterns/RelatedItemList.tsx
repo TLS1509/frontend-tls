@@ -52,7 +52,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
             )}
             <div className="flex-1 min-w-0">
               {item.meta && (
-                <span className="block mb-0.5 text-micro font-bold uppercase tracking-wider text-ink-500">
+                <span className="block mb-0.5 text-caption font-medium text-ink-500">
                   {item.meta}
                 </span>
               )}

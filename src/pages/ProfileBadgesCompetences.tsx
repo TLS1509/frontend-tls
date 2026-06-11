@@ -37,7 +37,7 @@ export default function ProfileBadgesCompetences() {
   const userBadges = gamificationStore.getBadges(MOCK_USER_ID);
   const competencies = passeportStore.getCompetencies(MOCK_USER_ID);
 
-  // Filter to badges with competenceId — this page is competency-focused.
+  // Filter to badges with competenceId : this page is competency-focused.
   // (Platform/open-badges are shown in /gamification/badges instead.)
   const competenceBadgeDefs = useMemo(
     () => BADGE_DEFS.filter((b) => b.competenceId !== undefined),
@@ -51,7 +51,7 @@ export default function ProfileBadgesCompetences() {
       const competence = def.competenceId ? getCompetenceById(def.competenceId) : undefined;
       return {
         def,
-        competenceLabel: competence?.label ?? def.competenceId ?? '—',
+        competenceLabel: competence?.label ?? def.competenceId ?? ':',
         category: competence?.label ?? 'Autres',
         earned: !!earned,
         earnedDate: earned ? formatDate(earned.earnedAt) : null,

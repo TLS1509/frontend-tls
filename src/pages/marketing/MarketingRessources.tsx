@@ -4,7 +4,7 @@ import { Newspaper, Users, Layers, BarChart3, ArrowRight, Calendar, Clock, Libra
 import { DOSSIERS } from '../../data/marketingDossiers';
 
 /**
- * Hub Ressources — chapeaute Dossiers (fond, sourcé) + Blog (articles) + About us.
+ * Hub Ressources: chapeaute Dossiers (fond, sourcé) + Blog (articles) + About us.
  * Clean restart 2026-06-10 ; enrichi 2026-06-10 avec les Dossiers (flagship = SBO).
  */
 

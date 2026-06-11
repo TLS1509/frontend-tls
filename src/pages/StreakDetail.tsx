@@ -47,7 +47,7 @@ const StreakDetail: React.FC = () => {
       <EditorialHero
         eyebrow="Gamification · Streak"
         title={`${currentStreak} jours d'affilée`}
-        summary={currentStreak >= 30 ? "Incroyable ! Tu as décroché le badge 1 mois de streak !" : `Continue comme ça — encore ${30 - currentStreak} jours pour décrocher ton badge 1 mois !`}
+        summary={currentStreak >= 30 ? "Incroyable ! Tu as décroché le badge 1 mois de streak !" : `Continue comme ça : encore ${30 - currentStreak} jours pour décrocher ton badge 1 mois !`}
         tone="warm"
       />
 
@@ -65,7 +65,7 @@ const StreakDetail: React.FC = () => {
               {DAYS.map((d) => (
                 <div
                   key={d.day}
-                  title={`Jour ${d.day} — ${d.active ? 'Actif' : 'Inactif'}`}
+                  title={`Jour ${d.day} : ${d.active ? 'Actif' : 'Inactif'}`}
                   className={`aspect-square rounded-sm ${
                     d.active ? 'bg-success-base' : 'bg-ink-100'
                   }`}
@@ -83,7 +83,7 @@ const StreakDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
             {MILESTONES.map((m) => (
               <Card key={m.days} className="p-4 flex items-center gap-4">
-                {/* Icon bubble — replaces AchievementBadge (full card component, not suitable inline) */}
+                {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
                   {m.unlocked
                     ? <CheckCircle2 className="w-6 h-6" />

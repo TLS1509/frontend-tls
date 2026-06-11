@@ -1,7 +1,7 @@
 /**
- * JournalDetail — Phase 10 Tier 2 polish.
+ * JournalDetail: Phase 10 Tier 2 polish.
  *
- * Vue complète d'une entrée de journal — pattern article éditorial.
+ * Vue complète d'une entrée de journal: pattern article éditorial.
  *
  * Structure :
  *  1. ReadingProgressBar + sticky glass header (back + ring + new entry)
@@ -47,7 +47,7 @@ const ENTRY = {
   mood: '💡',
   moodLabel: 'Inspiré',
   readTime: '7 min',
-  title: "Leadership et écoute active — ce que j'ai appris cette semaine",
+  title: "Leadership et écoute active: ce que j'ai appris cette semaine",
   tags: ['Leadership', 'Communication', 'Équipe', 'Management'],
   author: { name: 'Vous', role: 'Auteur' },
 };
@@ -74,9 +74,9 @@ const SECTIONS = [
 ];
 
 const TODOS = [
-  { done: false, text: '1:1 avec Pierre — jeudi 14h' },
-  { done: false, text: '1:1 avec Amélie — vendredi 10h' },
-  { done: false, text: "Proposer format rétro au reste de l'équipe — lundi" },
+  { done: false, text: '1:1 avec Pierre: jeudi 14h' },
+  { done: false, text: '1:1 avec Amélie: vendredi 10h' },
+  { done: false, text: "Proposer format rétro au reste de l'équipe: lundi" },
   { done: false, text: 'Modifier template stand-up pour inclure "signaux faibles"' },
 ];
 
@@ -154,7 +154,7 @@ export const JournalDetail: React.FC = () => {
           </div>
         </header>
 
-        {/* Sections — 3 KeyFindingCard */}
+        {/* Sections: 3 KeyFindingCard */}
         <section className="flex flex-col gap-stack">
           {SECTIONS.map((s, i) => (
             <KeyFindingCard
@@ -208,7 +208,7 @@ export const JournalDetail: React.FC = () => {
 
         {/* Tags */}
         <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-          <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
+          <span className="inline-flex items-center gap-1.5 font-body text-caption font-medium text-ink-500">
             <TagIcon size={11} /> Tags
           </span>
           <div className="flex flex-wrap gap-2">
@@ -236,7 +236,7 @@ export const JournalDetail: React.FC = () => {
                 Entrée précédente
               </div>
               <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
-                Semaine 13 — Délégation
+                Semaine 13: Délégation
               </div>
             </div>
           </button>
@@ -250,7 +250,7 @@ export const JournalDetail: React.FC = () => {
                 Entrée suivante
               </div>
               <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
-                Semaine 15 — Feedback
+                Semaine 15: Feedback
               </div>
             </div>
             <ArrowRight size={16} className="text-ink-400 shrink-0" />

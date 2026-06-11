@@ -1,5 +1,5 @@
 /**
- * Account Page — Paramètres du compte
+ * Account Page : Paramètres du compte
  */
 
 import React, { useState } from 'react';
@@ -177,7 +177,7 @@ const SecurityTab: React.FC = () => {
         <SettingRow
           icon={<Fingerprint size={16} />}
           label="Double authentification (2FA)"
-          description={twoFA ? "Activée — votre compte est protégé" : "Désactivée — recommandé pour plus de sécurité"}
+          description={twoFA ? "Activée : votre compte est protégé" : "Désactivée : recommandé pour plus de sécurité"}
         >
           <div className="flex items-center gap-3">
             {twoFA && (
@@ -314,9 +314,9 @@ const BillingTab: React.FC = () => (
 
     <SettingCard title="Historique de facturation">
       {[
-        { date: '1 mai 2026',   desc: 'Plan Pro — mai',    amount: '89,00 €', status: 'Payé' },
-        { date: '1 avr. 2026',  desc: 'Plan Pro — avril',  amount: '89,00 €', status: 'Payé' },
-        { date: '1 mars 2026',  desc: 'Plan Pro — mars',   amount: '89,00 €', status: 'Payé' },
+        { date: '1 mai 2026',   desc: 'Plan Pro : mai',    amount: '89,00 €', status: 'Payé' },
+        { date: '1 avr. 2026',  desc: 'Plan Pro : avril',  amount: '89,00 €', status: 'Payé' },
+        { date: '1 mars 2026',  desc: 'Plan Pro : mars',   amount: '89,00 €', status: 'Payé' },
       ].map((inv, i, arr) => (
         <div
           key={inv.date}

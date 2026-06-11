@@ -1,16 +1,16 @@
 /**
- * CinematicHero — Direction C « Illustrated Glass », the Home signature moment.
+ * CinematicHero: Direction C « Illustrated Glass », the Home signature moment.
  *
  * Left  : type-led headline with a Ditto-style animated word-swap on the closing
  *         role, subheading, dual CTA (magnetic), condensed honest credentials.
  * Right : a floating double-bezel GLASS panel (Craft) that frames the TLS system
- *         itself — the Learn → Do → Match loop drawn as three nodes wired by
+ *         itself: the Learn → Do → Match loop drawn as three nodes wired by
  *         hand-drawn organic paths that draw themselves on mount (Daydream),
  *         over breathing organic blobs (Phantom) and slow golden particles.
  *
  * This composite is the *motion stand-in*: it runs today with zero asset
  * dependency. When the real 10s hero video lands (Phase 1), it slots into the
- * same glass frame via a <video> element — the chrome stays identical.
+ * same glass frame via a <video> element: the chrome stays identical.
  *
  * Discipline: GPU-safe (transform/opacity only), prefers-reduced-motion honored,
  * mobile stacks with no parallax/tilt. Illustration colors use the documented
@@ -27,18 +27,18 @@ import { MeshGradientBg, MagneticButton } from '../../../components/marketing/mo
 const EASE_EMPHASIS = [0.22, 1, 0.36, 1] as const;
 const EASE_SMOOTH = [0.25, 0.46, 0.45, 0.94] as const;
 
-// Direction C palette (matches design tokens teal/orange/gold) — illustration rgba.
+// Direction C palette (matches design tokens teal/orange/gold): illustration rgba.
 const TEAL = 'rgba(85,161,180,1)';
 const ORANGE = 'rgba(237,132,58,1)';
 const GOLD = 'rgba(248,176,68,1)';
 
-/** The closing role cycles — broadens "formateurs" to the whole learning craft. */
+/** The closing role cycles: broadens "formateurs" to the whole learning craft. */
 const SWAP_WORDS = ['forment', 'conçoivent', 'accompagnent', 'transmettent'];
 
-/** Condensed honest credentials — no invented metric (FACTS-CANON). */
+/** Condensed honest credentials: no invented metric (FACTS-CANON). */
 const CHIPS = ['Certifiant · Qualiopi', 'Open Badge vérifiable', 'Éligible OPCO'];
 
-// ─── Word-swap (Ditto) — one role word slides + blurs through the list ─────────
+// ─── Word-swap (Ditto): one role word slides + blurs through the list ─────────
 const WordSwap: React.FC = () => {
   const reduce = useReducedMotion();
   const [i, setI] = React.useState(0);
@@ -118,7 +118,7 @@ const SystemNode: React.FC<{
   </motion.g>
 );
 
-// ─── Cinematic visual — the glass-framed system (video stand-in) ──────────────
+// ─── Cinematic visual: the glass-framed system (video stand-in) ──────────────
 const CinematicVisual: React.FC = () => {
   const reduce = useReducedMotion() ?? false;
 
@@ -128,9 +128,9 @@ const CinematicVisual: React.FC = () => {
 
   return (
     <div className="relative w-full aspect-[4/3.4] max-w-xl mx-auto">
-      {/* Outer shell — double-bezel: tray + hairline + refraction */}
+      {/* Outer shell: double-bezel: tray + hairline + refraction */}
       <div className="absolute inset-0 rounded-[2.25rem] bg-white/40 ring-1 ring-ink-900/5 p-2 shadow-[0_30px_80px_-30px_rgba(31,62,69,0.35)] backdrop-blur-glass-light">
-        {/* Inner core — frosted glass plate */}
+        {/* Inner core: frosted glass plate */}
         <div className="relative h-full w-full overflow-hidden rounded-[1.75rem] bg-white/55 backdrop-blur-glass-medium shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),inset_0_-1px_1px_rgba(31,62,69,0.04)]">
           {/* Breathing organic blobs behind the system (Phantom) */}
           <motion.div
@@ -148,7 +148,7 @@ const CinematicVisual: React.FC = () => {
             transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
           />
 
-          {/* The system — Learn → Do → Match, drawn (Daydream) */}
+          {/* The system: Learn → Do → Match, drawn (Daydream) */}
           <svg
             viewBox="0 0 330 320"
             className="absolute inset-0 h-full w-full"
@@ -240,7 +240,7 @@ const CinematicVisual: React.FC = () => {
 };
 
 /**
- * Entrance — opacity stays 1 always; only a one-shot translate settles to 0 on
+ * Entrance: opacity stays 1 always; only a one-shot translate settles to 0 on
  * mount. Transform-only means the hero can NEVER strand invisible (the codebase
  * P0 rule), even with a paused animation loop / reduced motion. Matches the
  * Editorial `Reveal` philosophy.
@@ -292,7 +292,7 @@ export const CinematicHero: React.FC = () => {
 
       <div className="relative w-full max-w-wide mx-auto px-6 py-section-lg lg:py-page">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
-          {/* ── Left — type, word-swap, CTA, chips (opacity-safe entrance) ─────── */}
+          {/* ── Left: type, word-swap, CTA, chips (opacity-safe entrance) ─────── */}
           <SettleIn className="lg:col-span-6 flex flex-col gap-stack-lg" delay={80}>
             <h1 className="font-display font-extrabold text-ink-900 leading-[0.96] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.6rem,6vw,5.25rem)]">
               Ce que l'IA change
@@ -302,7 +302,7 @@ export const CinematicHero: React.FC = () => {
 
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
               La formation certifiante et la plateforme qui apprennent aux
-              formateurs à intégrer l'IA dans leur pédagogie — en gardant
+              formateurs à intégrer l'IA dans leur pédagogie. En gardant
               l'humain au centre.
             </p>
 
@@ -332,7 +332,7 @@ export const CinematicHero: React.FC = () => {
             </ul>
           </SettleIn>
 
-          {/* ── Right — cinematic glass system (parallax desktop, opacity-safe) ── */}
+          {/* ── Right: cinematic glass system (parallax desktop, opacity-safe) ── */}
           <motion.div
             className="lg:col-span-6 lg:will-change-transform"
             style={reduce ? undefined : { y: visualY }}

@@ -80,7 +80,7 @@ const RHYTHM_OPTIONS: OptionGridItem[] = [
   { id: 'flex',  label: 'Flexible',      description: "À mon rythme, sans contrainte" },
 ];
 
-/* ─── Step 0 — Profil ────────────────────────────────────────────────────── */
+/* ─── Step 0 : Profil ────────────────────────────────────────────────────── */
 
 function StepProfil({
   answers,
@@ -142,7 +142,7 @@ function StepProfil({
   );
 }
 
-/* ─── Step 1 — Objectifs ─────────────────────────────────────────────────── */
+/* ─── Step 1 : Objectifs ─────────────────────────────────────────────────── */
 
 function StepObjectifs({
   answers,
@@ -168,7 +168,7 @@ function StepObjectifs({
           Tes objectifs d'apprentissage
         </h2>
         <p className="font-body text-body text-ink-500 m-0 leading-relaxed">
-          Sélectionne tout ce qui te correspond — plusieurs choix possibles.
+          Sélectionne tout ce qui te correspond : plusieurs choix possibles.
         </p>
       </div>
 
@@ -190,7 +190,7 @@ function StepObjectifs({
   );
 }
 
-/* ─── Step 2 — Rythme ────────────────────────────────────────────────────── */
+/* ─── Step 2 : Rythme ────────────────────────────────────────────────────── */
 
 function StepRythme({
   answers,
@@ -225,7 +225,7 @@ function StepRythme({
   );
 }
 
-/* ─── Step 3 — Confirmation ──────────────────────────────────────────────── */
+/* ─── Step 3 : Confirmation ──────────────────────────────────────────────── */
 
 function StepConfirmation({
   answers,
@@ -233,20 +233,20 @@ function StepConfirmation({
   answers: OnboardingAnswers;
   onStart: () => void;
 }) {
-  const rhythmLabel = RHYTHM_OPTIONS.find(r => r.id === answers.rhythm)?.label ?? '—';
+  const rhythmLabel = RHYTHM_OPTIONS.find(r => r.id === answers.rhythm)?.label ?? ':';
 
   const summaryRows = [
-    { key: 'Rôle',      val: answers.role   || '—' },
-    { key: 'Secteur',   val: answers.sector || '—' },
-    { key: 'Objectifs', val: answers.goals.length > 0 ? answers.goals.join(', ') : '—' },
+    { key: 'Rôle',      val: answers.role   || ':' },
+    { key: 'Secteur',   val: answers.sector || ':' },
+    { key: 'Objectifs', val: answers.goals.length > 0 ? answers.goals.join(', ') : ':' },
     { key: 'Rythme',    val: rhythmLabel },
   ];
 
   const aiText = answers.goals.includes('Leadership') || answers.goals.includes('Coaching')
-    ? "Leadership & Impact — Développe tes compétences de pilotage et d'influence"
+    ? "Leadership & Impact : Développe tes compétences de pilotage et d'influence"
     : answers.goals.includes('IA & Tech')
-    ? "Tech & Innovation — Maîtrise les outils IA pour gagner en productivité"
-    : "Développement professionnel personnalisé — basé sur tes objectifs déclarés";
+    ? "Tech & Innovation : Maîtrise les outils IA pour gagner en productivité"
+    : "Développement professionnel personnalisé : basé sur tes objectifs déclarés";
 
   const previewTags = answers.goals.length > 0 ? answers.goals.slice(0, 3) : ['Compétences clés'];
 
@@ -304,7 +304,7 @@ export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
   const profileStore = useUserProfileStore();
 
-  // Guard — si l'utilisateur a déjà complété l'onboarding, renvoyer au dashboard
+  // Guard : si l'utilisateur a déjà complété l'onboarding, renvoyer au dashboard
   useEffect(() => {
     const profile = profileStore.get();
     if (profile?.isOnboarded) {
@@ -361,12 +361,12 @@ export const Onboarding: React.FC = () => {
         {/* ── Cross-screen Stepper (sticky context across the whole onboarding flow) ── */}
         <Stepper items={buildOnboardingStepperItems('profil')} orientation="horizontal" />
 
-        {/* ── Hero éditorial DS (tone warm — accueil chaleureux) ───────────────── */}
+        {/* ── Hero éditorial DS (tone warm : accueil chaleureux) ───────────────── */}
         <EditorialHero
           tone="warm"
           eyebrow={{ icon: <Sparkles size={12} />, label: 'Démarrage personnalisé' }}
           title="Personnalisons ton expérience"
-          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} — quelques questions pour adapter tes recommandations.`}
+          summary={`Étape ${substep + 1} sur ${SUBSTEP_LABELS.length} · ${SUBSTEP_LABELS[substep]} : quelques questions pour adapter tes recommandations.`}
         />
 
         {/* ── Substep card ───────────────────────────────────────────────────── */}
@@ -376,7 +376,7 @@ export const Onboarding: React.FC = () => {
             {stepComponents[substep]}
           </div>
 
-          {/* Footer nav — responsive button layout (stacked on mobile) */}
+          {/* Footer nav : responsive button layout (stacked on mobile) */}
           <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
             {substep === 0 ? (
               <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">

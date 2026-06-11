@@ -1,5 +1,5 @@
 /**
- * Forgot Password Page — branded auth (deep teal glass dark layout).
+ * Forgot Password Page : branded auth (deep teal glass dark layout).
  */
 
 import React, { useState } from 'react';

@@ -1,13 +1,13 @@
 /**
- * SubscriptionPayment — Choix de formule + paiement.
+ * SubscriptionPayment : Choix de formule + paiement.
  *
  * Flow : étape de l'onboarding après Positionnement, avant accès parcours.
  *
  * Structure :
  *  1. HeroSection minimal "Choisissez votre formule"
- *  2. Plan selector — 3 SectionCards (Découverte / Premium / Pro)
+ *  2. Plan selector : 3 SectionCards (Découverte / Premium / Pro)
  *     - Mensuel / Annuel toggle (économie 20%)
- *  3. Formulaire de paiement (carte) — visible une fois plan choisi
+ *  3. Formulaire de paiement (carte) : visible une fois plan choisi
  *  4. CTA "Confirmer le paiement" + ConfirmModal récap
  *  5. Mention sécurité (Stripe) + politique de remboursement
  *
@@ -56,7 +56,7 @@ interface Plan {
   badge?: string;
 }
 
-/** 4 plans individuels MVP — Cahier #11bis */
+/** 4 plans individuels MVP : Cahier #11bis */
 const PLANS: Plan[] = [
   {
     id: 'free',
@@ -180,7 +180,7 @@ export const SubscriptionPayment: React.FC = () => {
 
         {/* Header */}
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 font-body text-caption font-semibold uppercase tracking-wider text-primary-600">
+          <p className="m-0 font-body text-caption font-medium text-primary-600">
             Étape 3 sur 3 · Abonnement
           </p>
           <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
@@ -288,7 +288,7 @@ export const SubscriptionPayment: React.FC = () => {
           })}
         </div>
 
-        {/* Payment form — masqué pour le plan gratuit */}
+        {/* Payment form : masqué pour le plan gratuit */}
         {!isFree && (
           <SectionCard
             title="Informations de paiement"
@@ -351,7 +351,7 @@ export const SubscriptionPayment: React.FC = () => {
         <div className="flex flex-col gap-stack p-5 rounded-2xl bg-primary-50/60 border border-primary-200">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <p className="m-0 font-body text-caption text-ink-500 uppercase tracking-wider font-semibold">
+              <p className="m-0 font-body text-caption text-ink-500 font-medium">
                 {isFree ? 'Formule sélectionnée' : 'Total à payer'}
               </p>
               <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">

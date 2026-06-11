@@ -1,5 +1,5 @@
 /**
- * VerifyEmail — Confirmation email post-inscription.
+ * VerifyEmail : Confirmation email post-inscription.
  *
  * Flow : après /auth/signup, l'utilisateur arrive ici. Il doit cliquer sur le
  * lien reçu par email. La page propose :
@@ -36,12 +36,12 @@ export const VerifyEmail: React.FC = () => {
   }, [cooldown, verified]);
 
   // Simulate auto-verification (for demo purpose). Remove when wired to API.
-  // setTimeout disabled — uncomment to test the success state automatically.
+  // setTimeout disabled : uncomment to test the success state automatically.
 
   const handleResend = () => {
     if (cooldown > 0) return;
     setCooldown(60);
-    // (API call) — send new verification email
+    // (API call) : send new verification email
   };
 
   const handleSimulateClick = () => {
@@ -84,7 +84,7 @@ export const VerifyEmail: React.FC = () => {
             </p>
 
             <div className="flex flex-col gap-3">
-              {/* Demo button — would not exist in prod; simulates clicking the email link */}
+              {/* Demo button : would not exist in prod; simulates clicking the email link */}
               <AuthPrimaryButton onClick={handleSimulateClick}>
                 Simuler la vérification (démo)
               </AuthPrimaryButton>

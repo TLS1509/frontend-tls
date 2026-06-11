@@ -1,14 +1,14 @@
 /**
- * Enterprise — Phase 10 Tier 2 refonte.
+ * Enterprise : Phase 10 Tier 2 refonte.
  *
  * Tableau de bord entreprise (manager / DRH view).
  *
  * Structure :
  *  1. EditorialHero brand (tone=brand, eyebrow + title + summary + Badge premium)
  *  2. 3 StatCard (collaborateurs / heures / complétion)
- *  3. SectionCard "Équipe" — liste membres avec Avatar + ProgressBar
- *  4. SectionCard "Accès" — Invite form (FormGroup+Input+Select) + user rows
- *  5. SectionCard "Rapports" — 2 cards
+ *  3. SectionCard "Équipe" : liste membres avec Avatar + ProgressBar
+ *  4. SectionCard "Accès" : Invite form (FormGroup+Input+Select) + user rows
+ *  5. SectionCard "Rapports" : 2 cards
  */
 
 import React, { useState } from 'react';

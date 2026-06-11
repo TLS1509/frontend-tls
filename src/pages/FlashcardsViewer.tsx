@@ -1,10 +1,10 @@
 /**
- * FlashcardsViewer — flashcards d'apprentissage avec flip 3D.
+ * FlashcardsViewer : flashcards d'apprentissage avec flip 3D.
  *
  * Phase 14.2a refactor :
  *  - Header (close-only) → <ViewerHeader> tone-aware, progress inline
  *  - Footer nav         → <LessonNavigation> (prev/dots/next molecule)
- *  - Tone inherited from LessonContext (fallback "primary" — visual identity)
+ *  - Tone inherited from LessonContext (fallback "primary" : visual identity)
  *
  * Phase 14.2c refactor :
  *  - 3D flip mechanics extracted → <FlipCard> DS component
@@ -61,7 +61,7 @@ const FLASHCARDS: Flashcard[] = [
       image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
-      content: 'RÔLE — CONTEXTE — INSTRUCTION — FORMAT',
+      content: 'RÔLE : CONTEXTE : INSTRUCTION : FORMAT',
       details:
         "Ces 4 éléments permettent de structurer un prompt clair et précis pour obtenir les meilleurs résultats de l'IA.",
     },

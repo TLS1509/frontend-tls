@@ -25,7 +25,7 @@ const CONVERSATIONS: ConversationItem[] = [
   {
     id: 1,
     title: 'Peux-tu m\'expliquer ce qu\'est le prompt engineering ?',
-    lastMessage: 'Je te recommande de commencer par l\'atelier Prompts & Cie — tu es à 62 % du module 3.',
+    lastMessage: 'Je te recommande de commencer par l\'atelier Prompts & Cie : tu es à 62 % du module 3.',
     date: 'Aujourd\'hui, 14:07',
     messageCount: 6,
     filter: ['all', 'week'],

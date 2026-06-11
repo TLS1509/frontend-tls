@@ -1,5 +1,5 @@
 /**
- * Signup Page — branded auth (deep teal glass dark layout).
+ * Signup Page : branded auth (deep teal glass dark layout).
  */
 
 import React, { useState } from 'react';

@@ -1,12 +1,12 @@
 /**
- * Pages Index — Phase 10 Tier 2 refonte.
+ * Pages Index : Phase 10 Tier 2 refonte.
  *
  * Hub interne de navigation centralisée vers toutes les pages de l'app.
  *
  * Structure :
  *  1. EditorialHero default (header + stats)
  *  2. StatCard row (total / completed / planned)
- *  3. Grilles de cards par famille — Card interactive + Badge status/category
+ *  3. Grilles de cards par famille : Card interactive + Badge status/category
  */
 
 import React from 'react';
@@ -151,7 +151,7 @@ export const PagesIndex: React.FC = () => {
           tone="default"
           eyebrow={{ icon: <BookOpen size={12} />, label: 'Navigation développeur' }}
           title="Pages du Projet"
-          summary="Accès centralisé à toutes les pages de l'application — statuts, familles et routes."
+          summary="Accès centralisé à toutes les pages de l'application : statuts, familles et routes."
         />
 
         <section aria-label="Statistiques" className="grid grid-cols-1 sm:grid-cols-3 gap-stack">

@@ -45,7 +45,7 @@ const SKILLS = [
 
 const ACTIVITY_ITEMS = [
   { id: '1', type: 'lesson' as const, title: 'Leçon : Styles de leadership situationnel', date: 'Il y a 2j', xp: 25 },
-  { id: '2', type: 'coaching' as const, title: 'Session coaching — bilan D3', date: 'La semaine dernière', xp: 100 },
+  { id: '2', type: 'coaching' as const, title: 'Session coaching : bilan D3', date: 'La semaine dernière', xp: 100 },
   { id: '3', type: 'parcours' as const, title: 'Exercice : Délégation et contrôle', date: 'Il y a 10j', xp: 50 },
 ];
 

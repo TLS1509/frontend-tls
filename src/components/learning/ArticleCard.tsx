@@ -103,7 +103,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         )}
       </div>
 
-      <span className={['inline-block text-caption font-bold uppercase tracking-wider', TONE_CATEGORY[tone]].join(' ')}>
+      <span className={['inline-block text-caption font-medium', TONE_CATEGORY[tone]].join(' ')}>
         {category}
       </span>
 

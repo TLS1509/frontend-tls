@@ -1,5 +1,5 @@
 /**
- * Collaboration Page — Projets collaboratifs & travail d'équipe
+ * Collaboration Page : Projets collaboratifs & travail d'équipe
  */
 
 import React, { useState } from 'react';
@@ -35,7 +35,7 @@ interface CollaborativeProject {
 }
 
 // Status mapping géré directement par <ProjectCard> (STATUS_VARIANT + STATUS_LABEL internes).
-// Avatar palette + initials helpers retirés — délégués à ProjectCard.
+// Avatar palette + initials helpers retirés : délégués à ProjectCard.
 
 const PROJECTS: CollaborativeProject[] = [
   {

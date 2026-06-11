@@ -119,7 +119,7 @@ export const LearningPathDetail: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'steps' | 'project'>('steps');
   const [showPositionnement, setShowPositionnement] = useState(false);
 
-  // Phase 16.1 chantier #1+#3 — wire stores
+  // Phase 16.1 chantier #1+#3 : wire stores
   const lessonsMap = useLessonProgressStore((s) => s.lessons);
   const isLessonCompleted = useLessonProgressStore((s) => s.isLessonCompleted);
   const positioningStore = usePositioningStore();
@@ -137,7 +137,7 @@ export const LearningPathDetail: React.FC = () => {
 
   const parcours = useMemo(() => {
     if (!parcoursData) return null;
-    // Phase 16.1 #1 — override lesson.completed from useLessonProgressStore
+    // Phase 16.1 #1 : override lesson.completed from useLessonProgressStore
     // (a lesson is completed once all its EDRAC sections have been viewed).
     const etapesWithProgress = parcoursData.etapes.map((etape: Etape) => ({
       ...etape,
@@ -162,7 +162,7 @@ export const LearningPathDetail: React.FC = () => {
     // lessonsMap is included so memo recomputes when any lesson progress changes.
   }, [parcoursData, lessonsMap, isLessonCompleted]);
 
-  // Phase 16.1 #3 — auto-generate positionnement questions from parcours competenceIds.
+  // Phase 16.1 #3 : auto-generate positionnement questions from parcours competenceIds.
   // MUST sit before any conditional return to keep hook order stable across renders.
   const positionnementQuestions = useMemo(() => {
     if (!id) return undefined;
@@ -246,7 +246,7 @@ export const LearningPathDetail: React.FC = () => {
       <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
         <Container width="page" className="relative py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
-          {/* Hero — HeroSection variant="gradient" tone-aware */}
+          {/* Hero : HeroSection variant="gradient" tone-aware */}
           <HeroSection
             variant="gradient"
             tone={tone}
@@ -302,7 +302,7 @@ export const LearningPathDetail: React.FC = () => {
             </div>
           </section>
 
-          {/* Tab nav — DS Tabs pill */}
+          {/* Tab nav : DS Tabs pill */}
           <Tabs
             fullWidth
             variant="pill"
@@ -568,9 +568,9 @@ export const LearningPathDetail: React.FC = () => {
 
                 <MetaPillGroup
                   items={[
-                    { icon: <Clock3 size={14} />, text: '80 minutes' },
-                    { icon: <Target size={14} />, text: '5 étapes' },
-                    { icon: <Award size={14} />, text: 'Badge certifiant' },
+                    { icon: <Clock3 size={14} />, text: parcours.finalProject.meta?.duration ?? '80 minutes' },
+                    { icon: <Target size={14} />, text: parcours.finalProject.meta?.steps ?? '5 étapes' },
+                    { icon: <Award size={14} />, text: parcours.finalProject.meta?.badge ?? 'Badge certifiant' },
                   ]}
                   layout="horizontal"
                   gap="md"
@@ -580,9 +580,9 @@ export const LearningPathDetail: React.FC = () => {
               {/* Project details grid */}
               <div className="grid gap-stack grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
                 {[
-                  { label: 'Complexité', value: 'Avancé', desc: 'Nécessite les connaissances des 5 étapes précédentes' },
-                  { label: 'Format', value: 'Multi-étape', desc: 'Répondez à 5 questions structurées' },
-                  { label: 'Résultat', value: 'Plan concret', desc: 'Document exportable et partageable' },
+                  { label: 'Complexité', value: parcours.finalProject.complexity ?? 'Avancé', desc: 'Nécessite les connaissances de toutes les étapes précédentes' },
+                  { label: 'Format', value: parcours.finalProject.format ?? 'Multi-étape', desc: 'Progression guidée avec livrables concrets' },
+                  { label: 'Résultat', value: parcours.finalProject.outcome ?? 'Plan concret', desc: 'Document exportable et partageable' },
                 ].map(({ label, value, desc }) => (
                   <div
                     key={label}
@@ -603,16 +603,16 @@ export const LearningPathDetail: React.FC = () => {
                   variant="minimal"
                   size="sm"
                   tone="neutral"
-                  title="Étapes du projet"
+                  title="Phases du projet"
                 />
                 <div className="flex flex-col gap-stack-xs">
-                  {[
+                  {(parcours.finalProject.projectSteps ?? [
                     { num: 1, title: 'Contexte', desc: 'Analysez votre situation actuelle' },
                     { num: 2, title: 'Conception', desc: 'Créez 3-5 prompts clés avec RCIF' },
                     { num: 3, title: 'Tests', desc: 'Testez et améliorez vos prompts' },
                     { num: 4, title: 'Déploiement', desc: "Planifiez l'intégration pratique" },
                     { num: 5, title: 'Réflexion', desc: 'Capitalisez sur vos apprentissages' },
-                  ].map((step) => (
+                  ]).map((step) => (
                     <div
                       key={step.num}
                       className="flex gap-4 items-start p-4 rounded-xl bg-ink-50 border border-ink-200"
@@ -724,7 +724,7 @@ export const LearningPathDetail: React.FC = () => {
         courseId={parcours.id}
         questions={positionnementQuestions}
         onComplete={(_, competences) => {
-          // Phase 16.1 #3 — persist via usePositioningStore + sync to usePasseportStore
+          // Phase 16.1 #3 : persist via usePositioningStore + sync to usePasseportStore
           if (!id) return;
           const answers: PositioningAnswer[] = Object.entries(competences).map(([competenceId, level]) => ({
             competenceId,

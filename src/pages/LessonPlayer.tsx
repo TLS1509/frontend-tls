@@ -1,5 +1,5 @@
 /**
- * LessonPlayer — EDRAC Fullscreen Lesson Viewer
+ * LessonPlayer : EDRAC Fullscreen Lesson Viewer
  *
  * Fullscreen overlay reproduisant le pattern LessonViewer de la Learning App WIP.
  * Sections séquentielles : Introduction → Engagement → Découvrir → Quiz → Réfléchir → Appliquer → Conclusion
@@ -30,6 +30,10 @@ import {
   CheckCircle2,
   XCircle,
   ChevronRight,
+  ArrowUpRight,
+  ImageIcon,
+  Play,
+  Cpu,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel } from '../data/learningPaths';
 import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
@@ -44,9 +48,58 @@ const SECTIONS = [
   { id: 'reflechir',    title: 'Réfléchir',     icon: Lightbulb },
   { id: 'appliquer',    title: 'Appliquer',     icon: Zap },
   { id: 'conclusion',   title: 'Conclusion',    icon: GraduationCap },
+  { id: 'transfert',    title: 'Transfert',     icon: ArrowUpRight },
 ] as const;
 
 type SectionId = typeof SECTIONS[number]['id'];
+
+/* ─── ContentBlock : typed rich content for any section ─────────────────── */
+
+type ContentBlock =
+  | {
+      type: 'image';
+      src?: string;
+      alt: string;
+      caption?: string;
+      aspectRatio?: '16/9' | '4/3' | '1/1' | '3/2';
+    }
+  | {
+      type: 'video';
+      src?: string;
+      poster?: string;
+      caption?: string;
+      aspectRatio?: '16/9' | '4/3';
+    }
+  | {
+      type: 'gif';
+      src: string;
+      alt: string;
+      caption?: string;
+    }
+  | {
+      type: 'chart';
+      chartType: 'bar' | 'line' | 'donut';
+      title?: string;
+      data: { label: string; value: number; color?: string }[];
+    }
+  | {
+      type: 'schema';
+      title?: string;
+      items: { num?: number; label: string; desc: string; color?: string }[];
+      layout?: 'vertical' | 'horizontal' | 'flow';
+    }
+  | {
+      type: 'interactive';
+      id: string;
+      title?: string;
+      description?: string;
+    }
+  | {
+      type: 'annotation';
+      prompt: string;
+      journalKey: string;
+      placeholder?: string;
+    };
 
 /* ─── Lesson content data (extended per lessonId) ────────────────────────── */
 
@@ -57,15 +110,18 @@ interface LessonData {
     heading: string;
     description: string;
     objectives: string[];
+    blocks?: ContentBlock[];
   };
   engagement: {
     heading: string;
     pillars: { title: string; description: string; tags: string[] }[];
+    blocks?: ContentBlock[];
   };
   decouvrir: {
     heading: string;
     bad: { label: string; title: string; description: string; points: string[] };
     good: { label: string; title: string; description: string; points: string[] };
+    blocks?: ContentBlock[];
   };
   quiz: {
     questions: {
@@ -78,15 +134,25 @@ interface LessonData {
   reflechir: {
     heading: string;
     questions: string[];
+    blocks?: ContentBlock[];
   };
   appliquer: {
     heading: string;
     instruction: string;
+    blocks?: ContentBlock[];
   };
   conclusion: {
     heading: string;
     keyPoints: string[];
     nextSteps: string[];
+    blocks?: ContentBlock[];
+  };
+  transfert: {
+    heading: string;
+    intro: string;
+    scenarios: { title: string; context: string }[];
+    commitmentPrompt: string;
+    blocks?: ContentBlock[];
   };
 }
 
@@ -172,12 +238,191 @@ const LESSON_DATA: Record<string, LessonData> = {
         'La motivation intrinsèque est plus puissante et durable que la motivation extrinsèque',
         'Le modèle SCARF permet de comprendre les réactions comportementales en équipe',
         'L\'engagement durable passe par le sens, l\'autonomie, le progrès et la reconnaissance',
-        'Chaque collaborateur a un profil motivationnel unique — il faut s\'adapter',
+        'Chaque collaborateur a un profil motivationnel unique : il faut s\'adapter',
       ],
       nextSteps: [
         'Planifiez un 1:1 avec chaque membre de votre équipe pour découvrir ses motivations',
         'Identifiez une tâche actuelle que vous pouvez rendre plus autonome',
+        'Passez à la section Transfert pour ancrer ces apprentissages dans votre contexte réel',
         'Créez un rituel hebdomadaire de reconnaissance des contributions',
+      ],
+    },
+    transfert: {
+      heading: 'Transférer dans votre contexte',
+      intro: 'Le transfert est la phase la plus importante : comment allez-vous appliquer ces apprentissages dans votre situation professionnelle réelle, dès cette semaine ?',
+      scenarios: [
+        {
+          title: 'Avec votre équipe',
+          context: 'Choisissez un collaborateur dont vous ne connaissez pas bien les motivations profondes. Planifiez un entretien informel de 15 min cette semaine pour découvrir ce qui le motive vraiment.',
+        },
+        {
+          title: 'Dans votre management quotidien',
+          context: 'Identifiez une tâche que vous attribuez de façon directive. Reformulez la consigne pour laisser le collaborateur choisir comment l\'accomplir (autonomie sur les moyens).',
+        },
+        {
+          title: 'Sur le long terme',
+          context: 'Mettez en place un rituel mensuel de reconnaissance explicite : non monétaire. Partagez un impact concret que chaque personne a eu sur les résultats de l\'équipe.',
+        },
+      ],
+      commitmentPrompt: 'Décrivez une situation précise où vous allez appliquer ces apprentissages cette semaine. Soyez spécifique : qui, quand, comment.',
+    },
+  },
+
+  'bootcamp-lecon-1-1': {
+    title: 'Design System Fundamentals',
+    duration: '2h',
+    intro: {
+      heading: 'Bienvenue dans le Bootcamp',
+      description: 'Cette première leçon pose les fondations conceptuelles de votre parcours de 12 semaines. Vous allez comprendre ce qu\'est un Design System, pourquoi c\'est le fil conducteur de tout ce qu\'on construit ensemble, et créer votre premier artefact concret : un token spreadsheet.',
+      objectives: [
+        'Comprendre la structure d\'un design system : tokens, composants, documentation',
+        'Identifier le flux Figma → CSS custom properties → Tailwind utilities dans le projet TLS',
+        'Créer votre premier token spreadsheet (couleurs, typo, spacing)',
+        'Vous situer dans UX-UI-BOOTCAMP.md et le plan Semaine 1',
+      ],
+    },
+    engagement: {
+      heading: 'Pourquoi les Design Systems changent tout',
+      pillars: [
+        {
+          title: 'Cohérence visuelle',
+          description: 'Un seul source of truth pour tous les choix visuels. Plus jamais deux boutons légèrement différents sur deux pages.',
+          tags: ['Tokens', 'Source of truth', 'Parité Figma↔code'],
+        },
+        {
+          title: 'Vitesse de build',
+          description: 'Composer des écrans avec des blocs réutilisables plutôt que recoder chaque fois. Figma et React alignés = zéro friction.',
+          tags: ['Composants', 'Réutilisabilité', 'Autonomie'],
+        },
+        {
+          title: 'Maintenance durable',
+          description: 'Changer la couleur primaire en 1 ligne CSS au lieu de 200. Le design system absorbe la dette technique.',
+          tags: ['Scalabilité', 'Refactoring', 'Zéro duplication'],
+        },
+      ],
+    },
+    decouvrir: {
+      heading: 'Design System : chaos vs système',
+      bad: {
+        label: 'Sans système',
+        title: 'Le CSS spaghetti (coût élevé)',
+        description: 'Chaque composant est codé à la main, couleurs hardcodées partout, marges inconsistantes, aucun contrat entre Figma et le code.',
+        points: [
+          '3 variantes de bouton bleu légèrement différentes dans l\'app',
+          'Changer la couleur primaire = 150 fichiers à modifier à la main',
+          'Nouveau dev = 2 semaines avant de comprendre les conventions de style',
+        ],
+      },
+      good: {
+        label: 'Avec système',
+        title: 'Design tokens + composants (maintenable)',
+        description: 'Figma variables → CSS custom properties → Tailwind utilities. Un changement de token se propage partout instantanément.',
+        points: [
+          '--color-primary-500 change en 1 ligne et c\'est mis à jour sur toutes les pages',
+          'Composants React typés avec props claires : <Button variant="primary" size="md" />',
+          'Figma et le code partagent le même vocabulaire : zéro traduction manuelle',
+          'Open Badge, Passeport, Learning App : un seul design system pour tous',
+        ],
+      },
+      blocks: [
+        {
+          type: 'schema' as const,
+          title: 'Le flux Design System TLS',
+          layout: 'horizontal' as const,
+          items: [
+            { num: 1, label: 'Figma variables', desc: 'Source of truth visuelle', color: 'primary' },
+            { num: 2, label: 'CSS custom props', desc: '--color-primary-500', color: 'secondary' },
+            { num: 3, label: 'Tailwind utilities', desc: 'text-primary-500', color: 'accent' },
+            { num: 4, label: 'Composant React', desc: '<Button variant="primary" />', color: 'primary' },
+          ],
+        },
+      ],
+    },
+    quiz: {
+      questions: [
+        {
+          id: 'q1',
+          text: 'Qu\'est-ce qu\'un design token ?',
+          options: [
+            { id: 'a', label: 'A. Une couleur hexadécimale hardcodée dans le CSS' },
+            { id: 'b', label: 'B. Une variable nommée qui stocke une valeur de design (couleur, taille, ombre)' },
+            { id: 'c', label: 'C. Un composant React réutilisable' },
+            { id: 'd', label: 'D. Un plugin Figma pour exporter les styles' },
+          ],
+          correct: 'b',
+        },
+        {
+          id: 'q2',
+          text: 'Dans le flux Design System TLS, quel est l\'ordre correct ?',
+          options: [
+            { id: 'a', label: 'A. React → CSS → Figma' },
+            { id: 'b', label: 'B. Figma → React → CSS custom properties' },
+            { id: 'c', label: 'C. Figma variables → CSS custom properties → Tailwind utilities' },
+            { id: 'd', label: 'D. CSS → Tailwind config → Figma auto-sync' },
+          ],
+          correct: 'c',
+        },
+      ],
+    },
+    reflechir: {
+      heading: 'Analysez le Design System TLS existant',
+      questions: [
+        'Ouvrez src/styles/ dans le projet. Quels fichiers de tokens trouvez-vous ? Quelle est la différence entre --color-primary-500 et --color-ink-900 dans leur usage ?',
+        'Naviguez dans src/components/core/Button.tsx. Comment le composant utilise-t-il les tokens ? Que se passerait-il visuellement si vous changiez --color-primary-500 ?',
+        'En 2-3 phrases : qu\'est-ce qui changerait dans votre workflow si la parité Figma↔code était à 100% dans le projet TLS ?',
+      ],
+      blocks: [
+        {
+          type: 'image' as const,
+          alt: 'Comparaison Figma variables vs CSS tokens',
+          caption: 'Capture à faire : Figma panel Variables vs fichier tokens.css côte à côte',
+          aspectRatio: '16/9' as const,
+        },
+      ],
+    },
+    appliquer: {
+      heading: 'Créer votre token spreadsheet',
+      instruction: 'Ouvrez un nouveau fichier (Notion, Google Sheets, ou un .md dans docs/). Créez 3 colonnes : Token Name | Valeur | Usage. Listez minimum 10 tokens du projet TLS (ouvrez src/styles/tokens.css ou équivalent). Incluez : 3 couleurs primary, 2 couleurs ink, 2 tokens de typo, 2 tokens de spacing, 1 token de shadow. Ce spreadsheet est votre référence pour toute la Semaine 1.',
+    },
+    conclusion: {
+      heading: 'Fondamentaux posés : prêt pour la suite',
+      keyPoints: [
+        'Un design system = tokens + composants + documentation. Les trois doivent être alignés pour fonctionner.',
+        'Le flux TLS : Figma variables → CSS custom properties (--color-*) → Tailwind utilities (text-primary-500)',
+        'Les tokens sont le DNA du design : changer un token = changer l\'apparence partout, en une seule modification',
+        'Votre token spreadsheet est le premier artefact du bootcamp : il sera réutilisé toute la Semaine 1',
+      ],
+      nextSteps: [
+        'Compléter votre token spreadsheet (min. 10 tokens) avant la Leçon 2',
+        'Lire docs/learning/UX-UI-BOOTCAMP.md : section Semaine 1 en entier',
+        'Leçon 2 : Figma Design System Setup : créer les variables dans Figma et binder aux composants',
+      ],
+    },
+    transfert: {
+      heading: 'Appliquer dans le projet TLS maintenant',
+      intro: 'Ce que vous venez d\'apprendre existe déjà dans le code. Le transfert commence aujourd\'hui : pas la semaine prochaine. Voici 3 actions concrètes dans le vrai projet.',
+      scenarios: [
+        {
+          title: 'Dans src/styles/tokens.css',
+          context: 'Ouvrez le fichier de tokens TLS. Localisez --color-primary-500. Changez temporairement sa valeur (ex: rouge #e53e3e), observez l\'impact en live sur une page, puis rétablissez (git checkout). C\'est la preuve vivante qu\'un token = un impact global.',
+        },
+        {
+          title: 'Dans Figma TLS (fichier LccBZ1...)',
+          context: 'Ouvrez le fichier Figma TLS. Cherchez la page Foundations. Comparez les variables Figma avec vos tokens CSS. Notez les écarts dans votre token spreadsheet : cette liste devient votre backlog Semaine 1 pour la parité Figma↔code.',
+        },
+        {
+          title: 'Avant la Leçon 2',
+          context: 'Arrivez avec votre token spreadsheet complété (10+ tokens) et les écarts Figma↔code identifiés. La Leçon 2 part directement de ce travail pour configurer les variables Figma et les binder aux composants existants.',
+        },
+      ],
+      commitmentPrompt: 'Décrivez en une phrase le premier changement concret que vous allez explorer dans tokens.css ou Figma après cette leçon : et pourquoi ce choix.',
+      blocks: [
+        {
+          type: 'annotation' as const,
+          prompt: 'Quel token vas-tu explorer en premier dans le projet TLS ? Pourquoi ce choix ?',
+          journalKey: 'bootcamp-1-1-premier-token',
+          placeholder: 'Ex: Je vais explorer --color-primary-500 parce que...',
+        },
       ],
     },
   },
@@ -258,6 +503,25 @@ const DEFAULT_LESSON_DATA: LessonData = {
       'Partagez 1 insight avec un collègue de confiance',
       'Passez à la prochaine leçon pour approfondir le sujet',
     ],
+  },
+  transfert: {
+    heading: 'Transférer dans votre contexte',
+    intro: 'La maîtrise s\'acquiert en dehors de la formation. Comment allez-vous appliquer ces apprentissages dans votre situation réelle ?',
+    scenarios: [
+      {
+        title: 'Application immédiate',
+        context: 'Identifiez une situation concrète cette semaine où vous pourrez mettre en pratique ce que vous venez d\'apprendre.',
+      },
+      {
+        title: 'Partage avec un pair',
+        context: 'Expliquez un concept clé de cette leçon à un collègue. Enseigner accélère l\'ancrage mémoriel (effet protégé).',
+      },
+      {
+        title: 'Itération',
+        context: 'Notez ce qui a fonctionné et ce qui n\'a pas marché lors de votre première application. Ajustez et recommencez.',
+      },
+    ],
+    commitmentPrompt: 'Décrivez précisément comment et où vous allez appliquer ces apprentissages dans les 7 prochains jours.',
   },
 };
 
@@ -365,10 +629,13 @@ export const LessonPlayer: React.FC = () => {
   );
 
   const renderEngagement = () => (
-    <BehavioralTileGrid
-      heading={lessonData.engagement.heading}
-      tiles={lessonData.engagement.pillars}
-    />
+    <div>
+      <BehavioralTileGrid
+        heading={lessonData.engagement.heading}
+        tiles={lessonData.engagement.pillars}
+      />
+      {lessonData.engagement.blocks?.map((block, i) => renderContentBlock(block, i))}
+    </div>
   );
 
   const renderDecouvrir = () => {
@@ -406,6 +673,7 @@ export const LessonPlayer: React.FC = () => {
             </div>
           ))}
         </div>
+        {d.blocks?.map((block, i) => renderContentBlock(block, i))}
       </div>
     );
   };
@@ -442,6 +710,7 @@ export const LessonPlayer: React.FC = () => {
           />
         </div>
       ))}
+      {lessonData.reflechir.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
 
@@ -476,6 +745,7 @@ export const LessonPlayer: React.FC = () => {
           </div>
         ))}
       </div>
+      {lessonData.appliquer.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
 
@@ -506,8 +776,361 @@ export const LessonPlayer: React.FC = () => {
           <span className="font-body text-body-sm">{step}</span>
         </div>
       ))}
+      {lessonData.conclusion.blocks?.map((block, i) => renderContentBlock(block, i))}
     </div>
   );
+
+  const renderTransfert = () => {
+    const { transfert: t } = lessonData;
+    return (
+      <div>
+        <h2 className={SECTION_TITLE}>{t.heading}</h2>
+        <div className="bg-primary-50 border border-primary-200 rounded-xl p-5 mb-6">
+          <p className="m-0 font-body text-body text-ink-700 leading-relaxed">{t.intro}</p>
+        </div>
+        <div className="flex flex-col gap-4 mb-8">
+          {t.scenarios.map((scenario, i) => (
+            <div key={i} className="flex gap-4 p-5 bg-white border border-ink-200 rounded-xl hover:border-primary-300 transition-colors duration-200">
+              <div className="w-8 h-8 rounded-full bg-primary-500 text-white font-display text-caption font-bold flex items-center justify-center shrink-0 mt-0.5">
+                {i + 1}
+              </div>
+              <div>
+                <h3 className="m-0 mb-1.5 font-display text-h4 font-bold text-ink-900">{scenario.title}</h3>
+                <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed">{scenario.context}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div>
+          <label className="block font-body text-caption font-semibold text-ink-900 mb-2">
+            Mon engagement de transfert
+          </label>
+          <p className="font-body text-body-sm text-ink-500 mb-3">{t.commitmentPrompt}</p>
+          <textarea
+            className="w-full min-h-[120px] p-4 font-body text-body-sm text-ink-900 bg-white border border-ink-200 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-primary-400 focus:ring-3 focus:ring-primary-100 focus:shadow-none"
+            value={reflections['transfert'] ?? ''}
+            onChange={(e) => {
+              setReflections((prev) => ({ ...prev, transfert: e.target.value }));
+              setReflectionInStore(lessonId, 'transfert', e.target.value);
+            }}
+            placeholder="Je vais appliquer ces apprentissages en…"
+          />
+        </div>
+        {t.blocks?.map((block, i) => renderContentBlock(block, i))}
+      </div>
+    );
+  };
+
+  /* ── ContentBlock renderer ────────────────────────────────────────────── */
+
+  const SCHEMA_COLOR_MAP: Record<string, { card: string; num: string }> = {
+    primary:   { card: 'bg-primary-50 border-primary-200',   num: 'bg-primary-500 text-white' },
+    secondary: { card: 'bg-secondary-50 border-secondary-500/30', num: 'bg-secondary-500 text-white' },
+    accent:    { card: 'bg-accent-50 border-accent-400/50',  num: 'bg-accent-400 text-ink-900' },
+    neutral:   { card: 'bg-ink-50 border-ink-200',           num: 'bg-ink-300 text-ink-700' },
+  };
+
+  const CHART_PALETTE = [
+    'var(--color-primary-500)',
+    'var(--color-secondary-500)',
+    'var(--color-accent-400)',
+    'var(--color-success-base)',
+    'var(--color-info-base)',
+  ];
+
+  const renderContentBlock = (block: ContentBlock, index: number): React.ReactNode => {
+    const key = `cb-${index}`;
+
+    switch (block.type) {
+
+      case 'image': {
+        const ASPECT: Record<string, string> = {
+          '16/9': 'aspect-video', '4/3': 'aspect-[4/3]',
+          '1/1': 'aspect-square', '3/2': 'aspect-[3/2]',
+        };
+        const arClass = ASPECT[block.aspectRatio ?? '16/9'];
+        return (
+          <div key={key} className="mb-6">
+            {block.src ? (
+              <div className={`w-full ${arClass} overflow-hidden rounded-xl`}>
+                <img src={block.src} alt={block.alt} className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-2`}>
+                <ImageIcon size={32} className="text-ink-400" />
+                <span className="font-body text-body-sm text-ink-500 text-center px-4">
+                  Image à connecter · Unsplash / Backoffice
+                </span>
+              </div>
+            )}
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+          </div>
+        );
+      }
+
+      case 'video': {
+        const arClass = (block.aspectRatio ?? '16/9') === '16/9' ? 'aspect-video' : 'aspect-[4/3]';
+        return (
+          <div key={key} className="mb-6">
+            {block.src ? (
+              <div className={`w-full ${arClass} overflow-hidden rounded-xl bg-ink-900`}>
+                <video src={block.src} poster={block.poster} controls className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-900/5 flex flex-col items-center justify-center gap-3`}>
+                <div className="w-14 h-14 rounded-full bg-ink-200 flex items-center justify-center">
+                  <Play size={24} className="text-ink-600 ml-1" />
+                </div>
+                <span className="font-body text-body-sm text-ink-500">Vidéo à brancher</span>
+              </div>
+            )}
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+          </div>
+        );
+      }
+
+      case 'gif': {
+        return (
+          <div key={key} className="mb-6">
+            <img src={block.src} alt={block.alt} loading="lazy" className="w-full rounded-xl" />
+            {block.caption && (
+              <p className="m-0 mt-2 font-body text-caption text-ink-500 text-center italic">{block.caption}</p>
+            )}
+          </div>
+        );
+      }
+
+      case 'chart': {
+        if (block.chartType === 'bar') {
+          const max = Math.max(...block.data.map(d => d.value), 1);
+          return (
+            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6">
+              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              <div className="flex flex-col gap-3">
+                {block.data.map((item, i) => (
+                  <div key={i}>
+                    <div className="flex justify-between mb-1.5">
+                      <span className="font-body text-body-sm text-ink-700">{item.label}</span>
+                      <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
+                    </div>
+                    <div className="h-2.5 bg-ink-100 rounded-pill overflow-hidden">
+                      <div
+                        className="h-full rounded-pill bg-primary-500 transition-all duration-slow"
+                        style={{ width: `${Math.round((item.value / max) * 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        if (block.chartType === 'donut') {
+          const r = 38; const circumference = 2 * Math.PI * r;
+          const total = block.data.reduce((s, d) => s + d.value, 0) || 1;
+          let accumulated = 0;
+          return (
+            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6">
+              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <svg width="120" height="120" viewBox="0 0 100 100" className="shrink-0" aria-hidden="true">
+                  <circle cx="50" cy="50" r={r} fill="none" stroke="var(--color-ink-100)" strokeWidth="10" />
+                  {block.data.map((item, i) => {
+                    const segLen = (item.value / total) * circumference;
+                    const offset = circumference - accumulated;
+                    accumulated += segLen;
+                    return (
+                      <circle key={i} cx="50" cy="50" r={r} fill="none"
+                        stroke={item.color ?? CHART_PALETTE[i % CHART_PALETTE.length]}
+                        strokeWidth="10"
+                        strokeDasharray={`${segLen} ${circumference}`}
+                        strokeDashoffset={offset}
+                        style={{ transform: 'rotate(-90deg)', transformOrigin: '50px 50px' }}
+                      />
+                    );
+                  })}
+                </svg>
+                <div className="flex flex-col gap-2 flex-1">
+                  {block.data.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full shrink-0"
+                        style={{ background: item.color ?? CHART_PALETTE[i % CHART_PALETTE.length] }} />
+                      <span className="font-body text-body-sm text-ink-700 flex-1">{item.label}</span>
+                      <span className="font-body text-caption font-semibold text-ink-900">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        if (block.chartType === 'line') {
+          const vals = block.data.map(d => d.value);
+          const minV = Math.min(...vals); const maxV = Math.max(...vals);
+          const range = maxV - minV || 1;
+          const W = 300; const H = 80; const px = 10; const py = 10;
+          const pts = vals.map((v, i) => {
+            const x = px + (i / Math.max(vals.length - 1, 1)) * (W - 2 * px);
+            const y = py + ((maxV - v) / range) * (H - 2 * py);
+            return `${x},${y}`;
+          }).join(' ');
+          return (
+            <div key={key} className="bg-white border border-ink-100 rounded-xl p-5 mb-6 overflow-hidden">
+              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
+                <polyline points={pts} fill="none" stroke="var(--color-primary-500)"
+                  strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+                {vals.map((v, i) => {
+                  const x = px + (i / Math.max(vals.length - 1, 1)) * (W - 2 * px);
+                  const y = py + ((maxV - v) / range) * (H - 2 * py);
+                  return <circle key={i} cx={x} cy={y} r="4" fill="var(--color-primary-500)" />;
+                })}
+              </svg>
+              <div className="flex mt-2">
+                {block.data.map((item, i) => (
+                  <span key={i} className="font-body text-micro text-ink-500 text-center flex-1 truncate px-1">{item.label}</span>
+                ))}
+              </div>
+            </div>
+          );
+        }
+        return null;
+      }
+
+      case 'schema': {
+        const layout = block.layout ?? 'vertical';
+        const getColors = (c?: string) => SCHEMA_COLOR_MAP[c ?? 'primary'] ?? SCHEMA_COLOR_MAP['primary'];
+
+        if (layout === 'horizontal') {
+          return (
+            <div key={key} className="mb-6">
+              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              <div className="flex flex-wrap items-stretch gap-2">
+                {block.items.map((item, i) => {
+                  const { card, num } = getColors(item.color);
+                  return (
+                    <React.Fragment key={i}>
+                      <div className={`flex flex-col gap-1 p-3 rounded-xl border flex-1 min-w-[90px] ${card}`}>
+                        {item.num !== undefined && (
+                          <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
+                            {item.num}
+                          </span>
+                        )}
+                        <span className="font-body text-body-sm font-semibold text-ink-900 leading-tight">{item.label}</span>
+                        <span className="font-body text-caption text-ink-500 leading-tight">{item.desc}</span>
+                      </div>
+                      {i < block.items.length - 1 && (
+                        <div className="flex items-center shrink-0">
+                          <ChevronRight size={16} className="text-ink-400" />
+                        </div>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        }
+
+        if (layout === 'flow') {
+          return (
+            <div key={key} className="mb-6">
+              {block.title && <h4 className="m-0 mb-4 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {block.items.map((item, i) => {
+                  const { card, num } = getColors(item.color);
+                  return (
+                    <div key={i} className={`flex flex-col gap-1.5 p-4 rounded-xl border ${card}`}>
+                      {item.num !== undefined && (
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
+                          {item.num}
+                        </span>
+                      )}
+                      <span className="font-body text-body-sm font-semibold text-ink-900">{item.label}</span>
+                      <span className="font-body text-caption text-ink-500 leading-tight">{item.desc}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        }
+
+        // vertical (default)
+        return (
+          <div key={key} className="flex flex-col gap-3 mb-6">
+            {block.title && <h4 className="m-0 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+            {block.items.map((item, i) => {
+              const { card, num } = getColors(item.color);
+              return (
+                <div key={i} className={`flex items-start gap-3 p-4 rounded-xl border ${card}`}>
+                  {item.num !== undefined && (
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-display text-caption font-bold shrink-0 mt-0.5 ${num}`}>
+                      {item.num}
+                    </span>
+                  )}
+                  <div>
+                    <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{item.label}</p>
+                    <p className="m-0 mt-0.5 font-body text-caption text-ink-500">{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      case 'interactive': {
+        return (
+          <div key={key} className="bg-primary-50 border border-primary-200 rounded-xl p-6 mb-6 flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center shrink-0">
+              <Cpu size={20} className="text-primary-600" />
+            </div>
+            <div className="flex-1">
+              {block.title && <h4 className="m-0 mb-1 font-display text-h4 font-bold text-ink-900">{block.title}</h4>}
+              {block.description && (
+                <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
+              )}
+              <span className="inline-flex items-center gap-1.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
+                <Cpu size={12} /> Module interactif · Bientôt disponible
+              </span>
+            </div>
+          </div>
+        );
+      }
+
+      case 'annotation': {
+        const annotValue = reflections[block.journalKey] ?? '';
+        return (
+          <div key={key} className="bg-secondary-50 border border-secondary-500/30 rounded-xl p-5 mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <BookOpen size={16} className="text-secondary-600 shrink-0" />
+              <span className="font-body text-caption font-semibold text-secondary-600">Lié au Journal</span>
+            </div>
+            <p className="m-0 mb-3 font-body text-body-sm font-semibold text-ink-900">{block.prompt}</p>
+            <textarea
+              className="w-full h-auto min-h-[96px] p-4 font-body text-body-sm text-ink-900 bg-white border border-secondary-500/30 rounded-lg resize-y transition-colors duration-150 focus:outline-none focus:border-secondary-500 focus:ring-3 focus:ring-secondary-50 focus:shadow-none"
+              value={annotValue}
+              onChange={(e) => {
+                setReflections((prev) => ({ ...prev, [block.journalKey]: e.target.value }));
+                setReflectionInStore(lessonId, block.journalKey, e.target.value);
+              }}
+              placeholder={block.placeholder ?? 'Écrivez votre réflexion ici…'}
+            />
+          </div>
+        );
+      }
+
+      default:
+        return null;
+    }
+  };
 
   const SECTION_RENDERERS: Record<SectionId, () => React.ReactNode> = {
     introduction: renderIntroduction,
@@ -517,6 +1140,7 @@ export const LessonPlayer: React.FC = () => {
     reflechir: renderReflechir,
     appliquer: renderAppliquer,
     conclusion: renderConclusion,
+    transfert: renderTransfert,
   };
 
   const displayTitle = ctx?.lesson.title ?? lessonData.title;
@@ -557,7 +1181,7 @@ export const LessonPlayer: React.FC = () => {
           onClose={handleClose}
         />
 
-        {/* SECTION NAV — Sticky, centered */}
+        {/* SECTION NAV : Sticky, centered */}
         <nav
           className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light border-b border-ink-100"
           aria-label="Sections de la leçon"
@@ -600,7 +1224,7 @@ export const LessonPlayer: React.FC = () => {
           </Container>
         </nav>
 
-        {/* CONTENT — Centered, scrollable internally */}
+        {/* CONTENT : Centered, scrollable internally */}
         <div className="flex-1 overflow-y-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 py-8">
           <div
             className="lp-card-anim bg-white rounded-2xl p-8 sm:p-12 shadow-md w-full max-w-[900px]"
@@ -610,7 +1234,7 @@ export const LessonPlayer: React.FC = () => {
           </div>
         </div>
 
-        {/* BOTTOM NAV — Centered, fixed at bottom */}
+        {/* BOTTOM NAV : Centered, fixed at bottom */}
         <div className="px-4 sm:px-6 lg:px-8 py-6 flex justify-center border-t border-ink-100 bg-white/50 backdrop-blur-glass-light">
           <div className="bg-white rounded-2xl p-5 shadow-sm w-full max-w-[900px]">
             <LessonNavigation

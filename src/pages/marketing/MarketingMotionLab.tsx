@@ -1,5 +1,5 @@
 /**
- * Motion primitives lab — internal showcase for Phase 1.0 validation.
+ * Motion primitives lab: internal showcase for Phase 1.0 validation.
  * Visible at /marketing/_motion-lab. Will be removed once primitives are validated in production pages.
  */
 
@@ -78,7 +78,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </header>
 
-      {/* 01 — MeshGradientBg */}
+      {/* 01: MeshGradientBg */}
       <section className={`${SECTION} relative overflow-hidden`}>
         <MeshGradientBg tone="warm" intensity="normal" />
         <div className={`${SECTION_INNER} relative`}>
@@ -91,7 +91,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 02 — FadeInWhenVisible */}
+      {/* 02: FadeInWhenVisible */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>02 · FadeInWhenVisible</span>
@@ -118,7 +118,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 03 — ParallaxLayer */}
+      {/* 03: ParallaxLayer */}
       <section className={`${SECTION} relative overflow-hidden`}>
         <div className={`${SECTION_INNER} relative`}>
           <span className={SECTION_EYEBROW}>03 · ParallaxLayer</span>
@@ -142,7 +142,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 04 — MagneticButton */}
+      {/* 04: MagneticButton */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>04 · MagneticButton</span>
@@ -170,7 +170,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 05 — GradientText */}
+      {/* 05: GradientText */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>05 · GradientText</span>
@@ -192,7 +192,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 06 — MarqueeRow */}
+      {/* 06: MarqueeRow */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>06 · MarqueeRow</span>
@@ -224,7 +224,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 07 — CountUp */}
+      {/* 07: CountUp */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>07 · CountUp</span>
@@ -252,7 +252,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 08 — InteractiveAppMockup */}
+      {/* 08: InteractiveAppMockup */}
       <section className={SECTION}>
         <div className={SECTION_INNER}>
           <span className={SECTION_EYEBROW}>08 · InteractiveAppMockup</span>
@@ -277,7 +277,7 @@ export const MarketingMotionLab: React.FC = () => {
         </div>
       </section>
 
-      {/* 09 — StickyScrollStory */}
+      {/* 09: StickyScrollStory */}
       <div>
         <div className={`${SECTION_INNER} pt-page`}>
           <span className={SECTION_EYEBROW}>09 · StickyScrollStory</span>

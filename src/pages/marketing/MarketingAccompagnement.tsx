@@ -1,5 +1,5 @@
 /**
- * MarketingAccompagnement — Immersive Services Page (Phase P2.3)
+ * MarketingAccompagnement : Immersive Services Page (Phase P2.3)
  *
  * Direction: 6 service pillars + 3-step process timeline + testimonials + contact.
  * Tone: brand primary + warm CTAs + sun accents.
@@ -107,7 +107,7 @@ const PROCESS = [
   },
 ];
 
-// ⚠️ PLACEHOLDER — Témoignages illustratifs. Le site live n'en publie aucun.
+// ⚠️ PLACEHOLDER : Témoignages illustratifs. Le site live n'en publie aucun.
 // À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
 const TESTIMONIALS = [
   {

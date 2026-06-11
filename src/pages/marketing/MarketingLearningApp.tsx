@@ -1,7 +1,7 @@
 /**
- * MarketingLearningApp — Immersive Product Page (Phase P2.2)
+ * MarketingLearningApp: Immersive Product Page (Phase P2.2)
  *
- * Direction: Interactive Product Demo (signature B) — the app is the hero.
+ * Direction: Interactive Product Demo (signature B): the app is the hero.
  * Tone: brand teal dominant + warm CTAs + sun accents.
  */
 
@@ -227,7 +227,7 @@ export const MarketingLearningApp: React.FC = () => {
             </FadeInWhenVisible>
           </div>
 
-          {/* Hero mockup — TiltCard for tactile depth */}
+          {/* Hero mockup: TiltCard for tactile depth */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
               <div

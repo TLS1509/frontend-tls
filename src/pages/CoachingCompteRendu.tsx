@@ -64,7 +64,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
     coach: {
       name: 'Sophie Marchand',
       initials: 'SM',
-      speciality: 'Coach certifiée — Leadership & Développement managérial',
+      speciality: 'Coach certifiée: Leadership & Développement managérial',
       rating: 5,
     },
     takeaways: [
@@ -105,7 +105,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
       {
         id: 'ap1',
         step: 1,
-        action: "Planifier 3 délégations concrètes avant le 5 mai — choisir des tâches à impact moyen pour tester la confiance mutuelle.",
+        action: "Planifier 3 délégations concrètes avant le 5 mai: choisir des tâches à impact moyen pour tester la confiance mutuelle.",
         deadline: '5 mai 2026',
       },
       {
@@ -117,7 +117,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
       {
         id: 'ap3',
         step: 3,
-        action: "Appliquer la pause de 2 secondes avant toute réponse dans les situations de désaccord — noter dans le journal après chaque occurrence.",
+        action: "Appliquer la pause de 2 secondes avant toute réponse dans les situations de désaccord: noter dans le journal après chaque occurrence.",
         deadline: 'Continu',
       },
       {
@@ -127,7 +127,7 @@ const MOCK_REPORTS: Record<string, SessionReport> = {
         deadline: '10 mai 2026',
       },
     ],
-    coachNotes: "C'est une session charnière. Vous êtes en train de passer d'un leadership de contrôle à un leadership de confiance — et ça se voit. La clé maintenant : maintenir la régularité dans les actions engagées, même quand la pression monte. Votre plus grande force est votre capacité d'auto-observation. Continuez à l'utiliser.",
+    coachNotes: "C'est une session charnière. Vous êtes en train de passer d'un leadership de contrôle à un leadership de confiance: et ça se voit. La clé maintenant : maintenir la régularité dans les actions engagées, même quand la pression monte. Votre plus grande force est votre capacité d'auto-observation. Continuez à l'utiliser.",
     satisfactionRating: 5,
     nextSessionDate: '12 mai 2026',
   },
@@ -202,7 +202,7 @@ export const CoachingCompteRendu: React.FC = () => {
               </div>
             </div>
 
-            {/* Progress ring — conic-gradient is a runtime computed value → style={} allowed */}
+            {/* Progress ring: conic-gradient is a runtime computed value → style={} allowed */}
             <div className="text-center">
               <div
                 className="w-20 h-20 rounded-full flex items-center justify-center"
@@ -304,7 +304,7 @@ export const CoachingCompteRendu: React.FC = () => {
                       "{report.coachNotes}"
                     </p>
                     <p className="font-body text-caption text-ink-500 m-0 font-semibold">
-                      — {report.coach.name}
+                     : {report.coach.name}
                     </p>
                   </div>
                 </div>

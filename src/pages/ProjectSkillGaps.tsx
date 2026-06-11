@@ -88,7 +88,7 @@ export const ProjectSkillGaps: React.FC = () => {
         <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
           <AlertTriangle size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <p className="text-body-sm font-semibold text-warning-fg m-0">
-            {criticalGaps.length} compétence(s) insuffisamment couvertes — des recrutements ou formations sont recommandés avant le lancement.
+            {criticalGaps.length} compétence(s) insuffisamment couvertes : des recrutements ou formations sont recommandés avant le lancement.
           </p>
         </div>
       )}

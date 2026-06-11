@@ -1,5 +1,5 @@
 /**
- * Variant B — "Editorial Dense"
+ * Variant B: "Editorial Dense"
  * Inspirations : Linear, Vercel, Cursor, Resend.
  * Mood : Modern technique, bento grids, app mockups front-and-center, dense info.
  * Identity TLS : brand teal dominant + warm CTAs, AmbientBlobs vifs.
@@ -87,7 +87,7 @@ const TESTIMONIALS = [
 export const MarketingHomeB: React.FC = () => (
   <div className="bg-white">
 
-    {/* ── Hero — split 60/40 text + mockup ───────────────────────────────────── */}
+    {/* ── Hero: split 60/40 text + mockup ───────────────────────────────────── */}
     <section className="relative pt-28 pb-section-lg overflow-hidden">
       {/* Ambient blobs */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -138,7 +138,7 @@ export const MarketingHomeB: React.FC = () => (
           </div>
         </div>
 
-        {/* Mockup column — stacked devices */}
+        {/* Mockup column: stacked devices */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-200/40 to-accent-200/40 blur-3xl pointer-events-none" />
           <div className="relative aspect-[4/5] rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-xl overflow-hidden p-6 flex flex-col gap-3">
@@ -187,7 +187,7 @@ export const MarketingHomeB: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Logos band — dense grayscale ───────────────────────────────────────── */}
+    {/* ── Logos band: dense grayscale ───────────────────────────────────────── */}
     <section className="border-y border-ink-100 bg-ink-50/50 py-stack-lg">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-4 lg:grid-cols-8 items-center gap-stack-lg">
@@ -200,7 +200,7 @@ export const MarketingHomeB: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Features — bento grid ──────────────────────────────────────────────── */}
+    {/* ── Features: bento grid ──────────────────────────────────────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
         <div className="flex flex-col gap-stack max-w-2xl">
@@ -240,7 +240,7 @@ export const MarketingHomeB: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Product showcase — dark anchor section ─────────────────────────────── */}
+    {/* ── Product showcase: dark anchor section ─────────────────────────────── */}
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 py-page">
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-primary-500 blur-[120px] opacity-30" />
@@ -313,7 +313,7 @@ export const MarketingHomeB: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Testimonials — 3-card carousel-like grid ───────────────────────────── */}
+    {/* ── Testimonials: 3-card carousel-like grid ───────────────────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
         <div className="flex flex-col gap-stack max-w-2xl">

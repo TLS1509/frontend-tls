@@ -36,7 +36,7 @@ export default function DashboardAchievements() {
   const gamificationStore = useGamificationStore();
   const passeportStore = usePasseportStore();
 
-  // Phase 16.5 #3 — wire stats + recent badges + leaderboard live
+  // Phase 16.5 #3 : wire stats + recent badges + leaderboard live
   const userBadges = gamificationStore.getBadges(MOCK_USER_ID);
   const totalXP = gamificationStore.getTotalXP(MOCK_USER_ID);
   const streak = gamificationStore.getStreak(MOCK_USER_ID);
@@ -60,7 +60,7 @@ export default function DashboardAchievements() {
       });
   }, [userBadges]);
 
-  // In-progress goals — derived from the highest-level competency tracked,
+  // In-progress goals : derived from the highest-level competency tracked,
   // a streak target, and the next XP milestone.
   const inProgress = useMemo(() => {
     const topComp = competencies.reduce<typeof competencies[number] | null>((best, c) => {
@@ -72,7 +72,7 @@ export default function DashboardAchievements() {
     return [
       {
         id: 'streak',
-        label: `Maître du Streak — ${streakTarget} jours consécutifs`,
+        label: `Maître du Streak : ${streakTarget} jours consécutifs`,
         current: streak.currentStreak,
         target: streakTarget,
         fill: Math.round((streak.currentStreak / streakTarget) * 100),
@@ -80,7 +80,7 @@ export default function DashboardAchievements() {
       },
       {
         id: 'xp',
-        label: `Légende XP — ${xpTarget.toLocaleString('fr-FR')} XP`,
+        label: `Légende XP : ${xpTarget.toLocaleString('fr-FR')} XP`,
         current: totalXP,
         target: xpTarget,
         fill: Math.round((totalXP / xpTarget) * 100),
@@ -90,7 +90,7 @@ export default function DashboardAchievements() {
         ? [
             {
               id: 'dreyfus',
-              label: `Expert Reconnu — Dreyfus niveau ${Math.min(topComp.currentLevel + 1, 5)}`,
+              label: `Expert Reconnu : Dreyfus niveau ${Math.min(topComp.currentLevel + 1, 5)}`,
               current: topComp.currentLevel,
               target: Math.min(topComp.currentLevel + 1, 5),
               fill: Math.round((topComp.currentLevel / Math.min(topComp.currentLevel + 1, 5)) * 100),
@@ -147,7 +147,7 @@ export default function DashboardAchievements() {
           />
           <StatCard
             label="Rang leaderboard"
-            value={currentRank ? `#${currentRank}` : '—'}
+            value={currentRank ? `#${currentRank}` : ':'}
             tone="neutral"
             surface="card"
             icon={<Trophy size={20} />}
@@ -198,7 +198,7 @@ export default function DashboardAchievements() {
         <SectionCard
           title="En progression"
           titleIcon={<Target size={18} />}
-          description="Objectifs en cours — continue pour débloquer ces badges"
+          description="Objectifs en cours : continue pour débloquer ces badges"
         >
           <div className="flex flex-col gap-stack">
             {inProgress.map((item) => (

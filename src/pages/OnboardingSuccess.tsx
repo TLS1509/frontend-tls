@@ -33,7 +33,7 @@ export default function OnboardingSuccess() {
         userId: MOCK_USER_ID,
         trigger: 'badge_earned',
         xp: 150,
-        description: 'Onboarding terminé — Badge Premier pas',
+        description: 'Onboarding terminé : Badge Premier pas',
         occurredAt: new Date().toISOString(),
       });
     }

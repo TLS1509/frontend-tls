@@ -1,15 +1,15 @@
 /**
- * WeeklyNewsletter — Phase 10 Tier 2 refonte.
+ * WeeklyNewsletter : Phase 10 Tier 2 refonte.
  *
- * Page "Actus de la semaine" — édition hebdo curée par TLS.
+ * Page "Actus de la semaine" : édition hebdo curée par TLS.
  *
  * Structure (per Figma audit) :
  *  1. Sticky glass header (back + actions)
  *  2. Hero éditorial bounded (badge édition + h1 gradient text + meta)
  *  3. EditorialQuoteCallout (édito hebdo signature)
  *  4. Featured video card (grid 5-cols)
- *  5. À la une — grid 3 articles featured
- *  6. Toutes les actus — list rows
+ *  5. À la une : grid 3 articles featured
+ *  6. Toutes les actus : list rows
  *  7. Newsletter signup CTA centered
  */
 
@@ -121,7 +121,7 @@ export const WeeklyNewsletter: React.FC = () => {
             augmenté, le secteur s'adapte.
           </p>
           <p>
-            Ceux qui expérimentent maintenant prendront une longueur d'avance décisive — pas dans
+            Ceux qui expérimentent maintenant prendront une longueur d'avance décisive : pas dans
             12 mois, dès aujourd'hui.
           </p>
         </EditorialQuoteCallout>

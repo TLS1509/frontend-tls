@@ -84,12 +84,12 @@ const PrivacyDeleteAccount: React.FC = () => {
 
         {step === 1 && (
           <Card className="p-6 flex flex-col gap-stack">
-            <h3 className="text-h4 font-semibold">Étape 1/2 — Raison du départ (optionnel)</h3>
+            <h3 className="text-h4 font-semibold">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
               <textarea
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                placeholder="Optionnel — ta réponse nous aide à améliorer la plateforme"
+                placeholder="Optionnel : ta réponse nous aide à améliorer la plateforme"
                 className="w-full h-auto min-h-[100px] p-3 border border-ink-200 rounded-lg focus:border-primary-500 focus:outline-none"
                 rows={4}
               />
@@ -108,7 +108,7 @@ const PrivacyDeleteAccount: React.FC = () => {
             <div className="flex items-start gap-3">
               <ShieldOff className="w-8 h-8 text-danger-fg" />
               <div>
-                <h3 className="text-h4 font-semibold mb-1">Étape 2/2 — Confirmation finale</h3>
+                <h3 className="text-h4 font-semibold mb-1">Étape 2/2 : Confirmation finale</h3>
                 <p className="text-body-sm text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
               </div>
             </div>

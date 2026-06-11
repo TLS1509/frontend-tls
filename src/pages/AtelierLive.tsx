@@ -23,7 +23,7 @@ interface ChatMessage {
 const CHAT_MESSAGES: ChatMessage[] = [
   { id: 1, author: 'Marie C.', initials: 'MC', text: "Super exercice en paires, j'ai beaucoup appris !" },
   { id: 2, author: 'Thomas L.', initials: 'TL', text: 'Question : peut-on appliquer ce framework au feedback écrit ?' },
-  { id: 3, author: 'Sophie M.', initials: 'SM', text: 'Absolument Thomas — on va justement voir ça dans 10 min.' },
+  { id: 3, author: 'Sophie M.', initials: 'SM', text: 'Absolument Thomas : on va justement voir ça dans 10 min.' },
 ];
 
 interface Resource {
@@ -65,7 +65,7 @@ export default function AtelierLive() {
 
       <Container width="wide" padding={false} className="px-4 py-section">
         <div className="grid md:grid-cols-3 gap-section">
-          {/* Zone player — col span 2 */}
+          {/* Zone player : col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Video placeholder */}
             <Card variant="default" className="aspect-video flex flex-col items-center justify-center bg-ink-900 rounded-2xl gap-section">
@@ -107,7 +107,7 @@ export default function AtelierLive() {
             </SectionCard>
           </div>
 
-          {/* Sidebar — col span 1 */}
+          {/* Sidebar : col span 1 */}
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* Participants */}
             <SectionCard

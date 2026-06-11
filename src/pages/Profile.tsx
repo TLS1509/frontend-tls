@@ -1,14 +1,14 @@
 /**
- * Profile Page — Phase 10 rework v3 (épuré + tabs + CompetencyMatrix).
+ * Profile Page : Phase 10 rework v3 (épuré + tabs + CompetencyMatrix).
  *
  * Mix de la version épurée (white surface, borders fins, pas de glass) avec
  * la richesse fonctionnelle de la version pré-Phase 10 : tabs de navigation
  * (Vue d'ensemble / Activité / Badges / Compétences) avec contenu adapté.
  *
  * Composants DS utilisés :
- *  - Tabs (variant underline) — navigation 4 sections
- *  - SkillBar — overview (top compétences)
- *  - CompetencyMatrix — onglet Compétences (5 skills × 5 niveaux)
+ *  - Tabs (variant underline) : navigation 4 sections
+ *  - SkillBar : overview (top compétences)
+ *  - CompetencyMatrix : onglet Compétences (5 skills × 5 niveaux)
  *  - Badge + Button core
  *  - SectionHeader (light usage, no decorations)
  */

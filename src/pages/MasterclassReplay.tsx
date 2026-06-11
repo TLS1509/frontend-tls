@@ -42,7 +42,7 @@ export default function MasterclassReplay() {
 
       <Container width="wide" padding={false} className="px-4 py-section">
         <div className="md:grid md:grid-cols-3 gap-section flex flex-col">
-          {/* Colonne principale — span 2 */}
+          {/* Colonne principale : span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Player replay */}
             <Card variant="default" className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">

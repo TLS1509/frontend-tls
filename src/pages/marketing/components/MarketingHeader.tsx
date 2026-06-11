@@ -102,7 +102,7 @@ export const MarketingHeader: React.FC = () => {
         <Link
           to="/marketing"
           className="shrink-0 flex items-center gap-2.5 min-h-touch group"
-          aria-label="The Learning Society — Accueil"
+          aria-label="The Learning Society: Accueil"
         >
           <TlsLogo size={32} className="transition-transform duration-base group-hover:scale-105" />
           <span className="hidden xl:block font-display font-bold text-h4 text-ink-900 leading-none whitespace-nowrap">

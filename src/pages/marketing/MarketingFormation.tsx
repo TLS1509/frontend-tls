@@ -1,5 +1,5 @@
 /**
- * MarketingFormation — Immersive Fusion (Phase 1.3)
+ * MarketingFormation: Immersive Fusion (Phase 1.3)
  *
  * Tone: warm dominant (Devenir Formateur Augmenté), primary accent on details.
  * Reuses Phase 1.0 motion primitives. 100% Tailwind, semantic spacing.
@@ -72,7 +72,7 @@ const MODULES = [
   {
     n: '06',
     title: 'Automatisation Augmentée',
-    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer ton temps.",
+    desc: "Emails, comptes-rendus, évaluations, fiches de suivi: l'IA comme assistant invisible pour libérer ton temps.",
     duration: '2h',
   },
   {
@@ -83,7 +83,7 @@ const MODULES = [
   },
 ];
 
-// "Public cible du parcours" — 4 profils from live site
+// "Public cible du parcours": 4 profils from live site
 const PUBLIC_CIBLE = [
   {
     icon: <BookOpen size={28} />,
@@ -111,7 +111,7 @@ const PUBLIC_CIBLE = [
   },
 ];
 
-// "Compétences clés développées" — derived from live site sections
+// "Compétences clés développées": derived from live site sections
 const COMPETENCES_CLES = [
   "Maîtriser les fondamentaux de l'IA générative et son vocabulaire",
   'Concevoir des prompts pédagogiques reproductibles et efficaces',
@@ -149,7 +149,7 @@ const PRICING = [
       'Accès à vie aux mises à jour',
       'Groupe d\'échange live (×2/mois)',
     ],
-    cta: "S'inscrire — certifiant",
+    cta: "S'inscrire: certifiant",
     variant: 'warm' as const,
     highlight: true,
   },
@@ -164,7 +164,7 @@ const PRICING = [
       'Accès prioritaire aux nouveaux modules',
       'Support direct par email',
     ],
-    cta: "S'inscrire — coaching",
+    cta: "S'inscrire: coaching",
     variant: 'primary' as const,
     highlight: false,
   },
@@ -177,7 +177,7 @@ const FAQ = [
   },
   {
     q: 'La formation est-elle éligible au CPF ou OPCO ?',
-    a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon ton secteur — contacte-nous pour vérifier ton éligibilité.',
+    a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon ton secteur: contacte-nous pour vérifier ton éligibilité.',
   },
   {
     q: 'Quelle est la durée de la formation ?',
@@ -205,7 +205,7 @@ const ModuleTimeline: React.FC = () => {
 
   return (
     <div className="relative">
-      {/* Scroll controls — desktop only */}
+      {/* Scroll controls: desktop only */}
       <div className="hidden md:flex items-center justify-end gap-2 mb-stack">
         <button
           type="button"
@@ -516,7 +516,7 @@ export const MarketingFormation: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
                 À la fin du parcours, tu as 8 compétences opérationnelles validées
-                par l'Open Badge — pas des concepts vagues, des gestes professionnels concrets.
+                par l'Open Badge: pas des concepts vagues, des gestes professionnels concrets.
               </p>
             </FadeInWhenVisible>
           </div>

@@ -1,10 +1,10 @@
 /**
- * MarketingTemoignages — Case studies gallery (Phase P3.6)
+ * MarketingTemoignages: Case studies gallery (Phase P3.6)
  *
  * Direction: storytelling. Featured case study + filterable grid + impact metrics.
  * Tone: brand primary + warm CTAs + sun accents.
  *
- * ⚠️ PLACEHOLDER CONTENT — all case studies below are illustrative.
+ * ⚠️ PLACEHOLDER CONTENT: all case studies below are illustrative.
  * Replace CASES array with real customer stories (with written authorization) before production.
  */
 
@@ -40,7 +40,7 @@ type SectorFilter = 'Tous' | 'Industrie' | 'Tech' | 'Finance' | 'Services' | 'Pu
 
 const SECTOR_FILTERS: SectorFilter[] = ['Tous', 'Industrie', 'Tech', 'Finance', 'Services', 'Public'];
 
-// ⚠️ PLACEHOLDER — Cas clients illustratifs. À remplacer par vrais clients après accord écrit.
+// ⚠️ PLACEHOLDER: Cas clients illustratifs. À remplacer par vrais clients après accord écrit.
 const CASES = [
   {
     id: 'industriel-500',
@@ -241,7 +241,7 @@ export const MarketingTemoignages: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.4}>
             <p className="font-body text-caption text-white/55 italic m-0">
-              Cas illustratifs — les vrais témoignages publiés à mesure des autorisations.
+              Cas illustratifs: les vrais témoignages publiés à mesure des autorisations.
             </p>
           </FadeInWhenVisible>
         </div>
@@ -355,7 +355,7 @@ export const MarketingTemoignages: React.FC = () => {
                           « {featured.quote} »
                         </p>
                         <p className="font-body text-caption font-semibold text-primary-700 m-0">
-                          — {featured.quoteAuthor}
+                         : {featured.quoteAuthor}
                         </p>
                       </blockquote>
                     </div>

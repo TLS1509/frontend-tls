@@ -71,7 +71,7 @@ export default function CoachTeamDashboard() {
       <EditorialHero
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
-        summary="Vue d'ensemble de la progression de toute ton équipe — activité, niveaux Dreyfus, sessions et corrections."
+        summary="Vue d'ensemble de la progression de toute ton équipe : activité, niveaux Dreyfus, sessions et corrections."
         tone="warm"
         trailing={
           <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ export default function CoachTeamDashboard() {
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
               <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
-              <strong>{stats.atRiskCount} à risque</strong> — planifie un bilan cette semaine.
+              <strong>{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
             </p>
             <Button variant="ghost" size="sm" className="shrink-0 ml-auto">
               Planifier

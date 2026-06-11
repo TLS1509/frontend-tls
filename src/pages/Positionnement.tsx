@@ -1,5 +1,5 @@
 /**
- * Positionnement — Test de positionnement initial pour un parcours.
+ * Positionnement : Test de positionnement initial pour un parcours.
  *
  * Cahier #01 Phase 16.1.2 : auto-génère 1 question par compétence du parcours,
  * using Dreyfus level selector (1–5 scale). Results persisted to usePositioningStore.
@@ -29,7 +29,7 @@ import { usePositioningStore } from '../stores/persistence';
 import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import type { DreyfusLevel, PositioningAnswer } from '../types/learning';
 
-/* ─── Mock userId (placeholder — Phase 16.2 will use actual auth) ──────────── */
+/* ─── Mock userId (placeholder : Phase 16.2 will use actual auth) ──────────── */
 const MOCK_USER_ID = 'user-placeholder';
 
 /* ─── Component ──────────────────────────────────────────────────────────── */

@@ -1,5 +1,5 @@
 /**
- * WeeklyNewsDetail — Actu individuelle issue de la newsletter hebdo.
+ * WeeklyNewsDetail : Actu individuelle issue de la newsletter hebdo.
  *
  * Accessible depuis :
  *  - La page hub /veille (type 'actu')
@@ -54,7 +54,7 @@ const ACTU = {
     },
     {
       heading: 'Pourquoi c\'est important',
-      text: "Pour les responsables formation, cela confirme que l'IA n'est pas un remplacement du formateur mais un levier de scalabilité — à condition de préserver les moments de guidance personnalisée. Les organisations qui ont sabré les budgets formateurs tout en déployant de l'IA rapportent des résultats décevants.",
+      text: "Pour les responsables formation, cela confirme que l'IA n'est pas un remplacement du formateur mais un levier de scalabilité : à condition de préserver les moments de guidance personnalisée. Les organisations qui ont sabré les budgets formateurs tout en déployant de l'IA rapportent des résultats décevants.",
     },
     {
       heading: 'Ce que vous pouvez faire maintenant',
@@ -187,7 +187,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                   onClick={() => window.open(ACTU.sourceUrl, '_blank', 'noopener')}
                   className="self-start"
                 >
-                  Lire la source — {ACTU.sourceLabel}
+                  Lire la source : {ACTU.sourceLabel}
                 </Button>
               </footer>
 

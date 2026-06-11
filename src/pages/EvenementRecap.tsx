@@ -76,7 +76,7 @@ export default function EvenementRecap() {
       />
 
       <Container width="wide" padding={false} className="grid md:grid-cols-3 gap-section">
-        {/* Colonne principale — col span 2 */}
+        {/* Colonne principale : col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-section">
           {/* Replay */}
           <Card className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">
@@ -126,7 +126,7 @@ export default function EvenementRecap() {
           </SectionCard>
         </div>
 
-        {/* Sidebar — col span 1 */}
+        {/* Sidebar : col span 1 */}
         <div className="md:col-span-1 flex flex-col gap-stack">
           {/* XP */}
           <Card variant="tinted" tone="primary" className="p-4 text-center flex flex-col items-center gap-tight">

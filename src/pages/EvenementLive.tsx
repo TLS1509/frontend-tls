@@ -70,7 +70,7 @@ export default function EvenementLive() {
       />
 
       <Container width="wide" padding={false} className="grid md:grid-cols-3 gap-section">
-        {/* Player — col span 2 */}
+        {/* Player : col span 2 */}
         <div className="md:col-span-2 flex flex-col gap-section">
           <Card className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">
             <div className="flex flex-col items-center gap-stack">
@@ -116,7 +116,7 @@ export default function EvenementLive() {
           </SectionCard>
         </div>
 
-        {/* Sidebar — col span 1 */}
+        {/* Sidebar : col span 1 */}
         <div className="md:col-span-1 flex flex-col gap-stack">
           {/* Programme */}
           <SectionCard

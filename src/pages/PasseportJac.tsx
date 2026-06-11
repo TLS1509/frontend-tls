@@ -50,7 +50,7 @@ interface NextJalon {
 const CERTIFICATIONS: Certification[] = [
   {
     id: 'c1',
-    title: 'Leadership — Niveau D2',
+    title: 'Leadership : Niveau D2',
     competence: 'Leadership',
     dreyfusLevel: 'D2',
     validatedAt: '15/03/2026',
@@ -58,7 +58,7 @@ const CERTIFICATIONS: Certification[] = [
   },
   {
     id: 'c2',
-    title: 'Communication — Niveau D3',
+    title: 'Communication : Niveau D3',
     competence: 'Communication',
     dreyfusLevel: 'D3',
     validatedAt: '02/02/2026',
@@ -66,7 +66,7 @@ const CERTIFICATIONS: Certification[] = [
   },
   {
     id: 'c3',
-    title: 'Tech & Outils — Niveau D2',
+    title: 'Tech & Outils : Niveau D2',
     competence: 'Tech & Outils',
     dreyfusLevel: 'D2',
     validatedAt: '10/01/2026',
@@ -77,7 +77,7 @@ const CERTIFICATIONS: Certification[] = [
 const PENDING_VALIDATIONS: PendingValidation[] = [
   {
     id: 'p1',
-    title: 'Analyse — Niveau D3',
+    title: 'Analyse : Niveau D3',
     competence: 'Analyse',
     dreyfusLevel: 'D3',
     submittedDaysAgo: 3,
@@ -85,7 +85,7 @@ const PENDING_VALIDATIONS: PendingValidation[] = [
   },
   {
     id: 'p2',
-    title: 'Leadership — Niveau D3',
+    title: 'Leadership : Niveau D3',
     competence: 'Leadership',
     dreyfusLevel: 'D3',
     submittedDaysAgo: 1,
@@ -96,7 +96,7 @@ const PENDING_VALIDATIONS: PendingValidation[] = [
 const NEXT_JALONS: NextJalon[] = [
   {
     id: 'n1',
-    title: 'Leadership — Niveau D4',
+    title: 'Leadership : Niveau D4',
     competence: 'Leadership',
     dreyfusLevel: 'D4',
     requirements: ['3 exercices D3+', '1 session coaching', '1 évaluation 360°'],
@@ -104,7 +104,7 @@ const NEXT_JALONS: NextJalon[] = [
   },
   {
     id: 'n2',
-    title: 'Analyse — Niveau D4',
+    title: 'Analyse : Niveau D4',
     competence: 'Analyse',
     dreyfusLevel: 'D4',
     requirements: ['Valider D3 Analyse (en cours)', '2 cas pratiques D4', '1 projet long'],
@@ -112,7 +112,7 @@ const NEXT_JALONS: NextJalon[] = [
   },
   {
     id: 'n3',
-    title: 'Communication — Niveau D4',
+    title: 'Communication : Niveau D4',
     competence: 'Communication',
     dreyfusLevel: 'D4',
     requirements: ['2 présentations stratégiques', '1 session mentoring', '1 évaluation coach'],
@@ -224,7 +224,7 @@ export default function PasseportJac() {
                     <div className="flex items-center gap-stack-xs text-caption text-ink-400">
                       <AlertCircle size={12} aria-hidden />
                       <span>
-                        Soumis il y a {item.submittedDaysAgo} j — en attente {item.waitingFor}
+                        Soumis il y a {item.submittedDaysAgo} j : en attente {item.waitingFor}
                       </span>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ import { getApprenantById, dreyfusLabel } from '../data/apprenants';
 const FALLBACK_LEARNER = {
   name: 'Isabelle Fontaine',
   initials: 'IF',
-  level: 'Niveau 3 — Compétent',
+  level: 'Niveau 3 : Compétent',
   email: 'i.fontaine@example.com',
 };
 
@@ -31,7 +31,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a1',
     type: 'complete',
-    title: 'Leçon terminée — Gestion du temps',
+    title: 'Leçon terminée : Gestion du temps',
     description: '+80 XP',
     timestamp: new Date('2026-05-13T09:00:00'),
     tone: 'success',
@@ -47,7 +47,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a3',
     type: 'achievement',
-    title: 'Badge débloqué — Explorateur',
+    title: 'Badge débloqué : Explorateur',
     description: 'Accès à 3 domaines de compétences',
     timestamp: new Date('2026-05-11T11:00:00'),
     tone: 'sun',
@@ -55,7 +55,7 @@ const ACTIVITY_ITEMS: ActivityFeedItem[] = [
   {
     id: 'a4',
     type: 'complete',
-    title: 'Leçon terminée — Feedback constructif',
+    title: 'Leçon terminée : Feedback constructif',
     description: '+60 XP',
     timestamp: new Date('2026-05-10T16:00:00'),
     tone: 'success',
@@ -138,7 +138,7 @@ export default function CoachLearnerProfile() {
     <div className="flex flex-col gap-section">
       <EditorialHero
         eyebrow="Coach · Apprenant"
-        title={`Fiche — ${learner.name}`}
+        title={`Fiche : ${learner.name}`}
         summary={`Suivi personnalisé de ${learner.name}. Historique des sessions, progression Dreyfus et notes pour accompagner sa progression.`}
         tone="warm"
         trailing={
@@ -229,7 +229,7 @@ export default function CoachLearnerProfile() {
         <SectionCard
           title="Notes coach"
           titleIcon={<FileText size={18} />}
-          description="Tes observations et points de suivi — visibles uniquement par toi"
+          description="Tes observations et points de suivi : visibles uniquement par toi"
           actions={
             <Button
               variant="primary"

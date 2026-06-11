@@ -68,7 +68,7 @@ export default function HelpTicketDetail() {
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Ticket' }}
         title={ticket.subject}
-        summary={`Ticket ${ticket.id} — Ouvert le ${formatDate(ticket.createdAt)}`}
+        summary={`Ticket ${ticket.id} : Ouvert le ${formatDate(ticket.createdAt)}`}
         tone="default"
         trailing={<Badge variant={badge.variant}>{badge.label}</Badge>}
       />

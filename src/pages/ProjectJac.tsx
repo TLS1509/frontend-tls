@@ -96,7 +96,7 @@ const JacValidationForm: React.FC<{
     <div className="flex flex-col gap-section p-4 bg-ink-50 rounded-xl border border-ink-200">
       <div>
         <p className="text-body-sm font-semibold text-ink-900 m-0">
-          Validation JAC — {collaboratorName}
+          Validation JAC : {collaboratorName}
         </p>
         <p className="text-caption text-ink-500 m-0">{competencyName}</p>
       </div>
@@ -137,7 +137,7 @@ const JacValidationForm: React.FC<{
       <div className="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
         <Target size={16} className="text-primary-600 shrink-0" />
         <p className="text-body-sm text-primary-800 m-0">
-          Niveau Dreyfus calculé : <strong>D{averageLevel} — {DREYFUS_LABELS[averageLevel]}</strong>
+          Niveau Dreyfus calculé : <strong>D{averageLevel} : {DREYFUS_LABELS[averageLevel]}</strong>
         </p>
       </div>
 
@@ -305,7 +305,7 @@ export const ProjectJac: React.FC = () => {
                     <p className="text-body-sm font-semibold text-ink-900 m-0">{jac.collaboratorName}</p>
                     <p className="text-caption text-ink-500 m-0">
                       {jac.competencyName}
-                      {jac.dreyfusLevelAchieved && ` · D${jac.dreyfusLevelAchieved} — ${DREYFUS_LABELS[jac.dreyfusLevelAchieved]}`}
+                      {jac.dreyfusLevelAchieved && ` · D${jac.dreyfusLevelAchieved} : ${DREYFUS_LABELS[jac.dreyfusLevelAchieved]}`}
                       {jac.validatedAt && ` · validé le ${formatDate(jac.validatedAt)}`}
                     </p>
                   </div>

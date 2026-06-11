@@ -1,5 +1,5 @@
 /**
- * VideoReels — Lecteur vidéo vertical immersif (dark layout)
+ * VideoReels : Lecteur vidéo vertical immersif (dark layout)
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +36,7 @@ interface Reel {
   instructor: string;
   instructorInitials: string;
   emoji: string;
-  /** Background tone — drives gradient + accent. Defined via tokens, no hex. */
+  /** Background tone : drives gradient + accent. Defined via tokens, no hex. */
   tone: ReelTone;
 }
 
@@ -63,7 +63,7 @@ const TONE_AVATAR: Record<ReelTone, string> = {
   rose:  'bg-gradient-to-br from-secondary-500 to-secondary-700',
 };
 
-/** Tone → ambient glow (radial overlay) — uses tone-aware Tailwind opacity. */
+/** Tone → ambient glow (radial overlay) : uses tone-aware Tailwind opacity. */
 const TONE_GLOW: Record<ReelTone, string> = {
   brand: 'bg-[radial-gradient(ellipse_at_60%_40%,rgba(85,161,180,0.12),transparent_60%)]',
   warm:  'bg-[radial-gradient(ellipse_at_60%_40%,rgba(237,132,58,0.12),transparent_60%)]',
@@ -110,7 +110,7 @@ const REELS: Reel[] = [
   {
     id: 'r2',
     title: 'Weekly IA : les actus de la semaine',
-    description: "Tour d'horizon des dernières avancées en IA — Claude 4, Gemini, et les nouveaux outils qui changent la donne.",
+    description: "Tour d'horizon des dernières avancées en IA : Claude 4, Gemini, et les nouveaux outils qui changent la donne.",
     category: 'IA & Outils',
     duration: '3:41',
     views: '980',
@@ -259,7 +259,7 @@ export const VideoReels: React.FC = () => {
   return (
     <div className="min-h-screen bg-ink-950 font-body relative flex flex-col overflow-hidden">
 
-      {/* Ambient glow — radial gradient tone-aware via Tailwind arbitrary values */}
+      {/* Ambient glow : radial gradient tone-aware via Tailwind arbitrary values */}
       <div
         className={[
           'fixed inset-0 pointer-events-none z-0 transition-opacity duration-500',
@@ -310,7 +310,7 @@ export const VideoReels: React.FC = () => {
       {/* ── Zone vidéo centrale ───────────────────────────────────── */}
       <div className="flex-1 flex items-center justify-center relative z-[1] min-h-screen">
 
-        {/* Video card — gradient bg via tone tokens */}
+        {/* Video card : gradient bg via tone tokens */}
         <div
           className={[
             'w-full max-w-[480px] h-screen relative overflow-hidden',
@@ -330,7 +330,7 @@ export const VideoReels: React.FC = () => {
             </button>
           </div>
 
-          {/* Overlay haut — badge catégorie + titre */}
+          {/* Overlay haut : badge catégorie + titre */}
           <div className="absolute top-0 left-0 right-0 px-6 pt-16 pb-8 bg-gradient-to-b from-black/65 to-transparent z-10">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-h4">{video.emoji}</span>
@@ -352,10 +352,10 @@ export const VideoReels: React.FC = () => {
             </h2>
           </div>
 
-          {/* Overlay bas — instructeur + description */}
+          {/* Overlay bas : instructeur + description */}
           <div className="absolute bottom-0 left-0 right-0 px-6 pt-8 pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
             <div className="flex items-center gap-3 mb-3">
-              {/* Avatar — gradient tone-aware via tokens */}
+              {/* Avatar : gradient tone-aware via tokens */}
               <div
                 className={[
                   'w-[38px] h-[38px] rounded-full shrink-0 border-2 border-white/22 flex items-center justify-center font-body text-caption font-bold text-white/95',

@@ -120,7 +120,7 @@ export default function ProfilePrivacy() {
           </div>
         </SectionCard>
 
-        {/* DSAR — Data access request */}
+        {/* DSAR : Data access request */}
         <SectionCard
           title="Mes données personnelles"
           titleIcon={<Download size={18} />}
@@ -139,7 +139,7 @@ export default function ProfilePrivacy() {
             <Card variant="default" className="flex items-center justify-between px-4 py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
-                <span className="text-caption text-ink-500">Demande un rapport complet de tes données — réponse sous 30 jours</span>
+                <span className="text-caption text-ink-500">Demande un rapport complet de tes données : réponse sous 30 jours</span>
               </div>
               <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                 Soumettre

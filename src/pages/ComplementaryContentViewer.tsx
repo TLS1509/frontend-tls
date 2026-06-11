@@ -1,5 +1,5 @@
 /**
- * ComplementaryContentViewer — ressources complémentaires d'une leçon.
+ * ComplementaryContentViewer : ressources complémentaires d'une leçon.
  *
  * Phase 14.2b refactor :
  *  - Header → <ViewerHeader> tone-aware (remplace ViewerOverlay)

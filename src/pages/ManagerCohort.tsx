@@ -36,7 +36,7 @@ const TEAM_MEMBERS = [
 const PROJECTS = [
   { id: 1, title: 'Montée en compétences Leadership', type: 'Formation', progress: 74, members: 6, dueDate: '2026-09-01', status: 'on-track' },
   { id: 2, title: 'Certification Data Analyse', type: 'Certification', progress: 48, members: 4, dueDate: '2026-07-15', status: 'at-risk' },
-  { id: 3, title: 'Projet Final — Communication', type: 'Projet', progress: 90, members: 3, dueDate: '2026-06-01', status: 'on-track' },
+  { id: 3, title: 'Projet Final : Communication', type: 'Projet', progress: 90, members: 3, dueDate: '2026-06-01', status: 'on-track' },
 ];
 
 // Team radar (aggregate)

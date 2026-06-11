@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-/** Brand logo SVG — Lucide v1 doesn't ship a LinkedIn icon. Brand exception per CLAUDE.md. */
+/** Brand logo SVG: Lucide v1 doesn't ship a LinkedIn icon. Brand exception per CLAUDE.md. */
 const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
   <svg
     width={size}
@@ -56,7 +56,7 @@ const TRUST_BADGES = [
   { icon: <CheckCircle2 size={16} />, label: 'RGPD & AI Act compliant' },
 ];
 
-// ⚠️ PLACEHOLDER — Chiffres en cours de consolidation.
+// ⚠️ PLACEHOLDER: Chiffres en cours de consolidation.
 // À mettre à jour avec les vraies métriques avant production.
 const SOCIAL_PROOF = [
   { value: 200, suffix: '+', label: 'formateurs certifiés' },

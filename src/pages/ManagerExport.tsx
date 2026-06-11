@@ -48,7 +48,7 @@ export default function ManagerExport() {
         summary="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
         tone="default"
         trailing={
-          <Badge variant="info" size="md">RGPD conforme — données anonymisables</Badge>
+          <Badge variant="info" size="md">RGPD conforme : données anonymisables</Badge>
         }
       />
 
@@ -95,7 +95,7 @@ export default function ManagerExport() {
             <FormGroup label="Périmètre" id="scope">
               <Select id="scope" value={scope} onChange={(e) => setScope(e.target.value as ExportScope)}>
                 {(Object.entries(SCOPE_CONFIG) as [ExportScope, (typeof SCOPE_CONFIG)[ExportScope]][]).map(([key, cfg]) => (
-                  <option key={key} value={key}>{cfg.label} — {cfg.description}</option>
+                  <option key={key} value={key}>{cfg.label} : {cfg.description}</option>
                 ))}
               </Select>
             </FormGroup>

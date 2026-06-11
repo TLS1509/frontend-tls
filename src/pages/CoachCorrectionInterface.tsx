@@ -55,7 +55,7 @@ export default function CoachCorrectionInterface() {
       <EditorialHero
         eyebrow={`Coach · Correction #${SUBMISSION.id}`}
         title="Interface de Correction"
-        summary={`${SUBMISSION.exerciceTitle} — ${SUBMISSION.apprenantName}`}
+        summary={`${SUBMISSION.exerciceTitle} : ${SUBMISSION.apprenantName}`}
         tone="warm"
         trailing={
           <Button variant="ghost" size="md" leadingIcon={<ChevronLeft size={16} />}>
@@ -66,7 +66,7 @@ export default function CoachCorrectionInterface() {
 
       <Container width="wide" padding={false} className="px-4 md:px-8 grid md:grid-cols-[1fr_360px] gap-section items-start">
 
-        {/* Main — submitted work */}
+        {/* Main : submitted work */}
         <div className="flex flex-col gap-section">
 
           {/* Apprenant header */}

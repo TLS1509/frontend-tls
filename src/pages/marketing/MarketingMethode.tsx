@@ -1,10 +1,10 @@
 /**
- * MarketingMethode — STRIDE methodology (Phase P3.5)
+ * MarketingMethode: STRIDE methodology (Phase P3.5)
  *
  * Direction: signature method page. Visual step-by-step (S-T-R-I-D-E) + principles + use cases.
  * Tone: brand primary dominant + sun accents.
  *
- * ⚠️ PLACEHOLDER CONTENT — the STRIDE acronym expansion below is illustrative.
+ * ⚠️ PLACEHOLDER CONTENT: the STRIDE acronym expansion below is illustrative.
  * Replace with the real STRIDE definition from TLS before production.
  */
 
@@ -37,13 +37,13 @@ import {
   NoiseTexture,
 } from '../../components/marketing/motion';
 
-// ⚠️ PLACEHOLDER — Acronyme STRIDE illustratif. Remplacer par la vraie définition TLS.
+// ⚠️ PLACEHOLDER: Acronyme STRIDE illustratif. Remplacer par la vraie définition TLS.
 const STRIDE_STEPS = [
   {
     letter: 'S',
     word: 'Scope',
     title: 'Cadrer le besoin',
-    desc: "On commence par comprendre le contexte, les contraintes et les objectifs. Pas de solution avant le diagnostic — un parcours mal cadré, c'est de l'énergie perdue.",
+    desc: "On commence par comprendre le contexte, les contraintes et les objectifs. Pas de solution avant le diagnostic: un parcours mal cadré, c'est de l'énergie perdue.",
     icon: <Compass size={28} />,
     deliverable: 'Brief pédagogique validé',
     tone: 'from-primary-500 to-primary-700',
@@ -88,7 +88,7 @@ const STRIDE_STEPS = [
     letter: 'E',
     word: 'Evolve',
     title: 'Itérer en continu',
-    desc: "Le parcours vit. On collecte les signaux, on identifie les frictions, on améliore. STRIDE n'est pas un cycle fermé — c'est une boucle d'apprentissage permanente.",
+    desc: "Le parcours vit. On collecte les signaux, on identifie les frictions, on améliore. STRIDE n'est pas un cycle fermé: c'est une boucle d'apprentissage permanente.",
     icon: <RefreshCw size={28} />,
     deliverable: 'Backlog d\'amélioration mensuel',
     tone: 'from-accent-400 to-primary-500',
@@ -104,12 +104,12 @@ const PRINCIPLES = [
   {
     icon: <Lightbulb size={24} />,
     title: 'Validation par étape',
-    desc: "Chaque étape produit un livrable concret et validable. Pas de big bang en fin de projet — on ajuste à chaque pas.",
+    desc: "Chaque étape produit un livrable concret et validable. Pas de big bang en fin de projet: on ajuste à chaque pas.",
   },
   {
     icon: <Users size={24} />,
     title: 'Co-conception',
-    desc: "Tu n'es pas spectateur du processus. Tu co-construis avec nous — c'est ta capacité à le refaire seul·e qui mesure notre succès.",
+    desc: "Tu n'es pas spectateur du processus. Tu co-construis avec nous: c'est ta capacité à le refaire seul·e qui mesure notre succès.",
   },
   {
     icon: <CheckCircle2 size={24} />,
@@ -340,7 +340,7 @@ export const MarketingMethode: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-caption text-ink-400 italic m-0">
-                Exemples illustratifs — vrais cas clients publiés dès accord des organisations concernées.
+                Exemples illustratifs: vrais cas clients publiés dès accord des organisations concernées.
               </p>
             </FadeInWhenVisible>
           </div>

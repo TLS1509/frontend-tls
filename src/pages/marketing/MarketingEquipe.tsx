@@ -1,10 +1,10 @@
 /**
- * MarketingEquipe — Team / About us (Phase P3.4)
+ * MarketingEquipe : Team / About us (Phase P3.4)
  *
  * Direction: human, warm, founder-forward. Inspired by article "Sous le capot de la Dream Team".
  * Tone: warm dominant + brand accents.
  *
- * ⚠️ PLACEHOLDER CONTENT — team members are fictional placeholders.
+ * ⚠️ PLACEHOLDER CONTENT : team members are fictional placeholders.
  * Replace TEAM array, VALUES quotes, and FOUNDER_STORY with real data before production.
  */
 
@@ -34,7 +34,7 @@ import {
   TiltCard,
 } from '../../components/marketing/motion';
 
-// ⚠️ PLACEHOLDER — équipe fictive. Remplacer par les vrais membres avant production.
+// ⚠️ PLACEHOLDER : équipe fictive. Remplacer par les vrais membres avant production.
 const TEAM = [
   {
     name: 'Alex Renaudin',
@@ -245,7 +245,7 @@ export const MarketingEquipe: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-caption text-ink-400 italic m-0">
-                Présentation illustrative — la composition réelle de l'équipe sera publiée prochainement.
+                Présentation illustrative : la composition réelle de l'équipe sera publiée prochainement.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -345,7 +345,7 @@ export const MarketingEquipe: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA — Rejoignez-nous ─────────────────────────────────────────── */}
+      {/* ── CTA : Rejoignez-nous ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900">
         <MeshGradientBg tone="ink" intensity="intense" />
         <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
@@ -359,7 +359,7 @@ export const MarketingEquipe: React.FC = () => {
             </blockquote>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <p className="font-body text-body text-white/70 m-0">— L'équipe TLS, Paris ✨</p>
+            <p className="font-body text-body text-white/70 m-0">: L'équipe TLS, Paris ✨</p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.25}>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">

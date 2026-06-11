@@ -36,7 +36,7 @@ import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '
 import { MOCK_USER_ID } from '../data/passeport';
 import { Container } from '../components/layout';
 
-/** Demo seed — items pré-marqués complétés tant que le tracking item-level n'est pas en place. */
+/** Demo seed : items pré-marqués complétés tant que le tracking item-level n'est pas en place. */
 const SEED_COMPLETED_ITEMS = new Set(['item-1', 'item-4']);
 
 /* ─── Item icon mapping by type ──────────────────────────────────────── */
@@ -94,9 +94,9 @@ export const LearningSpace: React.FC = () => {
   const profileStore = useUserProfileStore();
   const userTier = profileStore.get().subscriptionTier;
 
-  // Phase 16.1 #2 — wire access control context to real stores.
+  // Phase 16.1 #2 : wire access control context to real stores.
   // Competency levels read from usePasseportStore so canAccessItem() matches the
-  // learner's actual radar. Lesson progress feeds item completion (best-effort —
+  // learner's actual radar. Lesson progress feeds item completion (best-effort :
   // item-level completion store TBD).
   const lessonsMap = useLessonProgressStore((s) => s.lessons);
   const passeportStore = usePasseportStore();

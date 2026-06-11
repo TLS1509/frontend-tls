@@ -20,7 +20,7 @@ import {
 const STATIC_COURSE = {
   title: 'Enjeux de la maîtrise du prompt',
   description:
-    "Apprenez à structurer vos prompts pour gagner en qualité et en reproductibilité — contenu statique aligné sur Figma CourseDetailPageUpdated.",
+    "Apprenez à structurer vos prompts pour gagner en qualité et en reproductibilité : contenu statique aligné sur Figma CourseDetailPageUpdated.",
   level: 'Débutant',
   duration: '3 h',
   instructor: 'Sophie Martin',
@@ -62,7 +62,7 @@ export const CourseDetail: React.FC = () => {
           <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
-          <span className="font-body text-caption text-ink-500">Cours #{id ?? '—'}</span>
+          <span className="font-body text-caption text-ink-500">Cours #{id ?? ':'}</span>
         </Container>
       </div>
 

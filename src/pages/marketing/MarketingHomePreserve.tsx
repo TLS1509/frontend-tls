@@ -1,9 +1,9 @@
 /**
- * MarketingHomePreserve — Proposal A : "Preserve & Elevate"
+ * MarketingHomePreserve: Proposal A : "Preserve & Elevate"
  *
  * A refined, more confident evolution of the existing immersive TLS direction.
  * Same DNA as MarketingHome.tsx (teal→warm gradient heroes, measured glass,
- * the full motion vocabulary, InteractiveAppMockup show-don't-tell) — but more
+ * the full motion vocabulary, InteractiveAppMockup show-don't-tell): but more
  * crafted:
  *   - hero display type capped at clamp max 6rem (was 6.5rem)
  *   - CTA contrast fixed on dark surfaces (variant="glass", never white-on-light ghost)
@@ -51,7 +51,7 @@ import {
 } from '../../components/marketing/motion';
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Content data (real TLS content — no invented facts, no fake client logos)
+   Content data (real TLS content: no invented facts, no fake client logos)
    ────────────────────────────────────────────────────────────────────────── */
 
 const METRICS = [
@@ -206,7 +206,7 @@ const HeroScrollCue: React.FC = () => {
   );
 };
 
-// Tone maps for the offer cards (static classes only — Tailwind-safe).
+// Tone maps for the offer cards (static classes only: Tailwind-safe).
 const OFFER_ICON_TONE: Record<'primary' | 'warm' | 'sun', string> = {
   primary: 'bg-primary-100 text-primary-700',
   warm: 'bg-secondary-100 text-secondary-700',
@@ -509,7 +509,7 @@ export const MarketingHomePreserve: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 6 · WHY AI — warm chapter ─────────────────────────────────────── */}
+      {/* ── 6 · WHY AI: warm chapter ─────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-secondary-50 via-accent-50/40 to-white py-page">
         <MeshGradientBg tone="warm" intensity="subtle" />
         <div className="relative mx-auto max-w-wide px-6">
@@ -654,7 +654,7 @@ export const MarketingHomePreserve: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 9 · ORG PROOF — neutral marquee, no fake logos ────────────────── */}
+      {/* ── 9 · ORG PROOF: neutral marquee, no fake logos ────────────────── */}
       <section className="border-y border-ink-100 bg-white py-section-lg">
         <div className="mx-auto flex max-w-wide flex-col gap-stack-lg px-6">
           <p className="m-0 text-center font-body text-caption font-semibold uppercase tracking-widest text-ink-500">
@@ -676,7 +676,7 @@ export const MarketingHomePreserve: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 10 · FINAL CTA — dark mesh, magnetic ──────────────────────────── */}
+      {/* ── 10 · FINAL CTA: dark mesh, magnetic ──────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900 py-page">
         <MeshGradientBg tone="ink" intensity="intense" />
         <NoiseTexture opacity={0.05} />

@@ -119,7 +119,7 @@ export default function AtelierDetail() {
         {/* Infos mode */}
         <div className="flex items-center gap-stack text-caption text-ink-500">
           <Video size={14} className="text-ink-400" />
-          <span>Session sur Google Meet — lien envoyé 24h avant la session</span>
+          <span>Session sur Google Meet : lien envoyé 24h avant la session</span>
           <Users size={14} className="text-ink-400 ml-stack-xs" />
           <span>Max 12 participants</span>
           <MapPin size={14} className="text-ink-400 ml-stack-xs" />

@@ -111,7 +111,7 @@ export const Project: React.FC = () => {
             <ul className="m-0 pl-4 flex flex-col gap-tight">
               {gatingFails.map((f) => (
                 <li key={f.competencyId} className="text-caption text-warning-fg">
-                  {f.competencyName} — vous êtes D{f.current}, niveau D{f.required}+ requis
+                  {f.competencyName} : vous êtes D{f.current}, niveau D{f.required}+ requis
                 </li>
               ))}
             </ul>
@@ -166,7 +166,7 @@ export const Project: React.FC = () => {
                       <Avatar initials={e.collaboratorInitials} size="sm" tint="brand" />
                       <div className="flex-1 min-w-0">
                         <p className="text-body-sm font-semibold text-ink-900 m-0">
-                          {e.collaboratorName} — {e.competencyName}
+                          {e.collaboratorName} : {e.competencyName}
                         </p>
                         <p className="text-caption text-success-fg m-0">
                           D{e.oldDreyfusLevel} → D{e.newDreyfusLevel} · validé par {e.verifiedByName}

@@ -1,5 +1,5 @@
 /**
- * MagicLink — Authentification sans mot de passe par lien email.
+ * MagicLink : Authentification sans mot de passe par lien email.
  *
  * Flow : alternative au login classique. L'utilisateur entre son email →
  * reçoit un lien magique unique → clique pour se connecter.

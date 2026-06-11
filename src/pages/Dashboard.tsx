@@ -1,11 +1,11 @@
 /**
- * Dashboard Page — Learner home (mobile-first, 4-stage architecture).
+ * Dashboard Page : Learner home (mobile-first, 4-stage architecture).
  *
  * Sections (top-down, single column on mobile, optional 2-col on desktop for stage ④):
- *   ① Ton parcours    — patterns/ParcoursCard size="featured" (glass, primary CTA)
- *   ② Ton coaching    — learning/SessionCard
- *   ③ Ton journal     — learning/PromptCard size="featured" (single, rotates daily)
- *   ④ Ta veille       — learning/ArticleCard + learning/VideoCard
+ *   ① Ton parcours    : patterns/ParcoursCard size="featured" (glass, primary CTA)
+ *   ② Ton coaching    : learning/SessionCard
+ *   ③ Ton journal     : learning/PromptCard size="featured" (single, rotates daily)
+ *   ④ Ta veille       : learning/ArticleCard + learning/VideoCard
  *
  * Hero: EditorialHero épuré (date + greeting + quote, no stats).
  * Background: subtle brand→warm gradient with noise.
@@ -86,7 +86,7 @@ export const Dashboard: React.FC = () => {
       {/* Content */}
       <PageShell width="page" className="relative md:gap-section-lg lg:gap-page">
 
-        {/* Hero — épuré, full width, brand blue gradient */}
+        {/* Hero : épuré, full width, brand blue gradient */}
         <EditorialHero
           tone="brand"
           eyebrow={{ icon: <Sparkles size={12} />, label: formattedDate }}
@@ -102,7 +102,7 @@ export const Dashboard: React.FC = () => {
           }
         />
 
-        {/* Cold-start state — replaces mock parcours / coaching / activity for new users */}
+        {/* Cold-start state : replaces mock parcours / coaching / activity for new users */}
         {isFirstTime ? (
           <EmptyDashboardState firstName={firstName} />
         ) : (
@@ -120,14 +120,14 @@ interface DashboardContentProps {
 const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
   return (
     <>
-        {/* ① TON PARCOURS — featured glass card */}
+        {/* ① TON PARCOURS : featured glass card */}
         <section className="flex flex-col gap-stack">
           <SectionHeader title="Ton parcours" subtitle="Reprendre où tu t'es arrêté" icon={Compass} variant="minimal" tone="warm" />
           <ResumeLessonCard
             id="parcours-1"
             eyebrow="Étape 2 sur 5"
             parcoursTitle="Devenir prompt designer"
-            description="Applications pratiques — Apprends à structurer tes prompts pour des cas concrets de formation. Plus que 8 minutes pour terminer la prochaine leçon."
+            description="Applications pratiques : Apprends à structurer tes prompts pour des cas concrets de formation. Plus que 8 minutes pour terminer la prochaine leçon."
             progress={40}
             tone="warm"
             duration="3h restantes"
@@ -141,7 +141,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
         <section className="flex flex-col gap-stack">
           <SectionHeader title="Ton coaching" subtitle="Sessions personnalisées avec ton coach" icon={GraduationCap} variant="minimal" tone="primary" />
           <SessionCard
-            title="Session — Leadership & IA"
+            title="Session : Leadership & IA"
             coachName="Sarah Martin"
             description="Travailler la posture de leader-coach face à l'arrivée des outils IA dans ton équipe."
             dateLabel="Mardi 12 mai · 14:30"
@@ -159,17 +159,17 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           </button>
         </section>
 
-        {/* ③ TON JOURNAL — 3 contextual reflection prompts */}
+        {/* ③ TON JOURNAL : 3 contextual reflection prompts */}
         <WritingPromptsAside
           onNavigate={navigate}
           onOpenJournal={() => navigate('/journal')}
         />
 
-        {/* ④ À DÉCOUVRIR — Activity feed timeline: veille + feedback + nouveautés */}
+        {/* ④ À DÉCOUVRIR : Activity feed timeline: veille + feedback + nouveautés */}
         <section className="flex flex-col gap-stack">
           <SectionHeader
             title="À découvrir"
-            subtitle="Ton flux d'activité — veille, feedback, nouveautés et signaux pour ta progression"
+            subtitle="Ton flux d'activité : veille, feedback, nouveautés et signaux pour ta progression"
             icon={Newspaper}
             variant="minimal"
             tone="primary"
@@ -193,7 +193,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
               {
                 id: 'feed-2',
                 type: 'parcours',
-                title: 'Nouveau parcours disponible — Communication augmentée par IA',
+                title: 'Nouveau parcours disponible : Communication augmentée par IA',
                 description: '5 modules · 2h30 · Aligné avec ton focus actuel sur la posture de leader-coach.',
                 timestamp: new Date(Date.now() - 8 * 3600000),
                 actionLabel: 'Explorer',
@@ -213,7 +213,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
                 id: 'feed-4',
                 type: 'comment',
                 title: 'Marc Dupont a commenté ta réflexion "Délégation et confiance"',
-                description: '"J\'ai vécu le même blocage l\'an dernier — un livre qui m\'a aidé : Trillion Dollar Coach."',
+                description: '"J\'ai vécu le même blocage l\'an dernier : un livre qui m\'a aidé : Trillion Dollar Coach."',
                 timestamp: new Date(Date.now() - 1.2 * 86400000),
                 actor: { name: 'Marc Dupont' },
                 actionLabel: 'Voir',
@@ -223,7 +223,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
               {
                 id: 'feed-5',
                 type: 'veille-video',
-                title: 'Prompt Engineering — masterclass',
+                title: 'Prompt Engineering : masterclass',
                 description: '18 min · Maîtrise les structures de prompts pour la formation et le coaching pro.',
                 timestamp: new Date(Date.now() - 4 * 86400000),
                 actionLabel: 'Voir',
@@ -233,7 +233,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
                 id: 'feed-6',
                 type: 'achievement',
                 title: 'Badge "Pionnier IA" disponible',
-                description: 'Tu as complété 80% du parcours Devenir prompt designer — termine-le pour débloquer le badge.',
+                description: 'Tu as complété 80% du parcours Devenir prompt designer : termine-le pour débloquer le badge.',
                 timestamp: new Date(Date.now() - 5 * 86400000),
                 actionLabel: 'Continuer',
                 onActionClick: () => navigate('/learning-paths/1'),

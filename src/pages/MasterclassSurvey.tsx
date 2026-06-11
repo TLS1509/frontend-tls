@@ -81,7 +81,7 @@ export default function MasterclassSurvey() {
           </p>
         </div>
 
-        {/* Rating — 1–5 scale per spec (chat_surveys.rating 1-5) */}
+        {/* Rating : 1–5 scale per spec (chat_surveys.rating 1-5) */}
         <Card variant="default" className="p-6 flex flex-col gap-stack">
           <p className="text-body-sm font-semibold text-ink-800">Ta satisfaction globale</p>
           <div className="flex justify-between gap-2">

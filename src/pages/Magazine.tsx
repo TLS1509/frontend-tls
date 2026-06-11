@@ -1,12 +1,12 @@
 /**
- * Magazine — Phase 10 Tier 2 refonte.
+ * Magazine : Phase 10 Tier 2 refonte.
  *
- * Page landing du Magazine TLS (numéro courant) — pattern issue/numéro.
+ * Page landing du Magazine TLS (numéro courant) : pattern issue/numéro.
  *
  * Structure (per Figma audit) :
  *  1. Sticky glass header (back + bookmark + download)
  *  2. Full-bleed dark hero avec eyebrow + h1 + meta date/pages
- *  3. EditorialLayout asideFirst — Synthèse exécutive sticky gauche
+ *  3. EditorialLayout asideFirst : Synthèse exécutive sticky gauche
  *     + Sommaire numéroté droite (NumberedArticleListItem)
  */
 
@@ -104,7 +104,7 @@ export const Magazine: React.FC = () => {
 
       {/* Full-bleed dark hero */}
       <section className="relative bg-gradient-to-br from-ink-900 via-primary-900 to-ink-800 overflow-hidden">
-        {/* Decorative radial blobs — colored ambient */}
+        {/* Decorative radial blobs : colored ambient */}
         <div
           aria-hidden
           className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full opacity-25 pointer-events-none"
@@ -148,7 +148,7 @@ export const Magazine: React.FC = () => {
         </Container>
       </section>
 
-      {/* Body — Editorial layout aside-left (Synthèse) + Sommaire main */}
+      {/* Body : Editorial layout aside-left (Synthèse) + Sommaire main */}
       <Container width="page" className="py-section">
         <EditorialLayout
           asideFirst
@@ -165,7 +165,7 @@ export const Magazine: React.FC = () => {
             >
               <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
                 Ce numéro explore comment l'IA générative transforme concrètement le métier de
-                formateur — de la conception des contenus à la personnalisation des parcours.
+                formateur : de la conception des contenus à la personnalisation des parcours.
                 Nos experts dressent un panorama complet des pratiques émergentes, soutenu par
                 des données terrain et des témoignages de formateurs pionniers.
               </p>

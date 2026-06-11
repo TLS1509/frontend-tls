@@ -117,7 +117,7 @@ export default function Passeport() {
                 </div>
                 {selectedAxis && (
                   <p className="text-caption text-primary-600 text-center">
-                    Axe sélectionné : <strong>{selectedAxis}</strong> — voir l'onglet Compétences pour le détail.
+                    Axe sélectionné : <strong>{selectedAxis}</strong> : voir l'onglet Compétences pour le détail.
                   </p>
                 )}
               </SectionCard>
@@ -181,7 +181,7 @@ export default function Passeport() {
           <div className="flex flex-col gap-stack">
             <SectionHeader
               title="Toutes mes compétences"
-              subtitle="Compétences H.S.O — Dreyfus 1 à 5"
+              subtitle="Compétences H.S.O : Dreyfus 1 à 5"
               icon={<Award size={20} />}
               tone="primary"
             />

@@ -100,7 +100,7 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
           {eyebrow && (
             <span
               className={[
-                'inline-flex font-body text-micro font-bold uppercase tracking-wider',
+                'inline-flex font-body text-caption font-medium',
                 EYEBROW[tone],
               ].join(' ')}
             >

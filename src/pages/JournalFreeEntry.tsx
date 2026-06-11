@@ -1,5 +1,5 @@
 /**
- * JournalFreeEntry — interface de saisie libre dans le journal
+ * JournalFreeEntry : interface de saisie libre dans le journal
  */
 
 import React, { useState } from 'react';

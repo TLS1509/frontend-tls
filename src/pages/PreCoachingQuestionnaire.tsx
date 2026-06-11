@@ -1,7 +1,7 @@
 /**
  * Pre-Coaching Questionnaire
  *
- * "Préparez votre session" — 3 vertical steps with icon + card + textarea
+ * "Préparez votre session" : 3 vertical steps with icon + card + textarea
  */
 
 import React, { useState } from 'react';

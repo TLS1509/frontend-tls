@@ -1,5 +1,5 @@
 /**
- * AstucesViewer — Format scroll-story d'astuces pratiques.
+ * AstucesViewer : Format scroll-story d'astuces pratiques.
  *
  * Phase 14.2a refactor :
  *  - Header custom → <ViewerHeader> (tone-aware, sticky, touch-sized close)

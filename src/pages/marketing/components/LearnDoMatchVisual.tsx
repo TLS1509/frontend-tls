@@ -1,15 +1,15 @@
 /**
- * LearnDoMatchVisual — the "show the system" panel for the Home Learn→Do→Match
+ * LearnDoMatchVisual : the "show the system" panel for the Home Learn→Do→Match
  * scroll-story (rendered inside <StickyScrollStory visual={...} />).
  *
  * A persistent competency-loop stepper (Learn · Do · Match) with a morphing
  * product panel per active step:
- *   0 · Learn  — parcours adaptatif, progression Dreyfus (5 niveaux)
- *   1 · Do     — mise en pratique sur un projet réel
- *   2 · Match  — passeport de compétences vérifiables, prêt à être matché
+ *   0 · Learn  : parcours adaptatif, progression Dreyfus (5 niveaux)
+ *   1 · Do     : mise en pratique sur un projet réel
+ *   2 · Match  : passeport de compétences vérifiables, prêt à être matché
  *
  * Tokens only (no hex / arbitrary colors). Motion via framer-motion, fully
- * reduced-motion aware. Content is always rendered visible — the crossfade
+ * reduced-motion aware. Content is always rendered visible : the crossfade
  * never gates a panel invisible at rest.
  */
 import React from 'react';
@@ -23,7 +23,7 @@ const STEPS: {
   label: string;
   fr: string;
   Icon: React.ComponentType<{ size?: number; className?: string }>;
-  /** active node fill (white icon) — all ≥ AA on white text/icon */
+  /** active node fill (white icon) : all ≥ AA on white text/icon */
   fill: string;
 }[] = [
   { key: 'learn', label: 'Learn', fr: 'Apprendre', Icon: GraduationCap, fill: 'bg-primary-700' },
@@ -175,7 +175,7 @@ export const LearnDoMatchVisual: React.FC<Props> = ({ active, className = '' }) 
         <span className="font-body text-caption font-bold text-ink-700">{STEPS[i].fr}</span>
       </div>
 
-      {/* Loop stepper — persistent system frame */}
+      {/* Loop stepper : persistent system frame */}
       <div className="flex items-start gap-2">
         {STEPS.map((s, idx) => (
           <React.Fragment key={s.key}>

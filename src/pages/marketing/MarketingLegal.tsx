@@ -1,5 +1,5 @@
 /**
- * MarketingLegal — 4 legal stub pages (mentions légales, politique de confidentialité, CGV/CGU, charte IA)
+ * MarketingLegal: 4 legal stub pages (mentions légales, politique de confidentialité, CGV/CGU, charte IA)
  * Content to be filled before production launch.
  */
 
@@ -76,7 +76,7 @@ export const MarketingMentionsLegales: React.FC = () => (
     sections={[
       {
         heading: 'Éditeur du site',
-        body: 'The Learning Society — SAS au capital de [montant] €. SIRET : [numéro]. Siège social : [adresse]. Directeur de la publication : [nom].',
+        body: 'The Learning Society: SAS au capital de [montant] €. SIRET : [numéro]. Siège social : [adresse]. Directeur de la publication : [nom].',
       },
       {
         heading: 'Hébergeur',
@@ -175,7 +175,7 @@ export const MarketingCharteIA: React.FC = () => (
     sections={[
       {
         heading: 'IA augmentée, jamais substitutive',
-        body: 'Chez The Learning Society, l\'IA est un outil au service du formateur et de l\'apprenant. Elle amplifie l\'expertise humaine — elle ne la remplace pas. Toute production générée par IA est relue, validée et contextualisée par un expert.',
+        body: 'Chez The Learning Society, l\'IA est un outil au service du formateur et de l\'apprenant. Elle amplifie l\'expertise humaine: elle ne la remplace pas. Toute production générée par IA est relue, validée et contextualisée par un expert.',
       },
       {
         heading: 'Transparence algorithmique',

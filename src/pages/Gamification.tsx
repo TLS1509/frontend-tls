@@ -90,7 +90,7 @@ export default function Gamification() {
       <EditorialHero
         eyebrow="SBO · Learn"
         title="Ma Progression & Gamification"
-        summary="Streaks, badges, XP et niveaux Dreyfus — suis ta progression et célèbre chaque étape."
+        summary="Streaks, badges, XP et niveaux Dreyfus : suis ta progression et célèbre chaque étape."
         tone="warm"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Trophy size={16} />}>
@@ -178,7 +178,7 @@ export default function Gamification() {
           <div className="flex flex-col gap-section">
             <SectionHeader
               title="Badges Compétences"
-              subtitle="Niveaux Dreyfus par domaine — indicateur d'atrophie si inactif +90j"
+              subtitle="Niveaux Dreyfus par domaine : indicateur d'atrophie si inactif +90j"
               icon={<Award size={20} />}
               tone="warm"
             />
@@ -199,7 +199,7 @@ export default function Gamification() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className={`inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill ${levelStyle.color}`}>
-                        D{c.level} — {dreyfusLabel}
+                        D{c.level} : {dreyfusLabel}
                       </span>
                     </div>
                     <ProgressBar

@@ -1,5 +1,5 @@
 /**
- * LearningPaths Page — Mes Parcours
+ * LearningPaths Page : Mes Parcours
  *
  * Phase 10 refactor:
  *  - Hero custom → EditorialHero tone="warm" with KPI trailing slot
@@ -194,7 +194,7 @@ export const LearningPaths: React.FC = () => {
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
       <Container width="page" className="relative pt-0 pb-section flex flex-col gap-section">
 
-        {/* Hero — EditorialHero tone="brand" (primary teal — Parcours = core content of TLS) */}
+        {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
         <EditorialHero
           tone="brand"
           eyebrow={{ icon: <GraduationCap size={12} />, label: 'Mon apprentissage' }}

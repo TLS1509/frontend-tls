@@ -14,7 +14,7 @@ import { Container } from '../components/layout';
 
 const SESSION = {
   id: '1',
-  title: 'Session coaching — Leadership & Management',
+  title: 'Session coaching : Leadership & Management',
   coach: { name: 'Isabelle Martin', initials: 'IM', specialite: 'Leadership · Communication' },
   date: 'Lundi 19 mai 2026',
   time: '14h00 – 15h00',
@@ -31,7 +31,7 @@ const SESSION = {
   ],
   preparation: 'Relire le rapport de la session précédente et préparer 2 situations de management récentes à analyser.',
   previousSessions: [
-    { id: '0', title: 'Session 1 — Bilan initial', description: 'Évaluation initiale des compétences', date: '12 mai 2026', status: 'completed' as const },
+    { id: '0', title: 'Session 1 : Bilan initial', description: 'Évaluation initiale des compétences', date: '12 mai 2026', status: 'completed' as const },
   ],
 };
 

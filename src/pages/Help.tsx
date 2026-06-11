@@ -1,5 +1,5 @@
 /**
- * Help Page — Centre d'aide
+ * Help Page : Centre d'aide
  */
 
 import React, { useState } from 'react';

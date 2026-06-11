@@ -50,7 +50,7 @@ export const ProjectTeam: React.FC = () => {
       <EditorialHero
         eyebrow={{ label: 'Projet · Équipe' }}
         title="Équipe du projet"
-        summary={project?.title ? `Membres, niveaux Dreyfus et compétences — ${project.title}` : 'Membres, niveaux Dreyfus et compétences de l\'équipe.'}
+        summary={project?.title ? `Membres, niveaux Dreyfus et compétences : ${project.title}` : 'Membres, niveaux Dreyfus et compétences de l\'équipe.'}
         tone="brand"
       />
 

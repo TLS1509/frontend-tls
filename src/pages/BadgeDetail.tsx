@@ -46,7 +46,7 @@ export default function BadgeDetail() {
   const store = useGamificationStore();
   const userBadges = store.getBadges(MOCK_USER_ID);
 
-  // Phase 16.5 #2 — resolve badge from referential + user state
+  // Phase 16.5 #2 : resolve badge from referential + user state
   const badge = id ? getBadgeDefById(id) : undefined;
   const userBadge = id ? userBadges.find((b) => b.badgeId === id) : undefined;
   const earned = !!userBadge;
@@ -60,7 +60,7 @@ export default function BadgeDetail() {
     );
   }
 
-  // Community stats — derived from how many badges of this id exist across users.
+  // Community stats : derived from how many badges of this id exist across users.
   // For MVP this is constant (single learner), so we use a stable mock denominator
   // and the count of earned badges of same type as numerator.
   const totalLearners = 1580;
@@ -178,7 +178,7 @@ export default function BadgeDetail() {
                 </div>
                 <ProgressBar value={pctEarned} fill="sun" size="md" showLabel />
                 <p className="text-caption text-ink-500">
-                  {pctEarned}% des apprenants ont obtenu ce badge {earned ? "— tu fais partie de cette communauté !" : "— prochaine étape pour toi."}
+                  {pctEarned}% des apprenants ont obtenu ce badge {earned ? ": tu fais partie de cette communauté !" : ": prochaine étape pour toi."}
                 </p>
               </div>
             </SectionCard>

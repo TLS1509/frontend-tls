@@ -1,5 +1,5 @@
 /**
- * Recherche — Page de recherche transversale (parcours / articles / vidéos / coachs).
+ * Recherche : Page de recherche transversale (parcours / articles / vidéos / coachs).
  *
  * Flow : Navigation transversale. Page plein-largeur avec Sidebar.
  *
@@ -179,7 +179,7 @@ export const Recherche: React.FC = () => {
         />
       );
     }
-    // Coach card (inline DS card — pas de pattern dédié)
+    // Coach card (inline DS card : pas de pattern dédié)
     return (
       <article
         key={item.id}
@@ -221,7 +221,7 @@ export const Recherche: React.FC = () => {
         <HeroSection
           eyebrow="Recherche"
           title="Trouvez ce dont vous avez besoin"
-          description="Parcours, articles, vidéos et coachs — tout au même endroit."
+          description="Parcours, articles, vidéos et coachs : tout au même endroit."
         />
 
         {/* Search bar */}

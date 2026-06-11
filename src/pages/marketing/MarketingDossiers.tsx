@@ -1,5 +1,5 @@
 /**
- * MarketingDossiers — index des dossiers (contenus de fond, sourcés).
+ * MarketingDossiers : index des dossiers (contenus de fond, sourcés).
  * Lane light + warm, DS TLS, reveal local visible-par-défaut, pas de GradientText.
  */
 

@@ -1,5 +1,5 @@
 /**
- * MagazineArticle — Phase 10 Tier 2 refonte.
+ * MagazineArticle : Phase 10 Tier 2 refonte.
  *
  * Article du Magazine TLS, tone brand (gradient text title signature).
  *
@@ -46,7 +46,7 @@ const ARTICLE = {
   category: 'Technologie',
   title: "L'IA générative redéfinit la conception pédagogique",
   excerpt:
-    "Comment l'IA générative transforme concrètement le métier d'ingénieur pédagogique — de la production de contenu à la personnalisation des parcours.",
+    "Comment l'IA générative transforme concrètement le métier d'ingénieur pédagogique : de la production de contenu à la personnalisation des parcours.",
   publishedAt: 'Avril 2026',
   readTime: '14 min de lecture',
   pages: 'pp. 4–12',
@@ -58,8 +58,8 @@ const ARTICLE = {
 };
 
 const PARAGRAPHS = [
-  "Depuis 2023, la chaîne de production des contenus de formation s'est radicalement transformée. Là où il fallait six semaines pour concevoir un module complet — analyse de besoin, scénarisation, story-board, production multimédia, tests — il faut désormais huit jours en moyenne dans les organisations qui ont structuré leur usage de l'IA générative.",
-  "Le gain ne se mesure pas qu'en vitesse. La qualité progresse aussi — paradoxalement. Les outils IA fournissent une première version exploitable très rapidement, ce qui laisse plus de temps à l'ingénieur pédagogique pour la pédagogie elle-même : tester, retravailler les exemples, affiner les exercices, soigner les transitions.",
+  "Depuis 2023, la chaîne de production des contenus de formation s'est radicalement transformée. Là où il fallait six semaines pour concevoir un module complet : analyse de besoin, scénarisation, story-board, production multimédia, tests : il faut désormais huit jours en moyenne dans les organisations qui ont structuré leur usage de l'IA générative.",
+  "Le gain ne se mesure pas qu'en vitesse. La qualité progresse aussi : paradoxalement. Les outils IA fournissent une première version exploitable très rapidement, ce qui laisse plus de temps à l'ingénieur pédagogique pour la pédagogie elle-même : tester, retravailler les exemples, affiner les exercices, soigner les transitions.",
   "Cette redistribution du temps de travail révèle une transformation plus profonde : le métier d'ingénieur pédagogique cesse d'être un métier de production pour devenir un métier de curation, de coaching et de design. L'IA est l'outil ; la valeur humaine se déplace vers les zones où elle est irremplaçable.",
 ];
 
@@ -124,7 +124,7 @@ export const MagazineArticle: React.FC = () => {
             <BookOpen size={11} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
-          {/* Gradient text H1 — signature magazine */}
+          {/* Gradient text H1 : signature magazine */}
           <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight bg-gradient-to-r from-primary-700 via-primary-600 to-secondary-600 bg-clip-text text-transparent">
             {ARTICLE.title}
           </h1>
@@ -153,7 +153,7 @@ export const MagazineArticle: React.FC = () => {
               {/* Featured image */}
               <figure className="m-0">
                 <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary-100 via-secondary-50 to-primary-200 border border-ink-100 flex items-center justify-center font-body text-body-sm text-ink-500">
-                  Image principale — schéma de transformation
+                  Image principale : schéma de transformation
                 </div>
               </figure>
 
@@ -161,7 +161,7 @@ export const MagazineArticle: React.FC = () => {
               <IntroCallout tone="brand" eyebrow="À retenir" withQuoteIcon>
                 Trois ans après les premiers POC, l'IA générative est devenue un outil structurant
                 de l'ingénierie pédagogique. Plus qu'un accélérateur, elle redessine la chaîne de
-                valeur du métier — et déplace la valeur humaine vers la curation et le design.
+                valeur du métier : et déplace la valeur humaine vers la curation et le design.
               </IntroCallout>
 
               {/* Body paragraphs */}
@@ -179,7 +179,7 @@ export const MagazineArticle: React.FC = () => {
                     pour devenir un métier de curation, de coaching et de design. »
                   </blockquote>
                   <figcaption className="mt-2 font-body text-caption text-ink-500">
-                    — Pierre Leclerc, Lead Pédagogie TLS
+                    : Pierre Leclerc, Lead Pédagogie TLS
                   </figcaption>
                 </figure>
 
@@ -189,7 +189,7 @@ export const MagazineArticle: React.FC = () => {
                 <p className="m-0 font-body text-body text-ink-700 leading-relaxed">
                   Concrètement, sur les 8 jours d'une production typique 2026, l'IA prend en charge
                   environ 60 % du temps de scénarisation initiale, 40 % du story-board et 30 % de la
-                  production multimédia. Le reste — l'essentiel — reste un travail humain et expert :
+                  production multimédia. Le reste : l'essentiel : reste un travail humain et expert :
                   l'analyse de besoin, le choix pédagogique, l'animation, l'évaluation.
                 </p>
               </div>

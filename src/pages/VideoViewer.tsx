@@ -1,5 +1,5 @@
 /**
- * VideoViewer — lecteur vidéo avec transcription et vidéos connexes.
+ * VideoViewer : lecteur vidéo avec transcription et vidéos connexes.
  *
  * Phase 14.2b refactor :
  *  - Header → <ViewerHeader> tone-aware (remplace ViewerOverlay)
@@ -141,7 +141,7 @@ export const VideoViewer: React.FC = () => {
       {/* ── Video Player Area ──────────────────────────────────── */}
       <div className="bg-ink-950 flex-none">
         <Container width="medium" padding={false} className="relative">
-          {/* Native video element — hidden controls (custom UI below) */}
+          {/* Native video element : hidden controls (custom UI below) */}
           <video
             ref={videoRef}
             src="https://www.w3schools.com/html/mov_bbb.mp4"
@@ -262,7 +262,7 @@ export const VideoViewer: React.FC = () => {
             </Card>
           </div>
 
-          {/* Sidebar — related videos */}
+          {/* Sidebar : related videos */}
           <div className="flex flex-col gap-stack">
             <Card>
               <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">

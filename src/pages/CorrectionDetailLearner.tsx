@@ -100,7 +100,7 @@ const CorrectionDetailLearner: React.FC = () => {
           <Card className="p-6 flex items-start gap-4">
             <Avatar initials={MOCK_COACH_INITIALS} size="md" tint="brand" />
             <div className="flex-1">
-              <div className="text-caption text-ink-500 mb-1">{MOCK_COACH_NAME} — Feedback</div>
+              <div className="text-caption text-ink-500 mb-1">{MOCK_COACH_NAME} : Feedback</div>
               <p className="text-body text-ink-700 leading-relaxed m-0">{correction.coachFeedback}</p>
             </div>
           </Card>

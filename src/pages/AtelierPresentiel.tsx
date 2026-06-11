@@ -18,8 +18,8 @@ interface InfoItem {
 }
 
 const INFOS_PRATIQUES: InfoItem[] = [
-  { icon: <MapPin size={14} />, label: 'Accès', value: 'Métro ligne 9 — Franklin D. Roosevelt' },
-  { icon: <MapPin size={14} />, label: 'Parking', value: 'Payant à 200 m — 13 av. Montaigne' },
+  { icon: <MapPin size={14} />, label: 'Accès', value: 'Métro ligne 9 : Franklin D. Roosevelt' },
+  { icon: <MapPin size={14} />, label: 'Parking', value: 'Payant à 200 m : 13 av. Montaigne' },
   { icon: <Info size={14} />, label: 'Accueil', value: 'Demander Sophie Martin à l\'entrée' },
   { icon: <Info size={14} />, label: 'Code WiFi', value: 'LS_Atelier2026' },
 ];

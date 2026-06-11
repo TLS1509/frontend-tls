@@ -1,5 +1,5 @@
 /**
- * VideoTutorial — Lecteur de tutoriel vidéo
+ * VideoTutorial : Lecteur de tutoriel vidéo
  *
  * Layout 2 colonnes : vidéo (gauche) + sidebar Chapitres (droite)
  */
@@ -129,7 +129,7 @@ export const VideoTutorial: React.FC = () => {
 
           {/* Video area */}
           <div className="flex-1 bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 flex items-center justify-center relative min-h-[380px]">
-            {/* Subtle radial overlays — complex gradients → style={{}} allowed */}
+            {/* Subtle radial overlays : complex gradients → style={{}} allowed */}
             <div
               className="absolute inset-0"
               style={{

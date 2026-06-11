@@ -54,12 +54,23 @@ export interface ComplementaryItem {
   prerequisites?: Prerequisites;
 }
 
+export interface FinalProjectStep {
+  num: number;
+  title: string;
+  desc: string;
+}
+
 export interface FinalProject {
   id: string;
   title: string;
   description: string;
   ctaText: string;
   locked: boolean;
+  projectSteps?: FinalProjectStep[];
+  meta?: { duration: string; steps: string; badge: string };
+  complexity?: string;
+  format?: string;
+  outcome?: string;
 }
 
 export interface Parcours {
@@ -518,10 +529,41 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
     ],
     finalProject: {
       id: 'bootcamp-project',
-      title: 'PROJET FINAL: Learning App MVP + SBO + Site (Co-Construit)',
-      description: 'Construire ensemble une Learning App production-ready (8-10 écrans, WCAG AA, responsive, animations 60fps), puis appliquer le design system à la section SBO et refonte site marketing. Un vrai projet livrable, pas un exercice.',
+      title: 'PROJET FINAL : Learning App MVP + SBO + Site',
+      description: 'Construire ensemble une Learning App production-ready (8-10 écrans, WCAG AA, responsive, animations 60fps), puis appliquer le design system à la section SBO et refonte site marketing. Un vrai projet livrable, co-construit semaine par semaine.',
       ctaText: 'Lancer le projet de 12 semaines',
       locked: false,
+      complexity: 'Avancé',
+      format: 'Co-construction',
+      outcome: '3 projets livrés en production',
+      meta: { duration: '12 semaines', steps: '5 phases', badge: 'Design System Architect' },
+      projectSteps: [
+        {
+          num: 1,
+          title: 'Fondations (Semaine 1)',
+          desc: 'Design system tokens, IA mapping, wireframes 5 écrans critiques. Livrable : token spreadsheet + wireframes Figma.',
+        },
+        {
+          num: 2,
+          title: 'Design haute-fidélité (Semaines 2–3)',
+          desc: '10 écrans haute-fidélité, prototype cliquable, responsive 3 breakpoints, audit WCAG AA. Livrable : prototype Figma validé.',
+        },
+        {
+          num: 3,
+          title: 'Build React (Semaines 4–6)',
+          desc: 'Component library, 8-10 écrans live, Framer Motion, états loading/error/empty, Lighthouse 90+. Livrable : Learning App MVP déployé.',
+        },
+        {
+          num: 4,
+          title: 'Phase 2 — SBO + Site (Semaines 7–10)',
+          desc: 'Appliquer le design system à la section SBO et la refonte site (100% réutilisation composants). Livrable : SBO + site en production.',
+        },
+        {
+          num: 5,
+          title: 'Assets Procreate + Logo + Audit final (Semaines 11–12)',
+          desc: 'Illustrations Direction C, 3 variantes logo animé, audit parité Figma↔code 100%. Livrable : design system complet, 3 projets livrés.',
+        },
+      ],
     },
     complementaryContent: [
       { id: 'bootcamp-comp-1', title: 'Guide: Design Tokens 101', description: 'Comprendre la hiérarchie et la flow des tokens (Figma → CSS → Tailwind)', duration: '20 min', kind: 'guide', tone: 'primary' },

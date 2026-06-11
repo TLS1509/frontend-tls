@@ -121,7 +121,7 @@ export default function NotificationPreferences() {
             <SwitchRow id="email-manager" label="Alertes manager" description="Informations importantes envoyées par ton manager ou coach" checked={prefs.managerAlerts.email} onChange={(v) => setChannel('managerAlerts', 'email', v)} />
             <SwitchRow id="email-newsletter" label="Newsletter hebdomadaire" description="Récap des contenus et tendances de la semaine" checked={prefs.newsletter.email} onChange={(v) => set({ newsletter: { email: v } })} />
 
-            {/* Email tracking toggle (Cahier #09 § Journey #5 — privacy) */}
+            {/* Email tracking toggle (Cahier #09 § Journey #5 : privacy) */}
             <div className="flex items-start justify-between gap-stack py-3">
               <div className="flex flex-col gap-tight flex-1 min-w-0">
                 <div className="flex items-center gap-2">
@@ -148,7 +148,7 @@ export default function NotificationPreferences() {
         <SectionCard
           title="WhatsApp"
           titleIcon={<MessageCircle size={18} />}
-          description="Messages via WhatsApp Business (V1 — disponible bientôt)"
+          description="Messages via WhatsApp Business (V1 : disponible bientôt)"
           headerAction={<Badge variant="warm" size="sm">Bientôt disponible</Badge>}
         >
           <div className="flex flex-col divide-y divide-ink-100 opacity-60 pointer-events-none select-none">

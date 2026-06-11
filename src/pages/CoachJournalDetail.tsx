@@ -29,7 +29,7 @@ export default function CoachJournalDetail() {
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Entrée de Journal"
-        summary="Réflexion sur la progression de Marie — 12 mai 2026"
+        summary="Réflexion sur la progression de Marie : 12 mai 2026"
         tone="warm"
         trailing={
           <div className="flex gap-stack-xs">

@@ -1,5 +1,5 @@
 /**
- * Notifications — Phase 10 refonte (épurée + feed-first).
+ * Notifications : Phase 10 refonte (épurée + feed-first).
  *
  * Design intent :
  *   - Minimal hero (titre + compteur inline, pas de KPI row).
@@ -117,7 +117,7 @@ const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const Notifications: React.FC = () => {
-  // Filter persisted via Zustand (cross-session) — use primitive selector to avoid infinite loop
+  // Filter persisted via Zustand (cross-session) : use primitive selector to avoid infinite loop
   const persistedFilter = useFilterPrefsStore((s) => s.filters['notifications']?.[0]);
   const setPersistedFilters = useFilterPrefsStore((s) => s.set);
   const [filter, setFilterRaw] = useState<Filter>((persistedFilter as Filter) || 'all');
@@ -158,7 +158,7 @@ export const Notifications: React.FC = () => {
 
   const markAllRead = () => notifStore.markAllAsRead(MOCK_USER_ID);
   const markRead    = (id: string) => notifStore.markAsRead(MOCK_USER_ID, id);
-  // deletion not in spec — keep in-app store items but mark read instead
+  // deletion not in spec : keep in-app store items but mark read instead
   const deleteNotif = (id: string) => notifStore.markAsRead(MOCK_USER_ID, id);
 
   const unread = items.filter((n) => !n.isRead).length;

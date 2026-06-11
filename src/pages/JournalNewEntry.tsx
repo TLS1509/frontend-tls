@@ -31,7 +31,7 @@ export type { MoodLevel };
 /** Valid entry types accepted via `?type=...` URL param. */
 const VALID_URL_TYPES = new Set<JournalEntryType>(JOURNAL_TYPE_ORDER);
 
-/** Writing-area config — question prompt + textarea placeholder + bg per type. */
+/** Writing-area config : question prompt + textarea placeholder + bg per type. */
 interface WritingConfig {
   questionClass: string;
   writingBg: string;
@@ -49,7 +49,7 @@ const WRITING_CONFIG: Record<JournalEntryType, WritingConfig> = {
   'apprentissage': {
     questionClass: 'text-primary-600',
     writingBg: 'bg-gradient-to-br from-white to-primary-50',
-    question: 'Quelle idée vais-je retenir de ma dernière leçon — et pourquoi ?',
+    question: 'Quelle idée vais-je retenir de ma dernière leçon : et pourquoi ?',
     bodyPlaceholder: "Décris ce que tu as découvert, compris ou expérimenté dans tes leçons / parcours / projets / lectures veille...",
   },
   'pratique-pro': {
@@ -90,7 +90,7 @@ export const JournalNewEntry: React.FC = () => {
     return urlType && VALID_URL_TYPES.has(urlType) ? urlType : 'reflexion-libre';
   }, [searchParams]);
 
-  // Item↔Journal link (Cahier #07) — linkedItemId from URL `?itemId=...`
+  // Item↔Journal link (Cahier #07) : linkedItemId from URL `?itemId=...`
   const linkedItemId = searchParams.get('itemId') ?? undefined;
   const linkedCompetenceId = searchParams.get('competenceId') ?? undefined;
 
@@ -170,7 +170,7 @@ export const JournalNewEntry: React.FC = () => {
       userId: MOCK_USER_ID,
       trigger: 'journal_entry',
       xp: 20,
-      description: `Entrée journal réflexif — ${entry.title}`,
+      description: `Entrée journal réflexif : ${entry.title}`,
       occurredAt: now,
     });
     toast.success('Votre entrée a été publiée dans votre journal', 'Entrée enregistrée');

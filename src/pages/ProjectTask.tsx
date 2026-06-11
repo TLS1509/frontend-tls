@@ -117,7 +117,7 @@ export const ProjectTask: React.FC = () => {
             <ul className="m-0 pl-4 flex flex-col gap-tight">
               {myGatingFails.map((f) => (
                 <li key={f.competencyId} className="text-caption text-warning-fg">
-                  {f.competencyName} — vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
+                  {f.competencyName} : vous êtes D{f.current} ({DREYFUS_LABELS[f.current]}), niveau D{f.required}+ requis
                 </li>
               ))}
             </ul>
@@ -192,7 +192,7 @@ export const ProjectTask: React.FC = () => {
             <div className="flex items-start gap-3 p-4 rounded-xl bg-info-bg border border-info-base/30">
               <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
               <div>
-                <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis — en attente de validation</p>
+                <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
                 {task.deliverableUrl && (
                   <a href={task.deliverableUrl} target="_blank" rel="noopener noreferrer" className="text-caption text-info-fg underline">
                     {task.deliverableUrl}

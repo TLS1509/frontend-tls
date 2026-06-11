@@ -1,5 +1,5 @@
 /**
- * Variant A — "Editorial Aerated"
+ * Variant A: "Editorial Aerated"
  * Inspirations : Apple, Anthropic, Stripe.
  * Mood : Premium calme, whitespace généreux, oversized typo, narrative scroll.
  * Identity TLS : brand teal + accent yellow sparks, warm en CTAs primaires.
@@ -41,7 +41,7 @@ const PRINCIPLES = [
 export const MarketingHomeA: React.FC = () => (
   <div className="bg-white">
 
-    {/* ── Hero — éditorial centré, typo oversized ────────────────────────────── */}
+    {/* ── Hero: éditorial centré, typo oversized ────────────────────────────── */}
     <section className="relative pt-32 pb-section-lg overflow-hidden">
       {/* Subtle ambient gradient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -83,7 +83,7 @@ export const MarketingHomeA: React.FC = () => (
           </Link>
         </div>
 
-        {/* Hero portrait — placeholder photo */}
+        {/* Hero portrait: placeholder photo */}
         <div className="mt-section w-full max-w-4xl aspect-[16/9] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 border border-ink-100 shadow-xl relative">
           <img
             src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1600&q=80&auto=format&fit=crop"
@@ -96,7 +96,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Trusted by — bandeau grayscale ─────────────────────────────────────── */}
+    {/* ── Trusted by: bandeau grayscale ─────────────────────────────────────── */}
     <section className="border-y border-ink-100 py-section">
       <div className="max-w-6xl mx-auto px-6 flex flex-col gap-stack-lg">
         <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold">
@@ -112,7 +112,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
     </section>
 
-    {/* ── 3 principes — éditorial numéroté ───────────────────────────────────── */}
+    {/* ── 3 principes: éditorial numéroté ───────────────────────────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-5xl mx-auto px-6 flex flex-col gap-page">
         <div className="flex flex-col gap-stack max-w-3xl">
@@ -149,7 +149,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
     </section>
 
-    {/* ── App showcase — full-bleed mockup ─────────────────────────────────── */}
+    {/* ── App showcase: full-bleed mockup ─────────────────────────────────── */}
     <section className="bg-gradient-to-b from-white via-primary-50/30 to-white py-page overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 flex flex-col items-center gap-section text-center">
         <div className="flex flex-col gap-stack max-w-2xl">
@@ -160,11 +160,11 @@ export const MarketingHomeA: React.FC = () => (
             Une plateforme,<br />tout un écosystème.
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-            Parcours adaptatifs, coaching personnalisé, journal réflexif, gamification — intégrés dans une expérience cohérente.
+            Parcours adaptatifs, coaching personnalisé, journal réflexif, gamification: intégrés dans une expérience cohérente.
           </p>
         </div>
 
-        {/* App mockup — laptop frame inline */}
+        {/* App mockup: laptop frame inline */}
         <div className="w-full max-w-5xl relative">
           <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-900 to-primary-700 shadow-2xl border-8 border-ink-900">
             <div className="h-8 bg-ink-900 flex items-center px-3 gap-1.5">
@@ -180,7 +180,7 @@ export const MarketingHomeA: React.FC = () => (
               <div className="rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 p-6 text-white">
                 <p className="text-caption opacity-80 font-semibold uppercase tracking-wider m-0">Mardi 19 mai</p>
                 <p className="font-display text-h2 font-bold m-0 mt-2">Bienvenue Marie 👋</p>
-                <p className="text-body-sm opacity-90 m-0 mt-2">Ton parcours Leadership t'attend — étape 4 sur 7.</p>
+                <p className="text-body-sm opacity-90 m-0 mt-2">Ton parcours Leadership t'attend: étape 4 sur 7.</p>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {['Parcours', 'Coaching', 'Veille'].map((t) => (
@@ -202,7 +202,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Testimonial hero — single quote ────────────────────────────────────── */}
+    {/* ── Testimonial hero: single quote ────────────────────────────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-4xl mx-auto px-6 flex flex-col gap-section items-center text-center">
         <Quote size={48} className="text-accent-400" />
@@ -225,7 +225,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
     </section>
 
-    {/* ── CTA final — minimaliste centré ─────────────────────────────────────── */}
+    {/* ── CTA final: minimaliste centré ─────────────────────────────────────── */}
     <section className="bg-ink-50 py-page">
       <div className="max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
         <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">

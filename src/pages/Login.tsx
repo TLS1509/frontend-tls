@@ -1,5 +1,5 @@
 /**
- * Login Page — branded auth (deep teal glass dark layout).
+ * Login Page : branded auth (deep teal glass dark layout).
  */
 
 import React, { useState } from 'react';

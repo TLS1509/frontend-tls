@@ -189,7 +189,7 @@ export default function OpenBadgesSection() {
               </div>
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="m-0 text-body-sm font-semibold text-ink-900">IMS Global</p>
-                <p className="m-0 text-caption text-ink-500">Standard international Open Badges 3.0 — compatible avec tous les émetteurs certifiés</p>
+                <p className="m-0 text-caption text-ink-500">Standard international Open Badges 3.0 : compatible avec tous les émetteurs certifiés</p>
               </div>
             </div>
           </div>

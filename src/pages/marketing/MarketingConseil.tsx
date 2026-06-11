@@ -1,5 +1,5 @@
 /**
- * MarketingConseil — Conseil & Accompagnement
+ * MarketingConseil : Conseil & Accompagnement
  * Fusionne MarketingAccompagnement + MarketingMethode. Route : /conseil
  *
  * Source : docs/marketing/FAITS-OFFRES.md §3 + §4 · docs/_canon/FACTS-CANON.md
@@ -199,7 +199,7 @@ export const MarketingConseil: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Audit Flash SBO — porte d'entrée ────────────────────────────── */}
+      {/* ── Audit Flash SBO : porte d'entrée ────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-medium mx-auto px-6">
           <Reveal>
@@ -257,7 +257,7 @@ export const MarketingConseil: React.FC = () => {
         </div>
       </section>
 
-      {/* ── STRIDE — 6 étapes ───────────────────────────────────────────── */}
+      {/* ── STRIDE : 6 étapes ───────────────────────────────────────────── */}
       <section id="stride" className="py-page bg-ink-50/30 border-y border-ink-100">
         <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
 
@@ -388,7 +388,7 @@ export const MarketingConseil: React.FC = () => {
         </div>
       </section>
 
-      {/* ── CTA final (dark — 1 seule section dark autorisée) ───────────── */}
+      {/* ── CTA final (dark : 1 seule section dark autorisée) ───────────── */}
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
         <MeshGradientBg tone="ink" intensity="subtle" />
         <div className="relative max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-stack-lg">

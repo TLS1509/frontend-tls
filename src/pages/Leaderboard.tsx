@@ -56,7 +56,7 @@ export const Leaderboard: React.FC = () => {
   const [period, setPeriod] = useState<'week' | 'month' | 'all'>('week');
   const [rankPage, setRankPage] = useState(1);
 
-  // Phase 16.5 #3 — live ranking built from shared APPRENANTS + current user state
+  // Phase 16.5 #3 : live ranking built from shared APPRENANTS + current user state
   const currentUserXP = gamificationStore.getTotalXP(MOCK_USER_ID);
   const currentUserStreak = gamificationStore.getStreak(MOCK_USER_ID);
   const currentUserBadges = gamificationStore.getBadges(MOCK_USER_ID);
@@ -91,7 +91,7 @@ export const Leaderboard: React.FC = () => {
           tone="sun"
           eyebrow={{ icon: <Trophy size={12} />, label: 'Progression communauté' }}
           title="Leaderboard"
-          summary="Classement communautaire — les apprenants les plus engagés mis à l'honneur."
+          summary="Classement communautaire : les apprenants les plus engagés mis à l'honneur."
         />
 
         {/* KPI Row */}
@@ -107,7 +107,7 @@ export const Leaderboard: React.FC = () => {
             variant="warm"
             size="sm"
             icon={<Trophy strokeWidth={1.8} />}
-            value={currentUserRow ? `#${currentUserRow.rank}` : '—'}
+            value={currentUserRow ? `#${currentUserRow.rank}` : ':'}
             label="Ton classement"
           />
           <StatCard
@@ -210,7 +210,7 @@ export const Leaderboard: React.FC = () => {
 
         {/* Full ranking list */}
         <div className="flex flex-col gap-4">
-          {/* Current user banner — only show if they're not on the podium */}
+          {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
             <Card variant="tinted" tone="primary" className="flex items-center gap-4 p-4">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">

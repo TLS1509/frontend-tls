@@ -129,7 +129,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
       className={['flex flex-col gap-stack-xs', className].join(' ')}
     >
       {title && (
-        <span className="px-3 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
+        <span className="px-3 font-body text-caption font-medium text-ink-500">
           {title}
         </span>
       )}

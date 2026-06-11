@@ -36,7 +36,7 @@ interface JournalEntry {
   tags: string[];
 }
 
-/* ─── Style maps — Tailwind only ─────────────────────────────────────────── */
+/* ─── Style maps: Tailwind only ─────────────────────────────────────────── */
 
 /* ─── Store → display mapping ────────────────────────────────────────────── */
 
@@ -109,10 +109,10 @@ export const Journal: React.FC = () => {
 
   const hasActiveFilter = typeFilter !== 'all' || periodFilter !== 'all' || searchQuery !== '';
 
-  /* Compose state — quick-prompt chat input qui s'expand. */
+  /* Compose state: quick-prompt chat input qui s'expand. */
   const [composeText, setComposeText] = useState('');
 
-  /* Filters panel collapsible — hidden par défaut, toggle via icon button trailing du Search. */
+  /* Filters panel collapsible: hidden par défaut, toggle via icon button trailing du Search. */
   const [filtersOpen, setFiltersOpen] = useState(false);
   const activeFilterCount =
     (typeFilter !== 'all' ? 1 : 0) + (periodFilter !== 'all' ? 1 : 0);
@@ -134,7 +134,7 @@ export const Journal: React.FC = () => {
 
   const handleComposeSubmit = () => {
     if (composeText.trim().length > 0) {
-      // Pass text via query param (URLEncoded) — picked up by NewEntry page
+      // Pass text via query param (URLEncoded): picked up by NewEntry page
       navigate(`/journal/new-entry?type=free&draft=${encodeURIComponent(composeText)}`);
     } else {
       navigate('/journal/new-entry?type=free');
@@ -145,7 +145,7 @@ export const Journal: React.FC = () => {
     <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20 flex flex-col">
       <Container width="page" className="py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
 
-        {/* Hero — EditorialHero brand standalone (sans trailing) */}
+        {/* Hero: EditorialHero brand standalone (sans trailing) */}
         <EditorialHero
           tone="brand"
           eyebrow={{ icon: <Sparkles size={12} />, label: 'Mon apprentissage' }}
@@ -153,7 +153,7 @@ export const Journal: React.FC = () => {
           summary="Capitalise tes prises de conscience, structure tes réflexions et suis ta progression."
         />
 
-        {/* ⭐ Compose new entry — section engageante avec :
+        {/* ⭐ Compose new entry: section engageante avec :
             (1) chat-style prompt input qui ouvre NewEntry en mode 'free' avec draft pré-rempli
             (2) 4 emoji buttons (types user-initiables) pour démarrer un format spécifique */}
         <section aria-label="Nouvelle entrée" className="flex flex-col gap-stack-lg">
@@ -173,7 +173,7 @@ export const Journal: React.FC = () => {
             onSubmit={handleComposeSubmit}
           />
 
-          {/* Or pick a guided format — 4 emoji buttons */}
+          {/* Or pick a guided format: 4 emoji buttons */}
           <div className="flex flex-col gap-stack-xs">
             <span className="font-body text-caption text-ink-500">Ou choisis un format guidé :</span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack">
@@ -198,7 +198,7 @@ export const Journal: React.FC = () => {
           </div>
         </section>
 
-        {/* Toolbar compacte — Search size="sm" avec icon button "filters" trailing.
+        {/* Toolbar compacte: Search size="sm" avec icon button "filters" trailing.
             Panel filtres collapsible (caché par défaut, toggle via icon). */}
         <div className="flex flex-col gap-stack-xs">
           <Search
@@ -233,7 +233,7 @@ export const Journal: React.FC = () => {
           {filtersOpen && (
             <Card className="p-4 flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
               <div className="flex flex-col gap-stack-xs">
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">Période</span>
+                <span className="font-body text-caption font-medium text-ink-500">Période</span>
                 <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par période">
                   {PERIOD_FILTERS.map(({ key, label }) => (
                     <FilterChip
@@ -247,7 +247,7 @@ export const Journal: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-stack-xs">
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-ink-500">Type d'entrée</span>
+                <span className="font-body text-caption font-medium text-ink-500">Type d'entrée</span>
                 <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par type">
                   {TYPE_FILTERS.map(({ key, label }) => (
                     <FilterChip

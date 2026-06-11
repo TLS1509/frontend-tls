@@ -62,7 +62,7 @@ export const ProjectPasseportFeed: React.FC = () => {
       <EditorialHero
         eyebrow={{ label: 'Projet · Passeport' }}
         title="Feed Passeport Compétences"
-        summary="Enrichissements Dreyfus générés par le projet — progressions validées par les experts."
+        summary="Enrichissements Dreyfus générés par le projet : progressions validées par les experts."
         tone="brand"
       />
 
@@ -93,7 +93,7 @@ export const ProjectPasseportFeed: React.FC = () => {
                   <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
                   <div className="flex-1 min-w-0">
                     <p className="text-body-sm font-semibold text-ink-900 m-0">
-                      {e.collaboratorName} — {e.competencyName}
+                      {e.collaboratorName} : {e.competencyName}
                     </p>
                     <p className="text-caption text-success-fg m-0">
                       D{e.oldDreyfusLevel} ({DREYFUS_LABELS[e.oldDreyfusLevel]}) → D{e.newDreyfusLevel} ({DREYFUS_LABELS[e.newDreyfusLevel]})
