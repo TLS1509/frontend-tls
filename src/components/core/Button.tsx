@@ -68,7 +68,7 @@ export interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
 }
 
-const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
+const BASE = 'inline-flex items-center justify-center gap-2 rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
 
 // Hover strategy for filled variants: keep the base color (no aggressive
 // darkening) and add a colored glow shadow + subtle lift via translate-y

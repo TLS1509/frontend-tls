@@ -81,7 +81,7 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 //   `align-items: center` (children no longer stretch to fill cross-axis,
 //     causing inner content to overflow narrow cards horizontally)
 // All three are neutralized below for clickable Cards.
-const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
+const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-[box-shadow,border-color,transform,background-color] duration-base ease-emphasis [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
   default: 'bg-white border border-ink-200 shadow-sm hover:border-ink-300 hover:shadow-md',
