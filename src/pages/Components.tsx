@@ -4604,26 +4604,18 @@ const COMPONENTS: ComponentEntry[] = [
           <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant dark (défaut — sur dégradé)</span>
           <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
             <VeilleFormatShortcutCards
-              items={[
-                { label: 'Magazine TLS', desc: 'Mensuel · analyses',      icon: <BookOpen  size={15} strokeWidth={2} />, iconClassName: 'text-primary-200' },
-                { label: 'Actu hebdo',   desc: 'Chaque vendredi',         icon: <TrendingUp size={15} strokeWidth={2} />, iconClassName: 'text-secondary-200' },
-                { label: 'Vidéo Reels',  desc: 'Short formats · 60 sec',  icon: <Video     size={15} strokeWidth={2} />, iconClassName: 'text-white/70' },
-                { label: 'Newsletter',   desc: 'Abonnement & archives',   icon: <Mail      size={15} strokeWidth={2} />, iconClassName: 'text-accent-300' },
+              cards={[
+                { icon: <BookOpen  size={16} strokeWidth={2} className="text-primary-200" />,   title: 'Magazine TLS', subtitle: 'Mensuel · analyses',     href: '/veille/magazine' },
+                { icon: <TrendingUp size={16} strokeWidth={2} className="text-secondary-200" />, title: 'Actu hebdo',   subtitle: 'Chaque vendredi',        href: '/veille/weekly-newsletter' },
+                { icon: <Video     size={16} strokeWidth={2} className="text-white/70" />,       title: 'Vidéo Reels',  subtitle: 'Short formats · 60 sec',  href: '/veille/video-reels' },
+                { icon: <Mail      size={16} strokeWidth={2} className="text-accent-300" />,     title: 'Newsletter',   subtitle: 'Abonnement & archives',   href: '/veille/newsletter' },
               ]}
             />
           </div>
         </div>
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant light (surface claire)</span>
-          <VeilleFormatShortcutCards
-            variant="light"
-            items={[
-              { label: 'Magazine TLS', desc: 'Mensuel · analyses',     icon: <BookOpen   size={15} strokeWidth={2} />, iconClassName: 'text-primary-600' },
-              { label: 'Actu hebdo',   desc: 'Chaque vendredi',        icon: <TrendingUp size={15} strokeWidth={2} />, iconClassName: 'text-secondary-600' },
-              { label: 'Vidéo Reels',  desc: 'Short formats · 60 sec', icon: <Video      size={15} strokeWidth={2} />, iconClassName: 'text-ink-500' },
-              { label: 'Newsletter',   desc: 'Abonnement & archives',  icon: <Mail       size={15} strokeWidth={2} />, iconClassName: 'text-accent-500' },
-            ]}
-          />
+          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Défaut (sans surcharge)</span>
+          <VeilleFormatShortcutCards />
         </div>
       </div>
     ),
@@ -4971,26 +4963,20 @@ const COMPONENTS: ComponentEntry[] = [
         messages={[
           {
             id: 'm1',
-            role: 'user',
+            type: 'user' as const,
             content: 'Bonjour ! Je voudrais progresser en gestion de projet.',
-            timestamp: '14:30',
           },
           {
             id: 'm2',
-            role: 'assistant',
+            type: 'ai' as const,
             content: '**Bonne initiative !** Je vois dans ton Passeport que tu as déjà validé les bases. Je te recommande de commencer par le module Agile & Scrum du parcours Management de Projet.',
-            timestamp: '14:30',
-            confidenceScore: 0.91,
-            sourcesCited: [{ sourceModule: 'formation', sourceId: 's1', title: 'Parcours Management', relevanceScore: 0.95 }],
           },
           {
             id: 'm3',
-            role: 'user',
+            type: 'user' as const,
             content: 'Super, combien de temps ça prend ?',
-            timestamp: '14:31',
           },
         ]}
-        isTyping={false}
         className="max-h-[380px]"
       />
     ),
@@ -5813,22 +5799,22 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch'],
     usedBy: ['Positionnement'],
     render: () => {
-      const [v1, setV1] = React.useState<null | 1 | 2 | 3 | 4 | 5>(null);
-      const [v2, setV2] = React.useState<null | 1 | 2 | 3 | 4 | 5>(3);
-      const [v3, setV3] = React.useState<null | 1 | 2 | 3 | 4 | 5>(2);
+      const [v1, setV1] = React.useState<number | undefined>(undefined);
+      const [v2, setV2] = React.useState<number | undefined>(3);
+      const [v3, setV3] = React.useState<number | undefined>(2);
       return (
         <div className="flex flex-col gap-section max-w-xl">
           <div className="flex flex-col gap-stack">
             <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone brand · rien sélectionné</span>
-            <DreyfusSlider value={v1} onChange={setV1} tone="brand" />
+            <DreyfusSlider value={v1} onChange={(n) => setV1(n)} tone="brand" />
           </div>
           <div className="flex flex-col gap-stack">
             <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · D3 sélectionné</span>
-            <DreyfusSlider value={v2} onChange={setV2} tone="warm" />
+            <DreyfusSlider value={v2} onChange={(n) => setV2(n)} tone="warm" />
           </div>
           <div className="flex flex-col gap-stack">
             <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone sun · D2 sélectionné</span>
-            <DreyfusSlider value={v3} onChange={setV3} tone="sun" />
+            <DreyfusSlider value={v3} onChange={(n) => setV3(n)} tone="sun" />
           </div>
         </div>
       );

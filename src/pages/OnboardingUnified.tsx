@@ -16,15 +16,20 @@ import { TlsLogo } from '../components/ui/TlsLogo';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { getBehavioralTiles } from '../lib/behavioral-tiles';
+import type { BehavioralTileSet } from '../lib/behavioral-tiles';
 import { buildAcknowledgment, buildClosing } from '../lib/mistral-questionnaire-stub';
 import type { OnboardingQuestion } from '../lib/onboarding-questionnaire';
 import type { UserRole, DreyfusLevel } from '../types/learning';
+
+interface LocalQuestion extends OnboardingQuestion {
+  tiles: BehavioralTileSet;
+}
 
 const TYPING_MS_MIN = 600;
 const TYPING_MS_MAX = 1400;
 const WORD_DELAY_MS = 50;
 
-const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType<{ size: number }> }> = [
+const ROLE_TILES: Array<{ id: UserRole; label: string; icon: React.ComponentType<{ size: number; className?: string }> }> = [
   { id: 'apprenant', label: 'Apprenant', icon: BookOpen },
   { id: 'manager', label: 'Manager', icon: Briefcase },
   { id: 'coach', label: 'Coach', icon: HeartHandshake },
@@ -120,26 +125,26 @@ export const OnboardingUnified: React.FC = () => {
   const profile = useUserProfileStore();
   const onboarding = useOnboardingStore();
 
-  const [questions, setQuestions] = useState<OnboardingQuestion[]>([]);
+  const [questions, setQuestions] = useState<LocalQuestion[]>([]);
 
   useEffect(() => {
     setQuestions([
       {
         id: 1,
         competenceId: 'comp_strategic',
-        text: 'Tes approches pour résoudre des problèmes complexes',
+        q: 'Tes approches pour résoudre des problèmes complexes',
         tiles: getBehavioralTiles('comp_strategic'),
       },
       {
         id: 2,
         competenceId: 'comp_leadership',
-        text: 'Ton style de leadership et influence',
+        q: 'Ton style de leadership et influence',
         tiles: getBehavioralTiles('comp_leadership'),
       },
       {
         id: 3,
         competenceId: 'comp_innovation',
-        text: 'Ton approche face aux changements et innovations',
+        q: 'Ton approche face aux changements et innovations',
         tiles: getBehavioralTiles('comp_innovation'),
       },
     ]);
@@ -212,7 +217,7 @@ export const OnboardingUnified: React.FC = () => {
               stateRef.current = { timersRef: [] };
               const firstQ = questions[0];
               if (firstQ) {
-                streamLine(firstQ.text, msgCounter, stateRef.current, setMessages, () => {});
+                streamLine(firstQ.q, msgCounter, stateRef.current, setMessages, () => {});
               }
             }, 800);
           });
@@ -239,7 +244,7 @@ export const OnboardingUnified: React.FC = () => {
         setTimeout(() => {
           const nextQ = questions[questionIdx + 1];
           stateRef.current = { timersRef: [] };
-          streamLine(nextQ.text, msgCounter, stateRef.current, setMessages, () => {
+          streamLine(nextQ.q, msgCounter, stateRef.current, setMessages, () => {
             setQuestionIdx((prev) => prev + 1);
             setLoading(false);
           });
@@ -255,7 +260,7 @@ export const OnboardingUnified: React.FC = () => {
             setTimeout(() => {
               setStep('done');
               profile.patch({ firstName, role: selectedRole! });
-              onboarding.markStepComplete('role_selection');
+              onboarding.markStepComplete('profile');
               onboarding.markStepComplete('questionnaire');
               setTimeout(() => navigate('/onboarding/payment'), 1200);
             }, 800);
@@ -271,7 +276,7 @@ export const OnboardingUnified: React.FC = () => {
 
       {/* Header */}
       <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-4 backdrop-blur-glass-light">
-        <TlsLogo variant="primary" width={32} />
+        <TlsLogo variant="primary" size={32} />
         <div className="text-caption text-ink-500">
           Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / 5
         </div>
@@ -281,7 +286,6 @@ export const OnboardingUnified: React.FC = () => {
       <div className="relative z-10 flex flex-1 flex-col overflow-hidden">
         <ConversationalChat
           messages={messages}
-          onSendMessage={() => { /* Handled by button clicks */ }}
         />
       </div>
 

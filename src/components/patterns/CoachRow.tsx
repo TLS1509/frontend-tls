@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar } from '../ui/Avatar';
-import { Button } from '../ui/Button';
+import { Button } from '../core/Button';
 import { MessageCircle } from 'lucide-react';
 
 export interface CoachRowProps {

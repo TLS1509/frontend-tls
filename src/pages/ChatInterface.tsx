@@ -108,14 +108,11 @@ export default function ChatInterface() {
 
             {/* Message list */}
             <ConversationalChat
-              messages={messages}
-              isTyping={isTyping}
-              onFeedback={handleFeedback}
-              emptyState={
-                <p className="text-body-sm text-ink-400 text-center mt-section">
-                  Commencez par poser une question ci-dessous.
-                </p>
-              }
+              messages={messages.map((m) => ({
+                id: m.id,
+                type: m.role === 'user' ? 'user' as const : 'ai' as const,
+                content: m.content,
+              }))}
               className="min-h-[460px] max-h-[600px]"
             />
 

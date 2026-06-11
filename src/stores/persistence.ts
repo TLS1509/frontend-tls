@@ -2080,7 +2080,7 @@ interface OnboardingState {
 }
 
 const ONBOARDING_INITIAL: Omit<OnboardingState,
-  'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent'
+  'setAccountType' | 'patch' | 'goToStep' | 'markStepComplete' | 'reset' | 'requiresPayment' | 'getStepSequence' | 'getStepIndex' | 'getProgressPercent' | 'getCanonicalRole'
 > = {
   accountType: 'individual',
   invitationToken: null,

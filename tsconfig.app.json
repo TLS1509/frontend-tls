@@ -24,6 +24,7 @@
   "include": ["src"],
   "exclude": [
     "src/components/documentation/**",
-    "src/pages/ComponentShowcase.tsx"
+    "src/pages/ComponentShowcase.tsx",
+    "src/**/*.figma.tsx"
   ]
 }
