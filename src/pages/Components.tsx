@@ -223,6 +223,9 @@ import { RadioGroup } from '../components/ui/RadioGroup';
 import { CheckboxGroup } from '../components/ui/CheckboxGroup';
 import { FormSection } from '../components/ui/FormSection';
 import { InputGroup } from '../components/ui/InputGroup';
+import { SimpleTable } from '../components/ui/SimpleTable';
+import { PaginatedList } from '../components/ui/PaginatedList';
+import { FilteredList } from '../components/ui/FilteredList';
 
 /* ============================================================================
  * TYPES
@@ -331,6 +334,10 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   CheckboxGroup:        { category: 'Composites', subCategory: 'Form groups' },
   FormSection:          { category: 'Composites', subCategory: 'Form groups' },
   InputGroup:           { category: 'Composites', subCategory: 'Form groups' },
+  // Phase 19 Tier 2 — List composites
+  SimpleTable:          { category: 'Composites', subCategory: 'List composites' },
+  PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
+  FilteredList:         { category: 'Composites', subCategory: 'List composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
@@ -532,7 +539,7 @@ const CATEGORY_ORDER: NewCategory[] = [
 const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   Foundations: ['Design Tokens', 'Layout Primitives'],
   Atoms: ['Form fields', 'Surfaces', 'Identity', 'Status badges', 'Chips & Pills', 'Indicators', 'Decoration'],
-  Composites: ['Group wrappers', 'Form groups'],
+  Composites: ['Group wrappers', 'Form groups', 'List composites'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers'],
   Feedback: ['Status messages', 'Empty/zero states', 'Celebrations'],
   Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Search'],
@@ -6210,6 +6217,109 @@ const COMPONENTS: ComponentEntry[] = [
         </InputGroup>
       </div>
     ),
+  },
+
+  {
+    name: 'SimpleTable',
+    codeName: 'ui/SimpleTable.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'List composites',
+    usedBy: ['CoachEnterpriseDashboard', 'Leaderboard', 'Analytics'],
+    description: 'Table de données sémantique (`<table>`). Columns déclaratives via `ColumnDef<T>` (header + accessor + align + width). Props : **striped** (bandes alternées), **onRowClick** (hover tinted + cursor-pointer), **emptyLabel**, **caption**. Wrapper scrollable horizontal sur mobile.',
+    keywords: ['table', 'données', 'colonnes', 'lignes', 'rows', 'sort', 'striped', 'data'],
+    render: () => {
+      type User = { id: string; name: string; role: string; score: number; status: string };
+      const data: User[] = [
+        { id: '1', name: 'Marie Dupont', role: 'Apprenante', score: 94, status: 'Actif' },
+        { id: '2', name: 'Jean Martin', role: 'Manager', score: 78, status: 'Actif' },
+        { id: '3', name: 'Sophie Bernard', role: 'Apprenante', score: 61, status: 'Inactif' },
+        { id: '4', name: 'Lucas Petit', role: 'Coach', score: 87, status: 'Actif' },
+      ];
+      const columns = [
+        { key: 'name', header: 'Nom', accessor: (r: User) => <span className="font-semibold">{r.name}</span> },
+        { key: 'role', header: 'Rôle', accessor: (r: User) => r.role },
+        { key: 'score', header: 'Score', accessor: (r: User) => `${r.score} pts`, align: 'center' as const },
+        { key: 'status', header: 'Statut', accessor: (r: User) => (
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-semibold ${r.status === 'Actif' ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-500'}`}>{r.status}</span>
+        )},
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default</p>
+          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} />
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Striped + clickable</p>
+          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} striped onRowClick={() => {}} />
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Empty state</p>
+          <SimpleTable columns={columns} rows={[]} keyExtractor={(r) => r.id} emptyLabel="Aucun membre dans cette équipe" />
+        </div>
+      );
+    },
+  },
+
+  {
+    name: 'PaginatedList',
+    codeName: 'ui/PaginatedList.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'List composites',
+    usedBy: ['LearningPaths', 'Notifications', 'Veille'],
+    description: 'Wrapper de pagination pour n\'importe quel contenu. Props : **items**, **renderItem** (callback), **pageSize** (défaut 10), **itemLabel**. Affiche prev/next + numéros de pages (5 autour de la courante). Contrôles adaptatifs mobile (n/N). Stateful React interne.',
+    keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
+    render: () => {
+      const ITEMS = Array.from({ length: 23 }, (_, i) => ({ id: String(i + 1), title: `Parcours ${i + 1}`, category: i % 3 === 0 ? 'Leadership' : i % 3 === 1 ? 'IA & Data' : 'Communication' }));
+      return (
+        <PaginatedList
+          items={ITEMS}
+          pageSize={5}
+          itemLabel="parcours"
+          renderItem={(item) => (
+            <div key={item.id} className="flex items-center justify-between px-4 py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
+              <span className="font-semibold text-ink-900">{item.title}</span>
+              <span className="text-caption text-ink-500">{item.category}</span>
+            </div>
+          )}
+          listClassName="border border-ink-200 rounded-xl overflow-hidden"
+        />
+      );
+    },
+  },
+
+  {
+    name: 'FilteredList',
+    codeName: 'ui/FilteredList.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Composites',
+    subCategory: 'List composites',
+    usedBy: ['LearningPaths', 'Help', 'EnterpriseMembers'],
+    description: 'Wrapper de filtrage textuel avec input de recherche. Props : **filterFn** (callback booléen), **renderItem**, **placeholder**, **emptyLabel**, **showCount**, **itemLabel**. Input avec icône Search + bouton Clear. `useDeferredValue` pour éviter les lag sur grandes listes.',
+    keywords: ['filtre', 'recherche', 'search', 'liste', 'filter', 'query', 'input'],
+    render: () => {
+      const ITEMS = [
+        { id: '1', title: 'Introduction au microlearning', cat: 'Pédagogie' },
+        { id: '2', title: 'Biais cognitifs en entreprise', cat: 'Psychologie' },
+        { id: '3', title: 'Prompt Engineering avancé', cat: 'IA & Outils' },
+        { id: '4', title: 'Leadership situationnel', cat: 'Management' },
+        { id: '5', title: 'Feedback et ancrage mémoriel', cat: 'Pédagogie' },
+        { id: '6', title: 'Gestion du changement', cat: 'Management' },
+      ];
+      return (
+        <FilteredList
+          items={ITEMS}
+          filterFn={(item, q) => item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)}
+          placeholder="Rechercher un parcours…"
+          itemLabel="parcours"
+          emptyLabel="Aucun parcours ne correspond à ta recherche."
+          renderItem={(item) => (
+            <div key={item.id} className="flex items-center justify-between px-4 py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
+              <span className="font-semibold text-ink-900">{item.title}</span>
+              <span className="text-caption text-primary-600 font-medium">{item.cat}</span>
+            </div>
+          )}
+          listClassName="border border-ink-200 rounded-xl overflow-hidden"
+        />
+      );
+    },
   },
 
   {
