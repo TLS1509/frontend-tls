@@ -43,9 +43,9 @@ export default function AtelierRecap() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* XP celebratoire */}
-        <Card variant="tinted" tone="primary" className="text-center py-8 flex flex-col items-center gap-stack">
+        <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center gap-stack">
           <Award size={40} className="text-primary-600" />
           <h2 className="text-h2 font-display font-bold text-primary-700">+120 XP gagnés</h2>
           <p className="text-body-sm text-ink-500">Atelier complété · Compétence Communication +0.2 Dreyfus</p>
@@ -57,7 +57,7 @@ export default function AtelierRecap() {
           title="Mon retour"
           titleIcon={<Star size={18} />}
         >
-          <Card variant="tinted" tone="sun" className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
+          <Card variant="tinted" tone="sun" className="p-stack flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack">
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Tu n'as pas encore donné ton avis</p>
               <p className="text-caption text-ink-400">Aide-nous à améliorer les prochains ateliers</p>
@@ -98,7 +98,7 @@ export default function AtelierRecap() {
         >
           <div className="flex flex-col gap-stack">
             <AITransparencyLabel variant="recommended" size="md" />
-            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-4">
+            <Card variant="default" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack">
               <div className="flex flex-col gap-tight flex-1">
                 <Badge variant="info" size="sm">À venir · 2 juil.</Badge>
                 <h4 className="text-body font-semibold text-ink-900">Atelier Communication assertive</h4>

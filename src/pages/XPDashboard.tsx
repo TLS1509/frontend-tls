@@ -36,7 +36,7 @@ export default function XPDashboard() {
         tone="sun"
       />
 
-      <Container width="wide" padding={false} className="px-4 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard

@@ -121,7 +121,7 @@ export default function ProfileBadgesCompetences() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Radar overview */}
         <div className="grid md:grid-cols-2 gap-section">
@@ -161,7 +161,7 @@ export default function ProfileBadgesCompetences() {
 
         {/* Filters */}
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             {categories.map((cat) => (
               <FilterChip
                 key={cat}
@@ -171,7 +171,7 @@ export default function ProfileBadgesCompetences() {
               />
             ))}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-stack-xs">
             {(['all', 'earned', 'locked'] as const).map((v) => (
               <button
                 key={v}
@@ -205,7 +205,7 @@ export default function ProfileBadgesCompetences() {
                   key={b.def.id}
                   type="button"
                   onClick={() => navigate(`/gamification/badge/${b.def.id}`)}
-                  className="flex flex-col items-center gap-2 bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <AchievementBadge
                     title={b.def.name}

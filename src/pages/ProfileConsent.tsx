@@ -78,7 +78,7 @@ export default function ProfileConsent() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* ConsentBanner GDPR : dismiss persisted (Cahier #13bis) */}
         {!gdpr.bannerDismissed && (
@@ -95,15 +95,15 @@ export default function ProfileConsent() {
           titleIcon={<Cookie size={18} />}
           description="Consentements RGPD : essential (requis), analytique, marketing."
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack">
             {[
               { key: 'essential' as const, label: 'Essentiel', desc: 'Nécessaire au fonctionnement de la plateforme (connexion, sécurité). Non désactivable.', required: true },
               { key: 'analytics' as const, label: 'Analytique', desc: 'Mesure d\'audience anonymisée pour améliorer l\'expérience (Google Analytics équivalent).', required: false },
               { key: 'marketing' as const, label: 'Marketing', desc: 'Personnalisation des communications commerciales et emails promotionnels.', required: false },
             ].map(({ key, label, desc, required }) => (
-              <div key={key} className="flex items-start justify-between gap-section p-4 rounded-xl border border-ink-100 bg-white">
+              <div key={key} className="flex items-start justify-between gap-section p-stack rounded-xl border border-ink-100 bg-white">
                 <div className="flex flex-col gap-tight flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <span className="text-body-sm font-semibold text-ink-900">{label}</span>
                     {required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
@@ -123,7 +123,7 @@ export default function ProfileConsent() {
 
         {/* AITransparencyLabel : carte explicative */}
         <Card variant="tinted" tone="primary" className="flex flex-col gap-stack">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <AITransparencyLabel variant="assisted" size="md" />
             <span className="text-body-sm font-semibold text-primary-900">Comment l'IA utilise tes données</span>
           </div>
@@ -132,7 +132,7 @@ export default function ProfileConsent() {
             Chaque traitement est documenté, auditable et conforme à l'IA Act européen (2024/1689).
             Tu peux modifier tes préférences à tout moment : les changements prennent effet immédiatement.
           </p>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs flex-wrap">
             <Badge variant="info" size="sm">Hébergement EU</Badge>
             <Badge variant="success" size="sm">Chiffrement AES-256</Badge>
             <Badge variant="neutral" size="sm">Rétention 3 ans max</Badge>
@@ -145,14 +145,14 @@ export default function ProfileConsent() {
           titleIcon={<Brain size={18} />}
           description="Active ou désactive chaque usage de l'IA sur tes données d'apprentissage."
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack">
             {AI_CONSENT_ITEMS.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start justify-between gap-section p-4 rounded-xl border border-ink-100 bg-white"
+                className="flex items-start justify-between gap-section p-stack rounded-xl border border-ink-100 bg-white"
               >
                 <div className="flex flex-col gap-tight flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <span className="text-body-sm font-semibold text-ink-900">{item.label}</span>
                     {item.required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
@@ -186,7 +186,7 @@ export default function ProfileConsent() {
             Ce droit est garanti par l'article 22 du RGPD et l'article 86 de l'IA Act.
           </Alert>
 
-          <div className="flex flex-col gap-3 mt-stack">
+          <div className="flex flex-col gap-stack mt-stack">
             <AIOverrideButton
               label="Rejeter la dernière recommandation IA"
               onOverride={() => {}}
@@ -194,7 +194,7 @@ export default function ProfileConsent() {
               size="md"
             />
 
-            <div className="p-4 rounded-xl border border-ink-100 bg-ink-50 flex flex-col gap-tight">
+            <div className="p-stack rounded-xl border border-ink-100 bg-ink-50 flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Tes droits (Article 22 RGPD)</p>
               <ul className="flex flex-col gap-tight text-caption text-ink-600 list-disc list-inside">
                 <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé</li>

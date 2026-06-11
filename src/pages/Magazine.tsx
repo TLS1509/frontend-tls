@@ -82,7 +82,7 @@ export const Magazine: React.FC = () => {
             Retour à la veille
           </Button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="primary" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
               Télécharger le PDF
             </Button>
@@ -118,7 +118,7 @@ export const Magazine: React.FC = () => {
 
         <Container width="page" className="relative py-section sm:py-page flex flex-col gap-stack-lg">
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
+          <span className="inline-flex items-center gap-stack-xs self-start px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white font-body text-micro font-bold uppercase tracking-widest backdrop-blur-glass-light">
             <BookOpen size={12} />
             Magazine TLS · Édition Printemps 2026
           </span>
@@ -170,9 +170,9 @@ export const Magazine: React.FC = () => {
                 des données terrain et des témoignages de formateurs pionniers.
               </p>
 
-              <ul className="m-0 p-0 list-none flex flex-col gap-2 mt-stack">
+              <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs mt-stack">
                 {SUMMARY_POINTS.map((point, i) => (
-                  <li key={i} className="flex items-center gap-2 font-body text-body-sm text-ink-800">
+                  <li key={i} className="flex items-center gap-stack-xs font-body text-body-sm text-ink-800">
                     <CheckCircle2 size={14} className="text-primary-600 shrink-0" />
                     {point}
                   </li>
@@ -186,7 +186,7 @@ export const Magazine: React.FC = () => {
               title="Sommaire du magazine"
               description="6 articles · 56 pages"
             >
-              <div className="-mx-5 -mb-5 sm:-mx-6 sm:-mb-6">
+              <div className="-mx-5 -mb-5 sm:-mx-6 sm:-mb-stack-lg">
                 {SOMMAIRE.map((item, index) => {
                   const tone = ENTRY_TONE[item.tone];
                   return (
@@ -195,7 +195,7 @@ export const Magazine: React.FC = () => {
                       type="button"
                       onClick={() => navigate('/veille/magazine-article/1')}
                       className={[
-                        'w-full flex items-start gap-4 px-5 sm:px-6 py-4 text-left cursor-pointer transition-colors duration-base',
+                        'w-full flex items-start gap-stack px-5 sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base',
                         tone.hover,
                         index < SOMMAIRE.length - 1 ? 'border-b border-ink-100' : '',
                         '!h-auto !overflow-visible !items-start !font-normal',

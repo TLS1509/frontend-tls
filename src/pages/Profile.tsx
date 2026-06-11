@@ -136,7 +136,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <Container width="medium" className="py-8 sm:py-section flex flex-col gap-section">
+      <Container width="medium" className="py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="profile" />
@@ -161,7 +161,7 @@ export const Profile: React.FC = () => {
             <p className="m-0 font-body text-body-sm text-ink-600">
               {USER.role} · {USER.username}
             </p>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 font-body text-caption text-ink-500">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-500">
               <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
               <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
@@ -171,7 +171,7 @@ export const Profile: React.FC = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2 shrink-0 sm:self-start">
+          <div className="flex gap-stack-xs shrink-0 sm:self-start">
             <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={13} />} onClick={() => navigate('/account')}>
               Modifier
             </Button>
@@ -198,7 +198,7 @@ export const Profile: React.FC = () => {
 
         {/* ── Tabs navigation ──────────────────────────────────── */}
         <div className="flex flex-col gap-section">
-          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-stack sm:px-0">
             <Tabs
               items={TABS}
               value={activeTab}
@@ -212,7 +212,7 @@ export const Profile: React.FC = () => {
             <div className="flex flex-col gap-section">
               {/* Bio + interests */}
               <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
-                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack">
+                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
                   <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                     À propos
                   </h2>
@@ -231,7 +231,7 @@ export const Profile: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack">
+                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
                   <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                     Cette semaine
                   </h2>
@@ -265,7 +265,7 @@ export const Profile: React.FC = () => {
                     Voir la matrice complète
                   </Button>
                 </div>
-                <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack-lg">
+                <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
                   {SKILLS.slice(0, 3).map((skill) => (
                     <SkillBar key={skill.id} label={skill.label} value={skill.value} tone={skill.tone} showValue />
                   ))}
@@ -289,7 +289,7 @@ export const Profile: React.FC = () => {
                   <div
                     key={a.id}
                     className={[
-                      'flex items-center gap-4 px-5 py-4',
+                      'flex items-center gap-stack px-5 py-stack',
                       idx < ACTIVITY.length - 1 ? 'border-b border-ink-100' : '',
                     ].join(' ')}
                   >
@@ -342,7 +342,7 @@ export const Profile: React.FC = () => {
                     <span
                       aria-hidden
                       className={[
-                        'text-h2 leading-none mb-2 select-none',
+                        'text-h2 leading-none mb-stack-xs select-none',
                         badge.earned ? '' : 'opacity-30 grayscale',
                       ].join(' ')}
                     >
@@ -384,13 +384,13 @@ export const Profile: React.FC = () => {
               </p>
 
               {/* Matrice */}
-              <div className="rounded-2xl border border-ink-100 bg-white px-6 pt-4 pb-6 overflow-x-auto">
+              <div className="rounded-2xl border border-ink-100 bg-white px-stack-lg pt-stack pb-stack-lg overflow-x-auto">
                 <CompetencyMatrix skills={skillsForMatrix} />
               </div>
 
               {/* Détail SkillBar pour mobile / vue alternative */}
-              <div className="rounded-2xl border border-ink-100 bg-white p-6 flex flex-col gap-stack-lg">
-                <div className="flex items-center gap-2">
+              <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
+                <div className="flex items-center gap-stack-xs">
                   <CheckCircle2 size={14} className="text-primary-600" />
                   <h3 className="m-0 font-body text-caption font-medium text-ink-500">
                     Vue détaillée

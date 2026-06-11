@@ -44,7 +44,7 @@ const CoachCalendar: React.FC = () => {
         trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
@@ -69,13 +69,13 @@ const CoachCalendar: React.FC = () => {
             ))}
             {HOURS.map((h) => (
               <React.Fragment key={h}>
-                <div className="p-2 border-r border-b border-ink-200 text-caption text-ink-500 font-mono bg-ink-50">{h}</div>
+                <div className="p-stack-xs border-r border-b border-ink-200 text-caption text-ink-500 font-mono bg-ink-50">{h}</div>
                 {WEEK.map((_, dayIdx) => {
                   const session = SESSIONS.find((s) => s.day === dayIdx && s.hour === h);
                   return (
                     <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px]">
                       {session && (
-                        <div className="bg-secondary-50 border-l-4 border-secondary-500 rounded p-2 h-full">
+                        <div className="bg-secondary-50 border-l-4 border-secondary-500 rounded p-stack-xs h-full">
                           <div className="flex items-center gap-1 mb-1">
                             <Avatar initials={session.initials} size="sm" />
                             <span className="text-caption font-semibold truncate">{session.apprenant}</span>

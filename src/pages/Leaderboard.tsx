@@ -84,7 +84,7 @@ export const Leaderboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <Container width="wide" className="flex-1 py-8 sm:py-section flex flex-col gap-section">
+      <Container width="wide" className="flex-1 py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -151,13 +151,13 @@ export const Leaderboard: React.FC = () => {
         </div>
 
         {/* Podium Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-stack sm:grid-cols-3">
           {podium.map((entry, index) => {
             const pod = PODIUM_CONFIG[index];
             return (
               <Card
                 key={entry.id}
-                className={`p-6 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-200 cursor-default ${pod.cardClasses}`}
+                className={`p-stack-lg flex flex-col gap-stack hover:-translate-y-1 transition-transform duration-200 cursor-default ${pod.cardClasses}`}
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">
@@ -179,7 +179,7 @@ export const Leaderboard: React.FC = () => {
                 </div>
 
                 {/* Stats pills */}
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-stack-xs flex-wrap">
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Flame size={13} className={pod.iconClasses} />
                     {entry.streak}j streak
@@ -209,10 +209,10 @@ export const Leaderboard: React.FC = () => {
         </div>
 
         {/* Full ranking list */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-stack">
           {/* Current user banner : only show if they're not on the podium */}
           {currentUserRow && currentUserRow.rank > 3 && (
-            <Card variant="tinted" tone="primary" className="flex items-center gap-4 p-4">
+            <Card variant="tinted" tone="primary" className="flex items-center gap-stack p-stack">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-secondary-500 flex items-center justify-center text-white font-extrabold text-body-sm shrink-0">
                 {currentUserRow.initials}
               </div>
@@ -260,13 +260,13 @@ export const Leaderboard: React.FC = () => {
         </div>
 
         {/* Weekly goal */}
-        <Card variant="tinted" tone="primary" className="p-6 flex flex-col gap-4">
+        <Card variant="tinted" tone="primary" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
               <Zap size={20} strokeWidth={1.8} />
             </div>
             <div>
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 flex items-center gap-2">
+              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 flex items-center gap-stack-xs">
                 <Sparkles size={16} className="text-primary-500" />
                 Objectif de la semaine
               </h3>

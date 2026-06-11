@@ -119,7 +119,7 @@ export const Positionnement: React.FC = () => {
           title="Résultats"
         />
 
-        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-section">
+        <div className="flex-1 flex items-center justify-center px-stack sm:px-stack-lg lg:px-section-lg py-section">
           <div className="w-full max-w-2xl flex flex-col gap-section">
             <SectionCard
               tone="brand"
@@ -128,7 +128,7 @@ export const Positionnement: React.FC = () => {
               description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-stack-xs">
                   <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
                   <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
@@ -138,9 +138,9 @@ export const Positionnement: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2 p-4 bg-primary-50 rounded-lg border border-primary-200">
+              <div className="flex flex-col gap-stack-xs p-stack bg-primary-50 rounded-lg border border-primary-200">
                 <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-stack-xs">
                   {Object.entries(answers).map(([compId, level]) => {
                     const comp = getCompetenceById(compId);
                     return (
@@ -192,7 +192,7 @@ export const Positionnement: React.FC = () => {
         total={total}
       />
 
-      <div className="flex-1 px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <div className="flex-1 px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section">
         <div className="max-w-content w-full mx-auto flex flex-col gap-section">
 
           {/* Progress */}
@@ -210,7 +210,7 @@ export const Positionnement: React.FC = () => {
           </div>
 
           {/* Question */}
-          <div className="p-6 bg-white rounded-xl border border-ink-200">
+          <div className="p-stack-lg bg-white rounded-xl border border-ink-200">
             <DreyfusSlider
               value={currentAnswer ?? null}
               onChange={handleSelect}

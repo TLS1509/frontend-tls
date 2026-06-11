@@ -77,7 +77,7 @@ export default function ProfilePrivacy() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Info alert */}
         <Alert variant="info" icon={<Shield size={18} />}>
@@ -94,10 +94,10 @@ export default function ProfilePrivacy() {
             {CONSENT_ITEMS.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start justify-between gap-section p-4 rounded-xl border border-ink-100 bg-white"
+                className="flex items-start justify-between gap-section p-stack rounded-xl border border-ink-100 bg-white"
               >
                 <div className="flex flex-col gap-tight flex-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <span className="text-body-sm font-semibold text-ink-900">{item.label}</span>
                     {item.required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
@@ -127,7 +127,7 @@ export default function ProfilePrivacy() {
           description="Consulte ou exporte toutes les données que nous détenons sur toi."
         >
           <div className="flex flex-col gap-3">
-            <Card variant="default" className="flex items-center justify-between px-4 py-3">
+            <Card variant="default" className="flex items-center justify-between px-stack py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Exporter mes données</span>
                 <span className="text-caption text-ink-500">Télécharge une copie de toutes tes données (JSON/PDF)</span>
@@ -136,7 +136,7 @@ export default function ProfilePrivacy() {
                 Exporter
               </Button>
             </Card>
-            <Card variant="default" className="flex items-center justify-between px-4 py-3">
+            <Card variant="default" className="flex items-center justify-between px-stack py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
                 <span className="text-caption text-ink-500">Demande un rapport complet de tes données : réponse sous 30 jours</span>
@@ -185,7 +185,7 @@ export default function ProfilePrivacy() {
         </SectionCard>
 
         {/* Legal links */}
-        <div className="flex flex-wrap gap-4 pb-section">
+        <div className="flex flex-wrap gap-stack pb-section">
           {['Politique de confidentialité', 'Conditions d\'utilisation', 'Mentions légales', 'Politique cookies'].map((link) => (
             <button key={link} className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
               {link}

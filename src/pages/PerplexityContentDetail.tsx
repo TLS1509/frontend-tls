@@ -71,7 +71,7 @@ const PerplexityContentDetail: React.FC = () => {
             >
               <div className="flex flex-col gap-stack-xs">
                 {MOCK_ARTICLE.sources.map((s, i) => (
-                  <Card key={i} className="p-4 flex items-center justify-between gap-4">
+                  <Card key={i} className="p-stack flex items-center justify-between gap-stack">
                     <div className="flex items-center gap-3">
                       <BookOpen className="w-5 h-5 text-primary-600" />
                       <div>

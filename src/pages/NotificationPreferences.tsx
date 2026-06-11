@@ -79,7 +79,7 @@ export default function NotificationPreferences() {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="px-4 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack flex flex-col gap-section">
 
         {/* In-App */}
         <SectionCard
@@ -124,7 +124,7 @@ export default function NotificationPreferences() {
             {/* Email tracking toggle (Cahier #09 § Journey #5 : privacy) */}
             <div className="flex items-start justify-between gap-stack py-3">
               <div className="flex flex-col gap-tight flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-stack-xs">
                   <span className="text-body-sm font-semibold text-ink-900">Suivi des emails</span>
                   <Badge variant="neutral" size="sm">Confidentialité</Badge>
                 </div>

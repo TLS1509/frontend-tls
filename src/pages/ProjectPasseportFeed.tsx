@@ -89,7 +89,7 @@ export const ProjectPasseportFeed: React.FC = () => {
           >
             <div className="flex flex-col gap-stack-xs">
               {enrichments.map((e) => (
-                <div key={e.id} className="flex items-center gap-stack p-4 rounded-lg bg-success-bg border border-success-base/20">
+                <div key={e.id} className="flex items-center gap-stack p-stack rounded-lg bg-success-bg border border-success-base/20">
                   <Avatar initials={e.collaboratorInitials} size="md" tint="brand" />
                   <div className="flex-1 min-w-0">
                     <p className="text-body-sm font-semibold text-ink-900 m-0">
@@ -115,7 +115,7 @@ export const ProjectPasseportFeed: React.FC = () => {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
                 {[...collaboratorMap.values()].map((c) => (
-                  <div key={c.name} className="flex flex-col gap-stack-xs p-4 rounded-lg border border-ink-100 bg-ink-50">
+                  <div key={c.name} className="flex flex-col gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
                     <div className="flex items-center gap-3">
                       <Avatar initials={c.initials} size="md" tint="brand" />
                       <div>

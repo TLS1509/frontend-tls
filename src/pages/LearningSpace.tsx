@@ -292,7 +292,7 @@ export const LearningSpace: React.FC = () => {
           <div className="flex flex-col gap-stack">
             {/* Thématique filter */}
             <div>
-              <p className="text-caption font-semibold text-ink-700 mb-2">Thématique</p>
+              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Thématique</p>
               <FilterBar
                 options={themeOptions}
                 selected={selectedThemes}
@@ -304,7 +304,7 @@ export const LearningSpace: React.FC = () => {
 
             {/* Type filter */}
             <div>
-              <p className="text-caption font-semibold text-ink-700 mb-2">Type de contenu</p>
+              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Type de contenu</p>
               <FilterBar
                 options={typeOptions}
                 selected={selectedTypes as string[]}
@@ -316,7 +316,7 @@ export const LearningSpace: React.FC = () => {
 
             {/* Duration filter */}
             <div>
-              <p className="text-caption font-semibold text-ink-700 mb-2">Durée</p>
+              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Durée</p>
               <FilterBar
                 options={durationOptions}
                 selected={selectedDurations}
@@ -328,7 +328,7 @@ export const LearningSpace: React.FC = () => {
 
             {/* Niveau filter */}
             <div>
-              <p className="text-caption font-semibold text-ink-700 mb-2">Niveau</p>
+              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Niveau</p>
               <FilterBar
                 options={levelOptions}
                 selected={selectedLevels.map(String)}
@@ -395,7 +395,7 @@ export const LearningSpace: React.FC = () => {
                       </div>
 
                       {/* Title */}
-                      <CardTitle className="text-body font-semibold mt-2">
+                      <CardTitle className="text-body font-semibold mt-stack-xs">
                         {item.title}
                       </CardTitle>
 
@@ -405,7 +405,7 @@ export const LearningSpace: React.FC = () => {
                       </CardDesc>
 
                       {/* Metadata */}
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-stack-xs">
                         <FormatChip label={item.duration} icon={<Clock size={11} />} />
                         <FormatChip label={`D${item.dreyfusLevel}`} icon={<Star size={11} />} />
                         <FormatChip label={item.theme} icon={<Layers size={11} />} />

@@ -90,7 +90,7 @@ export const VerifyEmail: React.FC = () => {
               </AuthPrimaryButton>
 
               <AuthGhostButton onClick={handleResend} disabled={cooldown > 0}>
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-stack-xs">
                   <RefreshCcw size={16} />
                   {cooldown > 0 ? `Renvoyer le lien (${cooldown}s)` : 'Renvoyer le lien'}
                 </span>

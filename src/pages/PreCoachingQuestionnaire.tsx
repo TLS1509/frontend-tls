@@ -71,7 +71,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface font-body py-section px-6">
+    <div className="min-h-screen bg-surface font-body py-section px-stack-lg">
       <div className="max-w-[640px] mx-auto">
 
         {/* ─ Back button ─────────────────────────────────────────────── */}
@@ -88,7 +88,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
 
         {/* ─ Header ──────────────────────────────────────────────────── */}
         <div className="text-center mb-section-lg">
-          <h1 className="font-display text-h1 font-extrabold text-ink-900 m-0 mb-2 tracking-tight">
+          <h1 className="font-display text-h1 font-extrabold text-ink-900 m-0 mb-stack-xs tracking-tight">
             Préparez votre session
           </h1>
           <p className="font-body text-body text-ink-500 m-0">
@@ -99,19 +99,19 @@ export const PreCoachingQuestionnaire: React.FC = () => {
         {/* ─ Steps ───────────────────────────────────────────────────── */}
         <div className="flex flex-col gap-stack-lg">
           {STEPS.map((step) => (
-            <div key={step.id} className="flex gap-4 items-start">
+            <div key={step.id} className="flex gap-stack items-start">
 
               {/* Circle icon */}
-              <div className="w-12 h-12 rounded-full bg-ink-50 border border-ink-200 text-ink-400 flex items-center justify-center shrink-0 mt-4">
+              <div className="w-12 h-12 rounded-full bg-ink-50 border border-ink-200 text-ink-400 flex items-center justify-center shrink-0 mt-stack">
                 {step.icon}
               </div>
 
               {/* Card */}
-              <div className="flex-1 bg-white border border-ink-200 rounded-2xl p-6 shadow-sm">
+              <div className="flex-1 bg-white border border-ink-200 rounded-2xl p-stack-lg shadow-sm">
                 <p className="font-body text-caption font-medium text-primary-600 m-0 mb-1">
                   {step.step} • {step.label}
                 </p>
-                <p className="font-body text-body font-bold text-ink-900 leading-snug m-0 mb-4">
+                <p className="font-body text-body font-bold text-ink-900 leading-snug m-0 mb-stack">
                   {step.question}
                 </p>
                 <textarea
@@ -119,7 +119,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
                   value={answers[step.id]}
                   onChange={(e) => setAnswer(step.id, e.target.value)}
                   placeholder={step.placeholder}
-                  className="w-full h-auto py-4 px-4 rounded-xl border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
+                  className="w-full h-auto py-stack px-stack rounded-xl border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-[1.65] resize-y outline-none transition-colors duration-200 focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
                 />
               </div>
             </div>

@@ -32,7 +32,7 @@ export default function AtelierWaitlist() {
   const waitlistPosition = enrollment?.waitlistPosition ?? 1;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary-50 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-secondary-50 px-stack py-page">
       <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
         {/* Icon */}
         <div className="w-16 h-16 rounded-full bg-secondary-100 flex items-center justify-center">
@@ -51,7 +51,7 @@ export default function AtelierWaitlist() {
         </p>
 
         {/* Info card */}
-        <Card variant="tinted" tone="warm" className="w-full p-6 flex flex-col gap-stack">
+        <Card variant="tinted" tone="warm" className="w-full p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center justify-between">
             <span className="text-body-sm text-ink-600">Ta position</span>
             <Badge variant="sun" size="md">

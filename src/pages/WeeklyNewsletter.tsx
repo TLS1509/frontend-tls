@@ -81,7 +81,7 @@ export const WeeklyNewsletter: React.FC = () => {
           >
             Retour à la veille
           </Button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="primary" size="sm" leadingIcon={<Mail size={13} />} className="hidden sm:inline-flex">
               S'abonner
             </Button>
@@ -152,7 +152,7 @@ export const WeeklyNewsletter: React.FC = () => {
             </div>
 
             {/* Info */}
-            <div className="bg-white p-6 flex flex-col gap-stack justify-between">
+            <div className="bg-white p-stack-lg flex flex-col gap-stack justify-between">
               <div className="flex flex-col gap-stack-xs">
                 <Badge variant="warm">Tutoriel vidéo</Badge>
                 <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight tracking-tight">
@@ -175,7 +175,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
             À la une
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack sm:gap-5">
             {TOP_ARTICLES.map((article) => {
               const tone = CATEGORY_TONE[article.tone];
               return (
@@ -189,7 +189,7 @@ export const WeeklyNewsletter: React.FC = () => {
                       {article.category}
                     </span>
                   </div>
-                  <div className="p-4 bg-white flex flex-col gap-2">
+                  <div className="p-stack bg-white flex flex-col gap-stack-xs">
                     <h3 className="m-0 font-body text-body-sm font-bold text-ink-900 leading-snug">
                       {article.title}
                     </h3>
@@ -216,12 +216,12 @@ export const WeeklyNewsletter: React.FC = () => {
                   key={article.id}
                   onClick={() => navigate('/veille/weekly-news/1')}
                   className={[
-                    'flex items-center gap-4 px-5 py-4 cursor-pointer hover:bg-ink-50 transition-colors duration-base',
+                    'flex items-center gap-stack px-5 py-stack cursor-pointer hover:bg-ink-50 transition-colors duration-base',
                     idx < ALL_ARTICLES.length - 1 ? 'border-b border-ink-100' : '',
                   ].join(' ')}
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1 font-body text-micro text-ink-500">
+                    <div className="flex items-center gap-stack-xs flex-wrap mb-1 font-body text-micro text-ink-500">
                       <span className="font-bold uppercase tracking-wider text-primary-700">
                         {article.category}
                       </span>
@@ -259,7 +259,7 @@ export const WeeklyNewsletter: React.FC = () => {
         {/* Newsletter signup */}
         <section
           aria-label="Inscription newsletter"
-          className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-8 sm:p-10 text-white flex flex-col items-center text-center gap-stack"
+          className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-section sm:p-section-lg text-white flex flex-col items-center text-center gap-stack"
         >
           <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-white/15 backdrop-blur-glass-light">
             <Mail size={22} />
@@ -277,7 +277,7 @@ export const WeeklyNewsletter: React.FC = () => {
               if (email) alert(`Merci ! Inscription confirmée pour ${email}`);
               setEmail('');
             }}
-            className="w-full max-w-md flex flex-col sm:flex-row gap-2"
+            className="w-full max-w-md flex flex-col sm:flex-row gap-stack-xs"
           >
             <input
               type="email"
@@ -285,7 +285,7 @@ export const WeeklyNewsletter: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              className="flex-1 h-11 px-4 rounded-pill border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
+              className="flex-1 h-11 px-stack rounded-pill border-0 bg-white/15 backdrop-blur-glass-light font-body text-body-sm text-white placeholder:text-white/60 focus:outline-2 focus:outline-white/40"
             />
             <Button variant="warm" size="md" type="submit">
               S'abonner

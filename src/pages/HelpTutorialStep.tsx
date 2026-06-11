@@ -37,7 +37,7 @@ export default function HelpTutorialStep() {
         tone="default"
       />
 
-      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
         <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center justify-between text-caption text-ink-500">
             <span>Progression du tutoriel</span>

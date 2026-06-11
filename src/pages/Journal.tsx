@@ -142,8 +142,8 @@ export const Journal: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20 flex flex-col">
-      <Container width="page" className="py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+    <div className="relative min-h-screen bg-gradient-page-ambient flex flex-col">
+      <Container width="page" className="py-stack-lg sm:py-section lg:py-page flex flex-col gap-section">
 
         {/* Hero: EditorialHero brand standalone (sans trailing) */}
         <EditorialHero
@@ -183,7 +183,7 @@ export const Journal: React.FC = () => {
                   type="button"
                   onClick={() => navigate(`/journal/new-entry?type=${t.type}`)}
                   className={[
-                    'group flex flex-col items-center justify-center gap-tight p-4 rounded-2xl border-2 text-center cursor-pointer',
+                    'group flex flex-col items-center justify-center gap-tight p-stack rounded-2xl border-2 text-center cursor-pointer',
                     'transition-all duration-base hover:-translate-y-0.5 hover:shadow-md',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     TONE_BG[t.tone],
@@ -231,10 +231,10 @@ export const Journal: React.FC = () => {
 
           {/* Filters collapsible panel */}
           {filtersOpen && (
-            <Card className="p-4 flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
+            <Card className="p-stack flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
               <div className="flex flex-col gap-stack-xs">
                 <span className="font-body text-caption font-medium text-ink-500">Période</span>
-                <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par période">
+                <div className="flex gap-stack-xs flex-wrap" role="tablist" aria-label="Filtrer par période">
                   {PERIOD_FILTERS.map(({ key, label }) => (
                     <FilterChip
                       key={key}
@@ -248,7 +248,7 @@ export const Journal: React.FC = () => {
 
               <div className="flex flex-col gap-stack-xs">
                 <span className="font-body text-caption font-medium text-ink-500">Type d'entrée</span>
-                <div className="flex gap-2 flex-wrap" role="tablist" aria-label="Filtrer par type">
+                <div className="flex gap-stack-xs flex-wrap" role="tablist" aria-label="Filtrer par type">
                   {TYPE_FILTERS.map(({ key, label }) => (
                     <FilterChip
                       key={key}

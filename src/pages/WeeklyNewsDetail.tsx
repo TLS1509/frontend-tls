@@ -94,7 +94,7 @@ export const WeeklyNewsDetail: React.FC = () => {
           >
             Retour
           </Button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={saved ? 'primary' : 'ghost'}
@@ -112,7 +112,7 @@ export const WeeklyNewsDetail: React.FC = () => {
         </Container>
       </div>
 
-      <div ref={articleRef} className="max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <div ref={articleRef} className="max-w-page mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section">
         <EditorialLayout
           main={
             <div className="flex flex-col gap-section">
@@ -120,7 +120,7 @@ export const WeeklyNewsDetail: React.FC = () => {
               {/* Hero éditorial */}
               <header className="flex flex-col gap-stack">
                 {/* Eyebrow */}
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-stack-xs flex-wrap">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
                     <TrendingUp size={11} /> {ACTU.week}
                   </span>
@@ -136,7 +136,7 @@ export const WeeklyNewsDetail: React.FC = () => {
                   {ACTU.title}
                 </h1>
 
-                <div className="flex items-center gap-4 font-body text-caption text-ink-500 flex-wrap border-b border-ink-100 pb-stack">
+                <div className="flex items-center gap-stack font-body text-caption text-ink-500 flex-wrap border-b border-ink-100 pb-stack">
                   <span className="inline-flex items-center gap-1.5">
                     <CalendarDays size={13} /> {ACTU.date}
                   </span>

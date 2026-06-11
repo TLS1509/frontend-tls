@@ -75,7 +75,7 @@ export default function EvenementHub() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Événements à venir" value={upcomingCount} variant="brand" icon={<Calendar size={20} />} />
@@ -85,13 +85,13 @@ export default function EvenementHub() {
 
         {/* Filters */}
         <div className="flex flex-col gap-tight">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             <FilterChip label="Tous" active={filterTime === 'all'} onClick={() => setFilterTime('all')} />
             <FilterChip label="À venir" active={filterTime === 'upcoming'} onClick={() => setFilterTime('upcoming')} />
             <FilterChip label="Passés" active={filterTime === 'past'} onClick={() => setFilterTime('past')} />
             <FilterChip label={`Mes inscriptions (${myRegistrations.length})`} active={filterTime === 'mine'} onClick={() => setFilterTime('mine')} />
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             <FilterChip label="Tous modes" active={filterMode === 'all'} onClick={() => setFilterMode('all')} />
             <FilterChip label="Distanciel" active={filterMode === 'distanciel'} onClick={() => setFilterMode('distanciel')} icon={<Video size={12} />} />
             <FilterChip label="Présentiel" active={filterMode === 'presentiel'} onClick={() => setFilterMode('presentiel')} icon={<MapPin size={12} />} />
@@ -104,8 +104,8 @@ export default function EvenementHub() {
             <div className="md:w-64 bg-primary-100 flex items-center justify-center min-h-[180px] shrink-0">
               <Calendar size={48} className="text-primary-300" />
             </div>
-            <div className="p-6 flex flex-col gap-tight flex-1">
-              <div className="flex flex-wrap gap-2">
+            <div className="p-stack-lg flex flex-col gap-tight flex-1">
+              <div className="flex flex-wrap gap-stack-xs">
                 <Badge variant="danger" className="animate-pulse">🔴 En vedette · {formatDate(featured.scheduledAt)}</Badge>
                 <Badge variant="info">{featured.mode === 'distanciel' ? 'Distanciel' : 'Présentiel'}</Badge>
                 {featured.maxParticipants && (
@@ -125,7 +125,7 @@ export default function EvenementHub() {
                   className="max-w-xs"
                 />
               )}
-              <div className="mt-2">
+              <div className="mt-stack-xs">
                 {eventsStore.getEventRegistration(MOCK_USER_ID, featured.id) ? (
                   <Button variant="ghost" size="md" disabled>
                     <CheckCircle size={16} className="mr-1.5" /> Déjà inscrit(e)
@@ -146,7 +146,7 @@ export default function EvenementHub() {
 
         {/* Event grid */}
         {filteredEvents.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-8 text-center">Aucun événement dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-400 py-section text-center">Aucun événement dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filteredEvents.map((ev) => {
@@ -201,7 +201,7 @@ export default function EvenementHub() {
                   </p>
 
                   {!isPast && ev.maxParticipants && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <span className="text-caption text-ink-500">{ev.registeredCount}/{ev.maxParticipants}</span>
                       <ProgressBar value={pct} fill={pct > 90 ? 'danger' : 'brand'} size="sm" valueLabel={false} className="flex-1" />
                     </div>

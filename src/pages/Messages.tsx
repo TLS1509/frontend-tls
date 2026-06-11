@@ -231,9 +231,9 @@ export const Messages: React.FC = () => {
       <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">
 
         {/* Header */}
-        <div className="px-5 pt-5 pb-4 border-b border-ink-200 bg-white">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
+        <div className="px-5 pt-5 pb-stack border-b border-ink-200 bg-white">
+          <div className="flex items-center justify-between mb-stack">
+            <div className="flex items-center gap-stack-xs">
               <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 tracking-tight">
                 Messages
               </h2>
@@ -270,7 +270,7 @@ export const Messages: React.FC = () => {
         </div>
 
         {/* Conversation items */}
-        <div className="flex-1 overflow-y-auto p-2">
+        <div className="flex-1 overflow-y-auto p-stack-xs">
           {filteredConversations.length === 0 ? (
             <EmptyState
               icon={<MessageSquare size={28} />}
@@ -349,7 +349,7 @@ export const Messages: React.FC = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
 
           {/* Thread header */}
-          <div className="px-5 py-4 border-b border-ink-200 bg-white flex items-center gap-3">
+          <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-3">
             <Button variant="secondary" size="sm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={15} />
             </Button>
@@ -377,7 +377,7 @@ export const Messages: React.FC = () => {
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-6 bg-ink-50 flex flex-col gap-3">
+          <div className="flex-1 overflow-y-auto p-stack-lg bg-ink-50 flex flex-col gap-3">
             {currentConversation.messages.map((msg) => {
               const isUser = msg.role === 'user';
               const senderTint =
@@ -399,11 +399,11 @@ export const Messages: React.FC = () => {
                   showReadReceipt={isUser}
                 >
                   {msg.attachments && msg.attachments.length > 0 && (
-                    <div className="mt-2 flex flex-col gap-stack-xs">
+                    <div className="mt-stack-xs flex flex-col gap-stack-xs">
                       {msg.attachments.map((att, i) => (
                         <div
                           key={i}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
+                          className={`flex items-center gap-stack-xs px-3 py-stack-xs rounded-lg ${isUser ? 'bg-white/10' : 'bg-ink-50'}`}
                         >
                           <div className={`w-[30px] h-[30px] rounded-md flex items-center justify-center shrink-0 ${isUser ? 'bg-white/20' : 'bg-primary-50'}`}>
                             {att.type === 'image'
@@ -432,8 +432,8 @@ export const Messages: React.FC = () => {
           </div>
 
           {/* Compose bar */}
-          <div className="px-5 py-4 border-t border-ink-200 bg-white">
-            <div className="flex items-end gap-2">
+          <div className="px-5 py-stack border-t border-ink-200 bg-white">
+            <div className="flex items-end gap-stack-xs">
               <Button variant="secondary" size="sm" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={15} />
               </Button>
@@ -444,7 +444,7 @@ export const Messages: React.FC = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Écrivez votre message… (Entrée pour envoyer)"
                 rows={1}
-                className="flex-1 px-3 py-2 rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
+                className="flex-1 px-3 py-stack-xs rounded-lg border border-ink-200 bg-ink-50 text-ink-900 font-body text-body-sm leading-relaxed resize-none outline-none h-auto min-h-[38px] max-h-[120px] transition-colors focus:border-primary-400 focus:bg-white placeholder:text-ink-400"
               />
 
               <Button
@@ -460,7 +460,7 @@ export const Messages: React.FC = () => {
               </Button>
             </div>
 
-            <p className="m-0 mt-2 font-body text-[11px] text-ink-400 text-center">
+            <p className="m-0 mt-stack-xs font-body text-[11px] text-ink-400 text-center">
               <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Entrée</kbd> pour envoyer &nbsp;·&nbsp;
               <kbd className="px-1.5 py-px rounded-xs bg-ink-50 border border-ink-200 text-[10px]">Shift+Entrée</kbd> pour un saut de ligne
             </p>
@@ -469,14 +469,14 @@ export const Messages: React.FC = () => {
       ) : (
         /* Empty state */
         <div className="flex-1 flex items-center justify-center bg-ink-50">
-          <div className="text-center max-w-xs px-6">
-            <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-4 text-primary-400">
+          <div className="text-center max-w-xs px-stack-lg">
+            <div className="w-[72px] h-[72px] rounded-full bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-stack text-primary-400">
               <MessageSquarePlus size={30} />
             </div>
-            <h3 className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">
+            <h3 className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">
               Sélectionnez une conversation
             </h3>
-            <p className="m-0 mb-4 font-body text-caption text-ink-500 leading-relaxed">
+            <p className="m-0 mb-stack font-body text-caption text-ink-500 leading-relaxed">
               Choisissez un fil dans la liste pour démarrer ou continuer la conversation.
             </p>
             <Button variant="secondary" fullWidth leadingIcon={<Pencil size={14} />}>

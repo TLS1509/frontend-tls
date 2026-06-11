@@ -181,7 +181,7 @@ export const JournalNewEntry: React.FC = () => {
     <div className="min-h-screen bg-surface font-body flex flex-col">
 
       {/* Top bar */}
-      <header className="flex items-center px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
+      <header className="flex items-center px-stack-lg py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
         <Button
           variant="ghost"
           size="sm"
@@ -194,7 +194,7 @@ export const JournalNewEntry: React.FC = () => {
         </Button>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
             {isDraft && <Badge variant="sun" size="sm">Brouillon</Badge>}
           </div>
@@ -208,7 +208,7 @@ export const JournalNewEntry: React.FC = () => {
           {wordCount} mot{wordCount !== 1 ? 's' : ''}
         </span>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-stack-xs shrink-0">
           {autoSaveStatus === 'saving' && (
             <span className="text-caption text-ink-400 font-medium">Sauvegarde...</span>
           )}
@@ -225,11 +225,11 @@ export const JournalNewEntry: React.FC = () => {
       </header>
 
       {/* Content */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-6 py-8">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-stack-lg py-section">
 
         {/* Type selector */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="mb-stack-lg">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <Wand2 size={16} className="text-primary-500" />
             <span className="font-body text-body-sm font-semibold text-ink-900">Type d'entrée</span>
           </div>
@@ -247,8 +247,8 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Mood selector */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="mb-section">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <span className="text-2xl" aria-hidden="true">🎭</span>
             <span className="font-body text-body-sm font-semibold text-ink-900">Comment vous sentez-vous ?</span>
           </div>
@@ -256,10 +256,10 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Inspiration button */}
-        <div className="mb-8">
+        <div className="mb-section">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
+            className="inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
           >
             <Sparkles size={15} />
             Besoin d'inspiration ?
@@ -267,7 +267,7 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Structured questions (collapsible) */}
-        <div className="mb-8">
+        <div className="mb-section">
           <StructuredQuestionAccordion
             questions={activeQuestions}
             answers={structuredAnswers}
@@ -284,7 +284,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className={`border border-ink-200 rounded-2xl p-7 shadow-sm ${cfg.writingBg || 'bg-white'}`}>
 
           {/* Reflection question */}
-          <div className="mb-6">
+          <div className="mb-stack-lg">
             <p className="m-0 mb-1 font-body text-caption text-ink-500 font-medium">
               Question de réflexion
             </p>

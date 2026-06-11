@@ -181,8 +181,8 @@ export const LearningPathDetail: React.FC = () => {
 
   if (!parcours) {
     return (
-      <div className="p-12 text-center">
-        <p className="text-ink-500 mb-4">Parcours introuvable.</p>
+      <div className="p-page text-center">
+        <p className="text-ink-500 mb-stack">Parcours introuvable.</p>
         <Button onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
       </div>
     );
@@ -243,8 +243,8 @@ export const LearningPathDetail: React.FC = () => {
 
   return (
     <>
-      <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-        <Container width="page" className="relative py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+      <div className="relative min-h-screen bg-gradient-page-ambient">
+        <Container width="page" className="relative py-stack-lg sm:py-section lg:py-page flex flex-col gap-section">
 
           {/* Hero : HeroSection variant="gradient" tone-aware */}
           <HeroSection
@@ -391,7 +391,7 @@ export const LearningPathDetail: React.FC = () => {
                     onToggle={() => toggleStep(etape.id)}
                     locked={!etape.unlocked}
                     className={[etape.unlocked ? 'bg-white' : 'bg-ink-50', stepBorderClass].join(' ')}
-                    bodyClassName="border-t border-ink-200 px-6 pt-4 pb-6"
+                    bodyClassName="border-t border-ink-200 px-stack-lg pt-stack pb-stack-lg"
                     header={
                       <>
                         <div
@@ -413,7 +413,7 @@ export const LearningPathDetail: React.FC = () => {
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <div className="mb-2 flex items-center gap-2">
+                          <div className="mb-stack-xs flex items-center gap-stack-xs">
                             {!etape.unlocked ? (
                               <Badge variant="neutral">VERROUILLÉ</Badge>
                             ) : etape.completed ? (
@@ -461,7 +461,7 @@ export const LearningPathDetail: React.FC = () => {
                     }
                   >
                     <div
-                      className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
+                      className={`flex flex-col gap-stack-xs ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
                     >
                           {etape.lecons.map((lecon: Lecon) => {
                             const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
@@ -485,7 +485,7 @@ export const LearningPathDetail: React.FC = () => {
                                 onClick={() =>
                                   navigate(`/learning-paths/${parcours.id}/lessons/${lecon.id}`)
                                 }
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white ${rowBg}`}
+                                className={`flex items-center gap-3 px-stack py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white ${rowBg}`}
                               >
                                 <div
                                   className={`w-9 h-9 rounded-lg shrink-0 flex items-center justify-center ${iconBg}`}
@@ -554,15 +554,15 @@ export const LearningPathDetail: React.FC = () => {
             <div className="flex flex-col gap-section">
               {/* Project hero */}
               <div
-                className={`text-center text-white p-10 rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
+                className={`text-center text-white p-section-lg rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
               >
-                <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-6 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
                   <Award size={36} />
                 </div>
                 <h2 className="font-display text-h2 font-bold m-0 mb-3">
                   {parcours.finalProject.title}
                 </h2>
-                <p className="text-body-lg m-0 mb-8 opacity-90 max-w-[720px] mx-auto leading-relaxed">
+                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto leading-relaxed">
                   {parcours.finalProject.description}
                 </p>
 
@@ -586,12 +586,12 @@ export const LearningPathDetail: React.FC = () => {
                 ].map(({ label, value, desc }) => (
                   <div
                     key={label}
-                    className={`p-6 rounded-xl border ${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`}
+                    className={`p-stack-lg rounded-xl border ${TONE_BG_50[tone]} ${TONE_BORDER_200[tone]}`}
                   >
-                    <div className={`text-caption font-bold uppercase mb-2 ${TONE_TEXT[tone]}`}>
+                    <div className={`text-caption font-bold uppercase mb-stack-xs ${TONE_TEXT[tone]}`}>
                       {label}
                     </div>
-                    <div className="text-h3 font-bold text-ink-900 mb-2">{value}</div>
+                    <div className="text-h3 font-bold text-ink-900 mb-stack-xs">{value}</div>
                     <p className="text-caption text-ink-500 m-0 leading-snug">{desc}</p>
                   </div>
                 ))}
@@ -615,7 +615,7 @@ export const LearningPathDetail: React.FC = () => {
                   ]).map((step) => (
                     <div
                       key={step.num}
-                      className="flex gap-4 items-start p-4 rounded-xl bg-ink-50 border border-ink-200"
+                      className="flex gap-stack items-start p-stack rounded-xl bg-ink-50 border border-ink-200"
                     >
                       <div
                         className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_500[tone]}`}
@@ -634,13 +634,13 @@ export const LearningPathDetail: React.FC = () => {
               </section>
 
               {/* Prerequisites */}
-              <div className="p-6 rounded-xl bg-primary-50 border border-primary-200">
+              <div className="p-stack-lg rounded-xl bg-primary-50 border border-primary-200">
                 <div className="flex gap-3 items-start">
                   <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0">
                     ℹ️
                   </div>
                   <div className="flex-1">
-                    <div className="text-h4 font-bold text-ink-900 mb-2">Avant de commencer</div>
+                    <div className="text-h4 font-bold text-ink-900 mb-stack-xs">Avant de commencer</div>
                     <ul className="m-0 pl-5 text-body-sm text-ink-500 leading-relaxed">
                       <li>Complétez les 5 étapes du parcours de formation</li>
                       <li>Maîtrisez la méthode ROLE-CONTEXT-TASK (RCT)</li>
@@ -653,18 +653,18 @@ export const LearningPathDetail: React.FC = () => {
 
               {/* CTA */}
               <div
-                className={`p-8 rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
+                className={`p-section rounded-xl bg-white border-2 text-center ${TONE_BORDER_500[tone]}`}
               >
-                <h3 className="text-h4 font-bold text-ink-900 m-0 mb-2">
+                <h3 className="text-h4 font-bold text-ink-900 m-0 mb-stack-xs">
                   Prêt à passer à l'action ?
                 </h3>
                 <p className="text-body text-ink-500 m-0 mb-stack-lg">
                   Créez votre plan d'intégration de l'IA en 5 étapes structurées
                 </p>
 
-                <div className="mb-stack-lg flex items-center gap-4 justify-center">
+                <div className="mb-stack-lg flex items-center gap-stack justify-center">
                   <div className="text-caption text-ink-500">Déverrouillé après étape 5</div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     {[1, 2, 3, 4, 5].map((i) => {
                       const reached = i <= completedLessons / (totalLessons / 5);
                       return (

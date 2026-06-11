@@ -124,7 +124,7 @@ export default function DashboardAchievements() {
         tone="sun"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
@@ -239,7 +239,7 @@ export default function DashboardAchievements() {
             {leaderboard.map((entry) => (
               <li
                 key={entry.id}
-                className={`flex items-center gap-stack py-3 ${entry.isCurrentUser ? 'bg-primary-50 -mx-4 px-4 rounded-md' : ''}`}
+                className={`flex items-center gap-stack py-3 ${entry.isCurrentUser ? 'bg-primary-50 -mx-4 px-stack rounded-md' : ''}`}
               >
                 <span
                   className={`w-7 text-center text-body-sm font-bold shrink-0 ${

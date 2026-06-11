@@ -93,7 +93,7 @@ const JacValidationForm: React.FC<{
   };
 
   return (
-    <div className="flex flex-col gap-section p-4 bg-ink-50 rounded-xl border border-ink-200">
+    <div className="flex flex-col gap-section p-stack bg-ink-50 rounded-xl border border-ink-200">
       <div>
         <p className="text-body-sm font-semibold text-ink-900 m-0">
           Validation JAC : {collaboratorName}
@@ -127,7 +127,7 @@ const JacValidationForm: React.FC<{
               placeholder="Commentaire (optionnel)"
               value={row.comment}
               onChange={(e) => handleCommentChange(idx, e.target.value)}
-              className="w-full p-2 rounded-md border border-ink-200 font-body text-caption focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
+              className="w-full p-stack-xs rounded-md border border-ink-200 font-body text-caption focus:outline-none focus:ring-1 focus:ring-primary-500 h-auto min-h-[52px]"
             />
           </div>
         ))}
@@ -155,12 +155,12 @@ const JacValidationForm: React.FC<{
       {/* Decision */}
       <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-semibold text-ink-600 m-0">Décision</p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-stack-xs flex-wrap">
           {(['approved', 'rework_submitted', 'rejected'] as const).map((d) => (
             <button
               key={d}
               onClick={() => setDecision(d)}
-              className={`px-4 py-2 rounded-pill text-body-sm font-semibold transition-all ${
+              className={`px-stack py-stack-xs rounded-pill text-body-sm font-semibold transition-all ${
                 decision === d
                   ? d === 'approved'
                     ? 'bg-success-base text-white'
@@ -235,7 +235,7 @@ export const ProjectJac: React.FC = () => {
             {pendingJacs.map((jac) => (
               <div key={jac.id} className="rounded-lg border border-ink-200 overflow-hidden">
                 <div
-                  className="flex items-center gap-stack p-4 cursor-pointer hover:bg-ink-50 transition-all"
+                  className="flex items-center gap-stack p-stack cursor-pointer hover:bg-ink-50 transition-all"
                   onClick={() => toggleExpand(jac.id)}
                 >
                   <Avatar initials={jac.collaboratorInitials} size="md" tint="brand" />
@@ -255,7 +255,7 @@ export const ProjectJac: React.FC = () => {
                 </div>
 
                 {expandedJacId === jac.id && (
-                  <div className="px-4 pb-4 flex flex-col gap-stack border-t border-ink-100 pt-stack">
+                  <div className="px-stack pb-stack flex flex-col gap-stack border-t border-ink-100 pt-stack">
                     <div className="flex items-center gap-3 text-caption text-ink-600">
                       <Avatar initials={jac.expertInitials} size="sm" />
                       <span>Expert assigné : {jac.expertName}</span>
@@ -297,7 +297,7 @@ export const ProjectJac: React.FC = () => {
             {doneJacs.map((jac) => (
               <div key={jac.id} className="rounded-lg border border-ink-100 overflow-hidden">
                 <div
-                  className="flex items-center gap-stack p-4 cursor-pointer hover:bg-ink-50 transition-all"
+                  className="flex items-center gap-stack p-stack cursor-pointer hover:bg-ink-50 transition-all"
                   onClick={() => toggleExpand(jac.id)}
                 >
                   <Avatar initials={jac.collaboratorInitials} size="md" tint={jac.status === 'approved' ? 'brand' : 'warm'} />
@@ -321,12 +321,12 @@ export const ProjectJac: React.FC = () => {
                 </div>
 
                 {expandedJacId === jac.id && (
-                  <div className="px-4 pb-4 flex flex-col gap-stack border-t border-ink-100 pt-stack">
+                  <div className="px-stack pb-stack flex flex-col gap-stack border-t border-ink-100 pt-stack">
                     {jac.rubricScores && jac.rubricScores.length > 0 && (
                       <div className="flex flex-col gap-stack-xs">
                         <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Grille Dreyfus</p>
                         {jac.rubricScores.map((rs, idx) => (
-                          <div key={idx} className="flex items-start justify-between gap-4 p-3 bg-ink-50 rounded-lg">
+                          <div key={idx} className="flex items-start justify-between gap-stack p-3 bg-ink-50 rounded-lg">
                             <span className="text-body-sm text-ink-700 flex-1">{rs.criterion}</span>
                             <div className="flex flex-col items-end gap-tight shrink-0">
                               <Badge variant="brand">D{rs.score} · {DREYFUS_LABELS[rs.score]}</Badge>

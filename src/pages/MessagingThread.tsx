@@ -57,8 +57,8 @@ const MessagingThread: React.FC = () => {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="flex-1 px-4 py-section flex flex-col gap-stack">
-        <Card className="p-4 flex items-center gap-3">
+      <Container width="content" padding={false} className="flex-1 px-stack py-section flex flex-col gap-stack">
+        <Card className="p-stack flex items-center gap-3">
           <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">
             <div className="font-semibold">{coachName}</div>
@@ -71,11 +71,11 @@ const MessagingThread: React.FC = () => {
 
         <div className="flex-1 flex flex-col gap-stack-xs overflow-y-auto max-h-[60vh] py-stack">
           {messages.map((m) => (
-            <div key={m.id} className={`flex gap-2 ${m.isMe ? 'flex-row-reverse' : ''}`}>
+            <div key={m.id} className={`flex gap-stack-xs ${m.isMe ? 'flex-row-reverse' : ''}`}>
               {!m.isMe && <Avatar initials={m.initials} size="sm" />}
               <div className={`max-w-[70%] ${m.isMe ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
                 <div
-                  className={`px-4 py-3 rounded-2xl ${
+                  className={`px-stack py-3 rounded-2xl ${
                     m.isMe
                       ? 'bg-primary-600 text-white rounded-br-[6px]'
                       : 'bg-white border border-ink-200 rounded-bl-[6px]'
@@ -92,7 +92,7 @@ const MessagingThread: React.FC = () => {
           ))}
         </div>
 
-        <Card className="p-2 flex items-end gap-2">
+        <Card className="p-stack-xs flex items-end gap-stack-xs">
           <Button variant="ghost" size="sm" iconOnly leadingIcon={<Paperclip className="w-4 h-4" />} aria-label="Joindre" />
           <Button variant="ghost" size="sm" iconOnly leadingIcon={<Smile className="w-4 h-4" />} aria-label="Emoji" />
           <textarea
@@ -105,7 +105,7 @@ const MessagingThread: React.FC = () => {
               }
             }}
             placeholder="Tape ton message..."
-            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-2 border-0 focus:outline-none text-body-sm"
+            className="flex-1 h-auto min-h-[44px] max-h-32 resize-none p-stack-xs border-0 focus:outline-none text-body-sm"
             rows={1}
           />
           <Button variant="primary" size="sm" trailingIcon={<Send className="w-4 h-4" />} onClick={send} disabled={!draft.trim()}>

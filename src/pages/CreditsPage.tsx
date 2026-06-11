@@ -91,12 +91,12 @@ export default function CreditsPage() {
         tone="warm"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Hero balance card */}
         <Card
           variant="tinted"
           tone="warm"
-          className="p-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-section"
+          className="p-section flex flex-col md:flex-row items-center md:items-start justify-between gap-section"
         >
           <div className="flex flex-col gap-stack text-center md:text-left">
             <p className="m-0 text-caption font-medium text-secondary-600">Solde actuel</p>

@@ -101,7 +101,7 @@ export const Help: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface flex flex-col">
-      <Container width="medium" className="flex-1 py-8 sm:py-section flex flex-col gap-section">
+      <Container width="medium" className="flex-1 py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -130,10 +130,10 @@ export const Help: React.FC = () => {
 
         {/* FAQ */}
         <section>
-          <h2 className="m-0 mb-4 font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
             Questions fréquentes
           </h2>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             {FAQ_ITEMS.map((item) => {
               const isOpen = openFaq === item.id;
               return (
@@ -150,7 +150,7 @@ export const Help: React.FC = () => {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => toggleFaq(item.id)}
-                    className="w-full flex items-center justify-between gap-4 px-5 py-4 bg-transparent border-0 cursor-pointer text-left"
+                    className="w-full flex items-center justify-between gap-stack px-5 py-stack bg-transparent border-0 cursor-pointer text-left"
                   >
                     <div className="flex items-center gap-3">
                       <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>
@@ -163,7 +163,7 @@ export const Help: React.FC = () => {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-4 border-t border-ink-200 font-body text-body-sm text-ink-500 leading-relaxed">
+                    <div className="px-5 pb-5 pt-stack border-t border-ink-200 font-body text-body-sm text-ink-500 leading-relaxed">
                       {item.answer}
                     </div>
                   )}
@@ -175,7 +175,7 @@ export const Help: React.FC = () => {
 
         {/* Assistant IA */}
         <section>
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
               Assistant IA
             </h2>
@@ -187,7 +187,7 @@ export const Help: React.FC = () => {
 
           <Card className="border border-primary-200 bg-white overflow-hidden flex flex-col">
             {/* Chat header */}
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
+            <div className="flex items-center gap-3 px-5 py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
               <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
                 <Bot size={20} />
               </div>
@@ -204,7 +204,7 @@ export const Help: React.FC = () => {
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[
-                    'max-w-[72%] px-4 py-3 font-body text-body-sm leading-relaxed shadow-xs',
+                    'max-w-[72%] px-stack py-3 font-body text-body-sm leading-relaxed shadow-xs',
                     msg.role === 'user'
                       ? 'rounded-xl rounded-br-sm bg-primary-500 text-white'
                       : 'rounded-xl rounded-bl-sm bg-primary-50 text-ink-900',
@@ -216,14 +216,14 @@ export const Help: React.FC = () => {
             </div>
 
             {/* Chat input */}
-            <div className="flex items-center gap-3 px-4 py-3 border-t border-ink-200 bg-ink-50">
+            <div className="flex items-center gap-3 px-stack py-3 border-t border-ink-200 bg-ink-50">
               <input
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder="Posez votre question…"
                 aria-label="Message pour l'assistant"
-                className="flex-1 border border-ink-200 rounded-lg px-4 py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-400"
+                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body-sm outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-400"
               />
               <Button
                 variant="primary"
@@ -239,14 +239,14 @@ export const Help: React.FC = () => {
 
         {/* Contacter le support */}
         <section>
-          <h2 className="m-0 mb-4 font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
             Contacter le support
           </h2>
           <div className="grid grid-cols-1 gap-stack-lg sm:grid-cols-3">
             {CONTACT_OPTIONS.map((opt) => {
               const Icon = opt.icon;
               return (
-                <Card key={opt.title} className="p-6 flex flex-col gap-4 border border-ink-200 bg-white shadow-sm">
+                <Card key={opt.title} className="p-stack-lg flex flex-col gap-stack border border-ink-200 bg-white shadow-sm">
                   <div className="flex items-start justify-between">
                     <div className="w-12 h-12 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center">
                       <Icon size={22} />
@@ -254,7 +254,7 @@ export const Help: React.FC = () => {
                     <Badge variant={opt.badgeVariant}>{opt.badge}</Badge>
                   </div>
                   <div>
-                    <p className="m-0 mb-2 font-display text-h4 font-bold text-ink-900">{opt.title}</p>
+                    <p className="m-0 mb-stack-xs font-display text-h4 font-bold text-ink-900">{opt.title}</p>
                     <p className="m-0 font-body text-caption text-ink-500 leading-relaxed">{opt.desc}</p>
                   </div>
                   <Button variant="secondary" size="sm" className="mt-auto">

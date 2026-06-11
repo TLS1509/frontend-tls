@@ -96,7 +96,7 @@ export const JournalDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <div className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -105,7 +105,7 @@ export const JournalDetail: React.FC = () => {
           >
             Retour au journal
           </Button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant="primary"
@@ -121,13 +121,13 @@ export const JournalDetail: React.FC = () => {
 
       <div
         ref={articleRef}
-        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+        className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
       >
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
           {/* Eyebrow chips */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs flex-wrap">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
               <Sparkles size={11} /> Journal de bord
             </span>
@@ -168,8 +168,8 @@ export const JournalDetail: React.FC = () => {
         </section>
 
         {/* Engagements (todos) */}
-        <section className="rounded-2xl border border-ink-100 bg-white p-5 sm:p-6 flex flex-col gap-stack">
-          <h2 className="m-0 font-display text-body font-bold text-ink-900 flex items-center gap-2 tracking-tight">
+        <section className="rounded-2xl border border-ink-100 bg-white p-5 sm:p-stack-lg flex flex-col gap-stack">
+          <h2 className="m-0 font-display text-body font-bold text-ink-900 flex items-center gap-stack-xs tracking-tight">
             <CheckCircle2 size={16} className="text-primary-600" />
             Engagements pour la semaine prochaine
           </h2>
@@ -211,7 +211,7 @@ export const JournalDetail: React.FC = () => {
           <span className="inline-flex items-center gap-1.5 font-body text-caption font-medium text-ink-500">
             <TagIcon size={11} /> Tags
           </span>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             {ENTRY.tags.map((tag) => (
               <span
                 key={tag}
@@ -228,7 +228,7 @@ export const JournalDetail: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="flex items-center gap-3 p-4 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left"
+            className="flex items-center gap-3 p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left"
           >
             <ArrowLeft size={16} className="text-ink-400 shrink-0" />
             <div className="flex-1 min-w-0">
@@ -243,7 +243,7 @@ export const JournalDetail: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(1)}
-            className="flex items-center justify-end gap-3 p-4 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right"
+            className="flex items-center justify-end gap-3 p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right"
           >
             <div className="flex-1 min-w-0">
               <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
@@ -258,7 +258,7 @@ export const JournalDetail: React.FC = () => {
         </div>
 
         {/* New entry CTA */}
-        <section className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
+        <section className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section flex flex-col sm:flex-row sm:items-center gap-stack-lg text-white">
           <div className="flex-1">
             <h3 className="m-0 font-display text-h4 font-bold mb-1">
               Qu'avez-vous appris cette semaine ?

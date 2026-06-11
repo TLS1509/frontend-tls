@@ -34,7 +34,7 @@ export default function HelpTutorials() {
         tone="default"
       />
 
-      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
         <div className="flex flex-wrap gap-stack-xs">
           {FILTERS.map((f) => (
             <FilterChip

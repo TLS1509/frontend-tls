@@ -63,7 +63,7 @@ export default function AtelierLive() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section">
+      <Container width="wide" padding={false} className="px-stack py-section">
         <div className="grid md:grid-cols-3 gap-section">
           {/* Zone player : col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">

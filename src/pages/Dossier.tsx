@@ -110,7 +110,7 @@ export const Dossier: React.FC = () => {
             Retour à la veille
           </Button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="warm" size={36} />
             <Button variant="warm" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
               Télécharger
@@ -135,7 +135,7 @@ export const Dossier: React.FC = () => {
         {/* Hero warm bounded */}
         <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
           <Container width="page" className="py-section flex flex-col gap-stack-lg">
-            <div className="flex items-start gap-4 sm:gap-stack-lg">
+            <div className="flex items-start gap-stack sm:gap-stack-lg">
               <span aria-hidden className="shrink-0 inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-secondary-100 border border-secondary-200 text-3xl sm:text-4xl">
                 🧠
               </span>
@@ -146,7 +146,7 @@ export const Dossier: React.FC = () => {
                 <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>
-                <div className="flex items-center gap-4 flex-wrap font-body text-caption text-ink-600">
+                <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-600">
                   <span className="inline-flex items-center gap-1.5"><UserRound size={13} /> The Learning Society</span>
                   <span aria-hidden className="text-ink-300">·</span>
                   <span className="inline-flex items-center gap-1.5"><CalendarDays size={13} /> 15 janvier 2026</span>
@@ -253,10 +253,10 @@ export const Dossier: React.FC = () => {
                   <div className="grid grid-cols-2 gap-stack">
                     {BIG_STATS.map((stat, i) => (
                       <div key={i} className="flex flex-col items-center text-center p-5 rounded-2xl border border-ink-100 bg-white">
-                        <div className={`font-display text-h1 font-extrabold leading-none mb-2 ${STAT_TONE[stat.tone].value}`}>
+                        <div className={`font-display text-h1 font-extrabold leading-none mb-stack-xs ${STAT_TONE[stat.tone].value}`}>
                           {stat.value}
                         </div>
-                        <p className="m-0 font-body text-body-sm font-semibold text-ink-900 mb-2">
+                        <p className="m-0 font-body text-body-sm font-semibold text-ink-900 mb-stack-xs">
                           {stat.label}
                         </p>
                         <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-pill font-body text-micro font-semibold ${STAT_TONE[stat.tone].trend}`}>
@@ -266,7 +266,7 @@ export const Dossier: React.FC = () => {
                     ))}
                   </div>
 
-                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-2 text-ink-400">
+                  <div className="bg-ink-50 border border-dashed border-ink-200 rounded-2xl h-[200px] flex flex-col items-center justify-center gap-stack-xs text-ink-400">
                     <BarChart2 size={32} className="opacity-50" />
                     <span className="font-body text-body-sm">
                       Graphique : Évolution de l'adoption IA en formation (2023–2026)
@@ -280,8 +280,8 @@ export const Dossier: React.FC = () => {
                     05 : Conclusions & recommandations
                   </h2>
 
-                  <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-6 sm:p-8 text-white">
-                    <div className="flex items-center gap-2 mb-4">
+                  <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-stack-lg sm:p-section text-white">
+                    <div className="flex items-center gap-stack-xs mb-stack">
                       <CheckCircle2 size={20} className="text-white/80" />
                       <span className="font-body text-caption font-bold text-white/80 uppercase tracking-wider">
                         Conclusion principale
@@ -293,9 +293,9 @@ export const Dossier: React.FC = () => {
                       l'acquisition et la rétention des talents.
                     </p>
 
-                    <ul className="m-0 p-0 list-none flex flex-col gap-2">
+                    <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs">
                       {RECOMMENDATIONS.map((rec, i) => (
-                        <li key={i} className="flex items-start gap-2">
+                        <li key={i} className="flex items-start gap-stack-xs">
                           <ArrowRight size={14} className="text-white/60 shrink-0 mt-1" />
                           <span className="font-body text-body-sm text-white/95">{rec}</span>
                         </li>
@@ -309,8 +309,8 @@ export const Dossier: React.FC = () => {
         </Container>
 
         {/* Download CTA centered */}
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-10 pb-section">
-          <div className="rounded-3xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-8 text-center flex flex-col items-center gap-stack">
+        <div className="max-w-2xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg pb-section">
+          <div className="rounded-3xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-accent-50/40 p-section text-center flex flex-col items-center gap-stack">
             <span aria-hidden className="inline-flex items-center justify-center w-14 h-14 rounded-pill bg-secondary-500 text-white shadow-md">
               <Download size={22} />
             </span>

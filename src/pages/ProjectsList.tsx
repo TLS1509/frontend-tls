@@ -127,7 +127,7 @@ const ProjectsList: React.FC = () => {
               return (
                 <Card
                   key={p.id}
-                  className="p-6 cursor-pointer hover:border-primary-300 transition-all"
+                  className="p-stack-lg cursor-pointer hover:border-primary-300 transition-all"
                   onClick={() => nav(`/project/${p.id}`)}
                 >
                   <div className="flex items-start justify-between gap-stack mb-stack">
@@ -141,7 +141,7 @@ const ProjectsList: React.FC = () => {
                   </div>
 
                   {gatingFails && gatingFails.length > 0 && (
-                    <div className="flex items-start gap-2 p-3 rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
+                    <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-warning-bg border border-warning-base/30 mb-stack text-caption text-warning-fg">
                       <Lock size={12} className="mt-0.5 shrink-0" />
                       <span>
                         Pré-requis non atteints :{' '}

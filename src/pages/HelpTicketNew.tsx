@@ -58,7 +58,7 @@ export default function HelpTicketNew() {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="px-4 pb-page">
+      <Container width="content" padding={false} className="px-stack pb-page">
         <Card>
           <div className="flex flex-col gap-stack-lg">
             <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">

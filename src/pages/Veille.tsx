@@ -161,10 +161,10 @@ export const Veille: React.FC = () => {
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
         />
 
-        <Container width="page" padding={false} className="relative z-10 px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-6">
+        <Container width="page" padding={false} className="relative z-10 px-stack sm:px-stack-lg lg:px-section-lg pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-stack-lg">
 
           {/* Titre + sous-titre */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight" style={{ fontSize: 'clamp(2.25rem, 4vw, 3.25rem)' }}>
               Veille &amp; Actualités
             </h1>
@@ -237,18 +237,18 @@ export const Veille: React.FC = () => {
 
       {/* ── 4. BANDE MAILING : glassy minimale ──────────────────────────── */}
       <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">
-        <Container width="page" padding={false} className="px-4 sm:px-6 lg:px-10 py-4">
+        <Container width="page" padding={false} className="px-stack sm:px-stack-lg lg:px-section-lg py-stack">
           <form
             onSubmit={handleSubscribe}
             className="flex flex-col sm:flex-row items-start sm:items-center gap-3"
           >
-            <div className="flex items-center gap-2 text-ink-600 shrink-0">
+            <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
               <Mail size={14} className="text-ink-400" />
               <span className="font-body text-body-sm">
                 Recevoir les actus veille dans votre boîte mail
               </span>
             </div>
-            <div className="flex items-center gap-2 sm:ml-auto">
+            <div className="flex items-center gap-stack-xs sm:ml-auto">
               <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
               <Input
                 id={emailId}

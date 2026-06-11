@@ -85,7 +85,7 @@ export default function HelpArticle() {
               </div>
             </Card>
 
-            <div className="flex flex-col gap-stack-xs p-4 rounded-xl border border-ink-200 bg-ink-50">
+            <div className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-ink-50">
               <p className="text-body-sm font-semibold text-ink-800 m-0">Cet article vous a-t-il été utile ?</p>
               <div className="flex gap-stack-xs">
                 <Button

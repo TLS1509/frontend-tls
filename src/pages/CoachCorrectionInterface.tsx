@@ -64,7 +64,7 @@ export default function CoachCorrectionInterface() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 grid md:grid-cols-[1fr_360px] gap-section items-start">
+      <Container width="wide" padding={false} className="px-stack md:px-section grid md:grid-cols-[1fr_360px] gap-section items-start">
 
         {/* Main : submitted work */}
         <div className="flex flex-col gap-section">
@@ -74,7 +74,7 @@ export default function CoachCorrectionInterface() {
             <Avatar name={SUBMISSION.apprenantName} initials={SUBMISSION.apprenantInitials} size="lg" />
             <div className="flex flex-col gap-tight flex-1">
               <span className="text-body font-semibold text-ink-900">{SUBMISSION.apprenantName}</span>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <Badge variant="info" size="sm">{SUBMISSION.competence}</Badge>
                 <Badge variant="neutral" size="sm">D{SUBMISSION.dreyfusLevel} Compétent</Badge>
                 <span className="text-caption text-ink-400">Soumis le {SUBMISSION.submittedAt}</span>
@@ -87,7 +87,7 @@ export default function CoachCorrectionInterface() {
             <div className="prose prose-sm max-w-none">
               {SUBMISSION.content.split('\n').map((line, i) => (
                 line.trim() ? (
-                  <p key={i} className="text-body-sm text-ink-700 mb-2 leading-relaxed">{line}</p>
+                  <p key={i} className="text-body-sm text-ink-700 mb-stack-xs leading-relaxed">{line}</p>
                 ) : <br key={i} />
               ))}
             </div>
@@ -104,21 +104,21 @@ export default function CoachCorrectionInterface() {
                     onChange={(e) => setFeedback(e.target.value)}
                     rows={6}
                     placeholder="Points forts, axes d'amélioration, conseils pratiques..."
-                    className="w-full rounded-xl border border-ink-200 px-4 py-3 text-body-sm text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
+                    className="w-full rounded-xl border border-ink-200 px-stack py-3 text-body-sm text-ink-900 focus:outline-none focus:border-primary-400 transition-colors duration-fast resize-none"
                   />
                 </FormGroup>
 
                 {/* Dreyfus assessment */}
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   <span className="text-body-sm font-semibold text-ink-700">Évaluation Dreyfus</span>
-                  <div className="flex gap-2">
+                  <div className="flex gap-stack-xs">
                     {[1, 2, 3, 4, 5].map((level) => (
                       <button
                         key={level}
                         type="button"
                         onClick={() => setDreyfusAssessed(level)}
                         className={[
-                          'flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl border transition-all duration-fast',
+                          'flex flex-col items-center gap-0.5 px-3 py-stack-xs rounded-xl border transition-all duration-fast',
                           dreyfusAssessed === level
                             ? 'bg-secondary-500 border-secondary-500 text-white'
                             : 'bg-white border-ink-200 text-ink-600 hover:border-secondary-300',
@@ -143,7 +143,7 @@ export default function CoachCorrectionInterface() {
               </div>
             </SectionCard>
           ) : (
-            <Card variant="tinted" tone="warm" className="flex flex-col items-center gap-stack py-8 text-center">
+            <Card variant="tinted" tone="warm" className="flex flex-col items-center gap-stack py-section text-center">
               <div className="w-12 h-12 rounded-full bg-success-bg border border-success-border flex items-center justify-center">
                 <Send size={20} className="text-success-fg" />
               </div>
@@ -161,9 +161,9 @@ export default function CoachCorrectionInterface() {
         {/* Sidebar */}
         <div className="flex flex-col gap-section sticky top-8">
           <SectionCard title="Critères d'évaluation" titleIcon={<BookOpen size={18} />}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {['Analyse du contexte', 'Démarche structurée', 'Réflexivité', 'Plan d\'action concret'].map((c) => (
-                <div key={c} className="flex items-center gap-2 text-caption text-ink-600">
+                <div key={c} className="flex items-center gap-stack-xs text-caption text-ink-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-secondary-500 shrink-0" />
                   {c}
                 </div>

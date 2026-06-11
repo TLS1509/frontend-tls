@@ -138,7 +138,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
             « {block.text} »
           </blockquote>
           {block.attribution && (
-            <figcaption className="mt-2 font-body text-caption text-ink-500">
+            <figcaption className="mt-stack-xs font-body text-caption text-ink-500">
               : {block.attribution}
             </figcaption>
           )}
@@ -146,8 +146,8 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
       );
     case 'image':
       return (
-        <figure className="m-0 my-stack flex flex-col gap-2">
-          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 flex items-center justify-center font-body text-caption text-ink-400 text-center px-4">
+        <figure className="m-0 my-stack flex flex-col gap-stack-xs">
+          <div className="aspect-video w-full rounded-xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 flex items-center justify-center font-body text-caption text-ink-400 text-center px-stack">
             {block.placeholder}
           </div>
           {block.caption && (
@@ -201,7 +201,7 @@ export const ArticleDetail: React.FC = () => {
             <ArrowLeft size={14} /> Retour à la veille
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={bookmarked ? 'primary' : 'ghost'}
@@ -221,7 +221,7 @@ export const ArticleDetail: React.FC = () => {
 
       <div
         ref={articleRef}
-        className="max-w-medium mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+        className="max-w-medium mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
       >
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
@@ -279,7 +279,7 @@ export const ArticleDetail: React.FC = () => {
                 <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
                   <TagIcon size={11} /> Tags
                 </span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-stack-xs">
                   {ARTICLE.tags.map((tag) => (
                     <span
                       key={tag}
@@ -297,7 +297,7 @@ export const ArticleDetail: React.FC = () => {
                   href={ARTICLE.externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="self-start inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-semibold text-primary-700 hover:bg-primary-100 transition-colors"
+                  className="self-start inline-flex items-center gap-stack-xs px-stack py-stack-xs rounded-pill bg-primary-50 border border-primary-200 font-body text-caption font-semibold text-primary-700 hover:bg-primary-100 transition-colors"
                 >
                   <ExternalLink size={13} /> Voir la source originale
                 </a>

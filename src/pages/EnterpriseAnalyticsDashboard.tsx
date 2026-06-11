@@ -59,7 +59,7 @@ export default function EnterpriseAnalyticsDashboard() {
       </Badge>
     ),
     engagement: (
-      <div className="flex items-center gap-2 min-w-[120px]">
+      <div className="flex items-center gap-stack-xs min-w-[120px]">
         <ProgressBar value={d.engagement} fill="brand" size="sm" />
         <span className="text-caption text-ink-600 shrink-0">{d.engagement}%</span>
       </div>
@@ -85,10 +85,10 @@ export default function EnterpriseAnalyticsDashboard() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Period filter */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-stack-xs">
           {PERIOD_OPTIONS.map((p) => (
             <FilterChip
               key={p.id}
@@ -130,7 +130,7 @@ export default function EnterpriseAnalyticsDashboard() {
 
             {/* Engagement chart (simplified visual) */}
             <SectionCard title="Taux d'engagement par semaine" titleIcon={<BarChart3 size={18} />}>
-              <div className="flex items-end gap-2 h-40">
+              <div className="flex items-end gap-stack-xs h-40">
                 {[62, 68, 71, 65, 74, 70, 78, 68].map((val, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <div
@@ -146,7 +146,7 @@ export default function EnterpriseAnalyticsDashboard() {
 
             {/* Dreyfus progression */}
             <SectionCard title="Progression Dreyfus globale" titleIcon={<TrendingUp size={18} />}>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-stack-xs">
                 {[1, 2, 3, 4, 5].map((level) => {
                   const counts = [8, 28, 52, 31, 8];
                   const count = counts[level - 1];
@@ -167,17 +167,17 @@ export default function EnterpriseAnalyticsDashboard() {
 
             {/* Other KPIs */}
             <div className="grid md:grid-cols-3 gap-stack">
-              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
                 <Award size={22} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">351</span>
                 <span className="text-caption text-ink-500 text-center">Badges Dreyfus obtenus</span>
               </Card>
-              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
                 <Calendar size={22} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">89</span>
                 <span className="text-caption text-ink-500 text-center">Sessions coaching réalisées</span>
               </Card>
-              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+              <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
                 <Users size={22} className="text-primary-600" />
                 <span className="text-h2 font-display font-bold text-primary-700">94%</span>
                 <span className="text-caption text-ink-500 text-center">Satisfaction coaching</span>

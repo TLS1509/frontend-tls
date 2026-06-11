@@ -153,9 +153,9 @@ export default function CoachLearnerProfile() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Header apprenant */}
-        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-6 shadow-xs">
+        <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-stack-lg shadow-xs">
           <Avatar
             initials={learner.initials}
             name={learner.name}

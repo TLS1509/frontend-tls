@@ -46,7 +46,7 @@ export default function MasterclassSurvey() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-primary-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-primary-50 px-stack">
         <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
           <div className="w-16 h-16 rounded-full bg-success-bg flex items-center justify-center">
             <CheckCircle size={32} className="text-success-fg" />
@@ -64,7 +64,7 @@ export default function MasterclassSurvey() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-primary-50 px-stack">
       <div className="w-full max-w-md flex flex-col gap-section">
         {/* Header */}
         <div className="text-center flex flex-col gap-tight">
@@ -82,9 +82,9 @@ export default function MasterclassSurvey() {
         </div>
 
         {/* Rating : 1–5 scale per spec (chat_surveys.rating 1-5) */}
-        <Card variant="default" className="p-6 flex flex-col gap-stack">
+        <Card variant="default" className="p-stack-lg flex flex-col gap-stack">
           <p className="text-body-sm font-semibold text-ink-800">Ta satisfaction globale</p>
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-stack-xs">
             {([1, 2, 3, 4, 5] as const).map((score) => (
               <button
                 key={score}
@@ -107,7 +107,7 @@ export default function MasterclassSurvey() {
         </Card>
 
         {/* Feedback */}
-        <Card variant="default" className="p-6 flex flex-col gap-stack">
+        <Card variant="default" className="p-stack-lg flex flex-col gap-stack">
           <p className="text-body-sm font-semibold text-ink-800">Un commentaire ? (optionnel)</p>
           <textarea
             value={feedback}

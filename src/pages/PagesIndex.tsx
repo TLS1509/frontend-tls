@@ -127,7 +127,7 @@ const PageCard: React.FC<{ page: PageItem; onNavigate: (path: string) => void }>
         </div>
       </div>
       <p className="m-0 font-body text-caption text-ink-600 leading-relaxed flex-1">{page.description}</p>
-      <div className="flex items-center justify-between gap-2 pt-1 border-t border-ink-50">
+      <div className="flex items-center justify-between gap-stack-xs pt-1 border-t border-ink-50">
         <code className="font-mono text-micro text-ink-400 truncate">{page.path}</code>
         <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => onNavigate(page.path)}>
           Accéder

@@ -85,7 +85,7 @@ export default function CoachTeamDashboard() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -115,7 +115,7 @@ export default function CoachTeamDashboard() {
 
         {/* Alert */}
         {alertCount > 0 && (
-          <div className="flex items-start gap-stack p-4 bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
               <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
@@ -164,7 +164,7 @@ export default function CoachTeamDashboard() {
                   );
                 })}
               </div>
-              <div className="flex gap-4 mt-2">
+              <div className="flex gap-stack mt-stack-xs">
                 <div className="flex items-center gap-1.5 text-caption text-ink-500">
                   <span className="w-3 h-3 rounded-sm bg-secondary-300" /> Sessions
                 </div>
@@ -176,7 +176,7 @@ export default function CoachTeamDashboard() {
 
             {/* Dreyfus distribution */}
             <SectionCard title="Distribution Dreyfus" titleIcon={<TrendingUp size={18} />}>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-stack-xs">
                 {[1, 2, 3, 4, 5].map((level) => {
                   const count = learners.filter((l) => Math.round(l.dreyfusAvg) === level).length;
                   const pct = stats.totalLearners > 0 ? Math.round((count / stats.totalLearners) * 100) : 0;
@@ -198,7 +198,7 @@ export default function CoachTeamDashboard() {
         {activeTab === 'apprenants' && (
           <div className="flex flex-col gap-section">
             {/* Status filter chips */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-stack-xs">
               {(['all', 'on-track', 'at-risk', 'stuck'] as const).map((s) => {
                 const count = s === 'all' ? learners.length : learners.filter((l) => l.status === s).length;
                 return (
@@ -213,13 +213,13 @@ export default function CoachTeamDashboard() {
             </div>
 
             {/* Learner list */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {filteredLearners.length === 0 ? (
-                <p className="text-body-sm text-ink-500 py-4">Aucun apprenant dans cette catégorie.</p>
+                <p className="text-body-sm text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
               ) : (
                 filteredLearners.map((learner) => (
                   <Link key={learner.userId} to={`/coach/apprenant/${learner.userId}/analytics`} className="block">
-                    <Card variant="default" className="flex items-center gap-stack px-4 py-3 hover:bg-ink-50 transition-colors duration-fast cursor-pointer">
+                    <Card variant="default" className="flex items-center gap-stack px-stack py-3 hover:bg-ink-50 transition-colors duration-fast cursor-pointer">
                       {/* Avatar */}
                       <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
                         {learner.initials}
@@ -227,7 +227,7 @@ export default function CoachTeamDashboard() {
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex items-center gap-stack-xs flex-wrap">
                           <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
                           <Badge variant={STATUS_VARIANT[learner.status]} size="sm">
                             {STATUS_LABEL[learner.status]}

@@ -60,7 +60,7 @@ export const ProjectTask: React.FC = () => {
 
   if (!task) {
     return (
-      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
@@ -110,7 +110,7 @@ export const ProjectTask: React.FC = () => {
       />
 
       {myGatingFails.length > 0 && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
+        <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-warning-bg border border-warning-base/30">
           <AlertCircle size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
             <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>
@@ -131,7 +131,7 @@ export const ProjectTask: React.FC = () => {
           <SectionCard title="Critères de succès" titleIcon={<CheckSquare size={18} />}>
             <div className="flex flex-col gap-stack-xs">
               {task.successCriteria.map((sc, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-ink-50">
+                <div key={i} className="flex items-start gap-stack-xs p-stack-xs rounded-lg bg-ink-50">
                   {sc.checked ? (
                     <CheckCircle2 size={16} className="text-success-base mt-0.5 shrink-0" />
                   ) : (
@@ -189,7 +189,7 @@ export const ProjectTask: React.FC = () => {
           )}
 
           {(submitted || task.status === 'submitted') && (
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-info-bg border border-info-base/30">
+            <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-info-bg border border-info-base/30">
               <Send size={16} className="text-info-fg mt-0.5 shrink-0" />
               <div>
                 <p className="text-body-sm font-semibold text-info-fg m-0">Livrable soumis : en attente de validation</p>
@@ -203,7 +203,7 @@ export const ProjectTask: React.FC = () => {
           )}
 
           {isApproved && (
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-success-bg border border-success-base/30">
+            <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-success-bg border border-success-base/30">
               <CheckCircle2 size={16} className="text-success-fg mt-0.5 shrink-0" />
               <p className="text-body-sm font-semibold text-success-fg m-0">Tâche validée par l'expert</p>
             </div>
@@ -248,17 +248,17 @@ export const ProjectTask: React.FC = () => {
             </div>
           </SectionCard>
 
-          <Card className="p-4 flex flex-col gap-stack-xs">
+          <Card className="p-stack flex flex-col gap-stack-xs">
             <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Statut</p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-stack-xs">
               {STATUS_ICONS[task.status]}
               <span className="text-body-sm font-semibold text-ink-900">{STATUS_LABELS[task.status]}</span>
             </div>
-            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-2">Échéance</p>
+            <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Échéance</p>
             <p className="text-body-sm text-ink-800 m-0">{formatDate(task.dueDate)}</p>
             {task.submissionDate && (
               <>
-                <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-2">Soumis le</p>
+                <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0 mt-stack-xs">Soumis le</p>
                 <p className="text-body-sm text-ink-800 m-0">{formatDate(task.submissionDate)}</p>
               </>
             )}

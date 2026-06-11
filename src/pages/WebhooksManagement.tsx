@@ -160,7 +160,7 @@ export default function WebhooksManagement() {
       />
 
       {/* ── Main content ── */}
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section py-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section py-section">
 
         {/* Info alert */}
         <Alert
@@ -200,9 +200,9 @@ export default function WebhooksManagement() {
           titleIcon={<Zap size={18} />}
           description="Liste complète des événements que vous pouvez écouter via vos webhooks."
         >
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             {EVENT_TYPES.map((evt) => (
-              <div key={evt.key} className="flex items-center gap-stack-xs bg-ink-50 border border-ink-100 rounded-lg px-3 py-2">
+              <div key={evt.key} className="flex items-center gap-stack-xs bg-ink-50 border border-ink-100 rounded-lg px-3 py-stack-xs">
                 <Badge variant={evt.variant}>{evt.key}</Badge>
                 <span className="text-body-sm text-ink-600">{evt.label}</span>
               </div>
@@ -227,7 +227,7 @@ export default function WebhooksManagement() {
               <p className="text-body-sm text-ink-600 leading-relaxed">
                 Chaque requête webhook inclut un header <code className="px-1 py-0.5 bg-ink-100 rounded text-caption font-mono text-ink-800">X-TLS-Signature</code> contenant une signature HMAC-SHA256 calculée avec votre secret. Comparez cette signature côté serveur pour valider l'origine des événements.
               </p>
-              <div className="rounded-lg bg-ink-900 p-4 font-mono text-caption text-ink-100">
+              <div className="rounded-lg bg-ink-900 p-stack font-mono text-caption text-ink-100">
                 Authorization: Bearer {'<'}votre_secret_api{'>'}
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function WebhooksManagement() {
               <p className="text-body-sm text-ink-600 leading-relaxed">
                 Les événements sont envoyés en POST avec un corps JSON encodé en UTF-8. La structure est identique pour tous les types d'événements.
               </p>
-              <pre className="rounded-lg bg-ink-900 p-4 font-mono text-caption text-ink-100 overflow-x-auto whitespace-pre">
+              <pre className="rounded-lg bg-ink-900 p-stack font-mono text-caption text-ink-100 overflow-x-auto whitespace-pre">
                 {PAYLOAD_EXAMPLE}
               </pre>
             </div>

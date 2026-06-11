@@ -93,7 +93,7 @@ export const CourseDetail: React.FC = () => {
               Formateur : {STATIC_COURSE.instructor}
             </span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             <Button leadingIcon={<PlayCircle size={18} />}>Continuer la leçon</Button>
             <Button variant="secondary">Voir le badge</Button>
           </div>
@@ -115,18 +115,18 @@ export const CourseDetail: React.FC = () => {
         </div>
 
         {/* ─ Main content layout ───────────────────────────────────── */}
-        <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] gap-4">
+        <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] gap-stack">
 
           {/* Left column */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-stack-lg">
 
             {/* Objectives + thumbnail */}
-            <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] gap-6">
-              <Card className="flex flex-col gap-4 p-6">
-                <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-2">
+            <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] gap-stack-lg">
+              <Card className="flex flex-col gap-stack p-stack-lg">
+                <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
                   <Target size={16} /> Objectifs
                 </h3>
-                <ul className="m-0 pl-6 text-ink-500 flex flex-col gap-2 font-body text-body-sm">
+                <ul className="m-0 pl-6 text-ink-500 flex flex-col gap-stack-xs font-body text-body-sm">
                   <li>Structurer un prompt clair et actionnable</li>
                   <li>Itérer à partir de retours utilisateurs</li>
                   <li>Adapter le ton et le format de sortie</li>
@@ -139,7 +139,7 @@ export const CourseDetail: React.FC = () => {
 
             {/* Programme accordion */}
             <div>
-              <h2 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-4">Programme</h2>
+              <h2 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-stack">Programme</h2>
               {STEPS.map((step) => {
                 const open = openStep === step.id;
                 return (
@@ -150,14 +150,14 @@ export const CourseDetail: React.FC = () => {
                     isOpen={open}
                     onToggle={() => setOpenStep(open ? null : step.id)}
                     className="mb-3"
-                    bodyClassName="px-4 pb-4"
+                    bodyClassName="px-stack pb-stack"
                   >
                     {step.lessons.map((lesson) => (
                       <div
                         key={lesson.id}
                         className="flex items-center justify-between gap-3 py-3 border-b border-ink-100 last:border-b-0 font-body text-body-sm text-ink-700"
                       >
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-stack-xs">
                           {lesson.locked && <Lock size={14} className="text-ink-400 shrink-0" />}
                           {lesson.title}{' '}
                           <span className="text-caption text-ink-400">({lesson.duration})</span>
@@ -173,9 +173,9 @@ export const CourseDetail: React.FC = () => {
           </div>
 
           {/* ─ Right sidebar ─────────────────────────────────────── */}
-          <aside className="sticky top-[44px] flex flex-col gap-4 self-start">
-            <Card className="flex flex-col gap-3 p-6">
-              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-2">
+          <aside className="sticky top-[44px] flex flex-col gap-stack self-start">
+            <Card className="flex flex-col gap-3 p-stack-lg">
+              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
                 <BookOpen size={16} /> Progression
               </h3>
               <p className="font-body text-body-sm text-ink-500 m-0">
@@ -190,7 +190,7 @@ export const CourseDetail: React.FC = () => {
             </Card>
 
             <div
-              className="rounded-xl border border-accent-200 p-5 flex flex-col gap-2"
+              className="rounded-xl border border-accent-200 p-5 flex flex-col gap-stack-xs"
               style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
             >
               <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-1.5">

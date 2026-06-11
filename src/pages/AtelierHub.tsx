@@ -55,7 +55,7 @@ export default function AtelierHub() {
         trailing={<Badge variant="info" size="md">Accès entreprise</Badge>}
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="warm" surface="tinted" />
@@ -73,7 +73,7 @@ export default function AtelierHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-8 text-center">Aucun atelier dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-400 py-section text-center">Aucun atelier dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 gap-stack">
             {filtered.map((atelier) => {
@@ -84,7 +84,7 @@ export default function AtelierHub() {
 
               return (
                 <Card key={atelier.id} variant="default" className="flex flex-col gap-stack p-5">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-stack-xs flex-wrap">
                     {isPast ? (
                       <Badge variant="success">Passé</Badge>
                     ) : isFull ? (

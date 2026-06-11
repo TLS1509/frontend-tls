@@ -166,7 +166,7 @@ export const VideoViewer: React.FC = () => {
           )}
 
           {/* Controls bar */}
-          <div className="absolute bottom-0 left-0 right-0 px-4 py-3 flex gap-3 items-center bg-gradient-to-t from-black/60 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 px-stack py-3 flex gap-3 items-center bg-gradient-to-t from-black/60 to-transparent">
             <button
               type="button"
               onClick={togglePlay}
@@ -218,7 +218,7 @@ export const VideoViewer: React.FC = () => {
       </div>
 
       {/* ── Content Section ─────────────────────────────────────── */}
-      <div className="flex-1 bg-white py-section px-4 sm:px-6 lg:px-8">
+      <div className="flex-1 bg-white py-section px-stack sm:px-stack-lg lg:px-section">
         <Container width="medium" padding={false} className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section">
 
           {/* Main content */}
@@ -226,7 +226,7 @@ export const VideoViewer: React.FC = () => {
 
             {/* Title and metadata */}
             <div>
-              <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-2">
+              <h1 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-stack-xs">
                 {VIDEO_DATA.title}
               </h1>
               <div className="flex gap-stack-xs items-center flex-wrap mt-3">
@@ -245,9 +245,9 @@ export const VideoViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowTranscript(!showTranscript)}
-                className="w-full min-h-touch px-3 py-2 border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900 hover:text-primary-700 transition-colors"
+                className="w-full min-h-touch px-3 py-stack-xs border-0 bg-transparent cursor-pointer flex items-center justify-between font-body text-body-sm font-semibold text-ink-900 hover:text-primary-700 transition-colors"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-stack-xs">
                   <FileText size={16} />
                   {showTranscript ? 'Masquer' : 'Afficher'} la transcription
                 </div>
@@ -268,13 +268,13 @@ export const VideoViewer: React.FC = () => {
               <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
                 Vidéos connexes
               </h4>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-stack-xs">
                 {VIDEO_DATA.relatedVideos.map((video) => (
                   <button
                     key={video.id}
                     type="button"
                     onClick={() => {}}
-                    className="w-full min-h-touch px-3 py-2 border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
+                    className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white cursor-pointer text-left transition-colors duration-base hover:bg-ink-50 hover:border-primary-200"
                   >
                     <div className="font-body text-body-sm font-medium text-ink-900 mb-1 leading-snug">
                       {video.title}

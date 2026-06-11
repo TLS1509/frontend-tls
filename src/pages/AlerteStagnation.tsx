@@ -125,7 +125,7 @@ export default function AlerteStagnation() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
@@ -152,7 +152,7 @@ export default function AlerteStagnation() {
         </div>
 
         {/* Filtres */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-stack-xs">
           <FilterChip
             label="Tous"
             active={activeFilter === 'all'}
@@ -188,7 +188,7 @@ export default function AlerteStagnation() {
           description={`${filteredLearners.length} apprenant${filteredLearners.length > 1 ? 's' : ''} affiché${filteredLearners.length > 1 ? 's' : ''}`}
         >
           {filteredLearners.length === 0 ? (
-            <div className="py-8 text-center text-body-sm text-ink-500">
+            <div className="py-section text-center text-body-sm text-ink-500">
               Aucun apprenant dans cette catégorie.
             </div>
           ) : (
@@ -197,13 +197,13 @@ export default function AlerteStagnation() {
                 <Card
                   key={learner.id}
                   variant="default"
-                  className="flex flex-col md:flex-row md:items-center gap-stack p-4"
+                  className="flex flex-col md:flex-row md:items-center gap-stack p-stack"
                 >
                   {/* Identité */}
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <Avatar name={learner.name} size="md" />
                     <div className="flex flex-col gap-tight min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{learner.name}</span>
                         <AtrophieIndicator
                           daysSinceActivity={learner.daysSinceActivity}
@@ -217,7 +217,7 @@ export default function AlerteStagnation() {
                   </div>
 
                   {/* Méta-infos */}
-                  <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <div className="flex flex-wrap items-center gap-stack-xs shrink-0">
                     <Badge
                       variant={learner.severity === 'critical' ? 'danger' : 'info'}
                       size="sm"
@@ -234,7 +234,7 @@ export default function AlerteStagnation() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-stack-xs shrink-0">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -269,7 +269,7 @@ export default function AlerteStagnation() {
                 key={suggestion.id}
                 variant="tinted"
                 tone="warm"
-                className="flex flex-col gap-stack p-4"
+                className="flex flex-col gap-stack p-stack"
               >
                 <div className="flex flex-col gap-tight">
                   <span className="text-caption font-bold text-secondary-700 uppercase tracking-wide">

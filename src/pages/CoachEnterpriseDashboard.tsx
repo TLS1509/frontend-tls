@@ -47,7 +47,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
         tone="warm"
       />
 
-      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Apprenants suivis" value={stats.activeMembers} sub={`${members.length} membres total`} />
           <StatCard label="Taux de complétion" value={`${stats.completionRate}%`} sub="formations" />
@@ -69,7 +69,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
           <SectionCard title="Apprenants assignés" description="Statut et progression par membre de l'équipe">
             <div className="flex flex-col gap-stack-xs">
               {members.map((m) => (
-                <Card key={m.id} className="p-4 flex items-center gap-stack">
+                <Card key={m.id} className="p-stack flex items-center gap-stack">
                   <Avatar initials={m.name.split(' ').map((n) => n[0]).join('').slice(0, 2)} size="md" />
                   <div className="flex-1">
                     <div className="font-semibold">{m.name}</div>
@@ -92,7 +92,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                 {pendingCorrections.map((c) => {
                   const competence = c.competenceId ? getCompetenceById(c.competenceId) : null;
                   return (
-                    <Card key={c.id} className="p-4 flex items-center gap-stack">
+                    <Card key={c.id} className="p-stack flex items-center gap-stack">
                       <ClipboardCheck className="w-6 h-6 text-secondary-600 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold truncate">{c.exerciseTitle}</div>
@@ -111,13 +111,13 @@ const CoachEnterpriseDashboard: React.FC = () => {
         {tab === 'analytics' && (
           <SectionCard title="Team Analytics" description="Tendances de complétion et engagement">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-              <Card className="p-6">
+              <Card className="p-stack-lg">
                 <TrendingUp className="w-6 h-6 text-success-fg mb-stack-xs" />
                 <div className="font-semibold mb-1">Taux de complétion</div>
                 <div className="text-h2 font-bold">{stats.completionRate}%</div>
                 <div className="text-caption text-ink-500">formations actives : {stats.activeFormations}</div>
               </Card>
-              <Card className="p-6">
+              <Card className="p-stack-lg">
                 <Users className="w-6 h-6 text-info-fg mb-stack-xs" />
                 <div className="font-semibold mb-1">Taux d'engagement hebdomadaire</div>
                 <div className="text-h2 font-bold">{stats.engagementRate}%</div>

@@ -101,7 +101,7 @@ export default function OpenBadgesSection() {
         tone="sun"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Stats bar */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Badges obtenus" value="8" variant="brand" />

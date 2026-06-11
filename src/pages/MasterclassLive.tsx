@@ -45,7 +45,7 @@ export default function MasterclassLive() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section">
+      <Container width="wide" padding={false} className="px-stack py-section">
         <div className="grid md:grid-cols-3 gap-section">
           {/* Player embed : col span 2 */}
           <div className="md:col-span-2">
@@ -67,7 +67,7 @@ export default function MasterclassLive() {
           {/* Sidebar droite */}
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* Timer card */}
-            <Card variant="tinted" tone="primary" className="text-center p-4">
+            <Card variant="tinted" tone="primary" className="text-center p-stack">
               <p className="text-micro text-ink-400 uppercase tracking-wider mb-tight">Temps écoulé</p>
               <p className="text-h2 font-display font-bold text-primary-700">47:23</p>
               <div className="flex items-center justify-center gap-stack-xs mt-tight text-caption text-ink-500">

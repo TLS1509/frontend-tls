@@ -53,7 +53,7 @@ export default function MasterclassHub() {
         summary="Accède aux sessions live avec des experts de l'industrie. Format 90 min. Questions live. Replay illimité."
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="brand" surface="tinted" />
@@ -71,7 +71,7 @@ export default function MasterclassHub() {
 
         {/* Grid */}
         {filtered.length === 0 ? (
-          <p className="text-body-sm text-ink-400 py-8 text-center">Aucune masterclass dans cette catégorie.</p>
+          <p className="text-body-sm text-ink-400 py-section text-center">Aucune masterclass dans cette catégorie.</p>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-stack">
             {filtered.map((mc) => {
@@ -91,8 +91,8 @@ export default function MasterclassHub() {
                     )}
                   </div>
 
-                  <div className="p-4 flex flex-col gap-tight flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
+                  <div className="p-stack flex flex-col gap-tight flex-1">
+                    <div className="flex items-center gap-stack-xs flex-wrap">
                       {isCompleted ? (
                         <Badge variant="success">Terminée</Badge>
                       ) : isFull ? (

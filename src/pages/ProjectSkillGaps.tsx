@@ -23,7 +23,7 @@ export const ProjectSkillGaps: React.FC = () => {
 
   if (!project) {
     return (
-      <Container width="page" padding={false} className="px-4 py-section">
+      <Container width="page" padding={false} className="px-stack py-section">
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
@@ -85,7 +85,7 @@ export const ProjectSkillGaps: React.FC = () => {
       </div>
 
       {criticalGaps.length > 0 && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
+        <div className="flex items-start gap-3 p-stack rounded-xl bg-warning-bg border border-warning-base/30">
           <AlertTriangle size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <p className="text-body-sm font-semibold text-warning-fg m-0">
             {criticalGaps.length} compétence(s) insuffisamment couvertes : des recrutements ou formations sont recommandés avant le lancement.
@@ -104,7 +104,7 @@ export const ProjectSkillGaps: React.FC = () => {
             {criticalGaps.map((entry) => {
               const deficit = entry.requiredCount - entry.membersAtLevel.length;
               return (
-                <div key={entry.competencyId} className="p-4 rounded-lg border border-warning-base/30 bg-warning-bg flex flex-col gap-stack-xs">
+                <div key={entry.competencyId} className="p-stack rounded-lg border border-warning-base/30 bg-warning-bg flex flex-col gap-stack-xs">
                   <div className="flex items-center justify-between gap-stack flex-wrap">
                     <p className="text-body-sm font-semibold text-ink-900 m-0">{entry.competencyName}</p>
                     <div className="flex items-center gap-stack-xs">
@@ -165,12 +165,12 @@ export const ProjectSkillGaps: React.FC = () => {
             <tbody>
               {collaborateurs.map((m) => (
                 <tr key={m.userId} className="border-b border-ink-50 last:border-0">
-                  <td className="py-2 pr-4 font-semibold text-ink-800 whitespace-nowrap">{m.name}</td>
+                  <td className="py-stack-xs pr-4 font-semibold text-ink-800 whitespace-nowrap">{m.name}</td>
                   {project.skillProfile.map((req) => {
                     const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
                     const ok = current >= req.dreyfusLevelRequired;
                     return (
-                      <td key={req.competencyId} className="py-2 px-2 text-center">
+                      <td key={req.competencyId} className="py-stack-xs px-2 text-center">
                         <span className={`px-2 py-0.5 rounded-pill text-caption font-semibold ${
                           ok ? 'bg-success-bg text-success-fg' : 'bg-warning-bg text-warning-fg'
                         }`}>

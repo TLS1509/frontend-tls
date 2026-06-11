@@ -138,7 +138,7 @@ export const ComplementaryContentViewer: React.FC = () => {
         onClose={handleClose}
       />
 
-      <div className="py-stack-lg px-4 sm:px-6 lg:px-8">
+      <div className="py-stack-lg px-stack sm:px-stack-lg lg:px-section">
         <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
 
           {/* ── Title block ─────────────────────────────────────── */}
@@ -179,7 +179,7 @@ export const ComplementaryContentViewer: React.FC = () => {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start gap-2 mb-2">
+                      <div className="flex items-start gap-stack-xs mb-stack-xs">
                         <h3 className="font-display text-body font-semibold text-ink-900 m-0 flex-1 leading-snug">
                           {resource.title}
                         </h3>
@@ -188,7 +188,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                         </Badge>
                       </div>
 
-                      <p className="font-body text-body-sm text-ink-500 m-0 mb-2 leading-relaxed">
+                      <p className="font-body text-body-sm text-ink-500 m-0 mb-stack-xs leading-relaxed">
                         {resource.description}
                       </p>
 
@@ -196,7 +196,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                         {resource.duration && (
                           <MetaPill icon={<Clock size={12} />} text={resource.duration} tone="brand" size="sm" />
                         )}
-                        <div className="flex gap-2 flex-wrap">
+                        <div className="flex gap-stack-xs flex-wrap">
                           {resource.tags.map((tag) => (
                             <Badge key={tag} variant="info">{tag}</Badge>
                           ))}
@@ -227,14 +227,14 @@ export const ComplementaryContentViewer: React.FC = () => {
                 <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
                   Ressources disponibles
                 </h4>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   {[
                     { label: 'Articles', count: RESOURCES.filter(r => r.type === 'article').length },
                     { label: 'Vidéos',   count: RESOURCES.filter(r => r.type === 'video').length },
                     { label: 'Guides',   count: RESOURCES.filter(r => r.type === 'guide').length },
                     { label: 'Outils',   count: RESOURCES.filter(r => r.type === 'tool').length },
                   ].filter(s => s.count > 0).map((stat) => (
-                    <div key={stat.label} className="flex justify-between items-center p-2 bg-ink-50 rounded-md">
+                    <div key={stat.label} className="flex justify-between items-center p-stack-xs bg-ink-50 rounded-md">
                       <span className="font-body text-body-sm text-ink-500">{stat.label}</span>
                       <span className="font-body text-body font-semibold text-ink-900">{stat.count}</span>
                     </div>
@@ -247,13 +247,13 @@ export const ComplementaryContentViewer: React.FC = () => {
                 <h4 className="font-display text-body font-semibold text-ink-900 m-0 mb-3">
                   Sujets connexes
                 </h4>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   {RELATED_TOPICS.map((topic) => (
                     <button
                       key={topic}
                       type="button"
                       onClick={() => {}}
-                      className="w-full min-h-touch px-3 py-2 border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center"
+                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center"
                     >
                       <span>{topic}</span>
                       <ArrowRight size={14} className="text-ink-400 shrink-0" />

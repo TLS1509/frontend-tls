@@ -75,7 +75,7 @@ export const JournalFreeEntry: React.FC = () => {
     <div className="min-h-screen bg-surface font-body flex flex-col">
 
       {/* Top bar */}
-      <div className="flex items-center justify-between px-8 py-4 border-b border-ink-200 sticky top-0 bg-white z-sticky">
+      <div className="flex items-center justify-between px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
         <div className="flex items-center gap-3">
           <Button
             variant="secondary"
@@ -85,12 +85,12 @@ export const JournalFreeEntry: React.FC = () => {
           >
             Retour
           </Button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Sparkles size={16} className="text-primary-500" />
             <span className="font-body text-body font-bold text-ink-900">Nouvelle entrée libre</span>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-stack-xs">
           <Button variant="secondary" size="sm" leadingIcon={<Save size={14} />}>
             Brouillon
           </Button>
@@ -101,12 +101,12 @@ export const JournalFreeEntry: React.FC = () => {
       </div>
 
       {/* Two-column layout */}
-      <Container width="medium" padding={false} className="flex-1 px-8 py-6 grid grid-cols-[1fr_280px] gap-section items-start">
+      <Container width="medium" padding={false} className="flex-1 px-section py-stack-lg grid grid-cols-[1fr_280px] gap-section items-start">
 
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div className="flex items-center gap-1.5 mb-4 text-ink-500 font-body text-body-sm">
+          <div className="flex items-center gap-1.5 mb-stack text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
             <span>1 mai 2026</span>
           </div>
@@ -121,11 +121,11 @@ export const JournalFreeEntry: React.FC = () => {
           />
 
           {/* Category selector */}
-          <div className="mb-4">
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+          <div className="mb-stack">
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
               Catégorie
             </div>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-stack-xs flex-wrap">
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat.id;
                 return (
@@ -149,10 +149,10 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Mood selector */}
           <div className="mb-5">
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
               Comment vous sentez-vous ?
             </div>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-stack-xs flex-wrap">
               {MOODS.map((mood) => {
                 const active = selectedMood === mood.label;
                 return (
@@ -185,7 +185,7 @@ export const JournalFreeEntry: React.FC = () => {
               rows={18}
               className="w-full border-0 outline-none resize-none font-body text-body text-ink-900 leading-relaxed bg-transparent h-auto block placeholder:text-ink-300"
             />
-            <div className="text-right font-body text-caption text-ink-400 mt-2">
+            <div className="text-right font-body text-caption text-ink-400 mt-stack-xs">
               {wordCount} mot{wordCount > 1 ? 's' : ''}
             </div>
           </div>
@@ -194,10 +194,10 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Tags */}
           <div>
-            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-2">
+            <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-widest mb-stack-xs">
               Tags
             </div>
-            <div className="flex gap-2 flex-wrap items-center">
+            <div className="flex gap-stack-xs flex-wrap items-center">
               {tags.map((tag) => (
                 <span
                   key={tag}
@@ -225,7 +225,7 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Bottom actions */}
-          <div className="flex gap-2 mt-6">
+          <div className="flex gap-stack-xs mt-stack-lg">
             <Button leadingIcon={<Send size={15} />}>Publier l'entrée</Button>
             <Button variant="secondary" leadingIcon={<Save size={14} />}>
               Sauvegarder en brouillon
@@ -237,8 +237,8 @@ export const JournalFreeEntry: React.FC = () => {
         <aside className="sticky top-[72px] flex flex-col gap-stack">
 
           {/* Writing prompts */}
-          <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 px-5">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="bg-primary-50 border border-primary-200 rounded-xl p-stack px-5">
+            <div className="flex items-center gap-stack-xs mb-3">
               <PenLine size={15} className="text-primary-600" />
               <span className="font-body text-caption font-extrabold text-primary-700 uppercase tracking-widest">
                 Aide à l'écriture
@@ -250,7 +250,7 @@ export const JournalFreeEntry: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  className="flex items-start gap-2 p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50"
+                  className="flex items-start gap-stack-xs p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50"
                 >
                   <span className="text-primary-500 shrink-0 mt-px">{prompt.icon}</span>
                   <div>
@@ -267,16 +267,16 @@ export const JournalFreeEntry: React.FC = () => {
           </div>
 
           {/* Tips */}
-          <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-4 px-5">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="bg-secondary-50 border border-secondary-200 rounded-xl p-stack px-5">
+            <div className="flex items-center gap-stack-xs mb-3">
               <Lightbulb size={15} className="text-secondary-500" />
               <span className="font-body text-caption font-extrabold text-secondary-700 uppercase tracking-widest">
                 Aide-mémoire
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {TIPS.map((tip, i) => (
-                <div key={i} className="flex items-start gap-2">
+                <div key={i} className="flex items-start gap-stack-xs">
                   <div className="w-1.5 h-1.5 rounded-full bg-secondary-400 shrink-0 mt-[7px]" />
                   <span className="font-body text-caption text-ink-500 leading-relaxed">{tip}</span>
                 </div>

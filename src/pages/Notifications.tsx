@@ -178,7 +178,7 @@ export const Notifications: React.FC = () => {
   return (
     <div className="min-h-screen bg-surface">
       {/* Container compact, lisible, intégrable ailleurs (max-w-content) */}
-      <Container width="content" padding={false} className="px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
+      <Container width="content" padding={false} className="px-stack sm:px-stack-lg lg:px-section py-section flex flex-col gap-stack-lg">
 
         {/* ── Header épuré ───────────────────────────────────────────── */}
         <header className="flex flex-wrap items-center justify-between gap-stack">
@@ -213,7 +213,7 @@ export const Notifications: React.FC = () => {
         {/* ── Filter chips ───────────────────────────────────────────── */}
         <nav
           aria-label="Filtrer les notifications"
-          className="flex gap-2 flex-wrap"
+          className="flex gap-stack-xs flex-wrap"
         >
           {FILTERS.map(({ id, label, icon }) => (
             <FilterChip
@@ -232,7 +232,7 @@ export const Notifications: React.FC = () => {
         {/* ── Feed ──────────────────────────────────────────────────── */}
         <section aria-label="Liste des notifications" className="flex flex-col">
           {isLoading ? (
-            <SkeletonGroup count={5} template={NotificationRowSkeleton} layout="list" className="gap-2" />
+            <SkeletonGroup count={5} template={NotificationRowSkeleton} layout="list" className="gap-stack-xs" />
           ) : visible.length === 0 ? (
             <EmptyState
               icon={<Bell size={28} />}

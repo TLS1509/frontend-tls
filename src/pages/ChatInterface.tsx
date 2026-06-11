@@ -100,7 +100,7 @@ export default function ChatInterface() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         <div className="flex flex-col lg:flex-row gap-section items-start">
 
           {/* ── Chat area ──────────────────────────────────────────────── */}
@@ -112,7 +112,7 @@ export default function ChatInterface() {
               isTyping={isTyping}
               onFeedback={handleFeedback}
               emptyState={
-                <p className="text-body-sm text-ink-400 text-center mt-8">
+                <p className="text-body-sm text-ink-400 text-center mt-section">
                   Commencez par poser une question ci-dessous.
                 </p>
               }
@@ -120,7 +120,7 @@ export default function ChatInterface() {
             />
 
             {/* Input area */}
-            <Card className="p-4 flex flex-col gap-stack-xs">
+            <Card className="p-stack flex flex-col gap-stack-xs">
               <div className="flex gap-stack items-end">
                 <textarea
                   value={inputValue}
@@ -129,7 +129,7 @@ export default function ChatInterface() {
                   rows={2}
                   placeholder="Posez votre question à l'assistant…"
                   disabled={isTyping}
-                  className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
+                  className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-stack-xs.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
                 <Button
                   variant="primary"
@@ -181,7 +181,7 @@ export default function ChatInterface() {
             </SectionCard>
 
             {/* Info card */}
-            <Card variant="tinted" tone="primary" className="mt-stack p-4 flex flex-col gap-tight">
+            <Card variant="tinted" tone="primary" className="mt-stack p-stack flex flex-col gap-tight">
               <p className="text-caption font-semibold text-primary-900">À propos de cet assistant</p>
               <p className="text-caption text-primary-700 leading-relaxed">
                 Les réponses sont générées uniquement depuis le contenu indexé de la plateforme (formations, Passeport, Coaching, Missions). Aucune donnée externe.

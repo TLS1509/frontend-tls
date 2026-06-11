@@ -215,7 +215,7 @@ export const Recherche: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <Container width="page" padding={false} className="px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section">
 
         {/* Hero */}
         <HeroSection
@@ -236,7 +236,7 @@ export const Recherche: React.FC = () => {
         />
 
         {/* Filters */}
-        <div className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light py-stack -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 border-b border-ink-100">
+        <div className="sticky top-0 z-sticky bg-white/95 backdrop-blur-glass-light py-stack -mx-4 sm:-mx-6 lg:-mx-10 px-stack sm:px-stack-lg lg:px-section-lg border-b border-ink-100">
           <FilterBar
             options={FILTERS.map((f) => ({
               id: f.id,

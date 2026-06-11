@@ -96,7 +96,7 @@ export const MagazineArticle: React.FC = () => {
             <ArrowLeft size={14} /> Retour au magazine
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={bookmarked ? 'primary' : 'ghost'}
@@ -116,7 +116,7 @@ export const MagazineArticle: React.FC = () => {
 
       <div
         ref={articleRef}
-        className="max-w-medium mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+        className="max-w-medium mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">
@@ -178,7 +178,7 @@ export const MagazineArticle: React.FC = () => {
                     « Le métier d'ingénieur pédagogique cesse d'être un métier de production
                     pour devenir un métier de curation, de coaching et de design. »
                   </blockquote>
-                  <figcaption className="mt-2 font-body text-caption text-ink-500">
+                  <figcaption className="mt-stack-xs font-body text-caption text-ink-500">
                     : Pierre Leclerc, Lead Pédagogie TLS
                   </figcaption>
                 </figure>
@@ -199,7 +199,7 @@ export const MagazineArticle: React.FC = () => {
                 <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
                   <TagIcon size={11} /> Tags
                 </span>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-stack-xs">
                   {ARTICLE.tags.map((tag) => (
                     <span
                       key={tag}

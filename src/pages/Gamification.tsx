@@ -99,7 +99,7 @@ export default function Gamification() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -139,9 +139,9 @@ export default function Gamification() {
                 </Button>
               }
             >
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-stack">
                 {recentBadges.map((b) => (
-                  <div key={b.id} className="flex flex-col items-center gap-2 text-center">
+                  <div key={b.id} className="flex flex-col items-center gap-stack-xs text-center">
                     <AchievementBadge
                       title={b.title}
                       description={b.description}
@@ -160,8 +160,8 @@ export default function Gamification() {
             >
               <div className="flex flex-col gap-stack">
                 {NEXT_BADGES.map((b, i) => (
-                  <Card key={i} className="p-4 flex flex-col gap-2">
-                    <div className="flex items-center justify-between gap-2">
+                  <Card key={i} className="p-stack flex flex-col gap-stack-xs">
+                    <div className="flex items-center justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{b.title}</span>
                       <span className="text-caption text-ink-400">{b.description}</span>
                     </div>
@@ -187,8 +187,8 @@ export default function Gamification() {
                 const dreyfusLabel = ['Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'][c.level - 1] ?? 'Novice';
                 const levelStyle = DREYFUS_LEVEL_STYLES[c.level];
                 return (
-                  <Card key={i} className="p-4 flex flex-col gap-3">
-                    <div className="flex items-start justify-between gap-2">
+                  <Card key={i} className="p-stack flex flex-col gap-3">
+                    <div className="flex items-start justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <AtrophieIndicator
                         daysSinceActivity={c.daysSinceActivity}
@@ -197,7 +197,7 @@ export default function Gamification() {
                         showLabel={false}
                       />
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <span className={`inline-flex items-center px-2 py-0.5 text-micro font-semibold rounded-pill ${levelStyle.color}`}>
                         D{c.level} : {dreyfusLabel}
                       </span>
@@ -228,7 +228,7 @@ export default function Gamification() {
               icon={<Trophy size={20} />}
               tone="warm"
             />
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-stack">
               {recentBadges.map((b) => (
                 <AchievementBadge
                   key={b.id}
@@ -257,7 +257,7 @@ export default function Gamification() {
                 </div>
                 <ProgressBar value={(18 / 30) * 100} fill="warm" size="lg" label="Prochain milestone : 30 jours" showLabel />
                 {/* Calendar heatmap (simplified) */}
-                <div className="grid grid-cols-7 gap-1 mt-2">
+                <div className="grid grid-cols-7 gap-1 mt-stack-xs">
                   {Array.from({ length: 21 }, (_, i) => (
                     <div
                       key={i}

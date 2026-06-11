@@ -37,7 +37,7 @@ const ApiDocs: React.FC = () => {
         trailing={<Button variant="primary" leadingIcon={<Code className="w-4 h-4" />}>Télécharger OpenAPI.json</Button>}
       />
 
-      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex flex-wrap gap-stack-xs">
           <Badge variant="info">v1.4.2</Badge>
           <Badge variant="success">Stable</Badge>
@@ -59,7 +59,7 @@ const ApiDocs: React.FC = () => {
           <SectionCard title="Endpoints REST" description={`${ENDPOINTS.length} endpoints documentés sur ${ENDPOINTS.length}`}>
             <div className="flex flex-col gap-stack-xs">
               {ENDPOINTS.map((e, i) => (
-                <Card key={i} className="p-4 flex items-center gap-4">
+                <Card key={i} className="p-stack flex items-center gap-stack">
                   <Badge variant={METHOD_COLOR[e.method]}>{e.method}</Badge>
                   <code className="font-mono text-body-sm flex-1">{e.path}</code>
                   <span className="text-caption text-ink-500 hidden md:block flex-1">{e.desc}</span>
@@ -74,14 +74,14 @@ const ApiDocs: React.FC = () => {
         {tab === 'auth' && (
           <SectionCard title="Authentification" description="OAuth 2.0 + JWT Bearer">
             <div className="flex flex-col gap-stack">
-              <Card className="p-4 flex items-start gap-3">
+              <Card className="p-stack flex items-start gap-3">
                 <Key className="w-5 h-5 text-primary-600 mt-1" />
                 <div>
                   <div className="font-semibold mb-1">JWT Bearer Token</div>
                   <p className="text-body-sm text-ink-600">Inclure <code className="px-1 py-0.5 bg-ink-100 rounded">Authorization: Bearer &lt;token&gt;</code> dans chaque requête.</p>
                 </div>
               </Card>
-              <Card className="p-4 flex items-start gap-3">
+              <Card className="p-stack flex items-start gap-3">
                 <Shield className="w-5 h-5 text-success-fg mt-1" />
                 <div>
                   <div className="font-semibold mb-1">Scopes par rôle</div>
@@ -95,18 +95,18 @@ const ApiDocs: React.FC = () => {
         {tab === 'rate-limits' && (
           <SectionCard title="Rate limits" description="Limites par minute selon le plan">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-xs">
-              <Card className="p-4 text-center">
-                <Zap className="w-6 h-6 text-info-fg mx-auto mb-2" />
+              <Card className="p-stack text-center">
+                <Zap className="w-6 h-6 text-info-fg mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">60 / min</div>
                 <div className="text-caption text-ink-500">Plan Découverte</div>
               </Card>
-              <Card className="p-4 text-center">
-                <Zap className="w-6 h-6 text-secondary-600 mx-auto mb-2" />
+              <Card className="p-stack text-center">
+                <Zap className="w-6 h-6 text-secondary-600 mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">600 / min</div>
                 <div className="text-caption text-ink-500">Plan Premium</div>
               </Card>
-              <Card className="p-4 text-center">
-                <Zap className="w-6 h-6 text-success-fg mx-auto mb-2" />
+              <Card className="p-stack text-center">
+                <Zap className="w-6 h-6 text-success-fg mx-auto mb-stack-xs" />
                 <div className="text-h3 font-bold">Illimité</div>
                 <div className="text-caption text-ink-500">Plan Enterprise</div>
               </Card>
@@ -116,7 +116,7 @@ const ApiDocs: React.FC = () => {
 
         {tab === 'examples' && (
           <SectionCard title="Exemples" description="Curl, JavaScript, Python">
-            <Card className="p-4 bg-ink-900 text-ink-100 font-mono text-caption rounded-md overflow-x-auto">
+            <Card className="p-stack bg-ink-900 text-ink-100 font-mono text-caption rounded-md overflow-x-auto">
               <pre>{`curl -X GET https://api.tls.io/v1/passeport/me \\
   -H "Authorization: Bearer YOUR_TOKEN" \\
   -H "Content-Type: application/json"`}</pre>

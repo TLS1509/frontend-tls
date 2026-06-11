@@ -70,7 +70,7 @@ export default function EvenementDetail() {
   const pct = Math.round((EVENT.registered / EVENT.capacity) * 100);
 
   return (
-    <div className="flex flex-col gap-section px-4 py-6">
+    <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
         tone="sun"
         eyebrow={{ label: 'Événements · Détail' }}
@@ -87,7 +87,7 @@ export default function EvenementDetail() {
 
       <Container width="content" padding={false} className="flex flex-col gap-section">
         {/* Organizer */}
-        <Card variant="tinted" tone="sun" className="flex items-center gap-section p-6">
+        <Card variant="tinted" tone="sun" className="flex items-center gap-section p-stack-lg">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-bold text-ink-900 m-0">{EVENT.organizer.name}</h3>
@@ -102,7 +102,7 @@ export default function EvenementDetail() {
           titleIcon={<ClipboardList size={18} />}
         >
           {PROGRAMME.map((item, idx) => (
-            <div key={idx} className="flex gap-section items-start py-2 border-b border-ink-100 last:border-0">
+            <div key={idx} className="flex gap-section items-start py-stack-xs border-b border-ink-100 last:border-0">
               <span className="text-caption font-mono font-bold text-primary-600 shrink-0 w-12">
                 {item.time}
               </span>
@@ -121,7 +121,7 @@ export default function EvenementDetail() {
         >
           <div className="grid grid-cols-2 gap-stack">
             {INFO_GRID.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2">
+              <div key={idx} className="flex items-center gap-stack-xs">
                 <span className="text-primary-500 shrink-0">{item.icon}</span>
                 <div className="flex flex-col gap-tight min-w-0">
                   <span className="text-micro font-bold uppercase tracking-wider text-ink-400">{item.label}</span>
@@ -138,7 +138,7 @@ export default function EvenementDetail() {
           titleIcon={<Users size={18} />}
         >
           {SPEAKERS.map((sp, idx) => (
-            <div key={idx} className="flex items-center gap-3 py-2 border-b border-ink-100 last:border-0">
+            <div key={idx} className="flex items-center gap-3 py-stack-xs border-b border-ink-100 last:border-0">
               <Avatar name={sp.name} size="md" />
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="text-body-sm font-semibold text-ink-900 m-0">{sp.name}</p>
@@ -149,7 +149,7 @@ export default function EvenementDetail() {
         </SectionCard>
 
         {/* Inscription */}
-        <Card variant="default" className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
+        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
           <div className="flex flex-col gap-tight flex-1">
             <Badge variant="success">{EVENT.registered} / {EVENT.capacity} inscrits</Badge>
             <ProgressBar

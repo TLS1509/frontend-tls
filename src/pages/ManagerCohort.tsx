@@ -74,7 +74,7 @@ export default function ManagerCohort() {
         tone="default"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Team KPIs */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -106,7 +106,7 @@ export default function ManagerCohort() {
                     <div key={m.id} className="flex items-center gap-3">
                       <Avatar initials={m.initials} size="sm" />
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-stack-xs mb-1">
                           <span className="text-caption font-semibold text-ink-800">{m.name}</span>
                           <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel={false} />
                         </div>
@@ -131,8 +131,8 @@ export default function ManagerCohort() {
                   {PROJECTS.map((p) => {
                     const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
                     return (
-                      <Card key={p.id} className="p-3 flex flex-col gap-2">
-                        <div className="flex items-center justify-between gap-2">
+                      <Card key={p.id} className="p-3 flex flex-col gap-stack-xs">
+                        <div className="flex items-center justify-between gap-stack-xs">
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
                           <Badge variant={s.variant} size="sm">{s.label}</Badge>
                         </div>
@@ -168,10 +168,10 @@ export default function ManagerCohort() {
           <div className="flex flex-col gap-stack">
             <SectionHeader title="Membres de la cohorte" subtitle={`${TEAM_MEMBERS.length} membres · Équipe Tech`} icon={<Users size={20} />} tone="primary" />
             {TEAM_MEMBERS.map((m) => (
-              <Card key={m.id} className="p-4 flex items-start gap-4">
+              <Card key={m.id} className="p-stack flex items-start gap-stack">
                 <Avatar initials={m.initials} size="md" />
-                <div className="flex-1 min-w-0 flex flex-col gap-2">
-                  <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
+                  <div className="flex items-center gap-stack-xs flex-wrap">
                     <span className="text-body-sm font-semibold text-ink-900">{m.name}</span>
                     <span className="text-caption text-ink-400">{m.role}</span>
                     <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel />
@@ -198,8 +198,8 @@ export default function ManagerCohort() {
             {PROJECTS.map((p) => {
               const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
               return (
-                <Card key={p.id} className="p-4 flex flex-col gap-3">
-                  <div className="flex items-center justify-between gap-2">
+                <Card key={p.id} className="p-stack flex flex-col gap-3">
+                  <div className="flex items-center justify-between gap-stack-xs">
                     <div>
                       <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>
                       <p className="text-caption text-ink-400">{p.type} · {p.members} membres · Échéance {p.dueDate}</p>

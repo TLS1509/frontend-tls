@@ -101,7 +101,7 @@ export default function CoachProfileView() {
       />
 
       {/* ── Main layout ── */}
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section py-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section py-section">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-section items-start">
 
           {/* ── Left : Bio + Approach + Testimonials ── */}
@@ -137,11 +137,11 @@ export default function CoachProfileView() {
                     </li>
                   ))}
                 </ul>
-                <div className="rounded-lg bg-primary-50 border border-primary-100 p-4">
+                <div className="rounded-lg bg-primary-50 border border-primary-100 p-stack">
                   <p className="text-body-sm text-primary-800 italic leading-relaxed">
                     "Je travaille avec les apprenants pour qu'ils développent leur propre système de pensée : pas pour qu'ils adoptent le mien. Mon rôle est de créer les conditions de la clarté."
                   </p>
-                  <p className="mt-2 text-caption text-primary-600 font-semibold">: Sophie Martin</p>
+                  <p className="mt-stack-xs text-caption text-primary-600 font-semibold">: Sophie Martin</p>
                 </div>
               </div>
             </SectionCard>
@@ -159,7 +159,7 @@ export default function CoachProfileView() {
                           <span className="text-caption text-ink-500">{t.role}</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-stack-xs">
                         <StarRating value={t.rating} />
                         <span className="text-caption text-ink-400">{t.date}</span>
                       </div>
@@ -197,12 +197,12 @@ export default function CoachProfileView() {
             </div>
 
             {/* Next slot */}
-            <Card className="p-4 flex flex-col gap-stack-xs">
+            <Card className="p-stack flex flex-col gap-stack-xs">
               <div className="flex items-center gap-stack-xs text-body-sm text-ink-600">
                 <Clock3 size={15} className="text-secondary-500 shrink-0" />
                 <span className="font-semibold text-ink-900">Prochain créneau disponible</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <Calendar size={14} className="text-ink-400 shrink-0" />
                 <span className="text-body-sm text-ink-700">Jeudi 15 mai 2026 · 14h00 – 15h00</span>
               </div>

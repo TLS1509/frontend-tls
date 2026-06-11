@@ -52,7 +52,7 @@ export default function ManagerExport() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Success alert */}
         {exported && (
@@ -70,7 +70,7 @@ export default function ManagerExport() {
                 type="button"
                 onClick={() => setFormat(key)}
                 className={[
-                  'flex flex-col gap-2 p-5 rounded-xl border text-left transition-all duration-base',
+                  'flex flex-col gap-stack-xs p-5 rounded-xl border text-left transition-all duration-base',
                   format === key
                     ? 'bg-primary-50 border-primary-300 shadow-sm'
                     : 'bg-white border-ink-100 hover:border-ink-200',
@@ -113,7 +113,7 @@ export default function ManagerExport() {
 
         {/* Export preview */}
         <Card variant="tinted" tone="primary" className="p-5 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Download size={16} className="text-primary-600" />
             <span className="text-body-sm font-semibold text-primary-700">Aperçu de l'export</span>
           </div>

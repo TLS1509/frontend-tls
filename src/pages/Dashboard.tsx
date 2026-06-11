@@ -81,7 +81,7 @@ export const Dashboard: React.FC = () => {
   const firstName = user?.name?.split(' ')[0] ?? 'membre';
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+    <div className="relative min-h-screen bg-gradient-page-ambient">
 
       {/* Content */}
       <PageShell width="page" className="relative md:gap-section-lg lg:gap-page">

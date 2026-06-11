@@ -203,7 +203,7 @@ export const FlashcardsViewer: React.FC = () => {
         onClose={handleClose}
       />
 
-      <div className="py-stack-lg px-4 sm:px-6 lg:px-8">
+      <div className="py-stack-lg px-stack sm:px-stack-lg lg:px-section">
         <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
 
           {/* ── Title block ─────────────────────────────────────── */}
@@ -272,7 +272,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-2 min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-stack-xs min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
               >
                 <Check size={16} />
                 Marquer comme compris

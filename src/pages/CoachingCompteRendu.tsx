@@ -164,7 +164,7 @@ export const CoachingCompteRendu: React.FC = () => {
     <div className="min-h-screen bg-surface flex flex-col font-body">
 
       {/* ── Hero / Header ── */}
-      <div className="bg-gradient-to-br from-primary-800 via-primary-600 to-primary-500 p-8 text-white">
+      <div className="bg-gradient-to-br from-primary-800 via-primary-600 to-primary-500 p-section text-white">
 
         <Button
           variant="glass"
@@ -177,9 +177,9 @@ export const CoachingCompteRendu: React.FC = () => {
         </Button>
 
         <Container width="page" padding={false}>
-          <div className="flex flex-wrap gap-4 items-start justify-between">
+          <div className="flex flex-wrap gap-stack items-start justify-between">
             <div>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-stack-xs mb-3">
                 <span className="font-body text-caption font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-pill">
                   Compte rendu
                 </span>
@@ -187,10 +187,10 @@ export const CoachingCompteRendu: React.FC = () => {
                   Session {report.sessionNumber}/{report.totalSessions}
                 </span>
               </div>
-              <h1 className="font-display text-h1 font-extrabold m-0 mb-2 leading-tight">
+              <h1 className="font-display text-h1 font-extrabold m-0 mb-stack-xs leading-tight">
                 {report.theme}
               </h1>
-              <div className="flex flex-wrap gap-4 mt-3">
+              <div className="flex flex-wrap gap-stack mt-3">
                 <span className="flex items-center gap-1 font-body text-body-sm opacity-85">
                   <CalendarDays size={14} />
                   {report.date}
@@ -221,7 +221,7 @@ export const CoachingCompteRendu: React.FC = () => {
       </div>
 
       {/* ── Page body ── */}
-      <Container width="page" padding={false} className="flex-1 p-8">
+      <Container width="page" padding={false} className="flex-1 p-section">
         <div className="grid grid-cols-[1fr_320px] gap-section items-start">
 
           {/* ── Left column ── */}
@@ -229,11 +229,11 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Key takeaways ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-2">
+              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
                 <CheckCircle2 size={20} className="text-primary-600" />
                 Points clés de la session
               </h2>
-              <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-stack">
                 {report.takeaways.map((tk) => {
                   const TkIcon = tk.icon;
                   return (
@@ -258,7 +258,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Action plan ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-2">
+              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
                 <Target size={20} className="text-secondary-600" />
                 Plan d'action
               </h2>
@@ -267,7 +267,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   {report.actionPlan.map((ap, index) => (
                     <div
                       key={ap.id}
-                      className={`flex gap-4 items-start py-4 ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
+                      className={`flex gap-stack items-start py-stack ${index < report.actionPlan.length - 1 ? 'border-b border-ink-200' : ''}`}
                     >
                       <div className="shrink-0 w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center font-body text-body-sm font-extrabold border-2 border-primary-200">
                         {ap.step}
@@ -281,7 +281,7 @@ export const CoachingCompteRendu: React.FC = () => {
                           {ap.deadline}
                         </span>
                       </div>
-                      <ChevronRight size={16} className="text-ink-400 shrink-0 mt-2" />
+                      <ChevronRight size={16} className="text-ink-400 shrink-0 mt-stack-xs" />
                     </div>
                   ))}
                 </div>
@@ -290,12 +290,12 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* ── Coach notes ── */}
             <section>
-              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-2">
+              <h2 className="font-display text-h3 font-bold text-ink-900 m-0 mb-5 flex items-center gap-stack-xs">
                 <MessageSquareQuote size={20} className="text-primary-600" />
                 Note de votre coach
               </h2>
               <div className="bg-gradient-to-br from-primary-50 to-white border border-ink-200 border-l-4 border-l-primary-400 rounded-xl p-5 shadow-xs">
-                <div className="flex gap-4 items-start">
+                <div className="flex gap-stack items-start">
                   <div className="shrink-0 w-11 h-11 rounded-full bg-primary-600 text-white flex items-center justify-center font-body text-body-sm font-extrabold shadow-sm">
                     {report.coach.initials}
                   </div>
@@ -317,7 +317,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* Coach info card */}
             <Card variant="feature">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-stack">
                 <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Votre coach
                 </h3>
@@ -335,7 +335,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   </div>
                 </div>
                 <div className="pt-2 border-t border-ink-200">
-                  <p className="font-body text-caption text-ink-500 m-0 mb-2 font-semibold">
+                  <p className="font-body text-caption text-ink-500 m-0 mb-stack-xs font-semibold">
                     Évaluation du coach
                   </p>
                   <StarRating rating={report.coach.rating} />
@@ -367,7 +367,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Session suivante
                 </h3>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-stack-xs">
                   <CalendarDays size={16} className="text-primary-600" />
                   <span className="font-display text-body font-bold text-primary-700">
                     {report.nextSessionDate}

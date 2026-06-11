@@ -191,7 +191,7 @@ export const LearningPaths: React.FC = () => {
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+    <div className="relative min-h-screen bg-gradient-page-ambient">
       <Container width="page" className="relative pt-0 pb-section flex flex-col gap-section">
 
         {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
@@ -209,7 +209,7 @@ export const LearningPaths: React.FC = () => {
               placeholder="Rechercher…"
               aria-label="Rechercher un parcours"
               filtersSlot={
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-stack-xs">
                   <FilterBar
                     options={STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }))}
                     selected={Array.from(selectedStatuses)}

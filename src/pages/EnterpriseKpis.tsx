@@ -133,7 +133,7 @@ export default function EnterpriseKpis() {
       </Badge>
     ),
     engagement: (
-      <div className="flex items-center gap-2 min-w-28">
+      <div className="flex items-center gap-stack-xs min-w-28">
         <ProgressBar value={d.engagement} fill="brand" size="sm" valueLabel={false} className="flex-1" />
         <span className="text-caption text-ink-600 tabular-nums shrink-0">{d.engagement}%</span>
       </div>
@@ -171,10 +171,10 @@ export default function EnterpriseKpis() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Period filter */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-stack-xs">
           {PERIOD_OPTIONS.map((p) => (
             <FilterChip
               key={p.id}
@@ -186,7 +186,7 @@ export default function EnterpriseKpis() {
         </div>
 
         {/* Department filter */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-stack-xs">
           {DEPT_OPTIONS.map((d) => (
             <FilterChip
               key={d.id}
@@ -272,7 +272,7 @@ export default function EnterpriseKpis() {
             >
               <div className="flex flex-col gap-section">
                 {/* Bar chart */}
-                <div className="flex items-end gap-2 h-32 pt-2">
+                <div className="flex items-end gap-stack-xs h-32 pt-2">
                   {ENGAGEMENT_TREND.map((val, i) => (
                     <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0">
                       <span className="text-micro text-ink-500 font-medium tabular-nums">{val}%</span>
@@ -286,16 +286,16 @@ export default function EnterpriseKpis() {
                 </div>
 
                 {/* Summary card */}
-                <Card variant="tinted" tone="brand" className="p-4">
+                <Card variant="tinted" tone="brand" className="p-stack">
                   <div className="flex flex-col sm:flex-row gap-stack sm:items-center">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <TrendingUp size={18} className="text-primary-600 shrink-0" />
                       <span className="text-body-sm font-bold text-ink-900">
                         +10% engagement sur 6 mois
                       </span>
                     </div>
                     <div className="hidden sm:block w-px h-4 bg-ink-200 shrink-0" />
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <TrendingUp size={18} className="text-primary-600 shrink-0" />
                       <span className="text-body-sm font-bold text-ink-900">
                         +0.4 Dreyfus moyen sur la période

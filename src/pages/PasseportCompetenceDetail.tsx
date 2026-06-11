@@ -87,7 +87,7 @@ export default function PasseportCompetenceDetail() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -124,12 +124,12 @@ export default function PasseportCompetenceDetail() {
           description="Ta position actuelle sur le parcours d'expertise"
           titleIcon={<TrendingUp size={20} />}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             {DREYFUS_DESC.map((d) => (
               <div
                 key={d.level}
                 className={[
-                  'flex items-start gap-stack p-4 rounded-xl border transition-all duration-base',
+                  'flex items-start gap-stack p-stack rounded-xl border transition-all duration-base',
                   d.level === currentLevel
                     ? 'bg-primary-50 border-primary-200 shadow-sm'
                     : 'bg-white border-ink-100',
@@ -142,7 +142,7 @@ export default function PasseportCompetenceDetail() {
                   D{d.level}
                 </span>
                 <div className="flex flex-col gap-tight min-w-0">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <span className="text-body-sm font-semibold text-ink-900">{d.label}</span>
                     {d.level === currentLevel && <Badge variant="info" size="sm">Ton niveau</Badge>}
                     {d.level === targetLevel && d.level !== currentLevel && <Badge variant="brand" size="sm">Objectif</Badge>}
@@ -155,13 +155,13 @@ export default function PasseportCompetenceDetail() {
         </SectionCard>
 
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-ink-100">
+        <div className="flex gap-stack-xs border-b border-ink-100">
           {(['progress', 'skills', 'activity'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={[
-                'px-4 py-2 text-body-sm font-semibold transition-colors duration-fast',
+                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast',
                 activeTab === tab
                   ? 'text-primary-700 border-b-2 border-primary-600'
                   : 'text-ink-500 hover:text-ink-900',
@@ -192,7 +192,7 @@ export default function PasseportCompetenceDetail() {
 
         {activeTab === 'skills' && (
           <SectionCard title="Compétences du même domaine" titleIcon={<BookOpen size={18} />}>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack">
               {siblingCompetencies.map((sc) => (
                 <SkillBar key={sc.label} label={sc.label} value={(sc.current / 5) * 100} tone="brand" showValue />
               ))}
@@ -203,9 +203,9 @@ export default function PasseportCompetenceDetail() {
         {activeTab === 'activity' && (
           <SectionCard title="Progressions récentes" titleIcon={<TrendingUp size={18} />}>
             {competencyProgressions.length > 0 ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-stack-xs">
                 {competencyProgressions.map((p) => (
-                  <div key={p.id} className="flex items-center justify-between px-4 py-3 rounded-lg border border-ink-100">
+                  <div key={p.id} className="flex items-center justify-between px-stack py-3 rounded-lg border border-ink-100">
                     <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-medium text-ink-900">{p.title}</span>
                       <span className="text-caption text-ink-400">{new Date(p.occurredAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}</span>

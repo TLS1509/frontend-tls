@@ -63,7 +63,7 @@ export default function CoachingSessionDetail() {
         }
       />
 
-      <Container width="page" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Info cards row */}
         <div className="grid md:grid-cols-3 gap-stack">
@@ -109,7 +109,7 @@ export default function CoachingSessionDetail() {
           title="Objectifs de la session"
           titleIcon={<FileText size={18} />}
         >
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-stack-xs">
             {SESSION.objectives.map((obj, i) => (
               <li key={i} className="flex items-start gap-stack">
                 <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
@@ -144,7 +144,7 @@ export default function CoachingSessionDetail() {
         {/* Previous sessions */}
         {SESSION.previousSessions.length > 0 && (
           <SectionCard title="Sessions précédentes" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {SESSION.previousSessions.map((prev) => (
                 <SessionCard
                   key={prev.id}

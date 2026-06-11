@@ -50,7 +50,7 @@ const PasseportHistorique: React.FC = () => {
         tone="default"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Niveaux Dreyfus gagnés" value={`+${dreyfusUps}`} sub="depuis le début" deltaDirection="up" />
           <StatCard label="JAC validés" value={String(jacs)} />
@@ -59,7 +59,7 @@ const PasseportHistorique: React.FC = () => {
         </div>
 
         <SectionCard title="Radar actuel vs il y a 6 mois" description="Évolution de tous les axes Dreyfus">
-          <Card className="p-6 flex items-center justify-center">
+          <Card className="p-stack-lg flex items-center justify-center">
             <CompetencyRadar axes={RADAR_AXES} size="md" />
           </Card>
         </SectionCard>
@@ -82,12 +82,12 @@ const PasseportHistorique: React.FC = () => {
                     <div className={`absolute left-2 w-9 h-9 rounded-full ${cfg.bg} flex items-center justify-center`}>
                       <Icon className={`w-5 h-5 ${cfg.color}`} />
                     </div>
-                    <Card className="p-4">
+                    <Card className="p-stack">
                       <div className="flex items-start justify-between gap-stack mb-1">
                         <div className="font-semibold">{ev.title}</div>
                         <Badge variant="neutral">{dateLabel}</Badge>
                       </div>
-                      <div className="text-body-sm text-ink-600 mb-2">{ev.detail}</div>
+                      <div className="text-body-sm text-ink-600 mb-stack-xs">{ev.detail}</div>
                       <div className="flex items-center gap-stack-xs">
                         <Badge variant="brand">{comp?.label ?? ev.competenceId}</Badge>
                         {ev.newLevel && <Badge variant="success">Dreyfus {ev.newLevel}</Badge>}

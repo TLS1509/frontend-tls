@@ -39,7 +39,7 @@ export default function CoachJournalDetail() {
         }
       />
 
-      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
         <Card>
           <div className="flex flex-col gap-stack">
             <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">

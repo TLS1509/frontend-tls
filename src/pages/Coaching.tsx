@@ -210,7 +210,7 @@ export const Coaching: React.FC = () => {
     <>
       <div className="relative min-h-screen bg-gradient-page-ambient">
         <AmbientBlobs />
-        <Container width="page" className="relative z-base py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+        <Container width="page" className="relative z-base py-stack-lg sm:py-section lg:py-page flex flex-col gap-section">
 
           {/* Hero: EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
           <EditorialHero
@@ -275,7 +275,7 @@ export const Coaching: React.FC = () => {
               - coach + session     → upcoming session card */}
           {!coachAssigned ? (
             <Card variant="tinted" tone="primary" className="!p-0 !rounded-2xl !gap-0">
-              <div className="p-8 lg:p-10 flex flex-col items-center text-center gap-stack-lg">
+              <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
                   <CalendarPlus size={28} strokeWidth={1.75} />
                 </span>
@@ -302,7 +302,7 @@ export const Coaching: React.FC = () => {
               tone="primary"
               className="!p-0 !rounded-2xl !gap-0"
             >
-              <div className="p-6 lg:p-8 flex flex-col gap-stack-lg">
+              <div className="p-stack-lg lg:p-section flex flex-col gap-stack-lg">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex flex-col gap-tight min-w-0">
                     <p className="m-0 font-body text-caption font-medium text-primary-700">
@@ -374,7 +374,7 @@ export const Coaching: React.FC = () => {
               tone="primary"
               className="!p-0 !rounded-2xl !gap-0"
             >
-              <div className="p-8 lg:p-10 flex flex-col items-center text-center gap-stack-lg">
+              <div className="p-section lg:p-section-lg flex flex-col items-center text-center gap-stack-lg">
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/70 backdrop-blur-glass-light text-primary-500 shadow-sm">
                   <CalendarPlus size={28} strokeWidth={1.75} />
                 </span>

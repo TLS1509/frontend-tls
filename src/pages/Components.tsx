@@ -983,7 +983,7 @@ const ConfirmModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-3 items-start">
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-stack-xs flex-wrap">
         {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
           <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
             {v}
@@ -1083,7 +1083,7 @@ const ToastDemo: React.FC = () => {
   const { toasts, success, error, warning, info, removeToast } = useToast();
   return (
     <div>
-      <div className="flex gap-2 flex-wrap mb-4">
+      <div className="flex gap-stack-xs flex-wrap mb-stack">
         <Button size="sm" onClick={() => success('Enregistré avec succès !')}>Success</Button>
         <Button size="sm" variant="secondary" onClick={() => error('Une erreur est survenue')}>Erreur</Button>
         <Button size="sm" variant="secondary" onClick={() => warning('Vérifiez votre connexion')}>Warning</Button>
@@ -1104,7 +1104,7 @@ const TabsDemo: React.FC = () => {
   const [active1, setActive1] = useState('tab1');
   const [active2, setActive2] = useState('a');
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-stack-lg">
       <div>
         <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Pill (défaut)</p>
         <Tabs
@@ -1142,9 +1142,9 @@ const FilterChipDemo: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       {/* Default surface */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default surface · single-select + reset</p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'all' : label.toLowerCase();
             return (
@@ -1156,9 +1156,9 @@ const FilterChipDemo: React.FC = () => {
       </div>
 
       {/* Default with count badges */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default · avec count badges</p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-stack-xs flex-wrap">
           <FilterChip label="En cours" active count={3} onClick={() => {}} />
           <FilterChip label="Terminés" count={1} onClick={() => {}} />
           <FilterChip label="Pas commencés" count={2} onClick={() => {}} />
@@ -1166,9 +1166,9 @@ const FilterChipDemo: React.FC = () => {
       </div>
 
       {/* Glass variant */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-4 py-5 flex gap-2 flex-wrap">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-5 flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
             return (
@@ -1185,9 +1185,9 @@ const FilterChipDemo: React.FC = () => {
       </div>
 
       {/* Glass with count badges */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
-        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-4 py-5 flex gap-2 flex-wrap">
+        <div className="bg-gradient-to-r from-secondary-500 to-secondary-700 rounded-xl px-stack py-5 flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
           <FilterChip label="Invitations" variant="glass" onClick={() => {}} />
@@ -1267,7 +1267,7 @@ const SidebarDemo: React.FC = () => {
   ];
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-2 text-caption text-ink-500">
+      <div className="flex items-center gap-stack-xs text-caption text-ink-500">
         <button
           type="button"
           onClick={() => setCollapsed(p => !p)}
@@ -1319,7 +1319,7 @@ const SidebarDemo: React.FC = () => {
             />
           ))}
         </Sidebar>
-        <div className="flex-1 p-6 bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
+        <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
           <p className="text-body-sm text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
           <p className="text-caption text-ink-400 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
@@ -1344,7 +1344,7 @@ const MultiStepFormDemo: React.FC = () => {
         showProgressBar
         showStepIndicators
       >
-        <div className="p-4 bg-ink-50 rounded-lg">
+        <div className="p-stack bg-ink-50 rounded-lg">
           {step === 1 && <p>Étape 1: Informations personnelles</p>}
           {step === 2 && <p>Étape 2: Préférences d\'apprentissage</p>}
           {step === 3 && <p>Étape 3: Vérification et confirmation</p>}
@@ -1458,19 +1458,19 @@ const COMPONENTS: ComponentEntry[] = [
           <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass variants — surface matters</p>
 
           {/* glass = pour fond DARK */}
-          <div className="rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-4 flex flex-wrap gap-2">
+          <div className="rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 p-stack flex flex-wrap gap-stack-xs">
             <span className="font-body text-caption font-bold text-white/80 self-center mr-2">DARK bg →</span>
             <Button variant="glass" leadingIcon={I.plus}>variant="glass"</Button>
           </div>
 
           {/* glass-light + glass-light-ghost = pour LIGHT tinted bg (cards EntryCard/SessionCard tinted) */}
-          <div className="rounded-xl bg-primary-50/60 border border-primary-100 p-4 flex flex-wrap gap-2">
+          <div className="rounded-xl bg-primary-50/60 border border-primary-100 p-stack flex flex-wrap gap-stack-xs">
             <span className="font-body text-caption font-bold text-primary-700 self-center mr-2">LIGHT tinted bg →</span>
             <Button variant="glass-light" leadingIcon={I.plus}>glass-light (filled)</Button>
             <Button variant="glass-light-ghost" trailingIcon={I.arrow}>glass-light-ghost</Button>
           </div>
 
-          <div className="rounded-xl bg-accent-50/60 border border-accent-100 p-4 flex flex-wrap gap-2">
+          <div className="rounded-xl bg-accent-50/60 border border-accent-100 p-stack flex flex-wrap gap-stack-xs">
             <span className="font-body text-caption font-bold text-accent-700 self-center mr-2">Sur sun-50 →</span>
             <Button variant="glass-light" leadingIcon={I.plus}>Lire</Button>
             <Button variant="glass-light-ghost" trailingIcon={I.arrow}>Continuer</Button>
@@ -1478,7 +1478,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Tinted glassy buttons (tone-aware frosted) */}
           <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Tinted glassy · tone-aware frosted (sur fond blanc OU même tone)</p>
-          <div className="rounded-xl bg-white border border-ink-200 p-4 flex flex-wrap gap-2">
+          <div className="rounded-xl bg-white border border-ink-200 p-stack flex flex-wrap gap-stack-xs">
             <span className="font-body text-caption font-bold text-ink-600 self-center mr-2">WHITE bg →</span>
             <Button variant="glass-brand" leadingIcon={I.plus}>glass-brand</Button>
             <Button variant="glass-warm" leadingIcon={I.plus}>glass-warm</Button>
@@ -1756,7 +1756,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Wrapper combining label + control + hint/error. Layouts: vertical (default) and horizontal.',
     keywords: ['form', 'label', 'wrapper', 'layout', 'hint', 'error'],
     render: () => (
-      <div className="flex flex-col gap-4 max-w-[520px]">
+      <div className="flex flex-col gap-stack max-w-[520px]">
         <FormGroup label="Prénom" hint="Tel qu'il apparaît sur votre profil" id="fg-firstname">
           <Input placeholder="Ex. Marie" />
         </FormGroup>
@@ -1786,8 +1786,8 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Main content unit. 13 variants: default, feature, elevated, interactive, glass, glass-brand, glass-warm, glass-dark, minimal, bordered, muted, sunken, tinted. Tone-aware hover sur variant interactive.',
     keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal', 'tinted', 'tone'],
     render: () => (
-      <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-stack-lg">
+        <div className="grid grid-cols-2 gap-stack">
           <Card>
             <CardEyebrow>DEFAULT</CardEyebrow>
             <CardTitle>Card par défaut</CardTitle>
@@ -1814,7 +1814,7 @@ const COMPONENTS: ComponentEntry[] = [
           </Card>
         </div>
         {/* Interactive tone-aware */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-stack">
           <Card variant="interactive" onClick={() => {}}>
             <CardEyebrow>INTERACTIVE</CardEyebrow>
             <CardTitle>Hover ↑</CardTitle>
@@ -1832,7 +1832,7 @@ const COMPONENTS: ComponentEntry[] = [
           </Card>
         </div>
         {/* Tinted */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-stack">
           <Card variant="tinted" tone="primary">
             <CardEyebrow>TINTED · PRIMARY</CardEyebrow>
             <CardTitle>Gradient teal</CardTitle>
@@ -1850,7 +1850,7 @@ const COMPONENTS: ComponentEntry[] = [
           </Card>
         </div>
         {/* Glass family */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-stack">
           <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
             <Card variant="glass">
               <CardEyebrow>GLASS</CardEyebrow>
@@ -1885,9 +1885,9 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
     render: () => (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">Badge — sémantique</span>
           <div className="hstack flex-wrap">
             <Badge variant="brand">Brand</Badge>
@@ -1902,7 +1902,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         {/* StatusBadge — état leçon */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">StatusBadge — état leçon</span>
           <div className="hstack flex-wrap gap-3">
             <StatusBadge status="locked" />
@@ -1920,7 +1920,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         {/* TrendingBadge — social proof */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">TrendingBadge — social proof</span>
           <div className="flex flex-wrap gap-3">
             <TrendingBadge type="trending" />
@@ -1946,7 +1946,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'User representation: image or initials. Stable hash-based tint. Status dot + AvatarGroup.',
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-stack">
         <div className="flex items-center gap-3">
           <Avatar size="xs" name="Jeanne Dupont" />
           <Avatar size="sm" name="Paul Martin" />
@@ -2016,7 +2016,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="vstack max-w-[420px]">
         <div className="hstack items-center">
           <Skeleton variant="circle" width={40} height={40} />
-          <div className="vstack flex-1 gap-2">
+          <div className="vstack flex-1 gap-stack-xs">
             <Skeleton variant="title" />
             <Skeleton variant="text" width="80%" />
           </div>
@@ -2039,21 +2039,21 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ParcoursCardSkeleton</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
             <ParcoursCardSkeleton />
             <ParcoursCardSkeleton />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">NotificationRowSkeleton</p>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <NotificationRowSkeleton />
             <NotificationRowSkeleton />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">EditorialCardSkeleton</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
             <EditorialCardSkeleton />
             <EditorialCardSkeleton />
           </div>
@@ -2088,18 +2088,18 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section max-w-xl">
 
           {/* ── Variants ────────────────────────────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
             <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
             <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
             <Search variant="ghost" placeholder="ghost — Rechercher…" />
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-4 rounded-xl">
+            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré…" shortcut="⌘K" />
             </div>
           </div>
 
           {/* ── Sizes ────────────────────────────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes</p>
             <Search size="sm" placeholder="sm — compact" />
             <Search size="default" placeholder="default — standard" />
@@ -2107,7 +2107,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
 
           {/* ── Suggestions (async) ───────────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions · async + loading state</p>
             <Search
               variant="filled"
@@ -2130,7 +2130,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
 
           {/* ── trailing slot ───────────────────────────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">trailing slot · filter button avec badge</p>
             <Search
               variant="filled"
@@ -2149,7 +2149,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
 
           {/* ── filtersSlot (FilterChip inline) ──────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
             <Search
               value={filterQuery}
@@ -2167,16 +2167,16 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
 
           {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
-            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-6 rounded-xl">
+            <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack-lg rounded-xl">
               <Search
                 size="sm"
                 variant="glass"
                 placeholder="Rechercher un parcours…"
                 aria-label="Rechercher un parcours"
                 filtersSlot={
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-stack-xs">
                     <FilterBar
                       options={[
                         { id: 'en cours',      label: 'En cours',      count: 3 },
@@ -2211,9 +2211,9 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Prominent metric card. Display number + micro label + optional delta + icon. 5 variants (default / elevated / brand / warm / sun) · 3 sizes (sm/md/lg) · square mode for grid layouts.',
     keywords: ['metric', 'kpi', 'stat', 'dashboard', 'square', 'size'],
     render: () => (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-stack-lg">
         {/* Variants with icons */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-stack">
           <StatCard icon={<BookOpen size={20} />} label="Parcours complétés" value={12} sub="/24" delta="+3 ce mois" deltaDirection="up" />
           <StatCard variant="elevated" icon={<Clock3 size={20} />} label="Heures d'apprentissage" value="48" sub="h" />
           <StatCard variant="warm" icon={<Flame size={20} />} label="Série actuelle" value={7} sub="jours" delta="Record personnel" deltaDirection="up" />
@@ -2221,13 +2221,13 @@ const COMPONENTS: ComponentEntry[] = [
           <StatCard variant="sun" icon={<Zap size={20} />} label="Points XP" value="2 450" delta="+180" deltaDirection="up" />
         </div>
         {/* Sizes */}
-        <div className="grid grid-cols-3 gap-4 items-start">
+        <div className="grid grid-cols-3 gap-stack items-start">
           <StatCard size="sm" label="Petite" value={42} sub="pts" delta="+5" deltaDirection="up" />
           <StatCard size="md" label="Moyenne" value={42} sub="pts" delta="+5" deltaDirection="up" />
           <StatCard size="lg" variant="brand" label="Grande" value={42} sub="pts" delta="+5" deltaDirection="up" />
         </div>
         {/* Square grid */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-stack">
           <StatCard square size="sm" label="Streak" value={7} sub="j" />
           <StatCard square variant="elevated" label="Score" value={94} sub="%" />
           <StatCard square variant="warm" label="Série" value={12} />
@@ -2262,7 +2262,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Anneau SVG circulaire de progression (0–100). 5 tones (brand/warm/sun/success/danger). Gradient interne + halo glow optionnel. Animate 0→value au mount. Slots `label` (centré) et `valueLabel`. Sizes arbitraires via prop `size`, `thickness`.',
     keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone'],
     render: () => (
-      <div className="flex gap-6 flex-wrap items-center py-2">
+      <div className="flex gap-stack-lg flex-wrap items-center py-stack-xs">
         <ProgressRing value={78} tone="brand" label={<span className="text-micro font-bold text-primary-700">PARCOURS</span>} />
         <ProgressRing value={54} tone="warm" label={<span className="text-micro font-bold text-secondary-700">COACHING</span>} />
         <ProgressRing value={92} tone="sun" label={<span className="text-micro font-bold text-accent-700">BADGES</span>} />
@@ -2315,7 +2315,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Ligne d\'activité timeline. Dot coloré par type + connecteur entre items. Types: lesson/achievement/coach/journal. Hover: surface-muted.',
     keywords: ['activity', 'feed', 'timeline', 'history', 'notification', 'dot', 'type'],
     render: () => (
-      <div className="py-2 px-4 bg-white border border-ink-200 rounded-lg">
+      <div className="py-stack-xs px-stack bg-white border border-ink-200 rounded-lg">
         <ActivityItem type="lesson" icon={I.check} title="Leçon terminée" description="Introduction au Prompt Engineering" timestamp="Il y a 2h" />
         <ActivityItem type="achievement" icon={I.trophy} title="Badge débloqué" description="Pionnier IA — Premier badge gagné !" timestamp="Hier" />
         <ActivityItem type="coach" icon={I.heart} title="Session coaching" description="Sophie Martin — Leadership" timestamp="Aujourd'hui" />
@@ -2383,7 +2383,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Tones — light bg */}
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones</p>
           <MetaPillGroup
             items={[
@@ -2398,7 +2398,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Sizes */}
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes (tone primary)</p>
           <MetaPillGroup
             items={[
@@ -2427,7 +2427,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Glass variant — on tinted backdrop */}
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
           <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass (frosted on light tinted bg)</p>
           <MetaPillGroup
             items={[
@@ -2440,7 +2440,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Glass-dark variant — on saturated dark bg */}
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 border border-primary-700">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 border border-primary-700">
           <p className="text-caption font-bold uppercase tracking-wider text-white/85 m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
           <MetaPillGroup
             items={[
@@ -2465,25 +2465,25 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['pill', 'chip', 'glass', 'surface', 'tag', 'icon', 'overlay', 'hero', 'frosted', 'banner'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">surface — fond clair</p>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Pill icon={<BookOpen size={14} />} size="sm">Parcours</Pill>
             <Pill icon={<Clock3 size={14} />} size="md">6 semaines</Pill>
             <Pill icon={<Users size={14} />} size="lg">1 242 apprenants</Pill>
           </div>
         </div>
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-500 to-primary-700">
           <p className="text-caption font-bold uppercase tracking-wider text-white/80 m-0">glass-light — fond coloré (hero gradient)</p>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Pill variant="glass-light" icon={<Flame size={14} />} size="sm">Trending</Pill>
             <Pill variant="glass-light" icon={<Trophy size={14} />} size="md">Certifié</Pill>
             <Pill variant="glass-light" size="lg">14 jours de streak</Pill>
           </div>
         </div>
-        <div className="flex flex-col gap-stack-xs p-4 rounded-xl bg-ink-900">
+        <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-ink-900">
           <p className="text-caption font-bold uppercase tracking-wider text-white/70 m-0">glass-dark — fond sombre / vidéo overlay</p>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Pill variant="glass-dark" icon={<Video size={14} />} size="sm">12 min</Pill>
             <Pill variant="glass-dark" size="md">4K · HD</Pill>
           </div>
@@ -2597,7 +2597,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Médaille de réussite: cercle avec anneau en pointillés intérieur. Warm gradient = déverrouillé, Brand deep = spécial/rare, Ink gray = verrouillé.',
     keywords: ['medal', 'badge', 'achievement', 'reward', 'locked', 'unlocked'],
     render: () => (
-      <div className="flex gap-4 items-center flex-wrap">
+      <div className="flex gap-stack items-center flex-wrap">
         <Medal size="lg" variant="default">🏆</Medal>
         <Medal size="lg" variant="brand">⚡</Medal>
         <Medal size="lg" variant="locked">🔒</Medal>
@@ -2633,7 +2633,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: '5 niveaux de maîtrise (Novice → Expert) avec représentation de la taxonomie de Bloom. Progression visuelle par couleur du clair au vif.',
     keywords: ['mastery', 'skill', 'bloom', 'taxonomy', 'level', 'novice', 'expert'],
     render: () => (
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex gap-stack flex-wrap">
         <MasteryBadge level="beginner" label="Découverte" progress={30} />
         <MasteryBadge level="intermediate" label="Prompt Engineering" progress={65} />
         <MasteryBadge level="advanced" label="IA Générative" progress={80} />
@@ -2649,7 +2649,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Composant de récompense/achievement. 3 variantes: unlocked (déverrouillé), locked (verrouillé avec opacité réduite), in-progress (avec barre de progression).',
     keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward'],
     render: () => (
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex gap-stack flex-wrap">
         <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
         <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
         <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
@@ -2665,7 +2665,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Carte badge d\'accomplissement standalone. 4 colors (primary/warm/sun/success) × 3 sizes (sm/md/lg). Cercle icône gradient + titre + description + date de déverrouillage + bouton partage. État `isLocked` avec opacité réduite et icône cadenas.',
     keywords: ['achievement', 'badge', 'unlock', 'locked', 'share', 'reward', 'milestone', 'color', 'standalone'],
     render: () => (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
         <AchievementBadge
           icon={<Trophy size={48} className="text-white" />}
           title="Pionnier IA"
@@ -2718,7 +2718,7 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Stepper — indicateur horizontal / vertical</p>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-stack-lg">
             <Stepper items={steps} orientation="horizontal" />
             <Stepper items={steps} orientation="vertical" />
           </div>
@@ -2752,9 +2752,9 @@ const COMPONENTS: ComponentEntry[] = [
           <TabsWithContent
             variant="underline"
             tabs={[
-              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-4 text-body text-ink-600">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
-              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-4 text-body text-ink-600">Liste des 8 leçons avec état de progression pour chacune.</div> },
-              { id: 'resources', label: 'Ressources', content: <div className="py-4 text-body text-ink-600">Ressources complémentaires et liens utiles.</div> },
+              { id: 'overview', label: 'Vue d\'ensemble', content: <div className="py-stack text-body text-ink-600">Description du parcours, objectifs pédagogiques et durée estimée.</div> },
+              { id: 'lessons', label: 'Leçons', badge: 8, content: <div className="py-stack text-body text-ink-600">Liste des 8 leçons avec état de progression pour chacune.</div> },
+              { id: 'resources', label: 'Ressources', content: <div className="py-stack text-body text-ink-600">Ressources complémentaires et liens utiles.</div> },
             ]}
           />
         </div>
@@ -2774,9 +2774,9 @@ const COMPONENTS: ComponentEntry[] = [
           <TabsWithContent
             variant="boxed"
             tabs={[
-              { id: 'profile', label: 'Profil', content: <div className="py-4 text-body text-ink-600">Données de profil et compétences.</div> },
-              { id: 'account', label: 'Compte', content: <div className="py-4 text-body text-ink-600">Informations de compte et sécurité.</div> },
-              { id: 'settings', label: 'Paramètres', content: <div className="py-4 text-body text-ink-600">Préférences et notifications.</div> },
+              { id: 'profile', label: 'Profil', content: <div className="py-stack text-body text-ink-600">Données de profil et compétences.</div> },
+              { id: 'account', label: 'Compte', content: <div className="py-stack text-body text-ink-600">Informations de compte et sécurité.</div> },
+              { id: 'settings', label: 'Paramètres', content: <div className="py-stack text-body text-ink-600">Préférences et notifications.</div> },
             ]}
           />
         </div>
@@ -2852,9 +2852,9 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Fil d\'Ariane unifié. variant="simple" (anchors + séparateur texte) ou variant="nav" (boutons + ChevronRight + pill highlight + ellipsis collapse + icônes).',
     keywords: ['breadcrumb', 'navigation', 'path', 'hierarchy', 'ariane', 'sticky', 'nav'],
     render: () => (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-stack-lg">
         <div>
-          <div className="text-caption text-ink-500 mb-2 uppercase tracking-wider">variant="simple" (anchors)</div>
+          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="simple" (anchors)</div>
           <Breadcrumb
             items={[
               { label: 'Accueil', href: '#' },
@@ -2870,12 +2870,12 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Dossiers', href: '#' },
               { label: 'IA & Travail' },
             ]}
-            className="mt-2"
+            className="mt-stack-xs"
           />
         </div>
 
         <div>
-          <div className="text-caption text-ink-500 mb-2 uppercase tracking-wider">variant="nav" (boutons + icônes + ChevronRight)</div>
+          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="nav" (boutons + icônes + ChevronRight)</div>
           <Breadcrumb
             variant="nav"
             items={[
@@ -2895,7 +2895,7 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Page courante' },
             ]}
             onNavigate={(i) => console.log('navigate', i)}
-            className="mt-2"
+            className="mt-stack-xs"
           />
           <div className="text-micro text-ink-400 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
         </div>
@@ -2909,7 +2909,7 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Article courant' },
             ]}
           />
-          <div className="p-4 text-caption text-ink-500">sticky — blur + border-bottom</div>
+          <div className="p-stack text-caption text-ink-500">sticky — blur + border-bottom</div>
         </div>
       </div>
     ),
@@ -2923,7 +2923,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Fil d\'Ariane auto-généré depuis `useLocation`. Rendu si ≥ 2 segments seulement (évite "Accueil > Parcours" sur les hubs top-level). Includes bouton Retour sur mobile. Routes mappées statiquement pour des labels humainement lisibles.',
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
-      <div className="flex flex-col gap-stack-xs p-4 bg-ink-50 rounded-xl border border-ink-200">
+      <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
         <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
         <div className="flex items-center gap-1.5 text-caption text-ink-500">
           <span className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
@@ -3020,24 +3020,24 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Tones solid */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones · solid surface</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             <Tag tone="neutral">Neutre</Tag>
             <Tag tone="primary">Leadership</Tag>
             <Tag tone="warm">Formation</Tag>
             <Tag tone="sun">IA Générative</Tag>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             <Tag tone="neutral" leadingIcon={I.book}>Avec icon</Tag>
             <Tag tone="primary" onRemove={() => {}}>Supprimable</Tag>
             <Tag tone="warm" leadingIcon={I.trophy} onRemove={() => {}}>Badge actif</Tag>
           </div>
         </div>
         {/* Glass surface */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass surface · sur fond coloré</p>
-          <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-4 py-5 flex flex-wrap gap-2">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl px-stack py-5 flex flex-wrap gap-stack-xs">
             <Tag surface="glass">Leadership</Tag>
             <Tag surface="glass">IA Générative</Tag>
             <Tag surface="glass" leadingIcon={I.book}>Formation</Tag>
@@ -3290,7 +3290,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM) — Card variant="tinted" tone={tone}',
     category: 'Patterns',
     usedBy: ['LearningPaths', 'Dashboard'],
-    description: 'Carte de parcours pour catalogues / hubs. Surface tinted gradient (via Card variant="tinted"). 3 tones (primary teal / warm orange / sun yellow). Titre h3 sans truncate + tooltip natif. MetaPills (durée + leçons). Description line-clamp-5 + tooltip natif si plus long. InlineProgress + CTA pill tone-aware (label dynamique selon status). Padding p-8 uniform (32px), gap-stack interne (16px), grid gap-section recommandé (32px). Alignement inter-cards via min-h sur description + flex-1 spacer (progress + CTA toujours en bas). Hover: translateY(-4px) + shadow-lg + radial glow tone-aware. Focus-visible outline tone-aware. A11y: role=button, aria-label, tabIndex, native title tooltips.',
+    description: 'Carte de parcours pour catalogues / hubs. Surface tinted gradient (via Card variant="tinted"). 3 tones (primary teal / warm orange / sun yellow). Titre h3 sans truncate + tooltip natif. MetaPills (durée + leçons). Description line-clamp-5 + tooltip natif si plus long. InlineProgress + CTA pill tone-aware (label dynamique selon status). Padding p-section uniform (32px), gap-stack interne (16px), grid gap-section recommandé (32px). Alignement inter-cards via min-h sur description + flex-1 spacer (progress + CTA toujours en bas). Hover: translateY(-4px) + shadow-lg + radial glow tone-aware. Focus-visible outline tone-aware. A11y: role=button, aria-label, tabIndex, native title tooltips.',
     keywords: ['parcours', 'learning path', 'progress', 'tinted', 'tone', 'cta', 'glass', 'glow', 'hover', 'a11y'],
     render: () => (
       <CardGrid layout="default" gapSize="lg">
@@ -3546,10 +3546,10 @@ const COMPONENTS: ComponentEntry[] = [
             ]}
             actions={
               <>
-                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
+                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-stack-xs.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
                   Continuer mon parcours
                 </button>
-                <button type="button" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
+                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-stack-xs.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
                   Explorer
                 </button>
               </>
@@ -3623,7 +3623,7 @@ const COMPONENTS: ComponentEntry[] = [
         { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership & Communication', timestamp: new Date(Date.now() - 86400000 * 10) },
       ];
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
           <div>
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: timeline + groupByDate</p>
             <ActivityFeed items={items} layout="timeline" groupByDate />
@@ -3801,7 +3801,7 @@ const COMPONENTS: ComponentEntry[] = [
               <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
             </div>
           </div>
-          <p className="text-micro text-ink-400 mt-2">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+          <p className="text-micro text-ink-400 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
         </div>
         <div>
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressRing — 4 tones</p>
@@ -3924,7 +3924,7 @@ const COMPONENTS: ComponentEntry[] = [
               />
             </div>
 
-            <div className="rounded-xl p-6 bg-gradient-to-r from-primary-500 to-primary-700">
+            <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-500 to-primary-700">
               <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
               <FilterBar
                 tone="brand"
@@ -3957,13 +3957,13 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Indicateur de chargement animé. Tailles : sm (20px), md (32px), lg (48px). Tones : brand (teal), warm (orange), muted (gris). Utilisé dans Recherche comme trailing slot du SearchInput pendant le debounce.',
     keywords: ['spinner', 'loading', 'loader', 'indicator', 'async', 'wait'],
     render: () => (
-      <div className="vstack gap-6">
-        <div className="hstack items-center gap-6">
+      <div className="vstack gap-stack-lg">
+        <div className="hstack items-center gap-stack-lg">
           <Spinner size="sm" />
           <Spinner size="md" />
           <Spinner size="lg" />
         </div>
-        <div className="hstack items-center gap-6">
+        <div className="hstack items-center gap-stack-lg">
           <Spinner size="md" tone="brand" label="Chargement..." />
           <Spinner size="md" tone="warm" />
           <Spinner size="md" tone="muted" />
@@ -3980,7 +3980,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Badge numérique superposé sur un enfant (icône, avatar). Tones : danger, brand, warm. Max configurable (99 par défaut).',
     keywords: ['notification', 'badge', 'count', 'overlay', 'indicator', 'unread'],
     render: () => (
-      <div className="hstack gap-8 items-center flex-wrap">
+      <div className="hstack gap-section items-center flex-wrap">
         <NotificationBadge count={3} tone="danger"><Bell size={24} /></NotificationBadge>
         <NotificationBadge count={12} tone="brand"><MessageSquare size={24} /></NotificationBadge>
         <NotificationBadge count={99} tone="warm"><BookOpen size={24} /></NotificationBadge>
@@ -4000,9 +4000,9 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'En-tête de section CANONIQUE. 5 variants (default tinted bubble / solid filled bubble / minimal stroke inline / accent vertical bar / underline) × 4 sizes (xs h5 → lg h2) × 5 tones (primary/warm/sun/accent/neutral). Sub-title, action slot, divider optionnel. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
     keywords: ['section', 'header', 'title', 'icon', 'h2', 'h3', 'h4', 'action', 'divider', 'variants', 'sizes', 'filled', 'stroke', 'tinted', 'solid', 'minimal', 'accent', 'underline', 'canonical'],
     render: () => (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-section">
         {/* Variants showcase (size md, tone primary) */}
-        <div className="flex flex-col gap-4 p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+        <div className="flex flex-col gap-stack p-5 rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 variants · size md · tone primary</p>
           <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
           <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-500→700 + white icon (strong CTA)" />
@@ -4012,7 +4012,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Sizes showcase (variant solid, tone warm) */}
-        <div className="flex flex-col gap-4 p-5 rounded-xl bg-secondary-50/30 border border-secondary-200">
+        <div className="flex flex-col gap-stack p-5 rounded-xl bg-secondary-50/30 border border-secondary-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
           <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — h5" />
           <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — h4" />
@@ -4021,7 +4021,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Tones showcase (variant default, size md) */}
-        <div className="flex flex-col gap-4 p-5 rounded-xl bg-ink-50/50 border border-ink-200">
+        <div className="flex flex-col gap-stack p-5 rounded-xl bg-ink-50/50 border border-ink-200">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 tones · variant default</p>
           <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
           <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
@@ -4031,7 +4031,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Real usage examples */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-stack">
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Usage examples</p>
           <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-600 hover:underline">Voir tout →</button>} />
           <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
@@ -4065,7 +4065,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'En-tête de page CANONIQUE. Eyebrow chip avec icône, titre h1 responsive (clamp), description, actions. Variants: default | tight. Align: left | center.',
     keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
     render: () => (
-      <div className="vstack gap-8">
+      <div className="vstack gap-section">
         <PageHeader
           eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
           title="Fondamentaux du Leadership"
@@ -4107,7 +4107,7 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               onClose={() => {}}
             />
-            <div className="p-8 text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
           </div>
         </div>
 
@@ -4124,7 +4124,7 @@ const COMPONENTS: ComponentEntry[] = [
               subtitle="Publié le 30 avril 2026 par Sophie Martin"
               onClose={() => {}}
             />
-            <div className="p-8 text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
           </div>
         </div>
 
@@ -4143,7 +4143,7 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               disablePrev
             />
-            <div className="p-4 text-center text-ink-500 text-caption">— prev disabled —</div>
+            <div className="p-stack text-center text-ink-500 text-caption">— prev disabled —</div>
           </div>
         </div>
       </div>
@@ -4210,11 +4210,11 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
-          <div className="flex-1 flex items-center justify-center p-8 text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
+          <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-2 rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-2 rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
           </div>
         </div>
       </div>
@@ -4429,10 +4429,10 @@ const COMPONENTS: ComponentEntry[] = [
               <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
                 <Bookmark size={15} />
               </button>
-              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-4 flex flex-col gap-1 shadow-lg">
+              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-1 shadow-lg">
                 <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
                 <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
-                <div className="flex items-center gap-2 mt-1 font-body text-micro text-ink-600">
+                <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
                   <span>⏱ {item.readTime}</span>
@@ -4473,7 +4473,7 @@ const COMPONENTS: ComponentEntry[] = [
                     </span>
                   </div>
                   {/* Content : titre → meta → summary */}
-                  <div className="flex flex-col justify-center gap-tight p-4">
+                  <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
                     <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
@@ -4495,7 +4495,7 @@ const COMPONENTS: ComponentEntry[] = [
           {/* HZ-2 — Tinted row avec badge sur zone icône */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
-            <div className="flex flex-col gap-2 max-w-content">
+            <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
                   {/* Zone icône avec badge en dessous */}
@@ -4506,7 +4506,7 @@ const COMPONENTS: ComponentEntry[] = [
                     <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText} opacity-70`}>{it.typeLabel}</span>
                   </div>
                   {/* Content */}
-                  <div className="flex-1 min-w-0 flex flex-col gap-tight px-4 py-3">
+                  <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
                     <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
@@ -4528,7 +4528,7 @@ const COMPONENTS: ComponentEntry[] = [
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
             <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-content">
               {hzItems.map((it, idx) => (
-                <article key={idx} className="flex items-center gap-3 px-4 py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
+                <article key={idx} className="flex items-center gap-3 px-stack py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
                   {/* Icône + label badge empilés */}
                   <div className={`flex flex-col items-center gap-0.5 shrink-0`}>
                     <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${it.toneBg} ${it.toneText}`}>
@@ -4602,7 +4602,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack">
           <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant dark (défaut — sur dégradé)</span>
-          <div className="p-6 rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+          <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
             <VeilleFormatShortcutCards
               items={[
                 { label: 'Magazine TLS', desc: 'Mensuel · analyses',      icon: <BookOpen  size={15} strokeWidth={2} />, iconClassName: 'text-primary-200' },
@@ -4643,7 +4643,7 @@ const COMPONENTS: ComponentEntry[] = [
       const [savedActive, setSavedActive] = React.useState(false);
       const hasFilter = active !== 'all' || savedActive;
       return (
-        <div className="p-6 rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
+        <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
           <VeilleHeroFilterChips
             filters={[
               { id: 'all',      label: 'Tout' },
@@ -4903,7 +4903,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section max-w-2xl">
         <div>
           <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : chatbot</p>
-          <div className="flex flex-col gap-stack p-4 bg-ink-50 rounded-xl border border-ink-200">
+          <div className="flex flex-col gap-stack p-stack bg-ink-50 rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Comment développer mes compétences en leadership ?"
@@ -4936,7 +4936,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         <div>
           <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : messaging (coaching)</p>
-          <div className="flex flex-col gap-stack p-4 bg-white rounded-xl border border-ink-200">
+          <div className="flex flex-col gap-stack p-stack bg-white rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Bonjour ! J'ai une question sur notre prochaine session de coaching."
@@ -5043,8 +5043,8 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="max-w-md">
         <Flashcard
-          front={<div className="flex items-center justify-center h-full p-6"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
-          back={<div className="flex items-center justify-center h-full p-6"><p className="text-body text-ink-700 text-center m-0 leading-relaxed">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
+          front={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-h3 font-bold text-ink-900 text-center m-0">Qu&apos;est-ce que le leadership transformationnel ?</p></div>}
+          back={<div className="flex items-center justify-center h-full p-stack-lg"><p className="text-body text-ink-700 text-center m-0 leading-relaxed">Style de leadership qui inspire et motive les collaborateurs à dépasser leurs intérêts personnels pour le bien collectif.</p></div>}
         />
       </div>
     ),
@@ -5189,7 +5189,7 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Default ambient gradient */}
         <div className="relative h-[260px] overflow-hidden rounded-xl bg-gradient-page-ambient border border-ink-200">
           <AmbientBlobs position="absolute" intensity="normal" />
-          <div className="relative z-base p-6 flex flex-col items-center justify-center h-full text-center">
+          <div className="relative z-base p-stack-lg flex flex-col items-center justify-center h-full text-center">
             <p className="m-0 font-display text-h3 font-bold text-ink-900">bg-gradient-page-ambient (DEFAULT)</p>
             <p className="m-0 mt-stack-xs font-body text-body text-ink-600 max-w-prose">
               Teal-50 → white → yellow-50 + 3 blobs flottants (float 20s).
@@ -5201,14 +5201,14 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-warm border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
-            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+            <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-warm</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Teal → white → orange</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-page-ambient-sun border border-ink-200">
             <AmbientBlobs position="absolute" intensity="subtle" />
-            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+            <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-page-ambient-sun</p>
               <p className="m-0 mt-tight font-body text-caption text-ink-600">Orange → white → yellow</p>
             </div>
@@ -5220,7 +5220,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Brand deep (saturated 90°) */}
         <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
-          <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+          <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
             <p className="m-0 font-display text-body font-bold text-white">bg-gradient-brand-deep</p>
             <p className="m-0 mt-tight font-body text-caption text-white/80 font-mono">90deg · primary-950 #164267 → primary-500 #55a1b4</p>
           </div>
@@ -5229,13 +5229,13 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Soft pastels (3-stop + 2-stop) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
-            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+            <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-pastel</p>
               <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
-            <div className="relative z-base p-4 flex flex-col items-center justify-center h-full text-center">
+            <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body-sm font-bold text-ink-900">bg-gradient-soft-duo</p>
               <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
@@ -5334,7 +5334,7 @@ const COMPONENTS: ComponentEntry[] = [
           </>
         }
       >
-        <ul className="m-0 pl-4 flex flex-col gap-2 text-body-sm text-ink-700 list-disc">
+        <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body-sm text-ink-700 list-disc">
           <li>Premier point essentiel à retenir.</li>
           <li>Deuxième point avec une explication détaillée.</li>
           <li>Troisième point pour clore la section.</li>
@@ -5353,7 +5353,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">onClick → &lt;button&gt;</p>
+          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">onClick → &lt;button&gt;</p>
           <RelatedItemList
             items={[
               { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
@@ -5362,7 +5362,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
+          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
           <RelatedItemList
             items={[
               { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
@@ -5371,7 +5371,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Sans interaction (display-only)</p>
+          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">Sans interaction (display-only)</p>
           <RelatedItemList
             items={[
               { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
@@ -5397,7 +5397,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'ResumeLessonCard (dashboard hero card)',
     category: 'Patterns',
     usedBy: ['Dashboard'],
-    description: 'Card hero "Reprendre ta leçon" pour le Dashboard learner-centric. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1 du parcours, description contextuelle, meta pills (niveau/durée/leçons), progress bar large + CTA pill arrondi. Hero-sized (p-6/8/10 responsive), radial glow au hover.',
+    description: 'Card hero "Reprendre ta leçon" pour le Dashboard learner-centric. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1 du parcours, description contextuelle, meta pills (niveau/durée/leçons), progress bar large + CTA pill arrondi. Hero-sized (p-stack-lg/8/10 responsive), radial glow au hover.',
     keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
     render: () => (
       <ResumeLessonCard
@@ -5426,7 +5426,7 @@ const COMPONENTS: ComponentEntry[] = [
         <Divider />
         <Divider label="ou" />
         <Divider label="Compétences" spacing="lg" />
-        <div className="flex items-center gap-4 h-20">
+        <div className="flex items-center gap-stack h-20">
           <span className="text-body-sm">Section A</span>
           <Divider orientation="vertical" />
           <span className="text-body-sm">Section B</span>
@@ -5450,14 +5450,14 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: [],
     render: () => (
       <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
-        <p className="p-4 text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
-        <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-4">
+        <p className="p-stack text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
+        <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
           <div className="flex flex-col md:flex-row md:items-center gap-3">
             <div className="flex-1 text-body-sm text-ink-600">
               <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
               {' — '}Nous utilisons des cookies pour améliorer votre expérience.
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+            <div className="flex flex-col sm:flex-row gap-stack-xs shrink-0">
               <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-600 hover:bg-ink-50">Personnaliser</button>
               <button className="px-3 py-1.5 text-caption rounded-md border border-ink-200 text-ink-700 hover:bg-ink-100">Tout refuser</button>
               <button className="px-3 py-1.5 text-caption rounded-pill bg-primary-600 text-white hover:bg-primary-700">Tout accepter</button>
@@ -5481,8 +5481,8 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort', 'PasseportHistorique'],
     render: () => (
       <div className="flex flex-col gap-section items-center">
-        <div className="flex flex-wrap gap-8 justify-center items-start">
-          <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-wrap gap-section justify-center items-start">
+          <div className="flex flex-col items-center gap-stack-xs">
             <span className="text-caption text-ink-500">sm — sans cible</span>
             <CompetencyRadar
               size="sm"
@@ -5497,7 +5497,7 @@ const COMPONENTS: ComponentEntry[] = [
               showLegend={false}
             />
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-stack-xs">
             <span className="text-caption text-ink-500">md — avec objectifs cibles</span>
             <CompetencyRadar
               size="md"
@@ -5541,9 +5541,9 @@ const COMPONENTS: ComponentEntry[] = [
           <AITransparencyLabel variant="generated" size="md" />
           <AITransparencyLabel variant="assisted" size="md" />
         </div>
-        <div className="flex items-start gap-3 p-4 bg-ink-50 rounded-lg">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
+        <div className="flex items-start gap-3 p-stack bg-ink-50 rounded-lg">
+          <div className="flex flex-col gap-stack-xs">
+            <div className="flex items-center gap-stack-xs">
               <span className="text-body-sm font-semibold text-ink-900">Prompt Engineering avancé</span>
               <AITransparencyLabel variant="recommended" size="sm" />
             </div>
@@ -5569,7 +5569,7 @@ const COMPONENTS: ComponentEntry[] = [
           <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
           <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
-        <div className="border border-ink-100 rounded-lg p-4 flex flex-col gap-3">
+        <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-3">
           <p className="text-caption text-ink-500 font-medium">Avec raison obligatoire (requireReason=true) :</p>
           <AIOverrideButton
             requireReason
@@ -5933,8 +5933,8 @@ const COMPONENTS: ComponentEntry[] = [
       const [flipped, setFlipped] = React.useState(false);
       const [tone, setTone] = React.useState<'primary' | 'warm' | 'sun'>('primary');
       return (
-        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
-          <div className="flex gap-2 justify-center">
+        <div className="flex flex-col gap-stack max-w-2xl mx-auto">
+          <div className="flex gap-stack-xs justify-center">
             {(['primary', 'warm', 'sun'] as const).map((t) => (
               <button
                 key={t}
@@ -6106,7 +6106,7 @@ const COMPONENTS: ComponentEntry[] = [
             isOpen={open1}
             onToggle={() => setOpen1((o) => !o)}
             className="mb-0"
-            bodyClassName="px-4 pb-4"
+            bodyClassName="px-stack pb-stack"
           >
             <p className="text-body-sm text-ink-600 pt-2 m-0">Contenu de l'étape — leçons, exercices, ressources.</p>
           </EtapeAccordion>
@@ -6155,7 +6155,7 @@ const COMPONENTS: ComponentEntry[] = [
             <RadioGroup name="mode" label="Mode d'apprentissage" value={v2} onChange={setV2} options={opts2} orientation="horizontal" hint="Certaines options nécessitent un abonnement" />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-4">Variant card — tone primary / warm / sun</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary / warm / sun</p>
             <div className="flex flex-col gap-stack">
               <RadioGroup name="goal" label="Objectif" variant="card" tone="primary" value={v1} onChange={setV1} options={opts1.slice(0,2)} orientation="horizontal" />
               <RadioGroup name="goalw" label="Ton warm" variant="card" tone="warm" value="coaching" onChange={() => {}} options={opts2.slice(0,2)} orientation="horizontal" />
@@ -6191,7 +6191,7 @@ const COMPONENTS: ComponentEntry[] = [
             <CheckboxGroup name="notifsh" label="Horizontal" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" hint={`${vals.length} sélectionnée(s)`} />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-4">Variant card — tone primary</p>
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary</p>
             <CheckboxGroup name="notifsc" label="Préférences" variant="card" tone="primary" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" />
           </div>
         </div>
@@ -6303,7 +6303,7 @@ const COMPONENTS: ComponentEntry[] = [
           pageSize={5}
           itemLabel="parcours"
           renderItem={(item) => (
-            <div key={item.id} className="flex items-center justify-between px-4 py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
+            <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
               <span className="text-caption text-ink-500">{item.category}</span>
             </div>
@@ -6340,7 +6340,7 @@ const COMPONENTS: ComponentEntry[] = [
           itemLabel="parcours"
           emptyLabel="Aucun parcours ne correspond à ta recherche."
           renderItem={(item) => (
-            <div key={item.id} className="flex items-center justify-between px-4 py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
+            <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
               <span className="text-caption text-primary-600 font-medium">{item.cat}</span>
             </div>
@@ -6415,7 +6415,7 @@ const COMPONENTS: ComponentEntry[] = [
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex items-center px-4 py-2 rounded-pill bg-primary-600 text-white text-body-sm font-semibold hover:bg-primary-700 transition-colors"
+            className="inline-flex items-center px-stack py-stack-xs rounded-pill bg-primary-600 text-white text-body-sm font-semibold hover:bg-primary-700 transition-colors"
           >
             Ouvrir ModalForm
           </button>
@@ -6482,13 +6482,13 @@ const COMPONENTS: ComponentEntry[] = [
           emptyLabel="Aucune ressource ne correspond à ta recherche."
           renderCard={(item, _, layout) =>
             layout === 'grid' ? (
-              <div key={item.id} className="flex flex-col gap-stack-xs p-4 rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
+              <div key={item.id} className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
                 <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold">{item.cat}</span>
                 <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
                 <p className="text-caption text-ink-500 m-0">{item.author}</p>
               </div>
             ) : (
-              <div key={item.id} className="flex items-center justify-between px-4 py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
+              <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold shrink-0">{item.cat}</span>
                   <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
@@ -6511,7 +6511,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Lien de retour "← label" pour les pages auth sur fond glass-dark. Texte blanc/75 avec flèche ArrowLeft Lucide. Hover → blanc 100%. Part de la famille Auth* (glass-dark only — ne pas utiliser sur fond clair). Exposé comme named export depuis AuthShell.tsx.',
     keywords: ['auth', 'back', 'link', 'retour', 'connexion', 'glass-dark', 'AuthShell', 'navigation'],
     render: () => (
-      <div className="bg-primary-800 p-8 rounded-2xl">
+      <div className="bg-primary-800 p-section rounded-2xl">
         <AuthBackLink label="Retour à la connexion" onClick={() => {}} />
       </div>
     ),
@@ -7312,7 +7312,7 @@ class ComponentPreviewErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-4 bg-danger-bg text-danger-fg border border-danger-base rounded-md">
+        <div className="p-stack bg-danger-bg text-danger-fg border border-danger-base rounded-md">
           <p className="font-bold">Render Error</p>
           <p className="text-sm font-mono">{this.state.error?.message || 'Unknown error'}</p>
         </div>
@@ -7586,7 +7586,7 @@ const Components: React.FC = () => {
                       <article key={c.name} className="ds-component">
                         <header className="ds-component__head">
                           <div>
-                            <div className="flex items-center gap-2 flex-wrap">
+                            <div className="flex items-center gap-stack-xs flex-wrap">
                               <h3 className="ds-component__name">{c.name}</h3>
                               {c.showcaseOnly && (
                                 <span
@@ -7631,7 +7631,7 @@ const Components: React.FC = () => {
                 <h2 className="ds-section__title">Pages · {family}</h2>
                 <span className="ds-section__count">{pages.length} template{pages.length > 1 ? 's' : ''}</span>
               </div>
-              <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+              <div className="grid gap-stack" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
                 {pages.map((p) => (
                   <div
                     key={p.id}

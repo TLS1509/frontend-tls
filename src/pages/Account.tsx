@@ -64,7 +64,7 @@ const SettingRow: React.FC<{
   children?: React.ReactNode;
   danger?: boolean;
 }> = ({ icon, label, description, children, danger }) => (
-  <div className="flex items-center justify-between gap-4 py-5 border-b border-ink-100 last:border-0">
+  <div className="flex items-center justify-between gap-stack py-5 border-b border-ink-100 last:border-0">
     <div className="flex items-start gap-3 flex-1 min-w-0">
       <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-500'}`}>
         {icon}
@@ -86,12 +86,12 @@ const SettingRow: React.FC<{
 
 const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
-    <div className="px-6 py-4 border-b border-ink-100">
+    <div className="px-stack-lg py-stack border-b border-ink-100">
       <h3 className="m-0 font-display text-body font-bold text-ink-900 tracking-tight">
         {title}
       </h3>
     </div>
-    <div className="px-6">
+    <div className="px-stack-lg">
       {children}
     </div>
   </div>
@@ -199,7 +199,7 @@ const SecurityTab: React.FC = () => {
           <div
             key={session.id}
             className={[
-              'flex items-center justify-between gap-4 py-5 px-6 -mx-6 transition-colors',
+              'flex items-center justify-between gap-stack py-5 px-stack-lg -mx-6 transition-colors',
               i < SESSIONS.length - 1 ? 'border-b border-ink-100' : '',
               session.current ? 'bg-primary-50' : '',
             ].join(' ')}
@@ -209,13 +209,13 @@ const SecurityTab: React.FC = () => {
                 <Smartphone size={16} />
               </div>
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-stack-xs">
                   <p className="m-0 font-body text-body-sm font-semibold text-ink-900">
                     {session.device}
                   </p>
                   {session.current && <Badge variant="success">session actuelle</Badge>}
                 </div>
-                <p className="m-0 mt-0.5 font-body text-caption text-ink-500 flex items-center gap-2">
+                <p className="m-0 mt-0.5 font-body text-caption text-ink-500 flex items-center gap-stack-xs">
                   <MapPin size={11} /> {session.location} · {session.lastSeen}
                 </p>
               </div>
@@ -283,9 +283,9 @@ const BillingTab: React.FC = () => (
   <div className="flex flex-col gap-stack-lg">
     <SettingCard title="Abonnement actuel">
       <div className="pt-5 pb-5">
-        <div className="flex items-start justify-between gap-4 p-6 rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-6 shadow-md">
+        <div className="flex items-start justify-between gap-stack p-stack-lg rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-stack-lg shadow-md">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-stack-xs mb-stack-xs">
               <Sparkles size={16} className="text-primary-500" />
               <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Plan Pro</h3>
               <Badge variant="brand">Actif</Badge>
@@ -320,7 +320,7 @@ const BillingTab: React.FC = () => (
       ].map((inv, i, arr) => (
         <div
           key={inv.date}
-          className={`flex items-center justify-between gap-4 py-5 transition-colors ${i < arr.length - 1 ? 'border-b border-ink-100' : ''}`}
+          className={`flex items-center justify-between gap-stack py-5 transition-colors ${i < arr.length - 1 ? 'border-b border-ink-100' : ''}`}
         >
           <div>
             <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{inv.desc}</p>
@@ -351,7 +351,7 @@ export const Account: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-section flex flex-col gap-section">
+      <div className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="account" />
@@ -367,7 +367,7 @@ export const Account: React.FC = () => {
         />
 
         {/* ── Tabs ─────────────────────────────────────────────── */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-stack sm:px-0">
           <Tabs
             items={TAB_ITEMS}
             value={activeTab}

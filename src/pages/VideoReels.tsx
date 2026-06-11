@@ -268,11 +268,11 @@ export const VideoReels: React.FC = () => {
       />
 
       {/* ── Barre haute flottante ─────────────────────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-sticky px-6 py-5 flex items-center justify-between gap-4 bg-gradient-to-b from-black/65 to-transparent">
+      <div className="fixed top-0 left-0 right-0 z-sticky px-stack-lg py-5 flex items-center justify-between gap-stack bg-gradient-to-b from-black/65 to-transparent">
 
         <button
           onClick={() => navigate('/veille')}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white"
+          className="flex items-center gap-stack-xs px-stack py-stack-xs rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white"
         >
           <ArrowLeft size={16} />
           Retour
@@ -331,8 +331,8 @@ export const VideoReels: React.FC = () => {
           </div>
 
           {/* Overlay haut : badge catégorie + titre */}
-          <div className="absolute top-0 left-0 right-0 px-6 pt-16 pb-8 bg-gradient-to-b from-black/65 to-transparent z-10">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="absolute top-0 left-0 right-0 px-stack-lg pt-16 pb-section bg-gradient-to-b from-black/65 to-transparent z-10">
+            <div className="flex items-center gap-stack-xs mb-stack-xs">
               <span className="text-h4">{video.emoji}</span>
               <span
                 className={[
@@ -353,7 +353,7 @@ export const VideoReels: React.FC = () => {
           </div>
 
           {/* Overlay bas : instructeur + description */}
-          <div className="absolute bottom-0 left-0 right-0 px-6 pt-8 pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
+          <div className="absolute bottom-0 left-0 right-0 px-stack-lg pt-section pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
             <div className="flex items-center gap-3 mb-3">
               {/* Avatar : gradient tone-aware via tokens */}
               <div
@@ -381,7 +381,7 @@ export const VideoReels: React.FC = () => {
         </div>
 
         {/* ── Actions latérales ─── */}
-        <div className="fixed right-6 z-sticky flex flex-col gap-4 bottom-[30%]">
+        <div className="fixed right-6 z-sticky flex flex-col gap-stack bottom-[30%]">
           <ActionBtn onClick={toggleLike} liked={isLiked} label={likesDisplay}>
             <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
           </ActionBtn>
@@ -408,7 +408,7 @@ export const VideoReels: React.FC = () => {
 
       {/* ── Compteur bas de page ─────────────────────────────────── */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-3">
-        <div className="px-5 py-2 rounded-xl bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-2">
+        <div className="px-5 py-stack-xs rounded-xl bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-stack-xs">
           <strong className="text-white">{currentIndex + 1}</strong>
           <span className="text-white/70">/</span>
           <span className="text-white/70">{filtered.length}</span>

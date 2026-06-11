@@ -52,7 +52,7 @@ export default function CoachApprenants() {
         tone="default"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -75,7 +75,7 @@ export default function CoachApprenants() {
 
         {/* Alert */}
         {stuckCount > 0 && (
-          <div className="flex items-start gap-stack p-4 bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <p className="text-body-sm text-ink-700">
               <strong>{stuckCount} apprenants</strong> n'ont pas eu d'activité depuis plus de 7 jours. Une prise de contact est recommandée.
@@ -92,10 +92,10 @@ export default function CoachApprenants() {
               placeholder="Rechercher un apprenant..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
+              className="w-full pl-9 pr-4 py-stack-xs.5 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
             />
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             {FILTER_OPTIONS.map((f) => (
               <FilterChip
                 key={f.id}
@@ -129,7 +129,7 @@ export default function CoachApprenants() {
                       variant="default"
                       align="left"
                       cta={
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-stack-xs">
                           <Badge variant={variant} size="sm">{label}</Badge>
                           <Button
                             variant="brand-ghost"

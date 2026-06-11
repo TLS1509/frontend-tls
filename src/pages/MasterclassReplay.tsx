@@ -40,7 +40,7 @@ export default function MasterclassReplay() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section">
+      <Container width="wide" padding={false} className="px-stack py-section">
         <div className="md:grid md:grid-cols-3 gap-section flex flex-col">
           {/* Colonne principale : span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
@@ -83,7 +83,7 @@ export default function MasterclassReplay() {
           {/* Sidebar droite */}
           <div className="md:col-span-1 flex flex-col gap-stack">
             {/* XP card */}
-            <Card variant="tinted" tone="primary" className="text-center p-4 flex flex-col items-center gap-tight">
+            <Card variant="tinted" tone="primary" className="text-center p-stack flex flex-col items-center gap-tight">
               <Award size={28} className="text-primary-600" />
               <p className="text-h2 font-display font-bold text-primary-700">+150 XP</p>
               <p className="text-caption text-ink-400">Masterclass complétée</p>
@@ -108,7 +108,7 @@ export default function MasterclassReplay() {
             </SectionCard>
 
             {/* CTA enquête */}
-            <Card variant="tinted" tone="sun" className="p-4 flex flex-col gap-tight">
+            <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">Ton avis compte !</p>
               <p className="text-caption text-ink-500">Aide-nous à améliorer les prochaines sessions.</p>
               <Button variant="primary" size="sm" fullWidth className="mt-tight">

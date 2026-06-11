@@ -61,9 +61,9 @@ export default function AtelierDetail() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Coach card */}
-        <Card variant="tinted" tone="warm" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-6">
+        <Card variant="tinted" tone="warm" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-lg">
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-display font-bold text-ink-900">Sophie Martin</h3>
@@ -104,7 +104,7 @@ export default function AtelierDetail() {
         </SectionCard>
 
         {/* Inscription CTA */}
-        <Card variant="default" className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
+        <Card variant="default" className="p-stack-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-section">
           <div className="flex flex-col gap-tight w-full sm:flex-1">
             <span className="text-body font-semibold text-ink-900">7 / 12 places disponibles</span>
             <ProgressBar value={58} fill="warm" size="md" valueLabel={false} />

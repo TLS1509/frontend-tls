@@ -60,8 +60,8 @@ export const MagicLink: React.FC = () => {
         !sent ? (
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             {/* Mini-pitch trust */}
-            <div className="flex flex-col gap-2 p-4 rounded-2xl bg-white/8 border border-white/15 backdrop-blur-glass-light">
-              <div className="flex items-start gap-2.5">
+            <div className="flex flex-col gap-stack-xs p-stack rounded-2xl bg-white/8 border border-white/15 backdrop-blur-glass-light">
+              <div className="flex items-start gap-stack-xs.5">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <Zap size={14} />
                 </span>
@@ -74,7 +74,7 @@ export const MagicLink: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-2.5">
+              <div className="flex items-start gap-stack-xs.5">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <ShieldCheck size={14} />
                 </span>
@@ -102,7 +102,7 @@ export const MagicLink: React.FC = () => {
 
             <div className="flex flex-col gap-3">
               <AuthPrimaryButton type="submit">
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-stack-xs">
                   <Sparkles size={16} />
                   Envoyer le lien magique
                 </span>
@@ -131,7 +131,7 @@ export const MagicLink: React.FC = () => {
           >
             <div className="flex flex-col gap-3">
               <AuthGhostButton onClick={handleResend} disabled={cooldown > 0}>
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-stack-xs">
                   <RefreshCcw size={16} />
                   {cooldown > 0 ? `Renvoyer (${cooldown}s)` : 'Renvoyer le lien'}
                 </span>
@@ -141,7 +141,7 @@ export const MagicLink: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 mt-4 font-body text-caption text-white/60 text-center leading-relaxed">
+            <p className="m-0 mt-stack font-body text-caption text-white/60 text-center leading-relaxed">
               Email non reçu ? Vérifiez vos spams ou <AuthInlineLink onClick={() => navigate('/help')}>contactez le support</AuthInlineLink>.
             </p>
           </AuthSuccess>

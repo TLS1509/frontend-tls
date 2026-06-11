@@ -95,7 +95,7 @@ export default function ManagerAlerts() {
         }
       />
 
-      <Container width="page" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Summary */}
         <div className="grid grid-cols-3 gap-stack">

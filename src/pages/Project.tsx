@@ -63,7 +63,7 @@ export const Project: React.FC = () => {
 
   if (!project) {
     return (
-      <Container width="page" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
         <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
           Retour aux projets
@@ -104,7 +104,7 @@ export const Project: React.FC = () => {
       />
 
       {gatingFails.length > 0 && (
-        <div className="flex items-start gap-3 p-4 rounded-xl bg-warning-bg border border-warning-base/30">
+        <div className="flex items-start gap-3 p-stack rounded-xl bg-warning-bg border border-warning-base/30">
           <Lock size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
             <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>

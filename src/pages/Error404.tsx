@@ -42,19 +42,19 @@ export const Error404: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 font-body">
+    <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-stack-lg font-body">
 
       {/* Hero */}
-      <div className="text-center max-w-[520px] mb-12 flex flex-col items-center">
+      <div className="text-center max-w-[520px] mb-page flex flex-col items-center">
 
         {/* Compass icon */}
-        <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-200 flex items-center justify-center mx-auto mb-8 text-primary-600 shadow-md">
+        <div className="w-[120px] h-[120px] rounded-full bg-gradient-to-br from-primary-50 to-secondary-50 border-2 border-primary-200 flex items-center justify-center mx-auto mb-section text-primary-600 shadow-md">
           <Compass size={56} strokeWidth={1.5} />
         </div>
 
         {/* 404 gradient number */}
         <div
-          className="font-display font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-300 to-secondary-200 mb-4 tracking-tight"
+          className="font-display font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-300 to-secondary-200 mb-stack tracking-tight"
           style={{ fontSize: 'clamp(4rem, 10vw, 6rem)', lineHeight: 1 }}
           aria-hidden="true"
         >
@@ -64,13 +64,13 @@ export const Error404: React.FC = () => {
         <h1 className="font-display text-h2 font-bold text-ink-900 m-0 mb-3">
           Oups, page non trouvée
         </h1>
-        <p className="font-body text-body text-ink-500 m-0 mb-8 leading-relaxed">
+        <p className="font-body text-body text-ink-500 m-0 mb-section leading-relaxed">
           La page demandée n&apos;existe pas ou a été déplacée. Pas de problème, nous vous proposons ces raccourcis utiles.
         </p>
       </div>
 
       {/* Suggestion grid */}
-      <div className="grid gap-6 w-full max-w-[960px] mb-10 [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
+      <div className="grid gap-stack-lg w-full max-w-[960px] mb-section-lg [grid-template-columns:repeat(auto-fit,minmax(240px,1fr))]">
         {suggestions.map((item, idx) => (
           <button
             key={idx}

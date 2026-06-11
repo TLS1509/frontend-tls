@@ -114,7 +114,7 @@ export default function CoachAnalytics() {
         summary="Suivi de l'engagement, de la progression Dreyfus et de l'activité de correction de ta cohorte."
         tone="warm"
         trailing={
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-stack-xs">
             {PERIOD_OPTIONS.map((p) => (
               <FilterChip
                 key={p.id}
@@ -127,7 +127,7 @@ export default function CoachAnalytics() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -182,7 +182,7 @@ export default function CoachAnalytics() {
               title="Engagement hebdomadaire"
               titleIcon={<BarChart3 size={18} className="text-secondary-600" />}
             >
-              <div className="flex items-end gap-2 h-32 pt-2">
+              <div className="flex items-end gap-stack-xs h-32 pt-2">
                 {ENGAGEMENT_WEEKS.map((val, i) => (
                   <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0">
                     <span className="text-micro text-ink-500 font-medium tabular-nums">{val}%</span>
@@ -311,7 +311,7 @@ export default function CoachAnalytics() {
                   {CORRECTIONS_PENDING.map((c) => (
                     <div
                       key={c.id}
-                      className="flex flex-col sm:flex-row sm:items-center gap-stack-xs px-4 py-3"
+                      className="flex flex-col sm:flex-row sm:items-center gap-stack-xs px-stack py-3"
                     >
                       <span className="font-display text-body-sm font-bold text-ink-900 w-36 shrink-0">
                         {c.apprenant}

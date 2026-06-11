@@ -55,7 +55,7 @@ export default function EvenementLive() {
   const [question, setQuestion] = useState('');
 
   return (
-    <div className="flex flex-col gap-section px-4 py-6">
+    <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
         tone="sun"
         eyebrow={{ label: 'Événement · En direct' }}
@@ -92,7 +92,7 @@ export default function EvenementLive() {
             titleIcon={<MessageSquare size={18} />}
           >
             {QUESTIONS.map((q) => (
-              <div key={q.id} className="flex items-start gap-3 py-2 border-b border-ink-100 last:border-0">
+              <div key={q.id} className="flex items-start gap-3 py-stack-xs border-b border-ink-100 last:border-0">
                 <Avatar name={q.author} size="sm" />
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-caption font-semibold text-ink-900 m-0">{q.author}</p>
@@ -102,7 +102,7 @@ export default function EvenementLive() {
               </div>
             ))}
 
-            <div className="flex gap-2 pt-2">
+            <div className="flex gap-stack-xs pt-2">
               <Input
                 placeholder="Poser une question au panel..."
                 value={question}
@@ -124,7 +124,7 @@ export default function EvenementLive() {
             titleIcon={<ClipboardList size={18} />}
           >
             {PROGRAMME_ITEMS.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2 py-1.5 border-b border-ink-100 last:border-0">
+              <div key={idx} className="flex items-center gap-stack-xs py-1.5 border-b border-ink-100 last:border-0">
                 <span className="text-caption font-mono font-bold text-ink-500 shrink-0 w-10">
                   {item.time}
                 </span>
@@ -140,7 +140,7 @@ export default function EvenementLive() {
             titleIcon={<FileText size={18} />}
           >
             {RESOURCES.map((res, idx) => (
-              <div key={idx} className="flex items-center gap-2 py-1.5 border-b border-ink-100 last:border-0">
+              <div key={idx} className="flex items-center gap-stack-xs py-1.5 border-b border-ink-100 last:border-0">
                 {res.type === 'download' ? (
                   <Download size={14} className="text-primary-500 shrink-0" />
                 ) : (
@@ -155,7 +155,7 @@ export default function EvenementLive() {
           </SectionCard>
 
           {/* Participants live */}
-          <Card variant="tinted" tone="sun" className="p-4 text-center">
+          <Card variant="tinted" tone="sun" className="p-stack text-center">
             <p className="text-h2 font-bold text-accent-600 font-display m-0">
               {EVENT.participants}
             </p>

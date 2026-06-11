@@ -49,7 +49,7 @@ const PurchaseCredits: React.FC = () => {
         tone="brand"
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {purchased && (
           <Alert variant="success" title="Achat confirmé !">
             {pack ? `${pack.credits + (pack.bonus ?? 0)} crédits ajoutés à ton compte.` : 'Crédits ajoutés.'}
@@ -66,7 +66,7 @@ const PurchaseCredits: React.FC = () => {
               <Card
                 key={p.id}
                 onClick={() => setSelectedPack(p.id)}
-                className={`p-6 cursor-pointer relative transition-all ${
+                className={`p-stack-lg cursor-pointer relative transition-all ${
                   selectedPack === p.id ? 'border-primary-500 ring-2 ring-primary-200' : 'border-ink-200 hover:border-primary-300'
                 }`}
               >
@@ -91,7 +91,7 @@ const PurchaseCredits: React.FC = () => {
         </div>
 
         {pack && (
-          <Card className="p-6">
+          <Card className="p-stack-lg">
             <h3 className="text-h4 font-semibold mb-stack">Paiement sécurisé</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
               <FormGroup label="Numéro de carte">
@@ -108,7 +108,7 @@ const PurchaseCredits: React.FC = () => {
               </FormGroup>
             </div>
 
-            <div className="flex items-center justify-between mt-stack-lg p-4 rounded-lg bg-ink-50">
+            <div className="flex items-center justify-between mt-stack-lg p-stack rounded-lg bg-ink-50">
               <div>
                 <div className="text-caption text-ink-500">Total à payer</div>
                 <div className="text-h3 font-bold">{pack.price}€</div>
@@ -125,7 +125,7 @@ const PurchaseCredits: React.FC = () => {
               {purchased ? 'Achat confirmé' : 'Payer via WooCommerce / Stripe'}
             </Button>
 
-            <div className="flex items-center gap-2 mt-stack text-caption text-ink-500 justify-center">
+            <div className="flex items-center gap-stack-xs mt-stack text-caption text-ink-500 justify-center">
               <Shield className="w-4 h-4" />
               <span>Paiement sécurisé · SSL · PCI-DSS</span>
             </div>

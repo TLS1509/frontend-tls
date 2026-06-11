@@ -158,7 +158,7 @@ export const AstucesViewer: React.FC = () => {
         onClose={handleClose}
       />
 
-      <div className="px-4 sm:px-6 lg:px-8 py-section">
+      <div className="px-stack sm:px-stack-lg lg:px-section py-section">
         <div className="max-w-4xl mx-auto pb-section flex flex-col gap-section">
 
           <header className="flex flex-col gap-stack" id="astuces-title">

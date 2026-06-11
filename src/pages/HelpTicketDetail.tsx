@@ -52,7 +52,7 @@ export default function HelpTicketDetail() {
           summary="Ce ticket n'existe pas ou vous n'y avez pas accès."
           tone="default"
         />
-        <Container width="page" padding={false} className="px-4 pb-page">
+        <Container width="page" padding={false} className="px-stack pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
@@ -73,7 +73,7 @@ export default function HelpTicketDetail() {
         trailing={<Badge variant={badge.variant}>{badge.label}</Badge>}
       />
 
-      <Container width="page" padding={false} className="px-4 flex flex-col gap-section pb-page">
+      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
         <div className="flex items-center gap-stack-xs">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help/tickets')}>
             Retour aux tickets

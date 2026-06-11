@@ -45,7 +45,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <Alert variant="warning" title="⚠️ Action irréversible">
           Cette action est définitive. Tu ne pourras pas récupérer ton compte ni tes données après confirmation. Pense à exporter tes données avant via la demande DSAR.
         </Alert>
@@ -65,7 +65,7 @@ const PrivacyDeleteAccount: React.FC = () => {
               'Tes objectifs et passeport',
               'Tes crédits restants (non remboursés)',
             ].map((item) => (
-              <div key={item} className="flex items-center gap-2 p-3 bg-danger-bg/50 rounded-lg">
+              <div key={item} className="flex items-center gap-stack-xs p-3 bg-danger-bg/50 rounded-lg">
                 <Trash2 className="w-4 h-4 text-danger-fg shrink-0" />
                 <span className="text-body-sm">{item}</span>
               </div>
@@ -75,7 +75,7 @@ const PrivacyDeleteAccount: React.FC = () => {
 
         <SectionCard title="Ce qui sera conservé (anonymisé)" description="Pour respecter nos obligations comptables et légales">
           <div className="flex flex-col gap-stack-xs">
-            <div className="flex items-center gap-2 p-3 bg-info-bg/50 rounded-lg">
+            <div className="flex items-center gap-stack-xs p-3 bg-info-bg/50 rounded-lg">
               <Info className="w-4 h-4 text-info-fg shrink-0" />
               <span className="text-body-sm">Factures et historique de paiement (anonymisés, conservés 10 ans pour obligations fiscales)</span>
             </div>
@@ -83,7 +83,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         </SectionCard>
 
         {step === 1 && (
-          <Card className="p-6 flex flex-col gap-stack">
+          <Card className="p-stack-lg flex flex-col gap-stack">
             <h3 className="text-h4 font-semibold">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
               <textarea
@@ -104,7 +104,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         )}
 
         {step === 2 && (
-          <Card className="p-6 flex flex-col gap-stack border-danger-base/30">
+          <Card className="p-stack-lg flex flex-col gap-stack border-danger-base/30">
             <div className="flex items-start gap-3">
               <ShieldOff className="w-8 h-8 text-danger-fg" />
               <div>
@@ -112,7 +112,7 @@ const PrivacyDeleteAccount: React.FC = () => {
                 <p className="text-body-sm text-ink-600">Pour confirmer, tape exactement la phrase ci-dessous.</p>
               </div>
             </div>
-            <Badge variant="danger" className="text-center py-2 font-mono">SUPPRIMER MON COMPTE</Badge>
+            <Badge variant="danger" className="text-center py-stack-xs font-mono">SUPPRIMER MON COMPTE</Badge>
             <FormGroup label="Tape la phrase exacte ci-dessus">
               <Input
                 value={confirmText}

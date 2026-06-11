@@ -80,7 +80,7 @@ export const VideoTutorial: React.FC = () => {
     <div className="min-h-screen bg-surface font-body flex flex-col">
 
       {/* ─ Sticky glass header ────────────────────────────────────── */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-6 h-14">
+      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-stack-lg h-14">
         <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/veille')}>
           Retour
         </Button>
@@ -105,11 +105,11 @@ export const VideoTutorial: React.FC = () => {
         <div className="flex flex-col border-r border-ink-200">
 
           {/* Header info */}
-          <div className="px-8 py-6 pb-5">
+          <div className="px-section py-stack-lg pb-5">
             <h1 className="font-display text-h1 font-black text-ink-900 m-0 mb-3 leading-[1.15] tracking-tight">
               {tuto.title}
             </h1>
-            <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-4 max-w-[640px]">
+            <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-stack max-w-[640px]">
               {tuto.description}
             </p>
             <div className="flex items-center gap-3 flex-wrap">
@@ -185,7 +185,7 @@ export const VideoTutorial: React.FC = () => {
           </div>
 
           {/* Chapter list */}
-          <div className="flex-1 overflow-y-auto py-2">
+          <div className="flex-1 overflow-y-auto py-stack-xs">
             {tuto.chapitres.map((ch, i) => {
               const isActive = activeChapter === i;
               return (
@@ -224,7 +224,7 @@ export const VideoTutorial: React.FC = () => {
           </div>
 
           {/* Back to veille */}
-          <div className="px-5 py-4 border-t border-ink-200">
+          <div className="px-5 py-stack border-t border-ink-200">
             <button
               type="button"
               onClick={() => navigate("/veille")}

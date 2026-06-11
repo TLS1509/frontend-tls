@@ -69,7 +69,7 @@ export default function CoachDashboard() {
         tone="default"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -109,17 +109,17 @@ export default function CoachDashboard() {
                 return (
                   <Card
                     key={a.id}
-                    className={`p-4 flex items-start gap-4 cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : 'hover:shadow-sm'}`}
+                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : 'hover:shadow-sm'}`}
                     onClick={() => setSelectedApprenantId(isSelected ? null : a.id)}
                   >
                     <Avatar initials={a.initials} size="md" />
-                    <div className="flex-1 min-w-0 flex flex-col gap-2">
-                      <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{a.name}</span>
                         <Badge variant={status.variant} size="sm">{status.label}</Badge>
                         <AtrophieIndicator daysSinceActivity={days} currentLevel={Math.round(a.dreyfusAvg)} size="sm" showLabel={false} />
                       </div>
-                      <div className="flex gap-4 text-caption text-ink-500 flex-wrap">
+                      <div className="flex gap-stack text-caption text-ink-500 flex-wrap">
                         <span>Dernière activité : {a.lastActivity}</span>
                         <span>JAC : {jac}%</span>
                         <span>Dreyfus moy. : D{a.dreyfusAvg.toFixed(1)}</span>
@@ -173,9 +173,9 @@ export default function CoachDashboard() {
               pendingCorrections.slice(0, 5).map((c) => {
                 const learner = getApprenantById(c.learnerId);
                 return (
-                  <Card key={c.id} className="p-4 flex items-start gap-4">
+                  <Card key={c.id} className="p-stack flex items-start gap-stack">
                     <div className="flex-1 min-w-0 flex flex-col gap-1">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
                         {c.iterationCount === 0 && <Badge variant="sun" size="sm">Nouveau</Badge>}
                       </div>

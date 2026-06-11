@@ -153,21 +153,21 @@ export default function PasseportObjectifs() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Summary row */}
         <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">{activeGoals.length}</span>
             <span className="text-caption text-ink-500 text-center">Objectifs actifs</span>
           </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">
               {Math.round(activeGoals.reduce((acc, g) => acc + g.progressPct, 0) / Math.max(activeGoals.length, 1))}%
             </span>
             <span className="text-caption text-ink-500 text-center">Progression moy.</span>
           </Card>
-          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-6 gap-tight">
+          <Card variant="tinted" tone="primary" className="flex flex-col items-center justify-center py-stack-lg gap-tight">
             <span className="text-h2 font-display font-bold text-primary-700">{draftGoals.length}</span>
             <span className="text-caption text-ink-500 text-center">En attente</span>
           </Card>
@@ -199,7 +199,7 @@ export default function PasseportObjectifs() {
                   <div
                     key={g.id}
                     className={[
-                      'w-full p-4 rounded-xl border transition-all duration-base',
+                      'w-full p-stack rounded-xl border transition-all duration-base',
                       isSelected
                         ? 'bg-primary-50 border-primary-200 shadow-sm'
                         : 'bg-white border-ink-100 hover:border-ink-200',
@@ -219,7 +219,7 @@ export default function PasseportObjectifs() {
                             {comp ? domainLabel(comp.domain) : g.competenceId}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex items-center gap-stack-xs shrink-0">
                           <Badge variant="neutral" size="sm">D{g.startLevel}→D{g.targetLevel}</Badge>
                           <span className="text-caption text-ink-400 flex items-center gap-1">
                             <Clock size={11} />
@@ -229,7 +229,7 @@ export default function PasseportObjectifs() {
                       </div>
                       <ProgressBar value={g.progressPct} fill="brand" size="sm" showLabel />
                     </button>
-                    <div className="mt-stack flex items-center justify-end gap-2">
+                    <div className="mt-stack flex items-center justify-end gap-stack-xs">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -266,7 +266,7 @@ export default function PasseportObjectifs() {
             title={`Jalons : ${getCompetenceById(goal.competenceId)?.label ?? goal.competenceId}`}
             titleIcon={<CheckCircle2 size={18} />}
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {goal.milestones.map((m, idx) => (
                 <div
                   key={m.id}
@@ -298,16 +298,16 @@ export default function PasseportObjectifs() {
         {/* Draft goals */}
         {draftGoals.length > 0 && (
           <SectionCard title="En attente de planification" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {draftGoals.map((g) => {
                 const comp = getCompetenceById(g.competenceId);
                 return (
-                  <Card key={g.id} variant="default" className="flex items-center justify-between px-4 py-3">
+                  <Card key={g.id} variant="default" className="flex items-center justify-between px-stack py-3">
                     <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-medium text-ink-900">{comp?.label ?? g.competenceId}</span>
                       <span className="text-caption text-ink-400">{comp?.subdomain ?? (comp ? domainLabel(comp.domain) : '')} · D{g.startLevel}→D{g.targetLevel}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -349,7 +349,7 @@ export default function PasseportObjectifs() {
         title={modalState?.mode === 'edit' ? "Modifier l'objectif" : 'Nouvel objectif de progression'}
         description="Définis une compétence cible, le niveau Dreyfus visé et une échéance."
         actions={
-          <div className="flex items-center justify-end gap-2 w-full">
+          <div className="flex items-center justify-end gap-stack-xs w-full">
             <Button variant="ghost" size="md" onClick={closeModal}>Annuler</Button>
             <Button variant="primary" size="md" onClick={handleSubmit}>
               {modalState?.mode === 'edit' ? 'Enregistrer' : "Créer l'objectif"}

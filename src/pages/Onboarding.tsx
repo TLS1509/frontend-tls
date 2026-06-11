@@ -267,7 +267,7 @@ function StepConfirmation({
       {/* Summary table */}
       <div className="rounded-xl border border-ink-200 bg-ink-50 overflow-hidden">
         {summaryRows.map((row) => (
-          <div key={row.key} className="flex justify-between items-start gap-4 px-5 py-3 border-b border-ink-200 last:border-b-0">
+          <div key={row.key} className="flex justify-between items-start gap-stack px-5 py-3 border-b border-ink-200 last:border-b-0">
             <span className="font-body text-body-sm font-bold text-ink-500 whitespace-nowrap">{row.key}</span>
             <span className="font-body text-body-sm text-ink-900 text-right">{row.val}</span>
           </div>
@@ -275,18 +275,18 @@ function StepConfirmation({
       </div>
 
       {/* AI suggestion card */}
-      <Card className="mt-2 p-5 border border-secondary-200 flex flex-col gap-3 bg-gradient-to-br from-secondary-50 to-white">
+      <Card className="mt-stack-xs p-5 border border-secondary-200 flex flex-col gap-3 bg-gradient-to-br from-secondary-50 to-white">
         <div className="flex items-start gap-3">
           <Brain size={20} className="text-secondary-600 shrink-0 mt-0.5" />
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-stack-xs">
               <span className="font-body text-body font-bold text-ink-900">Parcours recommandé</span>
               <Badge variant="warm">IA</Badge>
             </div>
             <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0">{aiText}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-stack-xs">
           {previewTags.map(g => (
             <span key={g} className="inline-flex px-3 py-1 rounded-pill bg-secondary-100 text-secondary-700 font-body text-caption font-bold">
               {g}
@@ -372,12 +372,12 @@ export const Onboarding: React.FC = () => {
         {/* ── Substep card ───────────────────────────────────────────────────── */}
         <div className="rounded-2xl bg-white border border-ink-200 overflow-hidden">
 
-          <div className="p-6 sm:p-8 animate-in fade-in slide-in-from-right-2 duration-300" key={substep}>
+          <div className="p-stack-lg sm:p-section animate-in fade-in slide-in-from-right-2 duration-300" key={substep}>
             {stepComponents[substep]}
           </div>
 
           {/* Footer nav : responsive button layout (stacked on mobile) */}
-          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-ink-100 bg-ink-50">
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-stack-lg sm:px-section py-5 border-t border-ink-100 bg-ink-50">
             {substep === 0 ? (
               <Button variant="link" size="sm" onClick={() => navigate('/dashboard')} className="sm:flex-none flex-1">
                 Passer pour l'instant

@@ -42,7 +42,7 @@ const CorrectionDetailLearner: React.FC = () => {
 
   if (!correction) {
     return (
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <div className="max-w-page mx-auto px-stack py-section flex flex-col gap-section">
         <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
           Retour au coaching
@@ -72,7 +72,7 @@ const CorrectionDetailLearner: React.FC = () => {
         }
       />
 
-      <div className="max-w-page mx-auto px-4 py-section flex flex-col gap-section">
+      <div className="max-w-page mx-auto px-stack py-section flex flex-col gap-section">
 
         {/* Status bar */}
         <div className="flex flex-wrap items-center gap-stack-xs">
@@ -97,7 +97,7 @@ const CorrectionDetailLearner: React.FC = () => {
 
         {/* Coach feedback */}
         {hasFeedback ? (
-          <Card className="p-6 flex items-start gap-4">
+          <Card className="p-stack-lg flex items-start gap-stack">
             <Avatar initials={MOCK_COACH_INITIALS} size="md" tint="brand" />
             <div className="flex-1">
               <div className="text-caption text-ink-500 mb-1">{MOCK_COACH_NAME} : Feedback</div>

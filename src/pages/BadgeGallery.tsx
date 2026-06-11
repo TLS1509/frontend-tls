@@ -101,7 +101,7 @@ export default function BadgeGallery() {
         tone="sun"
       />
 
-      <Container width="wide" padding={false} className="px-4 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">
         {/* Filters */}
         <div className="flex flex-wrap gap-stack-xs">
           {FILTERS.map((f) => (

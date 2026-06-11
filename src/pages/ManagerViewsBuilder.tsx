@@ -49,7 +49,7 @@ const ManagerViewsBuilder: React.FC = () => {
         tone="default"
       />
 
-      <Container width="page" padding={false} className="px-4 py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">
+      <Container width="page" padding={false} className="px-stack py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">
         {/* Builder Panel */}
         <div className="flex flex-col gap-stack">
           <SectionCard title="1. Nom de la vue">
@@ -114,7 +114,7 @@ const ManagerViewsBuilder: React.FC = () => {
         </div>
 
         {/* Preview Panel */}
-        <Card className="p-6 sticky top-stack h-fit">
+        <Card className="p-stack-lg sticky top-stack h-fit">
           <div className="flex items-center justify-between mb-stack">
             <div>
               <div className="text-caption text-ink-500">Aperçu en direct</div>
@@ -125,7 +125,7 @@ const ManagerViewsBuilder: React.FC = () => {
 
           <div className="aspect-video bg-ink-50 rounded-lg flex items-center justify-center border-2 border-dashed border-ink-300">
             <div className="text-center">
-              <BarChart3 className="w-12 h-12 text-ink-400 mx-auto mb-2" />
+              <BarChart3 className="w-12 h-12 text-ink-400 mx-auto mb-stack-xs" />
               <div className="text-caption text-ink-500">Aperçu graphique {chartType}</div>
               <div className="text-caption text-ink-400 mt-1">groupé par {groupBy} · {dateRange}</div>
             </div>

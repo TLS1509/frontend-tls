@@ -73,7 +73,7 @@ const ItemRecommendations: React.FC = () => {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex items-center justify-between gap-stack">
           <div>
             <div className="text-h4 font-semibold">{RECOMMENDATIONS.length} recommandations actives</div>
@@ -87,13 +87,13 @@ const ItemRecommendations: React.FC = () => {
             {RECOMMENDATIONS.map((r) => {
               const Icon = TYPE_ICON[r.type];
               return (
-                <Card key={r.id} className="p-6">
-                  <div className="flex items-start gap-4">
+                <Card key={r.id} className="p-stack-lg">
+                  <div className="flex items-start gap-stack">
                     <div className="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center shrink-0">
                       <Icon className="w-6 h-6 text-primary-600" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-stack-xs mb-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs mb-stack-xs flex-wrap">
                         <Badge variant="brand">{r.competence}</Badge>
                         <Badge variant="neutral">{r.duration}</Badge>
                         <span className="text-caption text-ink-500">{r.date}</span>

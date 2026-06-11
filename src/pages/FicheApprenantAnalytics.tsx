@@ -56,7 +56,7 @@ export default function FicheApprenantAnalytics() {
     return (
       <div className="flex flex-col gap-section">
         <EditorialHero eyebrow="Coach · Fiche Apprenant" title="Apprenant introuvable" summary="Cet apprenant n'est pas dans ton équipe." tone="warm" />
-        <Container width="wide" padding={false} className="px-4 md:px-8">
+        <Container width="wide" padding={false} className="px-stack md:px-section">
           <p className="text-body-sm text-ink-500">Aucune donnée pour l'identifiant : {id}</p>
         </Container>
       </div>
@@ -103,10 +103,10 @@ export default function FicheApprenantAnalytics() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Profile header */}
-        <Card variant="default" className="flex items-center gap-section p-6 flex-wrap">
+        <Card variant="default" className="flex items-center gap-section p-stack-lg flex-wrap">
           <Avatar name={learner.name} initials={learner.initials} size="xl" />
           <div className="flex flex-col gap-tight flex-1">
             <div className="flex items-center gap-3 flex-wrap">
@@ -137,13 +137,13 @@ export default function FicheApprenantAnalytics() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-ink-100">
+        <div className="flex gap-stack-xs border-b border-ink-100">
           {(['overview', 'heatmap', 'activity'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={[
-                'px-4 py-2 text-body-sm font-semibold transition-colors duration-fast',
+                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast',
                 tab === t ? 'text-secondary-600 border-b-2 border-secondary-500' : 'text-ink-500 hover:text-ink-900',
               ].join(' ')}
             >
@@ -176,9 +176,9 @@ export default function FicheApprenantAnalytics() {
             {learner.recentCompletions.length === 0 ? (
               <p className="text-body-sm text-ink-500">Aucune activité récente enregistrée.</p>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-stack-xs">
                 {learner.recentCompletions.map((a) => (
-                  <Card key={a.id} variant="default" className="flex items-center justify-between px-4 py-3 flex-wrap gap-2">
+                  <Card key={a.id} variant="default" className="flex items-center justify-between px-stack py-3 flex-wrap gap-stack-xs">
                     <div className="flex items-center gap-3">
                       <Badge variant="neutral" size="sm">{a.itemType}</Badge>
                       <span className="text-body-sm text-ink-800">{a.itemLabel}</span>

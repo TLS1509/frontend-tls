@@ -68,7 +68,7 @@ export const ProjectTeam: React.FC = () => {
             {collaborateurs.map((m) => {
               const competencies = Object.entries(m.currentDreyfusLevels);
               return (
-                <div key={m.userId} className="flex flex-col gap-stack-xs rounded-xl border border-ink-100 bg-ink-50 p-4">
+                <div key={m.userId} className="flex flex-col gap-stack-xs rounded-xl border border-ink-100 bg-ink-50 p-stack">
                   <div className="flex items-center gap-3">
                     <Avatar initials={m.initials} size="md" tint="brand" />
                     <div className="flex flex-col gap-tight min-w-0">

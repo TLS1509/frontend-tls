@@ -78,7 +78,7 @@ export const ResetPassword: React.FC = () => {
       }
       aside={
         <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <CheckCircle2 size={18} className="text-white/85" />
             <h4 className="font-display text-body font-semibold text-white m-0">
               Règles recommandées

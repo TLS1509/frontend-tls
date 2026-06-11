@@ -70,7 +70,7 @@ export default function DashboardCompetenceDetail() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -82,7 +82,7 @@ export default function DashboardCompetenceDetail() {
 
         {/* Progress bar */}
         <SectionCard title={`Progression D${COMPETENCE.currentLevel} → D${COMPETENCE.targetLevel}`} titleIcon={<TrendingUp size={18} />}>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <div className="flex justify-between text-caption text-ink-500">
               <span>{COMPETENCE.xp} XP accumulés</span>
               <span>{COMPETENCE.nextLevelXp - COMPETENCE.xp} XP restants</span>
@@ -92,13 +92,13 @@ export default function DashboardCompetenceDetail() {
         </SectionCard>
 
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-ink-100">
+        <div className="flex gap-stack-xs border-b border-ink-100">
           {(['radar', 'skills', 'activity'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={[
-                'px-4 py-2 text-body-sm font-semibold transition-colors duration-fast',
+                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast',
                 tab === t ? 'text-primary-700 border-b-2 border-primary-600' : 'text-ink-500 hover:text-ink-900',
               ].join(' ')}
             >
@@ -123,14 +123,14 @@ export default function DashboardCompetenceDetail() {
 
         {tab === 'activity' && (
           <SectionCard title="Activités récentes" titleIcon={<Clock size={18} />}>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-stack-xs">
               {ACTIVITY_ITEMS.map((item) => (
-                <Card key={item.id} variant="default" className="flex items-center justify-between px-4 py-3">
+                <Card key={item.id} variant="default" className="flex items-center justify-between px-stack py-3">
                   <div className="flex flex-col gap-tight">
                     <span className="text-body-sm font-medium text-ink-900">{item.title}</span>
                     <span className="text-caption text-ink-400">{item.date}</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     <Badge variant="success" size="sm">+{item.xp} XP</Badge>
                     <ChevronRight size={16} className="text-ink-300" />
                   </div>

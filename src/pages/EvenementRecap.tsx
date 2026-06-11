@@ -61,7 +61,7 @@ export default function EvenementRecap() {
   useParams<{ id: string }>();
 
   return (
-    <div className="flex flex-col gap-section px-4 py-6">
+    <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
         tone="sun"
         eyebrow={{ label: 'Événement · Récapitulatif' }}
@@ -96,7 +96,7 @@ export default function EvenementRecap() {
             headerAction={<AITransparencyLabel variant="generated" size="sm" />}
           >
             {KEY_POINTS.map((point) => (
-              <div key={point.id} className="flex items-start gap-3 py-2 border-b border-ink-100 last:border-0">
+              <div key={point.id} className="flex items-start gap-3 py-stack-xs border-b border-ink-100 last:border-0">
                 <Badge variant="brand">{point.id}</Badge>
                 <p className="text-body-sm text-ink-700 m-0 flex-1">{point.text}</p>
               </div>
@@ -112,7 +112,7 @@ export default function EvenementRecap() {
               <Card
                 key={session.id}
                 variant="default"
-                className="flex items-center gap-section p-4"
+                className="flex items-center gap-section p-stack"
               >
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-body-sm font-semibold text-ink-900 m-0">{session.title}</p>
@@ -129,14 +129,14 @@ export default function EvenementRecap() {
         {/* Sidebar : col span 1 */}
         <div className="md:col-span-1 flex flex-col gap-stack">
           {/* XP */}
-          <Card variant="tinted" tone="primary" className="p-4 text-center flex flex-col items-center gap-tight">
+          <Card variant="tinted" tone="primary" className="p-stack text-center flex flex-col items-center gap-tight">
             <Award size={28} className="text-primary-600" />
             <p className="text-h2 font-bold text-primary-700 font-display m-0">+{EVENT.xp} XP</p>
             <p className="text-caption text-ink-500 m-0">Événement complété</p>
           </Card>
 
           {/* Stats */}
-          <Card variant="default" className="p-4 flex flex-col gap-tight">
+          <Card variant="default" className="p-stack flex flex-col gap-tight">
             <StatCard
               value={EVENT.participants}
               label="Participants"
@@ -160,7 +160,7 @@ export default function EvenementRecap() {
             titleIcon={<FileText size={18} />}
           >
             {RESOURCES.map((res, idx) => (
-              <div key={idx} className="flex items-center gap-2 py-1.5 border-b border-ink-100 last:border-0">
+              <div key={idx} className="flex items-center gap-stack-xs py-1.5 border-b border-ink-100 last:border-0">
                 {res.type === 'download' ? (
                   <Download size={14} className="text-primary-500 shrink-0" />
                 ) : (
@@ -182,7 +182,7 @@ export default function EvenementRecap() {
           </SectionCard>
 
           {/* CTA avis */}
-          <Card variant="tinted" tone="sun" className="p-4 flex flex-col gap-tight">
+          <Card variant="tinted" tone="sun" className="p-stack flex flex-col gap-tight">
             <p className="text-body-sm font-semibold text-ink-900 m-0">
               Votre avis compte !
             </p>

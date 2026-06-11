@@ -51,7 +51,7 @@ const StreakDetail: React.FC = () => {
         tone="warm"
       />
 
-      <Container width="wide" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="🔥 Actif" />
           <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />
@@ -60,7 +60,7 @@ const StreakDetail: React.FC = () => {
         </div>
 
         <SectionCard title="Activité des 30 derniers jours" description="Un carré = un jour. Vert = activité validée, gris = inactif">
-          <Card className="p-6">
+          <Card className="p-stack-lg">
             <div className="grid grid-cols-7 gap-1 max-w-[280px]">
               {DAYS.map((d) => (
                 <div
@@ -82,7 +82,7 @@ const StreakDetail: React.FC = () => {
         <SectionCard title="Milestones débloquées" description="Atteins ces paliers pour gagner des badges">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
             {MILESTONES.map((m) => (
-              <Card key={m.days} className="p-4 flex items-center gap-4">
+              <Card key={m.days} className="p-stack flex items-center gap-stack">
                 {/* Icon bubble : replaces AchievementBadge (full card component, not suitable inline) */}
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${MILESTONE_BUBBLE[m.tone]}`}>
                   {m.unlocked
@@ -91,11 +91,11 @@ const StreakDetail: React.FC = () => {
                 </div>
                 <div className="flex-1">
                   <div className="font-semibold">{m.label}</div>
-                  <div className="text-caption text-ink-500 mb-2">{m.days} jours consécutifs</div>
+                  <div className="text-caption text-ink-500 mb-stack-xs">{m.days} jours consécutifs</div>
                   {m.unlocked ? (
                     <Badge variant="success">Débloqué</Badge>
                   ) : (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-stack-xs">
                       <ProgressBar value={m.progress!} max={100} fill="brand" />
                       <span className="text-caption text-ink-500 shrink-0">{currentStreak}/{m.days}</span>
                     </div>
@@ -106,7 +106,7 @@ const StreakDetail: React.FC = () => {
           </div>
         </SectionCard>
 
-        <Card className="p-6 bg-secondary-50/50 border-secondary-200 flex items-center gap-4">
+        <Card className="p-stack-lg bg-secondary-50/50 border-secondary-200 flex items-center gap-stack">
           <Target className="w-10 h-10 text-secondary-600" />
           <div className="flex-1">
             <div className="font-semibold mb-1">Objectif du jour</div>

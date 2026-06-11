@@ -48,7 +48,7 @@ export const PreCoachingQuestionnaireResponse: React.FC = () => {
         }
         aside={
           <SectionCard title="Statut">
-            <ul className="m-0 p-0 list-none flex flex-col gap-2 text-caption text-success-fg">
+            <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs text-caption text-success-fg">
               <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} /> Transmis au coach</li>
               <li className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} /> Pris en compte pour la session</li>
             </ul>

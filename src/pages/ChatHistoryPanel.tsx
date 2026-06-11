@@ -82,7 +82,7 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 function ConversationCard({ item }: { item: ConversationItem }) {
   return (
-    <Card className="flex flex-col gap-stack-xs p-4 hover:shadow-md transition-shadow duration-base group">
+    <Card className="flex flex-col gap-stack-xs p-stack hover:shadow-md transition-shadow duration-base group">
       <div className="flex items-start justify-between gap-stack">
         <p className="text-body-sm font-semibold text-ink-900 leading-snug flex-1 min-w-0 truncate">
           {item.title}
@@ -128,7 +128,7 @@ export default function ChatHistoryPanel() {
         tone="brand"
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Filter bar */}
         <div className="flex items-center gap-stack-xs flex-wrap">

@@ -58,7 +58,7 @@ export default function CoachHeatmap() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -77,7 +77,7 @@ export default function CoachHeatmap() {
 
         {/* Alert for stuck learners */}
         {stuckCount > 0 && (
-          <div className="flex items-start gap-stack p-4 bg-warning-bg border border-warning-border rounded-xl">
+          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-xl">
             <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-warning-fg">
@@ -103,7 +103,7 @@ export default function CoachHeatmap() {
           title="Heatmap Dreyfus"
           titleIcon={<Users size={18} />}
           headerAction={
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-stack-xs">
               {AXES.map((axis) => (
                 <FilterChip
                   key={axis}
@@ -116,7 +116,7 @@ export default function CoachHeatmap() {
           }
         >
           {/* Status filter tabs */}
-          <div className="flex gap-2 mb-stack border-b border-ink-100 pb-3">
+          <div className="flex gap-stack-xs mb-stack border-b border-ink-100 pb-3">
             {STATUS_TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -150,7 +150,7 @@ export default function CoachHeatmap() {
 
         {/* Per-apprenant status list */}
         <SectionCard title="Résumé par apprenant" titleIcon={<Users size={18} />}>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             {filteredRows.map((a) => {
               const { label, variant } = STATUS_BADGE[a.status];
               const avg = (a.scores.filter((s) => s > 0).reduce((acc, s) => acc + s, 0) /
@@ -158,7 +158,7 @@ export default function CoachHeatmap() {
               return (
                 <div
                   key={a.id}
-                  className="flex items-center justify-between px-4 py-3 rounded-xl border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
+                  className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
                 >
                   <div className="flex items-center gap-stack">
                     <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-100 text-primary-700 text-caption font-bold shrink-0">

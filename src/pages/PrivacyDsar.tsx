@@ -61,7 +61,7 @@ const PrivacyDsar: React.FC = () => {
         tone="default"
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <Alert variant="info" title="Ce que dit la loi">
           L'article 15 du RGPD te donne le droit d'accéder à toutes les données personnelles te concernant. Nous t'enverrons un fichier ZIP contenant toutes ces données par email.
         </Alert>
@@ -72,7 +72,7 @@ const PrivacyDsar: React.FC = () => {
         >
           <div className="flex flex-col gap-stack-xs">
             {DATA_TYPES.map((d) => (
-              <Card key={d.id} className="p-4 flex items-center gap-3">
+              <Card key={d.id} className="p-stack flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-success-fg shrink-0" />
                 <FileText className="w-5 h-5 text-primary-600 shrink-0" />
                 <div className="flex-1">
@@ -94,7 +94,7 @@ const PrivacyDsar: React.FC = () => {
             Nous traitons ta demande. Tu recevras un email sous 48h avec le lien de téléchargement sécurisé (valide 7 jours).
           </Alert>
         ) : (
-          <Card className="p-6 flex flex-col gap-stack">
+          <Card className="p-stack-lg flex flex-col gap-stack">
             <div className="flex items-start gap-3">
               <Shield className="w-6 h-6 text-primary-600 mt-1" />
               <div>
@@ -119,7 +119,7 @@ const PrivacyDsar: React.FC = () => {
                 const s = STATUS_LABEL[r.status] ?? STATUS_LABEL.submitted;
                 const dateLabel = new Date(r.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
                 return (
-                  <Card key={r.id} className="p-4 flex items-center gap-3">
+                  <Card key={r.id} className="p-stack flex items-center gap-3">
                     <Clock className="w-5 h-5 text-ink-500" />
                     <div className="flex-1">
                       <div className="font-semibold text-body-sm">Demande du {dateLabel}</div>

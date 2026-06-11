@@ -88,7 +88,7 @@ export default function Passeport() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-4 md:px-8 flex flex-col gap-section">
+      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Tab navigation */}
         <Tabs
@@ -108,7 +108,7 @@ export default function Passeport() {
                 title="Radar de compétences"
                 description="Niveau actuel (bleu) vs objectif cible (orange). Clic sur un axe pour le détail."
               >
-                <div className="flex justify-center py-4">
+                <div className="flex justify-center py-stack">
                   <CompetencyRadar
                     axes={RADAR_AXES}
                     size="md"
@@ -123,18 +123,18 @@ export default function Passeport() {
               </SectionCard>
 
               <div className="flex flex-col gap-stack w-full lg:w-72">
-                <Card className="p-4 flex flex-col gap-3">
+                <Card className="p-stack flex flex-col gap-3">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
-                  <div className="flex items-end gap-2">
+                  <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
                     <span className="text-body-sm text-ink-400 pb-1">/ 5 Dreyfus</span>
                   </div>
                   <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
                   <p className="text-caption text-ink-400">Moyenne pondérée · {COMPETENCES.length} compétences</p>
                 </Card>
-                <Card className="p-4 flex flex-col gap-3">
+                <Card className="p-stack flex flex-col gap-3">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
-                  <div className="flex items-end gap-2">
+                  <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
                     <span className="text-body-sm text-ink-400 pb-1">objectifs</span>
                   </div>
@@ -188,7 +188,7 @@ export default function Passeport() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {COMPETENCES.map((c) => (
                 <Card key={c.id} className="p-5 flex flex-col gap-3">
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start justify-between gap-stack-xs">
                     <div className="flex flex-col gap-1">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
@@ -197,7 +197,7 @@ export default function Passeport() {
                     </div>
                     <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
                   </div>
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-stack-xs flex-wrap">
                     <span className="text-h4 font-display font-bold text-ink-900">D{c.level}</span>
                     {c.target > c.level && (
                       <span className="text-caption text-ink-400">→ objectif D{c.target}</span>

@@ -86,7 +86,7 @@ export const Billing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <Container width="content" padding={false} className="px-4 sm:px-6 lg:px-8 py-section flex flex-col gap-stack-lg">
+      <Container width="content" padding={false} className="px-stack sm:px-stack-lg lg:px-section py-section flex flex-col gap-stack-lg">
 
         {/* Family nav */}
         <AccountFamilyNav active="billing" />
@@ -110,13 +110,13 @@ export const Billing: React.FC = () => {
           description="Votre plan, son prix et la prochaine échéance."
           tone="primary"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-4 rounded-2xl bg-primary-50/60 border border-primary-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-primary-50/60 border border-primary-200">
             <div className="flex items-start gap-3">
               <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-700">
                 <Sparkles size={20} />
               </div>
               <div className="flex flex-col gap-tight">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-stack-xs flex-wrap">
                   <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
                     {tierConfig.name}
                   </h3>
@@ -139,7 +139,7 @@ export const Billing: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-stack">
+          <div className="flex flex-wrap gap-stack-xs mt-stack">
             <Button variant="primary" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
               Changer de formule
             </Button>
@@ -154,7 +154,7 @@ export const Billing: React.FC = () => {
           title="Méthode de paiement"
           description="La carte utilisée pour vos prélèvements mensuels."
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-4 rounded-2xl bg-ink-50 border border-ink-100">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-ink-50 border border-ink-100">
             <div className="flex items-center gap-3">
               <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-ink-900 text-white">
                 <CreditCard size={20} />
@@ -181,7 +181,7 @@ export const Billing: React.FC = () => {
           description={`${INVOICES.length} factures · toutes payées.`}
         >
           <div className="flex flex-col rounded-2xl border border-ink-100 overflow-hidden">
-            <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-4 px-4 py-2.5 bg-ink-50 border-b border-ink-100">
+            <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-stack px-stack py-stack-xs.5 bg-ink-50 border-b border-ink-100">
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Date</span>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Description</span>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500 text-right">Montant</span>
@@ -191,9 +191,9 @@ export const Billing: React.FC = () => {
             {INVOICES.map((inv, i) => (
               <div
                 key={inv.id}
-                className={`flex flex-col md:grid md:grid-cols-[1.2fr_2fr_0.8fr_auto] md:items-center gap-2 md:gap-4 px-4 py-3 ${i < INVOICES.length - 1 ? 'border-b border-ink-100' : ''}`}
+                className={`flex flex-col md:grid md:grid-cols-[1.2fr_2fr_0.8fr_auto] md:items-center gap-stack-xs md:gap-stack px-stack py-3 ${i < INVOICES.length - 1 ? 'border-b border-ink-100' : ''}`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-stack-xs">
                   <span className="md:hidden inline-flex items-center gap-1 text-success-fg">
                     <CheckCircle2 size={12} />
                   </span>
@@ -207,7 +207,7 @@ export const Billing: React.FC = () => {
                 <p className="m-0 font-body text-body-sm font-semibold text-ink-900 tabular-nums md:text-right">
                   {inv.amount}
                 </p>
-                <div className="flex items-center gap-2 md:justify-end">
+                <div className="flex items-center gap-stack-xs md:justify-end">
                   <span className="hidden md:inline-flex items-center gap-1 text-success-fg text-caption font-semibold">
                     <CheckCircle2 size={14} />
                     Payée
@@ -231,7 +231,7 @@ export const Billing: React.FC = () => {
           title="Annuler l'abonnement"
           description={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-4 rounded-2xl bg-danger-bg/30 border border-danger-border">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-danger-bg/30 border border-danger-border">
             <div className="flex items-start gap-3">
               <div className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-danger-bg text-danger-fg">
                 <AlertTriangle size={18} />

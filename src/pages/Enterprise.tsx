@@ -147,7 +147,7 @@ export const Enterprise: React.FC = () => {
             </Button>
           }
         >
-          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-6">
+          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-stack-lg">
             {activeMembers.map((m, idx) => {
               const tones = ['brand', 'warm', 'sun', 'brand', 'warm'] as const;
               const tone = tones[idx % tones.length];
@@ -155,7 +155,7 @@ export const Enterprise: React.FC = () => {
                 <div
                   key={m.id}
                   className={[
-                    'flex items-center gap-4 px-5 sm:px-6 py-4',
+                    'flex items-center gap-stack px-5 sm:px-stack-lg py-stack',
                     idx < activeMembers.length - 1 ? 'border-b border-ink-100' : '',
                   ].join(' ')}
                 >
@@ -210,7 +210,7 @@ export const Enterprise: React.FC = () => {
                 setInviteOpen(false);
                 setInviteEmail('');
               }}
-              className="rounded-xl bg-primary-50/50 border border-primary-100 p-4 sm:p-5 flex flex-col gap-stack mb-stack-lg"
+              className="rounded-xl bg-primary-50/50 border border-primary-100 p-stack sm:p-5 flex flex-col gap-stack mb-stack-lg"
             >
               <h3 className="m-0 font-display text-body font-bold text-ink-900">
                 Inviter un nouveau collaborateur
@@ -241,12 +241,12 @@ export const Enterprise: React.FC = () => {
             </form>
           )}
 
-          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-6">
+          <div className="flex flex-col -mx-5 sm:-mx-6 -mb-5 sm:-mb-stack-lg">
             {members.map((u, idx) => (
               <div
                 key={u.id}
                 className={[
-                  'flex flex-wrap items-center gap-4 px-5 sm:px-6 py-4',
+                  'flex flex-wrap items-center gap-stack px-5 sm:px-stack-lg py-stack',
                   idx < members.length - 1 ? 'border-b border-ink-100' : '',
                 ].join(' ')}
               >
@@ -296,9 +296,9 @@ export const Enterprise: React.FC = () => {
               return (
                 <div
                   key={r.title}
-                  className="flex flex-col gap-stack p-5 sm:p-6 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base"
+                  className="flex flex-col gap-stack p-5 sm:p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base"
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-stack">
                     <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700">
                       <Icon size={22} />
                     </span>
@@ -312,7 +312,7 @@ export const Enterprise: React.FC = () => {
                   <p className="m-0 font-body text-body-sm text-ink-600 leading-relaxed flex-1">
                     {r.desc}
                   </p>
-                  <div className="flex gap-2 mt-auto">
+                  <div className="flex gap-stack-xs mt-auto">
                     <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />}>
                       Télécharger
                     </Button>

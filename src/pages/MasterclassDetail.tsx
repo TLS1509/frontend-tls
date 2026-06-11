@@ -50,9 +50,9 @@ export default function MasterclassDetail() {
         }
       />
 
-      <Container width="content" padding={false} className="px-4 py-section flex flex-col gap-section">
+      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Expert card */}
-        <Card variant="tinted" tone="primary" className="flex items-center gap-section p-6">
+        <Card variant="tinted" tone="primary" className="flex items-center gap-section p-stack-lg">
           <Avatar name="Marie Fontaine" initials="MF" size="xl" />
           <div className="flex flex-col gap-tight min-w-0">
             <h3 className="text-h3 font-display font-bold text-ink-900">Marie Fontaine</h3>
@@ -89,7 +89,7 @@ export default function MasterclassDetail() {
         </SectionCard>
 
         {/* CTA inscription */}
-        <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-6">
+        <Card variant="tinted" tone="primary" className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-stack p-stack-lg">
           <div className="flex flex-col gap-tight flex-1 min-w-0">
             <p className="text-body-sm font-semibold text-ink-900">
               Inscription ouverte jusqu'au 15 juin à 15h00
@@ -106,7 +106,7 @@ export default function MasterclassDetail() {
         <SectionCard title="Tu pourrais aussi aimer" titleIcon={<Sparkles size={18} />}>
           <div className="flex flex-col gap-stack-xs">
             {RELATED.map((m) => (
-              <Card key={m.id} variant="default" className="flex items-center justify-between gap-stack p-4">
+              <Card key={m.id} variant="default" className="flex items-center justify-between gap-stack p-stack">
                 <div className="flex items-center gap-stack-xs min-w-0">
                   <Video size={16} className="text-primary-400 shrink-0" />
                   <div className="flex flex-col gap-tight min-w-0">

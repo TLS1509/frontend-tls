@@ -7,17 +7,17 @@ export const Error500: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[calc(100vh-120px)] flex items-center justify-center px-4 py-8 relative overflow-hidden font-body">
+    <div className="min-h-[calc(100vh-120px)] flex items-center justify-center px-stack py-section relative overflow-hidden font-body">
       <div className="relative max-w-[640px] w-full text-center">
 
         {/* Eyebrow */}
-        <p className="font-body text-caption font-bold uppercase tracking-[0.06em] text-primary-700 inline-flex items-center gap-1.5 m-0 mb-6">
+        <p className="font-body text-caption font-bold uppercase tracking-[0.06em] text-primary-700 inline-flex items-center gap-1.5 m-0 mb-stack-lg">
           Système • Incident
         </p>
 
         {/* Error code */}
         <div
-          className="font-display font-bold bg-gradient-to-br from-danger-base to-secondary-500 bg-clip-text text-transparent tracking-[-0.04em] mb-6"
+          className="font-display font-bold bg-gradient-to-br from-danger-base to-secondary-500 bg-clip-text text-transparent tracking-[-0.04em] mb-stack-lg"
           style={{ fontSize: 'clamp(5rem, 18vw, 10rem)', lineHeight: 1 }}
           aria-hidden="true"
         >
@@ -26,7 +26,7 @@ export const Error500: React.FC = () => {
 
         {/* Icon */}
         <div
-          className="w-24 h-24 mx-auto mb-6 rounded-2xl flex items-center justify-center border-2 border-secondary-200 bg-danger-bg text-danger-fg"
+          className="w-24 h-24 mx-auto mb-stack-lg rounded-2xl flex items-center justify-center border-2 border-secondary-200 bg-danger-bg text-danger-fg"
         >
           <AlertTriangle size={48} strokeWidth={1.5} />
         </div>
@@ -37,13 +37,13 @@ export const Error500: React.FC = () => {
         </h1>
 
         {/* Description */}
-        <p className="font-body text-body-lg text-ink-500 leading-relaxed m-0 mb-8">
+        <p className="font-body text-body-lg text-ink-500 leading-relaxed m-0 mb-section">
           Une erreur technique s&apos;est produite. Vous pouvez réessayer ou retourner au tableau de bord.
         </p>
 
         {/* Callout */}
         <div
-          className="rounded-xl border border-accent-200 p-5 text-left mb-6 flex flex-col gap-2"
+          className="rounded-xl border border-accent-200 p-5 text-left mb-stack-lg flex flex-col gap-stack-xs"
           style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
         >
           <p className="font-body text-body-sm font-semibold text-ink-900 m-0">
