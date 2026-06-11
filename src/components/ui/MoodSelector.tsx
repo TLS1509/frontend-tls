@@ -53,7 +53,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           aria-label={cfg.label}
           aria-pressed={selected}
           className={[
-            'flex flex-col items-center gap-1 p-3 rounded-xl cursor-pointer transition-all duration-200 min-h-touch',
+            'flex flex-col items-center gap-1 p-3 rounded-xl cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch',
             selected
               ? 'bg-primary-100 border-2 border-primary-500 shadow-sm'
               : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',

@@ -30,7 +30,7 @@ const categoryToneMap: Record<string, CourseCardTone> = {
 };
 
 const CARD_BASE =
-  'flex flex-col h-full rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-all duration-300 cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0';
+  'flex flex-col h-full rounded-lg overflow-hidden border border-ink-200 bg-white shadow-sm transition-[box-shadow,transform] duration-base ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]';
 
 const HERO_BASE = 'aspect-video relative overflow-hidden flex items-center justify-center';
 
@@ -58,7 +58,7 @@ const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_BASE =
-  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-all duration-200 hover:-translate-y-0.5';
+  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
 
 const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',

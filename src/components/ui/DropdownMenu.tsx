@@ -172,7 +172,7 @@ export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButton
 }
 
 const ITEM_BASE =
-  'group relative flex items-center gap-2.5 w-full px-3 py-2.5 bg-transparent border-0 rounded-md text-body-sm font-medium cursor-pointer text-left transition-all ' +
+  'group relative flex items-center gap-2.5 w-full px-3 py-2.5 bg-transparent border-0 rounded-md text-body-sm font-medium cursor-pointer text-left transition-[background-color,color] duration-fast ease-emphasis ' +
   'focus-visible:outline-2 focus-visible:outline-offset-[-2px]';
 
 const ITEM_DEFAULT =
@@ -217,7 +217,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
       {icon && (
         <span
           className={[
-            'inline-flex items-center justify-center w-4 h-4 shrink-0 transition-transform group-hover:scale-110',
+            'inline-flex items-center justify-center w-4 h-4 shrink-0 transition-[transform,color] duration-fast ease-emphasis group-hover:scale-110',
             danger ? 'text-danger-base' : 'text-ink-500 group-hover:text-primary-600',
           ].join(' ')}
         >
@@ -239,7 +239,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
         <span className="shrink-0">{badge}</span>
       )}
       {shortcut && (
-        <kbd className="font-mono text-[11px] px-1.5 py-0.5 bg-primary-50 text-ink-500 rounded-sm border border-primary-200 whitespace-nowrap transition-all">
+        <kbd className="font-mono text-[11px] px-1.5 py-0.5 bg-primary-50 text-ink-500 rounded-sm border border-primary-200 whitespace-nowrap transition-[background-color,color] duration-fast ease-emphasis">
           {shortcut}
         </kbd>
       )}
