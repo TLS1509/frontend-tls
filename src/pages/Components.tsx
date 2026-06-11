@@ -228,7 +228,7 @@ import { PaginatedList } from '../components/ui/PaginatedList';
 import { FilteredList } from '../components/ui/FilteredList';
 import { StepIndicator } from '../components/ui/StepIndicator';
 import { ModalForm } from '../components/ui/ModalForm';
-import { CardGrid } from '../components/ui/CardGrid';
+import { FilterableCardGrid } from '../components/ui/FilterableCardGrid';
 
 /* ============================================================================
  * TYPES
@@ -344,7 +344,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // Phase 19 Tier 3 — Form/Step/Grid composites
   StepIndicator:        { category: 'Composites', subCategory: 'Form groups' },
   ModalForm:            { category: 'Composites', subCategory: 'Form groups' },
-  CardGrid:             { category: 'Composites', subCategory: 'List composites' },
+  FilterableCardGrid:   { category: 'Composites', subCategory: 'List composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
@@ -3164,7 +3164,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/IconFeatureCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Content',
-    description: 'Tile card carré-arrondi (button-shape). Icônes Lucide stroke 1.75. Auto-layout CENTERED (padding visuel égal 4 côtés). Variants : `iconStyle` (plain/filled/bubble) × `iconSize` (xs/sm/md/lg/xl) × `tone` (brand/warm/sun) × `surface` (card/tinted/glass/frosted) × `square` boolean + mode display/button via présence de `onClick`. Description optionnelle. Title et padding scalent automatiquement avec iconSize. ⚠️ Utiliser dans `<CardGrid layout="square-tiles">` pour les cards square (≥4 items).',
+    description: 'Tile card carré-arrondi (button-shape). Icônes Lucide stroke 1.75. Auto-layout CENTERED (padding visuel égal 4 côtés). Variants : `iconStyle` (plain/filled/bubble) × `iconSize` (xs/sm/md/lg/xl) × `tone` (brand/warm/sun) × `surface` (card/tinted/glass/frosted) × `square` boolean + mode display/button via présence de `onClick`. Description optionnelle. Title et padding scalent automatiquement avec iconSize. ⚠️ Utiliser dans `<CardGrid layout="square-tiles">` (patterns/CardGrid) pour les cards square (≥4 items).',
     keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -5349,13 +5349,34 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Liste verticale d\'items associés (related/recommended). Items avec titre + description + meta optionnel + icon optionnel. Items cliquables (href ou onClick) avec chevron animé au hover. Utilisé dans les asides éditoriaux.',
     keywords: ['related', 'list', 'cross-link', 'recommendations', 'editorial', 'aside'],
     render: () => (
-      <RelatedItemList
-        items={[
-          { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
-          { id: '2', title: 'Case study', description: 'Déploiement entreprise', meta: 'Étude', onClick: () => {} },
-          { id: '3', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
-        ]}
-      />
+      <div className="flex flex-col gap-section">
+        <div>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Variante onClick (button)</p>
+          <RelatedItemList
+            items={[
+              { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
+              { id: '2', title: 'Case study', description: 'Déploiement entreprise', meta: 'Étude', onClick: () => {} },
+            ]}
+          />
+        </div>
+        <div>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Variante href (anchor &lt;a&gt;)</p>
+          <RelatedItemList
+            items={[
+              { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', href: '/veille/magazine-article/1' },
+              { id: '5', title: 'Newsletter #18', description: 'Tendances EdTech 2026', meta: 'Newsletter', href: '/veille/weekly-newsletter' },
+            ]}
+          />
+        </div>
+        <div>
+          <p className="text-caption text-ink-500 mb-2 uppercase tracking-wider font-semibold">Avec icône</p>
+          <RelatedItemList
+            items={[
+              { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
+            ]}
+          />
+        </div>
+      </div>
     ),
   },
   {
@@ -6427,13 +6448,13 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'CardGrid',
-    codeName: 'ui/CardGrid.tsx',
+    name: 'FilterableCardGrid',
+    codeName: 'ui/FilterableCardGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Composites',
     subCategory: 'List composites',
     usedBy: ['LearningPaths', 'Veille', 'EnterpriseMembers', 'Components'],
-    description: 'Grille de cards filtrable avec barre de recherche, chips de catégorie, et toggle grille/liste. Props : **filterFn** (optionnel), **categories** + **categoryFn** (filtres par catégorie), **columns** (2/3/4), **allowLayoutToggle**, **renderCard(item, index, layout)** (callback — layout passé pour adapter le rendu). `useDeferredValue` pour la perf.',
+    description: 'Grille de cards filtrable avec barre de recherche, chips de catégorie, et toggle grille/liste. Props : **filterFn** (optionnel), **categories** + **categoryFn** (filtres par catégorie), **columns** (2/3/4), **allowLayoutToggle**, **renderCard(item, index, layout)** (callback — layout passé pour adapter le rendu). `useDeferredValue` pour la perf. Distinct de `patterns/CardGrid` (layout pur).',
     keywords: ['grid', 'grille', 'cards', 'filtre', 'catégories', 'layout', 'search', 'toggle'],
     render: () => {
       type Resource = { id: string; title: string; cat: string; author: string };
@@ -6449,7 +6470,7 @@ const COMPONENTS: ComponentEntry[] = [
         { id: '9', title: 'Design pédagogique', cat: 'Pédagogie', author: 'O. Simon' },
       ];
       return (
-        <CardGrid
+        <FilterableCardGrid
           items={RESOURCES}
           filterFn={(item, q) => item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q) || item.author.toLowerCase().includes(q)}
           categories={['Pédagogie', 'Psychologie', 'IA & Outils', 'Management']}
@@ -7557,51 +7578,23 @@ const Components: React.FC = () => {
         }
       />
 
-      {/* -------------------------------- CONTROLS (sticky) ------------------- */}
-      <div className="sticky top-0 z-sticky -mx-4 sm:-mx-6 lg:-mx-10 px-4 sm:px-6 lg:px-10 py-4 bg-white/85 backdrop-blur-glass-medium border-b border-ink-200 flex flex-col gap-stack-xs">
-        {/* ===== SEARCH WITH SUGGESTIONS (primary) ===== */}
-        <SearchWithSuggestions
-          value={query}
-          onChange={(value) => {
-            setQuery(value);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          suggestions={searchSuggestions}
-          onSuggestionSelect={(suggestion) => {
-            // When user clicks a suggestion, also set the category if it's a category type
-            if (suggestion.type === 'category' && suggestion.id !== 'all') {
-              setSelectedCategory(suggestion.id);
-            }
-          }}
-          size="lg"
-          placeholder="Rechercher un composant, un token, une catégorie…"
-          className="w-full"
-        />
-
-        {/* ===== FILTERS ROW (secondary) ===== */}
-        <div className="flex gap-stack sm:gap-stack-lg flex-col sm:flex-row">
-          <SelectCheckboxCategory
-            categories={CATEGORY_OPTIONS}
-            selected={selectedCategory}
-            onChange={(selected) => {
-              setSelectedCategory(selected);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            placeholder="Catégories"
-            className="flex-1"
-          />
-          <SelectCheckbox
-            options={FILTER_OPTIONS}
-            selected={selectedFilters}
-            onChange={(selected) => {
-              setSelectedFilters(selected);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            placeholder="Filtres"
-            className="flex-1"
-          />
-        </div>
-      </div>
+      {/* -------------------------------- CONTROLS ----------------------------- */}
+      <SearchWithSuggestions
+        value={query}
+        onChange={(value) => {
+          setQuery(value);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        suggestions={searchSuggestions}
+        onSuggestionSelect={(suggestion) => {
+          if (suggestion.type === 'category' && suggestion.id !== 'all') {
+            setSelectedCategory(suggestion.id);
+          }
+        }}
+        size="lg"
+        placeholder="Rechercher un composant, un token, une catégorie…"
+        className="w-full"
+      />
 
       {/* -------------------------------- RESULTS ----------------------------- */}
       {filteredComponents.length === 0 && filteredTokens.length === 0 && filteredPages.length === 0 ? (
