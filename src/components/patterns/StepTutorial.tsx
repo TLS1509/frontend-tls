@@ -121,7 +121,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
                 {step.icon}
               </div>
             )}
-            <h2 className="text-h3 font-display font-bold tracking-headline text-ink-900 leading-tight mt-1">
+            <h2 className="text-h3 font-display font-bold tracking-headline text-ink-900 leading-tight mt-1 text-balance">
               {step.title}
             </h2>
           </div>

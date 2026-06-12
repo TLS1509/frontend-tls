@@ -85,7 +85,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
   <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
 
     {heading && (
-      <h2 className="font-display text-h2 font-bold text-ink-900 m-0 leading-[1.15]">
+      <h2 className="font-display text-h2 font-bold text-ink-900 m-0 leading-[1.15] text-balance">
         {heading}
       </h2>
     )}

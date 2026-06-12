@@ -78,7 +78,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
       </div>
 
       <div className="flex flex-col gap-stack max-w-2xl">
-        <h2 className="text-h2 font-display font-bold text-ink-900 leading-tight m-0">
+        <h2 className="text-h2 font-display font-bold text-ink-900 leading-tight m-0 text-balance">
           Tout est prêt pour démarrer
         </h2>
         <p className="text-body text-ink-600 leading-relaxed m-0">
