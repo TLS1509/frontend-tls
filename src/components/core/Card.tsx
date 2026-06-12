@@ -117,9 +117,9 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
 };
 
 const SIZE_CLASSES: Record<CardSize, string> = {
-  sm: 'p-4 gap-2',
-  md: 'p-6 gap-3',
-  lg: 'p-8 gap-4',
+  sm: 'p-4 gap-tight',
+  md: 'p-6 gap-stack-xs',
+  lg: 'p-8 gap-stack',
 };
 
 const TONE_BG_CLASSES: Record<CardTone, string> = {
@@ -220,9 +220,9 @@ export const Card: React.FC<CardProps> = ({
   // tracking-display for large/medium titles (≥h3 = 1.375rem) for premium tightness
   const titleClass = `m-0 p-0 font-display ${TITLE_SIZE[size]} font-semibold leading-tight ${size === 'lg' ? 'tracking-display' : size === 'md' ? 'tracking-headline' : 'tracking-tight'} ${tone ? TONE_TITLE_CLASSES[tone] : 'text-ink-900'}`;
   const descriptionClass = `m-0 p-0 ${DESC_SIZE[size]} leading-normal text-ink-600`;
-  const footerClass = 'flex items-center justify-between gap-3 mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
+  const footerClass = 'flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600';
   const iconClass = `flex items-center justify-center shrink-0 mb-2 ${ICON_SIZE[size]} [&>svg]:text-current`;
-  const headerClass = 'flex flex-col gap-1 mb-1';
+  const headerClass = 'flex flex-col gap-tight mb-1';
 
   return React.createElement(
     as as string,

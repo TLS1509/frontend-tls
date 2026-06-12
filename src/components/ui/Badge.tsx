@@ -29,7 +29,7 @@ const mapLegacyColor = (color?: BadgeVariant | 'primary'): BadgeVariant => {
 };
 
 const BASE =
-  'inline-flex items-center gap-1 rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
+  'inline-flex items-center gap-tight rounded-pill font-body font-bold uppercase leading-tight whitespace-nowrap border';
 
 const SIZE_CLASSES: Record<BadgeSize, string> = {
   sm: 'text-[10px] px-2 py-0.5 tracking-[0.06em]',

@@ -34,7 +34,7 @@ export interface InputProps
   rows?: number;
 }
 
-const FIELD_BASE = 'flex flex-col gap-2 font-body';
+const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
   'flex items-center gap-2 w-full border rounded-md font-body transition-[border-color,box-shadow] duration-base ease-standard';
