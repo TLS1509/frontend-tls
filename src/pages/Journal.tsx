@@ -214,7 +214,7 @@ export const Journal: React.FC = () => {
                 aria-expanded={filtersOpen}
                 aria-label={`${filtersOpen ? 'Masquer' : 'Afficher'} les filtres${activeFilterCount > 0 ? ` (${activeFilterCount} actifs)` : ''}`}
                 className={[
-                  'relative inline-flex items-center justify-center w-9 h-9 rounded-md border cursor-pointer transition-all',
+                  'relative inline-flex items-center justify-center min-h-touch w-10 rounded-md border cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   filtersOpen || activeFilterCount > 0
                     ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'
                     : 'bg-white border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300',

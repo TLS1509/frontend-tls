@@ -182,8 +182,8 @@ export const Veille: React.FC = () => {
               className="w-full h-12 pl-11 pr-10 rounded-xl bg-white/8 border border-white/15 text-white placeholder:text-white/35 font-body text-body-sm backdrop-blur-glass-light focus:outline-none focus:bg-white/12 focus:border-white/30 transition-all"
             />
             {query && (
-              <button type="button" aria-label="Effacer la recherche" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors">
-                <X size={15} />
+              <button type="button" aria-label="Effacer la recherche" onClick={() => setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-sm text-white/40 hover:text-white/70 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70">
+                <X size={15} aria-hidden />
               </button>
             )}
           </div>
@@ -196,7 +196,7 @@ export const Veille: React.FC = () => {
                 type="button"
                 onClick={() => setSelected(id)}
                 className={[
-                  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                   selected === id
                     ? 'bg-white text-ink-900 border-white shadow-md'
                     : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
@@ -214,7 +214,7 @@ export const Veille: React.FC = () => {
               type="button"
               onClick={() => setShowSavedOnly((v) => !v)}
               className={[
-                'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 showSavedOnly
                   ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
                   : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
@@ -229,7 +229,7 @@ export const Veille: React.FC = () => {
               <button
                 type="button"
                 onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-                className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1"
+                className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 rounded-sm"
               >
                 Réinitialiser
               </button>
@@ -292,7 +292,7 @@ export const Veille: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/veille/newsletter')}
-                className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap hidden sm:block"
+                className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap hidden sm:block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
               >
                 Gérer mes préférences
               </button>

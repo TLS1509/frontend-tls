@@ -302,7 +302,7 @@ export const JournalNewEntry: React.FC = () => {
                   aria-pressed={isSelected}
                   onClick={() => setSelectedType(type)}
                   className={[
-                    'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body',
+                    'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? `${tc.borderSelected} shadow-sm`
                       : 'border-ink-200 shadow-xs hover:border-ink-400',
@@ -340,7 +340,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-section">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
             <Sparkles size={15} />
             Besoin d'inspiration ?
@@ -366,7 +366,7 @@ export const JournalNewEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => toggleQuestion(q.id)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left"
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="font-body text-body-sm font-semibold text-ink-900">{q.title}</p>
