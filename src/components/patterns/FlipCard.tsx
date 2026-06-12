@@ -38,8 +38,8 @@ const TONE_FOCUS_OUTLINE: Record<PageTone, string> = {
 export interface FlipCardFront {
   /** Background image URL. */
   image: string;
-  /** Emoji icon rendered on both faces. */
-  icon: string;
+  /** Icon rendered on both faces (Lucide ReactNode). */
+  icon: React.ReactNode;
   /** Short category label (displayed as uppercase pill on front). */
   category: string;
   /** Main title (front face). */
@@ -126,7 +126,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
           <div className="relative z-base flex flex-col items-center justify-center h-full p-section gap-stack text-center">
             {/* Icon bubble */}
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
-              <span className="text-[2rem] leading-none" aria-hidden>{front.icon}</span>
+              <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 
             {/* Category pill */}
@@ -164,7 +164,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
           <div className="flex flex-col justify-center items-center h-full text-white text-center gap-stack-lg">
             {/* Icon bubble (smaller on back) */}
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
-              <span className="text-[1.75rem] leading-none" aria-hidden>{front.icon}</span>
+              <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
             </div>
 
             {/* Answer content */}

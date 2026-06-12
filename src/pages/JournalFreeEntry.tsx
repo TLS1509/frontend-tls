@@ -16,23 +16,31 @@ import {
   Lightbulb,
   Target,
   Eye,
+  BookOpen,
+  Users,
+  MessageCircle,
+  Zap,
+  Smile,
+  Frown,
+  HelpCircle,
+  TrendingUp,
 } from 'lucide-react';
 
-const CATEGORIES = [
-  { id: 'leadership',    label: 'Leadership',    icon: '🎯' },
-  { id: 'apprentissage', label: 'Apprentissage',  icon: '📚' },
-  { id: 'collaboration', label: 'Collaboration',  icon: '🤝' },
-  { id: 'reflexion',     label: 'Réflexion',      icon: '💭' },
-  { id: 'action',        label: 'Action',         icon: '⚡' },
+const CATEGORIES: { id: string; label: string; icon: React.ReactNode }[] = [
+  { id: 'leadership',    label: 'Leadership',    icon: <Target size={13} strokeWidth={1.75} /> },
+  { id: 'apprentissage', label: 'Apprentissage',  icon: <BookOpen size={13} strokeWidth={1.75} /> },
+  { id: 'collaboration', label: 'Collaboration',  icon: <Users size={13} strokeWidth={1.75} /> },
+  { id: 'reflexion',     label: 'Réflexion',      icon: <MessageCircle size={13} strokeWidth={1.75} /> },
+  { id: 'action',        label: 'Action',         icon: <Zap size={13} strokeWidth={1.75} /> },
 ];
 
-const MOODS = [
-  { emoji: '💡', label: 'Inspiré' },
-  { emoji: '💪', label: 'Motivé' },
-  { emoji: '🤔', label: 'En réflexion' },
-  { emoji: '😊', label: 'Satisfait' },
-  { emoji: '😤', label: 'Frustré' },
-  { emoji: '🌱', label: 'En croissance' },
+const MOODS: { icon: React.ReactNode; label: string }[] = [
+  { icon: <Lightbulb size={13} strokeWidth={1.75} />, label: 'Inspiré' },
+  { icon: <Zap size={13} strokeWidth={1.75} />,       label: 'Motivé' },
+  { icon: <HelpCircle size={13} strokeWidth={1.75} />,label: 'En réflexion' },
+  { icon: <Smile size={13} strokeWidth={1.75} />,     label: 'Satisfait' },
+  { icon: <Frown size={13} strokeWidth={1.75} />,     label: 'Frustré' },
+  { icon: <TrendingUp size={13} strokeWidth={1.75} />,label: 'En croissance' },
 ];
 
 const PROMPTS = [
@@ -169,7 +177,7 @@ export const JournalFreeEntry: React.FC = () => {
                         : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
                     ].join(' ')}
                   >
-                    {mood.emoji} {mood.label}
+                    {mood.icon} {mood.label}
                   </button>
                 );
               })}

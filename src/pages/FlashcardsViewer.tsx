@@ -14,7 +14,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, Sparkles } from 'lucide-react';
+import { Brain, Check, FolderOpen, RefreshCw, Sparkles, Target, Zap } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { FlipCard } from '../components/patterns/FlipCard';
@@ -28,7 +28,7 @@ interface Flashcard {
   front: {
     title: string;
     category: string;
-    icon: string;
+    icon: React.ReactNode;
     image: string;
   };
   back: {
@@ -43,7 +43,7 @@ const FLASHCARDS: Flashcard[] = [
     front: {
       title: 'Raccourcis Clavier Essentiels',
       category: 'PRODUCTIVITÉ',
-      icon: '⚡',
+      icon: <Zap size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
@@ -57,7 +57,7 @@ const FLASHCARDS: Flashcard[] = [
     front: {
       title: 'Les 4 Piliers du Prompt',
       category: 'PROMPT ENGINEERING',
-      icon: '🎯',
+      icon: <Target size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
@@ -71,7 +71,7 @@ const FLASHCARDS: Flashcard[] = [
     front: {
       title: 'Organisation de Fichiers',
       category: 'ORGANISATION',
-      icon: '📁',
+      icon: <FolderOpen size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
@@ -84,7 +84,7 @@ const FLASHCARDS: Flashcard[] = [
     front: {
       title: 'Few-Shot Learning',
       category: 'IA & APPRENTISSAGE',
-      icon: '🧠',
+      icon: <Brain size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
@@ -97,7 +97,7 @@ const FLASHCARDS: Flashcard[] = [
     front: {
       title: 'Itération de Prompts',
       category: 'OPTIMISATION',
-      icon: '🔄',
+      icon: <RefreshCw size={28} strokeWidth={1.75} className="text-white" />,
       image: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1080&q=80',
     },
     back: {
