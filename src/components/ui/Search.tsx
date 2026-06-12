@@ -263,7 +263,9 @@ export const Search: React.FC<SearchProps> = ({
               onClick={() => handleSuggestionSelect(suggestion)}
               className={[
                 'flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-all',
-                isGlass ? 'hover:bg-white/15 text-white' : 'hover:bg-ink-50 text-ink-900',
+                isGlass
+                  ? 'hover:bg-white/15 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70'
+                  : 'hover:bg-ink-50 text-ink-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               ].join(' ')}
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
