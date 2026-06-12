@@ -351,7 +351,7 @@ export const Account: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="medium">
+      <PageShell width="medium" paddingX="comfortable">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="account" />

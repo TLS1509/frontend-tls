@@ -86,7 +86,7 @@ export const Billing: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="medium">
+      <PageShell width="medium" paddingX="comfortable">
 
         {/* Family nav */}
         <AccountFamilyNav active="billing" />

@@ -21,10 +21,18 @@ import { WIDTH, type ContainerWidth } from './widths';
  *   <PageShell width="content" gap="stack-lg">  // focused / form pages
  */
 
+type PaddingX = 'default' | 'comfortable';
+
 interface PageShellOwnProps {
   width?: ContainerWidth;
   /** Vertical rhythm between top-level sections. Default `section` (32px). */
   gap?: Space;
+  /**
+   * Horizontal gutter preset.
+   * - `default` (16/24/40px) — standard content pages.
+   * - `comfortable` (24/40/48px) — settings/forms pages needing wider breathing room.
+   */
+  paddingX?: PaddingX;
   /**
    * Remove the responsive top padding.
    * Use when the first child (hero, EditorialHero, compact strip) already
@@ -37,10 +45,16 @@ interface PageShellOwnProps {
   children?: React.ReactNode;
 }
 
+const PADDING_X: Record<PaddingX, string> = {
+  default:     'px-4 sm:px-6 lg:px-10',
+  comfortable: 'px-6 sm:px-10 lg:px-12',
+};
+
 export function PageShell<E extends React.ElementType = 'div'>({
   as,
   width = 'page',
   gap = 'section',
+  paddingX = 'default',
   noPadTop = false,
   className = '',
   children,
@@ -52,7 +66,7 @@ export function PageShell<E extends React.ElementType = 'div'>({
       className={cx(
         WIDTH[width],
         'mx-auto w-full',
-        'px-4 sm:px-6 lg:px-10',
+        PADDING_X[paddingX],
         noPadTop
           ? 'pb-section md:pb-section-lg lg:pb-page'
           : 'py-section md:py-section-lg lg:py-page',
