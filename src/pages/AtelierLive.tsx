@@ -146,6 +146,7 @@ export default function AtelierLive() {
                       variant="ghost"
                       size="sm"
                       iconOnly
+                      aria-label={res.type === 'pdf' ? 'Télécharger' : 'Ouvrir'}
                       leadingIcon={res.type === 'pdf' ? <Download size={14} /> : <ExternalLink size={14} />}
                     >
                       {res.type === 'pdf' ? 'Télécharger' : 'Ouvrir'}

@@ -30,7 +30,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
             <span className="font-body text-micro font-bold uppercase tracking-[0.2em] text-white/40">
               Newsletter · Gratuit
             </span>
-            <h2 className="m-0 font-display text-h2 font-bold text-white leading-tight">
+            <h2 className="m-0 font-display text-h2 font-bold text-white leading-tight text-balance">
               La sélection TLS,<br />chaque vendredi.
             </h2>
             <p className="m-0 font-body text-body text-white/60 leading-relaxed max-w-md">

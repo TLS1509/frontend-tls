@@ -126,7 +126,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         </div>
 
         {/* Parcours title — display, large */}
-        <h2 className={['font-display text-h2 md:text-h1 font-bold leading-[1.1] tracking-tight m-0', TITLE_TONE[tone]].join(' ')}>
+        <h2 className={['font-display text-h2 md:text-h1 font-bold leading-[1.1] tracking-tight m-0 text-balance', TITLE_TONE[tone]].join(' ')}>
           {parcoursTitle}
         </h2>
 

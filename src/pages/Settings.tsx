@@ -94,7 +94,7 @@ export const Settings: React.FC = () => {
 
         {/* ── Page header ──────────────────────────────────────── */}
         <header className="flex flex-col gap-tight">
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight text-balance">
             Paramètres
           </h1>
           <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">

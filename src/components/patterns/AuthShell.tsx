@@ -134,7 +134,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
                   {brandContent.icon}
                 </span>
-                <h1 className="font-display text-h2 font-bold text-white m-0 leading-tight tracking-tight">
+                <h1 className="font-display text-h2 font-bold text-white m-0 leading-tight tracking-tight text-balance">
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (

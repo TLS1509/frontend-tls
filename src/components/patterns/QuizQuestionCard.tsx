@@ -54,7 +54,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
             </span>
           </div>
         )}
-        <h2 className="m-0 text-h3 font-display font-bold text-ink-900 leading-snug">
+        <h2 className="m-0 text-h3 font-display font-bold text-ink-900 leading-snug text-balance">
           {question}
         </h2>
       </div>

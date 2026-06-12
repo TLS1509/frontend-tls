@@ -805,7 +805,7 @@ const DEFAULT_LESSON_DATA: LessonData = {
 
 /* ─── Section title shared class ────────────────────────────────────────── */
 
-const SECTION_TITLE = 'font-display text-h2 font-bold text-ink-900 m-0 mb-stack-lg leading-[1.15]';
+const SECTION_TITLE = 'font-display text-h2 font-bold text-ink-900 m-0 mb-stack-lg leading-[1.15] text-balance';
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
