@@ -18,6 +18,7 @@ import type {
   CompetenceDomain,
   DreyfusLabel,
   DreyfusLevel,
+  DreyfusLevelDef,
 } from '../types/learning';
 
 /** Libellés FR canoniques des 5 niveaux Dreyfus (Cahier #02). */
@@ -28,6 +29,73 @@ export const DREYFUS_LABELS: Record<DreyfusLevel, DreyfusLabel> = {
   4: 'Expert',
   5: 'Maître',
 };
+
+/**
+ * Définitions complètes des 5 niveaux Dreyfus (Cahier #02 § DreyfusLevel).
+ * Criteria = ce que l'apprenant DOIT démontrer pour valider ce niveau.
+ * Indicators = signaux observables concrets.
+ */
+export const DREYFUS_LEVEL_DEFS: DreyfusLevelDef[] = [
+  {
+    level: 1,
+    label: 'Novice',
+    criteria: "Suit des règles et procédures explicites sans les adapter. Nécessite un guidage constant pour chaque étape.",
+    indicators: [
+      "Applique les instructions à la lettre",
+      "Pose des questions fréquentes sur le 'comment faire'",
+      "Ne prend pas d'initiative hors du cadre donné",
+      "Besoin de validation après chaque action",
+    ],
+  },
+  {
+    level: 2,
+    label: 'Apprenant',
+    criteria: "Reconnaît les contextes récurrents et commence à adapter les procédures selon l'expérience acquise.",
+    indicators: [
+      "Gère les situations standard de façon autonome",
+      "Identifie les cas hors-norme et demande de l'aide",
+      "Commence à relier les règles aux intentions derrière elles",
+      "Peut expliquer les étapes suivies a posteriori",
+    ],
+  },
+  {
+    level: 3,
+    label: 'Compétent',
+    criteria: "Planifie et priorise en autonomie. Assume la responsabilité de ses choix et gère la complexité courante.",
+    indicators: [
+      "Définit ses propres objectifs et séquences d'action",
+      "Fait des choix délibérés face à plusieurs options",
+      "Gère des situations imprévues sans aide systématique",
+      "Peut former un novice sur les étapes de base",
+    ],
+  },
+  {
+    level: 4,
+    label: 'Expert',
+    criteria: "Perçoit les situations de façon intuitive et holistique. Adapte sa pratique en temps réel selon le contexte.",
+    indicators: [
+      "Diagnostique rapidement sans décomposer chaque étape",
+      "Voit des patterns là où d'autres voient de la complexité",
+      "Identifie les exceptions aux règles et sait quand les contourner",
+      "Contribue à améliorer les pratiques de l'équipe",
+    ],
+  },
+  {
+    level: 5,
+    label: 'Maître',
+    criteria: "Redéfinit les pratiques du domaine. Crée de nouvelles approches, forme les experts et innove systématiquement.",
+    indicators: [
+      "Invente de nouvelles méthodes ou référentiels",
+      "Influence la pratique au-delà de son équipe",
+      "Accompagne les experts vers leur propre maîtrise",
+      "Identifie les limites du domaine et les repousse",
+    ],
+  },
+];
+
+/** Helper : récupère la définition d'un niveau Dreyfus. */
+export const getDreyfusLevelDef = (level: DreyfusLevel): DreyfusLevelDef =>
+  DREYFUS_LEVEL_DEFS.find((d) => d.level === level)!;
 
 /** Display label for a H.S.O. domain (Cahier #02 — "Hard / Soft / Out skills"). */
 export const domainLabel = (domain: CompetenceDomain): string => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BarChart3, TrendingUp, Award, Users, Clock, CheckCircle2 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -11,6 +11,8 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { Container } from '../components/layout';
+import { useCoachAnalyticsStore } from '../stores/persistence';
+import { MOCK_COACH_ID } from '../data/analytics';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -28,34 +30,7 @@ const TAB_ITEMS = [
 
 const ENGAGEMENT_WEEKS = [65, 72, 68, 75, 80, 71, 78, 72];
 
-const DREYFUS_DISTRIBUTION = [
-  { level: 'D1', label: 'Novice', count: 1, pct: 6 },
-  { level: 'D2', label: 'Débutant avancé', count: 5, pct: 28 },
-  { level: 'D3', label: 'Compétent', count: 8, pct: 44 },
-  { level: 'D4', label: 'Performant', count: 3, pct: 17 },
-  { level: 'D5', label: 'Expert', count: 1, pct: 6 },
-];
-
-const TOP_PROGRESSORS = [
-  {
-    name: 'Marie Dupont',
-    initials: 'MD',
-    role: 'Dreyfus +0.8 ce mois',
-    specialties: ['Leadership', 'Communication'],
-  },
-  {
-    name: 'Thomas Renard',
-    initials: 'TR',
-    role: 'Dreyfus +0.6 ce mois',
-    specialties: ['Analyse', 'Tech'],
-  },
-  {
-    name: 'Sophie Martin',
-    initials: 'SM',
-    role: 'Dreyfus +0.5 ce mois',
-    specialties: ['Créativité', 'Coopération'],
-  },
-];
+// DREYFUS_DISTRIBUTION and TOP_PROGRESSORS are derived from the store (see component body)
 
 const COMPETENCES = [
   { label: 'Leadership', value: 3.2, pct: 64, badge: 'info' as const },
@@ -99,9 +74,44 @@ const CORRECTIONS_PENDING = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+const DREYFUS_LABELS_LOCAL: Record<number, string> = {
+  1: 'Novice', 2: 'Débutant avancé', 3: 'Compétent', 4: 'Performant', 5: 'Expert',
+};
+
 export default function CoachAnalytics() {
   const [activePeriod, setActivePeriod] = useState('month');
   const [activeTab, setActiveTab] = useState('global');
+
+  const analyticsStore = useCoachAnalyticsStore();
+  const teamStats = analyticsStore.getTeamStats(MOCK_COACH_ID);
+  const learnerProfiles = analyticsStore.getLearnerProfiles(MOCK_COACH_ID);
+
+  const dreyfusDistribution = useMemo(() => {
+    const counts: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    learnerProfiles.forEach((p) => {
+      const level = Math.round(p.dreyfusAvg);
+      if (level >= 1 && level <= 5) counts[level]++;
+    });
+    const total = learnerProfiles.length || 1;
+    return [1, 2, 3, 4, 5].map((l) => ({
+      level: `D${l}`,
+      label: DREYFUS_LABELS_LOCAL[l],
+      count: counts[l],
+      pct: Math.round((counts[l] / total) * 100),
+    }));
+  }, [learnerProfiles]);
+
+  const topProgressors = useMemo(() =>
+    [...learnerProfiles]
+      .sort((a, b) => b.dreyfusAvg - a.dreyfusAvg)
+      .slice(0, 3)
+      .map((p) => ({
+        name: p.name,
+        initials: p.initials,
+        role: `D${p.dreyfusAvg.toFixed(1)} · ${p.role}`,
+        specialties: p.competencyScores.slice(0, 2).map((s) => s.label),
+      }))
+  , [learnerProfiles]);
 
   const maxEngagement = Math.max(...ENGAGEMENT_WEEKS);
 
@@ -133,7 +143,7 @@ export default function CoachAnalytics() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
           <StatCard
             icon={<Users size={20} />}
-            value="18"
+            value={teamStats.activeLearners.toString()}
             label="Apprenants actifs"
             delta="↑ 2 ce mois"
             deltaDirection="up"
@@ -142,7 +152,7 @@ export default function CoachAnalytics() {
           />
           <StatCard
             icon={<TrendingUp size={20} />}
-            value="D3.2"
+            value={`D${teamStats.avgDreyfus.toFixed(1)}`}
             label="Dreyfus moyen"
             delta="↑ 0.3 ce trimestre"
             deltaDirection="up"
@@ -159,7 +169,7 @@ export default function CoachAnalytics() {
           />
           <StatCard
             icon={<Clock size={20} />}
-            value="4"
+            value={teamStats.correctionsQueue.toString()}
             label="Corrections en attente"
             variant="warm"
             size="md"
@@ -202,7 +212,7 @@ export default function CoachAnalytics() {
               titleIcon={<TrendingUp size={18} className="text-primary-600" />}
             >
               <div className="flex flex-col gap-stack">
-                {DREYFUS_DISTRIBUTION.map((d) => (
+                {dreyfusDistribution.map((d) => (
                   <div key={d.level} className="flex items-center gap-stack">
                     <span className="w-8 shrink-0 font-display text-body-sm font-bold text-ink-700">
                       {d.level}
@@ -227,7 +237,7 @@ export default function CoachAnalytics() {
               titleIcon={<Award size={18} className="text-accent-700" />}
             >
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-                {TOP_PROGRESSORS.map((p) => (
+                {topProgressors.map((p) => (
                   <ProfileCard
                     key={p.name}
                     name={p.name}
@@ -274,7 +284,7 @@ export default function CoachAnalytics() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
               <StatCard
                 icon={<Clock size={20} />}
-                value="4"
+                value={teamStats.correctionsQueue.toString()}
                 label="En attente"
                 variant="warm"
                 size="md"

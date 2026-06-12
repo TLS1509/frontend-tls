@@ -205,6 +205,7 @@ import { AppBreadcrumb } from '../components/patterns/AppBreadcrumb';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { Pill } from '../components/ui/Pill';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
+import { JacCardPending, JacCardNextJalon } from '../components/ui/JacCard';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { FlipCard } from '../components/patterns/FlipCard';
 import { Combobox } from '../components/ui/Combobox';
@@ -2713,6 +2714,35 @@ const COMPONENTS: ComponentEntry[] = [
           isLocked
           color="success"
           size="md"
+        />
+      </div>
+    ),
+  },
+  {
+    name: 'JacCard',
+    codeName: 'ui/JacCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    usedBy: ['PasseportJac'],
+    description: 'Deux variants de card Jalons & Certifications (Cahier #02 + #11). `JacCardPending` : validation en cours (badge "En revue" + Relancer CTA). `JacCardNextJalon` : prochain jalon à atteindre (requirements list + ProgressBar + Préparer CTA).',
+    keywords: ['jac', 'jalon', 'certification', 'dreyfus', 'validation', 'passeport', 'pending', 'progress'],
+    render: () => (
+      <div className="flex flex-col gap-stack max-w-xl">
+        <JacCardPending
+          id="demo-p1"
+          title="Leadership : Niveau D3"
+          competence="Leadership"
+          dreyfusLevel="D3"
+          submittedDaysAgo={3}
+          waitingFor="Coach"
+        />
+        <JacCardNextJalon
+          id="demo-n1"
+          title="Communication : Niveau D4"
+          competence="Communication"
+          dreyfusLevel="D4"
+          requirements={['2 présentations stratégiques', '1 session mentoring', '1 évaluation coach']}
+          progress={60}
         />
       </div>
     ),
