@@ -236,6 +236,7 @@ export const FlashcardsViewer: React.FC = () => {
                   onClick={() => goToCard(index)}
                   className={[
                     'relative shrink-0 w-16 h-16 rounded-xl overflow-hidden transition-all duration-base',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active
                       ? `border-[3px] ${TONE_BORDER_500[tone]} scale-105 opacity-100`
                       : 'border-2 border-ink-200 opacity-50 hover:opacity-80',
@@ -272,7 +273,7 @@ export const FlashcardsViewer: React.FC = () => {
               <button
                 type="button"
                 onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-stack-xs min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base"
+                className="inline-flex items-center gap-stack-xs min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
               >
                 <Check size={16} />
                 Marquer comme compris

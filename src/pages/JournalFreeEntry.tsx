@@ -135,6 +135,7 @@ export const JournalFreeEntry: React.FC = () => {
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
                     className={[
                       'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
+                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'
                         : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
@@ -162,6 +163,7 @@ export const JournalFreeEntry: React.FC = () => {
                     onClick={() => setSelectedMood(active ? null : mood.label)}
                     className={[
                       'inline-flex items-center gap-1 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-semibold transition-all duration-150',
+                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'
                         : 'border-ink-200 bg-transparent text-ink-500 hover:border-ink-400',
@@ -207,7 +209,7 @@ export const JournalFreeEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 leading-none text-body-sm"
+                    className="bg-transparent border-0 cursor-pointer text-primary-400 hover:text-primary-600 p-0 leading-none text-body-sm focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-400 rounded-sm"
                   >
                     ×
                   </button>
@@ -250,7 +252,7 @@ export const JournalFreeEntry: React.FC = () => {
                   key={i}
                   type="button"
                   onClick={() => setContent(content + (content ? '\n\n' : '') + prompt.hint + '\n')}
-                  className="flex items-start gap-stack-xs p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50"
+                  className="flex items-start gap-stack-xs p-3 rounded-lg border border-primary-100 bg-white cursor-pointer text-left font-body transition-all duration-150 hover:border-primary-300 hover:bg-primary-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   <span className="text-primary-500 shrink-0 mt-px">{prompt.icon}</span>
                   <div>

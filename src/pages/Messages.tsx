@@ -288,6 +288,7 @@ export const Messages: React.FC = () => {
                   data-selected={isSelected}
                   className={[
                     'flex items-start gap-3 w-full p-3 rounded-xl border-l-[3px] text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
+                    'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                     isSelected
                       ? 'bg-primary-50 border-l-primary-500'
                       : 'bg-transparent border-l-transparent hover:bg-ink-50',
@@ -310,7 +311,7 @@ export const Messages: React.FC = () => {
                       <button
                         type="button"
                         onClick={(e) => handleToggleStar(e, conv.id)}
-                        className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0"
+                        className="bg-transparent border-0 cursor-pointer p-0.5 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-sm"
                       >
                         <Star
                           size={13}

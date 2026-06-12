@@ -5,7 +5,6 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { StatCard } from '../components/ui/StatCard';
 import { Container } from '../components/layout';
 
 const MOCK_BADGES = [
@@ -102,16 +101,12 @@ export default function OpenBadgesSection() {
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
-        {/* Stats bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Badges obtenus" value="8" variant="brand" />
-          <StatCard label="Partagés" value="3" variant="sun" />
-          <StatCard label="En cours" value="2" />
-        </div>
-
         {/* Badge grid */}
         <section className="flex flex-col gap-stack">
-          <h2 className="font-display text-h3 font-bold text-ink-900 m-0">Mes certifications</h2>
+          <div className="flex items-baseline justify-between gap-3 flex-wrap">
+            <h2 className="font-display text-h3 font-bold text-ink-900 m-0">Mes certifications</h2>
+            <p className="m-0 font-body text-body-sm text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
             {MOCK_BADGES.map((badge) => (
               <Card

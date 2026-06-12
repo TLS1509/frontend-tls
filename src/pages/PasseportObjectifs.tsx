@@ -208,7 +208,7 @@ export default function PasseportObjectifs() {
                     <button
                       type="button"
                       onClick={() => setSelectedId(isSelected ? null : g.id)}
-                      className="w-full text-left bg-transparent border-0 p-0 cursor-pointer"
+                      className="w-full text-left bg-transparent border-0 p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
                     >
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <div className="flex flex-col gap-tight">
@@ -328,7 +328,7 @@ export default function PasseportObjectifs() {
                         type="button"
                         onClick={() => handleDelete(g.id)}
                         aria-label="Supprimer"
-                        className="min-h-touch inline-flex items-center justify-center px-2 text-ink-300 hover:text-danger-fg transition-colors duration-fast"
+                        className="min-h-touch inline-flex items-center justify-center px-2 text-ink-300 hover:text-danger-fg transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-danger-base rounded-sm"
                       >
                         <Trash2 size={14} />
                       </button>

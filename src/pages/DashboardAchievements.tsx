@@ -163,7 +163,7 @@ export default function DashboardAchievements() {
             <button
               type="button"
               onClick={() => navigate('/gamification/badges')}
-              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0"
+              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               Tout voir →
             </button>
@@ -178,7 +178,7 @@ export default function DashboardAchievements() {
                   key={a.id}
                   type="button"
                   onClick={() => navigate(`/gamification/badge/${a.id}`)}
-                  className="bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity"
+                  className="bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
                 >
                   <AchievementBadge
                     title={a.title}
@@ -229,7 +229,7 @@ export default function DashboardAchievements() {
             <button
               type="button"
               onClick={() => navigate('/leaderboard')}
-              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0"
+              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               Voir tout →
             </button>

@@ -92,6 +92,7 @@ export default function MasterclassSurvey() {
                 onClick={() => setRating(score)}
                 className={[
                   'flex-1 flex flex-col items-center gap-1 py-3 rounded-xl border-2 transition-all duration-fast',
+                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   rating === score
                     ? 'border-primary-400 bg-primary-50 text-primary-700'
                     : 'border-ink-200 bg-white text-ink-600 hover:border-primary-300 hover:bg-primary-50',
@@ -131,7 +132,7 @@ export default function MasterclassSurvey() {
           <button
             type="button"
             onClick={() => navigate('/masterclass')}
-            className="text-caption text-ink-400 underline underline-offset-2 hover:text-ink-600 w-full text-center mt-tight"
+            className="text-caption text-ink-400 underline underline-offset-2 hover:text-ink-600 w-full text-center mt-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             Passer
           </button>

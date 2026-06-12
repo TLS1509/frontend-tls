@@ -35,12 +35,6 @@ const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
   advanced: 'warm',
 };
 
-const TONE_BORDER: Record<LessonTone, string> = {
-  primary: 'border-l-primary-500',
-  warm:    'border-l-secondary-500',
-  sun:     'border-l-accent-400',
-};
-
 // Sprint 3 glow classes — tone-aware ripple on hover
 const TONE_HOVER_GLOW: Record<LessonTone, string> = {
   primary: 'hover-glow-primary',
@@ -99,10 +93,9 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   return (
     <div
       className={[
-        'group relative border-l-4 rounded-2xl p-5',
+        'group relative rounded-2xl p-5',
         'transition-all duration-slow ease-emphasis',
         SURFACE_TONE[surface][tone],
-        TONE_BORDER[tone],
         // Sprint 3 glow (when unlocked)
         !locked && TONE_HOVER_GLOW[tone],
         locked
