@@ -7638,7 +7638,7 @@ const Components: React.FC = () => {
                 <h2 className="ds-section__title">Pages · {family}</h2>
                 <span className="ds-section__count">{pages.length} template{pages.length > 1 ? 's' : ''}</span>
               </div>
-              <div className="grid gap-stack" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+              <div className="grid gap-stack [grid-template-columns:repeat(auto-fill,minmax(320px,1fr))]">
                 {pages.map((p) => (
                   <div
                     key={p.id}
