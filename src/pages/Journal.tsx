@@ -18,6 +18,13 @@ import {
   Sparkles,
   X,
   SlidersHorizontal,
+  Compass,
+  PenLine,
+  Lightbulb,
+  BookOpen,
+  Target,
+  ClipboardList,
+  BarChart2,
 } from 'lucide-react';
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
@@ -52,15 +59,15 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
 
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
-const TYPE_FILTERS: { key: TypeFilter; label: string; emoji?: string }[] = [
+const TYPE_FILTERS: { key: TypeFilter; label: string; icon?: React.ReactNode }[] = [
   { key: 'all',           label: 'Toutes' },
-  { key: 'guided',        label: 'Guidé',         emoji: '🧭' },
-  { key: 'free',          label: 'Libre',          emoji: '✍️' },
-  { key: 'learning',      label: 'Apprentissage',  emoji: '📖' },
-  { key: 'coaching',      label: 'Coaching',       emoji: '🎯' },
-  { key: 'insight',       label: 'Insight',        emoji: '💡' },
-  { key: 'questionnaire', label: 'Questionnaire',  emoji: '📋' },
-  { key: 'compte-rendu',  label: 'Compte rendu',   emoji: '📊' },
+  { key: 'guided',        label: 'Guidé',         icon: <Compass size={13} /> },
+  { key: 'free',          label: 'Libre',          icon: <PenLine size={13} /> },
+  { key: 'learning',      label: 'Apprentissage',  icon: <BookOpen size={13} /> },
+  { key: 'coaching',      label: 'Coaching',       icon: <Target size={13} /> },
+  { key: 'insight',       label: 'Insight',        icon: <Lightbulb size={13} /> },
+  { key: 'questionnaire', label: 'Questionnaire',  icon: <ClipboardList size={13} /> },
+  { key: 'compte-rendu',  label: 'Compte rendu',   icon: <BarChart2 size={13} /> },
 ];
 
 const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
@@ -250,11 +257,11 @@ export const Journal: React.FC = () => {
               <div className="flex flex-col gap-stack-xs">
                 <span className="font-body text-caption font-medium text-ink-500">Type d'entrée</span>
                 <div className="flex gap-stack-xs flex-wrap" role="group" aria-label="Filtrer par type">
-                  {TYPE_FILTERS.map(({ key, label, emoji }) => (
+                  {TYPE_FILTERS.map(({ key, label, icon }) => (
                     <FilterChip
                       key={key}
                       label={label}
-                      icon={emoji ? <span aria-hidden="true">{emoji}</span> : undefined}
+                      icon={icon}
                       active={typeFilter === key}
                       onClick={() => setTypeFilter(key)}
                     />
