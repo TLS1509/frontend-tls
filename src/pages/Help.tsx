@@ -2,7 +2,8 @@
  * Help Page : Centre d'aide
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useHelpcenterStore } from '../stores/persistence';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -92,10 +93,26 @@ const CONTACT_OPTIONS = [
 ];
 
 export const Help: React.FC = () => {
+  const helpcenterStore = useHelpcenterStore();
   const [openFaq,      setOpenFaq]      = useState<string | null>(null);
   const [chatInput,    setChatInput]    = useState('');
   const [searchValue,  setSearchValue]  = useState('');
   const [topicFilter,  setTopicFilter]  = useState<string[]>([]);
+
+  // Live FAQ from store; fall back to static FAQ_ITEMS if store has no articles
+  const faqItems = useMemo(() => {
+    const results = helpcenterStore.searchArticles(searchValue);
+    const filtered = topicFilter.length > 0
+      ? results.filter((a) => topicFilter.includes(a.categoryId.toLowerCase()))
+      : results;
+    if (filtered.length === 0) return FAQ_ITEMS;
+    return filtered.map((a) => ({
+      id: a.id,
+      topic: a.categoryId,
+      question: a.title,
+      answer: a.content || a.summary,
+    }));
+  }, [searchValue, topicFilter, helpcenterStore.articles]);
 
   const toggleFaq = (id: string) => setOpenFaq((prev) => (prev === id ? null : id));
 
@@ -134,7 +151,7 @@ export const Help: React.FC = () => {
             Questions fréquentes
           </h2>
           <div className="flex flex-col gap-stack-xs">
-            {FAQ_ITEMS.map((item) => {
+            {faqItems.map((item) => {
               const isOpen = openFaq === item.id;
               return (
                 <div

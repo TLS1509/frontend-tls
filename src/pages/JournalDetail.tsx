@@ -14,8 +14,10 @@
  *  8. New entry CTA brand gradient
  */
 
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useJournalStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import {
   ArrowLeft,
   ArrowRight,
@@ -84,7 +86,24 @@ const TODOS = [
 
 export const JournalDetail: React.FC = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const journalStore = useJournalStore();
   const articleRef = useRef<HTMLDivElement>(null);
+
+  // Derive display fields from store entry if available, else fall back to ENTRY mock
+  const storeEntry = useMemo(() => {
+    const entries = journalStore.getEntries(MOCK_USER_ID);
+    return id ? entries.find((e) => e.id === id) : entries[0];
+  }, [id, journalStore.entries]);
+
+  const displayEntry = storeEntry
+    ? {
+        ...ENTRY,
+        title: storeEntry.title,
+        tags: storeEntry.tags ?? ENTRY.tags,
+      }
+    : ENTRY;
+
   const [todos, setTodos] = useState(TODOS);
 
   const toggleTodo = (i: number) =>
@@ -131,24 +150,24 @@ export const JournalDetail: React.FC = () => {
             <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
               <Sparkles size={11} /> Journal de bord
             </span>
-            <Badge variant="brand">{ENTRY.category}</Badge>
+            <Badge variant="brand">{displayEntry.category}</Badge>
             <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
-              {ENTRY.mood} {ENTRY.moodLabel}
+              {displayEntry.mood} {displayEntry.moodLabel}
             </span>
           </div>
 
           <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight">
-            {ENTRY.title}
+            {displayEntry.title}
           </h1>
 
           <div className="pt-stack pb-stack-lg border-b border-ink-100">
             <AuthorStrip
               variant="compact"
-              name={ENTRY.author.name}
-              role={ENTRY.author.role}
+              name={displayEntry.author.name}
+              role={displayEntry.author.role}
               meta={[
-                { icon: <CalendarDays size={12} />, text: ENTRY.date },
-                { icon: <Clock3 size={12} />,       text: ENTRY.readTime },
+                { icon: <CalendarDays size={12} />, text: displayEntry.date },
+                { icon: <Clock3 size={12} />,       text: displayEntry.readTime },
               ]}
             />
           </div>
@@ -212,7 +231,7 @@ export const JournalDetail: React.FC = () => {
             <TagIcon size={11} /> Tags
           </span>
           <div className="flex flex-wrap gap-stack-xs">
-            {ENTRY.tags.map((tag) => (
+            {displayEntry.tags.map((tag) => (
               <span
                 key={tag}
                 className="inline-flex items-center px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"

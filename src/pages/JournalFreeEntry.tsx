@@ -4,6 +4,9 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useJournalStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { JournalEntryType, JournalMoodLevel } from '../types/learning';
 import { Button } from '../components/core/Button';
 import { Container } from '../components/layout';
 import {
@@ -57,8 +60,27 @@ const TIPS = [
   "Ce que je veux ne pas oublier",
 ];
 
+const MOOD_LEVEL_MAP: Record<string, JournalMoodLevel> = {
+  'Inspiré': 'happy',
+  'Motivé': 'happy',
+  'En réflexion': 'neutral',
+  'Satisfait': 'happy',
+  'Frustré': 'sad',
+  'En croissance': 'very-happy',
+};
+
+const CATEGORY_TYPE_MAP: Record<string, JournalEntryType> = {
+  'leadership': 'pratique-pro',
+  'apprentissage': 'apprentissage',
+  'collaboration': 'pratique-pro',
+  'reflexion': 'reflexion-libre',
+  'action': 'moment-eureka',
+};
+
 export const JournalFreeEntry: React.FC = () => {
   const navigate = useNavigate();
+  const journalStore = useJournalStore();
+
   const [title, setTitle]                       = useState('');
   const [content, setContent]                   = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -78,6 +100,23 @@ export const JournalFreeEntry: React.FC = () => {
   };
 
   const removeTag = (tag: string) => setTags(tags.filter((t) => t !== tag));
+
+  const buildAndSaveEntry = () => {
+    const now = new Date().toISOString();
+    journalStore.addEntry({
+      id: `entry-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      type: (selectedCategory ? CATEGORY_TYPE_MAP[selectedCategory] : undefined) ?? 'reflexion-libre',
+      title: title.trim() || 'Entrée sans titre',
+      body: content,
+      mood: (selectedMood ? MOOD_LEVEL_MAP[selectedMood] : undefined) ?? 'neutral',
+      tags,
+      xpAwarded: 10,
+      createdAt: now,
+      updatedAt: now,
+    });
+    navigate('/journal');
+  };
 
   return (
     <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
@@ -102,7 +141,7 @@ export const JournalFreeEntry: React.FC = () => {
           <Button variant="secondary" size="sm" leadingIcon={<Save size={14} />}>
             Brouillon
           </Button>
-          <Button size="sm" leadingIcon={<Send size={14} />}>
+          <Button size="sm" leadingIcon={<Send size={14} />} onClick={buildAndSaveEntry}>
             Publier
           </Button>
         </div>
@@ -236,8 +275,8 @@ export const JournalFreeEntry: React.FC = () => {
 
           {/* Bottom actions */}
           <div className="flex gap-stack-xs mt-stack-lg">
-            <Button leadingIcon={<Send size={15} />}>Publier l'entrée</Button>
-            <Button variant="secondary" leadingIcon={<Save size={14} />}>
+            <Button leadingIcon={<Send size={15} />} onClick={buildAndSaveEntry}>Publier l'entrée</Button>
+            <Button variant="secondary" leadingIcon={<Save size={14} />} onClick={buildAndSaveEntry}>
               Sauvegarder en brouillon
             </Button>
           </div>
