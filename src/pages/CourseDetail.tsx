@@ -5,6 +5,8 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { Container } from '../components/layout';
+import { useLessonProgressStore } from '../stores/persistence';
+import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
 import {
   ArrowLeft,
   BookOpen,
@@ -17,7 +19,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-const STATIC_COURSE = {
+const course = {
   title: 'Enjeux de la maîtrise du prompt',
   description:
     "Apprenez à structurer vos prompts pour gagner en qualité et en reproductibilité : contenu statique aligné sur Figma CourseDetailPageUpdated.",
@@ -54,6 +56,46 @@ export const CourseDetail: React.FC = () => {
   const navigate = useNavigate();
   const [openStep, setOpenStep] = useState<number | null>(1);
 
+  const lessonProgressStore = useLessonProgressStore();
+
+  // Look up parcours from store data by route ID
+  const parcours = id ? MOCK_PARCOURS_DATA[id] : undefined;
+
+  // Build course metadata from store data, falling back to course
+  const course = parcours
+    ? {
+        title: parcours.title,
+        description: parcours.description,
+        level: parcours.level,
+        duration: parcours.duration,
+        instructor: parcours.instructor ?? 'Sophie Martin',
+        progress: (() => {
+          const allLecons = parcours.etapes.flatMap((e) => e.lecons);
+          const total = allLecons.length;
+          if (total === 0) return course.progress;
+          const completed = allLecons.filter((l) => lessonProgressStore.isLessonCompleted(l.id)).length;
+          return Math.round((completed / total) * 100);
+        })(),
+      }
+    : course;
+
+  // Build steps from store data or fall back to STEPS
+  const steps = parcours
+    ? parcours.etapes.map((etape, ei) => ({
+        id: ei + 1,
+        title: etape.titre,
+        duration: etape.duree ?? '—',
+        lessons: etape.lecons.map((l) => ({
+          id: l.id,
+          title: l.titre,
+          duration: l.duree ?? '—',
+          locked: false,
+          current: lessonProgressStore.get(l.id)?.currentSection !== undefined && !lessonProgressStore.isLessonCompleted(l.id),
+          done: lessonProgressStore.isLessonCompleted(l.id),
+        })),
+      }))
+    : STEPS;
+
   return (
     <div className="min-h-[100dvh] bg-surface font-body">
       {/* ─ Sticky header ─────────────────────────────────────────── */}
@@ -75,22 +117,22 @@ export const CourseDetail: React.FC = () => {
               Learning Space • Détail du cours
             </p>
             <h1 className="font-display text-h1 font-extrabold tracking-tight text-ink-900 m-0 leading-[1.1]">
-              {STATIC_COURSE.title}
+              {course.title}
             </h1>
             <p className="font-body text-body-lg leading-[1.65] text-ink-500 m-0">
-              {STATIC_COURSE.description}
+              {course.description}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Badge variant="info">{STATIC_COURSE.level}</Badge>
+            <Badge variant="info">{course.level}</Badge>
             <Badge variant="neutral">
               <span className="inline-flex items-center gap-tight">
-                <Clock size={12} /> {STATIC_COURSE.duration}
+                <Clock size={12} /> {course.duration}
               </span>
             </Badge>
             <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
               <GraduationCap size={12} />
-              Formateur : {STATIC_COURSE.instructor}
+              Formateur : {course.instructor}
             </span>
           </div>
           <div className="flex flex-wrap gap-stack-xs">
@@ -102,9 +144,9 @@ export const CourseDetail: React.FC = () => {
         {/* ─ KPI row ───────────────────────────────────────────────── */}
         <div className="grid grid-cols-3 gap-stack-xs">
           {[
-            { label: 'Progression', value: `${STATIC_COURSE.progress}%`, meta: 'Parcours statique en cours' },
-            { label: 'Étapes', value: STEPS.length, meta: 'Fondamentaux + application' },
-            { label: 'Leçons', value: STEPS.reduce((acc, step) => acc + step.lessons.length, 0), meta: 'Format micro-learning guidé' },
+            { label: 'Progression', value: `${course.progress}%`, meta: 'Parcours statique en cours' },
+            { label: 'Étapes', value: steps.length, meta: 'Fondamentaux + application' },
+            { label: 'Leçons', value: steps.reduce((acc, step) => acc + step.lessons.length, 0), meta: 'Format micro-learning guidé' },
           ].map((kpi) => (
             <Card key={kpi.label} className="flex flex-col gap-tight p-5">
               <p className="font-body text-caption text-ink-500 m-0">{kpi.label}</p>
@@ -140,7 +182,7 @@ export const CourseDetail: React.FC = () => {
             {/* Programme accordion */}
             <div>
               <h2 className="font-display text-h3 font-semibold text-ink-900 m-0 mb-stack">Programme</h2>
-              {STEPS.map((step) => {
+              {steps.map((step) => {
                 const open = openStep === step.id;
                 return (
                   <EtapeAccordion
@@ -182,7 +224,7 @@ export const CourseDetail: React.FC = () => {
                 Avancement global du module (statique).
               </p>
               <p className="font-display text-h2 font-bold text-ink-900 m-0">
-                {STATIC_COURSE.progress}%
+                {course.progress}%
               </p>
               <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
                 <CheckCircle2 size={12} /> Prochaine étape : première leçon
