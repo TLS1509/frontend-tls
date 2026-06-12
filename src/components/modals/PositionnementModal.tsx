@@ -154,7 +154,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
           {!isCompleted ? (
             <>
               {/* Header + progress */}
-              <div className="mb-6">
+              <div className="mb-stack-lg">
                 <p className="text-caption font-semibold text-primary-600 uppercase tracking-[0.06em] mb-1">
                   {courseTitle}
                 </p>
@@ -175,7 +175,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
               </div>
 
               {/* Question card */}
-              <div className="bg-white rounded-xl p-6 shadow-md mb-6 border border-ink-200">
+              <div className="bg-white rounded-xl p-6 shadow-md mb-stack-lg border border-ink-200">
                 <h2 className="text-h3 font-extrabold text-ink-900 leading-snug mb-2">
                   {currentQuestion.title}
                 </h2>
@@ -185,7 +185,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
               </div>
 
               {/* Level selection */}
-              <div className="grid grid-cols-5 gap-3 mb-6">
+              <div className="grid grid-cols-5 gap-stack-xs mb-stack-lg">
                 {LEVELS.map((level) => {
                   const isSelected = selectedLevel === level.id;
                   return (
@@ -193,7 +193,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                       key={level.id}
                       onClick={() => handleLevelSelect(level.id)}
                       className={[
-                        'rounded-xl py-5 px-3 flex flex-col items-center gap-2 cursor-pointer transition-all border-2 text-center',
+                        'rounded-xl py-5 px-3 flex flex-col items-center gap-stack-xs cursor-pointer transition-all border-2 text-center',
                         isSelected
                           ? '-translate-y-1 scale-[1.04]'
                           : 'hover:-translate-y-[3px] hover:scale-[1.02]',
@@ -248,9 +248,9 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             </>
           ) : (
             /* Success screen */
-            <div className="flex flex-col gap-5 animate-modal-in">
+            <div className="flex flex-col gap-stack animate-modal-in">
               <div className="bg-white rounded-xl p-8 border border-primary-500/20 shadow-lg text-center">
-                <div className="inline-flex gap-2 mb-5 p-3 rounded-xl bg-ink-50">
+                <div className="inline-flex gap-stack-xs mb-5 p-3 rounded-xl bg-ink-50">
                   {([<Target size={22} strokeWidth={1.75} />, <Star size={22} strokeWidth={1.75} />, <Rocket size={22} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <div
                       key={i}
@@ -261,11 +261,11 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   ))}
                 </div>
                 <h3 className="text-h3 font-extrabold text-ink-900 mb-2">Votre profil est prêt !</h3>
-                <p className="text-body text-ink-600 mb-6">
+                <p className="text-body text-ink-600 mb-stack-lg">
                   Le parcours va maintenant s'adapter à votre niveau.
                 </p>
 
-                <div className="grid grid-cols-3 gap-3 mb-5">
+                <div className="grid grid-cols-3 gap-stack-xs mb-5">
                   {SUCCESS_FEATURES.map((f, i) => (
                     <div key={i} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
                       <div className="inline-flex items-center justify-center mb-2 text-ink-700">{f.icon}</div>
@@ -274,7 +274,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   ))}
                 </div>
 
-                <div className="flex gap-3 p-4 rounded-lg bg-primary-50 border border-primary-500/20 text-left">
+                <div className="flex gap-stack-xs p-4 rounded-lg bg-primary-50 border border-primary-500/20 text-left">
                   <div className="shrink-0 w-9 h-9 rounded-md bg-primary-500 flex items-center justify-center">
                     <Sparkles size={18} className="text-white" />
                   </div>

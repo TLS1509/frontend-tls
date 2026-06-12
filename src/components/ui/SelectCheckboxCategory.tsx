@@ -129,7 +129,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                           }
                         `}
                       >
-                        <div className="flex items-center gap-3 flex-1">
+                        <div className="flex items-center gap-stack-xs flex-1">
                           {/* Radio dot */}
                           <div
                             className={`

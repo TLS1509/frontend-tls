@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {...rest}
       >
         {/* Brand row + mobile close button */}
-        <div className={['flex items-center justify-between gap-2 px-4 pt-5 pb-8', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
+        <div className={['flex items-center justify-between gap-stack-xs px-4 pt-5 pb-section', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
@@ -113,7 +113,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* Navigation */}
-        <nav className={['flex-1 flex flex-col gap-1 overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
+        <nav className={['flex-1 flex flex-col gap-tight overflow-y-auto', collapsed ? 'px-2' : 'px-3'].join(' ')}>
           {children}
         </nav>
 
@@ -131,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 // ─── Default brand (logo + title) ──────────────────────────────────────────
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
-  <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
+  <div className={['flex items-center gap-stack-xs.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
     <TlsLogo size={collapsed ? 44 : 48} />
     {!collapsed && (
       <span className="font-display font-bold text-body-lg leading-tight text-primary-800">
@@ -159,7 +159,7 @@ const formatCount = (count: React.ReactNode): React.ReactNode => {
 };
 
 const NAV_BASE =
-  'group/nav relative flex items-center gap-3 font-body font-semibold text-body-sm no-underline transition-[background-color,color,box-shadow] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
+  'group/nav relative flex items-center gap-stack-xs font-body font-semibold text-body-sm no-underline transition-[background-color,color,box-shadow] duration-fast ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 // Inactive items keep the soft pill shape; active items snap to a rounded
 // square ("anchored" feel) with brand gradient + shadow.
@@ -181,7 +181,7 @@ export const NavItem: React.FC<NavItemProps> = ({
 }) => {
   const sizeClasses = collapsed
     ? 'w-12 h-12 mx-auto justify-center px-0'
-    : 'h-12 px-3.5 gap-3.5';
+    : 'h-12 px-3.5 gap-stack-xs.5';
 
   const classes = [
     NAV_BASE,
@@ -291,7 +291,7 @@ export const SidebarUserCard: React.FC<SidebarUserCardProps> = ({
       onClick={onClick}
       aria-expanded={menuOpen}
       className={[
-        'flex items-center gap-3 w-full px-3 py-2.5 rounded-2xl bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-[background-color,border-color,box-shadow] duration-base ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+        'flex items-center gap-stack-xs w-full px-3 py-2.5 rounded-2xl bg-white/70 border border-ink-200 hover:bg-white hover:border-primary-300 transition-[background-color,border-color,box-shadow] duration-base ease-standard cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         menuOpen && 'border-primary-400 bg-white',
         className,
       ]
@@ -326,7 +326,7 @@ export const SidebarGroup: React.FC<SidebarGroupProps> = ({
   children,
   className = '',
 }) => (
-  <div className={['flex flex-col gap-1', className].filter(Boolean).join(' ')}>
+  <div className={['flex flex-col gap-tight', className].filter(Boolean).join(' ')}>
     {children}
   </div>
 );

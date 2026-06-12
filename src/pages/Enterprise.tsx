@@ -168,7 +168,7 @@ export const Enterprise: React.FC = () => {
                       {ROLE_LABEL[m.role]}
                     </p>
                   </div>
-                  <div className="hidden sm:flex flex-col gap-1 min-w-[140px] max-w-[200px] flex-1">
+                  <div className="hidden sm:flex flex-col gap-tight min-w-[140px] max-w-[200px] flex-1">
                     <div className="flex justify-between items-baseline">
                       <span className="font-body text-micro text-ink-500">Progression</span>
                       <span className="font-body text-micro font-bold text-primary-700 tabular-nums">
@@ -215,7 +215,7 @@ export const Enterprise: React.FC = () => {
               <h3 className="m-0 font-display text-body font-bold text-ink-900">
                 Inviter un nouveau collaborateur
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_auto] gap-3 sm:items-end">
+              <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_auto] gap-stack-xs sm:items-end">
                 <FormGroup label="Adresse email" id="invite-email">
                   <Input
                     id="invite-email"
@@ -281,7 +281,7 @@ export const Enterprise: React.FC = () => {
 
         {/* ── Rapports ──────────────────────────────────────────── */}
         <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-stack-xs">
             <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
               Rapports
             </h2>
@@ -302,7 +302,7 @@ export const Enterprise: React.FC = () => {
                     <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700">
                       <Icon size={22} />
                     </span>
-                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                    <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">
                         {r.title}
                       </h3>

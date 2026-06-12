@@ -120,8 +120,8 @@ const STATUS_CLASSES: Record<StatusBadgeStatus, string> = {
 };
 
 const STATUS_SIZE_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'text-micro px-1.5 py-0.5 gap-1',
-  md: 'text-caption px-2 py-1 gap-1.5',
+  sm: 'text-micro px-1.5 py-0.5 gap-tight',
+  md: 'text-caption px-2 py-1 gap-tight.5',
 };
 
 const STATUS_ICON_SIZE: Record<'sm' | 'md', number> = { sm: 10, md: 12 };
@@ -200,8 +200,8 @@ const PROMO_CLASSES: Record<PromoType, string> = {
 };
 
 const PROMO_SIZE_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'text-micro px-2 py-0.5 gap-1',
-  md: 'text-caption px-2.5 py-1 gap-1.5',
+  sm: 'text-micro px-2 py-0.5 gap-tight',
+  md: 'text-caption px-2.5 py-1 gap-tight.5',
 };
 
 const PROMO_ICON_SIZES: Record<'sm' | 'md', number> = { sm: 12, md: 14 };

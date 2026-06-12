@@ -205,8 +205,8 @@ export const PageHero: React.FC<PageHeroProps> = ({
         'relative overflow-hidden rounded-2xl border shadow-md backdrop-blur-glass-light',
         TONE_BG[tone],
         TONE_BORDER[tone],
-        compact ? 'px-6 py-6' : 'px-8 py-8',
-        'flex flex-col gap-3',
+        compact ? 'px-6 py-stack-lg' : 'px-8 py-section',
+        'flex flex-col gap-stack-xs',
         className,
       ]
         .filter(Boolean)
@@ -227,7 +227,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
               type="button"
               onClick={backLink.onClick}
               className={[
-                'inline-flex items-center gap-1.5 text-caption font-semibold rounded-pill border px-3 py-1.5 transition-colors',
+                'inline-flex items-center gap-tight.5 text-caption font-semibold rounded-pill border px-3 py-1.5 transition-colors',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 TONE_BACKLINK[tone],
               ].join(' ')}
@@ -244,7 +244,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       {eyebrow && (
         <div className="relative">
           {isEyebrowObject(eyebrow) ? (
-            <span className={['inline-flex items-center gap-1.5 text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>
+            <span className={['inline-flex items-center gap-tight.5 text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>
               {eyebrow.icon}
               {eyebrow.label}
             </span>
@@ -265,9 +265,9 @@ export const PageHero: React.FC<PageHeroProps> = ({
       )}
 
       {meta && meta.length > 0 && (
-        <div className={['relative flex flex-wrap items-center gap-2 mt-1 text-caption', TONE_META[tone]].join(' ')}>
+        <div className={['relative flex flex-wrap items-center gap-stack-xs mt-1 text-caption', TONE_META[tone]].join(' ')}>
           {meta.map((item, idx) => (
-            <span key={idx} className="inline-flex items-center gap-1">
+            <span key={idx} className="inline-flex items-center gap-tight">
               {item.icon}
               {item.label}
             </span>
@@ -277,7 +277,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       {/* Progress bar (above trailing) */}
       {clampedProgress !== null && (
-        <div className="relative flex flex-col gap-1.5 mt-2">
+        <div className="relative flex flex-col gap-tight.5 mt-2">
           <div
             className={['h-1.5 rounded-pill overflow-hidden', TONE_PROGRESS_TRACK[tone]].join(' ')}
             role="progressbar"

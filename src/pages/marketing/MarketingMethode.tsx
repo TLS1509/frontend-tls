@@ -147,7 +147,7 @@ export const MarketingMethode: React.FC = () => {
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 La méthode TLS · STRIDE
@@ -168,7 +168,7 @@ export const MarketingMethode: React.FC = () => {
 
           {/* Mega letters preview */}
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="flex items-center justify-center gap-2 sm:gap-stack pt-stack flex-wrap">
+            <div className="flex items-center justify-center gap-stack-xs sm:gap-stack pt-stack flex-wrap">
               {STRIDE_STEPS.map((s, i) => (
                 <motion.span
                   key={s.letter}
@@ -211,7 +211,7 @@ export const MarketingMethode: React.FC = () => {
                   } shadow-sm hover:shadow-lg transition-shadow duration-base`}
                 >
                   {/* Letter + word */}
-                  <div className="flex items-center gap-stack lg:flex-col lg:items-start lg:gap-1 lg:w-40">
+                  <div className="flex items-center gap-stack lg:flex-col lg:items-start lg:gap-tight lg:w-40">
                     <motion.span
                       initial={{ scale: 0.7, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}
@@ -241,7 +241,7 @@ export const MarketingMethode: React.FC = () => {
 
                   {/* Deliverable badge */}
                   <div className="lg:w-56 flex flex-col gap-stack lg:items-end">
-                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-ink-200 text-ink-700 shadow-xs">
+                    <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white border border-ink-200 text-ink-700 shadow-xs">
                       {s.icon}
                       <span className="font-body text-caption font-bold uppercase tracking-wider">
                         Livrable
@@ -328,13 +328,13 @@ export const MarketingMethode: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                   className="h-full rounded-3xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
                 >
-                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-ink-700 font-body text-caption font-bold uppercase tracking-wider">
+                  <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-ink-700 font-body text-caption font-bold uppercase tracking-wider">
                     {u.badge}
                   </span>
                   <h3 className="font-display text-h4 font-extrabold text-ink-900 leading-tight m-0">
                     {u.title}
                   </h3>
-                  <div className="inline-flex self-start items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
+                  <div className="inline-flex self-start items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
                     <Sparkles size={14} className="text-accent-400" />
                     <span className="font-display font-bold text-body-sm text-primary-700">{u.metric}</span>
                   </div>
@@ -363,7 +363,7 @@ export const MarketingMethode: React.FC = () => {
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
                 On démarre par un diagnostic de 90 min — audit de maturité SBO et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+              <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
                     <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>

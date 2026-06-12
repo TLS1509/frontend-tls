@@ -85,7 +85,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     <Card
       variant="feature"
       className={[
-        'group flex flex-col gap-3',
+        'group flex flex-col gap-stack-xs',
         'transition-all duration-slow ease-emphasis',
         'hover:-translate-y-1 hover:shadow-md',
         TONE_HOVER_GLOW[tone],
@@ -96,8 +96,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       onClick={onClick}
     >
       {/* Header: icon + meta + save */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="flex items-start justify-between gap-stack-xs">
+        <div className="flex items-center gap-stack-xs">
           {icon && (
             // Double-bezel icon container
             <div className={TONE_ICON_SHELL[tone]} aria-hidden="true">
@@ -113,7 +113,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           )}
           <div className="flex flex-col gap-0.5">
             <CardEyebrow>{typeLabel}</CardEyebrow>
-            <span className="inline-flex items-center gap-1 text-micro text-ink-400 font-medium">
+            <span className="inline-flex items-center gap-tight text-micro text-ink-400 font-medium">
               <Calendar size={11} aria-hidden="true" />
               {publishedAt}
             </span>
@@ -152,7 +152,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       <CardDesc>{summary}</CardDesc>
 
       {/* Footer */}
-      <CardFooter className="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-ink-100">
+      <CardFooter className="flex items-center justify-between flex-wrap gap-stack-xs pt-3 border-t border-ink-100">
         <MetaPillGroup
           items={[
             { icon: <User size={12} />, text: author },

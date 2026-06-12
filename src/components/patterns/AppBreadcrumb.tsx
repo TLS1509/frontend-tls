@@ -246,7 +246,7 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
       className={[
         // Sticky sub-header : reste accessible quand on scroll dans une page longue.
         'sticky top-0 z-sticky',
-        'flex items-center gap-2 font-body text-caption text-ink-700',
+        'flex items-center gap-stack-xs font-body text-caption text-ink-700',
         // Light bg + backdrop-blur léger pour séparer du contenu sans casser le ton.
         'bg-white/85 backdrop-blur-glass-light border-b border-ink-100',
         // Hauteur min consistante (44px = touch target Apple) avec padding vertical.

@@ -16,8 +16,8 @@ export interface InputGroupProps {
 
 const LAYOUT_CLASSES: Record<InputGroupLayout, string> = {
   vertical:   'flex flex-col gap-stack',
-  horizontal: 'flex flex-row flex-wrap gap-3 items-end',
-  grid:       'grid gap-3',
+  horizontal: 'flex flex-row flex-wrap gap-stack-xs items-end',
+  grid:       'grid gap-stack-xs',
 };
 
 const COLUMNS_CLASSES: Record<InputGroupColumns, string> = {
@@ -47,7 +47,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
 
   return (
     <div
-      className={['flex flex-col gap-2 font-body', className].filter(Boolean).join(' ')}
+      className={['flex flex-col gap-stack-xs font-body', className].filter(Boolean).join(' ')}
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
@@ -68,7 +68,7 @@ export const InputGroup: React.FC<InputGroupProps> = ({
           id={`${groupId}-message`}
           className={
             error
-              ? 'text-caption text-danger-fg flex items-center gap-1'
+              ? 'text-caption text-danger-fg flex items-center gap-tight'
               : 'text-caption text-ink-500'
           }
           role={error ? 'alert' : undefined}

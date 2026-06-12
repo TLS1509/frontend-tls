@@ -125,7 +125,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           {renderContent(content)}
           {children}
         </div>
-        <div className="flex items-center gap-1 px-1">
+        <div className="flex items-center gap-tight px-1">
           <span className="text-micro text-ink-400">{timestamp}</span>
           {showReadReceipt && (
             <CheckCheck size={11} className="text-primary-400" />
@@ -172,7 +172,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         >
           {/* AI: Privacy blocked banner */}
           {isPrivacyBlocked && (
-            <div className="flex items-center gap-2 mb-2 text-danger-fg">
+            <div className="flex items-center gap-stack-xs mb-2 text-danger-fg">
               <ShieldOff size={14} />
               <span className="text-caption font-semibold">Contenu bloqué</span>
             </div>
@@ -180,7 +180,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
           {/* AI: Low confidence banner */}
           {isLowConfidence && !isPrivacyBlocked && (
-            <div className="flex items-center gap-2 mb-2 text-warning-fg">
+            <div className="flex items-center gap-stack-xs mb-2 text-warning-fg">
               <AlertTriangle size={14} />
               <span className="text-caption font-semibold">
                 Confiance limitée
@@ -193,20 +193,20 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         </div>
 
         {/* Timestamp + source citation pills */}
-        <div className="flex items-start gap-2 pl-1 flex-wrap">
+        <div className="flex items-start gap-stack-xs pl-1 flex-wrap">
           <span className="text-micro text-ink-400 shrink-0">{timestamp}</span>
 
           {isChatbot && sourcesCited && sourcesCited.length > 0 && (
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-tight">
               {sourcesCited.map((src) => (
                 <span
                   key={src.sourceId}
-                  className="inline-flex items-center gap-1 text-micro bg-primary-50 text-primary-700 border border-primary-200 rounded-pill px-2 py-0.5"
+                  className="inline-flex items-center gap-tight text-micro bg-primary-50 text-primary-700 border border-primary-200 rounded-pill px-2 py-0.5"
                 >
                   {src.url ? (
                     <a
                       href={src.url}
-                      className="hover:underline flex items-center gap-1"
+                      className="hover:underline flex items-center gap-tight"
                     >
                       {src.title}
                       <ExternalLink size={10} />
@@ -222,7 +222,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
 
         {/* Feedback buttons — chatbot only, non-blocked messages */}
         {isChatbot && !isPrivacyBlocked && (
-          <div className="flex items-center gap-2 pl-1">
+          <div className="flex items-center gap-stack-xs pl-1">
             {hasFeedback ? (
               <span className="text-micro text-ink-400">
                 {feedback?.rating === 'yes' ? '✓ Utile' : '✗ Pas utile'} —
@@ -233,14 +233,14 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                 <span className="text-micro text-ink-400">Utile ?</span>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'yes')}
-                  className="inline-flex items-center gap-1 text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
+                  className="inline-flex items-center gap-tight text-micro text-success-fg hover:text-success-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-success-bg"
                   aria-label="Marquer comme utile"
                 >
                   <ThumbsUp size={12} /> Oui
                 </button>
                 <button
                   onClick={() => messageId && onFeedback?.(messageId, 'no')}
-                  className="inline-flex items-center gap-1 text-micro text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
+                  className="inline-flex items-center gap-tight text-micro text-danger-fg hover:text-danger-base transition-colors duration-fast px-1.5 py-0.5 rounded-sm hover:bg-danger-bg"
                   aria-label="Marquer comme pas utile"
                 >
                   <ThumbsDown size={12} /> Non

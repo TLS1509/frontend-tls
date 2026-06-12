@@ -62,7 +62,7 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
           const status = getStatus(i, currentStep);
           const isLast = i === steps.length - 1;
           return (
-            <li key={i} className="flex gap-3">
+            <li key={i} className="flex gap-stack-xs">
               {/* Column: bubble + connector */}
               <div className="flex flex-col items-center">
                 {/* Bubble */}

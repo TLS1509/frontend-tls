@@ -104,7 +104,7 @@ export const Project: React.FC = () => {
       />
 
       {gatingFails.length > 0 && (
-        <div className="flex items-start gap-3 p-stack rounded-xl bg-warning-bg border border-warning-base/30">
+        <div className="flex items-start gap-stack-xs p-stack rounded-xl bg-warning-bg border border-warning-base/30">
           <Lock size={16} className="text-warning-fg mt-0.5 shrink-0" />
           <div>
             <p className="text-body-sm font-semibold text-warning-fg m-0 mb-1">Pré-requis Dreyfus non atteints</p>

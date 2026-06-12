@@ -44,7 +44,7 @@ function renderInlineMarkdown(text: string): React.ReactNode {
 }
 
 const TypingDots: React.FC = () => (
-  <span className="inline-flex items-center gap-1" aria-label="L'assistant écrit">
+  <span className="inline-flex items-center gap-tight" aria-label="L'assistant écrit">
     <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '0ms' }} />
     <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '200ms' }} />
     <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-[pulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: '400ms' }} />
@@ -52,7 +52,7 @@ const TypingDots: React.FC = () => (
 );
 
 const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="flex items-end gap-2 max-w-[88%] sm:max-w-[78%] mr-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
+  <div className="flex items-end gap-stack-xs max-w-[88%] sm:max-w-[78%] mr-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
     <span className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-pill bg-white border border-primary-200 shadow-sm">
       <TlsLogo size={28} withBubble={false} variant="primary" />
     </span>
@@ -63,7 +63,7 @@ const AiBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 const UserBubble: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="flex items-end justify-end gap-2 max-w-[88%] sm:max-w-[78%] ml-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
+  <div className="flex items-end justify-end gap-stack-xs max-w-[88%] sm:max-w-[78%] ml-auto animate-in fade-in slide-in-from-bottom-1 duration-300">
     <div className="rounded-2xl rounded-br-md bg-secondary-500 text-white px-4 py-3 text-body-sm leading-relaxed shadow-sm">
       {children}
     </div>
@@ -109,7 +109,7 @@ export const ConversationalChat: React.FC<ConversationalChatProps> = ({
 
       <div
         ref={scrollerRef}
-        className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 flex flex-col gap-3 scroll-smooth"
+        className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 flex flex-col gap-stack-xs scroll-smooth"
         role="log"
         aria-live="polite"
         aria-atomic="false"

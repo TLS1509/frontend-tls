@@ -123,7 +123,7 @@ export const CongratulationsCard: React.FC<CongratulationsCardProps> = ({
             XP_SURFACE[tone],
           ].join(' ')}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Sparkles size={18} className={XP_ACCENT[tone]} />
             <span className={['text-body-sm font-semibold', XP_ACCENT[tone]].join(' ')}>
               {xp.levelLabel ?? 'Étape terminée'}

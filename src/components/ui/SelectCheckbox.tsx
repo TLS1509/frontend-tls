@@ -117,7 +117,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
                   <label
                     key={opt.id}
                     className={`
-                      flex items-center gap-2 px-3 py-2 rounded-lg
+                      flex items-center gap-stack-xs px-3 py-2 rounded-lg
                       cursor-pointer transition-[background-color] duration-base ease-emphasis
                       hover:bg-primary-50
                     `}
@@ -152,7 +152,7 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-3 border-t border-ink-100 flex gap-2">
+              <div className="px-4 py-3 border-t border-ink-100 flex gap-stack-xs">
                 <button
                   onClick={() => {
                     onChange([]);

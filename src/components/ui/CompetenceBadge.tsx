@@ -37,7 +37,7 @@ export const CompetenceBadge: React.FC<CompetenceBadgeProps> = ({
   ...rest
 }) => {
   const classes = [
-    'inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1 rounded-pill text-body-sm font-bold font-body',
+    'inline-flex items-center gap-stack-xs pl-1.5 pr-3.5 py-1 rounded-pill text-body-sm font-bold font-body',
     LEVEL_BADGE_CLASSES[level],
     className,
   ]

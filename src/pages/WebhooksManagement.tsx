@@ -28,7 +28,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </span>
     ),
     events: (
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-tight">
         <Badge variant="brand">user.enrolled</Badge>
         <Badge variant="brand">lesson.completed</Badge>
       </div>
@@ -36,7 +36,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     status: <Badge variant="success">Actif</Badge>,
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 3 min</span>,
     actions: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-tight">
         <Button variant="ghost" size="sm">Tester</Button>
         <Button variant="ghost" size="sm">Modifier</Button>
       </div>
@@ -49,14 +49,14 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </span>
     ),
     events: (
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-tight">
         <Badge variant="warm">coaching.booked</Badge>
       </div>
     ),
     status: <Badge variant="success">Actif</Badge>,
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 27 min</span>,
     actions: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-tight">
         <Button variant="ghost" size="sm">Tester</Button>
         <Button variant="ghost" size="sm">Modifier</Button>
       </div>
@@ -69,7 +69,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </span>
     ),
     events: (
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-tight">
         <Badge variant="sun">badge.earned</Badge>
         <Badge variant="brand">lesson.completed</Badge>
       </div>
@@ -77,7 +77,7 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     status: <Badge variant="success">Actif</Badge>,
     last_triggered: <span className="text-body-sm text-ink-600">Il y a 2 h</span>,
     actions: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-tight">
         <Button variant="ghost" size="sm">Tester</Button>
         <Button variant="ghost" size="sm">Modifier</Button>
       </div>
@@ -90,14 +90,14 @@ const WEBHOOK_ROWS: DataTableRow[] = [
       </span>
     ),
     events: (
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-tight">
         <Badge variant="neutral">user.enrolled</Badge>
       </div>
     ),
     status: <Badge variant="neutral">Inactif</Badge>,
     last_triggered: <span className="text-body-sm text-ink-400">Il y a 14 j</span>,
     actions: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-tight">
         <Button variant="ghost" size="sm">Tester</Button>
         <Button variant="ghost" size="sm">Modifier</Button>
       </div>

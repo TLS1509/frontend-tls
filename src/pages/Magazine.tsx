@@ -72,7 +72,7 @@ export const Magazine: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
           <Button
             variant="ghost"
             size="sm"
@@ -132,16 +132,16 @@ export const Magazine: React.FC = () => {
             pratiques pédagogiques en 2026.
           </p>
 
-          <div className="flex items-center gap-5 flex-wrap font-body text-caption text-white/70">
-            <span className="inline-flex items-center gap-1.5">
+          <div className="flex items-center gap-stack flex-wrap font-body text-caption text-white/70">
+            <span className="inline-flex items-center gap-tight.5">
               <CalendarDays size={13} /> Avril 2026
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-tight.5">
               <FileText size={13} /> 56 pages
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-tight.5">
               <Download size={13} /> 1 240 téléchargements
             </span>
           </div>

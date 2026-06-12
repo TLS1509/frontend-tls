@@ -55,9 +55,9 @@ const SIZE_WRAPPER: Record<SearchSize, string> = {
 };
 
 const SIZE_GAP: Record<SearchSize, string> = {
-  sm:      'gap-2',
-  default: 'gap-3',
-  lg:      'gap-3',
+  sm:      'gap-stack-xs',
+  default: 'gap-stack-xs',
+  lg:      'gap-stack-xs',
 };
 
 const SIZE_INPUT: Record<SearchSize, string> = {
@@ -243,7 +243,7 @@ export const Search: React.FC<SearchProps> = ({
 
       {/* Filters slot — rendered BELOW input row, as sibling (not inside a label) */}
       {hasFiltersSlot && (
-        <div className={`flex flex-wrap gap-1.5 pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
+        <div className={`flex flex-wrap gap-tight.5 pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
           {filtersSlot}
         </div>
       )}
@@ -253,7 +253,7 @@ export const Search: React.FC<SearchProps> = ({
         <div
           id="search-suggestions"
           role="listbox"
-          className={`flex flex-col gap-1 pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}
+          className={`flex flex-col gap-tight pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}
         >
           {suggestions!.map((suggestion) => (
             <button
@@ -262,7 +262,7 @@ export const Search: React.FC<SearchProps> = ({
               role="option"
               onClick={() => handleSuggestionSelect(suggestion)}
               className={[
-                'flex items-center gap-2 px-2 py-1.5 rounded-md text-left transition-all',
+                'flex items-center gap-stack-xs px-2 py-1.5 rounded-md text-left transition-all',
                 isGlass
                   ? 'hover:bg-white/15 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70'
                   : 'hover:bg-ink-50 text-ink-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',

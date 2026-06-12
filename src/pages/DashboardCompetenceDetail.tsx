@@ -115,7 +115,7 @@ export default function DashboardCompetenceDetail() {
 
         {tab === 'skills' && (
           <SectionCard title="Sous-compétences" titleIcon={<BookOpen size={18} />}>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {SKILLS.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} />)}
             </div>
           </SectionCard>

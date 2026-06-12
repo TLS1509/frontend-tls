@@ -144,7 +144,7 @@ const PROGRESS_FILL_DARK: Record<HeroTone, string> = {
 
 // Size scales — applies to padding, title size, icon bubble
 const SIZE_PADDING: Record<HeroSize, string> = {
-  sm: 'px-6 py-8 max-md:px-5 max-md:py-6',
+  sm: 'px-6 py-section max-md:px-5 max-md:py-stack-lg',
   md: 'px-10 py-12 max-md:px-6 max-md:py-9',
   lg: 'px-12 py-16 max-md:px-7 max-md:py-11',
 };
@@ -256,7 +256,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   // Icon bubble
   const bubbleClass = [
-    'inline-flex items-center justify-center shrink-0 rounded-2xl ring-1 mb-4',
+    'inline-flex items-center justify-center shrink-0 rounded-2xl ring-1 mb-stack',
     SIZE_BUBBLE[size],
     isLight
       ? 'bg-white/20 text-white ring-white/30 backdrop-blur-glass-light shadow-md'
@@ -270,8 +270,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   // KPI card — glass on light variants, soft bg on dark text variants
   const kpiCardClasses = isLight
-    ? 'flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/15 hover:bg-white/22 backdrop-blur-glass-light transition-colors border border-white/15'
-    : `flex items-center gap-3 px-4 py-3 rounded-2xl ${MINIMAL_BG[tone]} border transition-colors`;
+    ? 'flex items-center gap-stack-xs px-4 py-3 rounded-2xl bg-white/15 hover:bg-white/22 backdrop-blur-glass-light transition-colors border border-white/15'
+    : `flex items-center gap-stack-xs px-4 py-3 rounded-2xl ${MINIMAL_BG[tone]} border transition-colors`;
 
   const kpiIconBubble = isLight
     ? 'inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/20 shrink-0'
@@ -313,7 +313,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           onClick={onBack}
           aria-label={typeof backLabel === 'string' ? backLabel : 'Retour'}
           className={[
-            'relative z-10 inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-pill cursor-pointer transition-all duration-200 hover:-translate-x-0.5 text-caption font-semibold border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
+            'relative z-10 inline-flex items-center gap-stack-xs mb-stack-lg px-4 py-2 rounded-pill cursor-pointer transition-all duration-200 hover:-translate-x-0.5 text-caption font-semibold border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current',
             isLight
               ? 'bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white border-white/20'
               : `bg-white border-ink-200 hover:bg-ink-50 ${TITLE_DARK_COLOR[tone]}`,
@@ -325,7 +325,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       <div
         className={[
-          'relative flex flex-col gap-3 max-w-[800px]',
+          'relative flex flex-col gap-stack-xs max-w-[800px]',
           alignClass,
         ].join(' ')}
       >
@@ -362,7 +362,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Progress bar — gradient/media uses white bar on white/20 track */}
         {progress !== undefined && (
-          <div className="flex items-center gap-3 mt-3 w-full max-w-[640px]">
+          <div className="flex items-center gap-stack-xs mt-3 w-full max-w-[640px]">
             <div
               className={[
                 'flex-1 h-2.5 rounded-pill overflow-hidden shadow-inner',
@@ -384,12 +384,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         )}
 
         {metadata && metadata.length > 0 && (
-          <div className={['flex flex-wrap gap-2 mt-1', align === 'center' ? 'justify-center' : 'justify-start'].join(' ')}>
+          <div className={['flex flex-wrap gap-stack-xs mt-1', align === 'center' ? 'justify-center' : 'justify-start'].join(' ')}>
             {metadata.map((item, idx) => (
               <span
                 key={idx}
                 className={[
-                  'inline-flex items-center gap-2 px-3 py-1.5 rounded-pill text-caption font-semibold',
+                  'inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill text-caption font-semibold',
                   metaPillBg,
                 ].join(' ')}
               >
@@ -401,7 +401,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         )}
 
         {actions && (
-          <div className={['flex flex-wrap gap-3 mt-2', align === 'center' ? 'justify-center' : 'justify-start'].join(' ')}>
+          <div className={['flex flex-wrap gap-stack-xs mt-2', align === 'center' ? 'justify-center' : 'justify-start'].join(' ')}>
             {actions}
           </div>
         )}
@@ -411,7 +411,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* KPIs grid — anchored at the bottom of the hero, full width */}
       {kpis && kpis.length > 0 && (
-        <div className="relative z-10 grid gap-3 grid-cols-[repeat(auto-fit,minmax(180px,1fr))] mt-7">
+        <div className="relative z-10 grid gap-stack-xs grid-cols-[repeat(auto-fit,minmax(180px,1fr))] mt-7">
           {kpis.map((kpi, idx) => (
             <div key={idx} className={kpiCardClasses}>
               {kpi.icon && (

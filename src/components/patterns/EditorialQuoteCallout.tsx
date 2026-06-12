@@ -72,7 +72,7 @@ export const EditorialQuoteCallout: React.FC<EditorialQuoteCalloutProps> = ({
         className,
       ].join(' ')}
     >
-      <div className="flex items-start gap-4 sm:gap-5">
+      <div className="flex items-start gap-stack sm:gap-stack">
         <span
           aria-hidden
           className={[

@@ -130,7 +130,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
             {/* Branding */}
             {brandContent && (
-              <header className="flex flex-col items-center text-center gap-3">
+              <header className="flex flex-col items-center text-center gap-stack-xs">
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
                   {brandContent.icon}
                 </span>
@@ -185,7 +185,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     type="button"
     onClick={onClick}
     className={[
-      'inline-flex items-center gap-1.5 self-start',
+      'inline-flex items-center gap-tight.5 self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
       'text-body-sm font-medium text-white/75 hover:text-white transition-colors',
       className,
@@ -204,7 +204,7 @@ export interface AuthDividerProps {
 export const AuthDivider: React.FC<AuthDividerProps> = ({
   children = 'ou continuer avec',
 }) => (
-  <div className="flex items-center gap-3 my-1">
+  <div className="flex items-center gap-stack-xs my-1">
     <span aria-hidden className="h-px flex-1 bg-white/20" />
     <p className="m-0 text-micro text-white/70 uppercase tracking-wider font-semibold whitespace-nowrap">
       {children}
@@ -230,7 +230,7 @@ export const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-3 h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs h-12 px-4 rounded-xl',
       'bg-white text-ink-900 text-body-sm font-semibold cursor-pointer transition-all',
       'hover:bg-ink-50 hover:-translate-y-px hover:shadow-md',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
@@ -254,11 +254,11 @@ export interface AuthSuccessProps {
 }
 
 export const AuthSuccess: React.FC<AuthSuccessProps> = ({ icon, title, description, children }) => (
-  <div className="flex flex-col items-center text-center gap-4 py-4">
+  <div className="flex flex-col items-center text-center gap-stack py-stack">
     <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/15 backdrop-blur-glass-light border border-white/25 text-white">
       {icon}
     </span>
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-stack-xs">
       <h3 className="font-display text-h3 font-bold text-white m-0">{title}</h3>
       {description && (
         <p className="m-0 text-body-sm text-white/75 leading-relaxed max-w-[44ch]">{description}</p>
@@ -321,7 +321,7 @@ export const AuthFeature: React.FC<AuthFeatureProps> = ({
   description,
 }) => (
   <div className="rounded-lg bg-white/10 border border-white/20 p-4 backdrop-blur-glass-light">
-    <h4 className="font-display text-body font-semibold text-white m-0 mb-1.5 inline-flex items-center gap-2">
+    <h4 className="font-display text-body font-semibold text-white m-0 mb-1.5 inline-flex items-center gap-stack-xs">
       {icon}
       {title}
     </h4>
@@ -417,7 +417,7 @@ export const AuthPrimaryButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonEl
 }) => (
   <button
     className={[
-      'inline-flex items-center justify-center gap-2 w-full h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4 rounded-xl',
       'bg-white text-ink-900 text-body font-semibold cursor-pointer transition-all',
       'shadow-md hover:bg-ink-50 hover:-translate-y-px hover:shadow-lg',
       'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md',
@@ -444,7 +444,7 @@ export const AuthGhostButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElem
   <button
     type="button"
     className={[
-      'inline-flex items-center justify-center gap-2 w-full h-12 px-4 rounded-xl',
+      'inline-flex items-center justify-center gap-stack-xs w-full h-12 px-4 rounded-xl',
       'bg-transparent text-white border border-white/30 text-body font-semibold cursor-pointer transition-all',
       'hover:bg-white/10 hover:border-white/50 hover:-translate-y-px',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
@@ -481,7 +481,7 @@ export const AuthCheckbox: React.FC<AuthCheckboxProps> = ({
 }) => (
   <label
     className={[
-      'relative inline-flex items-start gap-2 cursor-pointer',
+      'relative inline-flex items-start gap-stack-xs cursor-pointer',
       className,
     ]
       .filter(Boolean)

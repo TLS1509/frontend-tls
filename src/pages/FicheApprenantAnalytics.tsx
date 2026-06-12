@@ -92,7 +92,7 @@ export default function FicheApprenantAnalytics() {
         summary={learner.role}
         tone="warm"
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
               Envoyer un message
             </Button>
@@ -109,7 +109,7 @@ export default function FicheApprenantAnalytics() {
         <Card variant="default" className="flex items-center gap-section p-stack-lg flex-wrap">
           <Avatar name={learner.name} initials={learner.initials} size="xl" />
           <div className="flex flex-col gap-tight flex-1">
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-stack-xs flex-wrap">
               <h2 className="text-h3 font-display font-bold text-ink-900">{learner.name}</h2>
               <Badge variant={STATUS_VARIANT[learner.status]} size="md">
                 {STATUS_LABEL[learner.status]}
@@ -158,7 +158,7 @@ export default function FicheApprenantAnalytics() {
               <CompetencyRadar axes={radarAxes} size="md" showLegend />
             </SectionCard>
             <SectionCard title="Niveaux par compétence" titleIcon={<BarChart3 size={18} />}>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 {skillBars.map((s) => <SkillBar key={s.label} label={s.label} value={s.value} />)}
               </div>
             </SectionCard>
@@ -179,11 +179,11 @@ export default function FicheApprenantAnalytics() {
               <div className="flex flex-col gap-stack-xs">
                 {learner.recentCompletions.map((a) => (
                   <Card key={a.id} variant="default" className="flex items-center justify-between px-stack py-3 flex-wrap gap-stack-xs">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-stack-xs">
                       <Badge variant="neutral" size="sm">{a.itemType}</Badge>
                       <span className="text-body-sm text-ink-800">{a.itemLabel}</span>
                     </div>
-                    <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center gap-stack-xs flex-wrap">
                       {a.npsGiven !== undefined && (
                         <span className="text-caption text-ink-400">NPS {a.npsGiven}/10</span>
                       )}

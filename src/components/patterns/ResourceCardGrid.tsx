@@ -53,7 +53,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
           <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
@@ -71,7 +71,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <p className="m-0 text-4xl">📭</p>
           <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
         </div>
@@ -80,7 +80,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
   }
 
   return (
-    <div className={['grid gap-5', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
+    <div className={['grid gap-stack', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {items.map((item) => (
         <div key={item.id} role="gridcell">
           <ResourceCard

@@ -66,7 +66,7 @@ export const Toast: React.FC<ToastProps> = ({
   const IconComponent = ICON_BY_VARIANT[variant];
 
   const classes = [
-    'flex items-start gap-3 rounded-lg border backdrop-blur-sm shadow-lg',
+    'flex items-start gap-stack-xs rounded-lg border backdrop-blur-sm shadow-lg',
     'min-w-[320px] max-w-[440px] py-3 px-4 font-body text-body-sm leading-normal',
     VARIANT_CLASSES[variant],
     dismissing

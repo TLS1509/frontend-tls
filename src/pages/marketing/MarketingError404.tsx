@@ -98,7 +98,7 @@ export const MarketingError404: React.FC = () => {
           initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-400 inline-flex items-center gap-2 mb-4"
+          className="font-mono text-caption font-bold uppercase tracking-[0.3em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
         >
           <Compass size={13} /> Page introuvable
         </motion.p>
@@ -109,7 +109,7 @@ export const MarketingError404: React.FC = () => {
           transition={{ delay: 0.15, duration: 0.9, ease: [0.2, 0, 0, 1.1] }}
           style={{ x: codeX, y: codeY }}
           aria-hidden
-          className="font-display font-black tracking-tighter leading-none mb-6"
+          className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
           <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-primary-700 via-primary-500 to-accent-400 bg-clip-text text-transparent drop-shadow-[0_2px_28px_rgba(85,161,180,0.14)]">
             404
@@ -121,7 +121,7 @@ export const MarketingError404: React.FC = () => {
           initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="flex flex-col items-center gap-3 mb-10"
+          className="flex flex-col items-center gap-stack-xs mb-10"
         >
           <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
             Cette page n'existe pas
@@ -152,7 +152,7 @@ export const MarketingError404: React.FC = () => {
             >
               <Link
                 to={s.href}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-pill bg-white border border-ink-200 text-ink-700 font-body text-body-sm font-semibold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+                className="inline-flex items-center gap-stack-xs px-4 py-2.5 rounded-pill bg-white border border-ink-200 text-ink-700 font-body text-body-sm font-semibold hover:border-primary-300 hover:text-primary-700 hover:shadow-sm transition-all min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
               >
                 <span className="text-primary-400">{s.icon}</span>
                 {s.label}

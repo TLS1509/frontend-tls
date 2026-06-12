@@ -297,7 +297,7 @@ export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...rest
 }) => (
   <div
-    className={`flex items-center justify-between gap-3 mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600 ${className}`}
+    className={`flex items-center justify-between gap-stack-xs mt-2 pt-2 border-t border-ink-200 text-caption text-ink-600 ${className}`}
     {...rest}
   />
 );

@@ -120,7 +120,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
       {/* Locked overlay — glass blur with icon */}
       {locked && (
         <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/80 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-stack-xs">
             {/* Double-bezel lock icon */}
             <div className="p-1.5 rounded-2xl bg-ink-100/60 ring-1 ring-ink-200/40">
               <div className="w-12 h-12 rounded-xl bg-white text-ink-500 flex items-center justify-center shadow-inner">
@@ -132,9 +132,9 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         </div>
       )}
 
-      <div className={['flex flex-col gap-3', locked ? 'opacity-40' : ''].filter(Boolean).join(' ')}>
+      <div className={['flex flex-col gap-stack-xs', locked ? 'opacity-40' : ''].filter(Boolean).join(' ')}>
         {/* Title + Badge */}
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-stack-xs">
           <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug line-clamp-2 flex-1">
             {title}
           </h3>
@@ -145,8 +145,8 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
         {/* Meta */}
-        <div className="flex flex-wrap items-center gap-3 text-caption text-ink-500">
-          <div className="inline-flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-stack-xs text-caption text-ink-500">
+          <div className="inline-flex items-center gap-tight.5">
             <Clock size={14} aria-hidden="true" className="text-ink-400" />
             <span>{duration}</span>
           </div>

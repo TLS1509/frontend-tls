@@ -50,7 +50,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
 
   if (expanded) {
     return (
-      <div className={`flex flex-col gap-2 ${className}`}>
+      <div className={`flex flex-col gap-stack-xs ${className}`}>
         <label className="text-caption text-ink-600 font-medium">
           Raison du rejet <span className="text-ink-400 font-normal">(optionnel)</span>
         </label>
@@ -66,7 +66,7 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
             'resize-none transition-colors duration-base',
           ].join(' ')}
         />
-        <div className="flex gap-2 justify-end">
+        <div className="flex gap-stack-xs justify-end">
           <Button
             variant="ghost"
             size="sm"

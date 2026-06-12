@@ -48,7 +48,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         .join(' ')}
     >
       {(title || description) && (
-        <div className="flex flex-col gap-2 pb-6 border-b border-ink-200">
+        <div className="flex flex-col gap-stack-xs pb-stack-lg border-b border-ink-200">
           {title && <h2 className="m-0 text-h2 font-display font-bold text-ink-900 leading-tight text-balance">{title}</h2>}
           {description && <p className="m-0 text-body text-ink-500 leading-relaxed max-w-[640px]">{description}</p>}
         </div>
@@ -56,16 +56,16 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
 
       <div className="flex flex-col gap-section">
         {sections.map((section, sectionIdx) => (
-          <div key={sectionIdx} className="flex flex-col gap-5">
+          <div key={sectionIdx} className="flex flex-col gap-stack">
             {section.title && (
               <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 pb-2 border-b border-ink-100">
                 {section.title}
               </h3>
             )}
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-stack">
               {section.fields.map((field) => (
-                <div key={field.name} className="flex flex-col gap-2">
+                <div key={field.name} className="flex flex-col gap-stack-xs">
                   <label
                     htmlFor={field.name}
                     className="inline-flex items-center text-body-sm font-semibold text-ink-900"
@@ -81,7 +81,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
                   <div>{field.input}</div>
 
                   {field.error && (
-                    <p className="m-0 inline-flex items-center gap-1 text-caption font-medium text-danger-fg">
+                    <p className="m-0 inline-flex items-center gap-tight text-caption font-medium text-danger-fg">
                       <span aria-hidden="true">⚠</span>
                       {field.error}
                     </p>
@@ -97,7 +97,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
       </div>
 
       {(onSubmit || onCancel) && (
-        <div className="flex justify-end gap-3 pt-6 border-t border-ink-200">
+        <div className="flex justify-end gap-stack-xs pt-stack-lg border-t border-ink-200">
           {onCancel && (
             <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
               {cancelLabel}

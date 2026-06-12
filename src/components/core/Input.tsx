@@ -37,7 +37,7 @@ export interface InputProps
 const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
-  'flex items-center gap-2 w-full border rounded-md font-body transition-[border-color,box-shadow] duration-base ease-standard';
+  'flex items-center gap-stack-xs w-full border rounded-md font-body transition-[border-color,box-shadow] duration-base ease-standard';
 
 // Light surface (default)
 const CONTROL_LIGHT = 'bg-white text-ink-900';
@@ -118,8 +118,8 @@ export const Input: React.FC<InputProps> = ({
 
   const hintClasses = isGlass ? 'text-caption text-white/60' : 'text-caption text-ink-500';
   const errorClasses = isGlass
-    ? 'text-caption text-danger-base flex items-center gap-1'
-    : 'text-caption text-danger-fg flex items-center gap-1';
+    ? 'text-caption text-danger-base flex items-center gap-tight'
+    : 'text-caption text-danger-fg flex items-center gap-tight';
 
   return (
     <div className={containerClasses}>
@@ -183,7 +183,7 @@ export const Input: React.FC<InputProps> = ({
 // ============================================================================
 
 const TOGGLE_LABEL =
-  'relative inline-flex items-center gap-2 cursor-pointer font-body text-body-sm text-ink-900 select-none';
+  'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body-sm text-ink-900 select-none';
 
 const CHECKBOX_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-sm transition-colors " +

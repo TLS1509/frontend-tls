@@ -105,7 +105,7 @@ export const BadgeEarnAnimation: React.FC<BadgeEarnAnimationProps> = ({
 
             {/* Badge content */}
             <motion.div
-              className="relative z-10 flex flex-col items-center gap-2 bg-white rounded-full w-28 h-28 flex items-center justify-center shadow-lg"
+              className="relative z-10 flex flex-col items-center gap-stack-xs bg-white rounded-full w-28 h-28 flex items-center justify-center shadow-lg"
               animate={{
                 y: [0, -8, 0],
               }}

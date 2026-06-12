@@ -115,11 +115,11 @@ const PageCard: React.FC<{ page: PageItem; onNavigate: (path: string) => void }>
   const categoryCfg = CATEGORY_BADGE[page.category];
   return (
     <div className="flex flex-col gap-stack p-5 rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base">
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-stack-xs">
         <span className="text-2xl shrink-0 mt-0.5" aria-hidden>{page.icon}</span>
         <div className="flex-1 min-w-0">
           <h3 className="m-0 font-body text-body-sm font-bold text-ink-900 leading-snug mb-1.5">{page.name}</h3>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-tight.5">
             <Badge variant={statusCfg.variant}>{statusCfg.label}</Badge>
             <Badge variant={categoryCfg.variant}>{categoryCfg.label}</Badge>
             <Badge variant="neutral">{page.itemType}</Badge>

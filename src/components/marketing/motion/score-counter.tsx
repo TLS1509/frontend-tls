@@ -98,7 +98,7 @@ export const ScoreCounter: React.FC<ScoreCounterProps> = ({
 
   return (
     <motion.div
-      className="relative flex flex-col items-center gap-4 p-8 rounded-2xl"
+      className="relative flex flex-col items-center gap-stack p-8 rounded-2xl"
       style={{
         backgroundColor: colors.background,
       }}
@@ -143,7 +143,7 @@ export const ScoreCounter: React.FC<ScoreCounterProps> = ({
         </p>
 
         <motion.div
-          className="flex items-baseline justify-center gap-2"
+          className="flex items-baseline justify-center gap-stack-xs"
           initial={{ scale: 0 }}
           animate={isComplete ? { scale: 1 } : {}}
           transition={{

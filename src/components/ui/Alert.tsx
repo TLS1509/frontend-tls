@@ -33,10 +33,10 @@ const ICON_BY_VARIANT: Record<AlertVariant, React.ComponentType<{ size?: number;
 };
 
 const BASE =
-  'flex gap-3 rounded-lg border backdrop-blur-sm animate-alert-slide';
+  'flex gap-stack-xs rounded-lg border backdrop-blur-sm animate-alert-slide';
 
 const PATTERN_CLASSES: Record<AlertPattern, string> = {
-  banner: 'items-start py-4 px-5 text-body-sm leading-normal',
+  banner: 'items-start py-stack px-5 text-body-sm leading-normal',
   inline: 'items-center py-2 px-3 text-caption leading-normal',
 };
 
@@ -97,7 +97,7 @@ export const Alert: React.FC<AlertProps> = ({
         {icon ?? <IconComponent size={iconSize} strokeWidth={2} aria-hidden />}
       </span>
 
-      <div className="flex-1 flex flex-col gap-1 min-w-0">
+      <div className="flex-1 flex flex-col gap-tight min-w-0">
         {title && pattern === 'banner' && (
           <p className="font-body font-bold m-0 leading-tight">{title}</p>
         )}
@@ -105,7 +105,7 @@ export const Alert: React.FC<AlertProps> = ({
       </div>
 
       {actions && pattern === 'banner' && (
-        <div className="shrink-0 flex items-center gap-2 self-center">{actions}</div>
+        <div className="shrink-0 flex items-center gap-stack-xs self-center">{actions}</div>
       )}
 
       {dismissible && (

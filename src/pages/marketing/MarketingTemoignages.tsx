@@ -178,7 +178,7 @@ export const MarketingTemoignages: React.FC = () => {
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Cas clients · histoires de transformation
@@ -230,11 +230,11 @@ export const MarketingTemoignages: React.FC = () => {
       {/* ── Filter bar ────────────────────────────────────────────────────── */}
       <section className="sticky top-16 z-sticky bg-white/85 backdrop-blur-glass-heavy border-b border-ink-100 py-stack">
         <div className="max-w-7xl mx-auto px-6 flex items-center gap-stack overflow-x-auto">
-          <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest shrink-0">
+          <span className="inline-flex items-center gap-tight.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest shrink-0">
             <Filter size={14} />
             Filtrer
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             {SECTOR_FILTERS.map((s) => {
               const isActive = filter === s;
               return (
@@ -289,22 +289,22 @@ export const MarketingTemoignages: React.FC = () => {
                     >
                       <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/30" />
                       <Building2 size={88} strokeWidth={1} className="text-ink-900/20 relative" />
-                      <span className="absolute top-stack left-stack inline-flex items-center gap-1.5 px-3 py-1 rounded-pill bg-white text-ink-900 text-caption font-bold uppercase tracking-wider shadow-md">
+                      <span className="absolute top-stack left-stack inline-flex items-center gap-tight.5 px-3 py-1 rounded-pill bg-white text-ink-900 text-caption font-bold uppercase tracking-wider shadow-md">
                         <Sparkles size={12} className="text-accent-400" />
                         Cas en vedette
                       </span>
                     </div>
                     <div className="p-section flex flex-col gap-stack-lg justify-center">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-pill border bg-primary-50 border-primary-100 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
                           {featured.sector}
                         </span>
-                        <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                        <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                           <Clock size={12} />
                           {featured.duration}
                         </span>
                       </div>
-                      <div className="flex flex-col gap-1">
+                      <div className="flex flex-col gap-tight">
                         <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-wider">
                           {featured.org}
                         </span>
@@ -327,7 +327,7 @@ export const MarketingTemoignages: React.FC = () => {
                           </div>
                         ))}
                       </div>
-                      <blockquote className="rounded-2xl bg-primary-50 border border-primary-100 p-stack-lg flex flex-col gap-2">
+                      <blockquote className="rounded-2xl bg-primary-50 border border-primary-100 p-stack-lg flex flex-col gap-stack-xs">
                         <Quote size={20} className="text-primary-700" />
                         <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
                           « {featured.quote} »
@@ -344,7 +344,7 @@ export const MarketingTemoignages: React.FC = () => {
               {/* Rest grid */}
               {rest.length > 0 && (
                 <div className="flex flex-col gap-stack-lg">
-                  <span className="inline-flex self-start items-center gap-1 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+                  <span className="inline-flex self-start items-center gap-tight font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                     <TrendingUp size={14} />
                     Tous les cas
                   </span>
@@ -371,16 +371,16 @@ export const MarketingTemoignages: React.FC = () => {
                               <Building2 size={36} strokeWidth={1.25} className="text-ink-900/20 relative" />
                             </div>
                             <div className="p-stack-lg flex flex-col gap-stack flex-1">
-                              <div className="flex items-center gap-2 flex-wrap">
+                              <div className="flex items-center gap-stack-xs flex-wrap">
                                 <span className="inline-flex items-center px-2 py-0.5 rounded-pill border bg-primary-50 border-primary-100 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
                                   {c.sector}
                                 </span>
-                                <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                                <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                                   <Clock size={11} />
                                   {c.duration}
                                 </span>
                               </div>
-                              <div className="flex flex-col gap-1">
+                              <div className="flex flex-col gap-tight">
                                 <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-wider line-clamp-1">
                                   {c.org}
                                 </span>
@@ -391,7 +391,7 @@ export const MarketingTemoignages: React.FC = () => {
                               <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 line-clamp-3 flex-1">
                                 {c.summary}
                               </p>
-                              <div className="flex items-center gap-2 pt-stack border-t border-ink-100">
+                              <div className="flex items-center gap-stack-xs pt-stack border-t border-ink-100">
                                 {c.metrics.slice(0, 2).map((m) => (
                                   <div key={m.label} className="flex flex-col">
                                     <span className="font-display text-body font-extrabold text-primary-700 leading-none">
@@ -433,7 +433,7 @@ export const MarketingTemoignages: React.FC = () => {
                 Diagnostic gratuit de 90 min. On comprend ton contexte, on évalue le potentiel,
                 on propose un chemin.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+              <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
                     <Button variant="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>

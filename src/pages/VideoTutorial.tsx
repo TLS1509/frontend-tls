@@ -112,15 +112,15 @@ export const VideoTutorial: React.FC = () => {
             <p className="font-body text-body text-ink-500 leading-relaxed m-0 mb-stack max-w-[640px]">
               {tuto.description}
             </p>
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-stack-xs flex-wrap">
               <span className="inline-flex items-center px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-extrabold tracking-wider">
                 {tuto.category}
               </span>
-              <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+              <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                 <Clock size={13} />
                 {tuto.duration}
               </span>
-              <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+              <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                 <User size={13} />
                 {tuto.author}
               </span>
@@ -158,7 +158,7 @@ export const VideoTutorial: React.FC = () => {
               ].join(' ')}
             >
               {playing ? (
-                <div className="flex gap-1">
+                <div className="flex gap-tight">
                   <div className="w-1 h-[22px] bg-white rounded-[2px]" />
                   <div className="w-1 h-[22px] bg-white rounded-[2px]" />
                 </div>
@@ -194,7 +194,7 @@ export const VideoTutorial: React.FC = () => {
                   type="button"
                   onClick={() => { setActiveChapter(i); setPlaying(true); }}
                   className={[
-                    'flex items-start gap-3 w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
+                    'flex items-start gap-stack-xs w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                     isActive
                       ? 'bg-white border-l-primary-500'
                       : 'bg-transparent border-l-transparent hover:bg-ink-100',
@@ -228,7 +228,7 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-tight.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={13} /> Retour veille
             </button>

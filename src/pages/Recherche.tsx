@@ -186,7 +186,7 @@ export const Recherche: React.FC = () => {
         onClick={() => navigate('/coaching')}
         className="group flex flex-col gap-stack p-5 rounded-2xl border border-ink-100 bg-white hover:border-primary-300 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base cursor-pointer"
       >
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-stack-xs">
           <Avatar name={item.title} tint={item.tone === 'warm' ? 'warm' : item.tone === 'sun' ? 'sun' : 'brand'} size="lg" />
           <div className="flex-1 min-w-0">
             <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
@@ -201,7 +201,7 @@ export const Recherche: React.FC = () => {
           {item.description}
         </p>
         {item.specialties && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-tight.5">
             {item.specialties.map((s) => (
               <Badge key={s} variant="neutral">{s}</Badge>
             ))}

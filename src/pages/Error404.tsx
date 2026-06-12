@@ -88,7 +88,7 @@ export const Error404: React.FC = () => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-2 mb-4"
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-primary-400 inline-flex items-center gap-stack-xs mb-stack"
         >
           <Compass size={13} /> Navigation perdue
         </motion.p>
@@ -99,7 +99,7 @@ export const Error404: React.FC = () => {
           transition={{ delay: 0.15, duration: 0.8, ease: [0.2, 0, 0, 1.1] }}
           style={{ x: codeX, y: codeY }}
           aria-hidden
-          className="font-display font-black tracking-tighter leading-none mb-6"
+          className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
           <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-500 drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
             404
@@ -111,7 +111,7 @@ export const Error404: React.FC = () => {
           initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="flex flex-col items-center gap-3 mb-10"
+          className="flex flex-col items-center gap-stack-xs mb-10"
         >
           <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-2xl">
             On vous remet sur la bonne route
@@ -141,7 +141,7 @@ export const Error404: React.FC = () => {
               whileHover={!parallax.reduce ? { y: -3, scale: 1.02 } : undefined}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(s.to)}
-              className="flex flex-col items-center gap-2 px-4 py-4 rounded-xl bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
+              className="flex flex-col items-center gap-stack-xs px-4 py-stack rounded-xl bg-white/80 border border-primary-100 hover:border-primary-300 hover:bg-white hover:shadow-sm transition-all min-h-touch cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 shadow-xs"
             >
               <span className="text-primary-500">{s.icon}</span>
               <span className="font-body text-caption font-semibold text-ink-700 leading-tight text-center">{s.label}</span>

@@ -134,7 +134,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
       {/* ===== OUTER SHELL (Double-Bezel) ===== */}
       <div className="p-0.5 bg-black/5 rounded-xl border border-ink-200">
         {/* ===== INNER CORE ===== */}
-        <div className="relative flex items-center gap-2 bg-white rounded-lg border border-ink-100 shadow-[inset_0_1px_1px_white/15] overflow-hidden px-4">
+        <div className="relative flex items-center gap-stack-xs bg-white rounded-lg border border-ink-100 shadow-[inset_0_1px_1px_white/15] overflow-hidden px-4">
           <SearchIcon
             size={20}
             className="text-ink-400 pointer-events-none flex-shrink-0"
@@ -190,7 +190,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                     key={`${suggestion.type}-${suggestion.id}`}
                     onClick={() => handleSuggestionClick(suggestion)}
                     className={`
-                      w-full flex items-start gap-2 px-3 py-2 rounded-lg
+                      w-full flex items-start gap-stack-xs px-3 py-2 rounded-lg
                       transition-[background-color,color] duration-fast ease-emphasis
                       text-left
                       ${
@@ -212,7 +212,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
                     {/* Text content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <p className="text-body-sm font-semibold text-ink-900 truncate">
                           {suggestion.label}
                         </p>
@@ -261,7 +261,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                 animate-in fade-in slide-in-from-top-2 duration-300
               `}
             >
-              <div className="px-4 py-8 text-center">
+              <div className="px-4 py-section text-center">
                 <p className="text-body-sm text-ink-500">
                   Aucun résultat pour « <strong>{value}</strong> »
                 </p>

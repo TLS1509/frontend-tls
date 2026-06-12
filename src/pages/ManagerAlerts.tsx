@@ -155,7 +155,7 @@ export default function ManagerAlerts() {
                 </Select>
               </FormGroup>
             </div>
-            <div className="flex gap-3 mt-stack">
+            <div className="flex gap-stack-xs mt-stack">
               <Button variant="primary" size="md" leadingIcon={<CheckCircle2 size={16} />}>
                 Créer l'alerte
               </Button>

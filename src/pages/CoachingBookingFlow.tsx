@@ -108,11 +108,11 @@ export const CoachingBookingFlow: React.FC = () => {
         aside={
           <SectionCard title="Session choisie">
             <ul className="m-0 p-0 list-none flex flex-col gap-stack-xs text-caption text-ink-500">
-              <li className="inline-flex items-center gap-1.5"><CalendarDays size={12} /> {slot.label}</li>
-              <li className="inline-flex items-center gap-1.5"><Clock3 size={12} /> 60 minutes</li>
-              <li className="inline-flex items-center gap-1.5"><MapPin size={12} /> Visioconférence</li>
-              <li className="inline-flex items-center gap-1.5"><UserRound size={12} /> Coach : {slot.coach}</li>
-              <li className="inline-flex items-center gap-1.5 mt-stack-xs text-secondary-600 font-medium">
+              <li className="inline-flex items-center gap-tight.5"><CalendarDays size={12} /> {slot.label}</li>
+              <li className="inline-flex items-center gap-tight.5"><Clock3 size={12} /> 60 minutes</li>
+              <li className="inline-flex items-center gap-tight.5"><MapPin size={12} /> Visioconférence</li>
+              <li className="inline-flex items-center gap-tight.5"><UserRound size={12} /> Coach : {slot.coach}</li>
+              <li className="inline-flex items-center gap-tight.5 mt-stack-xs text-secondary-600 font-medium">
                 <Coins size={12} /> 1 crédit Classic requis
               </li>
             </ul>

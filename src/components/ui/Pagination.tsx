@@ -62,7 +62,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   const wrapperClasses = [
-    'flex flex-col items-center gap-3 font-body',
+    'flex flex-col items-center gap-stack-xs font-body',
     className,
   ]
     .filter(Boolean)
@@ -70,7 +70,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={wrapperClasses}>
-      <nav aria-label="Pagination" className="flex items-center justify-center flex-wrap gap-1.5">
+      <nav aria-label="Pagination" className="flex items-center justify-center flex-wrap gap-tight.5">
         <button
           type="button"
           onClick={go(page - 1)}

@@ -32,7 +32,7 @@ export const Login: React.FC = () => {
   return (
     <AuthShell
       form={
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
             label="Adresse email"
             icon={<Mail size={18} />}
@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
           />
 
           {/* Remember + Forgot */}
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-stack-xs">
             <AuthCheckbox
               checked={rememberMe}
               onChange={setRememberMe}
@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
 
           {/* Divider + Socials */}
           <AuthDivider>ou continuer avec</AuthDivider>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-stack-xs">
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>

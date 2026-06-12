@@ -100,7 +100,7 @@ const ItemRecommendations: React.FC = () => {
                       </div>
                       <h3 className="text-h4 font-semibold mb-stack-xs">{r.title}</h3>
 
-                      <div className="flex items-start gap-3 p-3 rounded-lg bg-secondary-50/70 mb-stack">
+                      <div className="flex items-start gap-stack-xs p-3 rounded-lg bg-secondary-50/70 mb-stack">
                         <Avatar initials={r.coachInitials} size="sm" />
                         <div className="flex-1">
                           <div className="text-caption text-ink-500 mb-1">Marie écrit :</div>

@@ -61,7 +61,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
         <span className="font-body text-body-sm font-semibold text-ink-900">{label}</span>
       )}
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         {questions.map((q) => {
           const isOpen = expanded.has(q.id);
           return (
@@ -69,7 +69,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
               <button
                 type="button"
                 onClick={() => toggle(q.id)}
-                className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left min-h-touch"
+                className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left min-h-touch"
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-body text-body-sm font-semibold text-ink-900 m-0">
@@ -89,7 +89,7 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
               </button>
 
               {isOpen && (
-                <div className="px-4 py-4 bg-ink-50 border-t border-ink-200">
+                <div className="px-4 py-stack bg-ink-50 border-t border-ink-200">
                   <p className="font-body text-caption text-ink-600 mb-3 m-0">
                     {q.description}
                   </p>

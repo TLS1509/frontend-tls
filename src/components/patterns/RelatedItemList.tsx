@@ -33,13 +33,13 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
   className = '',
 }) => {
   return (
-    <div className={['flex flex-col gap-2', className].filter(Boolean).join(' ')}>
+    <div className={['flex flex-col gap-stack-xs', className].filter(Boolean).join(' ')}>
       {items.map((item, idx) => {
         const interactive = Boolean(item.href || item.onClick);
         const inner = (
           <article
             className={[
-              'group/item flex items-start gap-3 rounded-md border border-ink-200 bg-white p-3 transition-colors',
+              'group/item flex items-start gap-stack-xs rounded-md border border-ink-200 bg-white p-3 transition-colors',
               interactive ? 'hover:border-primary-300 hover:bg-primary-50/40 cursor-pointer' : '',
             ]
               .filter(Boolean)

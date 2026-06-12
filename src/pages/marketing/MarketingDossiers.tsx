@@ -73,9 +73,9 @@ export const MarketingDossiers: React.FC = () => {
                   </div>
                   <div className="p-section lg:p-section-lg flex flex-col justify-center gap-stack">
                     <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-500">
-                      <span className="inline-flex items-center gap-1.5"><Calendar size={13} />{featured.date}</span>
-                      <span className="inline-flex items-center gap-1.5"><Clock size={13} />{featured.readTime}</span>
-                      <span className="inline-flex items-center gap-1.5"><Library size={13} />{featured.sourceCount} sources</span>
+                      <span className="inline-flex items-center gap-tight.5"><Calendar size={13} />{featured.date}</span>
+                      <span className="inline-flex items-center gap-tight.5"><Clock size={13} />{featured.readTime}</span>
+                      <span className="inline-flex items-center gap-tight.5"><Library size={13} />{featured.sourceCount} sources</span>
                     </div>
                     <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
                       {featured.title}
@@ -83,7 +83,7 @@ export const MarketingDossiers: React.FC = () => {
                     <p className="font-body text-body text-ink-600 leading-relaxed m-0">
                       {featured.summary}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 font-body text-body-sm font-semibold text-primary-700 mt-1">
+                    <span className="inline-flex items-center gap-tight.5 font-body text-body-sm font-semibold text-primary-700 mt-1">
                       Lire le dossier
                       <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
                     </span>
@@ -103,8 +103,8 @@ export const MarketingDossiers: React.FC = () => {
                       <div className={`h-28 bg-gradient-to-br ${d.cover}`} />
                       <div className="p-stack-lg flex flex-col gap-stack flex-1">
                         <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-500">
-                          <span className="inline-flex items-center gap-1"><Clock size={11} />{d.readTime}</span>
-                          <span className="inline-flex items-center gap-1"><Library size={11} />{d.sourceCount} sources</span>
+                          <span className="inline-flex items-center gap-tight"><Clock size={11} />{d.readTime}</span>
+                          <span className="inline-flex items-center gap-tight"><Library size={11} />{d.sourceCount} sources</span>
                         </div>
                         <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-fast">
                           {d.title}

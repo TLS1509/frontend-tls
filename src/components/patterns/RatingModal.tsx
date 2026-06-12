@@ -65,8 +65,8 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         )}
       </div>
 
-      <div className="flex flex-col items-center gap-3">
-        <div className="flex justify-center gap-1.5">
+      <div className="flex flex-col items-center gap-stack-xs">
+        <div className="flex justify-center gap-tight.5">
           {[1, 2, 3, 4, 5].map((star) => {
             const isActive = star <= displayRating;
             return (
@@ -111,7 +111,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <label htmlFor="rating-feedback" className="text-body-sm font-semibold text-ink-900">
           Commentaire <span className="text-ink-400 font-normal">(optionnel)</span>
         </label>
@@ -126,7 +126,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         />
       </div>
 
-      <div className="flex justify-end gap-3 pt-1">
+      <div className="flex justify-end gap-stack-xs pt-1">
         {onCancel && (
           <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
             Annuler

@@ -102,7 +102,7 @@ export default function CoachingCorrections() {
         </div>
 
         {/* Search + filters */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-stack-xs">
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" />
             <input
@@ -134,7 +134,7 @@ export default function CoachingCorrections() {
               description="Aucune correction ne correspond à tes critères de recherche."
             />
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {filtered.map((correction) => (
                 <CorrectionCard
                   key={correction.id}

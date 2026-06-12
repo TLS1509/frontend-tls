@@ -68,7 +68,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
           />
           <div className="min-w-0">
             <p className="text-body-sm font-semibold text-ink-900 truncate">{apprenantName}</p>
-            <p className="text-caption text-ink-400 flex items-center gap-1">
+            <p className="text-caption text-ink-400 flex items-center gap-tight">
               <Clock size={11} aria-hidden />
               {submittedAt}
             </p>
@@ -80,7 +80,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
       {/* Exercise title + competence */}
       <div className="flex flex-col gap-tight">
         <p className="text-body font-semibold text-ink-900 line-clamp-2">{exerciceTitle}</p>
-        <span className="inline-flex items-center gap-1 text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
+        <span className="inline-flex items-center gap-tight text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
           {competence}
         </span>
       </div>
@@ -96,7 +96,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-stack-xs border-t border-ink-100 mt-auto">
-        <div className="flex items-center gap-1 text-caption text-ink-400">
+        <div className="flex items-center gap-tight text-caption text-ink-400">
           {feedbackCount !== undefined && (
             <>
               <MessageSquare size={13} aria-hidden />
@@ -104,7 +104,7 @@ export const CorrectionCard: React.FC<CorrectionCardProps> = ({
             </>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-stack-xs">
           {onAssign && status === 'pending' && (
             <Button
               variant="ghost"

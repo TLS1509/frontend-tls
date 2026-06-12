@@ -37,7 +37,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
   return (
     <div className="flex flex-col gap-7">
       {showProgressBar && (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-stack">
           <div className="flex-1 h-2 rounded-pill bg-ink-100 overflow-hidden shadow-inner">
             <div
               className="h-full rounded-pill bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 transition-[width] duration-500 ease-out shadow-brand-sm"
@@ -52,7 +52,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
       {showStepIndicators && (
         <div
-          className="grid gap-2 relative"
+          className="grid gap-stack-xs relative"
           style={{ gridTemplateColumns: `repeat(${steps.length}, 1fr)` }}
         >
           {steps.map((s, idx) => {
@@ -66,7 +66,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
                 key={s.id}
                 onClick={() => isClickable && onStepClick?.(s.id)}
                 className={[
-                  'relative flex flex-col items-center gap-2 transition-all',
+                  'relative flex flex-col items-center gap-stack-xs transition-all',
                   isClickable ? 'cursor-pointer hover:scale-105' : 'cursor-default',
                 ].join(' ')}
               >
@@ -111,7 +111,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
 
       <Card>
         {step && (
-          <div className="mb-6 pb-6 border-b border-ink-200">
+          <div className="mb-stack-lg pb-stack-lg border-b border-ink-200">
             <span className="inline-block text-caption font-medium text-primary-600 mb-2">
               Étape {step.id} / {steps.length}
             </span>
@@ -127,7 +127,7 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
         {children || step?.content}
       </Card>
 
-      <div className="flex justify-between gap-3">
+      <div className="flex justify-between gap-stack-xs">
         <Button onClick={onBack} disabled={currentStep === 1} variant="secondary">
           ← Précédent
         </Button>

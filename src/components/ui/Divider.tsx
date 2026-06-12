@@ -45,7 +45,7 @@ export const Divider: React.FC<DividerProps> = ({
     return (
       <div
         role="separator"
-        className={['flex items-center gap-3', SPACING_H[spacing], className]
+        className={['flex items-center gap-stack-xs', SPACING_H[spacing], className]
           .filter(Boolean)
           .join(' ')}
       >

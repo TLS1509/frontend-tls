@@ -54,7 +54,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
   return (
     <div
       className={[
-        'flex items-center gap-3 min-w-0',
+        'flex items-center gap-stack-xs min-w-0',
         className,
       ].join(' ')}
     >
@@ -67,7 +67,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
       />
 
       <div className="min-w-0 flex-1 flex flex-col gap-0.5">
-        <div className="flex items-baseline gap-2 flex-wrap min-w-0">
+        <div className="flex items-baseline gap-stack-xs flex-wrap min-w-0">
           <span className="font-body text-body-sm font-bold text-ink-900 truncate">
             {name}
           </span>
@@ -84,7 +84,7 @@ export const AuthorStrip: React.FC<AuthorStripProps> = ({
             {role && variant === 'expanded' && meta && meta.length > 0 && <span aria-hidden>·</span>}
             {meta?.map((m, i) => (
               <React.Fragment key={i}>
-                <span className="inline-flex items-center gap-1">
+                <span className="inline-flex items-center gap-tight">
                   {m.icon}
                   {m.text}
                 </span>

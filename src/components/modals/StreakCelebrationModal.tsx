@@ -85,7 +85,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
           </button>
 
           {/* Flame icon */}
-          <div className="relative w-28 h-28 rounded-full modal-flame-bg flex items-center justify-center mx-auto mb-6 shadow-[0_20px_40px_rgba(255,107,53,0.4)] z-10 animate-flame-in">
+          <div className="relative w-28 h-28 rounded-full modal-flame-bg flex items-center justify-center mx-auto mb-stack-lg shadow-[0_20px_40px_rgba(255,107,53,0.4)] z-10 animate-flame-in">
             <Flame size={56} className="text-white" />
             <div className="absolute -inset-1.5 rounded-full border-[3px] border-[rgba(255,107,53,0.4)] animate-ring" />
           </div>
@@ -103,14 +103,14 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
           {/* Milestone badge */}
           {isMilestone && (
             <div className="flex justify-center mb-5 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-pill modal-milestone-bg text-white text-caption font-bold shadow-[0_4px_16px_rgba(255,215,0,0.4)] animate-milestone-in">
+              <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill modal-milestone-bg text-white text-caption font-bold shadow-[0_4px_16px_rgba(255,215,0,0.4)] animate-milestone-in">
                 <TrendingUp size={14} /> Jalon {milestone} jours atteint !
               </div>
             </div>
           )}
 
           {/* Title + message */}
-          <div className="text-center mb-6 relative z-10 animate-[scFadeUp_0.4s_ease_0.5s_both]">
+          <div className="text-center mb-stack-lg relative z-10 animate-[scFadeUp_0.4s_ease_0.5s_both]">
             <h2 className="text-h3 font-extrabold text-ink-900 mb-2">
               🔥 Série Enflammée !
             </h2>
@@ -120,7 +120,7 @@ export const StreakCelebrationModal: React.FC<StreakCelebrationModalProps> = ({
           </div>
 
           {/* Stats grid */}
-          <div className="grid grid-cols-2 gap-3 mb-6 relative z-10 animate-[scFadeUp_0.4s_ease_0.6s_both]">
+          <div className="grid grid-cols-2 gap-stack-xs mb-stack-lg relative z-10 animate-[scFadeUp_0.4s_ease_0.6s_both]">
             <div className="p-4 rounded-lg bg-primary-50 border border-primary-500/15 text-center">
               <Calendar size={20} className="mx-auto mb-2 text-primary-500" />
               <div className="text-h4 font-extrabold text-ink-900">{Math.floor(streakCount / 7)}</div>

@@ -182,7 +182,7 @@ export const LearningPathDetail: React.FC = () => {
   if (!parcours) {
     return (
       <div className="p-12 text-center">
-        <p className="text-ink-500 mb-4">Parcours introuvable.</p>
+        <p className="text-ink-500 mb-stack">Parcours introuvable.</p>
         <Button onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
       </div>
     );
@@ -244,7 +244,7 @@ export const LearningPathDetail: React.FC = () => {
   return (
     <>
       <div className="relative min-h-[100dvh] bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-12 flex flex-col gap-section">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-stack-lg sm:py-section lg:py-12 flex flex-col gap-section">
 
           {/* Hero — PageHero tone-aware (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
           <PageHero
@@ -326,7 +326,7 @@ export const LearningPathDetail: React.FC = () => {
                     title="Outils pour mieux apprendre"
                     action={<span className="font-body text-caption text-ink-500">Accessible à tout moment</span>}
                   />
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-xs">
                     <IconFeatureCard
                       icon={<Lightbulb size={20} />}
                       title="Astuces"
@@ -391,7 +391,7 @@ export const LearningPathDetail: React.FC = () => {
                   >
                     <button
                       onClick={() => toggleStep(etape.id)}
-                      className="w-full flex items-start gap-5 p-6 bg-transparent border-0 cursor-pointer text-left"
+                      className="w-full flex items-start gap-stack p-6 bg-transparent border-0 cursor-pointer text-left"
                     >
                       <div
                         className={[
@@ -412,7 +412,7 @@ export const LearningPathDetail: React.FC = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <div className="mb-2 flex items-center gap-2">
+                        <div className="mb-2 flex items-center gap-stack-xs">
                           {!etape.unlocked ? (
                             <Badge variant="neutral">VERROUILLÉ</Badge>
                           ) : etape.completed ? (
@@ -465,9 +465,9 @@ export const LearningPathDetail: React.FC = () => {
                     </button>
 
                     {isOpen && etape.unlocked && (
-                      <div className="border-t border-ink-200 px-6 pt-4 pb-6">
+                      <div className="border-t border-ink-200 px-6 pt-stack pb-stack-lg">
                         <div
-                          className={`flex flex-col gap-2 ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
+                          className={`flex flex-col gap-stack-xs ${carouselItems.length > 0 && idx === 0 ? 'mb-stack-lg' : ''}`}
                         >
                           {etape.lecons.map((lecon: Lecon) => {
                             const firstIncomplete = etape.lecons.findIndex((l: Lecon) => !l.completed);
@@ -491,7 +491,7 @@ export const LearningPathDetail: React.FC = () => {
                                 onClick={() =>
                                   navigate(`/learning-paths/${parcours.id}/lessons/${lecon.id}`)
                                 }
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white ${rowBg}`}
+                                className={`flex items-center gap-stack-xs px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white ${rowBg}`}
                               >
                                 <div
                                   className={`w-9 h-9 rounded-lg shrink-0 flex items-center justify-center ${iconBg}`}
@@ -507,7 +507,7 @@ export const LearningPathDetail: React.FC = () => {
                                   >
                                     {lecon.number}. {lecon.title}
                                   </div>
-                                  <div className="flex items-center gap-1 text-caption text-ink-500 mt-0.5">
+                                  <div className="flex items-center gap-tight text-caption text-ink-500 mt-0.5">
                                     <Clock3 size={11} /> {lecon.duration}
                                   </div>
                                 </div>
@@ -564,13 +564,13 @@ export const LearningPathDetail: React.FC = () => {
               <div
                 className={`text-center text-white p-10 rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
               >
-                <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-6 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
                   <Award size={36} />
                 </div>
                 <h2 className="font-display text-h2 font-bold m-0 mb-3">
                   {parcours.finalProject.title}
                 </h2>
-                <p className="text-body-lg m-0 mb-8 opacity-90 max-w-[720px] mx-auto leading-relaxed">
+                <p className="text-body-lg m-0 mb-section opacity-90 max-w-[720px] mx-auto leading-relaxed">
                   {parcours.finalProject.description}
                 </p>
 
@@ -643,7 +643,7 @@ export const LearningPathDetail: React.FC = () => {
 
               {/* Prerequisites */}
               <div className="p-6 rounded-xl bg-primary-50 border border-primary-200">
-                <div className="flex gap-3 items-start">
+                <div className="flex gap-stack-xs items-start">
                   <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0">
                     ℹ️
                   </div>
@@ -672,7 +672,7 @@ export const LearningPathDetail: React.FC = () => {
 
                 <div className="mb-stack-lg flex items-center gap-stack justify-center">
                   <div className="text-caption text-ink-500">Déverrouillé après étape 5</div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-stack-xs">
                     {[1, 2, 3, 4, 5].map((i) => {
                       const reached = i <= completedLessons / (totalLessons / 5);
                       return (

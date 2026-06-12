@@ -96,7 +96,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         </div>
 
         {/* Text */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-stack-lg">
           <h2 className="text-h4 font-bold text-ink-900 mb-3">
             {title}
           </h2>
@@ -106,7 +106,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
+        <div className="flex gap-stack-xs">
           <button
             onClick={onClose}
             className={`${ACTION_BTN_BASE} font-semibold border-[1.5px] border-ink-200 bg-white text-ink-900 hover:bg-ink-50`}

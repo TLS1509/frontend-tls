@@ -50,7 +50,7 @@ export const ResetPassword: React.FC = () => {
         subtitle: 'Choisis un mot de passe robuste',
       }}
       form={
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthPasswordField
             label="Nouveau mot de passe"
             placeholder="••••••••••••"
@@ -68,7 +68,7 @@ export const ResetPassword: React.FC = () => {
             required
           />
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             <AuthPrimaryButton type="submit">Mettre à jour</AuthPrimaryButton>
             <AuthGhostButton onClick={() => navigate('/auth/login')}>
               Retour connexion
@@ -77,14 +77,14 @@ export const ResetPassword: React.FC = () => {
         </form>
       }
       aside={
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
             <CheckCircle2 size={18} className="text-white/85" />
             <h4 className="font-display text-body font-semibold text-white m-0">
               Règles recommandées
             </h4>
           </div>
-          <ul className="m-0 pl-4 flex flex-col gap-1.5 text-body-sm text-white/75 list-disc">
+          <ul className="m-0 pl-4 flex flex-col gap-tight.5 text-body-sm text-white/75 list-disc">
             <li>Au moins 12 caractères.</li>
             <li>Mélanger lettres, chiffres et symboles.</li>
             <li>Éviter les mots évidents ou personnels.</li>

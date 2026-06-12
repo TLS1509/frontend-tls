@@ -79,7 +79,7 @@ export const Error500: React.FC = () => {
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-secondary-500/80 inline-flex items-center gap-2 mb-4"
+          className="font-mono text-caption font-bold uppercase tracking-[0.28em] text-secondary-500/80 inline-flex items-center gap-stack-xs mb-stack"
         >
           <AlertTriangle size={13} /> Système · Incident
         </motion.p>
@@ -90,7 +90,7 @@ export const Error500: React.FC = () => {
           transition={{ delay: 0.15, duration: 0.85, ease: [0.2, 0, 0, 1.1] }}
           style={{ x: codeX, y: codeY }}
           aria-hidden
-          className="font-display font-black tracking-tighter leading-none mb-6"
+          className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
           <span className="block text-[clamp(7rem,20vw,14rem)] text-secondary-500 drop-shadow-[0_2px_24px_rgba(237,132,58,0.18)]">
             500
@@ -102,7 +102,7 @@ export const Error500: React.FC = () => {
           initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.5 }}
           style={{ x: subX, y: subY }}
-          className="flex flex-col items-center gap-3 mb-8"
+          className="flex flex-col items-center gap-stack-xs mb-section"
         >
           <h1 className="font-display text-h1 font-bold text-ink-900 leading-tight max-w-xl">
             Une erreur s'est produite

@@ -70,7 +70,7 @@ const StatBlock: React.FC<{ to: number; suffix?: string; label: string; source: 
   label,
   source,
 }) => (
-  <div className="flex flex-col items-center text-center gap-1">
+  <div className="flex flex-col items-center text-center gap-tight">
     <CountUp to={to} suffix={suffix} className="font-display text-[clamp(3rem,9vw,5rem)] font-extrabold text-secondary-700 leading-none" />
     <span className="font-body text-body-sm text-ink-700 leading-snug max-w-[16rem]">{label}</span>
     <span className="font-body text-caption text-ink-400 mt-1">Source : {source}</span>
@@ -153,14 +153,14 @@ export const MarketingInfographieSBO: React.FC = () => {
           <Reveal>
             <Link
               to="/ressources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-tight.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Ressources
             </Link>
           </Reveal>
           <Reveal delay={0.05}>
-            <span className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-pill bg-white border border-secondary-200 shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs self-start px-3 py-1 rounded-pill bg-white border border-secondary-200 shadow-xs">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
                 Infographie interactive

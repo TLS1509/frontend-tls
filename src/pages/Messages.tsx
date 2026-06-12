@@ -287,7 +287,7 @@ export const Messages: React.FC = () => {
                   onClick={() => handleSelectConversation(conv.id)}
                   data-selected={isSelected}
                   className={[
-                    'flex items-start gap-3 w-full p-3 rounded-xl text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
+                    'flex items-start gap-stack-xs w-full p-3 rounded-xl text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? 'bg-primary-50 shadow-xs border border-primary-200'
@@ -304,7 +304,7 @@ export const Messages: React.FC = () => {
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1 mb-0.5">
+                    <div className="flex items-center gap-tight mb-0.5">
                       <span className={`font-body text-body-sm flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-ink-900 ${conv.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
                         {conv.participantName}
                       </span>
@@ -334,7 +334,7 @@ export const Messages: React.FC = () => {
                     <p className={`m-0 mb-0.5 font-body text-caption overflow-hidden text-ellipsis whitespace-nowrap ${conv.unreadCount > 0 ? 'text-ink-900 font-semibold' : 'text-ink-500 font-normal'}`}>
                       {conv.lastMessage}
                     </p>
-                    <span className="font-body text-micro text-ink-400 flex items-center gap-1">
+                    <span className="font-body text-micro text-ink-400 flex items-center gap-tight">
                       <Clock3 size={10} /> {conv.lastMessageTime}
                     </span>
                   </div>
@@ -350,7 +350,7 @@ export const Messages: React.FC = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
 
           {/* Thread header */}
-          <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-3">
+          <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
             <Button variant="secondary" size="sm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={15} />
             </Button>
@@ -378,7 +378,7 @@ export const Messages: React.FC = () => {
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-stack-lg bg-ink-50 flex flex-col gap-3">
+          <div className="flex-1 overflow-y-auto p-stack-lg bg-ink-50 flex flex-col gap-stack-xs">
             {currentConversation.messages.map((msg) => {
               const isUser = msg.role === 'user';
               const senderTint =

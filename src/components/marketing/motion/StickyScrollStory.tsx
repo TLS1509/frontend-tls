@@ -97,7 +97,7 @@ export const StickyScrollStory: React.FC<Props> = ({
                       </p>
                     </>
                   )}
-                  <div className="flex items-center gap-2 pt-stack">
+                  <div className="flex items-center gap-stack-xs pt-stack">
                     {panels.map((_, j) => (
                       <span
                         key={j}

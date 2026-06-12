@@ -36,7 +36,7 @@ export default function AtelierRecap() {
         title="Atelier Feedback 360°"
         summary="Session du 18 juin 2026 · Sophie Martin"
         trailing={
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Badge variant="success" size="md">✓ Complété</Badge>
             <Badge variant="success" size="md">+120 XP</Badge>
           </div>

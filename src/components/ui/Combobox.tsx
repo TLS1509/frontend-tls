@@ -43,12 +43,12 @@ export interface ComboboxProps {
 
 /* ─── Style maps ────────────────────────────────────────────────────────────── */
 
-const FIELD_BASE = 'flex flex-col gap-2 font-body';
+const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 // Visual control shell: border, bg, sizing. No `relative` here — the wrapper
 // <div class="relative"> below is the positioning context for the dropdown.
 const CONTROL_BASE =
-  'inline-flex items-center gap-2 w-full bg-white border rounded-md text-ink-900 font-body transition-colors duration-base';
+  'inline-flex items-center gap-stack-xs w-full bg-white border rounded-md text-ink-900 font-body transition-colors duration-base';
 
 const SIZE_CLASSES: Record<ComboboxSize, string> = {
   sm: 'h-9 px-3 text-caption',
@@ -319,7 +319,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     }}
                     onMouseEnter={() => setFocusedIdx(idx)}
                     className={[
-                      'flex items-center justify-between gap-2 px-3.5 py-2.5 text-body-sm',
+                      'flex items-center justify-between gap-stack-xs px-3.5 py-2.5 text-body-sm',
                       'cursor-pointer select-none transition-colors duration-fast',
                       isSelected ? 'text-primary-700 font-semibold' : 'text-ink-900',
                       isFocused && !opt.disabled ? 'bg-primary-50' : '',
@@ -352,7 +352,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           role={error ? 'alert' : undefined}
           className={
             error
-              ? 'text-caption text-danger-fg flex items-center gap-1'
+              ? 'text-caption text-danger-fg flex items-center gap-tight'
               : 'text-caption text-ink-500'
           }
         >

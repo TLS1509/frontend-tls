@@ -66,7 +66,7 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
       className={[
         'group relative rounded-2xl bg-white/70 backdrop-blur-glass-light border border-ink-100',
         'p-5 sm:p-6 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-base',
-        'flex gap-4',
+        'flex gap-stack',
         isStacked ? 'flex-col items-start' : 'items-start',
         className,
       ].join(' ')}
@@ -82,13 +82,13 @@ export const KeyFindingCard: React.FC<KeyFindingCardProps> = ({
         {icon}
       </span>
 
-      <div className="flex-1 min-w-0 flex flex-col gap-1">
+      <div className="flex-1 min-w-0 flex flex-col gap-tight">
         <h3 className="m-0 font-display text-body font-bold text-ink-900 leading-tight">
           {title}
         </h3>
 
         {metric ? (
-          <div className="flex items-baseline gap-2 mt-1">
+          <div className="flex items-baseline gap-stack-xs mt-1">
             <span className={`font-display text-h2 font-extrabold leading-none ${METRIC_TEXT[tone]}`}>
               {metric.value}
             </span>

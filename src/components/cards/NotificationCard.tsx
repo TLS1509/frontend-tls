@@ -116,7 +116,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       role={clickable ? 'button' : undefined}
       tabIndex={clickable ? 0 : undefined}
       className={[
-        'group relative flex items-start gap-3 px-3 py-3 sm:px-4 sm:py-3.5',
+        'group relative flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5',
         'rounded-xl border border-transparent transition-all duration-base',
         unread
           ? `${UNREAD_BG[tone]} border-ink-100 hover:border-ink-200`
@@ -143,7 +143,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       {/* Content */}
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
         {/* Title + unread dot */}
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-stack-xs min-w-0">
           <h4
             className={[
               'm-0 font-body text-body-sm truncate',
@@ -168,7 +168,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         )}
 
         {/* Meta + time */}
-        <div className="mt-1 flex items-center gap-2 flex-wrap font-body text-micro text-ink-400">
+        <div className="mt-1 flex items-center gap-stack-xs flex-wrap font-body text-micro text-ink-400">
           {meta}
           {meta && <span aria-hidden>·</span>}
           <span>{time}</span>
@@ -178,7 +178,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       {/* Actions — hover-only on desktop, always visible on mobile */}
       <div
         className={[
-          'shrink-0 flex items-center gap-1',
+          'shrink-0 flex items-center gap-tight',
           'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100',
           'transition-opacity duration-base',
         ].join(' ')}

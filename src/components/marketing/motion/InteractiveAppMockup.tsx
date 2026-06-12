@@ -26,7 +26,7 @@ const panelMotion = {
 };
 
 const ParcoursPanel: React.FC = () => (
-  <motion.div {...panelMotion} className="flex flex-col gap-3">
+  <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     <div className="rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 p-4 text-white">
       <span className="text-caption opacity-80 font-semibold uppercase tracking-wider">Étape 4 sur 7</span>
       <p className="font-display text-h4 font-bold m-0 mt-1">Devenir prompt designer</p>
@@ -39,7 +39,7 @@ const ParcoursPanel: React.FC = () => (
         />
       </div>
     </div>
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-stack-xs">
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -63,7 +63,7 @@ const ParcoursPanel: React.FC = () => (
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.75 }}
-      className="rounded-lg bg-gradient-to-br from-accent-50 to-accent-100/40 border border-accent-200 p-3 flex items-center gap-2"
+      className="rounded-lg bg-gradient-to-br from-accent-50 to-accent-100/40 border border-accent-200 p-3 flex items-center gap-stack-xs"
     >
       <Sparkles size={16} className="text-warning-fg shrink-0" />
       <span className="font-body text-caption font-semibold text-ink-800">
@@ -74,7 +74,7 @@ const ParcoursPanel: React.FC = () => (
 );
 
 const CoachingPanel: React.FC = () => (
-  <motion.div {...panelMotion} className="flex flex-col gap-2">
+  <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     <motion.div
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
@@ -101,7 +101,7 @@ const CoachingPanel: React.FC = () => (
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7 }}
-      className="rounded-xl bg-white border border-ink-200 p-3 flex items-center gap-3 mt-2 shadow-xs"
+      className="rounded-xl bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-2 shadow-xs"
     >
       <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
         S
@@ -123,7 +123,7 @@ const CoachingPanel: React.FC = () => (
 );
 
 const JournalPanel: React.FC = () => (
-  <motion.div {...panelMotion} className="flex flex-col gap-3">
+  <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     <div className="rounded-xl bg-gradient-to-br from-accent-50 to-secondary-50 p-4 border border-accent-200">
       <span className="text-caption font-bold text-warning-fg uppercase tracking-wider">Aujourd'hui</span>
       <p className="font-display text-h5 font-bold text-ink-900 m-0 mt-1">3 insights après ma session</p>
@@ -131,7 +131,7 @@ const JournalPanel: React.FC = () => (
         J'ai compris que mes apprenants ont besoin de respiration entre les modules denses. La prochaine cohorte sera plus rythmée.
       </p>
     </div>
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-stack-xs">
       {[
         { label: 'Insight', tone: 'bg-primary-50 text-primary-700 border-primary-100' },
         { label: 'Question', tone: 'bg-secondary-50 text-secondary-700 border-secondary-100' },
@@ -152,7 +152,7 @@ const JournalPanel: React.FC = () => (
 );
 
 const VeillePanel: React.FC = () => (
-  <motion.div {...panelMotion} className="flex flex-col gap-2">
+  <motion.div {...panelMotion} className="flex flex-col gap-stack-xs">
     {[
       { tag: 'Pédagogie', title: "L'apprentissage actif chez Brilliant", src: 'TechCrunch' },
       { tag: 'IA', title: 'Mistral lance un assistant pédago', src: 'The Verge' },
@@ -163,7 +163,7 @@ const VeillePanel: React.FC = () => (
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: i * 0.12 }}
-        className="rounded-lg bg-white border border-ink-200 p-3 flex flex-col gap-1"
+        className="rounded-lg bg-white border border-ink-200 p-3 flex flex-col gap-tight"
       >
         <span className="inline-flex items-center self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-bold uppercase">
           {item.tag}
@@ -202,13 +202,13 @@ export const InteractiveAppMockup: React.FC<Props> = ({
 
   return (
     <div
-      className={`relative rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-5 flex flex-col gap-4 min-h-[460px] ${className}`}
+      className={`relative rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-5 flex flex-col gap-stack min-h-[460px] ${className}`}
     >
       {/* mockup header */}
-      <div className="flex items-center gap-2 pb-3 border-b border-ink-100">
+      <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
         <TlsLogo size={20} />
         <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
-        <div className="ml-auto flex gap-1">
+        <div className="ml-auto flex gap-tight">
           <span className="w-2 h-2 rounded-pill bg-ink-200" />
           <span className="w-2 h-2 rounded-pill bg-ink-200" />
           <span className="w-2 h-2 rounded-pill bg-ink-200" />
@@ -216,7 +216,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
       </div>
 
       {/* tabs */}
-      <div className="flex items-center gap-1 p-1 rounded-pill bg-ink-100 w-fit">
+      <div className="flex items-center gap-tight p-1 rounded-pill bg-ink-100 w-fit">
         {TABS.map((t) => {
           const isActive = active === t.key;
           return (
@@ -224,7 +224,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
               key={t.key}
               type="button"
               onClick={() => setActive(t.key)}
-              className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
+              className={`relative inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
                 isActive ? 'text-primary-700' : 'text-ink-600 hover:text-ink-900'
               }`}
             >
@@ -235,7 +235,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
-              <span className="relative inline-flex items-center gap-1.5">
+              <span className="relative inline-flex items-center gap-tight.5">
                 {t.icon}
                 {t.label}
               </span>
@@ -254,7 +254,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
       </div>
 
       {/* hint */}
-      <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-1.5">
+      <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-tight.5">
         <Sparkles size={12} className="text-warning-fg" />
         <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
       </div>

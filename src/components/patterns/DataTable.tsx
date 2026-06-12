@@ -111,7 +111,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                 >
                   <div
                     className={[
-                      'inline-flex items-center gap-1',
+                      'inline-flex items-center gap-tight',
                       column.align === 'center' ? 'justify-center' : '',
                       column.align === 'right' ? 'justify-end' : '',
                     ]
@@ -137,13 +137,13 @@ export const DataTable: React.FC<DataTableProps> = ({
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-ink-500">
+                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-500">
                   Loading...
                 </td>
               </tr>
             ) : displayedRows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-8 text-center text-ink-500">
+                <td colSpan={columns.length} className="px-4 py-section text-center text-ink-500">
                   {emptyMessage}
                 </td>
               </tr>
@@ -185,7 +185,7 @@ export const DataTable: React.FC<DataTableProps> = ({
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-stack-xs">
           <button
             className={PAG_BTN}
             onClick={() => onPageChange?.(currentPage - 1)}

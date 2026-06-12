@@ -66,7 +66,7 @@ export const FloatLabel: React.FC<FloatLabelProps> = ({
   });
 
   return (
-    <div className={`relative pt-6 ${className}`}>
+    <div className={`relative pt-stack-lg ${className}`}>
       {/* Floating Label */}
       <label
         className={`${LABEL_BASE} ${shouldFloat ? LABEL_FLOATING : ''}`}

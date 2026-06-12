@@ -47,7 +47,7 @@ export default function CoachHeatmap() {
         summary="Visualise les niveaux Dreyfus de toute ton équipe d'un seul coup d'œil. Identifie les lacunes collectives et les apprenants en difficulté."
         tone="default"
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
@@ -166,7 +166,7 @@ export default function CoachHeatmap() {
                     </span>
                     <span className="text-body-sm font-medium text-ink-900">{a.name}</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-stack-xs">
                     <span className="text-caption text-ink-500">Moy. D{avg}</span>
                     <Badge variant={variant}>{label}</Badge>
                     <Button

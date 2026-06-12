@@ -64,7 +64,7 @@ export const ProgressDots: React.FC<ProgressDotsProps> = ({
   if (total <= 0) return null;
 
   const sizes = DOT_SIZE[size];
-  const wrapperClasses = ['inline-flex items-center gap-1.5', className].filter(Boolean).join(' ');
+  const wrapperClasses = ['inline-flex items-center gap-tight.5', className].filter(Boolean).join(' ');
 
   return (
     <div className={wrapperClasses} role="tablist" aria-label={ariaLabel}>

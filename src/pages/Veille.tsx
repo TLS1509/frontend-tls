@@ -161,7 +161,7 @@ export const Veille: React.FC = () => {
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-stack-lg">
 
           {/* Titre + sous-titre */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-stack-xs">
             <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight text-[clamp(2.25rem,4vw,3.25rem)]">
               Veille &amp; Actualités
             </h1>
@@ -189,14 +189,14 @@ export const Veille: React.FC = () => {
           </div>
 
           {/* Filtres type + Sauvegardés */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             {TYPE_FILTERS.map(({ id, label, Icon }) => (
               <button
                 key={id}
                 type="button"
                 onClick={() => setSelected(id)}
                 className={[
-                  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
+                  'inline-flex items-center gap-tight.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                   selected === id
                     ? 'bg-white text-ink-900 border-white shadow-md'
                     : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
@@ -214,7 +214,7 @@ export const Veille: React.FC = () => {
               type="button"
               onClick={() => setShowSavedOnly((v) => !v)}
               className={[
-                'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
+                'inline-flex items-center gap-tight.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 showSavedOnly
                   ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
                   : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
@@ -263,18 +263,18 @@ export const Veille: React.FC = () => {
 
       {/* ── 4. BANDE MAILING — glassy minimale ──────────────────────────── */}
       <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-stack">
           <form
             onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-3"
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"
           >
-            <div className="flex items-center gap-2 text-ink-600 shrink-0">
+            <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
               <Mail size={14} className="text-ink-400" />
               <span className="font-body text-body-sm">
                 Recevoir les actus veille dans votre boîte mail
               </span>
             </div>
-            <div className="flex items-center gap-2 sm:ml-auto">
+            <div className="flex items-center gap-stack-xs sm:ml-auto">
               <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
               <Input
                 id={emailId}

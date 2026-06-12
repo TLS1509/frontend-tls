@@ -275,7 +275,7 @@ export const OnboardingUnified: React.FC = () => {
       <AmbientBlobs />
 
       {/* Header */}
-      <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-4 backdrop-blur-glass-light">
+      <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         <TlsLogo variant="primary" size={32} />
         <div className="text-caption text-ink-500">
           Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / 5
@@ -290,7 +290,7 @@ export const OnboardingUnified: React.FC = () => {
       </div>
 
       {/* Input area */}
-      <div className="relative z-10 border-t border-primary-100 bg-white/40 px-6 py-4 backdrop-blur-glass-light">
+      <div className="relative z-10 border-t border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         {(step === 'greeting' || step === 'transition') && (
           <div className="flex justify-center">
             <p className="animate-pulse text-body-sm text-ink-500">Chargement...</p>
@@ -298,7 +298,7 @@ export const OnboardingUnified: React.FC = () => {
         )}
 
         {step === 'name' && (
-          <div className="flex gap-2">
+          <div className="flex gap-stack-xs">
             <Input
               placeholder="Ton prénom..."
               value={nameInput}
@@ -322,7 +322,7 @@ export const OnboardingUnified: React.FC = () => {
         )}
 
         {step === 'role' && (
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-stack-xs">
             {ROLE_TILES.map((tile) => {
               const Icon = tile.icon;
               return (
@@ -330,7 +330,7 @@ export const OnboardingUnified: React.FC = () => {
                   key={tile.id}
                   onClick={() => handleRoleSelect(tile.id)}
                   disabled={loading || selectedRole !== null}
-                  className={`flex flex-col items-center gap-1 rounded-lg border-2 px-3 py-2 transition-all ${
+                  className={`flex flex-col items-center gap-tight rounded-lg border-2 px-3 py-2 transition-all ${
                     selectedRole === tile.id
                       ? 'border-primary-500 bg-primary-50'
                       : 'border-primary-100 hover:border-primary-300 hover:bg-primary-50'

@@ -20,14 +20,14 @@ export interface TabsWithContentProps {
 }
 
 const TAB_BASE =
-  'inline-flex items-center gap-2 px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body-sm font-medium transition-all ' +
+  'inline-flex items-center gap-stack-xs px-4 py-2.5 bg-transparent border-0 cursor-pointer font-body text-body-sm font-medium transition-all ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:cursor-not-allowed disabled:opacity-50';
 
 const VARIANT_LIST: Record<TabsVariant, string> = {
-  underline: 'flex border-b border-ink-200 gap-1 mb-1',
+  underline: 'flex border-b border-ink-200 gap-tight mb-1',
   boxed:     'flex border border-ink-200 rounded-xl overflow-hidden bg-white',
-  pill:      'inline-flex items-center gap-1 p-1 bg-ink-100 rounded-pill self-start',
+  pill:      'inline-flex items-center gap-tight p-1 bg-ink-100 rounded-pill self-start',
 };
 
 const VARIANT_TAB: Record<TabsVariant, string> = {
@@ -61,7 +61,7 @@ export const TabsWithContent: React.FC<TabsWithContentProps> = ({
   const activeTabContent = tabs.find((t) => t.id === activeTab)?.content;
 
   return (
-    <div className={['flex flex-col gap-5', className].filter(Boolean).join(' ')}>
+    <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       <div className={VARIANT_LIST[variant]} role="tablist">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;

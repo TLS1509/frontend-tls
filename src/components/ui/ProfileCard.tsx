@@ -144,7 +144,7 @@ const RatingDisplay: React.FC<{ rating: ProfileRating; tone: ProfileCardTone }> 
   const max = rating.max ?? 5;
   const rounded = Math.round(rating.value);
   return (
-    <div className="flex items-center gap-2" aria-label={`Note : ${rating.value} sur ${max}`}>
+    <div className="flex items-center gap-stack-xs" aria-label={`Note : ${rating.value} sur ${max}`}>
       <div className="flex gap-0.5" aria-hidden="true">
         {Array.from({ length: max }, (_, i) => (
           <Star
@@ -253,7 +253,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   href={c.href}
                   target={c.type === 'email' || c.type === 'phone' ? undefined : '_blank'}
                   rel={c.type === 'email' || c.type === 'phone' ? undefined : 'noopener noreferrer'}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
+                  className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
                 >
                   <span className={TONE_ROLE[tone]}>{CONTACT_ICON[c.type]}</span>
                   <span className="truncate max-w-[180px]">{c.label ?? CONTACT_DEFAULT_LABEL[c.type]}</span>
@@ -344,7 +344,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
               href={c.href}
               target={c.type === 'email' || c.type === 'phone' ? undefined : '_blank'}
               rel={c.type === 'email' || c.type === 'phone' ? undefined : 'noopener noreferrer'}
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
+              className="inline-flex items-center gap-stack-xs px-3 py-2 rounded-lg bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
             >
               <span className={TONE_ROLE[tone]}>{CONTACT_ICON[c.type]}</span>
               <span className="truncate">{c.label ?? CONTACT_DEFAULT_LABEL[c.type]}</span>

@@ -106,7 +106,7 @@ export default function CreditsPage() {
                 <Coins size={18} />
               </div>
               <div className="flex flex-col gap-tight">
-                <div className="flex items-end gap-1">
+                <div className="flex items-end gap-tight">
                   <span className="font-display text-h2 font-extrabold leading-none text-secondary-600">{credits.classic}</span>
                   <span className="mb-0.5 font-body text-body-sm font-semibold text-secondary-500">crédits Classic</span>
                 </div>
@@ -119,7 +119,7 @@ export default function CreditsPage() {
                 <Star size={18} />
               </div>
               <div className="flex flex-col gap-tight">
-                <div className="flex items-end gap-1">
+                <div className="flex items-end gap-tight">
                   <span className="font-display text-h2 font-extrabold leading-none text-accent-500">{credits.special}</span>
                   <span className="mb-0.5 font-body text-body-sm font-semibold text-accent-500">crédits Spécial</span>
                 </div>
@@ -155,7 +155,7 @@ export default function CreditsPage() {
               {MOCK_TRANSACTIONS.map((tx) => (
                 <div
                   key={tx.id}
-                  className="flex items-center justify-between gap-3 py-3 border-b border-ink-100 last:border-b-0"
+                  className="flex items-center justify-between gap-stack-xs py-3 border-b border-ink-100 last:border-b-0"
                 >
                   <div className="flex flex-col gap-tight min-w-0">
                     <p className="m-0 text-body-sm font-medium text-ink-900 truncate">{tx.description}</p>

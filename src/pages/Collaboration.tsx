@@ -147,7 +147,7 @@ export const Collaboration: React.FC = () => {
 
         {/* Project cards */}
         <div className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-stack-xs">
             <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
               Projets en cours
             </h2>

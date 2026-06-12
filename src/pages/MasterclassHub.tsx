@@ -85,7 +85,7 @@ export default function MasterclassHub() {
                   <div className="bg-primary-100 h-44 flex items-center justify-center relative">
                     <Video size={40} className="text-primary-400" />
                     {hasReplay && (
-                      <div className="absolute top-2 right-2 flex items-center gap-1 bg-ink-900/80 text-white text-micro px-2 py-0.5 rounded-pill">
+                      <div className="absolute top-2 right-2 flex items-center gap-tight bg-ink-900/80 text-white text-micro px-2 py-0.5 rounded-pill">
                         <Play size={10} /> Replay
                       </div>
                     )}
@@ -126,7 +126,7 @@ export default function MasterclassHub() {
                     </div>
 
                     {mc.maxParticipants && (
-                      <div className="flex items-center gap-1.5 text-caption text-ink-500">
+                      <div className="flex items-center gap-tight.5 text-caption text-ink-500">
                         <Users size={12} className="shrink-0" />
                         <span>{mc.enrolledCount} / {mc.maxParticipants} inscrits</span>
                       </div>

@@ -103,11 +103,11 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         style={GLOW_BG[tone]}
       />
 
-      <div className="relative p-6 md:p-8 lg:p-10 flex flex-col gap-5 md:gap-6">
+      <div className="relative p-6 md:p-8 lg:p-10 flex flex-col gap-stack md:gap-stack-lg">
         {/* Top row — eyebrow + meta pills */}
-        <div className="flex flex-wrap items-center gap-3 justify-between">
+        <div className="flex flex-wrap items-center gap-stack-xs justify-between">
           {eyebrow && (
-            <span className={['inline-flex items-center gap-1.5 text-caption font-medium', EYEBROW_TONE[tone]].join(' ')}>
+            <span className={['inline-flex items-center gap-tight.5 text-caption font-medium', EYEBROW_TONE[tone]].join(' ')}>
               {eyebrow}
             </span>
           )}
@@ -136,14 +136,14 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         </p>
 
         {/* Progress + CTA row */}
-        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mt-1">
+        <div className="flex flex-col md:flex-row md:items-center gap-stack md:gap-stack-lg mt-1">
           <div className="flex-1 min-w-0">
             <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
           </div>
           <button
             type="button"
             className={[
-              'inline-flex items-center justify-center gap-2 h-12 px-6 rounded-pill text-body font-body font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis',
+              'inline-flex items-center justify-center gap-stack-xs h-12 px-6 rounded-pill text-body font-body font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis',
               'hover:-translate-y-px active:translate-y-0',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',
               CTA_TONE[tone],

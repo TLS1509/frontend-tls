@@ -100,11 +100,11 @@ export const MarketingHeader: React.FC = () => {
           : 'bg-white/40 border-white/20',
       ].join(' ')}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-stack">
         {/* Logo */}
         <Link
           to="/marketing"
-          className="shrink-0 flex items-center gap-2.5 min-h-touch group"
+          className="shrink-0 flex items-center gap-stack-xs.5 min-h-touch group"
           aria-label="The Learning Society: Accueil"
         >
           <TlsLogo size={32} className="transition-transform duration-base group-hover:scale-105" />
@@ -136,7 +136,7 @@ export const MarketingHeader: React.FC = () => {
                     aria-expanded={isOpen}
                     aria-haspopup="menu"
                     className={[
-                      'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1',
+                      'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-tight',
                       hasActiveChild ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                     ].join(' ')}
                   >
@@ -215,7 +215,7 @@ export const MarketingHeader: React.FC = () => {
                 key={item.href}
                 to={item.href!}
                 className={[
-                  'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-1.5',
+                  'relative px-3 py-1.5 rounded-pill text-body-sm font-semibold whitespace-nowrap transition-colors duration-fast min-h-touch flex items-center gap-tight.5',
                   active ? 'text-primary-800' : 'text-ink-700 hover:text-ink-900',
                 ].join(' ')}
               >
@@ -234,7 +234,7 @@ export const MarketingHeader: React.FC = () => {
         </nav>
 
         {/* Desktop CTAs */}
-        <div className="hidden lg:flex items-center gap-2 shrink-0">
+        <div className="hidden lg:flex items-center gap-stack-xs shrink-0">
           <Link to="/marketing/contact">
             <Button variant="ghost" size="sm" className="whitespace-nowrap">
               Contact
@@ -281,7 +281,7 @@ export const MarketingHeader: React.FC = () => {
               transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="lg:hidden relative bg-white/95 backdrop-blur-glass-heavy border-t border-white/50 shadow-xl z-modal max-h-[calc(100vh-4rem)] overflow-y-auto"
             >
-              <nav className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1" aria-label="Navigation mobile">
+              <nav className="max-w-7xl mx-auto px-6 py-stack flex flex-col gap-tight" aria-label="Navigation mobile">
                 {NAV_ITEMS.map((item) => {
                   if (item.dropdown) {
                     const isExpanded = mobileExpanded === item.label;
@@ -291,7 +291,7 @@ export const MarketingHeader: React.FC = () => {
                           type="button"
                           onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
                           aria-expanded={isExpanded}
-                          className="px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-2 text-ink-800 hover:bg-ink-50"
+                          className="px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-stack-xs text-ink-800 hover:bg-ink-50"
                         >
                           <span>{item.label}</span>
                           <ChevronDown
@@ -310,7 +310,7 @@ export const MarketingHeader: React.FC = () => {
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="pl-stack-lg pt-1 flex flex-col gap-1">
+                              <div className="pl-stack-lg pt-1 flex flex-col gap-tight">
                                 {item.dropdown.map((d) => {
                                   const active = isPathActive(pathname, d.href);
                                   return (
@@ -349,7 +349,7 @@ export const MarketingHeader: React.FC = () => {
                       key={item.href}
                       to={item.href!}
                       className={[
-                        'px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-2',
+                        'px-4 py-3 rounded-lg text-body font-semibold transition-colors duration-fast min-h-touch flex items-center gap-stack-xs',
                         active ? 'text-primary-700 bg-primary-50' : 'text-ink-800 hover:bg-ink-50',
                       ].join(' ')}
                     >
@@ -357,7 +357,7 @@ export const MarketingHeader: React.FC = () => {
                     </Link>
                   );
                 })}
-                <div className="pt-3 mt-1 border-t border-ink-100 flex flex-col gap-2">
+                <div className="pt-3 mt-1 border-t border-ink-100 flex flex-col gap-stack-xs">
                   <Link to="/marketing/contact">
                     <Button variant="ghost" size="md" fullWidth>
                       Contact

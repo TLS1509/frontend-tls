@@ -133,18 +133,18 @@ const SIZE_INLINE_GLYPH: Record<SectionHeaderSize, number> = {
 };
 
 const SIZE_GAP: Record<SectionHeaderSize, string> = {
-  xs: 'gap-2',
-  sm: 'gap-2.5',
-  md: 'gap-3',
-  lg: 'gap-4',
+  xs: 'gap-stack-xs',
+  sm: 'gap-stack-xs.5',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack',
 };
 
 /**
  * SectionHeader does NOT apply its own bottom margin — the parent layout
- * (e.g. `<section className="flex flex-col gap-4">`) controls vertical spacing.
+ * (e.g. `<section className="flex flex-col gap-stack">`) controls vertical spacing.
  * This avoids the double-spacing trap (mb on header + gap on parent).
  *
- * If you need a bottom margin, pass it via `className` (e.g. `className="mb-4"`).
+ * If you need a bottom margin, pass it via `className` (e.g. `className="mb-stack"`).
  */
 const SIZE_MARGIN: Record<SectionHeaderSize, string> = {
   xs: '',
@@ -250,7 +250,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
   // ── Layout ─────────────────────────────────────────────────────────────────
   const wrapperBase = [
-    'flex items-center justify-between gap-4',
+    'flex items-center justify-between gap-stack',
     margin,
     divider ? `pb-${size === 'xs' || size === 'sm' ? '3' : '4'} border-b border-ink-200` : '',
     className,
@@ -272,7 +272,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             </span>
           )}
         </div>
-        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
       </div>
     );
   }
@@ -280,10 +280,10 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   if (variant === 'accent') {
     return (
       <div className={wrapperBase}>
-        <div className="flex items-stretch gap-3 flex-1 min-w-0">
+        <div className="flex items-stretch gap-stack-xs flex-1 min-w-0">
           <span aria-hidden="true" className={['shrink-0 rounded-full', SIZE_BAR_WIDTH[size], TONE_BAR[tone]].join(' ')} />
           <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-stack-xs">
               {renderInlineIcon()}
               <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0 text-balance', titleTracking, titleSize].join(' ')}>
                 {title}
@@ -292,7 +292,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>}
           </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
       </div>
     );
   }
@@ -300,7 +300,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   if (variant === 'underline') {
     return (
       <div className={wrapperBase}>
-        <div className="flex items-end gap-2 flex-1 min-w-0">
+        <div className="flex items-end gap-stack-xs flex-1 min-w-0">
           {renderInlineIcon()}
           <div className="flex flex-col flex-1 min-w-0">
             <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight m-0 text-balance', titleTracking, titleSize].join(' ')}>
@@ -312,7 +312,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             {subtitle && <p className="font-body text-body-sm text-ink-500 leading-snug m-0 mt-tight">{subtitle}</p>}
           </div>
         </div>
-        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
       </div>
     );
   }
@@ -335,7 +335,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             <p className="font-body text-body-sm text-ink-500 leading-snug m-0">{subtitle}</p>
           )}
         </div>
-        {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+        {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
       </div>
     );
   }
@@ -371,7 +371,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           )}
         </div>
       </div>
-      {action && <div className="shrink-0 flex items-center gap-2">{action}</div>}
+      {action && <div className="shrink-0 flex items-center gap-stack-xs">{action}</div>}
     </div>
   );
 };

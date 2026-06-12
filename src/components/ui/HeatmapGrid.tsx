@@ -140,7 +140,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
       {showLegend && (
         <div className="flex flex-wrap gap-stack-xs">
           {LEGEND.map(({ score, label }) => (
-            <div key={score} className="flex items-center gap-1">
+            <div key={score} className="flex items-center gap-tight">
               <span className={['inline-flex items-center justify-center w-6 h-6 rounded text-micro font-bold', SCORE_CLASSES[score]].join(' ')}>
                 {SCORE_LABEL[score]}
               </span>

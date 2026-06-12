@@ -90,7 +90,7 @@ export default function ProfilePrivacy() {
           titleIcon={<Eye size={18} />}
           description="Contrôle comment tes données sont utilisées sur la plateforme."
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             {CONSENT_ITEMS.map((item) => (
               <div
                 key={item.id}
@@ -126,7 +126,7 @@ export default function ProfilePrivacy() {
           titleIcon={<Download size={18} />}
           description="Consulte ou exporte toutes les données que nous détenons sur toi."
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             <Card variant="default" className="flex items-center justify-between px-stack py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Exporter mes données</span>
@@ -155,7 +155,7 @@ export default function ProfilePrivacy() {
           description="La suppression est définitive et irréversible."
         >
           {!showDeleteConfirm ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-stack-xs">
               <Button
                 variant="ghost"
                 size="md"
@@ -168,11 +168,11 @@ export default function ProfilePrivacy() {
               <span className="text-caption text-ink-400">Toutes tes données seront effacées sous 30 jours.</span>
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               <Alert variant="danger" icon={<Trash2 size={18} />}>
                 Cette action est irréversible. Toutes tes données de progression, badges et historique seront supprimés définitivement.
               </Alert>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-stack-xs">
                 <Button variant="ghost" size="md" className="text-danger-fg border border-danger-border hover:bg-danger-bg">
                   Confirmer la suppression
                 </Button>

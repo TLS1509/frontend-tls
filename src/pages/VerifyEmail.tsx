@@ -62,13 +62,13 @@ export const VerifyEmail: React.FC = () => {
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
         !verified ? (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-stack">
             {/* Inbox visual */}
-            <div className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-glass-light">
+            <div className="flex flex-col items-center gap-stack-xs p-5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-glass-light">
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
                 <Inbox size={26} strokeWidth={1.75} />
               </div>
-              <div className="flex flex-col items-center text-center gap-1">
+              <div className="flex flex-col items-center text-center gap-tight">
                 <p className="m-0 font-body text-body-sm text-white/70">
                   Lien envoyé à
                 </p>
@@ -83,7 +83,7 @@ export const VerifyEmail: React.FC = () => {
               Vérifie aussi tes spams si besoin.
             </p>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {/* Demo button : would not exist in prod; simulates clicking the email link */}
               <AuthPrimaryButton onClick={handleSimulateClick}>
                 Simuler la vérification (démo)
@@ -107,7 +107,7 @@ export const VerifyEmail: React.FC = () => {
             title="Email vérifié !"
             description="Ton compte est actif. Continue ton inscription en choisissant ta formule d'abonnement."
           >
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               <AuthPrimaryButton onClick={handleContinue}>
                 Choisir ma formule
               </AuthPrimaryButton>

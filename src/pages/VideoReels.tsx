@@ -198,7 +198,7 @@ const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, liked, saved, label, chi
     : 'border-white/15 bg-black/45 text-white/85 hover:bg-black/55 hover:text-white';
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-tight">
       <button
         onClick={onClick}
         className={`w-[52px] h-[52px] rounded-full border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light ${btnClass}`}
@@ -285,7 +285,7 @@ export const VideoReels: React.FC = () => {
         </button>
 
         {/* Filtres catégorie */}
-        <div className="flex gap-1 p-1.5 rounded-xl bg-black/55 backdrop-blur-glass-light border border-white/10 overflow-x-auto">
+        <div className="flex gap-tight p-1.5 rounded-xl bg-black/55 backdrop-blur-glass-light border border-white/10 overflow-x-auto">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             return (
@@ -348,7 +348,7 @@ export const VideoReels: React.FC = () => {
               >
                 {video.category}
               </span>
-              <span className="ml-auto flex items-center gap-1 font-body text-caption text-white/70">
+              <span className="ml-auto flex items-center gap-tight font-body text-caption text-white/70">
                 <Clock size={11} />
                 {video.duration}
               </span>
@@ -360,7 +360,7 @@ export const VideoReels: React.FC = () => {
 
           {/* Overlay bas : instructeur + description */}
           <div className="absolute bottom-0 left-0 right-0 px-stack-lg pt-section pb-16 bg-gradient-to-t from-black/85 to-transparent z-10">
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-stack-xs mb-3">
               {/* Avatar : gradient tone-aware via tokens */}
               <div
                 className={[
@@ -374,7 +374,7 @@ export const VideoReels: React.FC = () => {
                 <div className="font-body text-body-sm font-semibold text-white/95">
                   {video.instructor}
                 </div>
-                <div className="flex items-center gap-1 font-body text-caption text-white/70 mt-0.5">
+                <div className="flex items-center gap-tight font-body text-caption text-white/70 mt-0.5">
                   <Eye size={10} />
                   {video.views} vues
                 </div>
@@ -413,14 +413,14 @@ export const VideoReels: React.FC = () => {
       </div>
 
       {/* ── Compteur bas de page ─────────────────────────────────── */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-3">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-sticky flex items-center gap-stack-xs">
         <div className="px-5 py-stack-xs rounded-xl bg-black/65 backdrop-blur-glass-light border border-white/10 font-body text-caption font-semibold flex gap-stack-xs">
           <strong className="text-white">{currentIndex + 1}</strong>
           <span className="text-white/70">/</span>
           <span className="text-white/70">{filtered.length}</span>
         </div>
 
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-tight items-center">
           {filtered.map((_, i) => (
             <button
               key={i}

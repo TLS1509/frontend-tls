@@ -87,12 +87,12 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
 
     {/* Examples */}
     {examples.length > 0 && (
-      <ul className="m-0 mt-stack-lg p-0 list-none flex flex-col gap-2">
+      <ul className="m-0 mt-stack-lg p-0 list-none flex flex-col gap-stack-xs">
         {examples.map((example, idx) => (
           <li
             key={idx}
             className={[
-              'flex items-center gap-3 p-4 rounded-xl border',
+              'flex items-center gap-stack-xs p-4 rounded-xl border',
               TONE_BG_50[tone],
               TONE_BORDER_200[tone],
             ].join(' ')}

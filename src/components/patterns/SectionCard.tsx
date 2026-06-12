@@ -44,10 +44,10 @@ export const SectionCard: React.FC<SectionCardProps> = ({
       className={['p-6 flex flex-col gap-stack', className].filter(Boolean).join(' ')}
     >
       {(title || description || headerAction) && (
-        <header className="flex items-start justify-between gap-3 flex-wrap">
-          <div className="flex flex-col gap-1 min-w-0">
+        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
+          <div className="flex flex-col gap-tight min-w-0">
             {title && (
-              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 inline-flex items-center gap-2">
+              <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 inline-flex items-center gap-stack-xs">
                 {titleIcon}
                 {title}
               </h3>
@@ -60,10 +60,10 @@ export const SectionCard: React.FC<SectionCardProps> = ({
         </header>
       )}
 
-      <div className="flex flex-col gap-3 min-w-0">{children}</div>
+      <div className="flex flex-col gap-stack-xs min-w-0">{children}</div>
 
       {actions && (
-        <footer className="flex flex-wrap items-center gap-2 pt-3 border-t border-ink-100">
+        <footer className="flex flex-wrap items-center gap-stack-xs pt-3 border-t border-ink-100">
           {actions}
         </footer>
       )}

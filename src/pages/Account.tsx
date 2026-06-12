@@ -65,7 +65,7 @@ const SettingRow: React.FC<{
   danger?: boolean;
 }> = ({ icon, label, description, children, danger }) => (
   <div className="flex items-center justify-between gap-stack py-5 border-b border-ink-100 last:border-0">
-    <div className="flex items-start gap-3 flex-1 min-w-0">
+    <div className="flex items-start gap-stack-xs flex-1 min-w-0">
       <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-500'}`}>
         {icon}
       </div>
@@ -124,13 +124,13 @@ const GeneralTab: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       <SettingCard title="Informations personnelles">
-        <div className="grid grid-cols-2 gap-5 pt-5 pb-5">
+        <div className="grid grid-cols-2 gap-stack pt-5 pb-5">
           <Input label="Nom complet"     id="name"    value={name}  onChange={(e) => setName(e.target.value)} />
           <Input label="Adresse email"   id="email"   type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
           <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
         </div>
-        <div className="pb-5 flex gap-3">
+        <div className="pb-5 flex gap-stack-xs">
           <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
           <Button variant="secondary" disabled={isSaving}>Annuler</Button>
         </div>
@@ -179,9 +179,9 @@ const SecurityTab: React.FC = () => {
           label="Double authentification (2FA)"
           description={twoFA ? "Activée : votre compte est protégé" : "Désactivée : recommandé pour plus de sécurité"}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             {twoFA && (
-              <span className="flex items-center gap-1 font-body text-caption text-success-fg font-semibold">
+              <span className="flex items-center gap-tight font-body text-caption text-success-fg font-semibold">
                 <CheckCircle2 size={13} /> Activée
               </span>
             )}
@@ -204,7 +204,7 @@ const SecurityTab: React.FC = () => {
               session.current ? 'bg-primary-50' : '',
             ].join(' ')}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-stack-xs">
               <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${session.current ? 'bg-primary-100 text-primary-600' : 'bg-ink-100 text-ink-500'}`}>
                 <Smartphone size={16} />
               </div>
@@ -299,7 +299,7 @@ const BillingTab: React.FC = () => (
             <p className="m-0 mt-0.5 font-body text-caption text-ink-400">/ mois</p>
           </div>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-stack-xs">
           <Button>Gérer l'abonnement</Button>
           <Button variant="secondary">Voir les plans</Button>
         </div>
@@ -326,7 +326,7 @@ const BillingTab: React.FC = () => (
             <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{inv.desc}</p>
             <p className="m-0 mt-0.5 font-body text-caption text-ink-400">{inv.date}</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <span className="font-body text-body-sm font-bold text-ink-900">{inv.amount}</span>
             <Badge variant="success">{inv.status}</Badge>
             <Button variant="link" size="sm" leadingIcon={<Download size={12} />}>PDF</Button>

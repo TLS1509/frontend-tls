@@ -56,7 +56,7 @@ export const DEFAULT_QUALITATIVE_OPTIONS: QualitativeRatingOption[] = [
 /* ─── Style maps ────────────────────────────────────────────────────────────── */
 
 const PILL_BASE =
-  'inline-flex items-center justify-center gap-1.5 rounded-pill ' +
+  'inline-flex items-center justify-center gap-tight.5 rounded-pill ' +
   'font-body font-semibold select-none cursor-pointer ' +
   'border transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
@@ -93,7 +93,7 @@ export const QualitativeRating: React.FC<QualitativeRatingProps> = ({
   wrap = true,
 }) => {
   return (
-    <div className={['flex flex-col gap-2 font-body', className].filter(Boolean).join(' ')}>
+    <div className={['flex flex-col gap-stack-xs font-body', className].filter(Boolean).join(' ')}>
       {label && (
         <span className="text-body-sm font-semibold text-ink-900">
           {label}

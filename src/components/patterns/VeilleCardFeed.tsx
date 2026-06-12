@@ -174,7 +174,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
         )}
 
         {/* Type badge top-left (glass on tone bg) */}
-        <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase tracking-wider text-ink-900 shadow-sm">
+        <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase tracking-wider text-ink-900 shadow-sm">
           <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel}
         </span>
 
@@ -198,14 +198,14 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
       {/* Body content */}
       <div className="flex flex-col gap-stack-xs p-5 flex-1">
-        <div className="inline-flex items-center gap-1.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-          <span className="inline-flex items-center gap-1"><User size={10} strokeWidth={2} />{item.author}</span>
+        <div className="inline-flex items-center gap-tight.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+          <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
           <span aria-hidden>·</span>
           <span>{item.publishedAt}</span>
           <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-1"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
         </div>
 
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
@@ -217,7 +217,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
         </p>
 
         <footer className="flex items-center justify-end pt-stack-xs border-t border-ink-100 mt-stack-xs">
-          <span className={['inline-flex items-center gap-1 font-body text-caption font-bold transition-transform group-hover:translate-x-0.5', TONE_LINK[tone]].join(' ')}>
+          <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5', TONE_LINK[tone]].join(' ')}>
             {isVideo ? <><Play size={11} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={13} /></>}
           </span>
         </footer>
@@ -261,7 +261,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         )}
         {/* Badge catégorie — overlaid en haut de l'image, glassy */}
         <span className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+          <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
             <TypeIcon size={9} strokeWidth={2.5} /> {item.typeLabel}
           </span>
         </span>
@@ -272,14 +272,14 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         <h3 className="m-0 font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
           {item.title}
         </h3>
-        <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
-          <span className="inline-flex items-center gap-1"><User size={10} strokeWidth={2} />{item.author}</span>
+        <div className="flex items-center gap-tight.5 font-body text-micro text-ink-500 flex-wrap">
+          <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
           <span aria-hidden>·</span>
           <span>{item.publishedAt}</span>
           <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-1"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={10} strokeWidth={2} />{item.readTime}</span>
         </div>
         <p className="m-0 font-body text-caption sm:text-body-sm text-ink-600 leading-relaxed line-clamp-2">
           {item.summary}
@@ -303,7 +303,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
             {isSaved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
           </button>
         ) : <span aria-hidden />}
-        <span className={['inline-flex items-center gap-1 font-body text-caption font-bold transition-transform group-hover:translate-x-0.5 whitespace-nowrap', TONE_LINK[tone]].join(' ')}>
+        <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5 whitespace-nowrap', TONE_LINK[tone]].join(' ')}>
           {isVideo ? <><Play size={11} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={13} /></>}
         </span>
       </div>
@@ -343,7 +343,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+        <span className="absolute top-4 left-4 inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
           ✨ À la une
         </span>
         {showSaveButton && onToggleSave && (
@@ -365,7 +365,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
 
       {/* Content (right) */}
       <div className="flex flex-col gap-stack p-6 lg:p-8 justify-center">
-        <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+        <span className={['inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
           <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
         <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
@@ -374,10 +374,10 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <p className="m-0 font-body text-body text-ink-700 leading-relaxed line-clamp-3">
           {item.summary}
         </p>
-        <div className="flex flex-wrap gap-3 items-center text-caption text-ink-600">
-          <span className="inline-flex items-center gap-1"><User size={13} />{item.author}</span>
+        <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
+          <span className="inline-flex items-center gap-tight"><User size={13} />{item.author}</span>
           <span aria-hidden>•</span>
-          <span className="inline-flex items-center gap-1"><Clock size={13} />{item.readTime}</span>
+          <span className="inline-flex items-center gap-tight"><Clock size={13} />{item.readTime}</span>
           <span aria-hidden>•</span>
           <span>{item.publishedAt}</span>
         </div>
@@ -445,7 +445,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
           </div>
-          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+          <span className="absolute top-4 left-4 inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
             ✨ À la une
           </span>
           {showSaveButton && onToggleSave && (
@@ -468,7 +468,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           {items.length > 1 && (
             <div className="absolute bottom-4 inset-x-4 flex items-center justify-between">
               {/* Dots */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-tight.5">
                 {items.map((_, i) => (
                   <button
                     key={i}
@@ -486,7 +486,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
               </div>
 
               {/* Arrow buttons */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <button
                   type="button"
                   aria-label="Précédent"
@@ -516,7 +516,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           role="button"
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
         >
-          <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+          <span className={['inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
             <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
           </span>
           <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">
@@ -525,10 +525,10 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <p className="m-0 font-body text-body text-ink-700 leading-relaxed line-clamp-3">
             {item.summary}
           </p>
-          <div className="flex flex-wrap gap-3 items-center text-caption text-ink-600">
-            <span className="inline-flex items-center gap-1"><User size={13} />{item.author}</span>
+          <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
+            <span className="inline-flex items-center gap-tight"><User size={13} />{item.author}</span>
             <span aria-hidden>•</span>
-            <span className="inline-flex items-center gap-1"><Clock size={13} />{item.readTime}</span>
+            <span className="inline-flex items-center gap-tight"><Clock size={13} />{item.readTime}</span>
             <span aria-hidden>•</span>
             <span>{item.publishedAt}</span>
           </div>
@@ -564,7 +564,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
           <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
@@ -580,7 +580,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
           className,
         ].filter(Boolean).join(' ')}
       >
-        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <p className="m-0 text-4xl">📭</p>
           <p className="m-0 text-body-sm font-medium">{emptyMessage}</p>
         </div>

@@ -97,8 +97,8 @@ const SURFACE: Record<'tinted' | 'plain', string> = {
 };
 
 const SIZE_PILL: Record<'sm' | 'md', string> = {
-  sm: 'h-7 px-2.5 text-micro gap-1.5 rounded-pill',
-  md: 'h-9 px-3.5 text-caption gap-2 rounded-pill',
+  sm: 'h-7 px-2.5 text-micro gap-tight.5 rounded-pill',
+  md: 'h-9 px-3.5 text-caption gap-stack-xs rounded-pill',
 };
 
 const SIZE_COUNT: Record<'sm' | 'md', string> = {
@@ -145,7 +145,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       role="toolbar"
       aria-label={label ?? 'Filtres'}
       className={[
-        'flex flex-wrap items-center gap-2',
+        'flex flex-wrap items-center gap-stack-xs',
         SURFACE[surface],
         className,
       ]
@@ -226,7 +226,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <button
             type="button"
             onClick={handleClear}
-            className={`inline-flex items-center gap-1 px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill ${
+            className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill ${
               variant === 'glass'
                 ? 'text-white/70 hover:text-white'
                 : 'text-ink-500 hover:text-danger-fg'

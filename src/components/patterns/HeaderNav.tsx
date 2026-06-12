@@ -24,18 +24,18 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   showProgressBar = true,
 }) => {
   return (
-    <div className="sticky top-0 z-sticky px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200 flex items-center justify-between gap-4">
+    <div className="sticky top-0 z-sticky px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200 flex items-center justify-between gap-stack">
       <button
         onClick={onBack}
-        className="inline-flex items-center gap-2 bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-pill pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-medium text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className="inline-flex items-center gap-stack-xs bg-ink-50 hover:bg-white border border-ink-200 hover:border-ink-300 rounded-pill pl-2 pr-3.5 py-1.5 cursor-pointer text-ink-700 hover:text-ink-900 font-medium text-caption transition-all hover:-translate-x-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         <ChevronLeft size={16} />
         {backLabel}
       </button>
 
-      <div className="flex items-center gap-4 flex-1 justify-end">
+      <div className="flex items-center gap-stack flex-1 justify-end">
         {showProgressBar && progress !== undefined && (
-          <div className="flex items-center gap-2.5 max-w-[280px] flex-1">
+          <div className="flex items-center gap-stack-xs.5 max-w-[280px] flex-1">
             <span className="text-caption text-ink-500 font-medium whitespace-nowrap hidden sm:inline">
               Progression
             </span>
@@ -57,7 +57,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         )}
 
         {saveMessage && (
-          <span className="inline-flex items-center gap-1.5 text-caption text-success-fg font-semibold animate-[dd-slide-up_0.25s_ease-out]">
+          <span className="inline-flex items-center gap-tight.5 text-caption text-success-fg font-semibold animate-[dd-slide-up_0.25s_ease-out]">
             <CheckCircle2 size={14} />
             {saveMessage}
           </span>

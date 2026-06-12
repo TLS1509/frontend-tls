@@ -76,7 +76,7 @@ export default function PasseportCompetenceDetail() {
         summary={description || `Compétence du domaine ${domain} : suivi Dreyfus 1 à 5.`}
         tone={DOMAIN_TONE[domain]}
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/passeport')}>
               Retour
             </Button>

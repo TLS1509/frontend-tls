@@ -191,7 +191,7 @@ export default function PasseportObjectifs() {
               actions={<Button variant="primary" size="md" onClick={openCreate}>Créer un objectif</Button>}
             />
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {activeGoals.map((g) => {
                 const comp = getCompetenceById(g.competenceId);
                 const isSelected = g.id === selectedId;
@@ -210,18 +210,18 @@ export default function PasseportObjectifs() {
                       onClick={() => setSelectedId(isSelected ? null : g.id)}
                       className="w-full text-left bg-transparent border-0 p-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
                     >
-                      <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex items-start justify-between gap-stack-xs mb-3">
                         <div className="flex flex-col gap-tight">
                           <span className="text-body-sm font-semibold text-ink-900">
                             {comp?.label ?? g.competenceId}
                           </span>
-                          <span className="inline-flex items-center gap-1 text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
+                          <span className="inline-flex items-center gap-tight text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill w-fit font-medium">
                             {comp ? domainLabel(comp.domain) : g.competenceId}
                           </span>
                         </div>
                         <div className="flex items-center gap-stack-xs shrink-0">
                           <Badge variant="neutral" size="sm">D{g.startLevel}→D{g.targetLevel}</Badge>
-                          <span className="text-caption text-ink-400 flex items-center gap-1">
+                          <span className="text-caption text-ink-400 flex items-center gap-tight">
                             <Clock size={11} />
                             {new Date(g.deadline).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                           </span>

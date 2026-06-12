@@ -90,7 +90,7 @@ export default function ManagerEnterprise() {
             {alerts.map((a) => (
               <div
                 key={a.id}
-                className={`flex items-center gap-3 p-3 rounded-lg border ${SEVERITY_STYLE[a.severity]}`}
+                className={`flex items-center gap-stack-xs p-3 rounded-lg border ${SEVERITY_STYLE[a.severity]}`}
               >
                 <AlertTriangle size={16} className="shrink-0" />
                 <span className="text-body-sm flex-1">{a.message}</span>

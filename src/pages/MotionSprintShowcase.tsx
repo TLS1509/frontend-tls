@@ -169,7 +169,7 @@ export const MotionSprintShowcase: React.FC = () => {
           </p>
           <div className="hover-glow-primary">
             <Card className="p-section cursor-pointer transition-all duration-300">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-stack-xs mb-3">
                 <Sparkles className="text-primary-500" size={24} />
                 <h3 className="text-h5 font-semibold text-ink-900">Primary Glow Card</h3>
               </div>
@@ -194,7 +194,7 @@ export const MotionSprintShowcase: React.FC = () => {
           </p>
           <div className="hover-glow-warm">
             <Card className="p-section cursor-pointer transition-all duration-300">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-stack-xs mb-3">
                 <Sparkles className="text-secondary-500" size={24} />
                 <h3 className="text-h5 font-semibold text-ink-900">Warm Glow Card</h3>
               </div>

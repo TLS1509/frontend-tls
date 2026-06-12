@@ -32,7 +32,7 @@ export const SkillBar: React.FC<SkillBarProps> = ({
   const clampedValue = Math.min(100, Math.max(0, value));
 
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
+    <div className={`flex flex-col gap-stack-xs ${className}`}>
       <div className="flex justify-between items-baseline text-body-sm">
         <span className="font-semibold text-ink-900">{label}</span>
         {showValue && (

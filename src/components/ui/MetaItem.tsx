@@ -46,7 +46,7 @@ export const MetaItem: React.FC<MetaItemProps> = ({
   return (
     <div className={classes}>
       <span
-        className={`inline-flex items-center gap-1 font-medium uppercase tracking-wider text-ink-500 ${SIZE_LABEL[size]}`}
+        className={`inline-flex items-center gap-tight font-medium uppercase tracking-wider text-ink-500 ${SIZE_LABEL[size]}`}
       >
         {icon && <span className="inline-flex items-center shrink-0">{icon}</span>}
         {label}

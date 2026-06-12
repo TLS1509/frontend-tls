@@ -76,7 +76,7 @@ export const ChatMessageStagger: React.FC<ChatMessageStaggerProps> = ({
   animationDelay = 0.08,
 }) => {
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
+    <div className={`flex flex-col gap-stack-xs ${className}`}>
       <AnimatePresence>
         {messages.map((message, index) => (
           <MessageBubble

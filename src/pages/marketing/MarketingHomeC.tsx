@@ -97,7 +97,7 @@ export const MarketingHomeC: React.FC = () => (
 
       <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-page items-center">
         <div className="flex flex-col gap-stack-lg">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-accent-50 border border-accent-200 w-fit">
+          <span className="inline-flex items-center gap-stack-xs px-3 py-1 rounded-pill bg-accent-50 border border-accent-200 w-fit">
             <Sparkles size={14} className="text-accent-500" />
             <span className="font-body text-caption font-semibold text-warning-fg tracking-wider uppercase">
               Une école pour les formateurs augmentés
@@ -118,7 +118,7 @@ export const MarketingHomeC: React.FC = () => (
             sans s'y soumettre. Des artisans qui combinent technologie et présence.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 pt-stack">
+          <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
             <Link to="/marketing/formation">
               <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Devenir Formateur Augmenté
@@ -142,7 +142,7 @@ export const MarketingHomeC: React.FC = () => (
             />
           </div>
           {/* Floating quote card */}
-          <div className="absolute -bottom-6 -left-6 max-w-xs bg-white rounded-2xl shadow-xl border border-ink-100 p-stack-lg flex flex-col gap-2">
+          <div className="absolute -bottom-6 -left-6 max-w-xs bg-white rounded-2xl shadow-xl border border-ink-100 p-stack-lg flex flex-col gap-stack-xs">
             <Quote size={20} className="text-secondary-500" />
             <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
               "Je ne forme plus, je crée des expériences."
@@ -192,7 +192,7 @@ export const MarketingHomeC: React.FC = () => (
               className={`grid grid-cols-1 md:grid-cols-2 gap-page items-center ${i % 2 === 1 ? 'md:grid-flow-dense' : ''}`}
             >
               <div className={`flex flex-col gap-stack ${i % 2 === 1 ? 'md:col-start-2' : ''}`}>
-                <span className="inline-flex items-center gap-2 font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
+                <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
                   <span className="inline-flex items-center justify-center w-9 h-9 rounded-pill bg-secondary-100 text-secondary-700">
                     {icon}
                   </span>
@@ -282,11 +282,11 @@ export const MarketingHomeC: React.FC = () => (
               }`}
             >
               {t.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 rounded-pill bg-accent-400 text-ink-900 text-caption font-bold uppercase tracking-wider">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-tight px-3 py-1 rounded-pill bg-accent-400 text-ink-900 text-caption font-bold uppercase tracking-wider">
                   Recommandé
                 </span>
               )}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-tight">
                 <span className={`font-body text-caption font-bold uppercase tracking-wider ${t.highlight ? 'text-accent-300' : 'text-secondary-600'}`}>
                   {t.label}
                 </span>
@@ -319,7 +319,7 @@ export const MarketingHomeC: React.FC = () => (
           Si tu sens que la formation peut être autre chose qu'un déversement de contenu,
           on est faits pour se rencontrer.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+        <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
           <Link to="/marketing/contact">
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Échanger 30 minutes

@@ -158,7 +158,7 @@ export const Profile: React.FC = () => {
           </div>
 
           {/* Identity */}
-          <div className="flex-1 min-w-0 flex flex-col gap-1">
+          <div className="flex-1 min-w-0 flex flex-col gap-tight">
             <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
               {displayName}
             </h1>
@@ -166,11 +166,11 @@ export const Profile: React.FC = () => {
               {USER.role} · {USER.username}
             </p>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-500">
-              <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
+              <span className="inline-flex items-center gap-tight.5"><Mail size={12} /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
+              <span className="inline-flex items-center gap-tight.5"><MapPin size={12} /> {USER.location}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-1.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
+              <span className="inline-flex items-center gap-tight.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
             </div>
           </div>
 
@@ -200,7 +200,7 @@ export const Profile: React.FC = () => {
           {activeTab === 'overview' && (
             <div className="flex flex-col gap-section">
               {/* Stats compact strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
                 {HERO_STATS.map((s) => (
                   <div key={s.label} className="flex flex-col gap-tight">
                     <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-tight tabular-nums">
@@ -220,7 +220,7 @@ export const Profile: React.FC = () => {
                   <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
                     {USER.bio}
                   </p>
-                  <div className="flex flex-wrap gap-1.5 mt-stack-xs">
+                  <div className="flex flex-wrap gap-tight.5 mt-stack-xs">
                     {USER.interests.map((interest) => (
                       <span
                         key={interest}
@@ -238,7 +238,7 @@ export const Profile: React.FC = () => {
                   </h2>
                   <div className="flex flex-col gap-stack">
                     {WEEK_KPIS.map((k) => (
-                      <div key={k.label} className="flex items-center gap-3">
+                      <div key={k.label} className="flex items-center gap-stack-xs">
                         <span className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg bg-ink-50 text-ink-700">
                           {k.icon}
                         </span>
@@ -258,7 +258,7 @@ export const Profile: React.FC = () => {
 
               {/* Top compétences (preview) */}
               <section className="flex flex-col gap-stack">
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex items-baseline justify-between gap-stack-xs">
                   <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                     Top compétences
                   </h2>
@@ -277,7 +277,7 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'activity' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex items-baseline justify-between gap-stack-xs">
                 <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Activité récente
                 </h2>
@@ -321,7 +321,7 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'badges' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex items-baseline justify-between gap-stack-xs">
                 <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Badges
                 </h2>
@@ -329,7 +329,7 @@ export const Profile: React.FC = () => {
                   {earnedCount}/{BADGES.length} débloqués
                 </span>
               </div>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-stack-xs">
                 {BADGES.map((badge) => (
                   <div
                     key={badge.id}
@@ -373,7 +373,7 @@ export const Profile: React.FC = () => {
 
           {activeTab === 'skills' && (
             <section className="flex flex-col gap-stack">
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex items-baseline justify-between gap-stack-xs">
                 <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Matrice de compétences
                 </h2>

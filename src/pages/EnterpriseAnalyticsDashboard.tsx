@@ -74,7 +74,7 @@ export default function EnterpriseAnalyticsDashboard() {
         summary="Vue cross-équipes des KPIs d'engagement, de progression Dreyfus et d'utilisation des ressources coaching."
         tone="brand"
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>
               Exporter le rapport
             </Button>
@@ -132,7 +132,7 @@ export default function EnterpriseAnalyticsDashboard() {
             <SectionCard title="Taux d'engagement par semaine" titleIcon={<BarChart3 size={18} />}>
               <div className="flex items-end gap-stack-xs h-40">
                 {[62, 68, 71, 65, 74, 70, 78, 68].map((val, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div key={i} className="flex-1 flex flex-col items-center gap-tight">
                     <div
                       className="w-full bg-primary-400 rounded-t-sm transition-all duration-slow"
                       style={{ height: `${val}%` }}
@@ -194,7 +194,7 @@ export default function EnterpriseAnalyticsDashboard() {
 
         {activeTab === 'competences' && (
           <SectionCard title="Progression par compétence (toute l'entreprise)" titleIcon={<TrendingUp size={18} />}>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {['Leadership', 'Communication', 'Analyse', 'Tech & Outils', 'Créativité', 'Coopération'].map((comp, i) => {
                 const dreyfusAvgs = [3.2, 3.5, 2.8, 3.7, 2.4, 3.1];
                 const avg = dreyfusAvgs[i];

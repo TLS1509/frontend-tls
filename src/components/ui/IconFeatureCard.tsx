@@ -174,9 +174,9 @@ const TITLE_SIZE: Record<IconFeatureCardIconSize, string> = {
 const PADDING_BY_SIZE: Record<IconFeatureCardIconSize, string> = {
   xs: 'px-1.5 py-2.5',  // 6px H · 10px V  (60%)
   sm: 'px-2 py-3',      // 8px H · 12px V  (67%)
-  md: 'px-3 py-4',      // 12px H · 16px V (75%)
+  md: 'px-3 py-stack',      // 12px H · 16px V (75%)
   lg: 'px-4 py-5',      // 16px H · 20px V (80%)
-  xl: 'px-5 py-6',      // 20px H · 24px V (83%)
+  xl: 'px-5 py-stack-lg',      // 20px H · 24px V (83%)
 };
 
 /* Bubble container size par iconSize */

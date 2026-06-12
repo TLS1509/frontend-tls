@@ -530,6 +530,233 @@ catégories adjacentes premium**, jamais par le secteur « learning ».
 | Kanban boards | Current/Asana | Team collab ≠ learner journey personnel |
 | All-caps gamification | Duolingo-like | Trop bruyant, audience adulte formée |
 
+## 🔍 CASE STUDY: Until Labs — Parallax Architecture Reverse-Engineered
+
+> **Référence live** : https://www.untillabs.com/  
+> **Analyse** : Hero scrolling avec parallax multi-layer + animated molecules  
+> **Verdict** : ✅ Réplicable en TLS avec Framer Motion (budget okay)
+
+### **Comment Until le fait (stack technique)**
+
+**Framework & Libraries:**
+- **Next.js 15+** (React 19) — evidenced by Tailwind class density + fixed positioning patterns
+- **Framer Motion** — inferred from `willChange: transform, opacity` and scroll-tracking patterns
+- **Tailwind CSS v4** — class names like `hero-fade-in`, `will-change-*`, `fixed`, `top-[12%]`
+- **SVG + Canvas** — molecules/particles likely rendered as SVG with `<motion.svg>` wrapper
+
+**Parallax Mechanism (3-layer pattern):**
+
+```
+Hero section = 100vh full-bleed
+├─ Layer 1 (Photo background)
+│  └─ useTransform(scrollY, [0, 1000], [0, -300])  // 30% of scroll
+├─ Layer 2 (3D Illustrations + couple)
+│  └─ useTransform(scrollY, [0, 1000], [0, -700])  // 70% of scroll
+└─ Layer 3 (Floating molecules)
+   └─ y: useTransform() + animate={{ rotate: 360 }}  // parallax + infinite rotation
+```
+
+**Framer Motion Pattern:**
+```jsx
+const scrollY = useScroll(); // browser scroll tracked
+const photoY = useTransform(scrollY, [0, 1000], [0, -300]);
+const illustY = useTransform(scrollY, [0, 1000], [0, -700]);
+
+<motion.div style={{ y: photoY }} className="photo" />
+<motion.div style={{ y: illustY }} className="illustrations" />
+<motion.svg
+  animate={{ rotate: 360 }}
+  transition={{ duration: 8, repeat: Infinity }}
+/>
+```
+
+**CSS optimizations:**
+- `will-change: transform, opacity` — GPU acceleration
+- `fixed` positioning pour navbar glassmorphe qui devient opaque au scroll
+- Tailwind utilities pour spacing + layout (zéro inline styles)
+
+---
+
+### **Adaptations proposées pour TLS (3 tiers: Budget-Conscious → Premium)**
+
+#### **Tier 1 — MVP Parallax (5-7 jours, Haiku complexity)**
+
+**Setup:**
+```jsx
+// src/components/marketing/motion/HeroParallax.tsx
+import { useScroll, useTransform, motion } from 'framer-motion';
+
+export function HeroParallax() {
+  const scrollY = useScroll();
+  
+  // 2 layers au lieu de 3 (plus simple)
+  const bgY = useTransform(scrollY, [0, 800], [0, -200]);      // slow
+  const contentY = useTransform(scrollY, [0, 800], [0, -400]); // medium
+  
+  return (
+    <section className="relative min-h-[100dvh] overflow-hidden">
+      {/* Layer 1: Mesh gradient background */}
+      <motion.div
+        style={{ y: bgY }}
+        className="absolute inset-0 bg-gradient-to-br from-primary-50 via-accent-50 to-secondary-50"
+      />
+      
+      {/* Layer 2: Content (text + CTA) */}
+      <motion.div style={{ y: contentY }} className="relative z-10 flex items-center justify-center h-full">
+        <h1>Titre avec parallax</h1>
+        <Button>CTA</Button>
+      </motion.div>
+    </section>
+  );
+}
+```
+
+**Assets TLS:**
+- ❌ Pas d'illustration hyperréaliste
+- ✅ Mesh gradient Tailwind (déjà dans DS)
+- ✅ Texte blanc centré + CTA orange
+- ✅ Navbar glassmorphe (déjà implémentée)
+
+**Cost:** Framer Motion déjà installed, zéro assets externes.
+
+---
+
+#### **Tier 2 — Illustrated Parallax (12-15 jours, Sonnet complexity)**
+
+**Ajout vs Tier 1:**
+- 1 illustration watercolor (Procreate) posée en parallax
+- Blobs SVG petits qui flottent + tournent
+
+**Setup:**
+```jsx
+export function HeroParallax() {
+  const scrollY = useScroll();
+  const bgY = useTransform(scrollY, [0, 800], [0, -150]);
+  const illustY = useTransform(scrollY, [0, 800], [0, -350]);
+  
+  return (
+    <section className="relative min-h-[100dvh] overflow-hidden">
+      {/* Mesh gradient */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 bg-mesh-gradient" />
+      
+      {/* Watercolor illustration (Procreate export PNG) */}
+      <motion.img
+        src="/illustrations/hero-watercolor.png"
+        style={{ y: illustY, opacity: 0.85 }}
+        className="absolute inset-0 object-cover mix-blend-overlay"
+      />
+      
+      {/* Floating SVG blobs */}
+      <motion.svg
+        className="absolute top-1/4 right-1/4 w-48 h-48"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 12, repeat: Infinity }}
+      >
+        <circle cx="100" cy="100" r="60" fill="rgba(85, 161, 180, 0.3)" />
+      </motion.svg>
+      
+      {/* Content */}
+      <motion.div style={{ y: illustY }} className="relative z-10">
+        <h1>Titre</h1>
+      </motion.div>
+    </section>
+  );
+}
+```
+
+**Assets TLS:**
+- ✅ 1 watercolor hero (Procreate, ~4h)
+- ✅ 2-3 small SVG blobs (code, ~1h)
+- ✅ Mesh gradient (Tailwind, déjà fait)
+
+**Cost:** ~15h design/code. Budget Procreate subscription (monthly).
+
+---
+
+#### **Tier 3 — Premium (Until-level, 3-4 semaines, Full Team)**
+
+**Ajout vs Tier 2:**
+- 3 illustrations watercolor (Home + Formation + App showcase)
+- 5-8 animated SVG molecules (avec variantes)
+- Advanced: 3D perspective tilt on cards
+- Video background subtle (6-10sec loop)
+
+**Setup (formation hero example):**
+```jsx
+export function FormationHeroParallax() {
+  const scrollY = useScroll();
+  const strideY = useTransform(scrollY, [0, 1200], [0, -500]);
+  
+  return (
+    <section className="relative min-h-[100dvh]">
+      {/* STRIDE diagram watercolor */}
+      <motion.svg
+        style={{ y: strideY }}
+        className="absolute inset-0"
+        viewBox="0 0 1000 600"
+      >
+        {/* Hand-drawn lines connecting Learn → Do → Match */}
+        <path className="stroke-primary-400" d="M100,300 Q250,150 400,300 T700,300" />
+        <circle cx="100" cy="300" r="40" fill="rgba(85,161,180,0.2)" />
+        <circle cx="400" cy="300" r="40" fill="rgba(237,132,58,0.2)" />
+        <circle cx="700" cy="300" r="40" fill="rgba(248,176,68,0.2)" />
+        
+        {/* Étapes labels */}
+        <text x="100" y="320">Apprendre</text>
+        <text x="400" y="320">Pratiquer</text>
+        <text x="700" y="320">Valider</text>
+      </motion.svg>
+      
+      {/* Floating molecules */}
+      <AnimatedMolecules count={7} />
+      
+      {/* Copy + CTA */}
+      <motion.div style={{ y: strideY }} className="relative z-10">
+        <h1>La formation qui valide</h1>
+      </motion.div>
+    </section>
+  );
+}
+```
+
+**Assets TLS:**
+- ✅ 3 watercolor illustrations (Procreate, ~12h)
+- ✅ 8 SVG molecules variant system (code, ~4h)
+- ✅ Hero video subtitle (After Effects, ~3h)
+- ✅ Tilt card 3D (Framer Motion rotateX/Y, ~2h)
+
+**Cost:** ~21h production + video editing. Premium but magazine-grade.
+
+---
+
+### **Decision Matrix — Quelle Tier?**
+
+| Critère | Tier 1 | Tier 2 | Tier 3 |
+|---------|--------|--------|--------|
+| **Timeline** | 1 week | 2 weeks | 4 weeks |
+| **Design assets** | 0 | 1 Procreate file | 3 Procreate + video |
+| **Code complexity** | useScroll + 2 layers | + illustration + SVG blobs | + 3D tilt + video |
+| **Budget** | Free (Framer Motion) | +Procreate (monthly) | +Procreate +AE (one-time) |
+| **Visual impact** | Subtle, clean | Strong, memorable | Premium, signature |
+| **TLS fit** | ✅ Safe | ✅✅ Recommended | ✅✅✅ Ambitious |
+| **Risk** | Low | Medium | High (video sync issues) |
+
+**Recommendation:** **Start Tier 2** (Illustrated Parallax). Balance impact vs timeline. Tier 1 = too minimal (lose the wow). Tier 3 = over-scope for V1.
+
+---
+
+### **Implementation Checklist (Tier 2)**
+
+- [ ] **Framer Motion setup** : `useScroll()` hook in main layout
+- [ ] **Procreate illustration** : watercolor hero (teal + orange palette, 50% opacity, 1920×1080px)
+- [ ] **SVG blobs** : 3 blob shapes, `animate={{ rotate: 360 }}`, duration 8-12s
+- [ ] **Test parallax** : mobile (375px) + desktop (1440px), no jank at 60fps
+- [ ] **Navbar transition** : backdrop-blur + opacity change at scroll trigger (threshold: 200px)
+- [ ] **Dark mode** : adjust opacity of illustration for contrast
+- [ ] **Performance audit** : Lighthouse > 85, CLS < 0.1
+
+---
+
 ## ✨ AUTORISÉ — MÊME ENCOURAGÉ — EN PETITES TOUCHES (la nuance « Augmenté »)
 
 TLS **est** tech/IA (la Learning App intègre de l'IA). Montrer de la sophistication **renforce** le pilier *Augmenté* — au lieu de le trahir. La règle n'est pas *interdire*, c'est **doser + intentionner** : jamais l'esthétique dominante générique, jamais du décoratif gratuit, mais oui à des **moments forts délibérés**.

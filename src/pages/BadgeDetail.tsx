@@ -101,7 +101,7 @@ export default function BadgeDetail() {
         summary={badge.description}
         tone={tone === 'primary' ? 'default' : tone}
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <Button variant="glass" size="md" leadingIcon={<Share2 size={16} />} onClick={handleShare}>
               Partager
             </Button>
@@ -134,7 +134,7 @@ export default function BadgeDetail() {
             {earned ? (
               <Badge variant="success" size="lg">Obtenu le {formatDate(userBadge!.earnedAt)}</Badge>
             ) : (
-              <Badge variant="neutral" size="lg" className="inline-flex items-center gap-1">
+              <Badge variant="neutral" size="lg" className="inline-flex items-center gap-tight">
                 <Lock size={12} /> Pas encore obtenu
               </Badge>
             )}
@@ -187,7 +187,7 @@ export default function BadgeDetail() {
 
         {/* Criteria */}
         <SectionCard title="Critères d'obtention" titleIcon={<ChevronRight size={18} />}>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-stack-xs">
             {badge.criteria.map((c, i) => (
               <li key={i} className="flex items-start gap-stack">
                 <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-caption font-bold shrink-0 ${earned ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-400'}`}>

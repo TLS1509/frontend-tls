@@ -58,7 +58,7 @@ export default function OnboardingSuccess() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
       <AmbientBlobs intensity="normal" />
 
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-page flex flex-col gap-section-lg">
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-page flex flex-col gap-section-lg">
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-center">

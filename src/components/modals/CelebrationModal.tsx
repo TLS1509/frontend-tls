@@ -125,13 +125,13 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         </h2>
 
         {description && (
-          <p className="relative m-0 mx-auto mb-6 max-w-[400px] text-body-lg text-ink-700 leading-relaxed">
+          <p className="relative m-0 mx-auto mb-stack-lg max-w-[400px] text-body-lg text-ink-700 leading-relaxed">
             {description}
           </p>
         )}
 
         {actions && (
-          <div className="relative flex gap-3 justify-center flex-wrap">
+          <div className="relative flex gap-stack-xs justify-center flex-wrap">
             {actions}
           </div>
         )}

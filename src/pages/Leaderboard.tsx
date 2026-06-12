@@ -127,11 +127,11 @@ export const Leaderboard: React.FC = () => {
         </div>
 
         {/* Section heading + period filter */}
-        <div className="flex items-baseline justify-between gap-3 flex-wrap">
+        <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
           <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight text-balance">
             Classement
           </h2>
-          <div className="flex gap-1 p-1 rounded-pill bg-ink-100">
+          <div className="flex gap-tight p-1 rounded-pill bg-ink-100">
             {PERIODS.map((p) => (
               <button
                 key={p.id}
@@ -170,7 +170,7 @@ export const Leaderboard: React.FC = () => {
                 </div>
 
                 {/* Avatar + name */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-stack-xs">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center text-body-sm font-extrabold shrink-0 ${pod.avatarClasses}`}>
                     {entry.initials}
                   </div>
@@ -182,15 +182,15 @@ export const Leaderboard: React.FC = () => {
 
                 {/* Stats pills */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Flame size={13} className={pod.iconClasses} />
                     {entry.streak}j streak
                   </span>
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Star size={12} className={pod.iconClasses} />
                     Niv.&nbsp;{entry.level}
                   </span>
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Zap size={12} className={pod.iconClasses} />
                     {entry.xp.toLocaleString('fr-FR')} XP
                   </span>
@@ -233,7 +233,7 @@ export const Leaderboard: React.FC = () => {
             </Card>
           )}
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             {paginatedRanking.map((entry) => (
               <RankingCard
                 key={entry.id}
@@ -263,7 +263,7 @@ export const Leaderboard: React.FC = () => {
 
         {/* Weekly goal */}
         <Card variant="tinted" tone="primary" className="p-stack-lg flex flex-col gap-stack">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <div className="w-11 h-11 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
               <Zap size={20} strokeWidth={1.8} />
             </div>

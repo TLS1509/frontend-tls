@@ -58,11 +58,11 @@ const MessagingThread: React.FC = () => {
       />
 
       <Container width="content" padding={false} className="flex-1 px-stack py-section flex flex-col gap-stack">
-        <Card className="p-stack flex items-center gap-3">
+        <Card className="p-stack flex items-center gap-stack-xs">
           <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">
             <div className="font-semibold">{coachName}</div>
-            <div className="text-caption text-success-fg flex items-center gap-1">
+            <div className="text-caption text-success-fg flex items-center gap-tight">
               <span className="w-2 h-2 rounded-full bg-success-base" /> En ligne
             </div>
           </div>
@@ -73,7 +73,7 @@ const MessagingThread: React.FC = () => {
           {messages.map((m) => (
             <div key={m.id} className={`flex gap-stack-xs ${m.isMe ? 'flex-row-reverse' : ''}`}>
               {!m.isMe && <Avatar initials={m.initials} size="sm" />}
-              <div className={`max-w-[70%] ${m.isMe ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
+              <div className={`max-w-[70%] ${m.isMe ? 'items-end' : 'items-start'} flex flex-col gap-tight`}>
                 <div
                   className={`px-stack py-3 rounded-2xl ${
                     m.isMe
@@ -83,7 +83,7 @@ const MessagingThread: React.FC = () => {
                 >
                   <p className="text-body-sm leading-relaxed">{m.text}</p>
                 </div>
-                <div className="flex items-center gap-1 text-caption text-ink-500 px-2">
+                <div className="flex items-center gap-tight text-caption text-ink-500 px-2">
                   <span>{m.time}</span>
                   {m.isMe && (m.read ? <CheckCheck className="w-3 h-3" /> : <Check className="w-3 h-3" />)}
                 </div>

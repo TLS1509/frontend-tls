@@ -54,7 +54,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
     onClose();
   };
 
-  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-2 font-bold text-body-sm transition-all font-body';
+  const CONFIRM_BTN_BASE = 'w-full py-3.5 px-4 rounded-xl border-[1.5px] flex items-center justify-center gap-stack-xs font-bold text-body-sm transition-all font-body';
   const CONFIRM_BTN_ENABLED = 'border-secondary-500/40 bg-secondary-500/8 text-secondary-700 cursor-pointer hover:bg-secondary-500/14';
   const CONFIRM_BTN_DISABLED = 'border-ink-200 bg-ink-50 text-ink-600 opacity-50 cursor-not-allowed';
 
@@ -82,7 +82,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
         {step === 'confirm' ? (
           <>
             {/* Warning icon */}
-            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-4">
+            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-secondary-500/15 to-secondary-500/6 border border-secondary-500/25 flex items-center justify-center mx-auto mb-stack">
               <AlertTriangle size={26} className="text-secondary-600" />
             </div>
 
@@ -98,13 +98,13 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
               <p className="text-body-sm font-bold text-ink-900 mb-0.5">
                 {sessionTitle}
               </p>
-              <p className="text-micro text-ink-600 flex items-center gap-1">
+              <p className="text-micro text-ink-600 flex items-center gap-tight">
                 📅 {sessionDate}
               </p>
             </div>
 
             {/* Reason dropdown */}
-            <div className="mb-6">
+            <div className="mb-stack-lg">
               <label className="block mb-2 text-body-sm font-semibold text-ink-900">
                 Motif d'annulation <span className="text-secondary-600">*</span>
               </label>
@@ -124,7 +124,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {/* Reschedule (primary action) */}
               <Button
                 variant="primary"
@@ -148,7 +148,7 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
           </>
         ) : (
           /* Done state */
-          <div className="text-center py-6 animate-[csoFadeIn_0.4s_ease_both]">
+          <div className="text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
             <div className="text-[3rem] mb-3">✅</div>
             <h3 className="text-h4 font-bold text-ink-900 mb-2">
               Session annulée

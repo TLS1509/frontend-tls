@@ -200,7 +200,7 @@ const ModuleTimeline: React.FC = () => {
   return (
     <div className="relative">
       {/* Scroll controls — desktop only */}
-      <div className="hidden md:flex items-center justify-end gap-2 mb-stack">
+      <div className="hidden md:flex items-center justify-end gap-stack-xs mb-stack">
         <button
           type="button"
           onClick={() => scrollBy(-1)}
@@ -222,7 +222,7 @@ const ModuleTimeline: React.FC = () => {
       {/* Scroller */}
       <div
         ref={scrollerRef}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 -mx-6 pb-stack"
+        className="flex gap-stack overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 -mx-6 pb-stack"
         style={{ scrollbarWidth: 'thin' }}
       >
         {MODULES.map((m, i) => (
@@ -238,7 +238,7 @@ const ModuleTimeline: React.FC = () => {
               <span className="font-display text-h2 font-extrabold text-primary-600 leading-none tracking-tight">
                 {m.n}
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-primary-50 text-primary-700 text-caption font-bold">
+              <span className="inline-flex items-center gap-tight px-2 py-1 rounded-lg bg-primary-50 text-primary-700 text-caption font-bold">
                 <Clock size={12} />
                 {m.duration}
               </span>
@@ -249,7 +249,7 @@ const ModuleTimeline: React.FC = () => {
             <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
               {m.desc}
             </p>
-            <div className="pt-stack border-t border-ink-100 flex items-center gap-2">
+            <div className="pt-stack border-t border-ink-100 flex items-center gap-stack-xs">
               <span className="font-body text-caption font-semibold text-primary-600">
                 Module {m.n}
               </span>
@@ -267,7 +267,7 @@ const FaqAccordion: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-stack-xs">
       {FAQ.map((item, i) => {
         const isOpen = openIndex === i;
         return (
@@ -343,7 +343,7 @@ export const MarketingFormation: React.FC = () => {
         </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Award size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Programme certifiant · Open Badge 2.0
@@ -366,7 +366,7 @@ export const MarketingFormation: React.FC = () => {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <a href="#pricing">
                   <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -503,7 +503,7 @@ export const MarketingFormation: React.FC = () => {
           </div>
 
           <FadeInWhenVisible direction="left" delay={0.15}>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 m-0 p-0 list-none">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs m-0 p-0 list-none">
               {COMPETENCES_CLES.map((c, i) => (
                 <motion.li
                   key={c}
@@ -511,7 +511,7 @@ export const MarketingFormation: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.4, delay: i * 0.04, ease: [0.21, 0.47, 0.32, 0.98] }}
-                  className="flex items-start gap-2.5 p-3 rounded-xl bg-primary-50/50 border border-primary-100"
+                  className="flex items-start gap-stack-xs.5 p-3 rounded-xl bg-primary-50/50 border border-primary-100"
                 >
                   <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
                   <span className="font-body text-body-sm text-ink-800 leading-snug">{c}</span>
@@ -527,7 +527,7 @@ export const MarketingFormation: React.FC = () => {
         <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-page items-center">
           <div className="flex flex-col gap-stack-lg">
             <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
+              <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
                 <Award size={14} className="text-primary-700" />
                 <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                   Partenariat d'excellence
@@ -548,14 +548,14 @@ export const MarketingFormation: React.FC = () => {
               </p>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.3}>
-              <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+              <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
                   'Organisme de formation référencé Qualiopi',
                   'Éligible CPF et prise en charge OPCO selon ton secteur',
                   'Open Badge 2.0 vérifiable par cryptographie',
                   'Reconnaissance LinkedIn et France Compétences',
                 ].map((f) => (
-                  <li key={f} className="flex items-start gap-2 font-body text-body text-ink-700">
+                  <li key={f} className="flex items-start gap-stack-xs font-body text-body text-ink-700">
                     <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
                     {f}
                   </li>
@@ -575,7 +575,7 @@ export const MarketingFormation: React.FC = () => {
                 <div className="w-16 h-16 rounded-lg bg-primary-50 flex items-center justify-center">
                   <Award size={32} className="text-primary-600" />
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-tight">
                   <span className="font-display text-h2 font-extrabold text-ink-900 leading-none">
                     C-Campus
                   </span>
@@ -583,7 +583,7 @@ export const MarketingFormation: React.FC = () => {
                     Partenaire certifiant
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-2 pt-stack">
+                <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                   {['Qualiopi', 'OPCO', 'CPF'].map((b) => (
                     <span
                       key={b}
@@ -638,13 +638,13 @@ export const MarketingFormation: React.FC = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.3, type: 'spring', stiffness: 240 }}
-                      className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 rounded-pill bg-accent-400 text-ink-900 text-caption font-bold uppercase tracking-wider shadow-lg whitespace-nowrap"
+                      className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-tight px-3 py-1 rounded-pill bg-accent-400 text-ink-900 text-caption font-bold uppercase tracking-wider shadow-lg whitespace-nowrap"
                     >
                       <Sparkles size={12} />
                       Recommandé
                     </motion.span>
                   )}
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-tight">
                     <span
                       className={`font-body text-caption font-bold uppercase tracking-wider ${
                         p.highlight ? 'text-accent-200' : 'text-secondary-600'
@@ -667,11 +667,11 @@ export const MarketingFormation: React.FC = () => {
                       {p.desc}
                     </p>
                   </div>
-                  <ul className="flex flex-col gap-2 m-0 p-0 list-none flex-1">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none flex-1">
                     {p.features.map((f) => (
                       <li
                         key={f}
-                        className={`flex items-start gap-2 font-body text-body-sm ${
+                        className={`flex items-start gap-stack-xs font-body text-body-sm ${
                           p.highlight ? 'text-white/95' : 'text-ink-700'
                         }`}
                       >
@@ -716,7 +716,7 @@ export const MarketingFormation: React.FC = () => {
               ].map((b) => (
                 <div
                   key={b.label}
-                  className="flex items-center gap-2 px-stack py-1 rounded-pill bg-ink-50 border border-ink-100"
+                  className="flex items-center gap-stack-xs px-stack py-1 rounded-pill bg-ink-50 border border-ink-100"
                 >
                   <span className="text-primary-700">{b.icon}</span>
                   <span className="font-body text-caption font-semibold text-ink-700">{b.label}</span>
@@ -763,7 +763,7 @@ export const MarketingFormation: React.FC = () => {
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/contact">
                   <Button

@@ -32,7 +32,7 @@ export const CoachRow: React.FC<CoachRowProps> = ({
   const glassVariant = tint === 'warm' ? 'glass-warm' : 'glass-brand';
 
   return (
-    <div className={`flex flex-wrap items-center gap-3 p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60 ${className}`}>
       <Avatar initials={coachInitials} size="sm" tint={tint} />
       <div className="flex flex-col min-w-0 flex-1">
         <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">

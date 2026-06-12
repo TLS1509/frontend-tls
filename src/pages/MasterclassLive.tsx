@@ -35,9 +35,9 @@ export default function MasterclassLive() {
         title="Leadership en temps de crise"
         summary="Session en cours avec Marie Fontaine · DRH · Groupe Vinci"
         trailing={
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-stack-xs flex-wrap">
             <Badge variant="danger" size="md" className="animate-pulse">🔴 EN DIRECT</Badge>
-            <span className="text-caption text-white/70 flex items-center gap-1">
+            <span className="text-caption text-white/70 flex items-center gap-tight">
               <Users size={13} />
               127 participants
             </span>

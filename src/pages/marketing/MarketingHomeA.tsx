@@ -50,7 +50,7 @@ export const MarketingHomeA: React.FC = () => (
       </div>
 
       <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white border border-ink-200 shadow-xs">
+        <span className="inline-flex items-center gap-stack-xs px-3 py-1 rounded-pill bg-white border border-ink-200 shadow-xs">
           <Sparkles size={14} className="text-accent-400" />
           <span className="font-body text-caption font-semibold text-ink-700 tracking-wider uppercase">
             La formation augmentée par l'IA
@@ -70,7 +70,7 @@ export const MarketingHomeA: React.FC = () => (
           pour créer des parcours qui transforment durablement.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+        <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
           <Link to="/marketing/formation">
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Devenir Formateur Augmenté
@@ -167,13 +167,13 @@ export const MarketingHomeA: React.FC = () => (
         {/* App mockup: laptop frame inline */}
         <div className="w-full max-w-5xl relative">
           <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-900 to-primary-700 shadow-2xl border-8 border-ink-900">
-            <div className="h-8 bg-ink-900 flex items-center px-3 gap-1.5">
+            <div className="h-8 bg-ink-900 flex items-center px-3 gap-tight.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-accent-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-success-base" />
             </div>
-            <div className="p-8 bg-white h-[calc(100%-2rem)] flex flex-col gap-4">
-              <div className="flex items-center gap-3">
+            <div className="p-8 bg-white h-[calc(100%-2rem)] flex flex-col gap-stack">
+              <div className="flex items-center gap-stack-xs">
                 <TlsLogo size={28} />
                 <span className="font-display font-bold text-h4 text-ink-900">Tableau de bord</span>
               </div>
@@ -182,9 +182,9 @@ export const MarketingHomeA: React.FC = () => (
                 <p className="font-display text-h2 font-bold m-0 mt-2">Bienvenue Marie 👋</p>
                 <p className="text-body-sm opacity-90 m-0 mt-2">Ton parcours Leadership t'attend: étape 4 sur 7.</p>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-stack-xs">
                 {['Parcours', 'Coaching', 'Veille'].map((t) => (
-                  <div key={t} className="rounded-xl bg-ink-50 p-3 flex flex-col gap-1">
+                  <div key={t} className="rounded-xl bg-ink-50 p-3 flex flex-col gap-tight">
                     <span className="text-caption font-bold text-ink-500 uppercase">{t}</span>
                     <span className="font-display text-h3 font-bold text-ink-900">+12</span>
                   </div>
@@ -235,7 +235,7 @@ export const MarketingHomeA: React.FC = () => (
         <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
           Échangez avec notre équipe pour découvrir comment intégrer l'IA dans vos formations.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+        <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
           <Link to="/marketing/contact">
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver un échange

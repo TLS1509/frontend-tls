@@ -949,7 +949,7 @@ const PAGE_TEMPLATES: PageTemplate[] = [
 const PositionnementModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-3 items-start">
+    <div className="flex flex-col gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
       <p className="m-0 text-caption text-ink-500">
         S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
@@ -962,7 +962,7 @@ const PositionnementModalDemo: React.FC = () => {
 const BookingModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-3 items-start">
+    <div className="flex flex-col gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
       <p className="m-0 text-caption text-ink-500">
         Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
@@ -982,7 +982,7 @@ const ConfirmModalDemo: React.FC = () => {
   const [variant, setVariant] = useState<'info' | 'success' | 'warning' | 'danger'>('info');
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col gap-3 items-start">
+    <div className="flex flex-col gap-stack-xs items-start">
       <div className="flex gap-stack-xs flex-wrap">
         {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
           <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
@@ -1006,7 +1006,7 @@ const ConfirmModalDemo: React.FC = () => {
 const SuccessModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex gap-3 items-start">
+    <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
       <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
     </div>
@@ -1016,7 +1016,7 @@ const SuccessModalDemo: React.FC = () => {
 const StreakCelebrationModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex gap-3 items-start">
+    <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>🔥 Streak !</Button>
       <StreakCelebrationModal isOpen={open} onClose={() => setOpen(false)} streakCount={14} milestone={14} encouragement="14 jours consécutifs — vous êtes en feu !" />
     </div>
@@ -1026,7 +1026,7 @@ const StreakCelebrationModalDemo: React.FC = () => {
 const SessionFeedbackModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex gap-3 items-start">
+    <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
       <SessionFeedbackModal
         isOpen={open}
@@ -1041,7 +1041,7 @@ const CancelSessionModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   return (
-    <div className="flex gap-3 items-start flex-wrap">
+    <div className="flex gap-stack-xs items-start flex-wrap">
       <Button variant="secondary" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
       <CancelSessionModal
         isOpen={open}
@@ -1065,7 +1065,7 @@ const CancelSessionModalDemo: React.FC = () => {
 const VideoPlayerModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex gap-3 items-start">
+    <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
       <VideoPlayerModal
         isOpen={open}
@@ -1090,7 +1090,7 @@ const ToastDemo: React.FC = () => {
         <Button size="sm" variant="ghost" onClick={() => info('Mise à jour disponible')}>Info</Button>
       </div>
       <ToastContainer toasts={toasts} onRemove={removeToast} />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-stack-xs">
         <Toast variant="success" title="Sauvegardé" dismissible={false}>Vos modifications ont été enregistrées.</Toast>
         <Toast variant="danger" title="Erreur" dismissible={false}>Impossible de se connecter au serveur.</Toast>
         <Toast variant="warning" title="Attention" dismissible={false}>Votre session expire dans 5 minutes.</Toast>
@@ -1200,7 +1200,7 @@ const FilterChipDemo: React.FC = () => {
 const ModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex gap-3 items-start">
+    <div className="flex gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
       <Modal
         open={open}
@@ -1266,7 +1266,7 @@ const SidebarDemo: React.FC = () => {
     { id: 'veille',    label: 'Veille',           icon: <SparklesIcon size={18} /> },
   ];
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-stack-xs">
       <div className="flex items-center gap-stack-xs text-caption text-ink-500">
         <button
           type="button"
@@ -1364,7 +1364,7 @@ const AuthShellDemo: React.FC = () => {
     <AuthShell
       brand={{ subtitle: 'Démo complète des sub-components' }}
       form={
-        <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="flex flex-col gap-stack" onSubmit={(e) => e.preventDefault()}>
           <AuthField
             label="Nom complet"
             icon={<UserIcon size={18} />}
@@ -1392,12 +1392,12 @@ const AuthShellDemo: React.FC = () => {
             onChange={setAcceptTerms}
             label="J'accepte les conditions d'utilisation"
           />
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-stack-xs">
             <AuthPrimaryButton type="submit">Créer mon compte</AuthPrimaryButton>
             <AuthGhostButton onClick={() => {}}>Retour</AuthGhostButton>
           </div>
           <AuthDivider>ou continuer avec</AuthDivider>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>
@@ -1905,14 +1905,14 @@ const COMPONENTS: ComponentEntry[] = [
         {/* StatusBadge — état leçon */}
         <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">StatusBadge — état leçon</span>
-          <div className="hstack flex-wrap gap-3">
+          <div className="hstack flex-wrap gap-stack-xs">
             <StatusBadge status="locked" />
             <StatusBadge status="available" />
             <StatusBadge status="in-progress" />
             <StatusBadge status="completed" />
             <StatusBadge status="failed" />
           </div>
-          <div className="hstack flex-wrap gap-3">
+          <div className="hstack flex-wrap gap-stack-xs">
             <StatusBadge status="locked" showLabel />
             <StatusBadge status="available" showLabel />
             <StatusBadge status="in-progress" showLabel />
@@ -1923,14 +1923,14 @@ const COMPONENTS: ComponentEntry[] = [
         {/* TrendingBadge — social proof */}
         <div className="flex flex-col gap-stack-xs">
           <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-400">TrendingBadge — social proof</span>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-stack-xs">
             <TrendingBadge type="trending" />
             <TrendingBadge type="popular" />
             <TrendingBadge type="recommended" />
             <TrendingBadge type="featured" />
             <TrendingBadge type="new" />
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-stack-xs">
             <TrendingBadge type="trending" count={42} />
             <TrendingBadge type="popular" count={128} animated={false} />
             <TrendingBadge type="new" size="sm" />
@@ -1948,14 +1948,14 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['user', 'profile', 'initials', 'image', 'status', 'online', 'group'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <Avatar size="xs" name="Jeanne Dupont" />
           <Avatar size="sm" name="Paul Martin" />
           <Avatar name="Claire Bernard" />
           <Avatar size="lg" name="Ahmed Ali" />
           <Avatar size="xl" name="Sofia Garcia" />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <Avatar name="Brand" tint="brand" />
           <Avatar name="Warm" tint="warm" />
           <Avatar name="Sun" tint="sun" />
@@ -1964,7 +1964,7 @@ const COMPONENTS: ComponentEntry[] = [
           <Avatar name="PM" status="busy" />
           <Avatar name="AW" status="away" />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <Avatar name="Org Acme" shape="square" tint="brand" size="sm" />
           <Avatar name="Org TLS" shape="square" tint="warm" />
           <Avatar name="Org Sun" shape="square" tint="sun" size="lg" />
@@ -2359,13 +2359,13 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Barre de progression embarquée dans les cartes et listes. Tones: primary / warm / sun. Sizes: sm / md. Label en % optionnel.',
     keywords: ['progress', 'inline', 'bar', 'percent', 'completion'],
     render: () => (
-      <div className="flex flex-col gap-3 max-w-md">
+      <div className="flex flex-col gap-stack-xs max-w-md">
         {[
           { label: 'Prompt Engineering', value: 92, tone: 'primary' as const },
           { label: 'Leadership',         value: 67, tone: 'warm' as const },
           { label: 'IA Générative',      value: 84, tone: 'sun' as const },
         ].map(({ label, value, tone }) => (
-          <div key={label} className="flex items-center gap-3">
+          <div key={label} className="flex items-center gap-stack-xs">
             <span className="text-caption text-ink-900 font-semibold min-w-[140px]">{label}</span>
             <InlineProgress value={value} tone={tone} size="md" className="flex-1" />
           </div>
@@ -2617,7 +2617,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: '4 niveaux de compétence (Dreyfus 1-4) avec palette TLS claire : Niveau 1 = ink-100 (découverte), Niveau 2 = primary-50 (pratique), Niveau 3 = secondary-50 (maîtrise), Niveau 4 = success-base (expert). Inline badge pour passeport compétences et listes coach.',
     keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
     render: () => (
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-stack-xs flex-wrap">
         <CompetenceBadge level={1} label="Sensibilisé" />
         <CompetenceBadge level={2} label="Pratiquant" />
         <CompetenceBadge level={3} label="Autonome" />
@@ -2665,7 +2665,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Social proof badge animé avec gradient + icon. **Properties** : type (5 : trending/popular/recommended/featured/new) · size (2 : sm/md) · hasCount (2 : false/true — affiche count bubble avec nombre). Animated pulse par défaut.',
     keywords: ['trending', 'badge', 'popular', 'featured', 'new', 'count', 'social proof'],
     render: () => (
-      <div className="flex gap-3 flex-wrap items-center">
+      <div className="flex gap-stack-xs flex-wrap items-center">
         <TrendingBadge type="trending" count={42} />
         <TrendingBadge type="popular" size="sm" />
         <TrendingBadge type="recommended" animated={false} />
@@ -2941,8 +2941,8 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
         <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-1.5 text-caption text-ink-500">
-          <span className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
+        <div className="flex items-center gap-tight.5 text-caption text-ink-500">
+          <span className="inline-flex items-center gap-tight text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
             <BookOpen size={13} /> Parcours
           </span>
           <span className="text-ink-300">›</span>
@@ -3811,7 +3811,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         <div>
           <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-stack-xs">
             <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
               <ReadingProgressBar tone="brand" fixed={false} height={6} className="absolute inset-0" />
             </div>
@@ -4069,7 +4069,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Barre de progression de compétence. Tones : brand (teal), warm (orange), sun (jaune). Affichage du pourcentage optionnel. Transition CSS animée.',
     keywords: ['skill', 'bar', 'progress', 'competency', 'percentage', 'profile', 'level'],
     render: () => (
-      <div className="vstack gap-3 max-w-[480px]">
+      <div className="vstack gap-stack-xs max-w-[480px]">
         <SkillBar label="Prompt Engineering" value={95} tone="brand" />
         <SkillBar label="Pédagogie" value={88} tone="warm" />
         <SkillBar label="Design Thinking" value={72} tone="sun" />
@@ -4218,14 +4218,14 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
           <div className="flex items-center justify-between px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
-            <button className="inline-flex items-center gap-1.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
+            <button className="inline-flex items-center gap-tight.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
               <ArrowLeft size={14} /> Retour
             </button>
             <div className="flex-1 text-center">
               <p className="m-0 text-caption text-ink-500">Carte 3 sur 12</p>
               <p className="m-0 text-body-sm font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-tight">
               <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowLeft size={16} /></button>
               <button className="w-8 h-8 rounded-full flex items-center justify-center text-ink-400 hover:bg-ink-100 border-0 cursor-pointer"><ArrowRight size={16} /></button>
             </div>
@@ -4233,9 +4233,9 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
           <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
+            <button className="inline-flex items-center gap-tight.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
-            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+            <button className="inline-flex items-center gap-tight.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
           </div>
         </div>
       </div>
@@ -4293,7 +4293,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Tuile composite (thumbnail ou icône, titre, description, status dot animé, badge, CTA hover) pour annuaires de pages, galeries de fonctionnalités. Grille via PageCardGrid (1-4 colonnes responsives).',
     keywords: ['card', 'page', 'featured', 'image', 'content', 'thumbnail', 'directory'],
     render: () => (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
         <PageCard
           item={{
             id: '1',
@@ -4390,7 +4390,7 @@ const COMPONENTS: ComponentEntry[] = [
             <article className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden">
               <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500">
                 <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
-                <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               </div>
               <div className="flex flex-col gap-stack-xs p-5">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
@@ -4407,7 +4407,7 @@ const COMPONENTS: ComponentEntry[] = [
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
             <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-5 gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
@@ -4425,7 +4425,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="absolute inset-0 flex items-center justify-center opacity-90"><FolderOpen size={84} strokeWidth={1} className="text-white" /></div>
               {/* Gradient overlay bottom for readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-              <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-5 text-white flex flex-col gap-tight">
                 <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
                 <h3 className="m-0 font-display text-h4 font-bold leading-tight text-white">{item.title}</h3>
@@ -4444,13 +4444,13 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="absolute inset-0 flex items-center justify-center opacity-90">
                 <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
               </div>
-              <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium text-white text-micro font-bold uppercase border border-white/30">
+              <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium text-white text-micro font-bold uppercase border border-white/30">
                 <FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}
               </span>
               <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/25 text-white backdrop-blur-glass-medium border border-white/30 hover:bg-white/40">
                 <Bookmark size={15} />
               </button>
-              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-1 shadow-lg">
+              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
                 <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
                 <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight">{item.title}</h3>
                 <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
@@ -4488,7 +4488,7 @@ const COMPONENTS: ComponentEntry[] = [
                     <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
                     {/* Badge catégorie — sur l'image en haut, glassy */}
                     <span className="absolute top-2 left-0 right-0 flex justify-center">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/25 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
                         <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
                       </span>
                     </span>
@@ -4496,7 +4496,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
+                    <div className="flex items-center gap-tight.5 font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -4520,7 +4520,7 @@ const COMPONENTS: ComponentEntry[] = [
               {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
                   {/* Zone icône avec badge en dessous */}
-                  <div className={`relative flex flex-col items-center justify-center gap-1 w-16 sm:w-20 self-stretch ${it.toneBg} border-r ${it.toneBorder} shrink-0 py-3`}>
+                  <div className={`relative flex flex-col items-center justify-center gap-tight w-16 sm:w-20 self-stretch ${it.toneBg} border-r ${it.toneBorder} shrink-0 py-3`}>
                     <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 ${it.toneText} shadow-xs`}>
                       <it.Icon size={17} strokeWidth={1.75} />
                     </div>
@@ -4529,7 +4529,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
-                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
+                    <div className="flex items-center gap-tight.5 font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -4549,7 +4549,7 @@ const COMPONENTS: ComponentEntry[] = [
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
             <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-content">
               {hzItems.map((it, idx) => (
-                <article key={idx} className="flex items-center gap-3 px-stack py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
+                <article key={idx} className="flex items-center gap-stack-xs px-stack py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
                   {/* Icône + label badge empilés */}
                   <div className={`flex flex-col items-center gap-0.5 shrink-0`}>
                     <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${it.toneBg} ${it.toneText}`}>
@@ -5335,7 +5335,7 @@ const COMPONENTS: ComponentEntry[] = [
         headerAction={<span className="text-caption text-ink-500">3 items</span>}
         actions={
           <>
-            <button type="button" className="inline-flex items-center gap-1 text-body-sm text-primary-600 hover:text-primary-700 underline bg-transparent border-0 p-0 cursor-pointer">
+            <button type="button" className="inline-flex items-center gap-tight text-body-sm text-primary-600 hover:text-primary-700 underline bg-transparent border-0 p-0 cursor-pointer">
               Voir tout
             </button>
           </>
@@ -5459,7 +5459,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
         <p className="p-stack text-caption text-ink-400 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
         <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
-          <div className="flex flex-col md:flex-row md:items-center gap-3">
+          <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
             <div className="flex-1 text-body-sm text-ink-600">
               <span className="font-semibold text-ink-900">The Learning Society respecte votre vie privée</span>
               {' — '}Nous utilisons des cookies pour améliorer votre expérience.
@@ -5538,17 +5538,17 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: ['PerplexityContentDetail', 'ItemRecommendations'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <AITransparencyLabel variant="recommended" size="sm" />
           <AITransparencyLabel variant="generated" size="sm" />
           <AITransparencyLabel variant="assisted" size="sm" />
         </div>
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <AITransparencyLabel variant="recommended" size="md" />
           <AITransparencyLabel variant="generated" size="md" />
           <AITransparencyLabel variant="assisted" size="md" />
         </div>
-        <div className="flex items-start gap-3 p-stack bg-ink-50 rounded-lg">
+        <div className="flex items-start gap-stack-xs p-stack bg-ink-50 rounded-lg">
           <div className="flex flex-col gap-stack-xs">
             <div className="flex items-center gap-stack-xs">
               <span className="text-body-sm font-semibold text-ink-900">Prompt Engineering avancé</span>
@@ -5572,11 +5572,11 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: [],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
           <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
-        <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-3">
+        <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
           <p className="text-caption text-ink-500 font-medium">Avec raison obligatoire (requireReason=true) :</p>
           <AIOverrideButton
             requireReason
@@ -5600,22 +5600,22 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: ['Gamification', 'CoachEngagement'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <span className="text-caption text-ink-400">≤ 90j :</span>
           <span className="text-caption text-ink-300 italic">(rien affiché)</span>
           <AtrophieIndicator daysSinceActivity={45} />
         </div>
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <span className="text-caption text-ink-400">91–180j :</span>
           <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
           <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
         </div>
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <span className="text-caption text-ink-400">&gt; 180j (critique) :</span>
           <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
           <AtrophieIndicator daysSinceActivity={365} size="md" />
         </div>
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap gap-stack-xs items-center">
           <span className="text-caption text-ink-400">Sans label :</span>
           <AtrophieIndicator daysSinceActivity={100} showLabel={false} />
           <AtrophieIndicator daysSinceActivity={200} showLabel={false} />
@@ -6496,7 +6496,7 @@ const COMPONENTS: ComponentEntry[] = [
               </div>
             ) : (
               <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-stack-xs">
                   <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-700 text-micro font-semibold shrink-0">{item.cat}</span>
                   <p className="font-semibold text-ink-900 text-body-sm m-0">{item.title}</p>
                 </div>
@@ -6550,7 +6550,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => {
       const [selected, setSelected] = React.useState<string>('apprentissage');
       return (
-        <div className="grid grid-cols-3 gap-3 max-w-lg">
+        <div className="grid grid-cols-3 gap-stack-xs max-w-lg">
           {JOURNAL_TYPE_ORDER.map((type) => (
             <JournalTypeTile
               key={type}
@@ -7597,7 +7597,7 @@ const Components: React.FC = () => {
                               <h3 className="ds-component__name">{c.name}</h3>
                               {c.showcaseOnly && (
                                 <span
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-50 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"
+                                  className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-50 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"
                                   title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app"
                                 >
                                   Showcase only
@@ -7646,7 +7646,7 @@ const Components: React.FC = () => {
                   >
                     {/* Color header */}
                     <div
-                      className="flex items-center gap-3 border-b border-ink-200"
+                      className="flex items-center gap-stack-xs border-b border-ink-200"
                       style={{ background: p.bg, padding: 'var(--s-5) var(--s-5) var(--s-4)' }}
                     >
                       <span className="text-h2 leading-none">{p.icon}</span>
@@ -7664,7 +7664,7 @@ const Components: React.FC = () => {
                     </div>
 
                     {/* Body */}
-                    <div className="flex-1 flex flex-col gap-3" style={{ padding: 'var(--s-4) var(--s-5)' }}>
+                    <div className="flex-1 flex flex-col gap-stack-xs" style={{ padding: 'var(--s-4) var(--s-5)' }}>
                       <p className="text-body-sm text-ink-500 m-0 leading-relaxed">
                         {p.description}
                       </p>

@@ -54,7 +54,7 @@ export default function AtelierDetail() {
         title="Atelier Feedback 360°"
         summary="Pratique le feedback constructif en situation réelle. Jeux de rôle + débriefing collectif."
         trailing={
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Badge variant="info" size="md">18 juin 2026 · 10h00</Badge>
             <Badge variant="neutral" size="md">Distanciel · 3h</Badge>
           </div>

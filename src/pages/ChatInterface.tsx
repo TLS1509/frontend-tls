@@ -183,7 +183,7 @@ export default function ChatInterface() {
               <p className="text-caption text-primary-700 leading-relaxed">
                 Les réponses sont générées uniquement depuis le contenu indexé de la plateforme (formations, Passeport, Coaching, Missions). Aucune donnée externe.
               </p>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className="flex flex-wrap gap-tight mt-1">
                 <Badge variant="info" size="sm">Contenu Formation</Badge>
                 <Badge variant="info" size="sm">Passeport</Badge>
                 <Badge variant="info" size="sm">Missions</Badge>

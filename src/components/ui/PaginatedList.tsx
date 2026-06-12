@@ -38,12 +38,12 @@ export function PaginatedList<T>({
 
       {/* Pagination controls */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between gap-3 pt-3 border-t border-ink-100">
+        <div className="flex items-center justify-between gap-stack-xs pt-3 border-t border-ink-100">
           <span className="text-caption text-ink-500 font-medium">
             {start + 1}–{Math.min(start + pageSize, items.length)} / {items.length} {itemLabel}
           </span>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <button
               type="button"
               className={BTN}
@@ -55,7 +55,7 @@ export function PaginatedList<T>({
             </button>
 
             {/* Page numbers — show at most 5 around current */}
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden sm:flex items-center gap-tight">
               {Array.from({ length: totalPages }, (_, i) => i)
                 .filter((i) => Math.abs(i - page) <= 2)
                 .map((i) => (

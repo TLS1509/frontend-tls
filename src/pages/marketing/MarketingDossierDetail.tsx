@@ -66,7 +66,7 @@ const ReadingProgressBar: React.FC = () => {
 const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
   <div className="mb-stack-lg rounded-2xl border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
     <Quote size={22} className="text-secondary-400 shrink-0 mt-0.5" />
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-tight">
       <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
         En résumé
       </span>
@@ -80,7 +80,7 @@ const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> =
   <section className="py-page bg-white">
     <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
       <Reveal>
-        <span className="inline-flex items-center gap-2 font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
+        <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
           <ListChecks size={15} />
           Points clés
         </span>
@@ -142,11 +142,11 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
   activeId,
 }) => (
   <nav aria-label="Sommaire du dossier" className="flex flex-col gap-stack">
-    <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+    <span className="inline-flex items-center gap-tight.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
       <Hash size={14} />
       Sommaire
     </span>
-    <ul className="flex flex-col gap-1 m-0 p-0 list-none">
+    <ul className="flex flex-col gap-tight m-0 p-0 list-none">
       {sections.map((s) => {
         const id = headingToId(s.heading);
         const isActive = activeId === id;
@@ -204,7 +204,7 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
           return (
             <ul key={i} className="flex flex-col gap-stack m-0 pl-0 list-none">
               {block.items.map((item, j) => (
-                <li key={j} className="flex gap-3 font-body text-body text-ink-700 leading-relaxed">
+                <li key={j} className="flex gap-stack-xs font-body text-body text-ink-700 leading-relaxed">
                   <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500" />
                   <span>{item}</span>
                 </li>
@@ -224,7 +224,7 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
           return (
             <div
               key={i}
-              className="my-stack rounded-2xl border border-secondary-100 bg-gradient-to-br from-secondary-50 to-accent-50/50 p-stack-lg flex flex-col gap-1"
+              className="my-stack rounded-2xl border border-secondary-100 bg-gradient-to-br from-secondary-50 to-accent-50/50 p-stack-lg flex flex-col gap-tight"
             >
               <span className="font-display text-[clamp(2.5rem,6vw,3.5rem)] font-extrabold text-secondary-700 leading-none tracking-tight">
                 {block.value}
@@ -246,7 +246,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
     <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
       <Reveal>
         <div className="flex flex-col gap-stack max-w-content">
-          <span className="inline-flex items-center gap-2 font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
+          <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
             <Library size={15} />
             Bibliographie
           </span>
@@ -267,7 +267,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex gap-3 p-stack rounded-xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-sm transition-all duration-base"
+              className="group flex gap-stack-xs p-stack rounded-xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-sm transition-all duration-base"
             >
               <span className="font-mono text-caption font-bold text-primary-600 shrink-0 mt-0.5">
                 {s.ref}
@@ -319,7 +319,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal>
             <Link
               to="/dossiers"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-tight.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Tous les dossiers
@@ -331,15 +331,15 @@ export const MarketingDossierDetail: React.FC = () => {
               <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-secondary-50 text-secondary-700 border-secondary-100 font-body text-caption font-bold uppercase tracking-wider">
                 Dossier
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {dossier.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
                 <Clock size={14} />
                 {dossier.readTime} de lecture
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
                 <Library size={14} />
                 {dossier.sourceCount} sources
               </span>

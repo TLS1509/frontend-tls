@@ -18,7 +18,7 @@ import type { LogoLayout } from '../components/ui/TlsLogoHeritage';
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs font-mono text-white/40 tracking-widest uppercase mb-6">
+    <p className="text-xs font-mono text-white/40 tracking-widest uppercase mb-stack-lg">
       {children}
     </p>
   );
@@ -58,9 +58,9 @@ export default function TestLogo() {
         <SectionLabel>00 — New 2026 Proposals · DS-aligned · favicon-ready</SectionLabel>
 
         {/* Grille principale 200px */}
-        <div className="grid grid-cols-6 gap-5 mb-10">
+        <div className="grid grid-cols-6 gap-stack mb-10">
           {newProposals.map(({ id, label, Sub, inspo, concept, favicon }) => (
-            <div key={id} className="flex flex-col gap-3">
+            <div key={id} className="flex flex-col gap-stack-xs">
               <div className="rounded-2xl bg-white/5 border border-white/8 p-5 flex items-center justify-center aspect-square hover:bg-white/8 transition-colors">
                 <Sub size={150} />
               </div>
@@ -77,11 +77,11 @@ export default function TestLogo() {
         </div>
 
         {/* Favicon strip — toutes à 32px et 16px */}
-        <div className="mb-8">
-          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-4">Favicon test — 32px</p>
-          <div className="flex items-center gap-6 bg-white/4 rounded-xl px-6 py-4 border border-white/6">
+        <div className="mb-section">
+          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-stack">Favicon test — 32px</p>
+          <div className="flex items-center gap-stack-lg bg-white/4 rounded-xl px-6 py-stack border border-white/6">
             {newProposals.map(({ id, Sub }) => (
-              <div key={id} className="flex flex-col items-center gap-2">
+              <div key={id} className="flex flex-col items-center gap-stack-xs">
                 <Sub size={32} />
                 <span className="text-[9px] font-mono text-white/25">{id}</span>
               </div>
@@ -91,10 +91,10 @@ export default function TestLogo() {
           </div>
         </div>
         <div className="mb-10">
-          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-4">Favicon test — 16px</p>
-          <div className="flex items-center gap-6 bg-white/4 rounded-xl px-6 py-5 border border-white/6">
+          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-stack">Favicon test — 16px</p>
+          <div className="flex items-center gap-stack-lg bg-white/4 rounded-xl px-6 py-5 border border-white/6">
             {newProposals.map(({ id, Sub }) => (
-              <div key={id} className="flex flex-col items-center gap-3">
+              <div key={id} className="flex flex-col items-center gap-stack-xs">
                 <Sub size={16} />
                 <span className="text-[9px] font-mono text-white/25">{id}</span>
               </div>
@@ -105,11 +105,11 @@ export default function TestLogo() {
         </div>
 
         {/* Sur fond clair */}
-        <div className="mb-4">
-          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-4">Sur fond clair (white)</p>
-          <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 border border-black/5">
+        <div className="mb-stack">
+          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-stack">Sur fond clair (white)</p>
+          <div className="flex items-center gap-stack bg-white rounded-2xl px-8 py-stack-lg border border-black/5">
             {newProposals.map(({ id, Sub }) => (
-              <div key={id} className="flex flex-col items-center gap-3">
+              <div key={id} className="flex flex-col items-center gap-stack-xs">
                 <Sub size={100} />
                 <span className="text-[10px] font-mono text-black/30">{id}</span>
               </div>
@@ -125,9 +125,9 @@ export default function TestLogo() {
         <SectionLabel>00-B — Heritage+ · Variants matière &amp; effets</SectionLabel>
 
         {/* Grille 200px sur fond sombre */}
-        <div className="grid grid-cols-6 gap-5 mb-10">
+        <div className="grid grid-cols-6 gap-stack mb-10">
           {variantProposals.map(({ id, label, Sub, matiere, concept, surface }) => (
-            <div key={id} className="flex flex-col gap-3">
+            <div key={id} className="flex flex-col gap-stack-xs">
               <div className="rounded-2xl bg-white/5 border border-white/8 p-5 flex items-center justify-center aspect-square hover:bg-white/8 transition-colors">
                 <Sub size={150} />
               </div>
@@ -145,11 +145,11 @@ export default function TestLogo() {
         </div>
 
         {/* Sur fond clair */}
-        <div className="mb-4">
-          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-4">Sur fond clair (white)</p>
-          <div className="flex items-center gap-5 bg-white rounded-2xl px-8 py-6 border border-black/5">
+        <div className="mb-stack">
+          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-stack">Sur fond clair (white)</p>
+          <div className="flex items-center gap-stack bg-white rounded-2xl px-8 py-stack-lg border border-black/5">
             {variantProposals.map(({ id, Sub }) => (
-              <div key={id} className="flex flex-col items-center gap-3">
+              <div key={id} className="flex flex-col items-center gap-stack-xs">
                 <Sub size={100} />
                 <span className="text-[10px] font-mono text-black/30">{id}</span>
               </div>
@@ -158,11 +158,11 @@ export default function TestLogo() {
         </div>
 
         {/* Tailles de référence — variant le plus prometteur (Obsidian v4) */}
-        <div className="mb-4">
-          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-4">Size range — tous les variants à 40px (favicon)</p>
-          <div className="flex items-center gap-6 bg-white/4 rounded-xl px-6 py-4 border border-white/6">
+        <div className="mb-stack">
+          <p className="text-[11px] font-mono text-white/30 uppercase tracking-widest mb-stack">Size range — tous les variants à 40px (favicon)</p>
+          <div className="flex items-center gap-stack-lg bg-white/4 rounded-xl px-6 py-stack border border-white/6">
             {variantProposals.map(({ id, Sub }) => (
-              <div key={id} className="flex flex-col items-center gap-2">
+              <div key={id} className="flex flex-col items-center gap-stack-xs">
                 <Sub size={40} />
                 <span className="text-[9px] font-mono text-white/25">{id}</span>
               </div>
@@ -176,9 +176,9 @@ export default function TestLogo() {
             SECTION 1 — Taille range
         ══════════════════════════════════════════════════════════ */}
         <SectionLabel>01 — Heritage+ · Size range</SectionLabel>
-        <div className="flex flex-wrap items-end gap-8">
+        <div className="flex flex-wrap items-end gap-section">
           {sizes.map((s) => (
-            <div key={s} className="flex flex-col items-center gap-3">
+            <div key={s} className="flex flex-col items-center gap-stack-xs">
               <TlsLogoHeritage layout="mark" size={s} />
               <span className="text-[10px] font-mono text-white/30">{s}px</span>
             </div>
@@ -191,7 +191,7 @@ export default function TestLogo() {
             SECTION 2 — Fond clair vs fond sombre
         ══════════════════════════════════════════════════════════ */}
         <SectionLabel>02 — Heritage+ · Light vs Dark surface</SectionLabel>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-stack-lg">
           {/* Fond foncé */}
           <div className="rounded-2xl bg-[#1F3E45] p-10 flex items-center justify-center min-h-[200px]">
             <TlsLogoHeritage layout="mark" size={140} />
@@ -216,11 +216,11 @@ export default function TestLogo() {
             SECTION 3 — 5 Layouts × fond clair + fond sombre
         ══════════════════════════════════════════════════════════ */}
         <SectionLabel>03 — Heritage+ · 5 layouts</SectionLabel>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-section">
           {layouts.map((layout) => (
-            <div key={layout} className="flex flex-col gap-3">
+            <div key={layout} className="flex flex-col gap-stack-xs">
               <span className="text-[11px] font-mono text-white/30 uppercase tracking-widest">{layout}</span>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-stack">
                 {/* Fond sombre */}
                 <div className="rounded-xl bg-[#1F3E45]/60 border border-white/8 p-8 flex items-center justify-center">
                   <TlsLogoHeritage layout={layout} />
@@ -240,9 +240,9 @@ export default function TestLogo() {
             SECTION 4 — Proposals archive (P1–P5)
         ══════════════════════════════════════════════════════════ */}
         <SectionLabel>04 — Proposals archive · P1 → P5</SectionLabel>
-        <div className="grid grid-cols-5 gap-5">
+        <div className="grid grid-cols-5 gap-stack">
           {proposals.map(({ id, label, Sub, desc }) => (
-            <div key={id} className="flex flex-col gap-3">
+            <div key={id} className="flex flex-col gap-stack-xs">
               <div className="rounded-xl bg-white/5 border border-white/8 p-6 flex items-center justify-center aspect-square">
                 <Sub size={140} />
               </div>
@@ -260,9 +260,9 @@ export default function TestLogo() {
             SECTION 5 — Heritage+ proposals, size comparison
         ══════════════════════════════════════════════════════════ */}
         <SectionLabel>05 — Heritage+ P1 · 3 tailles de référence</SectionLabel>
-        <div className="flex items-end gap-12">
+        <div className="flex items-end gap-section">
           {[300, 200, 140, 80].map((s) => (
-            <div key={s} className="flex flex-col items-center gap-4">
+            <div key={s} className="flex flex-col items-center gap-stack">
               <LogoP1Heritage size={s} />
               <span className="text-[10px] font-mono text-white/30">{s}px</span>
             </div>
@@ -270,7 +270,7 @@ export default function TestLogo() {
         </div>
 
         {/* Footer */}
-        <div className="mt-20 pt-8 border-t border-white/8">
+        <div className="mt-20 pt-section border-t border-white/8">
           <p className="text-[11px] font-mono text-white/20">The Learning Society · Logo Reference · Phase 19 / 2026</p>
         </div>
 

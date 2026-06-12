@@ -112,12 +112,12 @@ export default function ManagerExport() {
         </SectionCard>
 
         {/* Export preview */}
-        <Card variant="tinted" tone="primary" className="p-5 flex flex-col gap-3">
+        <Card variant="tinted" tone="primary" className="p-5 flex flex-col gap-stack-xs">
           <div className="flex items-center gap-stack-xs">
             <Download size={16} className="text-primary-600" />
             <span className="text-body-sm font-semibold text-primary-700">Aperçu de l'export</span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
             {[
               { label: 'Format', value: FORMAT_CONFIG[format].label },
               { label: 'Périmètre', value: SCOPE_CONFIG[scope].label },
@@ -133,7 +133,7 @@ export default function ManagerExport() {
         </Card>
 
         {/* CTA */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <Button
             variant="primary"
             size="lg"

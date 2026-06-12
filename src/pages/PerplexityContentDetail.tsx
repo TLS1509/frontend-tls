@@ -51,10 +51,10 @@ const PerplexityContentDetail: React.FC = () => {
             <div className="flex items-center gap-stack-xs flex-wrap">
               <AITransparencyLabel variant="generated" />
               <Badge variant="info">{MOCK_ARTICLE.readTime}</Badge>
-              <span className="flex items-center gap-1 text-caption text-ink-500">
+              <span className="flex items-center gap-tight text-caption text-ink-500">
                 <Calendar className="w-4 h-4" /> {MOCK_ARTICLE.date}
               </span>
-              <span className="flex items-center gap-1 text-caption text-ink-500">
+              <span className="flex items-center gap-tight text-caption text-ink-500">
                 <User className="w-4 h-4" /> {MOCK_ARTICLE.author}
               </span>
             </div>
@@ -72,7 +72,7 @@ const PerplexityContentDetail: React.FC = () => {
               <div className="flex flex-col gap-stack-xs">
                 {MOCK_ARTICLE.sources.map((s, i) => (
                   <Card key={i} className="p-stack flex items-center justify-between gap-stack">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-stack-xs">
                       <BookOpen className="w-5 h-5 text-primary-600" />
                       <div>
                         <div className="font-semibold text-body-sm">{s.name}</div>

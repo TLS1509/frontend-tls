@@ -98,7 +98,7 @@ export const MarketingEquipe: React.FC = () => {
 
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <Users size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 La Dream Team
@@ -119,15 +119,15 @@ export const MarketingEquipe: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-stack-lg pt-stack">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <MapPin size={16} className="text-accent-400" />
                 <span className="font-body text-body-sm text-white/85 font-semibold">Paris, France</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <Calendar size={16} className="text-accent-400" />
                 <span className="font-body text-body-sm text-white/85 font-semibold">Fondée en 2024</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <Users size={16} className="text-accent-400" />
                 <span className="font-body text-body-sm text-white/85 font-semibold">
                   <CountUp to={2} className="font-bold text-white" /> co-fondateurs
@@ -229,7 +229,7 @@ export const MarketingEquipe: React.FC = () => {
                       <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
                         {m.bio}
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-stack border-t border-ink-100">
+                      <div className="flex flex-wrap gap-tight.5 pt-stack border-t border-ink-100">
                         {m.expertise.map((e) => (
                           <span
                             key={e}
@@ -308,7 +308,7 @@ export const MarketingEquipe: React.FC = () => {
                 On forme pour transformer des gens."
               </blockquote>
               <p className="font-body text-body text-white/60 m-0">— L'équipe TLS, Paris ✨</p>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+              <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">
                     <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>

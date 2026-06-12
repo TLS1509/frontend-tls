@@ -76,11 +76,11 @@ const CoachCalendar: React.FC = () => {
                     <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px]">
                       {session && (
                         <div className="bg-secondary-50 border border-secondary-200 rounded p-stack-xs h-full">
-                          <div className="flex items-center gap-1 mb-1">
+                          <div className="flex items-center gap-tight mb-1">
                             <Avatar initials={session.initials} size="sm" />
                             <span className="text-caption font-semibold truncate">{session.apprenant}</span>
                           </div>
-                          <div className="flex items-center gap-1 text-caption text-ink-600">
+                          <div className="flex items-center gap-tight text-caption text-ink-600">
                             {session.mode === 'remote' ? <Video className="w-3 h-3" /> : <MapPin className="w-3 h-3" />}
                             <span>{session.duration}</span>
                           </div>

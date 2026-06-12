@@ -70,7 +70,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
 
   return (
     <section className={wrapperClasses}>
-      <div className="flex items-center gap-2 text-primary-700">
+      <div className="flex items-center gap-stack-xs text-primary-700">
         <Sparkles size={16} />
         <span className="text-caption font-semibold uppercase tracking-wide">
           {firstName ? `Bienvenue, ${firstName}` : 'Bienvenue'}

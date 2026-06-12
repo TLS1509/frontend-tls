@@ -133,7 +133,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
       );
     case 'quote':
       return (
-        <figure className="m-0 my-stack px-5 sm:px-6 py-4 bg-primary-50 rounded-xl">
+        <figure className="m-0 my-stack px-5 sm:px-6 py-stack bg-primary-50 rounded-xl">
           <blockquote className="m-0 font-display italic text-body-lg text-primary-800 leading-relaxed">
             « {block.text} »
           </blockquote>
@@ -192,11 +192,11 @@ export const ArticleDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="medium" className="h-14 flex items-center justify-between gap-3">
+        <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
           <button
             type="button"
             onClick={() => navigate('/veille')}
-            className="inline-flex items-center gap-1.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            className="inline-flex items-center gap-tight.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <ArrowLeft size={14} /> Retour à la veille
           </button>
@@ -225,7 +225,7 @@ export const ArticleDetail: React.FC = () => {
       >
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
-          <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
+          <span className="inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
             <Newspaper size={11} /> {sourceLabel}
           </span>
 
@@ -276,7 +276,7 @@ export const ArticleDetail: React.FC = () => {
 
               {/* Tags */}
               <div className="flex flex-col gap-stack-xs pt-section border-t border-ink-100">
-                <span className="inline-flex items-center gap-1.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
+                <span className="inline-flex items-center gap-tight.5 font-body text-micro font-bold uppercase tracking-wider text-ink-500">
                   <TagIcon size={11} /> Tags
                 </span>
                 <div className="flex flex-wrap gap-stack-xs">

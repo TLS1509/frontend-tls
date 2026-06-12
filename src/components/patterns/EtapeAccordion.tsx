@@ -49,11 +49,11 @@ const WRAPPER: Record<EtapeAccordionVariant, string> = {
 
 const HEADER_BTN: Record<EtapeAccordionVariant, string> = {
   default: [
-    'w-full flex items-center justify-between gap-3 px-4 py-4',
+    'w-full flex items-center justify-between gap-stack-xs px-4 py-stack',
     'border-0 text-left cursor-pointer font-body',
     'text-ink-900 bg-ink-50 hover:bg-ink-100 transition-colors duration-base',
   ].join(' '),
-  panel: 'w-full flex items-start gap-5 p-6 bg-transparent border-0 cursor-pointer text-left',
+  panel: 'w-full flex items-start gap-stack p-6 bg-transparent border-0 cursor-pointer text-left',
 };
 
 // When locked, how to style the button per variant.

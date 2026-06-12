@@ -108,11 +108,11 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 
       {/* Status + Badge row */}
       {(item.status || item.badge) && (
-        <div className="flex items-center gap-2 px-5 pt-4 flex-wrap">
+        <div className="flex items-center gap-stack-xs px-5 pt-stack flex-wrap">
           {item.status && (
             <span
               className={[
-                'inline-flex items-center gap-1.5 text-caption font-semibold',
+                'inline-flex items-center gap-tight.5 text-caption font-semibold',
                 STATUS_TEXT[item.status],
               ].join(' ')}
             >
@@ -150,7 +150,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       )}
 
       {/* Content */}
-      <div className="flex-1 flex flex-col gap-2 px-5 py-4">
+      <div className="flex-1 flex flex-col gap-stack-xs px-5 py-stack">
         <h3 className="font-display text-h4 font-semibold text-ink-900 m-0 leading-tight">
           {item.title}
         </h3>
@@ -167,7 +167,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       </div>
 
       {/* Hover arrow */}
-      <div className="flex items-center justify-end px-5 pb-4 text-primary-600 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
+      <div className="flex items-center justify-end px-5 pb-stack text-primary-600 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
         <ArrowRight size={18} strokeWidth={2.25} />
       </div>
     </div>
@@ -207,7 +207,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
           <p className="m-0 text-body-sm font-medium">Chargement…</p>
         </div>
@@ -225,7 +225,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
             <FileText size={26} strokeWidth={2} />
           </span>
@@ -238,7 +238,7 @@ export const PageCardGrid: React.FC<PageCardGridProps> = ({
   return (
     <div
       role="grid"
-      className={['grid gap-5', COLUMNS_CLASSES[columns], className].filter(Boolean).join(' ')}
+      className={['grid gap-stack', COLUMNS_CLASSES[columns], className].filter(Boolean).join(' ')}
     >
       {pages.map((page) => (
         <div key={page.id} role="gridcell">

@@ -54,7 +54,7 @@ const TITLE_TONE_CLASSES: Record<ParcoursTone, string> = {
 };
 
 const CTA_BASE =
-  'flex items-center justify-center gap-2 w-full h-11 rounded-pill px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
+  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-pill px-4 cursor-pointer font-body text-body-sm font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 // Tone-aware CTA classes — includes tone-matched focus outline.
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {

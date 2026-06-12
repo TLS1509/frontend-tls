@@ -142,7 +142,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
       {/* ── Header sticky ───────────────────────────────────── */}
       <header
         className={[
-          'sticky top-0 z-sticky px-4 sm:px-6 lg:px-10 py-3 flex items-center gap-4',
+          'sticky top-0 z-sticky px-4 sm:px-6 lg:px-10 py-3 flex items-center gap-stack',
           TONE_HEADER[tone],
         ].join(' ')}
       >
@@ -181,7 +181,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
         </div>
 
         {headerActions && (
-          <div className="shrink-0 flex items-center gap-2">{headerActions}</div>
+          <div className="shrink-0 flex items-center gap-stack-xs">{headerActions}</div>
         )}
       </header>
 
@@ -221,7 +221,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
       {showFooter && (
         <footer
           className={[
-            'fixed bottom-0 left-0 right-0 z-sticky px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between gap-3',
+            'fixed bottom-0 left-0 right-0 z-sticky px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between gap-stack-xs',
             TONE_FOOTER[tone],
           ].join(' ')}
         >
@@ -231,7 +231,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onPrev}
             aria-label="Précédent"
             className={[
-              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-tight.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'
@@ -260,7 +260,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onNext}
             aria-label="Suivant"
             className={[
-              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-tight.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'

@@ -152,7 +152,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
       />
 
       {/* Header — title + date/readingTime + type badge */}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-stack-xs">
         <div className="flex-1 min-w-0">
           <h3 className="font-display text-h4 font-bold text-ink-900 m-0 leading-snug">
             {title}
@@ -164,7 +164,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
         </div>
         <span
           className={[
-            'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill',
+            'inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill',
             'font-body text-caption font-semibold shrink-0 whitespace-nowrap',
             meta.badge,
           ].join(' ')}

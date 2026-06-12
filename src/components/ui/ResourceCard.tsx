@@ -119,7 +119,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       )}
 
       {(icon || resourceType) && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           {icon && (
             <div
               className={[
@@ -139,7 +139,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-stack-xs">
         <h3 className="m-0 text-h4 font-semibold leading-snug text-ink-900">{title}</h3>
         {variant !== 'minimal' && description && (
           <p className="m-0 text-body-sm leading-relaxed text-ink-500">{description}</p>
@@ -147,15 +147,15 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
       </div>
 
       {variant !== 'minimal' && (duration || category || cta) && (
-        <footer className="flex items-center justify-between gap-3 mt-2 pt-3 border-t border-ink-200">
-          <div className="flex items-center gap-3 flex-wrap">
+        <footer className="flex items-center justify-between gap-stack-xs mt-2 pt-3 border-t border-ink-200">
+          <div className="flex items-center gap-stack-xs flex-wrap">
             {category && (
               <span className="text-caption font-semibold uppercase tracking-wider text-ink-500 px-2 py-0.5 bg-ink-50 rounded-sm">
                 {category}
               </span>
             )}
             {duration && (
-              <span className="inline-flex items-center gap-1 text-caption text-ink-500">
+              <span className="inline-flex items-center gap-tight text-caption text-ink-500">
                 <Clock size={12} strokeWidth={2} className="opacity-70" />
                 {duration}
               </span>
@@ -166,7 +166,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
               type="button"
               onClick={cta.onClick}
               className={[
-                'inline-flex items-center gap-2 px-3 py-2 bg-transparent border-0 rounded-md',
+                'inline-flex items-center gap-stack-xs px-3 py-2 bg-transparent border-0 rounded-md',
                 'text-body-sm font-semibold cursor-pointer whitespace-nowrap transition-[background-color] duration-fast ease-emphasis',
                 'focus-visible:outline-2 focus-visible:outline-offset-2',
                 accentText,

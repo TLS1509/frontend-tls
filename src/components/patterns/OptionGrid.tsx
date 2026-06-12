@@ -97,7 +97,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
 
   const mobileCols = columns === 1 ? 'grid-cols-1' : 'grid-cols-2';
 
-  const baseGrid = ['grid gap-2.5', mobileCols, COLS_DESKTOP[columns], className]
+  const baseGrid = ['grid gap-stack-xs.5', mobileCols, COLS_DESKTOP[columns], className]
     .filter(Boolean)
     .join(' ');
 
@@ -109,10 +109,10 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
         const buttonClasses = [
           'min-h-touch w-full cursor-pointer transition-all duration-base border-[1.5px] rounded-xl bg-white',
           layout === 'icon-left'
-            ? 'flex items-center gap-3 px-4 py-3 text-left'
+            ? 'flex items-center gap-stack-xs px-4 py-3 text-left'
             : layout === 'text-only'
-            ? 'flex flex-col gap-1 px-5 py-4 text-left'
-            : 'flex flex-col items-center justify-center gap-2 px-3 py-4 text-center',
+            ? 'flex flex-col gap-tight px-5 py-stack text-left'
+            : 'flex flex-col items-center justify-center gap-stack-xs px-3 py-stack text-center',
           selected ? TONE_SELECTED[tone] : `border-ink-200 ${TONE_HOVER[tone]}`,
           'focus-visible:outline-2 focus-visible:outline-offset-2',
           tone === 'brand'

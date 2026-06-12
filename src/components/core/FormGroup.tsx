@@ -11,11 +11,11 @@ export interface FormGroupProps {
   layout?: 'vertical' | 'horizontal';
 }
 
-const GROUP_BASE = 'flex flex-col gap-2 font-body';
+const GROUP_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const LAYOUT_CLASSES: Record<'vertical' | 'horizontal', string> = {
   vertical: '',
-  horizontal: 'sm:flex-row sm:items-start sm:gap-4',
+  horizontal: 'sm:flex-row sm:items-start sm:gap-stack',
 };
 
 export const FormGroup: React.FC<FormGroupProps> = ({
@@ -35,7 +35,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
     .join(' ');
 
   const labelClasses = [
-    'text-body-sm font-semibold flex items-center gap-1',
+    'text-body-sm font-semibold flex items-center gap-tight',
     hasError ? 'text-danger-fg' : 'text-ink-900',
     layout === 'horizontal' && 'sm:shrink-0 sm:min-w-[150px]',
   ]
@@ -55,10 +55,10 @@ export const FormGroup: React.FC<FormGroupProps> = ({
         </label>
       )}
 
-      <div className="flex-1 flex flex-col gap-2">
+      <div className="flex-1 flex flex-col gap-stack-xs">
         {children}
         {hasError ? (
-          <p className="text-caption text-danger-fg flex items-center gap-1" role="alert">
+          <p className="text-caption text-danger-fg flex items-center gap-tight" role="alert">
             {error}
           </p>
         ) : hint ? (

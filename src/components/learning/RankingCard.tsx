@@ -39,7 +39,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
 
   return (
     <Card
-      className={['group flex items-center gap-4 transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md hover-glow-primary', className]
+      className={['group flex items-center gap-stack transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md hover-glow-primary', className]
         .filter(Boolean)
         .join(' ')}
     >
@@ -54,13 +54,13 @@ export const RankingCard: React.FC<RankingCardProps> = ({
 
       <div className="flex-1 min-w-0">
         <h3 className="m-0 text-body font-semibold text-ink-900 truncate">{name}</h3>
-        <div className="flex items-center gap-2 mt-1 flex-wrap">
-          <span className="inline-flex items-center gap-1 text-caption font-bold text-primary-700">
+        <div className="flex items-center gap-stack-xs mt-1 flex-wrap">
+          <span className="inline-flex items-center gap-tight text-caption font-bold text-primary-700">
             <Trophy size={12} />
             {points} pts
           </span>
           {streak !== undefined && (
-            <span className="inline-flex items-center gap-1 text-caption text-secondary-600 font-medium">
+            <span className="inline-flex items-center gap-tight text-caption text-secondary-600 font-medium">
               <Flame size={12} />
               {streak}j
             </span>

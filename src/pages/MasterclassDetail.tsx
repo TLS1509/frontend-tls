@@ -43,7 +43,7 @@ export default function MasterclassDetail() {
         title="Leadership en temps de crise"
         summary="Découvre comment maintenir l'engagement et la performance de tes équipes dans les périodes de turbulences."
         trailing={
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Badge variant="info" size="md">15 juin 2026 · 14h00</Badge>
             <Badge variant="neutral" size="md">90 min · Distanciel</Badge>
           </div>

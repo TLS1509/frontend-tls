@@ -166,7 +166,7 @@ export const VideoViewer: React.FC = () => {
           )}
 
           {/* Controls bar */}
-          <div className="absolute bottom-0 left-0 right-0 px-stack py-3 flex gap-3 items-center bg-gradient-to-t from-black/60 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 px-stack py-3 flex gap-stack-xs items-center bg-gradient-to-t from-black/60 to-transparent">
             <button
               type="button"
               onClick={togglePlay}
@@ -279,7 +279,7 @@ export const VideoViewer: React.FC = () => {
                     <div className="font-body text-body-sm font-medium text-ink-900 mb-1 leading-snug">
                       {video.title}
                     </div>
-                    <div className="font-body text-caption text-ink-500 flex items-center gap-1">
+                    <div className="font-body text-caption text-ink-500 flex items-center gap-tight">
                       <Clock size={12} /> {video.duration}
                     </div>
                   </button>

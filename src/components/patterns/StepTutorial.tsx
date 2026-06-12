@@ -110,12 +110,12 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
         <div className="p-7 sm:p-8 flex flex-col gap-stack-lg">
           {/* Step badge */}
-          <span className="inline-flex self-start items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
+          <span className="inline-flex self-start items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
             {activeStep + 1} / {steps.length}
           </span>
 
           {/* Icon + title */}
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-stack">
             {step.icon && (
               <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
                 {step.icon}
@@ -153,7 +153,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </Button>
 
         {/* Progress dots */}
-        <div className="flex items-center gap-2" role="tablist" aria-label="Progression du tutoriel">
+        <div className="flex items-center gap-stack-xs" role="tablist" aria-label="Progression du tutoriel">
           {steps.map((s, idx) => (
             <div
               key={s.id}

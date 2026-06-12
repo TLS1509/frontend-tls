@@ -75,7 +75,7 @@ export function FilteredList<T>({
 
       {/* Results */}
       {filtered.length === 0 ? (
-        <p className="text-body-sm text-ink-400 italic py-6 text-center">{emptyLabel}</p>
+        <p className="text-body-sm text-ink-400 italic py-stack-lg text-center">{emptyLabel}</p>
       ) : (
         <div className={listClassName}>
           {filtered.map((item, i) => renderItem(item, i))}

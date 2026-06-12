@@ -142,8 +142,8 @@ export const Settings: React.FC = () => {
               <ToggleRow checked={highContrast} onChange={setHighContrast} label="Mode contraste renforcé" />
               <ToggleRow checked={compactNav} onChange={setCompactNav} label="Navigation compacte" />
 
-              <div className="flex items-center justify-between gap-3 p-stack rounded-xl bg-ink-50 border border-ink-100">
-                <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between gap-stack-xs p-stack rounded-xl bg-ink-50 border border-ink-100">
+                <div className="flex items-center gap-stack-xs">
                   <span className={`${ICON_BUBBLE} ${theme === 'dark' ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700'}`}>
                     {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
                   </span>

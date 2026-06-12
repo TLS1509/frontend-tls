@@ -267,7 +267,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
   if (variant === 'a') {
     const title = (
       <div className="flex flex-col gap-0.5">
-        <div className="flex items-baseline justify-between gap-2">
+        <div className="flex items-baseline justify-between gap-stack-xs">
           <span className="text-body-sm font-semibold text-ink-700">Positionnement</span>
           <span className="text-caption text-ink-500 tabular-nums">
             {isClosed ? total : Math.min(currentIdx + 1, total)} / {total}
@@ -309,7 +309,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     const footer = isClosed ? (
       <div className="flex justify-end">{finishButton}</div>
     ) : (
-      <div className="flex items-end gap-2">
+      <div className="flex items-end gap-stack-xs">
         <textarea
           value={textValue}
           onChange={(e) => setTextValue(e.target.value)}
@@ -352,7 +352,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
     return (
       <div className="flex flex-col gap-stack">
         {/* Progress strip */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <ProgressBar value={progressPct} max={100} fill="warm" size="sm" valueLabel={false} className="flex-1" />
           <span className="text-caption text-ink-500 tabular-nums shrink-0">
             {isClosed ? total : currentIdx + 1} / {total}
@@ -362,10 +362,10 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
         {/* Question card — key forces fade-in animation on question change */}
         <div
           key={`q-${currentIdx}-${isClosed}`}
-          className="rounded-2xl bg-white/80 backdrop-blur-glass-medium border border-white/60 shadow-card px-6 py-6 animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
+          className="rounded-2xl bg-white/80 backdrop-blur-glass-medium border border-white/60 shadow-card px-6 py-stack-lg animate-in fade-in slide-in-from-bottom-2 duration-300 flex flex-col gap-stack-xs"
         >
           {/* AI identity */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-pill bg-white border border-primary-100 shadow-xs">
               <TlsLogo size={24} withBubble={false} variant="primary" />
             </span>
@@ -418,7 +418,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
   // ── VARIANT C : Immersive full-screen ─────────────────────────────────────
   const progressDots = (
-    <div className="flex items-center justify-center gap-1.5" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
+    <div className="flex items-center justify-center gap-tight.5" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
       {Array.from({ length: total }).map((_, i) => (
         <span
           key={i}

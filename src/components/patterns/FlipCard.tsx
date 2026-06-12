@@ -140,7 +140,7 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             </h2>
 
             {/* Flip hint */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/30">
+            <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/30">
               <RotateCw size={16} className="text-white" />
               <span className="font-body text-caption font-medium text-white">
                 Cliquez pour voir la réponse

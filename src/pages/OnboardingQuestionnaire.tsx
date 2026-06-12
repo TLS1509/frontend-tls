@@ -32,7 +32,7 @@ const VariantSwitcher: React.FC<{
   onChange: (v: QuestionnaireVariant) => void;
 }> = ({ current, onChange }) => (
   <div
-    className="fixed bottom-6 right-5 z-toast flex items-center gap-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/60 shadow-lg px-1.5 py-1"
+    className="fixed bottom-6 right-5 z-toast flex items-center gap-tight rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/60 shadow-lg px-1.5 py-1"
     role="group"
     aria-label="Changer de variante"
   >
@@ -124,7 +124,7 @@ const OnboardingQuestionnaire: React.FC = () => {
       <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
-        <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+        <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
 
           {/* Brand bar */}
           <div className="flex items-center justify-between">
@@ -142,7 +142,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
           <header className="flex flex-col gap-tight text-center">
-            <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
               <Target size={14} aria-hidden="true" />
               Positionnement
             </p>
@@ -196,7 +196,7 @@ const OnboardingQuestionnaire: React.FC = () => {
     <main className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -214,7 +214,7 @@ const OnboardingQuestionnaire: React.FC = () => {
         <Stepper items={buildOnboardingStepperItems('positionnement', onboardingStore.accountType)} orientation="horizontal" />
 
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
             <Target size={14} aria-hidden="true" />
             Positionnement Dreyfus
           </p>
@@ -246,7 +246,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           <DreyfusLevelSelector tone="warm" value={selected} onChange={handleAnswer} />
         </SectionCard>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-stack">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-stack-xs sm:gap-stack">
           <Button
             variant="secondary"
             leadingIcon={<ChevronLeft className="w-4 h-4" />}

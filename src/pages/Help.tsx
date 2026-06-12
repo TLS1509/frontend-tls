@@ -152,7 +152,7 @@ export const Help: React.FC = () => {
                     onClick={() => toggleFaq(item.id)}
                     className="w-full flex items-center justify-between gap-stack px-5 py-stack bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-xl"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-stack-xs">
                       <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>
                       <span className="font-body text-body-sm font-semibold text-ink-900">
                         {item.question}
@@ -187,20 +187,20 @@ export const Help: React.FC = () => {
 
           <Card className="border border-primary-200 bg-white overflow-hidden flex flex-col">
             {/* Chat header */}
-            <div className="flex items-center gap-3 px-5 py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
+            <div className="flex items-center gap-stack-xs px-5 py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
               <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center shrink-0">
                 <Bot size={20} />
               </div>
               <div>
                 <p className="m-0 font-body text-body-sm font-bold text-ink-900">Assistant TLS</p>
-                <p className="m-0 font-body text-caption text-primary-600 flex items-center gap-1">
+                <p className="m-0 font-body text-caption text-primary-600 flex items-center gap-tight">
                   <Sparkles size={11} /> En ligne · répond instantanément
                 </p>
               </div>
             </div>
 
             {/* Chat messages */}
-            <div className="flex flex-col gap-3 p-5 min-h-[260px]">
+            <div className="flex flex-col gap-stack-xs p-5 min-h-[260px]">
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[
@@ -216,7 +216,7 @@ export const Help: React.FC = () => {
             </div>
 
             {/* Chat input */}
-            <div className="flex items-center gap-3 px-stack py-3 border-t border-ink-200 bg-ink-50">
+            <div className="flex items-center gap-stack-xs px-stack py-3 border-t border-ink-200 bg-ink-50">
               <input
                 type="text"
                 value={chatInput}

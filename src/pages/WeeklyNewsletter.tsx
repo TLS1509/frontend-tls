@@ -72,7 +72,7 @@ export const WeeklyNewsletter: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-3">
+        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
           <Button
             variant="ghost"
             size="sm"
@@ -96,7 +96,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
-          <span className="inline-flex items-center gap-1.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+          <span className="inline-flex items-center gap-tight.5 self-start px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
             <TrendingUp size={11} /> Semaine #08
           </span>
 
@@ -128,7 +128,7 @@ export const WeeklyNewsletter: React.FC = () => {
 
         {/* Vidéo de la semaine */}
         <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-stack-xs">
             <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
               Vidéo de la semaine
             </h2>
@@ -175,7 +175,7 @@ export const WeeklyNewsletter: React.FC = () => {
           <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
             À la une
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack sm:gap-stack">
             {TOP_ARTICLES.map((article) => {
               const tone = CATEGORY_TONE[article.tone];
               return (
@@ -193,7 +193,7 @@ export const WeeklyNewsletter: React.FC = () => {
                     <h3 className="m-0 font-body text-body-sm font-bold text-ink-900 leading-snug">
                       {article.title}
                     </h3>
-                    <span className="inline-flex items-center gap-1 font-body text-micro font-semibold text-primary-700">
+                    <span className="inline-flex items-center gap-tight font-body text-micro font-semibold text-primary-700">
                       Lire l'article <ArrowRight size={11} />
                     </span>
                   </div>
@@ -226,7 +226,7 @@ export const WeeklyNewsletter: React.FC = () => {
                         {article.category}
                       </span>
                       <span aria-hidden>·</span>
-                      <span className="inline-flex items-center gap-1">
+                      <span className="inline-flex items-center gap-tight">
                         <Clock size={10} /> {article.readTime}
                       </span>
                       <span aria-hidden>·</span>

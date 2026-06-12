@@ -50,9 +50,9 @@ export const CHIP_BASE =
   'inline-flex items-center rounded-pill font-body whitespace-nowrap transition-all border select-none';
 
 export const CHIP_SIZE: Record<ChipSize, string> = {
-  sm: 'gap-1 px-2 py-0.5 text-micro font-medium',
-  md: 'gap-1.5 px-2.5 py-1 text-caption font-medium',
-  lg: 'gap-2 px-4 py-2 text-body-sm font-medium',
+  sm: 'gap-tight px-2 py-0.5 text-micro font-medium',
+  md: 'gap-tight.5 px-2.5 py-1 text-caption font-medium',
+  lg: 'gap-stack-xs px-4 py-2 text-body-sm font-medium',
 };
 
 export const CHIP_TONE_SOLID: Record<ChipTone, string> = {

@@ -41,7 +41,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
   });
 
   return (
-    <div className="overflow-x-auto mt-6">
+    <div className="overflow-x-auto mt-stack-lg">
       <table className="w-full border-collapse font-body">
         <thead>
           <tr>

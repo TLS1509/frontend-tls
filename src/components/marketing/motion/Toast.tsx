@@ -81,7 +81,7 @@ export const MarketingToastProvider: React.FC<{ children: React.ReactNode }> = (
       <div
         aria-live="polite"
         aria-atomic="false"
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:top-20 sm:right-6 z-toast flex flex-col gap-2 max-w-sm w-full px-4 sm:px-0 pointer-events-none"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:top-20 sm:right-6 z-toast flex flex-col gap-stack-xs max-w-sm w-full px-4 sm:px-0 pointer-events-none"
       >
         <AnimatePresence>
           {toasts.map((t) => (

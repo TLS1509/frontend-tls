@@ -138,7 +138,7 @@ export default function ProfileBadgesCompetences() {
           </SectionCard>
 
           <SectionCard title="Progression badges" titleIcon={<Award size={18} />}>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {progressByCategory.length === 0 ? (
                 <p className="text-caption text-ink-400">Aucun badge compétence pour l'instant.</p>
               ) : (
@@ -160,7 +160,7 @@ export default function ProfileBadgesCompetences() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-stack-xs">
           <div className="flex flex-wrap gap-stack-xs">
             {categories.map((cat) => (
               <FilterChip

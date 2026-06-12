@@ -48,7 +48,7 @@ export const CounterAnimation: React.FC<CounterAnimationProps> = ({
   }, [displayStep])
 
   return (
-    <div className={`inline-flex items-baseline gap-2 ${className}`}>
+    <div className={`inline-flex items-baseline gap-stack-xs ${className}`}>
       <span className={`font-body text-caption font-semibold uppercase tracking-widest ${colorClass}`}>
         {label}
       </span>

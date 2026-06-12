@@ -36,7 +36,7 @@ export const LessonProgressArc: React.FC<LessonProgressArcProps> = ({
 
   return (
     <div
-      className="flex flex-col items-center gap-3"
+      className="flex flex-col items-center gap-stack-xs"
       style={{
         width: size,
       }}

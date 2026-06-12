@@ -74,7 +74,7 @@ export const VeilleHeroFilterChips: React.FC<VeilleHeroFilterChipsProps> = ({
 }) => (
   <div
     className={[
-      'flex flex-wrap items-center gap-2',
+      'flex flex-wrap items-center gap-stack-xs',
       className,
     ].filter(Boolean).join(' ')}
     role="group"

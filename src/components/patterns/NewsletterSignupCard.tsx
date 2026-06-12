@@ -23,7 +23,7 @@ export const NewsletterSignupCard: React.FC<NewsletterSignupCardProps> = ({
       <div aria-hidden className="absolute -bottom-10 right-1/4 w-48 h-48 rounded-full bg-accent-400/10 blur-[60px] pointer-events-none" />
 
       <div className="relative z-10 max-w-page mx-auto px-4 sm:px-6 lg:px-10 py-10 sm:py-12">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-12">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-section sm:gap-section">
 
           {/* Editorial copy */}
           <div className="flex flex-col gap-stack flex-1 min-w-0">

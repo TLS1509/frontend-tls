@@ -45,7 +45,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
     >
       <div>
         {questionNumber && totalQuestions && (
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-stack-xs mb-3">
             <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-50 text-primary-700 text-caption font-bold">
               {questionNumber}
             </span>
@@ -59,7 +59,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
         </h2>
       </div>
 
-      <div className="flex flex-col gap-2.5" role="radiogroup">
+      <div className="flex flex-col gap-stack-xs.5" role="radiogroup">
         {options.map((option, idx) => {
           const isSelected = selectedId === option.id;
           const isCorrect = option.isCorrect;
@@ -84,7 +84,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
             <button
               key={option.id}
               className={[
-                'group flex items-center gap-4 px-5 py-4 rounded-xl border-2 cursor-pointer transition-all text-left',
+                'group flex items-center gap-stack px-5 py-stack rounded-xl border-2 cursor-pointer transition-all text-left',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 'disabled:cursor-not-allowed disabled:opacity-60',
                 optionClasses,
@@ -118,7 +118,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
       {answered && (
         <div
           className={[
-            'flex items-start gap-3 p-4 rounded-xl text-body-sm leading-relaxed',
+            'flex items-start gap-stack-xs p-4 rounded-xl text-body-sm leading-relaxed',
             isCorrectAnswer
               ? 'bg-gradient-to-br from-success-bg to-white border border-success-base/30 text-success-fg'
               : 'bg-gradient-to-br from-danger-bg to-white border border-danger-base/30 text-danger-fg',

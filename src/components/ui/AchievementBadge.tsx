@@ -21,9 +21,9 @@ const SIZE_PADDING: Record<'sm' | 'md' | 'lg', string> = {
 };
 
 const ICON_CIRCLE: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'w-[60px] h-[60px] mb-4',
-  md: 'w-[100px] h-[100px] mb-6',
-  lg: 'w-[140px] h-[140px] mb-8',
+  sm: 'w-[60px] h-[60px] mb-stack',
+  md: 'w-[100px] h-[100px] mb-stack-lg',
+  lg: 'w-[140px] h-[140px] mb-section',
 };
 
 const ICON_INNER_PX: Record<'sm' | 'md' | 'lg', number> = { sm: 28, md: 48, lg: 64 };
@@ -101,14 +101,14 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
       <h3 className="m-0 mb-2 text-h4 font-display font-semibold text-ink-900">{title}</h3>
 
       {description && (
-        <p className="m-0 mb-4 text-body-sm text-ink-500 leading-relaxed">{description}</p>
+        <p className="m-0 mb-stack text-body-sm text-ink-500 leading-relaxed">{description}</p>
       )}
 
       <p
         className={[
           'm-0 text-caption font-medium',
           isLocked ? 'text-ink-500' : COLOR_TEXT[color],
-          onShare && !isLocked ? 'mb-4' : '',
+          onShare && !isLocked ? 'mb-stack' : '',
         ]
           .filter(Boolean)
           .join(' ')}
@@ -123,7 +123,7 @@ export const AchievementBadge: React.FC<AchievementBadgeProps> = ({
           type="button"
           onClick={onShare}
           className={[
-            'mt-4 px-5 py-3 min-h-touch text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
+            'mt-stack px-5 py-3 min-h-touch text-white border-0 rounded-md text-caption font-semibold cursor-pointer transition-all',
             'hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             COLOR_BTN[color],
           ].join(' ')}

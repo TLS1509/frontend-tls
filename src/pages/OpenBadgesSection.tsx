@@ -103,7 +103,7 @@ export default function OpenBadgesSection() {
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Badge grid */}
         <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-3 flex-wrap">
+          <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
             <h2 className="font-display text-h3 font-bold text-ink-900 m-0">Mes certifications</h2>
             <p className="m-0 font-body text-body-sm text-ink-500 shrink-0">8 obtenus · 3 partagés · 2 en cours</p>
           </div>

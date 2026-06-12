@@ -67,12 +67,12 @@ export default function OnboardingTutorial() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
-      <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+      <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-between">
           <div className="w-24" />
-          <a href="/dashboard" aria-label="The Learning Society — retour accueil" className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
+          <a href="/dashboard" aria-label="The Learning Society — retour accueil" className="flex items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm">
             <TlsLogo size={36} variant="color" withBubble />
           </a>
           <div className="w-24 flex justify-end">
@@ -88,7 +88,7 @@ export default function OnboardingTutorial() {
         <Stepper items={buildOnboardingStepperItems('tutoriel', onboardingStore.accountType)} orientation="horizontal" />
 
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
             <Compass size={14} aria-hidden="true" />
             Tutoriel plateforme
           </p>

@@ -192,7 +192,7 @@ export default function AlerteStagnation() {
               Aucun apprenant dans cette catégorie.
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {filteredLearners.map((learner) => (
                 <Card
                   key={learner.id}
@@ -200,7 +200,7 @@ export default function AlerteStagnation() {
                   className="flex flex-col md:flex-row md:items-center gap-stack p-stack"
                 >
                   {/* Identité */}
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="flex items-center gap-stack-xs flex-1 min-w-0">
                     <Avatar name={learner.name} size="md" />
                     <div className="flex flex-col gap-tight min-w-0">
                       <div className="flex items-center gap-stack-xs flex-wrap">

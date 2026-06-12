@@ -48,7 +48,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <Card
       className={[
-        'group flex flex-col gap-3 transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md overflow-hidden',
+        'group flex flex-col gap-stack-xs transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md overflow-hidden',
         TONE_HOVER_GLOW[tone],
         className,
       ]
@@ -72,21 +72,21 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         >
           <Play size={28} fill="currentColor" className="ml-1" />
         </div>
-        <div className="absolute bottom-3 right-3 inline-flex items-center gap-1 px-2 py-1 rounded-pill bg-black/60 backdrop-blur-sm text-white text-micro font-bold">
+        <div className="absolute bottom-3 right-3 inline-flex items-center gap-tight px-2 py-1 rounded-pill bg-black/60 backdrop-blur-sm text-white text-micro font-bold">
           <Clock size={10} />
           {duration}
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-col gap-stack-xs">
+        <div className="flex items-center gap-stack-xs flex-wrap">
           <Badge variant="neutral">{category}</Badge>
         </div>
         <h3 className="m-0 text-h4 font-semibold text-ink-900 leading-snug line-clamp-2">{title}</h3>
         {author && <p className="m-0 text-caption text-ink-500">Par {author}</p>}
       </div>
 
-      <div className="flex gap-2 pt-3 border-t border-ink-100">
+      <div className="flex gap-stack-xs pt-3 border-t border-ink-100">
         <Button onClick={onClick} className="flex-1 justify-center">
           <Play size={14} fill="currentColor" />
           Regarder

@@ -56,11 +56,11 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
   activeId,
 }) => (
   <nav aria-label="Sommaire de l'article" className="flex flex-col gap-stack">
-    <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+    <span className="inline-flex items-center gap-tight.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
       <Hash size={14} />
       Sommaire
     </span>
-    <ul className="flex flex-col gap-1 m-0 p-0 list-none">
+    <ul className="flex flex-col gap-tight m-0 p-0 list-none">
       {sections.map((s) => {
         const id = headingToId(s.heading);
         const isActive = activeId === id;
@@ -110,11 +110,11 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-stack-xs">
       <button
         type="button"
         onClick={handleShare}
-        className="inline-flex items-center gap-2 px-3 h-9 rounded-pill bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch"
+        className="inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch"
         aria-label="Partager l'article"
       >
         <Share2 size={14} />
@@ -123,7 +123,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       <button
         type="button"
         onClick={handleCopy}
-        className={`inline-flex items-center gap-2 px-3 h-9 rounded-pill border transition-colors duration-fast min-h-touch ${
+        className={`inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill border transition-colors duration-fast min-h-touch ${
           copied
             ? 'bg-success-bg text-success-fg border-success-base/40'
             : 'bg-white text-ink-700 border-ink-200 hover:bg-ink-50 hover:border-primary-300'
@@ -203,9 +203,9 @@ const BodyBlock: React.FC<{ block: ArticleBodyBlock; pullquoteIndex: number }> =
       );
     case 'ul':
       return (
-        <ul className="flex flex-col gap-2 m-0 pl-0 list-none">
+        <ul className="flex flex-col gap-stack-xs m-0 pl-0 list-none">
           {block.items.map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
+            <li key={i} className="flex items-start gap-stack-xs">
               <span className="shrink-0 mt-[0.45em] w-1.5 h-1.5 rounded-full bg-primary-400" />
               <span className="font-body text-[clamp(0.9375rem,1.2vw,1rem)] text-ink-700 leading-relaxed">
                 {item}
@@ -268,7 +268,7 @@ const ArticleBody: React.FC<{
       {/* Conclusion */}
       <FadeInWhenVisible direction="up">
         <div className="rounded-3xl bg-ink-50/40 border border-ink-100 p-section mt-stack">
-          <div className="flex items-center gap-2 mb-stack">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <Sparkles size={18} className="text-warning-fg" />
             <span className="font-body text-caption font-bold text-warning-fg uppercase tracking-widest">
               Pour conclure
@@ -282,7 +282,7 @@ const ArticleBody: React.FC<{
 
       {/* Source link */}
       <FadeInWhenVisible direction="up">
-        <div className="flex items-center gap-2 pt-stack border-t border-ink-100">
+        <div className="flex items-center gap-stack-xs pt-stack border-t border-ink-100">
           <ExternalLink size={14} className="text-ink-400 shrink-0" />
           <span className="font-body text-caption text-ink-500">
             Article publié sur{' '}
@@ -340,7 +340,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/marketing/magazine"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-tight.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour au Mag'
@@ -357,11 +357,11 @@ export const MarketingArticleDetail: React.FC = () => {
               >
                 {article.category}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {article.date}
               </span>
-              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
                 <Clock size={14} />
                 {article.readTime} de lecture
               </span>
@@ -385,7 +385,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {/* Share + author block */}
           <FadeInWhenVisible direction="up" delay={0.2}>
             <div className="flex items-center justify-between gap-stack flex-wrap pt-stack border-t border-ink-200/60">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white font-display font-bold text-body-sm">
                   TLS
                 </div>
@@ -432,7 +432,7 @@ export const MarketingArticleDetail: React.FC = () => {
               to={`/marketing/magazine/${prev.slug}`}
               className="group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base"
             >
-              <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-tight.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
                 Article précédent
               </span>
@@ -447,7 +447,7 @@ export const MarketingArticleDetail: React.FC = () => {
               to={`/marketing/magazine/${next.slug}`}
               className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base text-right ${!prev ? 'md:col-start-2' : ''}`}
             >
-              <span className="inline-flex items-center gap-1.5 self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-tight.5 self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 Article suivant
                 <ArrowRight size={14} className="transition-transform duration-base group-hover:translate-x-1" />
               </span>
@@ -489,7 +489,7 @@ export const MarketingArticleDetail: React.FC = () => {
                       <BookOpen size={36} strokeWidth={1.25} className="text-ink-900/25 relative" />
                     </div>
                     <div className="p-stack-lg flex flex-col gap-stack flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-stack-xs flex-wrap">
                         <span
                           className={`inline-flex items-center px-2 py-0.5 rounded-pill border ${
                             CATEGORY_TONES[r.category] ?? 'bg-ink-50 text-ink-700 border-ink-100'
@@ -497,7 +497,7 @@ export const MarketingArticleDetail: React.FC = () => {
                         >
                           {r.category}
                         </span>
-                        <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                        <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                           <Clock size={11} />
                           {r.readTime}
                         </span>
@@ -508,7 +508,7 @@ export const MarketingArticleDetail: React.FC = () => {
                       <p className="font-body text-caption text-ink-500 m-0 line-clamp-3 flex-1">
                         {r.summary}
                       </p>
-                      <div className="inline-flex items-center gap-1 font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-100">
+                      <div className="inline-flex items-center gap-tight font-body text-caption font-bold text-primary-700 pt-stack border-t border-ink-100">
                         Lire
                         <ArrowRight
                           size={12}

@@ -69,7 +69,7 @@ export const FilterChip: React.FC<FilterChipProps> = ({
   const classes = [
     CHIP_BASE,
     // FilterChip uses its own padding (heavier touch target than passive chips)
-    'gap-1.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
+    'gap-tight.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
     BORDER_OVERRIDE,
     INTERACTIVE_LIFT,
     stateClass,

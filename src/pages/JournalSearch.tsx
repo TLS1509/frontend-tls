@@ -116,7 +116,7 @@ const JournalSearch: React.FC = () => {
                         <Badge variant="neutral">{TYPE_LABELS[e.type] ?? e.type}</Badge>
                         <Badge variant="brand">{cfg.label}</Badge>
                         {e.linkedItemId && <Badge variant="sun">Item lié</Badge>}
-                        <span className="flex items-center gap-1 text-caption text-ink-500">
+                        <span className="flex items-center gap-tight text-caption text-ink-500">
                           <Calendar className="w-3 h-3" /> {date}
                         </span>
                       </div>

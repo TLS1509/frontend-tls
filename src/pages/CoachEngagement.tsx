@@ -72,9 +72,9 @@ const CoachEngagement: React.FC = () => {
                     {l.atrophyDays && <AtrophieIndicator daysSinceActivity={l.atrophyDays} />}
                   </div>
                   <div className="flex items-center gap-stack-xs text-caption text-ink-500 mt-1">
-                    <span className="flex items-center gap-1"><Flame className="w-3 h-3 text-secondary-500" /> {l.streak}j</span>
-                    <span className="flex items-center gap-1"><Award className="w-3 h-3 text-accent-400" /> {l.badges}</span>
-                    <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-info-fg" /> {l.xpWeek} XP</span>
+                    <span className="flex items-center gap-tight"><Flame className="w-3 h-3 text-secondary-500" /> {l.streak}j</span>
+                    <span className="flex items-center gap-tight"><Award className="w-3 h-3 text-accent-400" /> {l.badges}</span>
+                    <span className="flex items-center gap-tight"><Zap className="w-3 h-3 text-info-fg" /> {l.xpWeek} XP</span>
                   </div>
                 </div>
                 <div className="w-32">
@@ -89,7 +89,7 @@ const CoachEngagement: React.FC = () => {
         </SectionCard>
 
         {LEARNERS.some((l) => l.atrophyDays) && (
-          <Card className="p-stack bg-warning-bg border-warning-base/30 flex items-start gap-3">
+          <Card className="p-stack bg-warning-bg border-warning-base/30 flex items-start gap-stack-xs">
             <AlertTriangle className="w-5 h-5 text-warning-fg mt-1" />
             <div>
               <div className="font-semibold mb-1">2 apprenants en atrophie</div>

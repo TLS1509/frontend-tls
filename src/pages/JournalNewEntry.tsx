@@ -238,7 +238,7 @@ export const JournalNewEntry: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
       {/* Top bar */}
-      <header className="flex items-center px-4 sm:px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
+      <header className="flex items-center px-4 sm:px-6 py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-stack-xs">
         <Button
           variant="ghost"
           size="sm"
@@ -251,11 +251,11 @@ export const JournalNewEntry: React.FC = () => {
         </Button>
 
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <div className="font-body text-body font-bold text-ink-900 leading-tight">Nouvelle entrée</div>
             {isDraft && <Badge variant="sun" size="sm">Brouillon</Badge>}
           </div>
-          <div className="flex items-center gap-1 text-ink-500 font-body text-caption">
+          <div className="flex items-center gap-tight text-ink-500 font-body text-caption">
             <Clock size={12} />
             {TODAY}
           </div>
@@ -265,12 +265,12 @@ export const JournalNewEntry: React.FC = () => {
           {wordCount} mot{wordCount !== 1 ? 's' : ''}
         </span>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-stack-xs shrink-0">
           {autoSaveStatus === 'saving' && (
             <span className="text-caption text-ink-400 font-medium">Sauvegarde...</span>
           )}
           {autoSaveStatus === 'saved' && (
-            <div className="flex items-center gap-1 text-caption text-success-base font-medium">
+            <div className="flex items-center gap-tight text-caption text-success-base font-medium">
               <CheckCheck size={14} />
               Enregistré
             </div>
@@ -282,7 +282,7 @@ export const JournalNewEntry: React.FC = () => {
       </header>
 
       {/* Content */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8">
+      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-section">
 
         {/* Type selector */}
         <div className="mb-stack-lg">
@@ -302,7 +302,7 @@ export const JournalNewEntry: React.FC = () => {
                   aria-pressed={isSelected}
                   onClick={() => setSelectedType(type)}
                   className={[
-                    'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'flex flex-col items-start gap-stack-xs p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
                       ? `${tc.borderSelected} shadow-sm`
                       : 'border-ink-200 shadow-xs hover:border-ink-400',
@@ -340,7 +340,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-section">
           <button
             type="button"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+            className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
             <Sparkles size={15} />
             Besoin d'inspiration ?
@@ -366,7 +366,7 @@ export const JournalNewEntry: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => toggleQuestion(q.id)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <div className="flex-1 min-w-0">
                       <p className="font-body text-body-sm font-semibold text-ink-900">{q.title}</p>
@@ -379,7 +379,7 @@ export const JournalNewEntry: React.FC = () => {
                   </button>
 
                   {isExpanded && (
-                    <div className="px-4 py-4 bg-ink-50 border-t border-ink-200">
+                    <div className="px-4 py-stack bg-ink-50 border-t border-ink-200">
                       <p className="text-caption text-ink-600 mb-3">{q.description}</p>
                       <textarea
                         value={structuredAnswers[q.id] || ''}
@@ -400,7 +400,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className={`border border-ink-200 rounded-2xl p-7 shadow-sm ${cfg.writingBg || 'bg-white'}`}>
 
           {/* Reflection question */}
-          <div className="mb-6">
+          <div className="mb-stack-lg">
             <p className="m-0 mb-1 font-body text-caption text-ink-500 font-medium">
               Question de réflexion
             </p>

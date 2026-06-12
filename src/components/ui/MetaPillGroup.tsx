@@ -23,9 +23,9 @@ const LAYOUT_CLASSES = {
 };
 
 const GAP_CLASSES = {
-  sm: 'gap-2',
-  md: 'gap-3',
-  lg: 'gap-4',
+  sm: 'gap-stack-xs',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack',
 };
 
 export const MetaPillGroup: React.FC<MetaPillGroupProps> = ({

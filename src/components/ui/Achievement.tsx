@@ -15,9 +15,9 @@ interface AchievementProps {
 }
 
 const SIZE_CLASSES: Record<'sm' | 'md' | 'lg', string> = {
-  sm: 'p-3 gap-3',
-  md: 'p-4 gap-4',
-  lg: 'p-5 gap-5',
+  sm: 'p-3 gap-stack-xs',
+  md: 'p-4 gap-stack',
+  lg: 'p-5 gap-stack',
 };
 
 const BADGE_SIZE: Record<'sm' | 'md' | 'lg', string> = {
@@ -103,7 +103,7 @@ export const Achievement: React.FC<AchievementProps> = ({
         <p className="m-0 mt-0.5 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
         {variant === 'in-progress' && progress !== undefined && (
-          <div className="flex items-center gap-2 mt-2.5">
+          <div className="flex items-center gap-stack-xs mt-2.5">
             <div className="flex-1 h-1.5 bg-ink-100 rounded-pill overflow-hidden shadow-inner">
               <div
                 className="h-full bg-gradient-to-r from-primary-500 to-primary-700 rounded-pill transition-[width] duration-500"
@@ -117,7 +117,7 @@ export const Achievement: React.FC<AchievementProps> = ({
         )}
 
         {variant === 'unlocked' && unlockedAt && (
-          <p className="m-0 mt-1.5 text-caption text-accent-700 font-semibold inline-flex items-center gap-1">
+          <p className="m-0 mt-1.5 text-caption text-accent-700 font-semibold inline-flex items-center gap-tight">
             <Sparkles size={11} fill="currentColor" />
             Débloqué {unlockedAt}
           </p>

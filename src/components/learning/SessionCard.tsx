@@ -49,7 +49,7 @@ export interface SessionCardProps {
 }
 
 const ACTION_BTN_BASE =
-  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px';
+  'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px';
 
 const ACTION_BTN_TONES = {
   primary:   'border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 hover:border-primary-300 hover:shadow-brand-xs active:bg-primary-200',
@@ -148,7 +148,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     <div className={classes}>
       {/* Header : titre + statut + meta directement sous le titre */}
       <div className="flex flex-col gap-stack-xs">
-        <div className="flex justify-between items-start gap-3">
+        <div className="flex justify-between items-start gap-stack-xs">
           <CardTitle className="flex-1">{title}</CardTitle>
           <Badge variant={statusVariant}>{statusLabel}</Badge>
         </div>
@@ -158,7 +158,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       {/* Description (contexte) — sous les méta */}
       <CardDesc>{description}</CardDesc>
 
-      <div className={`flex flex-wrap gap-2 pt-3 ${FOOTER_DIVIDER[surface]}`}>
+      <div className={`flex flex-wrap gap-stack-xs pt-3 ${FOOTER_DIVIDER[surface]}`}>
         {questionnaire && (
           <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.primary}`} onClick={onViewQuestionnaire}>
             <FileText size={13} />

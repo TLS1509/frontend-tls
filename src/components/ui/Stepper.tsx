@@ -46,15 +46,15 @@ export const Stepper: React.FC<StepperProps> = ({
 
   const wrapperClasses = [
     'flex w-full m-0 p-0 list-none',
-    isVertical ? 'flex-col items-stretch gap-1' : 'items-start',
+    isVertical ? 'flex-col items-stretch gap-tight' : 'items-start',
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
   const stepClasses = isVertical
-    ? 'relative flex flex-row items-start gap-3 min-h-[60px] text-left'
-    : 'relative flex-1 min-w-0 basis-0 flex flex-col items-center gap-2 text-center';
+    ? 'relative flex flex-row items-start gap-stack-xs min-h-[60px] text-left'
+    : 'relative flex-1 min-w-0 basis-0 flex flex-col items-center gap-stack-xs text-center';
 
   return (
     <ol className={wrapperClasses} {...rest}>

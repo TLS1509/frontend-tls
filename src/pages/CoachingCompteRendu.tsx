@@ -139,7 +139,7 @@ const getReport = (id: string): SessionReport =>
 /* ─── Sub-components ─────────────────────────────────────────────────────────── */
 
 const StarRating: React.FC<{ rating: number; max?: number }> = ({ rating, max = 5 }) => (
-  <div className="flex gap-1">
+  <div className="flex gap-tight">
     {Array.from({ length: max }).map((_, i) => (
       <Star
         key={i}
@@ -191,11 +191,11 @@ export const CoachingCompteRendu: React.FC = () => {
                 {report.theme}
               </h1>
               <div className="flex flex-wrap gap-stack mt-3">
-                <span className="flex items-center gap-1 font-body text-body-sm opacity-85">
+                <span className="flex items-center gap-tight font-body text-body-sm opacity-85">
                   <CalendarDays size={14} />
                   {report.date}
                 </span>
-                <span className="flex items-center gap-1 font-body text-body-sm opacity-85">
+                <span className="flex items-center gap-tight font-body text-body-sm opacity-85">
                   <Clock3 size={14} />
                   {report.duration}
                 </span>
@@ -239,7 +239,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   return (
                     <div
                       key={tk.id}
-                      className="bg-white border border-ink-100 rounded-xl p-5 shadow-xs flex flex-col gap-3"
+                      className="bg-white border border-ink-100 rounded-xl p-5 shadow-xs flex flex-col gap-stack-xs"
                     >
                       <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${tk.iconClass}`}>
                         <TkIcon size={20} />
@@ -276,7 +276,7 @@ export const CoachingCompteRendu: React.FC = () => {
                         <p className="font-body text-body text-ink-900 m-0 mb-1 leading-snug">
                           {ap.action}
                         </p>
-                        <span className="inline-flex items-center gap-1 font-body text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill font-semibold">
+                        <span className="inline-flex items-center gap-tight font-body text-caption text-primary-700 bg-primary-50 px-2 py-0.5 rounded-pill font-semibold">
                           <CalendarDays size={10} />
                           {ap.deadline}
                         </span>
@@ -321,7 +321,7 @@ export const CoachingCompteRendu: React.FC = () => {
                 <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Votre coach
                 </h3>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-stack-xs items-center">
                   <div className="w-[52px] h-[52px] rounded-full shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-md">
                     {report.coach.initials}
                   </div>
@@ -345,11 +345,11 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* Satisfaction */}
             <Card variant="feature">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Satisfaction de la session
                 </h3>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-stack-xs">
                   <StarRating rating={report.satisfactionRating} />
                   <span className="font-display text-h4 font-extrabold text-accent-700">
                     {report.satisfactionRating}/5
@@ -363,7 +363,7 @@ export const CoachingCompteRendu: React.FC = () => {
 
             {/* Next session */}
             <Card variant="feature" className="bg-gradient-to-br from-primary-50 to-white">
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 <h3 className="font-body text-caption font-medium text-ink-500 m-0">
                   Session suivante
                 </h3>

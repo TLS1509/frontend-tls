@@ -91,7 +91,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   if (layout === 'inline') {
     return (
       <div
-        className={`inline-flex items-center gap-3 w-full ${className}`}
+        className={`inline-flex items-center gap-stack-xs w-full ${className}`}
         {...rest}
       >
         {label && (
@@ -118,7 +118,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   }
 
   return (
-    <div className={`flex flex-col gap-2 ${className}`} {...rest}>
+    <div className={`flex flex-col gap-stack-xs ${className}`} {...rest}>
       {(label || showValueLabel) && (
         <div className="flex justify-between items-center text-caption">
           {label && (

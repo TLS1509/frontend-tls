@@ -222,7 +222,7 @@ export const FlashcardsViewer: React.FC = () => {
           </header>
 
           {/* ── Thumbnails ──────────────────────────────────────── */}
-          <div className="flex gap-3 justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
+          <div className="flex gap-stack-xs justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
             {FLASHCARDS.map((card, index) => {
               const active = index === currentCardIndex;
               const done = completedCards.includes(index);

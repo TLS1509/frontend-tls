@@ -85,7 +85,7 @@ export const ShimmerLoading: React.FC<ShimmerLoadingProps> = ({
               <ShimmerBox shape="rect" baseColor={baseColor} shimmerColor={shimmerColor} />
               <ShimmerBox shape="text" baseColor={baseColor} shimmerColor={shimmerColor} />
               <ShimmerBox shape="text" baseColor={baseColor} shimmerColor={shimmerColor} />
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-stack-xs pt-2">
                 <ShimmerBox shape="circle" baseColor={baseColor} shimmerColor={shimmerColor} />
                 <ShimmerBox shape="circle" baseColor={baseColor} shimmerColor={shimmerColor} />
               </div>

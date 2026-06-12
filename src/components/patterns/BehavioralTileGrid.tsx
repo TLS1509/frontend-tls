@@ -92,7 +92,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
 
     {/* auto-fit grid so any number of tiles fills the row naturally */}
     <div
-      className="grid gap-5"
+      className="grid gap-stack"
       style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}
     >
       {tiles.map((tile, i) => {
@@ -105,7 +105,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
             {/* Accent indicator */}
             <div
               className={[
-                'w-10 h-10 rounded-md flex items-center justify-center mb-4',
+                'w-10 h-10 rounded-md flex items-center justify-center mb-stack',
                 p.accentBg,
               ].join(' ')}
               aria-hidden
@@ -125,7 +125,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
 
             {/* Tags */}
             {tile.tags && tile.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-tight">
                 {tile.tags.map((tag) => (
                   <span
                     key={tag}

@@ -68,7 +68,7 @@ export default function EvenementRecap() {
         title={EVENT.title}
         summary={`Session du ${EVENT.date} · ${EVENT.participants} participants`}
         trailing={
-          <div className="flex flex-wrap gap-3 items-center">
+          <div className="flex flex-wrap gap-stack-xs items-center">
             <Badge variant="success">✓ Participé</Badge>
             <Badge variant="success">+{EVENT.xp} XP</Badge>
           </div>
@@ -96,7 +96,7 @@ export default function EvenementRecap() {
             headerAction={<AITransparencyLabel variant="generated" size="sm" />}
           >
             {KEY_POINTS.map((point) => (
-              <div key={point.id} className="flex items-start gap-3 py-stack-xs border-b border-ink-100 last:border-0">
+              <div key={point.id} className="flex items-start gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
                 <Badge variant="brand">{point.id}</Badge>
                 <p className="text-body-sm text-ink-700 m-0 flex-1">{point.text}</p>
               </div>

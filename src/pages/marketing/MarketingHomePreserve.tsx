@@ -196,7 +196,7 @@ const HeroScrollCue: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-1 text-white/65"
+      className="flex flex-col items-center gap-tight text-white/65"
     >
       <span className="font-body text-micro font-semibold uppercase tracking-widest">
         Défiler
@@ -256,7 +256,7 @@ export const MarketingHomePreserve: React.FC = () => {
         >
           {/* The ONE deliberate kicker on the whole page */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-2 rounded-pill border border-white/20 bg-white/10 px-3.5 py-1.5 backdrop-blur-glass-medium">
+            <span className="inline-flex items-center gap-stack-xs rounded-pill border border-white/20 bg-white/10 px-3.5 py-1.5 backdrop-blur-glass-medium">
               <Sparkles size={14} className="text-accent-300" />
               <span className="font-body text-caption font-semibold uppercase tracking-wider text-white">
                 Certifiant · Qualiopi · Open Badge 2.0
@@ -288,7 +288,7 @@ export const MarketingHomePreserve: React.FC = () => {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.38}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/formation">
                   <Button variant="secondary" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -307,7 +307,7 @@ export const MarketingHomePreserve: React.FC = () => {
 
           {/* Earned proof avatars + count */}
           <FadeInWhenVisible direction="up" delay={0.52}>
-            <div className="flex items-center gap-3 pt-stack">
+            <div className="flex items-center gap-stack-xs pt-stack">
               <div className="flex -space-x-2">
                 {[
                   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=1200&q=80',
@@ -409,7 +409,7 @@ export const MarketingHomePreserve: React.FC = () => {
               <FadeInWhenVisible direction="up" delay={0.22}>
                 <ul className="m-0 flex list-none flex-col gap-stack p-0 pt-stack">
                   {APP_FEATURES.map(({ icon: Icon, title, body }) => (
-                    <li key={title} className="flex items-start gap-3">
+                    <li key={title} className="flex items-start gap-stack-xs">
                       <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700">
                         <Icon size={18} />
                       </span>
@@ -427,7 +427,7 @@ export const MarketingHomePreserve: React.FC = () => {
               </FadeInWhenVisible>
 
               <FadeInWhenVisible direction="up" delay={0.32}>
-                <div className="flex flex-wrap items-center gap-3 pt-stack">
+                <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <Link to="/marketing/learning-app">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Voir toutes les fonctionnalités
@@ -494,7 +494,7 @@ export const MarketingHomePreserve: React.FC = () => {
                     {body}
                   </p>
                   <span
-                    className={`mt-stack inline-flex items-center gap-1 font-body text-body-sm font-bold ${OFFER_LINK_TONE[tone]}`}
+                    className={`mt-stack inline-flex items-center gap-tight font-body text-body-sm font-bold ${OFFER_LINK_TONE[tone]}`}
                   >
                     {cta}
                     <ChevronRight
@@ -539,7 +539,7 @@ export const MarketingHomePreserve: React.FC = () => {
                       />
                     </div>
                   </ParallaxLayer>
-                  <div className="absolute -bottom-4 -right-4 flex max-w-[14rem] flex-col gap-1 rounded-xl bg-white p-stack shadow-xl ring-1 ring-ink-100">
+                  <div className="absolute -bottom-4 -right-4 flex max-w-[14rem] flex-col gap-tight rounded-xl bg-white p-stack shadow-xl ring-1 ring-ink-100">
                     <Quote size={18} className="text-secondary-500" />
                     <p className="m-0 font-display text-body-sm font-medium leading-snug text-ink-900">
                       &laquo; Je ne forme plus, je conçois des expériences. &raquo;
@@ -639,7 +639,7 @@ export const MarketingHomePreserve: React.FC = () => {
                   <p className="m-0 flex-1 font-body text-body leading-relaxed text-ink-800">
                     {quote}
                   </p>
-                  <div className="flex items-center gap-3 border-t border-ink-100 pt-stack">
+                  <div className="flex items-center gap-stack-xs border-t border-ink-100 pt-stack">
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-pill bg-primary-100 font-display text-body-sm font-bold text-primary-700">
                       {role.charAt(0)}
                     </span>
@@ -664,7 +664,7 @@ export const MarketingHomePreserve: React.FC = () => {
           <MarqueeRow
             duration={48}
             items={ORG_TYPES.map((name) => (
-              <span className="inline-flex items-center gap-2 whitespace-nowrap font-display text-h4 font-bold tracking-tight text-ink-400">
+              <span className="inline-flex items-center gap-stack-xs whitespace-nowrap font-display text-h4 font-bold tracking-tight text-ink-400">
                 <span aria-hidden className="h-1.5 w-1.5 rounded-pill bg-accent-400" />
                 {name}
               </span>
@@ -709,7 +709,7 @@ export const MarketingHomePreserve: React.FC = () => {
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.24}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={16}>
                 <Link to="/marketing/contact">
                   <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>

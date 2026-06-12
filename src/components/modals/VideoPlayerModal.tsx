@@ -113,7 +113,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
             />
           ) : (
             /* Demo poster / placeholder */
-            <div className="w-full h-full bg-gradient-to-br from-[#0f1117] to-[#1a1f2e] flex items-center justify-center flex-col gap-4">
+            <div className="w-full h-full bg-gradient-to-br from-[#0f1117] to-[#1a1f2e] flex items-center justify-center flex-col gap-stack">
               {/* Decorative glow */}
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_50%,rgba(85,161,180,0.12)_0%,transparent_70%)]" />
               <div className="w-20 h-20 rounded-full bg-white/8 border border-white/12 flex items-center justify-center relative z-10 text-white/80">
@@ -137,7 +137,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         </div>
 
         {/* Controls bar */}
-        <div className="bg-black/60 backdrop-blur-glass-light py-3 px-4 flex flex-col gap-2">
+        <div className="bg-black/60 backdrop-blur-glass-light py-3 px-4 flex flex-col gap-stack-xs">
           {/* Progress bar */}
           <div
             onClick={handleSeek}
@@ -152,14 +152,14 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
           </div>
 
           {/* Controls row */}
-          <div className="flex items-center gap-3 text-white/70">
+          <div className="flex items-center gap-stack-xs text-white/70">
             <button onClick={togglePlay} className={`${CONTROL_BTN_CLASS} text-white`}>
               {isPlaying ? <Pause size={18} /> : <Play size={18} />}
             </button>
             <button onClick={toggleMute} className={CONTROL_BTN_CLASS}>
               {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
-            <span className="text-[12px] text-white/50 flex items-center gap-1">
+            <span className="text-[12px] text-white/50 flex items-center gap-tight">
               <Clock size={11} /> {currentTime} / {duration}
             </span>
             <div className="flex-1" />
@@ -179,7 +179,7 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
 
         {/* Info panel */}
         <div className="p-5 bg-white border-t border-ink-200">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-stack">
             <div className="flex-1 min-w-0">
               <h3 className="text-body font-bold text-ink-900 mb-1">
                 {title}

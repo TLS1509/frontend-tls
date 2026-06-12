@@ -187,7 +187,7 @@ export default function Gamification() {
                 const dreyfusLabel = ['Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'][c.level - 1] ?? 'Novice';
                 const levelStyle = DREYFUS_LEVEL_STYLES[c.level];
                 return (
-                  <Card key={i} className="p-stack flex flex-col gap-3">
+                  <Card key={i} className="p-stack flex flex-col gap-stack-xs">
                     <div className="flex items-start justify-between gap-stack-xs">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <AtrophieIndicator
@@ -209,7 +209,7 @@ export default function Gamification() {
                       label={`Niveau ${c.level}/${c.maxLevel}`}
                       showLabel
                     />
-                    <div className="flex gap-1">
+                    <div className="flex gap-tight">
                       {Array.from({ length: c.maxLevel }, (_, idx) => (
                         <div
                           key={idx}
@@ -251,13 +251,13 @@ export default function Gamification() {
               description="18 jours consécutifs de connexion · Démarré le 25 avril 2026"
             >
               <div className="flex flex-col gap-stack">
-                <div className="flex items-end gap-3">
+                <div className="flex items-end gap-stack-xs">
                   <span className="text-h1 font-display font-bold text-secondary-600">18</span>
                   <span className="text-body text-ink-400 pb-2">jours</span>
                 </div>
                 <ProgressBar value={(18 / 30) * 100} fill="warm" size="lg" label="Prochain milestone : 30 jours" showLabel />
                 {/* Calendar heatmap (simplified) */}
-                <div className="grid grid-cols-7 gap-1 mt-stack-xs">
+                <div className="grid grid-cols-7 gap-tight mt-stack-xs">
                   {Array.from({ length: 21 }, (_, i) => (
                     <div
                       key={i}
@@ -273,7 +273,7 @@ export default function Gamification() {
             </SectionCard>
 
             <SectionCard title="XP par catégorie" titleIcon={<Zap size={20} />}>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 {[
                   { label: 'Parcours', xp: 1840, pct: 38 },
                   { label: 'Coaching', xp: 1200, pct: 25 },
@@ -281,7 +281,7 @@ export default function Gamification() {
                   { label: 'Journal', xp: 480, pct: 10 },
                   { label: 'Autre', xp: 340, pct: 7 },
                 ].map((cat) => (
-                  <div key={cat.label} className="flex flex-col gap-1">
+                  <div key={cat.label} className="flex flex-col gap-tight">
                     <div className="flex justify-between text-caption text-ink-600">
                       <span>{cat.label}</span>
                       <span className="font-medium">{cat.xp.toLocaleString()} XP</span>

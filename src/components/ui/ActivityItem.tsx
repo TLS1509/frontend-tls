@@ -49,7 +49,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-3 p-3 rounded-xl transition-colors duration-200 hover:bg-ink-50/60',
+        'group/item relative flex items-start gap-stack-xs p-3 rounded-xl transition-colors duration-200 hover:bg-ink-50/60',
         className,
       ]
         .filter(Boolean)
@@ -75,7 +75,7 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
       </div>
 
       <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-3 flex-wrap">
+        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
           <h4 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{title}</h4>
           {timestamp && (
             <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">

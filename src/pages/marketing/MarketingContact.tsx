@@ -80,7 +80,7 @@ export const MarketingContact: React.FC = () => {
         </div>
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <MessageSquare size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 On adore les conversations qui démarrent
@@ -160,7 +160,7 @@ export const MarketingContact: React.FC = () => {
                     <label className="font-body text-body-sm font-semibold text-ink-900">
                       Sujet
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-stack-xs">
                       {SUBJECTS.map((s) => {
                         const isActive = form.subject === s;
                         return (
@@ -187,7 +187,7 @@ export const MarketingContact: React.FC = () => {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-stack-xs">
                       <label htmlFor="ct-name" className="font-body text-body-sm font-semibold text-ink-900">
                         Prénom et nom *
                       </label>
@@ -201,7 +201,7 @@ export const MarketingContact: React.FC = () => {
                         className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
                       />
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-stack-xs">
                       <label htmlFor="ct-email" className="font-body text-body-sm font-semibold text-ink-900">
                         Email pro *
                       </label>
@@ -217,7 +217,7 @@ export const MarketingContact: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-stack-xs">
                     <label htmlFor="ct-org" className="font-body text-body-sm font-semibold text-ink-900">
                       Organisation
                     </label>
@@ -231,7 +231,7 @@ export const MarketingContact: React.FC = () => {
                     />
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-stack-xs">
                     <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
                       Ton message *
                     </label>
@@ -272,7 +272,7 @@ export const MarketingContact: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.05}>
               <div className="relative overflow-hidden rounded-3xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold uppercase tracking-wider w-fit">
+                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold uppercase tracking-wider w-fit">
                     <Sparkles size={12} />
                     Plus rapide
                   </span>
@@ -356,7 +356,7 @@ export const MarketingContact: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="pt-stack border-t border-ink-100 flex items-center gap-2">
+                <div className="pt-stack border-t border-ink-100 flex items-center gap-stack-xs">
                   <Clock size={14} className="text-ink-500 shrink-0" />
                   <p className="font-body text-caption text-ink-600 m-0">
                     Réponse sous <strong className="text-ink-900">48h ouvrées</strong> · L-V, 9h–18h
@@ -369,7 +369,7 @@ export const MarketingContact: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.15}>
               <div className="rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
                 <h3 className="font-display text-h5 font-bold text-ink-900 m-0">Accès rapide</h3>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (
                     <Link
                       key={q.href + q.label}

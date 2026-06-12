@@ -64,7 +64,7 @@ const StickyScrollShowcase: React.FC = () => {
             <p className="font-body text-caption font-bold uppercase tracking-widest text-ink-500 m-0 mb-stack">
               Step Controls
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-stack-xs">
               <Button
                 variant="outline"
                 size="sm"
@@ -286,31 +286,31 @@ import { ParallexTextLayers } from '@/components/marketing/parallax-text-layers'
             Testing Checklist
           </h2>
           <ul className="space-y-3 m-0 p-0 list-none">
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-stack-xs">
               <span className="font-body font-bold text-primary-600 shrink-0">✓</span>
               <span className="font-body text-body text-ink-700">
                 Click up/down buttons → Counter number animates smoothly
               </span>
             </li>
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-stack-xs">
               <span className="font-body font-bold text-primary-600 shrink-0">✓</span>
               <span className="font-body text-body text-ink-700">
                 SVG morphs between 3 shapes (loop → circle → path)
               </span>
             </li>
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-stack-xs">
               <span className="font-body font-bold text-primary-600 shrink-0">✓</span>
               <span className="font-body text-body text-ink-700">
                 Scroll the text box → eyebrow, title, body move at different speeds
               </span>
             </li>
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-stack-xs">
               <span className="font-body font-bold text-primary-600 shrink-0">✓</span>
               <span className="font-body text-body text-ink-700">
                 On mobile → all animations are smooth and responsive
               </span>
             </li>
-            <li className="flex items-start gap-3">
+            <li className="flex items-start gap-stack-xs">
               <span className="font-body font-bold text-primary-600 shrink-0">✓</span>
               <span className="font-body text-body text-ink-700">
                 With reduced motion enabled → animations are skipped (accessibility ✓)

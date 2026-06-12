@@ -59,7 +59,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-full border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
           <p className="m-0 text-body-sm font-medium">Chargement des coachs…</p>
         </div>
@@ -70,7 +70,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   if (!filteredCoaches || filteredCoaches.length === 0) {
     return (
       <div className={['flex items-center justify-center p-12 rounded-2xl bg-ink-50/50 border border-dashed border-ink-200', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
             <Users size={26} strokeWidth={2} />
           </span>
@@ -81,9 +81,9 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
   }
 
   return (
-    <div className={['grid gap-5', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
+    <div className={['grid gap-stack', COLS[columns], className].filter(Boolean).join(' ')} role="grid">
       {filteredCoaches.map((coach) => (
-        <div key={coach.id} role="gridcell" className="flex flex-col gap-3 group">
+        <div key={coach.id} role="gridcell" className="flex flex-col gap-stack-xs group">
           <div
             onClick={() => onCoachSelect?.(coach.id)}
             className="cursor-pointer transition-transform group-hover:-translate-y-0.5"
@@ -107,7 +107,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           </div>
 
           {coach.specialties && coach.specialties.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 justify-center px-2">
+            <div className="flex flex-wrap gap-tight.5 justify-center px-2">
               {coach.specialties.map((specialty) => (
                 <span
                   key={specialty}
@@ -122,7 +122,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           {coach.availability !== undefined && (
             <div
               className={[
-                'inline-flex items-center justify-center gap-2 text-caption font-semibold mx-auto px-3 py-1 rounded-pill',
+                'inline-flex items-center justify-center gap-stack-xs text-caption font-semibold mx-auto px-3 py-1 rounded-pill',
                 coach.availability
                   ? 'text-success-fg bg-success-bg border border-success-base/20'
                   : 'text-ink-500 bg-ink-50 border border-ink-200',

@@ -99,7 +99,7 @@ export const JournalTypeTile: React.FC<JournalTypeTileProps> = ({
       onClick={onClick}
       aria-pressed={selected}
       className={[
-        'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border',
+        'flex flex-col items-start gap-stack-xs p-4 rounded-xl bg-white border',
         'cursor-pointer relative transition-all duration-200 text-left font-body min-h-touch',
         selected
           ? `${cfg.borderSelected} shadow-sm`

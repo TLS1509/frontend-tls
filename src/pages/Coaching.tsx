@@ -223,7 +223,7 @@ export const Coaching: React.FC = () => {
 
           {/* DEV CONTROLS: masqué en production */}
           {import.meta.env.DEV && <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-accent-50 border border-accent-200 text-caption">
-            <span className="inline-flex items-center gap-1 font-bold text-accent-900">
+            <span className="inline-flex items-center gap-tight font-bold text-accent-900">
               <Sparkles size={14} /> DEV
             </span>
             <span className="text-ink-700">Coach :</span>
@@ -304,7 +304,7 @@ export const Coaching: React.FC = () => {
               className="!p-0 !rounded-2xl !gap-0"
             >
               <div className="p-stack-lg lg:p-section flex flex-col gap-stack-lg">
-                <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex flex-wrap items-start justify-between gap-stack-xs">
                   <div className="flex flex-col gap-tight min-w-0">
                     <p className="m-0 font-body text-caption font-medium text-primary-700">
                       Prochaine session
@@ -329,7 +329,7 @@ export const Coaching: React.FC = () => {
                 {/* Coach row : avatar + name + role + Message button: intégré ici
                     (au lieu d'une section strip dédiée) car c'est dans le contexte de la
                     session que contacter son coach a du sens. */}
-                <div className="flex flex-wrap items-center gap-3 p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
+                <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
                   <Avatar initials="SM" size="sm" tint="brand" />
                   <div className="flex flex-col min-w-0 flex-1">
                     <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">

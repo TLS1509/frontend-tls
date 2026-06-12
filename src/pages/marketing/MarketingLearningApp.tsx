@@ -158,7 +158,7 @@ export const MarketingLearningApp: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
           <div className="flex flex-col gap-stack-lg">
             <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light w-fit">
+              <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light w-fit">
                 <Sparkles size={14} className="text-accent-400" />
                 <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                   La Learning App SBO · Learn → Do → Match
@@ -181,7 +181,7 @@ export const MarketingLearningApp: React.FC = () => {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible direction="up" delay={0.3}>
-              <div className="flex flex-wrap items-center gap-3 pt-stack">
+              <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                 <MagneticButton strength={14}>
                   <a href="#early-access">
                     <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -202,8 +202,8 @@ export const MarketingLearningApp: React.FC = () => {
             </FadeInWhenVisible>
 
             <FadeInWhenVisible direction="up" delay={0.4}>
-              <div className="flex items-center gap-2 pt-stack">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-stack-xs pt-stack">
+                <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
                   Beta
                 </span>
                 <span className="font-body text-body-sm text-white/75">
@@ -229,7 +229,7 @@ export const MarketingLearningApp: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-stack">
           {STATS.map((s, i) => (
             <FadeInWhenVisible key={s.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col gap-1 p-stack rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
+              <div className="flex flex-col gap-tight p-stack rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
                 <CountUp
                   to={s.to}
                   suffix={s.suffix}
@@ -302,9 +302,9 @@ export const MarketingLearningApp: React.FC = () => {
                   <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
                     {f.description}
                   </p>
-                  <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                     {f.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2.5">
+                      <li key={b} className="flex items-start gap-stack-xs.5">
                         <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
                         <span className="font-body text-body text-ink-800">{b}</span>
                       </li>
@@ -333,7 +333,7 @@ export const MarketingLearningApp: React.FC = () => {
             </FadeInWhenVisible>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
             {FEATURE_TILES.map((t, i) => (
               <FadeInWhenVisible key={t.title} direction="up" delay={i * 0.05}>
                 <motion.div
@@ -344,7 +344,7 @@ export const MarketingLearningApp: React.FC = () => {
                   <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-primary-50 to-accent-50 text-primary-700 border border-primary-100">
                     {t.icon}
                   </span>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-tight">
                     <h3 className="font-display text-body font-bold text-ink-900 m-0 leading-tight">{t.title}</h3>
                     <p className="font-body text-caption text-ink-600 m-0 leading-relaxed">{t.desc}</p>
                   </div>
@@ -379,15 +379,15 @@ export const MarketingLearningApp: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                   className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:border-primary-200 transition-all duration-base"
                 >
-                  <span className="inline-flex self-start items-center gap-1 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider">
+                  <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider">
                     {u.badge}
                   </span>
                   <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
                     {u.title}
                   </h3>
-                  <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                     {u.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2 font-body text-body-sm text-ink-700">
+                      <li key={b} className="flex items-start gap-stack-xs font-body text-body-sm text-ink-700">
                         <CheckCircle2 size={16} className="text-primary-600 shrink-0 mt-0.5" />
                         {b}
                       </li>
@@ -410,7 +410,7 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
         <div className="relative max-w-prose mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <div className="flex items-center gap-2 justify-center">
+            <div className="flex items-center gap-stack-xs justify-center">
               <Mail size={18} className="text-accent-400" />
               <span className="font-body text-caption font-bold text-white/70 uppercase tracking-widest">
                 Accès anticipé
@@ -449,7 +449,7 @@ export const MarketingLearningApp: React.FC = () => {
                 onSubmit={handleSubmit}
                 className="w-full max-w-md flex flex-col gap-stack pt-stack bg-white/10 backdrop-blur-glass-medium border border-white/20 rounded-2xl p-section"
               >
-                <div className="flex flex-col gap-2 text-left">
+                <div className="flex flex-col gap-stack-xs text-left">
                   <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-white/90">
                     Email professionnel
                   </label>
@@ -463,7 +463,7 @@ export const MarketingLearningApp: React.FC = () => {
                     className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
-                <div className="flex flex-col gap-2 text-left">
+                <div className="flex flex-col gap-stack-xs text-left">
                   <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-white/90">
                     Ton rôle
                   </label>

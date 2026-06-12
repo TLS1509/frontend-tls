@@ -108,7 +108,7 @@ export const Billing: React.FC = () => {
           tone="primary"
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-primary-50/60 border border-primary-200">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-stack-xs">
               <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 text-primary-700">
                 <Sparkles size={20} />
               </div>
@@ -122,14 +122,14 @@ export const Billing: React.FC = () => {
                 <p className="m-0 font-body text-body-sm text-ink-600">
                   {tierConfig.tagline}
                 </p>
-                <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-1">
+                <p className="m-0 font-body text-caption text-ink-500 mt-1 inline-flex items-center gap-tight">
                   <Calendar size={12} />
                   Prochaine échéance : <strong className="text-ink-800">1er juin 2026</strong>
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col items-start sm:items-end gap-1">
+            <div className="flex flex-col items-start sm:items-end gap-tight">
               <p className="m-0 font-display text-h3 font-bold text-ink-900 tabular-nums">
                 {tierConfig.price}
               </p>
@@ -152,7 +152,7 @@ export const Billing: React.FC = () => {
           description="La carte utilisée pour vos prélèvements mensuels."
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-ink-50 border border-ink-100">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-stack-xs">
               <div className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-ink-900 text-white">
                 <CreditCard size={20} />
               </div>
@@ -191,7 +191,7 @@ export const Billing: React.FC = () => {
                 className={`flex flex-col md:grid md:grid-cols-[1.2fr_2fr_0.8fr_auto] md:items-center gap-stack-xs md:gap-stack px-stack py-3 ${i < INVOICES.length - 1 ? 'border-b border-ink-100' : ''}`}
               >
                 <div className="flex items-center gap-stack-xs">
-                  <span className="md:hidden inline-flex items-center gap-1 text-success-fg">
+                  <span className="md:hidden inline-flex items-center gap-tight text-success-fg">
                     <CheckCircle2 size={12} />
                   </span>
                   <span className="font-body text-body-sm font-semibold text-ink-800">
@@ -205,7 +205,7 @@ export const Billing: React.FC = () => {
                   {inv.amount}
                 </p>
                 <div className="flex items-center gap-stack-xs md:justify-end">
-                  <span className="hidden md:inline-flex items-center gap-1 text-success-fg text-caption font-semibold">
+                  <span className="hidden md:inline-flex items-center gap-tight text-success-fg text-caption font-semibold">
                     <CheckCircle2 size={14} />
                     Payée
                   </span>
@@ -229,7 +229,7 @@ export const Billing: React.FC = () => {
           description={`Vous conserverez l'accès ${tierConfig.name} jusqu'à la fin de la période en cours.`}
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack p-stack rounded-2xl bg-danger-bg/30 border border-danger-border">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-stack-xs">
               <div className="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-danger-bg text-danger-fg">
                 <AlertTriangle size={18} />
               </div>

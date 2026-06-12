@@ -86,7 +86,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         className="flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 px-6 pt-5 pb-4 border-b border-ink-100">
+        <div className="flex items-start justify-between gap-stack-xs px-6 pt-5 pb-stack border-b border-ink-100">
           <div>
             <h2 className="text-h4 font-display font-bold text-ink-900 m-0">{title}</h2>
             {description && (
@@ -110,7 +110,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-3 px-6 pb-5 pt-2">
+        <div className="flex items-center justify-between gap-stack-xs px-6 pb-5 pt-2">
           <div>
             {destructiveLabel && onDestructive && (
               <Button
@@ -123,7 +123,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({
               </Button>
             )}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Button type="button" variant="ghost" size="sm" onClick={onClose}>
               Annuler
             </Button>

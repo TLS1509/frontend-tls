@@ -247,7 +247,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({
           <motion.p
             variants={itemVariants}
             className={[
-              'font-body text-caption font-bold uppercase tracking-[0.06em] inline-flex items-center gap-1.5 m-0',
+              'font-body text-caption font-bold uppercase tracking-[0.06em] inline-flex items-center gap-tight.5 m-0',
               TONE_EYEBROW[tone],
             ].join(' ')}
           >

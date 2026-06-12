@@ -205,7 +205,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const renderSourceBanner = () => {
     if (isEnterprise) {
       return (
-        <div className="mb-stack p-3 rounded-xl bg-success-bg/30 border border-success-base/30 flex items-start gap-3">
+        <div className="mb-stack p-3 rounded-xl bg-success-bg/30 border border-success-base/30 flex items-start gap-stack-xs">
           <Building2 size={16} className="text-success-fg shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -220,7 +220,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
     if (hasCredits) {
       return (
-        <div className="mb-stack p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-start gap-3">
+        <div className="mb-stack p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-start gap-stack-xs">
           <Wallet size={16} className="text-primary-600 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -235,7 +235,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
     // free OU pro à 0 crédit → upsell banner
     return (
-      <div className="mb-stack p-3 rounded-xl bg-accent-50 border border-accent-200 flex items-start gap-3">
+      <div className="mb-stack p-3 rounded-xl bg-accent-50 border border-accent-200 flex items-start gap-stack-xs">
         <Sparkles size={16} className="text-accent-700 shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <p className="m-0 font-body text-caption font-bold text-ink-900">
@@ -263,7 +263,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         className="relative w-full max-w-[820px] max-h-[92vh] flex flex-col bg-white rounded-2xl border border-ink-200 shadow-modal animate-modal-in overflow-hidden"
       >
         {/* Header — compact */}
-        <div className="px-5 py-4 border-b border-ink-200 flex items-center gap-3 flex-wrap shrink-0">
+        <div className="px-5 py-stack border-b border-ink-200 flex items-center gap-stack-xs flex-wrap shrink-0">
           <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-display font-black text-caption shrink-0">
             {coachInitials}
           </div>
@@ -278,7 +278,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           {/* Step pills */}
-          <div className="flex gap-1.5 flex-wrap">
+          <div className="flex gap-tight.5 flex-wrap">
             {allSteps.map((s, i) => (
               <div key={s} className={getPillClass(s, step, allSteps)}>
                 {i + 1}. {STEP_LABELS[s]}
@@ -301,7 +301,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <>
               {renderSourceBanner()}
 
-              <div className="grid grid-cols-1 md:grid-cols-[1fr_180px] gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_180px] gap-stack">
                 {/* Calendar */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -352,14 +352,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                 {/* Time slots — compact */}
                 <div>
-                  <div className="flex items-center gap-1.5 mb-2">
+                  <div className="flex items-center gap-tight.5 mb-2">
                     <Clock size={12} className="text-primary-500 shrink-0" />
                     <span className="text-caption font-bold text-ink-900 leading-tight">
                       {selectedDate ? formatDateLabel(selectedDate) : 'Choisis une date'}
                     </span>
                   </div>
                   {availableTimes.length > 0 ? (
-                    <div className="flex flex-col gap-1.5 max-h-[260px] overflow-y-auto">
+                    <div className="flex flex-col gap-tight.5 max-h-[260px] overflow-y-auto">
                       {availableTimes.map((t) => {
                         const isSel = selectedTime === t;
                         return (
@@ -386,7 +386,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {step === 'payment' && (
             <div className="flex flex-col gap-stack">
               {/* Order summary compact */}
-              <div className="p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-3">
+              <div className="p-3 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-stack-xs">
                 <div className="flex flex-col gap-tight min-w-0">
                   <span className="font-display text-body-sm font-bold text-ink-900 truncate">
                     Session 1:1 avec {coachName}
@@ -402,10 +402,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               {/* Payment method header */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <CreditCard size={16} className="text-primary-600" />
                 <span className="font-display text-caption font-bold text-ink-900">Paiement par carte</span>
-                <span className="ml-auto inline-flex items-center gap-1 text-micro text-ink-500">
+                <span className="ml-auto inline-flex items-center gap-tight text-micro text-ink-500">
                   <Lock size={11} /> Sécurisé
                 </span>
               </div>
@@ -472,7 +472,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="flex flex-col gap-stack">
               {/* Recap card compact */}
               <div className="p-4 rounded-xl bg-primary-50 border border-primary-500/20">
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-stack-xs flex-wrap">
                   <div className="w-10 h-10 rounded-md bg-primary-500 flex items-center justify-center shrink-0">
                     <Calendar size={18} className="text-white" />
                   </div>
@@ -482,24 +482,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
+                  <div className="flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
                     <CheckCircle2 size={12} /> 45 min
                   </div>
                 </div>
                 {/* Ligne facturation : crédit déduit / sponsorisé / payé */}
-                <div className="mt-stack-xs pt-stack-xs border-t border-primary-200 flex items-center justify-between flex-wrap gap-2">
+                <div className="mt-stack-xs pt-stack-xs border-t border-primary-200 flex items-center justify-between flex-wrap gap-stack-xs">
                   {isEnterprise ? (
-                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
                       <Building2 size={12} className="text-success-fg" />
                       Sponsorisée par {companyName}
                     </span>
                   ) : hasCredits ? (
-                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
                       <Wallet size={12} className="text-primary-600" />
                       1 crédit déduit · reste {Math.max(0, credits.remaining - 1)} / {credits.total} ce mois
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
                       <CreditCard size={12} className="text-primary-600" />
                       Carte ****{cardNumber.slice(-4) || '••••'}
                     </span>
@@ -511,7 +511,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               {/* 3 info tiles compact */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-xs">
                 {[
                   { icon: <FileText size={14} />, title: 'Questionnaire', body: 'Envoyé 24h avant.' },
                   { icon: <Video size={14} />,    title: 'Lien visio',    body: 'Envoyé par email.' },
@@ -529,7 +529,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-ink-200 flex justify-between gap-3 bg-ink-50 flex-wrap shrink-0">
+        <div className="px-5 py-3 border-t border-ink-200 flex justify-between gap-stack-xs bg-ink-50 flex-wrap shrink-0">
           {step !== 'datetime' ? (
             <Button variant="secondary" size="sm" onClick={goBack}>
               ← Retour

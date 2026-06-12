@@ -72,7 +72,7 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
   return (
     <div
       className={[
-        'grid grid-cols-2 gap-3 md:grid-cols-4',
+        'grid grid-cols-2 gap-stack-xs md:grid-cols-4',
         className,
       ]
         .filter(Boolean)
@@ -83,7 +83,7 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
           key={href}
           type="button"
           onClick={() => navigate(href)}
-          className="group flex items-center gap-3 p-4 rounded-2xl bg-white/10 backdrop-blur-glass-medium border border-white/20 hover:bg-white/15 transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+          className="group flex items-center gap-stack-xs p-4 rounded-2xl bg-white/10 backdrop-blur-glass-medium border border-white/20 hover:bg-white/15 transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
         >
           {/* Icon bubble */}
           <span className="shrink-0 w-8 h-8 rounded-lg bg-white/8 flex items-center justify-center">

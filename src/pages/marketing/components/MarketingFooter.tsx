@@ -56,11 +56,11 @@ const NewsletterInline: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-stack-xs">
       <label className="sr-only" htmlFor="newsletter-email">
         Adresse email
       </label>
-      <div className="flex items-center gap-1 p-1 rounded-pill bg-white/8 border border-white/15 backdrop-blur-glass-light focus-within:border-accent-400/60 transition-colors duration-base">
+      <div className="flex items-center gap-tight p-1 rounded-pill bg-white/8 border border-white/15 backdrop-blur-glass-light focus-within:border-accent-400/60 transition-colors duration-base">
         <input
           id="newsletter-email"
           type="email"
@@ -73,7 +73,7 @@ const NewsletterInline: React.FC = () => {
         <button
           type="submit"
           disabled={submitted}
-          className="inline-flex items-center justify-center gap-1.5 px-4 h-9 rounded-pill bg-accent-400 hover:bg-accent-500 text-ink-900 font-body font-bold text-caption whitespace-nowrap transition-colors duration-base disabled:opacity-disabled disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center gap-tight.5 px-4 h-9 rounded-pill bg-accent-400 hover:bg-accent-500 text-ink-900 font-body font-bold text-caption whitespace-nowrap transition-colors duration-base disabled:opacity-disabled disabled:cursor-not-allowed"
           aria-label="S'inscrire à la newsletter"
         >
           {submitted ? <CheckCircle2 size={14} /> : <ArrowRight size={14} />}
@@ -103,7 +103,7 @@ export const MarketingFooter: React.FC = () => (
       <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr_1fr] gap-section-lg">
         {/* Brand + newsletter (col span 1.5) */}
         <div className="flex flex-col gap-stack-lg max-w-md">
-          <Link to="/marketing" className="flex items-center gap-2.5 w-fit group">
+          <Link to="/marketing" className="flex items-center gap-stack-xs.5 w-fit group">
             <TlsLogo
               size={32}
               variant="light"
@@ -125,7 +125,7 @@ export const MarketingFooter: React.FC = () => (
           <h3 className="font-body text-caption font-bold text-white/50 uppercase tracking-widest m-0">
             Navigation
           </h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5 list-none p-0 m-0">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-tight.5 list-none p-0 m-0">
             {NAV_LINKS.map(({ label, href }) => (
               <li key={href}>
                 <Link
@@ -146,7 +146,7 @@ export const MarketingFooter: React.FC = () => (
           <h3 className="font-body text-caption font-bold text-white/50 uppercase tracking-widest m-0">
             Légal
           </h3>
-          <ul className="flex flex-col gap-1.5 list-none p-0 m-0">
+          <ul className="flex flex-col gap-tight.5 list-none p-0 m-0">
             {LEGAL_LINKS.map(({ label, href }) => (
               <li key={href}>
                 <a
@@ -172,7 +172,7 @@ export const MarketingFooter: React.FC = () => (
           <span className="text-white/20">·</span>
           <span>RGPD & AI Act compliant</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-stack-xs">
           <a
             href="https://linkedin.com/company/thelearningsociety"
             target="_blank"

@@ -49,7 +49,7 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
       )}
 
       {xpAwarded !== undefined && (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-tight">
           <Zap size={14} className="text-accent-400" />
           <span className="text-body-sm font-semibold text-accent-600">
             +{xpAwarded} XP

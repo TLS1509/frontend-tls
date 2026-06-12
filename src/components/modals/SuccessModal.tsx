@@ -45,7 +45,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         </button>
 
         {/* Success icon with pulse ring */}
-        <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+        <div className="relative w-24 h-24 mx-auto mb-stack-lg flex items-center justify-center">
           <div className="absolute inset-0 rounded-full border-[3px] border-primary-300 animate-sm-pulse" />
           <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center shadow-[0_12px_32px_rgba(85,161,180,0.35)] animate-sm-icon-in">
             <CheckCircle2 size={40} className="text-white" />
@@ -53,7 +53,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="text-center mb-8 relative z-10 animate-sm-fade-up-1">
+        <div className="text-center mb-section relative z-10 animate-sm-fade-up-1">
           <h2 className="text-h3 font-extrabold mb-3 modal-gradient-text">
             {title}
           </h2>

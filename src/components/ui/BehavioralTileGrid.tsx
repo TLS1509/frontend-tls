@@ -44,7 +44,7 @@ const ICON_SIZE: Record<TileSize, number> = {
 const PAD: Record<TileSize, string> = {
   compact: 'px-3 py-2.5',
   default: 'px-4 py-3',
-  large: 'px-5 py-4',
+  large: 'px-5 py-stack',
 };
 
 const LABEL_TEXT: Record<TileSize, string> = {
@@ -67,7 +67,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
   return (
     <div
       className={[
-        layout === 'grid' ? 'grid grid-cols-2 gap-2.5' : 'flex flex-col gap-2',
+        layout === 'grid' ? 'grid grid-cols-2 gap-stack-xs.5' : 'flex flex-col gap-stack-xs',
         className,
       ]
         .filter(Boolean)

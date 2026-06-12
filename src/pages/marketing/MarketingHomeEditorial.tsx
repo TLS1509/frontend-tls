@@ -285,7 +285,7 @@ export const MarketingHomeEditorial: React.FC = () => {
               <Reveal delay={0.16}>
                 <ul className="flex flex-col gap-stack m-0 p-0 list-none">
                   {FEATURES.map((f) => (
-                    <li key={f} className="flex items-start gap-3">
+                    <li key={f} className="flex items-start gap-stack-xs">
                       <CheckCircle2 size={20} className="text-primary-600 shrink-0 mt-0.5" />
                       <span className="font-body text-body text-ink-800">{f}</span>
                     </li>
@@ -352,7 +352,7 @@ export const MarketingHomeEditorial: React.FC = () => {
                       </p>
                     </div>
                     <div className="lg:col-span-3 lg:text-right">
-                      <span className={`inline-flex items-center gap-2 font-body text-body-sm font-bold ${offer.tag} min-h-touch`}>
+                      <span className={`inline-flex items-center gap-stack-xs font-body text-body-sm font-bold ${offer.tag} min-h-touch`}>
                         {offer.cta}
                         <ArrowRight
                           size={18}
@@ -391,7 +391,7 @@ export const MarketingHomeEditorial: React.FC = () => {
                   </p>
                 </div>
                 <div className="lg:col-span-4 lg:text-right">
-                  <span className="inline-flex items-center gap-2 font-body text-body font-bold text-primary-700 min-h-touch">
+                  <span className="inline-flex items-center gap-stack-xs font-body text-body font-bold text-primary-700 min-h-touch">
                     Découvrir la méthode
                     <ArrowRight
                       size={18}
@@ -493,7 +493,7 @@ export const MarketingHomeEditorial: React.FC = () => {
                   Trente minutes pour comprendre votre contexte et tracer le chemin
                   le plus court vers l'impact. Sans engagement.
                 </p>
-                <div className="flex flex-wrap items-center gap-3 pt-stack">
+                <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={16}>
                     <Link to="/marketing/contact">
                       <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>

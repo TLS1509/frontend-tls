@@ -46,7 +46,7 @@ export const Modal: React.FC<ModalProps> = ({
   const dialogClasses = [
     // Mobile-first: 16px gutter via parent p-4 (scrim) + full width; desktop: 480px cap
     'relative bg-white rounded-2xl shadow-xl w-full sm:max-w-[480px]',
-    'p-6 sm:p-8 flex flex-col gap-5 max-h-[90vh] overflow-y-auto',
+    'p-6 sm:p-8 flex flex-col gap-stack max-h-[90vh] overflow-y-auto',
     'animate-[modal-scale-in-flat_0.25s_cubic-bezier(0.34,1.56,0.64,1)_both]',
     className,
   ].filter(Boolean).join(' ');
@@ -64,7 +64,7 @@ export const Modal: React.FC<ModalProps> = ({
         aria-labelledby={title ? 'modal-title' : undefined}
       >
         {(title || description || showClose) && (
-          <div className="grid grid-cols-[1fr_auto] gap-3 items-start">
+          <div className="grid grid-cols-[1fr_auto] gap-stack-xs items-start">
             <div className="flex-1 min-w-0">
               {title && (
                 <p id="modal-title" className="font-display text-h2 font-semibold tracking-tight leading-[1.15] text-ink-900 mb-2">
@@ -93,7 +93,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {actions && (
-          <div className="flex justify-end gap-3 mt-3">{actions}</div>
+          <div className="flex justify-end gap-stack-xs mt-3">{actions}</div>
         )}
       </div>
     </div>

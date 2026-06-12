@@ -145,7 +145,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
                 href={`#${item.id}`}
                 onClick={(e) => handleClick(e, item.id)}
                 className={[
-                  'group relative flex items-center gap-3 px-3 py-2.5 rounded-lg min-h-touch',
+                  'group relative flex items-center gap-stack-xs px-3 py-2.5 rounded-lg min-h-touch',
                   'transition-all duration-base',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   'hover:translate-x-0.5',

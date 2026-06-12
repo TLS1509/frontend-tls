@@ -117,12 +117,12 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
         className,
       ].filter(Boolean).join(' ')}
     >
-      <div className="max-w-wide mx-auto px-4 md:px-8 py-4">
+      <div className="max-w-wide mx-auto px-4 md:px-8 py-stack">
 
         {/* Main row */}
         <div className="flex flex-col md:flex-row md:items-center gap-stack">
           {/* Icon + text */}
-          <div className="flex items-start gap-3 flex-1 min-w-0">
+          <div className="flex items-start gap-stack-xs flex-1 min-w-0">
             <Cookie className="shrink-0 mt-0.5 text-primary-500" size={18} />
             <div className="flex flex-col gap-tight">
               <p className="text-body-sm font-semibold text-ink-900">
@@ -141,7 +141,7 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
           </div>
 
           {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs shrink-0">
             <Button
               variant="ghost"
               size="sm"
@@ -161,13 +161,13 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
 
         {/* Customize panel */}
         {showCustomize && (
-          <div className="mt-4 pt-4 border-t border-ink-100 flex flex-col gap-3">
+          <div className="mt-stack pt-stack border-t border-ink-100 flex flex-col gap-stack-xs">
             <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">
               Gérer mes préférences
             </p>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {categories.map((cat) => (
-                <div key={cat.id} className="flex items-start gap-3">
+                <div key={cat.id} className="flex items-start gap-stack-xs">
                   <Toggle
                     checked={prefs[cat.id] ?? false}
                     disabled={cat.required}

@@ -132,7 +132,7 @@ const ProjectsList: React.FC = () => {
                 >
                   <div className="flex items-start justify-between gap-stack mb-stack">
                     <div className="flex-1">
-                      <div className="flex flex-wrap gap-1.5 mb-1.5">
+                      <div className="flex flex-wrap gap-tight.5 mb-1.5">
                         <Badge variant={TYPE_VARIANTS[p.type]}>{TYPE_LABELS[p.type]}</Badge>
                         <Badge variant={STATUS_VARIANTS[p.status]}>{STATUS_LABELS[p.status]}</Badge>
                       </div>
@@ -159,11 +159,11 @@ const ProjectsList: React.FC = () => {
                   </div>
 
                   <div className="flex items-center justify-between text-caption text-ink-500">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-tight.5">
                       <Avatar initials={p.expertInitials} size="sm" tint="brand" />
                       <span>{p.expertName}</span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-tight">
                       <Calendar size={12} />
                       {new Date(p.endDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </div>

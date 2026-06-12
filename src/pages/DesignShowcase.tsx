@@ -145,7 +145,7 @@ const ShowcaseHero: React.FC = () => {
           </div>
 
           {/* Eyebrow */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <span className="font-mono text-micro font-bold tracking-[0.16em] uppercase text-primary-700">
               Design Showcase
             </span>
@@ -169,7 +169,7 @@ const ShowcaseHero: React.FC = () => {
           </p>
 
           {/* CTA — anthropomorphic logo animation demo */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+          <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
             <Button
               variant="primary"
               size="lg"
@@ -189,7 +189,7 @@ const ShowcaseHero: React.FC = () => {
           {/* Logo animation legend */}
           <p className="text-caption text-ink-500 italic max-w-md pt-2">
             {computing ? (
-              <span className="inline-flex items-center gap-2 text-primary-700 not-italic">
+              <span className="inline-flex items-center gap-stack-xs text-primary-700 not-italic">
                 <span className="inline-block size-1.5 rounded-full bg-primary-500 animate-pulse" />
                 Calcul en cours — cascade orbitale sur les 4 shapes du mark
               </span>
@@ -287,8 +287,8 @@ const Signature2Gradient: React.FC = () => (
 
 const Signature3Sparkles: React.FC = () => (
   <div className="h-64 rounded-2xl border border-ink-100 bg-surface-cool p-6 flex flex-col gap-stack">
-    <div className="flex items-center gap-2">
-      <span className="inline-flex items-center gap-1 rounded-pill bg-primary-50 px-2 py-1">
+    <div className="flex items-center gap-stack-xs">
+      <span className="inline-flex items-center gap-tight rounded-pill bg-primary-50 px-2 py-1">
         <Sparkles size={11} className="text-primary-700" />
         <span className="font-mono text-[0.6875rem] font-bold tracking-[0.08em] text-primary-700">
           IA
@@ -320,7 +320,7 @@ const Signature4LogoAnim: React.FC = () => {
   return (
     <div className="relative h-64 rounded-2xl border border-ink-100 bg-white p-6 flex flex-col items-center justify-center gap-stack-lg">
       {/* Version badge — V0.5 orbital cascade on inner shapes; V1 morph deferred to brand refresh */}
-      <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-pill bg-ink-50 border border-ink-200 px-2 py-0.5 text-[0.625rem] font-mono font-bold tracking-[0.08em] uppercase text-ink-600">
+      <span className="absolute top-3 right-3 inline-flex items-center gap-tight rounded-pill bg-ink-50 border border-ink-200 px-2 py-0.5 text-[0.625rem] font-mono font-bold tracking-[0.08em] uppercase text-ink-600">
         V0.5 · Orbital
       </span>
       <TlsLogo size={56} variant="color" withBubble loading={phase === 'computing'} />
@@ -329,7 +329,7 @@ const Signature4LogoAnim: React.FC = () => {
           <p className="text-caption text-ink-500">Logo idle — pas d'animation</p>
         )}
         {phase === 'computing' && (
-          <span className="inline-flex items-center gap-1 rounded-pill bg-primary-50 px-3 py-1">
+          <span className="inline-flex items-center gap-tight rounded-pill bg-primary-50 px-3 py-1">
             <Sparkles size={11} className="text-primary-700" />
             <span className="font-mono text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary-700">
               IA · Calcul en cours
@@ -376,7 +376,7 @@ const Signature5GhostType: React.FC = () => {
 
   return (
     <div className="h-64 rounded-2xl border border-ink-100 bg-surface-cool p-6 flex flex-col gap-stack">
-      <span className="inline-flex items-center gap-1 rounded-pill bg-primary-50 px-2 py-1 self-start">
+      <span className="inline-flex items-center gap-tight rounded-pill bg-primary-50 px-2 py-1 self-start">
         <Sparkles size={11} className="text-primary-700" />
         <span className="font-mono text-[0.6875rem] font-bold tracking-[0.08em] text-primary-700">
           IA
@@ -405,11 +405,11 @@ const Signature5GhostType: React.FC = () => {
 };
 
 const Signature6Tones: React.FC = () => (
-  <div className="h-64 rounded-2xl border border-ink-100 bg-white p-4 grid grid-cols-5 gap-2">
+  <div className="h-64 rounded-2xl border border-ink-100 bg-white p-4 grid grid-cols-5 gap-stack-xs">
     {TONES.map((t) => (
       <div
         key={t.id}
-        className={`rounded-xl ${t.bgClass} ${t.borderClass} border flex flex-col items-center justify-center p-2 text-center gap-1`}
+        className={`rounded-xl ${t.bgClass} ${t.borderClass} border flex flex-col items-center justify-center p-2 text-center gap-tight`}
       >
         <div
           className="size-6 rounded-full ring-2 ring-white/60 shadow-sm"
@@ -781,7 +781,7 @@ const KanbanCard: React.FC<{ fix: FixEntry }> = ({ fix }) => {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="inline-flex items-center gap-1 text-caption font-semibold text-primary-700 hover:text-primary-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded min-h-touch -mx-1 px-1"
+        className="inline-flex items-center gap-tight text-caption font-semibold text-primary-700 hover:text-primary-900 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded min-h-touch -mx-1 px-1"
       >
         {open ? 'Masquer Δ' : 'Voir Δ'}
         <ChevronRight
@@ -835,9 +835,9 @@ const KanbanBoard: React.FC<{ fixes: FixEntry[] }> = ({ fixes }) => {
           >
             {/* Column header */}
             <header
-              className={`rounded-xl border ${col.borderHeader} ${col.bgHeader} px-stack py-stack-xs flex items-center justify-between gap-2`}
+              className={`rounded-xl border ${col.borderHeader} ${col.bgHeader} px-stack py-stack-xs flex items-center justify-between gap-stack-xs`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-stack-xs">
                 <span
                   className={`inline-block size-2 rounded-full ${col.accent}`}
                   aria-hidden
@@ -856,7 +856,7 @@ const KanbanBoard: React.FC<{ fixes: FixEntry[] }> = ({ fixes }) => {
 
             {/* Cards */}
             {items.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-2 py-section text-ink-400">
+              <div className="flex flex-col items-center justify-center gap-stack-xs py-section text-ink-400">
                 <span className="inline-flex size-9 items-center justify-center rounded-full bg-white/70 border border-ink-200">
                   {col.emptyIcon}
                 </span>
@@ -959,7 +959,7 @@ const VisualVocabularySection: React.FC = () => (
           key={sig.n}
           className="flex flex-col gap-stack rounded-2xl"
         >
-          <div className="flex items-baseline gap-3">
+          <div className="flex items-baseline gap-stack-xs">
             <span className="font-mono text-eyebrow font-bold tracking-[0.08em] text-primary-600">
               {sig.n}
             </span>
@@ -1011,7 +1011,7 @@ const TonePreviewCard: React.FC<{ tone: ToneSpec; flow: FlowEntry }> = ({ tone, 
 
   return (
     <div className={`rounded-2xl border p-6 ${surfaceStyle}`}>
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-stack-xs mb-3">
         <div
           className="size-3 rounded-full ring-2 ring-white/50"
           style={{ backgroundColor: tone.hex }}
@@ -1024,14 +1024,14 @@ const TonePreviewCard: React.FC<{ tone: ToneSpec; flow: FlowEntry }> = ({ tone, 
       <p className={`text-body-sm mb-stack ${tone.id === 'brand' ? 'text-white/85' : 'opacity-80'}`}>
         Surfaces · {flow.surfaces}
       </p>
-      <div className="flex flex-wrap items-center gap-2 pt-stack-xs">
-        <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-0.5 text-[0.6875rem] font-semibold ${
+      <div className="flex flex-wrap items-center gap-stack-xs pt-stack-xs">
+        <span className={`inline-flex items-center gap-tight rounded-pill px-2 py-0.5 text-[0.6875rem] font-semibold ${
           tone.id === 'brand' ? 'bg-white/20 text-white' : 'bg-white/60 text-ink-800'
         }`}>
           Dominant · {tone.id}
         </span>
         {flow.accent && (
-          <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-0.5 text-[0.6875rem] font-semibold ${
+          <span className={`inline-flex items-center gap-tight rounded-pill px-2 py-0.5 text-[0.6875rem] font-semibold ${
             tone.id === 'brand' ? 'bg-white/10 text-white/80' : 'bg-white/40 text-ink-700'
           }`}>
             Accent · {flow.accent}
@@ -1055,7 +1055,7 @@ const PerToneMappingSection: React.FC = () => {
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,1.2fr] gap-stack-lg items-start">
         {/* Flow list */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-stack-xs">
           {FLOW_MAPPING.map((f) => {
             const isActive = selected.flow === f.flow;
             const tone = TONES.find((t) => t.id === f.dominant)!;
@@ -1063,7 +1063,7 @@ const PerToneMappingSection: React.FC = () => {
               <button
                 key={f.flow}
                 onClick={() => setSelected(f)}
-                className={`group flex items-center gap-3 rounded-xl border px-4 py-3 text-left min-h-touch transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                className={`group flex items-center gap-stack-xs rounded-xl border px-4 py-3 text-left min-h-touch transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                   isActive
                     ? 'bg-white border-ink-300 shadow-md'
                     : 'bg-surface-cool border-ink-100 hover:bg-white hover:border-ink-200'
@@ -1130,12 +1130,12 @@ const PerAltitudeSection: React.FC = () => (
         </header>
 
         {/* Mock dashboard */}
-        <div className="rounded-xl bg-white border border-primary-100 p-4 flex flex-col gap-3">
+        <div className="rounded-xl bg-white border border-primary-100 p-4 flex flex-col gap-stack-xs">
           <p className="text-caption text-ink-500">Lundi 26 mai</p>
           <h4 className="font-display text-h4 font-semibold text-ink-900">
             Reprends ta leçon
           </h4>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <Badge variant="brand">Niveau 3</Badge>
             <Badge variant="neutral">22 min</Badge>
             <Badge variant="neutral">Étape 4 sur 7</Badge>
@@ -1149,10 +1149,10 @@ const PerAltitudeSection: React.FC = () => (
         </div>
 
         <ul className="text-body-sm text-ink-700 flex flex-col gap-stack-xs pt-stack-xs">
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Single action per viewport — 3 sec answer</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Progress visible — Dreyfus, parcours, mission</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Practice {'>'} content completion</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Motion ≤ 200ms · Tailwind transitions only</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Single action per viewport — 3 sec answer</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Progress visible — Dreyfus, parcours, mission</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Practice {'>'} content completion</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Motion ≤ 200ms · Tailwind transitions only</li>
         </ul>
       </article>
 
@@ -1171,7 +1171,7 @@ const PerAltitudeSection: React.FC = () => (
         </header>
 
         {/* Mock KPI bar */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-stack-xs">
           {[
             { label: 'Atrophie 90j', value: '12', sub: 'cohort 47' },
             { label: 'JAC validés', value: '38', sub: 'ce mois' },
@@ -1190,7 +1190,7 @@ const PerAltitudeSection: React.FC = () => (
         {/* Mock heatmap row */}
         <div className="rounded-lg border border-ink-100 p-3 bg-surface-cool">
           <p className="text-caption text-ink-500 mb-2">Capability heatmap · 7 comp.</p>
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-tight">
             {[3, 4, 2, 5, 3, 4, 4].map((lvl, i) => (
               <div
                 key={i}
@@ -1205,15 +1205,15 @@ const PerAltitudeSection: React.FC = () => (
         </div>
 
         <ul className="text-body-sm text-ink-700 flex flex-col gap-stack-xs pt-stack-xs">
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Portfolio view — pas lens individuelle</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Trends {'>'} snapshots · pas de hero-metric</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Override visible sur reco IA</li>
-          <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Motion ≤ 150ms · sort/filter/expand</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Portfolio view — pas lens individuelle</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Trends {'>'} snapshots · pas de hero-metric</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Override visible sur reco IA</li>
+          <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Motion ≤ 150ms · sort/filter/expand</li>
         </ul>
       </article>
     </div>
 
-    <Card variant="bordered" className="mt-stack-lg p-5 flex items-start gap-3 bg-amber-50/40 border-secondary-200">
+    <Card variant="bordered" className="mt-stack-lg p-5 flex items-start gap-stack-xs bg-amber-50/40 border-secondary-200">
       <Info size={20} className="text-secondary-600 shrink-0 mt-0.5" />
       <p className="text-body-sm text-ink-800">
         <strong>Règle One Altitude Per Viewport.</strong> Le Manager dashboard n'embarque pas le
@@ -1253,7 +1253,7 @@ const PracticeGrammarSection: React.FC = () => {
       description="Chaque écran cadre une pratique active, pas une consommation passive. L'apprenant est sujet du verbe. Toggle pour voir l'opposé doctrinal."
       tone="sun"
     >
-      <div className="flex items-center gap-3 mb-stack-lg">
+      <div className="flex items-center gap-stack-xs mb-stack-lg">
         <button
           onClick={() => setShowForbidden(false)}
           className={`px-4 py-2 rounded-pill text-button font-semibold min-h-touch transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
@@ -1289,7 +1289,7 @@ const PracticeGrammarSection: React.FC = () => {
               {v.context}
             </p>
             <div
-              className={`rounded-pill px-4 py-2 inline-flex items-center gap-2 ${
+              className={`rounded-pill px-4 py-2 inline-flex items-center gap-stack-xs ${
                 showForbidden
                   ? 'bg-danger-bg text-danger-fg line-through'
                   : 'bg-primary-600 text-white'
@@ -1322,9 +1322,9 @@ const AITransparencyDemo: React.FC = () => {
   return (
     <Card variant="default" className="p-6 max-w-2xl">
       {/* Label + rationale */}
-      <header className="flex items-start justify-between gap-3 mb-stack-lg">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 rounded-pill bg-primary-50 px-2.5 py-1">
+      <header className="flex items-start justify-between gap-stack-xs mb-stack-lg">
+        <div className="flex items-center gap-stack-xs">
+          <span className="inline-flex items-center gap-tight rounded-pill bg-primary-50 px-2.5 py-1">
             <Sparkles size={12} className="text-primary-700" />
             <span className="font-mono text-[0.6875rem] font-bold tracking-[0.08em] uppercase text-primary-700">
               IA
@@ -1358,7 +1358,7 @@ const AITransparencyDemo: React.FC = () => {
       </div>
 
       {/* Source citation */}
-      <button className="flex items-start gap-2 text-left mb-stack-lg group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-md p-1 -m-1">
+      <button className="flex items-start gap-stack-xs text-left mb-stack-lg group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-md p-1 -m-1">
         <Quote size={14} className="text-ink-400 mt-0.5 shrink-0" />
         <span className="text-caption text-ink-600 group-hover:text-ink-800 underline decoration-dotted underline-offset-4">
           Source · Passeport Camille D. — Compétence pilotage stratégique, Dreyfus D3 validé le 14/04
@@ -1367,7 +1367,7 @@ const AITransparencyDemo: React.FC = () => {
 
       {/* Override */}
       <div className="flex items-center justify-between rounded-lg border border-secondary-200 bg-secondary-50/60 p-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-stack-xs">
           <Shield size={16} className="text-secondary-600" />
           <span className="text-body-sm font-semibold text-ink-800">
             {overridden ? 'Override activé' : 'Override disponible'}
@@ -1411,7 +1411,7 @@ const AITransparencySection: React.FC = () => (
             { icon: <Layers size={16} />, title: 'Score de confiance', sub: 'Bar 0-100% ou descripteur · sous seuil → coach' },
             { icon: <Shield size={16} />, title: 'Override accessible', sub: 'Toujours visible sur reco destinées humains' },
           ].map((p) => (
-            <li key={p.title} className="flex items-start gap-3 rounded-xl border border-ink-100 bg-white p-3">
+            <li key={p.title} className="flex items-start gap-stack-xs rounded-xl border border-ink-100 bg-white p-3">
               <span className="rounded-lg bg-primary-50 p-2 text-primary-700 shrink-0">
                 {p.icon}
               </span>
@@ -1457,9 +1457,9 @@ const CadenceSection: React.FC = () => {
             </div>
             <Heart size={20} className="text-primary-500" />
           </header>
-          <div className="grid grid-cols-7 gap-1.5 mb-stack">
+          <div className="grid grid-cols-7 gap-tight.5 mb-stack">
             {tlsWeek.map((d, i) => (
-              <div key={d} className="flex flex-col items-center gap-1">
+              <div key={d} className="flex flex-col items-center gap-tight">
                 <div
                   className={`size-9 rounded-xl flex items-center justify-center text-caption font-semibold ${
                     tlsActive[i]
@@ -1478,9 +1478,9 @@ const CadenceSection: React.FC = () => {
             ))}
           </div>
           <ul className="text-body-sm text-ink-700 flex flex-col gap-stack-xs">
-            <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> 2-3 sessions/semaine — 1-2 jours off OK</li>
-            <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Weekend silencieux par défaut</li>
-            <li className="flex items-start gap-2"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Atrophie 90j signalée calmement</li>
+            <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> 2-3 sessions/semaine — 1-2 jours off OK</li>
+            <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Weekend silencieux par défaut</li>
+            <li className="flex items-start gap-stack-xs"><Check size={14} className="text-primary-600 mt-0.5 shrink-0" /> Atrophie 90j signalée calmement</li>
           </ul>
         </Card>
 
@@ -1497,9 +1497,9 @@ const CadenceSection: React.FC = () => {
             </div>
             <X size={20} className="text-danger-fg" />
           </header>
-          <div className="grid grid-cols-7 gap-1.5 mb-stack">
+          <div className="grid grid-cols-7 gap-tight.5 mb-stack">
             {tlsWeek.map((d, i) => (
-              <div key={d} className="flex flex-col items-center gap-1">
+              <div key={d} className="flex flex-col items-center gap-tight">
                 <div className="size-9 rounded-xl flex items-center justify-center text-caption font-bold bg-danger-base text-white">
                   {duoActive[i] ? '🔥' : ''}
                 </div>
@@ -1508,9 +1508,9 @@ const CadenceSection: React.FC = () => {
             ))}
           </div>
           <ul className="text-body-sm text-ink-700 flex flex-col gap-stack-xs">
-            <li className="flex items-start gap-2"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Daily streak obligatoire — anxiété de perte</li>
-            <li className="flex items-start gap-2"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Push dimanche 22h « Ton streak en danger »</li>
-            <li className="flex items-start gap-2"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Mascotte qui pleure si tu skip</li>
+            <li className="flex items-start gap-stack-xs"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Daily streak obligatoire — anxiété de perte</li>
+            <li className="flex items-start gap-stack-xs"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Push dimanche 22h « Ton streak en danger »</li>
+            <li className="flex items-start gap-stack-xs"><X size={14} className="text-danger-fg mt-0.5 shrink-0" /> Mascotte qui pleure si tu skip</li>
           </ul>
         </Card>
       </div>
@@ -1681,14 +1681,14 @@ const DesignShowcase: React.FC = () => {
       {/* Footer */}
       <footer className="max-w-6xl mx-auto px-6 py-page border-t border-ink-100 mt-section-lg">
         <div className="flex flex-wrap items-center justify-between gap-stack">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <TlsLogo size={32} variant="primary" />
             <div>
               <p className="text-body-sm font-semibold text-ink-900">The Learning Society</p>
               <p className="text-caption text-ink-500">Design Showcase · à valider</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-caption text-ink-500">
+          <div className="flex items-center gap-stack-xs text-caption text-ink-500">
             <Compass size={14} />
             <span>
               Source · <code className="font-mono text-[0.75rem] text-primary-700">PRODUCT.md</code> +{' '}

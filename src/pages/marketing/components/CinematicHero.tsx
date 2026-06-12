@@ -199,7 +199,7 @@ const CinematicVisual: React.FC = () => {
 
           {/* Floating glass status pill (Craft button-in-card detail) */}
           <motion.div
-            className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-pill bg-white/70 px-3 py-1.5 ring-1 ring-ink-900/5 backdrop-blur-glass-light shadow-sm"
+            className="absolute right-4 top-4 inline-flex items-center gap-stack-xs rounded-pill bg-white/70 px-3 py-1.5 ring-1 ring-ink-900/5 backdrop-blur-glass-light shadow-sm"
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.4, ease: EASE_EMPHASIS }}
@@ -306,7 +306,7 @@ export const CinematicHero: React.FC = () => {
               l'humain au centre.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/formation">
                   <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -324,7 +324,7 @@ export const CinematicHero: React.FC = () => {
             {/* Honest credential chips */}
             <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-stack m-0 p-0 list-none">
               {CHIPS.map((c) => (
-                <li key={c} className="inline-flex items-center gap-1.5">
+                <li key={c} className="inline-flex items-center gap-tight.5">
                   <CheckCircle2 size={15} className="text-primary-600 shrink-0" />
                   <span className="font-body text-caption font-semibold text-ink-600">{c}</span>
                 </li>

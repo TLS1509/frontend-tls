@@ -150,7 +150,7 @@ export const MarketingConseil: React.FC = () => {
         <MeshGradientBg tone="warm" intensity="subtle" />
         <div className="relative max-w-medium mx-auto px-6 flex flex-col gap-stack-lg">
           <Reveal>
-            <span className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs self-start px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
               <Sparkles size={13} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                 Conseil & Accompagnement
@@ -172,7 +172,7 @@ export const MarketingConseil: React.FC = () => {
           </Reveal>
 
           <Reveal delay={0.14}>
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-stack-xs">
               <span className="font-body text-caption font-semibold px-3 py-1 rounded-pill bg-ink-100 text-ink-700">
                 ETI 200 à 2 000 salariés
               </span>
@@ -221,9 +221,9 @@ export const MarketingConseil: React.FC = () => {
                     </p>
                   </div>
 
-                  <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                     {AUDIT_DELIVERABLES.map((d) => (
-                      <li key={d} className="flex items-start gap-2.5 font-body text-body-sm text-ink-700">
+                      <li key={d} className="flex items-start gap-stack-xs.5 font-body text-body-sm text-ink-700">
                         <CheckCircle2 size={16} className="text-secondary-600 shrink-0 mt-0.5" />
                         {d}
                       </li>
@@ -242,7 +242,7 @@ export const MarketingConseil: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="hidden lg:flex flex-col items-center justify-center gap-1 pt-2">
+                <div className="hidden lg:flex flex-col items-center justify-center gap-tight pt-2">
                   <span className="font-display text-[5rem] font-extrabold text-secondary-100 leading-none select-none">
                     1j
                   </span>
@@ -287,7 +287,7 @@ export const MarketingConseil: React.FC = () => {
                 <div className="grid grid-cols-[3.5rem_1fr] lg:grid-cols-[5rem_1fr] gap-stack lg:gap-stack-lg items-start p-stack-lg hover:bg-ink-50/40 transition-colors duration-fast">
 
                   {/* Letter badge */}
-                  <div className="flex flex-col items-center gap-1.5 pt-0.5">
+                  <div className="flex flex-col items-center gap-tight.5 pt-0.5">
                     <span
                       className={`inline-flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 rounded-2xl text-white font-display font-extrabold text-2xl shadow-sm shrink-0 leading-none ${step.color}`}
                     >
@@ -299,12 +299,12 @@ export const MarketingConseil: React.FC = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="flex flex-col gap-2 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-col gap-stack-xs min-w-0">
+                    <div className="flex flex-wrap items-center gap-stack-xs">
                       <h3 className="font-display text-h5 font-extrabold text-ink-900 leading-tight m-0">
                         {step.title}
                       </h3>
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-pill border text-caption font-semibold ${step.light}`}>
+                      <span className={`inline-flex items-center gap-tight.5 px-2 py-0.5 rounded-pill border text-caption font-semibold ${step.light}`}>
                         {step.icon}
                         {step.word}
                       </span>
@@ -321,7 +321,7 @@ export const MarketingConseil: React.FC = () => {
 
           {/* Bonus Learning App */}
           <Reveal>
-            <div className="flex items-start gap-3 rounded-2xl border border-accent-200 bg-accent-50/60 p-stack-lg">
+            <div className="flex items-start gap-stack-xs rounded-2xl border border-accent-200 bg-accent-50/60 p-stack-lg">
               <Gift size={20} className="text-accent-600 shrink-0 mt-0.5" />
               <p className="font-body text-body-sm text-ink-700 m-0">
                 <span className="font-bold text-ink-900">1 an d'abonnement Learning App offert</span>
@@ -372,9 +372,9 @@ export const MarketingConseil: React.FC = () => {
                     </div>
                   </div>
 
-                  <ul className="flex flex-col gap-2 m-0 p-0 list-none flex-1">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none flex-1">
                     {pole.services.map((s) => (
-                      <li key={s} className="flex items-start gap-2 font-body text-body-sm text-ink-700">
+                      <li key={s} className="flex items-start gap-stack-xs font-body text-body-sm text-ink-700">
                         <CheckCircle2 size={14} className={`shrink-0 mt-0.5 ${pole.checkTone}`} />
                         {s}
                       </li>

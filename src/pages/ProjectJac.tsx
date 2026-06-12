@@ -107,7 +107,7 @@ const JacValidationForm: React.FC<{
         {rubric.map((row, idx) => (
           <div key={idx} className="flex flex-col gap-stack-xs p-3 bg-white rounded-lg border border-ink-100">
             <p className="text-body-sm font-semibold text-ink-900 m-0">{row.criterion}</p>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-tight.5">
               {([1, 2, 3, 4, 5] as DreyfusLevel[]).map((level) => (
                 <button
                   key={level}
@@ -134,7 +134,7 @@ const JacValidationForm: React.FC<{
       </div>
 
       {/* Average level display */}
-      <div className="flex items-center gap-3 p-3 bg-primary-50 rounded-lg">
+      <div className="flex items-center gap-stack-xs p-3 bg-primary-50 rounded-lg">
         <Target size={16} className="text-primary-600 shrink-0" />
         <p className="text-body-sm text-primary-800 m-0">
           Niveau Dreyfus calculé : <strong>D{averageLevel} : {DREYFUS_LABELS[averageLevel]}</strong>
@@ -245,7 +245,7 @@ export const ProjectJac: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-stack-xs shrink-0">
                     <Badge variant={JAC_STATUS_VARIANTS[jac.status]}>
-                      <span className="inline-flex items-center gap-1">
+                      <span className="inline-flex items-center gap-tight">
                         {JAC_STATUS_ICONS[jac.status]}
                         {JAC_STATUS_LABELS[jac.status]}
                       </span>
@@ -256,7 +256,7 @@ export const ProjectJac: React.FC = () => {
 
                 {expandedJacId === jac.id && (
                   <div className="px-stack pb-stack flex flex-col gap-stack border-t border-ink-100 pt-stack">
-                    <div className="flex items-center gap-3 text-caption text-ink-600">
+                    <div className="flex items-center gap-stack-xs text-caption text-ink-600">
                       <Avatar initials={jac.expertInitials} size="sm" />
                       <span>Expert assigné : {jac.expertName}</span>
                     </div>
@@ -311,7 +311,7 @@ export const ProjectJac: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-stack-xs shrink-0">
                     <Badge variant={JAC_STATUS_VARIANTS[jac.status]}>
-                      <span className="inline-flex items-center gap-1">
+                      <span className="inline-flex items-center gap-tight">
                         {JAC_STATUS_ICONS[jac.status]}
                         {JAC_STATUS_LABELS[jac.status]}
                       </span>

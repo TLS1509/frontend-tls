@@ -116,9 +116,9 @@ const VARIANT_TO_TONE_SURFACE: Record<StatCardVariant, { tone: StatCardTone; sur
 };
 
 const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
-  sm: 'p-4 gap-2',
-  md: 'p-5 gap-2.5',
-  lg: 'p-6 gap-3',
+  sm: 'p-4 gap-stack-xs',
+  md: 'p-5 gap-stack-xs.5',
+  lg: 'p-6 gap-stack-xs',
 };
 
 // Label below value — regular sans font, NOT font-mono. Slightly muted color.
@@ -129,7 +129,7 @@ const LABEL_SIZE_CLASSES: Record<StatCardSize, string> = {
   lg: 'text-body-sm',
 };
 
-const VALUE_BASE = 'font-display font-bold tracking-tight leading-none inline-flex items-baseline gap-1';
+const VALUE_BASE = 'font-display font-bold tracking-tight leading-none inline-flex items-baseline gap-tight';
 const VALUE_SIZE_CLASSES: Record<StatCardSize, string> = {
   sm: 'text-2xl',
   md: 'text-stat-value',
@@ -166,7 +166,7 @@ const ICON_BUBBLE_SIZE: Record<StatCardSize, string> = {
   lg: 'w-12 h-12 [&>svg]:w-5 [&>svg]:h-5',
 };
 
-const DELTA_BASE = 'absolute inline-flex items-center gap-1 text-caption font-semibold';
+const DELTA_BASE = 'absolute inline-flex items-center gap-tight text-caption font-semibold';
 const DELTA_POSITION_CLASSES: Record<StatCardSize, string> = {
   sm: 'top-3 right-3',
   md: 'top-4 right-4',

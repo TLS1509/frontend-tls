@@ -129,7 +129,7 @@ export const Positionnement: React.FC = () => {
               description="Voici votre niveau moyen Dreyfus. Le parcours s'adapte à votre profil."
             >
               <div className="flex flex-col items-center gap-stack text-center py-stack">
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-stack-xs">
                   <span className="text-h1 font-display font-bold text-primary-600">D{avgLevel}</span>
                   <span className="text-body-sm text-ink-600">{DREYFUS_LABELS[avgLevel as DreyfusLevel]}</span>
                 </div>
@@ -139,9 +139,9 @@ export const Positionnement: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2 p-4 bg-primary-50 rounded-lg border border-primary-200">
+              <div className="flex flex-col gap-stack-xs p-4 bg-primary-50 rounded-lg border border-primary-200">
                 <p className="text-caption font-semibold text-primary-700">Compétences positionnées :</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-stack-xs">
                   {Object.entries(answers).map(([compId, level]) => {
                     const comp = getCompetenceById(compId);
                     return (

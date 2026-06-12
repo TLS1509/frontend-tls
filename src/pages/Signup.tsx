@@ -35,7 +35,7 @@ export const Signup: React.FC = () => {
     <AuthShell
       brand={{ subtitle: 'Crée ton compte pour démarrer ta formation' }}
       form={
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
             label="Nom complet"
             icon={<UserRound size={18} />}
@@ -89,7 +89,7 @@ export const Signup: React.FC = () => {
 
           {/* Divider + Socials */}
           <AuthDivider>ou continuer avec</AuthDivider>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-stack-xs">
             <AuthSocialButton icon={<AuthGoogleIcon />}>Google</AuthSocialButton>
             <AuthSocialButton icon={<AuthLinkedinIcon />}>LinkedIn</AuthSocialButton>
           </div>

@@ -61,7 +61,7 @@ const StreakDetail: React.FC = () => {
 
         <SectionCard title="Activité des 30 derniers jours" description="Un carré = un jour. Vert = activité validée, gris = inactif">
           <Card className="p-stack-lg">
-            <div className="grid grid-cols-7 gap-1 max-w-[280px]">
+            <div className="grid grid-cols-7 gap-tight max-w-[280px]">
               {DAYS.map((d) => (
                 <div
                   key={d.day}

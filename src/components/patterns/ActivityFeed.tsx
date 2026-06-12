@@ -206,7 +206,7 @@ const ActivityRow: React.FC<{
   return (
     <article
       className={[
-        'group/item relative flex items-start gap-3 rounded-xl transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
+        'group/item relative flex items-start gap-stack-xs rounded-xl transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
         layout === 'cards'
           ? 'p-4 bg-white border border-ink-200 hover:border-primary-300 hover:shadow-sm'
           : `p-3 ${TONE_HOVER_BG[tone]}`,
@@ -224,7 +224,7 @@ const ActivityRow: React.FC<{
       </div>
 
       <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-3 flex-wrap">
+        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
           <h3 className="m-0 text-body-sm font-semibold text-ink-900 leading-snug">{item.title}</h3>
           <time className="text-micro text-ink-400 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
@@ -236,9 +236,9 @@ const ActivityRow: React.FC<{
         )}
 
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
-          <div className="flex items-center gap-2 mt-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs mt-2 flex-wrap">
             {item.actor && (
-              <span className="inline-flex items-center gap-2 px-1.5 py-1 pr-2.5 rounded-pill bg-ink-50 border border-ink-200">
+              <span className="inline-flex items-center gap-stack-xs px-1.5 py-1 pr-2.5 rounded-pill bg-ink-50 border border-ink-200">
                 <Avatar
                   size="xs"
                   name={item.actor.name}
@@ -254,7 +254,7 @@ const ActivityRow: React.FC<{
                 type="button"
                 onClick={item.onActionClick}
                 className={[
-                  'inline-flex items-center gap-1 px-3 py-1 rounded-pill text-caption font-semibold border cursor-pointer transition-colors',
+                  'inline-flex items-center gap-tight px-3 py-1 rounded-pill text-caption font-semibold border cursor-pointer transition-colors',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   TONE_ACTION[tone],
                 ].join(' ')}
@@ -300,7 +300,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   if (isLoading) {
     return (
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
-        <div className="flex flex-col items-center gap-3 text-ink-500">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
           <p className="m-0 text-body-sm font-medium">Chargement des activités…</p>
         </div>
@@ -318,7 +318,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-3 text-ink-500 text-center">
+        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
           <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white border border-ink-200 text-ink-400">
             <Inbox size={26} strokeWidth={2} />
           </span>
@@ -344,13 +344,13 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   return (
     <div className={['relative', className].filter(Boolean).join(' ')}>
       {buckets.map((bucket, bIdx) => (
-        <div key={bucket.label ?? bIdx} className={bIdx > 0 ? 'mt-6' : ''}>
+        <div key={bucket.label ?? bIdx} className={bIdx > 0 ? 'mt-stack-lg' : ''}>
           {bucket.label && (
             <p className="m-0 mb-3 text-caption font-bold uppercase tracking-[0.08em] text-ink-500">
               {bucket.label}
             </p>
           )}
-          <div className={layout === 'cards' ? 'flex flex-col gap-2' : 'flex flex-col gap-1'}>
+          <div className={layout === 'cards' ? 'flex flex-col gap-stack-xs' : 'flex flex-col gap-tight'}>
             {bucket.items.map((item, idx) => (
               <ActivityRow
                 key={item.id}
@@ -369,7 +369,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <button
             type="button"
             onClick={handleLoadMore}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-[background-color,border-color,transform,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="inline-flex items-center gap-stack-xs px-5 py-2.5 rounded-pill border border-ink-200 bg-white text-body-sm font-semibold text-ink-700 cursor-pointer hover:bg-ink-50 hover:border-primary-300 hover:-translate-y-0.5 hover:shadow-sm transition-[background-color,border-color,transform,box-shadow] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Voir plus d’activités
             <ArrowRight size={15} strokeWidth={2.25} />

@@ -75,7 +75,7 @@ export function FilterableCardGrid<T>({
             </div>
           )}
           {allowLayoutToggle && (
-            <div className="inline-flex items-center gap-1 bg-ink-100 rounded-lg p-1 self-start sm:self-auto">
+            <div className="inline-flex items-center gap-tight bg-ink-100 rounded-lg p-1 self-start sm:self-auto">
               <button type="button" onClick={() => setLayout('grid')} aria-pressed={layout === 'grid'} aria-label="Vue grille" className={['inline-flex items-center justify-center w-8 h-8 rounded-md transition-all duration-fast', layout === 'grid' ? 'bg-white text-primary-700 shadow-xs' : 'text-ink-500 hover:text-ink-700'].join(' ')}>
                 <LayoutGrid size={16} />
               </button>
@@ -88,7 +88,7 @@ export function FilterableCardGrid<T>({
       )}
 
       {categories && categories.length > 0 && (
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-stack-xs flex-wrap">
           <button type="button" onClick={() => setActiveCategory(null)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === null ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
             Tout
           </button>
@@ -105,7 +105,7 @@ export function FilterableCardGrid<T>({
       )}
 
       {filtered.length === 0 ? (
-        <p className="text-body-sm text-ink-400 italic py-8 text-center">{emptyLabel}</p>
+        <p className="text-body-sm text-ink-400 italic py-section text-center">{emptyLabel}</p>
       ) : layout === 'grid' ? (
         <div className={['grid gap-stack', GRID_COLS[columns]].join(' ')}>
           {filtered.map((item, i) => renderCard(item, i, 'grid'))}

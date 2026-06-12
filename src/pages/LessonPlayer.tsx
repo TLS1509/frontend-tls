@@ -904,9 +904,9 @@ export const LessonPlayer: React.FC = () => {
           Objectifs d&apos;apprentissage
         </h3>
       </div>
-      <div className="flex flex-col gap-3 mt-section">
+      <div className="flex flex-col gap-stack-xs mt-section">
         {lessonData.intro.objectives.map((obj, i) => (
-          <div key={i} className="flex items-center gap-3 p-stack bg-ink-50 rounded-lg">
+          <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg">
             <CheckCircle2 size={18} className="text-success-base shrink-0" />
             <span className="font-body text-body">{obj}</span>
           </div>
@@ -933,7 +933,7 @@ export const LessonPlayer: React.FC = () => {
         <h2 className={SECTION_TITLE}>{d.heading}</h2>
         <div className="rounded-xl p-stack-lg mb-5 bg-danger-base/[0.06] border-2 border-danger-base/25">
           <div className="mb-3">
-            <span className="inline-flex items-center gap-1 bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
+            <span className="inline-flex items-center gap-tight bg-danger-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <XCircle size={14} /> {d.bad.label}
             </span>
           </div>
@@ -948,7 +948,7 @@ export const LessonPlayer: React.FC = () => {
         </div>
         <div className="rounded-xl p-stack-lg bg-success-base/[0.08] border-2 border-success-base/30">
           <div className="mb-3">
-            <span className="inline-flex items-center gap-1 bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
+            <span className="inline-flex items-center gap-tight bg-success-base text-white px-3 py-1 rounded-lg text-caption font-bold">
               <CheckCircle2 size={14} /> {d.good.label}
             </span>
           </div>
@@ -981,7 +981,7 @@ export const LessonPlayer: React.FC = () => {
                 <span className="font-body text-caption text-ink-400">
                   Étape {decouvrirStep + 1} / {total}
                 </span>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-tight.5">
                   {d.steps!.map((_, i) => (
                     <button
                       key={i}
@@ -1007,14 +1007,14 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base"
+                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base"
                 >
                   <ChevronLeft size={14} /> Précédent
                 </button>
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base"
+                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base"
                 >
                   Suivant <ChevronRight size={14} />
                 </button>
@@ -1106,7 +1106,7 @@ export const LessonPlayer: React.FC = () => {
       </div>
       <div className="mb-section">
         {lessonData.conclusion.keyPoints.map((point, i) => (
-          <div key={i} className="flex items-center gap-3 p-stack bg-ink-50 rounded-lg mb-3">
+          <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg mb-3">
             <div className="w-7 h-7 rounded-full bg-success-base text-white font-display text-caption font-bold flex items-center justify-center shrink-0">
               {i + 1}
             </div>
@@ -1119,7 +1119,7 @@ export const LessonPlayer: React.FC = () => {
         <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Prochaines étapes</h3>
       </div>
       {lessonData.conclusion.nextSteps.map((step, i) => (
-        <div key={i} className="flex items-center gap-3 p-stack bg-white rounded-lg border border-ink-200 mb-3 transition-all duration-200 hover:translate-x-1 hover:border-primary-400">
+        <div key={i} className="flex items-center gap-stack-xs p-stack bg-white rounded-lg border border-ink-200 mb-3 transition-all duration-200 hover:translate-x-1 hover:border-primary-400">
           <ChevronRight size={18} className="text-primary-500 shrink-0" />
           <span className="font-body text-body-sm">{step}</span>
         </div>
@@ -1206,7 +1206,7 @@ export const LessonPlayer: React.FC = () => {
                 <img src={resolvedSrc} alt={block.alt} className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-3`}>
+              <div className={`w-full ${arClass} rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs`}>
                 <ImageIcon size={32} className="text-ink-400" />
                 <span className="font-body text-body-sm text-ink-500 text-center px-stack">
                   Image à connecter · Unsplash / Backoffice
@@ -1221,7 +1221,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <ImageIcon size={13} /> Choisir un fichier
                   </span>
                 </label>
@@ -1259,7 +1259,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <Play size={13} /> Choisir une vidéo
                   </span>
                 </label>
@@ -1279,7 +1279,7 @@ export const LessonPlayer: React.FC = () => {
             {resolvedSrc ? (
               <img src={resolvedSrc} alt={block.alt} loading="lazy" className="w-full rounded-xl" />
             ) : (
-              <div className="w-full aspect-video rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-3">
+              <div className="w-full aspect-video rounded-xl border-2 border-dashed border-ink-300 bg-ink-100 flex flex-col items-center justify-center gap-stack-xs">
                 <ImageIcon size={32} className="text-ink-400" />
                 <span className="font-body text-body-sm text-ink-500">GIF à connecter</span>
                 <label className="cursor-pointer">
@@ -1292,7 +1292,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <ImageIcon size={13} /> Choisir un GIF
                   </span>
                 </label>
@@ -1311,7 +1311,7 @@ export const LessonPlayer: React.FC = () => {
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
               {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 {block.data.map((item, i) => (
                   <div key={i}>
                     <div className="flex justify-between mb-1.5">
@@ -1339,7 +1339,7 @@ export const LessonPlayer: React.FC = () => {
           return (
             <div key={key} className={`bg-white border border-ink-100 rounded-xl ${compact ? 'p-3' : 'p-5'} ${mb}`}>
               {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
-              <div className={`flex flex-col ${compact ? 'gap-3' : 'sm:flex-row items-center gap-stack-lg'}`}>
+              <div className={`flex flex-col ${compact ? 'gap-stack-xs' : 'sm:flex-row items-center gap-stack-lg'}`}>
                 <svg width={svgSize} height={svgSize} viewBox="0 0 100 100" className="shrink-0 mx-auto" aria-hidden="true">
                   <circle cx="50" cy="50" r={r} fill="none" stroke="var(--color-ink-100)" strokeWidth="10" />
                   {block.data.map((item, i) => {
@@ -1416,12 +1416,12 @@ export const LessonPlayer: React.FC = () => {
           return (
             <div key={key} className={mb}>
               {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
-              <div className="flex flex-wrap items-stretch gap-1.5">
+              <div className="flex flex-wrap items-stretch gap-tight.5">
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
                     <React.Fragment key={i}>
-                      <div className={`flex flex-col gap-1 ${itemPad} rounded-lg border flex-1 min-w-[72px] ${card}`}>
+                      <div className={`flex flex-col gap-tight ${itemPad} rounded-lg border flex-1 min-w-[72px] ${card}`}>
                         {item.num !== undefined && (
                           <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold shrink-0 ${num}`}>
                             {item.num}
@@ -1451,7 +1451,7 @@ export const LessonPlayer: React.FC = () => {
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
-                    <div key={i} className={`flex flex-col gap-1 ${itemPad} rounded-lg border ${card}`}>
+                    <div key={i} className={`flex flex-col gap-tight ${itemPad} rounded-lg border ${card}`}>
                       {item.num !== undefined && (
                         <span className={`w-5 h-5 rounded-full flex items-center justify-center font-display text-micro font-bold mb-0.5 ${num}`}>
                           {item.num}
@@ -1469,7 +1469,7 @@ export const LessonPlayer: React.FC = () => {
 
         // vertical (default)
         return (
-          <div key={key} className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-3'} ${mb}`}>
+          <div key={key} className={`flex flex-col ${compact ? 'gap-tight.5' : 'gap-stack-xs'} ${mb}`}>
             {block.title && <h4 className={`m-0 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
             {block.items.map((item, i) => {
               const { card, num } = getColors(item.color);
@@ -1493,7 +1493,7 @@ export const LessonPlayer: React.FC = () => {
 
       case 'interactive': {
         return (
-          <div key={key} className={`bg-primary-50 border border-primary-200 rounded-xl ${compact ? 'p-3' : 'p-stack-lg'} ${mb} flex items-start gap-3`}>
+          <div key={key} className={`bg-primary-50 border border-primary-200 rounded-xl ${compact ? 'p-3' : 'p-stack-lg'} ${mb} flex items-start gap-stack-xs`}>
             <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center shrink-0">
               <Cpu size={20} className="text-primary-600" />
             </div>
@@ -1502,7 +1502,7 @@ export const LessonPlayer: React.FC = () => {
               {block.description && (
                 <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
               )}
-              <span className="inline-flex items-center gap-1.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
+              <span className="inline-flex items-center gap-tight.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
                 <Cpu size={12} /> Module interactif · Bientôt disponible
               </span>
             </div>
@@ -1628,7 +1628,7 @@ export const LessonPlayer: React.FC = () => {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-1.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0"
+                    className="inline-flex items-center gap-tight.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0"
                   >
                     <Link2 size={13} /> Charger
                   </button>
@@ -1699,13 +1699,13 @@ export const LessonPlayer: React.FC = () => {
             {block.title && (
               <h4 className="m-0 mb-3 font-display text-h4 font-bold text-ink-900">{block.title}</h4>
             )}
-            <div className="grid grid-cols-3 gap-3 auto-rows-min">
+            <div className="grid grid-cols-3 gap-stack-xs auto-rows-min">
               {block.cells.map((cell, ci) => {
                 const tone = CELL_TONE[cell.tone ?? 'neutral'];
                 return (
                   <div
                     key={ci}
-                    className={`${CELL_SPAN[cell.size ?? 'sm']} ${tone.bg} border rounded-xl p-3 flex flex-col gap-1 min-w-0`}
+                    className={`${CELL_SPAN[cell.size ?? 'sm']} ${tone.bg} border rounded-xl p-3 flex flex-col gap-tight min-w-0`}
                   >
                     {cell.label && (
                       <span className={`font-body text-caption font-semibold mb-1 ${tone.label}`}>{cell.label}</span>
@@ -1810,10 +1810,10 @@ export const LessonPlayer: React.FC = () => {
       >
         {/* HEADER — compact single row */}
         <header className="shrink-0 bg-white/95 backdrop-blur-glass-light border-b border-ink-100">
-          <div className="flex items-center gap-3 px-stack h-11">
+          <div className="flex items-center gap-stack-xs px-stack h-11">
             <button
               onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-1 text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0"
+              className="inline-flex items-center gap-tight text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0"
               aria-label="Retour"
             >
               <ChevronLeft size={15} />
@@ -1829,7 +1829,7 @@ export const LessonPlayer: React.FC = () => {
                 {displayTitle}
               </span>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-stack-xs shrink-0">
               <span className="font-body text-caption text-ink-400 hidden sm:inline">
                 <Clock3 size={11} className="inline mr-1 -mt-0.5" />{displayDuration}
               </span>
@@ -1859,7 +1859,7 @@ export const LessonPlayer: React.FC = () => {
           {/* Fade masks for scroll affordance on mobile */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white/95 to-transparent z-10" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white/95 to-transparent z-10" aria-hidden="true" />
-          <div className="lp-section-scroll flex gap-1.5 overflow-x-auto px-stack py-stack-xs sm:justify-center">
+          <div className="lp-section-scroll flex gap-tight.5 overflow-x-auto px-stack py-stack-xs sm:justify-center">
             {SECTIONS.map((section, index) => {
               const isActive = index === currentIndex;
               const isDone = completedSections.has(index) && !isActive;
@@ -1868,7 +1868,7 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   key={section.id}
                   className={[
-                    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative',
+                    'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative',
                     isActive
                       ? 'bg-primary-500 text-white font-bold shadow-sm'
                       : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
@@ -1916,7 +1916,7 @@ export const LessonPlayer: React.FC = () => {
         </button>
 
         {/* BOTTOM PROGRESS — fixed, centered */}
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-1.5 px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-tight.5 px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
           {SECTIONS.map((_, i) => (
             <button
               key={i}

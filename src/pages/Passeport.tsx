@@ -123,7 +123,7 @@ export default function Passeport() {
               </SectionCard>
 
               <div className="flex flex-col gap-stack w-full lg:w-72">
-                <Card className="p-stack flex flex-col gap-3">
+                <Card className="p-stack flex flex-col gap-stack-xs">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Progression globale</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{avgLevel.toFixed(1)}</span>
@@ -132,7 +132,7 @@ export default function Passeport() {
                   <ProgressBar value={(avgLevel / 5) * 100} fill="brand" size="md" showLabel />
                   <p className="text-caption text-ink-400">Moyenne pondérée · {COMPETENCES.length} compétences</p>
                 </Card>
-                <Card className="p-stack flex flex-col gap-3">
+                <Card className="p-stack flex flex-col gap-stack-xs">
                   <p className="text-caption text-ink-500 font-medium uppercase tracking-wide">Objectifs actifs</p>
                   <div className="flex items-end gap-stack-xs">
                     <span className="text-h2 font-display font-bold text-ink-900">{activeObjectives.length}</span>
@@ -157,9 +157,9 @@ export default function Passeport() {
                 </Button>
               }
             >
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-stack-xs">
                 {COMPETENCES.map((c) => (
-                  <div key={c.id} className="flex items-center gap-3">
+                  <div key={c.id} className="flex items-center gap-stack-xs">
                     <div className="flex-1 min-w-0">
                       <SkillBar
                         label={c.label}
@@ -187,9 +187,9 @@ export default function Passeport() {
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {COMPETENCES.map((c) => (
-                <Card key={c.id} className="p-5 flex flex-col gap-3">
+                <Card key={c.id} className="p-5 flex flex-col gap-stack-xs">
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-tight">
                       <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
                       <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
                         {domainLabel(c.domain)}

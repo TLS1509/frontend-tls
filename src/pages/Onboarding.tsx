@@ -296,7 +296,7 @@ export const Onboarding: React.FC = () => {
   // Step: Name input with text field
   if (step === 'name') {
     const footer = (
-      <div className="flex items-end gap-2">
+      <div className="flex items-end gap-stack-xs">
         <textarea
           value={nameInput}
           onChange={(e) => setNameInput(e.target.value)}
@@ -330,14 +330,14 @@ export const Onboarding: React.FC = () => {
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
-        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section">
+        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section">
           {/* Brand bar */}
           <div className="flex items-center justify-between">
             <div className="w-24" />
             <a
               href="/dashboard"
               aria-label="The Learning Society — retour accueil"
-              className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
+              className="flex items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
             >
               <TlsLogo size={36} variant="color" withBubble />
             </a>
@@ -353,7 +353,7 @@ export const Onboarding: React.FC = () => {
 
           {/* Header */}
           <header className="flex flex-col gap-tight text-center">
-            <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+            <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
               <Sparkles size={14} aria-hidden="true" />
               Démarrage personnalisé
             </p>
@@ -377,7 +377,7 @@ export const Onboarding: React.FC = () => {
   // Step: Role selection with tiles (inline quick-replies)
   if (step === 'role') {
     const footer = (
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="flex flex-wrap gap-stack-xs justify-center">
         {ROLE_TILES.map((roleOption) => {
           const Icon = roleOption.icon;
           return (
@@ -385,7 +385,7 @@ export const Onboarding: React.FC = () => {
               key={roleOption.id}
               onClick={() => handleRoleSelect(roleOption.id)}
               disabled={transitioning}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-pill border-2 border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 hover:border-secondary-400 transition-all duration-base disabled:opacity-disabled cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+              className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill border-2 border-secondary-300 bg-white text-secondary-700 hover:bg-secondary-50 hover:border-secondary-400 transition-all duration-base disabled:opacity-disabled cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
             >
               <Icon size={16} />
               <span className="font-body text-body-sm font-medium">{roleOption.label}</span>
@@ -400,14 +400,14 @@ export const Onboarding: React.FC = () => {
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
-        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section">
+        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section">
           {/* Brand bar */}
           <div className="flex items-center justify-between">
             <div className="w-24" />
             <a
               href="/dashboard"
               aria-label="The Learning Society — retour accueil"
-              className="flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
+              className="flex items-center gap-stack-xs focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
             >
               <TlsLogo size={36} variant="color" withBubble />
             </a>

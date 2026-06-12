@@ -114,7 +114,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       {/* Type badge */}
       <span
         className={[
-          'inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border',
+          'inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border',
           'font-body text-micro font-bold uppercase tracking-wider',
           config.badge,
         ].join(' ')}
@@ -135,7 +135,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-tight.5">
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
@@ -149,14 +149,14 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
 
       {/* Metadata */}
       <div className="flex items-center gap-x-3 gap-y-1 flex-wrap pt-stack-xs mt-auto font-body text-micro text-ink-500">
-        <span className="inline-flex items-center gap-1">
+        <span className="inline-flex items-center gap-tight">
           <Calendar size={12} />
           {date}
         </span>
         {time && (
           <>
             <span aria-hidden className="text-ink-300">·</span>
-            <span className="inline-flex items-center gap-1">
+            <span className="inline-flex items-center gap-tight">
               <Clock size={12} />
               {time}
             </span>

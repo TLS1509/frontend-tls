@@ -156,7 +156,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
     id: 'role-tiles',
     type: 'inline',
     content: (
-      <div className="ml-10 mt-1 mb-2 flex flex-wrap gap-2">
+      <div className="ml-10 mt-1 mb-2 flex flex-wrap gap-stack-xs">
         {ROLES.map(r => (
           <button
             key={r.id}
@@ -175,8 +175,8 @@ function VariantA({ onDone }: { onDone: () => void }) {
     id: 'goal-tiles',
     type: 'inline',
     content: (
-      <div className="ml-10 mt-1 mb-2 flex flex-col gap-2">
-        <div className="flex flex-wrap gap-2">
+      <div className="ml-10 mt-1 mb-2 flex flex-col gap-stack-xs">
+        <div className="flex flex-wrap gap-stack-xs">
           {GOALS.map(g => {
             const on = selectedGoals.includes(g.id);
             return (
@@ -230,7 +230,7 @@ function VariantA({ onDone }: { onDone: () => void }) {
       </Button>
     </div>
   ) : phase === 'name' ? (
-    <div className="flex items-end gap-2">
+    <div className="flex items-end gap-stack-xs">
       <input
         autoFocus
         value={textValue}
@@ -296,7 +296,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
   }
 
   const tileBase = [
-    'flex flex-col items-center justify-center gap-2 rounded-2xl border-2 py-5 px-3 transition-all duration-200 active:scale-95 cursor-pointer min-h-[88px]',
+    'flex flex-col items-center justify-center gap-stack-xs rounded-2xl border-2 py-5 px-3 transition-all duration-200 active:scale-95 cursor-pointer min-h-[88px]',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
   ].join(' ');
 
@@ -325,7 +325,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               Ton prénom ?
             </h2>
           </div>
-          <div className="flex flex-col gap-3 w-full max-w-sm">
+          <div className="flex flex-col gap-stack-xs w-full max-w-sm">
             <input
               autoFocus
               type="text"
@@ -333,7 +333,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && firstName.trim()) advance(); }}
-              className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-4 text-body-lg text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
+              className="w-full rounded-2xl border-2 border-ink-200 bg-white/80 px-5 py-stack text-body-lg text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-secondary-400 transition-colors duration-base text-center font-body"
             />
             <Button
               variant="warm" size="lg"
@@ -360,7 +360,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">Appuie pour continuer →</p>
           </div>
-          <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
+          <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {ROLES.map(r => (
               <button
                 key={r.id}
@@ -392,7 +392,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
             </h2>
             <p className="font-body text-body-sm text-ink-500 m-0">{goalHint}</p>
           </div>
-          <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
+          <div className="grid grid-cols-3 gap-stack-xs w-full max-w-lg">
             {GOALS.map(g => {
               const on = selectedGoals.includes(g.id);
               return (
@@ -429,7 +429,7 @@ function VariantB({ onDone }: { onDone: () => void }) {
       )}
 
       {/* Progress dots */}
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-stack-xs items-center">
         {([0, 1, 2] as BStep[]).map(i => (
           <span
             key={i}
@@ -475,7 +475,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
   const LABELS = ['Profil', 'Objectifs', 'Confirmation'];
 
   const tileBase = [
-    'flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
+    'flex items-center gap-stack-xs.5 rounded-xl border px-3 py-2.5 text-left transition-all duration-150 active:scale-[0.98] cursor-pointer min-h-[44px]',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500',
   ].join(' ');
 
@@ -538,7 +538,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
                   <span className="ml-2 font-normal text-caption text-ink-400">(remplis ton prénom d'abord)</span>
                 )}
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack-xs">
                 {ROLES.map(r => {
                   const on = selectedRole === r.id;
                   return (
@@ -580,7 +580,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack-xs">
               {GOALS.map(g => {
                 const on = selectedGoals.includes(g.id);
                 return (
@@ -634,7 +634,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
               ))}
             </div>
 
-            <div className="rounded-xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-4 flex items-start gap-3">
+            <div className="rounded-xl border border-secondary-200 bg-gradient-to-br from-secondary-50 to-white p-4 flex items-start gap-stack-xs">
               <Sparkles size={18} className="text-secondary-500 shrink-0 mt-0.5" />
               <div className="flex flex-col gap-0.5">
                 <span className="font-body text-body-sm font-bold text-ink-900">Parcours recommandé</span>
@@ -646,7 +646,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
       </div>
 
       {/* Footer nav */}
-      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 px-6 sm:px-8 py-5 border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-stack-xs px-6 sm:px-8 py-5 border-t border-white/50 bg-white/40 backdrop-blur-glass-light">
         {substep === 0 ? (
           <span />
         ) : (
@@ -660,7 +660,7 @@ function VariantC({ onDone }: { onDone: () => void }) {
           </Button>
         )}
 
-        <div className="flex items-center gap-3 flex-1 sm:flex-none justify-between sm:justify-end">
+        <div className="flex items-center gap-stack-xs flex-1 sm:flex-none justify-between sm:justify-end">
           <span className="font-body text-caption text-ink-400 tabular-nums hidden sm:inline select-none">
             {substep + 1} / {LABELS.length}
           </span>
@@ -702,7 +702,7 @@ const VARIANT_META: Record<Variant, { label: string; desc: string }> = {
 
 const VariantSwitcher: React.FC<{ current: Variant; onChange: (v: Variant) => void }> = ({ current, onChange }) => (
   <div
-    className="fixed bottom-6 right-5 z-toast flex items-center gap-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/60 shadow-lg px-2 py-1.5"
+    className="fixed bottom-6 right-5 z-toast flex items-center gap-tight rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/60 shadow-lg px-2 py-1.5"
     role="group"
     aria-label="Changer de variante"
   >
@@ -742,7 +742,7 @@ export default function OnboardingPreview() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
+      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -759,7 +759,7 @@ export default function OnboardingPreview() {
 
         {/* Preview header */}
         <header className="flex flex-col gap-tight text-center">
-          <p className="m-0 inline-flex items-center justify-center gap-2 font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
+          <p className="m-0 inline-flex items-center justify-center gap-stack-xs font-body text-caption font-semibold uppercase tracking-wider text-secondary-600">
             <Sparkles size={14} aria-hidden />
             Comparatif — Variante {variant.toUpperCase()}
           </p>

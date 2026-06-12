@@ -50,7 +50,7 @@ export default function CoachingSessionDetail() {
         summary={`${SESSION.date} · ${SESSION.time} · ${SESSION.format}`}
         tone="warm"
         trailing={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             {SESSION.meetLink && SESSION.status === 'planned' && (
               <Button variant="glass" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
@@ -130,7 +130,7 @@ export default function CoachingSessionDetail() {
           }
         >
           <p className="text-body-sm text-ink-600 leading-relaxed">{SESSION.preparation}</p>
-          <div className="mt-stack flex gap-3">
+          <div className="mt-stack flex gap-stack-xs">
             <Button
               variant="warm"
               size="md"
@@ -163,7 +163,7 @@ export default function CoachingSessionDetail() {
         )}
 
         {/* Actions */}
-        <div className="flex items-center gap-3 pb-section">
+        <div className="flex items-center gap-stack-xs pb-section">
           <Button variant="ghost" size="md" leadingIcon={<MessageSquare size={16} />}>
             Contacter le coach
           </Button>

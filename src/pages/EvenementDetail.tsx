@@ -77,7 +77,7 @@ export default function EvenementDetail() {
         title={EVENT.title}
         summary={EVENT.subtitle}
         trailing={
-          <div className="flex flex-wrap gap-3 items-center">
+          <div className="flex flex-wrap gap-stack-xs items-center">
             <Badge variant="sun" size="lg">{EVENT.date} · {EVENT.time}</Badge>
             <Badge variant="info" size="lg">{EVENT.mode} · {EVENT.duration}</Badge>
             <Badge variant="neutral" size="lg">{EVENT.price}</Badge>
@@ -138,7 +138,7 @@ export default function EvenementDetail() {
           titleIcon={<Users size={18} />}
         >
           {SPEAKERS.map((sp, idx) => (
-            <div key={idx} className="flex items-center gap-3 py-stack-xs border-b border-ink-100 last:border-0">
+            <div key={idx} className="flex items-center gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
               <Avatar name={sp.name} size="md" />
               <div className="flex flex-col gap-tight min-w-0">
                 <p className="text-body-sm font-semibold text-ink-900 m-0">{sp.name}</p>

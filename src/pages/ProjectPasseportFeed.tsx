@@ -116,14 +116,14 @@ export const ProjectPasseportFeed: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
                 {[...collaboratorMap.values()].map((c) => (
                   <div key={c.name} className="flex flex-col gap-stack-xs p-stack rounded-lg border border-ink-100 bg-ink-50">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-stack-xs">
                       <Avatar initials={c.initials} size="md" tint="brand" />
                       <div>
                         <p className="text-body-sm font-semibold text-ink-900 m-0">{c.name}</p>
                         <p className="text-caption text-ink-500 m-0">{c.count} enrichissement(s)</p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-tight.5">
                       {c.competencies.map((comp) => (
                         <Badge key={comp} variant="brand">{comp}</Badge>
                       ))}

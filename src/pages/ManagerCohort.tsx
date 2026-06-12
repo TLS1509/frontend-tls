@@ -103,7 +103,7 @@ export default function ManagerCohort() {
               >
                 <div className="flex flex-col gap-stack">
                   {TEAM_MEMBERS.slice(0, 3).map((m) => (
-                    <div key={m.id} className="flex items-center gap-3">
+                    <div key={m.id} className="flex items-center gap-stack-xs">
                       <Avatar initials={m.initials} size="sm" />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-stack-xs mb-1">
@@ -136,7 +136,7 @@ export default function ManagerCohort() {
                           <span className="text-body-sm font-semibold text-ink-900">{p.title}</span>
                           <Badge variant={s.variant} size="sm">{s.label}</Badge>
                         </div>
-                        <div className="flex gap-3 text-caption text-ink-400">
+                        <div className="flex gap-stack-xs text-caption text-ink-400">
                           <span>{p.type}</span>
                           <span>·</span>
                           <span>{p.members} membres</span>
@@ -176,7 +176,7 @@ export default function ManagerCohort() {
                     <span className="text-caption text-ink-400">{m.role}</span>
                     <AtrophieIndicator daysSinceActivity={m.daysSinceActivity} size="sm" showLabel />
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-caption text-ink-500">
+                  <div className="grid grid-cols-3 gap-stack-xs text-caption text-ink-500">
                     <span>Complétion : <strong className="text-ink-800">{m.completion}%</strong></span>
                     <span>JAC : <strong className="text-ink-800">{m.jac}%</strong></span>
                     <span>Dreyfus : <strong className="text-ink-800">{m.dreyfus}</strong></span>
@@ -198,7 +198,7 @@ export default function ManagerCohort() {
             {PROJECTS.map((p) => {
               const s = PROJECT_STATUS_STYLE[p.status as keyof typeof PROJECT_STATUS_STYLE];
               return (
-                <Card key={p.id} className="p-stack flex flex-col gap-3">
+                <Card key={p.id} className="p-stack flex flex-col gap-stack-xs">
                   <div className="flex items-center justify-between gap-stack-xs">
                     <div>
                       <p className="text-body-sm font-semibold text-ink-900">{p.title}</p>

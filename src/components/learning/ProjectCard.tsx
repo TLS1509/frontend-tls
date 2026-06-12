@@ -56,7 +56,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-stack-xs">
         <h3 className="m-0 text-h4 font-display font-semibold text-ink-900 leading-snug flex-1">
           {title}
         </h3>
@@ -65,19 +65,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
       <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
-      <div className="flex flex-wrap items-center gap-4 text-caption text-ink-500">
-        <span className="inline-flex items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-stack text-caption text-ink-500">
+        <span className="inline-flex items-center gap-tight.5">
           <CheckCircle2 size={14} className="text-success-base" />
           <span className="font-semibold text-ink-700">{completedTasks}</span>
           <span>/ {totalTasks} tâches</span>
         </span>
         {deadline && (
-          <span className="inline-flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-tight.5">
             <CalendarDays size={14} className="text-ink-400" />
             {deadline}
           </span>
         )}
-        <span className="inline-flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-tight.5">
           <Users size={14} className="text-ink-400" />
           {teamMembers.length} membres
         </span>
@@ -88,11 +88,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {teamMembers.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-tight.5">
           {teamMembers.slice(0, 4).map((member) => (
             <span
               key={member.id}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
+              className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
             >
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold">
                 {member.name.charAt(0)}

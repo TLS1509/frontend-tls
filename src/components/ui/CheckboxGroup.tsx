@@ -73,7 +73,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
   return (
     <fieldset
-      className={['flex flex-col gap-2 font-body border-0 p-0 m-0', className].filter(Boolean).join(' ')}
+      className={['flex flex-col gap-stack-xs font-body border-0 p-0 m-0', className].filter(Boolean).join(' ')}
       aria-describedby={error || hint ? `${groupId}-message` : undefined}
     >
       {label && (
@@ -87,11 +87,11 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
         className={[
           isCard
             ? orientation === 'horizontal'
-              ? 'grid grid-cols-2 gap-3'
-              : 'flex flex-col gap-3'
+              ? 'grid grid-cols-2 gap-stack-xs'
+              : 'flex flex-col gap-stack-xs'
             : orientation === 'horizontal'
               ? 'flex flex-wrap gap-x-6 gap-y-3'
-              : 'flex flex-col gap-3',
+              : 'flex flex-col gap-stack-xs',
         ].join(' ')}
       >
         {options.map((option) => {
@@ -103,7 +103,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
               <label
                 key={option.value}
                 className={[
-                  'relative flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer',
+                  'relative flex items-start gap-stack-xs p-4 rounded-xl border-2 cursor-pointer',
                   'transition-[border-color,background-color,transform,box-shadow] duration-base ease-standard select-none',
                   isChecked
                     ? TONE_CHECKED_CARD[tone]
@@ -154,7 +154,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
             <label
               key={option.value}
               className={[
-                'relative inline-flex items-start gap-3 cursor-pointer select-none',
+                'relative inline-flex items-start gap-stack-xs cursor-pointer select-none',
                 isDisabled && 'opacity-disabled cursor-not-allowed pointer-events-none',
               ]
                 .filter(Boolean)
@@ -202,7 +202,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
       {(error || hint) && (
         <p
           id={`${groupId}-message`}
-          className={error ? 'text-caption text-danger-fg flex items-center gap-1' : 'text-caption text-ink-500'}
+          className={error ? 'text-caption text-danger-fg flex items-center gap-tight' : 'text-caption text-ink-500'}
           role={error ? 'alert' : undefined}
         >
           {error || hint}

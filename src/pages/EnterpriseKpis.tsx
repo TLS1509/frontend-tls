@@ -274,7 +274,7 @@ export default function EnterpriseKpis() {
                 {/* Bar chart */}
                 <div className="flex items-end gap-stack-xs h-32 pt-2">
                   {ENGAGEMENT_TREND.map((val, i) => (
-                    <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0">
+                    <div key={i} className="flex flex-col items-center gap-tight flex-1 min-w-0">
                       <span className="text-micro text-ink-500 font-medium tabular-nums">{val}%</span>
                       <div
                         className="w-full rounded-t-sm bg-gradient-to-t from-primary-700 to-primary-400 transition-all duration-slow"

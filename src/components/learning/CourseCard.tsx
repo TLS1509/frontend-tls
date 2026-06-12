@@ -49,7 +49,7 @@ const HERO_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BADGE_BASE =
-  'inline-block px-3 py-1 rounded-pill text-caption font-semibold mb-4 border';
+  'inline-block px-3 py-1 rounded-pill text-caption font-semibold mb-stack border';
 
 const BADGE_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'bg-primary-50 text-primary-700 border-primary-200',
@@ -66,7 +66,7 @@ const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_BASE =
-  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
+  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-stack-xs transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
 
 const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',
@@ -101,13 +101,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           {title}
         </h3>
 
-        <p className="text-caption text-ink-600 mb-4 leading-normal line-clamp-2 min-h-[2.5rem]">
+        <p className="text-caption text-ink-600 mb-stack leading-normal line-clamp-2 min-h-[2.5rem]">
           Expand your skills with comprehensive, project-based learning...
         </p>
 
         <div className="flex-1" />
 
-        <div className="min-h-[2.25rem] mb-4">
+        <div className="min-h-[2.25rem] mb-stack">
           {enrolled && (
             <>
               <div className="h-1.5 bg-ink-100 rounded-pill overflow-hidden mb-2">

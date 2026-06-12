@@ -94,7 +94,7 @@ const SURFACE_TONE: Record<QuickActionSurface, Record<QuickActionTone, string>> 
 };
 
 const BASE =
-  'group flex items-center gap-3 w-full px-4 py-3 rounded-xl border text-left cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis hover:shadow-sm hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0';
+  'group flex items-center gap-stack-xs w-full px-4 py-3 rounded-xl border text-left cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis hover:shadow-sm hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-disabled disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0';
 
 export const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   icon,

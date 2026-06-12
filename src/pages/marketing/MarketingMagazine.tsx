@@ -84,7 +84,7 @@ export const MarketingMagazine: React.FC = () => {
         </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
               <TrendingUp size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Le Mag' · réflexions & analyses
@@ -124,7 +124,7 @@ export const MarketingMagazine: React.FC = () => {
             />
           </div>
           {/* Category chips */}
-          <div className="flex flex-wrap gap-2 flex-1">
+          <div className="flex flex-wrap gap-stack-xs flex-1">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat;
               return (
@@ -184,7 +184,7 @@ export const MarketingMagazine: React.FC = () => {
               {featured && (
                 <FadeInWhenVisible direction="up" key={`featured-${featured.title}`}>
                   <div className="flex flex-col gap-stack-lg">
-                    <span className="inline-flex self-start items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-100 text-warning-fg font-body text-micro font-bold uppercase tracking-wider">
+                    <span className="inline-flex self-start items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-warning-fg font-body text-micro font-bold uppercase tracking-wider">
                       <Sparkles size={12} />
                       À la une
                     </span>
@@ -201,14 +201,14 @@ export const MarketingMagazine: React.FC = () => {
                           <BookOpen size={88} strokeWidth={1} className="text-ink-900/30 relative" />
                         </div>
                         <div className="p-stack-lg lg:p-section flex flex-col justify-center gap-stack">
-                          <div className="flex items-center gap-2 flex-wrap">
+                          <div className="flex items-center gap-stack-xs flex-wrap">
                             <span
                               className={`inline-flex items-center px-2.5 py-0.5 rounded-pill border ${CATEGORY_TONES[featured.category] ?? 'bg-ink-50 text-ink-700 border-ink-100'} font-body text-micro font-bold uppercase tracking-wider`}
                             >
                               {featured.category}
                             </span>
                             <span className="font-body text-caption text-ink-500">{featured.date}</span>
-                            <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                            <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                               <Clock size={12} />
                               {featured.readTime}
                             </span>
@@ -219,7 +219,7 @@ export const MarketingMagazine: React.FC = () => {
                           <p className="font-body text-body text-ink-600 leading-relaxed m-0">
                             {featured.summary}
                           </p>
-                          <div className="inline-flex items-center gap-1.5 font-body text-body-sm font-bold text-primary-700">
+                          <div className="inline-flex items-center gap-tight.5 font-body text-body-sm font-bold text-primary-700">
                             Lire l'article
                             <ArrowRight
                               size={16}
@@ -236,7 +236,7 @@ export const MarketingMagazine: React.FC = () => {
               {/* Grid */}
               {rest.length > 0 && (
                 <div className="flex flex-col gap-stack-lg">
-                  <span className="inline-flex self-start items-center gap-1 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+                  <span className="inline-flex self-start items-center gap-tight font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                     <TrendingUp size={14} />
                     Tous les articles
                   </span>
@@ -264,13 +264,13 @@ export const MarketingMagazine: React.FC = () => {
                                 <BookOpen size={36} strokeWidth={1.25} className="text-ink-900/25 relative" />
                               </div>
                               <div className="p-stack-lg flex flex-col gap-stack flex-1">
-                                <div className="flex items-center gap-2 flex-wrap">
+                                <div className="flex items-center gap-stack-xs flex-wrap">
                                   <span
                                     className={`inline-flex items-center px-2 py-0.5 rounded-pill border ${CATEGORY_TONES[a.category] ?? 'bg-ink-50 text-ink-700 border-ink-100'} font-body text-micro font-bold uppercase tracking-wider`}
                                   >
                                     {a.category}
                                   </span>
-                                  <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                                  <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                                     <Clock size={12} />
                                     {a.readTime}
                                   </span>
@@ -281,7 +281,7 @@ export const MarketingMagazine: React.FC = () => {
                                 <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0 line-clamp-2 flex-1">
                                   {a.summary}
                                 </p>
-                                <div className="inline-flex items-center gap-1.5 font-body text-body-sm font-bold text-primary-700 pt-1">
+                                <div className="inline-flex items-center gap-tight.5 font-body text-body-sm font-bold text-primary-700 pt-1">
                                   Lire
                                   <ArrowRight
                                     size={14}
@@ -306,7 +306,7 @@ export const MarketingMagazine: React.FC = () => {
       <section className="relative overflow-hidden py-page bg-gradient-to-b from-white to-primary-50">
         <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white border border-primary-200 shadow-xs">
               <Mail size={14} className="text-primary-600" />
               <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
                 Newsletter bi-mensuelle
@@ -351,7 +351,7 @@ export const MarketingMagazine: React.FC = () => {
                     });
                   }
                 }}
-                className="w-full max-w-md flex flex-col sm:flex-row gap-2 pt-stack"
+                className="w-full max-w-md flex flex-col sm:flex-row gap-stack-xs pt-stack"
               >
                 <input
                   type="email"

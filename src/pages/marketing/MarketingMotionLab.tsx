@@ -59,7 +59,7 @@ export const MarketingMotionLab: React.FC = () => {
       <header className="relative pt-32 pb-section overflow-hidden">
         <MeshGradientBg tone="primary" intensity="subtle" />
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white border border-ink-200 shadow-xs">
+          <span className="inline-flex items-center gap-stack-xs px-3 py-1 rounded-pill bg-white border border-ink-200 shadow-xs">
             <Sparkles size={14} className="text-accent-400" />
             <span className="font-body text-caption font-semibold text-ink-700 tracking-wider uppercase">
               Motion Lab · Phase 1.0
@@ -105,7 +105,7 @@ export const MarketingMotionLab: React.FC = () => {
                 key={dir}
                 direction={dir as 'up' | 'left' | 'right'}
                 delay={i * 0.15}
-                className="rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 p-6 min-h-40 flex flex-col gap-2"
+                className="rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100 p-6 min-h-40 flex flex-col gap-stack-xs"
               >
                 <span className="font-body text-caption font-bold text-primary-700 uppercase">direction</span>
                 <h3 className="font-display text-h3 font-bold text-ink-900 m-0">{dir}</h3>
@@ -239,7 +239,7 @@ export const MarketingMotionLab: React.FC = () => {
               { label: 'Modules pédagogiques', to: 120, suffix: '+' },
               { label: 'Satisfaction', to: 97, suffix: ' %' },
             ].map((m) => (
-              <div key={m.label} className="flex flex-col gap-1 p-4 rounded-2xl bg-primary-50/40 border border-primary-100">
+              <div key={m.label} className="flex flex-col gap-tight p-4 rounded-2xl bg-primary-50/40 border border-primary-100">
                 <CountUp
                   to={m.to}
                   suffix={m.suffix}

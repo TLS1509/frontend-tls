@@ -42,9 +42,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   const tight = variant === 'tight';
 
   const wrapperClasses = [
-    'flex gap-6 flex-wrap',
+    'flex gap-stack-lg flex-wrap',
     isCenter ? 'flex-col items-center text-center' : 'justify-between items-start',
-    tight ? 'mb-6' : 'mb-10',
+    tight ? 'mb-stack-lg' : 'mb-10',
     className,
   ]
     .filter(Boolean)
@@ -52,7 +52,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
   const contentClasses = [
     'flex flex-col',
-    tight ? 'gap-1.5' : 'gap-2',
+    tight ? 'gap-tight.5' : 'gap-stack-xs',
     isCenter ? 'items-center max-w-[760px]' : 'min-w-0 flex-1',
   ].join(' ');
 
@@ -60,7 +60,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     <div className={wrapperClasses}>
       <div className={contentClasses}>
         {eyebrow && (
-          <div className="inline-flex items-center gap-1.5 self-start text-caption font-bold uppercase tracking-[0.1em] text-primary-700 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100">
+          <div className="inline-flex items-center gap-tight.5 self-start text-caption font-bold uppercase tracking-[0.1em] text-primary-700 px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-100">
             {eyebrow.icon && (
               <span className="inline-flex items-center text-current">{eyebrow.icon}</span>
             )}
@@ -93,11 +93,11 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       </div>
 
       {actions && !isCenter && (
-        <div className="flex flex-wrap gap-2.5 items-center shrink-0 pt-1">{actions}</div>
+        <div className="flex flex-wrap gap-stack-xs.5 items-center shrink-0 pt-1">{actions}</div>
       )}
 
       {actions && isCenter && (
-        <div className="flex flex-wrap gap-2.5 items-center justify-center mt-2">{actions}</div>
+        <div className="flex flex-wrap gap-stack-xs.5 items-center justify-center mt-2">{actions}</div>
       )}
     </div>
   );

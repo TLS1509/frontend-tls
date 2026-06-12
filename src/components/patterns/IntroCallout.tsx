@@ -83,7 +83,7 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
         ].join(' ')}
       />
 
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-stack">
         {withQuoteIcon && (
           <span
             aria-hidden
@@ -96,7 +96,7 @@ export const IntroCallout: React.FC<IntroCalloutProps> = ({
           </span>
         )}
 
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
+        <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
           {eyebrow && (
             <span
               className={[

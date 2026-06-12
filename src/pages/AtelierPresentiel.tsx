@@ -82,7 +82,7 @@ export default function AtelierPresentiel() {
             <p className="text-caption text-ink-400">Carte interactive</p>
           </div>
 
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Button variant="ghost" size="sm" leadingIcon={<Navigation size={14} />}>
               Itinéraire
             </Button>

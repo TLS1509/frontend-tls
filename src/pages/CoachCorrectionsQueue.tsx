@@ -118,7 +118,7 @@ export default function CoachCorrectionsQueue() {
         />
 
         {/* Queue */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-stack-xs">
           {currentItems.length === 0 ? (
             <EmptyState
               icon={<CheckCircle2 size={32} />}

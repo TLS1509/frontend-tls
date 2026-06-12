@@ -34,7 +34,7 @@ export const ForgotPassword: React.FC = () => {
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
         !sent ? (
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
             <AuthField
               label="Adresse email"
               icon={<Mail size={18} />}
@@ -45,7 +45,7 @@ export const ForgotPassword: React.FC = () => {
               required
             />
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               <AuthPrimaryButton type="submit">Envoyer le lien</AuthPrimaryButton>
               <AuthGhostButton onClick={() => navigate('/auth/login')}>
                 Retour connexion

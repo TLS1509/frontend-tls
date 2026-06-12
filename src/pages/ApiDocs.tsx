@@ -74,14 +74,14 @@ const ApiDocs: React.FC = () => {
         {tab === 'auth' && (
           <SectionCard title="Authentification" description="OAuth 2.0 + JWT Bearer">
             <div className="flex flex-col gap-stack">
-              <Card className="p-stack flex items-start gap-3">
+              <Card className="p-stack flex items-start gap-stack-xs">
                 <Key className="w-5 h-5 text-primary-600 mt-1" />
                 <div>
                   <div className="font-semibold mb-1">JWT Bearer Token</div>
                   <p className="text-body-sm text-ink-600">Inclure <code className="px-1 py-0.5 bg-ink-100 rounded">Authorization: Bearer &lt;token&gt;</code> dans chaque requête.</p>
                 </div>
               </Card>
-              <Card className="p-stack flex items-start gap-3">
+              <Card className="p-stack flex items-start gap-stack-xs">
                 <Shield className="w-5 h-5 text-success-fg mt-1" />
                 <div>
                   <div className="font-semibold mb-1">Scopes par rôle</div>

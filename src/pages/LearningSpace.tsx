@@ -66,7 +66,7 @@ const ITEM_TYPE_TONE: Record<ItemType, 'brand' | 'warm' | 'sun' | 'success' | 'd
 };
 
 const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label, icon }) => (
-  <span className="inline-flex items-center gap-1 px-2 py-1 bg-ink-50 border border-ink-200 rounded-pill text-caption text-ink-500 font-medium">
+  <span className="inline-flex items-center gap-tight px-2 py-1 bg-ink-50 border border-ink-200 rounded-pill text-caption text-ink-500 font-medium">
     {icon}
     {label}
   </span>
@@ -383,7 +383,7 @@ export const LearningSpace: React.FC = () => {
                     as="article"
                     className={!isAccessible ? 'opacity-60 cursor-not-allowed' : ''}
                   >
-                    <div className="p-5 flex flex-col gap-3 h-full">
+                    <div className="p-5 flex flex-col gap-stack-xs h-full">
                       {/* Type badge + icon */}
                       <div className="flex items-center justify-between">
                         <Badge variant={ITEM_TYPE_TONE[item.type]}>
@@ -418,7 +418,7 @@ export const LearningSpace: React.FC = () => {
                             accessCheck.reason === 'tier' ? 'sun' : 'info'
                           }
                           size="sm"
-                          className="mt-auto flex items-center gap-1"
+                          className="mt-auto flex items-center gap-tight"
                           title={denialMessage}
                         >
                           <Lock size={12} />

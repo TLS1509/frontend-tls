@@ -143,7 +143,7 @@ export const MarketingAccompagnement: React.FC = () => {
         </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light">
               <Briefcase size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Transition Skills-Based Organization · Méthode STRIDE
@@ -163,7 +163,7 @@ export const MarketingAccompagnement: React.FC = () => {
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <a href="#contact-form">
                   <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -211,7 +211,7 @@ export const MarketingAccompagnement: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                   className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
                 >
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start justify-between gap-stack-xs">
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 text-primary-600">
                       {s.icon}
                     </span>
@@ -268,7 +268,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     >
                       {p.num}
                     </motion.span>
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-pill ${p.accentLight} ${p.accentText} font-body text-caption font-bold uppercase tracking-wider`}>
+                    <span className={`inline-flex items-center gap-tight px-2.5 py-1 rounded-pill ${p.accentLight} ${p.accentText} font-body text-caption font-bold uppercase tracking-wider`}>
                       {p.duration}
                     </span>
                   </div>
@@ -297,7 +297,7 @@ export const MarketingAccompagnement: React.FC = () => {
             { to: 12, suffix: '+', label: 'secteurs accompagnés' },
           ].map((m, i) => (
             <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col items-center text-center gap-1 p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
+              <div className="flex flex-col items-center text-center gap-tight p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
                 <CountUp
                   to={m.to}
                   suffix={m.suffix}
@@ -338,7 +338,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 >
                   <div className="flex items-center justify-between">
                     <Quote size={28} className="text-accent-400" />
-                    <div className="flex gap-1">
+                    <div className="flex gap-tight">
                       {Array.from({ length: t.stars }).map((_, j) => (
                         <Star key={j} size={16} className="fill-accent-400 text-accent-400" />
                       ))}
@@ -368,7 +368,7 @@ export const MarketingAccompagnement: React.FC = () => {
         </div>
         <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/15 border border-white/25">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25">
               <Sparkles size={14} className="text-accent-400" />
               <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
                 Première rencontre gratuite
@@ -406,7 +406,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 className="w-full max-w-xl flex flex-col gap-stack pt-stack text-left"
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-stack-xs">
                     <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-white/90">
                       Prénom et nom *
                     </label>
@@ -420,7 +420,7 @@ export const MarketingAccompagnement: React.FC = () => {
                       className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-stack-xs">
                     <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-white/90">
                       Email pro *
                     </label>
@@ -435,7 +435,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-white/90">
                     Organisation
                   </label>
@@ -448,7 +448,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-stack-xs">
                   <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-white/90">
                     Votre besoin
                   </label>

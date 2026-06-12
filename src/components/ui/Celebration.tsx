@@ -28,7 +28,7 @@ export const InlineWin: React.FC<InlineWinProps> = ({
 }) => (
   <div
     className={[
-      'flex items-center gap-4 px-5 py-4 rounded-lg border border-secondary-500/20',
+      'flex items-center gap-stack px-5 py-stack rounded-lg border border-secondary-500/20',
       'bg-gradient-to-br from-secondary-50 to-accent-50',
       className,
     ]

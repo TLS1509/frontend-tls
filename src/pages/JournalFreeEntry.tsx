@@ -84,7 +84,7 @@ export const JournalFreeEntry: React.FC = () => {
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-stack-xs">
           <Button
             variant="secondary"
             size="sm"
@@ -114,7 +114,7 @@ export const JournalFreeEntry: React.FC = () => {
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div className="flex items-center gap-1.5 mb-stack text-ink-500 font-body text-body-sm">
+          <div className="flex items-center gap-tight.5 mb-stack text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
             <span>1 mai 2026</span>
           </div>
@@ -142,7 +142,7 @@ export const JournalFreeEntry: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
                     className={[
-                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
+                      'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'
@@ -170,7 +170,7 @@ export const JournalFreeEntry: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedMood(active ? null : mood.label)}
                     className={[
-                      'inline-flex items-center gap-1 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-semibold transition-all duration-150',
+                      'inline-flex items-center gap-tight px-3 py-1.5 rounded-pill border cursor-pointer font-body text-micro font-semibold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'
@@ -211,7 +211,7 @@ export const JournalFreeEntry: React.FC = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 font-body text-micro font-semibold border border-primary-200"
+                  className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 text-primary-700 font-body text-micro font-semibold border border-primary-200"
                 >
                   {tag}
                   <button
@@ -254,7 +254,7 @@ export const JournalFreeEntry: React.FC = () => {
                 Aide à l'écriture
               </span>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               {PROMPTS.map((prompt, i) => (
                 <button
                   key={i}

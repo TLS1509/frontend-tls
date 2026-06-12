@@ -120,8 +120,8 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
 
             <span
               className={[
-                'text-caption font-semibold inline-flex items-center gap-1 transition-all duration-fast',
-                'group-hover:gap-2',
+                'text-caption font-semibold inline-flex items-center gap-tight transition-all duration-fast',
+                'group-hover:gap-stack-xs',
                 TONE_CTA[tone],
               ].join(' ')}
             >

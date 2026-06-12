@@ -58,7 +58,7 @@ export const CourseDetail: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface font-body">
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
-        <Container width="medium" className="h-14 flex items-center justify-between gap-3">
+        <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
           <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
@@ -84,11 +84,11 @@ export const CourseDetail: React.FC = () => {
           <div className="flex flex-wrap items-center gap-stack-xs">
             <Badge variant="info">{STATIC_COURSE.level}</Badge>
             <Badge variant="neutral">
-              <span className="inline-flex items-center gap-1">
+              <span className="inline-flex items-center gap-tight">
                 <Clock size={12} /> {STATIC_COURSE.duration}
               </span>
             </Badge>
-            <span className="font-body text-caption text-ink-500 inline-flex items-center gap-1">
+            <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
               <GraduationCap size={12} />
               Formateur : {STATIC_COURSE.instructor}
             </span>
@@ -100,13 +100,13 @@ export const CourseDetail: React.FC = () => {
         </section>
 
         {/* ─ KPI row ───────────────────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-stack-xs">
           {[
             { label: 'Progression', value: `${STATIC_COURSE.progress}%`, meta: 'Parcours statique en cours' },
             { label: 'Étapes', value: STEPS.length, meta: 'Fondamentaux + application' },
             { label: 'Leçons', value: STEPS.reduce((acc, step) => acc + step.lessons.length, 0), meta: 'Format micro-learning guidé' },
           ].map((kpi) => (
-            <Card key={kpi.label} className="flex flex-col gap-1 p-5">
+            <Card key={kpi.label} className="flex flex-col gap-tight p-5">
               <p className="font-body text-caption text-ink-500 m-0">{kpi.label}</p>
               <p className="font-display text-h2 font-bold text-ink-900 m-0">{kpi.value}</p>
               <p className="font-body text-caption text-ink-400 m-0">{kpi.meta}</p>
@@ -155,7 +155,7 @@ export const CourseDetail: React.FC = () => {
                     {step.lessons.map((lesson) => (
                       <div
                         key={lesson.id}
-                        className="flex items-center justify-between gap-3 py-3 border-b border-ink-100 last:border-b-0 font-body text-body-sm text-ink-700"
+                        className="flex items-center justify-between gap-stack-xs py-3 border-b border-ink-100 last:border-b-0 font-body text-body-sm text-ink-700"
                       >
                         <span className="flex items-center gap-stack-xs">
                           {lesson.locked && <Lock size={14} className="text-ink-400 shrink-0" />}
@@ -174,7 +174,7 @@ export const CourseDetail: React.FC = () => {
 
           {/* ─ Right sidebar ─────────────────────────────────────── */}
           <aside className="sticky top-[44px] flex flex-col gap-stack self-start">
-            <Card className="flex flex-col gap-3 p-stack-lg">
+            <Card className="flex flex-col gap-stack-xs p-stack-lg">
               <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
                 <BookOpen size={16} /> Progression
               </h3>
@@ -184,7 +184,7 @@ export const CourseDetail: React.FC = () => {
               <p className="font-display text-h2 font-bold text-ink-900 m-0">
                 {STATIC_COURSE.progress}%
               </p>
-              <span className="font-body text-caption text-ink-500 inline-flex items-center gap-1">
+              <span className="font-body text-caption text-ink-500 inline-flex items-center gap-tight">
                 <CheckCircle2 size={12} /> Prochaine étape : première leçon
               </span>
             </Card>
@@ -193,7 +193,7 @@ export const CourseDetail: React.FC = () => {
               className="rounded-xl border border-accent-200 p-5 flex flex-col gap-stack-xs"
               style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
             >
-              <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-1.5">
+              <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-tight.5">
                 <Sparkles size={14} className="text-accent-400" />
                 Conseil du formateur
               </p>

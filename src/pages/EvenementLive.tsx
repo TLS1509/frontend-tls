@@ -62,7 +62,7 @@ export default function EvenementLive() {
         title={EVENT.title}
         summary={`En cours · ${EVENT.participants} participants connectés`}
         trailing={
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <Badge variant="danger" className="animate-pulse">🔴 EN DIRECT</Badge>
             <Badge variant="neutral">{EVENT.participants} participants</Badge>
           </div>
@@ -92,7 +92,7 @@ export default function EvenementLive() {
             titleIcon={<MessageSquare size={18} />}
           >
             {QUESTIONS.map((q) => (
-              <div key={q.id} className="flex items-start gap-3 py-stack-xs border-b border-ink-100 last:border-0">
+              <div key={q.id} className="flex items-start gap-stack-xs py-stack-xs border-b border-ink-100 last:border-0">
                 <Avatar name={q.author} size="sm" />
                 <div className="flex flex-col gap-tight flex-1 min-w-0">
                   <p className="text-caption font-semibold text-ink-900 m-0">{q.author}</p>

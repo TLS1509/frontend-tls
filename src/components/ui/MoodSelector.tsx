@@ -41,7 +41,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
   onChange,
   className = '',
 }) => (
-  <div className={['flex gap-3 flex-wrap', className].filter(Boolean).join(' ')}>
+  <div className={['flex gap-stack-xs flex-wrap', className].filter(Boolean).join(' ')}>
     {MOOD_ORDER.map((level) => {
       const cfg = MOOD_CONFIG[level];
       const selected = value === level;
@@ -54,7 +54,7 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
           aria-label={cfg.label}
           aria-pressed={selected}
           className={[
-            'flex flex-col items-center gap-1 p-3 rounded-xl cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+            'flex flex-col items-center gap-tight p-3 rounded-xl cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis active:scale-[0.94] min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             selected
               ? 'bg-primary-100 border-2 border-primary-500 shadow-sm'
               : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',

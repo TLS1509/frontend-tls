@@ -174,12 +174,12 @@ export default function CoachDashboard() {
                 const learner = getApprenantById(c.learnerId);
                 return (
                   <Card key={c.id} className="p-stack flex items-start gap-stack">
-                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                    <div className="flex-1 min-w-0 flex flex-col gap-tight">
                       <div className="flex items-center gap-stack-xs flex-wrap">
                         <span className="text-body-sm font-semibold text-ink-900">{c.exerciseTitle}</span>
                         {c.iterationCount === 0 && <Badge variant="sun" size="sm">Nouveau</Badge>}
                       </div>
-                      <div className="flex gap-3 text-caption text-ink-500 flex-wrap">
+                      <div className="flex gap-stack-xs text-caption text-ink-500 flex-wrap">
                         <span>{learner?.name ?? c.learnerId}</span>
                         {c.competenceId && (
                           <>

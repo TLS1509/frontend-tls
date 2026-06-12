@@ -43,7 +43,7 @@ export const MarketingRessources: React.FC = () => {
       <div className="max-w-medium mx-auto px-6">
         <header className="max-w-2xl mb-10">
           <p className="font-body text-body-sm font-semibold text-primary-600 mb-2">Ressources</p>
-          <h1 className="font-display font-bold text-h1 text-ink-900 mb-4 text-balance">
+          <h1 className="font-display font-bold text-h1 text-ink-900 mb-stack text-balance">
             Tout pour nourrir votre réflexion.
           </h1>
           <p className="font-body text-body-lg text-ink-600">
@@ -63,17 +63,17 @@ export const MarketingRessources: React.FC = () => {
                   Dossier à la une
                 </span>
               </div>
-              <div className="p-7 lg:p-8 flex flex-col justify-center gap-3">
-                <div className="flex items-center gap-4 flex-wrap font-body text-caption text-ink-500">
-                  <span className="inline-flex items-center gap-1.5"><Calendar size={13} />{featured.date}</span>
-                  <span className="inline-flex items-center gap-1.5"><Clock size={13} />{featured.readTime}</span>
-                  <span className="inline-flex items-center gap-1.5"><Library size={13} />{featured.sourceCount} sources</span>
+              <div className="p-7 lg:p-8 flex flex-col justify-center gap-stack-xs">
+                <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-500">
+                  <span className="inline-flex items-center gap-tight.5"><Calendar size={13} />{featured.date}</span>
+                  <span className="inline-flex items-center gap-tight.5"><Clock size={13} />{featured.readTime}</span>
+                  <span className="inline-flex items-center gap-tight.5"><Library size={13} />{featured.sourceCount} sources</span>
                 </div>
                 <h2 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0 group-hover:text-primary-700 transition-colors duration-base">
                   {featured.title}
                 </h2>
                 <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{featured.summary}</p>
-                <span className="inline-flex items-center gap-1.5 font-body text-body-sm font-semibold text-primary-700 mt-1">
+                <span className="inline-flex items-center gap-tight.5 font-body text-body-sm font-semibold text-primary-700 mt-1">
                   Lire le dossier
                   <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
                 </span>
@@ -82,7 +82,7 @@ export const MarketingRessources: React.FC = () => {
           </Link>
         )}
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-stack-lg sm:grid-cols-2">
           {CARDS.map((c) => (
             <Link
               key={c.to}
@@ -92,7 +92,7 @@ export const MarketingRessources: React.FC = () => {
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700 mb-5">
                 {c.icon}
               </span>
-              <h2 className="font-display font-bold text-h3 text-ink-900 mb-2 flex items-center gap-2">
+              <h2 className="font-display font-bold text-h3 text-ink-900 mb-2 flex items-center gap-stack-xs">
                 {c.title}
                 <ArrowRight
                   size={18}

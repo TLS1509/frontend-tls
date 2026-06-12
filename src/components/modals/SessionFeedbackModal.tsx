@@ -54,7 +54,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
     onClose();
   };
 
-  const SUBMIT_BASE = 'w-full p-4 rounded-xl border-0 flex items-center justify-center gap-2 font-bold text-body cursor-pointer transition-all';
+  const SUBMIT_BASE = 'w-full p-4 rounded-xl border-0 flex items-center justify-center gap-stack-xs font-bold text-body cursor-pointer transition-all';
   const SUBMIT_ENABLED = 'modal-submit-enabled text-white';
   const SUBMIT_DISABLED = 'bg-ink-200 text-ink-600 opacity-50 cursor-not-allowed';
 
@@ -82,7 +82,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
         {!submitted ? (
           <>
             {/* Icon badge */}
-            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto mb-4">
+            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto mb-stack">
               <Sparkles size={28} className="text-accent-600" />
             </div>
 
@@ -90,12 +90,12 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             <h2 className="text-h3 font-extrabold text-ink-900 text-center mb-2">
               {title}
             </h2>
-            <p className="text-body text-ink-600 text-center leading-relaxed mb-6">
+            <p className="text-body text-ink-600 text-center leading-relaxed mb-stack-lg">
               {subtitle}
             </p>
 
             {/* Stars */}
-            <div className="flex justify-center gap-3 mb-3">
+            <div className="flex justify-center gap-stack-xs mb-3">
               {[1, 2, 3, 4, 5].map((star) => {
                 const filled = star <= display;
                 const selected = star <= rating;
@@ -127,7 +127,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
 
             {/* Rating label — conditional, compact */}
             {display > 0 && (
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-stack">
                 <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body-sm font-bold text-accent-600">
                   {RATING_LABELS[display]}
                 </div>
@@ -159,7 +159,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           </>
         ) : (
           /* Submitted confirmation */
-          <div className="text-center py-6 animate-[fbFadeIn_0.4s_ease_both]">
+          <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
             <div className="text-[3.5rem] mb-3">🌟</div>
             <h3 className="text-h4 font-bold text-ink-900 mb-2">
               Merci pour votre retour !

@@ -57,7 +57,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
       />
 
       {/* Compose row */}
-      <div className="flex items-end gap-3 p-4">
+      <div className="flex items-end gap-stack-xs p-4">
         <span
           className="text-h2 leading-none shrink-0 select-none"
           aria-hidden="true"
@@ -91,7 +91,7 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
       </div>
 
       {/* Footer hint */}
-      <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-2 flex-wrap">
+      <div className="px-4 pb-3 -mt-1 flex items-center justify-between gap-stack-xs flex-wrap">
         {hint && (
           <span className="font-body text-caption text-ink-500">{hint}</span>
         )}

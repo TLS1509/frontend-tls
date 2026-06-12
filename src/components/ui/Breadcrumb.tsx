@@ -52,7 +52,7 @@ const NavItem: React.FC<{
 }> = ({ item, index, isCurrent, isEllipsis, onNavigate }) => {
   const isClickable = !isCurrent && !isEllipsis && (item.href || onNavigate);
 
-  const baseClasses = 'inline-flex items-center gap-1.5 px-2 py-1 rounded-md transition-[background-color,color] duration-fast ease-emphasis text-body-sm';
+  const baseClasses = 'inline-flex items-center gap-tight.5 px-2 py-1 rounded-md transition-[background-color,color] duration-fast ease-emphasis text-body-sm';
   const currentClasses = 'bg-primary-50 text-ink-900 font-semibold';
   const defaultClasses = 'text-ink-500';
   const clickableClasses = 'cursor-pointer hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
@@ -118,7 +118,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const currentIndex = current ?? items.length - 1;
 
   const navClasses = [
-    'flex items-center flex-wrap gap-2 text-body-sm font-body text-ink-600 m-0 p-0 list-none',
+    'flex items-center flex-wrap gap-stack-xs text-body-sm font-body text-ink-600 m-0 p-0 list-none',
     sticky && STICKY_CLASSES,
     className,
   ]
@@ -133,14 +133,14 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
     return (
       <nav className={navClasses} aria-label="Fil d'Ariane" {...rest}>
-        <ol className="list-none m-0 p-0 flex flex-wrap items-center gap-1">
+        <ol className="list-none m-0 p-0 flex flex-wrap items-center gap-tight">
           {displayItems.map((item, idx) => {
             const isEllipsis = item === null;
             const originalIndex = isEllipsis ? -1 : items.indexOf(item!);
             const isCurrent = originalIndex === currentIndex;
 
             return (
-              <li key={idx} className="inline-flex items-center gap-1">
+              <li key={idx} className="inline-flex items-center gap-tight">
                 <NavItem
                   item={item ?? { label: '…' }}
                   index={originalIndex}

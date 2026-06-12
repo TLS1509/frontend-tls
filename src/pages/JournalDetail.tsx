@@ -96,7 +96,7 @@ export const JournalDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
+        <div className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-stack-xs">
           <Button
             variant="ghost"
             size="sm"
@@ -128,11 +128,11 @@ export const JournalDetail: React.FC = () => {
         <header className="flex flex-col gap-stack">
           {/* Eyebrow chips */}
           <div className="flex items-center gap-stack-xs flex-wrap">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-primary-100 text-primary-700 text-micro font-bold uppercase tracking-wider">
               <Sparkles size={11} /> Journal de bord
             </span>
             <Badge variant="brand">{ENTRY.category}</Badge>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
+            <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-700 text-micro font-semibold">
               {ENTRY.mood} {ENTRY.moodLabel}
             </span>
           </div>
@@ -179,7 +179,7 @@ export const JournalDetail: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => toggleTodo(i)}
-                  className="w-full flex items-center gap-3 py-3 bg-transparent border-0 cursor-pointer text-left !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                  className="w-full flex items-center gap-stack-xs py-3 bg-transparent border-0 cursor-pointer text-left !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                 >
                   <span
                     aria-hidden
@@ -208,7 +208,7 @@ export const JournalDetail: React.FC = () => {
 
         {/* Tags */}
         <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-          <span className="inline-flex items-center gap-1.5 font-body text-caption font-medium text-ink-500">
+          <span className="inline-flex items-center gap-tight.5 font-body text-caption font-medium text-ink-500">
             <TagIcon size={11} /> Tags
           </span>
           <div className="flex flex-wrap gap-stack-xs">
@@ -224,11 +224,11 @@ export const JournalDetail: React.FC = () => {
         </div>
 
         {/* Entry navigation prev/next */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="flex items-center gap-3 p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex items-center gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ArrowLeft size={16} className="text-ink-400 shrink-0" />
             <div className="flex-1 min-w-0">
@@ -243,7 +243,7 @@ export const JournalDetail: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate(1)}
-            className="flex items-center justify-end gap-3 p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex items-center justify-end gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <div className="flex-1 min-w-0">
               <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">

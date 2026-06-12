@@ -105,7 +105,7 @@ const PrivacyDeleteAccount: React.FC = () => {
 
         {step === 2 && (
           <Card className="p-stack-lg flex flex-col gap-stack border-danger-base/30">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-stack-xs">
               <ShieldOff className="w-8 h-8 text-danger-fg" />
               <div>
                 <h3 className="text-h4 font-semibold mb-1">Étape 2/2 : Confirmation finale</h3>

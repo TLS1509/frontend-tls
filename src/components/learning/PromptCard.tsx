@@ -122,7 +122,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       <div
         className={[
           BASE_INTERACTIVE,
-          'flex flex-col md:flex-row items-stretch md:items-center gap-5 md:gap-7',
+          'flex flex-col md:flex-row items-stretch md:items-center gap-stack md:gap-7',
           'p-6 md:p-8',
           hoverBg,
           hoverShadow,
@@ -139,7 +139,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
           {icon}
         </div>
 
-        <div className="flex-1 flex flex-col gap-2.5 min-w-0">
+        <div className="flex-1 flex flex-col gap-stack-xs.5 min-w-0">
           <Badge variant={variant} className="self-start">
             {label}
           </Badge>
@@ -149,7 +149,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
         </div>
 
         <div className="shrink-0 self-start md:self-center">
-          <span className="inline-flex items-center gap-2 px-5 h-11 rounded-pill bg-primary-600 text-white text-body-sm font-semibold transition-all group-hover:bg-primary-700 group-hover:-translate-y-px">
+          <span className="inline-flex items-center gap-stack-xs px-5 h-11 rounded-pill bg-primary-600 text-white text-body-sm font-semibold transition-all group-hover:bg-primary-700 group-hover:-translate-y-px">
             {ctaLabel ?? 'Écrire ma réflexion'}
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
           </span>
@@ -165,7 +165,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
     <div
       className={[
         BASE_INTERACTIVE,
-        'flex flex-col items-center text-center gap-4 p-6',
+        'flex flex-col items-center text-center gap-stack p-6',
         hoverBg,
         hoverShadow,
         className,
@@ -185,7 +185,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
 
       <p className="m-0 text-body-sm leading-relaxed text-ink-600 text-balance">{text}</p>
 
-      <div className={['inline-flex items-center gap-1 text-caption font-semibold text-ink-500 transition-colors', ctaHover].join(' ')}>
+      <div className={['inline-flex items-center gap-tight text-caption font-semibold text-ink-500 transition-colors', ctaHover].join(' ')}>
         {ctaLabel ?? 'Réfléchir'}
         <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
       </div>

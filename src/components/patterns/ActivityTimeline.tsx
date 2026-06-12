@@ -41,7 +41,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
           const isInProgress = item.status === 'in-progress';
 
           return (
-            <li key={item.id} className="group relative flex items-start gap-4">
+            <li key={item.id} className="group relative flex items-start gap-stack">
               {showConnector && !isLast && (
                 <div
                   aria-hidden="true"
@@ -79,7 +79,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
               </div>
 
               <div className="flex-1 min-w-0 pb-1">
-                <div className="flex items-baseline justify-between gap-3 flex-wrap">
+                <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
                   <h3
                     className={[
                       'm-0 text-body-sm font-semibold leading-snug',

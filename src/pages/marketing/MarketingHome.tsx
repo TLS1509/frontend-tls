@@ -79,7 +79,7 @@ const HeroChevron: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-1 text-ink-400"
+      className="flex flex-col items-center gap-tight text-ink-400"
     >
       <span className="font-body text-caption font-semibold uppercase tracking-widest">Scroll</span>
       <ChevronDown size={18} />
@@ -155,7 +155,7 @@ export const MarketingHome: React.FC = () => {
         <div className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           {/* Subtle eyebrow */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-stack-xs">
               <span className="inline-flex w-1.5 h-1.5 rounded-pill bg-accent-400 animate-pulse" />
               <span className="font-body text-caption font-semibold text-ink-600 tracking-wider uppercase">
                 Skills-Based Organization · IA pédagogique · Passeport Compétences
@@ -184,7 +184,7 @@ export const MarketingHome: React.FC = () => {
 
           {/* CTAs */}
           <FadeInWhenVisible direction="up" delay={0.45}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={12}>
                 <Link to="/marketing/formation">
                   <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -202,7 +202,7 @@ export const MarketingHome: React.FC = () => {
 
           {/* Trust strip — minimal */}
           <FadeInWhenVisible direction="up" delay={0.6}>
-            <div className="flex items-center gap-3 pt-stack">
+            <div className="flex items-center gap-stack-xs pt-stack">
               <div className="flex -space-x-2">
                 {[
                   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&auto=format&fit=crop',
@@ -325,20 +325,20 @@ export const MarketingHome: React.FC = () => {
 
                   <div className="flex flex-col gap-stack-lg">
                     {/* Mini feature list */}
-                    <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+                    <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                       {[
                         'Passeport Dreyfus mesurable',
                         'Matching Talents-Projets par IA',
                         'Coaching 1-1 intégré',
                       ].map((f) => (
-                        <li key={f} className="flex items-center gap-2">
+                        <li key={f} className="flex items-center gap-stack-xs">
                           <CheckCircle2 size={16} className="text-primary-600 shrink-0" />
                           <span className="font-body text-body-sm text-ink-700">{f}</span>
                         </li>
                       ))}
                     </ul>
 
-                    <div className="flex items-center gap-2 text-primary-700 font-semibold">
+                    <div className="flex items-center gap-stack-xs text-primary-700 font-semibold">
                       <span>Explorer la Learning App</span>
                       <ArrowRight
                         size={18}
@@ -385,7 +385,7 @@ export const MarketingHome: React.FC = () => {
                       de l'apprentissage IA-augmenté.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 text-secondary-700 font-semibold text-body-sm">
+                  <div className="flex items-center gap-stack-xs text-secondary-700 font-semibold text-body-sm">
                     <span>En savoir plus</span>
                     <ArrowRight
                       size={16}
@@ -431,7 +431,7 @@ export const MarketingHome: React.FC = () => {
                       vous, pas pour vous.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 text-accent-700 font-semibold text-body-sm">
+                  <div className="flex items-center gap-stack-xs text-accent-700 font-semibold text-body-sm">
                     <span>En savoir plus</span>
                     <ArrowRight
                       size={16}
@@ -480,7 +480,7 @@ export const MarketingHome: React.FC = () => {
                     'Coaching 1-1 intégré (messagerie, corrections, visio)',
                     'Journal de bord réflexif + Veille pédagogique IA',
                   ].map((f) => (
-                    <li key={f} className="flex items-start gap-2.5">
+                    <li key={f} className="flex items-start gap-stack-xs.5">
                       <CheckCircle2 size={20} className="text-primary-600 shrink-0 mt-0.5" />
                       <span className="font-body text-body text-ink-800">{f}</span>
                     </li>
@@ -489,7 +489,7 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
 
               <FadeInWhenVisible direction="up" delay={0.4}>
-                <div className="flex items-center gap-3 pt-stack">
+                <div className="flex items-center gap-stack-xs pt-stack">
                   <Link to="/marketing/learning-app">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Voir toutes les fonctionnalités
@@ -550,7 +550,7 @@ export const MarketingHome: React.FC = () => {
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-stack-xs">
               <div className="w-12 h-px bg-white/30" />
               <span className="font-body text-caption text-white/60 tracking-widest uppercase font-semibold">
                 Notre philosophie
@@ -605,7 +605,7 @@ export const MarketingHome: React.FC = () => {
               </p>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.3}>
-              <div className="flex flex-wrap items-center gap-3 pt-stack">
+              <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/formation">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -636,7 +636,7 @@ export const MarketingHome: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.6, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className="absolute -bottom-6 -left-6 max-w-xs bg-white/95 backdrop-blur-glass-light rounded-2xl shadow-2xl border border-ink-100 p-stack-lg flex flex-col gap-2"
+                className="absolute -bottom-6 -left-6 max-w-xs bg-white/95 backdrop-blur-glass-light rounded-2xl shadow-2xl border border-ink-100 p-stack-lg flex flex-col gap-stack-xs"
               >
                 <Quote size={20} className="text-primary-500" />
                 <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
@@ -741,7 +741,7 @@ export const MarketingHome: React.FC = () => {
                 { to: 40, suffix: '+', label: 'organisations clientes' },
                 { to: 120, suffix: '+', label: 'modules pédagogiques' },
               ].map((s) => (
-                <div key={s.label} className="flex flex-col items-center text-center gap-1">
+                <div key={s.label} className="flex flex-col items-center text-center gap-tight">
                   <CountUp
                     to={s.to}
                     suffix={s.suffix}
@@ -773,7 +773,7 @@ export const MarketingHome: React.FC = () => {
 
         <div className="relative max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack-lg items-center">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-stack-xs">
               <Sparkles size={14} className="text-accent-500" />
               <span className="font-body text-caption font-semibold text-ink-600 tracking-wider uppercase">
                 30 minutes · 30 jours pour déployer
@@ -799,7 +799,7 @@ export const MarketingHome: React.FC = () => {
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-stack">
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/contact">
                   <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>

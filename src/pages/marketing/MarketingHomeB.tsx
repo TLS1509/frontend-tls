@@ -99,7 +99,7 @@ export const MarketingHomeB: React.FC = () => (
       <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
         {/* Text column */}
         <div className="flex flex-col gap-stack-lg">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 w-fit">
+          <span className="inline-flex items-center gap-stack-xs px-3 py-1 rounded-pill bg-primary-50 border border-primary-200 w-fit">
             <Sparkles size={14} className="text-primary-700" />
             <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
               Plateforme · Formation · Accompagnement
@@ -115,7 +115,7 @@ export const MarketingHomeB: React.FC = () => (
             Tout-en-un, prêt à déployer en 30 jours.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-stack-xs">
             <Link to="/marketing/learning-app">
               <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Demander une démo
@@ -141,12 +141,12 @@ export const MarketingHomeB: React.FC = () => (
         {/* Mockup column: stacked devices */}
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-200/40 to-accent-200/40 blur-3xl pointer-events-none" />
-          <div className="relative aspect-[4/5] rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-xl overflow-hidden p-6 flex flex-col gap-3">
+          <div className="relative aspect-[4/5] rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-xl overflow-hidden p-6 flex flex-col gap-stack-xs">
             {/* mockup header */}
-            <div className="flex items-center gap-2 pb-2 border-b border-ink-100">
+            <div className="flex items-center gap-stack-xs pb-2 border-b border-ink-100">
               <TlsLogo size={20} />
               <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
-              <div className="ml-auto flex gap-1">
+              <div className="ml-auto flex gap-tight">
                 <span className="w-2 h-2 rounded-full bg-ink-200" />
                 <span className="w-2 h-2 rounded-full bg-ink-200" />
                 <span className="w-2 h-2 rounded-full bg-ink-200" />
@@ -161,7 +161,7 @@ export const MarketingHomeB: React.FC = () => (
               </div>
             </div>
             {/* Stats mini grid */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-stack-xs">
               <div className="rounded-lg bg-primary-50 p-3 flex flex-col gap-0.5">
                 <span className="text-caption font-bold text-primary-700 uppercase">XP</span>
                 <span className="font-display text-h4 font-bold text-ink-900">+340</span>
@@ -172,7 +172,7 @@ export const MarketingHomeB: React.FC = () => (
               </div>
             </div>
             {/* Coach card */}
-            <div className="rounded-lg bg-white border border-ink-200 p-3 flex items-center gap-3 mt-auto">
+            <div className="rounded-lg bg-white border border-ink-200 p-3 flex items-center gap-stack-xs mt-auto">
               <div className="w-10 h-10 rounded-pill bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
                 S
               </div>
@@ -260,21 +260,21 @@ export const MarketingHomeB: React.FC = () => (
             8 semaines, en partenariat avec C-Campus.
           </p>
 
-          <ul className="flex flex-col gap-2 m-0 p-0 list-none">
+          <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
             {[
               'Prompt Engineering & conception pédagogique IA',
               'Éthique, AI Act, RGPD pour les formateurs',
               'Outils, frameworks, méthodologie STRIDE',
               'Coaching 1-1 inclus pendant la formation',
             ].map((f) => (
-              <li key={f} className="flex items-start gap-2 font-body text-body text-white/90">
+              <li key={f} className="flex items-start gap-stack-xs font-body text-body text-white/90">
                 <Check size={18} className="text-accent-400 shrink-0 mt-0.5" />
                 {f}
               </li>
             ))}
           </ul>
 
-          <div className="flex flex-wrap items-center gap-3 pt-stack">
+          <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
             <Link to="/marketing/formation">
               <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Voir le programme
@@ -288,7 +288,7 @@ export const MarketingHomeB: React.FC = () => (
 
         {/* Stylized program preview card */}
         <div className="rounded-2xl bg-white/5 backdrop-blur-glass-medium border border-white/15 p-6 flex flex-col gap-stack">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-stack-xs">
             <Award size={18} className="text-accent-400" />
             <span className="font-body text-caption font-semibold text-white/90 uppercase tracking-wider">
               Programme certifiant
@@ -301,7 +301,7 @@ export const MarketingHomeB: React.FC = () => (
             { label: 'Module 4', title: 'Éthique & cadre légal', dur: '3h' },
             { label: 'Modules 5-7', title: 'STRIDE, déploiement, mesure', dur: '12h' },
           ].map((m) => (
-            <div key={m.label} className="rounded-xl bg-white/5 border border-white/10 p-3 flex items-center justify-between gap-3">
+            <div key={m.label} className="rounded-xl bg-white/5 border border-white/10 p-3 flex items-center justify-between gap-stack-xs">
               <div className="flex flex-col">
                 <span className="font-body text-caption font-bold text-accent-400 uppercase tracking-wider">{m.label}</span>
                 <span className="font-display font-bold text-body text-white m-0">{m.title}</span>
@@ -331,7 +331,7 @@ export const MarketingHomeB: React.FC = () => (
               <p className="font-body text-body text-ink-800 leading-relaxed m-0 flex-1">
                 "{quote}"
               </p>
-              <div className="flex items-center gap-3 pt-stack border-t border-ink-100">
+              <div className="flex items-center gap-stack-xs pt-stack border-t border-ink-100">
                 <img src={portrait} alt="" className="w-10 h-10 rounded-pill object-cover" />
                 <div className="flex flex-col">
                   <span className="font-display font-bold text-body-sm text-ink-900">{author}</span>
@@ -355,7 +355,7 @@ export const MarketingHomeB: React.FC = () => (
             Un onboarding clé-en-main, du diagnostic à la mise en production.
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs shrink-0">
           <Link to="/marketing/contact">
             <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Demander un devis

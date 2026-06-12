@@ -58,7 +58,7 @@ export const MagicLink: React.FC = () => {
       backLink={{ label: 'Retour à la connexion', onClick: () => navigate('/auth/login') }}
       form={
         !sent ? (
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
             {/* Mini-pitch trust */}
             <div className="flex flex-col gap-stack-xs p-stack rounded-2xl bg-white/8 border border-white/15 backdrop-blur-glass-light">
               <div className="flex items-start gap-stack-xs.5">
@@ -100,7 +100,7 @@ export const MagicLink: React.FC = () => {
               autoComplete="email"
             />
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               <AuthPrimaryButton type="submit">
                 <span className="inline-flex items-center gap-stack-xs">
                   <Sparkles size={16} />
@@ -129,7 +129,7 @@ export const MagicLink: React.FC = () => {
               </>
             }
           >
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-stack-xs">
               <AuthGhostButton onClick={handleResend} disabled={cooldown > 0}>
                 <span className="inline-flex items-center gap-stack-xs">
                   <RefreshCcw size={16} />

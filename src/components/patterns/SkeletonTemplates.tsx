@@ -15,9 +15,9 @@ import { Skeleton } from '../ui/Skeleton';
 /* ─── Notification row skeleton ─────────────────────────────────────────── */
 
 export const NotificationRowSkeleton: React.FC = () => (
-  <div className="flex items-start gap-3 px-3 py-3 sm:px-4 sm:py-3.5 rounded-xl border border-ink-100">
+  <div className="flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5 rounded-xl border border-ink-100">
     <Skeleton variant="circle" width={36} height={36} />
-    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+    <div className="flex-1 flex flex-col gap-tight.5 min-w-0">
       <Skeleton variant="text" width="65%" />
       <Skeleton variant="text" width="90%" />
       <Skeleton variant="text" width="40%" height={10} />
@@ -33,7 +33,7 @@ export const ParcoursCardSkeleton: React.FC = () => (
     <Skeleton variant="title" />
     <Skeleton variant="text" width="100%" />
     <Skeleton variant="text" width="75%" />
-    <div className="flex gap-2 mt-2">
+    <div className="flex gap-stack-xs mt-2">
       <Skeleton variant="button" width={80} height={28} />
       <Skeleton variant="button" width={70} height={28} />
     </div>
@@ -63,7 +63,7 @@ export const ResumeLessonSkeleton: React.FC = () => (
       <Skeleton variant="text" width={120} height={14} />
       <Skeleton variant="title" width="80%" height={32} />
       <Skeleton variant="text" width="90%" />
-      <div className="flex gap-3 mt-2">
+      <div className="flex gap-stack-xs mt-2">
         <Skeleton variant="text" width={70} height={20} />
         <Skeleton variant="text" width={70} height={20} />
         <Skeleton variant="text" width={70} height={20} />
@@ -77,9 +77,9 @@ export const ResumeLessonSkeleton: React.FC = () => (
 /* ─── ActivityFeed item skeleton ────────────────────────────────────────── */
 
 export const ActivityItemSkeleton: React.FC = () => (
-  <div className="flex items-center gap-4 py-3 border-b border-ink-100 last:border-0">
+  <div className="flex items-center gap-stack py-3 border-b border-ink-100 last:border-0">
     <Skeleton variant="circle" width={32} height={32} />
-    <div className="flex-1 flex flex-col gap-1 min-w-0">
+    <div className="flex-1 flex flex-col gap-tight min-w-0">
       <Skeleton variant="text" width="75%" />
       <Skeleton variant="text" width="40%" height={10} />
     </div>
@@ -89,7 +89,7 @@ export const ActivityItemSkeleton: React.FC = () => (
 /* ─── StatCard skeleton ─────────────────────────────────────────────────── */
 
 export const StatCardSkeleton: React.FC = () => (
-  <div className="flex flex-col gap-2 p-5 rounded-xl border border-ink-100 bg-white">
+  <div className="flex flex-col gap-stack-xs p-5 rounded-xl border border-ink-100 bg-white">
     <Skeleton variant="circle" width={44} height={44} />
     <Skeleton variant="title" width={80} height={32} />
     <Skeleton variant="text" width="60%" height={12} />
@@ -107,9 +107,9 @@ export interface SkeletonGroupProps {
 
 const LAYOUT_CLASSES: Record<NonNullable<SkeletonGroupProps['layout']>, string> = {
   list:   'flex flex-col divide-y divide-ink-100',
-  'grid-2': 'grid grid-cols-1 sm:grid-cols-2 gap-4',
-  'grid-3': 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4',
-  'grid-4': 'grid grid-cols-2 sm:grid-cols-4 gap-3',
+  'grid-2': 'grid grid-cols-1 sm:grid-cols-2 gap-stack',
+  'grid-3': 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack',
+  'grid-4': 'grid grid-cols-2 sm:grid-cols-4 gap-stack-xs',
 };
 
 export const SkeletonGroup: React.FC<SkeletonGroupProps> = ({

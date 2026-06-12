@@ -34,7 +34,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   className = '',
 }) => {
   const containerClasses = [
-    'flex flex-col items-center text-center px-6 py-14 gap-4 rounded-2xl bg-ink-50/40 border border-dashed border-ink-200',
+    'flex flex-col items-center text-center px-6 py-14 gap-stack rounded-2xl bg-ink-50/40 border border-dashed border-ink-200',
     className,
   ]
     .filter(Boolean)
@@ -51,7 +51,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <span className={iconWrapperClasses} aria-hidden="true">
         {icon ?? <Search size={36} strokeWidth={1.75} />}
       </span>
-      <div className="flex flex-col gap-2 max-w-[440px]">
+      <div className="flex flex-col gap-stack-xs max-w-[440px]">
         <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight text-balance">
           {title}
         </h3>
@@ -60,7 +60,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         )}
       </div>
       {actions && (
-        <div className="flex items-center justify-center gap-3 flex-wrap mt-2">{actions}</div>
+        <div className="flex items-center justify-center gap-stack-xs flex-wrap mt-2">{actions}</div>
       )}
     </div>
   );

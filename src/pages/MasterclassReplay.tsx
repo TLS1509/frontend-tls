@@ -33,7 +33,7 @@ export default function MasterclassReplay() {
         title="Leadership en temps de crise"
         summary="Session du 15 juin 2026 · Marie Fontaine"
         trailing={
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-stack-xs flex-wrap">
             <Badge variant="success" size="md">✓ Participé</Badge>
             <Badge variant="success" size="md">+150 XP</Badge>
           </div>

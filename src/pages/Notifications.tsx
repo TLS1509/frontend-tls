@@ -182,7 +182,7 @@ export const Notifications: React.FC = () => {
 
         {/* ── Header épuré ───────────────────────────────────────────── */}
         <header className="flex flex-wrap items-center justify-between gap-stack">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-stack-xs">
             <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-700 inline-flex items-center justify-center">
               <Bell size={18} />
             </div>
@@ -251,12 +251,12 @@ export const Notifications: React.FC = () => {
                 // Build meta inline (grade or badge name → tiny chip)
                 const meta =
                   item.grade ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700 font-semibold">
+                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700 font-semibold">
                       <Trophy size={10} />
                       {item.grade}
                     </span>
                   ) : item.badgeName ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-accent-100 text-accent-700 font-semibold">
+                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-accent-700 font-semibold">
                       <Award size={10} />
                       {item.badgeName}
                     </span>

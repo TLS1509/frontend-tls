@@ -32,7 +32,7 @@ const VARIANT_CONFIG: Record<AILabelVariant, { label: string; classes: string }>
 
 const SIZE_CLASSES: Record<AILabelSize, string> = {
   sm: 'text-micro px-1.5 py-0.5 rounded-xs gap-0.5',
-  md: 'text-caption px-2.5 py-1 rounded-md gap-1',
+  md: 'text-caption px-2.5 py-1 rounded-md gap-tight',
 };
 
 const ICON_SIZE: Record<AILabelSize, number> = { sm: 10, md: 12 };
