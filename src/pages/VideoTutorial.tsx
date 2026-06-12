@@ -88,7 +88,7 @@ export const VideoTutorial: React.FC = () => {
           type="button"
           onClick={() => setSaved(!saved)}
           className={[
-            'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200',
+            'inline-flex items-center justify-center w-9 h-9 rounded-pill border cursor-pointer transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
             saved
               ? 'border-primary-300 text-primary-500 bg-primary-50'
               : 'border-ink-200 text-ink-400 bg-transparent hover:bg-ink-50',
@@ -151,7 +151,7 @@ export const VideoTutorial: React.FC = () => {
               onClick={() => setPlaying(!playing)}
               aria-label={playing ? "Pause" : "Lire"}
               className={[
-                'relative z-[1] w-[72px] h-[72px] rounded-full border-0 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105',
+                'relative z-[1] w-[72px] h-[72px] rounded-full border-0 flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 playing
                   ? 'bg-white/20'
                   : 'bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)]',
@@ -194,7 +194,7 @@ export const VideoTutorial: React.FC = () => {
                   type="button"
                   onClick={() => { setActiveChapter(i); setPlaying(true); }}
                   className={[
-                    'flex items-start gap-3 w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150',
+                    'flex items-start gap-3 w-full px-5 py-3 border-0 border-l-[3px] cursor-pointer text-left font-body transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                     isActive
                       ? 'bg-white border-l-primary-500'
                       : 'bg-transparent border-l-transparent hover:bg-ink-100',
@@ -228,7 +228,7 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150"
+              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={13} /> Retour veille
             </button>

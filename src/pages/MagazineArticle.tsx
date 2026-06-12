@@ -91,7 +91,7 @@ export const MagazineArticle: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/veille/magazine')}
-            className="inline-flex items-center gap-1.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             <ArrowLeft size={14} /> Retour au magazine
           </button>

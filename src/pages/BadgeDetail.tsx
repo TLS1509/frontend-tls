@@ -210,7 +210,7 @@ export default function BadgeDetail() {
                     key={rb.id}
                     type="button"
                     onClick={() => navigate(`/gamification/badge/${rb.id}`)}
-                    className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity"
+                    className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                   >
                     <AchievementBadge
                       title={rb.name}

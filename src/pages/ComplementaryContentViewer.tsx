@@ -253,7 +253,7 @@ export const ComplementaryContentViewer: React.FC = () => {
                       key={topic}
                       type="button"
                       onClick={() => {}}
-                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center"
+                      className="w-full min-h-touch px-3 py-stack-xs border border-ink-100 rounded-md bg-white text-ink-900 cursor-pointer font-body text-body-sm text-left transition-colors duration-base hover:bg-ink-50 flex justify-between items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <span>{topic}</span>
                       <ArrowRight size={14} className="text-ink-400 shrink-0" />

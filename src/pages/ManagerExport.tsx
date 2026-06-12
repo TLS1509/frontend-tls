@@ -70,7 +70,7 @@ export default function ManagerExport() {
                 type="button"
                 onClick={() => setFormat(key)}
                 className={[
-                  'flex flex-col gap-stack-xs p-5 rounded-xl border text-left transition-all duration-base',
+                  'flex flex-col gap-stack-xs p-5 rounded-xl border text-left transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   format === key
                     ? 'bg-primary-50 border-primary-300 shadow-sm'
                     : 'bg-white border-ink-100 hover:border-ink-200',

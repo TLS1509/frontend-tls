@@ -179,6 +179,7 @@ export default function ProfileBadgesCompetences() {
                 className={[
                   'px-3 py-1.5 text-caption font-semibold rounded-pill transition-colors duration-fast',
                   showEarned === v ? 'bg-accent-400 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200',
+                  'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
                 ].join(' ')}
               >
                 {v === 'all' ? 'Tous' : v === 'earned' ? 'Obtenus' : 'À débloquer'}
@@ -205,7 +206,7 @@ export default function ProfileBadgesCompetences() {
                   key={b.def.id}
                   type="button"
                   onClick={() => navigate(`/gamification/badge/${b.def.id}`)}
-                  className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex flex-col items-center gap-stack-xs bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                 >
                   <AchievementBadge
                     title={b.def.name}

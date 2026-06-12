@@ -195,7 +195,7 @@ export const Magazine: React.FC = () => {
                       type="button"
                       onClick={() => navigate('/veille/magazine-article/1')}
                       className={[
-                        'w-full flex items-start gap-stack px-5 sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base',
+                        'w-full flex items-start gap-stack px-5 sm:px-stack-lg py-stack text-left cursor-pointer transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
                         tone.hover,
                         index < SOMMAIRE.length - 1 ? 'border-b border-ink-100' : '',
                         '!h-auto !overflow-visible !items-start !font-normal',

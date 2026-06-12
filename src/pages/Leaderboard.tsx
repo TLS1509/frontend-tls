@@ -138,7 +138,7 @@ export const Leaderboard: React.FC = () => {
                 type="button"
                 onClick={() => setPeriod(p.id)}
                 className={[
-                  'px-3 py-1.5 rounded-pill border-0 font-body text-caption cursor-pointer transition-colors duration-base whitespace-nowrap',
+                  'px-3 py-1.5 rounded-pill border-0 font-body text-caption cursor-pointer transition-colors duration-base whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
                   period === p.id
                     ? 'bg-white text-ink-900 font-bold shadow-xs'
                     : 'bg-transparent text-ink-600 font-medium hover:text-ink-900',

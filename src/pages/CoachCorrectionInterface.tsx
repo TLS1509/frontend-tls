@@ -118,7 +118,7 @@ export default function CoachCorrectionInterface() {
                         type="button"
                         onClick={() => setDreyfusAssessed(level)}
                         className={[
-                          'flex flex-col items-center gap-0.5 px-3 py-stack-xs rounded-xl border transition-all duration-fast',
+                          'flex flex-col items-center gap-0.5 px-3 py-stack-xs rounded-xl border transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                           dreyfusAssessed === level
                             ? 'bg-secondary-500 border-secondary-500 text-white'
                             : 'bg-white border-ink-200 text-ink-600 hover:border-secondary-300',

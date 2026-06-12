@@ -150,7 +150,7 @@ export const Help: React.FC = () => {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => toggleFaq(item.id)}
-                    className="w-full flex items-center justify-between gap-stack px-5 py-stack bg-transparent border-0 cursor-pointer text-left"
+                    className="w-full flex items-center justify-between gap-stack px-5 py-stack bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-xl"
                   >
                     <div className="flex items-center gap-3">
                       <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>

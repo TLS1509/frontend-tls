@@ -123,7 +123,7 @@ export default function HelpArticle() {
                       key={related.id}
                       type="button"
                       onClick={() => navigate(`/help/article/${related.id}`)}
-                      className="flex items-center justify-between gap-stack-xs p-3 rounded-lg hover:bg-ink-50 transition-all duration-base group text-left w-full border-0 bg-transparent cursor-pointer"
+                      className="flex items-center justify-between gap-stack-xs p-3 rounded-lg hover:bg-ink-50 transition-all duration-base group text-left w-full border-0 bg-transparent cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       <span className="text-body-sm text-ink-700 group-hover:text-primary-700 transition-all duration-base">
                         {related.title}
