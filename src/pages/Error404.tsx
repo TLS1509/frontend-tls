@@ -101,7 +101,7 @@ export const Error404: React.FC = () => {
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-6"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-primary-700 via-primary-500 to-primary-400 bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-500 drop-shadow-[0_2px_20px_rgba(85,161,180,0.18)]">
             404
           </span>
         </motion.div>

@@ -92,7 +92,7 @@ export const Error500: React.FC = () => {
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-6"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-secondary-600 via-secondary-500 to-secondary-400 bg-clip-text text-transparent drop-shadow-[0_2px_24px_rgba(237,132,58,0.18)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] text-secondary-500 drop-shadow-[0_2px_24px_rgba(237,132,58,0.18)]">
             500
           </span>
         </motion.div>

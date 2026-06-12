@@ -124,8 +124,7 @@ export const MagazineArticle: React.FC = () => {
             <BookOpen size={11} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
-          {/* Gradient text H1 : signature magazine */}
-          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight bg-gradient-to-r from-primary-700 via-primary-600 to-secondary-600 bg-clip-text text-transparent">
+          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
             {ARTICLE.title}
           </h1>
 
