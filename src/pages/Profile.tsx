@@ -16,6 +16,9 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useGamificationStore } from '../stores/persistence';
+import { getBadgeDefById } from '../data/gamification';
+import { MOCK_USER_ID } from '../data/passeport';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { SkillBar } from '../components/ui/SkillBar';
@@ -117,9 +120,40 @@ export const Profile: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabId>('overview');
 
+  const gamifStore = useGamificationStore();
+  const totalXP = gamifStore.getTotalXP(MOCK_USER_ID);
+  const streak = gamifStore.getStreak(MOCK_USER_ID);
+  const earnedBadges = gamifStore.getBadges(MOCK_USER_ID);
+
   const displayName = user?.name ?? USER.name;
   const displayEmail = user?.email ?? USER.email;
-  const earnedCount = BADGES.filter((b) => b.earned).length;
+
+  // Map earned badges from store to display format
+  const badges = useMemo(() => {
+    const earned = earnedBadges.map((ub) => {
+      const def = getBadgeDefById(ub.badgeId);
+      return {
+        id: ub.badgeId,
+        label: def?.name ?? ub.badgeId,
+        icon: <Award size={36} strokeWidth={1.5} />,
+        earned: true as const,
+        date: new Date(ub.awardedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+      };
+    });
+    // Append locked badges from BADGES for display completeness
+    const lockedBadges = BADGES.filter((b) => !b.earned && !earned.some((e) => e.id === b.id));
+    return [...earned, ...lockedBadges];
+  }, [earnedBadges]);
+
+  const earnedCount = badges.filter((b) => b.earned).length;
+
+  // Dynamic hero stats from store
+  const heroStats = useMemo(() => [
+    HERO_STATS[0],
+    HERO_STATS[1],
+    { value: `${streak.currentStreak}j`, label: 'Streak en cours' },
+    { value: totalXP.toLocaleString('fr-FR'), label: 'Points XP' },
+  ], [streak.currentStreak, totalXP]);
 
   const TABS: TabItem[] = [
     { id: 'overview', icon: <Trophy size={14} />,     label: "Vue d'ensemble" },
@@ -201,7 +235,7 @@ export const Profile: React.FC = () => {
             <div className="flex flex-col gap-section">
               {/* Stats compact strip */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
-                {HERO_STATS.map((s) => (
+                {heroStats.map((s) => (
                   <div key={s.label} className="flex flex-col gap-tight">
                     <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-tight tabular-nums">
                       {s.value}
@@ -326,11 +360,11 @@ export const Profile: React.FC = () => {
                   Badges
                 </h2>
                 <span className="font-body text-caption text-ink-500">
-                  {earnedCount}/{BADGES.length} débloqués
+                  {earnedCount}/{badges.length} débloqués
                 </span>
               </div>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-stack-xs">
-                {BADGES.map((badge) => (
+                {badges.map((badge) => (
                   <div
                     key={badge.id}
                     className={[
