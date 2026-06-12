@@ -353,7 +353,7 @@ export const OnboardingUnified: React.FC = () => {
         )}
 
         {step === 'done' && (
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-stack">
             <p className="text-body text-ink-600">Passons à la sélection de ton plan...</p>
             <Button
               size="lg"

@@ -357,7 +357,7 @@ export const Account: React.FC = () => {
         <AccountFamilyNav active="account" />
 
         {/* ── Page header ──────────────────────────────────────── */}
-        <header className="flex items-start justify-between gap-4">
+        <header className="flex items-start justify-between gap-stack">
           <div className="flex flex-col gap-tight">
             <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
               Mon compte

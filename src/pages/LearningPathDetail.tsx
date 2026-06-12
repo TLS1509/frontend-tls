@@ -623,7 +623,7 @@ export const LearningPathDetail: React.FC = () => {
                   ].map((step) => (
                     <div
                       key={step.num}
-                      className="flex gap-4 items-start p-4 rounded-xl bg-ink-50 border border-ink-200"
+                      className="flex gap-stack items-start p-4 rounded-xl bg-ink-50 border border-ink-200"
                     >
                       <div
                         className={`w-11 h-11 rounded-lg text-white flex items-center justify-center font-bold text-h4 shrink-0 ${TONE_BG_500[tone]}`}
@@ -670,7 +670,7 @@ export const LearningPathDetail: React.FC = () => {
                   Créez votre plan d'intégration de l'IA en 5 étapes structurées
                 </p>
 
-                <div className="mb-stack-lg flex items-center gap-4 justify-center">
+                <div className="mb-stack-lg flex items-center gap-stack justify-center">
                   <div className="text-caption text-ink-500">Déverrouillé après étape 5</div>
                   <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((i) => {
