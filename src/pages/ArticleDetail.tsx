@@ -133,8 +133,8 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
       );
     case 'quote':
       return (
-        <figure className="m-0 my-stack pl-5 sm:pl-6 border-l-4 border-primary-400">
-          <blockquote className="m-0 font-display italic text-body-lg text-ink-800 leading-relaxed">
+        <figure className="m-0 my-stack px-5 sm:px-6 py-4 bg-primary-50 rounded-xl">
+          <blockquote className="m-0 font-display italic text-body-lg text-primary-800 leading-relaxed">
             « {block.text} »
           </blockquote>
           {block.attribution && (

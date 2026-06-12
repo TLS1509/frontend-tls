@@ -287,11 +287,11 @@ export const Messages: React.FC = () => {
                   onClick={() => handleSelectConversation(conv.id)}
                   data-selected={isSelected}
                   className={[
-                    'flex items-start gap-3 w-full p-3 rounded-xl border-l-[3px] text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
-                    'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary-500',
+                    'flex items-start gap-3 w-full p-3 rounded-xl text-left cursor-pointer mb-0.5 transition-all duration-100 font-body',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isSelected
-                      ? 'bg-primary-50 border-l-primary-500'
-                      : 'bg-transparent border-l-transparent hover:bg-ink-50',
+                      ? 'bg-primary-50 shadow-xs border border-primary-200'
+                      : 'bg-transparent hover:bg-ink-50 border border-transparent',
                   ].join(' ')}
                 >
                   {/* Avatar */}
