@@ -27,6 +27,7 @@ import { Container } from '../components/layout';
 import { useEnterpriseStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
 import type { EnterpriseRole } from '../types/learning';
+import { useToastContext } from '../contexts/ToastContext';
 import {
   Building2,
   Users,
@@ -75,6 +76,7 @@ export const Enterprise: React.FC = () => {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState('member');
 
+  const toast = useToastContext();
   const enterpriseStore = useEnterpriseStore();
   const members = enterpriseStore.getMembers(MOCK_COMPANY_ID);
   const stats = enterpriseStore.getStats(MOCK_COMPANY_ID);
@@ -206,7 +208,18 @@ export const Enterprise: React.FC = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                alert(`Invitation envoyée à ${inviteEmail} (rôle ${inviteRole})`);
+                enterpriseStore.addMember({
+                  id: `member-${Date.now()}`,
+                  companyId: MOCK_COMPANY_ID,
+                  userId: `user-invite-${Date.now()}`,
+                  name: inviteEmail.split('@')[0],
+                  email: inviteEmail,
+                  role: inviteRole as EnterpriseRole,
+                  status: 'pending',
+                  progressPercent: 0,
+                  joinedAt: new Date().toISOString(),
+                });
+                toast.success(`Invitation envoyée à ${inviteEmail}`, 'Membre invité');
                 setInviteOpen(false);
                 setInviteEmail('');
               }}
