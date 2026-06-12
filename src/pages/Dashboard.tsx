@@ -22,10 +22,11 @@ import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import { PageShell } from '../components/layout';
 import {
+  ArrowRight,
   Compass,
   GraduationCap,
+  Hand,
   Newspaper,
-  ArrowRight,
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
@@ -68,7 +69,7 @@ export const Dashboard: React.FC = () => {
           </p>
           <h1 className="font-display text-h2 font-bold text-white leading-tight">
             Bonjour {firstName}{' '}
-            <span aria-hidden="true">👋</span>
+            <span aria-hidden="true" className="inline-flex items-center justify-center align-middle -mt-1"><Hand size={26} className="text-primary-200" /></span>
           </h1>
           {isFirstTime && (
             <p className="font-body text-body-sm text-primary-100 mt-stack-xs">

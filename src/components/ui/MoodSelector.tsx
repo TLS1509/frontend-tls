@@ -9,22 +9,23 @@
  */
 
 import React from 'react';
+import { Frown, Laugh, Meh, Smile, SmilePlus } from 'lucide-react';
 import type { JournalMoodLevel } from '../../types/learning';
 
 /** Convenience alias — same values as JournalMoodLevel from types/learning. */
 export type MoodLevel = JournalMoodLevel;
 
 interface MoodConfig {
-  emoji: string;
+  icon: React.ReactNode;
   label: string;
 }
 
 const MOOD_CONFIG: Record<MoodLevel, MoodConfig> = {
-  'very-sad':   { emoji: '😢', label: 'Difficile' },
-  'sad':        { emoji: '😐', label: 'Neutre' },
-  'neutral':    { emoji: '🙂', label: 'Bien' },
-  'happy':      { emoji: '😊', label: 'Très bien' },
-  'very-happy': { emoji: '🤩', label: 'Excellent' },
+  'very-sad':   { icon: <Frown size={28} strokeWidth={1.75} />,    label: 'Difficile' },
+  'sad':        { icon: <Meh size={28} strokeWidth={1.75} />,      label: 'Neutre' },
+  'neutral':    { icon: <Smile size={28} strokeWidth={1.75} />,    label: 'Bien' },
+  'happy':      { icon: <SmilePlus size={28} strokeWidth={1.75} />, label: 'Très bien' },
+  'very-happy': { icon: <Laugh size={28} strokeWidth={1.75} />,    label: 'Excellent' },
 };
 
 const MOOD_ORDER: MoodLevel[] = ['very-sad', 'sad', 'neutral', 'happy', 'very-happy'];
@@ -59,8 +60,8 @@ export const MoodSelector: React.FC<MoodSelectorProps> = ({
               : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',
           ].join(' ')}
         >
-          <span className="text-3xl leading-none select-none" aria-hidden="true">
-            {cfg.emoji}
+          <span className="inline-flex items-center justify-center select-none" aria-hidden="true">
+            {cfg.icon}
           </span>
           <span className="font-body text-caption text-ink-600 font-medium">{cfg.label}</span>
         </button>
