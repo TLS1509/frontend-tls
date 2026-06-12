@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLS — Logo Explorations · 2026 Tech Design</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--p:#55A1B4;--s:#ED843A;--a:#F8B044;--fg:#252B37;--mu:#64748b;--bg:#F8FBFD;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--fg);}
+header{background:white;border-bottom:1px solid #ddeef5;padding:14px 48px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+header h1{font-family:'League Spartan',sans-serif;font-weight:700;font-size:17px;}
+.tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.06em;}
+.tg{background:#EFF6FF;color:#3B82F6;}.tw{background:#FEF9C3;color:#A16207;}.tn{background:#DCFCE7;color:#166534;}.tr{background:#FEE2E2;color:#991B1B;}
+main{padding:48px;max-width:1440px;margin:0 auto;}
+section{margin-bottom:80px;}
+h2{font-family:'League Spartan',sans-serif;font-weight:700;font-size:21px;color:var(--fg);margin-bottom:6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sub{font-size:13px;color:var(--mu);margin-bottom:26px;max-width:820px;line-height:1.65;}
+.note{font-size:12px;color:var(--mu);background:#F8FBFD;border:1px solid #ddeef5;border-radius:10px;padding:12px 16px;margin-top:12px;line-height:1.65;}
+.note strong{color:var(--fg);}
+.grid{display:grid;gap:16px;}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+.g4{grid-template-columns:repeat(4,1fr);}
+.g5{grid-template-columns:repeat(5,1fr);}
+.g6{grid-template-columns:repeat(6,1fr);}
+.card{border-radius:20px;padding:32px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;border:1px solid #ddeef5;}
+.cw{background:white;}.cl{background:#F0F9FF;}.cd{background:#071A24;border-color:#0e2e3f;}
+.cn{background:#060E18;border-color:#0D1E2E;}.cpe{background:#FEF3E2;border-color:#f0d5b0;}
+.lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);}
+.cd .lbl,.cn .lbl{color:#4A8090;}.cpe .lbl{color:#A07040;}
+.badge{font-size:11px;font-weight:700;padding:4px 13px;border-radius:99px;text-transform:uppercase;letter-spacing:.08em;}
+.b1{background:#E0F4F8;color:#1A6878;}.b2{background:#1A2535;color:#60D0F0;border:1px solid #254560;}
+.b3{background:#EEF4E8;color:#305020;}.b4{background:#FEF0E0;color:#A04800;}.b5{background:#F4F0FF;color:#603080;}
+.fav-row{display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:22px 28px;background:white;border:1px solid #ddeef5;border-radius:20px;}
+.fav-row.dark{background:#060E18;border-color:#0D1E2E;margin-top:10px;}
+.fi{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.fi span{font-size:9px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;}
+.fi.dl span{color:#4A8090;}
+.lc{border-radius:20px;padding:36px 44px;display:flex;align-items:center;justify-content:center;border:1px solid #ddeef5;min-height:120px;}
+.lcw{background:white;}.lcd{background:#071A24;border-color:#0e2e3f;}.lcp{background:#FEF3E2;border-color:#f0d5b0;}
+.sc{border-radius:20px;padding:36px 24px;display:flex;align-items:center;justify-content:center;border:1px solid #ddeef5;min-height:260px;}
+.scw{background:white;}.scd{background:#071A24;border-color:#0e2e3f;}.scl{background:#F0F9FF;}
+.ov{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:12px;}
+.ovc{border-radius:16px;padding:22px 10px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;border:1px solid #ddeef5;background:white;}
+.ovc.dk{background:#06101A;border-color:#0E2030;}
+.ovn{font-family:'League Spartan',sans-serif;font-size:12px;font-weight:700;}
+.ovd{font-size:10px;color:var(--mu);text-align:center;line-height:1.4;}
+hr{border:none;border-top:1px solid #ddeef5;margin:0 0 64px;}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes glowing{0%,100%{filter:drop-shadow(0 0 6px #55A1B480)}50%{filter:drop-shadow(0 0 22px #55A1B4C0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes spin-arcs{100%{transform:rotate(360deg)}}
+@keyframes aurora-shift{0%,100%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(12deg) brightness(1.08)}}
+</style>
+</head>
+<body>
+<header>
+  <div id="hdr-icon"></div>
+  <h1>TLS — Logo Explorations 2026</h1>
+  <span class="tag tg">Tech Graphic Design 2026</span>
+  <span class="tag tw">6 Directions</span>
+  <span class="tag tn">Inflated · Glass · Favicon-ready</span>
+</header>
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <h2>Overview — 6 Directions</h2>
+  <p class="sub">6 propositions design 2026 pour The Learning Society. Teal dominant, orange/amber accents. Toutes testées en favicon 16px. Direction F = shape originale TLS améliorée (à conserver).</p>
+  <div class="ov" id="ov-light"></div>
+  <div class="ov" id="ov-dark"></div>
+</section>
+
+<hr>
+
+<!-- SHAPE A -->
+<section id="shape-a">
+  <h2>A — Aurora Orb <span class="badge b2">Orbe Intelligence</span></h2>
+  <p class="sub">Sphère unique avec effet aurora intérieur (blobs colorés diffus). Inspiré des animations Claude / Anthropic / Perplexity. Simple, intelligent, scalable. Parfait pour app mobile et site vitrine. Le variant Glass laisse apparaître l'aurora à travers la surface frosted.</p>
+  <div class="grid g4" id="sa-grid"></div>
+  <div class="fav-row" id="sa-fav-l"></div>
+  <div class="fav-row dark" id="sa-fav-d"></div>
+  <div class="note"><strong>Concept :</strong> Une sphère qui "pense". Le gradient intérieur change subtilement selon l'état (loading = animation aurora). Max 3 couleurs. Favicon = cercle coloré avec highlight blanc → lisible à 16px. <strong>Usage idéal :</strong> App mobile, chargement, avatar IA.</div>
+</section>
+
+<hr>
+
+<!-- SHAPE B -->
+<section id="shape-b">
+  <h2>B — Arc Trio <span class="badge b1">Trois Arcs</span></h2>
+  <p class="sub">Trois arcs épais à 120° formant un cercle presque complet, chacun dans une couleur TLS. Inspiré des spinners de chargement élevés au rang de logo. Très 2026 — suggère mouvement, progression, apprentissage en boucle. Parfaitement lisible à 16px.</p>
+  <div class="grid g4" id="sb-grid"></div>
+  <div class="fav-row" id="sb-fav-l"></div>
+  <div class="fav-row dark" id="sb-fav-d"></div>
+  <div class="note"><strong>Concept :</strong> Learning loop — 3 arcs = 3 piliers (Learn, Apply, Grow). Animé → les arcs tournent lentement. Très AI / tech app. <strong>Usage idéal :</strong> App icon, loading state, social avatar.</div>
+</section>
+
+<hr>
+
+<!-- SHAPE C -->
+<section id="shape-c">
+  <h2>C — Crystal Hex <span class="badge b4">Gemme Cristal</span></h2>
+  <p class="sub">Hexagone avec 6 facettes triangulaires (gem / prisme). Chaque facette capte différemment la lumière. Orange comme accent sur la facette gauche. "La connaissance cristallisée." Premium, structuré, indémodable.</p>
+  <div class="grid g4" id="sc-grid"></div>
+  <div class="fav-row" id="sc-fav-l"></div>
+  <div class="fav-row dark" id="sc-fav-d"></div>
+  <div class="note"><strong>Concept :</strong> Hexagone = structure, efficacité, nature (nid d'abeille). Facettes = profondeur et sophistication. Lisible à 16px comme un hex solide. <strong>Usage idéal :</strong> Site vitrine, formations premium, certifications.</div>
+</section>
+
+<hr>
+
+<!-- SHAPE D -->
+<section id="shape-d">
+  <h2>D — Signal Waves <span class="badge b3">Broadcast</span></h2>
+  <p class="sub">Trois arcs semi-circulaires concentriques émanant d'un point central (dot orange). "Diffuser la connaissance." Inspiré du signal WiFi mais redesigné avec épaisseurs graduées et couleurs dégradées teal. Épuré, conceptuellement fort.</p>
+  <div class="grid g4" id="sd-grid"></div>
+  <div class="fav-row" id="sd-fav-l"></div>
+  <div class="fav-row dark" id="sd-fav-d"></div>
+  <div class="note"><strong>Concept :</strong> The Learning Society = diffuser le savoir. Le dot orange = source / enseignant. Les ondes = savoir qui se propage. Animé → ondes qui "pulsent" vers l'extérieur. <strong>Usage idéal :</strong> Social media, newsletter, brand mark.</div>
+</section>
+
+<hr>
+
+<!-- SHAPE E -->
+<section id="shape-e">
+  <h2>E — Liquid Form <span class="badge b5">Organique</span></h2>
+  <p class="sub">Forme organique fluide (squircle asymétrique, "liquid" en 2026). Même traitement aurora que l'Orbe mais dans une silhouette vivante, non-circulaire. Très tendance : Figma Playground, Anthropic, startups AI 2025-2026. Unique, mémorable.</p>
+  <div class="grid g4" id="se-grid"></div>
+  <div class="fav-row" id="se-fav-l"></div>
+  <div class="fav-row dark" id="se-fav-d"></div>
+  <div class="note"><strong>Concept :</strong> Une forme "vivante" — suggère croissance, adaptation, fluidité. L'asymétrie la rend unique et reconnaissable. Animé → la forme "respire" doucement (morphing). <strong>Usage idéal :</strong> App icon, social, brand mark premium.</div>
+</section>
+
+<hr>
+
+<!-- SHAPE F -->
+<section id="shape-f">
+  <h2>F — Original TLS <span class="badge b3">À conserver ✓</span></h2>
+  <p class="sub">La shape originale TLS avec un traitement balloon/inflaté amélioré. AO (ambient occlusion) renforcé aux bords, highlight plus précis, variant glass plus transparent. Base solide pour itérer.</p>
+  <div class="grid g4" id="sf-grid"></div>
+  <div class="fav-row" id="sf-fav-l"></div>
+  <div class="fav-row dark" id="sf-fav-d"></div>
+</section>
+
+<hr>
+
+<!-- LOGO COMBINATIONS -->
+<section id="logos">
+  <h2>Logo Horizontal + Stacked</h2>
+  <p class="sub">Combinaisons texte + icon pour les 3 meilleures directions (A, B, D). Utilisables sur fond clair et fond sombre.</p>
+  <h3 style="font-family:'League Spartan',sans-serif;font-size:15px;margin:0 0 14px;color:var(--mu);">Direction A — Aurora Orb</h3>
+  <div class="grid g3" id="logo-a"></div>
+  <br>
+  <h3 style="font-family:'League Spartan',sans-serif;font-size:15px;margin:0 0 14px;color:var(--mu);">Direction B — Arc Trio</h3>
+  <div class="grid g3" id="logo-b"></div>
+  <br>
+  <h3 style="font-family:'League Spartan',sans-serif;font-size:15px;margin:0 0 14px;color:var(--mu);">Direction D — Signal Waves</h3>
+  <div class="grid g3" id="logo-d"></div>
+</section>
+
+<hr>
+
+<!-- ANIMATIONS -->
+<section id="anim">
+  <h2>Animations — States</h2>
+  <p class="sub">Aperçu des animations CSS pour les états de chargement. Chaque shape a son animation naturelle.</p>
+  <div class="grid g4" id="anim-grid"></div>
+</section>
+
+</main>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════
+var T    = '#55A1B4';  // teal
+var TL   = '#8CCEDA';  // teal light
+var TLL  = '#C2E8F4';  // teal lightest
+var TD   = '#2E7A8C';  // teal dark
+var TXD  = '#1A4050';  // teal xdark
+var TBK  = '#07161C';  // teal near-black
+var OG   = '#ED843A';  // orange
+var OGL  = '#F5AD7A';  // orange light
+var OGD  = '#A84E1A';  // orange dark
+var AM   = '#F8B044';  // amber
+var AML  = '#FBD080';  // amber light
+var AMD  = '#B07010';  // amber dark
+var BGDK = '#060E18';  // page dark bg
+var WHITE= '#FFFFFF';
+
+// Original TLS path (1000×1000 space, viewBox="0 0 1000 1000")
+var ORIG_PATH = 'M 496.5,112 C 394,112 310,195 310,298 C 310,342 325,382 352,413 L 250,620 C 246,628 242,637 242,647 C 242,681 270,708 305,708 C 329,708 350,695 362,675 L 420,566 C 444,578 471,585 500,585 C 529,585 556,578 580,566 L 638,675 C 650,695 671,708 695,708 C 730,708 758,681 758,647 C 758,637 754,628 750,620 L 648,413 C 675,382 690,342 690,298 C 690,195 606,112 496.5,112 Z';
+
+// ═══════════════════════════════════════════════════════
+// SVG HELPERS
+// ═══════════════════════════════════════════════════════
+function rg(id, cx, cy, r, stops, gu) {
+  gu = gu || 'objectBoundingBox';
+  var s = stops.map(function(x){
+    var a = 'offset="'+x[0]+'" stop-color="'+x[1]+'"';
+    if(x[2]!==undefined) a+=' stop-opacity="'+x[2]+'"';
+    return '<stop '+a+'/>';
+  }).join('');
+  return '<radialGradient id="'+id+'" cx="'+cx+'%" cy="'+cy+'%" r="'+r+'%" gradientUnits="'+gu+'">'+s+'</radialGradient>';
+}
+
+function lg(id, x1,y1,x2,y2, stops) {
+  var s = stops.map(function(x){
+    var a = 'offset="'+x[0]+'" stop-color="'+x[1]+'"';
+    if(x[2]!==undefined) a+=' stop-opacity="'+x[2]+'"';
+    return '<stop '+a+'/>';
+  }).join('');
+  return '<linearGradient id="'+id+'" x1="'+x1+'%" y1="'+y1+'%" x2="'+x2+'%" y2="'+y2+'%">'+s+'</linearGradient>';
+}
+
+function dsFilt(id) {
+  return '<filter id="'+id+'" x="-25%" y="-25%" width="150%" height="150%">'
+    +'<feDropShadow dx="2" dy="4" stdDeviation="4.5" flood-color="#000000" flood-opacity="0.32"/>'
+    +'</filter>';
+}
+
+function glowFilt(id, col, std, op) {
+  col=col||T; std=std||5; op=op||0.55;
+  return '<filter id="'+id+'" x="-35%" y="-35%" width="170%" height="170%">'
+    +'<feGaussianBlur stdDeviation="'+std+'" result="b"/>'
+    +'<feFlood flood-color="'+col+'" flood-opacity="'+op+'" result="c"/>'
+    +'<feComposite in="c" in2="b" operator="in" result="g"/>'
+    +'<feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>'
+    +'</filter>';
+}
+
+function blurFilt(id, std) {
+  return '<filter id="'+id+'"><feGaussianBlur stdDeviation="'+std+'"/></filter>';
+}
+
+function clipCirc(id, cx, cy, r) {
+  return '<clipPath id="'+id+'"><circle cx="'+cx+'" cy="'+cy+'" r="'+r+'"/></clipPath>';
+}
+
+function spec(cx, cy, r) {
+  var hx=(cx-r*0.29).toFixed(1), hy=(cy-r*0.30).toFixed(1);
+  var rx1=(r*0.23).toFixed(1), ry1=(r*0.16).toFixed(1);
+  var rx2=(r*0.10).toFixed(1), ry2=(r*0.075).toFixed(1);
+  var hx2=(parseFloat(hx)-r*0.03).toFixed(1), hy2=(parseFloat(hy)-r*0.03).toFixed(1);
+  return '<ellipse cx="'+hx+'" cy="'+hy+'" rx="'+rx1+'" ry="'+ry1+'" fill="white" fill-opacity="0.32"/>'
+    +'<ellipse cx="'+hx2+'" cy="'+hy2+'" rx="'+rx2+'" ry="'+ry2+'" fill="white" fill-opacity="0.78"/>';
+}
+
+function svgW(id, sz, defs, body) {
+  return '<svg id="'+id+'" width="'+sz+'" height="'+sz+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs>'+defs+'</defs>'+body+'</svg>';
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE A — Aurora Orb
+// ═══════════════════════════════════════════════════════
+function shapeA(id, sz, style) {
+  var d='', b='';
+  d += clipCirc('cA'+id, 50, 50, 46);
+  d += blurFilt('bA'+id, 10);
+
+  if (style === 'inflated') {
+    d += rg('iA'+id, 34, 28, 76, [
+      ['0%',  '#C8ECF5'],
+      ['22%',  T],
+      ['58%',  TD],
+      ['80%',  TXD],
+      ['93%',  '#0D2830'],
+      ['100%', TBK, 0.95]
+    ]);
+    d += dsFilt('sA'+id);
+    b += '<circle cx="50" cy="50" r="46" fill="url(#iA'+id+')" filter="url(#sA'+id+')"/>';
+    // Subtle inner aurora blobs
+    b += '<g clip-path="url(#cA'+id+')">';
+    b += '<circle cx="38" cy="44" r="19" fill="'+OG+'" opacity="0.16" filter="url(#bA'+id+')"/>';
+    b += '<circle cx="65" cy="36" r="15" fill="'+AM+'" opacity="0.13" filter="url(#bA'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+
+  } else if (style === 'glass') {
+    d += dsFilt('sA'+id);
+    d += rg('bgA'+id, 50, 50, 60, [['0%','#071C24'],['100%','#0A2A38']]);
+    d += rg('glA'+id, 34, 28, 75, [
+      ['0%', WHITE, 0.60],
+      ['28%', T, 0.38],
+      ['68%', T, 0.22],
+      ['88%', TD, 0.40],
+      ['100%', '#000', 0.65]
+    ]);
+    b += '<circle cx="50" cy="50" r="46" fill="url(#bgA'+id+')" filter="url(#sA'+id+')"/>';
+    // Visible aurora inside
+    b += '<g clip-path="url(#cA'+id+')">';
+    b += '<circle cx="36" cy="43" r="25" fill="'+T+'" opacity="0.55" filter="url(#bA'+id+')"/>';
+    b += '<circle cx="65" cy="35" r="20" fill="'+OG+'" opacity="0.45" filter="url(#bA'+id+')"/>';
+    b += '<circle cx="56" cy="66" r="16" fill="'+AM+'" opacity="0.38" filter="url(#bA'+id+')"/>';
+    b += '<circle cx="50" cy="50" r="46" fill="url(#glA'+id+')"/>';
+    b += '</g>';
+    b += '<circle cx="50" cy="50" r="45.5" fill="none" stroke="white" stroke-width="0.8" stroke-opacity="0.22"/>';
+    b += spec(50, 50, 46);
+
+  } else if (style === 'light') {
+    d += rg('iA'+id, 34, 28, 76, [
+      ['0%',  '#DDF2F8'],
+      ['28%',  TL],
+      ['62%',  T],
+      ['82%',  TD],
+      ['100%', TBK, 0.75]
+    ]);
+    d += dsFilt('sA'+id);
+    b += '<circle cx="50" cy="50" r="46" fill="url(#iA'+id+')" filter="url(#sA'+id+')"/>';
+    b += '<g clip-path="url(#cA'+id+')">';
+    b += '<circle cx="65" cy="36" r="18" fill="'+OG+'" opacity="0.22" filter="url(#bA'+id+')"/>';
+    b += '<circle cx="56" cy="64" r="13" fill="'+AM+'" opacity="0.18" filter="url(#bA'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+
+  } else { // warm
+    d += rg('iA'+id, 36, 30, 76, [
+      ['0%',  '#FFE8D4'],
+      ['20%',  OGL],
+      ['52%',  OG],
+      ['70%',  T],
+      ['86%',  TD],
+      ['100%', TBK, 0.85]
+    ]);
+    d += dsFilt('sA'+id);
+    b += '<circle cx="50" cy="50" r="46" fill="url(#iA'+id+')" filter="url(#sA'+id+')"/>';
+    b += '<g clip-path="url(#cA'+id+')">';
+    b += '<circle cx="68" cy="38" r="16" fill="'+AM+'" opacity="0.20" filter="url(#bA'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+  }
+
+  return svgW(id, sz, d, b);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE B — Arc Trio
+// ═══════════════════════════════════════════════════════
+function shapeB(id, sz, style) {
+  var d='', b='';
+  var r = 35;
+  var circ = 2 * Math.PI * r; // 219.9
+  var arcDeg = 113;
+  var arcLen = (circ * arcDeg / 360).toFixed(2); // 68.9
+  var remain = (circ - parseFloat(arcLen)).toFixed(2);
+  var da = arcLen + ' ' + remain;
+  // Specular highlight arc (50% of arc length, centered)
+  var specLen = (circ * 55 / 360).toFixed(2);
+  var specRemain = (circ - parseFloat(specLen)).toFixed(2);
+  var daSpec = specLen + ' ' + specRemain;
+  // Tiny bright spec
+  var spec2Len = (circ * 22 / 360).toFixed(2);
+  var spec2Remain = (circ - parseFloat(spec2Len)).toFixed(2);
+  var daSpec2 = spec2Len + ' ' + spec2Remain;
+  // rotations: arc1 starts at 12h (rot=-90), arc2 at 120° CW (rot=30), arc3 at 240° CW (rot=150)
+  var arcs = [
+    {col: T,  rotBase: -90, light: TL,  dark: TD},
+    {col: OG, rotBase:  30, light: OGL, dark: OGD},
+    {col: AM, rotBase: 150, light: AML, dark: AMD}
+  ];
+  var sw = style === 'glass' ? 8 : 12;
+  d += dsFilt('sB'+id);
+  if (style === 'glass') d += glowFilt('gB'+id, T, 4, 0.4);
+
+  b += '<g filter="url(#sB'+id+')">';
+  arcs.forEach(function(arc) {
+    var rot = arc.rotBase;
+    if (style === 'inflated') {
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+arc.col+'" stroke-width="13" stroke-linecap="round" stroke-dasharray="'+da+'" transform="rotate('+rot+',50,50)"/>';
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="white" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="'+daSpec+'" stroke-opacity="0.33" transform="rotate('+rot+',50,50)"/>';
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="'+daSpec2+'" stroke-opacity="0.72" transform="rotate('+rot+',50,50)"/>';
+    } else if (style === 'glass') {
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+arc.col+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+da+'" stroke-opacity="0.55" transform="rotate('+rot+',50,50)"/>';
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="'+daSpec+'" stroke-opacity="0.22" transform="rotate('+rot+',50,50)"/>';
+    } else if (style === 'light') {
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+arc.col+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+da+'" transform="rotate('+rot+',50,50)"/>';
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+daSpec+'" stroke-opacity="0.40" transform="rotate('+rot+',50,50)"/>';
+    } else { // warm
+      b += '<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+arc.col+'" stroke-width="12" stroke-linecap="round" stroke-dasharray="'+da+'" transform="rotate('+rot+',50,50)"/>';
+    }
+  });
+  b += '</g>';
+
+  return svgW(id, sz, d, b);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE C — Crystal Hex
+// ═══════════════════════════════════════════════════════
+function shapeC(id, sz, style) {
+  var d='', b='';
+  // Pointy-top hexagon, circumradius 44, center (50,50)
+  // Vertices: top=270°, then 30° increments
+  var R = 44;
+  function vx(deg){ return +(50 + R*Math.cos(deg*Math.PI/180)).toFixed(2); }
+  function vy(deg){ return +(50 + R*Math.sin(deg*Math.PI/180)).toFixed(2); }
+  var vs = [-90,-30,30,90,150,210].map(function(d){ return [vx(d),vy(d)]; });
+  // vs[0]=(50,6) vs[1]=(88.1,28) vs[2]=(88.1,72) vs[3]=(50,94) vs[4]=(11.9,72) vs[5]=(11.9,28)
+  function tri(a,b){ return 'M50,50 L'+vs[a][0]+','+vs[a][1]+' L'+vs[b][0]+','+vs[b][1]+' Z'; }
+  // 6 triangles: light comes from top-left (NW)
+  // Facet 0: v5→v0 (top-left) BRIGHTEST
+  // Facet 1: v0→v1 (top-right) BRIGHT
+  // Facet 2: v1→v2 (right) MID
+  // Facet 3: v2→v3 (bottom-right) DARK
+  // Facet 4: v3→v4 (bottom-left) DARKEST
+  // Facet 5: v4→v5 (left) ORANGE ACCENT
+
+  var cols, ops;
+  if (style === 'inflated') {
+    cols = [TLL, TL, T, TD, TXD, OG];
+    ops  = [1,   1,  1, 1,  1,   1 ];
+  } else if (style === 'glass') {
+    cols = ['white', TLL, TL, T, TD, OG];
+    ops  = [0.45, 0.55, 0.50, 0.45, 0.50, 0.48];
+  } else if (style === 'light') {
+    cols = [TLL, TL, T, TD, TXD, OG];
+    ops  = [1,   1,  1, 1,  1,   1 ];
+  } else { // warm
+    cols = [TL, T, TD, TXD, '#0D2030', AM];
+    ops  = [1,  1, 1,  1,   1,         1 ];
+  }
+
+  var triDefs = [[5,0],[0,1],[1,2],[2,3],[3,4],[4,5]];
+  d += dsFilt('sC'+id);
+
+  if (style === 'glass') {
+    // Dark bg for glass
+    b += '<polygon points="'+vs.map(function(v){return v.join(',')}).join(' ')+'" fill="#07161C" filter="url(#sC'+id+')"/>';
+  } else {
+    b += '<g filter="url(#sC'+id+')">';
+  }
+
+  triDefs.forEach(function(pair, i){
+    b += '<path d="'+tri(pair[0],pair[1])+'" fill="'+cols[i]+'" fill-opacity="'+ops[i]+'"/>';
+  });
+
+  if (style !== 'glass') b += '</g>';
+
+  // Edge lines between facets (glass only: white lines; others: subtle dark lines)
+  var edgeCols = style === 'glass' ? 'white' : 'rgba(0,0,0,0.15)';
+  var edgeOp   = style === 'glass' ? '0.28' : '1';
+  vs.forEach(function(v){
+    b += '<line x1="50" y1="50" x2="'+v[0]+'" y2="'+v[1]+'" stroke="'+edgeCols+'" stroke-width="0.7" stroke-opacity="'+edgeOp+'"/>';
+  });
+  b += '<polygon points="'+vs.map(function(v){return v.join(',')}).join(' ')+'" fill="none" stroke="'+edgeCols+'" stroke-width="0.9" stroke-opacity="'+edgeOp+'"/>';
+
+  if (style === 'glass') {
+    // Glass overlay: fresnel (bright at edges)
+    d += rg('glC'+id, 34, 28, 75, [
+      ['0%',  WHITE, 0.50],
+      ['30%',  T,   0.25],
+      ['75%',  T,   0.15],
+      ['100%', '#000', 0.45]
+    ]);
+    b += '<polygon points="'+vs.map(function(v){return v.join(',')}).join(' ')+'" fill="url(#glC'+id+')"/>';
+    b += '<polygon points="'+vs.map(function(v){return v.join(',')}).join(' ')+'" fill="none" stroke="white" stroke-width="0.8" stroke-opacity="0.22"/>';
+  }
+
+  // Central specular dot (top-left bias)
+  b += '<ellipse cx="40" cy="34" rx="5.5" ry="3.5" fill="white" fill-opacity="0.28"/>';
+  b += '<ellipse cx="38.5" cy="33" rx="2.2" ry="1.6" fill="white" fill-opacity="0.70"/>';
+
+  return svgW(id, sz, d, b);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE D — Signal Waves
+// ═══════════════════════════════════════════════════════
+function shapeD(id, sz, style) {
+  var d='', b='';
+  // Origin dot at (50,68). Three semicircular arcs above it.
+  // Arc path: M (50-r,68) A r r 0 0 1 (50+r,68)
+  var arcs = [
+    {r: 14, col: T,   swB: 7.5, swG: 5.0},
+    {r: 25, col: TL,  swB: 6.0, swG: 4.0},
+    {r: 36, col: TLL, swB: 4.5, swG: 3.0}
+  ];
+  d += dsFilt('sD'+id);
+
+  var dotCol = OG;
+  var isGlass = (style === 'glass');
+
+  b += '<g filter="url(#sD'+id+')">';
+  arcs.forEach(function(arc, i){
+    var x1 = (50 - arc.r).toFixed(1), x2 = (50 + arc.r).toFixed(1);
+    var arcPath = 'M'+x1+',68 A'+arc.r+','+arc.r+' 0 0 1 '+x2+',68';
+    var sw = (style === 'inflated' || style === 'light') ? arc.swB : arc.swG;
+    var op = isGlass ? (0.55 - i*0.08) : 1;
+    b += '<path d="'+arcPath+'" fill="none" stroke="'+arc.col+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-opacity="'+op+'"/>';
+    if (style === 'inflated' || style === 'light') {
+      // Specular white arc on top
+      var specR = arc.r;
+      var sx1 = (50 - specR + arc.r * 0.25).toFixed(1);
+      var sx2 = (50 + specR - arc.r * 0.25).toFixed(1);
+      // approx inner arc for highlight
+      b += '<path d="'+arcPath+'" fill="none" stroke="white" stroke-width="'+(sw*0.4).toFixed(1)+'" stroke-linecap="round" stroke-opacity="0.38"/>';
+    }
+  });
+  // Origin dot
+  var dotOp = isGlass ? 0.65 : 1;
+  b += '<circle cx="50" cy="68" r="5.5" fill="'+dotCol+'" fill-opacity="'+dotOp+'"/>';
+  b += '<circle cx="50" cy="68" r="5.5" fill="none" stroke="white" stroke-width="1.2" stroke-opacity="0.35"/>';
+  b += '<circle cx="48.2" cy="66.2" r="2" fill="white" fill-opacity="0.65"/>';
+  b += '</g>';
+
+  return svgW(id, sz, d, b);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE E — Liquid Form (Organic Squircle)
+// ═══════════════════════════════════════════════════════
+// Asymmetric organic blob — hand-crafted bezier
+var LIQUID_PATH = 'M 52,7 C 81,5 96,26 94,53 C 92,80 71,96 49,94 C 27,92 4,74 6,50 C 8,26 23,9 52,7 Z';
+
+function shapeE(id, sz, style) {
+  var d='', b='';
+  d += blurFilt('bE'+id, 10);
+  d += '<clipPath id="cE'+id+'"><path d="'+LIQUID_PATH+'"/></clipPath>';
+  d += dsFilt('sE'+id);
+
+  if (style === 'inflated') {
+    d += rg('iE'+id, 34, 28, 76, [
+      ['0%',  '#C8ECF5'],
+      ['22%',  T],
+      ['58%',  TD],
+      ['80%',  TXD],
+      ['93%',  '#0D2830'],
+      ['100%', TBK, 0.95]
+    ]);
+    b += '<path d="'+LIQUID_PATH+'" fill="url(#iE'+id+')" filter="url(#sE'+id+')"/>';
+    b += '<g clip-path="url(#cE'+id+')">';
+    b += '<circle cx="38" cy="44" r="19" fill="'+OG+'" opacity="0.17" filter="url(#bE'+id+')"/>';
+    b += '<circle cx="65" cy="36" r="15" fill="'+AM+'" opacity="0.13" filter="url(#bE'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+
+  } else if (style === 'glass') {
+    d += rg('bgE'+id, 50, 50, 60, [['0%','#071C24'],['100%','#0A2A38']]);
+    d += rg('glE'+id, 34, 28, 75, [
+      ['0%', WHITE, 0.60],
+      ['28%', T, 0.38],
+      ['68%', T, 0.22],
+      ['88%', TD, 0.40],
+      ['100%', '#000', 0.65]
+    ]);
+    b += '<path d="'+LIQUID_PATH+'" fill="url(#bgE'+id+')" filter="url(#sE'+id+')"/>';
+    b += '<g clip-path="url(#cE'+id+')">';
+    b += '<circle cx="36" cy="43" r="25" fill="'+T+'" opacity="0.55" filter="url(#bE'+id+')"/>';
+    b += '<circle cx="65" cy="35" r="20" fill="'+OG+'" opacity="0.45" filter="url(#bE'+id+')"/>';
+    b += '<circle cx="56" cy="66" r="16" fill="'+AM+'" opacity="0.38" filter="url(#bE'+id+')"/>';
+    b += '<path d="'+LIQUID_PATH+'" fill="url(#glE'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+
+  } else if (style === 'light') {
+    d += rg('iE'+id, 34, 28, 76, [
+      ['0%',  '#DDF2F8'],
+      ['28%',  TL],
+      ['62%',  T],
+      ['82%',  TD],
+      ['100%', TBK, 0.75]
+    ]);
+    b += '<path d="'+LIQUID_PATH+'" fill="url(#iE'+id+')" filter="url(#sE'+id+')"/>';
+    b += '<g clip-path="url(#cE'+id+')">';
+    b += '<circle cx="65" cy="36" r="18" fill="'+OG+'" opacity="0.22" filter="url(#bE'+id+')"/>';
+    b += '</g>';
+    b += spec(50, 50, 46);
+
+  } else { // warm
+    d += rg('iE'+id, 36, 30, 76, [
+      ['0%',  '#FFE8D4'],
+      ['20%',  OGL],
+      ['50%',  OG],
+      ['70%',  T],
+      ['86%',  TD],
+      ['100%', TBK, 0.85]
+    ]);
+    b += '<path d="'+LIQUID_PATH+'" fill="url(#iE'+id+')" filter="url(#sE'+id+')"/>';
+    b += spec(50, 50, 46);
+  }
+
+  return svgW(id, sz, d, b);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHAPE F — Original TLS Path (improved)
+// ═══════════════════════════════════════════════════════
+function shapeF(id, sz, style) {
+  var d='', b='';
+  // The path is in 1000×1000 space, we wrap in viewBox="0 0 1000 1000"
+  d += dsFilt('sF'+id);
+
+  if (style === 'inflated') {
+    d += rg('iF'+id, 34, 28, 78, [
+      ['0%',  '#CCF0FF'],
+      ['20%',  TL],
+      ['50%',  T],
+      ['72%',  TD],
+      ['86%',  TXD],
+      ['95%',  '#0A2030'],
+      ['100%', TBK, 0.92]
+    ]);
+    b += '<path d="'+ORIG_PATH+'" fill="url(#iF'+id+')" filter="url(#sF'+id+')"/>';
+    b += '<ellipse cx="340" cy="250" rx="90" ry="62" fill="white" fill-opacity="0.24"/>';
+    b += '<ellipse cx="305" cy="222" rx="36" ry="26" fill="white" fill-opacity="0.68"/>';
+  } else if (style === 'glass') {
+    d += rg('bgF'+id, 50, 50, 60, [['0%','#071C24'],['100%','#0A2A38']]);
+    d += rg('glF'+id, 34, 28, 76, [
+      ['0%',  WHITE, 0.58],
+      ['25%',  T,   0.40],
+      ['68%',  T,   0.24],
+      ['90%',  TD,  0.42],
+      ['100%', '#000', 0.68]
+    ]);
+    d += blurFilt('bF'+id, 6);
+    b += '<rect width="1000" height="1000" fill="url(#bgF'+id+')" filter="url(#sF'+id+')"/>';
+    b += '<path d="'+ORIG_PATH+'" fill="#A8D8E8" fill-opacity="0.4" filter="url(#bF'+id+')"/>';
+    b += '<path d="'+ORIG_PATH+'" fill="url(#glF'+id+')"/>';
+    b += '<path d="'+ORIG_PATH+'" fill="none" stroke="white" stroke-width="4" stroke-opacity="0.18"/>';
+    b += '<ellipse cx="340" cy="250" rx="90" ry="62" fill="white" fill-opacity="0.20"/>';
+    b += '<ellipse cx="305" cy="222" rx="36" ry="26" fill="white" fill-opacity="0.65"/>';
+  } else if (style === 'light') {
+    d += rg('iF'+id, 34, 28, 78, [
+      ['0%',  '#DFF5FF'],
+      ['26%',  TL],
+      ['58%',  T],
+      ['80%',  TD],
+      ['100%', TBK, 0.80]
+    ]);
+    b += '<path d="'+ORIG_PATH+'" fill="url(#iF'+id+')" filter="url(#sF'+id+')"/>';
+    b += '<ellipse cx="340" cy="250" rx="90" ry="62" fill="white" fill-opacity="0.28"/>';
+    b += '<ellipse cx="305" cy="222" rx="36" ry="26" fill="white" fill-opacity="0.72"/>';
+  } else { // warm
+    d += rg('iF'+id, 36, 30, 76, [
+      ['0%',  '#FFE8D4'],
+      ['18%',  OGL],
+      ['48%',  OG],
+      ['68%',  T],
+      ['84%',  TD],
+      ['100%', TBK, 0.88]
+    ]);
+    b += '<path d="'+ORIG_PATH+'" fill="url(#iF'+id+')" filter="url(#sF'+id+')"/>';
+    b += '<ellipse cx="340" cy="250" rx="90" ry="62" fill="white" fill-opacity="0.20"/>';
+    b += '<ellipse cx="305" cy="222" rx="36" ry="26" fill="white" fill-opacity="0.65"/>';
+  }
+
+  return '<svg id="'+id+'" width="'+sz+'" height="'+sz+'" viewBox="120 100 760 720" xmlns="http://www.w3.org/2000/svg"><defs>'+d+'</defs>'+b+'</svg>';
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER HELPERS
+// ═══════════════════════════════════════════════════════
+var styleLabels = {
+  inflated: 'Inflaté Dark',
+  glass:    'Glass Dark',
+  light:    'Teal Light',
+  warm:     'Warm Flat'
+};
+var styleBg = {
+  inflated: 'cd',
+  glass:    'cn',
+  light:    'cl',
+  warm:     'cpe'
+};
+
+function renderCard(parent, id, sz, shapeFn, style, title) {
+  var card = document.createElement('div');
+  card.className = 'card ' + (styleBg[style] || 'cw');
+  card.innerHTML = '<span class="lbl">'+(title||styleLabels[style])+'</span>'
+    + shapeFn(id, sz, style);
+  parent.appendChild(card);
+}
+
+function renderSection(gridId, favLId, favDId, shapeFn, prefix) {
+  var grid = document.getElementById(gridId);
+  var favL = document.getElementById(favLId);
+  var favD = document.getElementById(favDId);
+  ['inflated','glass','light','warm'].forEach(function(s, i){
+    renderCard(grid, prefix+'-'+s, 128, shapeFn, s);
+  });
+  // Favicon rows
+  var sizes = [256,128,64,32,16];
+  var favStyles = ['light','inflated'];
+  favStyles.forEach(function(s, ri){
+    var row = ri === 0 ? favL : favD;
+    var spanEl = document.createElement('span');
+    spanEl.style = 'font-size:11px;font-weight:700;color:'+(ri===0?'#64748b':'#4A8090')+';text-transform:uppercase;letter-spacing:.07em;margin-right:8px;align-self:center;';
+    spanEl.textContent = s.toUpperCase();
+    row.appendChild(spanEl);
+    sizes.forEach(function(sz){
+      var fi = document.createElement('div');
+      fi.className = 'fi' + (ri===1?' dl':'');
+      fi.innerHTML = shapeFn(prefix+'-fav-'+s+'-'+sz, sz, s)
+        +'<span>'+sz+'px</span>';
+      row.appendChild(fi);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// LOGO BUILDER
+// ═══════════════════════════════════════════════════════
+function logoH(id, shapeFn, style, bg, textColor, theColor) {
+  var iconSvg = shapeFn('icon-'+id, 52, style);
+  var wrap = document.createElement('div');
+  wrap.className = 'lc ' + bg;
+  wrap.innerHTML = '<div style="display:flex;align-items:center;gap:14px;">'
+    + '<div>'+iconSvg+'</div>'
+    + '<svg width="180" height="52" viewBox="0 0 180 52" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="0" y="28" font-family="League Spartan,sans-serif" font-weight="900" font-size="24" fill="'+textColor+'" letter-spacing="-0.5">The Learning</text>'
+    + '<text x="0" y="50" font-family="League Spartan,sans-serif" font-weight="600" font-size="15" fill="'+theColor+'" letter-spacing="3.5">SOCIETY</text>'
+    + '</svg>'
+    + '</div>';
+  return wrap;
+}
+
+function logoS(id, shapeFn, style, bg, textColor, theColor) {
+  var iconSvg = shapeFn('icon-'+id, 64, style);
+  var wrap = document.createElement('div');
+  wrap.className = 'sc ' + bg;
+  wrap.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;">'
+    + '<div>'+iconSvg+'</div>'
+    + '<svg width="170" height="50" viewBox="0 0 170 50" xmlns="http://www.w3.org/2000/svg">'
+    + '<text x="85" y="24" text-anchor="middle" font-family="League Spartan,sans-serif" font-weight="900" font-size="22" fill="'+textColor+'" letter-spacing="-0.4">The Learning</text>'
+    + '<text x="85" y="44" text-anchor="middle" font-family="League Spartan,sans-serif" font-weight="600" font-size="13" fill="'+theColor+'" letter-spacing="3.5">SOCIETY</text>'
+    + '</svg>'
+    + '</div>';
+  return wrap;
+}
+
+function renderLogos(gridId, shapeFn, prefix) {
+  var grid = document.getElementById(gridId);
+  var configs = [
+    {style:'light',  bg:'lcw', tc:'#252B37', sc: T},
+    {style:'inflated',bg:'lcd',tc:'#E8F6FA', sc:TL},
+    {style:'warm',   bg:'lcp', tc:'#252B37', sc:OGD}
+  ];
+  configs.forEach(function(c, i){
+    grid.appendChild(logoH(prefix+'-h'+i, shapeFn, c.style, c.bg, c.tc, c.sc));
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// OVERVIEW GRID
+// ═══════════════════════════════════════════════════════
+function buildOverview() {
+  var shapes = [
+    {fn: shapeA, name:'A', desc:'Aurora Orb'},
+    {fn: shapeB, name:'B', desc:'Arc Trio'},
+    {fn: shapeC, name:'C', desc:'Crystal Hex'},
+    {fn: shapeD, name:'D', desc:'Signal Waves'},
+    {fn: shapeE, name:'E', desc:'Liquid Form'},
+    {fn: shapeF, name:'F', desc:'Original TLS'}
+  ];
+  var ovL = document.getElementById('ov-light');
+  var ovD = document.getElementById('ov-dark');
+  shapes.forEach(function(sh){
+    // light card
+    var cl = document.createElement('div');
+    cl.className = 'ovc';
+    cl.innerHTML = sh.fn('ov-l-'+sh.name, 80, 'light')
+      +'<span class="ovn">'+sh.name+'</span>'
+      +'<span class="ovd">'+sh.desc+'</span>';
+    ovL.appendChild(cl);
+    // dark (inflated) card
+    var cd = document.createElement('div');
+    cd.className = 'ovc dk';
+    cd.innerHTML = sh.fn('ov-d-'+sh.name, 80, 'inflated')
+      +'<span class="ovn" style="color:#90C8D8">'+sh.name+'</span>'
+      +'<span class="ovd">'+sh.desc+'</span>';
+    ovD.appendChild(cd);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// ANIMATIONS SECTION
+// ═══════════════════════════════════════════════════════
+function buildAnimations() {
+  var grid = document.getElementById('anim-grid');
+  var defs = [
+    {fn:shapeA, st:'inflated', lbl:'Aurora Breathe',  anim:'animation:breathe 2.8s ease-in-out infinite, aurora-shift 4s ease-in-out infinite'},
+    {fn:shapeB, st:'inflated', lbl:'Arc Spin',         anim:'animation:spin-arcs 3s linear infinite',  wrap:true},
+    {fn:shapeD, st:'inflated', lbl:'Signal Pulse',     anim:'animation:breathe 2s ease-in-out infinite'},
+    {fn:shapeE, st:'glass',    lbl:'Liquid Glow',      anim:'animation:breathe 3.2s ease-in-out infinite, glowing 2.5s ease-in-out infinite'}
+  ];
+  defs.forEach(function(def){
+    var card = document.createElement('div');
+    card.className = 'card cd';
+    var inner;
+    if (def.wrap) {
+      // Wrap in rotating div for arc spin
+      inner = '<div style="'+def.anim+'">'+def.fn('anim-'+def.lbl.replace(/\s/g,'-'), 96, def.st)+'</div>';
+    } else {
+      inner = '<div style="'+def.anim+'">'+def.fn('anim-'+def.lbl.replace(/\s/g,'-'), 96, def.st)+'</div>';
+    }
+    card.innerHTML = '<span class="lbl">'+def.lbl+'</span>' + inner
+      +'<span style="font-size:10px;color:#4A8090;text-align:center;">CSS Only · loop</span>';
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// HEADER ICON
+// ═══════════════════════════════════════════════════════
+document.getElementById('hdr-icon').innerHTML = shapeA('hdr', 36, 'light');
+
+// ═══════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════
+buildOverview();
+renderSection('sa-grid','sa-fav-l','sa-fav-d', shapeA, 'a');
+renderSection('sb-grid','sb-fav-l','sb-fav-d', shapeB, 'b');
+renderSection('sc-grid','sc-fav-l','sc-fav-d', shapeC, 'c');
+renderSection('sd-grid','sd-fav-l','sd-fav-d', shapeD, 'd');
+renderSection('se-grid','se-fav-l','se-fav-d', shapeE, 'e');
+renderSection('sf-grid','sf-fav-l','sf-fav-d', shapeF, 'f');
+
+renderLogos('logo-a', shapeA, 'la');
+renderLogos('logo-b', shapeB, 'lb');
+renderLogos('logo-d', shapeD, 'ld');
+
+buildAnimations();
+
+</script>
+</body>
+</html>

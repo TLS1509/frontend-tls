@@ -362,6 +362,174 @@ catégories adjacentes premium**, jamais par le secteur « learning ».
 
 > North Star à opposer à chaque ref : **Stratégique · Augmenté · Humain** → « earned confidence », crédibilité sobre, l'humain dans le cadre, montrer (vrai produit) pas raconter.
 
+---
+
+## 📱 MOBBIN SAVES — Analyse complète (2026-06-12)
+
+> **Cible de cette section :** Learning App TLS (pas le site marketing).
+> Filtre North Star app : **chaleureux · intuitif · structuré · AI-conversationnel · non gamifié à outrance.**
+> Vibe finale validée : *"Uxcel backbone + stoic/pillowtalk warmth + NotebookLM research + Reflect time-awareness + Sana task guidance"*
+
+### 📱 Mobile Apps (24 saves)
+
+| App | Verdict | L'élément précis | Usage TLS |
+|---|---|---|---|
+| **stoic.** | ♥♥ | AI journaling warm, prompts structurés, mood tracking, tone healing | Journal TLS — compose-bar + AI reflection inline |
+| **pillowtalk** | ♥♥ | Chat-style entry, warm peach/cream, feel-better tone, intimate | Journal TLS — tone émotionnel, chat expand |
+| **Uxcel Go** | ♥♥ | Sidebar nav, streak badges, XP, league rank, progress cards | Backbone structure : nav, gamification smart |
+| **Tiimo** | ♥ | Sections colorées (ANYTIME/MORNING/AFTERNOON), ADHD-friendly | Tone-aware sections : primary/warm/sun |
+| **Reflect** | ♥ | Calendar-linked notes, sidebar + daily/all/map, meeting notes | Journal — temporal awareness, date filters |
+| **Amie** | ♥ | AI note taker, glassmorphism subtil, sidebar collapsible | Coaching — AI note après session |
+| **Imprint** | ♥ | Read faster / remember more — bite-size cards, progress visible | Learning path — lesson cards |
+| **Brilliant** | ~ | Learn by doing — interactive exercises, streaks | Exercices pratiques OK, cartoon trop jeune |
+| **DailyArt** | ~ | Daily content card, editorial tone, warm | Veille — card éditoriale quotidienne |
+| **Nibble** | ~ | Bite of knowledge, daily micro-lesson | Micro-leçons format |
+| **Waking Up** | ~ | Insights + mindfulness, serif typo, clean | Ton contemplatif OK, trop wellness/meditation |
+| **Dot** | ~ | AI that grows with you, warm conversational | Passeport IA companion |
+| **Craft** | ~ | AI docs, second brain, elegant | Notes parcours — doc-like interface |
+| **Luma** | ~ | Delightful events, card hover, booking modal | Masterclass/events — booking |
+| **Vocabulary** | ~ | Learn words daily, streak, clean | Veille vocab — micro-learning |
+| **Withings Health Mate** | ~ | Progress tracking, chart viz, daily card | Passeport stats — health-like tracking |
+| **Canopi** | ~ | Memorable moments, warm amber, photos | Journal — moment capture tone |
+| **Calm** | ✗ | Meditation/sleep — trop wellness, pas learning | Anti-ref — trop zen/passif |
+| **Headspace** | ✗ | Relaxation — couleurs pastel douces | Anti-ref — pas notre lane |
+| **TIDE** | ✗ | Sleep + focus + meditation | Anti-ref — trop wellness |
+| **Open** | ✗ | Mindfulness studio — classes passives | Anti-ref — consumption passive |
+| **MasterClass** | ✗ | Watch only — célébrités, pas de réflexion | Anti-ref — passif, élitiste B2C |
+| **Suno** | ✗ | AI music gen — hors-lane total | Hors-scope |
+| **Anything** | ✗ | AI app builder — dev tool, pas learning | Hors-scope |
+
+### 🖥️ Desktop Apps (34 saves)
+
+| App | Verdict | L'élément précis | Usage TLS |
+|---|---|---|---|
+| **Uxcel** | ♥♥ | Sidebar nav, stats dashboard, streak/XP/league, course cards progress | Backbone structure desktop — nav sidebar + gamification |
+| **NotebookLM** | ♥♥ | 3-pane (sources / chat-notes / studio), AI audio overview, study guides | Formation : contenu gauche + Q&A centre + insights droite |
+| **Reflect** | ♥♥ | Sidebar (daily/all/map), calendar right, meeting notes, writing-first | Journal — sidebar left, calendar intégré |
+| **Fabric** | ♥ | "Good morning", recent files, AI copilot sidebar dark, team spaces | Dashboard greeting + AI copilot persistant |
+| **Sana AI** | ♥ | Home → suggested tasks, templates, meetings, collections, chat | Coaching suggestions inline + tâches guidées |
+| **Current** | ~ | Team collab (Asana-like), kanban, project templates | Patterns layout OK, sémantique project ≠ learning |
+| **Portrait** | ~ | Creative portfolio — editorial grid | — |
+| **Lovable** | ~ | AI app builder | Dev tool |
+| **Frame.io** | ~ | Video review, assets | Lesson player vidéo — panel annotions |
+| **Zeplin** | ~ | Design handoff | — |
+| **Pitch** | ~ | Deck builder, editorial design | Présentation parcours — slide-like layout |
+| **Slite** | ~ | Team docs, sidebar knowledge base | Docs coaching — knowledge base |
+| **Oku** | ~ | Book tracking, reading lists | Veille — reading list |
+| **Matter** | ~ | Read-it-later, curated feeds | Veille — feed curation |
+| **Cosmos** | ~ | Visual research board, moodboard | — |
+| **Luma AI** | ~ | AI visual generation | — |
+| **mymind** | ~ | Personal AI note saver | Notes apprentissage — private space |
+| **Front** | ~ | Shared inbox, conversations | Coaching messages |
+| **Sprig** | ~ | Product analytics | — |
+| **Literal** | ~ | Reading tracker, social books | Veille reading |
+| **Time2book** | ~ | Booking calendar | Coaching booking |
+| **Whop** | ~ | Creator marketplace | — |
+| **Gamma** | ~ | AI deck builder | Présentation modules |
+| **Suno** | ✗ | Music gen | Hors-scope |
+| **Relevance AI** | ~ | AI agent builder | — |
+| **Craft** | ~ | Docs + AI editing | Notes coaching |
+| **Alan** | ~ | AI health assistant | Passeport analogue seulement |
+| **Cohere** | ~ | LLM API tool | — |
+| **Krea AI** | ~ | AI image gen | — |
+| **Synthesia** | ~ | AI video gen | — |
+| **Contra** | ~ | Freelancer marketplace | — |
+| **Visual Electric** | ~ | AI image tool | — |
+| **Brilliant** | ♥ | Learn by doing, interactive challenges, streak | Leçons pratiques — exercices guidés |
+
+### 🌐 Website Vitrines saves (inspo site marketing TLS — tag Site)
+
+| Site | Verdict | L'élément précis | Direction |
+|---|---|---|---|
+| **Claude** | ♥♥ | Clean, AI-confident, no fluff, whitespace premium | Ton copie TLS — "earned confidence" |
+| **Notion** | ♥♥ | Workspace = collaborative intelligence, sidebar + canvas | App layout référence |
+| **Bevel** | ♥ | AI health coach — guidance personnelle, coaching tone | Coaching TLS — ton guidance |
+| **Jitter** | ♥ | Motion design tool — delight without excess, pill badges | Animation micro-interactions |
+| **Opennote** | ♥ | Notebook that thinks with you — tabs features + social proof | Formation page — features |
+| **Wispr Flow** | ♥ | AI voice dictation — clean, one feature well shown | Journal vocal futur |
+| **Daydream** | ♥ | SEO + AI search, warm peach, diagramme flow STRIDE | Direction A/C déjà dans short-list |
+| **Craft** | ♥ | Write docs, AI editing — hero produit flottant | Hero app showcase |
+| **Ada** | ~ | AI customer service — B2B SaaS sobre | Coaching bot analogue |
+| **General Intelligence** | ~ | AI agents enterprise | Hors-lane sauf layout |
+| **OFF+BRAND** | ~ | Agency branding + WebGL | — |
+| **GSAP** | ~ | Animation library | Technique seule |
+| **Anchor** | ~ | Financial products | Staggered pills ✅ déjà dans short-list |
+| **Phantom** | ~ | Crypto wallet | Blobs atmo ✅ déjà dans short-list |
+| **Air** | ~ | Creative ops | Glass + scroll ✅ déjà dans short-list |
+| **Reducto** | ~ | Document parsing | — |
+| **Shopify Editions** | ~ | Scroll-story system | StickyScrollStory ✅ déjà |
+| **Ditto** | ~ | Product copy | Word-swap ✅ déjà |
+| **Until** | ~ | Cryopreservation tech | Dark dramatic — hors-lane |
+| **Slush** | ~ | Crypto wallet | Hors-lane |
+| **Base** | ~ | Crypto economy | Hors-lane |
+| **CTRL** | ✗ | Crypto wallet | Hors-lane total |
+| **Legend** | ~ | Onchain app | Patterns layout ✅ déjà |
+| **Origin** | ~ | Financial platform | Glass/motion ✅ déjà |
+| **Cofounder** | ~ | AI company agents | — |
+| **Adaline** | ~ | LLM monitoring | B2B sobre OK |
+| **Popcorn** | ~ | Telecom | — |
+| **Giga** | ~ | Enterprise AI | — |
+| **Structured** | ~ | Bitcoin yield | Baroque bg ✅ déjà |
+| **Duna** | ~ | Compliance | — |
+| **Perplexity PC** | ~ | AI computer | — |
+| **Savor** | ~ | Food brand | — |
+| **Koto** | ~ | Creative agency | Typo/grid éditoriale |
+| **Analogue Agency** | ~ | Digital agency | Grid audacieux |
+
+---
+
+### 🎯 SYNTHÈSE APP TLS — Patterns canoniques validés (2026-06-12)
+
+> À utiliser comme brief pour le redesign Learning App (pas le site).
+
+#### Architecture & Navigation
+
+| Pattern | Source | Implémentation TLS |
+|---|---|---|
+| **Sidebar left + content pane** | Uxcel, NotebookLM, Reflect, Fabric, Sana | Desktop : sidebar fixe. Mobile : bottom tabs + hamburger |
+| **Greeting personnalisée** | Fabric ("Good morning") | Dashboard : "Bonjour [prénom], quoi apprendre aujourd'hui ?" |
+| **3-pane threshold** | NotebookLM | Formation ≥ md : contenu gauche / notes centre / AI droite |
+| **Calendar integration** | Reflect | Journal : dates cliquables, vue hebdo/mensuelle |
+| **Temporal sections** | Tiimo | Sections colorées par tone : primary (Parcours), warm (Journal), sun (Passeport) |
+
+#### Journaling & Reflection
+
+| Pattern | Source | Implémentation TLS |
+|---|---|---|
+| **Chat-style compose** | stoic. + pillowtalk | JournalChatCompose — expand + AI reflection inline |
+| **4 guided types** | stoic. (prompts) | free / guided / insight / learning — tiles avec icons |
+| **AI reflection panel** | stoic. + pillowtalk | Après submit : suggestion AI sur ce que tu as écrit |
+| **Mood tracking** | stoic. | MoodSelector déjà dans DS |
+| **Time-aware filters** | Reflect | Cette semaine / ce mois / 3 mois |
+
+#### Gamification smart (pas enfantin)
+
+| Pattern | Source | Règle TLS |
+|---|---|---|
+| **Streak discret** | Uxcel | Badge "7 jours" — pas de flamme Duolingo |
+| **XP earned** | Uxcel | Points après complétion, pas pendant |
+| **League rank subtle** | Uxcel | Dashboard sidebar — pas hero |
+| **Progress bar honest** | Uxcel | % réel, pas inflaté |
+
+#### AI copilot persistant
+
+| Pattern | Source | Implémentation TLS |
+|---|---|---|
+| **Dark sidebar copilot** | Fabric | Coaching Q&A sidebar desktop |
+| **Inline suggestions** | Sana | Tâches suggérées dans Dashboard (pas pop-up) |
+| **Study guides** | NotebookLM | Après leçon : "3 points clés" auto-générés |
+| **Audio overview** | NotebookLM | Future : résumé audio parcours |
+
+#### Ce qu'on N'utilise PAS
+
+| Anti-pattern | Source | Pourquoi |
+|---|---|---|
+| Meditation tone | Calm, Headspace, Open, TIDE | TLS = active learning, pas passive relaxation |
+| Cartoon illustrations | Brilliant | Audience pros, pas grand public |
+| Watch-only | MasterClass | TLS = réflexion obligatoire après chaque contenu |
+| Kanban boards | Current/Asana | Team collab ≠ learner journey personnel |
+| All-caps gamification | Duolingo-like | Trop bruyant, audience adulte formée |
+
 ## ✨ AUTORISÉ — MÊME ENCOURAGÉ — EN PETITES TOUCHES (la nuance « Augmenté »)
 
 TLS **est** tech/IA (la Learning App intègre de l'IA). Montrer de la sophistication **renforce** le pilier *Augmenté* — au lieu de le trahir. La règle n'est pas *interdire*, c'est **doser + intentionner** : jamais l'esthétique dominante générique, jamais du décoratif gratuit, mais oui à des **moments forts délibérés**.
