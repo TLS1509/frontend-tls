@@ -89,11 +89,11 @@ export function FilterableCardGrid<T>({
 
       {categories && categories.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
-          <button type="button" onClick={() => setActiveCategory(null)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-all duration-fast', activeCategory === null ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
+          <button type="button" onClick={() => setActiveCategory(null)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === null ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
             Tout
           </button>
           {categories.map((cat) => (
-            <button key={cat} type="button" onClick={() => setActiveCategory(cat === activeCategory ? null : cat)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-all duration-fast', activeCategory === cat ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
+            <button key={cat} type="button" onClick={() => setActiveCategory(cat === activeCategory ? null : cat)} className={['inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500', activeCategory === cat ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-600 hover:bg-ink-200'].join(' ')}>
               {cat}
             </button>
           ))}

@@ -510,7 +510,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
         {/* Content (right) */}
         <div
-          className="flex flex-col gap-stack p-6 lg:p-8 justify-center cursor-pointer group"
+          className="flex flex-col gap-stack p-6 lg:p-8 justify-center cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           onClick={() => onClick?.(item)}
           tabIndex={0}
           role="button"

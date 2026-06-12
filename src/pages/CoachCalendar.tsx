@@ -75,7 +75,7 @@ const CoachCalendar: React.FC = () => {
                   return (
                     <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px]">
                       {session && (
-                        <div className="bg-secondary-50 border-l-4 border-secondary-500 rounded p-stack-xs h-full">
+                        <div className="bg-secondary-50 border border-secondary-200 rounded p-stack-xs h-full">
                           <div className="flex items-center gap-1 mb-1">
                             <Avatar initials={session.initials} size="sm" />
                             <span className="text-caption font-semibold truncate">{session.apprenant}</span>
