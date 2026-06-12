@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, Send, RotateCcw, Clock, RefreshCw } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -42,12 +43,12 @@ const CorrectionDetailLearner: React.FC = () => {
 
   if (!correction) {
     return (
-      <div className="max-w-page mx-auto px-stack py-section flex flex-col gap-section">
+      <PageShell>
         <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="default" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
           Retour au coaching
         </Button>
-      </div>
+      </PageShell>
     );
   }
 
@@ -59,7 +60,7 @@ const CorrectionDetailLearner: React.FC = () => {
   const canResubmit = correction.status === 'coach-feedback' || correction.status === 'learner-response';
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow={{ label: 'Coaching · Ma correction' }}
         title={correction.exerciseTitle}
@@ -72,7 +73,7 @@ const CorrectionDetailLearner: React.FC = () => {
         }
       />
 
-      <div className="max-w-page mx-auto px-stack py-section flex flex-col gap-section">
+      <PageShell noPadTop>
 
         {/* Status bar */}
         <div className="flex flex-wrap items-center gap-stack-xs">
@@ -157,7 +158,7 @@ const CorrectionDetailLearner: React.FC = () => {
           )}
         </div>
 
-      </div>
+      </PageShell>
     </div>
   );
 };

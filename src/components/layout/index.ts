@@ -25,3 +25,5 @@ export type { ClusterAlign, ClusterJustify } from './Cluster';
 export { Grid } from './Grid';
 
 export type { Space } from './_layout';
+
+export { BottomNav } from './BottomNav';

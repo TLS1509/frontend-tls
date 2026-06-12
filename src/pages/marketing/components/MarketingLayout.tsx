@@ -22,7 +22,7 @@ export const MarketingLayout: React.FC = () => {
 
   return (
     <MarketingToastProvider>
-      <div className="min-h-screen flex flex-col bg-white">
+      <div className="min-h-[100dvh] flex flex-col bg-white">
         <MarketingHeader />
         <ScrollProgress topClass="top-16" />
         <main className="flex-1 pt-16">

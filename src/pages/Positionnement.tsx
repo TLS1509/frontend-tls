@@ -112,7 +112,7 @@ export const Positionnement: React.FC = () => {
     );
 
     return (
-      <div className="min-h-screen bg-gradient-page-ambient flex flex-col">
+      <div className="min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
         <ViewerHeader
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
@@ -183,7 +183,7 @@ export const Positionnement: React.FC = () => {
 
   /* ── Questionnaire ─────────────────────────────────────────────────── */
   return (
-    <div className="min-h-screen bg-surface flex flex-col">
+    <div className="min-h-[100dvh] bg-surface flex flex-col">
       <ViewerHeader
         onBack={() => navigate(`/learning-paths/${id}`)}
         backLabel="Retour au parcours"

@@ -144,7 +144,7 @@ export const PagesIndex: React.FC = () => {
   const inProgress = PAGES_LIST.filter((p) => p.status === 'in-progress').length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <Container width="page" className="py-section flex flex-col gap-section">
 
         <EditorialHero

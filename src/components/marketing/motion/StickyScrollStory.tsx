@@ -64,7 +64,7 @@ export const StickyScrollStory: React.FC<Props> = ({
         className={`hidden lg:block relative ${className}`}
         style={{ height: `${panels.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen flex items-center">
+        <div className="sticky top-0 min-h-[100dvh] flex items-center">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 gap-page items-center w-full">
             {/* Text column */}
             <div className={`relative min-h-[400px] ${visualSide === 'left' ? 'order-2' : ''}`}>

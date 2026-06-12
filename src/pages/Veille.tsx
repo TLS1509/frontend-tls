@@ -138,7 +138,7 @@ export const Veille: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-[100dvh] flex flex-col bg-white">
 
       {/* ── 1. HERO full-bleed remixé ─────────────────────────────────────── */}
       <section
@@ -162,7 +162,7 @@ export const Veille: React.FC = () => {
 
           {/* Titre + sous-titre */}
           <div className="flex flex-col gap-2">
-            <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight" style={{ fontSize: 'clamp(2.25rem, 4vw, 3.25rem)' }}>
+            <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight text-[clamp(2.25rem,4vw,3.25rem)]">
               Veille &amp; Actualités
             </h1>
             <p className="m-0 font-body text-body text-white/55 leading-relaxed max-w-2xl">
@@ -175,13 +175,14 @@ export const Veille: React.FC = () => {
             <SearchIcon size={18} strokeWidth={2} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
             <input
               type="search"
+              aria-label="Rechercher dans la veille"
               placeholder="Rechercher un sujet, auteur, catégorie…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="w-full h-12 pl-11 pr-10 rounded-xl bg-white/8 border border-white/15 text-white placeholder:text-white/35 font-body text-body-sm backdrop-blur-glass-light focus:outline-none focus:bg-white/12 focus:border-white/30 transition-all"
             />
             {query && (
-              <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors">
+              <button type="button" aria-label="Effacer la recherche" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors">
                 <X size={15} />
               </button>
             )}
@@ -195,7 +196,7 @@ export const Veille: React.FC = () => {
                 type="button"
                 onClick={() => setSelected(id)}
                 className={[
-                  'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                  'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
                   selected === id
                     ? 'bg-white text-ink-900 border-white shadow-md'
                     : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
@@ -213,7 +214,7 @@ export const Veille: React.FC = () => {
               type="button"
               onClick={() => setShowSavedOnly((v) => !v)}
               className={[
-                'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
+                'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base',
                 showSavedOnly
                   ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
                   : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',

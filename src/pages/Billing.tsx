@@ -85,8 +85,8 @@ export const Billing: React.FC = () => {
   /* ── Layout ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-screen bg-surface">
-      <Container width="content" padding={false} className="px-stack sm:px-stack-lg lg:px-section py-section flex flex-col gap-stack-lg">
+    <div className="min-h-[100dvh] bg-surface">
+      <Container width="medium" className="py-section flex flex-col gap-stack-lg">
 
         {/* Family nav */}
         <AccountFamilyNav active="billing" />

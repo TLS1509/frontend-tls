@@ -72,7 +72,7 @@ export const JournalFreeEntry: React.FC = () => {
   const removeTag = (tag: string) => setTags(tags.filter((t) => t !== tag));
 
   return (
-    <div className="min-h-screen bg-surface font-body flex flex-col">
+    <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
       {/* Top bar */}
       <div className="flex items-center justify-between px-section py-stack border-b border-ink-200 sticky top-0 bg-white z-sticky">

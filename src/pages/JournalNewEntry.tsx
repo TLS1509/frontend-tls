@@ -23,7 +23,9 @@ import {
   Clock,
   ChevronDown,
   CheckCheck,
+  Smile,
 } from 'lucide-react';
+import { MoodSelector } from '../components/ui/MoodSelector';
 
 export type EntryType =
   | 'reflexion-libre'
@@ -33,20 +35,6 @@ export type EntryType =
   | 'moment-eureka';
 
 export type MoodLevel = 'very-sad' | 'sad' | 'neutral' | 'happy' | 'very-happy';
-
-interface MoodConfig {
-  emoji: string;
-  label: string;
-  color: string;
-}
-
-const MOOD_CONFIG: Record<MoodLevel, MoodConfig> = {
-  'very-sad': { emoji: '😢', label: 'Difficile', color: 'text-danger-base' },
-  'sad': { emoji: '😐', label: 'Neutre', color: 'text-warning-base' },
-  'neutral': { emoji: '🙂', label: 'Bien', color: 'text-info-base' },
-  'happy': { emoji: '😊', label: 'Très bien', color: 'text-success-base' },
-  'very-happy': { emoji: '🤩', label: 'Excellent', color: 'text-primary-600' },
-};
 
 
 interface TypeConfig {
@@ -176,7 +164,7 @@ export const JournalNewEntry: React.FC = () => {
   const cfg = TYPE_CONFIG[selectedType];
   const isDraft = title.trim() || body.trim();
 
-  // Auto-save logic with 30s debounce
+  // Auto-save: triggers 3s after last keystroke (debounce)
   useEffect(() => {
     if (autoSaveTimeoutRef.current) {
       clearTimeout(autoSaveTimeoutRef.current);
@@ -191,7 +179,7 @@ export const JournalNewEntry: React.FC = () => {
         setAutoSaveStatus('saved');
         // Clear "saved" indicator after 2s
         setTimeout(() => setAutoSaveStatus('idle'), 2000);
-      }, 3000); // 30s debounce
+      }, 3000);
     }
 
     return () => {
@@ -247,7 +235,7 @@ export const JournalNewEntry: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface font-body flex flex-col">
+    <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
       {/* Top bar */}
       <header className="flex items-center px-4 sm:px-6 py-4 border-b border-ink-200 bg-white sticky top-0 z-sticky gap-3">
@@ -297,13 +285,13 @@ export const JournalNewEntry: React.FC = () => {
       <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8">
 
         {/* Type selector */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="mb-stack-lg">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <Wand2 size={16} className="text-primary-500" />
             <span className="font-body text-body-sm font-semibold text-ink-900">Type d'entrée</span>
           </div>
 
-          <div className="grid grid-cols-4 gap-3 max-sm:grid-cols-2">
+          <div className="grid grid-cols-4 gap-stack max-sm:grid-cols-2">
             {TYPE_ORDER.map((type) => {
               const tc = TYPE_CONFIG[type];
               const isSelected = selectedType === type;
@@ -311,6 +299,7 @@ export const JournalNewEntry: React.FC = () => {
                 <button
                   key={type}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => setSelectedType(type)}
                   className={[
                     'flex flex-col items-start gap-3 p-4 rounded-xl bg-white border cursor-pointer relative transition-all duration-200 text-left font-body',
@@ -338,36 +327,17 @@ export const JournalNewEntry: React.FC = () => {
           </div>
         </div>
 
-        {/* Mood selector */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">🎭</span>
+        {/* Mood selector — uses DS MoodSelector (aria-pressed, min-h-touch built in) */}
+        <div className="mb-section">
+          <div className="flex items-center gap-stack-xs mb-stack">
+            <Smile size={18} className="text-primary-500" />
             <span className="font-body text-body-sm font-semibold text-ink-900">Comment vous sentez-vous ?</span>
           </div>
-
-          <div className="flex gap-3 flex-wrap">
-            {(Object.entries(MOOD_CONFIG) as [MoodLevel, MoodConfig][]).map(([level, config]) => (
-              <button
-                key={level}
-                type="button"
-                onClick={() => setMood(level)}
-                className={[
-                  'flex flex-col items-center gap-1 p-3 rounded-xl cursor-pointer transition-all duration-200',
-                  mood === level
-                    ? 'bg-primary-100 border-2 border-primary-500 shadow-sm'
-                    : 'bg-ink-50 border-2 border-transparent hover:bg-ink-100',
-                ].join(' ')}
-                title={config.label}
-              >
-                <span className="text-3xl">{config.emoji}</span>
-                <span className="text-caption text-ink-600 font-medium">{config.label}</span>
-              </button>
-            ))}
-          </div>
+          <MoodSelector value={mood} onChange={setMood} />
         </div>
 
         {/* Inspiration button */}
-        <div className="mb-8">
+        <div className="mb-section">
           <button
             type="button"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors"
@@ -378,8 +348,8 @@ export const JournalNewEntry: React.FC = () => {
         </div>
 
         {/* Structured questions (collapsible) */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="mb-section">
+          <div className="flex items-center gap-stack-xs mb-stack">
             <Lightbulb size={18} className="text-primary-500" />
             <span className="font-body text-body-sm font-semibold text-ink-900">
               {selectedType === 'apprentissage' || selectedType === 'pratique-pro'
@@ -388,7 +358,7 @@ export const JournalNewEntry: React.FC = () => {
             </span>
           </div>
 
-          <div className="space-y-2">
+          <div className="flex flex-col gap-stack-xs">
             {activeQuestions.map((q) => {
               const isExpanded = expandedQuestions.has(q.id);
               return (
@@ -416,7 +386,7 @@ export const JournalNewEntry: React.FC = () => {
                         onChange={(e) => setStructuredAnswers({ ...structuredAnswers, [q.id]: e.target.value })}
                         placeholder={q.placeholder}
                         rows={4}
-                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-400 resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        className="w-full border border-ink-200 rounded-lg p-3 font-body text-body text-ink-900 placeholder:text-ink-400 resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:border-transparent"
                       />
                     </div>
                   )}

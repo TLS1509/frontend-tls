@@ -60,7 +60,7 @@ export const Error404: React.FC = () => {
     <section
       onMouseMove={parallax.handleMove}
       onMouseLeave={parallax.reset}
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-50/60 flex items-center justify-center px-6 py-page"
+      className="relative min-h-[100dvh] w-full overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-50/60 flex items-center justify-center px-6 py-page"
     >
       {/* Blobs doux breathing */}
       <motion.div

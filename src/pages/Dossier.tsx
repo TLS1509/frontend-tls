@@ -95,7 +95,7 @@ export const Dossier: React.FC = () => {
   useReadingProgressSync(bookmarkKey, progressPercent);
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="warm" />
 
       {/* Sticky glass header */}

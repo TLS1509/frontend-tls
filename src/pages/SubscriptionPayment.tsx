@@ -167,7 +167,7 @@ export const SubscriptionPayment: React.FC = () => {
   /* ── Layout ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
+    <div className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 

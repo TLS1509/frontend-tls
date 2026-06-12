@@ -49,7 +49,7 @@ const MessagingThread: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col">
+    <div className="min-h-[100dvh] bg-surface flex flex-col">
       <EditorialHero
         eyebrow="Coaching · Messagerie"
         title={coachName}

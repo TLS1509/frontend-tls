@@ -135,7 +135,7 @@ export const Profile: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <Container width="medium" className="py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Account family sub-nav ───────────────────────────── */}

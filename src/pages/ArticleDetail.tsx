@@ -186,7 +186,7 @@ export const ArticleDetail: React.FC = () => {
       : '/veille/weekly-newsletter';
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       {/* Top reading progress bar : fixed */}
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 

@@ -327,7 +327,7 @@ export const Onboarding: React.FC = () => {
     );
 
     return (
-      <main className="relative min-h-screen overflow-x-hidden">
+      <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
@@ -397,7 +397,7 @@ export const Onboarding: React.FC = () => {
     );
 
     return (
-      <main className="relative min-h-screen overflow-x-hidden">
+      <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
@@ -429,7 +429,7 @@ export const Onboarding: React.FC = () => {
 
   // Step: Transition (navigating to questionnaire)
   return (
-    <main className="relative min-h-screen overflow-x-hidden flex items-center justify-center">
+    <main className="relative min-h-[100dvh] overflow-x-hidden flex items-center justify-center">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 

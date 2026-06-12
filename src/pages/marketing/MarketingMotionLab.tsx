@@ -19,7 +19,7 @@ import {
   type StoryPanel,
 } from '../../components/marketing/motion';
 
-const SECTION = 'min-h-screen flex flex-col justify-center py-page border-b border-ink-100';
+const SECTION = 'min-h-[100dvh] flex flex-col justify-center py-page border-b border-ink-100';
 const SECTION_INNER = 'max-w-6xl mx-auto px-6 flex flex-col gap-stack-lg w-full';
 const SECTION_TITLE = 'font-display text-h2 font-extrabold text-ink-900 leading-tight m-0';
 const SECTION_EYEBROW = 'font-body text-caption font-bold text-warning-fg uppercase tracking-widest';

@@ -12,7 +12,7 @@ import { SectionHeader } from '../components/patterns/SectionHeader';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { JournalChatCompose } from '../components/ui/JournalChatCompose';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   PenSquare,
   Sparkles,
@@ -40,7 +40,7 @@ interface JournalEntry {
 
 /* ─── Store → display mapping ────────────────────────────────────────────── */
 
-const now = Date.now();
+// Computed inside useMemo — see filteredEntries below.
 
 const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
   'reflexion-libre':  'free',
@@ -52,15 +52,15 @@ const SPEC_TO_DISPLAY: Record<JournalEntryType, JournalBubbleType> = {
 
 /* ─── Filter config ──────────────────────────────────────────────────────── */
 
-const TYPE_FILTERS: { key: TypeFilter; label: string }[] = [
+const TYPE_FILTERS: { key: TypeFilter; label: string; emoji?: string }[] = [
   { key: 'all',           label: 'Toutes' },
-  { key: 'guided',        label: '🧭 Guidé' },
-  { key: 'free',          label: '✍️ Libre' },
-  { key: 'learning',      label: '📖 Apprentissage' },
-  { key: 'coaching',      label: '🎯 Coaching' },
-  { key: 'insight',       label: '💡 Insight' },
-  { key: 'questionnaire', label: '📋 Questionnaire' },
-  { key: 'compte-rendu',  label: '📊 Compte rendu' },
+  { key: 'guided',        label: 'Guidé',         emoji: '🧭' },
+  { key: 'free',          label: 'Libre',          emoji: '✍️' },
+  { key: 'learning',      label: 'Apprentissage',  emoji: '📖' },
+  { key: 'coaching',      label: 'Coaching',       emoji: '🎯' },
+  { key: 'insight',       label: 'Insight',        emoji: '💡' },
+  { key: 'questionnaire', label: 'Questionnaire',  emoji: '📋' },
+  { key: 'compte-rendu',  label: 'Compte rendu',   emoji: '📊' },
 ];
 
 const PERIOD_FILTERS: { key: PeriodFilter; label: string }[] = [
@@ -97,6 +97,7 @@ export const Journal: React.FC = () => {
   })), [storeEntries]);
 
   const filteredEntries = useMemo(() => {
+    const now = Date.now();
     const cutoff = PERIOD_MS[periodFilter] > 0 ? now - PERIOD_MS[periodFilter] : 0;
     const q = searchQuery.trim().toLowerCase();
     return ENTRIES.filter((e) => {
@@ -142,8 +143,8 @@ export const Journal: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-page-ambient flex flex-col">
-      <Container width="page" className="py-stack-lg sm:py-section lg:py-page flex flex-col gap-section">
+    <div className="relative min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
+      <PageShell width="page" noPadTop>
 
         {/* Hero: EditorialHero brand standalone (sans trailing) */}
         <EditorialHero
@@ -234,7 +235,7 @@ export const Journal: React.FC = () => {
             <Card className="p-stack flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
               <div className="flex flex-col gap-stack-xs">
                 <span className="font-body text-caption font-medium text-ink-500">Période</span>
-                <div className="flex gap-stack-xs flex-wrap" role="tablist" aria-label="Filtrer par période">
+                <div className="flex gap-stack-xs flex-wrap" role="group" aria-label="Filtrer par période">
                   {PERIOD_FILTERS.map(({ key, label }) => (
                     <FilterChip
                       key={key}
@@ -248,11 +249,12 @@ export const Journal: React.FC = () => {
 
               <div className="flex flex-col gap-stack-xs">
                 <span className="font-body text-caption font-medium text-ink-500">Type d'entrée</span>
-                <div className="flex gap-stack-xs flex-wrap" role="tablist" aria-label="Filtrer par type">
-                  {TYPE_FILTERS.map(({ key, label }) => (
+                <div className="flex gap-stack-xs flex-wrap" role="group" aria-label="Filtrer par type">
+                  {TYPE_FILTERS.map(({ key, label, emoji }) => (
                     <FilterChip
                       key={key}
                       label={label}
+                      icon={emoji ? <span aria-hidden="true">{emoji}</span> : undefined}
                       active={typeFilter === key}
                       onClick={() => setTypeFilter(key)}
                     />
@@ -305,7 +307,7 @@ export const Journal: React.FC = () => {
             ))}
           </div>
         )}
-      </Container>
+      </PageShell>
     </div>
   );
 };

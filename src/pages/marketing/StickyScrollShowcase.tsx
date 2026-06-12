@@ -43,7 +43,7 @@ const StickyScrollShowcase: React.FC = () => {
   const currentPanel = panels[activePanel]
 
   return (
-    <div className="min-h-screen bg-white text-ink-900">
+    <div className="min-h-[100dvh] bg-white text-ink-900">
       {/* Header */}
       <section className="bg-ink-900 text-white">
         <div className="max-w-wide mx-auto px-6 py-section-lg">

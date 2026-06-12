@@ -176,7 +176,7 @@ export const Notifications: React.FC = () => {
   const hasMore = visible.length > loadCount;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       {/* Container compact, lisible, intégrable ailleurs (max-w-content) */}
       <Container width="content" padding={false} className="px-stack sm:px-stack-lg lg:px-section py-section flex flex-col gap-stack-lg">
 

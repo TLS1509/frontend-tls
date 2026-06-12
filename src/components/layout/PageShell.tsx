@@ -25,6 +25,14 @@ interface PageShellOwnProps {
   width?: ContainerWidth;
   /** Vertical rhythm between top-level sections. Default `section` (32px). */
   gap?: Space;
+  /**
+   * Remove the responsive top padding.
+   * Use when the first child (hero, EditorialHero, compact strip) already
+   * provides its own top breathing room — avoids the double-spacing of
+   * container-top (48px) + hero-top (32px).
+   * Bottom padding is kept so the last section breathes above the footer.
+   */
+  noPadTop?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -33,6 +41,7 @@ export function PageShell<E extends React.ElementType = 'div'>({
   as,
   width = 'page',
   gap = 'section',
+  noPadTop = false,
   className = '',
   children,
   ...rest
@@ -44,7 +53,9 @@ export function PageShell<E extends React.ElementType = 'div'>({
         WIDTH[width],
         'mx-auto w-full',
         'px-4 sm:px-6 lg:px-10',
-        'py-section md:py-section-lg lg:py-page',
+        noPadTop
+          ? 'pb-section md:pb-section-lg lg:pb-page'
+          : 'py-section md:py-section-lg lg:py-page',
         'flex flex-col',
         GAP[gap],
         className,

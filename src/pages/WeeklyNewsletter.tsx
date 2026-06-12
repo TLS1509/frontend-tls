@@ -69,7 +69,7 @@ export const WeeklyNewsletter: React.FC = () => {
   const toggleSave = (id: string) => toggleBookmark(`weekly-news-${id}`);
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
         <Container width="page" className="h-14 flex items-center justify-between gap-3">

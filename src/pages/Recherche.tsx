@@ -30,6 +30,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Spinner } from '../components/ui/Spinner';
 import { PageHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import { FilterBar } from '../components/forms/FilterBar';
 import { CardGrid } from '../components/patterns/CardGrid';
 import { ParcoursCard } from '../components/patterns/ParcoursCard';
@@ -213,8 +214,8 @@ export const Recherche: React.FC = () => {
   /* ── Layout ──────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-screen bg-surface">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section">
+    <div className="min-h-[100dvh] bg-surface">
+      <PageShell>
 
         {/* Hero — PageHero (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
         <PageHero
@@ -284,7 +285,7 @@ export const Recherche: React.FC = () => {
             {results.map(renderResult)}
           </CardGrid>
         )}
-      </div>
+      </PageShell>
     </div>
   );
 };

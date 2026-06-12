@@ -28,7 +28,7 @@ const ApiDocs: React.FC = () => {
   const [tab, setTab] = useState<'endpoints' | 'auth' | 'rate-limits' | 'examples'>('endpoints');
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Developer · API Documentation"
         title="The Learning Society API v1"

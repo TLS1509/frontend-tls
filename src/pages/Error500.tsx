@@ -51,7 +51,7 @@ export const Error500: React.FC = () => {
     <section
       onMouseMove={parallax.handleMove}
       onMouseLeave={parallax.reset}
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-secondary-50 via-white to-secondary-50/40 flex items-center justify-center px-6 py-page"
+      className="relative min-h-[100dvh] w-full overflow-hidden bg-gradient-to-br from-secondary-50 via-white to-secondary-50/40 flex items-center justify-center px-6 py-page"
     >
       {/* Blobs warm doux — tint danger/coral très léger */}
       <motion.div

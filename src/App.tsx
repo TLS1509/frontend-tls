@@ -22,6 +22,7 @@ import { useNotificationsStore } from './stores/persistence';
 import { useAuth } from './hooks/useAuth';
 import { useTheme } from './hooks/useTheme';
 import { Sidebar, NavItem, SidebarUserCard } from './components/layout/Sidebar';
+import { BottomNav } from './components/layout/BottomNav';
 import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './components/ui/DropdownMenu';
 import { Avatar } from './components/ui/Avatar';
 import {
@@ -309,7 +310,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <div className="flex min-h-[100dvh] bg-white">
       {/* Mobile hamburger (top-left, only visible < md) — click immédiat OU hover (200ms delay) */}
       <button
         type="button"
@@ -326,7 +327,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </button>
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
-      <div className="sticky top-0 self-start h-screen z-sticky max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
+      <div className="sticky top-0 self-start min-h-[100dvh] z-sticky max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
       {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
       {isUserMenuOpen && user && (
         <DropdownMenu
@@ -465,12 +466,16 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 min-w-0 [overflow-x:clip]">{children}</main>
+        {/* pb-16 reserves space for BottomNav on mobile (hidden on md+) */}
+        <main className="flex-1 min-w-0 [overflow-x:clip] pb-16 md:pb-0">{children}</main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 border-t border-ink-200/70 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
         </footer>
       </div>
+
+      {/* BottomNav — primary mobile navigation (< md). Replaces hamburger for Tier 1 pages. */}
+      <BottomNav />
 
       {/* FloatingNavButton — DEV shortcut pour accès rapide /components + /pages-index.
           À remplacer par un chatbot / agent / FAQ widget en prod ultérieurement. */}
@@ -494,7 +499,7 @@ function App() {
   // Loading state
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-surface">
+      <div className="flex items-center justify-center min-h-[100dvh] bg-surface">
         <div className="text-center">
           <p className="text-body-lg mb-4">Loading...</p>
           <div className="w-10 h-10 border-2 border-ink-200 border-t-primary-500 rounded-full animate-spin mx-auto" />

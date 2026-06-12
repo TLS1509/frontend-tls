@@ -191,7 +191,7 @@ export const LearningPaths: React.FC = () => {
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
   return (
-    <div className="relative min-h-screen bg-gradient-page-ambient">
+    <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
       <Container width="page" className="relative pt-0 pb-section flex flex-col gap-section">
 
         {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}

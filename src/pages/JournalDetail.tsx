@@ -91,12 +91,12 @@ export const JournalDetail: React.FC = () => {
     setTodos((prev) => prev.map((t, idx) => (idx === i ? { ...t, done: !t.done } : t)));
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg h-14 flex items-center justify-between gap-3">
+        <div className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -121,7 +121,7 @@ export const JournalDetail: React.FC = () => {
 
       <div
         ref={articleRef}
-        className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
+        className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
       >
 
         {/* Hero éditorial */}

@@ -12,6 +12,7 @@ import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import {
   UserRound,
   ShieldCheck,
@@ -350,8 +351,8 @@ export const Account: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('general');
 
   return (
-    <div className="min-h-screen bg-surface">
-      <div className="max-w-4xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section sm:py-section flex flex-col gap-section">
+    <div className="min-h-[100dvh] bg-surface">
+      <PageShell width="medium">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="account" />
@@ -367,14 +368,13 @@ export const Account: React.FC = () => {
         />
 
         {/* ── Tabs ─────────────────────────────────────────────── */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0 px-stack sm:px-0">
-          <Tabs
-            items={TAB_ITEMS}
-            value={activeTab}
-            onChange={(id) => setActiveTab(id as TabId)}
-            variant="underline"
-          />
-        </div>
+        <Tabs
+          items={TAB_ITEMS}
+          value={activeTab}
+          onChange={(id) => setActiveTab(id as TabId)}
+          variant="underline"
+          fullWidth
+        />
 
         {/* ── Tab panels ────────────────────────────────────────── */}
         <div>
@@ -383,7 +383,7 @@ export const Account: React.FC = () => {
           {activeTab === 'notifications' && <NotificationsTab />}
           {activeTab === 'billing'       && <BillingTab />}
         </div>
-      </div>
+      </PageShell>
     </div>
   );
 };

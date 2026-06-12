@@ -121,7 +121,7 @@ const OnboardingQuestionnaire: React.FC = () => {
   // ── Conversational variant : Individual (CDC §UJ #1a) ──
   if (isIndividual) {
     return (
-      <main className="relative min-h-screen overflow-x-hidden">
+      <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
         <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">
@@ -193,7 +193,7 @@ const OnboardingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
       <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-section flex flex-col gap-section-lg">

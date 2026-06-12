@@ -7,7 +7,7 @@
  *
  * Usage canonique (pair avec le token gradient DS `bg-gradient-page-ambient`) :
  * ```tsx
- * <div className="relative min-h-screen bg-gradient-page-ambient">
+ * <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
  *   <AmbientBlobs />
  *   <div className="relative z-base max-w-page mx-auto p-6"> ... </div>
  * </div>

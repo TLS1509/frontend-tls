@@ -65,7 +65,7 @@ export const MarketingError404: React.FC = () => {
     <section
       onMouseMove={parallax.handleMove}
       onMouseLeave={parallax.reset}
-      className="relative min-h-screen w-full overflow-hidden bg-white flex items-center justify-center px-6 py-page"
+      className="relative min-h-[100dvh] w-full overflow-hidden bg-white flex items-center justify-center px-6 py-page"
     >
       {/* Blob 1 — primary teal, top-left, grand + étiré */}
       <motion.div

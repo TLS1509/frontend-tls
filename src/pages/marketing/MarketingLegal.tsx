@@ -19,7 +19,7 @@ interface LegalPageProps {
 }
 
 const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdated, sections, canonical }) => (
-  <div className="min-h-screen bg-white">
+  <div className="min-h-[100dvh] bg-white">
     <SEOHead title={title} description={subtitle} canonical={canonical} noIndex />
     {/* Hero */}
     <div className="bg-gradient-to-br from-primary-700 to-primary-900 text-white pt-32 pb-16 px-6">

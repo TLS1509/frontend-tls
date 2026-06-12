@@ -38,7 +38,7 @@ const PerplexityContentDetail: React.FC = () => {
   const { id } = useParams();
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Veille IA · Sourcé via Perplexity"
         title={MOCK_ARTICLE.title}

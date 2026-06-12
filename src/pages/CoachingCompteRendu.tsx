@@ -161,7 +161,7 @@ export const CoachingCompteRendu: React.FC = () => {
   const progressPercent = Math.round((report.sessionNumber / report.totalSessions) * 100);
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col font-body">
+    <div className="min-h-[100dvh] bg-surface flex flex-col font-body">
 
       {/* ── Hero / Header ── */}
       <div className="bg-gradient-to-br from-primary-800 via-primary-600 to-primary-500 p-section text-white">

@@ -37,7 +37,7 @@ const PrivacyDeleteAccount: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Confidentialité · Droit à l'oubli (RGPD)"
         title="Supprimer définitivement mon compte"

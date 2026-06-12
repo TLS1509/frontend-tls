@@ -71,7 +71,7 @@ export const PreCoachingQuestionnaire: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface font-body py-section px-stack-lg">
+    <div className="min-h-[100dvh] bg-surface font-body py-section px-stack-lg">
       <div className="max-w-[640px] mx-auto">
 
         {/* ─ Back button ─────────────────────────────────────────────── */}

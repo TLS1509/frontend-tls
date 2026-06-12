@@ -53,7 +53,7 @@ export default function OnboardingSuccess() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden">
+    <main className="relative min-h-[100dvh] overflow-x-hidden">
       {/* Sun gradient — celebration tone (orange→white→yellow) */}
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
       <AmbientBlobs intensity="normal" />

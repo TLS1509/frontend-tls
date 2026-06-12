@@ -83,7 +83,7 @@ export const Leaderboard: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col">
+    <div className="min-h-[100dvh] bg-surface flex flex-col">
       <Container width="wide" className="flex-1 py-section sm:py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}

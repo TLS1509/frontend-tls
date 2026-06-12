@@ -120,7 +120,7 @@ export const VideoViewer: React.FC = () => {
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-[100dvh] flex flex-col bg-white">
       <ViewerHeader
         tone="primary"
         eyebrow="Vidéo · Veille"

@@ -41,7 +41,7 @@ const PurchaseCredits: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Compte · Acheter des crédits"
         title="Recharge ton compte"

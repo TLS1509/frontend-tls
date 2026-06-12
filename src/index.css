@@ -1014,6 +1014,13 @@
   }
 }
 
+/* BottomNav safe area — iOS notch/home indicator padding */
+@layer utilities {
+  .pb-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
 /* ============================================
    REDUCED MOTION — respecte prefers-reduced-motion (a11y, obligatoire PRODUCT.md)
    Neutralise les animations/transitions CSS pour qui demande moins d'animation.

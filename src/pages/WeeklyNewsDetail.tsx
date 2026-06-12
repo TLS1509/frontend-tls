@@ -80,7 +80,7 @@ export const WeeklyNewsDetail: React.FC = () => {
   const toggleBookmark = useBookmarksStore((s) => s.toggle);
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
       {/* Sticky glass header */}

@@ -15,15 +15,20 @@ import {
  * so it stays narrow by design for card metadata rows. When clickable, becomes a real
  * `<button>` (previous role="button" span was an a11y anti-pattern).
  *
- * Tones: default / primary / warm / sun / brand + glass / glass-dark.
+ * Tones: neutral / primary / warm / sun / brand / success / danger / info + glass / glass-dark.
+ * Note: `default` is a deprecated alias for `neutral`.
  */
 
 export type MetaPillTone =
-  | 'default'
+  | 'neutral'    // canonical name (matches Figma DS)
+  | 'default'    // @deprecated alias → neutral (backward compat)
   | 'primary'
   | 'warm'
   | 'sun'
   | 'brand'
+  | 'success'    // semantic success (muted teal-green bg)
+  | 'danger'     // semantic danger (soft coral bg)
+  | 'info'       // semantic info (TLS primary bg)
   | 'glass'
   | 'glass-dark';
 
@@ -42,6 +47,7 @@ const ICON_OPACITY = '[&_svg]:opacity-75';
 
 function resolveSurface(tone: MetaPillTone): string {
   switch (tone) {
+    case 'neutral':
     case 'default':
       return CHIP_TONE_SOLID.neutral;
     case 'primary':
@@ -51,10 +57,16 @@ function resolveSurface(tone: MetaPillTone): string {
       return CHIP_TONE_SOLID.warm;
     case 'sun':
       return CHIP_TONE_SOLID.sun;
+    case 'success':
+      return 'bg-success-bg text-success-fg border-success-base/40';
+    case 'danger':
+      return 'bg-danger-bg text-danger-fg border-danger-base/40';
+    case 'info':
+      return 'bg-info-bg text-info-fg border-info-base/40';
     case 'glass':
       return CHIP_SURFACE_MAP['glass-tinted'];
     case 'glass-dark':
-      // MetaPill's glass-dark uses softer alphas than Pill's full dark variant
+      // softer alphas than Pill's full dark variant
       return 'bg-white/15 text-white border-white/25 backdrop-blur-glass-light shadow-xs';
     default:
       return CHIP_TONE_SOLID.neutral;

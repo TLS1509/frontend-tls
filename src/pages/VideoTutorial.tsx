@@ -77,7 +77,7 @@ export const VideoTutorial: React.FC = () => {
   const tuto = (id && TUTORIALS[id]) ? TUTORIALS[id] : DEFAULT_TUTORIAL;
 
   return (
-    <div className="min-h-screen bg-surface font-body flex flex-col">
+    <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
       {/* ─ Sticky glass header ────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100 flex items-center justify-between px-stack-lg h-14">

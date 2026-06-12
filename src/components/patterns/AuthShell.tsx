@@ -82,7 +82,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
     <div
       className={[
         // Full-bleed page background : deep teal gradient
-        'relative min-h-screen overflow-hidden',
+        'relative min-h-[100dvh] overflow-hidden',
         'bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800',
         className,
       ]
@@ -104,7 +104,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
       />
 
       {/* Centered content */}
-      <div className="relative min-h-screen flex items-center justify-center px-4 py-12 sm:px-6">
+      <div className="relative min-h-[100dvh] flex items-center justify-center px-4 py-12 sm:px-6">
         <div className="w-full max-w-[480px] flex flex-col gap-6">
 
           {/* Back link */}

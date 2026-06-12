@@ -91,7 +91,7 @@ export const Enterprise: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <Container width="page" className="py-section flex flex-col gap-section">
 
         {/* ── Hero ─────────────────────────────────────────────── */}

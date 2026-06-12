@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="The Learning Society">
-  <rect width="32" height="32" rx="8" fill="#3D7786"/>
-  <path d="M9 11h14" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
-  <path d="M16 11v12" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
-  <circle cx="23.5" cy="22" r="2.6" fill="#ED843A"/>
-</svg>

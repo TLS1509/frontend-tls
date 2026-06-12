@@ -24,6 +24,7 @@ import type { UserPlan } from '../components/modals/BookingModal';
 import { Card } from '../components/core/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
+import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
@@ -31,7 +32,7 @@ import { IconFeatureCard } from '../components/ui/IconFeatureCard';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/core/Button';
 import { SessionCard } from '../components/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   CalendarClock,
   Video,
@@ -208,9 +209,9 @@ export const Coaching: React.FC = () => {
 
   return (
     <>
-      <div className="relative min-h-screen bg-gradient-page-ambient">
+      <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
         <AmbientBlobs />
-        <Container width="page" className="relative z-base py-stack-lg sm:py-section lg:py-page flex flex-col gap-section">
+        <PageShell width="page" noPadTop className="relative z-base">
 
           {/* Hero: EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
           <EditorialHero
@@ -350,10 +351,11 @@ export const Coaching: React.FC = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-stack-xs">
-                  <Button leadingIcon={<Video size={15} />} aria-label="Rejoindre la session de coaching">
+                  <Button size="lg" leadingIcon={<Video size={15} />} aria-label="Rejoindre la session de coaching">
                     Rejoindre la session
                   </Button>
                   <Button
+                    size="lg"
                     variant="glass-warm"
                     leadingIcon={<Download size={15} />}
                     onClick={handleDownloadCalendarInvite}
@@ -434,9 +436,10 @@ export const Coaching: React.FC = () => {
               title="Sessions passées"
               subtitle="Historique complet de vos sessions de coaching"
               action={
-                <span className="inline-flex items-center font-body text-body-sm font-semibold text-primary-700 bg-primary-50 px-3 py-1 rounded-pill border border-primary-100">
-                  {sessions.length} session{sessions.length > 1 ? 's' : ''}
-                </span>
+                <MetaPill
+                  text={`${sessions.length} session${sessions.length > 1 ? 's' : ''}`}
+                  tone="primary"
+                />
               }
             />
 
@@ -462,7 +465,7 @@ export const Coaching: React.FC = () => {
               ))}
             </div>
           </section>
-        </Container>
+        </PageShell>
       </div>
 
       {/* BookingModal: réservation d'une session. onBookingConfirmed crée la session + ouvre SuccessModal */}

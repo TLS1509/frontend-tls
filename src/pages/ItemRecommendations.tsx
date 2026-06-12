@@ -65,7 +65,7 @@ const TYPE_ICON = {
 
 const ItemRecommendations: React.FC = () => {
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Coaching · Recommandations"
         title="Tes recommandations du coach"

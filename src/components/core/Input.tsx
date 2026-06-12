@@ -182,33 +182,44 @@ export const Input: React.FC<InputProps> = ({
 // CHECKBOX
 // ============================================================================
 
-export interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-  label?: React.ReactNode;
-}
-
 const TOGGLE_LABEL =
   'relative inline-flex items-center gap-2 cursor-pointer font-body text-body-sm text-ink-900 select-none';
 
 const CHECKBOX_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-300 rounded-sm transition-colors " +
   "peer-checked:bg-primary-500 peer-checked:border-primary-500 " +
+  "peer-indeterminate:bg-primary-200 peer-indeterminate:border-primary-400 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-['✓'] after:text-white after:font-bold after:text-[12px] after:leading-none after:opacity-0 " +
-  "peer-checked:after:opacity-100";
+  "after:content-[''] after:text-white after:font-bold after:text-[12px] after:leading-none after:opacity-0 " +
+  "peer-checked:after:content-['✓'] peer-checked:after:opacity-100 " +
+  "peer-indeterminate:after:content-['−'] peer-indeterminate:after:text-primary-700 peer-indeterminate:after:opacity-100";
+
+export interface CheckboxProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+  label?: React.ReactNode;
+  indeterminate?: boolean;
+}
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   id,
+  indeterminate,
   className = '',
   ...rest
 }) => {
+  const ref = React.useRef<HTMLInputElement>(null);
   const fieldId = id || `checkbox-${Math.random().toString(36).substr(2, 9)}`;
+
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.indeterminate = indeterminate ?? false;
+    }
+  }, [indeterminate]);
 
   return (
     <label className={[TOGGLE_LABEL, className].filter(Boolean).join(' ')}>
-      <input id={fieldId} type="checkbox" className="peer sr-only" {...rest} />
+      <input ref={ref} id={fieldId} type="checkbox" className="peer sr-only" {...rest} />
       <span aria-hidden="true" className={CHECKBOX_BOX} />
       {label && <span>{label}</span>}
     </label>

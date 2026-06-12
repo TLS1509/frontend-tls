@@ -43,7 +43,7 @@ const StreakDetail: React.FC = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
         eyebrow="Gamification · Streak"
         title={`${currentStreak} jours d'affilée`}

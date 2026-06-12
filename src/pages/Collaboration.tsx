@@ -93,7 +93,7 @@ export const Collaboration: React.FC = () => {
   const uniqueMembers  = new Set(projects.flatMap((p) => p.teamMembers.map((m) => m.id))).size;
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col">
+    <div className="min-h-[100dvh] bg-surface flex flex-col">
       <Container width="page" className="flex-1 py-section flex flex-col gap-section">
 
         <EditorialHero

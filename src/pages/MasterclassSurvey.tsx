@@ -46,7 +46,7 @@ export default function MasterclassSurvey() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-primary-50 px-stack">
+      <div className="min-h-[100dvh] flex items-center justify-center bg-primary-50 px-stack">
         <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
           <div className="w-16 h-16 rounded-full bg-success-bg flex items-center justify-center">
             <CheckCircle size={32} className="text-success-fg" />
@@ -64,7 +64,7 @@ export default function MasterclassSurvey() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-primary-50 px-stack">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-primary-50 px-stack">
       <div className="w-full max-w-md flex flex-col gap-section">
         {/* Header */}
         <div className="text-center flex flex-col gap-tight">

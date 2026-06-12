@@ -32,7 +32,7 @@ export default function AtelierWaitlist() {
   const waitlistPosition = enrollment?.waitlistPosition ?? 1;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary-50 px-stack py-page">
+    <div className="min-h-[100dvh] flex items-center justify-center bg-secondary-50 px-stack py-page">
       <div className="w-full max-w-md flex flex-col items-center gap-section text-center">
         {/* Icon */}
         <div className="w-16 h-16 rounded-full bg-secondary-100 flex items-center justify-center">

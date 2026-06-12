@@ -42,7 +42,7 @@ export default function TestLogo() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0e1a1f] text-white font-body px-10 py-16">
+    <div className="min-h-[100dvh] bg-[#0e1a1f] text-white font-body px-10 py-16">
       <div className="max-w-[1200px] mx-auto">
 
         {/* ── Header ── */}

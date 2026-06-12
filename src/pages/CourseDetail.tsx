@@ -55,7 +55,7 @@ export const CourseDetail: React.FC = () => {
   const [openStep, setOpenStep] = useState<number | null>(1);
 
   return (
-    <div className="min-h-screen bg-surface font-body">
+    <div className="min-h-[100dvh] bg-surface font-body">
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
         <Container width="medium" className="h-14 flex items-center justify-between gap-3">

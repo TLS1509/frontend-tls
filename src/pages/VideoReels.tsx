@@ -257,7 +257,7 @@ export const VideoReels: React.FC = () => {
   if (!video) return null;
 
   return (
-    <div className="min-h-screen bg-ink-950 font-body relative flex flex-col overflow-hidden">
+    <div className="min-h-[100dvh] bg-ink-950 font-body relative flex flex-col overflow-hidden">
 
       {/* Ambient glow : radial gradient tone-aware via Tailwind arbitrary values */}
       <div
@@ -308,12 +308,12 @@ export const VideoReels: React.FC = () => {
       </div>
 
       {/* ── Zone vidéo centrale ───────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center relative z-[1] min-h-screen">
+      <div className="flex-1 flex items-center justify-center relative z-[1] min-h-[100dvh]">
 
         {/* Video card : gradient bg via tone tokens */}
         <div
           className={[
-            'w-full max-w-[480px] h-screen relative overflow-hidden',
+            'w-full max-w-[480px] min-h-[100dvh] relative overflow-hidden',
             TONE_BG[video.tone],
           ].join(' ')}
         >

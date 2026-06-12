@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FileText, Clock, CheckCircle2, Search } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
@@ -89,7 +90,7 @@ export default function CoachingCorrections() {
         tone="default"
       />
 
-      <div className="max-w-page mx-auto w-full px-stack md:px-section flex flex-col gap-section">
+      <PageShell noPadTop>
 
         {/* KPI row */}
         <div className="grid grid-cols-3 gap-stack">
@@ -145,7 +146,7 @@ export default function CoachingCorrections() {
           )}
         </SectionCard>
 
-      </div>
+      </PageShell>
     </div>
   );
 }

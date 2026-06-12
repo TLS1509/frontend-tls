@@ -27,7 +27,7 @@ export const MotionSprintShowcase: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-ink-50 to-primary-50/30 py-16 px-stack">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-ink-50 to-primary-50/30 py-16 px-stack">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-16">
         <h1 className="text-h1 font-bold text-ink-900 mb-stack">

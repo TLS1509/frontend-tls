@@ -271,7 +271,7 @@ export const OnboardingUnified: React.FC = () => {
   };
 
   return (
-    <div className="relative flex h-screen w-screen flex-col overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
+    <div className="relative flex min-h-[100dvh] w-screen flex-col overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
       <AmbientBlobs />
 
       {/* Header */}

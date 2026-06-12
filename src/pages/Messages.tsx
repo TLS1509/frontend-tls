@@ -225,7 +225,7 @@ export const Messages: React.FC = () => {
   const totalUnread = conversations.reduce((acc, c) => acc + c.unreadCount, 0);
 
   return (
-    <div className="h-screen flex bg-ink-50 font-body overflow-hidden">
+    <div className="min-h-[100dvh] flex bg-ink-50 font-body overflow-hidden">
 
       {/* Left Panel: Conversation list */}
       <div className="w-[360px] min-w-[280px] shrink-0 flex flex-col border-r border-ink-200 bg-white overflow-hidden">

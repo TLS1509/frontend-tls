@@ -1569,6 +1569,7 @@ const COMPONENTS: ComponentEntry[] = [
         />
         <div className="hstack items-center">
           <Checkbox label="Me tenir informée" defaultChecked />
+          <Checkbox label="Indéterminé" indeterminate />
           <Radio name="demo-r" label="Option A" defaultChecked />
           <Radio name="demo-r" label="Option B" />
           <Switch label="Notifications" defaultChecked />
@@ -1881,7 +1882,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/Badge.tsx',
     cssBase: 'Tailwind',
     category: 'Core',
-    description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports.',
+    description: 'Famille Badge unifiée — 3 exports : Badge (semantic), StatusBadge (état leçon), TrendingBadge (social proof). Tout dans Badge.tsx ; StatusBadge.tsx et TrendingBadge.tsx sont des re-exports. **Properties** : variant (7 : brand/neutral/warm/sun/success/danger/info) · size (3 : sm/md/lg) · dot (2 : true/false — colored indicator dot)',
     keywords: ['status', 'label', 'tag', 'brand', 'warm', 'sun', 'success', 'danger', 'trending', 'popular', 'new', 'locked', 'completed', 'state'],
     usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
     render: () => (
@@ -2613,8 +2614,8 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: '.comp-badge',
     category: 'Learning',
     showcaseOnly: true,
-    description: '4 niveaux de compétence avec code couleur progressif. Niveau 1 = débutant (gris), Niveau 4 = expert (primary vibrant). Utilisé dans profil compétences.',
-    keywords: ['competence', 'skill', 'level', 'badge', 'proficiency'],
+    description: '4 niveaux de compétence (Dreyfus 1-4) avec palette TLS claire : Niveau 1 = ink-100 (découverte), Niveau 2 = primary-50 (pratique), Niveau 3 = secondary-50 (maîtrise), Niveau 4 = success-base (expert). Inline badge pour passeport compétences et listes coach.',
+    keywords: ['competence', 'dreyfus', 'level', 'badge', 'proficiency', 'skill'],
     render: () => (
       <div className="flex gap-3 flex-wrap">
         <CompetenceBadge level={1} label="Sensibilisé" />
@@ -2646,13 +2647,28 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Achievement.tsx',
     cssBase: '.achievement',
     category: 'Learning',
-    description: 'Composant de récompense/achievement. 3 variantes: unlocked (déverrouillé), locked (verrouillé avec opacité réduite), in-progress (avec barre de progression).',
-    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward'],
+    description: 'Composant de récompense/achievement (card). **Properties** : variant (3 : unlocked/locked/in-progress) · size (3 : sm/md/lg). Icon + title + description + state-specific footer (date unlock / lock reason / progress bar).',
+    keywords: ['achievement', 'badge', 'unlocked', 'locked', 'milestone', 'reward', 'size', 'variant'],
     render: () => (
       <div className="flex gap-stack flex-wrap">
         <Achievement icon="🏆" title="Pionnier IA" description="Premier parcours terminé" unlockedAt="15 janv. 2024" variant="unlocked" size="md" />
         <Achievement icon="⚡" title="Streak Master" description="7 jours consécutifs" progress={7} maxProgress={10} variant="in-progress" size="md" />
         <Achievement icon="🌟" title="Mentor" description="Aidez 5 collègues" variant="locked" size="md" />
+      </div>
+    ),
+  },
+  {
+    name: 'TrendingBadge',
+    codeName: 'ui/Badge.tsx (export)',
+    cssBase: 'Tailwind',
+    category: 'Core',
+    description: 'Social proof badge animé avec gradient + icon. **Properties** : type (5 : trending/popular/recommended/featured/new) · size (2 : sm/md) · hasCount (2 : false/true — affiche count bubble avec nombre). Animated pulse par défaut.',
+    keywords: ['trending', 'badge', 'popular', 'featured', 'new', 'count', 'social proof'],
+    render: () => (
+      <div className="flex gap-3 flex-wrap items-center">
+        <TrendingBadge type="trending" count={42} />
+        <TrendingBadge type="popular" size="sm" />
+        <TrendingBadge type="recommended" animated={false} />
       </div>
     ),
   },
@@ -3051,18 +3067,23 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'MetaPill',
     codeName: 'MetaPill.tsx',
-    cssBase: '.tls-meta-pill / .tls-meta-pill--*',
+    cssBase: 'Tailwind (no BEM)',
     category: 'Content',
-    description: 'Pilule de métadonnée unique avec tones et tailles. Contrairement à MetaPillGroup, s\'utilise seul pour des contextes précis. Clickable optionnel.',
-    keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand'],
+    description: 'Pilule de métadonnée unique. 10 tones : neutral/primary/warm/sun/brand + success/danger/info (sémantiques) + glass/glass-dark. Clickable → vrai `<button>` (WCAG). 3 tailles sm/md/lg.',
+    keywords: ['pill', 'meta', 'chip', 'tag', 'tone', 'primary', 'warm', 'sun', 'brand', 'success', 'danger', 'info'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="hstack flex-wrap">
-          <MetaPill text="Default" />
+          <MetaPill text="Neutral" tone="neutral" />
           <MetaPill text="Primary" tone="primary" />
           <MetaPill text="Warm" tone="warm" />
           <MetaPill text="Sun" tone="sun" />
           <MetaPill text="Brand" tone="brand" />
+        </div>
+        <div className="hstack flex-wrap">
+          <MetaPill text="Succès" tone="success" />
+          <MetaPill text="Danger" tone="danger" />
+          <MetaPill text="Info" tone="info" />
         </div>
         <div className="hstack flex-wrap">
           <MetaPill text="Small" size="sm" tone="primary" />

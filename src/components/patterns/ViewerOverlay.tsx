@@ -138,7 +138,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
   }, [onClose, onPrev, onNext]);
 
   return (
-    <div className={['min-h-screen flex flex-col', TONE_SHELL[tone]].join(' ')}>
+    <div className={['min-h-[100dvh] flex flex-col', TONE_SHELL[tone]].join(' ')}>
       {/* ── Header sticky ───────────────────────────────────── */}
       <header
         className={[

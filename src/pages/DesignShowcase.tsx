@@ -1665,7 +1665,7 @@ const RolesSection: React.FC = () => (
 
 const DesignShowcase: React.FC = () => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-[100dvh]">
       <ShowcaseHero />
       <AuditStatusSection />
       <VisualVocabularySection />
