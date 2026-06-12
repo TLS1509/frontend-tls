@@ -193,10 +193,9 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
           aria-valuemin={0}
           aria-valuemax={100}
           className={[
-            'sticky z-sticky h-1',
+            'sticky top-[60px] z-sticky h-1',
             isDark ? 'bg-white/10' : 'bg-ink-100',
           ].join(' ')}
-          style={{ top: '60px' }}
         >
           <div
             className={['h-full transition-[width] duration-fast', TONE_PROGRESS[tone]].join(' ')}

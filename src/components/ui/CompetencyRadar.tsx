@@ -207,18 +207,12 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
       {showLegend && (
         <div className="flex items-center gap-section justify-center flex-wrap">
           <div className="flex items-center gap-stack-xs">
-            <span
-              className="inline-block w-3 h-3 rounded-sm"
-              style={{ background: 'rgba(85, 161, 180, 0.5)', border: '2px solid rgb(74, 143, 161)' }}
-            />
+            <span className="inline-block w-3 h-3 rounded-sm bg-primary-500/50 border-2 border-primary-600" />
             <span className="text-micro text-ink-600">Niveau actuel</span>
           </div>
           {hasTarget && (
             <div className="flex items-center gap-stack-xs">
-              <span
-                className="inline-block w-3 h-3 rounded-sm"
-                style={{ background: 'rgba(237, 132, 58, 0.12)', border: '2px dashed rgba(237, 132, 58, 0.7)' }}
-              />
+              <span className="inline-block w-3 h-3 rounded-sm bg-secondary-500/[0.12] border-2 border-dashed border-secondary-500/70" />
               <span className="text-micro text-ink-600">Objectif cible</span>
             </div>
           )}
