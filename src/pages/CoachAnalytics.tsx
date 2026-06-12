@@ -11,7 +11,7 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { Container } from '../components/layout';
-import { useCoachAnalyticsStore } from '../stores/persistence';
+import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -82,7 +82,7 @@ export default function CoachAnalytics() {
   const [activePeriod, setActivePeriod] = useState('month');
   const [activeTab, setActiveTab] = useState('global');
 
-  const analyticsStore = useCoachAnalyticsStore();
+  const analyticsStore = useAnalyticsStore();
   const teamStats = analyticsStore.getTeamStats(MOCK_COACH_ID);
   const learnerProfiles = analyticsStore.getLearnerProfiles(MOCK_COACH_ID);
 

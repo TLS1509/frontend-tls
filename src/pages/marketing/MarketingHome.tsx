@@ -16,9 +16,9 @@
  *   9. CTA finale light éditorial (no box, floating elements)
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -38,8 +38,11 @@ import {
   CountUp,
   InteractiveAppMockup,
   TiltCard,
+  MeshGradientBg,
+  GradientText,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
+import { SkillMapSection } from './components/SkillMapSection';
 
 // ⚠️ PLACEHOLDER — logos illustratifs.
 const LOGOS = [
@@ -70,7 +73,7 @@ const FEATURED_TESTIMONIAL = {
 const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
 /* ────────────────────────────────────────────────────────────────────────────
-   HeroChevron — flèche scroll animée.
+   HeroChevron — indicateur de scroll animé (surface sombre).
    ──────────────────────────────────────────────────────────────────────────── */
 const HeroChevron: React.FC = () => {
   const reduced = useReducedMotion();
@@ -79,7 +82,7 @@ const HeroChevron: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-tight text-ink-400"
+      className="flex flex-col items-center gap-tight text-white/55"
     >
       <span className="font-body text-caption font-semibold uppercase tracking-widest">Scroll</span>
       <ChevronDown size={18} />
@@ -88,53 +91,80 @@ const HeroChevron: React.FC = () => {
 };
 
 /* ────────────────────────────────────────────────────────────────────────────
-   HeroLight — section hero avec cursor spotlight + mesh gradient + grain.
+   HeroBlobs — couche mid-ground : 3 blobs organiques teal/amber, parallax +
+   rotation lente + respiration. Désactivés sous prefers-reduced-motion.
    ──────────────────────────────────────────────────────────────────────────── */
-const HeroLight: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [pos, setPos] = useState({ x: 50, y: 30 });
-  const reduced = useReducedMotion();
+const HERO_BLOBS = [
+  { pos: 'top-[8%] right-[6%] h-[34rem] w-[34rem]', color: 'rgba(248,176,68,0.24)', dur: 17 },
+  { pos: 'bottom-[2%] -left-[4%] h-[42rem] w-[42rem]', color: 'rgba(115,175,191,0.30)', dur: 22 },
+  { pos: 'top-[34%] left-[40%] h-[24rem] w-[24rem]', color: 'rgba(85,161,180,0.22)', dur: 14 },
+];
 
-  const handleMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (reduced) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPos({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  };
+const HeroBlobs: React.FC<{ y: ReturnType<typeof useTransform>; rotate: ReturnType<typeof useTransform>; reduced: boolean | null }> = ({ y, rotate, reduced }) => (
+  <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
+    {HERO_BLOBS.map((b, i) => (
+      <motion.div
+        key={i}
+        style={reduced ? undefined : { y, rotate }}
+        animate={reduced ? undefined : { scale: [1, 1.08, 1] }}
+        transition={{ duration: b.dur, repeat: Infinity, ease: 'easeInOut' }}
+        className={`absolute rounded-pill blur-[64px] ${b.pos}`}
+      >
+        <div
+          className="h-full w-full rounded-pill"
+          style={{ background: `radial-gradient(circle at 50% 50%, ${b.color}, transparent 70%)` }}
+        />
+      </motion.div>
+    ))}
+  </div>
+);
+
+/* ────────────────────────────────────────────────────────────────────────────
+   HeroParallax — hero immersif sombre, 3 couches parallax bound au scroll.
+   Couche 1 (mesh, lent) · Couche 2 (blobs, medium) · Couche 3 (contenu, rapide
+   + fade out). Surface : gradient teal saturé from-primary-700 → primary-900.
+   ──────────────────────────────────────────────────────────────────────────── */
+const HeroParallax: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const reduced = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  // Absolute-px scroll mapping over ~one viewport. Hooks called unconditionally.
+  const meshY = useTransform(scrollY, [0, 760], [0, -110]);
+  const blobY = useTransform(scrollY, [0, 760], [0, -260]);
+  const blobRotate = useTransform(scrollY, [0, 760], [0, 9]);
+  const contentY = useTransform(scrollY, [0, 760], [0, -150]);
+  const contentOpacity = useTransform(scrollY, [0, 560], [1, 0]);
 
   return (
-    <section
-      onMouseMove={handleMove}
-      className="relative pt-32 pb-page overflow-hidden bg-white"
-    >
-      {/* Mesh gradient base — pastels diffus */}
+    <section className="relative isolate flex min-h-[100dvh] items-center overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 pt-32 pb-page">
+      {/* Couche 1 — mesh gradient animé (lent) */}
+      <motion.div aria-hidden className="absolute inset-0" style={reduced ? undefined : { y: meshY }}>
+        <MeshGradientBg tone="brand" intensity="intense" />
+      </motion.div>
+
+      {/* Couche 2 — blobs organiques (medium) */}
+      <HeroBlobs y={blobY} rotate={blobRotate} reduced={reduced} />
+
+      {/* Grain texture — tactile, mix-blend sur surface sombre */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `
-            radial-gradient(900px circle at 18% 22%, rgba(85, 161, 180, 0.18), transparent 55%),
-            radial-gradient(800px circle at 82% 78%, rgba(248, 176, 68, 0.14), transparent 55%),
-            radial-gradient(700px circle at 60% 12%, rgba(237, 132, 58, 0.07), transparent 60%)
-          `,
-        }}
-      />
-      {/* Cursor spotlight */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none transition-[background] duration-300"
-        style={{
-          background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, rgba(85, 161, 180, 0.18), transparent 45%)`,
-        }}
-      />
-      {/* Grain texture */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-multiply"
+        className="absolute inset-0 opacity-[0.07] pointer-events-none mix-blend-overlay"
         style={{ backgroundImage: GRAIN_SVG }}
       />
-      {children}
+
+      {/* Fade bas — transition douce vers la section blanche suivante */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-b from-transparent to-white"
+      />
+
+      {/* Couche 3 — contenu (rapide + fade au scroll) */}
+      <motion.div
+        className="relative z-base w-full"
+        style={reduced ? undefined : { y: contentY, opacity: contentOpacity }}
+      >
+        {children}
+      </motion.div>
     </section>
   );
 };
@@ -150,57 +180,67 @@ export const MarketingHome: React.FC = () => {
         canonical="/marketing"
       />
 
-      {/* ── 1. Hero light + spotlight + grain ─────────────────────────────── */}
-      <HeroLight>
-        <div className="relative max-w-6xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          {/* Subtle eyebrow */}
+      {/* ── 1. Hero immersif sombre — parallax 3 couches ──────────────────── */}
+      <HeroParallax>
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-stack-lg px-6 text-center">
+          {/* Eyebrow — pill glass micro */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-stack-xs">
-              <span className="inline-flex w-1.5 h-1.5 rounded-pill bg-accent-400 animate-pulse" />
-              <span className="font-body text-caption font-semibold text-ink-600 tracking-wider uppercase">
-                Skills-Based Organization · IA pédagogique · Passeport Compétences
+            <span className="inline-flex items-center gap-stack-xs rounded-pill border border-white/15 bg-white/10 px-3 py-1 backdrop-blur-glass-light">
+              <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
+              <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-white/80">
+                Skills-Based Organization · IA pédagogique
               </span>
             </span>
           </FadeInWhenVisible>
 
-          {/* Headline — typo confiante */}
+          {/* Headline — blanc dominant, accent gradient amber sur le punchword */}
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,6rem)] max-w-5xl">
+            <h1 className="m-0 max-w-5xl font-display text-[clamp(2.5rem,5.4vw,4.5rem)] font-extrabold leading-[0.98] tracking-display text-white [text-wrap:balance]">
               L'IA ne remplacera pas les formateurs.{' '}
-              <span className="bg-gradient-to-br from-primary-600 via-primary-700 to-accent-500 bg-clip-text text-transparent">
-                Les formateurs qui maîtrisent l'IA, si.
-              </span>
+              <span className="text-white/55">Ceux qui la maîtrisent,</span>{' '}
+              <GradientText from="from-accent-300" via="via-accent-400" to="to-secondary-400">
+                si.
+              </GradientText>
             </h1>
           </FadeInWhenVisible>
 
-          {/* Subtitle */}
+          {/* Sous-titre */}
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-              Transformez vos talents en avantage compétitif durable. Parcours adaptatifs,
-              Passeport de Compétences, matching IA — un cycle complet{' '}
-              <strong className="text-ink-900">Learn → Do → Match</strong>.
+            <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-white/75">
+              Parcours adaptatifs, Passeport de Compétences, matching IA. Un cycle complet{' '}
+              <strong className="font-bold text-white">Learn → Do → Match</strong> pour transformer
+              vos talents en avantage durable.
             </p>
           </FadeInWhenVisible>
 
-          {/* CTAs */}
+          {/* CTAs — warm magnétique + ghost glass sur fond sombre */}
           <FadeInWhenVisible direction="up" delay={0.45}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-              <MagneticButton strength={12}>
-                <Link to="/marketing/formation">
-                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              <MagneticButton strength={14}>
+                <Link to="/marketing/formation" aria-label="Je veux me former">
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="group/cta pr-1.5"
+                    trailingIcon={
+                      <span className="ml-0.5 inline-flex h-7 w-7 items-center justify-center rounded-pill bg-white/20 transition-transform duration-base ease-emphasis group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px">
+                        <ArrowRight size={15} />
+                      </span>
+                    }
+                  >
                     Je veux me former
                   </Button>
                 </Link>
               </MagneticButton>
               <Link to="/marketing/accompagnement">
-                <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                   Je représente une entreprise
                 </Button>
               </Link>
             </div>
           </FadeInWhenVisible>
 
-          {/* Trust strip — minimal */}
+          {/* Trust strip */}
           <FadeInWhenVisible direction="up" delay={0.6}>
             <div className="flex items-center gap-stack-xs pt-stack">
               <div className="flex -space-x-2">
@@ -214,13 +254,12 @@ export const MarketingHome: React.FC = () => {
                     key={src}
                     src={src}
                     alt=""
-                    className="w-8 h-8 rounded-pill object-cover border-2 border-white shadow-sm"
+                    className="h-8 w-8 rounded-pill border-2 border-white/80 object-cover shadow-sm"
                   />
                 ))}
               </div>
-              <span className="font-body text-caption font-semibold text-ink-600">
-                <CountUp to={200} suffix="+" className="font-bold text-ink-900" /> formateurs
-                certifiés
+              <span className="font-body text-caption font-semibold text-white/70">
+                <CountUp to={200} suffix="+" className="font-bold text-white" /> formateurs certifiés
               </span>
             </div>
           </FadeInWhenVisible>
@@ -231,7 +270,7 @@ export const MarketingHome: React.FC = () => {
             </div>
           </FadeInWhenVisible>
         </div>
-      </HeroLight>
+      </HeroParallax>
 
       {/* ── 2. Marquee logos ─────────────────────────────────────────────── */}
       <section className="border-y border-ink-100 py-stack-lg bg-white">
@@ -515,7 +554,10 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5. Manifesto pull-quote (dark ancre éditoriale) ──────────────── */}
+      {/* ── 5. SkillMap — La méthode TLS se dessine ─────────────────────── */}
+      <SkillMapSection />
+
+      {/* ── 6. Manifesto pull-quote (dark ancre éditoriale) ──────────────── */}
       <section className="relative py-page overflow-hidden bg-ink-900">
         {/* Mesh gradient dark */}
         <div
