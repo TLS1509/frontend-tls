@@ -60,7 +60,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
             text-body-sm font-medium text-ink-900
             border border-ink-100
             shadow-[inset_0_1px_1px_white/15]
-            flex items-center justify-between gap-2
+            flex items-center justify-between gap-stack-xs
             transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
             hover:border-ink-200 hover:bg-ink-50
             active:scale-[0.98]
