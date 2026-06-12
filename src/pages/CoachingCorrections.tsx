@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
-import { FileText, Clock, CheckCircle2, Search } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { FileText, CheckCircle2, Search } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
 import { SectionCard } from '../components/patterns/SectionCard';
-import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
 import { CorrectionCard } from '../components/ui/CorrectionCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { StatCard } from '../components/ui/StatCard';
+import { useCoachingStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { CorrectionStatus } from '../types/learning';
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const CORRECTIONS = [
+type CardStatus = 'pending' | 'in-review' | 'corrected';
+
+function toCorrectionCardStatus(s: CorrectionStatus): CardStatus {
+  if (s === 'completed') return 'corrected';
+  if (s === 'pending') return 'pending';
+  return 'in-review';
+}
+
+function relativeDate(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const diffH = Math.floor(diffMs / 3600000);
+  if (diffH < 24) return `Il y a ${diffH}h`;
+  const diffD = Math.floor(diffH / 24);
+  if (diffD === 1) return 'Hier';
+  return `Il y a ${diffD}j`;
+}
+
+// Legacy mock kept only to avoid empty state on first load before store seeds
+const CORRECTIONS_FALLBACK = [
   {
     id: '1',
     apprenantName: 'Sophie Martin',
@@ -70,10 +90,33 @@ export default function CoachingCorrections() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const pendingCount = CORRECTIONS.filter((c) => c.status === 'pending').length;
-  const correctedCount = CORRECTIONS.filter((c) => c.status === 'corrected').length;
+  const coachingStore = useCoachingStore();
+  const storeCorrections = coachingStore.getCorrections(MOCK_USER_ID);
+  const sessions = coachingStore.getSessions(MOCK_USER_ID);
 
-  const filtered = CORRECTIONS.filter((c) => {
+  const corrections = useMemo(() => {
+    const src = storeCorrections.length > 0 ? storeCorrections : [];
+    if (src.length === 0) return CORRECTIONS_FALLBACK;
+    return src.map((c) => {
+      const session = sessions.find((s) => s.id === c.sessionId);
+      return {
+        id: c.id,
+        apprenantName: session?.coachName ?? 'Sophie Marchand',
+        apprenantInitials: session?.coachName ? session.coachName.split(' ').map((w) => w[0]).join('') : 'SM',
+        exerciceTitle: c.exerciseTitle,
+        competence: c.competenceId ?? '',
+        submittedAt: relativeDate(c.submittedAt),
+        status: toCorrectionCardStatus(c.status),
+        excerpt: c.submittedContent?.slice(0, 150),
+        feedbackCount: c.iterationCount,
+      };
+    });
+  }, [storeCorrections, sessions]);
+
+  const pendingCount = corrections.filter((c) => c.status === 'pending').length;
+  const correctedCount = corrections.filter((c) => c.status === 'corrected').length;
+
+  const filtered = corrections.filter((c) => {
     const matchFilter = activeFilter === 'all' || c.status === activeFilter;
     const matchSearch = !searchQuery ||
       c.exerciceTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -96,7 +139,7 @@ export default function CoachingCorrections() {
         <div className="grid grid-cols-3 gap-stack">
           <StatCard value={pendingCount} label="À corriger" variant="warm" size="sm"
             delta={pendingCount > 0 ? 'En attente' : 'RAS'} deltaDirection={pendingCount > 0 ? 'down' : 'up'} />
-          <StatCard value={CORRECTIONS.filter((c) => c.status === 'in-review').length} label="En cours" variant="default" size="sm" />
+          <StatCard value={corrections.filter((c) => c.status === 'in-review').length} label="En cours" variant="default" size="sm" />
           <StatCard value={correctedCount} label="Corrigés ce mois" variant="brand" size="sm"
             delta="↑ 2 vs mois dernier" deltaDirection="up" />
         </div>

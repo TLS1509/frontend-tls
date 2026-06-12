@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Calendar, Video, FileText, MessageSquare, Download, ChevronRight, Clock, MapPin } from 'lucide-react';
+import { Calendar, Video, FileText, MessageSquare, Download, ChevronRight, Clock } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -9,49 +9,53 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { SessionCard } from '../components/learning/SessionCard';
 import { Container } from '../components/layout';
+import { useCoachingStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// ─── Constants ───────────────────────────────────────────────────────────────
 
-const SESSION = {
-  id: '1',
-  title: 'Session coaching : Leadership & Management',
-  coach: { name: 'Isabelle Martin', initials: 'IM', specialite: 'Leadership · Communication' },
-  date: 'Lundi 19 mai 2026',
-  time: '14h00 – 15h00',
-  status: 'planned' as const,
-  meetLink: 'https://meet.google.com/abc-defg-hij',
-  format: 'Visioconférence',
-  competence: 'Leadership',
-  questionnaireDone: false,
-  reportAvailable: false,
-  objectives: [
-    'Faire le point sur la progression D3 → D4',
-    'Analyser les résultats de l\'exercice de délégation',
-    'Définir les priorités pour les 2 prochaines semaines',
-  ],
-  preparation: 'Relire le rapport de la session précédente et préparer 2 situations de management récentes à analyser.',
-  previousSessions: [
-    { id: '0', title: 'Session 1 : Bilan initial', description: 'Évaluation initiale des compétences', date: '12 mai 2026', status: 'completed' as const },
-  ],
-};
+const DEFAULT_OBJECTIVES = [
+  'Faire le point sur les actions définies lors de la session précédente',
+  'Analyser une situation managériale récente et identifier les leviers de progrès',
+  'Définir 2-3 actions concrètes pour les prochaines semaines',
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function formatScheduledAt(iso: string) {
+  const d = new Date(iso);
+  const day = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const time = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const endMs = d.getTime() + 60 * 60000;
+  const endTime = new Date(endMs).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  return { day: day.charAt(0).toUpperCase() + day.slice(1), time: `${time} – ${endTime}` };
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CoachingSessionDetail() {
   const { id } = useParams<{ id: string }>();
-  const _ = id;
-  const [noteExpanded, setNoteExpanded] = useState(false);
+  const coachingStore = useCoachingStore();
+  const sessions = coachingStore.getSessions(MOCK_USER_ID);
+  const session = sessions.find((s) => s.id === id) ?? sessions[0];
+
+  if (!session) return null;
+
+  const { day, time } = formatScheduledAt(session.scheduledAt);
+  const isPlanned = session.status === 'confirmed' || session.status === 'pending';
+  const coachInitials = session.coachName.split(' ').map((w) => w[0]).join('');
+  const previousSessions = sessions.filter((s) => s.id !== session.id && s.status === 'completed');
 
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
-        eyebrow={`Coaching · Session #${SESSION.id}`}
-        title={SESSION.title}
-        summary={`${SESSION.date} · ${SESSION.time} · ${SESSION.format}`}
+        eyebrow={`Coaching · Session #${session.id}`}
+        title={`Session coaching : ${session.theme ?? 'Développement managérial'}`}
+        summary={`${day} · ${time} · Visioconférence`}
         tone="warm"
         trailing={
           <div className="flex items-center gap-stack-xs">
-            {SESSION.meetLink && SESSION.status === 'planned' && (
+            {isPlanned && (
               <Button variant="glass" size="md" leadingIcon={<Video size={16} />}>
                 Rejoindre la session
               </Button>
@@ -69,11 +73,11 @@ export default function CoachingSessionDetail() {
         <div className="grid md:grid-cols-3 gap-stack">
           {/* Coach */}
           <Card variant="default" className="flex items-center gap-stack p-5">
-            <Avatar name={SESSION.coach.name} initials={SESSION.coach.initials} size="lg" />
+            <Avatar name={session.coachName} initials={coachInitials} size="lg" />
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-400 uppercase tracking-wide">Coach</span>
-              <span className="text-body-sm font-semibold text-ink-900">{SESSION.coach.name}</span>
-              <span className="text-caption text-ink-500">{SESSION.coach.specialite}</span>
+              <span className="text-body-sm font-semibold text-ink-900">{session.coachName}</span>
+              <span className="text-caption text-ink-500">{session.coachSpeciality ?? 'Leadership · Communication'}</span>
             </div>
           </Card>
 
@@ -84,8 +88,8 @@ export default function CoachingSessionDetail() {
             </div>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-400 uppercase tracking-wide">Date & heure</span>
-              <span className="text-body-sm font-semibold text-ink-900">{SESSION.date}</span>
-              <span className="text-caption text-ink-500">{SESSION.time}</span>
+              <span className="text-body-sm font-semibold text-ink-900">{day}</span>
+              <span className="text-caption text-ink-500">{time}</span>
             </div>
           </Card>
 
@@ -96,9 +100,9 @@ export default function CoachingSessionDetail() {
             </div>
             <div className="flex flex-col gap-tight">
               <span className="text-caption text-ink-400 uppercase tracking-wide">Format</span>
-              <span className="text-body-sm font-semibold text-ink-900">{SESSION.format}</span>
+              <span className="text-body-sm font-semibold text-ink-900">Visioconférence</span>
               <Badge variant="info" size="sm">
-                {SESSION.status === 'planned' ? 'Confirmée' : 'Terminée'}
+                {isPlanned ? 'Confirmée' : 'Terminée'}
               </Badge>
             </div>
           </Card>
@@ -110,7 +114,7 @@ export default function CoachingSessionDetail() {
           titleIcon={<FileText size={18} />}
         >
           <ul className="flex flex-col gap-stack-xs">
-            {SESSION.objectives.map((obj, i) => (
+            {DEFAULT_OBJECTIVES.map((obj, i) => (
               <li key={i} className="flex items-start gap-stack">
                 <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
                   {i + 1}
@@ -129,7 +133,9 @@ export default function CoachingSessionDetail() {
             <Badge variant="sun" size="sm">À faire avant la session</Badge>
           }
         >
-          <p className="text-body-sm text-ink-600 leading-relaxed">{SESSION.preparation}</p>
+          <p className="text-body-sm text-ink-600 leading-relaxed">
+            Avant la session, prends 10 minutes pour noter tes succès récents, les situations difficiles rencontrées, et les questions que tu souhaites aborder avec ton coach.
+          </p>
           <div className="mt-stack flex gap-stack-xs">
             <Button
               variant="warm"
@@ -142,17 +148,17 @@ export default function CoachingSessionDetail() {
         </SectionCard>
 
         {/* Previous sessions */}
-        {SESSION.previousSessions.length > 0 && (
+        {previousSessions.length > 0 && (
           <SectionCard title="Sessions précédentes" titleIcon={<Clock size={18} />}>
             <div className="flex flex-col gap-stack-xs">
-              {SESSION.previousSessions.map((prev) => (
+              {previousSessions.map((prev) => (
                 <SessionCard
                   key={prev.id}
-                  title={prev.title}
-                  description={prev.description}
-                  coachName={SESSION.coach.name}
-                  dateLabel={prev.date}
-                  status={prev.status}
+                  title={prev.theme ?? `Session coaching`}
+                  description={`${prev.type} · ${prev.durationMinutes} min`}
+                  coachName={session.coachName}
+                  dateLabel={new Date(prev.scheduledAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  status={prev.status === 'completed' ? 'completed' : 'confirmed'}
                   surface="card"
                   report={true}
                   onViewReport={() => {}}
