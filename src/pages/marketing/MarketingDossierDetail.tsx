@@ -213,9 +213,9 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
           );
         case 'pullquote':
           return (
-            <figure key={i} className="my-stack border-l-4 border-accent-300 pl-stack-lg">
+            <figure key={i} className="my-stack px-stack-lg py-stack bg-accent-50 rounded-xl">
               <Quote size={22} className="text-accent-400 mb-2" />
-              <blockquote className="font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-bold text-ink-900 leading-snug m-0">
+              <blockquote className="font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-bold text-accent-900 leading-snug m-0">
                 {block.text}
               </blockquote>
             </figure>
