@@ -16,6 +16,7 @@
  */
 
 import React from 'react';
+import { Leaf, Sparkles, Sprout, TreeDeciduous, Trophy } from 'lucide-react';
 
 export type DreyfusSliderVariant = 'solid' | 'glass' | 'light' | 'effect';
 export type DreyfusSliderTone = 'brand' | 'warm' | 'sun';
@@ -24,15 +25,15 @@ export interface DreyfusSliderLevel {
   v: number;
   label: string;
   desc?: string;
-  emoji?: string;
+  icon?: React.ReactNode;
 }
 
 const DEFAULT_LEVELS: DreyfusSliderLevel[] = [
-  { v: 1, label: 'Novice',          desc: 'Je découvre',                emoji: '🌱' },
-  { v: 2, label: 'Débutant avancé', desc: 'Je connais les bases',       emoji: '🌿' },
-  { v: 3, label: 'Compétent',       desc: 'Je sais faire en autonomie', emoji: '🌳' },
-  { v: 4, label: 'Maîtrise',        desc: 'Je sais expliquer',          emoji: '🏆' },
-  { v: 5, label: 'Expert',          desc: 'Je sais innover et former',  emoji: '✨' },
+  { v: 1, label: 'Novice',          desc: 'Je découvre',                icon: <Sprout size={16} strokeWidth={1.75} /> },
+  { v: 2, label: 'Débutant avancé', desc: 'Je connais les bases',       icon: <Leaf size={16} strokeWidth={1.75} /> },
+  { v: 3, label: 'Compétent',       desc: 'Je sais faire en autonomie', icon: <TreeDeciduous size={16} strokeWidth={1.75} /> },
+  { v: 4, label: 'Maîtrise',        desc: 'Je sais expliquer',          icon: <Trophy size={16} strokeWidth={1.75} /> },
+  { v: 5, label: 'Expert',          desc: 'Je sais innover et former',  icon: <Sparkles size={16} strokeWidth={1.75} /> },
 ];
 
 export interface DreyfusSliderProps {
@@ -192,7 +193,7 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                   isActive ? `${TICK_ACTIVE[tone]} font-bold scale-105` : 'text-ink-500',
                 ].join(' ')}
               >
-                {lv.emoji && <span aria-hidden="true" className="text-[16px] leading-none">{lv.emoji}</span>}
+                {lv.icon && <span aria-hidden="true" className="inline-flex items-center justify-center">{lv.icon}</span>}
                 <span className="text-[10px] sm:text-caption font-semibold leading-tight">{lv.label}</span>
               </div>
             );

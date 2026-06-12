@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, X, Sparkles } from 'lucide-react';
+import { ArrowRight, BarChart2, Flame, Rocket, Sparkles, Sprout, Star, Target, X } from 'lucide-react';
 import { Button } from '../core/Button';
 
 /**
@@ -16,7 +16,7 @@ interface Question {
 
 interface Level {
   id: string;
-  emoji: string;
+  icon: React.ReactNode;
   label: string;
   description: string;
   value: number;
@@ -58,18 +58,18 @@ const DEFAULT_QUESTIONS: Question[] = [
 ];
 
 const LEVELS: Level[] = [
-  { id: 'debutant',      emoji: '🌱', label: 'Débutant',      description: 'Je découvre',      value: 1, color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
-  { id: 'novice',        emoji: '🔥', label: 'Novice',        description: 'Bases acquises',   value: 2, color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
-  { id: 'intermediaire', emoji: '🎯', label: 'Intermédiaire', description: 'Autonome',         value: 3, color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
-  { id: 'avance',        emoji: '🚀', label: 'Avancé',        description: "Très à l'aise",   value: 4, color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
-  { id: 'expert',        emoji: '⭐', label: 'Expert',        description: 'Maîtrise totale',  value: 5, color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
+  { id: 'debutant',      icon: <Sprout size={40} strokeWidth={1.5} />, label: 'Débutant',      description: 'Je découvre',      value: 1, color: '#FFC15A', colorLight: 'rgba(255,193,90,0.12)',  glowColor: 'rgba(255,193,90,0.35)' },
+  { id: 'novice',        icon: <Flame size={40} strokeWidth={1.5} />,  label: 'Novice',        description: 'Bases acquises',   value: 2, color: '#F8B044', colorLight: 'rgba(248,176,68,0.12)',  glowColor: 'rgba(248,176,68,0.35)' },
+  { id: 'intermediaire', icon: <Target size={40} strokeWidth={1.5} />, label: 'Intermédiaire', description: 'Autonome',         value: 3, color: '#f49a76', colorLight: 'rgba(244,154,118,0.12)', glowColor: 'rgba(244,154,118,0.35)' },
+  { id: 'avance',        icon: <Rocket size={40} strokeWidth={1.5} />, label: 'Avancé',        description: "Très à l'aise",   value: 4, color: '#55A1B4', colorLight: 'rgba(85,161,180,0.12)',  glowColor: 'rgba(85,161,180,0.35)' },
+  { id: 'expert',        icon: <Star size={40} strokeWidth={1.5} />,   label: 'Expert',        description: 'Maîtrise totale',  value: 5, color: '#9dbeba', colorLight: 'rgba(157,190,186,0.12)', glowColor: 'rgba(157,190,186,0.35)' },
 ];
 
 const SUCCESS_FEATURES = [
-  { icon: '📊', label: 'Compétences enregistrées', borderClass: 'border-primary-500/15' },
-  { icon: '🎯', label: 'Parcours personnalisé',    borderClass: 'border-accent-400/15'  },
-  { icon: '🚀', label: 'Progression optimisée',    borderClass: 'border-secondary-500/15' },
-] as const;
+  { icon: <BarChart2 size={32} strokeWidth={1.5} />, label: 'Compétences enregistrées', borderClass: 'border-primary-500/15' },
+  { icon: <Target size={32} strokeWidth={1.5} />,    label: 'Parcours personnalisé',    borderClass: 'border-accent-400/15'  },
+  { icon: <Rocket size={32} strokeWidth={1.5} />,    label: 'Progression optimisée',    borderClass: 'border-secondary-500/15' },
+];
 
 export const PositionnementModal: React.FC<PositionnementModalProps> = ({
   isOpen,
@@ -218,7 +218,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                         }
                       }}
                     >
-                      <span className="text-[2.5rem] leading-none">{level.emoji}</span>
+                      <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span
                         className="text-caption font-bold text-center leading-tight text-ink-900"
                         style={{ color: isSelected ? level.color : undefined }}
@@ -251,12 +251,12 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             <div className="flex flex-col gap-5 animate-modal-in">
               <div className="bg-white rounded-xl p-8 border border-primary-500/20 shadow-lg text-center">
                 <div className="inline-flex gap-2 mb-5 p-3 rounded-xl bg-ink-50">
-                  {['🎯', '⭐', '🚀'].map((e) => (
+                  {([<Target size={22} strokeWidth={1.75} />, <Star size={22} strokeWidth={1.75} />, <Rocket size={22} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <div
-                      key={e}
-                      className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-[1.4rem]"
+                      key={i}
+                      className="w-11 h-11 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600"
                     >
-                      {e}
+                      {icon}
                     </div>
                   ))}
                 </div>
@@ -266,9 +266,9 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                 </p>
 
                 <div className="grid grid-cols-3 gap-3 mb-5">
-                  {SUCCESS_FEATURES.map((f) => (
-                    <div key={f.icon} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
-                      <div className="text-[2rem] mb-2">{f.icon}</div>
+                  {SUCCESS_FEATURES.map((f, i) => (
+                    <div key={i} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
+                      <div className="inline-flex items-center justify-center mb-2 text-ink-700">{f.icon}</div>
                       <p className="text-caption font-semibold text-ink-900 leading-snug">{f.label}</p>
                     </div>
                   ))}
