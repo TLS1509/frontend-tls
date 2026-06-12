@@ -14,6 +14,8 @@ import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { useTheme } from '../hooks/useTheme';
 import { PageShell } from '../components/layout';
+import { useNotificationPrefsStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import {
   BellRing,
   LockKeyhole,
@@ -40,9 +42,20 @@ const ToggleRow: React.FC<{
 export const Settings: React.FC = () => {
   const { theme, toggle: toggleTheme } = useTheme();
 
-  const [emailNotifs, setEmailNotifs] = useState(true);
-  const [pushNotifs, setPushNotifs] = useState(true);
-  const [dailyDigest, setDailyDigest] = useState(false);
+  const notifStore = useNotificationPrefsStore();
+  const notifPrefs = notifStore.getPrefs(MOCK_USER_ID);
+
+  const emailNotifs = notifPrefs.lessons.email;
+  const setEmailNotifs = (v: boolean) =>
+    notifStore.updatePrefs(MOCK_USER_ID, { lessons: { ...notifPrefs.lessons, email: v } });
+
+  const pushNotifs = notifPrefs.lessons.push;
+  const setPushNotifs = (v: boolean) =>
+    notifStore.updatePrefs(MOCK_USER_ID, { lessons: { ...notifPrefs.lessons, push: v } });
+
+  const dailyDigest = notifPrefs.summaryFrequency === 'daily';
+  const setDailyDigest = (v: boolean) =>
+    notifStore.updatePrefs(MOCK_USER_ID, { summaryFrequency: v ? 'daily' : 'immediate' });
 
   const [shareStats, setShareStats] = useState(false);
   const [sysNotifs, setSysNotifs] = useState(true);
