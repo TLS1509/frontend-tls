@@ -21,7 +21,7 @@ const PERIODS = [
 const PODIUM_CONFIG = [
   {
     label: '1er',
-    emoji: '🥇',
+    rankClasses: 'bg-accent-400 text-white',
     cardClasses: 'bg-gradient-to-br from-accent-100 to-white border border-accent-300',
     avatarClasses: 'bg-accent-100 border-2 border-accent-300 text-accent-800',
     pillClasses: 'bg-accent-100 text-accent-800',
@@ -30,7 +30,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '2ème',
-    emoji: '🥈',
+    rankClasses: 'bg-ink-400 text-white',
     cardClasses: 'bg-gradient-to-br from-ink-100 to-white border border-ink-300',
     avatarClasses: 'bg-ink-100 border-2 border-ink-300 text-ink-600',
     pillClasses: 'bg-ink-100 text-ink-600',
@@ -39,7 +39,7 @@ const PODIUM_CONFIG = [
   },
   {
     label: '3ème',
-    emoji: '🥉',
+    rankClasses: 'bg-secondary-400 text-white',
     cardClasses: 'bg-gradient-to-br from-secondary-100 to-white border border-secondary-300',
     avatarClasses: 'bg-secondary-100 border-2 border-secondary-300 text-secondary-700',
     pillClasses: 'bg-secondary-100 text-secondary-700',
@@ -161,7 +161,9 @@ export const Leaderboard: React.FC = () => {
               >
                 {/* Rank badge + points */}
                 <div className="flex items-center justify-between">
-                  <span className="text-[2rem] leading-none">{pod.emoji}</span>
+                  <span className={['inline-flex items-center justify-center w-10 h-10 rounded-xl font-display text-h4 font-extrabold leading-none', pod.rankClasses].join(' ')}>
+                    #{index + 1}
+                  </span>
                   <span className={`text-caption font-bold ${pod.badgeClasses}`}>
                     {entry.points} pts
                   </span>

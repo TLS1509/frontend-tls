@@ -127,17 +127,23 @@ export const Journal: React.FC = () => {
 
   /* Types user-initiables (les 4 disponibles depuis la section "Compose new entry").
      Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
-  const COMPOSE_TYPES: { type: JournalBubbleType; emoji: string; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
-    { type: 'guided',       emoji: '🧭', label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
-    { type: 'free',         emoji: '✍️', label: 'Libre',          tone: 'brand', subtitle: 'Écris comme tu veux' },
-    { type: 'insight',      emoji: '💡', label: 'Insight',        tone: 'sun',   subtitle: 'Une prise de conscience' },
-    { type: 'learning',     emoji: '📖', label: 'Apprentissage',  tone: 'warm',  subtitle: 'Notes post-leçon' },
+  const COMPOSE_TYPES: { type: JournalBubbleType; icon: React.ReactNode; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
+    { type: 'guided',   icon: <Compass size={28} strokeWidth={1.75} />,   label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
+    { type: 'free',     icon: <PenLine size={28} strokeWidth={1.75} />,   label: 'Libre',         tone: 'brand', subtitle: 'Écris comme tu veux' },
+    { type: 'insight',  icon: <Lightbulb size={28} strokeWidth={1.75} />, label: 'Insight',       tone: 'sun',   subtitle: 'Une prise de conscience' },
+    { type: 'learning', icon: <BookOpen size={28} strokeWidth={1.75} />,  label: 'Apprentissage', tone: 'warm',  subtitle: 'Notes post-leçon' },
   ];
 
   const TONE_BG: Record<'brand' | 'warm' | 'sun', string> = {
     brand: 'bg-primary-50 hover:bg-primary-100 border-primary-100 hover:border-primary-300',
     warm:  'bg-secondary-50 hover:bg-secondary-100 border-secondary-100 hover:border-secondary-300',
     sun:   'bg-accent-50 hover:bg-accent-100 border-accent-100 hover:border-accent-300',
+  };
+
+  const TONE_ICON: Record<'brand' | 'warm' | 'sun', string> = {
+    brand: 'text-primary-600',
+    warm:  'text-secondary-600',
+    sun:   'text-accent-500',
   };
 
   const handleComposeSubmit = () => {
@@ -197,7 +203,7 @@ export const Journal: React.FC = () => {
                     TONE_BG[t.tone],
                   ].join(' ')}
                 >
-                  <span className="text-h2 leading-none transition-transform group-hover:scale-110 select-none" aria-hidden="true">{t.emoji}</span>
+                  <span className={['transition-transform group-hover:scale-110', TONE_ICON[t.tone]].join(' ')} aria-hidden="true">{t.icon}</span>
                   <span className="font-display text-body-sm font-bold text-ink-900 leading-tight">{t.label}</span>
                   <span className="font-body text-caption text-ink-600 leading-tight">{t.subtitle}</span>
                 </button>
