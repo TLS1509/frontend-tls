@@ -32,7 +32,7 @@ import { ConfirmModal } from '../components/modals/ConfirmModal';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore } from '../stores/persistence';
 import type { SubscriptionTier } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 /* ─── Mock data ─────────────────────────────────────────────────────────── */
 
@@ -86,20 +86,17 @@ export const Billing: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <Container width="medium" className="py-section flex flex-col gap-stack-lg">
+      <PageShell width="medium">
 
         {/* Family nav */}
         <AccountFamilyNav active="billing" />
 
-        {/* Header minimal */}
+        {/* Page header */}
         <header className="flex flex-col gap-tight">
-          <p className="m-0 font-body text-caption font-medium text-primary-600">
-            Mon compte · Facturation
-          </p>
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
             Facturation & abonnement
           </h1>
-          <p className="m-0 font-body text-body text-ink-600 leading-relaxed">
+          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
             Gérez votre formule, vos factures et votre méthode de paiement.
           </p>
         </header>
@@ -255,7 +252,7 @@ export const Billing: React.FC = () => {
           </div>
         </SectionCard>
 
-      </Container>
+      </PageShell>
 
       {/* Confirm modal */}
       <ConfirmModal

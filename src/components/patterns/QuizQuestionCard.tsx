@@ -37,7 +37,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-6 bg-white border border-ink-200 rounded-2xl p-7 shadow-sm',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-2xl p-7 shadow-sm',
         className,
       ]
         .filter(Boolean)

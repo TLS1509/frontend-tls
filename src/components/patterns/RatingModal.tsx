@@ -48,7 +48,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
   return (
     <div
       className={[
-        'flex flex-col gap-6 bg-white border border-ink-200 rounded-3xl p-8 max-w-[520px] mx-auto shadow-xl',
+        'flex flex-col gap-stack-lg bg-white border border-ink-200 rounded-3xl p-8 max-w-[520px] mx-auto shadow-xl',
         className,
       ]
         .filter(Boolean)

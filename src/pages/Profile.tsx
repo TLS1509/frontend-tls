@@ -24,7 +24,7 @@ import type { TabItem } from '../components/ui/Tabs';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import type { SkillEntry } from '../components/ui/CompetencyMatrix';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   Mail,
   MapPin,
@@ -136,7 +136,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <Container width="medium" className="py-section sm:py-section flex flex-col gap-section">
+      <PageShell width="medium">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="profile" />
@@ -181,21 +181,6 @@ export const Profile: React.FC = () => {
           </div>
         </header>
 
-        {/* ── Stats row inline ─────────────────────────────────── */}
-        <section
-          aria-label="Statistiques globales"
-          className="grid grid-cols-2 sm:grid-cols-4 gap-y-stack gap-x-section sm:divide-x sm:divide-ink-100"
-        >
-          {HERO_STATS.map((s) => (
-            <div key={s.label} className="flex flex-col gap-0.5 sm:px-stack-lg first:sm:pl-0 last:sm:pr-0">
-              <span className="font-display text-h2 font-bold text-ink-900 leading-none tracking-tight">
-                {s.value}
-              </span>
-              <span className="font-body text-caption text-ink-500">{s.label}</span>
-            </div>
-          ))}
-        </section>
-
         {/* ── Tabs navigation ──────────────────────────────────── */}
         <div className="flex flex-col gap-section">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-stack sm:px-0">
@@ -210,6 +195,18 @@ export const Profile: React.FC = () => {
           {/* ── Tab content ───────────────────────────────────── */}
           {activeTab === 'overview' && (
             <div className="flex flex-col gap-section">
+              {/* Stats compact strip */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
+                {HERO_STATS.map((s) => (
+                  <div key={s.label} className="flex flex-col gap-tight">
+                    <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-tight tabular-nums">
+                      {s.value}
+                    </span>
+                    <span className="font-body text-caption text-ink-500">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+
               {/* Bio + interests */}
               <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
                 <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
@@ -403,7 +400,7 @@ export const Profile: React.FC = () => {
             </section>
           )}
         </div>
-      </Container>
+      </PageShell>
     </div>
   );
 };

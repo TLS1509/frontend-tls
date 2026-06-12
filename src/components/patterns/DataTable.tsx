@@ -82,7 +82,7 @@ export const DataTable: React.FC<DataTableProps> = ({
   const displayedRows = rows.slice(0, pageSize);
 
   return (
-    <div className={['flex flex-col gap-4', className].filter(Boolean).join(' ')}>
+    <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>
       <div className="overflow-x-auto rounded-xl border border-ink-200 bg-white">
         <table className="w-full border-collapse font-body text-body-sm">
           <thead className="bg-ink-50 border-b border-ink-200">

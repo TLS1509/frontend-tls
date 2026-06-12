@@ -8,21 +8,17 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Switch } from '../components/core/Input';
-import { StatCard } from '../components/ui/StatCard';
 import { Alert } from '../components/ui/Alert';
-import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { useTheme } from '../hooks/useTheme';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   BellRing,
   LockKeyhole,
   SlidersHorizontal,
-  Shield,
   Palette,
-  Settings2,
   Moon,
   Sun,
 } from 'lucide-react';
@@ -92,117 +88,118 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <Container width="medium" padding={false} className="px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section">
-      <AccountFamilyNav active="settings" />
-      <EditorialHero
-        eyebrow={{ icon: <Settings2 size={12} />, label: 'Compte & Préférences' }}
-        title="Paramètres"
-        summary="Contrôlez vos préférences de notifications, confidentialité et expérience utilisateur."
-      />
+    <div className="min-h-[100dvh] bg-surface">
+      <PageShell width="medium">
+        <AccountFamilyNav active="settings" />
 
-      <section aria-label="État des préférences" className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-        <StatCard variant="brand" size="md" icon={<BellRing size={20} />} label="Canaux actifs" value="2" />
-        <StatCard variant="warm"  size="md" icon={<Shield size={20} />}   label="Niveau sécurité" value="Standard" />
-        <StatCard variant="sun"   size="md" icon={theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />} label="Thème actif" value={theme === 'dark' ? 'Sombre' : 'Clair'} />
-      </section>
+        {/* ── Page header ──────────────────────────────────────── */}
+        <header className="flex flex-col gap-tight">
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+            Paramètres
+          </h1>
+          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
+            Notifications, confidentialité, interface et préférences de compte.
+          </p>
+        </header>
 
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
-        <SectionCard
-          title="Notifications"
-          titleIcon={<BellRing size={18} className="text-primary-600" />}
-          description="Choisissez les canaux et la fréquence des alertes."
-        >
-          <div className="flex flex-col gap-stack">
-            <ToggleRow checked={emailNotifs} onChange={setEmailNotifs} label="Notifications par email" />
-            <ToggleRow checked={pushNotifs} onChange={setPushNotifs} label="Notifications push navigateur" />
-            <ToggleRow checked={dailyDigest} onChange={setDailyDigest} label="Résumé quotidien" />
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          title="Confidentialité"
-          titleIcon={<LockKeyhole size={18} className="text-secondary-600" />}
-          description="Gérez vos données et l'historique de connexion."
-          actions={
-            <Button variant="primary" size="sm" onClick={handleSaveAll} loading={isSaving}>
-              Enregistrer les préférences
-            </Button>
-          }
-        >
-          <div className="flex flex-col gap-stack">
-            <ToggleRow checked={shareStats} onChange={setShareStats} label="Partager mes statistiques anonymisées" />
-            <ToggleRow checked={sysNotifs} onChange={setSysNotifs} label="Autoriser les notifications système" />
-            <ToggleRow checked={loginHistory} onChange={setLoginHistory} label="Historique de connexions actif" />
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          title="Interface"
-          titleIcon={<Palette size={18} className="text-primary-600" />}
-          description="Apparence et confort visuel."
-        >
-          <div className="flex flex-col gap-stack">
-            <ToggleRow checked={smoothAnimations} onChange={setSmoothAnimations} label="Activer les animations fluides" />
-            <ToggleRow checked={highContrast} onChange={setHighContrast} label="Mode contraste renforcé" />
-            <ToggleRow checked={compactNav} onChange={setCompactNav} label="Navigation compacte" />
-
-            <div className="flex items-center justify-between gap-3 p-stack rounded-xl bg-ink-50 border border-ink-100">
-              <div className="flex items-center gap-3">
-                <span className={`${ICON_BUBBLE} ${theme === 'dark' ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700'}`}>
-                  {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
-                </span>
-                <div>
-                  <p className="m-0 text-body-sm font-semibold text-ink-900">Mode sombre</p>
-                  <p className="m-0 mt-0.5 text-caption text-ink-500">
-                    {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
-                  </p>
-                </div>
-              </div>
-              <Switch checked={theme === 'dark'} onChange={toggleTheme} />
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+          <SectionCard
+            title="Notifications"
+            titleIcon={<BellRing size={18} className="text-primary-600" />}
+            description="Choisissez les canaux et la fréquence des alertes."
+          >
+            <div className="flex flex-col gap-stack">
+              <ToggleRow checked={emailNotifs} onChange={setEmailNotifs} label="Notifications par email" />
+              <ToggleRow checked={pushNotifs} onChange={setPushNotifs} label="Notifications push navigateur" />
+              <ToggleRow checked={dailyDigest} onChange={setDailyDigest} label="Résumé quotidien" />
             </div>
-          </div>
-        </SectionCard>
+          </SectionCard>
 
-        <SectionCard
-          title="Compte"
-          titleIcon={<SlidersHorizontal size={18} className="text-accent-700" />}
-          description="Langue, sécurité et export de vos données."
-          actions={
-            <>
-              <Button variant="secondary" size="sm">Exporter mes données</Button>
-              <Button variant="ghost" size="sm">Gérer mon compte</Button>
-            </>
-          }
-        >
-          <div className="flex flex-col gap-stack">
-            <FormGroup label="Langue" id="language">
-              <Select
-                id="language"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                options={languageOptions}
-                placeholder="Sélectionner une langue"
-              />
-            </FormGroup>
+          <SectionCard
+            title="Confidentialité"
+            titleIcon={<LockKeyhole size={18} className="text-secondary-600" />}
+            description="Gérez vos données et l'historique de connexion."
+            actions={
+              <Button variant="primary" size="sm" onClick={handleSaveAll} loading={isSaving}>
+                Enregistrer les préférences
+              </Button>
+            }
+          >
+            <div className="flex flex-col gap-stack">
+              <ToggleRow checked={shareStats} onChange={setShareStats} label="Partager mes statistiques anonymisées" />
+              <ToggleRow checked={sysNotifs} onChange={setSysNotifs} label="Autoriser les notifications système" />
+              <ToggleRow checked={loginHistory} onChange={setLoginHistory} label="Historique de connexions actif" />
+            </div>
+          </SectionCard>
 
-            <FormGroup label="Niveau de sécurité" id="security">
-              <Select
-                id="security"
-                value={securityLevel}
-                onChange={(e) => setSecurityLevel(e.target.value)}
-                options={securityOptions}
-                placeholder="Sélectionner un niveau"
-              />
-            </FormGroup>
-          </div>
-        </SectionCard>
-      </section>
+          <SectionCard
+            title="Interface"
+            titleIcon={<Palette size={18} className="text-primary-600" />}
+            description="Apparence et confort visuel."
+          >
+            <div className="flex flex-col gap-stack">
+              <ToggleRow checked={smoothAnimations} onChange={setSmoothAnimations} label="Activer les animations fluides" />
+              <ToggleRow checked={highContrast} onChange={setHighContrast} label="Mode contraste renforcé" />
+              <ToggleRow checked={compactNav} onChange={setCompactNav} label="Navigation compacte" />
 
-      <Alert variant="info" title="Bonne pratique">
-        Conservez les alertes critiques actives et limitez les résumés pour réduire la
-        surcharge d'informations.
-      </Alert>
-    </Container>
+              <div className="flex items-center justify-between gap-3 p-stack rounded-xl bg-ink-50 border border-ink-100">
+                <div className="flex items-center gap-3">
+                  <span className={`${ICON_BUBBLE} ${theme === 'dark' ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700'}`}>
+                    {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
+                  </span>
+                  <div>
+                    <p className="m-0 text-body-sm font-semibold text-ink-900">Mode sombre</p>
+                    <p className="m-0 mt-0.5 text-caption text-ink-500">
+                      {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
+                    </p>
+                  </div>
+                </div>
+                <Switch checked={theme === 'dark'} onChange={toggleTheme} />
+              </div>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            title="Compte"
+            titleIcon={<SlidersHorizontal size={18} className="text-accent-700" />}
+            description="Langue, sécurité et export de vos données."
+            actions={
+              <>
+                <Button variant="secondary" size="sm">Exporter mes données</Button>
+                <Button variant="ghost" size="sm">Gérer mon compte</Button>
+              </>
+            }
+          >
+            <div className="flex flex-col gap-stack">
+              <FormGroup label="Langue" id="language">
+                <Select
+                  id="language"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  options={languageOptions}
+                  placeholder="Sélectionner une langue"
+                />
+              </FormGroup>
+
+              <FormGroup label="Niveau de sécurité" id="security">
+                <Select
+                  id="security"
+                  value={securityLevel}
+                  onChange={(e) => setSecurityLevel(e.target.value)}
+                  options={securityOptions}
+                  placeholder="Sélectionner un niveau"
+                />
+              </FormGroup>
+            </div>
+          </SectionCard>
+        </section>
+
+        <Alert variant="info" title="Bonne pratique">
+          Conservez les alertes critiques actives et limitez les résumés pour réduire la
+          surcharge d'informations.
+        </Alert>
+      </PageShell>
+    </div>
   );
 };
 

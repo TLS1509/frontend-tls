@@ -105,7 +105,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
       {/* Centered content */}
       <div className="relative min-h-[100dvh] flex items-center justify-center px-4 py-12 sm:px-6">
-        <div className="w-full max-w-[480px] flex flex-col gap-6">
+        <div className="w-full max-w-[480px] flex flex-col gap-stack-lg">
 
           {/* Back link */}
           {backLink && (
@@ -119,7 +119,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
               'bg-white/10 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
-              'flex flex-col gap-6',
+              'flex flex-col gap-stack-lg',
             ].join(' ')}
           >
             {/* Inner highlight on top edge for glass premium feel */}
@@ -146,7 +146,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             )}
 
             {/* Form slot */}
-            <div className="flex flex-col gap-4">{form}</div>
+            <div className="flex flex-col gap-stack">{form}</div>
           </section>
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}

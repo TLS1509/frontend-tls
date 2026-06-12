@@ -41,7 +41,7 @@ export const SectionCard: React.FC<SectionCardProps> = ({
   return (
     <Card
       tone={tone}
-      className={['p-6 flex flex-col gap-4', className].filter(Boolean).join(' ')}
+      className={['p-6 flex flex-col gap-stack', className].filter(Boolean).join(' ')}
     >
       {(title || description || headerAction) && (
         <header className="flex items-start justify-between gap-3 flex-wrap">

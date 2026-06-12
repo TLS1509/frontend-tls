@@ -11,7 +11,6 @@ import { Tabs } from '../components/ui/Tabs';
 import { Badge } from '../components/ui/Badge';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
-import { EditorialHero } from '../components/patterns/EditorialHero';
 import { PageShell } from '../components/layout';
 import {
   UserRound,
@@ -357,15 +356,18 @@ export const Account: React.FC = () => {
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="account" />
 
-        {/* ── Hero ─────────────────────────────────────────────── */}
-        <EditorialHero
-          tone="default"
-          eyebrow={{ icon: <Sparkles size={12} />, label: 'Paramètres du compte' }}
-          title="Mon compte"
-          summary="Gérez vos informations personnelles, la sécurité, les notifications et votre abonnement."
-          meta={[{ icon: <UserRound size={12} />, label: 'Claire Fontaine' }]}
-          trailing={<Badge variant="brand">Plan Pro · Actif</Badge>}
-        />
+        {/* ── Page header ──────────────────────────────────────── */}
+        <header className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-tight">
+            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+              Mon compte
+            </h1>
+            <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
+              Informations personnelles, sécurité, notifications et abonnement.
+            </p>
+          </div>
+          <Badge variant="brand" className="shrink-0 mt-1">Plan Pro · Actif</Badge>
+        </header>
 
         {/* ── Tabs ─────────────────────────────────────────────── */}
         <Tabs

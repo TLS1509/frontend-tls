@@ -30,13 +30,13 @@ export const EditorialLayout: React.FC<EditorialLayoutProps> = ({
   className = '',
 }) => {
   if (!aside) {
-    return <div className={['flex flex-col gap-4', className].filter(Boolean).join(' ')}>{main}</div>;
+    return <div className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}>{main}</div>;
   }
 
   return (
     <div
       className={[
-        'grid gap-4',
+        'grid gap-stack',
         asideFirst
           ? 'md:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.4fr)]'
           : 'md:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)]',
@@ -45,12 +45,12 @@ export const EditorialLayout: React.FC<EditorialLayoutProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      <div className={['flex flex-col gap-4 min-w-0', asideFirst ? 'md:order-2' : ''].filter(Boolean).join(' ')}>
+      <div className={['flex flex-col gap-stack min-w-0', asideFirst ? 'md:order-2' : ''].filter(Boolean).join(' ')}>
         {main}
       </div>
       <aside
         className={[
-          'flex flex-col gap-4 min-w-0',
+          'flex flex-col gap-stack min-w-0',
           asideFirst ? 'md:order-1' : '',
           staticAside ? '' : 'md:sticky md:top-24 md:self-start',
         ]

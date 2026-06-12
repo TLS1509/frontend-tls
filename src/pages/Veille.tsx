@@ -158,7 +158,7 @@ export const Veille: React.FC = () => {
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
         />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-6">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-stack-lg">
 
           {/* Titre + sous-titre */}
           <div className="flex flex-col gap-2">

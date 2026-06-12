@@ -33,7 +33,7 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
 }) => {
   return (
     <div className={['relative', className].filter(Boolean).join(' ')}>
-      <ol className="list-none m-0 p-0 flex flex-col gap-6">
+      <ol className="list-none m-0 p-0 flex flex-col gap-stack-lg">
         {items.map((item, index) => {
           const tone = item.tone || 'primary';
           const isLast = index >= items.length - 1;

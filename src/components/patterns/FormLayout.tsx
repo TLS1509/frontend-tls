@@ -41,7 +41,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   return (
     <form
       className={[
-        'flex flex-col gap-8 bg-white border border-ink-200 rounded-3xl p-8 shadow-sm',
+        'flex flex-col gap-section bg-white border border-ink-200 rounded-3xl p-8 shadow-sm',
         className,
       ]
         .filter(Boolean)
@@ -54,7 +54,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-section">
         {sections.map((section, sectionIdx) => (
           <div key={sectionIdx} className="flex flex-col gap-5">
             {section.title && (
