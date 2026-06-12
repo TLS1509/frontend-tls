@@ -254,7 +254,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
         </div>
       )}
 
-      <h1 className={['relative font-display text-h1 font-extrabold tracking-display m-0 leading-[1.1]', TONE_TITLE[tone]].join(' ')}>
+      <h1 className={['relative font-display text-h1 font-extrabold tracking-display m-0 leading-[1.1] text-balance', TONE_TITLE[tone]].join(' ')}>
         {title}
       </h1>
 

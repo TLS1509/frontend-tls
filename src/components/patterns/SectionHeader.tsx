@@ -263,7 +263,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       <div className={wrapperBase}>
         <div className={['flex items-center flex-1 min-w-0', gap].join(' ')}>
           {renderInlineIcon()}
-          <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
+          <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0 text-balance', titleTracking, titleSize].join(' ')}>
             {title}
           </h2>
           {subtitle && (
@@ -285,7 +285,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           <div className="flex flex-col flex-1 min-w-0 justify-center gap-tight">
             <div className="flex items-center gap-2">
               {renderInlineIcon()}
-              <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
+              <h2 className={['font-display font-semibold text-ink-900 leading-tight m-0 text-balance', titleTracking, titleSize].join(' ')}>
                 {title}
               </h2>
             </div>
@@ -303,7 +303,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <div className="flex items-end gap-2 flex-1 min-w-0">
           {renderInlineIcon()}
           <div className="flex flex-col flex-1 min-w-0">
-            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight m-0', titleTracking, titleSize].join(' ')}>
+            <h2 className={['relative inline-flex items-baseline font-display font-semibold text-ink-900 leading-tight m-0 text-balance', titleTracking, titleSize].join(' ')}>
               <span className="relative">
                 {title}
                 <span aria-hidden="true" className={['absolute left-0 -bottom-0.5 rounded-full', SIZE_UNDERLINE_HEIGHT[size], SIZE_UNDERLINE_WIDTH[size], TONE_UNDERLINE[tone]].join(' ')} />
@@ -328,7 +328,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
     return (
       <div className={wrapperBase}>
         <div className="flex flex-col flex-1 min-w-0 gap-0.5">
-          <h2 className={['font-display font-bold text-ink-900 leading-tight m-0', titleSize].join(' ')}>
+          <h2 className={['font-display font-bold text-ink-900 leading-tight m-0 text-balance', titleSize].join(' ')}>
             {title}
           </h2>
           {subtitle && (
@@ -358,7 +358,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         <div className="flex flex-col flex-1 min-w-0 gap-tight">
           <h2
             className={[
-              'font-display font-bold text-ink-900 leading-tight m-0',
+              'font-display font-bold text-ink-900 leading-tight m-0 text-balance',
               titleSize,
             ].join(' ')}
           >
