@@ -43,6 +43,10 @@ import {
   Clock3,
   Users,
   CheckCircle2,
+  Bot,
+  Star,
+  Compass,
+  Lightbulb,
 } from 'lucide-react';
 
 /* ─── Mock data ──────────────────────────────────────────────────────────── */
@@ -91,12 +95,12 @@ const ACTIVITY = [
 ];
 
 const BADGES = [
-  { id: 'b1', label: 'Pionnier IA',    emoji: '🤖', earned: true,  date: '15 Jan 2024' },
-  { id: 'b2', label: 'Streak Master',  emoji: '🔥', earned: true,  date: '20 Jan 2024' },
-  { id: 'b3', label: 'Expert GPT',     emoji: '⚡', earned: true,  date: '25 Jan 2024' },
-  { id: 'b4', label: 'Contributeur',   emoji: '🌟', earned: true,  date: '1 Fév 2024' },
-  { id: 'b5', label: 'Mentor',         emoji: '🧭', earned: false, progress: 60 },
-  { id: 'b6', label: 'Innovateur',     emoji: '💡', earned: false, progress: 40 },
+  { id: 'b1', label: 'Pionnier IA',    icon: <Bot size={36} strokeWidth={1.5} />,       earned: true,  date: '15 Jan 2024' },
+  { id: 'b2', label: 'Streak Master',  icon: <Flame size={36} strokeWidth={1.5} />,     earned: true,  date: '20 Jan 2024' },
+  { id: 'b3', label: 'Expert GPT',     icon: <Zap size={36} strokeWidth={1.5} />,       earned: true,  date: '25 Jan 2024' },
+  { id: 'b4', label: 'Contributeur',   icon: <Star size={36} strokeWidth={1.5} />,      earned: true,  date: '1 Fév 2024' },
+  { id: 'b5', label: 'Mentor',         icon: <Compass size={36} strokeWidth={1.5} />,   earned: false, progress: 60 },
+  { id: 'b6', label: 'Innovateur',     icon: <Lightbulb size={36} strokeWidth={1.5} />, earned: false, progress: 40 },
 ];
 
 const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
@@ -339,11 +343,11 @@ export const Profile: React.FC = () => {
                     <span
                       aria-hidden
                       className={[
-                        'text-h2 leading-none mb-stack-xs select-none',
-                        badge.earned ? '' : 'opacity-30 grayscale',
+                        'inline-flex items-center justify-center mb-stack-xs',
+                        badge.earned ? 'text-primary-600' : 'opacity-30',
                       ].join(' ')}
                     >
-                      {badge.emoji}
+                      {badge.icon}
                     </span>
                     <p className="m-0 font-body text-caption font-semibold text-ink-900 leading-tight">
                       {badge.label}

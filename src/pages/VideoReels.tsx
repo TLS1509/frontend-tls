@@ -17,6 +17,12 @@ import {
   ChevronDown,
   Eye,
   Clock,
+  Monitor,
+  Newspaper,
+  Puzzle,
+  Rocket,
+  Target,
+  Zap,
 } from 'lucide-react';
 
 /* ─── Données ────────────────────────────────────────────────────────────── */
@@ -35,7 +41,7 @@ interface Reel {
   likes: number;
   instructor: string;
   instructorInitials: string;
-  emoji: string;
+  icon: React.ReactNode;
   /** Background tone : drives gradient + accent. Defined via tokens, no hex. */
   tone: ReelTone;
 }
@@ -104,7 +110,7 @@ const REELS: Reel[] = [
     likes: 84,
     instructor: 'Marie Dubois',
     instructorInitials: 'MD',
-    emoji: '⚡',
+    icon: <Zap size={22} strokeWidth={1.75} />,
     tone: 'brand',
   },
   {
@@ -117,7 +123,7 @@ const REELS: Reel[] = [
     likes: 61,
     instructor: 'Pierre Martin',
     instructorInitials: 'PM',
-    emoji: '📰',
+    icon: <Newspaper size={22} strokeWidth={1.75} />,
     tone: 'warm',
   },
   {
@@ -130,7 +136,7 @@ const REELS: Reel[] = [
     likes: 152,
     instructor: 'Sophie Renard',
     instructorInitials: 'SR',
-    emoji: '🎯',
+    icon: <Target size={22} strokeWidth={1.75} />,
     tone: 'cool',
   },
   {
@@ -143,7 +149,7 @@ const REELS: Reel[] = [
     likes: 49,
     instructor: 'Lucas Petit',
     instructorInitials: 'LP',
-    emoji: '🧩',
+    icon: <Puzzle size={22} strokeWidth={1.75} />,
     tone: 'amber',
   },
   {
@@ -156,7 +162,7 @@ const REELS: Reel[] = [
     likes: 77,
     instructor: 'Emma Laurent',
     instructorInitials: 'EL',
-    emoji: '🖥️',
+    icon: <Monitor size={22} strokeWidth={1.75} />,
     tone: 'teal',
   },
   {
@@ -169,7 +175,7 @@ const REELS: Reel[] = [
     likes: 120,
     instructor: 'Alex Moreau',
     instructorInitials: 'AM',
-    emoji: '🚀',
+    icon: <Rocket size={22} strokeWidth={1.75} />,
     tone: 'rose',
   },
 ];
@@ -333,7 +339,7 @@ export const VideoReels: React.FC = () => {
           {/* Overlay haut : badge catégorie + titre */}
           <div className="absolute top-0 left-0 right-0 px-stack-lg pt-16 pb-section bg-gradient-to-b from-black/65 to-transparent z-10">
             <div className="flex items-center gap-stack-xs mb-stack-xs">
-              <span className="text-h4">{video.emoji}</span>
+              <span className="inline-flex items-center justify-center">{video.icon}</span>
               <span
                 className={[
                   'font-body text-caption font-bold px-2 py-0.5 rounded-md backdrop-blur-glass-light',
