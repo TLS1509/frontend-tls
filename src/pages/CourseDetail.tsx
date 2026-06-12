@@ -19,7 +19,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-const course = {
+const STATIC_COURSE = {
   title: 'Enjeux de la maîtrise du prompt',
   description:
     "Apprenez à structurer vos prompts pour gagner en qualité et en reproductibilité : contenu statique aligné sur Figma CourseDetailPageUpdated.",
@@ -68,16 +68,16 @@ export const CourseDetail: React.FC = () => {
         description: parcours.description,
         level: parcours.level,
         duration: parcours.duration,
-        instructor: parcours.instructor ?? 'Sophie Martin',
+        instructor: parcours.instructor ?? 'Sophie Marchand',
         progress: (() => {
           const allLecons = parcours.etapes.flatMap((e) => e.lecons);
           const total = allLecons.length;
-          if (total === 0) return course.progress;
+          if (total === 0) return 0;
           const completed = allLecons.filter((l) => lessonProgressStore.isLessonCompleted(l.id)).length;
           return Math.round((completed / total) * 100);
         })(),
       }
-    : course;
+    : STATIC_COURSE;
 
   // Build steps from store data or fall back to STEPS
   const steps = parcours
@@ -157,13 +157,13 @@ export const CourseDetail: React.FC = () => {
         </div>
 
         {/* ─ Main content layout ───────────────────────────────────── */}
-        <div className="grid grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] gap-stack">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] gap-stack">
 
           {/* Left column */}
           <div className="flex flex-col gap-stack-lg">
 
             {/* Objectives + thumbnail */}
-            <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] gap-stack-lg">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.2fr)_minmax(260px,0.8fr)] gap-stack-lg">
               <Card className="flex flex-col gap-stack p-stack-lg">
                 <h3 className="font-display text-h4 font-bold tracking-tight text-ink-900 m-0 flex items-center gap-stack-xs">
                   <Target size={16} /> Objectifs

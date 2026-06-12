@@ -148,14 +148,14 @@ export const JournalFreeEntry: React.FC = () => {
       </div>
 
       {/* Two-column layout */}
-      <Container width="medium" padding={false} className="flex-1 px-section py-stack-lg grid grid-cols-[1fr_280px] gap-section items-start">
+      <Container width="medium" padding={false} className="flex-1 px-section py-stack-lg grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
 
         {/* Main editor */}
         <div>
           {/* Date chip */}
           <div className="flex items-center gap-tight.5 mb-stack text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
-            <span>1 mai 2026</span>
+            <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
 
           {/* Title input */}

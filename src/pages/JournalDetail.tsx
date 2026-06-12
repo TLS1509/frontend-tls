@@ -96,6 +96,15 @@ export const JournalDetail: React.FC = () => {
     return id ? entries.find((e) => e.id === id) : entries[0];
   }, [id, journalStore.entries]);
 
+  const { prevEntry, nextEntry } = useMemo(() => {
+    const allEntries = journalStore.getEntries(MOCK_USER_ID);
+    const currentIndex = allEntries.findIndex((e) => e.id === (id ?? allEntries[0]?.id));
+    return {
+      prevEntry: currentIndex > 0 ? allEntries[currentIndex - 1] : null,
+      nextEntry: currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null,
+    };
+  }, [id, journalStore.entries]);
+
   const displayEntry = storeEntry
     ? {
         ...ENTRY,
@@ -244,36 +253,40 @@ export const JournalDetail: React.FC = () => {
 
         {/* Entry navigation prev/next */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-          >
-            <ArrowLeft size={16} className="text-ink-400 shrink-0" />
-            <div className="flex-1 min-w-0">
-              <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
-                Entrée précédente
+          {prevEntry ? (
+            <button
+              type="button"
+              onClick={() => navigate(`/journal/entry/${prevEntry.id}`)}
+              className="flex items-center gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              <ArrowLeft size={16} className="text-ink-400 shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+                  Entrée précédente
+                </div>
+                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                  {prevEntry.title}
+                </div>
               </div>
-              <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
-                Semaine 13: Délégation
+            </button>
+          ) : <div />}
+          {nextEntry ? (
+            <button
+              type="button"
+              onClick={() => navigate(`/journal/entry/${nextEntry.id}`)}
+              className="flex items-center justify-end gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              <div className="flex-1 min-w-0">
+                <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
+                  Entrée suivante
+                </div>
+                <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
+                  {nextEntry.title}
+                </div>
               </div>
-            </div>
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate(1)}
-            className="flex items-center justify-end gap-stack-xs p-stack rounded-2xl border border-ink-100 bg-white hover:border-ink-200 hover:shadow-sm transition-all duration-base cursor-pointer text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-          >
-            <div className="flex-1 min-w-0">
-              <div className="font-body text-micro font-bold text-ink-500 uppercase tracking-wider mb-1">
-                Entrée suivante
-              </div>
-              <div className="font-body text-body-sm font-semibold text-ink-900 truncate">
-                Semaine 15: Feedback
-              </div>
-            </div>
-            <ArrowRight size={16} className="text-ink-400 shrink-0" />
-          </button>
+              <ArrowRight size={16} className="text-ink-400 shrink-0" />
+            </button>
+          ) : <div />}
         </div>
 
         {/* New entry CTA */}

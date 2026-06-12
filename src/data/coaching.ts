@@ -8,6 +8,17 @@ import { MOCK_USER_ID } from './passeport';
 
 export const MOCK_COACH_ID = 'coach-sophie';
 
+export const MOCK_COACH = {
+  name: 'Sophie Marchand',
+  role: 'Expert Leadership & Pédagogie',
+  bio: 'Spécialiste développement managérial et accompagnement 1:1 orienté mise en pratique sur vos cas réels.',
+  specialties: ['Leadership', 'IA Générative', 'Design Pédagogique'],
+  email: 'sophie.marchand@thelearningsociety.com',
+  rating: 4.9,
+  ratingCount: 42,
+  sessions: '156',
+};
+
 export const MOCK_COACHING_SESSIONS: CoachingSession[] = [
   {
     id: 'session-1',

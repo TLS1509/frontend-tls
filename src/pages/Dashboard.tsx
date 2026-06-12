@@ -13,6 +13,7 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useUserProfileStore } from '../stores/persistence';
+import { MOCK_COACH } from '../data/coaching';
 import { Button } from '../components/core/Button';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
@@ -130,7 +131,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
         />
         <SessionCard
           title="Session : Leadership & IA"
-          coachName="Sarah Martin"
+          coachName={MOCK_COACH.name}
           description="Travailler la posture de leader-coach face à l'arrivée des outils IA dans ton équipe."
           dateLabel="Mardi 12 mai · 14:30"
           durationLabel="45 min · Visio"
@@ -172,10 +173,10 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
             {
               id: 'feed-1',
               type: 'feedback',
-              title: 'Sarah Martin a partagé un feedback sur ta dernière session',
+              title: 'Sophie Marchand a partagé un feedback sur ta dernière session',
               description: '"Très belle progression sur la posture de leader-coach. Continue à expérimenter la délégation cette semaine."',
               timestamp: new Date(Date.now() - 3 * 3600000),
-              actor: { name: 'Sarah Martin' },
+              actor: { name: 'Sophie Marchand' },
               actionLabel: 'Lire',
               onActionClick: () => navigate('/coaching/compte-rendu/1'),
             },

@@ -48,6 +48,7 @@ import {
   UserX,
   Download,
 } from 'lucide-react';
+import { MOCK_COACH } from '../data/coaching';
 
 interface CoachingSession {
   id: string;
@@ -61,17 +62,7 @@ interface CoachingSession {
   journal: boolean;
 }
 
-const coach = {
-  name: 'Sophie Martin',
-  role: 'Expert IA & Pédagogie',
-  bio: 'Spécialiste IA générative et design pédagogique. Accompagnement 1:1 orienté mise en pratique sur vos cas réels.',
-  rating: 4.9,
-  ratingCount: 42,
-  sessions: '156',
-  specialties: ['Prompt Engineering', 'IA Générative', 'Design Pédagogique'],
-  email: 'sophie.martin@thelearningsociety.com',
-  linkedin: 'https://linkedin.com/in/sophiemartin',
-};
+const coach = MOCK_COACH;
 
 interface UpcomingSession {
   title: string;
