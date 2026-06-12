@@ -26,6 +26,8 @@ import { CardGrid } from '../components/patterns/CardGrid';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Button } from '../components/core/Button';
 import { Container } from '../components/layout';
+import { useLessonProgressStore } from '../stores/persistence';
+import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
 
 interface Parcours {
   id: string;
@@ -147,23 +149,44 @@ export const LearningPaths: React.FC = () => {
   const [selectedStatuses, setSelectedStatuses] = useState<Set<ParcoursStatus>>(new Set());
   const [query, setQuery] = useState('');
 
-  const total = MOCK_PARCOURS.length;
-  const totalLessons = MOCK_PARCOURS.reduce((s, p) => s + p.lessons, 0);
-  const completedLessons = MOCK_PARCOURS.reduce(
+  const lessonProgressStore = useLessonProgressStore();
+
+  // Compute progress from store for each parcours using real lesson completion data
+  const parcoursList = useMemo(() => {
+    return MOCK_PARCOURS.map((p) => {
+      const data = MOCK_PARCOURS_DATA[p.id];
+      if (!data) return p;
+      // Collect all lesson IDs in this parcours
+      const allLessonIds = data.etapes.flatMap((e) => e.lecons.map((l) => l.id));
+      if (allLessonIds.length === 0) return p;
+      // Count completed lessons from the store
+      const storeCompleted = allLessonIds.filter((id) => lessonProgressStore.isLessonCompleted(id)).length;
+      // Only use store data if the user has started at least one lesson; else keep seed progress
+      const realProgress = storeCompleted > 0
+        ? Math.round((storeCompleted / allLessonIds.length) * 100)
+        : p.progress;
+      const status: ParcoursStatus = realProgress >= 100 ? 'complété' : realProgress > 0 ? 'en cours' : 'non commencé';
+      return { ...p, progress: realProgress, status };
+    });
+  }, [lessonProgressStore.lessons]);
+
+  const total = parcoursList.length;
+  const totalLessons = parcoursList.reduce((s, p) => s + p.lessons, 0);
+  const completedLessons = parcoursList.reduce(
     (s, p) => s + Math.round((p.lessons * p.progress) / 100),
     0,
   );
   const overallProgress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
-  const inProgress = MOCK_PARCOURS.filter((p) => p.status === 'en cours').length;
-  const completed  = MOCK_PARCOURS.filter((p) => p.status === 'complété').length;
+  const inProgress = parcoursList.filter((p) => p.status === 'en cours').length;
+  const completed  = parcoursList.filter((p) => p.status === 'complété').length;
   const counts = useMemo(() => ({
-    'en cours':      MOCK_PARCOURS.filter((p) => p.status === 'en cours').length,
-    'complété':      MOCK_PARCOURS.filter((p) => p.status === 'complété').length,
-    'non commencé': MOCK_PARCOURS.filter((p) => p.status === 'non commencé').length,
-  }), []);
+    'en cours':      parcoursList.filter((p) => p.status === 'en cours').length,
+    'complété':      parcoursList.filter((p) => p.status === 'complété').length,
+    'non commencé': parcoursList.filter((p) => p.status === 'non commencé').length,
+  }), [parcoursList]);
 
   const filteredParcours = useMemo(() => {
-    return MOCK_PARCOURS.filter((p) => {
+    return parcoursList.filter((p) => {
       const matchStatus = selectedStatuses.size === 0 || selectedStatuses.has(p.status);
       const q = query.trim().toLowerCase();
       const matchQuery =
@@ -173,7 +196,7 @@ export const LearningPaths: React.FC = () => {
         p.instructor.toLowerCase().includes(q);
       return matchStatus && matchQuery;
     });
-  }, [selectedStatuses, query]);
+  }, [parcoursList, selectedStatuses, query]);
 
   const toggleStatus = (status: ParcoursStatus) => {
     setSelectedStatuses((prev) => {
