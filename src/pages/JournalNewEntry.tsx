@@ -199,6 +199,11 @@ export const JournalNewEntry: React.FC = () => {
     setExpandedQuestions(newExpanded);
   };
 
+  const handleInspirationClick = () => {
+    // Expand all structured questions to surface the guided prompts
+    setExpandedQuestions(new Set(activeQuestions.map((q) => q.id)));
+  };
+
   const toast = useToastContext();
   const handlePublish = () => {
     if (!title.trim() && !body.trim()) {
@@ -340,6 +345,7 @@ export const JournalNewEntry: React.FC = () => {
         <div className="mb-section">
           <button
             type="button"
+            onClick={handleInspirationClick}
             className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-600 font-body text-body-sm font-semibold cursor-pointer hover:bg-secondary-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
           >
             <Sparkles size={15} />
