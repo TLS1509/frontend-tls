@@ -87,9 +87,9 @@ export const NextStepsGrid: React.FC<NextStepsGridProps> = ({
       {items.map((step) => {
         const tone = step.tone ?? 'brand';
         const cardClasses = [
-          'group flex flex-col gap-stack p-6 bg-white rounded-2xl border border-ink-100',
+          'group flex flex-col gap-stack p-6 bg-white rounded-2xl border border-ink-100 shadow-card',
           'min-h-touch transition-all duration-base text-left cursor-pointer',
-          'hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm',
+          'hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-card',
           TONE_HOVER_BORDER[tone],
           'focus-visible:outline-2 focus-visible:outline-offset-2',
           TONE_FOCUS[tone],

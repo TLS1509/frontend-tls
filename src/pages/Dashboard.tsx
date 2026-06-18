@@ -200,12 +200,13 @@ export const Dashboard: React.FC = () => {
         {/* ① Hero */}
         <PageHero
           tone="brand"
+          compact
           eyebrow={{ icon: <Hand size={14} className="opacity-80" />, label: formattedDate }}
           title={`Bonjour ${firstName}`}
           summary={
             isFirstTime
               ? "Ton espace t'attend. Voici les premières actions pour démarrer en confiance."
-              : "Tu avances bien. Il reste 8 minutes pour boucler ton étape en cours."
+              : "Ton focus du jour t'attend, prêt à reprendre."
           }
         />
 
