@@ -61,9 +61,11 @@ const TONE_ACTION_BG: Record<FloatingNavTone, string> = {
   brand:   'bg-white text-primary-800 border-primary-200 hover:border-primary-300 hover:bg-primary-50',
 };
 
+/* Mobile : remonté au-dessus de la BottomNav (md:hidden, h-14 + safe-area) pour ne
+   pas chevaucher le dernier onglet. Desktop (md+) : BottomNav absente → bottom-6. */
 const POSITION_CLASS: Record<FloatingNavPosition, string> = {
-  'bottom-right': 'bottom-6 right-6 items-end',
-  'bottom-left':  'bottom-6 left-6 items-start',
+  'bottom-right': 'bottom-24 right-6 items-end md:bottom-6',
+  'bottom-left':  'bottom-24 left-6 items-start md:bottom-6',
 };
 
 export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
