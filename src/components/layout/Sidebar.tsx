@@ -29,12 +29,12 @@ export interface SidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'c
 
 const SIDEBAR_BASE =
   'group/sidebar relative flex flex-col self-stretch min-h-0 ' +
-  // Glass elevated background : white/translucent with blur, subtle teal glow
-  'bg-gradient-to-b from-white/95 via-primary-50/50 to-white/90 ' +
-  'backdrop-blur-glass-heavy backdrop-saturate-150 ' +
-  // Right edge: subtle inner border + soft outer drop shadow (teal-tinted)
-  'border-r border-white/70 ring-1 ring-inset ring-primary-100/40 ' +
-  'shadow-[8px_0_32px_-12px_rgba(85,161,180,0.18),2px_0_8px_-2px_rgba(85,161,180,0.08)] ' +
+  // Frosted glass — mostly white with a faint teal wash so ambient shows softly through blur
+  'bg-gradient-to-b from-white/78 via-white/68 to-primary-50/40 ' +
+  'backdrop-blur-glass-heavy backdrop-saturate-[160%] ' +
+  // Right edge: hairline border + soft teal-tinted drop shadow + inner highlights
+  'border-r border-primary-200/35 ' +
+  'shadow-[8px_0_40px_-8px_rgba(85,161,180,0.16),2px_0_10px_-2px_rgba(85,161,180,0.10),inset_0_1px_0_rgba(255,255,255,0.95),inset_-1px_0_0_rgba(255,255,255,0.60)] ' +
   'transition-[width] duration-slow ease-decelerate';
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {...rest}
       >
         {/* Brand row + mobile close button */}
-        <div className={['flex items-center justify-between gap-stack-xs px-4 pt-5 pb-section', collapsed && 'justify-center px-3 pb-7'].filter(Boolean).join(' ')}>
+        <div className={['flex items-center justify-between gap-stack-xs pl-6 pr-4 pt-6 pb-6', collapsed && 'justify-center px-3 pb-6'].filter(Boolean).join(' ')}>
           <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
@@ -131,10 +131,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 // ─── Default brand (logo + title) ──────────────────────────────────────────
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
-  <div className={['flex items-center gap-stack-xs.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
-    <TlsLogo size={collapsed ? 44 : 48} />
+  <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
+    <TlsLogo size={collapsed ? 40 : 42} className="shrink-0" />
     {!collapsed && (
-      <span className="font-display font-bold text-body-lg leading-tight text-primary-800">
+      <span className="font-display font-bold text-body-lg leading-[1.12] text-primary-800">
         The Learning<br />Society
       </span>
     )}

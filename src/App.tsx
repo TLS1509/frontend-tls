@@ -27,7 +27,6 @@ import { DropdownMenu, DropdownItem, DropdownLabel, DropdownSeparator } from './
 import { Avatar } from './components/ui/Avatar';
 import {
   LayoutDashboard,
-  Search as SearchIcon,
   Map as MapIcon,
   PenLine,
   Video,
@@ -58,7 +57,6 @@ import {
   LearningPaths,
   LearningPathDetail,
   Positionnement,
-  Recherche,
   Billing,
   SubscriptionPayment,
   VerifyEmail,
@@ -310,7 +308,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="flex min-h-[100dvh] bg-white">
+    <div className="flex min-h-[100dvh] bg-gradient-page-ambient">
       {/* Mobile hamburger (top-left, only visible < md) — click immédiat OU hover (200ms delay) */}
       <button
         type="button"
@@ -327,7 +325,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </button>
 
       {/* Sidebar — wrapped in a sticky container so it pins on scroll (desktop only). */}
-      <div className="sticky top-0 self-start min-h-[100dvh] z-sticky max-md:static max-md:h-auto max-md:z-auto relative" ref={userMenuRef}>
+      <div className="sticky top-0 h-[100dvh] z-sticky max-md:static max-md:h-auto max-md:z-auto relative flex-shrink-0" ref={userMenuRef}>
       {/* Dropdown menu — floats to the right of the sidebar (glass), anchored to user card */}
       {isUserMenuOpen && user && (
         <DropdownMenu
@@ -410,14 +408,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           icon={<LayoutDashboard size={18} />}
           label="Tableau de bord"
           active={isActive('/') || isActive('/dashboard')}
-          collapsed={collapsed}
-        />
-        <NavItem
-          href="/search"
-          onClick={goTo('/search')}
-          icon={<SearchIcon size={18} />}
-          label="Recherche"
-          active={isActive('/search')}
           collapsed={collapsed}
         />
         <NavItem
@@ -582,7 +572,6 @@ function App() {
                   <Route path="/learning-paths" element={<LearningPaths />} />
                   <Route path="/learning-paths/:id" element={<LearningPathDetail />} />
                   <Route path="/learning-paths/:id/positionnement" element={<Positionnement />} />
-                  <Route path="/search" element={<Recherche />} />
                   <Route path="/coaching" element={<Coaching />} />
                   <Route path="/collaboration" element={<Collaboration />} />
                   {/* /monitoring -> /veille (renamed) */}
