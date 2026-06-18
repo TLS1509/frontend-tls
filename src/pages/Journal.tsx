@@ -157,7 +157,7 @@ export const Journal: React.FC = () => {
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
-      <PageShell width="page" noPadTop>
+      <PageShell width="page" noPadTop className="relative z-[2]">
 
         {/* Hero: EditorialHero brand standalone (sans trailing) */}
         <EditorialHero

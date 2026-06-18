@@ -632,32 +632,33 @@
    donc en @layer utilities pour les exposer via class name (`bg-gradient-page-ambient`).
 */
 @layer utilities {
-  /* Canonical TLS ambient — primary-50 (teal soft) → white → accent-50 (sun soft) */
+  /* Gradient vertical propre (registre product : pas de blobs décoratifs sur les surfaces app).
+     Traverse les 50-tints TLS : bleu en haut → jaune → orange en bas. Très léger, se révèle au scroll. */
   .bg-gradient-page-ambient {
     background: linear-gradient(
-      to bottom right,
+      180deg,
       var(--color-primary-50) 0%,
-      #ffffff 50%,
-      var(--color-accent-50) 100%
-    );
-  }
-
-  /* Warm variant — primary-50 → white → secondary-50 (orange soft) — pour pages action/parcours */
-  .bg-gradient-page-ambient-warm {
-    background: linear-gradient(
-      to bottom right,
-      var(--color-primary-50) 0%,
-      #ffffff 50%,
+      var(--color-accent-50) 52%,
       var(--color-secondary-50) 100%
     );
   }
 
-  /* Sun variant — secondary-50 → white → accent-50 — pour pages reflexion/celebration */
+  /* Warm variant */
+  .bg-gradient-page-ambient-warm {
+    background: linear-gradient(
+      to bottom right,
+      var(--color-primary-50) 0%,
+      #eef5f8 50%,
+      var(--color-secondary-50) 100%
+    );
+  }
+
+  /* Sun variant */
   .bg-gradient-page-ambient-sun {
     background: linear-gradient(
       to bottom right,
       var(--color-secondary-50) 0%,
-      #ffffff 50%,
+      #f7f2ec 50%,
       var(--color-accent-50) 100%
     );
   }

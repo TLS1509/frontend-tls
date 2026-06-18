@@ -27,7 +27,6 @@ import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { MetaPill } from '../components/ui/MetaPill';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
-import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { IconFeatureCard } from '../components/ui/IconFeatureCard';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/core/Button';
@@ -201,7 +200,6 @@ export const Coaching: React.FC = () => {
   return (
     <>
       <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
-        <AmbientBlobs />
         <PageShell width="page" noPadTop className="relative z-base">
 
           {/* Hero: EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}

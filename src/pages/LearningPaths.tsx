@@ -215,7 +215,7 @@ export const LearningPaths: React.FC = () => {
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
-      <Container width="page" className="relative pt-0 pb-section flex flex-col gap-section">
+      <Container width="page" className="relative z-[2] pt-0 pb-section flex flex-col gap-section">
 
         {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
         <EditorialHero

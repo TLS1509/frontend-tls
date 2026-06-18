@@ -34,7 +34,6 @@ import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { Badge } from '../components/ui/Badge';
 import { ConfirmModal } from '../components/modals/ConfirmModal';
-import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
@@ -169,7 +168,6 @@ export const SubscriptionPayment: React.FC = () => {
   return (
     <div className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
-      <AmbientBlobs intensity="subtle" />
 
       <div className="relative z-base max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-section pb-section flex flex-col gap-section">
 
