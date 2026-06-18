@@ -123,12 +123,14 @@ const DEFAULT_TONE_FOR_TYPE: Record<ActivityType, ActivityTone> = {
   coaching:         'sun',
 };
 
+/* Soft tinted icon discs — éditorial/calme (pas de gradient glossy app-y).
+   L'icône colorée sur un disque tinté lit mieux sur fond clair et fait moins "dashboard". */
 const TONE_DOT: Record<ActivityTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-400 to-primary-600 text-white shadow-brand-sm',
-  warm:    'bg-gradient-to-br from-secondary-400 to-secondary-600 text-white shadow-warm-sm',
-  sun:     'bg-gradient-to-br from-accent-300 to-accent-500 text-accent-900 shadow-sun-sm',
-  success: 'bg-gradient-to-br from-success-base to-success-fg text-white shadow-sm',
-  danger:  'bg-gradient-to-br from-danger-base to-danger-fg text-white shadow-sm',
+  primary: 'bg-primary-50 text-primary-600 ring-1 ring-primary-100',
+  warm:    'bg-secondary-50 text-secondary-600 ring-1 ring-secondary-100',
+  sun:     'bg-accent-50 text-accent-700 ring-1 ring-accent-200',
+  success: 'bg-success-bg text-success-fg ring-1 ring-success-base/30',
+  danger:  'bg-danger-bg text-danger-fg ring-1 ring-danger-base/30',
 };
 
 const TONE_HOVER_BG: Record<ActivityTone, string> = {
@@ -184,7 +186,6 @@ const ActivityIcon: React.FC<{ item: ActivityItem; tone: ActivityTone; layout: A
     <span
       className={[
         'inline-flex items-center justify-center shrink-0 transition-transform group-hover/item:scale-105',
-        layout === 'timeline' ? 'ring-4 ring-white' : '',
         shape,
         TONE_DOT[tone],
       ].join(' ')}
@@ -208,8 +209,8 @@ const ActivityRow: React.FC<{
       className={[
         'group/item relative flex items-start gap-stack-xs rounded-xl transition-[background-color,border-color,box-shadow] duration-fast ease-standard',
         layout === 'cards'
-          ? 'p-4 bg-white border border-ink-200 hover:border-primary-300 hover:shadow-sm'
-          : `p-3 ${TONE_HOVER_BG[tone]}`,
+          ? 'p-4 bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover'
+          : 'p-3 bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover',
       ].join(' ')}
     >
       {/* Icon + optional rail */}
@@ -238,29 +239,24 @@ const ActivityRow: React.FC<{
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
           <div className="flex items-center gap-stack-xs mt-2 flex-wrap">
             {item.actor && (
-              <span className="inline-flex items-center gap-stack-xs px-1.5 py-1 pr-2.5 rounded-pill bg-ink-50 border border-ink-200">
+              <span className="inline-flex items-center gap-1.5">
                 <Avatar
                   size="xs"
                   name={item.actor.name}
                   src={item.actor.avatar}
                   shape="circle"
-                  className="!ring-1 !ring-white"
                 />
-                <span className="text-caption text-ink-700 font-medium">{item.actor.name}</span>
+                <span className="text-caption text-ink-600 font-medium">{item.actor.name}</span>
               </span>
             )}
             {item.actionLabel && item.onActionClick && (
               <button
                 type="button"
                 onClick={item.onActionClick}
-                className={[
-                  'inline-flex items-center gap-tight px-3 py-1 rounded-pill text-caption font-semibold border cursor-pointer transition-colors',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  TONE_ACTION[tone],
-                ].join(' ')}
+                className="inline-flex items-center gap-1 text-caption font-semibold text-primary-600 hover:text-primary-700 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
-                <ArrowRight size={13} strokeWidth={2.25} />
+                <ArrowRight size={11} strokeWidth={2.5} aria-hidden="true" />
               </button>
             )}
           </div>

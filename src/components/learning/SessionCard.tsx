@@ -17,11 +17,9 @@
 
 import React from 'react';
 import { CardTitle, CardDesc } from '../core/Card';
-import { Badge } from '../ui/Badge';
 import { Button } from '../core/Button';
-import { MetaPillGroup } from '../ui/MetaPillGroup';
-import { UserRound, CalendarClock, Clock3, FileText, Notebook, ArrowRight } from 'lucide-react';
-import type { BadgeVariant } from '../ui/Badge';
+import { Avatar } from '../ui/Avatar';
+import { CalendarClock, FileText, Notebook, ArrowRight } from 'lucide-react';
 
 export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
 export type SessionCardTone = 'primary' | 'warm' | 'sun';
@@ -29,6 +27,8 @@ export type SessionCardTone = 'primary' | 'warm' | 'sun';
 export interface SessionCardProps {
   title: string;
   coachName: string;
+  /** Rôle/spécialité du coach — affiché en sous-ligne sous le nom (éditorial). Optionnel. */
+  coachRole?: string;
   description: string;
   dateLabel: string;
   /** Durée optionnelle — par défaut non affichée (les sessions sont 1h standard). */
@@ -59,19 +59,19 @@ const ACTION_BTN_TONES = {
 
 /* Surface variants — cross-cutting DS Phase 10 convention.
    Tinted est tone-aware ; glass et frosted sont universels (overlay sur fonds colorés). */
-const SURFACE_CARD = 'bg-white border border-ink-200 hover:border-ink-300';
+const SURFACE_CARD = 'bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover';
 
 const SURFACE_TINTED: Record<SessionCardTone, string> = {
-  primary: 'bg-primary-50/60 border border-primary-100 hover:border-primary-200',
-  warm:    'bg-secondary-50/60 border border-secondary-100 hover:border-secondary-200',
-  sun:     'bg-accent-50/60 border border-accent-100 hover:border-accent-200',
+  primary: 'bg-primary-100/88 backdrop-blur-sm border border-primary-200/70 hover:border-primary-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
+  warm:    'bg-secondary-100/88 backdrop-blur-sm border border-secondary-200/70 hover:border-secondary-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
+  sun:     'bg-accent-100/88 backdrop-blur-sm border border-accent-200/70 hover:border-accent-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
 };
 
 const SURFACE_GLASS =
-  'bg-white/60 backdrop-blur-glass-light border border-white/60 hover:bg-white/75';
+  'bg-white/75 backdrop-blur-glass-light border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white/85';
 
 const SURFACE_FROSTED =
-  'bg-white/40 backdrop-blur-glass-medium border border-white/50 shadow-sm hover:bg-white/55';
+  'bg-white/68 backdrop-blur-md border border-white/55 shadow-sm hover:bg-white/80 hover:shadow-md';
 
 const FOCUS_TONE: Record<SessionCardTone, string> = {
   primary: 'focus-visible:outline-primary-500',
@@ -104,12 +104,20 @@ const TONE_HOVER_GLOW: Record<SessionCardTone, string> = {
   sun:     'hover-glow-sun',
 };
 
+/* Status eyebrow — point coloré + label, en remplacement du Badge top-right
+   (plus éditorial, moins "app badge"). */
+const STATUS_EYEBROW: Record<'planned' | 'completed', { dot: string; label: string; text: string }> = {
+  planned:   { dot: 'bg-info-base',    label: 'Planifiée', text: 'text-primary-700' },
+  completed: { dot: 'bg-success-base', label: 'Terminée',  text: 'text-success-fg' },
+};
+
 const BASE =
-  'group flex flex-col gap-stack p-6 rounded-2xl transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2';
+  'group flex flex-col gap-stack p-6 rounded-2xl transition-all duration-slow ease-emphasis hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 export const SessionCard: React.FC<SessionCardProps> = ({
   title,
   coachName,
+  coachRole,
   description,
   dateLabel,
   durationLabel,
@@ -125,16 +133,9 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   onOpen,
   className = '',
 }) => {
-  const statusVariant: BadgeVariant = status === 'completed' ? 'success' : 'info';
-  const statusLabel = status === 'completed' ? 'Terminée' : 'Planifiée';
-
-  /* Meta : coach + date (+ durée optionnelle). Affichées DIRECTEMENT sous le titre
-     pour une scan UX claire (titre → infos clés → contexte description → actions). */
-  const metaItems = [
-    { icon: <UserRound size={14} />, text: coachName },
-    { icon: <CalendarClock size={14} />, text: dateLabel },
-    ...(durationLabel ? [{ icon: <Clock3 size={14} />, text: durationLabel }] : []),
-  ];
+  const eyebrow = STATUS_EYEBROW[status];
+  /* Meta date/durée en texte inline avec séparateur · (éditorial — fini les pills bordées). */
+  const dateLine = [dateLabel, durationLabel].filter(Boolean).join(' · ');
 
   const classes = [
     BASE,
@@ -146,18 +147,35 @@ export const SessionCard: React.FC<SessionCardProps> = ({
 
   return (
     <div className={classes}>
-      {/* Header : titre + statut + meta directement sous le titre */}
+      {/* Header éditorial : eyebrow statut → titre → coach → date inline */}
       <div className="flex flex-col gap-stack-xs">
-        <div className="flex justify-between items-start gap-stack-xs">
-          <CardTitle className="flex-1">{title}</CardTitle>
-          <Badge variant={statusVariant}>{statusLabel}</Badge>
+        <span className="inline-flex items-center gap-1.5 text-micro font-semibold uppercase tracking-[0.08em]">
+          <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${eyebrow.dot}`} />
+          <span className={eyebrow.text}>{eyebrow.label}</span>
+        </span>
+
+        <CardTitle>{title}</CardTitle>
+
+        {/* Coach — avatar + nom (+ rôle) : humanise sans badge froid */}
+        <div className="flex items-center gap-2.5 pt-0.5">
+          <Avatar size="sm" name={coachName} shape="circle" />
+          <div className="min-w-0">
+            <p className="m-0 text-body-sm font-semibold text-ink-900 leading-tight truncate">{coachName}</p>
+            {coachRole && <p className="m-0 text-caption text-ink-500 leading-tight truncate">{coachRole}</p>}
+          </div>
         </div>
-        <MetaPillGroup items={metaItems} size="sm" />
+
+        {/* Date · durée — meta inline discrète */}
+        <p className="m-0 flex items-center gap-1.5 text-caption text-ink-600">
+          <CalendarClock size={14} className="text-ink-400 shrink-0" aria-hidden="true" />
+          {dateLine}
+        </p>
       </div>
 
-      {/* Description (contexte) — sous les méta */}
+      {/* Description (contexte) */}
       <CardDesc>{description}</CardDesc>
 
+      {(questionnaire || report || onOpen) && (
       <div className={`flex flex-wrap gap-stack-xs pt-3 ${FOOTER_DIVIDER[surface]}`}>
         {questionnaire && (
           <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.primary}`} onClick={onViewQuestionnaire}>
@@ -180,11 +198,12 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         {onOpen && (
           <div className="ml-auto flex">
             <Button variant="primary" size="sm" onClick={onOpen}>
-              Ouvrir <ArrowRight size={14} />
+              Voir la session <ArrowRight size={14} />
             </Button>
           </div>
         )}
       </div>
+      )}
     </div>
   );
 };
