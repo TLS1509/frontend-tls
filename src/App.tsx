@@ -203,6 +203,7 @@ import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
 import TestLogo from './pages/_TestLogo';
 import { FloatingNavButton } from './components/FloatingNavButton';
+import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
@@ -476,6 +477,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
         ]}
       />
+      {import.meta.env.DEV && <DevPanel />}
     </div>
   );
 };

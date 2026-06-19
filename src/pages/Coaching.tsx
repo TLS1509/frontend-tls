@@ -15,9 +15,10 @@
  *  - Semantic spacing tokens (gap-section, gap-stack)
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCoachingStore, useUserProfileStore } from '../stores/persistence';
+import { useDevStore } from '../stores/devStore';
 import { MOCK_USER_ID } from '../data/passeport';
 import { BookingModal, CancelSessionModal, SessionFeedbackModal, SuccessModal } from '../components/modals';
 import type { UserPlan } from '../components/modals/BookingModal';
@@ -41,10 +42,7 @@ import {
   FileText,
   PenLine,
   CalendarPlus,
-  Sparkles,
   MessageCircle,
-  UserPlus,
-  UserX,
   Download,
 } from 'lucide-react';
 import { MOCK_COACH } from '../data/coaching';
@@ -80,8 +78,8 @@ export const Coaching: React.FC = () => {
   const navigate = useNavigate();
   const coachingStore = useCoachingStore();
   const profileStore = useUserProfileStore();
-  const [coachAssigned, setCoachAssigned] = useState(true);
-  const [userPlan, setUserPlan] = useState<UserPlan>('free');
+  const { coachAssigned, hasSession: devHasSession, userPlan: devUserPlan } = useDevStore();
+  const userPlan = devUserPlan as UserPlan;
   const [showBooking, setShowBooking]     = useState(false);
   const [showCancel, setShowCancel]       = useState(false);
   const [showFeedback, setShowFeedback]   = useState(false);
@@ -109,7 +107,24 @@ export const Coaching: React.FC = () => {
     nextStoredSession ?? INITIAL_UPCOMING
   );
 
-  const hasUpcoming = upcoming !== null;
+  // Dev store controls whether the session is displayed — overrides local state
+  const hasUpcoming = coachAssigned && devHasSession && upcoming !== null;
+  const displayedUpcoming = hasUpcoming ? upcoming : null;
+
+  // Listen for modal triggers from DevPanel
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const handler = (e: Event) => {
+      const modal = (e as CustomEvent<string>).detail;
+      if (modal === 'booking')         setShowBooking(true);
+      else if (modal === 'cancel')     setShowCancel(true);
+      else if (modal === 'feedback')   setShowFeedback(true);
+      else if (modal === 'success-booking') setShowBookingSuccess(true);
+      else if (modal === 'success-cancel')  setShowCancelSuccess(true);
+    };
+    window.addEventListener('dev:open-modal', handler);
+    return () => window.removeEventListener('dev:open-modal', handler);
+  }, []);
 
   // Past/completed sessions from store mapped to display format
   const sessions: CoachingSession[] = useMemo(() =>
@@ -210,50 +225,6 @@ export const Coaching: React.FC = () => {
             summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
           />
 
-          {/* DEV CONTROLS: masqué en production */}
-          {import.meta.env.DEV && <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-accent-50 border border-accent-200 text-caption">
-            <span className="inline-flex items-center gap-tight font-bold text-accent-900">
-              <Sparkles size={14} /> DEV
-            </span>
-            <span className="text-ink-700">Coach :</span>
-            <Button
-              size="sm"
-              variant={coachAssigned ? 'secondary' : 'primary'}
-              leadingIcon={coachAssigned ? <UserX size={14} /> : <UserPlus size={14} />}
-              onClick={() => setCoachAssigned(!coachAssigned)}
-            >
-              {coachAssigned ? 'Pas de coach assigné' : 'Coach assigné'}
-            </Button>
-            <span className="text-ink-500 mx-1">·</span>
-            <span className="text-ink-700">Session :</span>
-            <Button
-              size="sm"
-              variant={hasUpcoming ? 'secondary' : 'primary'}
-              onClick={() => setUpcoming(hasUpcoming ? null : INITIAL_UPCOMING)}
-              disabled={!coachAssigned}
-            >
-              {hasUpcoming ? 'Retirer la session' : 'Restaurer la session'}
-            </Button>
-            <span className="text-ink-500 mx-1">·</span>
-            <span className="text-ink-700">Plan :</span>
-            {(['free', 'pro', 'enterprise'] as UserPlan[]).map((plan) => (
-              <Button
-                key={plan}
-                size="sm"
-                variant={userPlan === plan ? 'primary' : 'ghost'}
-                onClick={() => setUserPlan(plan)}
-              >
-                {plan}
-              </Button>
-            ))}
-            <span className="text-ink-500 mx-1">·</span>
-            <span className="text-ink-700">Modales :</span>
-            <Button size="sm" variant="ghost" onClick={() => setShowBooking(true)}>Booking</Button>
-            <Button size="sm" variant="ghost" onClick={() => setShowCancel(true)} disabled={!hasUpcoming}>Cancel</Button>
-            <Button size="sm" variant="ghost" onClick={() => setShowFeedback(true)}>Feedback</Button>
-            <Button size="sm" variant="ghost" onClick={() => setShowBookingSuccess(true)}>Success Booking</Button>
-            <Button size="sm" variant="ghost" onClick={() => setShowCancelSuccess(true)}>Success Cancel</Button>
-          </div>}
 
           {/* (Section coach strip supprimée: intégré DANS la session card upcoming pour
               le state coach + session. Pas de section dédiée quand pas de coach assigné
@@ -496,8 +467,8 @@ export const Coaching: React.FC = () => {
           setShowCancel(false);
           setShowBooking(true);
         }}
-        sessionTitle={upcoming?.title ?? ''}
-        sessionDate={upcoming ? `${upcoming.dateLabel}: ${upcoming.hourLabel}` : ''}
+        sessionTitle={displayedUpcoming?.title ?? ''}
+        sessionDate={displayedUpcoming ? `${displayedUpcoming.dateLabel}: ${displayedUpcoming.hourLabel}` : ''}
       />
 
       {/* SessionFeedbackModal: feedback post-session */}
@@ -518,8 +489,8 @@ export const Coaching: React.FC = () => {
         onClose={() => setShowBookingSuccess(false)}
         title="Session réservée !"
         message={
-          upcoming
-            ? `Votre session est confirmée le ${upcoming.dateLabel} à ${upcoming.hourLabel}. Un lien visio vous sera envoyé par email.`
+          displayedUpcoming
+            ? `Votre session est confirmée le ${displayedUpcoming.dateLabel} à ${displayedUpcoming.hourLabel}. Un lien visio vous sera envoyé par email.`
             : 'Votre session a été réservée avec succès.'
         }
       />

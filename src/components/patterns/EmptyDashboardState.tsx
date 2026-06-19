@@ -56,7 +56,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
     },
   ];
 
-  const wrapperClasses = ['w-full flex flex-col gap-stack-lg', className].filter(Boolean).join(' ');
+  const wrapperClasses = ['w-full flex flex-col gap-stack', className].filter(Boolean).join(' ');
 
   return (
     <section className={wrapperClasses} aria-label="Premiers pas">
@@ -89,7 +89,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({
           Découvre les parcours adaptés à ton profil et lance ta première leçon.
         </p>
 
-        <span className="mt-1 inline-flex self-start items-center gap-2 h-11 px-6 rounded-pill bg-white/80 text-secondary-800 border border-white/70 backdrop-blur-sm shadow-sm text-body-sm font-semibold transition-[background-color,box-shadow,transform] duration-fast ease-emphasis group-hover:bg-white group-hover:shadow-warm-sm group-hover:-translate-y-px">
+        <span className="mt-1 inline-flex self-start items-center gap-2 h-11 px-4 rounded-pill bg-white/80 text-secondary-800 border border-white/70 backdrop-blur-sm shadow-sm text-body-sm font-semibold transition-[background-color,box-shadow,transform] duration-fast ease-emphasis group-hover:bg-white group-hover:shadow-warm-sm group-hover:-translate-y-px">
           Explorer les parcours <ArrowRight size={15} aria-hidden="true" />
         </span>
       </button>
