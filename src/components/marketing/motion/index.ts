@@ -16,6 +16,8 @@ export { TiltCard } from './TiltCard';
 export { ScrollProgress } from './ScrollProgress';
 export { NoiseTexture } from './NoiseTexture';
 export { MarketingToastProvider, useMarketingToast } from './Toast';
+// Direction C — Illustrated Glass (scroll-driven painting reveal)
+export { ScrollRevealCanvas } from './ScrollRevealCanvas';
 // Direction C animation effects (Phase 2B)
 export { MorphingSVGVisualizer } from './morphing-svg-visualizer';
 export { CounterAnimation } from './counter-animation';

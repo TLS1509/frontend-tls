@@ -17,16 +17,14 @@ import {
   BarChart3,
   Shield,
   Briefcase,
-  Star,
   CheckCircle2,
   Sparkles,
-  Quote,
+  GraduationCap,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
-  CountUp,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
@@ -99,24 +97,6 @@ const PROCESS = [
   },
 ];
 
-// ⚠️ PLACEHOLDER : Témoignages illustratifs. Le site live n'en publie aucun.
-// À remplacer par de vrais témoignages clients (avec accord écrit) avant production.
-const TESTIMONIALS = [
-  {
-    quote:
-      "L'équipe TLS nous a permis de déployer notre première formation IA en 6 semaines. La rigueur pédagogique et la maîtrise des outils sont impressionnantes.",
-    author: 'Directrice Formation',
-    org: 'Groupe industriel · 500+ collaborateurs',
-    stars: 5,
-  },
-  {
-    quote:
-      "Le diagnostic initial a été une révélation : nous avions des doublons et des outils sous-utilisés. La feuille de route qu'ils ont livrée a changé notre vision.",
-    author: 'Responsable L&D',
-    org: 'Scale-up tech · 200 collaborateurs',
-    stars: 5,
-  },
-];
 
 export const MarketingAccompagnement: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -287,70 +267,88 @@ export const MarketingAccompagnement: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Metrics ───────────────────────────────────────────────────────── */}
+      {/* ── Ancrage terrain ───────────────────────────────────────────────── */}
       <section className="py-section bg-gradient-to-b from-primary-50/30 to-white">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-stack">
-          {[
-            { to: 40, suffix: '+', label: 'missions livrées' },
-            { to: 6, suffix: ' sem', label: 'time-to-market moyen' },
-            { to: 97, suffix: ' %', label: 'satisfaction client' },
-            { to: 12, suffix: '+', label: 'secteurs accompagnés' },
-          ].map((m, i) => (
-            <FadeInWhenVisible key={m.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col items-center text-center gap-tight p-stack-lg rounded-2xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
-                <CountUp
-                  to={m.to}
-                  suffix={m.suffix}
-                  className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-primary-700 leading-none"
-                />
-                <span className="font-body text-caption text-ink-600 mt-1 uppercase tracking-wider font-semibold">
-                  {m.label}
+        <div className="max-w-5xl mx-auto px-6">
+          <FadeInWhenVisible direction="up">
+            <div className="rounded-2xl bg-white border border-primary-100 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
+              <div className="flex flex-col gap-stack flex-1">
+                <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
+                  Notre ancrage
+                </span>
+                <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
+                  Formateurs et ingénieurs pédagogiques de terrain.
+                </p>
+                <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
+                  Chloé Mimault et Pierre-Armand Dallies conçoivent et déploient
+                  des dispositifs L&D depuis plusieurs années. Notre formation
+                  "Formateur Augmenté" est certifiée Qualiopi en partenariat
+                  avec C-Campus — parce qu'on construit ce qu'on vend.
+                </p>
+              </div>
+              <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
+                  <Shield size={13} /> Certifié Qualiopi
+                </span>
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
+                  <GraduationCap size={13} /> Partenaire C-Campus
                 </span>
               </div>
-            </FadeInWhenVisible>
-          ))}
+            </div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
-      {/* ── Testimonials ──────────────────────────────────────────────────── */}
+      {/* ── Pourquoi TLS ──────────────────────────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
-                Ils nous ont fait confiance
-              </span>
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Ce qui nous distingue.
+              </h2>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Ce qu'en disent nos clients.
-              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                On ne vend pas de frameworks génériques. On construit avec vous,
+                pas pour vous.
+              </p>
             </FadeInWhenVisible>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-            {TESTIMONIALS.map((t, i) => (
-              <FadeInWhenVisible key={t.author + i} direction="up" delay={i * 0.1}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+            {[
+              {
+                icon: <GraduationCap size={22} />,
+                title: 'Pédagogues avant tout',
+                body: "Notre approche SBO est conçue par des ingénieurs pédagogiques — pas des consultants IA génériques. La compétence au centre, l'outil au service.",
+              },
+              {
+                icon: <Shield size={22} />,
+                title: 'Exigence qualité',
+                body: 'Certification Qualiopi via C-Campus. Méthode STRIDE documentée et éprouvée. Livrables contractualisés à chaque étape, pas de vague "transformation".',
+              },
+              {
+                icon: <Sparkles size={22} />,
+                title: 'IA Act · RGPD natifs',
+                body: "Conformité intégrée dès la conception : IA Act (deadline 2026-08-02), RGPD, propriété intellectuelle. Vous avancez sans risque réglementaire.",
+              },
+            ].map((item, i) => (
+              <FadeInWhenVisible key={item.title} direction="up" delay={i * 0.1}>
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl transition-shadow duration-base"
+                  className="h-full rounded-2xl bg-gradient-to-br from-primary-50/60 to-white border border-primary-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base"
                 >
-                  <div className="flex items-center justify-between">
-                    <Quote size={28} className="text-accent-400" />
-                    <div className="flex gap-tight">
-                      {Array.from({ length: t.stars }).map((_, j) => (
-                        <Star key={j} size={16} className="fill-accent-400 text-accent-400" />
-                      ))}
-                    </div>
-                  </div>
-                  <blockquote className="font-display text-body-lg font-medium text-ink-900 leading-snug m-0">
-                    « {t.quote} »
-                  </blockquote>
-                  <div className="flex flex-col gap-0.5 pt-stack border-t border-ink-100">
-                    <span className="font-display font-bold text-body-sm text-ink-900">{t.author}</span>
-                    <span className="font-body text-caption text-ink-500">{t.org}</span>
-                  </div>
+                  <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-100 text-primary-600">
+                    {item.icon}
+                  </span>
+                  <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0">
+                    {item.title}
+                  </h3>
+                  <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
+                    {item.body}
+                  </p>
                 </motion.article>
               </FadeInWhenVisible>
             ))}

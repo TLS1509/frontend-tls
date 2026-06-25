@@ -31,7 +31,9 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
+  ScrollRevealCanvas,
 } from '../../components/marketing/motion';
+import gradientTealOrangeBg from '../../../brand-assets/patterns/backgrounds/pattern_gradient-teal-orange_bg-v1.svg?url';
 import { SEOHead } from './components/SEOHead';
 import CountUp from '../../components/marketing/motion/CountUp';
 
@@ -170,7 +172,7 @@ const FAQ = [
     a: "Non, la formation part des bases et progresse graduellement. Le module 1 te donne toutes les clés pour comprendre l'IA générative, même sans pré-requis technique.",
   },
   {
-    q: 'La formation est-elle éligible au CPF ou OPCO ?',
+    q: 'La formation est-elle éligible à une prise en charge OPCO ?',
     a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon ton secteur — contacte-nous pour vérifier ton éligibilité.',
   },
   {
@@ -335,30 +337,30 @@ export const MarketingFormation: React.FC = () => {
         canonical="/marketing/formation"
       />
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-secondary-600 via-secondary-700 to-primary-800">
-        {/* Radial halo */}
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-secondary-50/60 via-white to-white">
+        {/* Ambient blobs — light, subtle */}
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-secondary-500/30 blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-pill bg-accent-400/10 blur-3xl" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-pill bg-secondary-100/50 blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-pill bg-primary-100/40 blur-3xl" />
         </div>
         <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
-              <Award size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 shadow-xs">
+              <Award size={14} className="text-secondary-600" />
+              <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
                 Programme certifiant · Open Badge 2.0
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-white leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
-              Deviens <span className="text-accent-400">Formateur Augmenté</span>.
+            <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+              Deviens <span className="text-secondary-600">Formateur Augmenté</span>.
             </h1>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
               7 modules, 23 heures, 8 semaines. Maîtrise l'IA pédagogique,
               intègre la méthode STRIDE et enrichis ton Passeport de Compétences —
               certifié Qualiopi en partenariat avec C-Campus.
@@ -375,32 +377,34 @@ export const MarketingFormation: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#modules">
-                <Button variant="glass" size="lg" trailingIcon={<ChevronDown size={18} />}>
+                <Button variant="secondary" size="lg" trailingIcon={<ChevronDown size={18} />}>
                   Découvrir le programme
                 </Button>
               </a>
             </div>
           </FadeInWhenVisible>
 
-          {/* Metric strip */}
+          {/* Metric strip — only verifiable course facts */}
           <FadeInWhenVisible direction="up" delay={0.4}>
-            <div className="grid grid-cols-3 gap-stack-lg pt-section pb-stack border-t border-white/20 mt-stack-lg max-w-2xl">
+            <div className="flex flex-wrap items-center justify-center gap-section pt-section pb-stack border-t border-ink-100 mt-stack-lg max-w-2xl">
               {[
                 { value: 7, suffix: '', label: 'modules' },
                 { value: 23, suffix: 'h', label: 'de contenu' },
-                { value: 200, suffix: '+', label: 'certifiés' },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col items-center text-center">
                   <CountUp
                     to={m.value}
                     suffix={m.suffix}
-                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-white leading-none"
+                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-ink-900 leading-none"
                   />
-                  <span className="font-body text-caption text-white/70 mt-1 uppercase tracking-wider font-semibold">
+                  <span className="font-body text-caption text-ink-500 mt-1 uppercase tracking-wider font-semibold">
                     {m.label}
                   </span>
                 </div>
               ))}
+              <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
+                <Shield size={13} /> Certifié Qualiopi · C-Campus
+              </span>
             </div>
           </FadeInWhenVisible>
         </div>
@@ -598,6 +602,66 @@ export const MarketingFormation: React.FC = () => {
           </FadeInWhenVisible>
         </div>
       </section>
+
+      {/* ── 3.9. Direction C — Illustrated Glass (scroll reveal test) ─────── */}
+      <ScrollRevealCanvas
+        bgSrc={gradientTealOrangeBg}
+        height="260vh"
+        revealDuration={0.65}
+        edgeSoftness={12}
+        overlay="bg-white/20"
+      >
+        {/* Content floats above the painting as it reveals */}
+        <div className="h-full flex flex-col items-center justify-center px-6 gap-section max-w-6xl mx-auto w-full">
+          <FadeInWhenVisible direction="up">
+            <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight text-center m-0 max-w-3xl">
+              Une méthode <span className="text-primary-600">bâtie</span> pour durer.
+            </h2>
+          </FadeInWhenVisible>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack w-full">
+            {[
+              {
+                n: '1',
+                title: 'Fondamentaux solides',
+                body: "Vocabulaire, outils, limites de l'IA générative — tu sais ce que tu fais et pourquoi.",
+              },
+              {
+                n: '2',
+                title: 'Méthode STRIDE',
+                body: "L'ingénierie pédagogique augmentée par l'IA, sans perdre la cohérence ni l'intention humaine.",
+              },
+              {
+                n: '3',
+                title: 'Passeport certifiant',
+                body: "Open Badge 2.0, reconnaissance Qualiopi, compétences inscrites dans ton passeport TLS.",
+              },
+            ].map((item, i) => (
+              <FadeInWhenVisible key={item.n} direction="up" delay={i * 0.1}>
+                <article className="rounded-2xl bg-white/70 backdrop-blur-glass-medium border border-white/60 shadow-card p-stack-lg flex flex-col gap-stack h-full">
+                  <span className="font-display text-[2.5rem] font-extrabold text-primary-300 leading-none">
+                    {item.n}
+                  </span>
+                  <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0">
+                    {item.title}
+                  </h3>
+                  <p className="font-body text-body-sm text-ink-700 leading-relaxed m-0 flex-1">
+                    {item.body}
+                  </p>
+                </article>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+          <FadeInWhenVisible direction="up" delay={0.3}>
+            <MagneticButton strength={12}>
+              <a href="#pricing">
+                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Voir les tarifs
+                </Button>
+              </a>
+            </MagneticButton>
+          </FadeInWhenVisible>
+        </div>
+      </ScrollRevealCanvas>
 
       {/* ── 4. Pricing ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="py-page bg-white">
