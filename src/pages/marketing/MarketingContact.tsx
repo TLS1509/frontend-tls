@@ -20,7 +20,6 @@ import {
   Clock,
   Sparkles,
   ExternalLink,
-  Phone,
   MapPin,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
@@ -90,13 +89,13 @@ export const MarketingContact: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,6vw,4.5rem)]">
               Parlons de{' '}
-              <span className="text-accent-400">ton projet</span>.
+              <span className="text-accent-400">votre projet</span>.
             </h1>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Question sur nos formations, projet d'accompagnement, ou envie d'en savoir plus sur la Learning App ?
-              On te répond sous 48h ouvrées.
+              Nous vous répondons sous 48h ouvrées.
             </p>
           </FadeInWhenVisible>
         </div>
@@ -123,7 +122,7 @@ export const MarketingContact: React.FC = () => {
                       Message envoyé !
                     </h2>
                     <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
-                      Merci {form.name || 'pour ton message'} ! On te répond sous 48h ouvrées
+                      Merci {form.name || 'pour votre message'} ! Nous vous répondons sous 48h ouvrées
                       à l'adresse <strong>{form.email}</strong>.
                     </p>
                   </div>
@@ -148,10 +147,10 @@ export const MarketingContact: React.FC = () => {
                 >
                   <div className="flex flex-col gap-stack">
                     <h2 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
-                      Envoie-nous un message
+                      Écrivez-nous
                     </h2>
                     <p className="font-body text-body text-ink-600 m-0">
-                      Tous les champs sont volontairement courts. On ira au fond pendant l'échange.
+                      Tous les champs sont volontairement courts. Nous irons au fond pendant l'échange.
                     </p>
                   </div>
 
@@ -233,7 +232,7 @@ export const MarketingContact: React.FC = () => {
 
                   <div className="flex flex-col gap-stack-xs">
                     <label htmlFor="ct-message" className="font-body text-body-sm font-semibold text-ink-900">
-                      Ton message *
+                      Votre message *
                     </label>
                     <textarea
                       id="ct-message"
@@ -241,7 +240,7 @@ export const MarketingContact: React.FC = () => {
                       required
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      placeholder="Décris brièvement ton contexte, tes objectifs, tes questions…"
+                      placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
                       className="px-4 py-3 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[140px]"
                     />
                   </div>
@@ -280,7 +279,7 @@ export const MarketingContact: React.FC = () => {
                     Réserve un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
-                    Plus efficace qu'un email. Choisis ton créneau directement dans notre agenda.
+                    Plus efficace qu'un email. Choisissez votre créneau directement dans notre agenda.
                   </p>
                 </div>
                 <MagneticButton strength={10}>
