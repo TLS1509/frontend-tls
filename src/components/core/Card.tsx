@@ -90,9 +90,9 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   feature: 'bg-white shadow-card-hover hover:shadow-card-lift',
   elevated: 'bg-white shadow-card-hover hover:shadow-card-lift',
   interactive: 'bg-white border border-ink-200 shadow-card cursor-pointer hover:-translate-y-1 hover:shadow-card-lift hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
-  glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/70 to-white/35 border border-white/60 shadow-sm hover:shadow-md',
-  'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[22%] to-primary-500/[6%] border border-primary-500/25 shadow-sm hover:shadow-brand-sm',
-  'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-500/[12%] to-accent-400/5 border border-secondary-500/[15%] shadow-sm hover:shadow-warm-sm',
+  glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
+  'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
+  'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
   'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
   bordered: 'bg-white border-2 border-primary-200 shadow-xs hover:border-primary-400 hover:shadow-sm',
@@ -101,7 +101,7 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
   // `tinted` provides only the border + shadow defaults — the actual gradient
   // bg is supplied by TONE_GRADIENT_BG_CLASSES via the `tone` prop. Falls back
   // to a neutral white surface if no tone is set.
-  tinted:   'bg-white border shadow-xs',
+  tinted:   'bg-white border shadow-sm backdrop-blur-sm',
 };
 
 /**
@@ -110,10 +110,10 @@ const VARIANT_CLASSES: Record<CardVariant, string> = {
  * styling in one place.
  */
 const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
-  primary: 'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border-primary-200/60',
-  warm:    'bg-gradient-to-br from-secondary-50/95 to-secondary-100/60 border-secondary-200/60',
-  sun:     'bg-gradient-to-br from-accent-50/95 to-accent-100/60 border-accent-200/60',
-  brand:   'bg-gradient-to-br from-primary-50/95 to-primary-100/60 border-primary-200/60',
+  primary: 'bg-gradient-to-br from-primary-100/92 to-primary-50/78 border-primary-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
+  warm:    'bg-gradient-to-br from-secondary-100/92 to-secondary-50/78 border-secondary-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
+  sun:     'bg-gradient-to-br from-accent-100/92 to-accent-50/78 border-accent-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
+  brand:   'bg-gradient-to-br from-primary-100/92 to-primary-50/78 border-primary-200/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
 };
 
 const SIZE_CLASSES: Record<CardSize, string> = {

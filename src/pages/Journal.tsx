@@ -159,9 +159,9 @@ export const Journal: React.FC = () => {
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
       <PageShell width="page" noPadTop className="relative z-[2]">
 
-        {/* Hero: EditorialHero brand standalone (sans trailing) */}
+        {/* Hero: EditorialHero sun — Journal = espace de réflexion/or */}
         <EditorialHero
-          tone="brand"
+          tone="sun"
           eyebrow={{ icon: <Sparkles size={12} />, label: 'Mon apprentissage' }}
           title="Journal d'apprentissage"
           summary="Capitalise tes prises de conscience, structure tes réflexions et suis ta progression."

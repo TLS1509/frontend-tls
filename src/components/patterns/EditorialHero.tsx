@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { MeshGradientBg } from '../marketing/motion/MeshGradientBg';
+import type { MeshTone } from '../marketing/motion/MeshGradientBg';
 
 /**
  * PageHero — universal page-opening hero (canonical name since Phase 19.B-2026-05-26).
@@ -111,10 +113,33 @@ const TONE_BORDER: Record<PageHeroTone, string> = {
 };
 
 const TONE_HALO: Record<PageHeroTone, string> = {
-  default: 'radial-gradient(circle, rgba(85, 161, 180, 0.18) 0%, transparent 70%)',
-  brand:   'radial-gradient(circle, rgba(255, 255, 255, 0.20) 0%, transparent 70%)',
-  warm:    'radial-gradient(circle, rgba(255, 255, 255, 0.20) 0%, transparent 70%)',
-  sun:     'radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, transparent 70%)',
+  default: 'radial-gradient(circle, rgba(85, 161, 180, 0.28) 0%, transparent 65%)',
+  brand:   'radial-gradient(circle, rgba(255, 255, 255, 0.50) 0%, transparent 65%)',
+  warm:    'radial-gradient(circle, rgba(255, 255, 255, 0.48) 0%, transparent 65%)',
+  sun:     'radial-gradient(circle, rgba(255, 255, 255, 0.52) 0%, transparent 65%)',
+};
+
+/* Second organic blob — bottom-left — creates cross-light depth like Direction C. */
+const TONE_HALO_2: Record<PageHeroTone, string> = {
+  default: 'radial-gradient(circle, rgba(248, 176, 68, 0.16) 0%, transparent 60%)',
+  brand:   'radial-gradient(circle, rgba(248, 176, 68, 0.26) 0%, transparent 60%)',
+  warm:    'radial-gradient(circle, rgba(85, 161, 180, 0.22) 0%, transparent 60%)',
+  sun:     'radial-gradient(circle, rgba(85, 161, 180, 0.20) 0%, transparent 60%)',
+};
+
+/* Map hero tone → MeshGradientBg tone (animated illustrated layer, Direction C). */
+const TONE_MESH: Partial<Record<PageHeroTone, MeshTone>> = {
+  brand: 'brand',
+  warm:  'warm',
+  sun:   'sun',
+};
+
+/* Tinted outer + inner-rim shadow per tone (glass panel signature). */
+const TONE_SHADOW: Record<PageHeroTone, string> = {
+  default: 'shadow-md',
+  brand:   'shadow-[0_4px_12px_-2px_rgba(45,90,102,0.25),inset_0_1px_0_rgba(255,255,255,0.22)]',
+  warm:    'shadow-[0_4px_12px_-2px_rgba(180,80,20,0.18),inset_0_1px_0_rgba(255,255,255,0.22)]',
+  sun:     'shadow-[0_4px_12px_-2px_rgba(180,120,10,0.14),inset_0_1px_0_rgba(255,255,255,0.26)]',
 };
 
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
@@ -202,9 +227,10 @@ export const PageHero: React.FC<PageHeroProps> = ({
   return (
     <section
       className={[
-        'relative overflow-hidden rounded-2xl border shadow-md backdrop-blur-glass-light',
+        'relative overflow-hidden rounded-2xl border backdrop-blur-glass-light',
         TONE_BG[tone],
         TONE_BORDER[tone],
+        TONE_SHADOW[tone],
         compact ? 'px-6 py-stack-lg' : 'px-8 py-section',
         'flex flex-col gap-stack-xs',
         className,
@@ -212,11 +238,24 @@ export const PageHero: React.FC<PageHeroProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Tone-aware halo */}
+      {/* Animated mesh gradient — illustrated atmospheric layer (Direction C).
+          Only on saturated tones (brand/warm/sun) where the base gradient provides
+          enough contrast to reveal the blob animation. */}
+      {TONE_MESH[tone] && (
+        <MeshGradientBg tone={TONE_MESH[tone]!} intensity="subtle" />
+      )}
+
+      {/* Primary halo — top-right warm light source */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -top-[60%] -right-[20%] w-[380px] h-[380px] rounded-full"
+        className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-full"
         style={{ background: TONE_HALO[tone] }}
+      />
+      {/* Secondary blob — bottom-left cross-light (Direction C depth layer) */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-full"
+        style={{ background: TONE_HALO_2[tone] }}
       />
 
       {/* Back link (top-left, above eyebrow) */}

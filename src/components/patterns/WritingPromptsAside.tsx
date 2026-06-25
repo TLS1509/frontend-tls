@@ -62,6 +62,8 @@ export interface WritingPromptsAsideProps {
   onOpenJournal?: () => void;
   title?: string;
   subtitle?: string;
+  /** Hide the section header — useful when section hierarchy is communicated by card size/position. */
+  showHeader?: boolean;
   className?: string;
 }
 
@@ -71,19 +73,22 @@ export const WritingPromptsAside: React.FC<WritingPromptsAsideProps> = ({
   onOpenJournal,
   title = 'Journal de bord',
   subtitle = 'Self-reflection sur ta formation et tes pratiques professionnelles',
+  showHeader = true,
   className = '',
 }) => (
   <section
     aria-label={title}
     className={['flex flex-col gap-stack', className].filter(Boolean).join(' ')}
   >
-    <SectionHeader
-      title={title}
-      subtitle={subtitle}
-      icon={PenLine}
-      variant="minimal"
-      tone="sun"
-    />
+    {showHeader && (
+      <SectionHeader
+        title={title}
+        subtitle={subtitle}
+        icon={PenLine}
+        variant="minimal"
+        tone="sun"
+      />
+    )}
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
       {prompts.map((prompt) => (
@@ -93,6 +98,7 @@ export const WritingPromptsAside: React.FC<WritingPromptsAsideProps> = ({
           icon={prompt.icon}
           text={prompt.text}
           variant={prompt.variant}
+          ctaLabel="Écrire"
           onClick={() => onNavigate(prompt.href)}
         />
       ))}

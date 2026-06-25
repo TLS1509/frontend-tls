@@ -76,7 +76,7 @@ const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
       // Position: absolute, tucked under the card's bottom edge, offset from right
       'absolute -bottom-2 right-8 w-5 h-5 rotate-45 rounded-br-[6px]',
       // No border — share the card's background to merge seamlessly
-      'bg-white transition-colors duration-200',
+      'bg-white/90 transition-colors duration-200',
       // Match the card's tinted bg on hover
       VARIANT_HOVER_BG[variant],
     ].join(' ')}
@@ -84,11 +84,11 @@ const SpeechTail: React.FC<{ variant: BadgeVariant }> = ({ variant }) => (
 );
 
 const BASE_INTERACTIVE =
-  'group relative cursor-pointer rounded-3xl bg-white transition-all duration-slow ease-emphasis ' +
+  'group relative cursor-pointer rounded-3xl bg-white/90 backdrop-blur-sm transition-all duration-slow ease-emphasis ' +
   // Override global [role="button"] rule from components-modern.css that forces height:40px + overflow:hidden
   '!h-auto !overflow-visible ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
-  '[filter:drop-shadow(0_2px_8px_rgba(0,0,0,0.06))] ' +
+  '[filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.08))] ' +
   'hover:-translate-y-1';
 
 export const PromptCard: React.FC<PromptCardProps> = ({

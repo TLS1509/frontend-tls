@@ -7,6 +7,10 @@ export { MarqueeRow } from './MarqueeRow';
 export { CountUp } from './CountUp';
 export { StickyScrollStory, type StoryPanel } from './StickyScrollStory';
 export { InteractiveAppMockup } from './InteractiveAppMockup';
+// Readymag-tier "wow" primitives (2026-06-25)
+export { KineticHeadline } from './KineticHeadline';
+export { RevealMask } from './RevealMask';
+export { ScrollVelocity } from './ScrollVelocity';
 // P4 polish primitives
 export { TiltCard } from './TiltCard';
 export { ScrollProgress } from './ScrollProgress';

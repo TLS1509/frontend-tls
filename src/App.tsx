@@ -199,6 +199,8 @@ import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import OnboardingPreview from './pages/OnboardingPreview';
 import { OnboardingUnified } from './pages/OnboardingUnified';
+import AppLanding from './pages/AppLanding';
+import IconLab from './pages/_IconLab';
 import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
 import TestLogo from './pages/_TestLogo';
@@ -221,6 +223,7 @@ import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
+import { MarketingWaitlist } from './pages/marketing/MarketingWaitlist';
 import {
   MarketingMentionsLegales,
   MarketingPolitiqueConfidentialite,
@@ -523,6 +526,7 @@ function App() {
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />
           <Route path="contact" element={<MarketingContact />} />
+          <Route path="waitlist" element={<MarketingWaitlist />} />
           <Route path="mentions-legales" element={<MarketingMentionsLegales />} />
           <Route path="politique-confidentialite" element={<MarketingPolitiqueConfidentialite />} />
           <Route path="cgv-cgu" element={<MarketingCgvCgu />} />
@@ -537,6 +541,10 @@ function App() {
 
         {/* ── Pages test temporaires ── */}
         <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
+
+        {/* ── Landing page inscription — public, plein écran ── */}
+        <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
+        <Route path="/icon-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><IconLab /></div>} />
 
         {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
         {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}

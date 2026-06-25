@@ -16,6 +16,9 @@ import {
   CountUp,
   StickyScrollStory,
   InteractiveAppMockup,
+  KineticHeadline,
+  RevealMask,
+  ScrollVelocity,
   type StoryPanel,
 } from '../../components/marketing/motion';
 
@@ -305,14 +308,58 @@ export const MarketingMotionLab: React.FC = () => {
         />
       </div>
 
+      {/* 10: KineticHeadline */}
+      <section className={SECTION}>
+        <div className={SECTION_INNER}>
+          <span className={SECTION_EYEBROW}>10 · KineticHeadline</span>
+          <h2 className="font-display text-[clamp(2.5rem,6vw,4.5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
+            <KineticHeadline text="Les mots montent de derrière un masque." repeat />
+          </h2>
+          <p className="font-body text-body-lg text-ink-700 max-w-prose m-0">
+            Révélation mot-par-mot, chaque mot dans son sleeve overflow-hidden. La signature éditoriale. (repeat activé ici pour rejouer à chaque scroll.)
+          </p>
+        </div>
+      </section>
+
+      {/* 11: RevealMask */}
+      <section className={SECTION}>
+        <div className={SECTION_INNER}>
+          <span className={SECTION_EYEBROW}>11 · RevealMask</span>
+          <h2 className={SECTION_TITLE}>Wipe directionnel clip-path.</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-stack">
+            {(['up', 'right', 'down', 'left'] as const).map((dir) => (
+              <RevealMask key={dir} direction={dir} repeat className="rounded-3xl overflow-hidden">
+                <div className="aspect-[16/9] bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white">
+                  <span className="font-display text-h3 font-extrabold">direction=&quot;{dir}&quot;</span>
+                </div>
+              </RevealMask>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12: ScrollVelocity */}
+      <section className={SECTION}>
+        <div className={SECTION_INNER}>
+          <span className={SECTION_EYEBROW}>12 · ScrollVelocity</span>
+          <h2 className={SECTION_TITLE}>Le skew réagit à la vitesse de scroll.</h2>
+          <p className="font-body text-body-lg text-ink-700 max-w-prose m-0">
+            Scrolle vite puis arrête : le bloc s'incline puis revient à plat (spring). Plafonné à 4° pour rester premium.
+          </p>
+          <ScrollVelocity className="pt-stack">
+            <MarqueeRow items={LOGO_ITEMS} />
+          </ScrollVelocity>
+        </div>
+      </section>
+
       {/* Footer note */}
       <footer className="py-page bg-ink-50 border-t border-ink-100">
         <div className="max-w-4xl mx-auto px-6 text-center flex flex-col gap-stack">
           <h2 className="font-display text-h2 font-extrabold text-ink-900 m-0">
-            ✅ 9 primitives prêtes.
+            12 primitives prêtes.
           </h2>
           <p className="font-body text-body-lg text-ink-600 m-0">
-            Phase 1.0 validée → on attaque le header fix puis la home immersive.
+            KineticHeadline · RevealMask · ScrollVelocity ajoutées (2026-06-25). Live sur /inscription.
           </p>
         </div>
       </footer>

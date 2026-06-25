@@ -217,9 +217,9 @@ export const Coaching: React.FC = () => {
       <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
         <PageShell width="page" noPadTop className="relative z-base">
 
-          {/* Hero: EditorialHero tone="brand" standalone (tiles outils sortis du hero). */}
+          {/* Hero: EditorialHero tone="warm" — Coaching = connexion humaine/amber */}
           <EditorialHero
-            tone="brand"
+            tone="warm"
             eyebrow={{ icon: <CalendarClock size={12} />, label: 'Mon accompagnement' }}
             title="Coaching 1:1"
             summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
