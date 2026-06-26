@@ -72,7 +72,7 @@ const PROCESS = [
     num: '01',
     duration: '2 semaines',
     title: "S'orienter",
-    desc: "Rencontre d'exploration (90 min), audit de maturité SBO, cartographie des compétences Dreyfus et identification des cas d'usage prioritaires. Livrable : rapport + feuille de route stratégique.",
+    desc: "Rencontre d'exploration (90 min), audit de maturité pédagogique, cartographie des compétences Dreyfus et identification des cas d'usage prioritaires. Livrable : rapport + feuille de route stratégique.",
     accent: 'bg-primary-500',
     accentLight: 'bg-primary-50',
     accentText: 'text-primary-700',
@@ -81,7 +81,7 @@ const PROCESS = [
     num: '02',
     duration: '4–8 semaines',
     title: 'Tester · Réaliser',
-    desc: "Validation du modèle sur une cohorte pilote (Tester), puis développement des agents IA, référentiels de compétences et parcours sur-mesure avec vos équipes (Réaliser). Livrable : dispositif SBO conçu, testé et validé.",
+    desc: "Validation du modèle sur une cohorte pilote (Tester), puis développement des agents IA, référentiels de compétences et parcours sur-mesure avec vos équipes (Réaliser). Livrable : dispositif conçu, testé et validé.",
     accent: 'bg-secondary-500',
     accentLight: 'bg-secondary-50',
     accentText: 'text-secondary-700',
@@ -90,7 +90,7 @@ const PROCESS = [
     num: '03',
     duration: '2–4 semaines',
     title: 'Intégrer · Déployer · Évoluer',
-    desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences — puis amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord SBO.",
+    desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences — puis amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord compétences.",
     accent: 'bg-accent-400',
     accentLight: 'bg-accent-50',
     accentText: 'text-warning-fg',
@@ -177,7 +177,7 @@ export const MarketingAccompagnement: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Vous n'avez besoin que d'un audit ? Parfait. D'un programme SBO complet ?
+                Vous n'avez besoin que d'un audit ? Parfait. D'un programme complet ?
                 On y va. Nous nous adaptons à votre contexte, jamais l'inverse.
               </p>
             </FadeInWhenVisible>
@@ -223,7 +223,7 @@ export const MarketingAccompagnement: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois phases pour déployer <span className="text-accent-400">votre stratégie SBO</span>.
+                Trois phases pour déployer <span className="text-accent-400">votre stratégie</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -280,16 +280,12 @@ export const MarketingAccompagnement: React.FC = () => {
                   Formateurs et ingénieurs pédagogiques de terrain.
                 </p>
                 <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
-                  Chloé Mimault et Pierre-Armand Dallies conçoivent et déploient
-                  des dispositifs L&D depuis plusieurs années. Notre formation
-                  "Formateur Augmenté" est certifiée Qualiopi en partenariat
-                  avec C-Campus — parce qu'on construit ce qu'on vend.
+                  Chloé Mimault et Pierre-Armand Dennery conçoivent et déploient
+                  des dispositifs L&D depuis plusieurs années. Nous construisons
+                  ce que nous vendons — méthode éprouvée, livrables concrets.
                 </p>
               </div>
               <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
-                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
-                  <Shield size={13} /> Certifié Qualiopi
-                </span>
                 <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
                   <GraduationCap size={13} /> Partenaire C-Campus
                 </span>
@@ -321,12 +317,12 @@ export const MarketingAccompagnement: React.FC = () => {
               {
                 icon: <GraduationCap size={22} />,
                 title: 'Pédagogues avant tout',
-                body: "Notre approche SBO est conçue par des ingénieurs pédagogiques — pas des consultants IA génériques. La compétence au centre, l'outil au service.",
+                body: "Notre approche est conçue par des ingénieurs pédagogiques — pas des consultants IA génériques. La compétence au centre, l'outil au service.",
               },
               {
                 icon: <Shield size={22} />,
                 title: 'Exigence qualité',
-                body: 'Certification Qualiopi via C-Campus. Méthode STRIDE documentée et éprouvée. Livrables contractualisés à chaque étape, pas de vague "transformation".',
+                body: 'Méthode STRIDE documentée et éprouvée. Livrables contractualisés à chaque étape, pas de vague "transformation".',
               },
               {
                 icon: <Sparkles size={22} />,
@@ -455,7 +451,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     rows={4}
                     value={form.need}
                     onChange={(e) => setForm({ ...form, need: e.target.value })}
-                    placeholder="Décrivez brièvement votre contexte et vos objectifs SBO…"
+                    placeholder="Décrivez brièvement votre contexte et vos enjeux de formation…"
                     className="px-4 py-3 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
                   />
                 </div>

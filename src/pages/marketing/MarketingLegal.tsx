@@ -75,24 +75,24 @@ export const MarketingMentionsLegales: React.FC = () => (
     icon={<FileText size={20} />}
     title="Mentions légales"
     subtitle="Informations légales relatives à l'éditeur et à l'hébergeur du site."
-    lastUpdated="Mai 2026"
+    lastUpdated="Juin 2026"
     canonical="/marketing/mentions-legales"
     sections={[
       {
         heading: 'Éditeur du site',
-        body: 'The Learning Society: SAS au capital de [montant] €. SIRET : [numéro]. Siège social : [adresse]. Directeur de la publication : [nom].',
+        body: 'The Learning Society — SAS au capital de 100 €. Siège social : 26 bis, rue Olivier Noyer, 75014 Paris, France. SIRET : 909 413 841 00026 — RCS Paris 909 413 841 — TVA intracommunautaire : FR38909413841. Directeur de la publication : Pierre-Armand Dennery. Contact : contact@thelearningsociety.fr.',
       },
       {
         heading: 'Hébergeur',
-        body: '[Nom de l\'hébergeur], [adresse], [pays]. Contact : [email/téléphone].',
+        body: 'OVH — SASU au capital de 10 174 560 €. Siège social : 2, rue Kellermann, 59100 Roubaix, France. SIRET : 424 761 419 00045 — RCS Lille Métropole 424 761 419. Contact : support@ovh.com — Téléphone : +33 (0) 820 32 03 63.',
       },
       {
         heading: 'Propriété intellectuelle',
-        body: 'L\'ensemble du contenu de ce site (textes, images, vidéos, logos) est protégé par le droit d\'auteur et appartient à The Learning Society ou à ses partenaires. Toute reproduction sans autorisation préalable est interdite.',
+        body: 'L\'ensemble du contenu de ce site (textes, images, vidéos, logos) est protégé par le droit d\'auteur et appartient à The Learning Society ou à ses partenaires. Toute reproduction sans autorisation écrite préalable est interdite, conformément aux articles L.335-2 et suivants du Code de la propriété intellectuelle.',
       },
       {
-        heading: 'Liens hypertextes',
-        body: 'Le site peut contenir des liens vers des sites tiers. The Learning Society n\'est pas responsable du contenu de ces sites et ne peut être tenu responsable des dommages résultant de leur utilisation.',
+        heading: 'Liens hypertextes et cookies',
+        body: 'Le site peut contenir des liens vers des sites tiers. The Learning Society n\'est pas responsable du contenu de ces sites. Lors de votre navigation, des cookies peuvent être déposés sur votre terminal. Vous pouvez gérer vos préférences à tout moment via le bandeau de consentement.',
       },
     ]}
   />
@@ -105,12 +105,12 @@ export const MarketingPolitiqueConfidentialite: React.FC = () => (
     icon={<Shield size={20} />}
     title="Politique de confidentialité"
     subtitle="Comment nous collectons, utilisons et protégeons vos données personnelles."
-    lastUpdated="Mai 2026"
+    lastUpdated="Juin 2026"
     canonical="/marketing/politique-confidentialite"
     sections={[
       {
         heading: 'Responsable du traitement',
-        body: 'The Learning Society, [adresse], est responsable du traitement de vos données personnelles au sens du RGPD (Règlement Général sur la Protection des Données).',
+        body: 'The Learning Society — 26 bis, rue Olivier Noyer, 75014 Paris — est responsable du traitement de vos données personnelles au sens du RGPD (Règlement Général sur la Protection des Données).',
       },
       {
         heading: 'Données collectées',
@@ -122,7 +122,7 @@ export const MarketingPolitiqueConfidentialite: React.FC = () => (
       },
       {
         heading: 'Conservation',
-        body: 'Vos données sont conservées pendant [durée] à compter de votre dernière interaction, sauf obligation légale contraire.',
+        body: 'Vos données sont conservées pendant 3 ans à compter de votre dernière interaction (données prospects et contacts), et pendant la durée de la relation contractuelle augmentée de 5 ans pour les données clients, sauf obligation légale contraire.',
       },
       {
         heading: 'Vos droits',
@@ -143,7 +143,7 @@ export const MarketingCgvCgu: React.FC = () => (
     icon={<ScrollText size={20} />}
     title="CGV & CGU"
     subtitle="Conditions Générales de Vente et d'Utilisation applicables aux prestations et à la plateforme The Learning Society."
-    lastUpdated="Mai 2026"
+    lastUpdated="Juin 2026"
     canonical="/marketing/cgv-cgu"
     sections={[
       {
@@ -152,11 +152,11 @@ export const MarketingCgvCgu: React.FC = () => (
       },
       {
         heading: 'Tarifs et paiement',
-        body: 'Les tarifs sont indiqués en euros HT sur les devis émis. Le paiement est dû à réception de facture sauf accord contraire. Tout retard entraîne des pénalités de [taux] % par jour.',
+        body: 'Les tarifs sont indiqués en euros HT sur les devis émis. Le paiement est dû à réception de facture sauf accord contraire. Tout retard entraîne de plein droit des pénalités au taux de 3 fois le taux d\'intérêt légal en vigueur, ainsi qu\'une indemnité forfaitaire pour frais de recouvrement de 40 €.',
       },
       {
         heading: 'Annulation et report',
-        body: 'Toute annulation doit être notifiée par écrit. En deçà de [X] jours ouvrés avant le début de la prestation, [X] % du montant reste dû. Les reports sont acceptés sous réserve de disponibilité.',
+        body: 'Toute annulation doit être notifiée par écrit. En deçà de 5 jours ouvrés avant le début de la prestation, 50 % du montant reste dû. En deçà de 48 heures, la totalité du montant est due. Les reports sont acceptés sous réserve de disponibilité.',
       },
       {
         heading: 'Responsabilité',
@@ -177,7 +177,7 @@ export const MarketingCharteIA: React.FC = () => (
     icon={<Brain size={20} />}
     title="Charte IA & éthique"
     subtitle="Nos engagements sur l'usage responsable de l'intelligence artificielle dans nos formations et notre plateforme."
-    lastUpdated="Mai 2026"
+    lastUpdated="Juin 2026"
     canonical="/marketing/charte-ia"
     sections={[
       {

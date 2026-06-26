@@ -115,7 +115,7 @@ const POLES = [
     lead: 'Chloé Mimault',
     role: 'Tech · ingénierie pédagogique · produit',
     services: [
-      "Audit Flash SBO (0,5 à 1 jour)",
+      "Audit Flash (0,5 à 1 jour)",
       "Architecture de dispositifs et design de parcours",
       "Création de contenus Power Skills (micro-learning, vidéo, ancrage mémoriel)",
       "Ingénierie de certification Open Badges",
@@ -131,7 +131,7 @@ const POLES = [
     role: 'Commercial · delivery · animation',
     services: [
       "Animation et coaching (C-Campus et partenaires)",
-      "Conférences et masterclasses sur la Skills-Based Organization",
+      "Conférences et masterclasses sur l'IA en formation",
       "Maintenance et support des outils IA déployés",
     ],
     icon: <Users size={22} />,
@@ -212,7 +212,7 @@ export const MarketingConseil: React.FC = () => {
                       La porte d'entrée
                     </span>
                     <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0">
-                      L'Audit Flash SBO
+                      L'Audit Flash
                     </h2>
                     <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
                       En 0,5 à 1 journée, on produit un diagnostic express de votre organisation :

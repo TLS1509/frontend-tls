@@ -108,7 +108,7 @@ const PILLARS = [
   },
   {
     icon: Award,
-    title: 'Conformité Qualiopi facilitée',
+    title: 'Traçabilité intégrée',
     body: "La traçabilité des preuves et des compétences est intégrée au dispositif, pas ajoutée après coup.",
   },
 ];
@@ -161,7 +161,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "Le déploiement a été net : un dispositif clair, conforme Qualiopi, et adopté par les équipes sans formation lourde à l'outil.",
+      "Le déploiement a été net : un dispositif clair, structuré, et adopté par les équipes sans formation lourde à l'outil.",
     role: 'Responsable pédagogique, ESN',
   },
 ];
@@ -259,7 +259,7 @@ export const MarketingHomePreserve: React.FC = () => {
             <span className="inline-flex items-center gap-stack-xs rounded-pill border border-white/20 bg-white/10 px-3.5 py-1.5 backdrop-blur-glass-medium">
               <Sparkles size={14} className="text-accent-300" />
               <span className="font-body text-caption font-semibold uppercase tracking-wider text-white">
-                Certifiant · Qualiopi · Open Badge 2.0
+                Certifiant · Open Badge 2.0
               </span>
             </span>
           </FadeInWhenVisible>

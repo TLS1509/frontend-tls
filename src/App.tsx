@@ -208,11 +208,12 @@ import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
-import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
-import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
-import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
-import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
-import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
+// [archived] home variants + devtools — files kept, routes removed from prod
+// import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
+// import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
+// import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
+// import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
+// import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
@@ -511,11 +512,7 @@ function App() {
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/marketing" element={<MarketingLayout />}>
           <Route index element={<MarketingHome />} />
-          <Route path="home-a" element={<MarketingHomeA />} />
-          <Route path="home-b" element={<MarketingHomeB />} />
-          <Route path="home-c" element={<MarketingHomeC />} />
-          <Route path="_motion-lab" element={<MarketingMotionLab />} />
-          <Route path="_showcase-scroll" element={<StickyScrollShowcase />} />
+          {/* [archived] home variants + devtools — /home-a /home-b /home-c /_motion-lab /_showcase-scroll */}
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />

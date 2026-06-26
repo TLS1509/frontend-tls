@@ -39,25 +39,25 @@ const STRIDE_STEPS = [
     letter: 'S',
     word: "S'orienter",
     title: 'Audit de maturité & sensibilisation',
-    desc: "On part du réel. Audit de l'organisation, cartographie des compétences Dreyfus, identification des cas d'usage SBO prioritaires. Pas de solution avant le diagnostic — pas de diagnostic sans écoute.",
+    desc: "On part du réel. Audit de l'organisation, cartographie des compétences Dreyfus, identification des cas d'usage pédagogiques prioritaires. Pas de solution avant le diagnostic — pas de diagnostic sans écoute.",
     icon: <Compass size={28} />,
-    deliverable: 'Rapport audit + feuille de route SBO',
+    deliverable: 'Rapport audit + feuille de route compétences',
   },
   {
     letter: 'T',
     word: 'Tester',
     title: 'Proof of concept sur un périmètre réel',
-    desc: "On valide le modèle avant de scaler. Des parcours sur-mesure créés dans la Learning App pour tester l'approche SBO avec une cohorte pilote. On mesure, on ajuste, on décide.",
+    desc: "On valide le modèle avant de scaler. Des parcours sur-mesure créés dans la Learning App pour tester l'approche pédagogique avec une cohorte pilote. On mesure, on ajuste, on décide.",
     icon: <Target size={28} />,
     deliverable: 'Dispositif pilote validé',
   },
   {
     letter: 'R',
     word: 'Réaliser',
-    title: "Construction de l'infrastructure SBO",
+    title: "Construction de l'infrastructure pédagogique",
     desc: "Développement des agents IA, des référentiels de compétences et des parcours sur-mesure. Prototypage avec vos équipes — chaque brique est testée par vos apprenants pilotes avant déploiement.",
     icon: <BookOpen size={28} />,
-    deliverable: 'Dispositif SBO conçu, testé et validé',
+    deliverable: 'Dispositif conçu, testé et validé',
   },
   {
     letter: 'I',
@@ -73,7 +73,7 @@ const STRIDE_STEPS = [
     title: 'Mise en production & accompagnement au changement',
     desc: "Lancement officiel auprès de tous les collaborateurs. Onboarding sur la Learning App, activation des Passeports de Compétences. L'adoption n'est pas un accident — elle se conçoit dès l'étape R.",
     icon: <Award size={28} />,
-    deliverable: 'Solution déployée + tableau de bord SBO',
+    deliverable: 'Solution déployée + tableau de bord compétences',
   },
   {
     letter: 'E',
@@ -81,7 +81,7 @@ const STRIDE_STEPS = [
     title: 'Amélioration continue pilotée par la donnée',
     desc: "STRIDE ne s'arrête pas au déploiement. On analyse — vélocité des compétences, engagement, skill gaps émergents — pour mettre à jour les outils IA et les référentiels selon l'évolution du marché.",
     icon: <RefreshCw size={28} />,
-    deliverable: 'Tableau de bord SBO + backlog mensuel',
+    deliverable: 'Tableau de bord compétences + backlog mensuel',
   },
 ];
 
@@ -99,7 +99,7 @@ const PRINCIPLES = [
   {
     icon: <Users size={24} />,
     title: 'Co-conception',
-    desc: "Tu n'es pas spectateur du processus. Tu co-construis avec nous — c'est ta capacité à le refaire seul·e qui mesure notre succès.",
+    desc: "Vous n'êtes pas spectateur du processus. Vous co-construisez avec nous — c'est votre capacité à le refaire seul·e qui mesure notre succès.",
   },
   {
     icon: <CheckCircle2 size={24} />,
@@ -134,7 +134,7 @@ export const MarketingMethode: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="La Méthode STRIDE"
-        description="STRIDE : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. La méthode complète de The Learning Society pour construire une Skills-Based Organization."
+        description="STRIDE : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. La méthode TLS pour transformer vos pratiques pédagogiques avec l'IA, de l'audit initial à l'évolution continue."
         canonical="/marketing/methode"
       />
 
@@ -162,7 +162,7 @@ export const MarketingMethode: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              STRIDE est la méthode TLS pour déployer une organisation Skills-Based — de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
+              STRIDE est la méthode TLS pour déployer une organisation apprenante augmentée par l'IA — de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
             </p>
           </FadeInWhenVisible>
 
@@ -361,7 +361,7 @@ export const MarketingMethode: React.FC = () => {
                 <span className="text-accent-400">à votre contexte</span> ?
               </h2>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-                On démarre par un diagnostic de 90 min — audit de maturité SBO et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
+                On démarre par un diagnostic de 90 min — audit de maturité pédagogique et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>

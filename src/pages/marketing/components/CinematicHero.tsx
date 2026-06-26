@@ -36,7 +36,7 @@ const GOLD = 'rgba(248,176,68,1)';
 const SWAP_WORDS = ['forment', 'conçoivent', 'accompagnent', 'transmettent'];
 
 /** Condensed honest credentials: no invented metric (FACTS-CANON). */
-const CHIPS = ['Certifiant · Qualiopi', 'Open Badge vérifiable', 'Éligible OPCO'];
+const CHIPS = ['Programme certifiant', 'Open Badge vérifiable', 'Éligible OPCO'];
 
 // ─── Word-swap (Ditto): one role word slides + blurs through the list ─────────
 const WordSwap: React.FC = () => {

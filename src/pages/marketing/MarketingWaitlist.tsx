@@ -3,7 +3,7 @@
  * Route : /marketing/waitlist (dans MarketingLayout)
  *
  * Deux actions : rejoindre la bêta Learning App + newsletter EdTech & IA.
- * Angle : AI Act Article 4 — 2 août 2026.
+ * Angle : accès anticipé bêta Learning App + newsletter EdTech & IA.
  * Copy §11 conforme — zéro métrique inventée.
  * Design : light editorial, cohérent avec /inscription (from-primary-50 to-white).
  */
@@ -141,7 +141,7 @@ export const MarketingWaitlist: React.FC = () => {
     <>
       <SEOHead
         title="Accès anticipé · Learning App — The Learning Society"
-        description="Rejoignez la liste d'accès anticipé à la Learning App TLS et formez vos équipes à l'IA avant la deadline AI Act du 2 août 2026."
+        description="Rejoignez la liste d'accès anticipé à la Learning App TLS — la plateforme qui transforme vos formateurs en architectes de l'apprentissage IA-augmenté."
         canonical="/marketing/waitlist"
         noIndex={false}
       />
@@ -173,7 +173,7 @@ export const MarketingWaitlist: React.FC = () => {
                     aria-hidden
                     className="w-2 h-2 rounded-full bg-secondary-500 animate-pulse"
                   />
-                  AI Act · Article 4 · 2 août 2026
+                  Bêta · Accès anticipé · Places limitées
                 </span>
               </motion.div>
 
@@ -183,13 +183,13 @@ export const MarketingWaitlist: React.FC = () => {
                 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)' }}
               >
                 <span className="block">
-                  <KineticHeadline text="Préparez vos" delay={0.08} />
+                  <KineticHeadline text="Formez vos" delay={0.08} />
                 </span>
                 <span className="block">
                   <KineticHeadline text="équipes à l'IA." delay={0.18} />
                 </span>
                 <span className="block text-accent-400">
-                  <KineticHeadline text="Avant le 2 août." delay={0.28} />
+                  <KineticHeadline text="Accès anticipé." delay={0.28} />
                 </span>
               </h1>
 
@@ -198,12 +198,11 @@ export const MarketingWaitlist: React.FC = () => {
                 variants={itemVariants}
                 className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[48ch]"
               >
-                L'Article 4 du Règlement IA européen impose la formation
-                à l'IA dans toutes les organisations qui déploient ou utilisent
-                des systèmes IA. Rejoignez la liste d'accès anticipé et
-                tracez le chemin avec le{' '}
+                La Learning App qui apprend avec vos équipes — parcours adaptatifs,
+                Passeport Dreyfus, coaching intégré. Rejoignez la liste d'accès
+                anticipé et soyez parmi les premiers à déployer{' '}
                 <span className="text-ink-900 font-semibold">
-                  Passeport de Compétences
+                  la méthode STRIDE
                 </span>.
               </motion.p>
 
@@ -505,7 +504,7 @@ export const MarketingWaitlist: React.FC = () => {
                 eyebrow: 'Match',
                 eyebrowColor: 'text-accent-500',
                 title: 'Passeport de Compétences',
-                desc: 'Preuves vérifiables, Open Badge 2.0, visibles par votre employeur et votre réseau.',
+                desc: 'Preuves vérifiables, Open Badge, visibles par votre employeur et votre réseau.',
               },
             ].map((card) => (
               <div

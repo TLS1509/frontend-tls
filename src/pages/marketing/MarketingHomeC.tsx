@@ -204,16 +204,13 @@ export const MarketingHomeC: React.FC = () => (
           <div className="flex flex-col gap-stack flex-1">
             <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">Notre ancrage</span>
             <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
-              Certifié Qualiopi, déployé chez C-Campus.
+              Déployé avec C-Campus, dès 2023.
             </p>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
-              Les parcours TLS sont déployés en partenariat avec C-Campus (organisme certifié Qualiopi). En 2023, 578 apprenants formés avec un taux de satisfaction de +93 %.
+              Les parcours TLS ont été déployés en partenariat avec C-Campus. En 2023, 578 apprenants formés avec un taux de satisfaction de +93 %.
             </p>
           </div>
           <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
-            <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
-              Certifié Qualiopi
-            </span>
             <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
               578 formés · +93 % satisfaction (C-Campus 2023)
             </span>

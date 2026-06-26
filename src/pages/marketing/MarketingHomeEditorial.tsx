@@ -137,7 +137,7 @@ const OFFERS: {
     kicker: 'Formation',
     title: 'Formateur Augmenté',
     body:
-      "Le programme certifiant, délivré dans la Learning App. Vous apprenez à intégrer l'IA dans votre pédagogie, à votre rythme, avec un suivi qui mesure vos progrès réels. Qualiopi, Open Badge via C-Campus.",
+      "Le programme certifiant, délivré dans la Learning App. Vous apprenez à intégrer l'IA dans votre pédagogie, à votre rythme, avec un suivi qui mesure vos progrès réels. Open Badge à l'issue du parcours.",
     cta: 'Voir le programme',
     to: '/marketing/formation',
     num: 'text-primary-200',
@@ -169,8 +169,7 @@ const OFFERS: {
 
 // ─── Honest proof : what we can claim today, nothing more ─────────────────────
 const PROOFS: { title: string; detail: string }[] = [
-  { title: 'Certification Qualiopi', detail: 'délivrée via C-Campus, organisme certificateur reconnu.' },
-  { title: 'Open Badge vérifiable', detail: 'une preuve de compétence numérique, à la fin du parcours.' },
+  { title: 'Open Badge vérifiable', detail: 'une preuve de compétence numérique, partageable et durable.' },
   { title: 'Premiers déploiements en cours', detail: 'dont un grand groupe français, depuis janvier 2026.' },
 ];
 

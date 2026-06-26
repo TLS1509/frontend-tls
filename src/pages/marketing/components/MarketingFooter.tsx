@@ -168,9 +168,9 @@ export const MarketingFooter: React.FC = () => (
         <div className="flex flex-wrap items-center gap-x-stack gap-y-1 text-caption text-white/50">
           <span>© 2026 The Learning Society</span>
           <span className="text-white/20">·</span>
-          <span>Qualiopi · OPCO éligible</span>
+          <span>OPCO éligible</span>
           <span className="text-white/20">·</span>
-          <span>RGPD & AI Act compliant</span>
+          <span>RGPD compliant</span>
         </div>
         <div className="flex items-center gap-stack-xs">
           <a

@@ -46,7 +46,7 @@ const FEATURES_MAIN = [
       'Recommandations IA basées sur vos progrès réels',
       'Niveau Dreyfus tracé à chaque étape (Novice → Expert)',
       'Compétences validées inscrites dans votre Passeport de Compétences',
-      'Plans de développement alignés avec vos objectifs SBO',
+      'Plans de développement alignés avec vos objectifs métier',
     ],
     tone: 'from-primary-500 to-primary-700',
     pillBg: 'bg-primary-100 text-primary-700',
@@ -115,11 +115,11 @@ const USE_CASES = [
   },
   {
     badge: 'Responsable L&D',
-    title: 'Déployez votre stratégie SBO',
+    title: 'Déployez votre stratégie apprenante',
     bullets: [
       'Passeports de Compétences agrégés par cohorte',
       'Analytics Dreyfus : où en est chaque apprenant',
-      'Reporting Qualiopi & OPCO en 1 clic',
+      'Reporting conformité OPCO en 1 clic',
     ],
   },
 ];
@@ -154,7 +154,7 @@ export const MarketingLearningApp: React.FC = () => {
               <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light w-fit">
                 <Sparkles size={14} className="text-accent-400" />
                 <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                  La Learning App SBO · Learn → Do → Match
+                  La Learning App · Learn → Do → Match
                 </span>
               </span>
             </FadeInWhenVisible>
@@ -169,7 +169,7 @@ export const MarketingLearningApp: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-xl">
                 Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
-                Un écosystème SBO intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
+                Un écosystème intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
               </p>
             </FadeInWhenVisible>
 
