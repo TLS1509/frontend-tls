@@ -29,8 +29,8 @@ export const MarketingTemoignages: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="Témoignages"
-        description="Découvrez comment nos clients ont transformé leurs organisations avec la méthode STRIDE et la Learning App de The Learning Society."
+        title="Cas clients & témoignages"
+        description="Nos premiers retours clients arrivent prochainement. Contactez-nous pour échanger avec des référents de missions en cours — formation, STRIDE, Learning App."
         canonical="/marketing/temoignages"
       />
 

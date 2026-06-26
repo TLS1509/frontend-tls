@@ -163,9 +163,9 @@ export const MarketingHome: React.FC = () => {
           {/* H1 */}
           <FadeInWhenVisible direction="up" delay={0.15}>
             <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
-              Former{' '}
+              Vos formateurs,{' '}
               <span className="bg-gradient-to-br from-primary-600 to-primary-800 bg-clip-text text-transparent">
-                à l'ère de l'IA.
+                augmentés par l'IA.
               </span>
             </h1>
           </FadeInWhenVisible>

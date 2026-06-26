@@ -82,8 +82,8 @@ export const MarketingEquipe: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="L'Équipe"
-        description="Pierre-Armand Dennery et Chloé Mimault-Talagrand — co-fondateurs de The Learning Society, experts en pédagogie IA et transformation L&D."
+        title="Qui sommes-nous · Fondateurs & vision"
+        description="Pierre-Armand Dennery et Chloé Mimault, co-fondateurs de The Learning Society. Experts pédagogie IA et transformation L&D — Paris, fondée en 2022."
         canonical="/marketing/equipe"
       />
 

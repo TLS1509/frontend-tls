@@ -41,45 +41,45 @@ import CountUp from '../../components/marketing/motion/CountUp';
 const MODULES = [
   {
     n: '01',
-    title: "Introduction à l'IA",
+    title: "Le Formateur Augmenté par l'IA : Une Révolution Pédagogique",
     desc: "Fondamentaux de l'IA générative, des LLMs et de leurs usages pédagogiques. Vocabulaire commun, cartographie des outils du marché.",
-    duration: '2h',
+    duration: '1h',
   },
   {
     n: '02',
-    title: 'Structurer ses Prompts',
+    title: "Le Prompt Engineering pour le Formateur : Maîtriser la Communication avec l'IA",
     desc: "Techniques de prompt engineering pour concevoir des instructions efficaces et reproductibles. Library de prompts pédagogiques prêts à l'emploi.",
-    duration: '4h',
+    duration: '1h',
   },
   {
     n: '03',
-    title: 'Choisir ses Outils IA',
+    title: "Choisir les bons outils d'IA en fonction de son contexte de formation",
     desc: "Panorama des outils IA pour la formation, critères de sélection, intégration dans votre stack pédagogique existant.",
-    duration: '3h',
+    duration: '1h',
   },
   {
     n: '04',
-    title: 'IA & Conception de Formation',
+    title: "Découvrir l'IA dans la Conception de Formation",
     desc: "Intégrer l'IA dans l'ingénierie pédagogique sans perdre l'intention humaine. Méthodologie STRIDE appliquée.",
-    duration: '6h',
+    duration: '1h',
   },
   {
     n: '05',
-    title: "IA pour l'Animation",
+    title: "Utiliser l'IA pour enrichir l'animation et l'accompagnement sans déshumaniser",
     desc: "Utilisation live de l'IA en séance : démonstrations, quiz adaptatifs, feedback instantané. Posture du formateur augmenté.",
-    duration: '3h',
+    duration: '1h',
   },
   {
     n: '06',
-    title: 'Automatisation Augmentée',
+    title: "Automatisation Augmentée par l'IA",
     desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer votre temps.",
-    duration: '2h',
+    duration: '1h',
   },
   {
     n: '07',
-    title: 'Éthique & Responsabilité',
+    title: "Éthique, responsabilité et accompagnement critique des apprenants avec l'IA",
     desc: 'RGPD, propriété intellectuelle, biais algorithmiques. La posture du formateur augmenté responsable et conforme.',
-    duration: '3h',
+    duration: '1h',
   },
 ];
 
@@ -115,7 +115,7 @@ const COMPETENCES_CLES = [
   "Intégrer l'IA dans l'ingénierie pédagogique (méthodologie STRIDE)",
   "Animer des séances augmentées par l'IA en présentiel et distanciel",
   "Automatiser les tâches administratives pour gagner 30 % de votre temps",
-  "Sécuriser votre pratique : RGPD, AI Act, propriété intellectuelle",
+  "Sécuriser votre pratique : RGPD, droits IA, propriété intellectuelle",
   "Adopter la posture du Formateur Augmenté et inscrire vos acquis dans votre Passeport de Compétences",
 ];
 
@@ -173,15 +173,15 @@ const FAQ = [
   },
   {
     q: 'La formation est-elle éligible à une prise en charge OPCO ?',
-    a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
+    a: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
   },
   {
     q: 'Quelle est la durée de la formation ?',
-    a: "Environ 23 heures de contenu réparties sur 7 modules. En autonome, vous progressez à votre rythme. En certifiant, des sessions live bi-mensuelles rythment l'apprentissage sur 8 semaines.",
+    a: "Environ 7 heures de contenu réparties sur 7 modules (1h par module), 100 % à distance. En autonome, vous progressez à votre rythme. En certifiant, des sessions live bi-mensuelles rythment l'apprentissage.",
   },
   {
     q: "Qu'est-ce qu'un Open Badge ?",
-    a: "Un Open Badge 2.0 est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles (LinkedIn, France Compétences). Il atteste de vos compétences avec une preuve cryptographique.",
+    a: "Un Open Badge est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles (LinkedIn, France Compétences). Il atteste de vos compétences avec une preuve cryptographique.",
   },
   {
     q: 'Puis-je passer du plan Autonome au plan Certifiant ?',
@@ -332,8 +332,8 @@ export const MarketingFormation: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="Formation Formateur Augmenté"
-        description="Formation IA pour formateurs et L&D : 7 modules en ligne, certification Qualiopi via C-Campus, éligible OPCO. Intégrez l'IA dans vos pratiques, à votre rythme."
+        title="Formation Formateur Augmenté par l'IA · Certifiante C-Campus"
+        description="Formation IA pour formateurs et L&D : 7 modules, 7h en ligne, Open Badge certifiant, éligible OPCO. Partenariat C-Campus (Qualiopi). À votre rythme."
         canonical="/marketing/formation"
       />
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
@@ -348,22 +348,22 @@ export const MarketingFormation: React.FC = () => {
             <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 shadow-xs">
               <Award size={14} className="text-secondary-600" />
               <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
-                Programme certifiant · Open Badge 2.0
+                Programme certifiant · Open Badge
               </span>
             </span>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
-              Deviens <span className="text-secondary-600">Formateur Augmenté</span>.
+              Devenez <span className="text-secondary-600">Formateur Augmenté</span>.
             </h1>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-              7 modules, 23 heures, 8 semaines. Maîtrise l'IA pédagogique,
+              7 modules, 7 heures, 100 % à distance. Maîtrisez l'IA pédagogique,
               intégrez la méthode STRIDE et enrichissez votre Passeport de Compétences —
-              certifié Qualiopi en partenariat avec C-Campus.
+              en partenariat avec C-Campus.
             </p>
           </FadeInWhenVisible>
 
@@ -389,7 +389,7 @@ export const MarketingFormation: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center gap-section pt-section pb-stack border-t border-ink-100 mt-stack-lg max-w-2xl">
               {[
                 { value: 7, suffix: '', label: 'modules' },
-                { value: 23, suffix: 'h', label: 'de contenu' },
+                { value: 7, suffix: 'h', label: 'de contenu' },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col items-center text-center">
                   <CountUp
@@ -403,7 +403,7 @@ export const MarketingFormation: React.FC = () => {
                 </div>
               ))}
               <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
-                <Shield size={13} /> Certifié Qualiopi · C-Campus
+                <Award size={13} /> En partenariat avec C-Campus
               </span>
             </div>
           </FadeInWhenVisible>
@@ -421,7 +421,7 @@ export const MarketingFormation: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                7 modules pour bâtir ta posture.
+                7 modules pour bâtir votre posture.
               </h2>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
@@ -546,7 +546,7 @@ export const MarketingFormation: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Le parcours est réalisé 100 % à distance en partenariat avec
-                <strong className="text-ink-900"> C-Campus</strong>, organisme certifié Qualiopi.
+                <strong className="text-ink-900"> C-Campus</strong>.
                 Cette alliance garantit la reconnaissance professionnelle de votre Open Badge
                 et débloque la prise en charge OPCO.
               </p>
@@ -554,9 +554,8 @@ export const MarketingFormation: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.3}>
               <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
-                  'Organisme de formation référencé Qualiopi',
                   'Prise en charge OPCO éligible selon votre secteur',
-                  'Open Badge 2.0 vérifiable par cryptographie',
+                  'Open Badge vérifiable par cryptographie',
                   'Reconnaissance LinkedIn et France Compétences',
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-stack-xs font-body text-body text-ink-700">
@@ -588,7 +587,7 @@ export const MarketingFormation: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-                  {['Qualiopi', 'OPCO'].map((b) => (
+                  {['OPCO'].map((b) => (
                     <span
                       key={b}
                       className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider"
@@ -633,7 +632,7 @@ export const MarketingFormation: React.FC = () => {
               {
                 n: '3',
                 title: 'Passeport certifiant',
-                body: "Open Badge 2.0, reconnaissance Qualiopi, compétences inscrites dans votre passeport TLS.",
+                body: "Open Badge vérifiable, compétences inscrites dans votre passeport TLS.",
               },
             ].map((item, i) => (
               <FadeInWhenVisible key={item.n} direction="up" delay={i * 0.1}>
@@ -773,8 +772,8 @@ export const MarketingFormation: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <div className="flex flex-wrap items-center justify-center gap-stack-lg pt-stack">
               {[
-                { icon: <Shield size={16} />, label: 'Qualiopi · C-Campus' },
-                { icon: <Award size={16} />, label: 'Open Badge 2.0' },
+                { icon: <Award size={16} />, label: 'C-Campus' },
+                { icon: <Award size={16} />, label: 'Open Badge' },
                 { icon: <GraduationCap size={16} />, label: 'OPCO éligible' },
                 { icon: <Users size={16} />, label: '200+ certifiés' },
               ].map((b) => (
