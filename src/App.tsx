@@ -200,7 +200,6 @@ import WebhooksManagement from './pages/WebhooksManagement';
 import OnboardingPreview from './pages/OnboardingPreview';
 import { OnboardingUnified } from './pages/OnboardingUnified';
 import AppLanding from './pages/AppLanding';
-import IconLab from './pages/_IconLab';
 import { PagesIndex } from './pages/PagesIndex';
 import DesignShowcase from './pages/DesignShowcase';
 import TestLogo from './pages/_TestLogo';
@@ -544,7 +543,6 @@ function App() {
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
-        <Route path="/icon-lab" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><IconLab /></div>} />
 
         {/* ── Auth pages — toujours plein écran, JAMAIS dans AppLayout ── */}
         {/* Même pattern que les error pages : wrapper 100vw pour éviter width:0 du parent route */}
