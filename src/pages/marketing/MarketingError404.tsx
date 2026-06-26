@@ -111,7 +111,7 @@ export const MarketingError404: React.FC = () => {
           aria-hidden
           className="font-display font-black tracking-tighter leading-none mb-stack-lg"
         >
-          <span className="block text-[clamp(7rem,20vw,14rem)] bg-gradient-to-br from-primary-700 via-primary-500 to-accent-400 bg-clip-text text-transparent drop-shadow-[0_2px_28px_rgba(85,161,180,0.14)]">
+          <span className="block text-[clamp(7rem,20vw,14rem)] text-primary-700 drop-shadow-[0_2px_28px_rgba(85,161,180,0.14)]">
             404
           </span>
         </motion.div>

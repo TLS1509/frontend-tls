@@ -188,7 +188,7 @@ export const MarketingHome: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.15}>
             <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
               Vos formateurs,{' '}
-              <span className="bg-gradient-to-br from-primary-600 to-primary-800 bg-clip-text text-transparent">
+              <span className="text-primary-700">
                 augmentés par l'IA.
               </span>
             </h1>
@@ -459,7 +459,7 @@ export const MarketingHome: React.FC = () => {
               <FadeInWhenVisible direction="up" delay={0.1}>
                 <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                   Essayez-la avant{' '}
-                  <span className="bg-gradient-to-br from-primary-600 to-accent-500 bg-clip-text text-transparent">
+                  <span className="text-secondary-500">
                     d'en parler à votre équipe
                   </span>
                   .
