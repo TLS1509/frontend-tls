@@ -13,6 +13,7 @@ export interface ContactPayload {
   email: string;
   subject?: string;
   org?: string;
+  phone?: string;
   message?: string;
   need?: string;
   /** Identifie la page source dans la notification email */

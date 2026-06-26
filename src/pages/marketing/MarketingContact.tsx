@@ -65,6 +65,7 @@ export const MarketingContact: React.FC = () => {
     name: '',
     email: '',
     org: '',
+    phone: '',
     subject: 'Formation',
     message: '',
   });
@@ -135,7 +136,7 @@ export const MarketingContact: React.FC = () => {
                     size="md"
                     onClick={() => {
                       setSubmitted(false);
-                      setForm({ name: '', email: '', org: '', subject: 'Formation', message: '' });
+                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Formation', message: '' });
                     }}
                   >
                     Envoyer un autre message
@@ -151,6 +152,7 @@ export const MarketingContact: React.FC = () => {
                       name: form.name,
                       email: form.email,
                       org: form.org,
+                      phone: form.phone || undefined,
                       subject: form.subject,
                       message: form.message,
                       _source: 'contact',
@@ -232,18 +234,33 @@ export const MarketingContact: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-stack-xs">
-                    <label htmlFor="ct-org" className="font-body text-body-sm font-semibold text-ink-900">
-                      Organisation
-                    </label>
-                    <input
-                      id="ct-org"
-                      type="text"
-                      value={form.org}
-                      onChange={(e) => setForm({ ...form, org: e.target.value })}
-                      placeholder="Nom de l'entreprise ou organisation"
-                      className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+                    <div className="flex flex-col gap-stack-xs">
+                      <label htmlFor="ct-org" className="font-body text-body-sm font-semibold text-ink-900">
+                        Organisation
+                      </label>
+                      <input
+                        id="ct-org"
+                        type="text"
+                        value={form.org}
+                        onChange={(e) => setForm({ ...form, org: e.target.value })}
+                        placeholder="Nom de l'entreprise ou organisation"
+                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-stack-xs">
+                      <label htmlFor="ct-phone" className="font-body text-body-sm font-semibold text-ink-900">
+                        Téléphone <span className="text-ink-400 font-normal">(optionnel)</span>
+                      </label>
+                      <input
+                        id="ct-phone"
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                        placeholder="+33 6 00 00 00 00"
+                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-col gap-stack-xs">
