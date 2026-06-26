@@ -262,11 +262,6 @@ export const MarketingMethode: React.FC = () => {
       <section className="py-page bg-gradient-to-b from-white via-primary-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Principes de la méthode
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Quatre règles qu'on ne casse{' '}
@@ -303,11 +298,6 @@ export const MarketingMethode: React.FC = () => {
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                STRIDE en action
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Trois contextes, une méthode.

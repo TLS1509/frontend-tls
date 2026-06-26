@@ -208,9 +208,6 @@ export const MarketingConseil: React.FC = () => {
 
                 <div className="flex flex-col gap-stack-lg">
                   <div className="flex flex-col gap-stack">
-                    <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
-                      La porte d'entrée
-                    </span>
                     <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0">
                       L'Audit Flash
                     </h2>
@@ -339,11 +336,6 @@ export const MarketingConseil: React.FC = () => {
         <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
 
           <div className="flex flex-col gap-stack max-w-content">
-            <Reveal>
-              <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
-                L'équipe
-              </span>
-            </Reveal>
             <Reveal delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Deux expertises, une méthode.

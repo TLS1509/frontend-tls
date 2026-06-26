@@ -515,11 +515,6 @@ export const MarketingFormation: React.FC = () => {
       <section className="py-page bg-gradient-to-b from-primary-50/30 via-white to-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-                Public cible du parcours
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Quatre profils, une même <span className="text-accent-400">ambition</span>.
@@ -563,11 +558,6 @@ export const MarketingFormation: React.FC = () => {
       <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-page items-center">
           <div className="flex flex-col gap-stack-lg">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Compétences clés développées
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Ce que vous saurez <span className="text-accent-400">vraiment faire</span>.
@@ -742,11 +732,6 @@ export const MarketingFormation: React.FC = () => {
       <section id="pricing" className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack items-center text-center max-w-3xl mx-auto">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-                Tarification
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Trois plans, un Open Badge.
@@ -870,11 +855,6 @@ export const MarketingFormation: React.FC = () => {
       <section className="py-page bg-white">
         <div className="max-w-3xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-2xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Questions fréquentes
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Toutes vos questions, sans détour.

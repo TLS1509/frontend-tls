@@ -8,8 +8,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { submitForm } from './utils/submitForm';
 import {
   ArrowRight,
+  AlertCircle,
   Search,
   PenLine,
   Cog,
@@ -100,11 +102,25 @@ const PROCESS = [
 
 export const MarketingAccompagnement: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', email: '', org: '', need: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError(null);
+    const { ok, error } = await submitForm({
+      name: form.name,
+      email: form.email,
+      org: form.org,
+      need: form.need,
+      subject: 'Accompagnement STRIDE',
+      _source: 'accompagnement',
+    });
+    setSubmitting(false);
+    if (ok) setSubmitted(true);
+    else setSubmitError(error ?? 'Une erreur est survenue. Réessayez ou écrivez-nous directement.');
   };
 
   return (
@@ -165,11 +181,6 @@ export const MarketingAccompagnement: React.FC = () => {
       <section id="services" className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                6 domaines d'expertise
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Une offre modulaire, combinable.
@@ -273,9 +284,6 @@ export const MarketingAccompagnement: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <div className="rounded-2xl bg-white border border-primary-100 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
               <div className="flex flex-col gap-stack flex-1">
-                <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
-                  Notre ancrage
-                </span>
                 <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
                   Formateurs et ingénieurs pédagogiques de terrain.
                 </p>
@@ -455,15 +463,22 @@ export const MarketingAccompagnement: React.FC = () => {
                     className="px-4 py-3 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
                   />
                 </div>
+                {submitError && (
+                  <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-white/10 border border-white/25 text-white/90 font-body text-body-sm" role="alert">
+                    <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                    {submitError}
+                  </div>
+                )}
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
                     variant="warm"
                     size="lg"
                     fullWidth
-                    trailingIcon={<ArrowRight size={18} />}
+                    disabled={submitting}
+                    trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
                   >
-                    Envoyer ma demande
+                    {submitting ? 'Envoi en cours…' : 'Envoyer ma demande'}
                   </Button>
                 </MagneticButton>
                 <p className="font-body text-caption text-white/60 text-center m-0">

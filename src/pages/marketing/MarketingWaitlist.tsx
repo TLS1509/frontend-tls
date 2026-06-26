@@ -10,6 +10,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { submitForm } from './utils/submitForm';
 import {
   ArrowRight,
   CalendarCheck,
@@ -104,17 +105,28 @@ export const MarketingWaitlist: React.FC = () => {
   const [wantsBeta, setWantsBeta] = useState(true);
   const [wantsNewsletter, setWantsNewsletter] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
 
   const emailError = touched && !email.trim();
   const checkboxError = touched && !wantsBeta && !wantsNewsletter;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     if (!email.trim() || (!wantsBeta && !wantsNewsletter)) return;
-    // TODO: POST to newsletter/waitlist API
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError(null);
+    const { ok, error } = await submitForm({
+      name: firstName,
+      email,
+      subject: wantsBeta && wantsNewsletter ? 'Bêta + Newsletter' : wantsBeta ? 'Bêta Learning App' : 'Newsletter EdTech & IA',
+      _source: 'waitlist',
+    });
+    setSubmitting(false);
+    if (ok) setSubmitted(true);
+    else setSubmitError(error ?? 'Une erreur est survenue. Réessayez ou écrivez-nous directement.');
   };
 
   /* Stagger variants for the left column */
@@ -390,13 +402,22 @@ export const MarketingWaitlist: React.FC = () => {
                           {/* CTA — button-in-button */}
                           <button
                             type="submit"
-                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-pill bg-secondary-500 hover:bg-secondary-600 text-white font-body font-semibold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
+                            disabled={submitting}
+                            className="group w-full inline-flex items-center justify-between h-12 pl-6 pr-2 rounded-pill bg-secondary-500 hover:bg-secondary-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-body font-semibold text-body shadow-warm-sm active:scale-[0.98] transition-[background-color,transform,opacity] duration-base ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white mt-1"
                           >
-                            <span>Rejoindre la liste</span>
-                            <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
-                              <ArrowRight size={16} />
-                            </span>
+                            <span>{submitting ? 'Inscription en cours…' : 'Rejoindre la liste'}</span>
+                            {!submitting && (
+                              <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 transition-transform duration-base ease-emphasis group-hover:translate-x-0.5">
+                                <ArrowRight size={16} />
+                              </span>
+                            )}
                           </button>
+                          {submitError && (
+                            <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-caption" role="alert">
+                              <AlertCircle size={14} className="shrink-0 mt-0.5" />
+                              {submitError}
+                            </div>
+                          )}
 
                           {/* RGPD micro-note */}
                           <p className="font-body text-micro text-ink-400 text-center m-0 leading-relaxed">

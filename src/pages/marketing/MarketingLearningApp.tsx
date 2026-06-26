@@ -22,7 +22,6 @@ import {
   Users,
   Layers,
   Zap,
-  Mail,
   ArrowUpRight,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
@@ -294,11 +293,6 @@ export const MarketingLearningApp: React.FC = () => {
       <section className="py-page bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack items-center text-center max-w-3xl mx-auto">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Et beaucoup plus
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 8 modules clés. Un seul outil.
@@ -332,11 +326,6 @@ export const MarketingLearningApp: React.FC = () => {
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Pour qui ?
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Une expérience pour chaque rôle.
@@ -382,14 +371,6 @@ export const MarketingLearningApp: React.FC = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-500/25 blur-3xl" />
         </div>
         <div className="relative max-w-prose mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up">
-            <div className="flex items-center gap-stack-xs justify-center">
-              <Mail size={18} className="text-accent-400" />
-              <span className="font-body text-caption font-bold text-white/70 uppercase tracking-widest">
-                Accès anticipé
-              </span>
-            </div>
-          </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.05}>
             <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
               Soyez parmi <span className="text-accent-400">les premiers</span>.

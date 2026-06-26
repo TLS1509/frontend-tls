@@ -8,9 +8,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { submitForm } from './utils/submitForm';
 import {
   Mail,
   ArrowRight,
+  AlertCircle,
   MessageSquare,
   CheckCircle2,
   BookOpen,
@@ -57,6 +59,8 @@ const SUBJECTS = ['Formation', 'Accompagnement', 'Learning App', 'Partenariat', 
 
 export const MarketingContact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -139,9 +143,21 @@ export const MarketingContact: React.FC = () => {
                 </motion.div>
               ) : (
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    setSubmitted(true);
+                    setSubmitting(true);
+                    setSubmitError(null);
+                    const { ok, error } = await submitForm({
+                      name: form.name,
+                      email: form.email,
+                      org: form.org,
+                      subject: form.subject,
+                      message: form.message,
+                      _source: 'contact',
+                    });
+                    setSubmitting(false);
+                    if (ok) setSubmitted(true);
+                    else setSubmitError(error ?? 'Une erreur est survenue. Réessayez ou écrivez-nous directement.');
                   }}
                   className="flex flex-col gap-stack-lg"
                 >
@@ -245,18 +261,25 @@ export const MarketingContact: React.FC = () => {
                     />
                   </div>
 
+                  {submitError && (
+                    <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
+                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      {submitError}
+                    </div>
+                  )}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack pt-stack">
                     <p className="font-body text-caption text-ink-500 m-0">
-                      Tes données restent confidentielles. RGPD respecté.
+                      Vos données restent confidentielles. RGPD respecté.
                     </p>
                     <MagneticButton strength={12}>
                       <Button
                         type="submit"
                         variant="primary"
                         size="lg"
-                        trailingIcon={<ArrowRight size={18} />}
+                        disabled={submitting}
+                        trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
                       >
-                        Envoyer le message
+                        {submitting ? 'Envoi en cours…' : 'Envoyer le message'}
                       </Button>
                     </MagneticButton>
                   </div>
@@ -276,7 +299,7 @@ export const MarketingContact: React.FC = () => {
                     Plus rapide
                   </span>
                   <h3 className="font-display text-h3 font-extrabold text-ink-900 m-0 leading-tight">
-                    Réserve un échange de 30 min
+                    Réservez un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
                     Plus efficace qu'un email. Choisissez votre créneau directement dans notre agenda.
