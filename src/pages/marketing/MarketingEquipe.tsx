@@ -35,18 +35,16 @@ import { SEOHead } from './components/SEOHead';
 const TEAM = [
   {
     name: 'Pierre-Armand Dennery',
+    initials: 'PAD',
     role: 'Co-fondateur · Directeur associé',
     bio: "15 ans en ingénierie pédagogique et transformation L&D. Architecte de la méthode STRIDE, il pilote la vision pédagogique, les missions clients et le développement de la Learning App.",
-    portrait:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop',
     expertise: ['Pédagogie IA', 'STRIDE', 'Transformation L&D'],
   },
   {
     name: 'Chloé Mimault-Talagrand',
+    initials: 'CM',
     role: 'Co-fondatrice · Managing Director',
-    bio: "Pilote la stratégie, le développement commercial et les opérations de TLS. Construit la marque et les partenariats avec l'exigence que la transformation SBO mérite.",
-    portrait:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&auto=format&fit=crop',
+    bio: "Pilote la stratégie, le développement commercial et les opérations de TLS. Construit la marque et les partenariats avec l'exigence que la transformation pédagogique mérite.",
     expertise: ['Stratégie', 'Développement', 'Opérations'],
   },
 ];
@@ -65,19 +63,19 @@ const VALUES = [
   {
     icon: <Shield size={28} />,
     title: 'Éthique dans les fondations',
-    body: "RGPD, AI Act, biais algorithmiques : tout est intégré dès le design, jamais en patch. La confiance se construit, elle ne se promet pas.",
+    body: "RGPD, biais algorithmiques : tout est intégré dès le design, jamais en patch. La confiance se construit, elle ne se promet pas.",
   },
   {
     icon: <BookOpen size={28} />,
     title: 'Apprendre en public',
-    body: "On documente notre méthode, on partage nos erreurs, on publie nos référentiels Dreyfus et nos frameworks SBO. La communauté apprend plus vite que les concurrents.",
+    body: "On documente notre méthode, on partage nos erreurs, on publie nos référentiels Dreyfus et nos frameworks de compétences. La communauté apprend plus vite que les concurrents.",
   },
 ];
 
 const TIMELINE = [
-  { year: '2024', title: 'Naissance', desc: "Alex fonde TLS après 15 ans en L&D. Premier diagnostic chez un groupe industriel." },
-  { year: '2025', title: 'Premier parcours certifiant', desc: 'Lancement de la formation Formateur Augmenté en partenariat avec C-Campus.' },
-  { year: '2026', title: 'Learning App + écosystème', desc: 'Beta de la plateforme. 200+ formateurs certifiés, 40+ organisations accompagnées.' },
+  { year: '2022', title: 'Fondation', desc: "Pierre-Armand Dennery et Chloé Mimault-Talagrand fondent The Learning Society (SAS, Paris 14e)." },
+  { year: '2025', title: 'Premier parcours certifiant', desc: 'Lancement de la formation Formateur Augmenté par l\'IA en partenariat avec C-Campus (Qualiopi).' },
+  { year: '2026', title: 'Learning App + écosystème', desc: "Beta de la plateforme. Premier client entreprise en production depuis janvier 2026." },
 ];
 
 export const MarketingEquipe: React.FC = () => {
@@ -85,7 +83,7 @@ export const MarketingEquipe: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="L'Équipe"
-        description="Pierre-Armand Dennery et Chloé Mimault-Talagrand — co-fondateurs de The Learning Society, experts en pédagogie IA et transformation Skills-Based."
+        description="Pierre-Armand Dennery et Chloé Mimault-Talagrand — co-fondateurs de The Learning Society, experts en pédagogie IA et transformation L&D."
         canonical="/marketing/equipe"
       />
 
@@ -114,7 +112,7 @@ export const MarketingEquipe: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Une équipe d'experts en pédagogie, en IA appliquée et en stratégie Skills-Based. Pas des consultants déconnectés — des praticiens qui ont construit de vraies organisations SBO, qui les accompagnent au quotidien, et qui transmettent ce qu'ils ont appris.
+              Une équipe d'experts en pédagogie, en IA appliquée et en stratégie pédagogique. Pas des consultants déconnectés — des praticiens qui ont construit de vraies organisations apprenantes, qui les accompagnent au quotidien, et qui transmettent ce qu'ils ont appris.
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
@@ -125,7 +123,7 @@ export const MarketingEquipe: React.FC = () => {
               </div>
               <div className="flex items-center gap-stack-xs">
                 <Calendar size={16} className="text-accent-400" />
-                <span className="font-body text-body-sm text-white/85 font-semibold">Fondée en 2024</span>
+                <span className="font-body text-body-sm text-white/85 font-semibold">Fondée en 2022</span>
               </div>
               <div className="flex items-center gap-stack-xs">
                 <Users size={16} className="text-accent-400" />
@@ -209,13 +207,10 @@ export const MarketingEquipe: React.FC = () => {
                     transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                     className="h-full rounded-3xl bg-white border border-ink-100 overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden bg-primary-100">
-                      <img
-                        src={m.portrait}
-                        alt={m.name}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                      />
+                    <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                      <span className="font-display text-[clamp(3rem,8vw,5rem)] font-extrabold text-primary-400 select-none">
+                        {m.initials}
+                      </span>
                     </div>
                     <div className="p-stack-lg flex flex-col gap-stack flex-1">
                       <div className="flex flex-col gap-0.5">
@@ -259,7 +254,7 @@ export const MarketingEquipe: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois ans, trois étapes.
+                Depuis 2022, trois étapes.
               </h2>
             </FadeInWhenVisible>
           </div>

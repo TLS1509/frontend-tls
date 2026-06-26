@@ -29,6 +29,9 @@ import {
   GraduationCap,
   Smartphone,
   Compass,
+  ShieldCheck,
+  CreditCard,
+  Award,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -40,25 +43,13 @@ import {
 import { SEOHead } from './components/SEOHead';
 import { SkillMapSection } from './components/SkillMapSection';
 
-// Signaux de confiance — données réelles, issues de C-Campus (organisme Qualiopi).
-// TLS est issu du même écosystème que C-Campus.
+// Signaux de confiance — données réelles, issues de C-Campus.
 const TRUST_SIGNALS = [
   { value: '578', label: 'apprenants formés', note: 'C-Campus 2023' },
-  { value: '+93%', label: 'de satisfaction', note: 'C-Campus, Qualiopi' },
+  { value: '+93%', label: 'de satisfaction', note: 'C-Campus 2023' },
   { value: '1 grand groupe', label: 'français en production', note: 'depuis janvier 2026' },
-  { value: '2 août 2026', label: 'deadline AI Act Art. 4', note: 'obligation légale UE' },
+  { value: '7 modules', label: 'de formation certifiante', note: '7h de pédagogie active' },
 ] as const;
-
-// ⚠️ PLACEHOLDER — Témoignage hero illustratif.
-const FEATURED_TESTIMONIAL = {
-  quote:
-    "En 3 mois, on a doublé l'engagement et divisé par 2 le temps de conception. Nos formateurs sont devenus des architectes de parcours — c'est la première fois qu'on voit la pédagogie passer en mode produit.",
-  author: 'Camille Lefèvre',
-  role: 'Directrice Formation',
-  org: 'Renault',
-  portrait:
-    'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=80&auto=format&fit=crop',
-};
 
 /* ────────────────────────────────────────────────────────────────────────────
    Grain SVG — texture organic premium discrète.
@@ -151,8 +142,8 @@ export const MarketingHome: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="The Learning Society — Transformez vos équipes en organisation Skills-Based"
-        description="Méthode STRIDE, Learning App, Accompagnement : construisez une organisation Skills-Based qui apprend et s'adapte en continu."
+        title="The Learning Society — Former à l'ère de l'IA"
+        description="Formation certifiante, Learning App adaptative, accompagnement stratégique. La méthode complète pour que vos formateurs maîtrisent l'IA et forment autrement."
         canonical="/marketing"
       />
 
@@ -164,26 +155,26 @@ export const MarketingHome: React.FC = () => {
             <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
               <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
               <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
-                Skills-Based Organization · IA pédagogique
+                Formation certifiante · Learning App · Accompagnement
               </span>
             </span>
           </FadeInWhenVisible>
 
-          {/* Headline — ink dominant, accent solid amber sur le punchword */}
+          {/* H1 */}
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="m-0 max-w-5xl font-display text-[clamp(2.5rem,5.4vw,4.5rem)] font-extrabold leading-[0.98] tracking-display text-ink-900 [text-wrap:balance]">
-              L'IA ne remplacera pas les formateurs.{' '}
-              <span className="text-ink-500">Ceux qui la maîtrisent,</span>{' '}
-              <span className="text-secondary-500">si.</span>
+            <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
+              Former{' '}
+              <span className="bg-gradient-to-br from-primary-600 to-primary-800 bg-clip-text text-transparent">
+                à l'ère de l'IA.
+              </span>
             </h1>
           </FadeInWhenVisible>
 
           {/* Sous-titre */}
           <FadeInWhenVisible direction="up" delay={0.3}>
             <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-ink-600">
-              Parcours adaptatifs, Passeport de Compétences, matching IA. Un cycle complet{' '}
-              <strong className="font-bold text-ink-900">Learn → Do → Match</strong> pour transformer
-              vos talents en avantage durable.
+              Formation certifiante, plateforme apprenante, accompagnement sur mesure. Tout ce dont
+              vos formateurs ont besoin pour maîtriser l'IA et transmettre autrement.
             </p>
           </FadeInWhenVisible>
 
@@ -226,7 +217,7 @@ export const MarketingHome: React.FC = () => {
       <section className="border-y border-ink-100 py-stack-lg bg-white">
         <div className="max-w-5xl mx-auto px-6 flex flex-col gap-stack-lg">
           <p className="font-body text-caption text-ink-500 text-center font-semibold m-0">
-            Résultats vérifiables · source C-Campus 2023 — Qualiopi
+            Résultats vérifiables · source C-Campus 2023
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
             {TRUST_SIGNALS.map((s) => (
@@ -296,7 +287,7 @@ export const MarketingHome: React.FC = () => {
                       <Smartphone size={28} />
                     </div>
                     <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                      Learning App SBO
+                      Learning App
                     </span>
                     <h3 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900 leading-[1.1] m-0 max-w-md">
                       La plateforme qui{' '}
@@ -409,11 +400,11 @@ export const MarketingHome: React.FC = () => {
                       <Compass size={24} />
                     </div>
                     <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
-                      Accompagnement SBO
+                      Accompagnement
                     </h3>
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                      Conseil stratégique · déploiement sur mesure · pilotage Skills-Based. Avec
-                      vous, pas pour vous.
+                      Conseil stratégique · déploiement sur mesure · pilotage de la montée en
+                      compétences. Avec vous, pas pour vous.
                     </p>
                   </div>
                   <div className="flex items-center gap-stack-xs text-accent-700 font-semibold text-body-sm">
@@ -612,12 +603,18 @@ export const MarketingHome: React.FC = () => {
 
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-ink-100">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&q=80&auto=format&fit=crop"
-                  alt="Formatrice augmentée en session"
-                  className="w-full h-full object-cover"
-                />
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-primary-100 bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 flex items-center justify-center">
+                <div className="flex flex-col items-center gap-stack-lg text-center px-stack-lg">
+                  <div className="w-20 h-20 rounded-2xl bg-primary-200/60 flex items-center justify-center">
+                    <GraduationCap size={40} className="text-primary-600" />
+                  </div>
+                  <p className="font-display font-bold text-h4 text-primary-800 leading-tight m-0 max-w-xs">
+                    Le Formateur Augmenté par l'IA
+                  </p>
+                  <p className="font-body text-body-sm text-primary-600 m-0">
+                    7 modules · Open Badge C-Campus
+                  </p>
+                </div>
               </div>
               <motion.div
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -626,127 +623,64 @@ export const MarketingHome: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="absolute -bottom-6 -left-6 max-w-xs bg-white/95 backdrop-blur-glass-light rounded-2xl shadow-2xl border border-ink-100 p-stack-lg flex flex-col gap-stack-xs"
               >
-                <Quote size={20} className="text-primary-500" />
+                <CheckCircle2 size={20} className="text-primary-500" />
                 <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
-                  "Je ne forme plus, je crée des expériences."
+                  +93% de satisfaction aux formations C-Campus.
                 </p>
-                <p className="font-body text-caption text-ink-500 m-0">Sophie, promotion 2026</p>
+                <p className="font-body text-caption text-ink-500 m-0">Source : C-Campus 2023</p>
               </motion.div>
             </div>
           </FadeInWhenVisible>
         </div>
       </section>
 
-      {/* ── 7. Témoignage unique éditorial ───────────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-white to-primary-50/30">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* ── 7. Gages de confiance ────────────────────────────────────────── */}
+      <section className="py-page bg-white border-y border-ink-100">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-section items-center">
           <FadeInWhenVisible direction="up">
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] gap-section-lg items-center">
-              <blockquote className="relative flex flex-col gap-section">
-                <Quote
-                  size={56}
-                  className="text-primary-200 shrink-0"
-                  aria-hidden
-                />
-                <p className="font-display text-[clamp(1.5rem,3vw,2.5rem)] font-medium text-ink-900 leading-[1.25] tracking-tight m-0">
-                  "{FEATURED_TESTIMONIAL.quote}"
-                </p>
-                <footer className="flex items-center gap-stack-lg pt-stack border-t border-ink-100">
-                  <div className="flex flex-col gap-0.5">
-                    <cite className="font-display font-bold text-body text-ink-900 not-italic">
-                      {FEATURED_TESTIMONIAL.author}
-                    </cite>
-                    <span className="font-body text-body-sm text-ink-500">
-                      {FEATURED_TESTIMONIAL.role} · {FEATURED_TESTIMONIAL.org}
-                    </span>
-                  </div>
-                </footer>
-              </blockquote>
-
-              <div className="relative order-first md:order-last">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl ring-1 ring-ink-100">
-                  <img
-                    src={FEATURED_TESTIMONIAL.portrait}
-                    alt={FEATURED_TESTIMONIAL.author}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Brand badge floating */}
-                <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-pill bg-white shadow-lg border border-ink-100">
-                  <span className="font-display font-bold text-body-sm text-ink-900">
-                    {FEATURED_TESTIMONIAL.org}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <p className="font-body text-caption font-bold text-ink-400 uppercase tracking-widest m-0 text-center">
+              Qualité & financement
+            </p>
           </FadeInWhenVisible>
-
-          <p className="font-body text-caption text-ink-400 italic m-0 mt-section text-center">
-            Témoignage illustratif — de vrais retours clients seront publiés à mesure que les
-            autorisations sont reçues.
-          </p>
-        </div>
-      </section>
-
-      {/* ── 8. AI Act urgency ────────────────────────────────────────────── */}
-      <section className="relative py-page bg-white overflow-hidden border-y border-ink-100">
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `radial-gradient(600px circle at 60% 50%, rgba(248, 176, 68, 0.07), transparent 60%)`,
-          }}
-        />
-        <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-page items-center">
-          <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-stack-lg">
-              <div className="flex items-center gap-stack-xs">
-                <span className="inline-flex items-center gap-stack-xs rounded-pill border border-secondary-200 bg-secondary-50 px-3 py-1">
-                  <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-secondary-500 animate-pulse" />
-                  <span className="font-body text-micro font-semibold text-secondary-600">
-                    Obligation légale UE
-                  </span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-lg w-full">
+            <FadeInWhenVisible direction="up" delay={0.05}>
+              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-primary-200 hover:shadow-card transition-all duration-base">
+                <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center text-primary-700">
+                  <ShieldCheck size={24} />
+                </div>
+                <span className="font-display font-bold text-body text-ink-900">Open Badge</span>
+                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
+                  Certification numérique vérifiable, délivrée à l'issue du parcours.
                 </span>
               </div>
-              <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0">
-                AI Act Article 4 — vos équipes ont jusqu'au{' '}
-                <span className="text-secondary-500">2 août 2026</span>.
-              </h2>
-              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Toute personne déployant des systèmes d'IA à titre professionnel doit justifier d'une
-                formation aux risques et à l'utilisation responsable. TLS forme vos équipes à cette
-                obligation avec des parcours certifiants conformes Qualiopi.
-              </p>
-              <div className="flex flex-wrap gap-stack-xs pt-stack">
-                <MagneticButton strength={10}>
-                  <Link to="/marketing/formation">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Préparer mes équipes
-                    </Button>
-                  </Link>
-                </MagneticButton>
-                <Link to="/marketing/accompagnement">
-                  <Button variant="secondary" size="lg">
-                    Parler à un conseiller
-                  </Button>
-                </Link>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-secondary-200 hover:shadow-card transition-all duration-base">
+                <div className="w-12 h-12 rounded-xl bg-secondary-50 flex items-center justify-center text-secondary-700">
+                  <CreditCard size={24} />
+                </div>
+                <span className="font-display font-bold text-body text-ink-900">Éligible OPCO</span>
+                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
+                  Prise en charge possible via votre OPCO. Devis sur demande.
+                </span>
               </div>
-            </div>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="left" delay={0.2}>
-            <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl bg-primary-50 border border-primary-100 min-w-[200px]">
-              <span className="font-display text-[clamp(3rem,8vw,5rem)] font-extrabold text-primary-700 leading-none tracking-display">
-                +93%
-              </span>
-              <span className="font-body text-body-sm font-semibold text-ink-700">de satisfaction</span>
-              <span className="font-body text-micro text-ink-400 text-center">C-Campus 2023 · Qualiopi</span>
-            </div>
-          </FadeInWhenVisible>
+            </FadeInWhenVisible>
+            <FadeInWhenVisible direction="up" delay={0.15}>
+              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-accent-200 hover:shadow-card transition-all duration-base">
+                <div className="w-12 h-12 rounded-xl bg-accent-50 flex items-center justify-center text-accent-700">
+                  <Award size={24} />
+                </div>
+                <span className="font-display font-bold text-body text-ink-900">Open Badge</span>
+                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
+                  Certification numérique vérifiable et partageable sur vos profils.
+                </span>
+              </div>
+            </FadeInWhenVisible>
+          </div>
         </div>
       </section>
 
-      {/* ── 9. CTA finale light éditorial ────────────────────────────────── */}
+      {/* ── 8. CTA finale light éditorial ────────────────────────────────── */}
       <section className="relative py-page overflow-hidden bg-gradient-to-br from-primary-50/50 via-white to-accent-50/30">
         {/* Halos pastels */}
         <div aria-hidden className="absolute inset-0 pointer-events-none">
