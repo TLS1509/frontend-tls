@@ -69,7 +69,7 @@ export const MarketingContact: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Contact"
-        description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions, démarrez votre transformation Skills-Based."
+        description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
         canonical="/marketing/contact"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}

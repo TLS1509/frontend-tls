@@ -333,8 +333,84 @@ export const MarketingFormation: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Formation Formateur Augmenté par l'IA · Certifiante C-Campus"
-        description="Formation IA pour formateurs et L&D : 7 modules, 7h en ligne, Open Badge certifiant, éligible OPCO. Partenariat C-Campus (Qualiopi). À votre rythme."
+        description="Formation IA pour formateurs et L&D : 7 modules, 7h en ligne, Open Badge certifiant, éligible OPCO. Partenariat C-Campus. À votre rythme."
         canonical="/marketing/formation"
+        schema={{
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'Course',
+              name: "Formation Formateur Augmenté par l'IA",
+              description:
+                "Formation certifiante en IA pédagogique pour formateurs et professionnels L&D : 7 modules, 7h à distance, Open Badge vérifiable, éligible OPCO.",
+              provider: {
+                '@type': 'Organization',
+                name: 'The Learning Society',
+                url: 'https://thelearningsociety.fr',
+              },
+              courseMode: 'online',
+              inLanguage: 'fr',
+              timeRequired: 'PT7H',
+              numberOfCredits: '7 modules',
+              teaches: [
+                "IA générative et prompts pédagogiques",
+                "Ingénierie pédagogique augmentée par l'IA",
+                "Méthode STRIDE pour la transformation pédagogique",
+                "Outils IA adaptés aux formateurs",
+              ],
+              offers: [
+                { '@type': 'Offer', name: 'Autonome', price: '249', priceCurrency: 'EUR' },
+                { '@type': 'Offer', name: 'Certifiant', price: '369', priceCurrency: 'EUR' },
+                { '@type': 'Offer', name: 'Premium', price: '890', priceCurrency: 'EUR' },
+              ],
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: "Faut-il déjà connaître l'IA pour suivre la formation ?",
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "Non, la formation part des bases et progresse graduellement. Le module 1 vous donne toutes les clés pour comprendre l'IA générative, même sans pré-requis technique.",
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'La formation est-elle éligible à une prise en charge OPCO ?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Quelle est la durée de la formation ?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "Environ 7 heures de contenu réparties sur 7 modules (1h par module), 100 % à distance. En autonome, vous progressez à votre rythme. En certifiant, des sessions live bi-mensuelles rythment l'apprentissage.",
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: "Qu'est-ce qu'un Open Badge ?",
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "Un Open Badge est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles. Il atteste de vos compétences avec une preuve cryptographique.",
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Puis-je passer du plan Autonome au plan Certifiant ?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "Oui, le passage d'un plan à l'autre est possible à tout moment, avec un simple complément tarifaire.",
+                  },
+                },
+              ],
+            },
+          ],
+        }}
       />
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-b from-secondary-50/60 via-white to-white">

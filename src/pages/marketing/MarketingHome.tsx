@@ -145,6 +145,30 @@ export const MarketingHome: React.FC = () => {
         title="The Learning Society — Former à l'ère de l'IA"
         description="Formation certifiante, Learning App adaptative, accompagnement stratégique. La méthode complète pour que vos formateurs maîtrisent l'IA et forment autrement."
         canonical="/marketing"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'The Learning Society',
+          url: 'https://thelearningsociety.fr',
+          logo: 'https://thelearningsociety.fr/favicon.svg',
+          description:
+            "Formation certifiante en IA pédagogique et plateforme LXP pour formateurs. Méthode STRIDE, Learning App, accompagnement stratégique.",
+          foundingYear: 2023,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: '26 bis rue Olivier Noyer',
+            addressLocality: 'Paris',
+            postalCode: '75014',
+            addressCountry: 'FR',
+          },
+          sameAs: ['https://www.linkedin.com/company/the-learning-society'],
+          contactPoint: {
+            '@type': 'ContactPoint',
+            contactType: 'sales',
+            email: 'hello@thelearningsociety.fr',
+            availableLanguage: 'French',
+          },
+        }}
       />
 
       {/* ── 1. Hero éditorial clair — parallax 3 couches ──────────────────── */}
