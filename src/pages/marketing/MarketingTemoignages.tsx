@@ -427,11 +427,11 @@ export const MarketingTemoignages: React.FC = () => {
             <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
               <Award size={36} className="text-accent-400" />
               <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-                Ton équipe sera-t-elle la prochaine ?
+                Votre équipe sera-t-elle la prochaine ?
               </h2>
               <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-prose">
-                Diagnostic gratuit de 90 min. On comprend ton contexte, on évalue le potentiel,
-                on propose un chemin.
+                Diagnostic gratuit de 90 min. Nous comprenons votre contexte, évaluons le potentiel
+                et proposons un chemin.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>

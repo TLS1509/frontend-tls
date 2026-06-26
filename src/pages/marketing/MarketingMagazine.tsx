@@ -358,7 +358,7 @@ export const MarketingMagazine: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ton.email@exemple.fr"
+                  placeholder="votre.email@organisation.fr"
                   className="flex-1 min-w-0 px-4 h-12 rounded-pill bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all duration-base"
                 />
                 <MagneticButton strength={10}>

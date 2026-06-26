@@ -34,27 +34,20 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
-  MarqueeRow,
-  CountUp,
   InteractiveAppMockup,
   TiltCard,
-  MeshGradientBg,
-  GradientText,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { SkillMapSection } from './components/SkillMapSection';
 
-// ⚠️ PLACEHOLDER — logos illustratifs.
-const LOGOS = [
-  'Renault',
-  'BNP Paribas',
-  'Capgemini',
-  "L'Oréal",
-  'Airbus',
-  'Decathlon',
-  'Orange',
-  'Société Générale',
-];
+// Signaux de confiance — données réelles, issues de C-Campus (organisme Qualiopi).
+// TLS est issu du même écosystème que C-Campus.
+const TRUST_SIGNALS = [
+  { value: '578', label: 'apprenants formés', note: 'C-Campus 2023' },
+  { value: '+93%', label: 'de satisfaction', note: 'C-Campus, Qualiopi' },
+  { value: '1 grand groupe', label: 'français en production', note: 'depuis janvier 2026' },
+  { value: '2 août 2026', label: 'deadline AI Act Art. 4', note: 'obligation légale UE' },
+] as const;
 
 // ⚠️ PLACEHOLDER — Témoignage hero illustratif.
 const FEATURED_TESTIMONIAL = {
@@ -82,7 +75,7 @@ const HeroChevron: React.FC = () => {
       aria-hidden
       animate={reduced ? undefined : { y: [0, 8, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-tight text-white/55"
+      className="flex flex-col items-center gap-tight text-ink-400"
     >
       <span className="font-body text-caption font-semibold uppercase tracking-widest">Scroll</span>
       <ChevronDown size={18} />
@@ -94,10 +87,11 @@ const HeroChevron: React.FC = () => {
    HeroBlobs — couche mid-ground : 3 blobs organiques teal/amber, parallax +
    rotation lente + respiration. Désactivés sous prefers-reduced-motion.
    ──────────────────────────────────────────────────────────────────────────── */
+// Sur fond clair, les blobs restent discrets — dorés ambrés + teal doux.
 const HERO_BLOBS = [
-  { pos: 'top-[8%] right-[6%] h-[34rem] w-[34rem]', color: 'rgba(248,176,68,0.24)', dur: 17 },
-  { pos: 'bottom-[2%] -left-[4%] h-[42rem] w-[42rem]', color: 'rgba(115,175,191,0.30)', dur: 22 },
-  { pos: 'top-[34%] left-[40%] h-[24rem] w-[24rem]', color: 'rgba(85,161,180,0.22)', dur: 14 },
+  { pos: 'top-[8%] right-[6%] h-[34rem] w-[34rem]', color: 'rgba(248,176,68,0.38)', dur: 17 },
+  { pos: 'bottom-[2%] -left-[4%] h-[42rem] w-[42rem]', color: 'rgba(85,161,180,0.18)', dur: 22 },
+  { pos: 'top-[34%] left-[40%] h-[24rem] w-[24rem]', color: 'rgba(237,132,58,0.12)', dur: 14 },
 ];
 
 const HeroBlobs: React.FC<{ y: ReturnType<typeof useTransform>; rotate: ReturnType<typeof useTransform>; reduced: boolean | null }> = ({ y, rotate, reduced }) => (
@@ -136,29 +130,11 @@ const HeroParallax: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const contentOpacity = useTransform(scrollY, [0, 560], [1, 0]);
 
   return (
-    <section className="relative isolate flex min-h-[100dvh] items-center overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 pt-32 pb-page">
-      {/* Couche 1 — mesh gradient animé (lent) */}
-      <motion.div aria-hidden className="absolute inset-0" style={reduced ? undefined : { y: meshY }}>
-        <MeshGradientBg tone="brand" intensity="intense" />
-      </motion.div>
-
-      {/* Couche 2 — blobs organiques (medium) */}
+    <section className="relative isolate flex min-h-[100dvh] items-center overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white pt-32 pb-page">
+      {/* Blobs ambrés + teal — discrets sur fond clair, ambiance chaleureuse */}
       <HeroBlobs y={blobY} rotate={blobRotate} reduced={reduced} />
 
-      {/* Grain texture — tactile, mix-blend sur surface sombre */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.07] pointer-events-none mix-blend-overlay"
-        style={{ backgroundImage: GRAIN_SVG }}
-      />
-
-      {/* Fade bas — transition douce vers la section blanche suivante */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-b from-transparent to-white"
-      />
-
-      {/* Couche 3 — contenu (rapide + fade au scroll) */}
+      {/* Couche contenu — parallax + fade au scroll */}
       <motion.div
         className="relative z-base w-full"
         style={reduced ? undefined : { y: contentY, opacity: contentOpacity }}
@@ -180,46 +156,44 @@ export const MarketingHome: React.FC = () => {
         canonical="/marketing"
       />
 
-      {/* ── 1. Hero immersif sombre — parallax 3 couches ──────────────────── */}
+      {/* ── 1. Hero éditorial clair — parallax 3 couches ──────────────────── */}
       <HeroParallax>
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-stack-lg px-6 text-center">
-          {/* Eyebrow — pill glass micro */}
+          {/* Eyebrow — pill teal discret sur fond clair */}
           <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-stack-xs rounded-pill border border-white/15 bg-white/10 px-3 py-1 backdrop-blur-glass-light">
+            <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
               <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
-              <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-white/80">
+              <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
                 Skills-Based Organization · IA pédagogique
               </span>
             </span>
           </FadeInWhenVisible>
 
-          {/* Headline — blanc dominant, accent gradient amber sur le punchword */}
+          {/* Headline — ink dominant, accent solid amber sur le punchword */}
           <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="m-0 max-w-5xl font-display text-[clamp(2.5rem,5.4vw,4.5rem)] font-extrabold leading-[0.98] tracking-display text-white [text-wrap:balance]">
+            <h1 className="m-0 max-w-5xl font-display text-[clamp(2.5rem,5.4vw,4.5rem)] font-extrabold leading-[0.98] tracking-display text-ink-900 [text-wrap:balance]">
               L'IA ne remplacera pas les formateurs.{' '}
-              <span className="text-white/55">Ceux qui la maîtrisent,</span>{' '}
-              <GradientText from="from-accent-300" via="via-accent-400" to="to-secondary-400">
-                si.
-              </GradientText>
+              <span className="text-ink-500">Ceux qui la maîtrisent,</span>{' '}
+              <span className="text-secondary-500">si.</span>
             </h1>
           </FadeInWhenVisible>
 
           {/* Sous-titre */}
           <FadeInWhenVisible direction="up" delay={0.3}>
-            <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-white/75">
+            <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-ink-600">
               Parcours adaptatifs, Passeport de Compétences, matching IA. Un cycle complet{' '}
-              <strong className="font-bold text-white">Learn → Do → Match</strong> pour transformer
+              <strong className="font-bold text-ink-900">Learn → Do → Match</strong> pour transformer
               vos talents en avantage durable.
             </p>
           </FadeInWhenVisible>
 
-          {/* CTAs — warm magnétique + ghost glass sur fond sombre */}
+          {/* CTAs — warm magnétique primaire + secondary sur fond clair */}
           <FadeInWhenVisible direction="up" delay={0.45}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/formation" aria-label="Je veux me former">
                   <Button
-                    variant="secondary"
+                    variant="primary"
                     size="lg"
                     className="group/cta pr-1.5"
                     trailingIcon={
@@ -233,38 +207,14 @@ export const MarketingHome: React.FC = () => {
                 </Link>
               </MagneticButton>
               <Link to="/marketing/accompagnement">
-                <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                   Je représente une entreprise
                 </Button>
               </Link>
             </div>
           </FadeInWhenVisible>
 
-          {/* Trust strip */}
-          <FadeInWhenVisible direction="up" delay={0.6}>
-            <div className="flex items-center gap-stack-xs pt-stack">
-              <div className="flex -space-x-2">
-                {[
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&q=80&auto=format&fit=crop',
-                ].map((src) => (
-                  <img
-                    key={src}
-                    src={src}
-                    alt=""
-                    className="h-8 w-8 rounded-pill border-2 border-white/80 object-cover shadow-sm"
-                  />
-                ))}
-              </div>
-              <span className="font-body text-caption font-semibold text-white/70">
-                <CountUp to={200} suffix="+" className="font-bold text-white" /> formateurs certifiés
-              </span>
-            </div>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="none" delay={0.9}>
+          <FadeInWhenVisible direction="none" delay={0.7}>
             <div className="pt-section">
               <HeroChevron />
             </div>
@@ -272,27 +222,23 @@ export const MarketingHome: React.FC = () => {
         </div>
       </HeroParallax>
 
-      {/* ── 2. Marquee logos ─────────────────────────────────────────────── */}
+      {/* ── 2. Chiffres réels C-Campus ──────────────────────────────────── */}
       <section className="border-y border-ink-100 py-stack-lg bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-stack">
-          <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold m-0">
-            <CountUp to={40} suffix="+" className="text-ink-900 font-bold" /> organisations leur
-            font confiance
+        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-stack-lg">
+          <p className="font-body text-caption text-ink-500 text-center font-semibold m-0">
+            Résultats vérifiables · source C-Campus 2023 — Qualiopi
           </p>
-          <MarqueeRow
-            duration={50}
-            items={LOGOS.map((name) => (
-              <span
-                key={name}
-                className="font-display text-h3 font-bold text-ink-300 tracking-tight whitespace-nowrap hover:text-ink-500 transition-colors duration-base"
-              >
-                {name}
-              </span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+            {TRUST_SIGNALS.map((s) => (
+              <div key={s.label} className="flex flex-col items-center text-center gap-tight">
+                <span className="font-display text-h2 font-extrabold text-ink-900 tracking-display leading-none">
+                  {s.value}
+                </span>
+                <span className="font-body text-body-sm font-semibold text-ink-700">{s.label}</span>
+                <span className="font-body text-micro text-ink-400">{s.note}</span>
+              </div>
             ))}
-          />
-          <p className="font-body text-micro text-ink-400 text-center italic m-0">
-            Logos illustratifs · partenaires confirmés communiqués prochainement.
-          </p>
+          </div>
         </div>
       </section>
 
@@ -497,9 +443,9 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
               <FadeInWhenVisible direction="up" delay={0.1}>
                 <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                  Essaie-la avant{' '}
+                  Essayez-la avant{' '}
                   <span className="bg-gradient-to-br from-primary-600 to-accent-500 bg-clip-text text-transparent">
-                    d'en parler à ton équipe
+                    d'en parler à votre équipe
                   </span>
                   .
                 </h2>
@@ -633,7 +579,7 @@ export const MarketingHome: React.FC = () => {
                 </span>
                 <br />
                 On apprend{' '}
-                <span className="bg-gradient-to-br from-primary-600 to-accent-500 bg-clip-text text-transparent">
+                <span className="text-primary-700">
                   avec des humains
                 </span>{' '}
                 — accompagnés par des outils.
@@ -742,58 +688,59 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 8. Hero stat impact ──────────────────────────────────────────── */}
-      <section className="relative py-page bg-white overflow-hidden">
+      {/* ── 8. AI Act urgency ────────────────────────────────────────────── */}
+      <section className="relative py-page bg-white overflow-hidden border-y border-ink-100">
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: `
-              radial-gradient(700px circle at 30% 40%, rgba(85, 161, 180, 0.10), transparent 55%),
-              radial-gradient(600px circle at 70% 60%, rgba(248, 176, 68, 0.08), transparent 55%)
-            `,
+            backgroundImage: `radial-gradient(600px circle at 60% 50%, rgba(248, 176, 68, 0.07), transparent 60%)`,
           }}
         />
-
-        <div className="relative max-w-6xl mx-auto px-6 flex flex-col gap-section-lg">
-          {/* Hero stat */}
+        <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-page items-center">
           <FadeInWhenVisible direction="up">
-            <div className="flex flex-col items-center text-center gap-stack">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Impact mesuré
-              </span>
-              <div className="font-display font-extrabold text-[clamp(5rem,15vw,12rem)] leading-[0.9] tracking-tighter m-0">
-                <span className="bg-gradient-to-br from-primary-500 via-primary-700 to-accent-500 bg-clip-text text-transparent">
-                  <CountUp to={97} suffix="%" />
+            <div className="flex flex-col gap-stack-lg">
+              <div className="flex items-center gap-stack-xs">
+                <span className="inline-flex items-center gap-stack-xs rounded-pill border border-secondary-200 bg-secondary-50 px-3 py-1">
+                  <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-secondary-500 animate-pulse" />
+                  <span className="font-body text-micro font-semibold text-secondary-600">
+                    Obligation légale UE
+                  </span>
                 </span>
               </div>
-              <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] font-medium text-ink-700 max-w-2xl m-0 leading-snug">
-                des apprenants déclarent une{' '}
-                <span className="text-ink-900 font-bold">progression mesurable</span> en moins de
-                90 jours.
+              <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0">
+                AI Act Article 4 — vos équipes ont jusqu'au{' '}
+                <span className="text-secondary-500">2 août 2026</span>.
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                Toute personne déployant des systèmes d'IA à titre professionnel doit justifier d'une
+                formation aux risques et à l'utilisation responsable. TLS forme vos équipes à cette
+                obligation avec des parcours certifiants conformes Qualiopi.
               </p>
+              <div className="flex flex-wrap gap-stack-xs pt-stack">
+                <MagneticButton strength={10}>
+                  <Link to="/marketing/formation">
+                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                      Préparer mes équipes
+                    </Button>
+                  </Link>
+                </MagneticButton>
+                <Link to="/marketing/accompagnement">
+                  <Button variant="secondary" size="lg">
+                    Parler à un conseiller
+                  </Button>
+                </Link>
+              </div>
             </div>
           </FadeInWhenVisible>
 
-          {/* Stats secondaires */}
-          <FadeInWhenVisible direction="up" delay={0.15}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg pt-section border-t border-ink-100">
-              {[
-                { to: 200, suffix: '+', label: 'formateurs certifiés' },
-                { to: 40, suffix: '+', label: 'organisations clientes' },
-                { to: 120, suffix: '+', label: 'modules pédagogiques' },
-              ].map((s) => (
-                <div key={s.label} className="flex flex-col items-center text-center gap-tight">
-                  <CountUp
-                    to={s.to}
-                    suffix={s.suffix}
-                    className="font-display text-h2 font-extrabold text-ink-900 leading-none"
-                  />
-                  <span className="font-body text-caption text-ink-500 uppercase tracking-wider font-semibold">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
+          <FadeInWhenVisible direction="left" delay={0.2}>
+            <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl bg-primary-50 border border-primary-100 min-w-[200px]">
+              <span className="font-display text-[clamp(3rem,8vw,5rem)] font-extrabold text-primary-700 leading-none tracking-display">
+                +93%
+              </span>
+              <span className="font-body text-body-sm font-semibold text-ink-700">de satisfaction</span>
+              <span className="font-body text-micro text-ink-400 text-center">C-Campus 2023 · Qualiopi</span>
             </div>
           </FadeInWhenVisible>
         </div>
@@ -826,9 +773,7 @@ export const MarketingHome: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.1}>
             <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
               Et si on en parlait{' '}
-              <span className="bg-gradient-to-br from-primary-600 via-primary-700 to-accent-500 bg-clip-text text-transparent">
-                de vive voix
-              </span>{' '}
+              <span className="text-primary-700">de vive voix</span>{' '}
               ?
             </h2>
           </FadeInWhenVisible>

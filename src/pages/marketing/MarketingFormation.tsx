@@ -54,7 +54,7 @@ const MODULES = [
   {
     n: '03',
     title: 'Choisir ses Outils IA',
-    desc: "Panorama des outils IA pour la formation, critères de sélection, intégration dans ton stack pédagogique existant.",
+    desc: "Panorama des outils IA pour la formation, critères de sélection, intégration dans votre stack pédagogique existant.",
     duration: '3h',
   },
   {
@@ -72,7 +72,7 @@ const MODULES = [
   {
     n: '06',
     title: 'Automatisation Augmentée',
-    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer ton temps.",
+    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer votre temps.",
     duration: '2h',
   },
   {
@@ -88,22 +88,22 @@ const PUBLIC_CIBLE = [
   {
     icon: <BookOpen size={28} />,
     role: 'Formateurs / Animateurs',
-    desc: "Tu conçois et animes des formations et souhaites intégrer l'IA à tes pratiques sans perdre ta signature pédagogique.",
+    desc: "Vous concevez et animez des formations et souhaitez intégrer l'IA à vos pratiques sans perdre votre signature pédagogique.",
   },
   {
     icon: <BarChart3 size={28} />,
     role: 'Responsables Formation',
-    desc: "Tu pilotes la stratégie formation d'une organisation et cherches à moderniser durablement ton approche L&D.",
+    desc: "Vous pilotez la stratégie formation d'une organisation et cherchez à moderniser durablement votre approche L&D.",
   },
   {
     icon: <Wand2 size={28} />,
     role: 'Concepteurs / Ingénieurs Pédagogiques',
-    desc: "Tu crées des contenus et parcours d'apprentissage et veux exploiter les nouvelles possibilités de l'IA générative.",
+    desc: "Vous créez des contenus et parcours d'apprentissage et voulez exploiter les nouvelles possibilités de l'IA générative.",
   },
   {
     icon: <Sparkles size={28} />,
     role: 'Débutants & Initiés IA',
-    desc: "Tu commences avec l'IA ou tu as déjà quelques notions, mais tu veux structurer ta pratique pour l'appliquer à la formation.",
+    desc: "Vous commencez avec l'IA ou avez déjà quelques notions, et voulez structurer votre pratique pour l'appliquer à la formation.",
   },
 ];
 
@@ -111,19 +111,19 @@ const PUBLIC_CIBLE = [
 const COMPETENCES_CLES = [
   "Maîtriser les fondamentaux de l'IA générative et son vocabulaire",
   'Concevoir des prompts pédagogiques reproductibles et efficaces',
-  'Choisir et orchestrer les outils IA adaptés à ton contexte',
+  'Choisir et orchestrer les outils IA adaptés à votre contexte',
   "Intégrer l'IA dans l'ingénierie pédagogique (méthodologie STRIDE)",
   "Animer des séances augmentées par l'IA en présentiel et distanciel",
-  "Automatiser les tâches administratives pour gagner 30 % de ton temps",
-  "Sécuriser ta pratique : RGPD, AI Act, propriété intellectuelle",
-  "Adopter la posture du Formateur Augmenté et inscrire tes acquis dans ton Passeport de Compétences",
+  "Automatiser les tâches administratives pour gagner 30 % de votre temps",
+  "Sécuriser votre pratique : RGPD, AI Act, propriété intellectuelle",
+  "Adopter la posture du Formateur Augmenté et inscrire vos acquis dans votre Passeport de Compétences",
 ];
 
 const PRICING = [
   {
     name: 'Autonome',
     price: '249€',
-    desc: 'Pour démarrer à ton rythme.',
+    desc: 'Pour démarrer à votre rythme.',
     features: [
       'Accès à tous les modules',
       'Ressources téléchargeables',
@@ -156,7 +156,7 @@ const PRICING = [
     features: [
       'Tout le plan Certifiant',
       '3 sessions coaching individuel (60 min)',
-      'Feedback personnalisé sur tes projets',
+      'Feedback personnalisé sur vos projets',
       'Accès prioritaire aux nouveaux modules',
       'Support direct par email',
     ],
@@ -169,19 +169,19 @@ const PRICING = [
 const FAQ = [
   {
     q: "Faut-il déjà connaître l'IA pour suivre la formation ?",
-    a: "Non, la formation part des bases et progresse graduellement. Le module 1 te donne toutes les clés pour comprendre l'IA générative, même sans pré-requis technique.",
+    a: "Non, la formation part des bases et progresse graduellement. Le module 1 vous donne toutes les clés pour comprendre l'IA générative, même sans pré-requis technique.",
   },
   {
     q: 'La formation est-elle éligible à une prise en charge OPCO ?',
-    a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon ton secteur — contacte-nous pour vérifier ton éligibilité.',
+    a: 'La formation est réalisée en partenariat avec C-Campus, organisme certifié Qualiopi. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
   },
   {
     q: 'Quelle est la durée de la formation ?',
-    a: 'Environ 23 heures de contenu réparties sur 7 modules. En autonome, tu progresses à ton rythme. En certifiant, des sessions live bi-mensuelles rythment l\'apprentissage sur 8 semaines.',
+    a: "Environ 23 heures de contenu réparties sur 7 modules. En autonome, vous progressez à votre rythme. En certifiant, des sessions live bi-mensuelles rythment l'apprentissage sur 8 semaines.",
   },
   {
     q: "Qu'est-ce qu'un Open Badge ?",
-    a: "Un Open Badge 2.0 est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles (LinkedIn, France Compétences). Il atteste de tes compétences avec une preuve cryptographique.",
+    a: "Un Open Badge 2.0 est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles (LinkedIn, France Compétences). Il atteste de vos compétences avec une preuve cryptographique.",
   },
   {
     q: 'Puis-je passer du plan Autonome au plan Certifiant ?',
@@ -362,7 +362,7 @@ export const MarketingFormation: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
               7 modules, 23 heures, 8 semaines. Maîtrise l'IA pédagogique,
-              intègre la méthode STRIDE et enrichis ton Passeport de Compétences —
+              intégrez la méthode STRIDE et enrichissez votre Passeport de Compétences —
               certifié Qualiopi en partenariat avec C-Campus.
             </p>
           </FadeInWhenVisible>
@@ -451,8 +451,8 @@ export const MarketingFormation: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Que tu commences avec l'IA ou que tu sois déjà initié·e, le parcours
-                s'adapte à ton niveau et à ton contexte professionnel.
+                Que vous commenciez avec l'IA ou que vous soyez déjà initié·e, le parcours
+                s'adapte à votre niveau et à votre contexte professionnel.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -494,13 +494,13 @@ export const MarketingFormation: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Ce que tu sauras <span className="text-accent-400">vraiment faire</span>.
+                Ce que vous saurez <span className="text-accent-400">vraiment faire</span>.
               </h2>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
-                À la fin du parcours, tu as 8 compétences opérationnelles — validées
-                par un Open Badge, inscrites dans ton Passeport de Compétences TLS,
+                À la fin du parcours, vous avez 8 compétences opérationnelles — validées
+                par un Open Badge, inscrites dans votre Passeport de Compétences TLS,
                 et déployables dès la semaine suivante.
               </p>
             </FadeInWhenVisible>
@@ -547,15 +547,15 @@ export const MarketingFormation: React.FC = () => {
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Le parcours est réalisé 100 % à distance en partenariat avec
                 <strong className="text-ink-900"> C-Campus</strong>, organisme certifié Qualiopi.
-                Cette alliance garantit la reconnaissance professionnelle de ton Open Badge
-                et débloque la prise en charge OPCO ou CPF.
+                Cette alliance garantit la reconnaissance professionnelle de votre Open Badge
+                et débloque la prise en charge OPCO.
               </p>
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.3}>
               <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
                   'Organisme de formation référencé Qualiopi',
-                  'Éligible CPF et prise en charge OPCO selon ton secteur',
+                  'Prise en charge OPCO éligible selon votre secteur',
                   'Open Badge 2.0 vérifiable par cryptographie',
                   'Reconnaissance LinkedIn et France Compétences',
                 ].map((f) => (
@@ -588,7 +588,7 @@ export const MarketingFormation: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-                  {['Qualiopi', 'OPCO', 'CPF'].map((b) => (
+                  {['Qualiopi', 'OPCO'].map((b) => (
                     <span
                       key={b}
                       className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider"
@@ -623,7 +623,7 @@ export const MarketingFormation: React.FC = () => {
               {
                 n: '1',
                 title: 'Fondamentaux solides',
-                body: "Vocabulaire, outils, limites de l'IA générative — tu sais ce que tu fais et pourquoi.",
+                body: "Vocabulaire, outils, limites de l'IA générative — vous savez ce que vous faites et pourquoi.",
               },
               {
                 n: '2',
@@ -633,7 +633,7 @@ export const MarketingFormation: React.FC = () => {
               {
                 n: '3',
                 title: 'Passeport certifiant',
-                body: "Open Badge 2.0, reconnaissance Qualiopi, compétences inscrites dans ton passeport TLS.",
+                body: "Open Badge 2.0, reconnaissance Qualiopi, compétences inscrites dans votre passeport TLS.",
               },
             ].map((item, i) => (
               <FadeInWhenVisible key={item.n} direction="up" delay={i * 0.1}>
@@ -679,7 +679,7 @@ export const MarketingFormation: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-                Choisis le rythme qui te ressemble. Tu peux toujours évoluer.
+                Choisissez le rythme qui vous ressemble. Vous pouvez toujours évoluer.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -775,7 +775,7 @@ export const MarketingFormation: React.FC = () => {
               {[
                 { icon: <Shield size={16} />, label: 'Qualiopi · C-Campus' },
                 { icon: <Award size={16} />, label: 'Open Badge 2.0' },
-                { icon: <GraduationCap size={16} />, label: 'CPF / OPCO éligible' },
+                { icon: <GraduationCap size={16} />, label: 'OPCO éligible' },
                 { icon: <Users size={16} />, label: '200+ certifiés' },
               ].map((b) => (
                 <div
@@ -802,7 +802,7 @@ export const MarketingFormation: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Toutes tes questions, sans détour.
+                Toutes vos questions, sans détour.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -823,7 +823,7 @@ export const MarketingFormation: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-              On échange 30 minutes pour comprendre ton contexte et te recommander le bon parcours.
+              Nous échangeons 30 minutes pour comprendre votre contexte et vous recommander le bon parcours.
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>

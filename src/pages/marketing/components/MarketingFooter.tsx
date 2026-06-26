@@ -67,7 +67,7 @@ const NewsletterInline: React.FC = () => {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="ton.email@exemple.fr"
+          placeholder="votre.email@organisation.fr"
           className="flex-1 min-w-0 px-4 h-9 bg-transparent text-white placeholder:text-white/40 font-body text-body-sm focus:outline-none"
         />
         <button
@@ -168,7 +168,7 @@ export const MarketingFooter: React.FC = () => (
         <div className="flex flex-wrap items-center gap-x-stack gap-y-1 text-caption text-white/50">
           <span>© 2026 The Learning Society</span>
           <span className="text-white/20">·</span>
-          <span>Qualiopi · CPF · OPCO éligible</span>
+          <span>Qualiopi · OPCO éligible</span>
           <span className="text-white/20">·</span>
           <span>RGPD & AI Act compliant</span>
         </div>

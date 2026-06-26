@@ -358,7 +358,7 @@ export const MarketingMethode: React.FC = () => {
             <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
               <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
                 On applique STRIDE{' '}
-                <span className="text-accent-400">à ton contexte</span> ?
+                <span className="text-accent-400">à votre contexte</span> ?
               </h2>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
                 On démarre par un diagnostic de 90 min — audit de maturité SBO et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.

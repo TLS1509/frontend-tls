@@ -29,18 +29,11 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
-  CountUp,
   InteractiveAppMockup,
   TiltCard,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
-const STATS = [
-  { to: 120, suffix: '+', label: 'modules disponibles' },
-  { to: 40, suffix: '+', label: 'formateurs actifs' },
-  { to: 200, suffix: 'h', label: 'de contenu' },
-  { to: 30, suffix: ' min', label: 'session moyenne' },
-];
 
 const FEATURES_MAIN = [
   {
@@ -48,12 +41,12 @@ const FEATURES_MAIN = [
     eyebrow: 'Personnalisation IA',
     title: 'Parcours adaptatifs en temps réel.',
     description:
-      "Des parcours qui s'ajustent à ton niveau Dreyfus, tes objectifs et ton rythme. L'IA analyse tes progrès et recommande la suite la plus pertinente.",
+      "Des parcours qui s'ajustent à votre niveau Dreyfus, vos objectifs et votre rythme. L'IA analyse vos progrès et recommande la suite la plus pertinente.",
     bullets: [
-      'Recommandations IA basées sur tes progrès réels',
+      'Recommandations IA basées sur vos progrès réels',
       'Niveau Dreyfus tracé à chaque étape (Novice → Expert)',
-      'Compétences validées inscrites dans ton Passeport de Compétences',
-      'Plans de développement alignés avec tes objectifs SBO',
+      'Compétences validées inscrites dans votre Passeport de Compétences',
+      'Plans de développement alignés avec vos objectifs SBO',
     ],
     tone: 'from-primary-500 to-primary-700',
     pillBg: 'bg-primary-100 text-primary-700',
@@ -63,12 +56,12 @@ const FEATURES_MAIN = [
     eyebrow: 'Réflexion structurée',
     title: 'Journal de bord, ancré.',
     description:
-      "Un espace de réflexion guidé qui transforme ce que tu vis en traces d'apprentissage durables. Tes insights deviennent ton portfolio professionnel.",
+      "Un espace de réflexion guidé qui transforme ce que vous vivez en traces d'apprentissage durables. Vos insights deviennent votre portfolio professionnel.",
     bullets: [
       'Prompts de réflexion guidés par moment',
-      'Historique chronologique de tes apprentissages',
-      'Export PDF de ton portfolio',
-      'Partage sélectif avec ton coach',
+      'Historique chronologique de vos apprentissages',
+      'Export PDF de votre portfolio',
+      'Partage sélectif avec votre coach',
     ],
     tone: 'from-secondary-500 to-secondary-600',
     pillBg: 'bg-secondary-100 text-secondary-700',
@@ -76,14 +69,14 @@ const FEATURES_MAIN = [
   {
     icon: <MessageSquare size={36} />,
     eyebrow: 'Coaching humain · IA-augmenté',
-    title: 'Ton coach, au bon moment.',
+    title: 'Votre coach, au bon moment.',
     description:
-      "Coaching 1-1 intégré : messagerie contextualisée, sessions visio, corrections de productions. Ton coach voit ton parcours, pas juste des messages déconnectés.",
+      "Coaching 1-1 intégré : messagerie contextualisée, sessions visio, corrections de productions. Votre coach voit votre parcours, pas juste des messages déconnectés.",
     bullets: [
       'Messagerie directe avec contexte du parcours',
       'Sessions visio intégrées (pas de Zoom externe)',
-      'Corrections inline sur tes productions',
-      'Feedback structuré sur tes exercices',
+      'Corrections inline sur vos productions',
+      'Feedback structuré sur vos exercices',
     ],
     tone: 'from-accent-400 to-secondary-500',
     pillBg: 'bg-accent-100 text-warning-fg',
@@ -104,7 +97,7 @@ const FEATURE_TILES = [
 const USE_CASES = [
   {
     badge: 'Formateur',
-    title: 'Anime tes cohortes en mode augmenté',
+    title: 'Animez vos cohortes en mode augmenté',
     bullets: [
       'Tableau de bord apprenants en temps réel',
       'Génération de quiz adaptatifs IA',
@@ -113,16 +106,16 @@ const USE_CASES = [
   },
   {
     badge: 'Apprenant',
-    title: 'Apprends à ton rythme, sans te perdre',
+    title: 'Apprenez à votre rythme, sans vous perdre',
     bullets: [
-      'Reprends exactement où tu en étais',
+      'Reprenez exactement où vous en étiez',
       'Coach 1-1 accessible en 2 clics',
-      'Journal qui ancre tes insights',
+      'Journal qui ancre vos insights',
     ],
   },
   {
     badge: 'Responsable L&D',
-    title: 'Déploie ta stratégie SBO',
+    title: 'Déployez votre stratégie SBO',
     bullets: [
       'Passeports de Compétences agrégés par cohorte',
       'Analytics Dreyfus : où en est chaque apprenant',
@@ -175,7 +168,7 @@ export const MarketingLearningApp: React.FC = () => {
 
             <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-xl">
-                Acquire les compétences (Learn), déploie-les sur de vrais projets (Do), fais matcher ton Passeport de Compétences avec les opportunités (Match).
+                Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
                 Un écosystème SBO intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
               </p>
             </FadeInWhenVisible>
@@ -221,26 +214,6 @@ export const MarketingLearningApp: React.FC = () => {
               </TiltCard>
             </div>
           </FadeInWhenVisible>
-        </div>
-      </section>
-
-      {/* ── 2. Stats ────────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-b from-primary-50/40 to-white border-b border-primary-100 py-section">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-stack">
-          {STATS.map((s, i) => (
-            <FadeInWhenVisible key={s.label} direction="up" delay={i * 0.08}>
-              <div className="flex flex-col gap-tight p-stack rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-100">
-                <CountUp
-                  to={s.to}
-                  suffix={s.suffix}
-                  className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-primary-700 leading-none"
-                />
-                <span className="font-body text-caption text-ink-600 mt-1 uppercase tracking-wider font-semibold">
-                  {s.label}
-                </span>
-              </div>
-            </FadeInWhenVisible>
-          ))}
         </div>
       </section>
 
@@ -419,12 +392,12 @@ export const MarketingLearningApp: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.05}>
             <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              Sois parmi <span className="text-accent-400">les premiers</span>.
+              Soyez parmi <span className="text-accent-400">les premiers</span>.
             </h2>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.1}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0">
-              La Learning App est en bêta. Inscris-toi pour être notifié·e en priorité et bénéficier d'un accès exclusif.
+              La Learning App est en bêta. Inscrivez-vous pour être notifié·e en priorité et bénéficier d'un accès exclusif.
             </p>
           </FadeInWhenVisible>
 
@@ -437,9 +410,9 @@ export const MarketingLearningApp: React.FC = () => {
                 className="bg-white/15 backdrop-blur-glass-medium border border-white/25 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-md"
               >
                 <CheckCircle2 size={40} className="text-accent-400" />
-                <p className="font-display font-bold text-h4 text-white m-0">Merci ! Tu es sur la liste.</p>
+                <p className="font-display font-bold text-h4 text-white m-0">Merci ! Vous êtes sur la liste.</p>
                 <p className="font-body text-body-sm text-white/80 m-0">
-                  On te contacte dès que l'accès bêta est disponible.
+                  Nous vous contacterons dès que l'accès bêta est disponible.
                 </p>
               </motion.div>
             ) : (
@@ -459,13 +432,13 @@ export const MarketingLearningApp: React.FC = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="toi@organisation.fr"
+                    placeholder="nom@organisation.fr"
                     className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-stack-xs text-left">
                   <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-white/90">
-                    Ton rôle
+                    Votre rôle
                   </label>
                   <input
                     id="ea-role"

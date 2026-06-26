@@ -22,54 +22,34 @@ import { Button } from '../../components/core/Button';
 const JOURNEY = [
   {
     chapter: 'Chapitre 1',
-    title: 'Tu arrives avec tes intuitions',
-    body: 'Pas besoin d\'être expert IA. Juste curieux, motivé, prêt à expérimenter. On te rencontre là où tu es.',
+    title: 'Vous arrivez avec vos intuitions',
+    body: "Pas besoin d'être expert IA. Juste curieux, motivé, prêt à expérimenter. Nous vous rencontrons là où vous en êtes.",
     icon: <Compass size={28} />,
     img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80&auto=format&fit=crop',
   },
   {
     chapter: 'Chapitre 2',
-    title: 'Tu découvres une autre manière',
+    title: 'Vous découvrez une autre manière',
     body: 'Le Formateur Augmenté ne remplace rien. Il ajoute une dimension : la personnalisation à grande échelle.',
     icon: <Lightbulb size={28} />,
     img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop',
   },
   {
     chapter: 'Chapitre 3',
-    title: 'Tu construis tes parcours',
-    body: 'Tu apprends à concevoir des expériences qui transforment vraiment. Avec des outils, oui, mais surtout avec un cadre.',
+    title: 'Vous construisez vos parcours',
+    body: 'Vous apprenez à concevoir des expériences qui transforment vraiment. Avec des outils, oui, mais surtout avec un cadre.',
     icon: <BookOpen size={28} />,
     img: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80&auto=format&fit=crop',
   },
   {
     chapter: 'Chapitre 4',
-    title: 'Tu rejoins une communauté',
+    title: 'Vous rejoignez une communauté',
     body: '200+ formateurs certifiés qui partagent, expérimentent, et font évoluer la pédagogie augmentée ensemble.',
     icon: <Heart size={28} />,
     img: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?w=800&q=80&auto=format&fit=crop',
   },
 ];
 
-const VOICES = [
-  {
-    quote: 'J\'avais peur que l\'IA remplace mon métier. Aujourd\'hui je sais qu\'elle l\'augmente.',
-    author: 'Marie, formatrice indépendante',
-    portrait: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80&auto=format&fit=crop',
-    highlight: 'IA augmente',
-  },
-  {
-    quote: 'En 8 semaines, j\'ai redessiné toute ma manière de concevoir. Je ne reviendrais pas en arrière.',
-    author: 'Karim, responsable L&D',
-    portrait: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80&auto=format&fit=crop',
-    highlight: 'redessiné',
-  },
-  {
-    quote: 'La communauté TLS, c\'est ma boussole quotidienne. On se challenge, on s\'entraide.',
-    author: 'Léa, coach pédagogique',
-    portrait: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80&auto=format&fit=crop',
-    highlight: 'boussole quotidienne',
-  },
-];
 
 /** SVG decorative: line annotation style "marker" */
 const SquigglyUnderline: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -217,38 +197,27 @@ export const MarketingHomeC: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Voices: testimonials avec portraits prominents ───────────────────── */}
+    {/* ── Ancrage C-Campus ─────────────────────────────────────────────────── */}
     <section className="py-page bg-secondary-50/40">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
-        <div className="flex flex-col gap-stack items-center text-center max-w-2xl mx-auto">
-          <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-            Les voix de la communauté
-          </span>
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-            Ils sont passés par là.
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
-          {VOICES.map(({ quote, author, portrait, highlight }) => {
-            const parts = quote.split(highlight);
-            return (
-              <article key={author} className="flex flex-col gap-stack">
-                <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-md">
-                  <img src={portrait} alt="" className="w-full h-full object-cover" />
-                </div>
-                <blockquote className="font-display text-body-lg font-medium text-ink-900 leading-snug m-0 italic">
-                  "{parts[0]}<span className="relative inline-block not-italic">
-                    <span className="relative z-10 font-bold">{highlight}</span>
-                    <span className="absolute inset-x-0 bottom-0.5 h-2 bg-accent-300/60 -z-0" />
-                  </span>{parts[1]}"
-                </blockquote>
-                <p className="font-body text-caption text-secondary-700 font-bold m-0 uppercase tracking-wider">
-                 : {author}
-                </p>
-              </article>
-            );
-          })}
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="rounded-2xl bg-white border border-secondary-100 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
+          <div className="flex flex-col gap-stack flex-1">
+            <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">Notre ancrage</span>
+            <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
+              Certifié Qualiopi, déployé chez C-Campus.
+            </p>
+            <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
+              Les parcours TLS sont déployés en partenariat avec C-Campus (organisme certifié Qualiopi). En 2023, 578 apprenants formés avec un taux de satisfaction de +93 %.
+            </p>
+          </div>
+          <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
+            <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
+              Certifié Qualiopi
+            </span>
+            <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
+              578 formés · +93 % satisfaction (C-Campus 2023)
+            </span>
+          </div>
         </div>
       </div>
     </section>
