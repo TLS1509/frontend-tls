@@ -333,7 +333,7 @@ export const MarketingFormation: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Formation Formateur Augmenté"
-        description="Devenez formateur augmenté avec l'IA. 3 parcours certifiants pour concevoir des expériences d'apprentissage qui transforment vraiment."
+        description="Formation IA pour formateurs et L&D : 7 modules en ligne, certification Qualiopi via C-Campus, éligible OPCO. Intégrez l'IA dans vos pratiques, à votre rythme."
         canonical="/marketing/formation"
       />
       {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}

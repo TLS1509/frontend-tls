@@ -5,7 +5,7 @@ const SITE_NAME = 'The Learning Society';
 const BASE_URL = 'https://thelearningsociety.fr';
 const DEFAULT_DESCRIPTION =
   "Méthode STRIDE, Learning App, Accompagnement : construisez une organisation Skills-Based qui apprend et s'adapte en continu.";
-const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.png`;
+const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.svg`;
 const TWITTER_HANDLE = '@thelearningsociety';
 
 interface SEOHeadProps {

@@ -111,7 +111,7 @@ export const MarketingAccompagnement: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Accompagnement STRIDE"
-        description="Déployez une organisation Skills-Based en 3 phases : S'orienter, Tester·Réaliser, Intégrer·Déployer·Évoluer. Un accompagnement sur-mesure pour transformer vos équipes."
+        description="Déployez l'IA dans votre organisation avec la méthode STRIDE. Accompagnement sur-mesure pour organismes de formation et ETI — de l'audit flash au déploiement opérationnel."
         canonical="/marketing/accompagnement"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
