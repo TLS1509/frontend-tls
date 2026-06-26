@@ -37,3 +37,24 @@ IMPLEMENTATION_ORDER.md
 
 # MCP server config (contains API keys — never commit)
 .mcp.json
+
+# ── Brand assets — binaires lourds gardés en local (decks/docs régénérables via _pipeline) ──
+# On garde le source léger (scripts _pipeline/*.js, *.py, READMEs, guidelines .md,
+# fonts d'_pipeline/assets, signatures .html) ; on exclut les artefacts binaires.
+*.pptx
+*.pdf
+brand-decks/**/*.jpg
+brand-decks/**/*.jpeg
+brand-decks/**/*.png
+brand-docs/**/*.jpg
+brand-docs/**/*.png
+brand-assets/app-screenshots/
+brand-assets/**/*.png
+brand-assets/**/*.mp4
+brand-assets/**/*.mov
+thumbnails.jpg
+# …mais conserver les assets source du pipeline (fonts + inputs de build)
+!brand-decks/_pipeline/assets/
+!brand-decks/_pipeline/assets/**
+!brand-assets/video/_pipeline/assets/
+!brand-assets/video/_pipeline/assets/**
