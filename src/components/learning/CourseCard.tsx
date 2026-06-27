@@ -14,7 +14,7 @@ export interface CourseCardProps {
 }
 
 const getCategoryIcon = (category: string) => {
-  const props = { size: 64, strokeWidth: 1.5, className: 'text-white' };
+  const props = { size: 40, strokeWidth: 1.5, className: 'text-white' };
   switch (category) {
     case 'Design': return <Palette {...props} />;
     case 'React': return <Grid3x3 {...props} />;
@@ -29,18 +29,34 @@ const categoryToneMap: Record<string, CourseCardTone> = {
   'Design Systems': 'sun',
 };
 
-// Sprint 3 glow — tone-aware ripple. overflow-hidden removed from wrapper so ::after box-shadow isn't clipped.
-const TONE_HOVER_GLOW: Record<CourseCardTone, string> = {
-  brand: 'hover-glow-primary',
-  warm:  'hover-glow-warm',
-  sun:   'hover-glow-sun',
+const TONE_RESTING_BORDER: Record<CourseCardTone, string> = {
+  brand: 'border-primary-200',
+  warm:  'border-secondary-200',
+  sun:   'border-accent-200',
+};
+
+const TONE_RESTING_SHADOW: Record<CourseCardTone, string> = {
+  brand: 'shadow-brand-xs',
+  warm:  'shadow-warm-xs',
+  sun:   'shadow-sun-xs',
+};
+
+const TONE_HOVER_BORDER: Record<CourseCardTone, string> = {
+  brand: 'hover:border-primary-300',
+  warm:  'hover:border-secondary-300',
+  sun:   'hover:border-accent-300',
+};
+
+const TONE_HOVER_SHADOW: Record<CourseCardTone, string> = {
+  brand: 'hover:shadow-brand-md',
+  warm:  'hover:shadow-warm-md',
+  sun:   'hover:shadow-sun-md',
 };
 
 const CARD_BASE =
-  'flex flex-col h-full rounded-lg border border-ink-200 bg-white shadow-sm transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:shadow-md hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
+  'flex flex-col h-full rounded-xl border bg-white transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
 
-// rounded-t-lg clips hero gradient to the card's top corners (overflow-hidden moved here from CARD_BASE)
-const HERO_BASE = 'aspect-video relative rounded-t-lg overflow-hidden flex items-center justify-center';
+const HERO_BASE = 'aspect-video relative rounded-t-xl overflow-hidden flex items-center justify-center';
 
 const HERO_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'bg-gradient-to-br from-primary-600 to-primary-800',
@@ -66,12 +82,12 @@ const PROGRESS_FILL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_BASE =
-  'w-full p-4 rounded-md text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-stack-xs transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
+  'w-full py-2.5 px-6 rounded-pill text-body-sm font-semibold cursor-pointer flex items-center justify-center gap-stack-xs transition-[background-color,box-shadow,transform] duration-fast ease-emphasis hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]';
 
 const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
   brand: 'text-white bg-gradient-to-br from-primary-600 to-primary-700 shadow-brand-sm hover:shadow-brand-md',
   warm:  'text-white bg-gradient-to-br from-secondary-500 to-secondary-600 shadow-warm-sm hover:shadow-warm-md',
-  sun:   'text-white bg-gradient-to-br from-accent-400 to-accent-600 shadow-sun-sm hover:shadow-brand-md',
+  sun:   'text-white bg-gradient-to-br from-accent-400 to-accent-600 shadow-sun-sm hover:shadow-sun-md',
 };
 
 const BUTTON_ENROLLED =
@@ -89,15 +105,15 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const resolvedTone: CourseCardTone = tone ?? categoryToneMap[category] ?? 'brand';
 
   return (
-    <div className={[CARD_BASE, TONE_HOVER_GLOW[resolvedTone]].join(' ')}>
+    <div className={[CARD_BASE, TONE_RESTING_BORDER[resolvedTone], TONE_RESTING_SHADOW[resolvedTone], TONE_HOVER_BORDER[resolvedTone], TONE_HOVER_SHADOW[resolvedTone]].join(' ')}>
       <div className={`${HERO_BASE} ${HERO_TONE_CLASSES[resolvedTone]}`}>
         <div className="opacity-90">{getCategoryIcon(category)}</div>
       </div>
 
-      <div className="flex flex-col flex-1 p-6 max-sm:p-4">
+      <div className="flex flex-col flex-1 p-4 sm:p-6">
         <span className={`${BADGE_BASE} ${BADGE_TONE_CLASSES[resolvedTone]} self-start`}>{category}</span>
 
-        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-2 line-clamp-2 min-h-[3.5rem]">
+        <h3 className="font-display text-h4 font-semibold text-ink-900 mb-stack-xs line-clamp-2 min-h-[3.5rem]">
           {title}
         </h3>
 

@@ -5,6 +5,7 @@ import { Button } from '../core/Button';
 import { ProgressBar } from '../ui/ProgressBar';
 import { CheckCircle2, CalendarDays, Users, ArrowRight } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
+import type { ProgressFill } from '../ui/ProgressBar';
 
 interface TeamMember {
   id: string;
@@ -38,6 +39,18 @@ const STATUS_LABEL: Record<ProjectCardProps['status'], string> = {
   completed: 'Terminé',
 };
 
+const STATUS_PROGRESS_FILL: Record<ProjectCardProps['status'], ProgressFill> = {
+  planning:     'warm',
+  'in-progress': 'brand',
+  completed:    'success',
+};
+
+const STATUS_AVATAR: Record<ProjectCardProps['status'], string> = {
+  planning:     'bg-secondary-100 text-secondary-700',
+  'in-progress': 'bg-primary-100 text-primary-700',
+  completed:    'bg-success-bg text-success-fg',
+};
+
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
@@ -52,7 +65,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Card
-      className={['group flex flex-col gap-stack transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-md hover-glow-primary', className]
+      className={['group flex flex-col gap-stack transition-all duration-slow ease-emphasis hover:-translate-y-1 hover:shadow-card-hover', className]
         .filter(Boolean)
         .join(' ')}
     >
@@ -66,35 +79,35 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <p className="m-0 text-body-sm text-ink-500 leading-relaxed line-clamp-2">{description}</p>
 
       <div className="flex flex-wrap items-center gap-stack text-caption text-ink-500">
-        <span className="inline-flex items-center gap-tight.5">
+        <span className="inline-flex items-center gap-1">
           <CheckCircle2 size={14} className="text-success-base" />
           <span className="font-semibold text-ink-700">{completedTasks}</span>
           <span>/ {totalTasks} tâches</span>
         </span>
         {deadline && (
-          <span className="inline-flex items-center gap-tight.5">
+          <span className="inline-flex items-center gap-1">
             <CalendarDays size={14} className="text-ink-400" />
             {deadline}
           </span>
         )}
-        <span className="inline-flex items-center gap-tight.5">
+        <span className="inline-flex items-center gap-1">
           <Users size={14} className="text-ink-400" />
           {teamMembers.length} membres
         </span>
       </div>
 
       <div>
-        <ProgressBar value={progress} fill="brand" size="sm" showLabel={true} />
+        <ProgressBar value={progress} fill={STATUS_PROGRESS_FILL[status]} size="sm" showLabel={true} />
       </div>
 
       {teamMembers.length > 0 && (
-        <div className="flex flex-wrap gap-tight.5">
+        <div className="flex flex-wrap gap-1">
           {teamMembers.slice(0, 4).map((member) => (
             <span
               key={member.id}
-              className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-caption text-ink-700 font-medium"
             >
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold">
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold ${STATUS_AVATAR[status]}`}>
                 {member.name.charAt(0)}
               </span>
               {member.name}

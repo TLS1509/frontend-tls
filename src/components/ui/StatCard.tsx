@@ -94,15 +94,15 @@ const SURFACE_TONE_CLASSES: Record<
   },
   glass: {
     neutral: 'bg-white/70 backdrop-blur-glass-light border border-white/60 shadow-sm',
-    brand:   'bg-primary-50/60 backdrop-blur-glass-light border border-primary-200/60 shadow-sm',
-    warm:    'bg-secondary-50/60 backdrop-blur-glass-light border border-secondary-200/60 shadow-sm',
-    sun:     'bg-accent-50/70 backdrop-blur-glass-light border border-accent-200/60 shadow-sm',
+    brand:   'bg-primary-50/60 backdrop-blur-glass-light border border-primary-200/60 shadow-brand-xs',
+    warm:    'bg-secondary-50/60 backdrop-blur-glass-light border border-secondary-200/60 shadow-warm-xs',
+    sun:     'bg-accent-50/70 backdrop-blur-glass-light border border-accent-200/60 shadow-sun-xs',
   },
   frosted: {
     neutral: 'bg-white/85 backdrop-blur-glass-medium border border-white/70 shadow-md',
-    brand:   'bg-primary-100/40 backdrop-blur-glass-medium border border-primary-200/50 shadow-md',
-    warm:    'bg-secondary-100/40 backdrop-blur-glass-medium border border-secondary-200/50 shadow-md',
-    sun:     'bg-accent-100/45 backdrop-blur-glass-medium border border-accent-200/50 shadow-md',
+    brand:   'bg-primary-100/40 backdrop-blur-glass-medium border border-primary-200/50 shadow-brand-md',
+    warm:    'bg-secondary-100/40 backdrop-blur-glass-medium border border-secondary-200/50 shadow-warm-md',
+    sun:     'bg-accent-100/45 backdrop-blur-glass-medium border border-accent-200/50 shadow-sun-md',
   },
 };
 

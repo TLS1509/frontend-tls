@@ -34,7 +34,7 @@ export type CardVariant =
       Used as the surface for ParcoursCard / learning hubs. */
   | 'tinted';
 export type CardTone = 'primary' | 'warm' | 'sun' | 'brand';
-export type CardSize = 'sm' | 'md' | 'lg';
+export type CardSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface CardBadgeConfig {
   label: string;
@@ -84,18 +84,18 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 const BASE = 'flex flex-col rounded-xl text-ink-900 font-body text-body-sm transition-all duration-200 [&[role=button]]:h-auto [&[role=button]]:font-normal [&[role=button]]:items-stretch';
 
 const VARIANT_CLASSES: Record<CardVariant, string> = {
-  // shadow-card: warm-tinted resting shadow (Phase 19.D gap #5)
-  // shadow-card-hover on hover → lift still uses shadow-card-lift for strong elevation
-  default: 'bg-white border border-ink-200 shadow-card hover:border-ink-300 hover:shadow-card-hover',
-  feature: 'bg-white shadow-card-hover hover:shadow-card-lift',
-  elevated: 'bg-white shadow-card-hover hover:shadow-card-lift',
-  interactive: 'bg-white border border-ink-200 shadow-card cursor-pointer hover:-translate-y-1 hover:shadow-card-lift hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
+  // Shadows are tone-aware — applied dynamically via TONE_SHADOW_* maps below.
+  // default/interactive/feature/elevated/tinted have no shadow baked in.
+  default: 'bg-white border border-ink-200 hover:border-ink-300',
+  feature: 'bg-white',
+  elevated: 'bg-white',
+  interactive: 'bg-white border border-ink-200 cursor-pointer hover:-translate-y-1 hover:shadow-card-lift hover:border-primary-300 hover:bg-primary-50/30 active:-translate-y-0.5',
   glass:       'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-white/88 to-white/65 border border-white/75 shadow-[0_2px_12px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] hover:shadow-md',
   'glass-brand': 'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-primary-500/[30%] to-primary-500/[12%] border border-primary-500/35 shadow-[0_2px_12px_rgba(45,90,102,0.12),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-brand-sm',
   'glass-warm':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-gradient-to-br from-secondary-100/88 to-secondary-50/70 border border-secondary-200/65 shadow-[0_2px_12px_rgba(180,80,20,0.08),inset_0_1px_0_rgba(255,255,255,0.85)] hover:shadow-warm-sm',
   'glass-dark':  'backdrop-blur-glass-medium backdrop-saturate-[180%] bg-[radial-gradient(circle_at_0%_0%,#55A1B4_0%,#2F5F6A_60%,#1F3E45_100%)] border border-white/20 shadow-lg hover:shadow-xl text-white/95',
   minimal:  'bg-transparent border border-ink-200 hover:bg-ink-50 hover:border-ink-300',
-  bordered: 'bg-white border-2 border-primary-200 shadow-xs hover:border-primary-400 hover:shadow-sm',
+  bordered: 'bg-white border-2 border-primary-200 shadow-brand-xs hover:border-primary-400 hover:shadow-brand-sm',
   muted:    'bg-ink-50 border border-ink-200',
   sunken:   'bg-ink-100 border border-ink-200',
   // `tinted` provides only the border + shadow defaults — the actual gradient
@@ -117,7 +117,8 @@ const TONE_GRADIENT_BG_CLASSES: Record<CardTone, string> = {
 };
 
 const SIZE_CLASSES: Record<CardSize, string> = {
-  sm: 'p-4 gap-tight',
+  xs: 'p-3 gap-stack-xs',
+  sm: 'p-4 gap-stack-xs',
   md: 'p-6 gap-stack-xs',
   lg: 'p-8 gap-stack',
 };
@@ -152,22 +153,57 @@ const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
   brand:   'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
 };
 
-const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 hover:shadow-lg active:translate-y-0';
+// Resting shadow for default/tinted — subtle xs tint at rest.
+const TONE_SHADOW_RESTING: Record<CardTone, string> = {
+  primary: 'shadow-brand-xs',
+  warm:    'shadow-warm-xs',
+  sun:     'shadow-sun-xs',
+  brand:   'shadow-brand-xs',
+};
+
+// Hover shadow for default variant.
+const TONE_SHADOW_HOVER: Record<CardTone, string> = {
+  primary: 'hover:shadow-brand-sm',
+  warm:    'hover:shadow-warm-sm',
+  sun:     'hover:shadow-sun-sm',
+  brand:   'hover:shadow-brand-sm',
+};
+
+// Resting shadow for feature/elevated — stronger presence than default.
+const TONE_SHADOW_FEATURE_RESTING: Record<CardTone, string> = {
+  primary: 'shadow-brand-sm',
+  warm:    'shadow-warm-sm',
+  sun:     'shadow-sun-sm',
+  brand:   'shadow-brand-sm',
+};
+
+// Hover shadow for feature/elevated.
+const TONE_SHADOW_FEATURE_HOVER: Record<CardTone, string> = {
+  primary: 'hover:shadow-brand-md',
+  warm:    'hover:shadow-warm-md',
+  sun:     'hover:shadow-sun-md',
+  brand:   'hover:shadow-brand-md',
+};
+
+const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 active:translate-y-0';
 const CLICKABLE = 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
 const TITLE_SIZE: Record<CardSize, string> = {
+  xs: 'text-h5',
   sm: 'text-h5',
   md: 'text-h4',
   lg: 'text-h3',
 };
 
 const DESC_SIZE: Record<CardSize, string> = {
+  xs: 'text-caption',
   sm: 'text-caption',
   md: 'text-body-sm',
   lg: 'text-body',
 };
 
 const ICON_SIZE: Record<CardSize, string> = {
+  xs: '[&>svg]:w-6 [&>svg]:h-6',
   sm: '[&>svg]:w-8 [&>svg]:h-8',
   md: '[&>svg]:w-10 [&>svg]:h-10',
   lg: '[&>svg]:w-14 [&>svg]:h-14',
@@ -197,6 +233,32 @@ export const Card: React.FC<CardProps> = ({
       : TONE_BG_CLASSES[tone]
     : '';
 
+  // Tone-matched shadow — applied per variant group.
+  const isFeatureVariant = variant === 'feature' || variant === 'elevated';
+  const isDefaultVariant = variant === 'default' || variant === 'tinted';
+  const usesToneShadow = isDefaultVariant || variant === 'interactive' || interactive;
+
+  // feature/elevated: stronger resting + hover shadows (sm/md), tone-aware.
+  const featureShadowResting = isFeatureVariant
+    ? tone ? TONE_SHADOW_FEATURE_RESTING[tone] : 'shadow-card-hover'
+    : '';
+  const featureShadowHover = isFeatureVariant
+    ? tone ? TONE_SHADOW_FEATURE_HOVER[tone] : 'hover:shadow-card-lift'
+    : '';
+
+  // default/tinted/interactive: subtle resting + hover, tone-aware.
+  const toneShadowResting = usesToneShadow
+    ? tone ? TONE_SHADOW_RESTING[tone] : 'shadow-card'
+    : '';
+  const toneShadowHover = usesToneShadow && isDefaultVariant
+    ? tone ? TONE_SHADOW_HOVER[tone] : 'hover:shadow-card-hover'
+    : '';
+
+  // Interactive hover shadow — only when not already covered by toneShadowHover.
+  const interactiveHoverShadow = (variant === 'interactive' || interactive) && variant !== 'default' && variant !== 'tinted'
+    ? tone ? TONE_SHADOW_HOVER[tone] : 'hover:shadow-card-lift'
+    : '';
+
   // When interactive + tone, override the hardcoded primary hover with tone colors.
   const isInteractive = variant === 'interactive' || interactive;
   const toneInteractiveClasses = isInteractive && tone ? TONE_INTERACTIVE_HOVER[tone] : '';
@@ -206,6 +268,11 @@ export const Card: React.FC<CardProps> = ({
     VARIANT_CLASSES[variant],
     SIZE_CLASSES[size],
     toneBgClasses,
+    featureShadowResting,
+    featureShadowHover,
+    toneShadowResting,
+    toneShadowHover,
+    interactiveHoverShadow,
     toneInteractiveClasses,
     interactive && variant !== 'interactive' && INTERACTIVE_EXTRA,
     onClick && CLICKABLE,

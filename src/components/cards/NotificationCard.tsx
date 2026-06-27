@@ -93,6 +93,22 @@ const DOT: Record<NotificationTone, string> = {
   neutral: 'bg-ink-400',
 };
 
+const UNREAD_BORDER: Record<NotificationTone, string> = {
+  brand:   'border-primary-100 hover:border-primary-200',
+  warm:    'border-secondary-100 hover:border-secondary-200',
+  sun:     'border-accent-100 hover:border-accent-200',
+  success: 'border-success-base/25 hover:border-success-base/40',
+  neutral: 'border-ink-100 hover:border-ink-200',
+};
+
+const READ_HOVER_BG: Record<NotificationTone, string> = {
+  brand:   'hover:bg-primary-50/30',
+  warm:    'hover:bg-secondary-50/30',
+  sun:     'hover:bg-accent-50/30',
+  success: 'hover:bg-success-bg/30',
+  neutral: 'hover:bg-ink-50',
+};
+
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const NotificationCard: React.FC<NotificationCardProps> = ({
@@ -119,8 +135,8 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         'group relative flex items-start gap-stack-xs px-3 py-3 sm:px-4 sm:py-3.5',
         'rounded-xl border border-transparent transition-all duration-base',
         unread
-          ? `${UNREAD_BG[tone]} border-ink-100 hover:border-ink-200`
-          : 'hover:bg-ink-50',
+          ? `${UNREAD_BG[tone]} ${UNREAD_BORDER[tone]}`
+          : READ_HOVER_BG[tone],
         clickable && 'cursor-pointer',
         '!h-auto !overflow-visible !items-start !font-normal',
         className,
@@ -141,7 +157,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+      <div className="flex-1 min-w-0 flex flex-col gap-tight">
         {/* Title + unread dot */}
         <div className="flex items-center gap-stack-xs min-w-0">
           <h4

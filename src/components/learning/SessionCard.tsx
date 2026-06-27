@@ -49,17 +49,24 @@ export interface SessionCardProps {
 }
 
 const ACTION_BTN_BASE =
-  'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px';
+  'inline-flex items-center gap-1 px-3 py-1.5 rounded-pill text-caption font-body font-semibold cursor-pointer border transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-emphasis hover:-translate-y-px';
 
-const ACTION_BTN_TONES = {
-  primary:   'border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 hover:border-primary-300 hover:shadow-brand-xs active:bg-primary-200',
-  warm:      'border-secondary-200 bg-secondary-50 text-secondary-700 hover:bg-secondary-100 hover:border-secondary-300 hover:shadow-sm active:bg-secondary-200',
+const ACTION_BTN_TONES: Record<SessionCardTone | 'secondary', string> = {
+  primary:   'border-primary-200 bg-primary-50 text-primary-700 hover:bg-primary-100 hover:border-primary-300 hover:shadow-brand-sm active:bg-primary-200',
+  warm:      'border-secondary-200 bg-secondary-50 text-secondary-700 hover:bg-secondary-100 hover:border-secondary-300 hover:shadow-warm-sm active:bg-secondary-200',
+  sun:       'border-accent-200 bg-accent-50 text-accent-700 hover:bg-accent-100 hover:border-accent-300 hover:shadow-sun-sm active:bg-accent-200',
   secondary: 'border-ink-200 bg-ink-50 text-ink-600 hover:bg-white hover:border-ink-300 hover:text-ink-900 hover:shadow-xs',
 };
 
 /* Surface variants — cross-cutting DS Phase 10 convention.
    Tinted est tone-aware ; glass et frosted sont universels (overlay sur fonds colorés). */
-const SURFACE_CARD = 'bg-white border border-ink-100 shadow-card hover:border-ink-200 hover:shadow-card-hover';
+const SURFACE_CARD_BASE = 'bg-white border border-ink-100 shadow-card';
+
+const SURFACE_CARD_HOVER_BORDER: Record<SessionCardTone, string> = {
+  primary: 'hover:border-primary-200',
+  warm:    'hover:border-secondary-200',
+  sun:     'hover:border-accent-200',
+};
 
 const SURFACE_TINTED: Record<SessionCardTone, string> = {
   primary: 'bg-primary-100/88 backdrop-blur-sm border border-primary-200/70 hover:border-primary-300/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]',
@@ -71,7 +78,7 @@ const SURFACE_GLASS =
   'bg-white/75 backdrop-blur-glass-light border border-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] hover:bg-white/85';
 
 const SURFACE_FROSTED =
-  'bg-white/68 backdrop-blur-md border border-white/55 shadow-sm hover:bg-white/80 hover:shadow-md';
+  'bg-white/68 backdrop-blur-glass-medium border border-white/55 shadow-sm hover:bg-white/80 hover:shadow-card-hover';
 
 const FOCUS_TONE: Record<SessionCardTone, string> = {
   primary: 'focus-visible:outline-primary-500',
@@ -93,15 +100,14 @@ function getSurfaceClasses(surface: SessionCardSurface, tone: SessionCardTone): 
     case 'glass':   return SURFACE_GLASS;
     case 'frosted': return SURFACE_FROSTED;
     case 'card':
-    default:        return SURFACE_CARD;
+    default:        return `${SURFACE_CARD_BASE} ${SURFACE_CARD_HOVER_BORDER[tone]}`;
   }
 }
 
-// Sprint 3 hover-glow ripple — tone-aware animated ::after pseudo-element
-const TONE_HOVER_GLOW: Record<SessionCardTone, string> = {
-  primary: 'hover-glow-primary',
-  warm:    'hover-glow-warm',
-  sun:     'hover-glow-sun',
+const TONE_HOVER_SHADOW: Record<SessionCardTone, string> = {
+  primary: 'hover:shadow-brand-md',
+  warm:    'hover:shadow-warm-md',
+  sun:     'hover:shadow-sun-md',
 };
 
 /* Status eyebrow — point coloré + label, en remplacement du Badge top-right
@@ -141,7 +147,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     BASE,
     getSurfaceClasses(surface, tone),
     FOCUS_TONE[tone],
-    TONE_HOVER_GLOW[tone],
+    TONE_HOVER_SHADOW[tone],
     className,
   ].filter(Boolean).join(' ');
 
@@ -178,13 +184,13 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       {(questionnaire || report || onOpen) && (
       <div className={`flex flex-wrap gap-stack-xs pt-3 ${FOOTER_DIVIDER[surface]}`}>
         {questionnaire && (
-          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.primary}`} onClick={onViewQuestionnaire}>
+          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES[tone]}`} onClick={onViewQuestionnaire}>
             <FileText size={13} />
             Questionnaire
           </button>
         )}
         {report && (
-          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES.warm}`} onClick={onViewReport}>
+          <button className={`${ACTION_BTN_BASE} ${ACTION_BTN_TONES[tone]}`} onClick={onViewReport}>
             <FileText size={13} />
             Compte-rendu
           </button>

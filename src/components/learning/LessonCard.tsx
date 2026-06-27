@@ -3,6 +3,7 @@ import { Clock, Lock, ArrowRight } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Badge } from '../ui/Badge';
 import type { BadgeVariant } from '../ui/Badge';
+import type { ProgressFill } from '../ui/ProgressBar';
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
 export type LessonTone = 'primary' | 'warm' | 'sun';
@@ -35,17 +36,22 @@ const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
   advanced: 'warm',
 };
 
-// Sprint 3 glow classes — tone-aware ripple on hover
-const TONE_HOVER_GLOW: Record<LessonTone, string> = {
-  primary: 'hover-glow-primary',
-  warm:    'hover-glow-warm',
-  sun:     'hover-glow-sun',
+const TONE_HOVER_SHADOW: Record<LessonTone, string> = {
+  primary: 'hover:shadow-brand-md',
+  warm:    'hover:shadow-warm-md',
+  sun:     'hover:shadow-sun-md',
 };
 
 const TONE_CTA_TEXT: Record<LessonTone, string> = {
   primary: 'group-hover:text-primary-600',
   warm:    'group-hover:text-secondary-600',
   sun:     'group-hover:text-accent-700',
+};
+
+const TONE_PROGRESS_FILL: Record<LessonTone, ProgressFill> = {
+  primary: 'brand',
+  warm:    'warm',
+  sun:     'sun',
 };
 
 const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
@@ -65,9 +71,9 @@ const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
     sun:     'bg-white/70 backdrop-blur-glass-light border border-white/60 shadow-sm',
   },
   frosted: {
-    primary: 'bg-primary-50/65 backdrop-blur-glass-medium border border-primary-200/50 shadow-md',
-    warm:    'bg-secondary-50/65 backdrop-blur-glass-medium border border-secondary-200/50 shadow-md',
-    sun:     'bg-accent-50/70 backdrop-blur-glass-medium border border-accent-200/50 shadow-md',
+    primary: 'bg-primary-50/65 backdrop-blur-glass-medium border border-primary-200/50 shadow-brand-sm',
+    warm:    'bg-secondary-50/65 backdrop-blur-glass-medium border border-secondary-200/50 shadow-warm-sm',
+    sun:     'bg-accent-50/70 backdrop-blur-glass-medium border border-accent-200/50 shadow-sun-sm',
   },
 };
 
@@ -96,11 +102,10 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         'group relative rounded-2xl p-5',
         'transition-all duration-slow ease-emphasis',
         SURFACE_TONE[surface][tone],
-        // Sprint 3 glow (when unlocked)
-        !locked && TONE_HOVER_GLOW[tone],
+        !locked && TONE_HOVER_SHADOW[tone],
         locked
           ? 'cursor-not-allowed'
-          : 'cursor-pointer hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+          : 'cursor-pointer hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         className,
       ]
         .filter(Boolean)
@@ -146,7 +151,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
 
         {/* Meta */}
         <div className="flex flex-wrap items-center gap-stack-xs text-caption text-ink-500">
-          <div className="inline-flex items-center gap-tight.5">
+          <div className="inline-flex items-center gap-1">
             <Clock size={14} aria-hidden="true" className="text-ink-400" />
             <span>{duration}</span>
           </div>
@@ -160,7 +165,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
 
         {/* Progress */}
         <div className="mt-1">
-          <ProgressBar value={progress} size="sm" showLabel />
+          <ProgressBar value={progress} size="sm" showLabel fill={TONE_PROGRESS_FILL[tone]} />
         </div>
 
         {/* CTA footer */}
