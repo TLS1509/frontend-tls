@@ -1,4 +1,10 @@
 import React from 'react';
+import {
+  CARD_SHADOW_RESTING,
+  CARD_SHADOW_RESTING_SM,
+  CARD_SHADOW_HOVER_SM,
+  CARD_SHADOW_HOVER_MD,
+} from '../../lib/tone-classes';
 
 /**
  * Card — Source of truth: design-system/spec.json → components.Card
@@ -153,37 +159,11 @@ const TONE_INTERACTIVE_HOVER: Record<CardTone, string> = {
   brand:   'hover:border-primary-300 hover:shadow-brand-sm hover:bg-primary-50/50',
 };
 
-// Resting shadow for default/tinted — subtle xs tint at rest.
-const TONE_SHADOW_RESTING: Record<CardTone, string> = {
-  primary: 'shadow-brand-xs',
-  warm:    'shadow-warm-xs',
-  sun:     'shadow-sun-xs',
-  brand:   'shadow-brand-xs',
-};
-
-// Hover shadow for default variant.
-const TONE_SHADOW_HOVER: Record<CardTone, string> = {
-  primary: 'hover:shadow-brand-sm',
-  warm:    'hover:shadow-warm-sm',
-  sun:     'hover:shadow-sun-sm',
-  brand:   'hover:shadow-brand-sm',
-};
-
-// Resting shadow for feature/elevated — stronger presence than default.
-const TONE_SHADOW_FEATURE_RESTING: Record<CardTone, string> = {
-  primary: 'shadow-brand-sm',
-  warm:    'shadow-warm-sm',
-  sun:     'shadow-sun-sm',
-  brand:   'shadow-brand-sm',
-};
-
-// Hover shadow for feature/elevated.
-const TONE_SHADOW_FEATURE_HOVER: Record<CardTone, string> = {
-  primary: 'hover:shadow-brand-md',
-  warm:    'hover:shadow-warm-md',
-  sun:     'hover:shadow-sun-md',
-  brand:   'hover:shadow-brand-md',
-};
+// Shadow maps imported from tone-classes.ts — single source of truth.
+// CARD_SHADOW_RESTING      → xs tint at rest (default/tinted)
+// CARD_SHADOW_RESTING_SM   → sm tint at rest (feature/elevated)
+// CARD_SHADOW_HOVER_SM     → sm hover (default/tinted)
+// CARD_SHADOW_HOVER_MD     → md hover (feature/elevated, interactive)
 
 const INTERACTIVE_EXTRA = 'cursor-pointer hover:-translate-y-1 active:translate-y-0';
 const CLICKABLE = 'cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
@@ -240,23 +220,23 @@ export const Card: React.FC<CardProps> = ({
 
   // feature/elevated: stronger resting + hover shadows (sm/md), tone-aware.
   const featureShadowResting = isFeatureVariant
-    ? tone ? TONE_SHADOW_FEATURE_RESTING[tone] : 'shadow-card-hover'
+    ? tone ? CARD_SHADOW_RESTING_SM[tone] : 'shadow-card-hover'
     : '';
   const featureShadowHover = isFeatureVariant
-    ? tone ? TONE_SHADOW_FEATURE_HOVER[tone] : 'hover:shadow-card-lift'
+    ? tone ? CARD_SHADOW_HOVER_MD[tone] : 'hover:shadow-card-lift'
     : '';
 
   // default/tinted/interactive: subtle resting + hover, tone-aware.
   const toneShadowResting = usesToneShadow
-    ? tone ? TONE_SHADOW_RESTING[tone] : 'shadow-card'
+    ? tone ? CARD_SHADOW_RESTING[tone] : 'shadow-card'
     : '';
   const toneShadowHover = usesToneShadow && isDefaultVariant
-    ? tone ? TONE_SHADOW_HOVER[tone] : 'hover:shadow-card-hover'
+    ? tone ? CARD_SHADOW_HOVER_SM[tone] : 'hover:shadow-card-hover'
     : '';
 
   // Interactive hover shadow — only when not already covered by toneShadowHover.
   const interactiveHoverShadow = (variant === 'interactive' || interactive) && variant !== 'default' && variant !== 'tinted'
-    ? tone ? TONE_SHADOW_HOVER[tone] : 'hover:shadow-card-lift'
+    ? tone ? CARD_SHADOW_HOVER_SM[tone] : 'hover:shadow-card-lift'
     : '';
 
   // When interactive + tone, override the hardcoded primary hover with tone colors.

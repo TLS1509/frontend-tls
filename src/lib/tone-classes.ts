@@ -74,3 +74,77 @@ export const TONE_TEXT_700: Record<PageTone, string> = {
   warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
+
+// ── Card shadow / border / fill maps ─────────────────────────────────────────
+//
+// SOURCE OF TRUTH for tone-aware card styling.
+// Import from here in ALL card components — never redefine inline.
+// When a shadow token changes, change it HERE only; all cards update at once.
+//
+// 'primary' and 'brand' are the same teal color — two legacy names.
+// Support both so LessonCard/SessionCard ('primary') and CourseCard ('brand')
+// can share the same maps.
+
+export type CardTone = PageTone | 'brand';
+
+/** Resting border — subtle 200-level tint. */
+export const CARD_BORDER_RESTING: Record<CardTone, string> = {
+  primary: 'border-primary-200',
+  brand:   'border-primary-200',
+  warm:    'border-secondary-200',
+  sun:     'border-accent-200',
+};
+
+/** Hover border — one step darker (300-level). */
+export const CARD_BORDER_HOVER: Record<CardTone, string> = {
+  primary: 'hover:border-primary-300',
+  brand:   'hover:border-primary-300',
+  warm:    'hover:border-secondary-300',
+  sun:     'hover:border-accent-300',
+};
+
+/** Resting shadow xs — barely lifts off the page. */
+export const CARD_SHADOW_RESTING: Record<CardTone, string> = {
+  primary: 'shadow-brand-xs',
+  brand:   'shadow-brand-xs',
+  warm:    'shadow-warm-xs',
+  sun:     'shadow-sun-xs',
+};
+
+/** Resting shadow sm — stronger presence for feature/elevated variants. */
+export const CARD_SHADOW_RESTING_SM: Record<CardTone, string> = {
+  primary: 'shadow-brand-sm',
+  brand:   'shadow-brand-sm',
+  warm:    'shadow-warm-sm',
+  sun:     'shadow-sun-sm',
+};
+
+/** Hover shadow sm — for Card default/tinted variants. */
+export const CARD_SHADOW_HOVER_SM: Record<CardTone, string> = {
+  primary: 'hover:shadow-brand-sm',
+  brand:   'hover:shadow-brand-sm',
+  warm:    'hover:shadow-warm-sm',
+  sun:     'hover:shadow-sun-sm',
+};
+
+/**
+ * Hover shadow md — for content cards (CourseCard, LessonCard, SessionCard…).
+ * More dramatic lift since these cards are larger / primary-action cards.
+ */
+export const CARD_SHADOW_HOVER_MD: Record<CardTone, string> = {
+  primary: 'hover:shadow-brand-md',
+  brand:   'hover:shadow-brand-md',
+  warm:    'hover:shadow-warm-md',
+  sun:     'hover:shadow-sun-md',
+};
+
+/**
+ * ProgressBar fill per tone — pass as `fill={CARD_PROGRESS_FILL[tone]}` to <ProgressBar>.
+ * 'brand' and 'primary' both map to the teal brand fill.
+ */
+export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
+  primary: 'brand',
+  brand:   'brand',
+  warm:    'warm',
+  sun:     'sun',
+};

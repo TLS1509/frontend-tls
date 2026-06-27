@@ -1,5 +1,11 @@
 import React from 'react';
 import { Palette, BookOpen, Grid3x3, Play, Zap } from 'lucide-react';
+import {
+  CARD_BORDER_RESTING,
+  CARD_BORDER_HOVER,
+  CARD_SHADOW_RESTING,
+  CARD_SHADOW_HOVER_MD,
+} from '../../lib/tone-classes';
 
 export type CourseCardTone = 'brand' | 'warm' | 'sun';
 
@@ -29,29 +35,7 @@ const categoryToneMap: Record<string, CourseCardTone> = {
   'Design Systems': 'sun',
 };
 
-const TONE_RESTING_BORDER: Record<CourseCardTone, string> = {
-  brand: 'border-primary-200',
-  warm:  'border-secondary-200',
-  sun:   'border-accent-200',
-};
-
-const TONE_RESTING_SHADOW: Record<CourseCardTone, string> = {
-  brand: 'shadow-brand-xs',
-  warm:  'shadow-warm-xs',
-  sun:   'shadow-sun-xs',
-};
-
-const TONE_HOVER_BORDER: Record<CourseCardTone, string> = {
-  brand: 'hover:border-primary-300',
-  warm:  'hover:border-secondary-300',
-  sun:   'hover:border-accent-300',
-};
-
-const TONE_HOVER_SHADOW: Record<CourseCardTone, string> = {
-  brand: 'hover:shadow-brand-md',
-  warm:  'hover:shadow-warm-md',
-  sun:   'hover:shadow-sun-md',
-};
+// Shadow/border maps imported from tone-classes.ts — single source of truth.
 
 const CARD_BASE =
   'flex flex-col h-full rounded-xl border bg-white transition-[box-shadow,transform] duration-slow ease-emphasis cursor-pointer hover:-translate-y-1 active:translate-y-0 active:scale-[0.99]';
@@ -105,7 +89,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const resolvedTone: CourseCardTone = tone ?? categoryToneMap[category] ?? 'brand';
 
   return (
-    <div className={[CARD_BASE, TONE_RESTING_BORDER[resolvedTone], TONE_RESTING_SHADOW[resolvedTone], TONE_HOVER_BORDER[resolvedTone], TONE_HOVER_SHADOW[resolvedTone]].join(' ')}>
+    <div className={[CARD_BASE, CARD_BORDER_RESTING[resolvedTone], CARD_SHADOW_RESTING[resolvedTone], CARD_BORDER_HOVER[resolvedTone], CARD_SHADOW_HOVER_MD[resolvedTone]].join(' ')}>
       <div className={`${HERO_BASE} ${HERO_TONE_CLASSES[resolvedTone]}`}>
         <div className="opacity-90">{getCategoryIcon(category)}</div>
       </div>

@@ -3,7 +3,7 @@ import { Clock, Lock, ArrowRight } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Badge } from '../ui/Badge';
 import type { BadgeVariant } from '../ui/Badge';
-import type { ProgressFill } from '../ui/ProgressBar';
+import { CARD_SHADOW_HOVER_MD, CARD_PROGRESS_FILL } from '../../lib/tone-classes';
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
 export type LessonTone = 'primary' | 'warm' | 'sun';
@@ -36,11 +36,7 @@ const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
   advanced: 'warm',
 };
 
-const TONE_HOVER_SHADOW: Record<LessonTone, string> = {
-  primary: 'hover:shadow-brand-md',
-  warm:    'hover:shadow-warm-md',
-  sun:     'hover:shadow-sun-md',
-};
+// CARD_SHADOW_HOVER_MD + CARD_PROGRESS_FILL imported from tone-classes.ts.
 
 const TONE_CTA_TEXT: Record<LessonTone, string> = {
   primary: 'group-hover:text-primary-600',
@@ -48,11 +44,6 @@ const TONE_CTA_TEXT: Record<LessonTone, string> = {
   sun:     'group-hover:text-accent-700',
 };
 
-const TONE_PROGRESS_FILL: Record<LessonTone, ProgressFill> = {
-  primary: 'brand',
-  warm:    'warm',
-  sun:     'sun',
-};
 
 const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
   card: {
@@ -102,7 +93,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         'group relative rounded-2xl p-5',
         'transition-all duration-slow ease-emphasis',
         SURFACE_TONE[surface][tone],
-        !locked && TONE_HOVER_SHADOW[tone],
+        !locked && CARD_SHADOW_HOVER_MD[tone],
         locked
           ? 'cursor-not-allowed'
           : 'cursor-pointer hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
@@ -165,7 +156,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
 
         {/* Progress */}
         <div className="mt-1">
-          <ProgressBar value={progress} size="sm" showLabel fill={TONE_PROGRESS_FILL[tone]} />
+          <ProgressBar value={progress} size="sm" showLabel fill={CARD_PROGRESS_FILL[tone]} />
         </div>
 
         {/* CTA footer */}

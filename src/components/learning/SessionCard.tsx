@@ -20,6 +20,7 @@ import { CardTitle, CardDesc } from '../core/Card';
 import { Button } from '../core/Button';
 import { Avatar } from '../ui/Avatar';
 import { CalendarClock, FileText, Notebook, ArrowRight } from 'lucide-react';
+import { CARD_SHADOW_HOVER_MD } from '../../lib/tone-classes';
 
 export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
 export type SessionCardTone = 'primary' | 'warm' | 'sun';
@@ -104,11 +105,7 @@ function getSurfaceClasses(surface: SessionCardSurface, tone: SessionCardTone): 
   }
 }
 
-const TONE_HOVER_SHADOW: Record<SessionCardTone, string> = {
-  primary: 'hover:shadow-brand-md',
-  warm:    'hover:shadow-warm-md',
-  sun:     'hover:shadow-sun-md',
-};
+// CARD_SHADOW_HOVER_MD imported from tone-classes.ts — single source of truth.
 
 /* Status eyebrow — point coloré + label, en remplacement du Badge top-right
    (plus éditorial, moins "app badge"). */
@@ -147,7 +144,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     BASE,
     getSurfaceClasses(surface, tone),
     FOCUS_TONE[tone],
-    TONE_HOVER_SHADOW[tone],
+    CARD_SHADOW_HOVER_MD[tone],
     className,
   ].filter(Boolean).join(' ');
 
