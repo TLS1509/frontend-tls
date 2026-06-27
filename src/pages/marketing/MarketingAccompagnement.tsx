@@ -131,34 +131,37 @@ export const MarketingAccompagnement: React.FC = () => {
         canonical="/marketing/accompagnement"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        {/* Radial halo */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
-          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/40 to-accent-50/20">
+        {/* Watercolour decorative — right side */}
+        <div aria-hidden className="absolute inset-y-0 right-0 w-1/2 pointer-events-none overflow-hidden">
+          <img
+            src="/images/bg-frames/aquarelle-orange-teal-3s.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            style={{ maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)' }}
+          />
         </div>
-        <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light">
-              <Briefcase size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                Transition Skills-Based Organization · Méthode STRIDE
+        {/* Soft halos */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-200/20 blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-pill bg-secondary-200/15 blur-3xl" />
+        </div>
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200">
+              <Briefcase size={14} className="text-primary-600" />
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                SBO · Méthode STRIDE
               </span>
             </span>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
-              Passez à une organisation <span className="text-accent-400">Skills-Based</span>.
+            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
+              Passez à une organisation <span className="text-secondary-600">Skills-Based</span>.
             </h1>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
               Des experts en pédagogie et en IA, sans bullshit. Nous auditons, concevons, déployons
-              et mesurons — avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
+              et mesurons avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
               Des livrables tangibles à chaque étape.
             </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <a href="#contact-form">
@@ -168,45 +171,72 @@ export const MarketingAccompagnement: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#services">
-                <Button variant="glass" size="lg">
+                <Button variant="secondary" size="lg">
                   Voir les services
                 </Button>
               </a>
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
 
       {/* ── Services 6 cards ──────────────────────────────────────────────── */}
-      <section id="services" className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up" delay={0.05}>
+      <section id="services" className="py-page bg-white relative overflow-hidden">
+<div className="max-w-7xl mx-auto px-6 flex flex-col gap-section relative">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Une offre modulaire, combinable.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 Vous n'avez besoin que d'un audit ? Parfait. D'un programme complet ?
                 On y va. Nous nous adaptons à votre contexte, jamais l'inverse.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
+          {/* Featured entry: Diagnostic & Stratégie */}
+          <FadeInWhenVisible direction="up" delay={0.05}>
+            <motion.article
+              whileHover={{ y: -3 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              className="rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/60 border border-primary-200 p-section flex flex-col md:flex-row items-start md:items-center gap-section shadow-card hover:shadow-card-hover transition-shadow duration-base"
+            >
+              <div className="flex flex-col gap-stack flex-1">
+                <span className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary-200/70 text-primary-700">
+                  {SERVICES[0].icon}
+                </span>
+                <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-extrabold text-ink-900 leading-tight m-0">
+                  {SERVICES[0].title}
+                </h3>
+                <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-prose">
+                  {SERVICES[0].desc}
+                </p>
+              </div>
+              <div className="shrink-0 mt-stack md:mt-0">
+                <a href="#contact-form">
+                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Demander un diagnostic
+                  </Button>
+                </a>
+              </div>
+            </motion.article>
+          </FadeInWhenVisible>
+
+          {/* Remaining service modules */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack">
-            {SERVICES.map((s, i) => (
+            {SERVICES.slice(1).map((s, i) => (
               <FadeInWhenVisible key={s.title} direction="up" delay={i * 0.05}>
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 hover:border-primary-200 transition-shadow duration-base"
                 >
                   <div className="flex items-start justify-between gap-stack-xs">
                     <span className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 text-primary-600">
                       {s.icon}
                     </span>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-semibold">
                       {s.pill}
                     </span>
                   </div>
@@ -227,11 +257,6 @@ export const MarketingAccompagnement: React.FC = () => {
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-600 uppercase tracking-widest">
-                Méthode STRIDE
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Trois phases pour déployer <span className="text-accent-400">votre stratégie</span>.
@@ -259,7 +284,7 @@ export const MarketingAccompagnement: React.FC = () => {
                     >
                       {p.num}
                     </motion.span>
-                    <span className={`inline-flex items-center gap-tight px-2.5 py-1 rounded-pill ${p.accentLight} ${p.accentText} font-body text-caption font-bold uppercase tracking-wider`}>
+                    <span className={`inline-flex items-center gap-tight px-2.5 py-1 rounded-pill ${p.accentLight} ${p.accentText} font-body text-caption font-semibold`}>
                       {p.duration}
                     </span>
                   </div>
@@ -306,19 +331,17 @@ export const MarketingAccompagnement: React.FC = () => {
       {/* ── Pourquoi TLS ──────────────────────────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Ce qui nous distingue.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.05}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 On ne vend pas de frameworks génériques. On construit avec vous,
                 pas pour vous.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {[
@@ -334,15 +357,15 @@ export const MarketingAccompagnement: React.FC = () => {
               },
               {
                 icon: <Sparkles size={22} />,
-                title: 'IA Act · RGPD natifs',
-                body: "Conformité intégrée dès la conception : IA Act (deadline 2026-08-02), RGPD, propriété intellectuelle. Vous avancez sans risque réglementaire.",
+                title: 'Conformité & Éthique',
+                body: "RGPD et propriété intellectuelle intégrés dès la conception, pas en rattrapage. Vous avancez sans risque réglementaire.",
               },
             ].map((item, i) => (
               <FadeInWhenVisible key={item.title} direction="up" delay={i * 0.1}>
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-gradient-to-br from-primary-50/60 to-white border border-primary-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base"
+                  className="h-full rounded-2xl bg-gradient-to-br from-primary-50/60 to-white border border-primary-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-base"
                 >
                   <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-100 text-primary-600">
                     {item.icon}
@@ -363,27 +386,30 @@ export const MarketingAccompagnement: React.FC = () => {
       {/* ── Contact form ──────────────────────────────────────────────────── */}
       <section
         id="contact-form"
-        className="py-page bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 relative overflow-hidden"
+        className="py-page bg-gradient-to-br from-primary-50/60 via-white to-secondary-50/20 relative overflow-hidden"
       >
-        <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-500/25 blur-3xl" />
+        {/* Watercolour accent top-right */}
+        <div aria-hidden className="absolute top-0 right-0 w-1/3 h-full pointer-events-none overflow-hidden">
+          <img
+            src="/images/bg-frames/aquarelle-dore-ambre-3s.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-10"
+            style={{ maskImage: 'linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 80%)' }}
+          />
         </div>
-        <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
+        <div className="relative max-w-3xl mx-auto px-6">
+          <div className="rounded-2xl bg-white border border-primary-100 shadow-card-lift p-section-lg flex flex-col items-center text-center gap-stack-lg">
           <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25">
-              <Sparkles size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200">
+              <Sparkles size={14} className="text-secondary-600" />
+              <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
                 Première rencontre gratuite
               </span>
             </span>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.05}>
-            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 mt-stack-lg">
               Parlons de votre projet.
             </h2>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 mt-stack max-w-prose">
               Décrivez-nous votre contexte. Nous vous répondons sous 48h ouvrées avec une proposition de RDV.
             </p>
           </FadeInWhenVisible>
@@ -394,11 +420,11 @@ export const MarketingAccompagnement: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="bg-white/15 border border-white/25 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
+                className="bg-success-bg border border-success-base/30 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-xl"
               >
-                <CheckCircle2 size={40} className="text-accent-400" />
-                <p className="font-display font-bold text-h4 text-white m-0">Demande reçue !</p>
-                <p className="font-body text-body-sm text-white/80 m-0">
+                <CheckCircle2 size={40} className="text-success-fg" />
+                <p className="font-display font-bold text-h4 text-ink-900 m-0">Demande reçue !</p>
+                <p className="font-body text-body-sm text-ink-600 m-0">
                   Nous vous répondons sous 48h ouvrées avec une proposition de créneau.
                 </p>
               </motion.div>
@@ -409,7 +435,7 @@ export const MarketingAccompagnement: React.FC = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
                   <div className="flex flex-col gap-stack-xs">
-                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-white/90">
+                    <label htmlFor="ac-name" className="font-body text-body-sm font-semibold text-ink-700">
                       Prénom et nom *
                     </label>
                     <input
@@ -419,11 +445,11 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Marie Dupont"
-                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                   <div className="flex flex-col gap-stack-xs">
-                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-white/90">
+                    <label htmlFor="ac-email" className="font-body text-body-sm font-semibold text-ink-700">
                       Email pro *
                     </label>
                     <input
@@ -433,12 +459,12 @@ export const MarketingAccompagnement: React.FC = () => {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="marie@organisation.fr"
-                      className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                      className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col gap-stack-xs">
-                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-white/90">
+                  <label htmlFor="ac-org" className="font-body text-body-sm font-semibold text-ink-700">
                     Organisation
                   </label>
                   <input
@@ -447,11 +473,11 @@ export const MarketingAccompagnement: React.FC = () => {
                     value={form.org}
                     onChange={(e) => setForm({ ...form, org: e.target.value })}
                     placeholder="Nom de l'entreprise"
-                    className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-stack-xs">
-                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-white/90">
+                  <label htmlFor="ac-need" className="font-body text-body-sm font-semibold text-ink-700">
                     Votre besoin
                   </label>
                   <textarea
@@ -460,11 +486,11 @@ export const MarketingAccompagnement: React.FC = () => {
                     value={form.need}
                     onChange={(e) => setForm({ ...form, need: e.target.value })}
                     placeholder="Décrivez brièvement votre contexte et vos enjeux de formation…"
-                    className="px-4 py-3 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
+                    className="px-4 py-3 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[120px]"
                   />
                 </div>
                 {submitError && (
-                  <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-white/10 border border-white/25 text-white/90 font-body text-body-sm" role="alert">
+                  <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
                     <AlertCircle size={16} className="shrink-0 mt-0.5" />
                     {submitError}
                   </div>
@@ -481,12 +507,13 @@ export const MarketingAccompagnement: React.FC = () => {
                     {submitting ? 'Envoi en cours…' : 'Envoyer ma demande'}
                   </Button>
                 </MagneticButton>
-                <p className="font-body text-caption text-white/60 text-center m-0">
+                <p className="font-body text-caption text-ink-400 text-center m-0">
                   Vos données restent confidentielles. RGPD respecté.
                 </p>
               </form>
             )}
           </FadeInWhenVisible>
+          </div>
         </div>
       </section>
 

@@ -74,7 +74,7 @@ const VALUES = [
 
 const TIMELINE = [
   { year: '2022', title: 'Fondation', desc: "Pierre-Armand Dennery et Chloé Mimault-Talagrand fondent The Learning Society (SAS, Paris 14e)." },
-  { year: '2025', title: 'Premier parcours certifiant', desc: 'Lancement de la formation Formateur Augmenté par l\'IA en partenariat avec C-Campus (Qualiopi).' },
+  { year: '2025', title: 'Premier parcours certifiant', desc: 'Lancement de la formation Formateur Augmenté par l\'IA, en partenariat avec C-Campus.' },
   { year: '2026', title: 'Learning App + écosystème', desc: "Beta de la plateforme. Premier client entreprise en production depuis janvier 2026." },
 ];
 

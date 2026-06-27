@@ -1,44 +1,41 @@
 /**
- * CinematicHero: Direction C « Illustrated Glass », the Home signature moment.
+ * CinematicHero v5 — "Plonger dans l'aquarelle"
  *
- * Left  : type-led headline with a Ditto-style animated word-swap on the closing
- *         role, subheading, dual CTA (magnetic), condensed honest credentials.
- * Right : a floating double-bezel GLASS panel (Craft) that frames the TLS system
- *         itself: the Learn → Do → Match loop drawn as three nodes wired by
- *         hand-drawn organic paths that draw themselves on mount (Daydream),
- *         over breathing organic blobs (Phantom) and slow golden particles.
+ * Comportement :
+ *   1. Page charge → overlay gradient aquarelle (warm → teal) en attente
+ *   2. Vidéo prête → overlay disparaît, vidéo joue UNE FOIS (build-up aquarelle)
+ *   3. Fin vidéo → freeze automatique sur dernière frame (aquarelle complète)
+ *   4. Scroll → fond monte lentement + légère dilatation
+ *              → sensation de descendre dans la peinture
+ *   5. Contenu (h1 + carte) disparaît progressivement sur les 25% premiers du scroll
  *
- * This composite is the *motion stand-in*: it runs today with zero asset
- * dependency. When the real 10s hero video lands (Phase 1), it slots into the
- * same glass frame via a <video> element: the chrome stays identical.
- *
- * Discipline: GPU-safe (transform/opacity only), prefers-reduced-motion honored,
- * mobile stacks with no parallax/tilt. Illustration colors use the documented
- * Direction C palette as rgba (same convention as MeshGradientBg), not arbitrary
- * UI hex. Register = VOUS. No invented metric. Copy = draft, to validate.
+ * Structure scroll-driven :
+ *   - div container (220vh) — fournit la distance de scroll
+ *   - section sticky top-0 h-screen — reste dans le viewport
+ *   - VideoBackground : gère canPlay (loading overlay) + transforms scroll
+ *   - motion.div contenu : opacity + y liés au scroll
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from 'framer-motion';
+import { ArrowRight, ArrowUpRight, CheckCircle2, Award, BookOpen } from 'lucide-react';
 import { Button } from '../../../components/core/Button';
-import { MeshGradientBg, MagneticButton } from '../../../components/marketing/motion';
+import { MagneticButton } from '../../../components/marketing/motion';
 
 const EASE_EMPHASIS = [0.22, 1, 0.36, 1] as const;
-const EASE_SMOOTH = [0.25, 0.46, 0.45, 0.94] as const;
+const EASE_SMOOTH   = [0.25, 0.46, 0.45, 0.94] as const;
 
-// Direction C palette (matches design tokens teal/orange/gold): illustration rgba.
-const TEAL = 'rgba(85,161,180,1)';
-const ORANGE = 'rgba(237,132,58,1)';
-const GOLD = 'rgba(248,176,68,1)';
-
-/** The closing role cycles: broadens "formateurs" to the whole learning craft. */
 const SWAP_WORDS = ['forment', 'conçoivent', 'accompagnent', 'transmettent'];
-
-/** Condensed honest credentials: no invented metric (FACTS-CANON). */
 const CHIPS = ['Programme certifiant', 'Open Badge vérifiable', 'Éligible OPCO'];
 
-// ─── Word-swap (Ditto): one role word slides + blurs through the list ─────────
+// ─── Word swap ─────────────────────────────────────────────────────────────────
 const WordSwap: React.FC = () => {
   const reduce = useReducedMotion();
   const [i, setI] = React.useState(0);
@@ -49,20 +46,18 @@ const WordSwap: React.FC = () => {
     return () => clearInterval(id);
   }, [reduce]);
 
-  // Reserve width so the line never reflows as words change length.
   const longest = SWAP_WORDS.reduce((a, b) => (b.length > a.length ? b : a), '');
 
   return (
-    <span className="relative inline-grid align-baseline" style={{ verticalAlign: 'baseline' }}>
-      {/* invisible sizer holds the box at the widest word */}
-      <span aria-hidden className="invisible col-start-1 row-start-1 text-primary-600">
+    <span className="relative inline-grid align-baseline">
+      <span aria-hidden className="invisible col-start-1 row-start-1 text-secondary-600">
         {longest}
       </span>
       <span className="col-start-1 row-start-1 relative overflow-hidden">
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={SWAP_WORDS[i]}
-            className="inline-block text-primary-600 will-change-transform"
+            className="inline-block text-secondary-600 will-change-transform"
             initial={reduce ? false : { y: '0.5em', opacity: 0, filter: 'blur(6px)' }}
             animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
             exit={reduce ? undefined : { y: '-0.5em', opacity: 0, filter: 'blur(6px)' }}
@@ -76,175 +71,235 @@ const WordSwap: React.FC = () => {
   );
 };
 
-// ─── A single Learn/Do/Match node inside the glass frame ──────────────────────
-const SystemNode: React.FC<{
-  label: string;
-  cx: number;
-  cy: number;
-  color: string;
-  delay: number;
+// ─── Fond vidéo — scroll-driven descent ───────────────────────────────────────
+const VideoBackground: React.FC<{
   reduce: boolean;
-}> = ({ label, cx, cy, color, delay, reduce }) => (
-  <motion.g
-    initial={reduce ? false : { opacity: 0, scale: 0.6 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.7, delay, ease: EASE_EMPHASIS }}
-    style={{ transformOrigin: `${cx}px ${cy}px` }}
-  >
-    {/* soft halo */}
-    <circle cx={cx} cy={cy} r={30} fill={color} opacity={0.14} />
-    {/* breathing ring */}
-    <motion.circle
-      cx={cx}
-      cy={cy}
-      r={22}
-      fill="white"
-      stroke={color}
-      strokeWidth={2}
-      animate={reduce ? undefined : { scale: [1, 1.08, 1] }}
-      transition={{ duration: 3.2, delay, repeat: Infinity, ease: 'easeInOut' }}
-      style={{ transformOrigin: `${cx}px ${cy}px` }}
-    />
-    <circle cx={cx} cy={cy} r={6} fill={color} />
-    <text
-      x={cx}
-      y={cy + 46}
-      textAnchor="middle"
-      className="font-display"
-      style={{ fontSize: 15, fontWeight: 700, fill: 'rgba(31,62,69,0.92)', letterSpacing: '0.02em' }}
-    >
-      {label}
-    </text>
-  </motion.g>
-);
+  bgY: MotionValue<number>;
+  bgScale: MotionValue<number>;
+}> = ({ reduce, bgY, bgScale }) => {
+  const [canPlay, setCanPlay] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
-// ─── Cinematic visual: the glass-framed system (video stand-in) ──────────────
-const CinematicVisual: React.FC = () => {
-  const reduce = useReducedMotion() ?? false;
-
-  // Hand-drawn connector path Learn → Do → Match (organic, Daydream style).
-  const pathLearnDo = 'M 78 96 C 130 60, 190 60, 232 112';
-  const pathDoMatch = 'M 252 150 C 286 210, 250 250, 188 250';
+  // React doesn't propagate the `muted` prop to the DOM attribute (known React bug).
+  // Chrome blocks autoplay on unmuted video → set it imperatively via ref.
+  React.useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, []);
 
   return (
-    <div className="relative w-full aspect-[4/3.4] max-w-xl mx-auto">
-      {/* Outer shell: double-bezel: tray + hairline + refraction */}
-      <div className="absolute inset-0 rounded-[2.25rem] bg-white/40 ring-1 ring-ink-900/5 p-2 shadow-[0_30px_80px_-30px_rgba(31,62,69,0.35)] backdrop-blur-glass-light">
-        {/* Inner core: frosted glass plate */}
-        <div className="relative h-full w-full overflow-hidden rounded-[1.75rem] bg-white/55 backdrop-blur-glass-medium shadow-[inset_0_1px_1px_rgba(255,255,255,0.6),inset_0_-1px_1px_rgba(31,62,69,0.04)]">
-          {/* Breathing organic blobs behind the system (Phantom) */}
-          <motion.div
-            aria-hidden
-            className="absolute -top-10 -left-8 w-2/3 h-2/3 rounded-pill blur-[60px]"
-            style={{ background: 'rgba(85,161,180,0.30)' }}
-            animate={reduce ? undefined : { x: [0, 24, 0], y: [0, 16, 0], scale: [1, 1.12, 1] }}
-            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            aria-hidden
-            className="absolute -bottom-12 -right-6 w-2/3 h-2/3 rounded-pill blur-[60px]"
-            style={{ background: 'rgba(248,176,68,0.26)' }}
-            animate={reduce ? undefined : { x: [0, -20, 0], y: [0, -14, 0], scale: [1, 1.1, 1] }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          />
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+      {/*
+        Pas de loop, pas d'onTimeUpdate.
+        La vidéo joue une fois et freeze naturellement sur la dernière frame.
+        scale(1.2) absorbe le bleed dû au déplacement bgY.
+      */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          y:     reduce ? undefined : bgY,
+          scale: reduce ? undefined : bgScale,
+        }}
+      >
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          preload="auto"
+          onCanPlay={() => setCanPlay(true)}
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden
+          tabIndex={-1}
+        >
+          <source src="/videos/watercolour-reveal-8s.mp4" type="video/mp4" />
+        </video>
+      </motion.div>
 
-          {/* The system: Learn → Do → Match, drawn (Daydream) */}
-          <svg
-            viewBox="0 0 330 320"
-            className="absolute inset-0 h-full w-full"
-            fill="none"
-            aria-label="La boucle Learn, Do, Match"
-            role="img"
-          >
-            {/* connectors draw themselves on mount */}
-            <motion.path
-              d={pathLearnDo}
-              stroke={TEAL}
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              strokeDasharray="6 9"
-              opacity={0.5}
-              initial={reduce ? false : { pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.1, delay: 0.5, ease: EASE_SMOOTH }}
-            />
-            <motion.path
-              d={pathDoMatch}
-              stroke={GOLD}
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              strokeDasharray="6 9"
-              opacity={0.55}
-              initial={reduce ? false : { pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.1, delay: 0.9, ease: EASE_SMOOTH }}
-            />
-            {/* return arc Match → Learn closes the loop */}
-            <motion.path
-              d="M 168 268 C 80 286, 40 200, 56 118"
-              stroke={ORANGE}
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeDasharray="2 10"
-              opacity={0.4}
-              initial={reduce ? false : { pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.3, delay: 1.3, ease: EASE_SMOOTH }}
-            />
+      {/* Overlay chargement — gradient aquarelle orange→teal, disparaît sur canPlay */}
+      <div
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
+          canPlay ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{ background: 'linear-gradient(135deg, #ffd4a8 0%, #b9d7df 55%, #96C3CF 100%)' }}
+        aria-hidden
+      />
 
-            <SystemNode label="Learn" cx={64} cy={92} color={TEAL} delay={0.2} reduce={reduce} />
-            <SystemNode label="Do" cx={250} cy={128} color={ORANGE} delay={0.5} reduce={reduce} />
-            <SystemNode label="Match" cx={166} cy={250} color={GOLD} delay={0.8} reduce={reduce} />
-          </svg>
-
-          {/* Floating glass status pill (Craft button-in-card detail) */}
-          <motion.div
-            className="absolute right-4 top-4 inline-flex items-center gap-stack-xs rounded-pill bg-white/70 px-3 py-1.5 ring-1 ring-ink-900/5 backdrop-blur-glass-light shadow-sm"
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.4, ease: EASE_EMPHASIS }}
-          >
-            <span className="relative flex h-2 w-2">
-              <motion.span
-                className="absolute inline-flex h-full w-full rounded-pill bg-primary-500"
-                animate={reduce ? undefined : { scale: [1, 2.4], opacity: [0.6, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
-              />
-              <span className="relative inline-flex h-2 w-2 rounded-pill bg-primary-600" />
-            </span>
-            <span className="font-body text-caption font-semibold text-ink-700">Passeport vérifiable</span>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Golden particles drifting over the frame */}
-      {!reduce &&
-        [
-          { left: '12%', top: '18%', d: 9, x: 14 },
-          { left: '86%', top: '30%', d: 12, x: -16 },
-          { left: '74%', top: '82%', d: 10, x: -10 },
-          { left: '22%', top: '78%', d: 13, x: 12 },
-          { left: '50%', top: '8%', d: 11, x: 8 },
-        ].map((p, k) => (
-          <motion.span
-            key={k}
-            aria-hidden
-            className="pointer-events-none absolute h-1.5 w-1.5 rounded-pill"
-            style={{ left: p.left, top: p.top, background: GOLD, boxShadow: '0 0 8px rgba(248,176,68,0.6)' }}
-            animate={{ y: [0, -18, 0], x: [0, p.x, 0], opacity: [0.3, 0.9, 0.3] }}
-            transition={{ duration: p.d, repeat: Infinity, ease: 'easeInOut', delay: k * 0.6 }}
-          />
-        ))}
+      {/* Voile de lisibilité — contraste texte ink-900 */}
+      <div className="absolute inset-0 bg-white/30" />
     </div>
   );
 };
 
-/**
- * Entrance: opacity stays 1 always; only a one-shot translate settles to 0 on
- * mount. Transform-only means the hero can NEVER strand invisible (the codebase
- * P0 rule), even with a paused animation loop / reduced motion. Matches the
- * Editorial `Reveal` philosophy.
- */
+// ─── Carte glass de l'app TLS ──────────────────────────────────────────────────
+const AppGlassCard: React.FC<{ reduce: boolean }> = ({ reduce }) => (
+  <div className="relative w-full max-w-[340px] mx-auto">
+
+    <motion.div
+      className="relative rounded-2xl overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.88)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255,255,255,0.95)',
+        boxShadow:
+          '0 20px 56px rgba(0,0,0,0.09), 0 4px 16px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,1)',
+      }}
+      initial={reduce ? false : { opacity: 0, x: 40, y: 18 }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ duration: 0.9, delay: 0.35, ease: EASE_EMPHASIS }}
+    >
+      <div className="p-5 flex flex-col gap-3">
+
+        <div className="flex items-center justify-between">
+          <span className="font-body text-micro font-semibold text-ink-400 uppercase tracking-widest">
+            Formation en cours
+          </span>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-pill bg-primary-50 border border-primary-100">
+            <span className="w-1.5 h-1.5 rounded-pill bg-accent-400" />
+            <span className="font-body text-micro font-semibold text-primary-700">Module 3/5</span>
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-0.5">
+          <p className="font-display font-bold text-ink-900 text-body-lg m-0 leading-tight">
+            Formateur Augmenté
+          </p>
+          <p className="font-body text-caption text-ink-500 m-0">
+            Pédagogie IA &amp; conception augmentée
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <span className="font-body text-micro text-ink-400">Progression</span>
+            <span className="font-body text-micro font-semibold text-secondary-600">67%</span>
+          </div>
+          <div className="h-1.5 rounded-pill overflow-hidden bg-ink-100">
+            <motion.div
+              className="h-full rounded-pill bg-secondary-500"
+              initial={reduce ? false : { width: 0 }}
+              animate={{ width: '67%' }}
+              transition={{ duration: 1.2, delay: 0.85, ease: EASE_SMOOTH }}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-primary-50 border border-primary-100">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-primary-100">
+            <BookOpen size={14} className="text-primary-600" />
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="font-body text-micro text-ink-400">Prochaine leçon</span>
+            <span className="font-body text-caption font-semibold text-ink-800 leading-tight truncate">
+              L'IA générative en pédagogie
+            </span>
+          </div>
+          <ArrowRight size={14} className="text-ink-300 shrink-0 ml-auto" />
+        </div>
+
+        <div className="flex items-center gap-2 pt-1 border-t border-ink-100">
+          <div className="flex -space-x-1.5">
+            {[
+              { bg: 'rgba(85,161,180,0.25)',  text: '#2F5F6A', label: 'M' },
+              { bg: 'rgba(237,132,58,0.25)',  text: '#C06920', label: 'S' },
+              { bg: 'rgba(248,176,68,0.28)',  text: '#A07010', label: 'A' },
+            ].map(({ bg, text, label }) => (
+              <div
+                key={label}
+                className="w-5 h-5 rounded-pill flex items-center justify-center text-[8px] font-bold border border-white"
+                style={{ background: bg, color: text }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+          <span className="font-body text-micro text-ink-400">+24 formateurs en cours</span>
+        </div>
+      </div>
+    </motion.div>
+
+    {/* Badge Open Badge */}
+    <motion.div
+      className="absolute -bottom-4 -left-5 rounded-xl px-3 py-2 flex items-center gap-2"
+      style={{
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid rgba(248,176,68,0.32)',
+        boxShadow: '0 8px 24px rgba(248,176,68,0.18), 0 2px 8px rgba(0,0,0,0.06)',
+      }}
+      initial={reduce ? false : { opacity: 0, scale: 0.78, y: 14 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.9, ease: EASE_EMPHASIS }}
+    >
+      <Award size={14} className="text-accent-500 shrink-0" />
+      <span className="font-body text-caption font-semibold text-ink-800">Open Badge vérifié</span>
+    </motion.div>
+
+    {/* Notification coach */}
+    <motion.div
+      className="absolute -top-3 -right-4 rounded-xl px-3 py-2 flex items-center gap-2"
+      style={{
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid rgba(85,161,180,0.22)',
+        boxShadow: '0 8px 24px rgba(85,161,180,0.12), 0 2px 8px rgba(0,0,0,0.05)',
+      }}
+      initial={reduce ? false : { opacity: 0, scale: 0.78, y: -14 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 1.15, ease: EASE_EMPHASIS }}
+    >
+      <div
+        className="w-5 h-5 rounded-pill flex items-center justify-center text-[9px] font-bold shrink-0"
+        style={{ background: 'rgba(85,161,180,0.22)', color: '#2F5F6A' }}
+      >
+        S
+      </div>
+      <div className="flex flex-col">
+        <span className="font-body text-micro font-semibold text-ink-800 leading-none">Sophie · Coach</span>
+        <span className="font-body text-micro text-ink-400 leading-none mt-0.5">Feedback reçu</span>
+      </div>
+      <span className="relative flex w-2 h-2 ml-0.5 shrink-0">
+        <motion.span
+          className="absolute inline-flex h-full w-full rounded-pill bg-primary-400"
+          animate={reduce ? undefined : { scale: [1, 2.2], opacity: [0.65, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+        />
+        <span className="relative inline-flex w-2 h-2 rounded-pill bg-primary-500" />
+      </span>
+    </motion.div>
+
+    {/* Pill Passeport */}
+    <motion.div
+      className="absolute right-3 bottom-16 inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1.5"
+      style={{
+        background: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border: '1px solid rgba(85,161,180,0.22)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+      }}
+      initial={reduce ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 1.45, ease: EASE_EMPHASIS }}
+    >
+      <span className="relative flex h-2 w-2">
+        <motion.span
+          className="absolute inline-flex h-full w-full rounded-pill bg-primary-500"
+          animate={reduce ? undefined : { scale: [1, 2.4], opacity: [0.6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+        />
+        <span className="relative inline-flex h-2 w-2 rounded-pill bg-primary-600" />
+      </span>
+      <span className="font-body text-caption font-semibold text-ink-700">Passeport vérifiable</span>
+    </motion.div>
+  </div>
+);
+
+// ─── Entrée transform-only ─────────────────────────────────────────────────────
 const SettleIn: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -263,7 +318,7 @@ const SettleIn: React.FC<{
       className={className}
       style={{
         transform: settled ? 'none' : from,
-        transition: `transform 800ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
+        transition: `transform 820ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
         willChange: 'transform',
       }}
     >
@@ -272,78 +327,95 @@ const SettleIn: React.FC<{
   );
 };
 
-// ─── The cinematic hero ───────────────────────────────────────────────────────
+// ─── Hero ──────────────────────────────────────────────────────────────────────
 export const CinematicHero: React.FC = () => {
-  const reduce = useReducedMotion();
-  const sectionRef = React.useRef<HTMLElement>(null);
+  const reduce = useReducedMotion() ?? false;
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: containerRef,
     offset: ['start start', 'end start'],
   });
-  // Gentle parallax: visual drifts up as the hero scrolls away (desktop only).
-  const visualY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+
+  // Fond : monte sur 200px pendant tout le scroll → plongée dans la peinture
+  const bgY    = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const bgScale = useTransform(scrollYProgress, [0, 0.8], [1, 1.12]);
+
+  // Contenu : disparaît sur les 25% premiers du scroll
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const contentY       = useTransform(scrollYProgress, [0, 0.25], [0, -32]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-gradient-page-ambient-warm min-h-[92dvh] flex items-center"
-    >
-      <MeshGradientBg tone="warm" intensity="subtle" />
+    // Container tall — fournit la distance de scroll (220vh)
+    <div ref={containerRef} style={{ minHeight: '220vh' }}>
 
-      <div className="relative w-full max-w-wide mx-auto px-6 py-section-lg lg:py-page">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
-          {/* ── Left: type, word-swap, CTA, chips (opacity-safe entrance) ─────── */}
-          <SettleIn className="lg:col-span-6 flex flex-col gap-stack-lg" delay={80}>
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.96] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.6rem,6vw,5.25rem)]">
-              Ce que l'IA change
-              <br />
-              pour ceux qui <WordSwap />.
-            </h1>
+      {/* Section sticky — reste dans le viewport pendant le défilement */}
+      <section className="sticky top-0 h-screen overflow-hidden bg-primary-50">
 
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
-              La formation certifiante et la plateforme qui apprennent aux
-              formateurs à intégrer l'IA dans leur pédagogie. En gardant
-              l'humain au centre.
-            </p>
+        <VideoBackground reduce={reduce} bgY={bgY} bgScale={bgScale} />
 
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <MagneticButton strength={14}>
-                <Link to="/marketing/formation">
-                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Découvrir la formation
-                  </Button>
-                </Link>
-              </MagneticButton>
-              <Link to="/marketing/learning-app">
-                <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                  Explorer la plateforme
-                </Button>
-              </Link>
+        {/* Contenu — disparaît progressivement au scroll */}
+        <motion.div
+          className="absolute inset-0 flex items-center w-full"
+          style={reduce ? undefined : { opacity: contentOpacity, y: contentY }}
+        >
+          <div className="w-full max-w-wide mx-auto px-6 py-page">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
+
+              {/* Gauche : texte */}
+              <SettleIn className="lg:col-span-6 flex flex-col gap-stack-lg" delay={80}>
+
+                <h1 className="font-display font-extrabold text-ink-900 leading-[0.96] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.6rem,5.8vw,5rem)]">
+                  Ce que l'IA change
+                  <br />
+                  pour ceux qui <WordSwap />.
+                </h1>
+
+                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[520px]">
+                  La formation certifiante et la plateforme qui apprennent aux
+                  formateurs à intégrer l'IA dans leur pédagogie. En gardant
+                  l'humain au centre.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+                  <MagneticButton strength={14}>
+                    <Link to="/marketing/formation">
+                      <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                        Découvrir la formation
+                      </Button>
+                    </Link>
+                  </MagneticButton>
+                  <Link to="/marketing/learning-app">
+                    <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                      Explorer la plateforme
+                    </Button>
+                  </Link>
+                </div>
+
+                <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-stack m-0 p-0 list-none">
+                  {CHIPS.map((c) => (
+                    <li key={c} className="inline-flex items-center gap-1.5">
+                      <CheckCircle2 size={15} className="text-primary-500 shrink-0" />
+                      <span className="font-body text-caption font-semibold text-ink-500">{c}</span>
+                    </li>
+                  ))}
+                </ul>
+
+              </SettleIn>
+
+              {/* Droite : carte glass */}
+              <div className="lg:col-span-6 flex justify-center lg:justify-end pt-section lg:pt-0">
+                <SettleIn from="translateX(36px)" delay={260}>
+                  <AppGlassCard reduce={reduce} />
+                </SettleIn>
+              </div>
+
             </div>
+          </div>
+        </motion.div>
 
-            {/* Honest credential chips */}
-            <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-stack m-0 p-0 list-none">
-              {CHIPS.map((c) => (
-                <li key={c} className="inline-flex items-center gap-tight.5">
-                  <CheckCircle2 size={15} className="text-primary-600 shrink-0" />
-                  <span className="font-body text-caption font-semibold text-ink-600">{c}</span>
-                </li>
-              ))}
-            </ul>
-          </SettleIn>
-
-          {/* ── Right: cinematic glass system (parallax desktop, opacity-safe) ── */}
-          <motion.div
-            className="lg:col-span-6 lg:will-change-transform"
-            style={reduce ? undefined : { y: visualY }}
-          >
-            <SettleIn from="translateX(32px)" delay={240}>
-              <CinematicVisual />
-            </SettleIn>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

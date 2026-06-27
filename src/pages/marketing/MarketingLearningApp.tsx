@@ -29,7 +29,7 @@ import {
   FadeInWhenVisible,
   MagneticButton,
   InteractiveAppMockup,
-  TiltCard,
+
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
@@ -141,76 +141,75 @@ export const MarketingLearningApp: React.FC = () => {
         canonical="/marketing/learning-app"
       />
       {/* ── 1. Hero with prominent mockup ──────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        {/* Radial halo */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
+      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-50/60 via-white to-accent-50/15">
+{/* Watercolour decorative blob top-right */}
+        <div aria-hidden className="absolute top-0 right-0 w-1/3 h-80 pointer-events-none overflow-hidden">
+          <img
+            src="/images/bg-frames/aquarelle-orange-teal-1s.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-15"
+            style={{ maskImage: 'linear-gradient(to bottom-left, rgba(0,0,0,0.5) 0%, transparent 70%)' }}
+          />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
+        {/* Soft halos */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/25 blur-3xl" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-pill bg-secondary-200/15 blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-page items-center">
+          <FadeInWhenVisible direction="up">
           <div className="flex flex-col gap-stack-lg">
-            <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light w-fit">
-                <Sparkles size={14} className="text-accent-400" />
-                <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                  La Learning App · Learn → Do → Match
-                </span>
+            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
+              <Sparkles size={14} className="text-primary-600" />
+              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                La Learning App · Learn → Do → Match
               </span>
-            </FadeInWhenVisible>
+            </span>
 
-            <FadeInWhenVisible direction="up" delay={0.1}>
-              <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
-                Une plateforme.{' '}
-                <span className="text-accent-400">Tout un écosystème.</span>
-              </h1>
-            </FadeInWhenVisible>
+            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
+              Une plateforme.{' '}
+              <span className="text-secondary-600">Tout un écosystème.</span>
+            </h1>
 
-            <FadeInWhenVisible direction="up" delay={0.2}>
-              <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-xl">
-                Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
-                Un écosystème intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
-              </p>
-            </FadeInWhenVisible>
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
+              Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
+              Un écosystème intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
+            </p>
 
-            <FadeInWhenVisible direction="up" delay={0.3}>
-              <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-                <MagneticButton strength={14}>
-                  <a href="#early-access">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Accès anticipé
-                    </Button>
-                  </a>
-                </MagneticButton>
-                <a href="#features">
-                  <Button
-                    variant="glass"
-                    size="lg"
-                    trailingIcon={<ArrowUpRight size={18} />}
-                  >
-                    Voir les fonctionnalités
+            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+              <MagneticButton strength={14}>
+                <a href="#early-access">
+                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Accès anticipé
                   </Button>
                 </a>
-              </div>
-            </FadeInWhenVisible>
+              </MagneticButton>
+              <a href="#features">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  trailingIcon={<ArrowUpRight size={18} />}
+                >
+                  Voir les fonctionnalités
+                </Button>
+              </a>
+            </div>
 
-            <FadeInWhenVisible direction="up" delay={0.4}>
-              <div className="flex items-center gap-stack-xs pt-stack">
-                <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
-                  Beta
-                </span>
-                <span className="font-body text-body-sm text-white/75">
-                  En développement actif · accès progressif par invitation
-                </span>
-              </div>
-            </FadeInWhenVisible>
+            <div className="flex items-center gap-stack-xs pt-stack">
+              <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
+                Beta
+              </span>
+              <span className="font-body text-body-sm text-ink-500">
+                En développement actif · accès progressif par invitation
+              </span>
+            </div>
           </div>
+        </FadeInWhenVisible>
 
-          {/* Hero mockup — TiltCard for tactile depth */}
+          {/* Hero mockup — full-bleed, natural scale */}
           <FadeInWhenVisible direction="left" delay={0.2}>
-            <div className="relative">
-              <TiltCard maxRotation={7} className="relative">
-                <InteractiveAppMockup />
-              </TiltCard>
+            <div className="relative lg:-mr-8 xl:-mr-16">
+              <InteractiveAppMockup />
             </div>
           </FadeInWhenVisible>
         </div>
@@ -220,11 +219,6 @@ export const MarketingLearningApp: React.FC = () => {
       <section id="features" className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
           <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Learn · Do · Match
-              </span>
-            </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Tout ce qu'il faut pour{' '}
@@ -242,7 +236,7 @@ export const MarketingLearningApp: React.FC = () => {
               >
                 {/* Visual side */}
                 <div
-                  className={`relative aspect-square max-w-md w-full mx-auto rounded-3xl overflow-hidden shadow-2xl ${
+                  className={`relative aspect-square max-w-md w-full mx-auto rounded-2xl overflow-hidden shadow-card-lift ${
                     idx % 2 === 1 ? 'lg:col-start-2' : ''
                   }`}
                 >
@@ -255,7 +249,7 @@ export const MarketingLearningApp: React.FC = () => {
                     transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
                     className="relative h-full flex items-center justify-center text-white"
                   >
-                    <div className="p-8 rounded-3xl bg-white/15 backdrop-blur-glass-light border border-white/25">
+                    <div className="p-8 rounded-2xl bg-white/15 backdrop-blur-glass-light border border-white/25">
                       {React.cloneElement(f.icon, { size: 96, strokeWidth: 1.25 })}
                     </div>
                   </motion.div>
@@ -264,7 +258,7 @@ export const MarketingLearningApp: React.FC = () => {
                 {/* Content side */}
                 <div className={`flex flex-col gap-stack-lg ${idx % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
                   <span
-                    className={`inline-flex self-start items-center px-3 py-1 rounded-pill ${f.pillBg} font-body text-caption font-bold uppercase tracking-wider`}
+                    className={`inline-flex self-start items-center px-3 py-1 rounded-pill ${f.pillBg} font-body text-caption font-semibold`}
                   >
                     {f.eyebrow}
                   </span>
@@ -306,7 +300,7 @@ export const MarketingLearningApp: React.FC = () => {
                 <motion.div
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-xs hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-xs hover:shadow-card-hover hover:border-primary-200 transition-shadow duration-base"
                 >
                   <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-primary-50 to-accent-50 text-primary-700 border border-primary-100">
                     {t.icon}
@@ -341,7 +335,7 @@ export const MarketingLearningApp: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
                   className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:border-primary-200 transition-all duration-base"
                 >
-                  <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider">
+                  <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
                     {u.badge}
                   </span>
                   <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
@@ -362,24 +356,61 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
       </section>
 
+      {/* ── 5b. Manifesto — emotional peak ──────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 py-page">
+        {/* Watercolour texture overlay */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <img
+            src="/images/bg-frames/aquarelle-orange-teal-5s.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay"
+          />
+          <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-pill bg-primary-500/30 blur-[80px]" />
+          <div className="absolute -bottom-24 -left-24 w-[360px] h-[360px] rounded-pill bg-accent-400/10 blur-[60px]" />
+        </div>
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-4xl mx-auto px-6 flex flex-col gap-section-lg">
+            <p className="font-body text-body-sm text-primary-200 font-semibold m-0">Passeport de Compétences</p>
+            <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-extrabold text-white leading-[1.0] tracking-tight m-0">
+              Un apprentissage qui laisse des traces.
+            </h2>
+            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
+              Chaque leçon suivie, chaque mission accomplie, chaque session de coaching : tout est enregistré dans votre Passeport de Compétences. Pas un badge générique. Une preuve concrète, datée, reliée à vos comportements réels au travail.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack pt-stack border-t border-white/20">
+              {[
+                { label: 'Progression détaillée', desc: 'Niveau Dreyfus par compétence, de novice à expert.' },
+                { label: 'Preuves liées', desc: 'Chaque affirmation est adossée à une trace concrète.' },
+                { label: 'Partage sur mesure', desc: 'Partagez à votre RH, votre équipe, ou gardez-le pour vous.' },
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col gap-tight">
+                  <p className="font-display text-body font-bold text-white m-0">{item.label}</p>
+                  <p className="font-body text-body-sm text-white/70 m-0 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </FadeInWhenVisible>
+      </section>
+
       {/* ── 6. Early access ─────────────────────────────────────────────────── */}
       <section
         id="early-access"
-        className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 py-page"
+        className="relative overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-secondary-50/20 py-page"
       >
         <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-500/25 blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-primary-200/30 blur-3xl" />
         </div>
         <div className="relative max-w-prose mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up" delay={0.05}>
-            <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
-              Soyez parmi <span className="text-accent-400">les premiers</span>.
-            </h2>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0">
-              La Learning App est en bêta. Inscrivez-vous pour être notifié·e en priorité et bénéficier d'un accès exclusif.
-            </p>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col items-center text-center gap-stack-lg">
+              <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Soyez parmi <span className="text-secondary-600">les premiers</span>.
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                La Learning App est en bêta. Inscrivez-vous pour être notifié·e en priorité et bénéficier d'un accès exclusif.
+              </p>
+            </div>
           </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="up" delay={0.2}>
@@ -388,11 +419,11 @@ export const MarketingLearningApp: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                className="bg-white/15 backdrop-blur-glass-medium border border-white/25 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-md"
+                className="bg-success-bg border border-success-base/30 rounded-2xl p-stack-lg flex flex-col items-center gap-stack text-center w-full max-w-md"
               >
-                <CheckCircle2 size={40} className="text-accent-400" />
-                <p className="font-display font-bold text-h4 text-white m-0">Merci ! Vous êtes sur la liste.</p>
-                <p className="font-body text-body-sm text-white/80 m-0">
+                <CheckCircle2 size={40} className="text-success-fg" />
+                <p className="font-display font-bold text-h4 text-ink-900 m-0">Merci ! Vous êtes sur la liste.</p>
+                <p className="font-body text-body-sm text-ink-600 m-0">
                   Nous vous contacterons dès que l'accès bêta est disponible.
                 </p>
               </motion.div>
@@ -401,10 +432,10 @@ export const MarketingLearningApp: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 onSubmit={handleSubmit}
-                className="w-full max-w-md flex flex-col gap-stack pt-stack bg-white/10 backdrop-blur-glass-medium border border-white/20 rounded-2xl p-section"
+                className="w-full max-w-md flex flex-col gap-stack pt-stack bg-white border border-ink-100 rounded-2xl p-section shadow-card"
               >
                 <div className="flex flex-col gap-stack-xs text-left">
-                  <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-white/90">
+                  <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-ink-700">
                     Email professionnel
                   </label>
                   <input
@@ -414,11 +445,11 @@ export const MarketingLearningApp: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nom@organisation.fr"
-                    className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <div className="flex flex-col gap-stack-xs text-left">
-                  <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-white/90">
+                  <label htmlFor="ea-role" className="font-body text-body-sm font-semibold text-ink-700">
                     Votre rôle
                   </label>
                   <input
@@ -427,7 +458,7 @@ export const MarketingLearningApp: React.FC = () => {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     placeholder="Formateur · Responsable L&D · Concepteur pédagogique…"
-                    className="px-4 h-12 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 font-body text-body focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-base"
+                    className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
                 <MagneticButton strength={10} className="w-full pt-stack">
@@ -441,7 +472,7 @@ export const MarketingLearningApp: React.FC = () => {
                     Demander l'accès anticipé
                   </Button>
                 </MagneticButton>
-                <p className="font-body text-caption text-white/60 text-center m-0">
+                <p className="font-body text-caption text-ink-500 text-center m-0">
                   Aucun spam. Désinscription en 1 clic.
                 </p>
               </motion.form>

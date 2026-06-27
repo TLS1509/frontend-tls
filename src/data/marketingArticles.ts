@@ -1601,6 +1601,191 @@ export const ARTICLES: Article[] = [
       },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // AI Act Article 4 — Obligation littératie IA (URGENT : publi avant 31/07/2026)
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'ai-act-article-4-obligation-formation-ia',
+    title: "AI Act Article 4 : ce que votre entreprise doit faire avant le 2 août 2026",
+    subtitle: "L'obligation de littératie IA concerne toutes les entreprises. Ce qu'elle impose — et comment y répondre.",
+    category: 'IA',
+    date: 'Juin 2026',
+    readTime: '8 min',
+    featured: true,
+    summary:
+      "L'Article 4 du Règlement européen sur l'IA impose à tous les employeurs de garantir la maîtrise de l'IA à leurs collaborateurs avant le 2 août 2026. Ce que cela signifie concrètement — et comment y répondre.",
+    intro:
+      "Le 2 août 2026, une obligation nouvelle entre en vigueur pour toutes les entreprises françaises : garantir que les collaborateurs qui travaillent avec des outils d'IA disposent d'une maîtrise suffisante de cette technologie. Pas un diplôme. Pas une certification spectaculaire. Une maîtrise documentée, adaptée aux usages réels de votre organisation. Si vos équipes utilisent ChatGPT, Copilot, Gemini ou tout autre outil d'IA générative — et c'est le cas dans l'immense majorité des entreprises —  vous êtes directement concerné.",
+    sections: [
+      { heading: "Qu'est-ce que l'Article 4 du Règlement européen sur l'IA ?" },
+      { heading: "Qui est concerné ? Tous les « déployeurs » d'IA" },
+      { heading: 'Ce que signifie concrètement "maîtrise suffisante"' },
+      { heading: 'Quelles preuves conserver pour la conformité ?' },
+      { heading: 'Quelles conséquences en cas de manquement ?' },
+      { heading: "Comment répondre à cette obligation d'ici le 2 août ?" },
+    ],
+    quotes: [
+      "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act — et vous êtes directement concerné par l'Article 4.",
+      "La maîtrise n'est pas un standard uniforme : elle doit être adaptée aux usages réels et au contexte métier de chaque collaborateur.",
+      "Un Open Badge délivré par un organisme certifiant constitue, à ce jour, la preuve de conformité la plus solide face à un éventuel contrôle.",
+    ],
+    conclusion:
+      "L'Article 4 n'est pas une contrainte de plus. C'est le signal que l'IA en entreprise ne peut plus être une pratique informelle et non documentée. Les organisations qui anticipent construisent un avantage concret : des équipes plus efficaces, moins exposées aux erreurs, capables d'utiliser l'IA comme un levier de performance plutôt que d'en subir les risques juridiques et opérationnels. Il reste quelques semaines pour mettre en place une réponse sérieuse — le diagnostic est le meilleur point de départ.",
+    liveUrl: '/marketing/ressources',
+    cover: 'from-primary-100 via-primary-50 to-accent-50',
+    body: [
+      {
+        type: 'h2',
+        text: "Qu'est-ce que l'Article 4 du Règlement européen sur l'IA ?",
+      },
+      {
+        type: 'p',
+        text: "Le Règlement européen sur l'intelligence artificielle (EU AI Act, Règlement 2024/1689/UE) est entré en vigueur le 1er août 2024. Il s'applique progressivement, par thématiques. La première échéance a concerné l'interdiction des systèmes à risque inacceptable (février 2025). Le 2 août 2026 marque la mise en application des obligations générales pour les systèmes à haut risque — et de l'Article 4, qui lui, s'applique à tous.",
+      },
+      {
+        type: 'p',
+        text: "Le texte de l'Article 4 est clair : « Les fournisseurs et déployeurs de systèmes d'IA prennent des mesures pour assurer, dans la meilleure mesure possible, un niveau suffisant de littératie en matière d'IA de leur personnel et d'autres personnes traitant en leur nom avec des systèmes d'IA. »",
+      },
+      {
+        type: 'p',
+        text: "Sa particularité ? Il ne cible pas un type précis d'IA à risque élevé. Il s'adresse à l'ensemble des organisations qui utilisent de l'IA dans un cadre professionnel — quelle que soit leur taille, leur secteur, et le niveau de risque des outils concernés.",
+      },
+      {
+        type: 'h2',
+        text: "Qui est concerné ? Tous les « déployeurs » d'IA",
+      },
+      {
+        type: 'p',
+        text: "L'AI Act distingue les fournisseurs (ceux qui développent les systèmes d'IA) et les déployeurs (ceux qui les utilisent dans un contexte professionnel). Un déployeur, c'est toute organisation qui met en usage un outil d'IA dans ses activités — même sans l'avoir développé. Concrètement : dès qu'un collaborateur utilise ChatGPT, Copilot, Claude, Gemini ou tout LLM dans son travail, l'employeur est déployeur.",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Les équipes RH qui utilisent l'IA pour rédiger des offres d'emploi ou analyser des candidatures",
+          "Les formateurs qui intègrent l'IA dans leur ingénierie pédagogique ou leur production de contenus",
+          "Les managers qui s'appuient sur des tableaux de bord ou assistants IA pour prendre des décisions",
+          "Les commerciaux qui utilisent des outils de génération de contenu ou d'analyse de prospects",
+          "Les équipes marketing, juridique, finance qui ont intégré des outils d'IA générative dans leur quotidien",
+        ],
+      },
+      {
+        type: 'p',
+        text: "En résumé : si quelqu'un dans votre organisation « traite avec un système d'IA » dans le cadre de son activité professionnelle, vous entrez dans le périmètre de l'Article 4.",
+      },
+      {
+        type: 'pullquote',
+        text: "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act — et vous êtes directement concerné par l'Article 4.",
+      },
+      {
+        type: 'h2',
+        text: 'Ce que signifie concrètement "maîtrise suffisante"',
+      },
+      {
+        type: 'p',
+        text: "L'Article 4 ne fixe pas de seuil précis. Les orientations européennes et les premiers avis des régulateurs nationaux permettent d'identifier quatre dimensions constitutives de cette maîtrise :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Comprendre le fonctionnement général des systèmes d'IA utilisés (sans nécessité de connaissances techniques profondes, mais en comprenant ce qu'est un modèle de langage, ses limites, ses tendances aux erreurs)",
+          "Utiliser les outils d'IA de façon responsable dans le contexte métier (savoir quand l'IA est pertinente, quand ses sorties doivent être vérifiées, quand elle n'est pas adaptée)",
+          "Détecter les erreurs, approximations et biais des sorties générées (ne pas traiter un output IA comme une source fiable sans relecture critique)",
+          "Respecter les règles RGPD associées à l'utilisation de l'IA (ne pas entrer de données personnelles dans un LLM public sans analyse juridique préalable)",
+        ],
+      },
+      {
+        type: 'p',
+        text: "Cette maîtrise est contextuelle. Ce qui est attendu d'un formateur utilisant l'IA pour concevoir des modules d'apprentissage n'est pas le même que pour un comptable utilisant un outil d'analyse prédictive, ou pour un médecin utilisant un système d'aide au diagnostic. L'obligation impose une adaptation aux usages réels, pas un programme générique.",
+      },
+      {
+        type: 'pullquote',
+        text: "La maîtrise n'est pas un standard uniforme : elle doit être adaptée aux usages réels et au contexte métier de chaque collaborateur.",
+      },
+      {
+        type: 'h2',
+        text: 'Quelles preuves conserver pour la conformité ?',
+      },
+      {
+        type: 'p',
+        text: "La conformité à l'Article 4 ne se déclare pas — elle se démontre. En cas de contrôle ou d'incident, vous devez être en mesure de produire des justificatifs. Voici ce qu'il est recommandé de conserver :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Les attestations de formation de l'ensemble des collaborateurs concernés par l'usage de l'IA",
+          "Le programme de formation suivi (objectifs pédagogiques, durée, contenus, organisme dispensateur)",
+          "Une cartographie des outils d'IA utilisés dans l'organisation (par rôle et par usage)",
+          "Les politiques internes d'utilisation de l'IA (charte d'usage, procédures de vérification des outputs)",
+        ],
+      },
+      {
+        type: 'p',
+        text: "Un Open Badge délivré par un organisme partenaire certifiant constitue un justificatif particulièrement solide : il est vérifiable en ligne, non modifiable, et lié à un programme d'apprentissage traçable. C'est aujourd'hui le standard le plus robuste face à un éventuel contrôle.",
+      },
+      {
+        type: 'pullquote',
+        text: "Un Open Badge délivré par un organisme certifiant constitue, à ce jour, la preuve de conformité la plus solide face à un éventuel contrôle.",
+      },
+      {
+        type: 'h2',
+        text: 'Quelles conséquences en cas de manquement ?',
+      },
+      {
+        type: 'p',
+        text: "L'Article 4 ne prévoit pas de sanctions directes qui lui sont propres. Mais le manquement à cette obligation peut avoir plusieurs conséquences en cascade :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Aggravation de la responsabilité de l'entreprise en cas d'incident impliquant un outil d'IA (argument de manquement à l'obligation de diligence)",
+          "Facteur aggravant en cas de violation RGPD liée à un usage non encadré de l'IA",
+          "Exposition aux sanctions générales du Règlement pour les obligations incombant aux déployeurs (jusqu'à 3 % du chiffre d'affaires mondial annuel)",
+          "Risque de responsabilité civile en cas de préjudice causé par un collaborateur utilisant l'IA sans formation documentée",
+        ],
+      },
+      {
+        type: 'p',
+        text: "Au-delà du risque légal, il y a un risque opérationnel direct : les collaborateurs non formés utilisent l'IA de façon moins efficace, avec un taux d'erreur plus élevé, et une exposition plus grande aux hallucinations et biais non détectés.",
+      },
+      {
+        type: 'h2',
+        text: "Comment répondre à cette obligation d'ici le 2 août ?",
+      },
+      {
+        type: 'p',
+        text: "Trois étapes permettent de bâtir une réponse sérieuse dans le temps imparti :",
+      },
+      {
+        type: 'h3',
+        text: '1. Cartographier les usages IA dans votre organisation',
+      },
+      {
+        type: 'p',
+        text: "Avant de former, il faut savoir qui utilise quoi. Cette cartographie est souvent sous-estimée — les usages informels (ChatGPT en mode personnel, Copilot activé sans politique d'usage) sont rarement remontés. Un atelier de diagnostic de 2 à 3 heures suffit pour dresser une première carte des usages par rôle et par département.",
+      },
+      {
+        type: 'h3',
+        text: '2. Adapter le niveau de formation au rôle et aux usages réels',
+      },
+      {
+        type: 'p',
+        text: "L'Article 4 exige une maîtrise adaptée au contexte. Un programme générique de 45 minutes « IA pour tous » ne constitue pas une réponse suffisante au sens du Règlement. La formation doit couvrir les usages concrets des équipes concernées, avec des mises en situation et des cas métier. La durée minimale raisonnable pour une maîtrise documentable est généralement de 7 à 14 heures selon la complexité des usages.",
+      },
+      {
+        type: 'h3',
+        text: '3. Obtenir des attestations vérifiables et éligibles OPCO',
+      },
+      {
+        type: 'p',
+        text: "Pour être en mesure de prouver la conformité, les attestations doivent être associées à un programme reconnu, dispensé par un organisme sérieux. Les formations éligibles OPCO avec Open Badge constituent le standard le plus solide aujourd'hui. Elles sont finançables par l'entreprise sans impact sur la trésorerie, et produisent une preuve de conformité vérifiable.",
+      },
+      {
+        type: 'p',
+        text: "The Learning Society propose une formation certifiante sur l'usage de l'IA dans les métiers de la formation et de la pédagogie — dispensée en partenariat avec C-Campus, organisme certifiant. Elle est éligible OPCO, délivre un Open Badge vérifiable, et couvre les quatre dimensions de la maîtrise telles qu'attendues par les orientations Article 4. Le programme peut être démarré immédiatement pour une complétion avant l'échéance du 2 août.",
+      },
+    ],
+  },
 ];
 
 export const findArticle = (slug: string): Article | undefined =>

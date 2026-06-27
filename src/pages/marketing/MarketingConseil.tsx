@@ -184,7 +184,7 @@ export const MarketingConseil: React.FC = () => {
 
           <Reveal delay={0.18}>
             <div className="flex flex-wrap items-center gap-stack">
-              <Link to="/contact">
+              <Link to="/marketing/contact">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Démarrer par l'Audit Flash
                 </Button>
@@ -228,7 +228,7 @@ export const MarketingConseil: React.FC = () => {
                   </ul>
 
                   <div className="flex flex-wrap items-center gap-stack pt-1">
-                    <Link to="/contact">
+                    <Link to="/marketing/contact">
                       <Button variant="warm" size="md" trailingIcon={<ArrowRight size={16} />}>
                         Demander l'Audit Flash
                       </Button>
@@ -397,12 +397,12 @@ export const MarketingConseil: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
-              <Link to="/contact">
+              <Link to="/marketing/contact">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Réserver un échange
                 </Button>
               </Link>
-              <Link to="/learning-app">
+              <Link to="/marketing/learning-app">
                 <Button variant="glass" size="lg" trailingIcon={<BookOpen size={16} />}>
                   Voir la Learning App
                 </Button>

@@ -1,309 +1,281 @@
 /**
- * Variant C: "Pedagogical Warm"
- * Inspirations : Brilliant, Maven, MasterClass, Duolingo marketing.
- * Mood : Chaleureux humain, magazine-style éditorial, learner journeys prominents.
- * Identity TLS : warm secondary-500 dominant + brand teal accent, accent-400 yellow = insights.
+ * Variant C: "Storytelling Immersif"
+ * Structure narrative calquée sur la homepage :
+ *   Hero → Bridge → VideoScrollStory (4 chapitres) → Stats réels → 3 Leviers → Manifeste → CTA
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Sparkles,
   ArrowRight,
+  ArrowUpRight,
   Quote,
-  BookOpen,
-  Lightbulb,
-  Award,
-  Heart,
+  CheckCircle2,
+  GraduationCap,
+  Smartphone,
   Compass,
+  ShieldCheck,
+  CreditCard,
+  Globe,
 } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Button } from '../../components/core/Button';
+import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { CinematicHero } from './components/CinematicHero';
+import { VideoScrollStory } from './components/VideoScrollStory';
+import { VariantSwitcher } from './components/VariantSwitcher';
 
-const JOURNEY = [
-  {
-    chapter: 'Chapitre 1',
-    title: 'Vous arrivez avec vos intuitions',
-    body: "Pas besoin d'être expert IA. Juste curieux, motivé, prêt à expérimenter. Nous vous rencontrons là où vous en êtes.",
-    icon: <Compass size={28} />,
-    img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&q=80&auto=format&fit=crop',
-  },
-  {
-    chapter: 'Chapitre 2',
-    title: 'Vous découvrez une autre manière',
-    body: 'Le Formateur Augmenté ne remplace rien. Il ajoute une dimension : la personnalisation à grande échelle.',
-    icon: <Lightbulb size={28} />,
-    img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop',
-  },
-  {
-    chapter: 'Chapitre 3',
-    title: 'Vous construisez vos parcours',
-    body: 'Vous apprenez à concevoir des expériences qui transforment vraiment. Avec des outils, oui, mais surtout avec un cadre.',
-    icon: <BookOpen size={28} />,
-    img: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80&auto=format&fit=crop',
-  },
-  {
-    chapter: 'Chapitre 4',
-    title: 'Vous rejoignez une communauté',
-    body: '200+ formateurs certifiés qui partagent, expérimentent, et font évoluer la pédagogie augmentée ensemble.',
-    icon: <Heart size={28} />,
-    img: 'https://images.unsplash.com/photo-1531058020387-3be344556be6?w=800&q=80&auto=format&fit=crop',
-  },
-];
+const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
+const TRUST_SIGNALS = [
+  { value: '578', label: 'apprenants formés', note: 'C-Campus 2023' },
+  { value: '+93%', label: 'de satisfaction', note: 'C-Campus 2023' },
+  { value: '1 grand groupe', label: 'français en production', note: 'depuis janvier 2026' },
+  { value: '7 modules', label: 'de formation certifiante', note: '7h de pédagogie active' },
+] as const;
 
-/** SVG decorative: line annotation style "marker" */
-const SquigglyUnderline: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <svg viewBox="0 0 200 12" fill="none" className={className} aria-hidden>
-    <path d="M2 8 Q 25 1, 50 6 T 100 6 T 150 6 T 198 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-  </svg>
-);
+export const MarketingHomeC: React.FC = () => {
+  const reduced = useReducedMotion();
 
-const HandArrow: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <svg viewBox="0 0 80 60" fill="none" className={className} aria-hidden>
-    <path d="M5 15 Q 30 5, 50 25 T 75 50" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-    <path d="M65 45 L 75 50 L 70 42" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-  </svg>
-);
+  return (
+    <div className="bg-white">
 
-export const MarketingHomeC: React.FC = () => (
-  <div className="bg-gradient-to-b from-secondary-50/30 via-white to-accent-50/20">
+      {/* ── Hero cinématographique ───────────────────────────────────────────── */}
+      <CinematicHero />
 
-    {/* ── Hero: magazine éditorial asymétrique ───────────────────────────── */}
-    <section className="relative pt-28 pb-page overflow-hidden">
-      <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-32 -right-20 w-[500px] h-[500px] rounded-full bg-secondary-200/40 blur-[100px]" />
-        <div className="absolute bottom-0 -left-20 w-[400px] h-[400px] rounded-full bg-accent-200/30 blur-[100px]" />
-      </div>
-
-      <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-page items-center">
-        <div className="flex flex-col gap-stack-lg">
-          <span className="inline-flex items-center gap-stack-xs px-3 py-1 rounded-pill bg-accent-50 border border-accent-200 w-fit">
-            <Sparkles size={14} className="text-accent-500" />
-            <span className="font-body text-caption font-semibold text-warning-fg tracking-wider uppercase">
-              Une école pour les formateurs augmentés
-            </span>
-          </span>
-
-          <h1 className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5rem)]">
-            La formation,<br />
-            <span className="relative inline-block">
-              c'est humain.
-              <SquigglyUnderline className="absolute -bottom-3 left-0 w-full text-accent-400" />
-            </span><br />
-            <span className="text-secondary-600">L'IA, c'est notre allié.</span>
-          </h1>
-
-          <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-xl">
-            Nous formons des architectes de l'apprentissage. Des pédagogues qui maîtrisent l'IA
-            sans s'y soumettre. Des artisans qui combinent technologie et présence.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-            <Link to="/marketing/formation">
-              <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Devenir Formateur Augmenté
-              </Button>
-            </Link>
-            <Link to="/marketing/accompagnement">
-              <Button variant="ghost" size="lg">
-                Accompagnement sur mesure
-              </Button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Portrait card: single learner */}
-        <div className="relative">
-          <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
-            <img
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80&auto=format&fit=crop"
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </div>
-          {/* Floating quote card */}
-          <div className="absolute -bottom-6 -left-6 max-w-xs bg-white rounded-2xl shadow-xl border border-ink-100 p-stack-lg flex flex-col gap-stack-xs">
-            <Quote size={20} className="text-secondary-500" />
-            <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
-              "Je ne forme plus, je crée des expériences."
-            </p>
-            <p className="font-body text-caption text-ink-500 m-0">Sophie, promotion 2026</p>
-          </div>
-          {/* Accent badge top-right */}
-          <div className="absolute -top-4 -right-4 bg-accent-400 text-ink-900 px-3 py-1.5 rounded-pill font-display font-bold text-caption uppercase tracking-wider shadow-md">
-            Promo Septembre ouverte
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* ── Conviction band: manifesto ───────────────────────────────────────── */}
-    <section className="bg-secondary-500 py-section-lg relative overflow-hidden">
-      <div aria-hidden className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-accent-400 blur-[80px]" />
-      </div>
-      <div className="relative max-w-4xl mx-auto px-6 text-center flex flex-col gap-stack-lg">
-        <p className="font-body text-caption font-bold text-accent-400 uppercase tracking-widest">
-          Notre conviction
-        </p>
-        <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] font-extrabold text-white leading-[1.15] tracking-tight m-0">
-          On n'apprend pas avec des outils.<br />
-          <span className="text-accent-400">On apprend avec des humains</span>: accompagnés par des outils.
-        </h2>
-      </div>
-    </section>
-
-    {/* ── Journey: storyboard 4 chapitres ──────────────────────────────────── */}
-    <section className="py-page bg-white">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-page">
-        <div className="flex flex-col gap-stack items-center text-center max-w-2xl mx-auto">
-          <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
+      {/* ── Lead-in : mise en scène du parcours ─────────────────────────────── */}
+      <section className="py-section-lg bg-white">
+        <div className="max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack">
+          <p className="font-body text-caption font-bold text-secondary-500 uppercase tracking-widest m-0">
             Le parcours
-          </span>
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-            Ton chemin en 4 chapitres.
+          </p>
+          <h2
+            className="font-display font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
+          >
+            Quatre chapitres.<br />
+            <span className="text-secondary-500">Un avant, un après.</span>
           </h2>
-        </div>
-
-        <div className="flex flex-col gap-section-lg">
-          {JOURNEY.map(({ chapter, title, body, icon, img }, i) => (
-            <article
-              key={chapter}
-              className={`grid grid-cols-1 md:grid-cols-2 gap-page items-center ${i % 2 === 1 ? 'md:grid-flow-dense' : ''}`}
-            >
-              <div className={`flex flex-col gap-stack ${i % 2 === 1 ? 'md:col-start-2' : ''}`}>
-                <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-pill bg-secondary-100 text-secondary-700">
-                    {icon}
-                  </span>
-                  {chapter}
-                </span>
-                <h3 className="font-display text-h2 font-extrabold text-ink-900 leading-tight m-0">
-                  {title}
-                </h3>
-                <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-md">
-                  {body}
-                </p>
-                {i === 0 && (
-                  <HandArrow className="text-accent-500 w-20 h-15 -mt-2 opacity-70" />
-                )}
-              </div>
-              <div className={`aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-ink-100 ${i % 2 === 1 ? 'md:col-start-1 md:row-start-1' : ''}`}>
-                <img src={img} alt="" className="w-full h-full object-cover" />
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* ── Ancrage C-Campus ─────────────────────────────────────────────────── */}
-    <section className="py-page bg-secondary-50/40">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="rounded-2xl bg-white border border-secondary-100 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
-          <div className="flex flex-col gap-stack flex-1">
-            <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">Notre ancrage</span>
-            <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
-              Déployé avec C-Campus, dès 2023.
-            </p>
-            <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
-              Les parcours TLS ont été déployés en partenariat avec C-Campus. En 2023, 578 apprenants formés avec un taux de satisfaction de +93 %.
-            </p>
-          </div>
-          <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
-            <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
-              578 formés · +93 % satisfaction (C-Campus 2023)
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* ── Pricing / certification offer ─────────────────────────────────────── */}
-    <section className="py-page bg-white relative overflow-hidden">
-      <div aria-hidden className="absolute top-0 right-0 w-96 h-96 rounded-full bg-accent-100/40 blur-[100px]" />
-      <div className="relative max-w-5xl mx-auto px-6 flex flex-col gap-section">
-        <div className="flex flex-col gap-stack items-center text-center max-w-2xl mx-auto">
-          <Award size={32} className="text-warning-fg" />
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-            Une certification reconnue.
-          </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-            Open Badge 2.0, en partenariat avec C-Campus. 7 modules, 8 semaines, coaching inclus.
+          <p className="font-body text-body text-ink-400 m-0">
+            Défiler pour vivre le parcours.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
-          {[
-            { label: 'Découverte', price: 'Gratuit', desc: 'Accès au premier module + communauté.', cta: 'Commencer', variant: 'ghost' as const },
-            { label: 'Certifiant', price: '249€', desc: 'Formation complète + Open Badge + coaching 1-1.', cta: 'M\'inscrire', variant: 'warm' as const, highlight: true },
-            { label: 'Sur mesure', price: 'Devis', desc: 'Programme adapté à votre organisation.', cta: 'Contacter', variant: 'ghost' as const },
-          ].map((t) => (
-            <article
-              key={t.label}
-              className={`rounded-2xl p-stack-lg flex flex-col gap-stack-lg ${
-                t.highlight
-                  ? 'bg-gradient-to-br from-secondary-500 to-secondary-600 text-white shadow-xl scale-105 relative'
-                  : 'bg-white border border-ink-200'
-              }`}
-            >
-              {t.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-tight px-3 py-1 rounded-pill bg-accent-400 text-ink-900 text-caption font-bold uppercase tracking-wider">
-                  Recommandé
-                </span>
-              )}
-              <div className="flex flex-col gap-tight">
-                <span className={`font-body text-caption font-bold uppercase tracking-wider ${t.highlight ? 'text-accent-300' : 'text-secondary-600'}`}>
-                  {t.label}
-                </span>
-                <p className={`font-display text-h1 font-extrabold m-0 leading-none ${t.highlight ? 'text-white' : 'text-ink-900'}`}>
-                  {t.price}
-                </p>
-              </div>
-              <p className={`font-body text-body leading-relaxed m-0 flex-1 ${t.highlight ? 'text-white/90' : 'text-ink-600'}`}>
-                {t.desc}
+      {/* ── Storytelling vidéo sticky — 4 × 100vh ───────────────────────────── */}
+      <VideoScrollStory />
+
+      {/* ── Stats réels C-Campus ─────────────────────────────────────────────── */}
+      <section className="border-y border-ink-100 py-stack-lg bg-white">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-stack-lg">
+          <FadeInWhenVisible direction="up">
+            <p className="font-body text-caption text-ink-500 text-center font-semibold m-0">
+              Résultats vérifiables · source C-Campus 2023
+            </p>
+          </FadeInWhenVisible>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+            {TRUST_SIGNALS.map((s, i) => (
+              <FadeInWhenVisible key={s.label} direction="up" delay={i * 0.08}>
+                <div className="flex flex-col items-center text-center gap-tight">
+                  <span className="font-display text-h2 font-extrabold text-ink-900 tracking-display leading-none">
+                    {s.value}
+                  </span>
+                  <span className="font-body text-body-sm font-semibold text-ink-700">{s.label}</span>
+                  <span className="font-body text-micro text-ink-400">{s.note}</span>
+                </div>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3 leviers ────────────────────────────────────────────────────────── */}
+      <section className="relative py-page bg-gradient-to-b from-white to-primary-50/30">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section-lg">
+          <FadeInWhenVisible direction="up">
+            <div className="max-w-2xl flex flex-col gap-stack">
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Formation, technologie,{' '}
+                <span className="text-secondary-500">accompagnement.</span>
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                Trois portes d'entrée vers la même destination : une organisation qui apprend vraiment.
               </p>
-              <Link to="/marketing/formation">
-                <Button variant={t.variant} size="md" fullWidth trailingIcon={<ArrowRight size={16} />}>
-                  {t.cta}
+            </div>
+          </FadeInWhenVisible>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+            {[
+              {
+                icon: <Smartphone size={24} />,
+                label: 'Learning App',
+                title: 'La plateforme qui apprend avec vous',
+                desc: 'Parcours adaptatifs, Passeport Dreyfus, coaching intégré, matching IA.',
+                bg: 'from-primary-50/60 via-white to-primary-100/30',
+                border: 'border-primary-100 hover:border-primary-300',
+                iconBg: 'bg-primary-100 text-primary-700',
+                link: '/marketing/learning-app',
+                color: 'text-primary-700',
+              },
+              {
+                icon: <GraduationCap size={24} />,
+                label: 'Formation certifiante',
+                title: 'Devenez Formateur Augmenté',
+                desc: 'Méthode STRIDE · pédagogie active · Open Badge C-Campus. 7 modules, 8 semaines.',
+                bg: 'from-secondary-50/60 via-white to-secondary-100/30',
+                border: 'border-secondary-100 hover:border-secondary-300',
+                iconBg: 'bg-secondary-100 text-secondary-700',
+                link: '/marketing/formation',
+                color: 'text-secondary-700',
+              },
+              {
+                icon: <Compass size={24} />,
+                label: 'Accompagnement',
+                title: 'Avec vous, pas pour vous',
+                desc: 'Conseil stratégique · déploiement sur mesure · pilotage de la montée en compétences.',
+                bg: 'from-accent-50/60 via-white to-accent-100/30',
+                border: 'border-accent-100 hover:border-accent-300',
+                iconBg: 'bg-accent-100 text-accent-700',
+                link: '/marketing/accompagnement',
+                color: 'text-accent-700',
+              },
+            ].map((card, i) => (
+              <FadeInWhenVisible key={card.label} direction="up" delay={i * 0.1}>
+                <article className={`group relative rounded-3xl bg-gradient-to-br ${card.bg} border ${card.border} hover:shadow-xl transition-all duration-500 p-stack-lg flex flex-col gap-stack-lg min-h-[240px]`}>
+                  <div className={`inline-flex w-12 h-12 rounded-xl ${card.iconBg} items-center justify-center group-hover:scale-110 transition-transform duration-base`}>
+                    {card.icon}
+                  </div>
+                  <div className="flex flex-col gap-stack flex-1">
+                    <span className={`font-body text-caption font-bold uppercase tracking-widest ${card.color}`}>
+                      {card.label}
+                    </span>
+                    <h3 className="font-display text-h4 font-extrabold text-ink-900 m-0 leading-tight">
+                      {card.title}
+                    </h3>
+                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
+                      {card.desc}
+                    </p>
+                  </div>
+                  <Link to={card.link} className={`flex items-center gap-stack-xs ${card.color} font-semibold text-body-sm`}>
+                    <span>En savoir plus</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-base" />
+                  </Link>
+                </article>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Manifeste pull-quote (dark) ───────────────────────────────────────── */}
+      <section className="relative py-page overflow-hidden bg-ink-900">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `
+              radial-gradient(700px circle at 25% 30%, rgba(85, 161, 180, 0.32), transparent 55%),
+              radial-gradient(600px circle at 75% 70%, rgba(248, 176, 68, 0.18), transparent 55%)
+            `,
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+          style={{ backgroundImage: GRAIN_SVG }}
+        />
+        <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-section">
+          <FadeInWhenVisible direction="up">
+            <Quote size={48} className="text-accent-400" />
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.1}>
+            <p className="font-display text-[clamp(1.75rem,4.5vw,3.5rem)] font-medium text-white leading-[1.2] tracking-tight m-0">
+              L'enjeu n'est pas de produire{' '}
+              <span className="text-white/40">plus de contenu</span>.
+              <br />
+              C'est de produire des{' '}
+              <span className="text-accent-400 font-bold italic">apprenants augmentés</span>.
+            </p>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.2}>
+            <div className="flex items-center gap-stack-xs">
+              <div className="w-12 h-px bg-white/30" />
+              <span className="font-body text-caption text-white/60 tracking-widest uppercase font-semibold">
+                Notre philosophie
+              </span>
+              <div className="w-12 h-px bg-white/30" />
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── Qualité & financement ─────────────────────────────────────────────── */}
+      <section className="py-stack-lg bg-white border-b border-ink-100">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+            {[
+              { icon: <ShieldCheck size={22} />, bg: 'bg-primary-50 text-primary-700', title: 'Open Badge', desc: "Certification numérique vérifiable, délivrée à l'issue du parcours." },
+              { icon: <CreditCard size={22} />, bg: 'bg-secondary-50 text-secondary-700', title: 'Éligible OPCO', desc: 'Prise en charge possible via votre OPCO. Devis sur demande.' },
+              { icon: <Globe size={22} />, bg: 'bg-accent-50 text-accent-700', title: '100% à distance', desc: 'Formation en ligne, accessible depuis partout, à votre rythme.' },
+            ].map((item) => (
+              <div key={item.title} className="flex items-center gap-stack p-stack rounded-2xl border border-ink-100 bg-white">
+                <div className={`shrink-0 w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center`}>
+                  {item.icon}
+                </div>
+                <div className="flex flex-col gap-tight">
+                  <span className="font-display font-bold text-body-sm text-ink-900">{item.title}</span>
+                  <span className="font-body text-caption text-ink-500 leading-relaxed">{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA finale ───────────────────────────────────────────────────────── */}
+      <section className="relative py-page overflow-hidden bg-gradient-to-br from-primary-50/50 via-white to-accent-50/30">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-pill bg-primary-200/30 blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-pill bg-accent-200/30 blur-3xl" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack-lg items-center">
+          <FadeInWhenVisible direction="up">
+            <h2
+              className="font-display font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0"
+              style={{ fontSize: 'clamp(2.5rem,6vw,5rem)' }}
+            >
+              Et si on en parlait{' '}
+              <span className="text-primary-700">de vive voix</span> ?
+            </h2>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.1}>
+            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+              30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers l'impact.
+              Pas de slides, pas de démo formatée. Juste une conversation.
+            </p>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.2}>
+            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
+              <MagneticButton strength={14}>
+                <Link to="/marketing/contact">
+                  <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                    Réserver un échange
+                  </Button>
+                </Link>
+              </MagneticButton>
+              <Link to="/marketing/learning-app">
+                <Button variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={18} />}>
+                  Voir la démo
                 </Button>
               </Link>
-            </article>
-          ))}
+            </div>
+          </FadeInWhenVisible>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* ── Final invitation: warm letter style ──────────────────────────────── */}
-    <section className="py-page bg-gradient-to-br from-secondary-100/40 via-accent-50/30 to-white">
-      <div className="max-w-3xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-        <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-          Une invitation.
-        </h2>
-        <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-prose">
-          Ce n'est pas un produit qu'on vend. C'est une posture qu'on partage.
-          Si tu sens que la formation peut être autre chose qu'un déversement de contenu,
-          on est faits pour se rencontrer.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-          <Link to="/marketing/contact">
-            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Échanger 30 minutes
-            </Button>
-          </Link>
-          <Link to="/marketing/magazine">
-            <Button variant="ghost" size="lg">
-              Lire le magazine d'abord
-            </Button>
-          </Link>
-        </div>
-        <p className="font-body text-caption text-ink-500 m-0 mt-stack italic">
-         : L'équipe TLS, depuis Paris ✨
-        </p>
-      </div>
-    </section>
-
-  </div>
-);
+      <VariantSwitcher />
+    </div>
+  );
+};
 
 export default MarketingHomeC;

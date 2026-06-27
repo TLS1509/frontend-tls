@@ -560,7 +560,7 @@ export const MarketingWaitlist: React.FC = () => {
           </h2>
           <p className="font-body text-body text-white/70 m-0 max-w-[48ch] leading-relaxed">
             La formation IA qui prouve ce que vos équipes savent faire.
-            Avant le 2 août.
+            Places limitées pour la prochaine session.
           </p>
           <a
             href="#top"

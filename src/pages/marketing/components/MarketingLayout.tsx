@@ -3,10 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { MarketingHeader } from './MarketingHeader';
 import { MarketingFooter } from './MarketingFooter';
-import {
-  ScrollProgress,
-  MarketingToastProvider,
-} from '../../../components/marketing/motion';
+import { MarketingToastProvider } from '../../../components/marketing/motion';
 
 /**
  * MarketingLayout: public marketing site shell.
@@ -19,13 +16,14 @@ import {
 export const MarketingLayout: React.FC = () => {
   const { pathname } = useLocation();
   const reduced = useReducedMotion();
+  // full-bg variants need a transparent layout so the fixed image behind the page shows through
+  const isFullBgPage = pathname === '/marketing' || pathname === '/marketing/hero-b' || pathname === '/marketing/hero-c';
 
   return (
     <MarketingToastProvider>
-      <div className="min-h-[100dvh] flex flex-col bg-white">
+      <div className={`min-h-[100dvh] flex flex-col ${isFullBgPage ? 'bg-transparent' : 'bg-white'}`}>
         <MarketingHeader />
-        <ScrollProgress topClass="top-16" />
-        <main className="flex-1 pt-16">
+        <main className="flex-1">
           <AnimatePresence mode="wait">
             <motion.div
               key={pathname}

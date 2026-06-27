@@ -419,31 +419,25 @@ export const MarketingFormation: React.FC = () => {
           <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-pill bg-secondary-100/50 blur-3xl" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-pill bg-primary-100/40 blur-3xl" />
         </div>
-        <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up">
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-5xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
             <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 shadow-xs">
               <Award size={14} className="text-secondary-600" />
               <span className="font-body text-caption font-semibold text-secondary-700 tracking-wider uppercase">
                 Programme certifiant · Open Badge
               </span>
             </span>
-          </FadeInWhenVisible>
 
-          <FadeInWhenVisible direction="up" delay={0.1}>
             <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(2.75rem,7vw,5.5rem)] max-w-4xl">
               Devenez <span className="text-secondary-600">Formateur Augmenté</span>.
             </h1>
-          </FadeInWhenVisible>
 
-          <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
               7 modules, 7 heures, 100 % à distance. Maîtrisez l'IA pédagogique,
               intégrez la méthode STRIDE et enrichissez votre Passeport de Compétences —
               en partenariat avec C-Campus.
             </p>
-          </FadeInWhenVisible>
 
-          <FadeInWhenVisible direction="up" delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <a href="#pricing">
@@ -458,10 +452,8 @@ export const MarketingFormation: React.FC = () => {
                 </Button>
               </a>
             </div>
-          </FadeInWhenVisible>
 
-          {/* Metric strip — only verifiable course facts */}
-          <FadeInWhenVisible direction="up" delay={0.4}>
+            {/* Metric strip — only verifiable course facts */}
             <div className="flex flex-wrap items-center justify-center gap-section pt-section pb-stack border-t border-ink-100 mt-stack-lg max-w-2xl">
               {[
                 { value: 7, suffix: '', label: 'modules' },
@@ -482,31 +474,24 @@ export const MarketingFormation: React.FC = () => {
                 <Award size={13} /> En partenariat avec C-Campus
               </span>
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
 
       {/* ── 2. Module Timeline ──────────────────────────────────────────────── */}
-      <section id="modules" className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up">
-              <span className="font-body text-caption font-bold text-secondary-600 uppercase tracking-widest">
-                Le programme
-              </span>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.05}>
+      <section id="modules" className="py-page bg-white relative overflow-hidden">
+<div className="max-w-7xl mx-auto px-6 flex flex-col gap-section relative">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 7 modules pour bâtir votre posture.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 Du fondamental à l'expert. Chaque module combine théorie, atelier pratique
                 et mise en situation supervisée.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
           <ModuleTimeline />
         </div>
       </section>
@@ -514,19 +499,17 @@ export const MarketingFormation: React.FC = () => {
       {/* ── 3. Public cible du parcours (4 profils, depuis le live) ─────────── */}
       <section className="py-page bg-gradient-to-b from-primary-50/30 via-white to-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up" delay={0.05}>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Quatre profils, une même <span className="text-accent-400">ambition</span>.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
                 Que vous commenciez avec l'IA ou que vous soyez déjà initié·e, le parcours
                 s'adapte à votre niveau et à votre contexte professionnel.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack">
             {PUBLIC_CIBLE.map((t, i) => (
@@ -557,20 +540,18 @@ export const MarketingFormation: React.FC = () => {
       {/* ── 3.5. Compétences clés développées (depuis le live) ──────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-page items-center">
-          <div className="flex flex-col gap-stack-lg">
-            <FadeInWhenVisible direction="up" delay={0.05}>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack-lg">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Ce que vous saurez <span className="text-accent-400">vraiment faire</span>.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
                 À la fin du parcours, vous avez 8 compétences opérationnelles — validées
                 par un Open Badge, inscrites dans votre Passeport de Compétences TLS,
                 et déployables dès la semaine suivante.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="left" delay={0.15}>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-stack-xs m-0 p-0 list-none">
@@ -595,29 +576,17 @@ export const MarketingFormation: React.FC = () => {
       {/* ── 3.75. Partenariat C-Campus (poids visuel dédié, depuis le live) ── */}
       <section className="py-page bg-gradient-to-b from-white to-primary-50 relative">
         <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-page items-center">
-          <div className="flex flex-col gap-stack-lg">
-            <FadeInWhenVisible direction="up">
-              <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
-                <Award size={14} className="text-primary-700" />
-                <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
-                  Partenariat d'excellence
-                </span>
-              </span>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack-lg">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Certifié par <span className="text-accent-400">C-Campus</span>.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Le parcours est réalisé 100 % à distance en partenariat avec
                 <strong className="text-ink-900"> C-Campus</strong>.
                 Cette alliance garantit la reconnaissance professionnelle de votre Open Badge
                 et débloque la prise en charge OPCO.
               </p>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.3}>
               <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
                   'Prise en charge OPCO éligible selon votre secteur',
@@ -630,8 +599,8 @@ export const MarketingFormation: React.FC = () => {
                   </li>
                 ))}
               </ul>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
           <FadeInWhenVisible direction="left" delay={0.25}>
             <motion.div
               initial={{ scale: 0.85, opacity: 0 }}
@@ -671,7 +640,7 @@ export const MarketingFormation: React.FC = () => {
       {/* ── 3.9. Direction C — Illustrated Glass (scroll reveal test) ─────── */}
       <ScrollRevealCanvas
         bgSrc={gradientTealOrangeBg}
-        height="260vh"
+        height="120vh"
         revealDuration={0.65}
         edgeSoftness={12}
         overlay="bg-white/20"
@@ -731,18 +700,16 @@ export const MarketingFormation: React.FC = () => {
       {/* ── 4. Pricing ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack items-center text-center max-w-3xl mx-auto">
-            <FadeInWhenVisible direction="up" delay={0.05}>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack items-center text-center max-w-3xl mx-auto">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Trois plans, un Open Badge.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
                 Choisissez le rythme qui vous ressemble. Vous pouvez toujours évoluer.
               </p>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack items-stretch pt-stack">
             {PRICING.map((p, i) => (
@@ -750,10 +717,10 @@ export const MarketingFormation: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className={`relative h-full rounded-3xl p-stack-lg flex flex-col gap-stack-lg ${
+                  className={`relative h-full rounded-2xl p-stack-lg flex flex-col gap-stack-lg ${
                     p.highlight
-                      ? 'bg-gradient-to-br from-secondary-500 to-secondary-600 text-white shadow-2xl md:scale-105 z-base'
-                      : 'bg-white border border-ink-200 shadow-sm hover:shadow-lg hover:border-ink-300 transition-shadow duration-base'
+                      ? 'bg-gradient-to-br from-secondary-500 to-secondary-600 text-white shadow-warm-md md:scale-105 z-base'
+                      : 'bg-white border border-ink-200 shadow-card hover:shadow-card-hover hover:-translate-y-1 hover:border-ink-300 transition-all duration-base'
                   }`}
                 >
                   {p.highlight && (
@@ -870,18 +837,14 @@ export const MarketingFormation: React.FC = () => {
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-pill bg-secondary-500/25 blur-3xl" />
         </div>
-        <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up">
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-3xl mx-auto px-6 rounded-2xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 p-section-lg flex flex-col items-center text-center gap-stack-lg">
             <h2 className="font-display text-[clamp(2rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
               Prêt·e à rejoindre la prochaine promo ?
             </h2>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
               Nous échangeons 30 minutes pour comprendre votre contexte et vous recommander le bon parcours.
             </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/contact">
@@ -904,8 +867,8 @@ export const MarketingFormation: React.FC = () => {
                 </Button>
               </Link>
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}

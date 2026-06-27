@@ -208,10 +208,12 @@ import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
+import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
+import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
+import { MarketingHomeFullPage } from './pages/marketing/MarketingHomeFullPage';
 // [archived] home variants + devtools — files kept, routes removed from prod
 // import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
 // import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
-// import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
 // import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
@@ -463,7 +465,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {/* pb-16 reserves space for BottomNav on mobile (hidden on md+) */}
         <main className="flex-1 min-w-0 [overflow-x:clip] pb-16 md:pb-0">{children}</main>
 
-        <footer className="px-6 py-4 text-caption text-ink-500 border-t border-ink-200/70 text-center">
+        <footer className="px-6 py-4 text-caption text-ink-500 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
         </footer>
       </div>
@@ -511,8 +513,10 @@ function App() {
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/marketing" element={<MarketingLayout />}>
-          <Route index element={<MarketingHome />} />
-          {/* [archived] home variants + devtools — /home-a /home-b /home-c /_motion-lab /_showcase-scroll */}
+          <Route index element={<MarketingHomeFullPage />} />
+          <Route path="hero-b" element={<MarketingHomeC />} />
+          <Route path="hero-c" element={<MarketingHomeD />} />
+          {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab */}
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />

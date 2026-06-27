@@ -31,7 +31,7 @@ import {
   Compass,
   ShieldCheck,
   CreditCard,
-  Award,
+  Globe,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -39,6 +39,7 @@ import {
   MagneticButton,
   InteractiveAppMockup,
   TiltCard,
+  CountUp,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { SkillMapSection } from './components/SkillMapSection';
@@ -174,58 +175,54 @@ export const MarketingHome: React.FC = () => {
       {/* ── 1. Hero éditorial clair — parallax 3 couches ──────────────────── */}
       <HeroParallax>
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-stack-lg px-6 text-center">
-          {/* Eyebrow — pill teal discret sur fond clair */}
-          <FadeInWhenVisible direction="up" delay={0.05}>
-            <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
-              <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
-              <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
-                Formation certifiante · Learning App · Accompagnement
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col items-center gap-stack-lg text-center">
+              {/* Eyebrow — pill teal discret sur fond clair */}
+              <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
+                <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
+                <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
+                  Formation certifiante · Learning App · Accompagnement
+                </span>
               </span>
-            </span>
-          </FadeInWhenVisible>
 
-          {/* H1 */}
-          <FadeInWhenVisible direction="up" delay={0.15}>
-            <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
-              Vos formateurs,{' '}
-              <span className="text-primary-700">
-                augmentés par l'IA.
-              </span>
-            </h1>
-          </FadeInWhenVisible>
+              {/* H1 */}
+              <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
+                Vos formateurs,{' '}
+                <span className="text-primary-700">
+                  augmentés par l'IA.
+                </span>
+              </h1>
 
-          {/* Sous-titre */}
-          <FadeInWhenVisible direction="up" delay={0.3}>
-            <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-ink-600">
-              Formation certifiante, plateforme apprenante, accompagnement sur mesure. Tout ce dont
-              vos formateurs ont besoin pour maîtriser l'IA et transmettre autrement.
-            </p>
-          </FadeInWhenVisible>
+              {/* Sous-titre */}
+              <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-ink-600">
+                Formation certifiante, plateforme apprenante, accompagnement sur mesure. Tout ce dont
+                vos formateurs ont besoin pour maîtriser l'IA et transmettre autrement.
+              </p>
 
-          {/* CTAs — warm magnétique primaire + secondary sur fond clair */}
-          <FadeInWhenVisible direction="up" delay={0.45}>
-            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-              <MagneticButton strength={14}>
-                <Link to="/marketing/formation" aria-label="Je veux me former">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    className="group/cta pr-1.5"
-                    trailingIcon={
-                      <span className="ml-0.5 inline-flex h-7 w-7 items-center justify-center rounded-pill bg-white/20 transition-transform duration-base ease-emphasis group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px">
-                        <ArrowRight size={15} />
-                      </span>
-                    }
-                  >
-                    Je veux me former
+              {/* CTAs — warm magnétique primaire + secondary sur fond clair */}
+              <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
+                <MagneticButton strength={14}>
+                  <Link to="/marketing/formation" aria-label="Je veux me former">
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      className="group/cta pr-1.5"
+                      trailingIcon={
+                        <span className="ml-0.5 inline-flex h-7 w-7 items-center justify-center rounded-pill bg-white/20 transition-transform duration-base ease-emphasis group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px">
+                          <ArrowRight size={15} />
+                        </span>
+                      }
+                    >
+                      Je veux me former
+                    </Button>
+                  </Link>
+                </MagneticButton>
+                <Link to="/marketing/accompagnement">
+                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                    Je représente une entreprise
                   </Button>
                 </Link>
-              </MagneticButton>
-              <Link to="/marketing/accompagnement">
-                <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                  Je représente une entreprise
-                </Button>
-              </Link>
+              </div>
             </div>
           </FadeInWhenVisible>
 
@@ -258,13 +255,10 @@ export const MarketingHome: React.FC = () => {
       </section>
 
       {/* ── 3. Bento 3 leviers ───────────────────────────────────────────── */}
-      <section className="relative py-page bg-gradient-to-b from-white to-primary-50/30">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg">
+      <section className="relative py-page bg-gradient-to-b from-white to-primary-50/30 overflow-hidden">
+<div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg relative">
           <FadeInWhenVisible direction="up">
             <div className="max-w-3xl flex flex-col gap-stack">
-              <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                Trois leviers · un cycle complet
-              </span>
               <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Formation, technologie,{' '}
                 <span className="text-accent-500">accompagnement.</span>
@@ -293,38 +287,40 @@ export const MarketingHome: React.FC = () => {
                 }}
                 role="button"
                 tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-primary-50 via-white to-primary-100/40 border border-primary-100 hover:border-primary-300 hover:shadow-2xl transition-all duration-500 cursor-pointer min-h-[420px] lg:min-h-[560px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 hover:shadow-brand-md hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[420px] lg:min-h-[560px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
               >
-                {/* Decorative halo */}
-                <div
-                  aria-hidden
-                  className="absolute -top-32 -right-32 w-[420px] h-[420px] rounded-pill bg-primary-200/40 blur-3xl pointer-events-none group-hover:bg-primary-200/60 transition-colors duration-700"
-                />
-                <div
-                  aria-hidden
-                  className="absolute -bottom-24 -left-24 w-80 h-80 rounded-pill bg-accent-100/40 blur-3xl pointer-events-none"
-                />
+                {/* Ambient glows */}
+                <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-500/25 blur-3xl pointer-events-none group-hover:bg-primary-400/35 transition-colors duration-700" />
+                <div aria-hidden className="absolute -bottom-20 -left-20 w-72 h-72 rounded-pill bg-accent-400/12 blur-3xl pointer-events-none" />
 
                 <div className="relative p-stack-lg lg:p-section-lg flex flex-col h-full justify-between gap-section">
-                  <div className="flex flex-col gap-stack-lg">
-                    <div className="inline-flex w-14 h-14 rounded-2xl bg-primary-100 items-center justify-center text-primary-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-base">
-                      <Smartphone size={28} />
-                    </div>
-                    <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                      Learning App
+                  {/* Top: eyebrow + stat */}
+                  <div className="flex items-start justify-between gap-stack">
+                    <span className="inline-flex items-center gap-stack-xs px-2.5 py-1 rounded-pill bg-white/10 border border-white/20 text-accent-400 font-body text-caption font-bold">
+                      <Smartphone size={12} />
+                      Bêta ouverte
                     </span>
-                    <h3 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-ink-900 leading-[1.1] m-0 max-w-md">
+                    <div className="flex flex-col items-end gap-tight">
+                      <span className="font-display font-extrabold text-white leading-none" style={{ fontSize: 'clamp(3rem,6vw,4.5rem)' }}>
+                        <CountUp to={93} suffix="%" duration={2} />
+                      </span>
+                      <span className="font-body text-caption text-white/50 text-right">satisfaction apprenants*</span>
+                    </div>
+                  </div>
+
+                  {/* Middle: heading + body */}
+                  <div className="flex flex-col gap-stack-lg">
+                    <h3 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-white leading-[1.1] m-0 max-w-md">
                       La plateforme qui{' '}
-                      <span className="text-primary-700">apprend avec vous</span>.
+                      <span className="text-accent-400">apprend avec vous</span>.
                     </h3>
-                    <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-md">
-                      Parcours adaptatifs, Passeport Dreyfus, coaching intégré, matching IA. Une
-                      expérience apprenante de bout en bout.
+                    <p className="font-body text-body-lg text-white/70 leading-relaxed m-0 max-w-md">
+                      Parcours adaptatifs, Passeport Dreyfus, coaching intégré, matching IA. Une expérience apprenante de bout en bout.
                     </p>
                   </div>
 
+                  {/* Bottom: features + CTA */}
                   <div className="flex flex-col gap-stack-lg">
-                    {/* Mini feature list */}
                     <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                       {[
                         'Passeport Dreyfus mesurable',
@@ -332,18 +328,14 @@ export const MarketingHome: React.FC = () => {
                         'Coaching 1-1 intégré',
                       ].map((f) => (
                         <li key={f} className="flex items-center gap-stack-xs">
-                          <CheckCircle2 size={16} className="text-primary-600 shrink-0" />
-                          <span className="font-body text-body-sm text-ink-700">{f}</span>
+                          <CheckCircle2 size={15} className="text-accent-400 shrink-0" />
+                          <span className="font-body text-body-sm text-white/80">{f}</span>
                         </li>
                       ))}
                     </ul>
-
-                    <div className="flex items-center gap-stack-xs text-primary-700 font-semibold">
+                    <div className="flex items-center gap-stack-xs text-accent-400 font-semibold">
                       <span>Explorer la Learning App</span>
-                      <ArrowRight
-                        size={18}
-                        className="group-hover:translate-x-2 transition-transform duration-base"
-                      />
+                      <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-base" />
                     </div>
                   </div>
                 </div>
@@ -366,7 +358,7 @@ export const MarketingHome: React.FC = () => {
                 }}
                 role="button"
                 tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 border border-secondary-100 hover:border-secondary-300 hover:shadow-xl transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 border border-secondary-100 hover:border-secondary-300 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
               >
                 <div
                   aria-hidden
@@ -386,7 +378,7 @@ export const MarketingHome: React.FC = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-stack-xs text-secondary-700 font-semibold text-body-sm">
-                    <span>En savoir plus</span>
+                    <span>Voir la formation</span>
                     <ArrowRight
                       size={16}
                       className="group-hover:translate-x-1 transition-transform duration-base"
@@ -412,7 +404,7 @@ export const MarketingHome: React.FC = () => {
                 }}
                 role="button"
                 tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-3xl bg-gradient-to-br from-accent-50/60 via-white to-accent-100/30 border border-accent-100 hover:border-accent-300 hover:shadow-xl transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
+                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-accent-50/60 via-white to-accent-100/30 border border-accent-100 hover:border-accent-300 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
               >
                 <div
                   aria-hidden
@@ -432,7 +424,7 @@ export const MarketingHome: React.FC = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-stack-xs text-accent-700 font-semibold text-body-sm">
-                    <span>En savoir plus</span>
+                    <span>Voir l'accompagnement</span>
                     <ArrowRight
                       size={16}
                       className="group-hover:translate-x-1 transition-transform duration-base"
@@ -450,13 +442,8 @@ export const MarketingHome: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-page items-center">
             {/* Colonne texte */}
-            <div className="flex flex-col gap-stack-lg">
-              <FadeInWhenVisible direction="up">
-                <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
-                  Démo · 30 secondes
-                </span>
-              </FadeInWhenVisible>
-              <FadeInWhenVisible direction="up" delay={0.1}>
+            <FadeInWhenVisible direction="up" delay={0.1}>
+              <div className="flex flex-col gap-stack-lg">
                 <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                   Essayez-la avant{' '}
                   <span className="text-secondary-500">
@@ -464,15 +451,10 @@ export const MarketingHome: React.FC = () => {
                   </span>
                   .
                 </h2>
-              </FadeInWhenVisible>
-              <FadeInWhenVisible direction="up" delay={0.2}>
                 <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-lg">
                   Pas de demo call, pas de slides. Clique sur les onglets de la maquette, regarde
                   l'app vivre, comprends en 30 secondes.
                 </p>
-              </FadeInWhenVisible>
-
-              <FadeInWhenVisible direction="up" delay={0.3}>
                 <ul className="flex flex-col gap-stack m-0 p-0 list-none pt-stack">
                   {[
                     'Passeport Compétences Dreyfus — Novice → Expert mesurable',
@@ -486,9 +468,6 @@ export const MarketingHome: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-              </FadeInWhenVisible>
-
-              <FadeInWhenVisible direction="up" delay={0.4}>
                 <div className="flex items-center gap-stack-xs pt-stack">
                   <Link to="/marketing/learning-app">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
@@ -496,8 +475,8 @@ export const MarketingHome: React.FC = () => {
                     </Button>
                   </Link>
                 </div>
-              </FadeInWhenVisible>
-            </div>
+              </div>
+            </FadeInWhenVisible>
 
             {/* Colonne mockup — glass container */}
             <FadeInWhenVisible direction="left" delay={0.15}>
@@ -539,11 +518,9 @@ export const MarketingHome: React.FC = () => {
           style={{ backgroundImage: GRAIN_SVG }}
         />
 
-        <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-section">
-          <FadeInWhenVisible direction="up">
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-section">
             <Quote size={48} className="text-accent-400" />
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
             <p className="font-display text-[clamp(1.75rem,4.5vw,3.5rem)] font-medium text-white leading-[1.2] tracking-tight m-0">
               L'enjeu n'est pas de produire{' '}
               <span className="text-white/40">plus de contenu</span>.
@@ -551,8 +528,6 @@ export const MarketingHome: React.FC = () => {
               C'est de produire des{' '}
               <span className="text-accent-400 font-bold italic">apprenants augmentés</span>.
             </p>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
             <div className="flex items-center gap-stack-xs">
               <div className="w-12 h-px bg-white/30" />
               <span className="font-body text-caption text-white/60 tracking-widest uppercase font-semibold">
@@ -560,15 +535,15 @@ export const MarketingHome: React.FC = () => {
               </span>
               <div className="w-12 h-px bg-white/30" />
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
 
       {/* ── 6. Humains + outils ──────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-white py-page">
         <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
-          <div className="flex flex-col gap-stack-lg">
-            <FadeInWhenVisible direction="up">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack-lg">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 On n'apprend pas{' '}
                 <span className="relative inline-block">
@@ -599,15 +574,11 @@ export const MarketingHome: React.FC = () => {
                 </span>{' '}
                 — accompagnés par des outils.
               </h2>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.2}>
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Nos formateurs deviennent des architectes de l'apprentissage. Des pédagogues qui
                 maîtrisent l'IA sans s'y soumettre. Des artisans qui combinent technologie et
                 présence.
               </p>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.3}>
               <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/formation">
@@ -622,12 +593,12 @@ export const MarketingHome: React.FC = () => {
                   </Button>
                 </Link>
               </div>
-            </FadeInWhenVisible>
-          </div>
+            </div>
+          </FadeInWhenVisible>
 
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-primary-100 bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 flex items-center justify-center">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-card-lift ring-1 ring-primary-100 bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-stack-lg text-center px-stack-lg">
                   <div className="w-20 h-20 rounded-2xl bg-primary-200/60 flex items-center justify-center">
                     <GraduationCap size={40} className="text-primary-600" />
@@ -661,11 +632,6 @@ export const MarketingHome: React.FC = () => {
       {/* ── 7. Gages de confiance ────────────────────────────────────────── */}
       <section className="py-page bg-white border-y border-ink-100">
         <div className="max-w-5xl mx-auto px-6 flex flex-col gap-section items-center">
-          <FadeInWhenVisible direction="up">
-            <p className="font-body text-caption font-bold text-ink-400 uppercase tracking-widest m-0 text-center">
-              Qualité & financement
-            </p>
-          </FadeInWhenVisible>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-lg w-full">
             <FadeInWhenVisible direction="up" delay={0.05}>
               <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-primary-200 hover:shadow-card transition-all duration-base">
@@ -692,11 +658,11 @@ export const MarketingHome: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.15}>
               <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-accent-200 hover:shadow-card transition-all duration-base">
                 <div className="w-12 h-12 rounded-xl bg-accent-50 flex items-center justify-center text-accent-700">
-                  <Award size={24} />
+                  <Globe size={24} />
                 </div>
-                <span className="font-display font-bold text-body text-ink-900">Open Badge</span>
+                <span className="font-display font-bold text-body text-ink-900">100% à distance</span>
                 <span className="font-body text-body-sm text-ink-500 leading-relaxed">
-                  Certification numérique vérifiable et partageable sur vos profils.
+                  Formation en ligne, accessible depuis partout, à votre rythme.
                 </span>
               </div>
             </FadeInWhenVisible>
@@ -718,32 +684,17 @@ export const MarketingHome: React.FC = () => {
           style={{ backgroundImage: GRAIN_SVG }}
         />
 
-        <div className="relative max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack-lg items-center">
-          <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-stack-xs">
-              <Sparkles size={14} className="text-accent-500" />
-              <span className="font-body text-caption font-semibold text-ink-600 tracking-wider uppercase">
-                30 minutes · 30 jours pour déployer
-              </span>
-            </span>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="up" delay={0.1}>
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack-lg items-center">
             <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
               Et si on en parlait{' '}
               <span className="text-primary-700">de vive voix</span>{' '}
               ?
             </h2>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
               30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers
               l'impact. Pas de slides, pas de démo formatée. Juste une conversation.
             </p>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="up" delay={0.3}>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
                 <Link to="/marketing/contact">
@@ -758,8 +709,8 @@ export const MarketingHome: React.FC = () => {
                 </Button>
               </Link>
             </div>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
     </div>
   );

@@ -13,7 +13,6 @@ import {
   Mail,
   ArrowRight,
   AlertCircle,
-  MessageSquare,
   CheckCircle2,
   BookOpen,
   Briefcase,
@@ -57,6 +56,29 @@ const QUICK_LINKS = [
 
 const SUBJECTS = ['Formation', 'Accompagnement', 'Learning App', 'Partenariat', 'Autre'];
 
+const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
+  'Formation': {
+    headline: 'Découvrir la formation Formateur Augmenté.',
+    desc: '7 modules · 7h · Open Badge · Éligible OPCO. Posez vos questions, nous vous répondons avant votre inscription.',
+  },
+  'Accompagnement': {
+    headline: 'Démarrer un accompagnement STRIDE.',
+    desc: 'Chaque mission commence par 30 min d\'échange pour comprendre votre contexte. Pas de devis standard : tout est sur mesure.',
+  },
+  'Learning App': {
+    headline: 'Rejoindre la bêta Learning App.',
+    desc: 'Bêta ouverte, accès anticipé gratuit pour les premières organisations. Réponse sous 24h.',
+  },
+  'Partenariat': {
+    headline: 'Construire quelque chose ensemble.',
+    desc: 'Formateurs indépendants, organismes, entreprises : parlons de ce qu\'on peut co-construire.',
+  },
+  'Autre': {
+    headline: 'Entrer en contact.',
+    desc: 'Pas de bonne ou mauvaise raison d\'écrire. On adore les conversations qui démarrent simplement.',
+  },
+};
+
 export const MarketingContact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -78,32 +100,68 @@ export const MarketingContact: React.FC = () => {
         canonical="/marketing/contact"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
-        <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-500/25 blur-3xl" />
+      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
+<div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/30 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-pill bg-secondary-200/20 blur-3xl" />
         </div>
-        <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
-          <FadeInWhenVisible direction="up">
-            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-white/15 border border-white/25 backdrop-blur-glass-light shadow-xs">
-              <MessageSquare size={14} className="text-accent-400" />
-              <span className="font-body text-caption font-semibold text-white tracking-wider uppercase">
-                On adore les conversations qui démarrent
-              </span>
-            </span>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.1}>
-            <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-tight m-0 text-[clamp(2.5rem,6vw,4.5rem)]">
-              Parlons de{' '}
-              <span className="text-accent-400">votre projet</span>.
-            </h1>
-          </FadeInWhenVisible>
-          <FadeInWhenVisible direction="up" delay={0.2}>
-            <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Question sur nos formations, projet d'accompagnement, ou envie d'en savoir plus sur la Learning App ?
-              Nous vous répondons sous 48h ouvrées.
+        <FadeInWhenVisible direction="up">
+          <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+
+            {/* Interactive subject selector — visible above fold */}
+            <div className="flex flex-col items-center gap-stack">
+              <p className="font-body text-body-sm text-ink-500 m-0">
+                Pour mieux vous orienter, quel est votre sujet ?
+              </p>
+              <div className="flex flex-wrap justify-center gap-stack-xs">
+                {SUBJECTS.map((s) => {
+                  const isActive = form.subject === s;
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setForm({ ...form, subject: s })}
+                      className={`relative inline-flex items-center px-4 py-2 rounded-pill font-body text-body-sm font-semibold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
+                        isActive
+                          ? 'text-white'
+                          : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100 border border-ink-200'
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="contact-hero-subject-bg"
+                          className="absolute inset-0 rounded-pill bg-gradient-to-r from-primary-500 to-primary-600 shadow-sm"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                      <span className="relative">{s}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Dynamic headline — animates on subject change */}
+            <motion.div
+              key={form.subject}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="flex flex-col items-center gap-stack"
+            >
+              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2rem,5vw,3.75rem)]">
+                {SUBJECT_CONTEXTS[form.subject].headline}
+              </h1>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                {SUBJECT_CONTEXTS[form.subject].desc}
+              </p>
+            </motion.div>
+
+            <p className="font-body text-caption text-ink-500 m-0">
+              Réponse sous <strong className="text-ink-900">48h ouvrées</strong> · ou réservez directement un créneau.
             </p>
-          </FadeInWhenVisible>
-        </div>
+          </div>
+        </FadeInWhenVisible>
       </section>
 
       {/* ── Form + Aside ──────────────────────────────────────────────────── */}
@@ -111,7 +169,7 @@ export const MarketingContact: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-section items-start">
           {/* Form column */}
           <FadeInWhenVisible direction="up">
-            <div className="rounded-3xl bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
+            <div className="rounded-2xl bg-gradient-to-br from-white to-primary-50/30 border border-ink-100 shadow-sm p-section">
               {submitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -306,12 +364,12 @@ export const MarketingContact: React.FC = () => {
           </FadeInWhenVisible>
 
           {/* Aside */}
+          <FadeInWhenVisible direction="up" delay={0.1}>
           <div className="flex flex-col gap-stack-lg lg:sticky lg:top-20">
             {/* Booking card */}
-            <FadeInWhenVisible direction="up" delay={0.05}>
-              <div className="relative overflow-hidden rounded-3xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
+              <div className="relative overflow-hidden rounded-2xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold uppercase tracking-wider w-fit">
+                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
                     <Sparkles size={12} />
                     Plus rapide
                   </span>
@@ -340,11 +398,9 @@ export const MarketingContact: React.FC = () => {
                   </a>
                 </MagneticButton>
               </div>
-            </FadeInWhenVisible>
 
             {/* Contact info */}
-            <FadeInWhenVisible direction="up" delay={0.1}>
-              <div className="rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
                 <h3 className="font-display text-h5 font-bold text-ink-900 m-0">Autres canaux</h3>
                 <div className="flex flex-col gap-stack">
                   <a
@@ -355,7 +411,7 @@ export const MarketingContact: React.FC = () => {
                       <Mail size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-wider">
+                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
                         Email
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
@@ -373,7 +429,7 @@ export const MarketingContact: React.FC = () => {
                       <ExternalLink size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-wider">
+                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
                         LinkedIn
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
@@ -386,7 +442,7 @@ export const MarketingContact: React.FC = () => {
                       <MapPin size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-wider">
+                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
                         Bureau
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900">
@@ -402,11 +458,9 @@ export const MarketingContact: React.FC = () => {
                   </p>
                 </div>
               </div>
-            </FadeInWhenVisible>
 
             {/* Quick links */}
-            <FadeInWhenVisible direction="up" delay={0.15}>
-              <div className="rounded-3xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
+              <div className="rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm">
                 <h3 className="font-display text-h5 font-bold text-ink-900 m-0">Accès rapide</h3>
                 <div className="flex flex-col gap-stack-xs">
                   {QUICK_LINKS.map((q) => (
@@ -432,8 +486,8 @@ export const MarketingContact: React.FC = () => {
                   ))}
                 </div>
               </div>
-            </FadeInWhenVisible>
           </div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
