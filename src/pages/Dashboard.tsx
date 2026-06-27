@@ -71,7 +71,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
     <div className="flex flex-col gap-stack">
       {/* Section header with inline link */}
       <div className="flex items-center justify-between gap-2">
-        <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
+        <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
           Écrire aujourd'hui
         </h3>
         <button
@@ -141,7 +141,7 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
     <div className="flex flex-col gap-stack">
       {/* Section header with inline link */}
       <div className="flex items-center justify-between gap-2">
-        <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight">
+        <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
           Activité & veille
         </h3>
         <button
@@ -200,7 +200,6 @@ export const Dashboard: React.FC = () => {
         {/* ① Hero */}
         <PageHero
           tone="flat"
-          compact
           eyebrow={{ icon: <Hand size={14} className="opacity-80" />, label: formattedDate }}
           title={`Bonjour ${firstName}`}
           summary={
@@ -258,7 +257,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
       <motion.div className="flex flex-col gap-stack" variants={itemVariants}>
         {/* Section header matching JournalBubble */}
         <div className="flex items-center justify-between gap-2">
-          <h3 className="m-0 font-display text-h4 font-bold text-ink-900 leading-tight tracking-headline">
+          <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
             Prochaine session
           </h3>
           <button

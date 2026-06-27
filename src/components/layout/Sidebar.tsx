@@ -29,12 +29,13 @@ export interface SidebarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'c
 
 const SIDEBAR_BASE =
   'group/sidebar relative flex flex-col self-stretch min-h-0 ' +
-  // Frosted glass — mostly white with a faint teal wash so ambient shows softly through blur
-  'bg-gradient-to-b from-white/78 via-white/68 to-primary-50/40 ' +
-  'backdrop-blur-glass-heavy backdrop-saturate-[160%] ' +
-  // Right edge: hairline border + soft teal-tinted drop shadow + inner highlights
-  'border-r border-primary-200/35 ' +
-  'shadow-[8px_0_40px_-8px_rgba(85,161,180,0.16),2px_0_10px_-2px_rgba(85,161,180,0.10),inset_0_1px_0_rgba(255,255,255,0.95),inset_-1px_0_0_rgba(255,255,255,0.60)] ' +
+  // Glass teinté — primary-100 dominant pour que le tint soit visible sur fond clair
+  // primary-100 = #DCEBEF (teal doux mais reconnaissable), blanc réduit à 30% au centre
+  'bg-gradient-to-b from-primary-100/85 via-white/30 to-primary-100/80 ' +
+  'backdrop-blur-glass-heavy backdrop-saturate-[220%] ' +
+  // Right edge: border teal visible + shadow droite profonde (sépare du contenu)
+  'border-r border-primary-300/45 ' +
+  'shadow-[24px_0_64px_-12px_rgba(85,161,180,0.32),6px_0_20px_-4px_rgba(85,161,180,0.18),inset_0_1px_0_rgba(255,255,255,0.90),inset_-1px_0_0_rgba(255,255,255,0.50)] ' +
   'transition-[width] duration-slow ease-decelerate';
 
 export const Sidebar: React.FC<SidebarProps> = ({
