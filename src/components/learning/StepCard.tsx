@@ -25,8 +25,15 @@ export interface StepCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const STATUS_BADGE: Record<StepStatus, string> = {
   'not-started': 'bg-ink-100 text-ink-600 ring-2 ring-ink-200',
   'in-progress': 'bg-gradient-to-br from-primary-500 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
-  completed:     'bg-gradient-to-br from-success-base to-success-fg text-white shadow-md ring-4 ring-success-bg',
+  completed:     'bg-gradient-to-br from-success-base to-success-fg text-white shadow-success-sm ring-4 ring-success-bg',
   locked:        'bg-ink-50 text-ink-400 ring-2 ring-ink-200',
+};
+
+const STATUS_HOVER_SHADOW: Record<StepStatus, string> = {
+  'not-started': 'hover:shadow-card-hover',
+  'in-progress': 'hover:shadow-brand-md',
+  completed:     'hover:shadow-success-sm',
+  locked:        '',
 };
 
 const STATUS_BORDER: Record<StepStatus, string> = {
@@ -79,7 +86,8 @@ export const StepCard: React.FC<StepCardProps> = ({
 
   const classes = [
     'relative bg-white border-2 rounded-2xl p-6 flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
-    !isLocked && 'hover:-translate-y-0.5 hover:shadow-md',
+    !isLocked && 'hover:-translate-y-0.5',
+    !isLocked && STATUS_HOVER_SHADOW[status],
     STATUS_BORDER[status],
     className,
   ]
@@ -169,7 +177,7 @@ export const StepCard: React.FC<StepCardProps> = ({
                       : 'bg-white border-ink-200 text-ink-900 hover:bg-ink-50 hover:border-ink-300',
                   ].join(' ')}
                 >
-                  <div className="flex items-center gap-stack-xs.5 flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
                     <span
                       className={[
                         'inline-flex items-center justify-center w-6 h-6 rounded-full shrink-0',

@@ -3309,11 +3309,11 @@ const COMPONENTS: ComponentEntry[] = [
   /* ---- CORE CARDS (additional) ----------------------------------------- */
   {
     name: 'CourseCard',
-    codeName: 'CourseCard.tsx',
-    cssBase: '.course-card / .course-card--brand/warm/sun',
-    category: 'Core',
-    showcaseOnly: true,
-    description: 'Carte de cours EDTECH avec gradient hero, badge catégorie, progression si inscrit, CTA Enroll/Continue. Tones: brand/warm/sun. Hover: shadow-md + translateY(-2px).',
+    codeName: 'learning/CourseCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    usedBy: ['LearningPaths', 'CourseDetail'],
+    description: 'Carte de cours EDTECH — gradient hero + badge catégorie + progression (si inscrit) + CTA Enroll/Continue. **Tone-aware border + shadow au repos** (Phase 19 fix) : `brand-xs` teal / `warm-xs` orange / `sun-xs` golden au lieu du shadow neutre. Hover `brand/warm/sun-md` selon tone. 3 tones : brand/warm/sun auto-assignés par catégorie. CTA button : gradient tone-aware shadow-sm → shadow-md hover.',
     keywords: ['course', 'card', 'enroll', 'progress', 'learning', 'edtech', 'category', 'tone'],
     render: () => (
       <div className="grid-2">
@@ -3387,7 +3387,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
     usedBy: ['Coaching', 'Dashboard'],
-    description: 'Card de session coaching (passée ou planifiée). Pattern : title + status badge + meta (coach · date) DIRECTEMENT sous le titre, description (contexte), footer actions (questionnaire / compte-rendu / note / ouvrir). Aligné sur la convention DS Phase 10 : 4 surfaces (card / tinted / glass / frosted) × 3 tones (primary / warm / sun) × interaction effects (hover lift, focus tone-aware). Footer divider tone-aware (subtle sur glass).',
+    description: 'Card de session coaching (passée ou planifiée). 4 surfaces × 3 tones (primary/warm/sun). **Tone-aware action buttons** (Phase 19 fix) : boutons Questionnaire/Compte-rendu adaptent leur bg/border/shadow au tone de la card (`ACTION_BTN_TONES[tone]`). **Hover border tone-aware** : card surface `card` ajoute `hover:border-primary/secondary/accent-200` selon tone. Footer divider ton-aware. Surfaces glass/frosted pour overlays colorés.',
     keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -4714,7 +4714,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/LessonCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
-    description: 'Card de leçon tone-aware avec barre de progression, badge de difficulté, left-border accent, états locked/unlocked. Sprint 3 : hover-glow ripple animé, double-bezel overlay sur lock, CTA arrow translateX au hover. Surfaces : card / tinted / glass / frosted. Tones : primary / warm / sun.',
+    description: 'Card de leçon tone-aware avec barre de progression, badge de difficulté, états locked/unlocked. **Tone-aware progress fill** (Phase 19 fix) : `brand` fill pour primary, `warm` pour warm, `sun` pour sun. Double-bezel overlay sur lock. CTA arrow translateX au hover. Surfaces : card / tinted / glass / frosted. Tones : primary / warm / sun. Hover shadow teinté (brand/warm/sun-md).',
     keywords: ['lesson', 'leçon', 'progress', 'difficulty', 'locked', 'tone', 'glow', 'hover', 'card', 'learning'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -5162,7 +5162,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind',
     category: 'Learning',
     usedBy: ['Project (page existante)'],
-    description: '⭐ Card projet collaboratif — title + description + status pill (planning/in-progress/completed) + progress bar + tasks completed/total + deadline + team avatars stack. ⚠️ Pas de similar — composant unique pour projets collaboratifs.',
+    description: '⭐ Card projet collaboratif — title + description + status pill + progress bar + tasks + deadline + team avatars. **Status-aware fill** (Phase 19 fix) : `warm` pour planning, `brand` pour in-progress, `success` pour completed. **Avatars status-aware** : secondary-100/700 (planning) / primary-100/700 (in-progress) / success-bg/fg (completed). ProgressBar + Badge + Avatar tous cohérents avec le statut.',
     keywords: ['project', 'collaborative', 'team', 'tasks', 'progress', 'deadline'],
     render: () => (
       <div className="max-w-2xl">
@@ -7522,7 +7522,7 @@ const Components: React.FC = () => {
     <div className="ds-showcase">
       {/* -------------------------------- HERO (EditorialHero brand) ---------- */}
       <EditorialHero
-        tone="brand"
+        tone="flat"
         eyebrow={{ icon: <SparklesIcon size={12} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
         title="Components"
         summary={
