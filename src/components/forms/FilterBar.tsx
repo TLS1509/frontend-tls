@@ -40,7 +40,7 @@ export interface FilterBarOption {
 }
 
 export type FilterBarTone = 'brand' | 'warm' | 'sun' | 'neutral';
-export type FilterBarVariant = 'solid' | 'glass';
+export type FilterBarVariant = 'solid' | 'glass' | 'glass-inverse';
 
 export interface FilterBarProps {
   options: FilterBarOption[];
@@ -63,11 +63,13 @@ export interface FilterBarProps {
 const VARIANT_BASE: Record<FilterBarVariant, string> = {
   solid: '',
   glass: 'bg-white/15 border-white/25 backdrop-blur-glass-light text-white hover:bg-white/22',
+  'glass-inverse': '',
 };
 
 const VARIANT_INACTIVE: Record<FilterBarVariant, string> = {
   solid: 'bg-white border-ink-200 text-ink-700 hover:border-ink-300 hover:bg-ink-50',
   glass: 'bg-white/10 border-white/20 text-white/80 hover:bg-white/15',
+  'glass-inverse': 'bg-white/10 border-white/15 text-white/80 hover:bg-white/20 hover:text-white',
 };
 
 /* ── Tone styles ────────────────────────────────────────────────────────── */
@@ -167,6 +169,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             ? isActive
               ? `${VARIANT_BASE.glass} bg-white/20`
               : VARIANT_INACTIVE.glass
+            : variant === 'glass-inverse'
+            ? isActive
+              ? 'bg-white border-white text-ink-900 shadow-xs'
+              : VARIANT_INACTIVE['glass-inverse']
             : isActive
             ? ACTIVE_PILL[tone]
             : INACTIVE_PILL;
@@ -182,7 +188,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               'inline-flex items-center font-body font-semibold border',
               'transition-colors duration-base cursor-pointer',
               'focus-visible:outline-2 focus-visible:outline-offset-2',
-              variant === 'glass'
+              variant === 'glass' || variant === 'glass-inverse'
                 ? 'focus-visible:outline-white/50'
                 : 'focus-visible:outline-primary-500',
               SIZE_PILL[size],
@@ -201,8 +207,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 className={[
                   'inline-flex items-center justify-center font-bold tabular-nums',
                   SIZE_COUNT[size],
-                  variant === 'glass'
-                    ? 'bg-white/30 text-white'
+                  variant === 'glass' || variant === 'glass-inverse'
+                    ? isActive && variant === 'glass-inverse'
+                      ? 'bg-ink-900/10 text-ink-700'
+                      : 'bg-white/30 text-white'
                     : isActive
                     ? ACTIVE_COUNT[tone]
                     : INACTIVE_COUNT,
@@ -220,14 +228,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <span
             aria-hidden
             className={`hidden sm:inline-block w-px h-5 ${
-              variant === 'glass' ? 'bg-white/30' : 'bg-ink-200'
+              variant === 'glass' || variant === 'glass-inverse' ? 'bg-white/30' : 'bg-ink-200'
             } mx-1`}
           />
           <button
             type="button"
             onClick={handleClear}
             className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill ${
-              variant === 'glass'
+              variant === 'glass' || variant === 'glass-inverse'
                 ? 'text-white/70 hover:text-white'
                 : 'text-ink-500 hover:text-danger-fg'
             }`}

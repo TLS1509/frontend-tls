@@ -1,7 +1,12 @@
 /**
- * BehavioralTileGrid — 4-option behavioral self-assessment selector.
+ * BehavioralTileGrid (ui/) — interactive Dreyfus level self-assessment selector.
  *
- * Replaces the DreyfusSlider in the Individual onboarding questionnaire.
+ * ⚠️ NAMING NOTE: this is a DIFFERENT component from patterns/BehavioralTileGrid.
+ *   - ui/BehavioralTileGrid   = interactive picker (value, onChange, DreyfusLevel)
+ *     Used in: OnboardingQuestionnaireConversational, OnboardingUnified
+ *   - patterns/BehavioralTileGrid = informational display ({ title, description, tags }[])
+ *     Used in: LessonPlayer, Components showcase
+ *
  * Each tile maps internally to a Dreyfus level (1-4) but only shows
  * a concrete behavioral statement — no level numbers or labels visible.
  *

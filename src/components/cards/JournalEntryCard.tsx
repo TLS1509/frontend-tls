@@ -45,6 +45,7 @@ interface TypeConfig {
   label: string;
   badge: string;
   border: string;
+  hoverShadow: string;
 }
 
 const TYPE_CONFIG: Record<JournalEntryType, TypeConfig> = {
@@ -53,30 +54,35 @@ const TYPE_CONFIG: Record<JournalEntryType, TypeConfig> = {
     label: 'Guidée',
     badge: 'bg-primary-50 text-primary-700 border-primary-200',
     border: 'hover:border-primary-300',
+    hoverShadow: 'hover:shadow-brand-sm',
   },
   free: {
     icon: Sparkles,
     label: 'Libre',
     badge: 'bg-accent-50 text-accent-700 border-accent-200',
     border: 'hover:border-accent-300',
+    hoverShadow: 'hover:shadow-sun-sm',
   },
   learning: {
     icon: BookMarked,
     label: 'Apprentissage',
     badge: 'bg-secondary-50 text-secondary-700 border-secondary-200',
     border: 'hover:border-secondary-300',
+    hoverShadow: 'hover:shadow-warm-sm',
   },
   coaching: {
     icon: Target,
     label: 'Coaching',
     badge: 'bg-secondary-50 text-secondary-700 border-secondary-200',
     border: 'hover:border-secondary-300',
+    hoverShadow: 'hover:shadow-warm-sm',
   },
   insight: {
     icon: Lightbulb,
     label: 'Insight',
     badge: 'bg-primary-50 text-primary-700 border-primary-200',
     border: 'hover:border-primary-300',
+    hoverShadow: 'hover:shadow-brand-sm',
   },
 };
 
@@ -103,7 +109,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
         'group flex flex-col gap-stack-xs p-5 sm:p-6 rounded-2xl',
         'bg-white border border-ink-100',
         clickable
-          ? `cursor-pointer transition-all duration-base ${config.border} hover:shadow-sm hover:-translate-y-0.5`
+          ? `cursor-pointer transition-all duration-base ${config.border} ${config.hoverShadow} hover:-translate-y-1`
           : '',
         '!h-auto !overflow-visible !items-stretch !font-normal',
         className,
@@ -114,7 +120,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       {/* Type badge */}
       <span
         className={[
-          'inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border',
+          'inline-flex items-center gap-1 self-start px-2.5 py-1 rounded-pill border',
           'font-body text-micro font-bold uppercase tracking-wider',
           config.badge,
         ].join(' ')}
@@ -124,7 +130,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
       </span>
 
       {/* Title */}
-      <h3 className="m-0 font-display text-body-lg font-bold text-ink-900 leading-tight tracking-tight">
+      <h3 className="m-0 font-display text-h4 font-semibold text-ink-900 leading-tight tracking-headline">
         {title}
       </h3>
 
@@ -135,7 +141,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
 
       {/* Tags */}
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-tight.5">
+        <div className="flex flex-wrap gap-1">
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}

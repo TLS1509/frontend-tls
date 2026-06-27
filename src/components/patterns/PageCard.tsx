@@ -81,6 +81,27 @@ const TONE_RING: Record<NonNullable<PageCardItem['tone']>, string> = {
   brand:     'hover:border-primary-300',
 };
 
+const TONE_HOVER_SHADOW: Record<NonNullable<PageCardItem['tone']>, string> = {
+  primary: 'hover:shadow-brand-sm',
+  warm:    'hover:shadow-warm-sm',
+  sun:     'hover:shadow-sun-sm',
+  brand:   'hover:shadow-brand-sm',
+};
+
+const TONE_ICON_BUBBLE: Record<NonNullable<PageCardItem['tone']>, string> = {
+  primary: 'bg-primary-50 text-primary-600',
+  warm:    'bg-secondary-50 text-secondary-600',
+  sun:     'bg-accent-50 text-accent-600',
+  brand:   'bg-primary-50 text-primary-600',
+};
+
+const TONE_ARROW: Record<NonNullable<PageCardItem['tone']>, string> = {
+  primary: 'text-primary-600',
+  warm:    'text-secondary-600',
+  sun:     'text-accent-600',
+  brand:   'text-primary-600',
+};
+
 export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }> = ({
   item,
   showThumbnail = true,
@@ -90,8 +111,9 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
   const card = (
     <div
       className={[
-        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-2xl shadow-xs transition-all duration-200',
-        'hover:-translate-y-1 hover:shadow-lg',
+        'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-2xl shadow-card transition-all duration-base',
+        'hover:-translate-y-1',
+        TONE_HOVER_SHADOW[tone],
         TONE_RING[tone],
       ].join(' ')}
     >
@@ -112,7 +134,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
           {item.status && (
             <span
               className={[
-                'inline-flex items-center gap-tight.5 text-caption font-semibold',
+                'inline-flex items-center gap-1 text-caption font-semibold',
                 STATUS_TEXT[item.status],
               ].join(' ')}
             >
@@ -143,7 +165,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       {/* Icon (when no thumbnail) */}
       {!item.thumbnail && item.icon && (
         <div className="px-5 pt-5">
-          <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-600">
+          <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${TONE_ICON_BUBBLE[tone]}`}>
             {item.icon}
           </span>
         </div>
@@ -167,7 +189,7 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
       </div>
 
       {/* Hover arrow */}
-      <div className="flex items-center justify-end px-5 pb-stack text-primary-600 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
+      <div className={`flex items-center justify-end px-5 pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
         <ArrowRight size={18} strokeWidth={2.25} />
       </div>
     </div>

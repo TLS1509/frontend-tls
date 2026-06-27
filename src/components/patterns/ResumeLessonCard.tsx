@@ -49,6 +49,12 @@ const CTA_TONE: Record<ResumeLessonTone, string> = {
   sun:     'bg-white/80 text-accent-800 border border-white/70 backdrop-blur-sm shadow-sm hover:bg-white hover:shadow-sun-sm',
 };
 
+const CARD_HOVER_SHADOW: Record<ResumeLessonTone, string> = {
+  primary: 'hover:shadow-brand-sm',
+  warm:    'hover:shadow-warm-sm',
+  sun:     'hover:shadow-sun-sm',
+};
+
 const GLOW_BG: Record<ResumeLessonTone, React.CSSProperties> = {
   primary: { background: 'radial-gradient(circle at 50% 0%, rgba(85, 161, 180, 0.10) 0%, transparent 70%)' },
   warm:    { background: 'radial-gradient(circle at 50% 0%, rgba(241, 138, 76, 0.14) 0%, transparent 70%)' },
@@ -89,7 +95,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
       tone={tone === 'sun' ? 'sun' : tone === 'warm' ? 'warm' : 'primary'}
       onClick={() => onClick?.(id)}
       aria-label={`Reprendre ${parcoursTitle}`}
-      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 ${CARD_HOVER_SHADOW[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
     >
       <div
         aria-hidden="true"
@@ -97,10 +103,10 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         style={GLOW_BG[tone]}
       />
 
-      <div className="relative px-6 py-6 md:px-8 md:py-7 lg:px-9 lg:py-8 flex flex-col gap-3.5">
+      <div className="relative px-6 py-6 md:px-8 md:py-7 lg:px-9 lg:py-8 flex flex-col gap-stack">
 
         {/* Eyebrow row — pill "En cours" + position inline (une seule ligne éditoriale) */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-stack-xs flex-wrap">
           <span className={[
             'inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-pill',
             EYEBROW_PILL[tone],
@@ -134,7 +140,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         <div aria-hidden="true" className={`h-px w-full ${DIVIDER_TONE[tone]} mt-1`} />
 
         {/* Progress + CTA */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-stack">
           <div className="flex-1 min-w-0">
             <InlineProgress value={progress} tone={tone} showLabel size="md" />
           </div>

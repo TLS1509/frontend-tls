@@ -21,15 +21,16 @@
  * autoFit: uses grid-cols-[repeat(auto-fit,minmax(200px,1fr))] — ignores layout.
  *
  * gapSize:
- *   sm  → gap-stack-xs  (8px)
- *   md  → gap-stack-lg  (24px)   DEFAULT
- *   lg  → gap-section   (32px)
+ *   sm    → gap-stack-xs  (8px)
+ *   stack → gap-stack     (16px)
+ *   md    → gap-stack-lg  (24px)   DEFAULT
+ *   lg    → gap-section   (32px)
  */
 
 import React from 'react';
 
 export type CardGridLayout = 'compact' | 'default' | 'feature' | 'square-tiles' | 'tiles';
-export type CardGridGapSize = 'sm' | 'md' | 'lg';
+export type CardGridGapSize = 'sm' | 'stack' | 'md' | 'lg';
 
 export interface CardGridProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -51,9 +52,10 @@ const LAYOUT_CLASSES: Record<CardGridLayout, string> = {
 };
 
 const GAP_CLASSES: Record<CardGridGapSize, string> = {
-  sm: 'gap-stack-xs',
-  md: 'gap-stack-lg',
-  lg: 'gap-section',
+  sm:    'gap-stack-xs',
+  stack: 'gap-stack',
+  md:    'gap-stack-lg',
+  lg:    'gap-section',
 };
 
 export const CardGrid: React.FC<CardGridProps> = ({

@@ -10,27 +10,24 @@ import type { MeshTone } from '../marketing/motion/MeshGradientBg';
  * editorial content. The component was originally named `EditorialHero` when it shipped
  * for Magazine/Article pages, but its dominance across the app made the name misleading.
  *
- * ── Universal usage (default) ────────────────────────────────────────────────
- *   <PageHero tone="brand" title="Bienvenue" summary="..." />
+ * ── Universal usage (flat — Notion/Apple/Linear style) ───────────────────────
+ *   <PageHero tone="flat" title="Explorez nos ressources" summary="..." />
  *
  * ── Naming convention ────────────────────────────────────────────────────────
- *   Use `PageHero` for any page-opening hero — Dashboard, Coaching hub, Settings,
- *   detail pages, Auth, etc. This is the canonical universal name.
+ *   Use `PageHero tone="flat"` for ALL product app pages — Dashboard, Coaching hub,
+ *   Settings, detail pages, etc. Same surface as the page, purely typographic.
  *
- *   `EditorialHero` is kept as an alias AND remains the recommended canonical name
- *   for ACTUALLY editorial surfaces (Magazine, Veille, Articles, Newsletter,
- *   WeeklyNews). Editorial-specific defaults (max-w-prose summary, italic eyebrow,
- *   author/date meta) may diverge in a future EditorialHero variant — keeping the
- *   name reserved preserves room for that specialization.
+ *   `EditorialHero` is kept as an alias for editorial surfaces (Magazine, Veille).
  *
  * ── Tones ────────────────────────────────────────────────────────────────────
- *   - `default` : light primary tint → white (subtle — editorial/auth pages)
- *   - `brand`   : saturated primary blue gradient (Dashboard, brand-assertive)
- *   - `warm`    : saturated secondary orange gradient
- *   - `sun`     : saturated accent yellow gradient
+ *   - `flat`    : ✅ RECOMMENDED — transparent bg, pure typographic (Notion/Apple style)
+ *   - `default` : subtle light primary tint with card border (editorial/auth fallback)
+ *   - `brand`   : saturated primary blue gradient — DEPRECATED for product pages
+ *   - `warm`    : saturated secondary orange gradient — DEPRECATED for product pages
+ *   - `sun`     : saturated accent yellow gradient — DEPRECATED for product pages
  */
 
-export type PageHeroTone = 'default' | 'brand' | 'warm' | 'sun';
+export type PageHeroTone = 'flat' | 'default' | 'brand' | 'warm' | 'sun';
 
 export interface PageHeroEyebrow {
   icon?: React.ReactNode;
@@ -98,14 +95,15 @@ export type EditorialHeroProps = PageHeroProps;
 // ─── Tone style maps ─────────────────────────────────────────────────────────
 
 const TONE_BG: Record<PageHeroTone, string> = {
+  flat:    '',
   default: 'bg-gradient-to-br from-primary-50 via-white/90 to-white/85',
-  // brand = TLS deep saturated teal (primary-500 → primary-700) — white text on top
   brand:   'bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700',
   warm:    'bg-gradient-to-br from-secondary-500 via-secondary-600 to-secondary-700',
   sun:     'bg-gradient-to-br from-accent-500 via-accent-600 to-accent-700',
 };
 
 const TONE_BORDER: Record<PageHeroTone, string> = {
+  flat:    '',
   default: 'border-primary-200/60',
   brand:   'border-white/20',
   warm:    'border-white/20',
@@ -113,29 +111,29 @@ const TONE_BORDER: Record<PageHeroTone, string> = {
 };
 
 const TONE_HALO: Record<PageHeroTone, string> = {
+  flat:    '',
   default: 'radial-gradient(circle, rgba(85, 161, 180, 0.28) 0%, transparent 65%)',
   brand:   'radial-gradient(circle, rgba(255, 255, 255, 0.50) 0%, transparent 65%)',
   warm:    'radial-gradient(circle, rgba(255, 255, 255, 0.48) 0%, transparent 65%)',
   sun:     'radial-gradient(circle, rgba(255, 255, 255, 0.52) 0%, transparent 65%)',
 };
 
-/* Second organic blob — bottom-left — creates cross-light depth like Direction C. */
 const TONE_HALO_2: Record<PageHeroTone, string> = {
+  flat:    '',
   default: 'radial-gradient(circle, rgba(248, 176, 68, 0.16) 0%, transparent 60%)',
   brand:   'radial-gradient(circle, rgba(248, 176, 68, 0.26) 0%, transparent 60%)',
   warm:    'radial-gradient(circle, rgba(85, 161, 180, 0.22) 0%, transparent 60%)',
   sun:     'radial-gradient(circle, rgba(85, 161, 180, 0.20) 0%, transparent 60%)',
 };
 
-/* Map hero tone → MeshGradientBg tone (animated illustrated layer, Direction C). */
 const TONE_MESH: Partial<Record<PageHeroTone, MeshTone>> = {
   brand: 'brand',
   warm:  'warm',
   sun:   'sun',
 };
 
-/* Tinted outer + inner-rim shadow per tone (glass panel signature). */
 const TONE_SHADOW: Record<PageHeroTone, string> = {
+  flat:    '',
   default: 'shadow-md',
   brand:   'shadow-[0_4px_12px_-2px_rgba(45,90,102,0.25),inset_0_1px_0_rgba(255,255,255,0.22)]',
   warm:    'shadow-[0_4px_12px_-2px_rgba(180,80,20,0.18),inset_0_1px_0_rgba(255,255,255,0.22)]',
@@ -143,30 +141,31 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
 };
 
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
+  flat:    'text-ink-400',
   default: 'text-primary-700',
   brand:   'text-white/80',
   warm:    'text-white/85',
   sun:     'text-white/90',
 };
 
-/** Title color per tone (white on saturated tones, ink on light default). */
 const TONE_TITLE: Record<PageHeroTone, string> = {
+  flat:    'text-ink-900',
   default: 'text-ink-900',
   brand:   'text-white',
   warm:    'text-white',
   sun:     'text-white',
 };
 
-/** Summary text color per tone. */
 const TONE_SUMMARY: Record<PageHeroTone, string> = {
+  flat:    'text-ink-500',
   default: 'text-ink-500',
   brand:   'text-white/85',
   warm:    'text-white/85',
   sun:     'text-white/90',
 };
 
-/** Meta text color per tone. */
 const TONE_META: Record<PageHeroTone, string> = {
+  flat:    'text-ink-400',
   default: 'text-ink-500',
   brand:   'text-white/75',
   warm:    'text-white/75',
@@ -183,16 +182,16 @@ const isBackLinkObject = (value: unknown): value is PageHeroBackLink =>
   value !== null &&
   'onClick' in (value as Record<string, unknown>);
 
-// Back-link chip color per tone (matches eyebrow tone treatment).
 const TONE_BACKLINK: Record<PageHeroTone, string> = {
+  flat:    'text-primary-600 bg-ink-50 border-ink-200 hover:bg-ink-100',
   default: 'text-primary-700 bg-white/70 border-primary-200 hover:bg-primary-50',
   brand:   'text-white bg-white/15 border-white/25 hover:bg-white/25',
   warm:    'text-white bg-white/15 border-white/25 hover:bg-white/25',
   sun:     'text-white bg-white/15 border-white/25 hover:bg-white/25',
 };
 
-// Progress bar fill + track per tone.
 const TONE_PROGRESS_TRACK: Record<PageHeroTone, string> = {
+  flat:    'bg-ink-100',
   default: 'bg-primary-100/60',
   brand:   'bg-white/15',
   warm:    'bg-white/15',
@@ -200,6 +199,7 @@ const TONE_PROGRESS_TRACK: Record<PageHeroTone, string> = {
 };
 
 const TONE_PROGRESS_FILL: Record<PageHeroTone, string> = {
+  flat:    'bg-primary-500',
   default: 'bg-primary-500',
   brand:   'bg-white',
   warm:    'bg-white',
@@ -224,43 +224,45 @@ export const PageHero: React.FC<PageHeroProps> = ({
   const clampedProgress =
     typeof progress === 'number' ? Math.max(0, Math.min(100, progress)) : null;
 
+  const isFlat = tone === 'flat';
+
   return (
     <section
       className={[
-        'relative overflow-hidden rounded-2xl border backdrop-blur-glass-light',
-        TONE_BG[tone],
-        TONE_BORDER[tone],
-        TONE_SHADOW[tone],
-        compact ? 'px-6 py-stack-lg' : 'px-8 py-section',
-        'flex flex-col gap-stack-xs',
+        'flex flex-col',
+        isFlat
+          ? 'gap-1'
+          : 'relative overflow-hidden rounded-2xl border backdrop-blur-glass-light gap-stack-xs',
+        !isFlat && TONE_BG[tone],
+        !isFlat && TONE_BORDER[tone],
+        !isFlat && TONE_SHADOW[tone],
+        !isFlat && (compact ? 'px-6 py-stack-lg' : 'px-8 py-section'),
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Animated mesh gradient — illustrated atmospheric layer (Direction C).
-          Only on saturated tones (brand/warm/sun) where the base gradient provides
-          enough contrast to reveal the blob animation. */}
-      {TONE_MESH[tone] && (
+      {/* Mesh + halos only on coloured tones */}
+      {!isFlat && TONE_MESH[tone] && (
         <MeshGradientBg tone={TONE_MESH[tone]!} intensity="subtle" />
       )}
+      {!isFlat && (
+        <>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-full"
+            style={{ background: TONE_HALO[tone] }}
+          />
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-full"
+            style={{ background: TONE_HALO_2[tone] }}
+          />
+        </>
+      )}
 
-      {/* Primary halo — top-right warm light source */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-[55%] -right-[15%] w-[520px] h-[520px] rounded-full"
-        style={{ background: TONE_HALO[tone] }}
-      />
-      {/* Secondary blob — bottom-left cross-light (Direction C depth layer) */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[45%] -left-[10%] w-[320px] h-[320px] rounded-full"
-        style={{ background: TONE_HALO_2[tone] }}
-      />
-
-      {/* Back link (top-left, above eyebrow) */}
       {backLink && (
-        <div className="relative">
+        <div className={isFlat ? '' : 'relative'}>
           {isBackLinkObject(backLink) ? (
             <button
               type="button"
@@ -281,9 +283,15 @@ export const PageHero: React.FC<PageHeroProps> = ({
       )}
 
       {eyebrow && (
-        <div className="relative">
+        <div className={isFlat ? '' : 'relative'}>
           {isEyebrowObject(eyebrow) ? (
-            <span className={['inline-flex items-center gap-tight.5 text-caption font-medium', TONE_EYEBROW[tone]].join(' ')}>
+            <span className={[
+              'inline-flex items-center gap-tight.5 font-medium',
+              isFlat
+                ? 'text-micro font-bold uppercase tracking-[0.08em] mb-1'
+                : 'text-caption',
+              TONE_EYEBROW[tone],
+            ].join(' ')}>
               {eyebrow.icon}
               {eyebrow.label}
             </span>
@@ -293,18 +301,32 @@ export const PageHero: React.FC<PageHeroProps> = ({
         </div>
       )}
 
-      <h1 className={['relative font-display text-h1 font-extrabold tracking-display m-0 leading-[1.1] text-balance', TONE_TITLE[tone]].join(' ')}>
+      <h1 className={[
+        'font-display m-0 leading-[1.1] text-balance',
+        isFlat
+          ? 'text-h2 font-bold tracking-headline'
+          : 'relative text-h1 font-extrabold tracking-display',
+        TONE_TITLE[tone],
+      ].join(' ')}>
         {title}
       </h1>
 
       {summary && (
-        <p className={['relative font-body text-body-lg leading-relaxed m-0 max-w-[68ch]', TONE_SUMMARY[tone]].join(' ')}>
+        <p className={[
+          'font-body leading-relaxed m-0 max-w-[68ch]',
+          isFlat ? 'text-body mt-0.5' : 'relative text-body-lg',
+          TONE_SUMMARY[tone],
+        ].join(' ')}>
           {summary}
         </p>
       )}
 
       {meta && meta.length > 0 && (
-        <div className={['relative flex flex-wrap items-center gap-stack-xs mt-1 text-caption', TONE_META[tone]].join(' ')}>
+        <div className={[
+          'flex flex-wrap items-center gap-stack-xs mt-1 text-caption',
+          isFlat ? '' : 'relative',
+          TONE_META[tone],
+        ].join(' ')}>
           {meta.map((item, idx) => (
             <span key={idx} className="inline-flex items-center gap-tight">
               {item.icon}
@@ -337,7 +359,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
         </div>
       )}
 
-      {trailing && <div className="relative mt-2">{trailing}</div>}
+      {trailing && <div className={isFlat ? 'mt-3' : 'relative mt-2'}>{trailing}</div>}
     </section>
   );
 };

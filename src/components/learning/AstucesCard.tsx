@@ -25,6 +25,12 @@ const TONE_CARD_BORDER: Record<PageTone, string> = {
   sun:     'border-accent-400',
 };
 
+const TONE_CARD_SHADOW: Record<PageTone, string> = {
+  primary: 'shadow-brand-md',
+  warm:    'shadow-warm-md',
+  sun:     'shadow-sun-md',
+};
+
 export const AstucesCard: React.FC<AstucesCardProps> = ({
   number,
   badge,
@@ -36,8 +42,8 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
 }) => (
   <article
     className={[
-      'relative p-5 sm:p-8 rounded-3xl bg-white border-[3px]',
-      'shadow-[0_8px_32px_rgba(248,176,68,0.18)]',
+      'relative p-5 sm:p-6 rounded-2xl bg-white border-2',
+      TONE_CARD_SHADOW[tone],
       TONE_CARD_BORDER[tone],
     ].join(' ')}
   >
@@ -73,7 +79,7 @@ export const AstucesCard: React.FC<AstucesCardProps> = ({
     {/* Title */}
     <h2
       className={[
-        'm-0 mb-stack font-display text-h3 sm:text-h2 font-bold tracking-tight',
+        'm-0 mb-stack font-display text-h3 sm:text-h2 font-bold tracking-headline',
         TONE_TEXT_700[tone],
       ].join(' ')}
     >

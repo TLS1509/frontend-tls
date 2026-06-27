@@ -59,6 +59,13 @@ const SURFACE_TONE: Record<ActionCardSurface, Record<ActionCardTone, string>> = 
   },
 };
 
+const TONE_HOVER_SHADOW: Record<ActionCardTone, string> = {
+  brand:   'hover:shadow-brand-sm',
+  warm:    'hover:shadow-warm-sm',
+  sun:     'hover:shadow-sun-sm',
+  neutral: 'hover:shadow-card-hover',
+};
+
 export const ActionCard: React.FC<ActionCardProps> = ({
   icon,
   title,
@@ -72,9 +79,9 @@ export const ActionCard: React.FC<ActionCardProps> = ({
   const clickable = Boolean(onClick);
 
   const classes = [
-    'group flex items-center gap-stack p-6 rounded-lg transition-all duration-base min-h-touch',
+    'group flex items-center gap-stack p-6 rounded-xl transition-all duration-base min-h-touch',
     SURFACE_TONE[surface][tone],
-    'hover:shadow-md hover:-translate-y-[3px]',
+    TONE_HOVER_SHADOW[tone], 'hover:-translate-y-1',
     clickable &&
       'cursor-pointer text-left w-full !h-auto !overflow-visible !items-center !font-normal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
     className,
@@ -87,7 +94,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({
       {icon && (
         <div
           className={[
-            'shrink-0 w-14 h-14 inline-flex items-center justify-center rounded-md text-3xl transition-transform duration-base',
+            'shrink-0 w-14 h-14 inline-flex items-center justify-center rounded-xl text-3xl transition-transform duration-base',
             'group-hover:scale-[1.08]',
             TONE_ICON[tone],
           ].join(' ')}
@@ -96,7 +103,7 @@ export const ActionCard: React.FC<ActionCardProps> = ({
         </div>
       )}
       <div className="flex-1 min-w-0">
-        <h3 className="m-0 mb-2 text-h4 font-display font-semibold text-ink-900">{title}</h3>
+        <h3 className="m-0 mb-stack-xs text-h4 font-display font-semibold text-ink-900">{title}</h3>
         {description && <p className="m-0 text-body-sm text-ink-500 leading-relaxed">{description}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
