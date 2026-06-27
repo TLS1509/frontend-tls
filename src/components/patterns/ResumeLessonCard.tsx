@@ -1,25 +1,24 @@
 /**
- * ResumeLessonCard — Action dominante dashboard "Reprendre ta leçon".
+ * ResumeLessonCard — Dashboard dominant action "Reprendre ta leçon".
  *
- * Design intent : titre DOMINANT (pleine largeur), zéro meta pills en chapeau,
- * une ligne de contexte sobre, progress + CTA frosted-glass.
+ * Redesign B/C hybrid (2026-06-27):
+ * - Fond dégradé doux tone-aware (âme de B, pas saturé)
+ * - Layout horizontal compact : contenu gauche | stats+CTA droite (sobriété de C)
+ * - Barre de progression pleine largeur en bordure basse (signature visuelle)
+ * - Hauteur contenue ~160px desktop, s'empile en mobile
  */
 
 import React from 'react';
 import { ArrowRight, Play, BookOpen } from 'lucide-react';
-import { InlineProgress } from './InlineProgress';
-import { Card } from '../core/Card';
 
 export type ResumeLessonTone = 'primary' | 'warm' | 'sun';
 
 export interface ResumeLessonCardProps {
   id: string;
   parcoursTitle: string;
-  /** Contexte de position : "Étape 2 sur 5", "Leçon 3 / Module 2" */
   eyebrow?: React.ReactNode;
-  /** Kept for backward compat — not rendered */
+  /** @deprecated not rendered */
   description?: string;
-  /** Prochaine leçon concrète — affichée en ligne éditoriale sous le titre. */
   nextLessonTitle?: string;
   progress: number;
   ctaLabel?: string;
@@ -31,47 +30,69 @@ export interface ResumeLessonCardProps {
   className?: string;
 }
 
-const TITLE_TONE: Record<ResumeLessonTone, string> = {
-  primary: 'text-primary-800',
-  warm:    'text-secondary-800',
-  sun:     'text-accent-800',
+// ─── Tone maps ────────────────────────────────────────────────────────────────
+
+const BG_GRADIENT: Record<ResumeLessonTone, string> = {
+  primary: 'bg-gradient-to-br from-primary-50 via-primary-100/60 to-primary-50',
+  warm:    'bg-gradient-to-br from-secondary-50 via-secondary-100/60 to-secondary-50',
+  sun:     'bg-gradient-to-br from-accent-50 via-accent-100/60 to-accent-50',
 };
 
-const EYEBROW_PILL: Record<ResumeLessonTone, string> = {
-  primary: 'bg-primary-200/60 text-primary-700',
-  warm:    'bg-secondary-200/60 text-secondary-700',
+const BORDER_COLOR: Record<ResumeLessonTone, string> = {
+  primary: 'border-primary-200/70',
+  warm:    'border-secondary-200/70',
+  sun:     'border-accent-200/70',
+};
+
+const PILL_CLASSES: Record<ResumeLessonTone, string> = {
+  primary: 'bg-primary-200/70 text-primary-700',
+  warm:    'bg-secondary-200/70 text-secondary-700',
   sun:     'bg-accent-200/60 text-accent-700',
 };
 
-const CTA_TONE: Record<ResumeLessonTone, string> = {
-  primary: 'bg-white/80 text-primary-800 border border-white/70 backdrop-blur-sm shadow-sm hover:bg-white hover:shadow-brand-sm',
-  warm:    'bg-white/80 text-secondary-800 border border-white/70 backdrop-blur-sm shadow-sm hover:bg-white hover:shadow-warm-sm',
-  sun:     'bg-white/80 text-accent-800 border border-white/70 backdrop-blur-sm shadow-sm hover:bg-white hover:shadow-sun-sm',
+const TITLE_COLOR: Record<ResumeLessonTone, string> = {
+  primary: 'text-primary-900',
+  warm:    'text-secondary-900',
+  sun:     'text-accent-900',
 };
 
-const CARD_HOVER_SHADOW: Record<ResumeLessonTone, string> = {
-  primary: 'hover:shadow-brand-sm',
-  warm:    'hover:shadow-warm-sm',
-  sun:     'hover:shadow-sun-sm',
+const ICON_COLOR: Record<ResumeLessonTone, string> = {
+  primary: 'text-primary-500',
+  warm:    'text-secondary-500',
+  sun:     'text-accent-600',
 };
 
-const GLOW_BG: Record<ResumeLessonTone, React.CSSProperties> = {
-  primary: { background: 'radial-gradient(circle at 50% 0%, rgba(85, 161, 180, 0.10) 0%, transparent 70%)' },
-  warm:    { background: 'radial-gradient(circle at 50% 0%, rgba(241, 138, 76, 0.14) 0%, transparent 70%)' },
-  sun:     { background: 'radial-gradient(circle at 50% 0%, rgba(248, 176, 68, 0.14) 0%, transparent 70%)' },
+const DIVIDER_COLOR: Record<ResumeLessonTone, string> = {
+  primary: 'border-primary-200/60',
+  warm:    'border-secondary-200/60',
+  sun:     'border-accent-200/50',
 };
 
-const DIVIDER_TONE: Record<ResumeLessonTone, string> = {
-  primary: 'bg-primary-200/55',
-  warm:    'bg-secondary-200/55',
-  sun:     'bg-accent-200/60',
-};
-
-const NEXT_ICON_TONE: Record<ResumeLessonTone, string> = {
-  primary: 'text-primary-600',
-  warm:    'text-secondary-600',
+const PCT_COLOR: Record<ResumeLessonTone, string> = {
+  primary: 'text-primary-700',
+  warm:    'text-secondary-700',
   sun:     'text-accent-700',
 };
+
+const CTA_CLASSES: Record<ResumeLessonTone, string> = {
+  primary: 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 shadow-brand-sm hover:shadow-brand-md',
+  warm:    'bg-secondary-500 text-white hover:bg-secondary-600 active:bg-secondary-700 shadow-warm-sm hover:shadow-warm-md',
+  sun:     'bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-700 shadow-sun-sm',
+};
+
+const PROGRESS_FILL: Record<ResumeLessonTone, string> = {
+  primary: 'bg-primary-500',
+  warm:    'bg-secondary-500',
+  sun:     'bg-accent-500',
+};
+
+const PROGRESS_TRACK: Record<ResumeLessonTone, string> = {
+  primary: 'bg-primary-200/50',
+  warm:    'bg-secondary-200/50',
+  sun:     'bg-accent-200/50',
+};
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
   id,
@@ -86,84 +107,126 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
   onClick,
   className = '',
 }) => {
+  const clamped = Math.max(0, Math.min(100, progress));
   const contextParts = [eyebrow, level, duration].filter(Boolean);
   const contextLine = contextParts.slice(0, 2).join(' · ');
 
   return (
-    <Card
-      variant="tinted"
-      tone={tone === 'sun' ? 'sun' : tone === 'warm' ? 'warm' : 'primary'}
-      onClick={() => onClick?.(id)}
+    <article
+      role="button"
+      tabIndex={0}
       aria-label={`Reprendre ${parcoursTitle}`}
-      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow] duration-base ease-emphasis hover:-translate-y-0.5 ${CARD_HOVER_SHADOW[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
+      onClick={() => onClick?.(id)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(id); } }}
+      className={[
+        'group relative rounded-2xl border overflow-hidden cursor-pointer',
+        'transition-[transform,box-shadow] duration-base ease-emphasis',
+        'hover:-translate-y-0.5 hover:shadow-card-lift',
+        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+        '!h-auto !overflow-visible',
+        BG_GRADIENT[tone],
+        BORDER_COLOR[tone],
+        className,
+      ].join(' ')}
     >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-slow ease-standard"
-        style={GLOW_BG[tone]}
-      />
+      {/* ── Main content row ───────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row">
 
-      <div className="relative px-6 py-6 md:px-8 md:py-7 lg:px-9 lg:py-8 flex flex-col gap-stack">
+        {/* Left — eyebrow + title + next lesson */}
+        <div className="flex-1 min-w-0 px-6 pt-5 pb-4 sm:py-6 sm:px-7 flex flex-col gap-2">
 
-        {/* Eyebrow row — pill "En cours" + position inline (une seule ligne éditoriale) */}
-        <div className="flex items-center gap-stack-xs flex-wrap">
-          <span className={[
-            'inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-pill',
-            EYEBROW_PILL[tone],
+          {/* Eyebrow row */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className={[
+              'inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-1 rounded-pill',
+              PILL_CLASSES[tone],
+            ].join(' ')}>
+              <Play size={8} fill="currentColor" aria-hidden="true" />
+              En cours
+            </span>
+            {contextLine && (
+              <span className="font-body text-caption text-ink-500 font-medium">{contextLine}</span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h2 className={[
+            'font-display font-bold leading-[1.05] tracking-headline m-0 text-balance',
+            'text-[1.45rem] sm:text-[1.7rem]',
+            TITLE_COLOR[tone],
           ].join(' ')}>
-            <Play size={8} fill="currentColor" aria-hidden="true" />
-            En cours
-          </span>
-          {contextLine && (
-            <span className="font-body text-caption font-medium text-ink-500">{contextLine}</span>
+            {parcoursTitle}
+          </h2>
+
+          {/* Next lesson */}
+          {nextLessonTitle && (
+            <p className="flex items-center gap-2 font-body text-body-sm text-ink-600 m-0 leading-snug">
+              <BookOpen size={14} strokeWidth={2} className={`shrink-0 ${ICON_COLOR[tone]}`} aria-hidden="true" />
+              <span>
+                Prochaine leçon&nbsp;:{' '}
+                <span className="font-semibold text-ink-800">{nextLessonTitle}</span>
+              </span>
+            </p>
           )}
         </div>
 
-        {/* Title — DOMINANT */}
-        <h2 className={[
-          'font-display font-bold leading-[1.04] tracking-display m-0 text-balance',
-          'text-[1.9rem] md:text-[2.3rem] lg:text-[2.6rem]',
-          TITLE_TONE[tone],
+        {/* Right — % stat + CTA (vertical divider on sm+) */}
+        <div className={[
+          'flex sm:flex-col items-center justify-between sm:justify-center',
+          'px-6 pb-4 pt-0 sm:py-6 sm:px-7',
+          'sm:border-l sm:border-dashed',
+          'gap-4 sm:gap-3 sm:min-w-[160px]',
+          DIVIDER_COLOR[tone],
         ].join(' ')}>
-          {parcoursTitle}
-        </h2>
-
-        {/* Prochaine leçon — ligne concrète (remplit l'espace de façon utile, practice-as-verb) */}
-        {nextLessonTitle && (
-          <p className="flex items-center gap-2 font-body text-body-sm text-ink-700 m-0 leading-snug">
-            <BookOpen size={15} strokeWidth={2} className={`shrink-0 ${NEXT_ICON_TONE[tone]}`} aria-hidden="true" />
-            <span>Prochaine leçon&nbsp;: <span className="font-semibold text-ink-900">{nextLessonTitle}</span></span>
-          </p>
-        )}
-
-        {/* Hairline — sépare le contexte de l'action */}
-        <div aria-hidden="true" className={`h-px w-full ${DIVIDER_TONE[tone]} mt-1`} />
-
-        {/* Progress + CTA */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-stack">
-          <div className="flex-1 min-w-0">
-            <InlineProgress value={progress} tone={tone} showLabel size="md" />
+          {/* Progress % — large stat */}
+          <div className="flex flex-col items-center">
+            <span className={[
+              'font-display font-bold leading-none tabular-nums',
+              'text-[2rem] sm:text-[2.2rem]',
+              PCT_COLOR[tone],
+            ].join(' ')}>
+              {clamped}%
+            </span>
+            <span className="text-micro font-medium text-ink-400 mt-0.5 uppercase tracking-[0.06em]">
+              complété
+            </span>
           </div>
+
+          {/* CTA */}
           <button
             type="button"
-            className={[
-              'inline-flex items-center justify-center gap-2 h-11 px-6 rounded-pill',
-              'text-body-sm font-body font-semibold whitespace-nowrap shrink-0 cursor-pointer',
-              'transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis',
-              'hover:-translate-y-px active:translate-y-0',
-              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',
-              CTA_TONE[tone],
-            ].join(' ')}
             onClick={(e) => { e.stopPropagation(); onClick?.(id); }}
             aria-label={ctaLabel}
+            className={[
+              'inline-flex items-center justify-center gap-1.5',
+              'h-10 px-5 rounded-pill text-body-sm font-body font-semibold whitespace-nowrap shrink-0',
+              'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis',
+              'hover:-translate-y-px active:translate-y-0',
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',
+              CTA_CLASSES[tone],
+            ].join(' ')}
           >
-            <span>{ctaLabel}</span>
-            <ArrowRight size={15} aria-hidden="true" />
+            {ctaLabel}
+            <ArrowRight size={14} aria-hidden="true" />
           </button>
         </div>
-
       </div>
-    </Card>
+
+      {/* ── Progress rail — pleine largeur, bordure basse ──────────────── */}
+      <div
+        className={['h-1.5 w-full', PROGRESS_TRACK[tone]].join(' ')}
+        role="progressbar"
+        aria-valuenow={clamped}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`Progression : ${clamped}%`}
+      >
+        <div
+          className={['h-full transition-[width] duration-700 ease-out', PROGRESS_FILL[tone]].join(' ')}
+          style={{ width: `${clamped}%` }}
+        />
+      </div>
+    </article>
   );
 };
 
