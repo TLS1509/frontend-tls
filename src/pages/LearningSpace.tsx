@@ -1,105 +1,86 @@
 import React, { useState, useMemo } from 'react';
 import {
-  BookOpen,
-  Clock,
-  Flame,
-  Search,
-  Play,
-  Video,
-  Headphones,
-  FileText,
-  Map,
-  Calendar,
-  Users,
-  Star,
-  ChevronRight,
-  Layers,
-  Lock,
+  BookOpen, ChevronDown, Sparkles, RotateCcw,
 } from 'lucide-react';
-import {
-  Card,
-  CardTitle,
-  CardDesc,
-  Button,
-  Badge,
-  ProgressBar,
-} from '../components';
-import { Search as SearchInput } from '../components/ui/Search';
-import { StatCard } from '../components/ui/StatCard';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { FilterBar, type FilterBarOption } from '../components/forms/FilterBar';
-import { MOCK_LEARNING_SPACE_ITEMS, ITEM_TYPE_LABELS } from '../data/items';
+import { Button } from '../components/core/Button';
+import { Search } from '../components/ui/Search';
+import { FilterBar } from '../components/forms/FilterBar';
+import { EmptyState } from '../components/ui/EmptyState';
+import { CardGrid } from '../components/patterns/CardGrid';
+import { LearningItemCard } from '../components/learning/LearningItemCard';
+import { MOCK_LEARNING_SPACE_ITEMS } from '../data/items';
 import { DREYFUS_LABELS } from '../data/competencies';
-import type { ItemType, DreyfusLevel, SubscriptionTier } from '../types/learning';
-import { canAccessItem, getAccessDenialMessage, getGatingType } from '../lib/access-control';
+import type { ItemType, DreyfusLevel } from '../types/learning';
+import { canAccessItem, getAccessDenialMessage } from '../lib/access-control';
 import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
 
-/** Demo seed : items pré-marqués complétés tant que le tracking item-level n'est pas en place. */
 const SEED_COMPLETED_ITEMS = new Set(['item-1', 'item-4']);
 
-/* ─── Item icon mapping by type ──────────────────────────────────────── */
+/* ─── Type groups ────────────────────────────────────────────────────────── */
 
-const ITEM_TYPE_ICONS: Record<ItemType, React.ReactNode> = {
-  astuces: <Flame size={18} className="text-accent-400" />,
-  flashcard: <Star size={18} className="text-primary-500" />,
-  ressource: <FileText size={18} className="text-primary-500" />,
-  guide: <Map size={18} className="text-primary-500" />,
-  video_conc: <Video size={18} className="text-primary-500" />,
-  video_geste: <Play size={18} className="text-primary-500" />,
-  micro_learning: <BookOpen size={18} className="text-primary-500" />,
-  mission: <Users size={18} className="text-warm-500" />,
-  masterclass: <Star size={18} className="text-sun-500" />,
-};
+type TypeGroupId = 'all' | 'videos' | 'guides' | 'astuces' | 'missions' | 'masterclass';
 
-const ITEM_TYPE_TONE: Record<ItemType, 'brand' | 'warm' | 'sun' | 'success' | 'danger'> = {
-  astuces: 'sun',
-  flashcard: 'brand',
-  ressource: 'brand',
-  guide: 'success',
-  video_conc: 'brand',
-  video_geste: 'warm',
-  micro_learning: 'brand',
-  mission: 'warm',
-  masterclass: 'sun',
-};
+const TYPE_GROUPS: { id: TypeGroupId; label: string; types: ItemType[] | null }[] = [
+  { id: 'all',         label: 'Tout',               types: null },
+  { id: 'videos',      label: 'Vidéos',             types: ['video_conc', 'video_geste'] },
+  { id: 'guides',      label: 'Guides & Ressources', types: ['guide', 'ressource', 'micro_learning'] },
+  { id: 'astuces',     label: 'Astuces & Flash',    types: ['astuces', 'flashcard'] },
+  { id: 'missions',    label: 'Missions',           types: ['mission'] },
+  { id: 'masterclass', label: 'Masterclass',        types: ['masterclass'] },
+];
 
-const FormatChip: React.FC<{ label: string; icon?: React.ReactNode }> = ({ label, icon }) => (
-  <span className="inline-flex items-center gap-tight px-2 py-1 bg-ink-50 border border-ink-200 rounded-pill text-caption text-ink-500 font-medium">
-    {icon}
-    {label}
-  </span>
-);
+/* ─── Duration buckets ───────────────────────────────────────────────────── */
 
-/* ─── Filter helpers ─────────────────────────────────────────────── */
+type DurationBucket = 'all' | 'quick' | 'medium' | 'long' | 'mission';
 
-function getUniqueThemes(): string[] {
-  const themes = new Set<string>();
-  MOCK_LEARNING_SPACE_ITEMS.forEach((item) => {
-    if (item.status === 'published') themes.add(item.theme);
-  });
-  return Array.from(themes).sort();
+const DURATION_OPTIONS: { id: DurationBucket; label: string }[] = [
+  { id: 'all',     label: 'Toutes durées' },
+  { id: 'quick',   label: '< 10 min' },
+  { id: 'medium',  label: '10–30 min' },
+  { id: 'long',    label: '> 30 min' },
+  { id: 'mission', label: 'Plurijours' },
+];
+
+function matchesDurationBucket(duration: string, bucket: DurationBucket): boolean {
+  if (bucket === 'all') return true;
+  const lower = duration.toLowerCase();
+  if (lower.includes('jour') || lower.includes('semaine')) return bucket === 'mission';
+  if (lower.includes('h')) return bucket === 'long';
+  const mins = parseInt(lower, 10);
+  if (isNaN(mins)) return bucket === 'all';
+  if (mins < 10)  return bucket === 'quick';
+  if (mins <= 30) return bucket === 'medium';
+  return bucket === 'long';
 }
 
-function getUniqueDurations(): string[] {
-  const durations = new Set<string>();
-  MOCK_LEARNING_SPACE_ITEMS.forEach((item) => {
-    if (item.status === 'published') durations.add(item.duration);
-  });
-  return Array.from(durations).sort();
-}
+/* ─── Level options ──────────────────────────────────────────────────────── */
+
+const LEVEL_OPTIONS = [
+  { id: 'all', label: 'Tous niveaux' },
+  ...([1, 2, 3, 4, 5] as DreyfusLevel[]).map((l) => ({
+    id: String(l),
+    label: `D${l} — ${DREYFUS_LABELS[l]}`,
+  })),
+];
+
+/* ─── Select style ───────────────────────────────────────────────────────── */
+
+const SELECT_CLS =
+  'appearance-none h-8 pl-3 pr-7 bg-white border border-ink-200 rounded-lg text-micro text-ink-700 font-medium cursor-pointer focus:outline-none focus:border-primary-400 transition-colors duration-base hover:border-ink-300';
+
+const SELECT_ACTIVE_CLS =
+  'border-primary-400 bg-primary-50 text-primary-700';
+
+/* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const LearningSpace: React.FC = () => {
   const profileStore = useUserProfileStore();
   const userTier = profileStore.get().subscriptionTier;
 
-  // Phase 16.1 #2 : wire access control context to real stores.
-  // Competency levels read from usePasseportStore so canAccessItem() matches the
-  // learner's actual radar. Lesson progress feeds item completion (best-effort :
-  // item-level completion store TBD).
   const lessonsMap = useLessonProgressStore((s) => s.lessons);
   const passeportStore = usePasseportStore();
+
   const learnerCompetencyLevels = useMemo(() => {
     const map: Record<string, DreyfusLevel> = {};
     passeportStore.getCompetencies(MOCK_USER_ID).forEach((c) => {
@@ -107,6 +88,7 @@ export const LearningSpace: React.FC = () => {
     });
     return map;
   }, [passeportStore]);
+
   const completedItemIds = useMemo(() => {
     const ids = new Set<string>(SEED_COMPLETED_ITEMS);
     Object.entries(lessonsMap).forEach(([lessonId, entry]) => {
@@ -117,334 +99,227 @@ export const LearningSpace: React.FC = () => {
     return ids;
   }, [lessonsMap]);
 
-  const [query, setQuery] = useState('');
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<ItemType[]>([]);
-  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [selectedLevels, setSelectedLevels] = useState<DreyfusLevel[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<string[]>(['published']);
+  /* ─── Filter state ───────────────────────────────────────────────────── */
 
-  /* ─── Filter options ───────────────────────────────────────────────── */
+  const [query, setQuery]         = useState('');
+  const [typeGroup, setTypeGroup] = useState<TypeGroupId>('all');
+  const [theme, setTheme]         = useState('all');
+  const [level, setLevel]         = useState('all');
+  const [duration, setDuration]   = useState<DurationBucket>('all');
+
+  /* ─── Computed ───────────────────────────────────────────────────────── */
 
   const themeOptions = useMemo(() => {
-    const themes = getUniqueThemes();
-    return themes.map((theme) => {
-      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
-        (item) => item.theme === theme && item.status === 'published'
-      ).length;
-      return {
-        id: theme,
-        label: theme,
-        count,
-      };
+    const themes = new Set<string>();
+    MOCK_LEARNING_SPACE_ITEMS.forEach((item) => {
+      if (item.status === 'published') themes.add(item.theme);
     });
+    return [
+      { id: 'all', label: 'Thématique' },
+      ...Array.from(themes).sort().map((t) => ({ id: t, label: t })),
+    ];
   }, []);
 
-  const typeOptions = useMemo(() => {
-    const types: ItemType[] = ['astuces', 'flashcard', 'ressource', 'guide', 'video_conc', 'video_geste', 'micro_learning', 'mission', 'masterclass'];
-    return types.map((type) => {
-      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
-        (item) => item.type === type && item.status === 'published'
-      ).length;
-      return {
-        id: type,
-        label: ITEM_TYPE_LABELS[type],
-        count,
-      };
-    });
-  }, []);
+  const activeTypeTypes: ItemType[] | null = useMemo(() => {
+    const g = TYPE_GROUPS.find((g) => g.id === typeGroup);
+    return g ? g.types : null;
+  }, [typeGroup]);
 
-  const durationOptions = useMemo(() => {
-    const durations = getUniqueDurations();
-    return durations.map((duration) => {
-      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
-        (item) => item.duration === duration && item.status === 'published'
-      ).length;
-      return {
-        id: duration,
-        label: duration,
-        count,
-      };
-    });
-  }, []);
-
-  const levelOptions = useMemo(() => {
-    return [1, 2, 3, 4, 5].map((level) => {
-      const dreyfusLevel = level as DreyfusLevel;
-      const count = MOCK_LEARNING_SPACE_ITEMS.filter(
-        (item) => item.dreyfusLevel === dreyfusLevel && item.status === 'published'
-      ).length;
-      return {
-        id: String(level),
-        label: `${DREYFUS_LABELS[dreyfusLevel]} (D${level})`,
-        count,
-      };
-    });
-  }, []);
-
-  /* ─── Filtered items ───────────────────────────────────────────────── */
+  const hasActiveFilters =
+    typeGroup !== 'all' || theme !== 'all' || level !== 'all' || duration !== 'all' || query.length > 0;
 
   const filteredItems = useMemo(() => {
     return MOCK_LEARNING_SPACE_ITEMS.filter((item) => {
-      // Status filter (always include this)
-      if (!selectedStatus.includes(item.status)) return false;
-
-      // Theme filter
-      if (selectedThemes.length > 0 && !selectedThemes.includes(item.theme)) return false;
-
-      // Type filter
-      if (selectedTypes.length > 0 && !selectedTypes.includes(item.type)) return false;
-
-      // Duration filter
-      if (selectedDurations.length > 0 && !selectedDurations.includes(item.duration)) return false;
-
-      // Level filter
-      if (selectedLevels.length > 0 && !selectedLevels.includes(item.dreyfusLevel)) return false;
-
-      // Search query (title + description + theme + tags)
-      if (query.length > 0) {
-        const searchLower = query.toLowerCase();
-        const searchableText = `${item.title} ${item.description} ${item.theme} ${(item.tags || []).join(' ')}`.toLowerCase();
-        if (!searchableText.includes(searchLower)) return false;
+      if (item.status !== 'published') return false;
+      if (activeTypeTypes && !activeTypeTypes.includes(item.type)) return false;
+      if (theme !== 'all' && item.theme !== theme) return false;
+      if (level !== 'all' && item.dreyfusLevel !== parseInt(level, 10)) return false;
+      if (!matchesDurationBucket(item.duration, duration)) return false;
+      if (query.trim().length > 0) {
+        const q = query.toLowerCase();
+        const text = `${item.title} ${item.description} ${item.theme} ${(item.tags ?? []).join(' ')}`.toLowerCase();
+        if (!text.includes(q)) return false;
       }
-
       return true;
     });
-  }, [query, selectedThemes, selectedTypes, selectedDurations, selectedLevels, selectedStatus]);
+  }, [activeTypeTypes, theme, level, duration, query]);
 
-  /* ─── Handlers ───────────────────────────────────────────────────── */
-
-  const handleThemeChange = (selected: string[]) => {
-    setSelectedThemes(selected);
-  };
-
-  const handleTypeChange = (selected: string[]) => {
-    setSelectedTypes(selected as ItemType[]);
-  };
-
-  const handleDurationChange = (selected: string[]) => {
-    setSelectedDurations(selected);
-  };
-
-  const handleLevelChange = (selected: string[]) => {
-    setSelectedLevels(selected.map((id) => parseInt(id) as DreyfusLevel));
-  };
-
-  const handleClearAllFilters = () => {
-    setSelectedThemes([]);
-    setSelectedTypes([]);
-    setSelectedDurations([]);
-    setSelectedLevels([]);
+  const resetFilters = () => {
     setQuery('');
+    setTypeGroup('all');
+    setTheme('all');
+    setLevel('all');
+    setDuration('all');
   };
+
+  const typeFilterOptions = TYPE_GROUPS.map((g) => ({ id: g.id, label: g.label }));
+
+  /* ─── Render ─────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      <Container width="page" className="py-section flex flex-col gap-section">
+    <div className="min-h-[100dvh]">
 
-        {/* ── Hero ────────────────────────────────────────────── */}
-        <EditorialHero
-          tone="brand"
-          eyebrow={{ icon: <BookOpen size={12} />, label: 'Espace Apprentissage' }}
-          title="Explorez nos ressources"
-          summary="Retrouvez tous les contenus disponibles : parcours, vidéos, guides, missions et bien plus encore."
-        />
+      {/* ── Page header + search — on same surface as content ────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-2 flex flex-col gap-5">
 
-        {/* ── Search + KPI row ───────────────────────────────── */}
-        <section aria-label="Recherche et indicateurs" className="flex flex-col gap-stack-lg">
-          <SearchInput
-            placeholder="Rechercher par titre, thématique ou compétence…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-            <StatCard
-              tone="brand"
-              surface="tinted"
-              size="sm"
-              icon={<BookOpen size={18} />}
-              label="Contenus disponibles"
-              value={String(filteredItems.length)}
-            />
-            <StatCard
-              tone="warm"
-              surface="tinted"
-              size="sm"
-              icon={<Layers size={18} />}
-              label="Types de contenu"
-              value="9"
-            />
-            <StatCard
-              tone="sun"
-              surface="tinted"
-              size="sm"
-              icon={<Flame size={18} />}
-              label="Niveaux"
-              value="D1–D5"
-            />
+        {/* Title row */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-tight">
+            <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
+              <BookOpen size={11} aria-hidden />
+              Espace Apprentissage
+            </span>
+            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
+              Explorez nos ressources
+            </h1>
           </div>
-        </section>
+          <span className="text-body-sm text-ink-400 font-medium pt-1 shrink-0 tabular-nums">
+            {filteredItems.length} ressource{filteredItems.length !== 1 ? 's' : ''}
+          </span>
+        </div>
 
-        {/* ── Filters ──────────────────────────────────────────── */}
-        <section aria-label="Filtres de contenu" className="flex flex-col gap-stack">
-          <h3 className="text-h4 font-bold text-ink-900 m-0">Filtrer par :</h3>
-
-          <div className="flex flex-col gap-stack">
-            {/* Thématique filter */}
-            <div>
-              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Thématique</p>
-              <FilterBar
-                options={themeOptions}
-                selected={selectedThemes}
-                onChange={handleThemeChange}
-                tone="brand"
-                size="sm"
-              />
-            </div>
-
-            {/* Type filter */}
-            <div>
-              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Type de contenu</p>
-              <FilterBar
-                options={typeOptions}
-                selected={selectedTypes as string[]}
-                onChange={handleTypeChange}
-                tone="warm"
-                size="sm"
-              />
-            </div>
-
-            {/* Duration filter */}
-            <div>
-              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Durée</p>
-              <FilterBar
-                options={durationOptions}
-                selected={selectedDurations}
-                onChange={handleDurationChange}
-                tone="sun"
-                size="sm"
-              />
-            </div>
-
-            {/* Niveau filter */}
-            <div>
-              <p className="text-caption font-semibold text-ink-700 mb-stack-xs">Niveau</p>
-              <FilterBar
-                options={levelOptions}
-                selected={selectedLevels.map(String)}
-                onChange={handleLevelChange}
-                tone="brand"
-                size="sm"
-              />
-            </div>
-
-            {/* Clear all button */}
-            {(selectedThemes.length > 0 ||
-              selectedTypes.length > 0 ||
-              selectedDurations.length > 0 ||
-              selectedLevels.length > 0 ||
-              query.length > 0) && (
+        {/* Search + filters — same surface, default variant */}
+        <Search
+          variant="default"
+          size="default"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Rechercher par titre, thématique, tag…"
+          aria-label="Rechercher un contenu"
+          trailing={
+            hasActiveFilters ? (
               <Button
-                variant="ghost"
+                variant="secondary"
                 size="sm"
-                onClick={handleClearAllFilters}
+                leadingIcon={<RotateCcw size={11} />}
+                onClick={resetFilters}
               >
-                Réinitialiser tous les filtres
+                Réinitialiser
               </Button>
-            )}
-          </div>
-        </section>
+            ) : undefined
+          }
+          filtersSlot={
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Type filter pills */}
+              <FilterBar
+                options={typeFilterOptions}
+                selected={[typeGroup]}
+                onChange={(ids) => setTypeGroup((ids[0] ?? 'all') as TypeGroupId)}
+                multiSelect={false}
+                variant="solid"
+                tone="brand"
+                size="sm"
+                showClearAll={false}
+              />
 
-        {/* ── Items grid ───────────────────────────────────────── */}
-        <section aria-label="Contenus" className="flex flex-col gap-stack">
-          {filteredItems.length === 0 ? (
-            <div className="text-center py-section">
-              <p className="text-body text-ink-600">Aucun contenu ne correspond à vos filtres.</p>
-              <Button variant="ghost" onClick={handleClearAllFilters} className="mt-stack">
+              <span className="w-px h-4 bg-ink-200 shrink-0 hidden sm:block" aria-hidden />
+
+              {/* Theme select */}
+              <div className="relative shrink-0">
+                <select
+                  value={theme}
+                  onChange={(e) => setTheme(e.target.value)}
+                  aria-label="Filtrer par thématique"
+                  className={[SELECT_CLS, theme !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                >
+                  {themeOptions.map((o) => (
+                    <option key={o.id} value={o.id}>{o.label}</option>
+                  ))}
+                </select>
+                <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+              </div>
+
+              {/* Level select */}
+              <div className="relative shrink-0">
+                <select
+                  value={level}
+                  onChange={(e) => setLevel(e.target.value)}
+                  aria-label="Filtrer par niveau"
+                  className={[SELECT_CLS, level !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                >
+                  {LEVEL_OPTIONS.map((o) => (
+                    <option key={o.id} value={o.id}>{o.label}</option>
+                  ))}
+                </select>
+                <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+              </div>
+
+              {/* Duration select */}
+              <div className="relative shrink-0">
+                <select
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value as DurationBucket)}
+                  aria-label="Filtrer par durée"
+                  className={[SELECT_CLS, duration !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                >
+                  {DURATION_OPTIONS.map((o) => (
+                    <option key={o.id} value={o.id}>{o.label}</option>
+                  ))}
+                </select>
+                <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+              </div>
+            </div>
+          }
+        />
+      </div>
+
+      {/* ── Divider */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="h-px bg-ink-100 mt-4" />
+      </div>
+
+      {/* ── Content grid ─────────────────────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+        {filteredItems.length === 0 ? (
+          <EmptyState
+            tone="primary"
+            icon={<Sparkles size={32} />}
+            title="Aucun contenu trouvé"
+            description="Essayez d'élargir vos filtres ou de modifier votre recherche."
+            actions={
+              <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
                 Réinitialiser les filtres
               </Button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
-              {filteredItems.map((item) => {
-                const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                  userSubscriptionTier: userTier,
-                  completedItemIds,
-                  learnerCompetencyLevels,
-                });
-                const gatingType = getGatingType(item.tierGate, item.prerequisites);
-                const isAccessible = accessCheck.allowed;
-                const denialMessage = getAccessDenialMessage(accessCheck);
+            }
+          />
+        ) : (
+          <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage">
+            {filteredItems.map((item) => {
+              const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                userSubscriptionTier: userTier,
+                completedItemIds,
+                learnerCompetencyLevels,
+              });
+              const isAccessible = accessCheck.allowed;
+              const denialMessage = getAccessDenialMessage(accessCheck);
 
-                return (
-                  <Card
-                    key={item.id}
-                    variant="interactive"
-                    as="article"
-                    className={!isAccessible ? 'opacity-60 cursor-not-allowed' : ''}
-                  >
-                    <div className="p-5 flex flex-col gap-stack-xs h-full">
-                      {/* Type badge + icon */}
-                      <div className="flex items-center justify-between">
-                        <Badge variant={ITEM_TYPE_TONE[item.type]}>
-                          {ITEM_TYPE_LABELS[item.type]}
-                        </Badge>
-                        <div className={isAccessible ? 'text-primary-500' : 'text-ink-300'}>
-                          {ITEM_TYPE_ICONS[item.type]}
-                        </div>
-                      </div>
-
-                      {/* Title */}
-                      <CardTitle className="text-body font-semibold mt-stack-xs">
-                        {item.title}
-                      </CardTitle>
-
-                      {/* Description */}
-                      <CardDesc className="flex-1">
-                        {item.description}
-                      </CardDesc>
-
-                      {/* Metadata */}
-                      <div className="flex flex-wrap gap-stack-xs">
-                        <FormatChip label={item.duration} icon={<Clock size={11} />} />
-                        <FormatChip label={`D${item.dreyfusLevel}`} icon={<Star size={11} />} />
-                        <FormatChip label={item.theme} icon={<Layers size={11} />} />
-                      </div>
-
-                      {/* Access gating badges */}
-                      {!isAccessible && (
-                        <Badge
-                          variant={
-                            accessCheck.reason === 'tier' ? 'sun' : 'info'
-                          }
-                          size="sm"
-                          className="mt-auto flex items-center gap-tight"
-                          title={denialMessage}
-                        >
-                          <Lock size={12} />
-                          {accessCheck.reason === 'tier'
-                            ? 'Upgrade abonnement'
-                            : 'Pré-requis'}
-                        </Badge>
-                      )}
-
-                      {/* CTA */}
-                      <Button
-                        size="sm"
-                        className="mt-auto w-full"
-                        disabled={!isAccessible}
-                        title={!isAccessible ? denialMessage : undefined}
-                      >
-                        {isAccessible ? 'Accéder' : 'Verrouillé'}
-                      </Button>
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
-          )}
-        </section>
-      </Container>
+              return (
+                <LearningItemCard
+                  key={item.id}
+                  id={item.id}
+                  type={item.type}
+                  title={item.title}
+                  description={item.description}
+                  duration={item.duration}
+                  dreyfusLevel={item.dreyfusLevel}
+                  theme={item.theme}
+                  isAccessible={isAccessible}
+                  denialReason={
+                    accessCheck.reason === 'tier'
+                      ? 'tier'
+                      : accessCheck.reason === 'prerequisite'
+                      ? 'prerequisite'
+                      : undefined
+                  }
+                  denialMessage={denialMessage}
+                />
+              );
+            })}
+          </CardGrid>
+        )}
+      </div>
     </div>
   );
 };
+
+export default LearningSpace;

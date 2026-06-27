@@ -2,7 +2,7 @@
  * Veille — Hub éditorial (refonte v8)
  *
  * Structure :
- *  1. Hero full-bleed remixé — titre + sous-titre + search + category chips intégrés
+ *  1. Header flat — titre + sous-titre + search + category chips (même surface)
  *  2. Feed vertical (VeilleCardFeed list) — tous les contenus filtrés
  *  3. Bande mailing glassy minimale
  */
@@ -18,6 +18,8 @@ import {
   Mail,
   X,
   Bookmark,
+  Rss,
+  RotateCcw,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
@@ -138,115 +140,116 @@ export const Veille: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[100dvh] flex flex-col bg-white">
+    <div className="relative min-h-[100dvh] flex flex-col">
 
-      {/* ── 1. HERO full-bleed remixé ─────────────────────────────────────── */}
-      <section
-        aria-label="Veille & Actualités TLS"
-        className="relative w-full overflow-hidden bg-gradient-veille-hero"
-      >
-        {/* Ambient glows */}
-        <div aria-hidden className="absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-white/10 blur-[100px] pointer-events-none" />
-        <div aria-hidden className="absolute top-1/3 -left-16 w-64 h-64 rounded-full bg-primary-900/20 blur-[80px] pointer-events-none" />
-        <div aria-hidden className="absolute bottom-0 right-1/3 w-56 h-32 rounded-full bg-white/8 blur-[60px] pointer-events-none" />
+      {/* ── 1. HEADER flat — même surface que le contenu ─────────────────── */}
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-2 flex flex-col gap-5">
 
-        {/* Decorative grid — subtle texture */}
-        {/* Repeating grid texture — exempt per CLAUDE.md rule 4: complex repeating pattern, no static Tailwind equivalent */}
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none opacity-faint"
-          style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '64px 64px' }}
-        />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col gap-stack-lg">
-
-          {/* Titre + sous-titre */}
-          <div className="flex flex-col gap-stack-xs">
-            <h1 className="m-0 font-display font-bold text-white leading-[0.92] tracking-tight text-[clamp(2.25rem,4vw,3.25rem)]">
+        {/* Title row */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-tight">
+            <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
+              <Rss size={11} aria-hidden />
+              Veille & Actualités
+            </span>
+            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
               Veille &amp; Actualités
             </h1>
-            <p className="m-0 font-body text-body text-white/55 leading-relaxed max-w-2xl">
-              Articles, vidéos, dossiers et le magazine TLS — leadership, IA et formation professionnelle.
-            </p>
           </div>
+          {hasActiveFilter && (
+            <span className="text-body-sm text-ink-400 font-medium pt-1 shrink-0 tabular-nums">
+              {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
 
-          {/* Search bar glass — pleine largeur container */}
-          <div className="relative">
-            <SearchIcon size={18} strokeWidth={2} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
-            <input
-              type="search"
-              aria-label="Rechercher dans la veille"
-              placeholder="Rechercher un sujet, auteur, catégorie…"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full h-12 pl-11 pr-10 rounded-xl bg-white/8 border border-white/15 text-white placeholder:text-white/35 font-body text-body-sm backdrop-blur-glass-light focus:outline-none focus:bg-white/12 focus:border-white/30 transition-all"
-            />
-            {query && (
-              <button type="button" aria-label="Effacer la recherche" onClick={() => setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-sm text-white/40 hover:text-white/70 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70">
-                <X size={15} aria-hidden />
-              </button>
-            )}
-          </div>
-
-          {/* Filtres type + Sauvegardés */}
-          <div className="flex flex-wrap items-center gap-stack-xs">
-            {TYPE_FILTERS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelected(id)}
-                className={[
-                  'inline-flex items-center gap-tight.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
-                  selected === id
-                    ? 'bg-white text-ink-900 border-white shadow-md'
-                    : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
-                ].join(' ')}
-              >
-                {Icon && <Icon size={12} strokeWidth={2.5} />}
-                {label}
-                {id !== 'all' && <span className={selected === id ? 'text-ink-400' : 'text-white/35'}>{counts[id]}</span>}
-              </button>
-            ))}
-
-            <span aria-hidden className="w-px h-4 bg-white/20 mx-0.5" />
-
+        {/* Search bar — light surface */}
+        <div className="relative">
+          <SearchIcon size={16} strokeWidth={2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" />
+          <input
+            type="search"
+            aria-label="Rechercher dans la veille"
+            placeholder="Rechercher un sujet, auteur, catégorie…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full h-10 pl-10 pr-10 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all"
+          />
+          {query && (
             <button
               type="button"
-              onClick={() => setShowSavedOnly((v) => !v)}
+              aria-label="Effacer la recherche"
+              onClick={() => setQuery('')}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-sm text-ink-400 hover:text-ink-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              <X size={14} aria-hidden />
+            </button>
+          )}
+        </div>
+
+        {/* Filtres type + Sauvegardés */}
+        <div className="flex flex-wrap items-center gap-2">
+          {TYPE_FILTERS.map(({ id, label, Icon }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setSelected(id)}
               className={[
-                'inline-flex items-center gap-tight.5 px-3.5 py-2 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
-                showSavedOnly
-                  ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-md'
-                  : 'bg-white/8 text-white/70 border-white/15 hover:bg-white/15 hover:text-white hover:border-white/25',
+                'inline-flex items-center gap-tight.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                selected === id
+                  ? 'bg-primary-500 text-white border-primary-500 shadow-sm'
+                  : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
               ].join(' ')}
             >
-              <Bookmark size={12} strokeWidth={2.5} />
-              Sauvegardés
-              {savedIds.size > 0 && <span className={showSavedOnly ? 'text-ink-600' : 'text-white/35'}>{savedIds.size}</span>}
+              {Icon && <Icon size={12} strokeWidth={2.5} />}
+              {label}
+              {id !== 'all' && (
+                <span className={selected === id ? 'text-white/70' : 'text-ink-400'}>
+                  {counts[id]}
+                </span>
+              )}
             </button>
+          ))}
 
-            {hasActiveFilter && (
-              <button
-                type="button"
-                onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-                className="font-body text-caption text-white/40 hover:text-white/70 underline underline-offset-2 transition-colors ml-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 rounded-sm"
-              >
-                Réinitialiser
-              </button>
+          <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5" />
+
+          <button
+            type="button"
+            onClick={() => setShowSavedOnly((v) => !v)}
+            className={[
+              'inline-flex items-center gap-tight.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              showSavedOnly
+                ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-sm'
+                : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+            ].join(' ')}
+          >
+            <Bookmark size={12} strokeWidth={2.5} />
+            Sauvegardés
+            {savedIds.size > 0 && (
+              <span className={showSavedOnly ? 'text-ink-600' : 'text-ink-400'}>{savedIds.size}</span>
             )}
+          </button>
 
-            {hasActiveFilter && (
-              <span className="font-body text-caption text-white/40 ml-auto">
-                <strong className="text-white/70">{filteredItems.length}</strong> résultat{filteredItems.length !== 1 ? 's' : ''}
-              </span>
-            )}
-          </div>
-
-          {/* Formats éditoriaux — 4 cartes navigation, dark-glass */}
-          <VeilleFormatShortcutCards className="pt-1" />
-
+          {hasActiveFilter && (
+            <button
+              type="button"
+              onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
+              className="inline-flex items-center gap-1 font-body text-caption text-ink-400 hover:text-primary-600 transition-colors ml-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            >
+              <RotateCcw size={11} />
+              Réinitialiser
+            </button>
+          )}
         </div>
-      </section>
+
+        {/* Formats éditoriaux — 4 cartes navigation, light */}
+        <VeilleFormatShortcutCards surface="light" className="pt-1" />
+
+      </div>
+
+      {/* Divider */}
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10">
+        <div className="h-px bg-ink-100 mt-4" />
+      </div>
 
       {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">
