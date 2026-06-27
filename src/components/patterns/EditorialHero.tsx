@@ -141,7 +141,7 @@ const TONE_SHADOW: Record<PageHeroTone, string> = {
 };
 
 const TONE_EYEBROW: Record<PageHeroTone, string> = {
-  flat:    'text-ink-400',
+  flat:    'text-primary-600',
   default: 'text-primary-700',
   brand:   'text-white/80',
   warm:    'text-white/85',
@@ -157,7 +157,7 @@ const TONE_TITLE: Record<PageHeroTone, string> = {
 };
 
 const TONE_SUMMARY: Record<PageHeroTone, string> = {
-  flat:    'text-ink-500',
+  flat:    'text-ink-600',
   default: 'text-ink-500',
   brand:   'text-white/85',
   warm:    'text-white/85',
@@ -231,7 +231,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
       className={[
         'flex flex-col',
         isFlat
-          ? 'gap-1'
+          ? 'gap-2'
           : 'relative overflow-hidden rounded-2xl border backdrop-blur-glass-light gap-stack-xs',
         !isFlat && TONE_BG[tone],
         !isFlat && TONE_BORDER[tone],
@@ -288,7 +288,7 @@ export const PageHero: React.FC<PageHeroProps> = ({
             <span className={[
               'inline-flex items-center gap-tight.5 font-medium',
               isFlat
-                ? 'text-micro font-bold uppercase tracking-[0.08em] mb-1'
+                ? 'text-caption font-semibold uppercase tracking-[0.06em]'
                 : 'text-caption',
               TONE_EYEBROW[tone],
             ].join(' ')}>
@@ -303,7 +303,9 @@ export const PageHero: React.FC<PageHeroProps> = ({
 
       <h1 className={[
         'font-display m-0 leading-[1.1] text-balance',
-        isFlat
+        isFlat && !compact
+          ? 'text-h1 font-extrabold tracking-display'
+          : isFlat && compact
           ? 'text-h2 font-bold tracking-headline'
           : 'relative text-h1 font-extrabold tracking-display',
         TONE_TITLE[tone],

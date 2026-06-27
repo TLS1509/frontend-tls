@@ -17,7 +17,8 @@ type Props = {
   delay?: number;
   direction?: Direction;
   duration?: number;
-  /** Trigger margin in px — earlier values trigger sooner. Default -80px (slightly inside viewport). */
+  /** Trigger margin in px — earlier values trigger sooner. Default 0px (viewport edge).
+   * Use a negative value (e.g. '-60px') only for below-fold content that should pre-load. */
   margin?: string;
   /** Re-trigger on every entry. Default false (once only). */
   repeat?: boolean;
@@ -34,7 +35,7 @@ export const FadeInWhenVisible: React.FC<Props> = ({
   delay = 0,
   direction = 'up',
   duration = 0.7,
-  margin = '-80px',
+  margin = '0px',
   repeat = false,
 }) => {
   const reduced = useReducedMotion();
