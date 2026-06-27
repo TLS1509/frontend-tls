@@ -81,8 +81,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {...rest}
       >
         {/* Brand row + mobile close button */}
-        <div className={['flex items-center justify-between gap-stack-xs pl-6 pr-4 pt-6 pb-6', collapsed && 'justify-center px-3 pb-6'].filter(Boolean).join(' ')}>
-          <div className="shrink-0">{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
+        <div className={['flex items-center justify-between gap-stack-xs pl-6 pr-4 pt-6 pb-6', collapsed && 'justify-center px-2 pb-6'].filter(Boolean).join(' ')}>
+          <div className={['shrink-0', collapsed && 'mx-auto'].filter(Boolean).join(' ')}>{brand ?? <DefaultBrand collapsed={collapsed} />}</div>
           {/* Mobile-only close button — visible quand drawer ouvert sur viewport < 768px */}
           {onMobileClose && (
             <button
@@ -133,7 +133,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
 const DefaultBrand: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
   <div className={['flex items-center gap-2.5', collapsed && 'justify-center'].filter(Boolean).join(' ')}>
-    <TlsLogo size={collapsed ? 40 : 42} className="shrink-0" />
+    <TlsLogo size={collapsed ? 48 : 42} className="shrink-0" />
     {!collapsed && (
       <span className="font-display font-bold text-body-lg leading-[1.12] text-primary-800">
         The Learning<br />Society
