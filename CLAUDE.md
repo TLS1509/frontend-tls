@@ -2337,3 +2337,162 @@ Règles critiques :
 | `AuthSuccess` | Aucun équivalent (≠ EmptyState) | CREATE — Composites |
 | `back-link` (← Retour) | Aucun équivalent standalone | CREATE — Atoms |
 | `AuthShell` (glass card layout) | `Card variant=glass-dark` (partiel) | Pattern-level, pas de composant |
+
+---
+
+## Phase 21 — Pages de documentation Component Library dans Figma (2026-06-27)
+
+**Objectif** : construire des pages Figma de documentation complètes pour chaque famille de composants (Cards, Badges, Buttons, etc.) directement depuis le code source React, avec **tous les tokens DS bindés** — variables couleurs, text styles, effect styles.
+
+**Page de référence construite** : `🃏 Cards — Component Library` (page id `4126:26`, fichier `LccBZ1GKWQVwVzPtsSzk5Y`) — 11 composants documentés, ~5 000px de haut, ~2026-06-27.
+
+### Structure canonique d'une page de doc
+
+```
+Page title : "🃏 Cards — Component Library"  (ou autre emoji famille)
+Sous-titre  : "Famille complète des cards TLS · Tailwind v4 · Tokens sémantiques · Phase 19 en cours"
+Navigation  : eyebrow chips cliquables vers chaque section
+
+[Pour chaque composant, une section avec :]
+  — séparateur horizontal (1px, borderDefault)
+  — label row : N° eyebrowMd (p500) · Nom composant h3 (txtStrong) · path source caption (txtMuted)
+  — cards side-by-side (gap 20-28px) : 1 card par variant/tone/state principal
+  — cursorY += card_height + 80px (GAP inter-sections)
+```
+
+### Pattern de script `use_figma` pour pages de doc
+
+**Helpers canoniques** (inclure dans chaque script) :
+
+```js
+// vs(key, opacity?) — variable-bound solid paint
+const vs = (key, opacity = 1) => {
+  const v = figma.variables.getVariableById(VAR[key]);
+  if (!v) return { type: 'SOLID', color: { r: 0.9, g: 0.9, b: 0.9 }, opacity };
+  return figma.variables.setBoundVariableForPaint(
+    { type: 'SOLID', color: { r: 0.5, g: 0.5, b: 0.5 }, opacity }, 'color', v);
+};
+
+// tx(text, tsKey, colorKey?, fixedWidth?) — texte stylé avec text style + couleur bindée
+const tx = (text, tsKey, colorKey, fixedWidth) => {
+  const n = figma.createText();
+  try { if (TS[tsKey]) n.textStyleId = TS[tsKey]; } catch(e) {}
+  n.characters = text;
+  if (colorKey && VAR[colorKey]) n.fills = [vs(colorKey)];
+  if (fixedWidth) { n.textAutoResize = 'HEIGHT'; n.resize(fixedWidth, Math.max(n.height, 16)); }
+  else n.textAutoResize = 'WIDTH_AND_HEIGHT';
+  return n;
+};
+
+// makeLabel(num, title, path) — séparateur + row de label de section
+const makeLabel = (num, title, path) => {
+  const sep = figma.createRectangle(); sep.resize(1328, 1); sep.fills = [vs('borderDefault')];
+  sep.x = LEFT; sep.y = cursorY; cardsPage.appendChild(sep); cursorY += 24;
+  const row = figma.createAutoLayout('HORIZONTAL');
+  row.primaryAxisSizingMode = 'FIXED'; row.counterAxisSizingMode = 'AUTO';
+  row.resize(1328, 32); row.counterAxisSizingMode = 'AUTO'; row.itemSpacing = 16; row.fills = [];
+  row.x = LEFT; row.y = cursorY; cardsPage.appendChild(row);
+  [tx(num,'eyebrowMd','p500'), tx(title,'h3','txtStrong'), tx(path,'caption','txtMuted')]
+    .forEach((n, i) => { row.appendChild(n); n.layoutSizingHorizontal = i===2?'FILL':'HUG'; });
+  cursorY += row.height + 32;
+};
+
+let cursorY = 160; // départ sous le titre de page
+const LEFT = 56;
+const GAP = 80;   // espace inter-sections
+```
+
+**Constantes TLS DS stables** (IDs à réutiliser dans les scripts) :
+
+```js
+// Variables TLS / Colors
+const VAR = {
+  p50:'VariableID:1080:3', p100:'VariableID:1080:4', p200:'VariableID:1080:5',
+  p500:'VariableID:1080:8', p600:'VariableID:1080:9', p700:'VariableID:1080:10', p800:'VariableID:1080:11',
+  s50:'VariableID:1081:2',  s100:'VariableID:1081:3', s200:'VariableID:1081:4',
+  s500:'VariableID:1081:7', s600:'VariableID:1081:8', s700:'VariableID:1081:9',  s800:'VariableID:1081:10',
+  a50:'VariableID:1081:12', a100:'VariableID:1081:13',a200:'VariableID:1081:14',
+  a400:'VariableID:1081:16',a600:'VariableID:1081:18',a700:'VariableID:1081:19', a800:'VariableID:1081:20',
+  white:'VariableID:1082:2',
+  ink50:'VariableID:1082:3',  ink100:'VariableID:1082:4', ink200:'VariableID:1082:5',
+  ink300:'VariableID:1082:6', ink400:'VariableID:1082:7', ink500:'VariableID:1082:8',
+  ink600:'VariableID:1082:9', ink700:'VariableID:1082:10',ink900:'VariableID:1082:12',
+  txtStrong:'VariableID:1083:14', txtDefault:'VariableID:1083:15',
+  txtMuted:'VariableID:1083:16',  txtSubtle:'VariableID:1083:17', txtInverse:'VariableID:1083:18',
+  borderSubtle:'VariableID:1083:19', borderDefault:'VariableID:1083:20', borderStrong:'VariableID:1083:21',
+  success:'VariableID:1083:23',
+};
+
+// Text Styles TLS
+const TS = {
+  h1: 'S:d493ce57e7e05f00b5092d6b0aab216666d94e4f,',
+  h2: 'S:912e9ef101114500acd317a2aad007e578eb9aa6,',
+  h3: 'S:eeb147adc57b4c3bb6b06de186929eb2ac3cb9b2,',
+  h4: 'S:282ce31040ba9ea7d9746f8dee28e1a30372c370,',
+  h5: 'S:14ced1bfcc8865ef06ceba8358cac5002e6c7210,',
+  body:        'S:8089008b986ad149a4bc5e58c01faa35c35db64e,',
+  bodySm:      'S:09a4c0a27962ce95261757a946d0b3faf8407842,',
+  bodyStrong:  'S:5b49fbaccad6abf0a7edd9f0e84ba675ceda2abc,',
+  caption:     'S:f4c767f5555ce09ca6e49ed59e877151a43cc407,',
+  captionStr:  'S:e80f1a86eaa7921dffb2c37bd2a9de29858b7edd,',
+  micro:       'S:ceafa616384c37944f56c94e90e4c9b07980d764,',
+  eyebrowMd:   'S:e98a7e5c655664f5f3f7b56fb60635423a84086f,',
+  btnSm:       'S:3b5a0e0993494ec83d86ff885cfc709512273571,',
+  btnMd:       'S:5ab6f74ca0e4af249bff4e20a1b5c974a6ce49ac,',
+};
+
+// Effect Styles TLS
+const ES = {
+  'card':          'S:cf8a294228d4997602a714074dcaa581f003d6ff,',
+  'card-hover':    'S:2edc18e41c1dc1370a55115fbf080edd719ec770,',
+  'card-lift':     'S:9b9b938bbffdd9d8989d7fe383f016daf25131ad,',
+  'teal-sm':       'S:23ad9911b9b11de0963468547608fe05eafd9f42,',
+  'teal-md':       'S:9324b5a7488008a381c67130f9b4cc19edcbab7c,',
+  'warm-sm':       'S:5570de7def6f17ebb6be7740630b027cec42e4c8,',
+  'warm-md':       'S:39674b5aa1b1ec75b44189beac0c91c54998f4cb,',
+  'sun-sm':        'S:3acc8362bed1b174cff9af446ab458cdbed8b96a,',
+  'sun-md':        'S:d20da67c5a408235cd6f777e80643ff50acc00ce,',
+};
+```
+
+### Pièges Phase 21 (pages de doc Figma via Plugin API)
+
+1. **`page.backgrounds` ne peut PAS être bindé aux variables** : `cardsPage.backgrounds = [vs('ink50')]` lance `"page backgrounds cannot be bound to variables"`. Utiliser du RGB brut :
+   ```js
+   cardsPage.backgrounds = [{ type: 'SOLID', color: { r: 0.976, g: 0.980, b: 0.984 }, opacity: 1 }];
+   ```
+
+2. **`HUG` interdit sur Ellipse, Rectangle, et Frame non-auto-layout** : `dot.layoutSizingHorizontal = 'HUG'` sur un `figma.createEllipse()` lance `"HUG can only be set on auto-layout frames or text children"`. Les formes (Ellipse, Rectangle) ont `layoutSizing = FIXED` par défaut — c'est correct, ne pas essayer de mettre HUG dessus.
+
+3. **`primaryAxisSizingMode` ≠ `layoutSizingHorizontal`** (confusion fréquente) :
+   - `frame.primaryAxisSizingMode` (set sur le frame lui-même) → `'FIXED'` | `'AUTO'` uniquement. **JAMAIS `'FILL'`.**
+   - `child.layoutSizingHorizontal` (set sur l'enfant d'un AL frame) → `'FIXED'` | `'HUG'` | `'FILL'`.
+   - Erreur type : `"Expected 'FIXED' | 'AUTO', received 'FILL'"` → chercher un `primaryAxisSizingMode = 'FILL'` dans le script.
+
+4. **Scripts atomiques — si une erreur, RIEN n'est exécuté** : inutile de retry le même script partiel. Corriger l'erreur en entier puis resoumettre le script complet.
+
+5. **Éléments positionnés en absolu dans un wrapper frame** (ex. badge numéroté `-top-5` de AstucesCard) : créer un `wrapper` frame parent sans clipping (`clipsContent = false`) + placer la card à `y = 20` et le badge à `y = 0`. Le wrapper absorbe le débordement du badge sans clipper la card.
+
+6. **`counterAxisSizingMode` : 'AUTO' puis resize** : quand on veut un frame auto-layout qui hugs en vertical mais a une largeur fixe, faire dans cet ordre : `f.primaryAxisSizingMode = 'FIXED'; f.counterAxisSizingMode = 'AUTO'; f.resize(width, 10);` — le `counterAxisSizingMode = 'AUTO'` + `resize` fixe la largeur et laisse la hauteur se calculer.
+
+7. **Toujours `return` tous les IDs créés** : chaque script doit `return { ok: true, nodeCount, nextCursorY }` pour permettre la continuité inter-scripts (le `nextCursorY` est passé au script suivant).
+
+### Workflow par famille de composants (OBLIGATOIRE)
+
+```
+1. LIRE les fichiers source (.tsx) de tous les composants de la famille
+2. IDENTIFIER les variants/tones/states principaux à documenter (max 5 par section)
+3. ÉCRIRE les scripts en petits blocs (2–3 sections par appel use_figma max)
+   - Charger les fonts au début de chaque script
+   - Toujours déclarer VAR / TS / ES / vs() / tx() / makeLabel() dans chaque script (pas de shared state)
+   - Tracker cursorY et le passer au script suivant via le return
+4. PRENDRE un screenshot final via get_screenshot (nodeId de la page)
+5. NE PAS créer de components Figma natifs — ces pages sont des frames de DOCUMENTATION,
+   pas des composants de librairie (les vrais composants sont dans les pages Atoms/Composites)
+```
+
+### Pages de documentation existantes
+
+| Page Figma | ID | Composants | Construit le |
+|---|---|---|---|
+| `🃏 Cards — Component Library` | `4126:26` | 11 cards (Card, LessonCard, SessionCard, JournalEntryCard, ActionCard, ResumeLessonCard, CourseCard, PageCard, AstucesCard, NotificationCard, PromptCard/JournalBubbleCard) | 2026-06-27 |

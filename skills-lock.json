@@ -31,6 +31,12 @@
       "skillPath": "skills/gpt-tasteskill/SKILL.md",
       "computedHash": "cc8f0c601d8240a124e1d11634351a2be7b8a72fd807c75e5b6bf7afcd5ddee0"
     },
+    "higgsfield-cinematic-prompt": {
+      "source": "adlaiponderous700/claude-skill-cinematic-prompt",
+      "sourceType": "github",
+      "skillPath": "skill/SKILL.md",
+      "computedHash": "6c9b51751fa672008ed9fb0207c7a2d5631e837c85285d3a0c0b74747221691f"
+    },
     "high-end-visual-design": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
@@ -78,6 +84,12 @@
       "sourceType": "github",
       "skillPath": "skills/redesign-skill/SKILL.md",
       "computedHash": "b405eee0e0e80fc243f731d9aa368bca307e356db7e6157d27101d369dac6726"
+    },
+    "remotion-best-practices": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/remotion/SKILL.md",
+      "computedHash": "14e4caa85e5c91d629e53397f94c9e8bb81460e93cafa31b278d14f5e9f640b7"
     },
     "stitch-design-taste": {
       "source": "Leonxlnx/taste-skill",
