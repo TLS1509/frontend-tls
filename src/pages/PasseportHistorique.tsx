@@ -47,7 +47,7 @@ const PasseportHistorique: React.FC = () => {
         eyebrow="Passeport · Historique"
         title="6 mois de progression"
         summary="Tous tes événements Dreyfus, JAC, missions et formations validés depuis novembre 2025"
-        tone="default"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

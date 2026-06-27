@@ -61,7 +61,7 @@ export const ProjectTask: React.FC = () => {
   if (!task) {
     return (
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
-        <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="default" />
+        <EditorialHero title="Tâche introuvable" summary="Cette tâche n'existe pas." tone="flat" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(`/project/${projectId}`)}>
           Retour au projet
         </Button>
@@ -93,7 +93,7 @@ export const ProjectTask: React.FC = () => {
         eyebrow={{ label: `Projet · Tâche` }}
         title={task.title}
         summary={task.description}
-        tone="brand"
+        tone="flat"
         trailing={
           <Badge variant={STATUS_VARIANTS[task.status]}>
             <span className="inline-flex items-center gap-tight.5">

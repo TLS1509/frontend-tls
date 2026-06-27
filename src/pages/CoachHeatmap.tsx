@@ -45,7 +45,7 @@ export default function CoachHeatmap() {
         eyebrow="Coach · Passeport"
         title="Heatmap Compétences Équipe"
         summary="Visualise les niveaux Dreyfus de toute ton équipe d'un seul coup d'œil. Identifie les lacunes collectives et les apprenants en difficulté."
-        tone="default"
+        tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>

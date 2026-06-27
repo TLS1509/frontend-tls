@@ -30,7 +30,7 @@ export default function CoachJournalDetail() {
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Entrée de Journal"
         summary="Réflexion sur la progression de Marie : 12 mai 2026"
-        tone="warm"
+        tone="flat"
         trailing={
           <div className="flex gap-stack-xs">
             <Button variant="glass" leadingIcon={<Pencil size={16} />} size="sm">Modifier</Button>

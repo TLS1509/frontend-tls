@@ -91,7 +91,7 @@ export default function Gamification() {
         eyebrow="SBO · Learn"
         title="Ma Progression & Gamification"
         summary="Streaks, badges, XP et niveaux Dreyfus : suis ta progression et célèbre chaque étape."
-        tone="warm"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Trophy size={16} />}>
             Galerie de badges

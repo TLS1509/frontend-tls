@@ -76,7 +76,7 @@ export default function CoachCorrectionsQueue() {
         eyebrow="Coach · Corrections"
         title="File de Corrections"
         summary="Gère les exercices soumis par tes apprenants. Corrige, commente et suis la progression de chacun."
-        tone="warm"
+        tone="flat"
         trailing={
           urgentCount > 0 ? (
             <div className="flex items-center gap-stack-xs bg-white/20 backdrop-blur-sm px-3 py-stack-xs rounded-xl border border-white/30">

@@ -97,7 +97,7 @@ export default function CoachJournal() {
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Journal de Coaching"
         summary="Consignez vos observations, bilans de session et réflexions pédagogiques."
-        tone="warm"
+        tone="flat"
         trailing={
           <Button variant="glass" leadingIcon={<PenLine size={16} />}>
             Nouvelle entrée

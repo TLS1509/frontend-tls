@@ -72,7 +72,7 @@ export default function EvenementDetail() {
   return (
     <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
-        tone="sun"
+        tone="flat"
         eyebrow={{ label: 'Événements · Détail' }}
         title={EVENT.title}
         summary={EVENT.subtitle}

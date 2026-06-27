@@ -49,7 +49,7 @@ export default function CoachApprenants() {
         eyebrow="Coach · Apprenants"
         title="Mes Apprenants"
         summary="Suis la progression de chaque apprenant, identifie les situations à risque et planifie les interventions."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

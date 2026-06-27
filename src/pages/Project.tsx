@@ -64,7 +64,7 @@ export const Project: React.FC = () => {
   if (!project) {
     return (
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
-        <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="default" />
+        <EditorialHero title="Projet introuvable" summary="Ce projet n'existe pas." tone="flat" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/projects')}>
           Retour aux projets
         </Button>
@@ -91,7 +91,7 @@ export const Project: React.FC = () => {
         eyebrow={{ icon: <Award size={12} />, label: `Projet ${TYPE_LABELS[project.type]}` }}
         title={project.title}
         summary={project.description}
-        tone="brand"
+        tone="flat"
         trailing={
           <Badge variant={project.status === 'active' ? 'success' : project.status === 'planned' ? 'info' : 'neutral'}>
             {STATUS_LABELS[project.status]}

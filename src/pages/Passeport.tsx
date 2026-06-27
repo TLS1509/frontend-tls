@@ -80,7 +80,7 @@ export default function Passeport() {
         eyebrow="SBO · Match"
         title="Mon Passeport Compétences"
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />}>
             Définir un objectif

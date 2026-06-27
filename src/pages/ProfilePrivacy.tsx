@@ -71,7 +71,7 @@ export default function ProfilePrivacy() {
         eyebrow="Profil · Confidentialité"
         title="Confidentialité & RGPD"
         summary="Gère tes préférences de confidentialité, consulte les données collectées et exerce tes droits RGPD."
-        tone="default"
+        tone="flat"
         trailing={
           <Badge variant="success" size="md">Données protégées · RGPD conforme</Badge>
         }

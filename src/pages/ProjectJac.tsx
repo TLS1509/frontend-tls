@@ -217,7 +217,7 @@ export const ProjectJac: React.FC = () => {
         eyebrow={{ label: 'Projet · JAC' }}
         title="Jalons d'Application Critique"
         summary="Évaluations Dreyfus par compétence. Validez les JAC soumis par les collaborateurs."
-        tone="brand"
+        tone="flat"
         meta={[
           { icon: <Clock size={12} />, label: `${pendingJacs.length} en attente` },
           { icon: <CheckCircle2 size={12} />, label: `${doneJacs.length} traités` },

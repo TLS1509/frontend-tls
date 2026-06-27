@@ -63,7 +63,7 @@ export default function EvenementRecap() {
   return (
     <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
-        tone="sun"
+        tone="flat"
         eyebrow={{ label: 'Événement · Récapitulatif' }}
         title={EVENT.title}
         summary={`Session du ${EVENT.date} · ${EVENT.participants} participants`}

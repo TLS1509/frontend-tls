@@ -48,7 +48,7 @@ const StreakDetail: React.FC = () => {
         eyebrow="Gamification · Streak"
         title={`${currentStreak} jours d'affilée`}
         summary={currentStreak >= 30 ? "Incroyable ! Tu as décroché le badge 1 mois de streak !" : `Continue comme ça : encore ${30 - currentStreak} jours pour décrocher ton badge 1 mois !`}
-        tone="warm"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">

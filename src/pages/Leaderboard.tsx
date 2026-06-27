@@ -88,7 +88,7 @@ export const Leaderboard: React.FC = () => {
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
-          tone="sun"
+          tone="flat"
           eyebrow={{ icon: <Trophy size={12} />, label: 'Progression communauté' }}
           title="Leaderboard"
           summary="Classement communautaire : les apprenants les plus engagés mis à l'honneur."

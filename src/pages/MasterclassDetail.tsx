@@ -38,7 +38,7 @@ export default function MasterclassDetail() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="default"
+        tone="flat"
         eyebrow="Masterclass · Détail"
         title="Leadership en temps de crise"
         summary="Découvre comment maintenir l'engagement et la performance de tes équipes dans les périodes de turbulences."

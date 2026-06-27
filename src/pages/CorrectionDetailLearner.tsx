@@ -44,7 +44,7 @@ const CorrectionDetailLearner: React.FC = () => {
   if (!correction) {
     return (
       <PageShell>
-        <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="default" />
+        <EditorialHero title="Correction introuvable" summary="Cette correction n'existe pas." tone="flat" />
         <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/coaching')}>
           Retour au coaching
         </Button>
@@ -65,7 +65,7 @@ const CorrectionDetailLearner: React.FC = () => {
         eyebrow={{ label: 'Coaching · Ma correction' }}
         title={correction.exerciseTitle}
         summary={`Soumis le ${formatDate(correction.submittedAt)} · Iteration ${correction.iterationCount + 1}`}
-        tone="brand"
+        tone="flat"
         trailing={
           <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate('/coaching')}>
             Retour

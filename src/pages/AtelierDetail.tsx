@@ -49,7 +49,7 @@ export default function AtelierDetail() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="warm"
+        tone="flat"
         eyebrow="Ateliers · Détail"
         title="Atelier Feedback 360°"
         summary="Pratique le feedback constructif en situation réelle. Jeux de rôle + débriefing collectif."
@@ -63,7 +63,7 @@ export default function AtelierDetail() {
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Coach card */}
-        <Card variant="tinted" tone="warm" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-lg">
+        <Card variant="tinted" tone="flat" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-lg">
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
           <div className="flex flex-col gap-tight">
             <h3 className="text-h3 font-display font-bold text-ink-900">Sophie Martin</h3>

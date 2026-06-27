@@ -57,7 +57,7 @@ export default function AtelierPresentiel() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="warm"
+        tone="flat"
         eyebrow="Atelier · Présentiel"
         title="Atelier Gestion du stress"
         summary="Session en présentiel · Sophie Martin"
@@ -68,7 +68,7 @@ export default function AtelierPresentiel() {
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Adresse card */}
-        <Card variant="tinted" tone="warm" className="p-stack-lg flex flex-col gap-stack">
+        <Card variant="tinted" tone="flat" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
             <MapPin size={24} className="text-secondary-600" />
             <h3 className="text-h3 font-semibold text-ink-900">The Learning Hub</h3>

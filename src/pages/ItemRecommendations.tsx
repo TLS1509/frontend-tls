@@ -70,7 +70,7 @@ const ItemRecommendations: React.FC = () => {
         eyebrow="Coaching · Recommandations"
         title="Tes recommandations du coach"
         summary="Items sélectionnés spécifiquement pour toi par Marie"
-        tone="default"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">

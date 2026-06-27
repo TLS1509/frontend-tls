@@ -46,7 +46,7 @@ const PurchaseCredits: React.FC = () => {
         eyebrow="Compte · Acheter des crédits"
         title="Recharge ton compte"
         summary="Les crédits servent à débloquer du coaching premium et des formations spécialisées"
-        tone="brand"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">

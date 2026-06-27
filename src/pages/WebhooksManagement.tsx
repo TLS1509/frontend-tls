@@ -151,7 +151,7 @@ export default function WebhooksManagement() {
         eyebrow="Enterprise · Intégrations"
         title="Webhooks"
         summary="Configurez les webhooks pour synchroniser les données d'apprentissage avec vos outils RH et LMS."
-        tone="brand"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Zap size={16} />}>
             Ajouter un webhook

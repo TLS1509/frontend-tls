@@ -47,7 +47,7 @@ export default function MasterclassHub() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="default"
+        tone="flat"
         eyebrow="Masterclass"
         title="Masterclasses & Experts"
         summary="Accède aux sessions live avec des experts de l'industrie. Format 90 min. Questions live. Replay illimité."
@@ -56,8 +56,8 @@ export default function MasterclassHub() {
       <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="brand" surface="tinted" />
-          <StatCard label="Replays disponibles" value={replayCount} icon={<Play size={18} />} tone="brand" surface="tinted" />
+          <StatCard label="Prochaines sessions" value={upcomingCount} icon={<Calendar size={18} />} tone="flat" surface="tinted" />
+          <StatCard label="Replays disponibles" value={replayCount} icon={<Play size={18} />} tone="flat" surface="tinted" />
           <StatCard label="Mes inscriptions" value={enrolledCount} icon={<Users size={18} />} variant="brand" />
         </div>
 

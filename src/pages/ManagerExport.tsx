@@ -46,7 +46,7 @@ export default function ManagerExport() {
         eyebrow="Manager · Export"
         title="Exporter les Données"
         summary="Génère des rapports personnalisés sur la progression de ta cohorte, les KPIs d'engagement et les niveaux Dreyfus."
-        tone="default"
+        tone="flat"
         trailing={
           <Badge variant="info" size="md">RGPD conforme : données anonymisables</Badge>
         }

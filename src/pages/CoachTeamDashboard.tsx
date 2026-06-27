@@ -72,7 +72,7 @@ export default function CoachTeamDashboard() {
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
         summary="Vue d'ensemble de la progression de toute ton équipe : activité, niveaux Dreyfus, sessions et corrections."
-        tone="warm"
+        tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<Calendar size={16} />}>

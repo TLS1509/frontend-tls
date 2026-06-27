@@ -121,7 +121,7 @@ export default function DashboardAchievements() {
         eyebrow="Dashboard · Réussites"
         title="Mes Réussites"
         summary="Retrouve ici tous tes badges, ton streak actuel et ton rang dans le classement de la communauté."
-        tone="sun"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
@@ -131,7 +131,7 @@ export default function DashboardAchievements() {
             label="Badges obtenus"
             value={String(userBadges.length)}
             sub="badges"
-            tone="sun"
+            tone="flat"
             surface="tinted"
             icon={<Award size={20} />}
           />

@@ -88,14 +88,14 @@ export default function CreditsPage() {
         eyebrow={{ label: 'Profil · Crédits', icon: <Coins size={14} /> }}
         title="Mes Crédits"
         summary="Vos crédits d'apprentissage pour réserver des sessions coaching et accéder aux ressources premium."
-        tone="warm"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         {/* Hero balance card */}
         <Card
           variant="tinted"
-          tone="warm"
+          tone="flat"
           className="p-section flex flex-col md:flex-row items-center md:items-start justify-between gap-section"
         >
           <div className="flex flex-col gap-stack text-center md:text-left">

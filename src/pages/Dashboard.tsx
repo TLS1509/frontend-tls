@@ -199,7 +199,7 @@ export const Dashboard: React.FC = () => {
 
         {/* ① Hero */}
         <PageHero
-          tone="brand"
+          tone="flat"
           compact
           eyebrow={{ icon: <Hand size={14} className="opacity-80" />, label: formattedDate }}
           title={`Bonjour ${firstName}`}

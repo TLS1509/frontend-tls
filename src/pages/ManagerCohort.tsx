@@ -71,7 +71,7 @@ export default function ManagerCohort() {
         eyebrow="Espace Manager · Équipe Tech"
         title="Dashboard Cohorte"
         summary="Progression de l'équipe, suivi des projets, performance JAC et couverture des compétences."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

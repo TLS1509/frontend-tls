@@ -30,7 +30,7 @@ export default function MasterclassLive() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="brand"
+        tone="flat"
         eyebrow="Masterclass · En direct"
         title="Leadership en temps de crise"
         summary="Session en cours avec Marie Fontaine · DRH · Groupe Vinci"

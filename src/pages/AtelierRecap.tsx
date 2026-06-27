@@ -31,7 +31,7 @@ export default function AtelierRecap() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="warm"
+        tone="flat"
         eyebrow="Atelier · Récapitulatif"
         title="Atelier Feedback 360°"
         summary="Session du 18 juin 2026 · Sophie Martin"

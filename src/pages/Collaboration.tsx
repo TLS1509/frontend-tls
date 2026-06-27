@@ -97,7 +97,7 @@ export const Collaboration: React.FC = () => {
       <Container width="page" className="flex-1 py-section flex flex-col gap-section">
 
         <EditorialHero
-          tone="warm"
+          tone="flat"
           eyebrow={{ icon: <Users size={12} />, label: "Travail d'équipe" }}
           title="Collaboration"
           summary="Pilotez vos projets d'équipe, suivez la progression collective et coordonnez les contributions."

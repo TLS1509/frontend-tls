@@ -45,7 +45,7 @@ export default function HelpTickets() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Support' }}
         title="Mes Tickets"
         summary="Suivez l'état de vos demandes de support et échangez avec notre équipe."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" leadingIcon={<Plus size={16} />} onClick={() => navigate('/help/tickets/new')}>
             Nouveau ticket

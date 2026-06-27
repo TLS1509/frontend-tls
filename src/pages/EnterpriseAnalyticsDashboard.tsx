@@ -72,7 +72,7 @@ export default function EnterpriseAnalyticsDashboard() {
         eyebrow="Enterprise · Analytics"
         title="Dashboard Analytics Entreprise"
         summary="Vue cross-équipes des KPIs d'engagement, de progression Dreyfus et d'utilisation des ressources coaching."
-        tone="brand"
+        tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" size="md" leadingIcon={<Download size={16} />}>

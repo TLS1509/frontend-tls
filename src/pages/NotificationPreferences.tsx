@@ -76,7 +76,7 @@ export default function NotificationPreferences() {
         eyebrow="Profil · Notifications"
         title="Préférences de notifications"
         summary="Choisis comment et quand tu veux être notifié. Tu peux modifier ces réglages à tout moment."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack flex flex-col gap-section">

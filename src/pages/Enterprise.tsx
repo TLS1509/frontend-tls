@@ -98,7 +98,7 @@ export const Enterprise: React.FC = () => {
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
-          tone="brand"
+          tone="flat"
           eyebrow={{ icon: <Building2 size={12} />, label: 'Tableau de bord entreprise' }}
           title="Espace Entreprise"
           summary="Pilotez la formation de votre équipe, gérez les accès et suivez les indicateurs clés en temps réel."

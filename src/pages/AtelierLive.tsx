@@ -54,7 +54,7 @@ export default function AtelierLive() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="warm"
+        tone="flat"
         eyebrow="Atelier · En direct"
         title="Atelier Feedback 360°"
         summary="Session en cours · Sophie Martin · 11 participants"

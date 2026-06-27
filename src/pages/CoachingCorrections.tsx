@@ -130,7 +130,7 @@ export default function CoachingCorrections() {
         eyebrow="Coaching · Corrections"
         title="Mes Corrections"
         summary="Retrouve ici les exercices soumis par ton coach en attente de correction et les travaux déjà corrigés."
-        tone="default"
+        tone="flat"
       />
 
       <PageShell noPadTop>

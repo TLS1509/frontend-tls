@@ -56,7 +56,7 @@ export default function CoachCorrectionInterface() {
         eyebrow={`Coach · Correction #${SUBMISSION.id}`}
         title="Interface de Correction"
         summary={`${SUBMISSION.exerciceTitle} : ${SUBMISSION.apprenantName}`}
-        tone="warm"
+        tone="flat"
         trailing={
           <Button variant="ghost" size="md" leadingIcon={<ChevronLeft size={16} />}>
             Retour à la file

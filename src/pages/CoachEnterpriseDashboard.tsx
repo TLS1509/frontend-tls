@@ -44,7 +44,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
         eyebrow="Coach Enterprise · Vue équipe"
         title="Mon équipe Acme Corp"
         summary="Team roster, validation queue et analytics agrégés"
-        tone="warm"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">

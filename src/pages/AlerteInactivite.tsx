@@ -127,7 +127,7 @@ export default function AlerteInactivite() {
         eyebrow="Enterprise · Alertes"
         title="Alertes Inactivité"
         summary="Configure les seuils d'alerte pour les apprenants inactifs et consulte l'historique des alertes déclenchées."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="sm" leadingIcon={<Bell size={14} />}>
             Envoyer une alerte test

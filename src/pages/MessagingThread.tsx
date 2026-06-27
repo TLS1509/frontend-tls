@@ -54,7 +54,7 @@ const MessagingThread: React.FC = () => {
         eyebrow="Coaching · Messagerie"
         title={coachName}
         summary="Conversation directe avec ton coach"
-        tone="default"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="flex-1 px-stack py-section flex flex-col gap-stack">

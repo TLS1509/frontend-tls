@@ -40,7 +40,7 @@ const CoachCalendar: React.FC = () => {
         eyebrow="Coach · Mon calendrier"
         title="Mes sessions de coaching"
         summary="Synchronisé avec Google Calendar (Outlook V1)"
-        tone="warm"
+        tone="flat"
         trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 

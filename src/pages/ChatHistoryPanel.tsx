@@ -125,7 +125,7 @@ export default function ChatHistoryPanel() {
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
         title="Historique des conversations"
         summary="Retrouvez toutes vos conversations avec l'assistant IA."
-        tone="brand"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

@@ -232,7 +232,7 @@ export const Recherche: React.FC = () => {
           variant="default"
           size="lg"
           leadingIcon={<SearchIcon size={20} strokeWidth={2} />}
-          trailing={isSearching ? <Spinner size="sm" tone="brand" label="Recherche…" /> : undefined}
+          trailing={isSearching ? <Spinner size="sm" tone="flat" label="Recherche…" /> : undefined}
         />
 
         {/* Filters */}

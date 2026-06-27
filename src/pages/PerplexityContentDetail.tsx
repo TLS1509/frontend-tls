@@ -43,7 +43,7 @@ const PerplexityContentDetail: React.FC = () => {
         eyebrow="Veille IA · Sourcé via Perplexity"
         title={MOCK_ARTICLE.title}
         summary={MOCK_ARTICLE.excerpt}
-        tone="default"
+        tone="flat"
       />
       <EditorialLayout
         main={

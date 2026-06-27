@@ -33,7 +33,7 @@ export default function XPDashboard() {
         eyebrow="Profil · XP"
         title="Mes Points XP"
         summary="Suis ta progression, tes gains d'expérience et les catégories d'apprentissage qui font avancer ton niveau."
-        tone="sun"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">
@@ -43,7 +43,7 @@ export default function XPDashboard() {
             label="Total XP"
             value={totalXP.toLocaleString('fr-FR')}
             sub="XP"
-            tone="sun"
+            tone="flat"
             surface="tinted"
             icon={<Zap size={20} />}
             delta="+450 ce mois"

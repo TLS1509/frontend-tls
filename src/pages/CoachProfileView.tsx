@@ -97,7 +97,7 @@ export default function CoachProfileView() {
         eyebrow="Coaching · Mon Coach"
         title="Sophie Martin"
         summary="Votre coach certifiée en IA & Pédagogie. Découvrez son parcours, ses spécialités et réservez votre prochaine session."
-        tone="warm"
+        tone="flat"
       />
 
       {/* ── Main layout ── */}

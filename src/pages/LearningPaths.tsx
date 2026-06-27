@@ -219,7 +219,7 @@ export const LearningPaths: React.FC = () => {
 
         {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
         <EditorialHero
-          tone="brand"
+          tone="flat"
           eyebrow={{ icon: <GraduationCap size={12} />, label: 'Mon apprentissage' }}
           title="Mes Parcours"
           summary="Explorez vos parcours de formation et suivez votre progression au fil des leçons."

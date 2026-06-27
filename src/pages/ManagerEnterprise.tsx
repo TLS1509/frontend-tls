@@ -60,7 +60,7 @@ export default function ManagerEnterprise() {
         eyebrow="Espace Manager"
         title="Portail Entreprise"
         summary="KPIs globaux, suivi des cohortes, gestion du budget formation et alertes en temps réel."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Download size={16} />}>
             Exporter rapport

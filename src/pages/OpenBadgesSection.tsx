@@ -97,7 +97,7 @@ export default function OpenBadgesSection() {
         eyebrow={{ label: 'Profil · Badges', icon: <Award size={14} /> }}
         title="Mes Open Badges"
         summary="Vos certifications numériques vérifiables selon la norme Open Badges. Partagez vos badges sur LinkedIn ou exportez-les."
-        tone="sun"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

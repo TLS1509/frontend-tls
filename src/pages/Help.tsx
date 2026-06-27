@@ -122,7 +122,7 @@ export const Help: React.FC = () => {
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
-          tone="default"
+          tone="flat"
           eyebrow={{ icon: <HelpCircle size={12} />, label: 'Support & aide' }}
           title="Centre d'aide"
           summary="Trouvez rapidement des réponses, discutez avec l'assistant IA ou contactez notre équipe."

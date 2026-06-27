@@ -46,7 +46,7 @@ const ManagerViewsBuilder: React.FC = () => {
         eyebrow="Manager · Custom Views Builder"
         title="Crée ta vue analytique sur mesure"
         summary="Sélectionne tes métriques, choisis ton type de graphique, sauvegarde et partage"
-        tone="default"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack py-section grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-section">

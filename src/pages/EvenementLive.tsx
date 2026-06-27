@@ -57,7 +57,7 @@ export default function EvenementLive() {
   return (
     <div className="flex flex-col gap-section px-stack py-stack-lg">
       <EditorialHero
-        tone="sun"
+        tone="flat"
         eyebrow={{ label: 'Événement · En direct' }}
         title={EVENT.title}
         summary={`En cours · ${EVENT.participants} participants connectés`}

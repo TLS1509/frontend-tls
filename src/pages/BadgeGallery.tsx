@@ -98,7 +98,7 @@ export default function BadgeGallery() {
         eyebrow="Profil · Badges"
         title="Mes Badges"
         summary="Tes récompenses, trophées et distinctions obtenus au fil de ton parcours d'apprentissage."
-        tone="sun"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">

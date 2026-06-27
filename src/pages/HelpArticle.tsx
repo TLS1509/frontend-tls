@@ -41,7 +41,7 @@ export default function HelpArticle() {
           eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Article' }}
           title="Article introuvable"
           summary="Cet article n'existe pas ou a été déplacé."
-          tone="default"
+          tone="flat"
         />
         <Container className="pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
@@ -64,7 +64,7 @@ export default function HelpArticle() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Article' }}
         title={article.title}
         summary={article.summary}
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" leadingIcon={<ArrowLeft size={16} />} size="sm" onClick={() => navigate('/help')}>
             Retour à l'aide

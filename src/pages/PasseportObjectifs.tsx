@@ -145,7 +145,7 @@ export default function PasseportObjectifs() {
         eyebrow="Passeport · Objectifs"
         title="Mes Objectifs de Progression"
         summary="Définis des objectifs Dreyfus mesurables et suis leur avancement. Chaque objectif génère un plan d'action personnalisé."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={openCreate}>
             Nouvel objectif

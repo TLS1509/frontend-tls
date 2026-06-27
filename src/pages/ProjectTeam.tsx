@@ -51,7 +51,7 @@ export const ProjectTeam: React.FC = () => {
         eyebrow={{ label: 'Projet · Équipe' }}
         title="Équipe du projet"
         summary={project?.title ? `Membres, niveaux Dreyfus et compétences : ${project.title}` : 'Membres, niveaux Dreyfus et compétences de l\'équipe.'}
-        tone="brand"
+        tone="flat"
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">

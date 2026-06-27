@@ -63,7 +63,7 @@ export const ProjectPasseportFeed: React.FC = () => {
         eyebrow={{ label: 'Projet · Passeport' }}
         title="Feed Passeport Compétences"
         summary="Enrichissements Dreyfus générés par le projet : progressions validées par les experts."
-        tone="brand"
+        tone="flat"
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">

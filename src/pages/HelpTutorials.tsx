@@ -31,7 +31,7 @@ export default function HelpTutorials() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriels' }}
         title="Tutoriels"
         summary="Apprenez à utiliser toutes les fonctionnalités de la plateforme avec nos guides pas-à-pas."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">

@@ -44,7 +44,7 @@ const CoachEngagement: React.FC = () => {
         eyebrow="Coach · Engagement & Analytics"
         title="L'engagement de mon équipe"
         summary="Streaks, badges, XP semaine et alertes d'atrophie"
-        tone="warm"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">

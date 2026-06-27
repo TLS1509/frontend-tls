@@ -52,7 +52,7 @@ export default function CoachingSessionDetail() {
         eyebrow={`Coaching · Session #${session.id}`}
         title={`Session coaching : ${session.theme ?? 'Développement managérial'}`}
         summary={`${day} · ${time} · Visioconférence`}
-        tone="warm"
+        tone="flat"
         trailing={
           <div className="flex items-center gap-stack-xs">
             {isPlanned && (

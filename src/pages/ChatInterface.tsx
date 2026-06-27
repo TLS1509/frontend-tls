@@ -94,7 +94,7 @@ export default function ChatInterface() {
         eyebrow={{ label: 'Assistant IA', icon: <Sparkles size={14} /> }}
         title="Votre assistant personnel"
         summary="Posez vos questions sur vos formations, demandez de l'aide sur un concept ou explorez vos compétences."
-        tone="brand"
+        tone="flat"
         trailing={
           <Badge variant="info" size="md">RAG · Mistral</Badge>
         }

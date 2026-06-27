@@ -62,7 +62,7 @@ export default function DashboardCompetenceDetail() {
         eyebrow="Dashboard · Compétence"
         title={COMPETENCE.label}
         summary={`Niveau Dreyfus D${COMPETENCE.currentLevel} → Objectif D${COMPETENCE.targetLevel} · ${COMPETENCE.progress}% de progression`}
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Target size={16} />}>
             Voir le passeport complet

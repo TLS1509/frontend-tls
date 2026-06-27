@@ -50,7 +50,7 @@ export default function HelpTicketDetail() {
           eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Ticket' }}
           title="Ticket introuvable"
           summary="Ce ticket n'existe pas ou vous n'y avez pas accès."
-          tone="default"
+          tone="flat"
         />
         <Container width="page" padding={false} className="px-stack pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
@@ -69,7 +69,7 @@ export default function HelpTicketDetail() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Ticket' }}
         title={ticket.subject}
         summary={`Ticket ${ticket.id} : Ouvert le ${formatDate(ticket.createdAt)}`}
-        tone="default"
+        tone="flat"
         trailing={<Badge variant={badge.variant}>{badge.label}</Badge>}
       />
 

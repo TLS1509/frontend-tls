@@ -75,7 +75,7 @@ export const ProjectSkillGaps: React.FC = () => {
         eyebrow={{ label: 'Projet · Analyse' }}
         title="Lacunes de compétences"
         summary={`Comparaison entre les niveaux Dreyfus requis par le projet et les niveaux actuels de l'équipe.`}
-        tone="brand"
+        tone="flat"
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-stack-xs">

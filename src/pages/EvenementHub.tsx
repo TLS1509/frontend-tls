@@ -64,7 +64,7 @@ export default function EvenementHub() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="sun"
+        tone="flat"
         eyebrow={{ label: 'Événements' }}
         title="Événements & Conférences"
         summary="Conférences, webinaires et ateliers ouverts à la communauté TLS. Certains événements sont réservés aux membres."

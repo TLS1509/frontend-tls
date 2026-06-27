@@ -84,7 +84,7 @@ const ProjectsList: React.FC = () => {
         eyebrow={{ label: 'Projets · Mes missions' }}
         title="Tous mes projets"
         summary="Tâches assignées, statut JAC, progression et enrichissement Passeport en temps réel."
-        tone="brand"
+        tone="flat"
         trailing={
           <Button variant="glass" leadingIcon={<Plus size={16} />}>
             Nouveau projet

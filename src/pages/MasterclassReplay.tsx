@@ -28,7 +28,7 @@ export default function MasterclassReplay() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="default"
+        tone="flat"
         eyebrow="Masterclass · Replay"
         title="Leadership en temps de crise"
         summary="Session du 15 juin 2026 · Marie Fontaine"

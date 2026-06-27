@@ -140,7 +140,7 @@ export default function CoachLearnerProfile() {
         eyebrow="Coach · Apprenant"
         title={`Fiche : ${learner.name}`}
         summary={`Suivi personnalisé de ${learner.name}. Historique des sessions, progression Dreyfus et notes pour accompagner sa progression.`}
-        tone="warm"
+        tone="flat"
         trailing={
           <Button
             variant="ghost"

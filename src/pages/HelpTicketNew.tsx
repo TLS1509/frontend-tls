@@ -55,7 +55,7 @@ export default function HelpTicketNew() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Nouveau ticket' }}
         title="Contacter le support"
         summary="Notre équipe répond généralement dans un délai de 24 h ouvrées."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack pb-page">

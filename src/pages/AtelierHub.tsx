@@ -48,7 +48,7 @@ export default function AtelierHub() {
   return (
     <div className="flex flex-col">
       <EditorialHero
-        tone="warm"
+        tone="flat"
         eyebrow="Ateliers Pratiques"
         title="Ateliers de ta Cohorte"
         summary="Sessions pratiques en petit groupe animées par ton coach. Maximum 12 participants. Distanciel ou présentiel."
@@ -58,8 +58,8 @@ export default function AtelierHub() {
       <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="warm" surface="tinted" />
-          <StatCard label="Mes inscriptions" value={myEnrollments.length} icon={<Users size={18} />} tone="warm" surface="tinted" />
+          <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="flat" surface="tinted" />
+          <StatCard label="Mes inscriptions" value={myEnrollments.length} icon={<Users size={18} />} tone="flat" surface="tinted" />
           <StatCard label="Ateliers passés" value={pastCount} icon={<Clock size={18} />} variant="warm" />
         </div>
 

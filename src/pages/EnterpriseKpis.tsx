@@ -150,7 +150,7 @@ export default function EnterpriseKpis() {
         eyebrow={{ label: 'Enterprise · KPIs' }}
         title="KPIs Détaillés"
         summary="Vue granulaire des indicateurs de performance par département, compétence et période."
-        tone="brand"
+        tone="flat"
         trailing={
           <div className="flex flex-wrap gap-stack-xs">
             <Button

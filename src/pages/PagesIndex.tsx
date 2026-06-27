@@ -148,16 +148,16 @@ export const PagesIndex: React.FC = () => {
       <Container width="page" className="py-section flex flex-col gap-section">
 
         <EditorialHero
-          tone="default"
+          tone="flat"
           eyebrow={{ icon: <BookOpen size={12} />, label: 'Navigation développeur' }}
           title="Pages du Projet"
           summary="Accès centralisé à toutes les pages de l'application : statuts, familles et routes."
         />
 
         <section aria-label="Statistiques" className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard tone="brand" surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Pages totales" value={String(total)} />
-          <StatCard tone="sun"   surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Complétées" value={String(completed)} />
-          <StatCard tone="warm"  surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="En cours" value={String(inProgress)} />
+          <StatCard tone="flat" surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Pages totales" value={String(total)} />
+          <StatCard tone="flat"   surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="Complétées" value={String(completed)} />
+          <StatCard tone="flat"  surface="tinted" size="sm" icon={<LayoutGrid size={18} />} label="En cours" value={String(inProgress)} />
         </section>
 
         {FAMILY_SECTIONS.map(({ family, label, emoji, desc }) => {

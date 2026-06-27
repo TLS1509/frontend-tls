@@ -122,7 +122,7 @@ export default function CoachAnalytics() {
         eyebrow={{ label: 'Coach · Analytics' }}
         title="Analytics Équipe"
         summary="Suivi de l'engagement, de la progression Dreyfus et de l'activité de correction de ta cohorte."
-        tone="warm"
+        tone="flat"
         trailing={
           <div className="flex flex-wrap gap-stack-xs">
             {PERIOD_OPTIONS.map((p) => (

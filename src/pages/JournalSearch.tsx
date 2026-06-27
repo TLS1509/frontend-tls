@@ -60,7 +60,7 @@ const JournalSearch: React.FC = () => {
         eyebrow="Journal · Recherche"
         title="Retrouve toutes tes entrées"
         summary="Recherche full-text + filtres par date et sentiment"
-        tone="brand"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">

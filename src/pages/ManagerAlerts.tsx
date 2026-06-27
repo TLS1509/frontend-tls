@@ -87,7 +87,7 @@ export default function ManagerAlerts() {
         eyebrow="Manager · Configuration"
         title="Alertes & Notifications"
         summary="Configure les alertes automatiques pour suivre l'engagement de ton équipe et anticiper les situations à risque."
-        tone="default"
+        tone="flat"
         trailing={
           <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>
             Nouvelle alerte

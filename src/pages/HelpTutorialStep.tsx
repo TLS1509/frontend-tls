@@ -34,7 +34,7 @@ export default function HelpTutorialStep() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
         title="Tutoriel : Paramétrer mon profil"
         summary={`Étape ${CURRENT_STEP} sur ${TOTAL_STEPS} : Renseigner vos informations personnelles`}
-        tone="default"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">

@@ -42,7 +42,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         eyebrow="Confidentialité · Droit à l'oubli (RGPD)"
         title="Supprimer définitivement mon compte"
         summary="Action irréversible. Toutes tes données seront anonymisées ou supprimées sous 30 jours."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">

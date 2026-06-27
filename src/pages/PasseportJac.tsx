@@ -133,7 +133,7 @@ export default function PasseportJac() {
     <div className="flex flex-col">
       {/* Hero */}
       <EditorialHero
-        tone="default"
+        tone="flat"
         eyebrow={{ label: 'Passeport · JAC' }}
         title="Jalons & Certifications"
         summary="Valide officiellement tes niveaux Dreyfus auprès de ton entreprise et obtiens tes certifications."

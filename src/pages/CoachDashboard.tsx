@@ -66,7 +66,7 @@ export default function CoachDashboard() {
         eyebrow="Espace Coach"
         title="Tableau de bord Coach"
         summary="Suis la progression de tes apprenants, revois leurs travaux et planifie vos sessions."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">

@@ -52,7 +52,7 @@ export default function HelpSearch() {
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Recherche' }}
         title="Rechercher dans l'aide"
         summary="Trouvez des réponses à toutes vos questions sur la plateforme."
-        tone="default"
+        tone="flat"
       />
 
       <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
