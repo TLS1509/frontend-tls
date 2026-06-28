@@ -33,18 +33,18 @@ import { SEOHead } from './components/SEOHead';
 
 const TEAM = [
   {
-    name: 'Pierre-Armand Dennery',
-    initials: 'PAD',
-    role: 'Co-fondateur · Directeur associé',
-    bio: "15 ans en ingénierie pédagogique et transformation L&D. Architecte de la méthode STRIDE, il pilote la vision pédagogique, les missions clients et le développement de la Learning App.",
-    expertise: ['Pédagogie IA', 'STRIDE', 'Transformation L&D'],
-  },
-  {
     name: 'Chloé Mimault-Talagrand',
     initials: 'CM',
     role: 'Co-fondatrice · Managing Director',
     bio: "Pilote la stratégie, le développement commercial et les opérations de TLS. Construit la marque et les partenariats avec l'exigence que la transformation pédagogique mérite.",
     expertise: ['Stratégie', 'Développement', 'Opérations'],
+  },
+  {
+    name: 'Pierre-Armand Dennery',
+    initials: 'PAD',
+    role: 'Co-fondateur · Directeur associé',
+    bio: "15 ans en ingénierie pédagogique et transformation L&D. Architecte de la méthode STRIDE, il pilote la vision pédagogique, les missions clients et le développement de la Learning App.",
+    expertise: ['Pédagogie IA', 'STRIDE', 'Transformation L&D'],
   },
 ];
 
@@ -112,6 +112,11 @@ export const MarketingEquipe: React.FC = () => {
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
               Des praticiens qui ont construit de vraies organisations apprenantes, qui les accompagnent au quotidien et transmettent ce qu'ils ont appris.
+            </p>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.25}>
+            <p className="font-display text-[clamp(1.1rem,2.5vw,1.5rem)] font-bold text-accent-400 leading-snug m-0 max-w-xl italic">
+              « Pour que la formation se prouve sur le terrain. »
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
