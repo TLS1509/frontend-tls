@@ -1786,6 +1786,556 @@ export const ARTICLES: Article[] = [
       },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 10. Le formateur augmenté par l'IA
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'formateur-augmente-ia',
+    title: "Le formateur augmenté par l'IA",
+    subtitle: 'Redistribution du travail, pas remplacement',
+    category: 'IA',
+    date: 'Juin 2026',
+    readTime: '9 min',
+    featured: false,
+    summary:
+      "Ce que l'IA change vraiment dans le métier de formateur : les tâches qu'elle prend en charge, les compétences irréductiblement humaines, et la boucle Learn→Do→Match qui structure une montée en compétences durable.",
+    intro:
+      "La peur est compréhensible. Une IA écrit un script de formation en 45 secondes, génère un quiz adaptatif, reformule un même module pour trois niveaux différents. Face à ça, la question revient dans tous les ateliers de formation de formateurs : est-ce que mon métier a encore un avenir ? Oui. Mais pas en restant au même endroit. Ce que l'IA déplace n'est pas le formateur — c'est la façon dont il répartit son temps. Et cette redistribution, bien menée, libère exactement le temps qu'il lui manquait pour faire ce que personne d'autre ne peut faire à sa place.",
+    sections: [
+      { heading: 'La peur, de près' },
+      { heading: "Ce que « augmenté » veut dire en pratique" },
+      { heading: "4 tâches que l'IA prend en charge" },
+      { heading: 'Ce que le formateur garde — irréductiblement' },
+      { heading: 'Learn → Do → Match : la boucle qui ancre les compétences' },
+      { heading: 'Certifier le formateur augmenté' },
+    ],
+    quotes: [
+      "Le formateur augmenté confie à l'IA ce qu'elle fait mieux — et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
+      "L'IA peut informer. Le formateur peut convaincre. Ce n'est pas la même chose.",
+      "7 modules, 7 heures, un Open Badge C-Campus. La formation qui positionne le formateur là où il crée le plus de valeur.",
+    ],
+    conclusion:
+      "Le résultat n'est pas un formateur remplacé. C'est un formateur qui passe moins de temps sur des tâches sans valeur ajoutée, et plus de temps sur ce qui justifie son rôle : créer des conditions d'apprentissage que personne n'oublie, dans des contextes que les algorithmes ne comprennent pas. L'IA redistribue le travail. Ce que vous faites avec le temps retrouvé — voilà la vraie question. Si vous voulez structurer cette transition, la formation certifiante « Formateur Augmenté par l'IA » de The Learning Society est ouverte aux inscriptions. Découvrez le programme sur notre page Formation.",
+    liveUrl: 'https://thelearningsociety.fr/le-formateur-augmente-par-lia/',
+    cover: 'from-primary-200 via-primary-100 to-accent-100',
+    body: [
+      {
+        type: 'h2',
+        text: 'La peur, de près',
+      },
+      {
+        type: 'p',
+        text: "Les formateurs qui s'inquiètent ne se trompent pas de diagnostic — seulement de conclusion.",
+      },
+      {
+        type: 'p',
+        text: "Ce qui disparaît : les tâches de production mécanique. Rédiger un résumé de session. Générer des exercices de mémorisation calibrés sur un objectif. Adapter un contenu identique à un débutant, un intermédiaire, un expert. Produire trois versions d'un même quiz avec des formulations différentes. Ces tâches occupaient entre 30 et 50 % du temps de conception. L'IA les fait maintenant en minutes, avec une fiabilité suffisante pour servir de base de travail.",
+      },
+      {
+        type: 'p',
+        text: "Ce qui ne disparaît pas : la capacité à créer un contexte d'apprentissage que les gens veulent rejoindre. À poser la question qu'un collaborateur résistant n'ose pas formuler. À sentir que quelque chose cloche dans la salle avant que personne ne l'ait dit. À relier une compétence abstraite à une situation de travail que le groupe reconnaît comme la sienne.",
+      },
+      {
+        type: 'p',
+        text: "Ce n'est pas l'IA contre le formateur. C'est une redistribution des tâches entre ce qu'une machine fait bien et ce qu'un humain fait seul.",
+      },
+      {
+        type: 'h2',
+        text: "Ce que « augmenté » veut dire en pratique",
+      },
+      {
+        type: 'p',
+        text: "Un formateur augmenté n'est pas un formateur qui utilise ChatGPT pour rédiger ses slides.",
+      },
+      {
+        type: 'p',
+        text: "C'est un formateur qui a redéfini ses priorités. Il confie à l'IA les tâches chronophages sans valeur différenciatrice — production de contenu brut, mise en forme, reformulations — et libère du temps pour ce que les algorithmes ne savent pas faire : nouer une relation de confiance avec un apprenant qui résiste, détecter la fatigue cognitive d'un groupe avant qu'elle se transforme en décrochage, adapter une progression pédagogique en direct selon ce que le groupe révèle de lui-même.",
+      },
+      {
+        type: 'p',
+        text: "Cette redéfinition demande un effort réel. Elle implique de changer sa relation au temps, à la production, et parfois à l'identité professionnelle. Les formateurs qui ont fait cette transition témoignent unanimement d'une chose : ils passent plus de temps sur ce qui leur donnait envie de faire ce métier.",
+      },
+      {
+        type: 'pullquote',
+        text: "Le formateur augmenté confie à l'IA ce qu'elle fait mieux — et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
+      },
+      {
+        type: 'h2',
+        text: "4 tâches que l'IA prend en charge",
+      },
+      {
+        type: 'p',
+        text: "Ces quatre chantiers absorbaient du temps de conception sans produire de valeur spécifiquement humaine :",
+      },
+      {
+        type: 'h3',
+        text: '1. La production de contenu brut',
+      },
+      {
+        type: 'p',
+        text: "Premiers jets de scripts, reformulations pédagogiques, adaptations de niveau, introductions contextuelles. L'IA génère une V0 solide en quelques minutes. Le formateur la reprend, l'affine, la contextualise au groupe réel, lui donne une voix reconnaissable. La répartition devient : l'IA produit le volume, le formateur apporte la précision et la pertinence.",
+      },
+      {
+        type: 'h3',
+        text: '2. La différenciation des parcours',
+      },
+      {
+        type: 'p',
+        text: "Adapter un même module pour un débutant, un intermédiaire et un expert représentait trois journées de travail distinctes. Avec un prompt structuré et une révision ciblée, c'est une heure. Cela rend la différenciation réelle — pas seulement promise dans les objectifs pédagogiques, mais effective dans les ressources livrées.",
+      },
+      {
+        type: 'h3',
+        text: "3. L'évaluation formative continue",
+      },
+      {
+        type: 'p',
+        text: "Générer des quiz contextualisés, varier les formulations pour éviter l'effet mémoire, créer des scénarios situationnels à partir d'objectifs pédagogiques définis. L'IA produit un volume d'exercices qu'un formateur seul ne pouvait pas atteindre sans rogner sur d'autres parties du travail. La granularité de l'évaluation s'améliore, les apprenants reçoivent plus de feedback, plus vite.",
+      },
+      {
+        type: 'h3',
+        text: '4. La synthèse et le reporting',
+      },
+      {
+        type: 'p',
+        text: "Analyser 200 verbatims de satisfaction pour en extraire les axes d'amélioration prioritaires. Identifier les patterns de décrochage dans les données d'un LMS. Produire une recommandation d'ingénierie pédagogique à partir de données quantitatives. L'IA traite le volume et la structure, le formateur interprète l'intention derrière les données et décide des arbitrages.",
+      },
+      {
+        type: 'h2',
+        text: 'Ce que le formateur garde — irréductiblement',
+      },
+      {
+        type: 'p',
+        text: "L'IA ne sait pas lire une salle.",
+      },
+      {
+        type: 'p',
+        text: "Elle ne détecte pas la défiance silencieuse d'un manager à qui on a demandé de « faire de la formation » sous pression hiérarchique. Elle ne sait pas quand raccourcir une explication parce que le groupe a déjà compris et commence à s'ennuyer. Elle n'a pas de crédibilité terrain — cette légitimité qui vient d'avoir fait le même métier, face aux mêmes contraintes, avec les mêmes outils défaillants.",
+      },
+      {
+        type: 'p',
+        text: "Quatre compétences restent irréductiblement humaines dans le métier de formateur :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "La présence relationnelle : créer les moments de friction bienveillante — un formateur qui challenge un raisonnement trop rapide, un pair qui partage une erreur coûteuse devant le groupe. Ces échanges ne se produisent pas dans une interface chatbot. Ils demandent une présence, une temporalité, une confiance construite sur la durée.",
+          "Le jugement contextuel : décider, au milieu d'une session, de jeter le plan de cours parce que le vrai problème du groupe vient d'apparaître à travers une question apparemment anodine. Cette flexibilité stratégique en temps réel n'est pas algorithmique. Elle s'apprend par l'expérience et ne se délègue pas.",
+          "L'autorité d'expérience : les apprenants suivent des formateurs en qui ils ont confiance. Cette confiance se construit sur un parcours visible, une expertise incarnée, une posture qui dit « j'y suis passé avant vous ». L'IA peut informer, le formateur peut convaincre d'agir différemment.",
+          "La conception de sens : relier une compétence abstraite à un enjeu business précis, à une situation de travail que le groupe reconnaît comme la sienne, à une transformation individuelle souhaitée. Donner envie d'apprendre quelque chose de difficile. Ce travail de mise en sens — qui transforme une obligation de formation en désir d'apprendre — reste profondément humain.",
+        ],
+      },
+      {
+        type: 'pullquote',
+        text: "L'IA peut informer. Le formateur peut convaincre. Ce n'est pas la même chose.",
+      },
+      {
+        type: 'h2',
+        text: 'Learn → Do → Match : la boucle qui ancre les compétences',
+      },
+      {
+        type: 'p',
+        text: "Chez The Learning Society, nous structurons la montée en compétences autour de trois temps que nous appelons Learn → Do → Match. Ce n'est pas un modèle théorique de plus : c'est la grille de lecture qui permet de décider concrètement ce que l'IA prend en charge et ce que le formateur garde.",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Learn — acquérir le savoir, comprendre les concepts, construire le modèle mental. C'est le temps de l'information et de la compréhension. L'IA augmente considérablement ce temps : personnalisation du contenu, rythme adaptatif, formats variés, répétition espacée automatisée. C'est ici que l'automatisation apporte le plus de gain immédiat.",
+          "Do — appliquer dans une situation proche du réel. Simulations, mises en situation, études de cas contextualisées, exercices à partir de vrais documents métier. C'est ici que le formateur reprend la main : concevoir des situations d'entraînement qui ressemblent au vrai travail du collaborateur demande une connaissance du terrain que l'IA n'a pas.",
+          "Match — ancrer dans le quotidien métier, suivre le transfert des compétences, valider que ce qui a été appris s'exprime concrètement dans le poste. Ce troisième temps est le plus difficile à outiller, et celui où l'accompagnement humain compte le plus. C'est souvent lui qui est sacrifié dans les dispositifs trop courts ou trop génériques.",
+        ],
+      },
+      {
+        type: 'p',
+        text: "La méthode STRIDE intègre ces trois temps dans une séquence complète : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. Les phases « Tester » et « Réaliser » correspondent au Do. « Intégrer » et « Déployer » ferment la boucle sur le Match. L'IA renforce le Learn ; le formateur reste central sur le Do et le Match.",
+      },
+      {
+        type: 'h2',
+        text: 'Certifier le formateur augmenté',
+      },
+      {
+        type: 'p',
+        text: "Comprendre ces quatre chantiers et trois temps en théorie ne suffit pas. Il faut les pratiquer, les ajuster à son contexte, et construire des automatismes sur les outils IA concrets disponibles aujourd'hui.",
+      },
+      {
+        type: 'p',
+        text: "La formation « Formateur Augmenté par l'IA » de The Learning Society a été construite avec cette logique. 7 modules, 7 heures. Conçue avec C-Campus — organisme de formation certifié, partenaire de référence sur la formation de formateurs. Éligible OPCO. Sanctionnée par un Open Badge C-Campus qui atteste de la montée en compétences sur les usages pédagogiques de l'IA.",
+      },
+      {
+        type: 'p',
+        text: "Le programme entraîne les participants à tenir les deux positions simultanément : déléguer à l'IA ce qu'elle fait mieux, reprendre la main sur ce que le formateur fait seul. À la fin des 7 modules, les participants ont produit des ressources réelles avec l'IA, identifié leurs zones de délégation et leurs zones de valeur ajoutée, et construit les réflexes qui transforment l'utilisation ponctuelle en habitude de travail.",
+      },
+      {
+        type: 'pullquote',
+        text: "7 modules, 7 heures, un Open Badge C-Campus. La formation qui positionne le formateur là où il crée le plus de valeur.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 11. L'ingénierie pédagogique à l'ère de l'IA
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'ingenierie-pedagogique-ia',
+    title: "L'ingénierie pédagogique à l'ère de l'IA",
+    subtitle: 'Concevoir mieux, pas plus vite',
+    category: 'IA',
+    date: 'Juin 2026',
+    readTime: '10 min',
+    featured: false,
+    summary:
+      "Comment intégrer l'IA dans la conception de formation sans perdre la rigueur pédagogique : les étapes où l'IA aide vraiment, les limites à connaître, et des exemples de prompts opérationnels.",
+    intro:
+      "L'ingénierie pédagogique est un métier de précision. Définir des objectifs mesurables, séquencer des activités pour qu'elles s'articulent, calibrer les évaluations pour qu'elles testent ce qu'elles prétendent tester. C'est ce travail que l'IA change — pas en le supprimant, mais en redistribuant où l'effort cognitif doit aller. Pour les ingénieurs pédagogiques qui ont appris à se méfier des effets d'annonce, la question n'est pas « est-ce que l'IA va tout changer ? » mais « sur quelles tâches précises l'IA m'aide vraiment, et sur lesquelles je dois rester attentif ? »",
+    sections: [
+      { heading: "Ce que change (vraiment) l'IA pour l'IP" },
+      { heading: 'Phase 1 : analyse des besoins et objectifs' },
+      { heading: 'Phase 2 : structuration et séquençage' },
+      { heading: 'Phase 3 : production des contenus' },
+      { heading: 'Phase 4 : évaluation et feedback' },
+      { heading: 'Les limites à ne pas ignorer' },
+    ],
+    quotes: [
+      "L'IA produit du volume. L'ingénieur pédagogique produit de la cohérence. Les deux ne se substituent pas.",
+      "Un prompt bien construit n'est pas une commande — c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
+      "L'IA peut vous dire si vos objectifs sont bien rédigés. Elle ne peut pas décider si vous avez cerné les bons.",
+    ],
+    conclusion:
+      "L'IA ne remplace pas l'expertise pédagogique. Elle amplifie les compétences de ceux qui savent déjà ce qu'ils font — et expose les faiblesses de ceux qui ne le savent pas encore. Les ingénieurs pédagogiques qui intègrent l'IA comme partenaire de réflexion, pas comme rédacteur automatique, gagnent du temps sur les tâches de production et libèrent de l'attention pour ce qui détermine vraiment la qualité d'un dispositif : la pertinence des objectifs, la cohérence du séquençage, la validité des évaluations. Si vous souhaitez structurer cette pratique dans votre travail quotidien, la formation certifiante de The Learning Society est conçue pour exactement ça.",
+    liveUrl: 'https://thelearningsociety.fr/ingenierie-pedagogique-ia/',
+    cover: 'from-secondary-200 via-secondary-100 to-primary-100',
+    body: [
+      { type: 'h2', text: "Ce que change (vraiment) l'IA pour l'IP" },
+      {
+        type: 'p',
+        text: "La transformation n'est pas uniforme. Elle touche certaines phases du travail d'ingénierie et en laisse d'autres pratiquement intactes.",
+      },
+      {
+        type: 'p',
+        text: "Ce qui change : la vitesse de production des livrables intermédiaires. Un script de module, un jeu de questions, une grille d'évaluation, une mise en forme de contenu expert pour un public non-expert. Ces livrables prennent du temps à produire et ne créent pas, en eux-mêmes, de valeur différenciatrice. L'IA les génère en minutes.",
+      },
+      {
+        type: 'p',
+        text: "Ce qui ne change pas : la qualité du raisonnement pédagogique en amont. Savoir si les objectifs sont formulés à un bon niveau de granularité. Savoir si la séquence d'activités respecte une progression qui facilite les transferts. Savoir si l'évaluation mesure réellement la compétence ciblée ou seulement la mémorisation à court terme. Sur ces questions, l'IA peut vous challenger, vous proposer des alternatives, vous aider à vérifier la cohérence interne — mais elle ne décide pas à votre place.",
+      },
+      {
+        type: 'pullquote',
+        text: "L'IA produit du volume. L'ingénieur pédagogique produit de la cohérence. Les deux ne se substituent pas.",
+      },
+      { type: 'h2', text: 'Phase 1 : analyse des besoins et objectifs' },
+      {
+        type: 'p',
+        text: "C'est la phase la plus critique et celle où l'IA aide le moins directement — mais le plus utilement si on sait comment l'utiliser.",
+      },
+      {
+        type: 'p',
+        text: "L'IA ne peut pas analyser les besoins à votre place : elle ne connaît pas les entretiens que vous avez menés, les verbatims terrain que vous avez collectés, la culture organisationnelle du client. Ce qu'elle peut faire, c'est vous aider à structurer votre analyse, challenger vos hypothèses, et transformer des objectifs flous en objectifs opérationnels.",
+      },
+      { type: 'h3', text: "Exemple de prompt : reformulation d'objectifs" },
+      {
+        type: 'p',
+        text: "Prompt : « Voici 5 objectifs de formation formulés par le commanditaire. Pour chacun, dis-moi s'il est observable et mesurable. S'il ne l'est pas, propose une reformulation avec un verbe d'action de la taxonomie de Bloom, en précisant à quel niveau de la taxonomie il se situe. Contexte : formation de 2 jours pour des managers de proximité dans un secteur industriel. »",
+      },
+      {
+        type: 'p',
+        text: "Ce prompt fonctionne parce qu'il donne le contexte, définit le critère de qualité (observable, mesurable), et ancre la réponse dans un référentiel commun (Bloom). Sans ces éléments, l'IA reformule de façon générique et les objectifs produits ne s'améliorent pas vraiment.",
+      },
+      { type: 'h2', text: 'Phase 2 : structuration et séquençage' },
+      {
+        type: 'p',
+        text: "C'est ici que l'IA devient un partenaire de réflexion utile. Elle peut générer des architectures pédagogiques alternatives rapidement, proposer des activités variées pour un même objectif, vérifier la cohérence entre objectifs et activités.",
+      },
+      { type: 'h3', text: "Exemple de prompt : génération d'activités pédagogiques" },
+      {
+        type: 'p',
+        text: "Prompt : « Objectif : à l'issue du module, le participant sera capable d'identifier les signaux d'une résistance au changement dans une équipe et de choisir une approche d'accompagnement adaptée. Propose 4 activités pédagogiques différentes pour atteindre cet objectif, en précisant : le type d'activité (étude de cas / simulation / quiz / discussion guidée…), la durée estimée, les modalités (présentiel / distanciel / asynchrone), et le niveau Bloom ciblé. Public : managers avec 5 ans d'expérience minimum. »",
+      },
+      {
+        type: 'p',
+        text: "Le résultat n'est pas à utiliser tel quel — c'est un point de départ. L'IP compare les propositions, élimine celles qui ne cadrent pas avec les contraintes réelles du dispositif (temps, modalités, public), et conserve 1 ou 2 idées à affiner.",
+      },
+      { type: 'h2', text: 'Phase 3 : production des contenus' },
+      {
+        type: 'p',
+        text: "C'est la phase où le gain de temps est le plus spectaculaire et le risque de dérive qualité le plus important.",
+      },
+      {
+        type: 'p',
+        text: "Spectaculaire parce que l'IA produit des scripts, des supports visuels textuels, des études de cas, des exercices pratiques en quelques minutes. Ce qui prenait une journée prend 2 heures, dont 90 minutes de relecture et d'ajustements.",
+      },
+      {
+        type: 'p',
+        text: "Risqué parce que l'IA tend à produire du contenu générique, sans anecdote terrain, sans exemple qui accroche, sans le grain de voix qui fait qu'un contenu est reconnaissable. Si vous utilisez le contenu généré sans relecture critique, vous obtenez une formation qui ressemble à toutes les autres.",
+      },
+      { type: 'h3', text: "Exemple de prompt : production d'une étude de cas contextualisée" },
+      {
+        type: 'p',
+        text: "Prompt : « Crée une étude de cas de 400 mots pour un module sur la conduite d'entretien de recadrage. Le protagoniste est une responsable d'équipe dans un service client d'une entreprise de 200 personnes (secteur assurance). Elle doit mener un entretien avec un collaborateur dont les résultats ont chuté depuis 3 mois. L'étude de cas doit : poser le contexte en 80 mots, présenter la situation concrète avec 3 faits précis, finir sur une question ouverte qui relance la réflexion. Ton : professionnel, non-condescendant, ancré dans le réel. »",
+      },
+      {
+        type: 'pullquote',
+        text: "Un prompt bien construit n'est pas une commande — c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
+      },
+      { type: 'h2', text: 'Phase 4 : évaluation et feedback' },
+      {
+        type: 'p',
+        text: "Les évaluations formatives (quiz, QCM, questions ouvertes, grilles d'auto-évaluation) sont chronophages à produire en volume et souffrent souvent d'un défaut de diversité — on finit par produire les mêmes types de questions par habitude.",
+      },
+      {
+        type: 'p',
+        text: "L'IA excelle sur deux sous-tâches ici : générer des variantes de la même question avec des formulations différentes (pour réduire l'effet mémoire dans les évaluations distribuées), et proposer des distracteurs crédibles pour les QCM (les mauvaises réponses qui ressemblent aux bonnes sont les plus difficiles à construire).",
+      },
+      { type: 'h3', text: 'Exemple de prompt : générateur de distracteurs QCM' },
+      {
+        type: 'p',
+        text: "Prompt : « Voici une question QCM avec sa bonne réponse. Génère 3 distracteurs crédibles pour cette question. Chaque distracteur doit : être plausible pour quelqu'un qui n'a pas bien compris le concept, représenter une erreur commune différente des autres distracteurs, ne pas contenir d'indice sur la bonne réponse. Question : [insérer la question]. Bonne réponse : [insérer la réponse]. »",
+      },
+      { type: 'h2', text: 'Les limites à ne pas ignorer' },
+      {
+        type: 'p',
+        text: "Trois limites méritent d'être explicites, parce qu'elles sont les plus fréquemment sous-estimées par les IP qui débutent avec l'IA.",
+      },
+      {
+        type: 'ul',
+        items: [
+          "L'IA hallucine sur les références. Si vous demandez à l'IA de citer des études sur l'efficacité d'une méthode pédagogique, elle vous donnera des références qui semblent crédibles mais peuvent être inventées. Ne jamais citer une source sans l'avoir vérifiée directement.",
+          "L'IA ne connaît pas votre public réel. Elle travaille avec les descripteurs que vous lui donnez. Si votre public a des particularités culturelles, sectorielles, ou linguistiques spécifiques, vous devez les injecter dans chaque prompt, pas seulement dans le premier.",
+          "L'IA ne peut pas valider la pertinence des objectifs. Elle peut vous dire si vos objectifs sont bien rédigés selon Bloom. Elle ne peut pas décider si vous avez cerné les bons besoins à adresser — ça, c'est votre expertise terrain.",
+        ],
+      },
+      {
+        type: 'pullquote',
+        text: "L'IA peut vous dire si vos objectifs sont bien rédigés. Elle ne peut pas décider si vous avez cerné les bons.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 12. Le Passeport de Compétences : pourquoi un badge vide ne vaut rien
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'passeport-competences-open-badge',
+    title: 'Le Passeport de Compétences',
+    subtitle: 'Pourquoi un badge vide ne vaut rien',
+    category: 'Compétences',
+    date: 'Juin 2026',
+    readTime: '7 min',
+    featured: false,
+    summary:
+      "La différence entre un badge qui prouve et un badge qui affiche : le modèle Dreyfus appliqué à la progression des compétences, et comment C-Campus certifie les acquis.",
+    intro:
+      "Deux professionnels ont le même badge sur leur profil LinkedIn. Le premier l'a obtenu en complétant 7 modules e-learning en 3 heures, sans évaluation réelle. Le second a produit des livrables commentés par un expert, démontré une compétence en situation, et reçu un Open Badge C-Campus avec une preuve cryptographique vérifiable. Pour l'employeur ou le donneur d'ordre, la différence est invisible à l'affichage. Elle est totale dans la réalité. Ce texte explique comment construire un passeport de compétences qui prouve au lieu d'afficher.",
+    sections: [
+      { heading: 'Le modèle Dreyfus : cinq niveaux, pas un diplôme' },
+      { heading: 'Le badge de complétion vs le badge de compétence' },
+      { heading: "Ce qu'un Open Badge contient (et ce qu'il ne contient pas)" },
+      { heading: 'Comment C-Campus certifie les acquis' },
+      { heading: 'Construire son passeport : la démarche concrète' },
+    ],
+    quotes: [
+      "Un badge de complétion dit que vous avez regardé. Un badge de compétence dit que vous savez faire.",
+      "Le niveau Dreyfus n'est pas une note — c'est une description de comment vous fonctionnez face à un problème nouveau.",
+      "La cryptographie garantit que personne ne peut falsifier un Open Badge. Ce que C-Campus certifie, c'est la réalité de ce qui a été évalué.",
+    ],
+    conclusion:
+      "Un passeport de compétences n'est utile que si ce qu'il contient peut être vérifié. Les employeurs qui comprennent la différence entre un badge de complétion et un badge de compétence font des recrutements différents. Les professionnels qui construisent un passeport avec des preuves réelles se positionnent différemment sur le marché. La formation certifiante de The Learning Society, avec C-Campus, débouche sur un Open Badge qui contient les deux : la preuve de la formation, et la preuve des compétences développées. Découvrez le programme sur la page Formation.",
+    liveUrl: 'https://thelearningsociety.fr/passeport-competences-open-badge/',
+    cover: 'from-accent-200 via-accent-100 to-primary-100',
+    body: [
+      { type: 'h2', text: 'Le modèle Dreyfus : cinq niveaux, pas un diplôme' },
+      {
+        type: 'p',
+        text: "Stuart et Hubert Dreyfus ont proposé en 1980 un modèle de progression des compétences en cinq niveaux, à partir de l'observation de pilotes d'avion et de joueurs d'échecs. Le modèle a depuis été appliqué à des dizaines de domaines professionnels et reste l'un des cadres les plus utiles pour décrire comment une compétence se développe.",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Novice : suit des règles explicites sans pouvoir les adapter au contexte. A besoin d'instructions précises pour chaque situation.",
+          "Débutant avancé : commence à reconnaître des patterns et à faire des exceptions aux règles dans des situations familières.",
+          "Compétent : peut planifier et gérer une situation complexe, mais l'effort cognitif est encore élevé. Ressent de l'anxiété face aux situations imprévues.",
+          "Performant : traite les situations globalement, de façon intuitive. Les règles ont été internalisées et l'expertise se déploie dans l'action.",
+          "Expert : agit de façon fluide et non-analytique dans la plupart des situations. Sait quand sortir du cadre habituel et pourquoi.",
+        ],
+      },
+      {
+        type: 'p',
+        text: "Ce modèle est utile pour construire un passeport de compétences parce qu'il décrit des comportements observables, pas des connaissances déclaratives. La différence entre niveau 2 et niveau 3 sur une compétence donnée n'est pas « en sait-on plus » — c'est « comment se comporte-t-on face à une situation nouvelle dans ce domaine ».",
+      },
+      {
+        type: 'pullquote',
+        text: "Le niveau Dreyfus n'est pas une note — c'est une description de comment vous fonctionnez face à un problème nouveau.",
+      },
+      { type: 'h2', text: 'Le badge de complétion vs le badge de compétence' },
+      {
+        type: 'p',
+        text: "La majorité des badges délivrés par les plateformes de formation en ligne sont des badges de complétion. Ils attestent que vous avez regardé les vidéos, complété les modules, passé un quiz. Ce qu'ils ne prouvent pas : que vous savez faire ce que la formation prétendait enseigner.",
+      },
+      {
+        type: 'p',
+        text: "Un badge de compétence est différent. Il atteste qu'une compétence a été démontrée, évaluée, et validée par un tiers qualifié. Pour l'obtenir, vous devez produire quelque chose : un livrable, une démonstration, une application en situation réelle. Quelqu'un évalue ce que vous avez produit et valide que ça correspond aux critères annoncés.",
+      },
+      {
+        type: 'pullquote',
+        text: "Un badge de complétion dit que vous avez regardé. Un badge de compétence dit que vous savez faire.",
+      },
+      { type: 'h2', text: "Ce qu'un Open Badge contient (et ce qu'il ne contient pas)" },
+      {
+        type: 'p',
+        text: "Un Open Badge est un fichier image avec des métadonnées cryptographiquement signées. Ces métadonnées contiennent : l'identité de l'émetteur (l'organisme qui a délivré le badge), la définition de la compétence ou accomplissement certifié, les critères qui ont permis d'attribuer le badge, et l'identité du titulaire.",
+      },
+      {
+        type: 'p',
+        text: "Ce que l'Open Badge ne contient pas par défaut : la preuve que l'évaluation était rigoureuse, le niveau de compétence atteint selon un référentiel explicite, les livrables que le titulaire a produits. C'est pourquoi l'émetteur du badge compte autant que le badge lui-même. Un Open Badge signé par un organisme reconnu, qui publie ses critères d'évaluation et peut vérifier l'authenticité de chaque badge délivré, a une valeur très différente d'un badge auto-émis sur une plateforme sans process d'évaluation.",
+      },
+      {
+        type: 'pullquote',
+        text: "La cryptographie garantit que personne ne peut falsifier un Open Badge. Ce que C-Campus certifie, c'est la réalité de ce qui a été évalué.",
+      },
+      { type: 'h2', text: 'Comment C-Campus certifie les acquis' },
+      {
+        type: 'p',
+        text: "C-Campus est l'organisme partenaire de The Learning Society pour la certification de la formation « Formateur Augmenté par l'IA ». Ce partenariat existe précisément parce que la certification demandait un tiers externe qualifié, avec des processus d'évaluation établis.",
+      },
+      {
+        type: 'p',
+        text: "Le processus de certification comprend : des évaluations formatives tout au long des 7 modules, une évaluation sommative sur livrables produits par le participant (pas seulement un QCM), une validation par un expert avant délivrance du badge, et la publication des critères sur le registre des badges C-Campus.",
+      },
+      {
+        type: 'p',
+        text: "La prise en charge OPCO est possible selon votre secteur. Contactez-nous pour vérifier votre éligibilité avant inscription.",
+      },
+      { type: 'h2', text: 'Construire son passeport : la démarche concrète' },
+      {
+        type: 'p',
+        text: "Quelques principes qui distinguent un passeport de compétences utile d'un simple catalogue de badges :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Ancrez chaque compétence sur un référentiel. Une compétence sans définition partagée ne peut pas être évaluée de façon cohérente. Le modèle Dreyfus, la taxonomie de Bloom, ou un référentiel sectoriel reconnu — peu importe lequel, tant qu'il est explicite.",
+          "Privilegiez les preuves sur les déclarations. Une compétence 'auto-déclarée' (je sais faire X) vaut moins qu'une compétence 'prouvée' (j'ai produit Y, évalué par Z). Votre passeport doit contenir des livrables, pas seulement des certifications.",
+          "Mettez à jour régulièrement. Une compétence au niveau 3 (Dreyfus) aujourd'hui peut régresser si elle n'est pas pratiquée. Un passeport qui date de 5 ans sans mise à jour dit plus sur votre rapport à l'apprentissage que sur vos compétences actuelles.",
+          "Liez vos badges à vos projets. Sur LinkedIn et dans vos propositions, un badge est plus convaincant quand il est relié à un projet concret où vous avez appliqué la compétence certifiée.",
+        ],
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 13. Comment choisir sa formation IA quand l'offre est saturée
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    slug: 'choisir-formation-ia-formateurs',
+    title: 'Comment choisir sa formation IA',
+    subtitle: "5 critères objectifs quand l'offre est saturée",
+    category: 'Formation',
+    date: 'Juin 2026',
+    readTime: '6 min',
+    featured: false,
+    summary:
+      "Le marché des formations IA pour formateurs a explosé. Voici cinq critères pour évaluer une offre sérieusement : pas de classements, pas de noms, des questions à poser.",
+    intro:
+      "En 2024, il n'existait presque pas de formations IA spécifiquement conçues pour les formateurs. En 2026, il en existe des dizaines. Certaines durent 3 heures. D'autres 7 jours. Certaines promettent un certificat, d'autres un Open Badge. Certaines sont conçues par des pédagogues, d'autres par des généralistes IA qui ont appris à construire des formations à la va-vite. Devant cette abondance, choisir devient un travail à part entière. Ces cinq critères ne classent pas les offres — ils vous donnent les questions à poser pour le faire vous-même.",
+    sections: [
+      { heading: 'Critère 1 : qui a conçu le programme ?' },
+      { heading: 'Critère 2 : quelle est la profondeur pédagogique ?' },
+      { heading: 'Critère 3 : comment est évaluée la montée en compétences ?' },
+      { heading: 'Critère 4 : quelle est la durée réelle ?' },
+      { heading: "Critère 5 : quelle est l'éligibilité OPCO ?" },
+    ],
+    quotes: [
+      "Une formation sérieuse sait expliquer pourquoi elle fait ce qu'elle fait. Demandez-le.",
+      "La durée d'une formation n'est pas un critère de qualité. C'est un proxy pour savoir si on vous a pris au sérieux.",
+      "Une certification sans critères d'évaluation publiés est une certification sans valeur. Demandez à voir les critères avant d'acheter.",
+    ],
+    conclusion:
+      "Choisir une formation IA en 2026, c'est choisir comment vous voulez évoluer dans votre métier pour les 5 à 10 prochaines années. Les critères ci-dessus ne sont pas une garantie — ils sont un filtre pour éliminer les offres qui ne méritent pas votre temps. Si vous souhaitez voir comment la formation certifiante de The Learning Society répond à chacun de ces critères, consultez le programme détaillé sur notre page Formation.",
+    liveUrl: 'https://thelearningsociety.fr/choisir-formation-ia-formateurs/',
+    cover: 'from-primary-100 via-accent-50 to-secondary-100',
+    body: [
+      { type: 'h2', text: 'Critère 1 : qui a conçu le programme ?' },
+      {
+        type: 'p',
+        text: "C'est la question la plus importante et la moins souvent posée. Une formation sur l'IA pour les formateurs peut être conçue par : un expert IA sans expérience pédagogique, un formateur sans expérience IA, un ingénieur pédagogique avec une expertise IA, ou une équipe combinant les deux.",
+      },
+      {
+        type: 'p',
+        text: "Seule la dernière configuration produit quelque chose d'utile. La connaissance de l'IA sans expertise pédagogique donne une formation technique qui ne répond pas aux vrais problèmes des formateurs. L'expertise pédagogique sans connaissance IA donne une formation trop générale, déconnectée des outils concrets.",
+      },
+      {
+        type: 'p',
+        text: "Questions à poser : quelles sont les formations et expériences professionnelles des concepteurs ? Ont-ils eux-mêmes utilisé l'IA dans des contextes de formation réels ? Le programme cite-t-il des exemples issus de cas concrets ou uniquement des cas théoriques ?",
+      },
+      {
+        type: 'pullquote',
+        text: "Une formation sérieuse sait expliquer pourquoi elle fait ce qu'elle fait. Demandez-le.",
+      },
+      { type: 'h2', text: 'Critère 2 : quelle est la profondeur pédagogique ?' },
+      {
+        type: 'p',
+        text: "Une formation sur l'IA pour formateurs doit elle-même être un exemple de bonne ingénierie pédagogique. Si la formation consiste en 7 heures de vidéos à regarder passivement, sans activités pratiques, sans productions attendues, sans feedback sur l'application — c'est un signal fort sur la vision pédagogique de ceux qui l'ont construite.",
+      },
+      {
+        type: 'p',
+        text: "Regardez la structure : y a-t-il des activités de mise en pratique à chaque module ? Les participants sont-ils amenés à produire des livrables (prompts, modules conçus avec l'IA, plans d'action) ? Y a-t-il des moments d'échange avec d'autres participants ou avec un formateur expert ?",
+      },
+      {
+        type: 'p',
+        text: "Une formation qui vous apprend l'ingénierie pédagogique augmentée par l'IA doit elle-même être construite selon les principes qu'elle enseigne. Sinon, le message implicite est que ces principes ne s'appliquent pas vraiment — ou que les concepteurs ne les maîtrisent pas.",
+      },
+      { type: 'h2', text: 'Critère 3 : comment est évaluée la montée en compétences ?' },
+      {
+        type: 'p',
+        text: "C'est ici que la majorité des formations se distinguent (ou s'éliminent). Il y a trois niveaux d'évaluation possibles :",
+      },
+      {
+        type: 'ul',
+        items: [
+          "Niveau 1 (satisfaction) : questionnaire de satisfaction à la fin. Standard minimum légal en France, ne dit rien sur la compétence développée.",
+          "Niveau 2 (apprentissage) : quiz ou QCM à la fin de chaque module. Mesure la mémorisation, pas le transfert.",
+          "Niveau 3 (transfert) : évaluation sur livrables produits par le participant, dans un contexte proche de leur situation réelle. Mesure si la compétence est réellement utilisable.",
+        ],
+      },
+      {
+        type: 'p',
+        text: "Une certification (Open Badge ou autre) ne vaut quelque chose que si elle s'appuie sur une évaluation de niveau 3. Demandez à voir les critères d'évaluation avant de vous inscrire.",
+      },
+      {
+        type: 'pullquote',
+        text: "Une certification sans critères d'évaluation publiés est une certification sans valeur. Demandez à voir les critères avant d'acheter.",
+      },
+      { type: 'h2', text: 'Critère 4 : quelle est la durée réelle ?' },
+      {
+        type: 'p',
+        text: "Les durées affichées peuvent être trompeuses. « 7 heures de formation » peut signifier 7 heures de vidéos — ou 7 heures incluant des activités pratiques, des échanges avec un expert, et du temps de production de livrables. La seconde option demande en réalité bien plus de 7 heures d'engagement total.",
+      },
+      {
+        type: 'p',
+        text: "Une formation efficace sur l'IA demande du temps de pratique. Maîtriser le prompt engineering, c'est écrire des dizaines de prompts et observer les résultats. Intégrer l'IA dans un processus de conception pédagogique, c'est le tester sur un vrai projet. Le contenu vidéo est un point de départ, pas une arrivée.",
+      },
+      {
+        type: 'p',
+        text: "Questions à poser : quelle est la durée totale d'engagement attendu (contenu + pratique + livrables) ? Y a-t-il un suivi de progression ? Combien de temps après la formation les participants déclarent-ils utiliser les outils appris ?",
+      },
+      {
+        type: 'pullquote',
+        text: "La durée d'une formation n'est pas un critère de qualité. C'est un proxy pour savoir si on vous a pris au sérieux.",
+      },
+      { type: 'h2', text: "Critère 5 : quelle est l'éligibilité OPCO ?" },
+      {
+        type: 'p',
+        text: "Si vous êtes salarié ou travailleur indépendant, votre OPCO (Opérateur de Compétences) peut financer tout ou partie d'une formation professionnelle continue. L'éligibilité dépend de l'organisme de formation (doit être référencé DataDock ou équivalent), de votre secteur d'activité et de votre OPCO, et du type de financement (plan de développement des compétences, CPF de transition, etc.).",
+      },
+      {
+        type: 'p',
+        text: "Attention : une formation peut être éligible OPCO sans être obligatoirement financée à 100 %. Les règles varient selon les OPCO et les enveloppes disponibles. Vérifiez toujours avec votre OPCO avant de vous inscrire, et demandez à l'organisme de formation de vous fournir un devis au format attendu par votre OPCO.",
+      },
+      {
+        type: 'p',
+        text: "La formation certifiante de The Learning Society, réalisée en partenariat avec C-Campus, est éligible à une prise en charge OPCO. Contactez-nous pour vérifier votre éligibilité spécifique et obtenir les documents nécessaires au montage de votre dossier.",
+      },
+    ],
+  },
 ];
 
 export const findArticle = (slug: string): Article | undefined =>
