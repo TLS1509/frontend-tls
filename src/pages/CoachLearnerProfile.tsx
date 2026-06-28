@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft } from 'lucide-react';
+import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import ProgressBar from '../components/ui/ProgressBar';
@@ -8,6 +8,8 @@ import ActivityFeed from '../components/patterns/ActivityFeed';
 import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/core/Button';
+import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { AIOverrideButton } from '../components/ui/AIOverrideButton';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
 import { Container } from '../components/layout';
 import { getApprenantById, dreyfusLabel } from '../data/apprenants';
@@ -105,6 +107,30 @@ const SESSION_BADGE_LABEL: Record<SessionStatus, string> = {
   cancelled: 'Annulée',
 };
 
+const AI_RECOMMENDATIONS = [
+  {
+    id: 'r1',
+    title: 'Proposer un parcours Leadership avancé',
+    rationale: 'Score Leadership à 48 % — progression lente depuis 3 semaines. Un parcours ciblé pourrait débloquer la progression.',
+    confidence: 0.87,
+    dismissed: false,
+  },
+  {
+    id: 'r2',
+    title: 'Planifier une session de suivi cette semaine',
+    rationale: 'Aucune session depuis 18 jours. L\'analyse comportementale détecte un risque de décrochage.',
+    confidence: 0.73,
+    dismissed: false,
+  },
+  {
+    id: 'r3',
+    title: 'Ajouter un défi de communication publique',
+    rationale: 'Score Communication à 85 % — proche du niveau Expert. Un défi avancé pourrait consolider l\'acquisition.',
+    confidence: 0.64,
+    dismissed: false,
+  },
+];
+
 const STATUS_BADGE_VARIANT: Record<'active' | 'stuck' | 'ahead', 'success' | 'danger' | 'info'> = {
   active: 'success',
   stuck: 'danger',
@@ -121,6 +147,13 @@ export default function CoachLearnerProfile() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [note, setNote] = useState('');
+  const [dismissedRecs, setDismissedRecs] = useState<Set<string>>(new Set());
+
+  const handleOverride = (id: string, reason?: string) => {
+    setDismissedRecs((prev) => new Set([...prev, id]));
+  };
+
+  const activeRecs = AI_RECOMMENDATIONS.filter((r) => !dismissedRecs.has(r.id));
 
   const apprenant = id ? getApprenantById(id) : undefined;
   const learner = apprenant
@@ -194,6 +227,55 @@ export default function CoachLearnerProfile() {
             ))}
           </div>
         </SectionCard>
+
+        {/* Recommandations IA */}
+        {activeRecs.length > 0 && (
+          <SectionCard
+            title="Recommandations IA"
+            titleIcon={<Sparkles size={18} />}
+            description="Suggestions générées par l'analyse comportementale. Tu peux les appliquer ou les rejeter avec un motif."
+            headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
+          >
+            <div className="flex flex-col gap-stack-xs">
+              {activeRecs.map((rec) => {
+                const pct = Math.round(rec.confidence * 100);
+                const confCls =
+                  pct >= 80
+                    ? 'text-success-fg bg-success-bg border-success-border'
+                    : pct >= 60
+                      ? 'text-info-fg bg-info-bg border-info-border'
+                      : 'text-warning-fg bg-warning-bg border-warning-border';
+                return (
+                  <div
+                    key={rec.id}
+                    className="flex flex-col gap-tight p-stack rounded-xl border border-ink-100 bg-white"
+                  >
+                    <div className="flex items-start justify-between gap-stack">
+                      <div className="flex flex-col gap-tight flex-1 min-w-0">
+                        <span className="text-body-sm font-semibold text-ink-900">{rec.title}</span>
+                        <p className="text-caption text-ink-500 leading-relaxed">{rec.rationale}</p>
+                      </div>
+                      <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border shrink-0 ${confCls}`}>
+                        {pct}%
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between pt-tight border-t border-ink-100 mt-1">
+                      <Button variant="primary" size="sm">
+                        Appliquer
+                      </Button>
+                      <AIOverrideButton
+                        label="Rejeter"
+                        onOverride={(reason) => handleOverride(rec.id, reason)}
+                        requireReason
+                        size="sm"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </SectionCard>
+        )}
 
         {/* Activité récente */}
         <SectionCard
