@@ -223,7 +223,7 @@ export const MarketingHeader: React.FC = () => {
                                   key={d.href}
                                   to={d.href}
                                   role="menuitem"
-                                  className={`flex items-start gap-stack rounded-xl p-stack transition-colors duration-fast ${
+                                  className={`flex items-start gap-stack rounded-xl p-stack transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                                     active ? 'bg-primary-50' : 'hover:bg-ink-50'
                                   }`}
                                 >
@@ -374,7 +374,7 @@ export const MarketingHeader: React.FC = () => {
                                   <Link
                                     key={d.href}
                                     to={d.href}
-                                    className={`flex min-h-touch items-start gap-stack rounded-lg p-stack ${
+                                    className={`flex min-h-touch items-start gap-stack rounded-lg p-stack focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                                       active ? 'bg-primary-50 text-primary-700' : 'text-ink-700 hover:bg-ink-50'
                                     }`}
                                   >

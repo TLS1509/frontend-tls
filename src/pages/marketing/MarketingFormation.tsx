@@ -31,7 +31,10 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
+  MarqueeRow,
   ScrollRevealCanvas,
+  StickyScrollStory,
+  type StoryPanel,
 } from '../../components/marketing/motion';
 import gradientTealOrangeBg from '../../../brand-assets/patterns/backgrounds/pattern_gradient-teal-orange_bg-v1.svg?url';
 import { SEOHead } from './components/SEOHead';
@@ -475,9 +478,45 @@ export const MarketingFormation: React.FC = () => {
         </FadeInWhenVisible>
       </section>
 
-      {/* ── 2. Module Timeline ──────────────────────────────────────────────── */}
-      <section id="modules" className="py-page bg-white relative overflow-hidden">
-<div className="max-w-7xl mx-auto px-6 flex flex-col gap-section relative">
+      {/* ── 1b. Trust strip (MarqueeRow) ────────────────────────────────────── */}
+      <div className="border-y border-ink-100 py-stack overflow-hidden bg-ink-50/40">
+        <MarqueeRow
+          duration={38}
+          gapClassName="gap-10"
+          edgeFade
+          items={[
+            <span key="modules" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <span className="font-display font-extrabold text-secondary-500 text-body-sm">7 modules</span>
+              <span className="text-ink-300">·</span> 7h de contenu
+            </span>,
+            <span key="badge" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <Award size={14} className="text-secondary-500 shrink-0" />
+              Open Badge certifiant
+            </span>,
+            <span key="ccampus" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <span className="font-display font-extrabold text-primary-600 text-body-sm">C-Campus</span>
+              <span className="text-ink-300">·</span> Qualiopi
+            </span>,
+            <span key="opco" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <CheckCircle2 size={14} className="text-success-base shrink-0" />
+              Éligible OPCO
+            </span>,
+            <span key="distanciel" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <span className="font-display font-extrabold text-secondary-500 text-body-sm">100 %</span>
+              <span className="text-ink-300">·</span> à distance
+            </span>,
+            <span key="auto" className="flex items-center gap-stack-xs font-body text-caption font-semibold text-ink-700 whitespace-nowrap">
+              <GraduationCap size={14} className="text-primary-500 shrink-0" />
+              À votre rythme
+            </span>,
+          ]}
+        />
+      </div>
+
+      {/* ── 2. Module Programme — StickyScrollStory ─────────────────────────── */}
+      <section id="modules" className="bg-white">
+        {/* Section header */}
+        <div className="max-w-7xl mx-auto px-6 pt-page pb-section-lg">
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
@@ -489,8 +528,41 @@ export const MarketingFormation: React.FC = () => {
               </p>
             </div>
           </FadeInWhenVisible>
-          <ModuleTimeline />
         </div>
+
+        {/* Sticky scroll — desktop; stack — mobile */}
+        <StickyScrollStory
+          panels={MODULES.map<StoryPanel>((m) => ({
+            eyebrow: `Module ${m.n} · ${m.duration}`,
+            title: m.title,
+            body: m.desc,
+          }))}
+          eyebrowToneClass="text-secondary-600"
+          visual={(i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="w-full max-w-[400px]"
+            >
+              <div className="rounded-3xl bg-gradient-to-br from-secondary-50 to-secondary-100 border border-secondary-200 p-10 flex flex-col items-center justify-center gap-stack-lg shadow-warm-md aspect-square">
+                <span
+                  aria-hidden
+                  className="font-display font-extrabold text-secondary-200 leading-none tracking-tight select-none"
+                  style={{ fontSize: 'clamp(5rem, 14vw, 8rem)' }}
+                >
+                  {MODULES[i].n}
+                </span>
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-500 text-white font-body text-caption font-bold">
+                  <Clock size={12} />
+                  {MODULES[i].duration}
+                </span>
+              </div>
+            </motion.div>
+          )}
+          className="pb-page"
+        />
       </section>
 
       {/* ── 3. Public cible du parcours (4 profils, depuis le live) ─────────── */}
