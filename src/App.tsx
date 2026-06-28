@@ -208,8 +208,8 @@ import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
-import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
-import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
+// [variant] import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
+// [variant] import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
 import { MarketingHomeFullPage } from './pages/marketing/MarketingHomeFullPage';
 // [archived] home variants + devtools — files kept, routes removed from prod
 // import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
@@ -218,10 +218,16 @@ import { MarketingHomeFullPage } from './pages/marketing/MarketingHomeFullPage';
 // import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
+import { MarketingRessources } from './pages/marketing/MarketingRessources';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
+// [variant] import { MarketingAccompagnementA2 } from './pages/marketing/MarketingAccompagnementA2';
+// [variant] import { MarketingAccompagnementA3 } from './pages/marketing/MarketingAccompagnementA3';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
+// [variant] import { MarketingLearningAppB2 } from './pages/marketing/MarketingLearningAppB2';
+// [variant] import { MarketingLearningAppB3 } from './pages/marketing/MarketingLearningAppB3';
+// [variant] import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
@@ -477,6 +483,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           À remplacer par un chatbot / agent / FAQ widget en prod ultérieurement. */}
       <FloatingNavButton
         tone="brand"
+        ariaLabel="Raccourcis développeur"
         actions={[
           { label: 'Design System', icon: <Palette size={18} />,       onClick: () => navigate('/components'),  tone: 'primary' },
           { label: 'Pages Index',   icon: <BookOpenText size={18} />,  onClick: () => navigate('/pages-index'), tone: 'warm' },
@@ -514,14 +521,19 @@ function App() {
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/marketing" element={<MarketingLayout />}>
           <Route index element={<MarketingHomeFullPage />} />
-          <Route path="hero-b" element={<MarketingHomeC />} />
-          <Route path="hero-c" element={<MarketingHomeD />} />
-          {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab */}
+          {/* [variant] <Route path="hero-b" element={<MarketingHomeC />} /> */}
+          {/* [variant] <Route path="hero-c" element={<MarketingHomeD />} /> */}
+          {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
+          {/* [variant] <Route path="accompagnement-a2" element={<MarketingAccompagnementA2 />} /> */}
+          {/* [variant] <Route path="accompagnement-a3" element={<MarketingAccompagnementA3 />} /> */}
           <Route path="learning-app" element={<MarketingLearningApp />} />
+          {/* [variant] <Route path="learning-app-b2" element={<MarketingLearningAppB2 />} /> */}
+          {/* [variant] <Route path="learning-app-b3" element={<MarketingLearningAppB3 />} /> */}
           <Route path="magazine" element={<MarketingMagazine />} />
           <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
+          <Route path="ressources" element={<MarketingRessources />} />
           <Route path="equipe" element={<MarketingEquipe />} />
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />
