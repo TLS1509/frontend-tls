@@ -1,13 +1,14 @@
 /**
- * MarketingLearningApp — Refined Minimal Premium Product Page
+ * MarketingLearningApp — Redesign v2 (Phase P2.6)
  *
- * Direction: Clean, minimalist, premium aesthetic with soft pastels
- * Tone: soft primary teal + minimal accents + refined glassmorphism
+ * New sections:
+ *  - Dreyfus interactif: 5-level selector with animated panel
+ *  - Features bento: varied-size grid replacing flat 8-tile grid
+ *  - Badge system: visual Open Badge showcase
  */
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   Sparkles,
@@ -23,76 +24,232 @@ import {
   Layers,
   Zap,
   ArrowUpRight,
+  Star,
+  Award,
+  Target,
+  TrendingUp,
+  ChevronRight,
+  Lightbulb,
+  Shield,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
   InteractiveAppMockup,
-
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 import { submitForm } from './utils/submitForm';
 
+// ─── Dreyfus data ────────────────────────────────────────────────────────────
 
-const FEATURES_MAIN = [
+const DREYFUS_LEVELS = [
   {
-    icon: <Map size={36} />,
+    level: 1,
+    label: 'Novice',
+    short: 'N1',
+    color: 'from-ink-200 to-ink-300',
+    pillBg: 'bg-ink-100 text-ink-700 border-ink-200',
+    activeBg: 'bg-ink-800',
+    desc: 'Vous suivez des règles explicites et procédures pas à pas. L\'IA vous guide à chaque étape.',
+    skills: ['Utiliser un prompt modèle', 'Suivre un plan fourni', 'Comprendre les consignes IA'],
+    timeLabel: '0 → 3 mois',
+  },
+  {
+    level: 2,
+    label: 'Débutant Avancé',
+    short: 'N2',
+    color: 'from-primary-300 to-primary-400',
+    pillBg: 'bg-primary-50 text-primary-700 border-primary-200',
+    activeBg: 'bg-primary-600',
+    desc: 'Vous adaptez les règles selon le contexte. Vos premières productions personnelles émergent.',
+    skills: ['Adapter un prompt existant', 'Identifier les cas limites IA', 'Produire des variations'],
+    timeLabel: '3 → 9 mois',
+  },
+  {
+    level: 3,
+    label: 'Compétent',
+    short: 'N3',
+    color: 'from-primary-500 to-primary-600',
+    pillBg: 'bg-primary-100 text-primary-800 border-primary-300',
+    activeBg: 'bg-primary-700',
+    desc: 'Vous planifiez, anticipez les problèmes et choisissez vos approches. Vous maîtrisez le domaine.',
+    skills: ['Construire un workflow IA complet', 'Diagnostiquer les échecs', 'Former des débutants'],
+    timeLabel: '9 → 18 mois',
+  },
+  {
+    level: 4,
+    label: 'Performant',
+    short: 'N4',
+    color: 'from-secondary-400 to-secondary-600',
+    pillBg: 'bg-secondary-50 text-secondary-800 border-secondary-200',
+    activeBg: 'bg-secondary-600',
+    desc: 'Vous percevez la situation globalement et réagissez de façon fluide, sans procédure.',
+    skills: ['Voir les patterns sur des projets entiers', 'Anticiper les dérives IA', 'Innover sur vos méthodes'],
+    timeLabel: '18 → 36 mois',
+  },
+  {
+    level: 5,
+    label: 'Expert',
+    short: 'N5',
+    color: 'from-accent-400 to-secondary-500',
+    pillBg: 'bg-accent-50 text-accent-600 border-accent-200',
+    activeBg: 'bg-accent-500',
+    desc: 'Intuition profonde et maîtrise tacite. Vous agissez avec aisance et formez les autres.',
+    skills: ['Concevoir de nouveaux usages', 'Enseigner par l\'exemple', 'Définir les standards du domaine'],
+    timeLabel: '36 mois +',
+  },
+];
+
+// ─── Features bento data ─────────────────────────────────────────────────────
+
+// Each card has a `span` for the CSS grid area (cols × rows)
+const BENTO_FEATURES = [
+  {
+    id: 'parcours',
+    span: 'md:col-span-2',
+    icon: <Map size={28} />,
     eyebrow: 'Personnalisation IA',
-    title: 'Parcours adaptatifs en temps réel.',
-    description:
-      "Des parcours qui s'ajustent à votre niveau Dreyfus, vos objectifs et votre rythme. L'IA analyse vos progrès et recommande la suite la plus pertinente.",
-    bullets: [
-      'Recommandations IA basées sur vos progrès réels',
-      'Niveau Dreyfus tracé à chaque étape (Novice → Expert)',
-      'Compétences validées inscrites dans votre Passeport de Compétences',
-      'Plans de développement alignés avec vos objectifs métier',
-    ],
-    tone: 'from-primary-500 to-primary-700',
-    pillBg: 'bg-primary-100 text-primary-700',
+    title: 'Parcours adaptatifs',
+    desc: 'Ajustés à votre niveau Dreyfus, vos objectifs et votre rythme. L\'IA analyse vos progrès et recommande la suite la plus pertinente.',
+    accent: 'bg-gradient-to-br from-primary-50 to-primary-100 border-primary-200',
+    iconBg: 'bg-primary-600 text-white',
+    tag: 'Cœur du produit',
   },
   {
-    icon: <PenLine size={36} />,
-    eyebrow: 'Réflexion structurée',
-    title: 'Journal de bord, ancré.',
-    description:
-      "Un espace de réflexion guidé qui ancre ce que vous vivez en traces d'apprentissage durables. Chaque entrée construit votre portfolio professionnel.",
-    bullets: [
-      'Prompts de réflexion guidés par moment',
-      'Historique chronologique de vos apprentissages',
-      'Export PDF de votre portfolio',
-      'Partage sélectif avec votre coach',
-    ],
-    tone: 'from-secondary-500 to-secondary-600',
-    pillBg: 'bg-secondary-100 text-secondary-700',
+    id: 'journal',
+    span: 'md:col-span-1',
+    icon: <PenLine size={24} />,
+    eyebrow: 'Réflexion',
+    title: 'Journal de bord',
+    desc: 'Chaque entrée construit votre portfolio professionnel.',
+    accent: 'bg-gradient-to-br from-secondary-50 to-secondary-100 border-secondary-200',
+    iconBg: 'bg-secondary-500 text-white',
+    tag: null,
   },
   {
-    icon: <MessageSquare size={36} />,
-    eyebrow: 'Coaching humain · IA-augmenté',
-    title: 'Votre coach, au bon moment.',
-    description:
-      "Coaching 1-1 intégré : messagerie contextualisée, sessions visio, corrections de productions. Votre coach voit votre parcours, pas juste des messages déconnectés.",
-    bullets: [
-      'Messagerie directe avec contexte du parcours',
-      'Sessions visio intégrées (pas de Zoom externe)',
-      'Corrections inline sur vos productions',
-      'Feedback structuré sur vos exercices',
-    ],
-    tone: 'from-accent-400 to-secondary-500',
-    pillBg: 'bg-accent-100 text-warning-fg',
+    id: 'coaching',
+    span: 'md:col-span-1',
+    icon: <MessageSquare size={24} />,
+    eyebrow: 'Coaching 1-1',
+    title: 'Votre coach, au bon moment',
+    desc: 'Messagerie, sessions visio, corrections inline — avec le contexte de votre parcours.',
+    accent: 'bg-gradient-to-br from-accent-50 to-accent-100 border-accent-200',
+    iconBg: 'bg-accent-500 text-ink-900',
+    tag: null,
+  },
+  {
+    id: 'flashcards',
+    span: 'md:col-span-1',
+    icon: <Brain size={24} />,
+    eyebrow: 'Mémorisation',
+    title: 'Flashcards IA',
+    desc: 'Répétition espacée, cartes auto-générées.',
+    accent: 'bg-white border-ink-100',
+    iconBg: 'bg-primary-50 text-primary-700',
+    tag: null,
+  },
+  {
+    id: 'gamification',
+    span: 'md:col-span-2',
+    icon: <Trophy size={28} />,
+    eyebrow: 'Engagement',
+    title: 'Gamification & streaks',
+    desc: 'XP, badges, classements, défis hebdomadaires. Apprenez en jouant — sans tomber dans le jeu pour le jeu.',
+    accent: 'bg-gradient-to-br from-ink-900 to-primary-900 border-ink-700',
+    iconBg: 'bg-accent-400 text-ink-900',
+    tag: null,
+    dark: true,
+  },
+  {
+    id: 'veille',
+    span: 'md:col-span-1',
+    icon: <Newspaper size={24} />,
+    eyebrow: 'Veille',
+    title: 'Curation continue',
+    desc: 'Articles, vidéos, rapports triés par domaine et niveau.',
+    accent: 'bg-white border-ink-100',
+    iconBg: 'bg-primary-50 text-primary-700',
+    tag: null,
+  },
+  {
+    id: 'communaute',
+    span: 'md:col-span-1',
+    icon: <Users size={24} />,
+    eyebrow: 'Communauté',
+    title: 'Pairs & cohortes',
+    desc: 'Forums, co-apprentissage, partage de productions.',
+    accent: 'bg-white border-ink-100',
+    iconBg: 'bg-primary-50 text-primary-700',
+    tag: null,
+  },
+  {
+    id: 'chatbot',
+    span: 'md:col-span-1',
+    icon: <Zap size={24} />,
+    eyebrow: 'Assistant IA',
+    title: 'Chatbot pédago',
+    desc: 'Disponible 24/7, contextualisé à votre parcours.',
+    accent: 'bg-white border-ink-100',
+    iconBg: 'bg-primary-50 text-primary-700',
+    tag: null,
   },
 ];
 
-const FEATURE_TILES = [
-  { icon: <Trophy size={24} />, title: 'Gamification', desc: 'XP, badges, streaks. Apprenez en jouant.' },
-  { icon: <Brain size={24} />, title: 'Flashcards IA', desc: 'Espace espacé, cartes auto-générées.' },
-  { icon: <Newspaper size={24} />, title: 'Veille intégrée', desc: 'Curation continue par domaine.' },
-  { icon: <BookOpen size={24} />, title: 'Open Badges', desc: 'Certifications W3C exportables.' },
-  { icon: <Layers size={24} />, title: 'Contenus variés', desc: 'Vidéos, articles, podcasts, exercices.' },
-  { icon: <Users size={24} />, title: 'Communauté', desc: 'Forums, co-apprentissage entre pairs.' },
-  { icon: <Zap size={24} />, title: 'Chatbot pédago', desc: 'Assistant IA 24/7 contextualisé.' },
-  { icon: <Sparkles size={24} />, title: 'Passeport Dreyfus', desc: 'Compétences tracées Novice → Expert, exportables.' },
+// ─── Badge system data ───────────────────────────────────────────────────────
+
+const BADGES = [
+  {
+    id: 'formateur-augmente',
+    icon: <Star size={32} strokeWidth={1.5} />,
+    label: 'Formateur Augmenté',
+    level: 'Expert',
+    issuer: 'The Learning Society',
+    date: 'Juin 2026',
+    from: 'from-accent-400',
+    to: 'to-secondary-500',
+    ring: 'ring-accent-300',
+    desc: 'Maîtrise avancée de l\'IA en formation professionnelle.',
+  },
+  {
+    id: 'prompt-design',
+    icon: <Lightbulb size={32} strokeWidth={1.5} />,
+    label: 'Prompt Designer',
+    level: 'Compétent',
+    issuer: 'The Learning Society',
+    date: 'Mai 2026',
+    from: 'from-primary-500',
+    to: 'to-primary-700',
+    ring: 'ring-primary-300',
+    desc: 'Conception de prompts structurés et reproductibles.',
+  },
+  {
+    id: 'learning-coach',
+    icon: <Target size={32} strokeWidth={1.5} />,
+    label: 'Learning Coach',
+    level: 'Performant',
+    issuer: 'The Learning Society',
+    date: 'Avr. 2026',
+    from: 'from-secondary-400',
+    to: 'to-secondary-600',
+    ring: 'ring-secondary-300',
+    desc: 'Accompagnement des apprenants en parcours IA.',
+  },
+  {
+    id: 'data-literacy',
+    icon: <TrendingUp size={32} strokeWidth={1.5} />,
+    label: 'Data Literacy',
+    level: 'Compétent',
+    issuer: 'The Learning Society',
+    date: 'Mars 2026',
+    from: 'from-primary-400',
+    to: 'to-accent-400',
+    ring: 'ring-primary-200',
+    desc: 'Lecture et interprétation des données analytiques.',
+  },
 ];
+
+// ─── Use cases ───────────────────────────────────────────────────────────────
 
 const USE_CASES = [
   {
@@ -124,12 +281,15 @@ const USE_CASES = [
   },
 ];
 
+// ─── Component ───────────────────────────────────────────────────────────────
+
 export const MarketingLearningApp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [activeLevel, setActiveLevel] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,12 +304,11 @@ export const MarketingLearningApp: React.FC = () => {
       _source: 'learning-app-beta',
     });
     setSubmitting(false);
-    if (ok) {
-      setSubmitted(true);
-    } else {
-      setSubmitError(error ?? 'Une erreur s\'est produite. Réessayez ou contactez-nous par email.');
-    }
+    if (ok) setSubmitted(true);
+    else setSubmitError(error ?? 'Une erreur s\'est produite. Réessayez ou contactez-nous.');
   };
+
+  const activeDreyfus = DREYFUS_LEVELS[activeLevel];
 
   return (
     <div className="bg-white">
@@ -158,9 +317,9 @@ export const MarketingLearningApp: React.FC = () => {
         description="La plateforme qui connecte apprentissage, compétences et impact business. Parcours IA, Passeport de Compétences Dreyfus, coaching, gamification."
         canonical="/marketing/learning-app"
       />
-      {/* ── 1. Hero with prominent mockup ──────────────────────────────────── */}
+
+      {/* ── 1. Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-50/60 via-white to-accent-50/15">
-{/* Watercolour decorative blob top-right */}
         <div aria-hidden className="absolute top-0 right-0 w-1/3 h-80 pointer-events-none overflow-hidden">
           <img
             src="/images/bg-frames/aquarelle-orange-teal-1s.jpg"
@@ -169,62 +328,56 @@ export const MarketingLearningApp: React.FC = () => {
             style={{ maskImage: 'linear-gradient(to bottom-left, rgba(0,0,0,0.5) 0%, transparent 70%)' }}
           />
         </div>
-        {/* Soft halos */}
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/25 blur-3xl" />
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-pill bg-secondary-200/15 blur-3xl" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-page items-center">
           <FadeInWhenVisible direction="up">
-          <div className="flex flex-col gap-stack-lg">
-            <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
-              <Sparkles size={14} className="text-primary-600" />
-              <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
-                La Learning App · Learn → Do → Match
+            <div className="flex flex-col gap-stack-lg">
+              <span className="inline-flex items-center gap-stack-xs px-3 py-1.5 rounded-pill bg-primary-50 border border-primary-200 w-fit">
+                <Sparkles size={14} className="text-primary-600" />
+                <span className="font-body text-caption font-semibold text-primary-700 tracking-wider uppercase">
+                  La Learning App · Learn → Do → Match
+                </span>
               </span>
-            </span>
 
-            <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
-              Une plateforme.{' '}
-              <span className="text-secondary-600">Tout un écosystème.</span>
-            </h1>
+              <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 text-[clamp(2.75rem,6.5vw,5.5rem)]">
+                Une plateforme.{' '}
+                <span className="text-secondary-600">Tout un écosystème.</span>
+              </h1>
 
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
-              Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
-              Un écosystème intégré : parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
-            </p>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
+                Parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
+                L'apprentissage qui laisse des traces concrètes, reliées à votre travail réel.
+              </p>
 
-            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-              <MagneticButton strength={14}>
-                <a href="#early-access">
-                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Accès anticipé
+              <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+                <MagneticButton strength={14}>
+                  <a href="#early-access">
+                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                      Accès anticipé
+                    </Button>
+                  </a>
+                </MagneticButton>
+                <a href="#features">
+                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                    Voir les fonctionnalités
                   </Button>
                 </a>
-              </MagneticButton>
-              <a href="#features">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  trailingIcon={<ArrowUpRight size={18} />}
-                >
-                  Voir les fonctionnalités
-                </Button>
-              </a>
-            </div>
+              </div>
 
-            <div className="flex items-center gap-stack-xs pt-stack">
-              <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
-                Beta
-              </span>
-              <span className="font-body text-body-sm text-ink-500">
-                En développement actif · accès progressif par invitation
-              </span>
+              <div className="flex items-center gap-stack-xs">
+                <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-400 text-ink-900 text-micro font-bold uppercase tracking-wider">
+                  Beta
+                </span>
+                <span className="font-body text-body-sm text-ink-500">
+                  En développement actif · accès progressif par invitation
+                </span>
+              </div>
             </div>
-          </div>
-        </FadeInWhenVisible>
+          </FadeInWhenVisible>
 
-          {/* Hero mockup — full-bleed, natural scale */}
           <FadeInWhenVisible direction="left" delay={0.2}>
             <div className="relative lg:-mr-8 xl:-mr-16">
               <InteractiveAppMockup />
@@ -233,99 +386,168 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Features alternating split ────────────────────────────────── */}
-      <section id="features" className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-page">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up" delay={0.05}>
-              <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Tout ce qu'il faut pour{' '}
-                <span className="text-accent-400">apprendre en profondeur</span>.
+      {/* ── 2. Dreyfus interactif ─────────────────────────────────────────────── */}
+      <section className="py-page bg-white border-t border-ink-100">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
+                <Shield size={11} />
+                Modèle Dreyfus · Passeport de Compétences
+              </span>
+              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Votre progression sur 5 niveaux.
               </h2>
-            </FadeInWhenVisible>
-          </div>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                Chaque compétence est tracée du novice à l'expert selon le modèle Dreyfus.
+                Sélectionnez un niveau pour voir ce qu'il représente.
+              </p>
+            </div>
+          </FadeInWhenVisible>
 
-          {FEATURES_MAIN.map((f, idx) => (
-            <FadeInWhenVisible key={f.title} direction="up" delay={0.05}>
-              <article
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-section items-center ${
-                  idx % 2 === 1 ? 'lg:grid-flow-dense' : ''
-                }`}
-              >
-                {/* Visual side */}
-                <div
-                  className={`relative aspect-square max-w-md w-full mx-auto rounded-2xl overflow-hidden shadow-card-lift ${
-                    idx % 2 === 1 ? 'lg:col-start-2' : ''
-                  }`}
+          <FadeInWhenVisible direction="up" delay={0.1}>
+            <div className="flex flex-col gap-section-lg">
+              {/* Level selector — horizontal bar */}
+              <div className="relative">
+                {/* Track */}
+                <div className="h-1.5 bg-ink-100 rounded-pill absolute top-[22px] left-0 right-0 mx-[10%]" />
+                {/* Fill */}
+                <motion.div
+                  className="h-1.5 rounded-pill absolute top-[22px] left-[10%] bg-gradient-to-r from-ink-300 via-primary-500 to-accent-400"
+                  style={{ width: `${(activeLevel / 4) * 80}%` }}
+                  animate={{ width: `${(activeLevel / 4) * 80}%` }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                />
+                {/* Level buttons */}
+                <div className="relative flex justify-between px-[10%]">
+                  {DREYFUS_LEVELS.map((lvl, idx) => (
+                    <button
+                      key={lvl.level}
+                      type="button"
+                      onClick={() => setActiveLevel(idx)}
+                      aria-pressed={activeLevel === idx}
+                      className="flex flex-col items-center gap-2 cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-sm"
+                    >
+                      {/* Dot */}
+                      <motion.div
+                        animate={{
+                          scale: activeLevel === idx ? 1.25 : 1,
+                          backgroundColor: activeLevel === idx ? '#55A1B4' : '#e5e7eb',
+                        }}
+                        transition={{ duration: 0.25 }}
+                        className={`w-11 h-11 rounded-full border-2 flex items-center justify-center font-display text-caption font-extrabold transition-colors ${
+                          activeLevel === idx
+                            ? 'border-primary-500 bg-primary-500 text-white shadow-brand-sm'
+                            : 'border-ink-200 bg-white text-ink-500 group-hover:border-primary-300 group-hover:text-primary-600'
+                        }`}
+                      >
+                        {lvl.short}
+                      </motion.div>
+                      {/* Label */}
+                      <span className={`font-body text-caption font-semibold transition-colors leading-tight text-center hidden sm:block ${
+                        activeLevel === idx ? 'text-ink-900' : 'text-ink-500 group-hover:text-ink-700'
+                      }`}>
+                        {lvl.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Detail panel */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeLevel}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-stack rounded-2xl overflow-hidden border border-ink-100 shadow-card"
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${f.tone}`} />
-                  <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/15" />
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true, margin: '-100px' }}
-                    transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-                    className="relative h-full flex items-center justify-center text-white"
-                  >
-                    <div className="p-8 rounded-2xl bg-white/15 backdrop-blur-glass-light border border-white/25">
-                      {React.cloneElement(f.icon, { size: 96, strokeWidth: 1.25 })}
+                  {/* Left: gradient side */}
+                  <div className={`relative bg-gradient-to-br ${activeDreyfus.color} p-stack-lg flex flex-col gap-stack justify-between min-h-[200px]`}>
+                    <div className="flex flex-col gap-stack-xs">
+                      <span className="font-body text-caption font-bold text-white/70 uppercase tracking-wider">
+                        Niveau {activeDreyfus.level} · {activeDreyfus.timeLabel}
+                      </span>
+                      <p className="font-display text-h3 font-extrabold text-white leading-tight m-0">
+                        {activeDreyfus.label}
+                      </p>
                     </div>
-                  </motion.div>
-                </div>
-
-                {/* Content side */}
-                <div className={`flex flex-col gap-stack-lg ${idx % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
-                  <span
-                    className={`inline-flex self-start items-center px-3 py-1 rounded-pill ${f.pillBg} font-body text-caption font-semibold`}
-                  >
-                    {f.eyebrow}
-                  </span>
-                  <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold text-ink-900 leading-[1.1] tracking-tight m-0">
-                    {f.title}
-                  </h3>
-                  <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
-                    {f.description}
-                  </p>
-                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
-                    {f.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-stack-xs.5">
-                        <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
-                        <span className="font-body text-body text-ink-800">{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            </FadeInWhenVisible>
-          ))}
+                    <p className="font-body text-body text-white/90 leading-relaxed m-0">
+                      {activeDreyfus.desc}
+                    </p>
+                  </div>
+                  {/* Right: skills list */}
+                  <div className="bg-white p-stack-lg flex flex-col gap-stack">
+                    <span className="font-body text-caption font-semibold text-ink-500 uppercase tracking-wider">
+                      Compétences représentatives
+                    </span>
+                    <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
+                      {activeDreyfus.skills.map((s) => (
+                        <li key={s} className="flex items-start gap-2">
+                          <ChevronRight size={16} className="text-primary-500 shrink-0 mt-0.5" />
+                          <span className="font-body text-body text-ink-800">{s}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="pt-stack mt-auto">
+                      <span className={`inline-flex items-center px-3 py-1.5 rounded-pill border font-body text-caption font-semibold ${activeDreyfus.pillBg}`}>
+                        {activeDreyfus.label} · {activeDreyfus.timeLabel}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </FadeInWhenVisible>
         </div>
       </section>
 
-      {/* ── 4. Feature tiles bento ──────────────────────────────────────────── */}
-      <section className="py-page bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
+      {/* ── 3. Features bento ─────────────────────────────────────────────────── */}
+      <section id="features" className="py-page bg-gradient-to-b from-primary-50/30 via-white to-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack items-center text-center max-w-3xl mx-auto">
-            <FadeInWhenVisible direction="up" delay={0.05}>
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-3xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                8 modules clés. Un seul outil.
+                Tout ce qu'il faut pour{' '}
+                <span className="text-accent-400">apprendre en profondeur</span>.
               </h2>
-            </FadeInWhenVisible>
-          </div>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                8 modules intégrés. Un seul outil.
+              </p>
+            </div>
+          </FadeInWhenVisible>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-            {FEATURE_TILES.map((t, i) => (
-              <FadeInWhenVisible key={t.title} direction="up" delay={i * 0.05}>
+          {/* Bento grid — 3 cols on md+, auto-sized rows */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+            {BENTO_FEATURES.map((f, i) => (
+              <FadeInWhenVisible key={f.id} direction="up" delay={i * 0.04}>
                 <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-xs hover:shadow-card-hover hover:border-primary-200 transition-shadow duration-base"
+                  whileHover={{ y: -3 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                  className={`${f.span} rounded-2xl border p-stack-lg flex flex-col gap-stack-lg shadow-card hover:shadow-card-hover transition-shadow duration-base ${f.accent}`}
                 >
-                  <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-primary-50 to-accent-50 text-primary-700 border border-primary-100">
-                    {t.icon}
-                  </span>
+                  <div className="flex items-start justify-between gap-2">
+                    <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${f.iconBg} shadow-sm`}>
+                      {f.icon}
+                    </span>
+                    {f.tag && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-pill bg-white/80 border border-primary-200 text-primary-700 font-body text-micro font-bold uppercase tracking-wider">
+                        {f.tag}
+                      </span>
+                    )}
+                  </div>
                   <div className="flex flex-col gap-tight">
-                    <h3 className="font-display text-body font-bold text-ink-900 m-0 leading-tight">{t.title}</h3>
-                    <p className="font-body text-caption text-ink-600 m-0 leading-relaxed">{t.desc}</p>
+                    <p className={`font-body text-caption font-semibold uppercase tracking-wider m-0 ${f.dark ? 'text-white/50' : 'text-ink-400'}`}>
+                      {f.eyebrow}
+                    </p>
+                    <h3 className={`font-display text-h4 font-extrabold leading-tight m-0 ${f.dark ? 'text-white' : 'text-ink-900'}`}>
+                      {f.title}
+                    </h3>
+                    <p className={`font-body text-body-sm leading-relaxed m-0 ${f.dark ? 'text-white/75' : 'text-ink-600'}`}>
+                      {f.desc}
+                    </p>
                   </div>
                 </motion.div>
               </FadeInWhenVisible>
@@ -334,24 +556,102 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5. Use cases ────────────────────────────────────────────────────── */}
+      {/* ── 4. Badge system ───────────────────────────────────────────────────── */}
+      <section className="py-page bg-gradient-to-br from-ink-900 via-primary-900 to-ink-900 overflow-hidden relative">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-pill bg-primary-700/20 blur-[80px]" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-pill bg-accent-400/10 blur-[60px]" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 flex flex-col gap-section">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 text-micro font-bold text-primary-300 uppercase tracking-[0.08em]">
+                <Award size={11} />
+                Open Badges · Certifications W3C
+              </span>
+              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+                Des badges qui prouvent quelque chose.
+              </h2>
+              <p className="font-body text-body-lg text-white/70 leading-relaxed m-0">
+                Chaque Open Badge est lié à des preuves concrètes : missions accomplies, sessions de coaching, productions validées. Pas un trophée générique.
+              </p>
+            </div>
+          </FadeInWhenVisible>
+
+          {/* Badge grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
+            {BADGES.map((badge, i) => (
+              <FadeInWhenVisible key={badge.id} direction="up" delay={i * 0.08}>
+                <motion.div
+                  whileHover={{ y: -6, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                  className="rounded-2xl bg-white/8 backdrop-blur-glass-light border border-white/15 p-stack-lg flex flex-col gap-stack hover:bg-white/12 hover:border-white/25 transition-all duration-base cursor-default"
+                >
+                  {/* Badge icon hexagon-ish */}
+                  <div className="flex flex-col items-center gap-stack pt-stack-xs">
+                    <div className={`relative w-20 h-20 rounded-[28px] bg-gradient-to-br ${badge.from} ${badge.to} flex items-center justify-center shadow-lg ring-4 ring-white/20`}>
+                      <span className="text-white">{badge.icon}</span>
+                      {/* Shine */}
+                      <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-white/20 to-transparent" />
+                    </div>
+                    <div className="flex flex-col items-center gap-tight text-center">
+                      <p className="font-display text-body font-extrabold text-white m-0 leading-tight">
+                        {badge.label}
+                      </p>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-pill bg-white/10 text-white/70 font-body text-micro font-semibold">
+                        {badge.level}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="font-body text-caption text-white/60 leading-relaxed m-0 text-center">
+                    {badge.desc}
+                  </p>
+                  {/* Footer meta */}
+                  <div className="pt-stack border-t border-white/10 flex items-center justify-between">
+                    <span className="font-body text-micro text-white/40">{badge.issuer}</span>
+                    <span className="font-body text-micro text-white/40">{badge.date}</span>
+                  </div>
+                </motion.div>
+              </FadeInWhenVisible>
+            ))}
+          </div>
+
+          {/* W3C / Open Badges note */}
+          <FadeInWhenVisible direction="up" delay={0.2}>
+            <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white/80 font-body text-caption font-semibold">
+                <CheckCircle2 size={13} className="text-success-base" />
+                Compatibles Open Badges (W3C)
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white/80 font-body text-caption font-semibold">
+                <CheckCircle2 size={13} className="text-success-base" />
+                Partageables sur LinkedIn &amp; CV
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/10 border border-white/20 text-white/80 font-body text-caption font-semibold">
+                <CheckCircle2 size={13} className="text-success-base" />
+                Vérifiables par un tiers
+              </span>
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── 5. Use cases ──────────────────────────────────────────────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
-          <div className="flex flex-col gap-stack max-w-3xl">
-            <FadeInWhenVisible direction="up" delay={0.05}>
-              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Une expérience pour chaque rôle.
-              </h2>
-            </FadeInWhenVisible>
-          </div>
+          <FadeInWhenVisible direction="up">
+            <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 max-w-3xl">
+              Une expérience pour chaque rôle.
+            </h2>
+          </FadeInWhenVisible>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {USE_CASES.map((u, i) => (
               <FadeInWhenVisible key={u.badge} direction="up" delay={i * 0.1}>
                 <motion.article
-                  whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                  whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:border-primary-200 transition-all duration-base"
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack-lg shadow-card hover:shadow-card-hover hover:border-primary-200 transition-all duration-base"
                 >
                   <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-semibold">
                     {u.badge}
@@ -374,9 +674,8 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 5b. Manifesto — emotional peak ──────────────────────────────────── */}
+      {/* ── 6. Passeport manifesto ────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 py-page">
-        {/* Watercolour texture overlay */}
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <img
             src="/images/bg-frames/aquarelle-orange-teal-5s.jpg"
@@ -399,7 +698,7 @@ export const MarketingLearningApp: React.FC = () => {
               {[
                 { label: 'Progression détaillée', desc: 'Niveau Dreyfus par compétence, de novice à expert.' },
                 { label: 'Preuves liées', desc: 'Chaque affirmation est adossée à une trace concrète.' },
-                { label: 'Partage sur mesure', desc: 'Partagez à votre RH, votre équipe, ou gardez-le pour vous.' },
+                { label: 'Partage sur mesure', desc: 'À votre RH, votre équipe, ou gardez-le pour vous.' },
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-tight">
                   <p className="font-display text-body font-bold text-white m-0">{item.label}</p>
@@ -411,7 +710,7 @@ export const MarketingLearningApp: React.FC = () => {
         </FadeInWhenVisible>
       </section>
 
-      {/* ── 6. Early access ─────────────────────────────────────────────────── */}
+      {/* ── 7. Early access ───────────────────────────────────────────────────── */}
       <section
         id="early-access"
         className="relative overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-secondary-50/20 py-page"
@@ -426,7 +725,7 @@ export const MarketingLearningApp: React.FC = () => {
                 Soyez parmi <span className="text-secondary-600">les premiers</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-                La Learning App est en bêta. Inscrivez-vous pour être notifié·e en priorité et bénéficier d'un accès exclusif.
+                La Learning App est en bêta. Inscrivez-vous pour être notifié en priorité et bénéficier d'un accès exclusif.
               </p>
             </div>
           </FadeInWhenVisible>
@@ -446,11 +745,9 @@ export const MarketingLearningApp: React.FC = () => {
                 </p>
               </motion.div>
             ) : (
-              <motion.form
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-md flex flex-col gap-stack pt-stack bg-white border border-ink-100 rounded-2xl p-section shadow-card"
+                className="w-full max-w-md flex flex-col gap-stack bg-white border border-ink-100 rounded-2xl p-section shadow-card"
               >
                 <div className="flex flex-col gap-stack-xs text-left">
                   <label htmlFor="ea-email" className="font-body text-body-sm font-semibold text-ink-700">
@@ -499,13 +796,11 @@ export const MarketingLearningApp: React.FC = () => {
                 <p className="font-body text-caption text-ink-500 text-center m-0">
                   Aucun spam. Désinscription en 1 clic.
                 </p>
-              </motion.form>
+              </form>
             )}
           </FadeInWhenVisible>
         </div>
       </section>
-
-      {/* ── Footer ──────────────────────────────────────────────────────────── */}
     </div>
   );
 };
