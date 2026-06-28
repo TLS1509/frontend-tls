@@ -987,7 +987,7 @@ export const LessonPlayer: React.FC = () => {
                       key={i}
                       onClick={() => setDecouvrirStep(i)}
                       aria-label={`Étape ${i + 1}`}
-                      className={`rounded-pill transition-all duration-200 ${
+                      className={`rounded-pill transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                         i === decouvrirStep
                           ? 'w-4 h-1.5 bg-accent-400'
                           : i < decouvrirStep
@@ -1007,14 +1007,14 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base"
+                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   <ChevronLeft size={14} /> Précédent
                 </button>
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base"
+                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   Suivant <ChevronRight size={14} />
                 </button>
@@ -1628,7 +1628,7 @@ export const LessonPlayer: React.FC = () => {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-tight.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0"
+                    className="inline-flex items-center gap-tight.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <Link2 size={13} /> Charger
                   </button>
@@ -1648,7 +1648,7 @@ export const LessonPlayer: React.FC = () => {
                     setEmbeddedUrls((prev) => { const n = { ...prev }; delete n[index]; return n; });
                     setEmbedInputs((prev) => ({ ...prev, [index]: '' }));
                   }}
-                  className="font-body text-caption text-ink-400 hover:text-ink-600 transition-colors duration-150"
+                  className="font-body text-caption text-ink-400 hover:text-ink-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                 >
                   Changer l'URL
                 </button>
@@ -1813,7 +1813,7 @@ export const LessonPlayer: React.FC = () => {
           <div className="flex items-center gap-stack-xs px-stack h-11">
             <button
               onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-tight text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0"
+              className="inline-flex items-center gap-tight text-ink-500 hover:text-ink-900 transition-colors duration-150 font-body text-caption shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
               aria-label="Retour"
             >
               <ChevronLeft size={15} />
@@ -1838,7 +1838,7 @@ export const LessonPlayer: React.FC = () => {
               </span>
               <button
                 onClick={handleClose}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-400 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150"
+                className="w-7 h-7 rounded-full flex items-center justify-center text-ink-400 hover:text-ink-900 hover:bg-ink-100 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 aria-label="Fermer"
               >
                 <XCircle size={16} />
@@ -1868,7 +1868,7 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   key={section.id}
                   className={[
-                    'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative',
+                    'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isActive
                       ? 'bg-primary-500 text-white font-bold shadow-sm'
                       : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
@@ -1901,7 +1901,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handlePrev}
           disabled={isFirst}
-          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150"
+          className="fixed left-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           aria-label="Section précédente"
         >
           <ChevronLeft size={18} />
@@ -1909,7 +1909,7 @@ export const LessonPlayer: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={false}
-          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150"
+          className="fixed right-3 top-1/2 -translate-y-1/2 z-[51] w-11 h-11 rounded-full bg-white border border-ink-200 shadow-md flex items-center justify-center text-ink-600 hover:bg-ink-50 hover:border-ink-300 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           aria-label={isLast ? 'Terminer la leçon' : 'Section suivante'}
         >
           <ChevronRight size={18} />
@@ -1923,7 +1923,7 @@ export const LessonPlayer: React.FC = () => {
               onClick={() => goTo(i)}
               aria-label={`Aller à ${SECTIONS[i].title}`}
               className={[
-                'rounded-pill transition-all duration-200',
+                'rounded-pill transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 i === currentIndex
                   ? 'w-5 h-2 bg-accent-400'
                   : completedSections.has(i)

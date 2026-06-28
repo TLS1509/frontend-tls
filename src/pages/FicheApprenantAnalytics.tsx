@@ -143,7 +143,7 @@ export default function FicheApprenantAnalytics() {
               key={t}
               onClick={() => setTab(t)}
               className={[
-                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast',
+                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
                 tab === t ? 'text-secondary-600 border-b-2 border-secondary-500' : 'text-ink-500 hover:text-ink-900',
               ].join(' ')}
             >

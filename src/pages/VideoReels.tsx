@@ -201,7 +201,7 @@ const ActionBtn: React.FC<ActionBtnProps> = ({ onClick, liked, saved, label, chi
     <div className="flex flex-col items-center gap-tight">
       <button
         onClick={onClick}
-        className={`w-[52px] h-[52px] rounded-full border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light ${btnClass}`}
+        className={`w-[52px] h-[52px] rounded-full border flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-glass-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70 ${btnClass}`}
       >
         {children}
       </button>
@@ -278,7 +278,7 @@ export const VideoReels: React.FC = () => {
 
         <button
           onClick={() => navigate('/veille')}
-          className="flex items-center gap-stack-xs px-stack py-stack-xs rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white"
+          className="flex items-center gap-stack-xs px-stack py-stack-xs rounded-xl border border-white/15 bg-black/55 backdrop-blur-glass-light text-white/85 font-body text-body-sm font-semibold cursor-pointer transition-all duration-200 hover:bg-black/75 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
         >
           <ArrowLeft size={16} />
           Retour
@@ -293,7 +293,7 @@ export const VideoReels: React.FC = () => {
                 key={cat}
                 onClick={() => handleCategory(cat)}
                 className={[
-                  'px-3 py-1.5 rounded-lg border-0 font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap',
+                  'px-3 py-1.5 rounded-lg border-0 font-body text-caption cursor-pointer transition-all duration-200 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                   isActive
                     ? `font-bold ${TONE_CATEGORY_ACTIVE[video.tone]}`
                     : 'font-medium text-white/70 bg-transparent hover:text-white',
@@ -307,7 +307,7 @@ export const VideoReels: React.FC = () => {
 
         <button
           onClick={() => setIsMuted((m) => !m)}
-          className="w-10 h-10 rounded-full border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0"
+          className="w-10 h-10 rounded-full border border-white/15 bg-black/55 backdrop-blur-glass-light flex items-center justify-center text-white/85 cursor-pointer transition-all duration-200 hover:bg-black/75 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
         >
           {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
         </button>
@@ -328,7 +328,7 @@ export const VideoReels: React.FC = () => {
             <button
               onClick={() => setIsPlaying((p) => !p)}
               className={[
-                'w-20 h-20 rounded-full border-2 border-white/22 bg-black/55 backdrop-blur-glass-medium flex items-center justify-center cursor-pointer text-white transition-all duration-200 hover:scale-[1.08]',
+                'w-20 h-20 rounded-full border-2 border-white/22 bg-black/55 backdrop-blur-glass-medium flex items-center justify-center cursor-pointer text-white transition-all duration-200 hover:scale-[1.08] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 isPlaying ? 'opacity-0' : 'opacity-100',
               ].join(' ')}
             >
@@ -427,7 +427,7 @@ export const VideoReels: React.FC = () => {
               onClick={() => { setCurrentIndex(i); setIsPlaying(false); }}
               aria-label={`Vidéo ${i + 1}`}
               className={[
-                'h-1.5 rounded-full border-0 cursor-pointer transition-all duration-300 p-0',
+                'h-1.5 rounded-full border-0 cursor-pointer transition-all duration-300 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
                 i === currentIndex ? 'w-5 bg-primary-400' : 'w-1.5 bg-white/25',
               ].join(' ')}
             />

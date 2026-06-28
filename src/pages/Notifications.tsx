@@ -26,6 +26,7 @@ import type { NotificationEventType } from '../types/learning';
 import { Container } from '../components/layout';
 import {
   Bell,
+  BellDot,
   BookOpen,
   CalendarDays,
   CheckCheck,
@@ -108,7 +109,7 @@ function formatRelativeTime(iso: string): string {
 
 const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
   { id: 'all',      label: 'Toutes',     icon: <Bell size={13} /> },
-  { id: 'unread',   label: 'Non lues',   icon: <MessageSquare size={13} /> },
+  { id: 'unread',   label: 'Non lues',   icon: <BellDot size={13} /> },
   { id: 'messages', label: 'Messages',   icon: <MessageSquare size={13} /> },
   { id: 'lessons',  label: 'Formations', icon: <BookOpen size={13} /> },
   { id: 'coaching', label: 'Coaching',   icon: <CalendarDays size={13} /> },
@@ -239,7 +240,7 @@ export const Notifications: React.FC = () => {
               title={filter === 'unread' ? 'Tout est lu' : 'Aucune notification'}
               description={
                 filter === 'unread'
-                  ? 'Vous êtes à jour. Bravo !'
+                  ? 'Tu es à jour.'
                   : 'Aucune notification dans cette catégorie pour le moment.'
               }
             />

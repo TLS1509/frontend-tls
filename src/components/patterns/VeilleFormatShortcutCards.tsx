@@ -23,6 +23,10 @@ export interface VeilleFormatCard {
   subtitle: string;
   /** Route SPA vers laquelle naviguer au clic. */
   href: string;
+  /** Tailwind classes for the icon bubble background (light surface only). */
+  iconBg?: string;
+  /** Tailwind classes for the card border color on hover (light surface only). */
+  hoverBorder?: string;
 }
 
 export interface VeilleFormatShortcutCardsProps {
@@ -64,28 +68,36 @@ const DEFAULT_CARDS_DARK: VeilleFormatCard[] = [
 
 const DEFAULT_CARDS_LIGHT: VeilleFormatCard[] = [
   {
-    icon: <BookOpen size={16} strokeWidth={2} className="text-primary-500" />,
+    icon: <BookOpen size={16} strokeWidth={2} className="text-primary-600" />,
     title: 'Magazine TLS',
     subtitle: 'Mensuel · analyses',
     href: '/veille/magazine',
+    iconBg: 'bg-primary-50',
+    hoverBorder: 'hover:border-primary-200',
   },
   {
-    icon: <Newspaper size={16} strokeWidth={2} className="text-secondary-500" />,
+    icon: <Newspaper size={16} strokeWidth={2} className="text-secondary-600" />,
     title: 'Actu hebdo',
     subtitle: 'Chaque vendredi',
     href: '/veille/weekly-newsletter',
+    iconBg: 'bg-secondary-50',
+    hoverBorder: 'hover:border-secondary-200',
   },
   {
-    icon: <Clapperboard size={16} strokeWidth={2} className="text-ink-500" />,
+    icon: <Clapperboard size={16} strokeWidth={2} className="text-ink-600" />,
     title: 'Vidéo Reels',
     subtitle: 'Short formats · 60 sec',
     href: '/veille/video-reels',
+    iconBg: 'bg-ink-100',
+    hoverBorder: 'hover:border-ink-300',
   },
   {
-    icon: <Mail size={16} strokeWidth={2} className="text-accent-500" />,
+    icon: <Mail size={16} strokeWidth={2} className="text-warning-fg" />,
     title: 'Newsletter',
     subtitle: 'Abonnement & archives',
     href: '/veille/newsletter',
+    iconBg: 'bg-accent-50',
+    hoverBorder: 'hover:border-accent-200',
   },
 ];
 
@@ -110,7 +122,7 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
         .filter(Boolean)
         .join(' ')}
     >
-      {resolvedCards.map(({ icon, title, subtitle, href }) => (
+      {resolvedCards.map(({ icon, title, subtitle, href, iconBg, hoverBorder }) => (
         <button
           key={href}
           type="button"
@@ -119,13 +131,13 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
             'group flex items-center gap-stack-xs p-4 rounded-2xl border transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2',
             isDark
               ? 'bg-white/10 backdrop-blur-glass-medium border-white/20 hover:bg-white/15 focus-visible:outline-white/50'
-              : 'bg-white border-ink-100 shadow-card hover:shadow-card-hover hover:border-ink-200 focus-visible:outline-primary-500',
+              : `bg-white border-ink-100 shadow-card hover:shadow-card-hover ${hoverBorder ?? 'hover:border-ink-200'} focus-visible:outline-primary-500`,
           ].join(' ')}
         >
-          {/* Icon bubble */}
+          {/* Icon bubble — tone-aware background per format */}
           <span className={[
             'shrink-0 w-8 h-8 rounded-lg flex items-center justify-center',
-            isDark ? 'bg-white/8' : 'bg-ink-50',
+            isDark ? 'bg-white/8' : (iconBg ?? 'bg-ink-50'),
           ].join(' ')}>
             {icon}
           </span>

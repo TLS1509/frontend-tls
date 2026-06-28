@@ -187,7 +187,7 @@ export default function ProfilePrivacy() {
         {/* Legal links */}
         <div className="flex flex-wrap gap-stack pb-section">
           {['Politique de confidentialité', 'Conditions d\'utilisation', 'Mentions légales', 'Politique cookies'].map((link) => (
-            <button key={link} className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+            <button key={link} className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
               {link}
             </button>
           ))}

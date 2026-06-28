@@ -95,8 +95,8 @@ const ManagerViewsBuilder: React.FC = () => {
                   <button
                     key={c.v}
                     onClick={() => setChartType(c.v)}
-                    className={`p-3 rounded-lg border-2 flex flex-col items-center gap-tight transition-[border-color,background-color] duration-fast ease-standard ${
-                      chartType === c.v ? 'border-primary-500 bg-primary-50' : 'border-ink-200 hover:border-primary-300'
+                    className={`p-3 rounded-lg border-2 flex flex-col items-center gap-tight transition-[border-color,background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
+                      chartType === c.v ? 'border-primary-500 bg-primary-50' : 'border-ink-200 hover:border-primary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
                     }`}
                   >
                     <Icon className="w-6 h-6" />

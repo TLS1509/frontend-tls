@@ -26,7 +26,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="danger" size="sm">En cours</Badge>,
     date: <span className="text-caption text-ink-600">08 mai 2026</span>,
     action: (
-      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
         Voir détails
       </button>
     ),
@@ -42,7 +42,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="success" size="sm">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">05 mai 2026</span>,
     action: (
-      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
         Voir détails
       </button>
     ),
@@ -58,7 +58,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="sun" size="sm">En cours</Badge>,
     date: <span className="text-caption text-ink-600">03 mai 2026</span>,
     action: (
-      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
         Voir détails
       </button>
     ),
@@ -74,7 +74,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="neutral" size="sm">Ignorée</Badge>,
     date: <span className="text-caption text-ink-600">28 avr. 2026</span>,
     action: (
-      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
         Voir détails
       </button>
     ),
@@ -90,7 +90,7 @@ const ALERT_HISTORY_ROWS = [
     statut: <Badge variant="success" size="sm">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">25 avr. 2026</span>,
     action: (
-      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast">
+      <button className="text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
         Voir détails
       </button>
     ),

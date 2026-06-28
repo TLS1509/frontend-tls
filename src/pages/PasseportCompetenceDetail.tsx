@@ -161,7 +161,7 @@ export default function PasseportCompetenceDetail() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={[
-                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast',
+                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
                 activeTab === tab
                   ? 'text-primary-700 border-b-2 border-primary-600'
                   : 'text-ink-500 hover:text-ink-900',

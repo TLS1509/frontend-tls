@@ -330,7 +330,7 @@ export const OnboardingUnified: React.FC = () => {
                   key={tile.id}
                   onClick={() => handleRoleSelect(tile.id)}
                   disabled={loading || selectedRole !== null}
-                  className={`flex flex-col items-center gap-tight rounded-lg border-2 px-3 py-2 transition-all ${
+                  className={`flex flex-col items-center gap-tight rounded-lg border-2 px-3 py-2 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                     selectedRole === tile.id
                       ? 'border-primary-500 bg-primary-50'
                       : 'border-primary-100 hover:border-primary-300 hover:bg-primary-50'

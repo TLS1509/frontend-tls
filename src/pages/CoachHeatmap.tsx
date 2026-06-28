@@ -122,7 +122,7 @@ export default function CoachHeatmap() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={[
-                  'px-3 py-1.5 text-caption font-semibold rounded-pill transition-colors duration-fast',
+                  'px-3 py-1.5 text-caption font-semibold rounded-pill transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   activeTab === tab.id
                     ? 'bg-primary-600 text-white'
                     : 'bg-ink-100 text-ink-600 hover:bg-ink-200',

@@ -391,7 +391,7 @@ export const LearningPathDetail: React.FC = () => {
                   >
                     <button
                       onClick={() => toggleStep(etape.id)}
-                      className="w-full flex items-start gap-stack p-6 bg-transparent border-0 cursor-pointer text-left"
+                      className="w-full flex items-start gap-stack p-6 bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
                     >
                       <div
                         className={[

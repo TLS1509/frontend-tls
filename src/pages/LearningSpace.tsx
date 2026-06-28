@@ -163,7 +163,7 @@ export const LearningSpace: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-2 flex flex-col gap-5">
 
         {/* Title row */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-stack">
           <div className="flex flex-col gap-tight">
             <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
               <BookOpen size={11} aria-hidden />

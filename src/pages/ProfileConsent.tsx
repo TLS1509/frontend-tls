@@ -202,7 +202,7 @@ export default function ProfileConsent() {
                 <li>Droit d'exprimer ton point de vue et de contester la décision</li>
                 <li>Droit à une explication claire sur la logique de la recommandation</li>
               </ul>
-              <button className="self-start text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast mt-1">
+              <button className="self-start text-caption text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors duration-fast mt-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm">
                 Contacter l'équipe conformité →
               </button>
             </div>

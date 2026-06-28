@@ -263,7 +263,7 @@ export const MarketingHomeFullPage: React.FC = () => {
             aria-hidden
           >
             <img
-              src="/images/bg-frames/aquarelle-orange-teal-1s.jpg"
+              src="/marketing/assets/hero-watercolor.webp"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
