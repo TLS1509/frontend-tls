@@ -22,6 +22,9 @@ import {
   Sparkles,
   ExternalLink,
   MapPin,
+  Lock,
+  Zap,
+  Compass,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -32,10 +35,10 @@ import { SEOHead } from './components/SEOHead';
 
 const QUICK_LINKS = [
   {
-    icon: <BookOpen size={20} />,
-    label: 'Formation Formateur Augmenté',
-    href: '/marketing/formation',
-    desc: 'À partir de 249€ : 7 modules',
+    icon: <Compass size={20} />,
+    label: 'Notre méthode STRIDE',
+    href: '/marketing/methode',
+    desc: 'Comment on travaille',
     tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
@@ -75,7 +78,7 @@ const SUBJECT_CONTEXTS: Record<string, { headline: string; desc: string }> = {
   },
   'Autre': {
     headline: 'Entrer en contact.',
-    desc: 'Pas de bonne ou mauvaise raison d\'écrire. On adore les conversations qui démarrent simplement.',
+    desc: 'Écrivez-nous pour n\'importe quelle raison. On adore les échanges directs.',
   },
 };
 
@@ -90,12 +93,13 @@ export const MarketingContact: React.FC = () => {
     phone: '',
     subject: 'Formation',
     message: '',
+    newsletter: false,
   });
 
   return (
     <div className="bg-white">
       <SEOHead
-        title="Contact"
+        title="Contactez The Learning Society — Devis & Rendez-vous"
         description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
         canonical="/marketing/contact"
       />
@@ -194,7 +198,7 @@ export const MarketingContact: React.FC = () => {
                     size="md"
                     onClick={() => {
                       setSubmitted(false);
-                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Formation', message: '' });
+                      setForm({ name: '', email: '', org: '', phone: '', subject: 'Formation', message: '', newsletter: false });
                     }}
                   >
                     Envoyer un autre message
@@ -226,7 +230,7 @@ export const MarketingContact: React.FC = () => {
                       Écrivez-nous
                     </h2>
                     <p className="font-body text-body text-ink-600 m-0">
-                      Tous les champs sont volontairement courts. Nous irons au fond pendant l'échange.
+                      Tous les champs sont courts. Nous irons au fond pendant l'échange.
                     </p>
                   </div>
 
@@ -336,27 +340,71 @@ export const MarketingContact: React.FC = () => {
                     />
                   </div>
 
+                  {/* Newsletter opt-in */}
+                  <label className="relative flex items-start gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={form.newsletter}
+                      onChange={(e) => setForm({ ...form, newsletter: e.target.checked })}
+                      className="peer sr-only"
+                    />
+                    <span
+                      aria-hidden
+                      className="mt-0.5 shrink-0 inline-flex w-5 h-5 border-2 border-ink-300 rounded-md
+                        peer-checked:bg-primary-500 peer-checked:border-primary-500
+                        peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-primary-500
+                        transition-colors duration-fast
+                        after:content-['✓'] after:text-white after:font-bold after:text-[12px] after:opacity-0 after:leading-none after:flex after:items-center after:justify-center
+                        peer-checked:after:opacity-100 flex items-center justify-center"
+                    />
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-body text-body-sm font-semibold text-ink-900 leading-snug">
+                        Recevoir nos ressources et actualités
+                      </span>
+                      <span className="font-body text-caption text-ink-500 leading-relaxed">
+                        Veille EdTech, méthodes de formation, retours terrain. Pas plus d'un email par semaine. Résiliable en un clic.
+                      </span>
+                    </div>
+                  </label>
+
                   {submitError && (
                     <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-danger-bg border border-danger-base/30 text-danger-fg font-body text-body-sm" role="alert">
                       <AlertCircle size={16} className="shrink-0 mt-0.5" />
                       {submitError}
                     </div>
                   )}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack pt-stack">
-                    <p className="font-body text-caption text-ink-500 m-0">
-                      Vos données restent confidentielles. RGPD respecté.
-                    </p>
-                    <MagneticButton strength={12}>
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        size="lg"
-                        disabled={submitting}
-                        trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
-                      >
-                        {submitting ? 'Envoi en cours…' : 'Envoyer le message'}
-                      </Button>
-                    </MagneticButton>
+
+                  {/* Reassurance + submit */}
+                  <div className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
+                    <div className="flex flex-wrap items-center gap-x-stack gap-y-1">
+                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                        <Lock size={11} className="text-ink-400 shrink-0" />
+                        Données confidentielles · RGPD
+                      </span>
+                      <span className="text-ink-300 text-caption">·</span>
+                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                        <Zap size={11} className="text-ink-400 shrink-0" />
+                        Réponse sous 48h ouvrées
+                      </span>
+                      <span className="text-ink-300 text-caption">·</span>
+                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
+                        <MapPin size={11} className="text-ink-400 shrink-0" />
+                        Équipe basée à Paris
+                      </span>
+                    </div>
+                    <div className="flex justify-end">
+                      <MagneticButton strength={12}>
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          size="lg"
+                          disabled={submitting}
+                          trailingIcon={submitting ? undefined : <ArrowRight size={18} />}
+                        >
+                          {submitting ? 'Envoi en cours…' : 'Envoyer le message'}
+                        </Button>
+                      </MagneticButton>
+                    </div>
                   </div>
                 </form>
               )}
@@ -377,7 +425,7 @@ export const MarketingContact: React.FC = () => {
                     Réservez un échange de 30 min
                   </h3>
                   <p className="font-body text-body-sm text-ink-600 m-0 leading-relaxed">
-                    Plus efficace qu'un email. Choisissez votre créneau directement dans notre agenda.
+                    Choisissez votre créneau dans notre agenda.
                   </p>
                 </div>
                 <MagneticButton strength={10}>

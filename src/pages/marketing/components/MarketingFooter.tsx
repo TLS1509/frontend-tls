@@ -17,12 +17,14 @@ const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 15 }) => (
 );
 
 const NAV_LINKS = [
-  { label: 'Formation', href: '/marketing/formation' },
   { label: 'Learning App', href: '/marketing/learning-app' },
   { label: 'Accompagnement', href: '/marketing/accompagnement' },
+  { label: 'Méthode', href: '/marketing/methode' },
   { label: 'Magazine', href: '/marketing/magazine' },
+  { label: 'Témoignages', href: '/marketing/temoignages' },
   { label: "L'équipe", href: '/marketing/equipe' },
   { label: 'Contact', href: '/marketing/contact' },
+  { label: 'Accès anticipé', href: '/marketing/waitlist' },
 ];
 
 const LEGAL_LINKS = [
@@ -62,13 +64,13 @@ export const MarketingFooter: React.FC = () => (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>© 2026 The Learning Society</span>
           {LEGAL_LINKS.map(({ label, href }) => (
-            <a
+            <Link
               key={href}
-              href={href}
+              to={href}
               className="hover:text-ink-700 transition-colors duration-fast"
             >
               {label}
-            </a>
+            </Link>
           ))}
         </div>
 

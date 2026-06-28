@@ -77,7 +77,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
         <button
           type="button"
           onClick={() => navigate('/journal')}
-          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer"
+          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
         >
           <PenLine size={12} aria-hidden="true" />
           Mon journal
@@ -110,7 +110,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
           <button
             type="button"
             onClick={() => navigate(href)}
-            className="flex-1 h-9 rounded-full bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-400 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer"
+            className="flex-1 h-9 rounded-full bg-ink-50/80 border border-ink-100 px-4 text-body-sm text-ink-400 text-left hover:bg-ink-100 hover:border-ink-200 transition-[background-color,border-color] duration-fast cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Répondre…
           </button>
@@ -118,7 +118,7 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
             type="button"
             onClick={() => navigate(href)}
             aria-label="Ouvrir le journal"
-            className="w-9 h-9 rounded-full bg-primary-500 hover:bg-primary-600 flex items-center justify-center text-white shadow-brand-sm hover:shadow-brand-md transition-[background-color,box-shadow] duration-fast shrink-0 cursor-pointer"
+            className="w-9 h-9 rounded-full bg-primary-500 hover:bg-primary-600 flex items-center justify-center text-white shadow-brand-sm hover:shadow-brand-md transition-[background-color,box-shadow] duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
           </button>
@@ -147,7 +147,7 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
         <button
           type="button"
           onClick={() => navigate('/veille')}
-          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer"
+          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
         >
           Explorer la veille
           <ArrowRight size={12} aria-hidden="true" />
@@ -263,7 +263,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           <button
             type="button"
             onClick={() => navigate('/coaching')}
-            className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
           >
             3 sessions
             <ArrowRight size={12} aria-hidden="true" />
@@ -274,7 +274,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
           coachName={MOCK_COACH.name}
           coachRole={MOCK_COACH.role}
           description="Travailler la posture de leader-coach face à l'arrivée des outils IA dans ton équipe."
-          dateLabel="Mardi 12 mai · 14:30"
+          dateLabel="Cette semaine · 14:30"
           durationLabel="45 min · Visio"
           status="planned"
           surface="card"
@@ -331,7 +331,7 @@ const makeFeedItems = (navigate: ReturnType<typeof useNavigate>) => [
     id: 'feed-4',
     type: 'achievement' as const,
     title: 'Badge "Pionnier IA" à portée',
-    description: 'Tu as complété 80 % du parcours Devenir prompt designer : termine-le pour débloquer le badge.',
+    description: 'Tu as complété 40 % du parcours Devenir prompt designer : continue sur ta lancée pour débloquer le badge.',
     timestamp: new Date(Date.now() - 2 * 86400000),
     actionLabel: 'Continuer',
     onActionClick: () => navigate('/learning-paths/1'),

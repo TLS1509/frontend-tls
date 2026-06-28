@@ -143,10 +143,10 @@ export const Veille: React.FC = () => {
     <div className="relative min-h-[100dvh] flex flex-col">
 
       {/* ── 1. HEADER flat — même surface que le contenu ─────────────────── */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-8 pb-2 flex flex-col gap-5">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-2 flex flex-col gap-5">
 
         {/* Title row */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-stack">
           <div className="flex flex-col gap-tight">
             <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
               <Rss size={11} aria-hidden />
@@ -274,7 +274,7 @@ export const Veille: React.FC = () => {
             <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
               <Mail size={14} className="text-ink-400" />
               <span className="font-body text-body-sm">
-                Recevoir les actus veille dans votre boîte mail
+                Recevoir les actus veille dans ta boîte mail
               </span>
             </div>
             <div className="flex items-center gap-stack-xs sm:ml-auto">
@@ -295,7 +295,7 @@ export const Veille: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/veille/newsletter')}
-                className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap hidden sm:block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+                className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
               >
                 Gérer mes préférences
               </button>

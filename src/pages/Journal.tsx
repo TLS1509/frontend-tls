@@ -129,7 +129,7 @@ export const Journal: React.FC = () => {
      Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
   const COMPOSE_TYPES: { type: JournalBubbleType; icon: React.ReactNode; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
     { type: 'guided',   icon: <Compass size={28} strokeWidth={1.75} />,   label: 'Guidé',         tone: 'brand', subtitle: 'Questions structurées' },
-    { type: 'free',     icon: <PenLine size={28} strokeWidth={1.75} />,   label: 'Libre',         tone: 'brand', subtitle: 'Écris comme tu veux' },
+    { type: 'free',     icon: <PenLine size={28} strokeWidth={1.75} />,   label: 'Libre',         tone: 'warm',  subtitle: 'Écris comme tu veux' },
     { type: 'insight',  icon: <Lightbulb size={28} strokeWidth={1.75} />, label: 'Insight',       tone: 'sun',   subtitle: 'Une prise de conscience' },
     { type: 'learning', icon: <BookOpen size={28} strokeWidth={1.75} />,  label: 'Apprentissage', tone: 'warm',  subtitle: 'Notes post-leçon' },
   ];
@@ -157,7 +157,7 @@ export const Journal: React.FC = () => {
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
-      <PageShell width="page" noPadTop className="relative z-[2]">
+      <PageShell width="page" noPadTop className="relative z-[2] pt-6 md:pt-8 lg:pt-10">
 
         {/* Hero: EditorialHero sun — Journal = espace de réflexion/or */}
         <EditorialHero
@@ -286,7 +286,7 @@ export const Journal: React.FC = () => {
             </span>
             <button
               onClick={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
-              className="inline-flex items-center gap-tight font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors"
+              className="inline-flex items-center gap-tight font-body text-caption text-primary-600 hover:text-primary-700 font-semibold bg-transparent border-0 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <X size={12} /> Réinitialiser
             </button>
@@ -298,7 +298,7 @@ export const Journal: React.FC = () => {
           <EmptyState
             icon={<Sparkles size={32} />}
             title="Aucune entrée trouvée"
-            description="Essayez d'élargir votre recherche ou de créer une nouvelle entrée depuis les tiles ci-dessus."
+            description="Élargis ta recherche ou crée une nouvelle entrée depuis les formats ci-dessus."
           />
         ) : (
           <div className="flex flex-col gap-stack">

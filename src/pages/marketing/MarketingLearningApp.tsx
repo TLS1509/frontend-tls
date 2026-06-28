@@ -32,6 +32,7 @@ import {
 
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
+import { submitForm } from './utils/submitForm';
 
 
 const FEATURES_MAIN = [
@@ -55,7 +56,7 @@ const FEATURES_MAIN = [
     eyebrow: 'Réflexion structurée',
     title: 'Journal de bord, ancré.',
     description:
-      "Un espace de réflexion guidé qui transforme ce que vous vivez en traces d'apprentissage durables. Vos insights deviennent votre portfolio professionnel.",
+      "Un espace de réflexion guidé qui ancre ce que vous vivez en traces d'apprentissage durables. Chaque entrée construit votre portfolio professionnel.",
     bullets: [
       'Prompts de réflexion guidés par moment',
       'Historique chronologique de vos apprentissages',
@@ -83,7 +84,7 @@ const FEATURES_MAIN = [
 ];
 
 const FEATURE_TILES = [
-  { icon: <Trophy size={24} />, title: 'Gamification', desc: 'XP, badges, streaks. Apprends en jouant.' },
+  { icon: <Trophy size={24} />, title: 'Gamification', desc: 'XP, badges, streaks. Apprenez en jouant.' },
   { icon: <Brain size={24} />, title: 'Flashcards IA', desc: 'Espace espacé, cartes auto-générées.' },
   { icon: <Newspaper size={24} />, title: 'Veille intégrée', desc: 'Curation continue par domaine.' },
   { icon: <BookOpen size={24} />, title: 'Open Badges', desc: 'Certifications W3C exportables.' },
@@ -96,7 +97,7 @@ const FEATURE_TILES = [
 const USE_CASES = [
   {
     badge: 'Formateur',
-    title: 'Animez vos cohortes en mode augmenté',
+    title: 'Animez vos cohortes avec les outils IA',
     bullets: [
       'Tableau de bord apprenants en temps réel',
       'Génération de quiz adaptatifs IA',
@@ -127,16 +128,33 @@ export const MarketingLearningApp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    if (!email.trim()) return;
+    setSubmitting(true);
+    setSubmitError('');
+    const { ok, error } = await submitForm({
+      email: email.trim(),
+      name: role.trim() || 'Accès bêta',
+      subject: 'Demande d\'accès bêta — Learning App',
+      need: role.trim() || undefined,
+      _source: 'learning-app-beta',
+    });
+    setSubmitting(false);
+    if (ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(error ?? 'Une erreur s\'est produite. Réessayez ou contactez-nous par email.');
+    }
   };
 
   return (
     <div className="bg-white">
       <SEOHead
-        title="Learning App"
+        title="Learning App TLS — Formation IA adaptative"
         description="La plateforme qui connecte apprentissage, compétences et impact business. Parcours IA, Passeport de Compétences Dreyfus, coaching, gamification."
         canonical="/marketing/learning-app"
       />
@@ -173,7 +191,7 @@ export const MarketingLearningApp: React.FC = () => {
 
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-xl">
               Acquérez les compétences (Learn), déployez-les sur de vrais projets (Do), faites matcher votre Passeport de Compétences avec les opportunités (Match).
-              Un écosystème intégré — parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
+              Un écosystème intégré : parcours adaptatifs, coaching humain, journal réflexif, Passeport Dreyfus.
             </p>
 
             <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
@@ -222,7 +240,7 @@ export const MarketingLearningApp: React.FC = () => {
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Tout ce qu'il faut pour{' '}
-                <span className="text-accent-400">apprendre vraiment</span>.
+                <span className="text-accent-400">apprendre en profondeur</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -461,15 +479,21 @@ export const MarketingLearningApp: React.FC = () => {
                     className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all duration-base"
                   />
                 </div>
+                {submitError && (
+                  <p className="font-body text-caption text-danger-fg bg-danger-bg border border-danger-base/30 rounded-xl px-4 py-3 m-0">
+                    {submitError}
+                  </p>
+                )}
                 <MagneticButton strength={10} className="w-full pt-stack">
                   <Button
                     type="submit"
                     variant="warm"
                     size="lg"
                     fullWidth
+                    loading={submitting}
                     trailingIcon={<ArrowRight size={18} />}
                   >
-                    Demander l'accès anticipé
+                    {submitting ? 'Envoi…' : "Demander l'accès anticipé"}
                   </Button>
                 </MagneticButton>
                 <p className="font-body text-caption text-ink-500 text-center m-0">
