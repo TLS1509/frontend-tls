@@ -110,6 +110,7 @@ import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
 import { LessonCard } from '../components/learning/LessonCard';
+import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';
@@ -371,6 +372,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   ViewerOverlay:        { category: 'Headers & Sections', subCategory: 'Section wrappers' },
   StepCard:             { category: 'Cards', subCategory: 'Learning content' },
   LessonCard:           { category: 'Cards', subCategory: 'Learning content' },
+  LearningItemCard:     { category: 'Cards', subCategory: 'Learning content' },
 
   // ── FEEDBACK ──────────────────────────────────────────────────────────
   Alert:                { category: 'Feedback', subCategory: 'Status messages' },
@@ -4774,6 +4776,32 @@ const COMPONENTS: ComponentEntry[] = [
             surface="tinted"
             locked
           />
+        </div>
+      </div>
+    ),
+  },
+
+  {
+    name: 'LearningItemCard',
+    codeName: 'learning/LearningItemCard.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Learning',
+    description: 'Card pour un item du LearningSpace (astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 2 états: accessible (CTA coloré) et locked (opacity-60, lock row, bouton secondary disabled). Layout 5 zones: badge+meta+bubble / titre+desc / theme tag / lock row conditionnel / CTA full-width.',
+    keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'tone', 'badge', 'dreyfus'],
+    usedBy: ['LearningSpace'],
+    render: () => (
+      <div className="flex flex-col gap-section">
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Accessible — brand / warm / sun</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <LearningItemCard id="1" type="video_conc" title="Maîtriser la rétroaction constructive" description="Comprendre les mécanismes du feedback pour progresser efficacement." duration="15 min" dreyfusLevel={3} theme="Communication" isAccessible={true} onClick={() => {}} />
+          <LearningItemCard id="2" type="mission" title="Conduire un entretien de recrutement" description="Structurer et mener un entretien professionnel pour évaluer les compétences." duration="45 min" dreyfusLevel={4} theme="Management" isAccessible={true} onClick={() => {}} />
+          <LearningItemCard id="3" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} onClick={() => {}} />
+        </div>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Locked states — tier / prerequisite</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <LearningItemCard id="4" type="masterclass" title="Stratégie de changement organisationnel" description="Piloter la transformation avec méthode et embarquer les équipes." duration="2h" dreyfusLevel={5} theme="Leadership" isAccessible={false} denialReason="tier" onClick={() => {}} />
+          <LearningItemCard id="5" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={false} denialReason="prerequisite" onClick={() => {}} />
+          <LearningItemCard id="6" type="flashcard" title="Flashcards Dreyfus — niveau 1→5" description="Réviser les 5 niveaux d'expertise et leurs indicateurs comportementaux." duration="8 min" dreyfusLevel={1} theme="Compétences" isAccessible={false} denialReason="tier" onClick={() => {}} />
         </div>
       </div>
     ),
