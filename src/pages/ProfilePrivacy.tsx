@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Eye, Trash2, Download, Lock, ChevronRight } from 'lucide-react';
+import { Shield, Eye, Trash2, Download, Lock, ChevronRight, Clock, Database } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -12,6 +12,21 @@ import { Switch } from '../components/core/Input';
 import { Container } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
+
+const CONSENT_HISTORY = [
+  { id: 'h1', type: 'Recommandations IA', action: 'Accepté', date: '12 juin 2026', version: 'v2.1' },
+  { id: 'h2', type: 'Analytics d\'apprentissage', action: 'Accepté', date: '12 juin 2026', version: 'v2.1' },
+  { id: 'h3', type: 'Communications marketing', action: 'Refusé', date: '3 mars 2026', version: 'v2.0' },
+  { id: 'h4', type: 'Communications marketing', action: 'Accepté', date: '18 jan. 2026', version: 'v1.5' },
+];
+
+const DATA_RETENTION = [
+  { type: 'Données de profil', retention: '3 ans après résiliation', icon: '👤' },
+  { type: 'Historique de formation', retention: 'Durée abonnement + 2 ans', icon: '📚' },
+  { type: 'Décisions IA', retention: '3 ans (audit RGPD)', icon: '🤖' },
+  { type: 'Journaux d\'audit', retention: '3 ans (obligation légale)', icon: '📋' },
+  { type: 'Données de paiement', retention: '5 ans (obligation fiscale)', icon: '💳' },
+];
 
 const CONSENT_ITEMS = [
   {
@@ -182,6 +197,49 @@ export default function ProfilePrivacy() {
               </div>
             </div>
           )}
+        </SectionCard>
+
+        {/* Consent history */}
+        <SectionCard
+          title="Historique des consentements"
+          titleIcon={<Clock size={18} />}
+          description="Trace de tes acceptations et refus, avec horodatage et version des CGU."
+        >
+          <div className="flex flex-col divide-y divide-ink-100">
+            {CONSENT_HISTORY.map((h) => (
+              <div key={h.id} className="flex items-center justify-between py-2.5 gap-section">
+                <div className="flex flex-col gap-tight flex-1">
+                  <span className="text-body-sm font-medium text-ink-900">{h.type}</span>
+                  <span className="text-caption text-ink-400">{h.date} · {h.version}</span>
+                </div>
+                <Badge
+                  variant={h.action === 'Accepté' ? 'success' : 'neutral'}
+                  size="sm"
+                >
+                  {h.action}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        {/* Data retention policy */}
+        <SectionCard
+          title="Conservation des données"
+          titleIcon={<Database size={18} />}
+          description="Durées légales de conservation de tes données selon les catégories."
+        >
+          <Alert variant="info" icon={<Shield size={16} />} className="mb-stack">
+            Tes données sont conservées au minimum requis par la loi et supprimées automatiquement à l'échéance.
+          </Alert>
+          <div className="flex flex-col gap-stack-xs">
+            {DATA_RETENTION.map((r) => (
+              <div key={r.type} className="flex items-center justify-between gap-section px-stack py-2.5 rounded-lg bg-ink-50 border border-ink-100">
+                <span className="text-body-sm text-ink-800 font-medium">{r.type}</span>
+                <span className="text-caption text-ink-500 text-right shrink-0">{r.retention}</span>
+              </div>
+            ))}
+          </div>
         </SectionCard>
 
         {/* Legal links */}

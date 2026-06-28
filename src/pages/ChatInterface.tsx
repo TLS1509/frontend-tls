@@ -1,19 +1,82 @@
 import React, { useState } from 'react';
-import { Send, Sparkles, BookOpen, Target, FileText } from 'lucide-react';
+import { Send, Sparkles, BookOpen, Target, FileText, Shield, ExternalLink } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { useChatStore, MOCK_CHAT_SESSION_ID } from '../stores/persistence';
 import { simulateRAGResponse, CHAT_SUGGESTIONS, PRIVACY_BLOCKLIST } from '../data/chatbot';
-import type { ChatMessage, ChatFeedback } from '../types/learning';
+import type { ChatMessage, ChatFeedback, ChatSourceCitation } from '../types/learning';
 import { Container } from '../components/layout';
 
 function formatTime(): string {
   const d = new Date();
   return `${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
+// ─── AI transparency footer (AI Act Article 4 compliance) ────────────────────
+
+function ConfidenceChip({ score }: { score: number }) {
+  const pct = Math.round(score * 100);
+  const cls =
+    pct >= 80
+      ? 'text-success-fg bg-success-bg border-success-border'
+      : pct >= 60
+        ? 'text-info-fg bg-info-bg border-info-border'
+        : 'text-warning-fg bg-warning-bg border-warning-border';
+  return (
+    <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border ${cls}`}>
+      {pct}% confiance
+    </span>
+  );
+}
+
+function SourceChip({ source }: { source: ChatSourceCitation }) {
+  const inner = (
+    <span className="inline-flex items-center gap-0.5 text-micro text-primary-700 bg-primary-50 border border-primary-100 px-1.5 py-0.5 rounded-xs font-medium hover:bg-primary-100 transition-colors duration-fast">
+      {source.title}
+      {source.url && <ExternalLink size={9} aria-hidden />}
+    </span>
+  );
+  return source.url
+    ? <a href={source.url} className="focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-xs">{inner}</a>
+    : inner;
+}
+
+function buildAiContent(m: ChatMessage): React.ReactNode {
+  if (m.privacyBlocked) {
+    return (
+      <div className="flex flex-col gap-tight">
+        <p className="text-body-sm text-ink-900 leading-relaxed">{m.content}</p>
+        <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
+          <span className="inline-flex items-center gap-tight text-micro font-medium text-ink-500 bg-ink-50 border border-ink-200 px-1.5 py-0.5 rounded-xs">
+            <Shield size={10} aria-hidden />
+            Filtré — confidentialité
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  const sources = m.sourcesCited ?? [];
+
+  return (
+    <div className="flex flex-col gap-tight">
+      <p className="text-body-sm text-ink-900 leading-relaxed">{m.content}</p>
+      <div className="flex flex-wrap items-center gap-tight pt-tight border-t border-primary-100 mt-1">
+        <AITransparencyLabel variant="generated" size="sm" />
+        {m.confidenceScore !== undefined && (
+          <ConfidenceChip score={m.confidenceScore} />
+        )}
+        {sources.slice(0, 3).map((s) => (
+          <SourceChip key={s.sourceId} source={s} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
@@ -108,11 +171,14 @@ export default function ChatInterface() {
 
             {/* Message list */}
             <ConversationalChat
-              messages={messages.map((m) => ({
-                id: m.id,
-                type: m.role === 'user' ? 'user' as const : 'ai' as const,
-                content: m.content,
-              }))}
+              messages={[
+                ...messages.map((m) => ({
+                  id: m.id,
+                  type: m.role === 'user' ? 'user' as const : 'ai' as const,
+                  content: m.role === 'assistant' ? buildAiContent(m) : m.content,
+                })),
+                ...(isTyping ? [{ id: 'typing', type: 'typing' as const }] : []),
+              ]}
               className="min-h-[460px] max-h-[600px]"
             />
 
