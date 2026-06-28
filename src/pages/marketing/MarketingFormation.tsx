@@ -800,7 +800,7 @@ export const MarketingFormation: React.FC = () => {
                 { icon: <Award size={16} />, label: 'C-Campus' },
                 { icon: <Award size={16} />, label: 'Open Badge' },
                 { icon: <GraduationCap size={16} />, label: 'OPCO éligible' },
-                { icon: <Users size={16} />, label: '200+ certifiés' },
+                { icon: <Shield size={16} />, label: 'RGPD conforme' },
               ].map((b) => (
                 <div
                   key={b.label}

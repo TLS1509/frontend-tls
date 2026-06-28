@@ -194,6 +194,13 @@ export const MarketingAccompagnement: React.FC = () => {
                 </Button>
               </a>
             </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-stack gap-y-1 text-ink-400">
+              <span className="font-body text-caption">Tarif sur devis</span>
+              <span aria-hidden className="text-ink-200">·</span>
+              <span className="font-body text-caption">Première rencontre gratuite</span>
+              <span aria-hidden className="text-ink-200">·</span>
+              <span className="font-body text-caption">1 an de Learning App offert</span>
+            </div>
           </div>
         </FadeInWhenVisible>
       </section>
@@ -277,7 +284,7 @@ export const MarketingAccompagnement: React.FC = () => {
           <div className="flex flex-col gap-stack max-w-3xl">
             <FadeInWhenVisible direction="up" delay={0.05}>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Trois phases pour déployer <span className="text-accent-400">votre stratégie</span>.
+                La méthode <span className="text-accent-400">S·T·R·I·D·E</span>.
               </h2>
             </FadeInWhenVisible>
           </div>
@@ -339,6 +346,9 @@ export const MarketingAccompagnement: React.FC = () => {
               <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
                 <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
                   <GraduationCap size={13} /> Partenaire C-Campus
+                </span>
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-accent-50 border border-accent-200 text-warning-fg font-body text-caption font-semibold">
+                  <Sparkles size={13} /> 1 an de Learning App offert
                 </span>
               </div>
             </div>

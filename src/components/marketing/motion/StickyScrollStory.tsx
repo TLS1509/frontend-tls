@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useScroll } from 'framer-motion';
+import { motion, useScroll, useReducedMotion } from 'framer-motion';
 
 export type StoryPanel = {
   eyebrow?: string;
@@ -44,6 +44,7 @@ export const StickyScrollStory: React.FC<Props> = ({
     offset: ['start start', 'end end'],
   });
   const [active, setActive] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (v) => {
@@ -74,9 +75,9 @@ export const StickyScrollStory: React.FC<Props> = ({
                   initial={false}
                   animate={{
                     opacity: active === i ? 1 : 0,
-                    y: active === i ? 0 : 24,
+                    y: reduced ? 0 : (active === i ? 0 : 24),
                   }}
-                  transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
+                  transition={{ duration: reduced ? 0.15 : 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
                   className={i === 0 ? 'relative flex flex-col gap-stack-lg' : 'absolute inset-0 flex flex-col gap-stack-lg'}
                   style={{ pointerEvents: active === i ? 'auto' : 'none' }}
                 >
