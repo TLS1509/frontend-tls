@@ -14,7 +14,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import { Button } from '../../components/core/Button';
-import { VariantSwitcher } from './components/VariantSwitcher';
+
 
 const CHAPTERS = [
   {
@@ -389,7 +389,7 @@ export const MarketingHomeCursor: React.FC = () => {
       </section>
 
       <div className="h-20" />
-      <VariantSwitcher />
+
     </div>
   );
 };

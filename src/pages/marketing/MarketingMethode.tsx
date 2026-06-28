@@ -39,7 +39,7 @@ const STRIDE_STEPS = [
     letter: 'S',
     word: "S'orienter",
     title: 'Audit de maturité & sensibilisation',
-    desc: "On part du réel. Audit de l'organisation, cartographie des compétences Dreyfus, identification des cas d'usage pédagogiques prioritaires. Pas de solution avant le diagnostic — pas de diagnostic sans écoute.",
+    desc: "On part du réel. Audit de l'organisation, cartographie des compétences Dreyfus, identification des cas d'usage pédagogiques prioritaires. Pas de solution avant le diagnostic. Pas de diagnostic sans écoute.",
     icon: <Compass size={28} />,
     deliverable: 'Rapport audit + feuille de route compétences',
   },
@@ -55,7 +55,7 @@ const STRIDE_STEPS = [
     letter: 'R',
     word: 'Réaliser',
     title: "Construction de l'infrastructure pédagogique",
-    desc: "Développement des agents IA, des référentiels de compétences et des parcours sur-mesure. Prototypage avec vos équipes — chaque brique est testée par vos apprenants pilotes avant déploiement.",
+    desc: "Développement des agents IA, des référentiels de compétences et des parcours sur-mesure. Prototypage avec vos équipes : chaque brique est testée par vos apprenants pilotes avant déploiement.",
     icon: <BookOpen size={28} />,
     deliverable: 'Dispositif conçu, testé et validé',
   },
@@ -63,7 +63,7 @@ const STRIDE_STEPS = [
     letter: 'I',
     word: 'Intégrer',
     title: 'Connexion à votre stack technique',
-    desc: "La solution se branche sur l'existant — LMS, SIRH, CRM. Pas de grand remplacement, pas de silo supplémentaire. Un seul écosystème cohérent, avec la Learning App comme colonne vertébrale.",
+    desc: "La solution se branche sur l'existant : LMS, SIRH, CRM. Pas de grand remplacement, pas de silo supplémentaire. Un seul écosystème cohérent, avec la Learning App comme colonne vertébrale.",
     icon: <Play size={28} />,
     deliverable: 'Stack technique connectée',
   },
@@ -71,7 +71,7 @@ const STRIDE_STEPS = [
     letter: 'D',
     word: 'Déployer',
     title: 'Mise en production & accompagnement au changement',
-    desc: "Lancement officiel auprès de tous les collaborateurs. Onboarding sur la Learning App, activation des Passeports de Compétences. L'adoption n'est pas un accident — elle se conçoit dès l'étape R.",
+    desc: "Lancement officiel auprès de tous les collaborateurs. Onboarding sur la Learning App, activation des Passeports de Compétences. L'adoption se conçoit dès l'étape R.",
     icon: <Award size={28} />,
     deliverable: 'Solution déployée + tableau de bord compétences',
   },
@@ -79,7 +79,7 @@ const STRIDE_STEPS = [
     letter: 'E',
     word: 'Évoluer',
     title: 'Amélioration continue pilotée par la donnée',
-    desc: "STRIDE ne s'arrête pas au déploiement. On analyse — vélocité des compétences, engagement, skill gaps émergents — pour mettre à jour les outils IA et les référentiels selon l'évolution du marché.",
+    desc: "STRIDE ne s'arrête pas au déploiement. On analyse la vélocité des compétences, l'engagement et les skill gaps émergents pour mettre à jour les outils IA et les référentiels.",
     icon: <RefreshCw size={28} />,
     deliverable: 'Tableau de bord compétences + backlog mensuel',
   },
@@ -94,12 +94,12 @@ const PRINCIPLES = [
   {
     icon: <Lightbulb size={24} />,
     title: 'Validation par étape',
-    desc: "Chaque étape produit un livrable concret et validable. Pas de big bang en fin de projet — on ajuste à chaque pas.",
+    desc: "Chaque étape produit un livrable concret et validable. Pas de big bang : on ajuste à chaque pas.",
   },
   {
     icon: <Users size={24} />,
     title: 'Co-conception',
-    desc: "Vous n'êtes pas spectateur du processus. Vous co-construisez avec nous — c'est votre capacité à le refaire seul·e qui mesure notre succès.",
+    desc: "Vous n'êtes pas spectateur du processus. Vous co-construisez avec nous. Votre autonomie à l'issue du projet est notre seul vrai livrable.",
   },
   {
     icon: <CheckCircle2 size={24} />,
@@ -162,7 +162,7 @@ export const MarketingMethode: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              STRIDE est la méthode TLS pour déployer une organisation apprenante augmentée par l'IA — de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
+              STRIDE est la méthode TLS pour déployer une organisation apprenante augmentée par l'IA : de l'audit initial à l'évolution continue des compétences. Six étapes, des livrables tangibles à chaque jalon.
             </p>
           </FadeInWhenVisible>
 
@@ -351,7 +351,7 @@ export const MarketingMethode: React.FC = () => {
                 <span className="text-accent-400">à votre contexte</span> ?
               </h2>
               <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-prose">
-                On démarre par un diagnostic de 90 min — audit de maturité pédagogique et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
+                On démarre par un diagnostic de 90 min : audit de maturité pédagogique et identification de vos cas d'usage prioritaires. On repart avec un cadrage concret de l'étape S'orienter.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>

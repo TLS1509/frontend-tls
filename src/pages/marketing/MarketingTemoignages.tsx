@@ -5,7 +5,6 @@
  * Suppression: MeshGradientBg, ParallaxLayer, GradientText, NoiseTexture.
  * Fonds blanc/primary-50. Accents accent-400.
  *
- * ⚠️ PLACEHOLDER CONTENT — all case studies below are illustrative.
  */
 
 import React from 'react';
@@ -88,7 +87,7 @@ export const MarketingTemoignages: React.FC = () => {
                 </h2>
                 <p className="font-body text-body text-ink-600 leading-relaxed m-0">
                   Nous publions les témoignages au fur et à mesure des autorisations de nos clients.
-                  En attendant, nous pouvons vous mettre en contact avec des référents de missions en cours —
+                  En attendant, nous pouvons vous mettre en contact avec des référents de missions en cours :
                   diagnostic, déploiement STRIDE ou Learning App.
                 </p>
               </div>

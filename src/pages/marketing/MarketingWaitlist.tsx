@@ -153,7 +153,7 @@ export const MarketingWaitlist: React.FC = () => {
     <>
       <SEOHead
         title="Accès anticipé · Learning App — The Learning Society"
-        description="Rejoignez la liste d'accès anticipé à la Learning App TLS — la plateforme qui transforme vos formateurs en architectes de l'apprentissage IA-augmenté."
+        description="Rejoignez la liste d'accès anticipé à la Learning App TLS. Parcours adaptatifs, Passeport Dreyfus, coaching intégré, méthode STRIDE."
         canonical="/marketing/waitlist"
         noIndex={false}
       />
@@ -210,7 +210,7 @@ export const MarketingWaitlist: React.FC = () => {
                 variants={itemVariants}
                 className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[48ch]"
               >
-                La Learning App qui apprend avec vos équipes — parcours adaptatifs,
+                La Learning App qui apprend avec vos équipes : parcours adaptatifs,
                 Passeport Dreyfus, coaching intégré. Rejoignez la liste d'accès
                 anticipé et soyez parmi les premiers à déployer{' '}
                 <span className="text-ink-900 font-semibold">
@@ -499,7 +499,7 @@ export const MarketingWaitlist: React.FC = () => {
               Learn. Do. Match.
             </h2>
             <p className="font-body text-body text-ink-500 mt-3 max-w-[55ch] mx-auto m-0">
-              Trois piliers qui transforment la formation en preuves concrètes,
+              Trois piliers pour passer de la formation aux preuves concrètes,
               traçables et valorisables dans votre Passeport de Compétences.
             </p>
           </div>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Layers } from 'lucide-react';
 import { MarketingHeader } from './MarketingHeader';
 import { MarketingFooter } from './MarketingFooter';
 import { MarketingToastProvider } from '../../../components/marketing/motion';
@@ -17,7 +18,7 @@ export const MarketingLayout: React.FC = () => {
   const { pathname } = useLocation();
   const reduced = useReducedMotion();
   // full-bg variants need a transparent layout so the fixed image behind the page shows through
-  const isFullBgPage = pathname === '/marketing' || pathname === '/marketing/hero-b' || pathname === '/marketing/hero-c';
+  const isFullBgPage = pathname === '/marketing';
 
   return (
     <MarketingToastProvider>
@@ -37,6 +38,16 @@ export const MarketingLayout: React.FC = () => {
           </AnimatePresence>
         </main>
         <MarketingFooter />
+        {/* Dev-only variant lab shortcut */}
+        {import.meta.env.DEV && (
+          <Link
+            to="/marketing/_variants"
+            className="fixed bottom-5 left-5 z-[9999] inline-flex items-center gap-1.5 px-3 py-2 rounded-pill bg-ink-900/90 text-white text-caption font-bold shadow-lg hover:bg-primary-700 transition-colors duration-fast backdrop-blur-sm"
+          >
+            <Layers size={13} />
+            Variants
+          </Link>
+        )}
       </div>
     </MarketingToastProvider>
   );

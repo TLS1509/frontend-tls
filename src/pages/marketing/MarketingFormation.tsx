@@ -35,7 +35,6 @@ import {
 } from '../../components/marketing/motion';
 import gradientTealOrangeBg from '../../../brand-assets/patterns/backgrounds/pattern_gradient-teal-orange_bg-v1.svg?url';
 import { SEOHead } from './components/SEOHead';
-import CountUp from '../../components/marketing/motion/CountUp';
 
 // Module names aligned with the live site (thelearningsociety.fr/formation)
 const MODULES = [
@@ -72,7 +71,7 @@ const MODULES = [
   {
     n: '06',
     title: "Automatisation Augmentée par l'IA",
-    desc: "Emails, comptes-rendus, évaluations, fiches de suivi — l'IA comme assistant invisible pour libérer votre temps.",
+    desc: "Emails, comptes-rendus, évaluations, fiches de suivi : l'IA comme assistant invisible pour libérer votre temps.",
     duration: '1h',
   },
   {
@@ -114,7 +113,7 @@ const COMPETENCES_CLES = [
   'Choisir et orchestrer les outils IA adaptés à votre contexte',
   "Intégrer l'IA dans l'ingénierie pédagogique (méthodologie STRIDE)",
   "Animer des séances augmentées par l'IA en présentiel et distanciel",
-  "Automatiser les tâches administratives pour gagner 30 % de votre temps",
+  "Automatiser les tâches administratives récurrentes (comptes rendus, bilans, quiz)",
   "Sécuriser votre pratique : RGPD, droits IA, propriété intellectuelle",
   "Adopter la posture du Formateur Augmenté et inscrire vos acquis dans votre Passeport de Compétences",
 ];
@@ -137,7 +136,7 @@ const PRICING = [
   {
     name: 'Certifiant',
     price: '369€',
-    desc: 'Le plus choisi · certification reconnue.',
+    desc: 'Formation complète avec Open Badge certifiant.',
     features: [
       'Tout le plan Autonome',
       'Open Badge certifiant',
@@ -145,7 +144,7 @@ const PRICING = [
       'Accès à vie aux mises à jour',
       'Groupe d\'échange live (×2/mois)',
     ],
-    cta: "S'inscrire — certifiant",
+    cta: "S'inscrire, certifiant",
     variant: 'warm' as const,
     highlight: true,
   },
@@ -160,7 +159,7 @@ const PRICING = [
       'Accès prioritaire aux nouveaux modules',
       'Support direct par email',
     ],
-    cta: "S'inscrire — coaching",
+    cta: "S'inscrire, coaching",
     variant: 'primary' as const,
     highlight: false,
   },
@@ -173,7 +172,7 @@ const FAQ = [
   },
   {
     q: 'La formation est-elle éligible à une prise en charge OPCO ?',
-    a: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
+    a: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur. Contactez-nous pour vérifier votre éligibilité.',
   },
   {
     q: 'Quelle est la durée de la formation ?',
@@ -380,7 +379,7 @@ export const MarketingFormation: React.FC = () => {
                   name: 'La formation est-elle éligible à une prise en charge OPCO ?',
                   acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur — contactez-nous pour vérifier votre éligibilité.',
+                    text: 'La formation est réalisée en partenariat avec C-Campus. La prise en charge OPCO est possible selon votre secteur. Contactez-nous pour vérifier votre éligibilité.',
                   },
                 },
                 {
@@ -434,7 +433,7 @@ export const MarketingFormation: React.FC = () => {
 
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
               7 modules, 7 heures, 100 % à distance. Maîtrisez l'IA pédagogique,
-              intégrez la méthode STRIDE et enrichissez votre Passeport de Compétences —
+              intégrez la méthode STRIDE et enrichissez votre Passeport de Compétences,
               en partenariat avec C-Campus.
             </p>
 
@@ -456,15 +455,13 @@ export const MarketingFormation: React.FC = () => {
             {/* Metric strip — only verifiable course facts */}
             <div className="flex flex-wrap items-center justify-center gap-section pt-section pb-stack border-t border-ink-100 mt-stack-lg max-w-2xl">
               {[
-                { value: 7, suffix: '', label: 'modules' },
-                { value: 7, suffix: 'h', label: 'de contenu' },
+                { display: '7', label: 'modules' },
+                { display: '7h', label: 'de contenu' },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col items-center text-center">
-                  <CountUp
-                    to={m.value}
-                    suffix={m.suffix}
-                    className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-ink-900 leading-none"
-                  />
+                  <span className="font-display text-[clamp(1.75rem,3vw,2.75rem)] font-extrabold text-ink-900 leading-none tabular-nums">
+                    {m.display}
+                  </span>
                   <span className="font-body text-caption text-ink-500 mt-1 uppercase tracking-wider font-semibold">
                     {m.label}
                   </span>
@@ -543,10 +540,10 @@ export const MarketingFormation: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-stack-lg">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Ce que vous saurez <span className="text-accent-400">vraiment faire</span>.
+                Les 8 compétences que <span className="text-accent-400">vous développez</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
-                À la fin du parcours, vous avez 8 compétences opérationnelles — validées
+                À la fin du parcours, vous avez 8 compétences opérationnelles, validées
                 par un Open Badge, inscrites dans votre Passeport de Compétences TLS,
                 et déployables dès la semaine suivante.
               </p>
@@ -584,8 +581,8 @@ export const MarketingFormation: React.FC = () => {
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Le parcours est réalisé 100 % à distance en partenariat avec
                 <strong className="text-ink-900"> C-Campus</strong>.
-                Cette alliance garantit la reconnaissance professionnelle de votre Open Badge
-                et débloque la prise en charge OPCO.
+                Votre Open Badge est reconnu sur LinkedIn et France Compétences.
+                La prise en charge OPCO est ouverte selon votre secteur.
               </p>
               <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
@@ -657,7 +654,7 @@ export const MarketingFormation: React.FC = () => {
               {
                 n: '1',
                 title: 'Fondamentaux solides',
-                body: "Vocabulaire, outils, limites de l'IA générative — vous savez ce que vous faites et pourquoi.",
+                body: "Vocabulaire, outils, limites de l'IA générative. Vous savez ce que vous faites et pourquoi.",
               },
               {
                 n: '2',

@@ -36,36 +36,54 @@ const SERVICES = [
     pill: 'Stratégie',
     title: 'Diagnostic & Stratégie',
     desc: "Audit de votre dispositif existant, identification des cas d'usage IA prioritaires, feuille de route alignée sur vos résultats métier.",
+    iconBg: 'bg-primary-100',
+    iconText: 'text-primary-600',
+    pillCls: 'bg-primary-50 border-primary-200 text-primary-700',
   },
   {
     icon: <PenLine size={24} />,
     pill: 'Création',
     title: 'Conception Pédagogique',
     desc: 'Conception de parcours blended/digital, création de prompts et contenus multimédias, ingénierie pédagogique augmentée.',
+    iconBg: 'bg-secondary-100',
+    iconText: 'text-secondary-600',
+    pillCls: 'bg-secondary-50 border-secondary-200 text-secondary-700',
   },
   {
     icon: <Cog size={24} />,
     pill: 'Production',
     title: 'Industrialisation & Outils',
     desc: "Déploiement d'automatisations, mise en place de chartes qualité et de guidelines pour vos équipes.",
+    iconBg: 'bg-ink-100',
+    iconText: 'text-ink-600',
+    pillCls: 'bg-ink-50 border-ink-200 text-ink-600',
   },
   {
     icon: <Users size={24} />,
     pill: 'Accompagnement',
     title: 'Animation & Coaching',
     desc: "Coaching d'équipe pour l'adoption de l'IA, facilitation d'ateliers et de communautés de pratique.",
+    iconBg: 'bg-primary-50',
+    iconText: 'text-primary-700',
+    pillCls: 'bg-primary-50 border-primary-100 text-primary-600',
   },
   {
     icon: <BarChart3 size={24} />,
     pill: 'Analytics',
     title: "Mesure d'Impact",
     desc: "KPIs, tableaux de bord, A/B testing pédagogique et reporting d'impact pour vos décideurs.",
+    iconBg: 'bg-accent-100',
+    iconText: 'text-warning-fg',
+    pillCls: 'bg-accent-50 border-accent-200 text-warning-fg',
   },
   {
     icon: <Shield size={24} />,
     pill: 'Gouvernance',
     title: 'Conformité & Éthique',
     desc: "Encadrement RGPD, propriété intellectuelle, gouvernance de l'IA responsable.",
+    iconBg: 'bg-success-bg',
+    iconText: 'text-success-fg',
+    pillCls: 'bg-success-bg border-success-base/40 text-success-fg',
   },
 ];
 
@@ -92,7 +110,7 @@ const PROCESS = [
     num: '03',
     duration: '2–4 semaines',
     title: 'Intégrer · Déployer · Évoluer',
-    desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences — puis amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord compétences.",
+    desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences. Amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord compétences.",
     accent: 'bg-accent-400',
     accentLight: 'bg-accent-50',
     accentText: 'text-warning-fg',
@@ -127,7 +145,7 @@ export const MarketingAccompagnement: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Accompagnement STRIDE"
-        description="Déployez l'IA dans votre organisation avec la méthode STRIDE. Accompagnement sur-mesure pour organismes de formation et ETI — de l'audit flash au déploiement opérationnel."
+        description="Déployez l'IA dans votre organisation avec la méthode STRIDE. Accompagnement sur-mesure pour organismes de formation et ETI : de l'audit flash au déploiement opérationnel."
         canonical="/marketing/accompagnement"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -158,9 +176,9 @@ export const MarketingAccompagnement: React.FC = () => {
               Passez à une organisation <span className="text-secondary-600">Skills-Based</span>.
             </h1>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-              Des experts en pédagogie et en IA, sans bullshit. Nous auditons, concevons, déployons
-              et mesurons avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
-              Des livrables tangibles à chaque étape.
+              Ingénieurs pédagogiques et spécialistes IA. Nous auditons, concevons et déployons
+              des dispositifs L&D avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
+              Livrables contractualisés à chaque étape.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
@@ -189,8 +207,8 @@ export const MarketingAccompagnement: React.FC = () => {
                 Une offre modulaire, combinable.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Vous n'avez besoin que d'un audit ? Parfait. D'un programme complet ?
-                On y va. Nous nous adaptons à votre contexte, jamais l'inverse.
+                Audit flash, programme complet ou déploiement continu : nous définissons
+                ensemble le périmètre adapté à votre contexte.
               </p>
             </div>
           </FadeInWhenVisible>
@@ -230,13 +248,13 @@ export const MarketingAccompagnement: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-shadow duration-base"
                 >
                   <div className="flex items-start justify-between gap-stack-xs">
-                    <span className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 text-primary-600">
+                    <span className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${s.iconBg} ${s.iconText}`}>
                       {s.icon}
                     </span>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-micro font-semibold">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-lg border ${s.pillCls} font-body text-micro font-semibold`}>
                       {s.pill}
                     </span>
                   </div>
@@ -315,7 +333,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
                   Chloé Mimault et Pierre-Armand Dennery conçoivent et déploient
                   des dispositifs L&D depuis plusieurs années. Nous construisons
-                  ce que nous vendons — méthode éprouvée, livrables concrets.
+                  ce que nous vendons : méthode éprouvée, livrables concrets.
                 </p>
               </div>
               <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
@@ -337,8 +355,8 @@ export const MarketingAccompagnement: React.FC = () => {
                 Ce qui nous distingue.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                On ne vend pas de frameworks génériques. On construit avec vous,
-                pas pour vous.
+                Chaque dispositif est conçu pour votre contexte, à partir de votre
+                réalité terrain.
               </p>
             </div>
           </FadeInWhenVisible>
@@ -348,17 +366,17 @@ export const MarketingAccompagnement: React.FC = () => {
               {
                 icon: <GraduationCap size={22} />,
                 title: 'Pédagogues avant tout',
-                body: "Notre approche est conçue par des ingénieurs pédagogiques — pas des consultants IA génériques. La compétence au centre, l'outil au service.",
+                body: "Des ingénieurs pédagogiques ont conçu cette approche, pas des consultants IA génériques. La compétence au centre, l'outil au service.",
               },
               {
                 icon: <Shield size={22} />,
                 title: 'Exigence qualité',
-                body: 'Méthode STRIDE documentée et éprouvée. Livrables contractualisés à chaque étape, pas de vague "transformation".',
+                body: 'Méthode STRIDE documentée. Livrables contractualisés à chaque étape.',
               },
               {
                 icon: <Sparkles size={22} />,
                 title: 'Conformité & Éthique',
-                body: "RGPD et propriété intellectuelle intégrés dès la conception, pas en rattrapage. Vous avancez sans risque réglementaire.",
+                body: "RGPD et propriété intellectuelle pris en compte dès la conception. Votre organisation reste conforme à chaque étape.",
               },
             ].map((item, i) => (
               <FadeInWhenVisible key={item.title} direction="up" delay={i * 0.1}>

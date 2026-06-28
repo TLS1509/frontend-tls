@@ -74,7 +74,7 @@ export const MarketingMagazine: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Magazine"
-        description="Articles, analyses et ressources sur la formation IA, l'organisation apprenante et la transformation L&D — par The Learning Society."
+        description="Articles, analyses et ressources sur la formation IA, l'organisation apprenante et la transformation L&D. Par The Learning Society."
         canonical="/marketing/magazine"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}

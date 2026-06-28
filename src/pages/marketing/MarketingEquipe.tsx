@@ -5,7 +5,6 @@
  * Suppression: MeshGradientBg, ParallaxLayer, GradientText.
  * Accents accent-400 sur 1-2 mots, fonds blanc/primary-50.
  *
- * ⚠️ PLACEHOLDER CONTENT — team members are fictional placeholders.
  */
 
 import React from 'react';
@@ -112,7 +111,7 @@ export const MarketingEquipe: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.2}>
             <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-2xl">
-              Une équipe d'experts en pédagogie, en IA appliquée et en stratégie pédagogique. Pas des consultants déconnectés — des praticiens qui ont construit de vraies organisations apprenantes, qui les accompagnent au quotidien, et qui transmettent ce qu'ils ont appris.
+              Des praticiens qui ont construit de vraies organisations apprenantes, qui les accompagnent au quotidien et transmettent ce qu'ils ont appris.
             </p>
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
@@ -302,7 +301,7 @@ export const MarketingEquipe: React.FC = () => {
                 "On ne forme pas pour transmettre du contenu.
                 On forme pour transformer des gens."
               </blockquote>
-              <p className="font-body text-body text-white/60 m-0">— L'équipe TLS, Paris ✨</p>
+              <p className="font-body text-body text-white/60 m-0">L'équipe TLS, Paris</p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
                   <Link to="/marketing/contact">

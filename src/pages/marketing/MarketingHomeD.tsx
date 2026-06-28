@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Award, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../../components/core/Button';
-import { VariantSwitcher } from './components/VariantSwitcher';
 
 const CHAPTERS = [
   { num: '01', eyebrow: 'Point de départ', title: 'Vous arrivez avec vos intuitions.', body: "Pas besoin d'être expert IA. Juste curieux, motivé, prêt à expérimenter." },
@@ -245,7 +244,6 @@ export const MarketingHomeD: React.FC = () => (
 
       <div className="h-20" />
       </div>{/* end z-[2] content wrapper */}
-      <VariantSwitcher />
     </div>
   );
 
