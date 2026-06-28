@@ -743,3 +743,114 @@ export function getParcoursCompetenceIds(parcoursId: string): string[] {
   // Fallback sur sidecar
   return PARCOURS_META[parcoursId]?.competenceIds ?? [];
 }
+
+/* ─── Parcours list (catalog) ─────────────────────────────────────────────── */
+
+export type ParcoursListStatus = 'en cours' | 'complété' | 'non commencé';
+
+export interface ParcoursListItem {
+  id: string;
+  title: string;
+  description: string;
+  instructor: string;
+  level: 'débutant' | 'intermédiaire' | 'avancé';
+  duration: string;
+  lessons: number;
+  progress: number;
+  status: ParcoursListStatus;
+  category: string;
+}
+
+export const MOCK_PARCOURS_LIST: ParcoursListItem[] = [
+  {
+    id: '1',
+    title: 'Fondamentaux du Leadership',
+    description:
+      'Apprenez les principes essentiels du leadership moderne et développez vos compétences de management.',
+    instructor: 'Marie Dubois',
+    level: 'débutant',
+    duration: '6 semaines',
+    lessons: 12,
+    progress: 65,
+    status: 'en cours',
+    category: 'Leadership',
+  },
+  {
+    id: '2',
+    title: 'Communication Efficace',
+    description:
+      'Maîtrisez les techniques de communication interpersonnelle pour améliorer vos relations professionnelles.',
+    instructor: 'Jean Martin',
+    level: 'intermédiaire',
+    duration: '4 semaines',
+    lessons: 8,
+    progress: 100,
+    status: 'complété',
+    category: 'Soft Skills',
+  },
+  {
+    id: '3',
+    title: 'Gestion de Projet Agile',
+    description:
+      'Découvrez les méthodologies agiles et apprenez à piloter vos projets de manière flexible et efficace.',
+    instructor: 'Pierre Leclerc',
+    level: 'intermédiaire',
+    duration: '8 semaines',
+    lessons: 16,
+    progress: 35,
+    status: 'en cours',
+    category: 'Project Management',
+  },
+  {
+    id: '4',
+    title: 'Intelligence Émotionnelle en Entreprise',
+    description:
+      'Développez votre intelligence émotionnelle pour mieux gérer le stress et les relations interpersonnelles.',
+    instructor: 'Sophie Bernard',
+    level: 'avancé',
+    duration: '6 semaines',
+    lessons: 14,
+    progress: 0,
+    status: 'non commencé',
+    category: 'Soft Skills',
+  },
+  {
+    id: '5',
+    title: 'Prise de Décision Stratégique',
+    description:
+      'Apprenez un cadre structuré pour prendre des décisions stratégiques complexes et assurer leur mise en œuvre.',
+    instructor: 'Marc Rousseau',
+    level: 'avancé',
+    duration: '8 semaines',
+    lessons: 18,
+    progress: 0,
+    status: 'non commencé',
+    category: 'Strategic Thinking',
+  },
+  {
+    id: '6',
+    title: 'Transformation Digitale et Innovation',
+    description:
+      "Explorez comment piloter la transformation digitale et créer une culture d'innovation durable.",
+    instructor: 'Isabelle Fontaine',
+    level: 'avancé',
+    duration: '10 semaines',
+    lessons: 20,
+    progress: 20,
+    status: 'en cours',
+    category: 'Digital',
+  },
+  {
+    id: 'bootcamp',
+    title: 'UX/UI Design System Bootcamp',
+    description:
+      'Master design systems by building the Learning App frontend, then apply to SBO, Site, Logo, and Procreate. Learn design tokens, React components, animations, and WCAG AA accessibility in 12 weeks.',
+    instructor: 'Design System Mastery Team',
+    level: 'avancé',
+    duration: '12 semaines',
+    lessons: 34,
+    progress: 0,
+    status: 'non commencé',
+    category: 'Design Systems & Frontend',
+  },
+];

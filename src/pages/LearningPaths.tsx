@@ -27,114 +27,10 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Button } from '../components/core/Button';
 import { Container } from '../components/layout';
 import { useLessonProgressStore } from '../stores/persistence';
-import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
+import { MOCK_PARCOURS_DATA, MOCK_PARCOURS_LIST } from '../data/learningPaths';
+import type { ParcoursListItem } from '../data/learningPaths';
 
-interface Parcours {
-  id: string;
-  title: string;
-  description: string;
-  instructor: string;
-  level: 'débutant' | 'intermédiaire' | 'avancé';
-  duration: string;
-  lessons: number;
-  progress: number;
-  status: ParcoursStatus;
-  category: string;
-}
-
-const MOCK_PARCOURS: Parcours[] = [
-  {
-    id: '1',
-    title: 'Fondamentaux du Leadership',
-    description:
-      'Apprenez les principes essentiels du leadership moderne et développez vos compétences de management.',
-    instructor: 'Marie Dubois',
-    level: 'débutant',
-    duration: '6 semaines',
-    lessons: 12,
-    progress: 65,
-    status: 'en cours',
-    category: 'Leadership',
-  },
-  {
-    id: '2',
-    title: 'Communication Efficace',
-    description:
-      'Maîtrisez les techniques de communication interpersonnelle pour améliorer vos relations professionnelles.',
-    instructor: 'Jean Martin',
-    level: 'intermédiaire',
-    duration: '4 semaines',
-    lessons: 8,
-    progress: 100,
-    status: 'complété',
-    category: 'Soft Skills',
-  },
-  {
-    id: '3',
-    title: 'Gestion de Projet Agile',
-    description:
-      'Découvrez les méthodologies agiles et apprenez à piloter vos projets de manière flexible et efficace.',
-    instructor: 'Pierre Leclerc',
-    level: 'intermédiaire',
-    duration: '8 semaines',
-    lessons: 16,
-    progress: 35,
-    status: 'en cours',
-    category: 'Project Management',
-  },
-  {
-    id: '4',
-    title: 'Intelligence Émotionnelle en Entreprise',
-    description:
-      'Développez votre intelligence émotionnelle pour mieux gérer le stress et les relations interpersonnelles.',
-    instructor: 'Sophie Bernard',
-    level: 'avancé',
-    duration: '6 semaines',
-    lessons: 14,
-    progress: 0,
-    status: 'non commencé',
-    category: 'Soft Skills',
-  },
-  {
-    id: '5',
-    title: 'Prise de Décision Stratégique',
-    description:
-      'Apprenez un cadre structuré pour prendre des décisions stratégiques complexes et assurer leur mise en œuvre.',
-    instructor: 'Marc Rousseau',
-    level: 'avancé',
-    duration: '8 semaines',
-    lessons: 18,
-    progress: 0,
-    status: 'non commencé',
-    category: 'Strategic Thinking',
-  },
-  {
-    id: '6',
-    title: 'Transformation Digitale et Innovation',
-    description:
-      'Explorez comment piloter la transformation digitale et créer une culture d\'innovation durable.',
-    instructor: 'Isabelle Fontaine',
-    level: 'avancé',
-    duration: '10 semaines',
-    lessons: 20,
-    progress: 20,
-    status: 'en cours',
-    category: 'Digital',
-  },
-  {
-    id: 'bootcamp',
-    title: 'UX/UI Design System Bootcamp',
-    description:
-      'Master design systems by building the Learning App frontend, then apply to SBO, Site, Logo, and Procreate. Learn design tokens, React components, animations, and WCAG AA accessibility in 12 weeks.',
-    instructor: 'Design System Mastery Team',
-    level: 'avancé',
-    duration: '12 semaines',
-    lessons: 34,
-    progress: 0,
-    status: 'non commencé',
-    category: 'Design Systems & Frontend',
-  },
-];
+type Parcours = ParcoursListItem & { status: ParcoursStatus };
 
 const TONES: ParcoursTone[] = ['primary', 'warm', 'sun'];
 
@@ -153,7 +49,7 @@ export const LearningPaths: React.FC = () => {
 
   // Compute progress from store for each parcours using real lesson completion data
   const parcoursList = useMemo(() => {
-    return MOCK_PARCOURS.map((p) => {
+    return MOCK_PARCOURS_LIST.map((p) => {
       const data = MOCK_PARCOURS_DATA[p.id];
       if (!data) return p;
       // Collect all lesson IDs in this parcours
@@ -222,7 +118,7 @@ export const LearningPaths: React.FC = () => {
           tone="flat"
           eyebrow={{ icon: <GraduationCap size={12} />, label: 'Mon apprentissage' }}
           title="Mes Parcours"
-          summary="Explorez vos parcours de formation et suivez votre progression au fil des leçons."
+          summary="Explore tes parcours de formation et suis ta progression au fil des leçons."
           trailing={
             <Search
               size="sm"
@@ -258,7 +154,7 @@ export const LearningPaths: React.FC = () => {
             tone="warm"
             icon={<Sparkles size={32} />}
             title="Aucun parcours trouvé"
-            description="Aucun parcours ne correspond à vos filtres pour le moment."
+            description="Aucun parcours ne correspond à tes filtres pour le moment."
             actions={
               <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
                 Réinitialiser les filtres
