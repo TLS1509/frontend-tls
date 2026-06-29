@@ -4,7 +4,8 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { useLessonProgressStore } from '../stores/persistence';
 import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
 import {
@@ -97,7 +98,7 @@ export const CourseDetail: React.FC = () => {
     : STEPS;
 
   return (
-    <div className="min-h-[100dvh] bg-surface font-body">
+    <>
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
         <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
@@ -108,7 +109,7 @@ export const CourseDetail: React.FC = () => {
         </Container>
       </div>
 
-      <Container width="medium" className="py-section flex flex-col gap-section">
+      <PageShell width="page" className="py-section flex flex-col gap-section">
 
         {/* ─ Course header section ──────────────────────────────── */}
         <section className="flex flex-col gap-stack">
@@ -148,7 +149,7 @@ export const CourseDetail: React.FC = () => {
             { label: 'Étapes', value: steps.length, meta: 'Fondamentaux + application' },
             { label: 'Leçons', value: steps.reduce((acc, step) => acc + step.lessons.length, 0), meta: 'Format micro-learning guidé' },
           ].map((kpi) => (
-            <Card key={kpi.label} className="flex flex-col gap-tight p-5">
+            <Card key={kpi.label} className="flex flex-col gap-tight p-stack">
               <p className="font-body text-caption text-ink-500 m-0">{kpi.label}</p>
               <p className="font-display text-h2 font-bold text-ink-900 m-0">{kpi.value}</p>
               <p className="font-body text-caption text-ink-400 m-0">{kpi.meta}</p>
@@ -191,7 +192,7 @@ export const CourseDetail: React.FC = () => {
                     duration={step.duration}
                     isOpen={open}
                     onToggle={() => setOpenStep(open ? null : step.id)}
-                    className="mb-3"
+                    className="mb-stack-xs"
                     bodyClassName="px-stack pb-stack"
                   >
                     {step.lessons.map((lesson) => (
@@ -232,7 +233,7 @@ export const CourseDetail: React.FC = () => {
             </Card>
 
             <div
-              className="rounded-xl border border-accent-200 p-5 flex flex-col gap-stack-xs"
+              className="rounded-xl border border-accent-200 p-stack flex flex-col gap-stack-xs"
               style={{ background: 'linear-gradient(135deg, rgba(248, 176, 68, 0.14), rgba(248, 176, 68, 0.04))' }}
             >
               <p className="font-body text-body-sm font-semibold text-ink-900 m-0 inline-flex items-center gap-1.5">
@@ -245,7 +246,7 @@ export const CourseDetail: React.FC = () => {
             </div>
           </aside>
         </div>
-      </Container>
-    </div>
+      </PageShell>
+    </>
   );
 };
