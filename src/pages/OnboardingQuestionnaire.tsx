@@ -8,6 +8,7 @@ import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { DreyfusLevelSelector } from '../components/ui/DreyfusLevelSelector';
+import { PageShell } from '../components/layout';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import { buildOnboardingQuestionnaire } from '../lib/onboarding-questionnaire';
 import { usePositioningStore, usePasseportStore, useOnboardingStore } from '../stores/persistence';
@@ -124,7 +125,7 @@ const OnboardingQuestionnaire: React.FC = () => {
       <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
-        <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
+        <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
 
           {/* Brand bar */}
           <div className="flex items-center justify-between">
@@ -163,7 +164,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             variant={qVariant}
             onComplete={(ans, elab) => persistAndContinue(ans, elab)}
           />
-        </div>
+        </PageShell>
 
         {/* Variant switcher — fixed bottom-right */}
         <VariantSwitcher current={qVariant} onChange={setQVariant} />
@@ -196,7 +197,7 @@ const OnboardingQuestionnaire: React.FC = () => {
     <main className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
+      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -271,7 +272,7 @@ const OnboardingQuestionnaire: React.FC = () => {
               : 'Continuer vers le tutoriel'}
           </Button>
         </div>
-      </div>
+      </PageShell>
     </main>
   );
 };
