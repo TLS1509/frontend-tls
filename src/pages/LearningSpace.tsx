@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  BookOpen, ChevronDown, Sparkles, RotateCcw,
+  BookOpen, ChevronDown, Sparkles, RotateCcw, Grid3x3, List,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Search } from '../components/ui/Search';
@@ -126,6 +126,7 @@ export const LearningSpace: React.FC = () => {
   const [theme, setTheme]         = useState('all');
   const [level, setLevel]         = useState('all');
   const [duration, setDuration]   = useState<DurationBucket>('all');
+  const [displayMode, setDisplayMode] = useState<'grid' | 'list'>('grid');
 
   /* ─── Computed ───────────────────────────────────────────────────────── */
 
@@ -288,6 +289,103 @@ export const LearningSpace: React.FC = () => {
         <div className="h-px bg-ink-100" />
       </div>
 
+      {/* ── Display mode toggle + count ─────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-stack pb-stack">
+        <span className="text-body-sm text-ink-500 font-medium">
+          {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
+        </span>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setDisplayMode('grid')}
+            aria-label="Affichage grille"
+            className={[
+              'inline-flex items-center justify-center p-2 rounded-lg transition-all duration-base',
+              displayMode === 'grid'
+                ? 'bg-primary-100 text-primary-600 shadow-xs'
+                : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50',
+            ].join(' ')}
+          >
+            <Grid3x3 size={16} strokeWidth={2} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setDisplayMode('list')}
+            aria-label="Affichage liste"
+            className={[
+              'inline-flex items-center justify-center p-2 rounded-lg transition-all duration-base',
+              displayMode === 'list'
+                ? 'bg-primary-100 text-primary-600 shadow-xs'
+                : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50',
+            ].join(' ')}
+          >
+            <List size={16} strokeWidth={2} />
+          </button>
+        </div>
+      </div>
+
+      {/* ── Smart Recommendations section (bonus feature) ─────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 mb-section">
+        <div className="flex items-center justify-between gap-stack">
+          <h2 className="m-0 font-display text-h4 font-bold text-ink-900">
+            Pour toi maintenant
+          </h2>
+          <a href="#" className="text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors">
+            Voir plus →
+          </a>
+        </div>
+        <p className="m-0 font-body text-body-sm text-ink-500 mt-tight mb-stack">
+          Ressources adaptées à ton niveau et tes parcours actuels
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
+          {filteredItems.slice(0, 4).map((item) => {
+            const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+              userSubscriptionTier: userTier,
+              completedItemIds,
+              learnerCompetencyLevels,
+            });
+            const isAccessible = accessCheck.allowed;
+            const denialMessage = getAccessDenialMessage(accessCheck);
+            return (
+              <LearningItemCard
+                key={item.id}
+                id={item.id}
+                type={item.type}
+                title={item.title}
+                description={item.description}
+                duration={item.duration}
+                dreyfusLevel={item.dreyfusLevel}
+                theme={item.theme}
+                isAccessible={isAccessible}
+                isCompleted={completedItemIds.has(item.id)}
+                denialReason={
+                  accessCheck.reason === 'tier'
+                    ? 'tier'
+                    : accessCheck.reason === 'prerequisite'
+                    ? 'prerequisite'
+                    : undefined
+                }
+                denialMessage={denialMessage}
+                onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Divider before full discovery grid ──────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 border-t border-ink-100 pt-section" />
+
+      {/* ── "Découvrir" section title ─────────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
+        <h2 className="m-0 font-display text-h4 font-bold text-ink-900">
+          Découvrir
+        </h2>
+        <p className="m-0 font-body text-body-sm text-ink-500 mt-tight mb-stack">
+          Parcourez toutes nos ressources d'apprentissage
+        </p>
+      </div>
+
       {/* ── Content grid ─────────────────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
         {filteredItems.length === 0 ? (
@@ -302,8 +400,44 @@ export const LearningSpace: React.FC = () => {
               </Button>
             }
           />
+        ) : displayMode === 'list' ? (
+          <div className="flex flex-col gap-stack" aria-label="Contenus d'apprentissage — Affichage liste">
+            {filteredItems.map((item) => {
+              const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                userSubscriptionTier: userTier,
+                completedItemIds,
+                learnerCompetencyLevels,
+              });
+              const isAccessible = accessCheck.allowed;
+              const denialMessage = getAccessDenialMessage(accessCheck);
+
+              return (
+                <LearningItemCard
+                  key={item.id}
+                  id={item.id}
+                  type={item.type}
+                  title={item.title}
+                  description={item.description}
+                  duration={item.duration}
+                  dreyfusLevel={item.dreyfusLevel}
+                  theme={item.theme}
+                  isAccessible={isAccessible}
+                  isCompleted={completedItemIds.has(item.id)}
+                  denialReason={
+                    accessCheck.reason === 'tier'
+                      ? 'tier'
+                      : accessCheck.reason === 'prerequisite'
+                      ? 'prerequisite'
+                      : undefined
+                  }
+                  denialMessage={denialMessage}
+                  onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
+                />
+              );
+            })}
+          </div>
         ) : (
-          <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage">
+          <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage — Affichage grille">
             {filteredItems.map((item) => {
               const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
                 userSubscriptionTier: userTier,

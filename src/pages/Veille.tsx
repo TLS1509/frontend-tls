@@ -20,6 +20,8 @@ import {
   Bookmark,
   Rss,
   RotateCcw,
+  Grid3x3,
+  List,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
@@ -102,6 +104,7 @@ export const Veille: React.FC = () => {
   const [query, setQuery]         = useState('');
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [videoModal, setVideoModal] = useState<VideoModalState>({ open: false });
+  const [displayMode, setDisplayMode] = useState<'grid' | 'list'>('list');
 
   const bookmarkedIds = useBookmarksStore((s) => s.ids);
   const toggleBookmark = useBookmarksStore((s) => s.toggle);
@@ -235,6 +238,38 @@ export const Veille: React.FC = () => {
               Réinitialiser
             </button>
           )}
+
+          <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5 ml-auto" />
+
+          {/* Display mode toggle */}
+          <div className="inline-flex items-center gap-1 rounded-lg bg-white border border-ink-200">
+            <button
+              type="button"
+              onClick={() => setDisplayMode('grid')}
+              aria-label="Affichage grille"
+              className={[
+                'inline-flex items-center justify-center p-1.5 transition-all duration-base rounded',
+                displayMode === 'grid'
+                  ? 'bg-primary-100 text-primary-600'
+                  : 'text-ink-400 hover:text-ink-600',
+              ].join(' ')}
+            >
+              <Grid3x3 size={14} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setDisplayMode('list')}
+              aria-label="Affichage liste"
+              className={[
+                'inline-flex items-center justify-center p-1.5 transition-all duration-base rounded',
+                displayMode === 'list'
+                  ? 'bg-primary-100 text-primary-600'
+                  : 'text-ink-400 hover:text-ink-600',
+              ].join(' ')}
+            >
+              <List size={14} strokeWidth={2} />
+            </button>
+          </div>
         </div>
 
       {/* Divider */}
@@ -247,7 +282,7 @@ export const Veille: React.FC = () => {
 
         <VeilleCardFeed
           items={filteredItems}
-          layout="list"
+          layout={displayMode}
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
