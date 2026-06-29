@@ -195,7 +195,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
-      <PageShell width="page" noPadTop className="relative z-[2] gap-section pt-6 md:pt-8 lg:pt-10">
+      <PageShell width="page" noPadTop className="relative z-[2] gap-section pt-16 md:pt-8 lg:pt-10">
 
         {/* ① Hero */}
         <PageHero
