@@ -29,8 +29,7 @@ import {
   VeilleCardFeed,
   type VeilleFeedItem,
 } from '../components/patterns/VeilleCardFeed';
-import { VeilleFormatShortcutCards } from '../components/patterns/VeilleFormatShortcutCards';
-
+import { PageShell } from '../components/layout';
 import { useBookmarksStore, useFilterPrefsStore } from '../stores/persistence';
 import { useToastContext } from '../contexts/ToastContext';
 
@@ -62,9 +61,9 @@ const TYPE_FILTERS: TypeFilter[] = [
 ];
 
 const ITEMS: VeilleRawItem[] = [
-  { id: '1', type: 'actu',     typeLabel: 'Actu',     TypeIcon: TrendingUp, tone: 'brand', title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites. Une analyse exclusive de l'équipe TLS.", category: 'IA & Pédagogie',     author: 'The Learning Society', publishedAt: "Aujourd'hui",      readTime: '6 min' },
-  { id: '2', type: 'tutoriel', typeLabel: 'Tutoriel', TypeIcon: Video,      tone: 'warm',  isVideo: true, title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts et obtenir des résultats reproductibles.', category: 'Prompt Engineering', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
-  { id: '3', type: 'dossier',  typeLabel: 'Dossier',  TypeIcon: FolderOpen, tone: 'sun',   title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", category: 'Management', author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
+  { id: '1', type: 'actu',     typeLabel: 'Actu',     TypeIcon: TrendingUp, tone: 'brand', isNew: true,  title: "IA générative en formation : où en sommes-nous en 2026 ?", summary: "Tour d'horizon des nouveaux usages de l'IA dans les parcours de formation, des cas concrets et des limites. Une analyse exclusive de l'équipe TLS.", category: 'IA & Pédagogie',     author: 'The Learning Society', publishedAt: "Aujourd'hui",      readTime: '6 min' },
+  { id: '2', type: 'tutoriel', typeLabel: 'Tutoriel', TypeIcon: Video,      tone: 'warm',  isNew: true,  isVideo: true, title: 'Construire un prompt structuré en 5 étapes', summary: 'Une vidéo pas à pas pour formaliser ses prompts et obtenir des résultats reproductibles.', category: 'Prompt Engineering', author: 'Marie Dubois', publishedAt: 'Hier', readTime: '12 min' },
+  { id: '3', type: 'dossier',  typeLabel: 'Dossier',  TypeIcon: FolderOpen, tone: 'sun',   isNew: true,  title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", category: 'Management', author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' },
   { id: '4', type: 'magazine', typeLabel: 'Magazine', TypeIcon: BookOpen,   tone: 'brand', title: 'Tendances EdTech 2026', summary: 'Notre numéro mensuel : marchés en croissance, nouveaux acteurs et opportunités stratégiques.', category: 'EdTech', author: 'TLS Mag', publishedAt: 'Il y a 1 semaine', readTime: '18 min' },
   { id: '5', type: 'actu',     typeLabel: 'Actu',     TypeIcon: TrendingUp, tone: 'brand', title: "L'essor du microlearning dans les entreprises", summary: "78% des entreprises du CAC40 ont adopté le microlearning : résultats, bonnes pratiques et conditions du succès.", category: 'Formation', author: 'TLS Rédaction', publishedAt: 'Il y a 2 semaines', readTime: '4 min' },
   { id: '6', type: 'tutoriel', typeLabel: 'Tutoriel', TypeIcon: Video,      tone: 'warm',  isVideo: true, title: "Maîtriser l'IA pour la Formation Professionnelle", summary: "Comment intégrer l'intelligence artificielle dans vos parcours de formation pour maximiser l'engagement.", category: 'Facilitation', author: 'Pierre Leclerc', publishedAt: 'Il y a 3 semaines', readTime: '15 min' },
@@ -140,10 +139,7 @@ export const Veille: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[100dvh] flex flex-col">
-
-      {/* ── 1. HEADER flat — même surface que le contenu ─────────────────── */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-2 flex flex-col gap-5">
+    <PageShell width="page" className="relative flex flex-col min-h-[100dvh] pb-2 gap-5" noPadTop>
 
         {/* Title row */}
         <div className="flex items-start justify-between gap-stack">
@@ -241,9 +237,6 @@ export const Veille: React.FC = () => {
           )}
         </div>
 
-        {/* Formats éditoriaux — 4 cartes navigation, light */}
-        <VeilleFormatShortcutCards surface="light" className="pt-1" />
-
       </div>
 
       {/* Divider */}
@@ -311,7 +304,7 @@ export const Veille: React.FC = () => {
           {...itemToVideoProps(videoModal.item)}
         />
       )}
-    </div>
+    </PageShell>
   );
 };
 

@@ -39,6 +39,7 @@ import { useToastContext } from '../contexts/ToastContext';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { Stepper } from '../components/ui/Stepper';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
+import { PageShell } from '../components/layout';
 import type { SubscriptionTier } from '../types/learning';
 
 /* ─── Types & data ──────────────────────────────────────────────────────── */
@@ -169,7 +170,7 @@ export const SubscriptionPayment: React.FC = () => {
     <div className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
 
-      <div className="relative z-base max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-section pb-section flex flex-col gap-section">
+      <PageShell width="content" className="relative z-base gap-section" noPadTop>
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">
@@ -388,7 +389,7 @@ export const SubscriptionPayment: React.FC = () => {
           </p>
         </div>
 
-      </div>
+      </PageShell>
 
       <ConfirmModal
         isOpen={showConfirm}
