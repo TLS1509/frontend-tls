@@ -270,8 +270,8 @@ export const MarketingDiagnostic: React.FC = () => {
       };
 
   return (
-    <div className="bg-white">
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
+    <div className="bg-white min-h-dvh flex flex-col">
+      <section className="relative flex-1 pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/25 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-[320px] h-[320px] rounded-pill bg-accent-200/25 blur-3xl" />
@@ -343,12 +343,12 @@ export const MarketingDiagnostic: React.FC = () => {
                 transition={{ duration: 0.28, ease: [0.21, 0.47, 0.32, 0.98] }}
                 className="rounded-2xl bg-white border border-ink-100 shadow-card p-section flex flex-col gap-stack-lg"
               >
-                <fieldset className="flex flex-col gap-stack-lg border-0 p-0 m-0">
-                  <legend className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0 p-0">
+                <fieldset className="flex flex-col gap-0 border-0 p-0 m-0">
+                  <legend className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0 p-0 pb-section">
                     {currentQuestion.question}
                   </legend>
 
-                  <div className="flex flex-col gap-stack" role="radiogroup" aria-label={currentQuestion.question}>
+                  <div className="flex flex-col gap-stack-lg" role="radiogroup" aria-label={currentQuestion.question}>
                     {currentQuestion.options.map((opt) => {
                       const isSelected = currentAnswer === opt.value;
                       const optionId = `${currentQuestion.id}-opt-${opt.value}`;
@@ -647,8 +647,67 @@ export const MarketingDiagnostic: React.FC = () => {
                 </Button>
               </div>
 
+              {/* Next steps vignettes */}
+              <div className="pt-section border-t border-ink-100">
+                <p className="font-body text-caption font-bold text-ink-600 uppercase tracking-tight mb-stack">
+                  Prochaines étapes
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+                  <div className="rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/50 border border-primary-100 shadow-sm p-stack-lg flex flex-col gap-stack items-start">
+                    <div className="w-10 h-10 rounded-xl bg-primary-500/20 flex items-center justify-center">
+                      <Compass size={20} className="text-primary-700" />
+                    </div>
+                    <h4 className="font-display text-body-lg font-bold text-ink-900 m-0">
+                      Comprendre
+                    </h4>
+                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+                      Explorez la méthode STRIDE pour structurer votre transformation.
+                    </p>
+                    <Link to="/marketing/methode" className="mt-auto">
+                      <Button variant="ghost" size="sm">
+                        Découvrir
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <div className="rounded-2xl bg-gradient-to-br from-secondary-50 to-secondary-100/50 border border-secondary-100 shadow-sm p-stack-lg flex flex-col gap-stack items-start">
+                    <div className="w-10 h-10 rounded-xl bg-secondary-500/20 flex items-center justify-center">
+                      <Target size={20} className="text-secondary-700" />
+                    </div>
+                    <h4 className="font-display text-body-lg font-bold text-ink-900 m-0">
+                      Apprendre
+                    </h4>
+                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+                      Lancez-vous avec la Learning App et montez en compétences.
+                    </p>
+                    <Link to="/marketing/learning-app" className="mt-auto">
+                      <Button variant="ghost" size="sm">
+                        Explorer
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <div className="rounded-2xl bg-gradient-to-br from-accent-50 to-accent-100/50 border border-accent-100 shadow-sm p-stack-lg flex flex-col gap-stack items-start">
+                    <div className="w-10 h-10 rounded-xl bg-accent-400/20 flex items-center justify-center">
+                      <Calendar size={20} className="text-accent-700" />
+                    </div>
+                    <h4 className="font-display text-body-lg font-bold text-ink-900 m-0">
+                      Accompagner
+                    </h4>
+                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
+                      Discutez avec nos experts pour un accompagnement sur-mesure.
+                    </p>
+                    <Link to="/marketing/contact" className="mt-auto">
+                      <Button variant="ghost" size="sm">
+                        Contacter
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
               {/* Decorative anchor for screen readers / semantics */}
-              <div aria-hidden className="flex items-center justify-center gap-stack-xs text-ink-300">
+              <div aria-hidden className="flex items-center justify-center gap-stack-xs text-ink-300 pt-stack">
                 <Target size={14} />
               </div>
             </motion.div>
