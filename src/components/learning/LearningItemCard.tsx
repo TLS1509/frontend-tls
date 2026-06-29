@@ -120,15 +120,6 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       ].filter(Boolean).join(' ')}
       onClick={onClick ? () => onClick(id) : undefined}
     >
-      {/* ── Completion badge overlay (top-left) ── */}
-      {isCompleted && (
-        <div
-          aria-label="Complété"
-          className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-success-base text-white flex items-center justify-center shadow-sm z-base"
-        >
-          <CheckCircle2 size={14} strokeWidth={2} />
-        </div>
-      )}
 
       {/* ── Icon bubble (top-right corner) ── */}
       <div className="absolute top-4 right-4">
@@ -155,7 +146,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
 
         {/* 2. Title + description ── */}
-        <div className="flex flex-col gap-tight">
+        <div className="flex flex-col gap-0.5">
           <h3 className="m-0 font-display text-h5 font-semibold leading-tight tracking-tight text-ink-900 line-clamp-2">
             {title}
           </h3>
