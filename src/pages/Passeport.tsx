@@ -12,7 +12,7 @@ import { SkillBar } from '../components/ui/SkillBar';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
-import { RadarChart, AreaChart, ChartContainer } from '../components/charts';
+import { RadarChart, AreaChart, ChartContainer, TimelineChart, GaugeChart, ChartWithExport } from '../components/charts';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
@@ -84,6 +84,15 @@ export default function Passeport() {
     { label: 'Week 10', lessons: 23, coaching: 6 },
     { label: 'Week 11', lessons: 28, coaching: 10 },
     { label: 'Week 12', lessons: 30, coaching: 12 },
+  ];
+
+  // Timeline events (learner journey)
+  const TIMELINE_EVENTS = [
+    { id: 'event-1', date: '2026-01-15', type: 'lesson' as const, title: 'Completed: Prompt Engineering 101', description: 'Mastered basic prompt writing techniques' },
+    { id: 'event-2', date: '2026-02-10', type: 'session' as const, title: 'Coaching Session with Sophie', description: 'Discussion on leadership skills and delegation' },
+    { id: 'event-3', date: '2026-03-05', type: 'badge' as const, title: 'Earned: Prompt Master Badge', description: 'Advanced prompt engineering certification' },
+    { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, title: 'Reached Dreyfus Level 4', description: 'Advanced proficiency in Technical Leadership' },
+    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, title: 'Learning Streak: 30 days', description: 'Consistent daily engagement with learning materials' },
   ];
 
   // Suggested skills to develop (AI-generated alternatives based on current profile)
@@ -212,6 +221,48 @@ export default function Passeport() {
                 />
               </ChartContainer>
             </SectionCard>
+
+            {/* Timeline + Gauge charts */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-section">
+              <SectionCard
+                title="Parcours d'apprentissage"
+                description="Chronologie des étapes clés et réalisations"
+                tone="brand"
+              >
+                <ChartWithExport
+                  chartId="passeport-timeline"
+                  filename="passeport-timeline"
+                  exportVariant="compact"
+                >
+                  <TimelineChart
+                    events={TIMELINE_EVENTS}
+                    orientation="vertical"
+                    size="md"
+                  />
+                </ChartWithExport>
+              </SectionCard>
+
+              <SectionCard
+                title="Progression globale"
+                description="Gauge de progression vers tes objectifs"
+                tone="warm"
+              >
+                <ChartWithExport
+                  chartId="passeport-gauge"
+                  filename="passeport-gauge"
+                  exportVariant="compact"
+                >
+                  <GaugeChart
+                    value={avgLevel}
+                    max={5}
+                    variant="arc"
+                    size="md"
+                    tone="warm"
+                    target={4.5}
+                  />
+                </ChartWithExport>
+              </SectionCard>
+            </div>
 
             {/* Quick skill bars */}
             <SectionCard
