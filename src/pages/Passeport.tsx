@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Target, TrendingUp, Award, ChevronRight, Plus } from 'lucide-react';
+import { Target, TrendingUp, Award, ChevronRight, Plus, Sparkles } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -12,7 +12,7 @@ import { SkillBar } from '../components/ui/SkillBar';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
-import { RadarChart } from '../components/charts';
+import { RadarChart, AreaChart, ChartContainer } from '../components/charts';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
@@ -39,6 +39,10 @@ export default function Passeport() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAxis, setSelectedAxis] = useState<string | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showObjectiveModal, setShowObjectiveModal] = useState(false);
+  const [newObjectiveCompetenceId, setNewObjectiveCompetenceId] = useState<string | null>(null);
+  const [newObjectiveTarget, setNewObjectiveTarget] = useState<number>(4);
   const store = usePasseportStore();
 
   const learnerCompetencies = store.getCompetencies(MOCK_USER_ID);
@@ -65,6 +69,50 @@ export default function Passeport() {
     current: c.level,
     target: c.target,
   }));
+
+  // Learning time allocation data (mock: 12 weeks of lessons + coaching)
+  const LEARNING_TIME_DATA = [
+    { label: 'Week 1', lessons: 12, coaching: 3 },
+    { label: 'Week 2', lessons: 14, coaching: 2 },
+    { label: 'Week 3', lessons: 18, coaching: 5 },
+    { label: 'Week 4', lessons: 16, coaching: 4 },
+    { label: 'Week 5', lessons: 20, coaching: 6 },
+    { label: 'Week 6', lessons: 22, coaching: 8 },
+    { label: 'Week 7', lessons: 19, coaching: 5 },
+    { label: 'Week 8', lessons: 24, coaching: 7 },
+    { label: 'Week 9', lessons: 26, coaching: 9 },
+    { label: 'Week 10', lessons: 23, coaching: 6 },
+    { label: 'Week 11', lessons: 28, coaching: 10 },
+    { label: 'Week 12', lessons: 30, coaching: 12 },
+  ];
+
+  // Suggested skills to develop (AI-generated alternatives based on current profile)
+  const SUGGESTED_SKILLS = [
+    {
+      id: 'suggest-1',
+      label: 'Emotional Intelligence',
+      reason: 'Complémenter ta Leadership actuelle (D3 → D4)',
+      synergy: 'Haute synérgie avec Communication',
+      estimatedWeeks: 4,
+      domain: 'Soft' as CompetenceDomain,
+    },
+    {
+      id: 'suggest-2',
+      label: 'Data Analysis',
+      reason: 'Booster tes compétences Techniques (D2 → D3)',
+      synergy: 'Synérgie moyenne avec Problem Solving',
+      estimatedWeeks: 6,
+      domain: 'Hard' as CompetenceDomain,
+    },
+    {
+      id: 'suggest-3',
+      label: 'Executive Presence',
+      reason: 'Accélerer tes Soft skills (Leadership + Communication)',
+      synergy: 'Très haute synérgie multi-domaine',
+      estimatedWeeks: 5,
+      domain: 'Out' as CompetenceDomain,
+    },
+  ];
 
   // Stats
   const avgLevel = COMPETENCES.length > 0
@@ -146,6 +194,25 @@ export default function Passeport() {
               </div>
             </div>
 
+            {/* Learning time allocation */}
+            <SectionCard
+              title="Temps d'apprentissage"
+              description="Répartition heures/semaine entre leçons et sessions de coaching."
+              tone="primary"
+            >
+              <ChartContainer>
+                <AreaChart
+                  data={LEARNING_TIME_DATA}
+                  series={[
+                    { key: 'lessons', label: 'Leçons (h)' },
+                    { key: 'coaching', label: 'Coaching (h)' },
+                  ]}
+                  stacked
+                  size="md"
+                />
+              </ChartContainer>
+            </SectionCard>
+
             {/* Quick skill bars */}
             <SectionCard
               title="Résumé par compétence"
@@ -173,6 +240,62 @@ export default function Passeport() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </SectionCard>
+
+            {/* Suggested skills to develop */}
+            <SectionCard
+              title="Propositions d'alternatives"
+              description="Compétences recommandées pour maximiser ta progression (IA-générées)."
+              titleIcon={<Sparkles size={20} />}
+              tone="sun"
+            >
+              <div className="flex flex-col gap-stack">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+                  {SUGGESTED_SKILLS.map((skill, idx) => (
+                    <button
+                      key={skill.id}
+                      onClick={() => {
+                        setNewObjectiveCompetenceId(skill.id);
+                        setShowObjectiveModal(true);
+                      }}
+                      className="group text-left"
+                      style={{
+                        animation: showSuggestions
+                          ? `slideIn 0.4s ease-out ${idx * 100}ms forwards`
+                          : 'none',
+                        opacity: showSuggestions ? 1 : 0,
+                        transform: showSuggestions ? 'translateY(0)' : 'translateY(16px)',
+                      }}
+                    >
+                      <Card className="p-5 flex flex-col gap-stack-xs h-full transition-all bg-gradient-to-br from-accent-50 to-yellow-50 border border-accent-200 group-hover:shadow-card-hover group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent-400">
+                        <div className="flex items-start justify-between gap-stack-xs">
+                          <div className="flex flex-col gap-tight flex-1 min-w-0">
+                            <span className="text-body-sm font-semibold text-ink-900">{skill.label}</span>
+                            <p className="text-caption text-ink-600">{skill.reason}</p>
+                          </div>
+                        </div>
+                        <Badge variant="sun" size="sm">{skill.synergy}</Badge>
+                        <p className="text-caption text-ink-500">~{skill.estimatedWeeks} semaines d'apprentissage</p>
+                        <div className="text-caption text-accent-600 group-hover:text-accent-700 transition-colors font-medium">
+                          Créer objectif →
+                        </div>
+                      </Card>
+                    </button>
+                  ))}
+                </div>
+                <style>{`
+                  @keyframes slideIn {
+                    from {
+                      opacity: 0;
+                      transform: translateY(16px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                `}</style>
               </div>
             </SectionCard>
           </div>
@@ -244,23 +367,71 @@ export default function Passeport() {
             />
             {activeObjectives.length > 0 ? (
               <div className="flex flex-col gap-stack">
-                {activeObjectives.map((obj) => {
+                {activeObjectives.map((obj, idx) => {
                   const ref = getCompetenceById(obj.competenceId);
                   const label = ref ? `Atteindre D${obj.targetLevel} en ${ref.label}` : `Objectif D${obj.targetLevel}`;
                   const daysRemaining = Math.ceil((new Date(obj.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
                   return (
-                    <GoalProgress
+                    <div
                       key={obj.id}
-                      goal={label}
-                      percentComplete={obj.progressPct}
-                      daysRemaining={daysRemaining}
-                      isOnTrack={daysRemaining > 0}
-                    />
+                      style={{
+                        animation: `slideIn 0.4s ease-out ${idx * 100}ms forwards`,
+                        opacity: 1,
+                      }}
+                    >
+                      <GoalProgress
+                        goal={label}
+                        percentComplete={obj.progressPct}
+                        daysRemaining={daysRemaining}
+                        isOnTrack={daysRemaining > 0}
+                      />
+                    </div>
                   );
                 })}
-                <Button variant="brand-ghost" size="md" leadingIcon={<Plus size={16} />}>
+
+                {/* Suggested objective targets */}
+                {activeObjectives.length < 3 && (
+                  <div className="mt-stack pt-stack border-t border-ink-200">
+                    <p className="text-caption text-ink-500 mb-stack-xs font-medium">Objectifs suggérés :</p>
+                    <div className="flex flex-wrap gap-stack-xs">
+                      {COMPETENCES.filter(c => c.target > c.level).slice(0, 3).map((c) => (
+                        <button
+                          key={c.id}
+                          onClick={() => {
+                            setNewObjectiveCompetenceId(c.id);
+                            setNewObjectiveTarget(c.target);
+                            setShowObjectiveModal(true);
+                          }}
+                          className="group px-3 py-2 rounded-lg border border-primary-200 bg-primary-50 text-primary-700 text-caption font-medium hover:bg-primary-100 transition-colors"
+                        >
+                          {c.label} → D{c.target}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <Button
+                  variant="brand-ghost"
+                  size="md"
+                  leadingIcon={<Plus size={16} />}
+                  onClick={() => setShowObjectiveModal(true)}
+                  className="mt-stack"
+                >
                   Ajouter un objectif
                 </Button>
+                <style>{`
+                  @keyframes slideIn {
+                    from {
+                      opacity: 0;
+                      transform: translateY(12px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                `}</style>
               </div>
             ) : (
               <EmptyState

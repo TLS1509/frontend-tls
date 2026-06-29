@@ -13,13 +13,15 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Brain, Check, FolderOpen, RefreshCw, Sparkles, Target, Zap } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { FlipCard } from '../components/patterns/FlipCard';
 import { Container } from '../components/layout';
+import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
+import { useLessonProgressStore } from '../stores/persistence';
 import { TONE_BORDER_500, TONE_HERO_GRADIENT } from '../lib/tone-classes';
 import type { PageTone } from '../lib/tone-classes';
 
@@ -116,12 +118,16 @@ const TONE_GRADIENT_BG: Record<PageTone, string> = {
 
 export const FlashcardsViewer: React.FC = () => {
   const navigate = useNavigate();
+  const { id: itemId } = useParams<{ id: string }>();
   const lessonCtx = useLessonContext();
   const tone: PageTone = lessonCtx?.tone ?? 'primary';
+
+  const progressStore = useLessonProgressStore();
 
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [completedCards, setCompletedCards] = useState<number[]>([]);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const currentCard = FLASHCARDS[currentCardIndex];
   const total = FLASHCARDS.length;
@@ -164,9 +170,16 @@ export const FlashcardsViewer: React.FC = () => {
     }
   }, [navigate, lessonCtx]);
 
+  const markCompleted = useCallback(() => {
+    const id = itemId ?? 'flashcards-default';
+    progressStore.setSection(id, 0, 1);
+    progressStore.completeSection(id, 0);
+  }, [itemId, progressStore]);
+
   const handleFinish = useCallback(() => {
-    navigate(resolveAfterLessonRoute(lessonCtx));
-  }, [navigate, lessonCtx]);
+    markCompleted();
+    setShowCompletion(true);
+  }, [markCompleted]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -294,6 +307,16 @@ export const FlashcardsViewer: React.FC = () => {
           />
         </Container>
       </div>
+
+      <CompletionModal
+        isOpen={showCompletion}
+        itemTitle={lessonCtx?.lesson.title ?? 'Flashcards d\'apprentissage'}
+        xpEarned={50}
+        onClose={() => {
+          setShowCompletion(false);
+          navigate(resolveAfterLessonRoute(lessonCtx));
+        }}
+      />
     </div>
   );
 };

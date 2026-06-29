@@ -18,7 +18,6 @@ import React, { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBookmarksStore, useReadingProgressSync } from '../stores/persistence';
 import {
-  ArrowLeft,
   Bookmark,
   Share2,
   CalendarDays,
@@ -33,7 +32,7 @@ import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
-import { Container } from '../components/layout';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
@@ -85,18 +84,13 @@ export const MagazineArticle: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
-          <button
-            type="button"
-            onClick={() => navigate('/veille/magazine')}
-            className="inline-flex items-center gap-1.5 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            <ArrowLeft size={14} /> Retour au magazine
-          </button>
-
-          <div className="flex items-center gap-stack-xs">
+      <ReaderContextStrip
+        title={ARTICLE.title}
+        onBack={() => navigate('/veille/magazine')}
+        backLabel="Retour au magazine"
+        containerWidth="medium"
+        trailing={
+          <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={bookmarked ? 'primary' : 'ghost'}
@@ -110,9 +104,9 @@ export const MagazineArticle: React.FC = () => {
             <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
-          </div>
-        </Container>
-      </div>
+          </>
+        }
+      />
 
       <div
         ref={articleRef}

@@ -8,3 +8,5 @@ export { CancelSessionModal } from './CancelSessionModal';
 export { VideoPlayerModal } from './VideoPlayerModal';
 export { CelebrationModal } from './CelebrationModal';
 export type { CelebrationModalProps } from './CelebrationModal';
+export { CompletionModal } from './CompletionModal';
+export type { CompletionModalProps, CompletionNextItem } from './CompletionModal';

@@ -17,7 +17,6 @@ import React, { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBookmarksStore, useReadingProgressSync } from '../stores/persistence';
 import {
-  ArrowLeft,
   ArrowRight,
   Bookmark,
   Share2,
@@ -40,6 +39,7 @@ import type { TocItem } from '../components/patterns/TableOfContents';
 import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
 import { IntroCallout } from '../components/patterns/IntroCallout';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
@@ -98,19 +98,12 @@ export const Dossier: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="warm" />
 
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
-          <Button
-            variant="ghost"
-            size="sm"
-            leadingIcon={<ArrowLeft size={14} />}
-            onClick={() => navigate('/veille')}
-          >
-            Retour à la veille
-          </Button>
-
-          <div className="flex items-center gap-stack-xs">
+      <ReaderContextStrip
+        title="Transformation IA des parcours de formation professionnelle"
+        onBack={() => navigate('/veille')}
+        backLabel="Retour à la veille"
+        trailing={
+          <>
             <ReadingProgressRing targetRef={articleRef} tone="warm" size={36} />
             <Button variant="warm" size="sm" leadingIcon={<Download size={13} />} className="hidden sm:inline-flex">
               Télécharger
@@ -127,9 +120,9 @@ export const Dossier: React.FC = () => {
             <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
-          </div>
-        </Container>
-      </div>
+          </>
+        }
+      />
 
       <div ref={articleRef}>
         {/* Hero warm bounded */}

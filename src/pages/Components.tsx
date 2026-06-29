@@ -231,6 +231,17 @@ import { FilteredList } from '../components/ui/FilteredList';
 import { StepIndicator } from '../components/ui/StepIndicator';
 import { ModalForm } from '../components/ui/ModalForm';
 import { FilterableCardGrid } from '../components/ui/FilterableCardGrid';
+import {
+  RadarChart,
+  BarChart,
+  LineChart,
+  AreaChart,
+  PieChart,
+  ScatterChart,
+  ComposedChart,
+  HeatmapChart,
+  ChartContainer,
+} from '../components/charts';
 
 /* ============================================================================
  * TYPES
@@ -239,7 +250,7 @@ import { FilterableCardGrid } from '../components/ui/FilterableCardGrid';
 // Legacy category (kept for backward compat with existing entries — overridden by REMAP below)
 type Category = 'Core' | 'Patterns' | 'Learning' | 'Navigation' | 'Content' | 'Modals' | 'Feedback' | 'Composites';
 
-// New rules-based taxonomy (13 categories)
+// New rules-based taxonomy (14 categories)
 type NewCategory =
   | 'Foundations'        // tokens + layout primitives
   | 'Atoms'              // 1 element UI indivisible
@@ -251,6 +262,7 @@ type NewCategory =
   | 'Lists & Feeds'      // collections of cards/items
   | 'Forms'              // multi-step + composite forms
   | 'Learning'           // gamification & pedagogy (TLS-specific)
+  | 'Data Visualization' // charts & analytics (Phase 20)
   | 'Modals'             // overlay dialogs
   | 'Auth Family'        // AuthShell + sub-components
   | 'Pages & Templates'; // route-level previews
@@ -527,6 +539,17 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
+
+  // ── DATA VISUALIZATION — Charts & Analytics (Phase 20) ──────────────────
+  RadarChart:           { category: 'Data Visualization', subCategory: 'Competency charts' },
+  BarChart:             { category: 'Data Visualization', subCategory: 'Distribution charts' },
+  LineChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
+  AreaChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
+  PieChart:             { category: 'Data Visualization', subCategory: 'Composition charts' },
+  ScatterChart:         { category: 'Data Visualization', subCategory: 'Correlation charts' },
+  ComposedChart:        { category: 'Data Visualization', subCategory: 'Composite charts' },
+  HeatmapChart:         { category: 'Data Visualization', subCategory: 'Matrix charts' },
+  ChartContainer:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
 };
 
 /** Display order for new categories (left-to-right in filter tabs, top-to-bottom in render). */
@@ -541,6 +564,7 @@ const CATEGORY_ORDER: NewCategory[] = [
   'Lists & Feeds',
   'Forms',
   'Learning',
+  'Data Visualization',
   'Modals',
   'Auth Family',
   'Pages & Templates',
@@ -558,6 +582,7 @@ const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms'],
   Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards', 'Viewer content'],
+  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Chart utilities'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media'],
   'Auth Family': ['Shell & layout'],
   'Pages & Templates': [],
@@ -6716,6 +6741,221 @@ const COMPONENTS: ComponentEntry[] = [
         onNavigate={() => {}}
         onOpenJournal={() => {}}
       />
+    ),
+  },
+
+  // ── DATA VISUALIZATION (Phase 20+) ──────────────────────────────────────
+  {
+    name: 'RadarChart',
+    codeName: 'charts/RadarChart.tsx',
+    cssBase: 'RadarChart',
+    category: 'Learning',
+    description: 'Dreyfus competency assessment — radar chart showing current vs. target skill levels across 6 axes. Hover to highlight axis, click axis to drill down. USAGE: Passeport detail, coach profiling, skill assessments. See CHARTS-SYSTEM.md for API.',
+    keywords: ['radar', 'chart', 'competency', 'dreyfus', 'analytics', 'passeport'],
+    usedBy: ['Passeport', 'Coach'],
+    render: () => (
+      <RadarChart
+        data={[
+          { label: 'Leadership', current: 3, target: 5 },
+          { label: 'Communication', current: 4, target: 5 },
+          { label: 'Technical', current: 2, target: 4 },
+          { label: 'Problem Solving', current: 3, target: 5 },
+          { label: 'Collaboration', current: 4, target: 4 },
+          { label: 'Strategic Thinking', current: 2, target: 4 },
+        ]}
+        size="md"
+        onAxisClick={() => {}}
+      />
+    ),
+  },
+
+  {
+    name: 'BarChart',
+    codeName: 'charts/BarChart.tsx',
+    cssBase: 'BarChart',
+    category: 'Learning',
+    description: 'Vertical or horizontal bar rankings for comparisons. USAGE: Team rankings, cohort comparisons, score distributions. PROPS: layout (vertical/horizontal), dataKey, size (sm/md/lg), onBarClick. See CHARTS-SYSTEM.md.',
+    keywords: ['bar', 'chart', 'rankings', 'comparison', 'analytics', 'dashboard'],
+    usedBy: ['Enterprise', 'Analytics'],
+    render: () => (
+      <BarChart
+        data={[
+          { label: 'Team A', score: 82 },
+          { label: 'Team B', score: 76 },
+          { label: 'Team C', score: 89 },
+          { label: 'Team D', score: 71 },
+          { label: 'Team E', score: 85 },
+        ]}
+        dataKey="score"
+        size="md"
+        onBarClick={() => {}}
+      />
+    ),
+  },
+
+  {
+    name: 'LineChart',
+    codeName: 'charts/LineChart.tsx',
+    cssBase: 'LineChart',
+    category: 'Learning',
+    description: 'Single or multi-line trend visualization over time. USAGE: Engagement tracking, XP progression, performance trends. PROPS: series, smooth, showDots, size (sm/md/lg), onPointClick. See CHARTS-SYSTEM.md.',
+    keywords: ['line', 'chart', 'trend', 'progression', 'analytics', 'timeline'],
+    usedBy: ['Analytics'],
+    render: () => (
+      <LineChart
+        data={[
+          { label: 'Week 1', xp: 200 },
+          { label: 'Week 2', xp: 350 },
+          { label: 'Week 3', xp: 600 },
+          { label: 'Week 4', xp: 800 },
+        ]}
+        dataKey="xp"
+        size="md"
+        smooth
+        showDots
+      />
+    ),
+  },
+
+  {
+    name: 'AreaChart',
+    codeName: 'charts/AreaChart.tsx',
+    cssBase: 'AreaChart',
+    category: 'Learning',
+    description: 'Single or stacked area chart with gradient fills. USAGE: Cumulative metrics, time allocation, engagement trends. PROPS: series, stacked, smooth, size. Gradient fills auto-bindés aux tokens TLS. See CHARTS-SYSTEM.md.',
+    keywords: ['area', 'chart', 'cumulative', 'stacked', 'analytics', 'allocation'],
+    usedBy: ['Analytics', 'Passeport'],
+    render: () => (
+      <AreaChart
+        data={[
+          { label: 'Jan', lessons: 12, coaching: 3 },
+          { label: 'Feb', lessons: 18, coaching: 5 },
+          { label: 'Mar', lessons: 22, coaching: 8 },
+        ]}
+        series={[
+          { key: 'lessons', label: 'Lessons' },
+          { key: 'coaching', label: 'Coaching' },
+        ]}
+        stacked
+        size="md"
+      />
+    ),
+  },
+
+  {
+    name: 'PieChart',
+    codeName: 'charts/PieChart.tsx',
+    cssBase: 'PieChart',
+    category: 'Learning',
+    description: 'Pie or donut chart for composition and breakdown. USAGE: Completion rates, category distribution, training progress. PROPS: mode (pie/donut), showLabels, size (sm/md/lg), onSliceClick. See CHARTS-SYSTEM.md.',
+    keywords: ['pie', 'donut', 'chart', 'composition', 'distribution', 'analytics'],
+    usedBy: ['Formateur'],
+    render: () => (
+      <PieChart
+        data={[
+          { label: 'Completed', value: 45 },
+          { label: 'In Progress', value: 30 },
+          { label: 'Not Started', value: 25 },
+        ]}
+        donut
+        showLabels
+        size="md"
+      />
+    ),
+  },
+
+  {
+    name: 'ScatterChart',
+    codeName: 'charts/ScatterChart.tsx',
+    cssBase: 'ScatterChart',
+    category: 'Learning',
+    description: 'Scatter or bubble chart for correlation analysis. USAGE: Learner positioning, performance matrix, skill vs. engagement. PROPS: bubble (true/false), bubbleScale, showQuadrants, size. See CHARTS-SYSTEM.md.',
+    keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
+    usedBy: ['Coach'],
+    render: () => (
+      <ScatterChart
+        data={[
+          { label: 'Alice', x: 85, y: 90, z: 50 },
+          { label: 'Bob', x: 72, y: 78, z: 40 },
+          { label: 'Carol', x: 91, y: 88, z: 60 },
+        ]}
+        xAxisLabel="Skill Level"
+        yAxisLabel="Engagement"
+        bubbleScale={2}
+        size="md"
+      />
+    ),
+  },
+
+  {
+    name: 'ComposedChart',
+    codeName: 'charts/ComposedChart.tsx',
+    cssBase: 'ComposedChart',
+    category: 'Learning',
+    description: 'Composite bar + line chart for dual-metric analysis. USAGE: Activity count + performance score, volume + quality trends. PROPS: series (key, label, type), dualAxis, size (sm/md/lg). See CHARTS-SYSTEM.md.',
+    keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'analytics'],
+    usedBy: ['Analytics'],
+    render: () => (
+      <ComposedChart
+        data={[
+          { label: 'Week 1', count: 15, avgScore: 78 },
+          { label: 'Week 2', count: 22, avgScore: 82 },
+          { label: 'Week 3', count: 18, avgScore: 85 },
+        ]}
+        series={[
+          { key: 'count', label: 'Activities', type: 'bar' },
+          { key: 'avgScore', label: 'Avg Score', type: 'line' },
+        ]}
+        dualAxis
+        size="md"
+      />
+    ),
+  },
+
+  {
+    name: 'HeatmapChart',
+    codeName: 'charts/HeatmapChart.tsx',
+    cssBase: 'HeatmapChart',
+    category: 'Learning',
+    description: 'Custom grid matrix with Red→Yellow→Green gradient scale (danger-base → accent-400 → success-base). USAGE: Team skills matrix, learner progress grid, competency heatmap. PROPS: gridSize, maxValue, showValues, onCellClick. See CHARTS-SYSTEM.md.',
+    keywords: ['heatmap', 'grid', 'matrix', 'skills', 'competency', 'analytics'],
+    usedBy: ['Enterprise'],
+    render: () => (
+      <HeatmapChart
+        data={[
+          { x: 'Alice', y: 'Leadership', value: 3 },
+          { x: 'Alice', y: 'Communication', value: 4 },
+          { x: 'Bob', y: 'Leadership', value: 2 },
+          { x: 'Bob', y: 'Communication', value: 5 },
+        ]}
+        maxValue={5}
+        cellSize={50}
+        showValues
+        onCellClick={() => {}}
+      />
+    ),
+  },
+
+  {
+    name: 'ChartContainer',
+    codeName: 'charts/ChartContainer.tsx',
+    cssBase: 'ChartContainer',
+    category: 'Patterns',
+    description: 'Wrapper component for consistent chart styling. Provides shadow-card, rounded corners, padding (p-stack), mobile-first responsive sizing. USAGE: Wrap any chart (RadarChart, BarChart, etc.). Supports title, description, size variants.',
+    keywords: ['chart', 'container', 'wrapper', 'consistent', 'styling', 'analytics'],
+    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    render: () => (
+      <ChartContainer title="Competency Overview">
+        <LineChart
+          data={[
+            { label: 'Q1', value: 2.5 },
+            { label: 'Q2', value: 3.2 },
+            { label: 'Q3', value: 3.8 },
+          ]}
+          dataKey="value"
+          size="sm"
+        />
+      </ChartContainer>
     ),
   },
 ];

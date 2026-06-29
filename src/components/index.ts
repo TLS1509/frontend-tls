@@ -239,6 +239,9 @@ export type { PageCardItem, PageCardGridProps } from './patterns/PageCard';
 export { ResumeLessonCard } from './patterns/ResumeLessonCard';
 export type { ResumeLessonCardProps, ResumeLessonTone } from './patterns/ResumeLessonCard';
 
+export { ReaderContextStrip } from './patterns/ReaderContextStrip';
+export type { ReaderContextStripProps } from './patterns/ReaderContextStrip';
+
 export { PageHero, EditorialHero } from './patterns/EditorialHero';
 export type {
   PageHeroProps,

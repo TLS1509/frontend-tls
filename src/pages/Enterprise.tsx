@@ -11,7 +11,7 @@
  *  5. SectionCard "Rapports" : 2 cards
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
@@ -24,8 +24,11 @@ import { FormGroup } from '../components/core/FormGroup';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Container } from '../components/layout';
+import { HeatmapChart, type HeatmapDataPoint } from '../components/charts/HeatmapChart';
+import { BarChart, type BarChartDataPoint } from '../components/charts/BarChart';
+import { ChartContainer } from '../components/charts/ChartContainer';
 import { useEnterpriseStore } from '../stores/persistence';
-import { MOCK_COMPANY_ID } from '../data/enterprise';
+import { MOCK_COMPANY_ID, MOCK_COMPANY_COHORTS } from '../data/enterprise';
 import type { EnterpriseRole } from '../types/learning';
 import { useToastContext } from '../contexts/ToastContext';
 import {
@@ -83,6 +86,39 @@ export const Enterprise: React.FC = () => {
 
   const activeMembers = members.filter((m) => m.status === 'active');
 
+  // Mock team-skill competency data for heatmap (8 teams × 6 skills, 1-5 Dreyfus scale)
+  const heatmapData: HeatmapDataPoint[] = useMemo(() => {
+    const skills = ['Communication', 'Technique', 'Leadership', 'Gestion', 'Stratégie', 'Innovation'];
+    const teams = [
+      'Direction',
+      'Tech',
+      'Commerciale',
+      'Support',
+      'Finance',
+      'RH',
+      'Marketing',
+      'Ops',
+    ];
+
+    return teams.flatMap((team) =>
+      skills.map((skill) => ({
+        x: skill,
+        y: team,
+        value: Math.floor(Math.random() * 5) + 1,
+      }))
+    );
+  }, []);
+
+  // Mock team rankings data for bar chart (sorted by average score 0-100)
+  const teamRankingsData: BarChartDataPoint[] = useMemo(() => {
+    return MOCK_COMPANY_COHORTS
+      .map((cohort) => ({
+        label: cohort.name,
+        score: Math.round(cohort.avgDreyfusLevel * 20), // Convert Dreyfus 1-5 to 0-100
+      }))
+      .sort((a, b) => b.score - a.score);
+  }, []);
+
   const formatLastActive = (iso?: string) => {
     if (!iso) return '–';
     const diff = Date.now() - new Date(iso).getTime();
@@ -90,6 +126,16 @@ export const Enterprise: React.FC = () => {
     if (days === 0) return "Aujourd'hui";
     if (days === 1) return 'Hier';
     return `Il y a ${days} jours`;
+  };
+
+  const handleHeatmapCellClick = (data: HeatmapDataPoint) => {
+    // Navigate to team/member details based on clicked cell
+    toast.info(`Clic : ${data.y} — ${data.x} (niveau ${data.value})`, 'Détails compétence');
+  };
+
+  const handleBarClick = (data: BarChartDataPoint) => {
+    // Navigate to team detail page
+    toast.info(`Équipe : ${data.label} (score ${data.score})`, 'Détails équipe');
   };
 
   return (
@@ -136,6 +182,56 @@ export const Enterprise: React.FC = () => {
             delta="+5 pts"
             deltaDirection="up"
           />
+        </section>
+
+        {/* ── Charts: Skills Matrix & Rankings ──────────────────────── */}
+        <section className="flex flex-col gap-stack">
+          <div className="flex items-baseline justify-between gap-stack-xs">
+            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+              Analyse des compétences
+            </h2>
+          </div>
+
+          <ChartContainer>
+            <div className="w-full">
+              <h3 className="m-0 mb-4 font-display text-body font-bold text-ink-900">
+                Matrice de compétences par équipe
+              </h3>
+              <HeatmapChart
+                data={heatmapData}
+                minValue={1}
+                maxValue={5}
+                cellSize={48}
+                showValues={true}
+                onCellClick={handleHeatmapCellClick}
+              />
+            </div>
+          </ChartContainer>
+        </section>
+
+        {/* ── Rankings Bar Chart ────────────────────────────────────── */}
+        <section className="flex flex-col gap-stack">
+          <div className="flex items-baseline justify-between gap-stack-xs">
+            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
+              Classements des équipes
+            </h2>
+          </div>
+
+          <ChartContainer>
+            <div className="w-full">
+              <h3 className="m-0 mb-4 font-display text-body font-bold text-ink-900">
+                Score moyen par équipe (compétences clés)
+              </h3>
+              <BarChart
+                data={teamRankingsData}
+                dataKey="score"
+                size="md"
+                layout="horizontal"
+                showLegend={false}
+                onBarClick={handleBarClick}
+              />
+            </div>
+          </ChartContainer>
         </section>
 
         {/* ── Équipe ────────────────────────────────────────────── */}

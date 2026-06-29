@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, CheckCircle2, Clock3, ChevronRight } from 'lucide-react';
+import { Users, CheckCircle2, Clock3, ChevronRight, BarChart3 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { SectionHeader } from '../components/patterns/SectionHeader';
@@ -15,6 +15,9 @@ import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { Container } from '../components/layout';
+import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/ScatterChart';
+import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
+import { ChartContainer } from '../components/charts/ChartContainer';
 import { APPRENANTS, APPRENANT_AXES, getApprenantById, type ApprenantStatus } from '../data/apprenants';
 import { useCoachingStore } from '../stores/persistence';
 
@@ -28,6 +31,7 @@ const STATUS_CONFIG: Record<ApprenantStatus, { label: string; variant: 'success'
 
 const TABS = [
   { id: 'apprenants', label: 'Mes apprenants' },
+  { id: 'matrice', label: 'Matrice de performance' },
   { id: 'corrections', label: 'Corrections' },
   { id: 'sessions', label: 'Sessions' },
 ];
@@ -37,6 +41,39 @@ const parseDays = (s: string): number => {
   if (/hier/i.test(s)) return 1;
   const m = s.match(/(\d+)/);
   return m ? Number(m[1]) : 0;
+};
+
+/**
+ * Build scatter chart data from apprenants.
+ * x: skill level (Dreyfus avg)
+ * y: engagement score (based on streak + last activity recency)
+ * z: hours logged (mock: derived from streak)
+ */
+const buildScatterData = (): ScatterChartDataPoint[] => {
+  return APPRENANTS.map((a) => {
+    const skillLevel = a.dreyfusAvg * 20; // scale 0-5 to 0-100
+    // engagement: 0-100 based on streak (max 30 days = 100%) and last activity
+    const days = parseDays(a.lastActivity);
+    const lastActivityPenalty = Math.max(0, 100 - days * 3);
+    const streakBoost = Math.min(30, a.streak) / 30 * 50;
+    const engagementScore = Math.round((lastActivityPenalty * 0.6 + streakBoost) / 1.2);
+    // hours: mock value based on streak (1 hour per day assumption)
+    const hoursLogged = a.streak * 1.5;
+
+    const statusColorMap: Record<ApprenantStatus, string> = {
+      active: '#55A1B4', // primary-500
+      stuck: '#F28559', // danger-base
+      ahead: '#9DBEBA', // success-base
+    };
+
+    return {
+      label: a.name,
+      x: skillLevel,
+      y: engagementScore,
+      z: hoursLogged,
+      color: statusColorMap[a.status],
+    };
+  });
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -55,6 +92,9 @@ export default function CoachDashboard() {
   );
 
   const selected = selectedApprenantId ? getApprenantById(selectedApprenantId) : undefined;
+
+  // Build scatter chart data (memoized)
+  const scatterData = useMemo(() => buildScatterData(), []);
 
   const jacPct = (level: number) => Math.round((level / 5) * 100);
   const radarFor = (scores: number[]) =>
@@ -134,12 +174,22 @@ export default function CoachDashboard() {
 
             {/* Radar detail panel */}
             {selected && (
-              <div className="w-full lg:w-80 sticky top-4">
+              <div className="w-full lg:w-96 sticky top-4 flex flex-col gap-stack">
                 <SectionCard
                   title={`Radar : ${selected.name}`}
                   description="Niveau actuel Dreyfus par compétence"
                 >
-                  <CompetencyRadar axes={radarFor(selected.scores)} size="sm" showLegend />
+                  <ChartContainer size="sm">
+                    <RadarChart
+                      data={radarFor(selected.scores)}
+                      size="sm"
+                      showLegend={true}
+                      onAxisClick={(axis, index) => {
+                        // Axis click handler — could navigate to competency detail or show modal
+                        console.log(`Clicked axis: ${axis.label} (index ${index})`);
+                      }}
+                    />
+                  </ChartContainer>
                   <Button
                     variant="brand-ghost"
                     size="sm"
@@ -152,6 +202,55 @@ export default function CoachDashboard() {
                 </SectionCard>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Matrice tab */}
+        {activeTab === 'matrice' && (
+          <div className="flex flex-col gap-stack">
+            <SectionHeader
+              title="Matrice de performance"
+              subtitle="Positionnement des apprenants : compétence (x) vs engagement (y) vs heures (bulles)"
+              icon={<BarChart3 size={20} />}
+              tone="primary"
+            />
+            <ChartContainer>
+              <ScatterChart
+                data={scatterData}
+                xAxisLabel="Niveau de compétence (Dreyfus 0-100)"
+                yAxisLabel="Score d'engagement (0-100)"
+                xDomain={[0, 100]}
+                yDomain={[0, 100]}
+                size="lg"
+                showLegend={true}
+                bubbleScale={2}
+                onDotClick={(dataPoint, index) => {
+                  const apprenant = APPRENANTS[index];
+                  if (apprenant) {
+                    setSelectedApprenantId(apprenant.id);
+                  }
+                }}
+              />
+            </ChartContainer>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-stack-xs text-caption text-ink-600 mt-stack">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#55A1B4' }} />
+                <span>Apprenant actif</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#F28559' }} />
+                <span>En difficulté</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#9DBEBA' }} />
+                <span>En avance</span>
+              </div>
+            </div>
+            <div className="mt-stack-lg p-stack bg-primary-50 rounded-lg border border-primary-200">
+              <p className="text-caption text-ink-700">
+                <strong>Tooltip:</strong> Survolez une bulle pour voir le nom et les détails. Cliquez pour sélectionner l'apprenant et voir son radar de compétences.
+              </p>
+            </div>
           </div>
         )}
 

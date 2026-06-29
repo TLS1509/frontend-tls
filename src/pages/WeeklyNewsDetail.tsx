@@ -12,7 +12,6 @@ import React, { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useBookmarksStore } from '../stores/persistence';
 import {
-  ArrowLeft,
   Bookmark,
   Share2,
   CalendarDays,
@@ -26,11 +25,11 @@ import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { IntroCallout } from '../components/patterns/IntroCallout';
+import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
 } from '../components/patterns/ReadingProgress';
-import { Container } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -83,18 +82,11 @@ export const WeeklyNewsDetail: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
-      {/* Sticky glass header */}
-      <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
-          <Button
-            variant="ghost"
-            size="sm"
-            leadingIcon={<ArrowLeft size={14} />}
-            onClick={() => navigate(-1)}
-          >
-            Retour
-          </Button>
-          <div className="flex items-center gap-stack-xs">
+      <ReaderContextStrip
+        title={ACTU.title}
+        onBack={() => navigate(-1)}
+        trailing={
+          <>
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={saved ? 'primary' : 'ghost'}
@@ -108,9 +100,9 @@ export const WeeklyNewsDetail: React.FC = () => {
             <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
-          </div>
-        </Container>
-      </div>
+          </>
+        }
+      />
 
       <div ref={articleRef} className="max-w-page mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section">
         <EditorialLayout

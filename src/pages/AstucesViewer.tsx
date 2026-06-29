@@ -6,17 +6,23 @@
  *  - Dots ad-hoc  → <ProgressDots> (atom unifié)
  *  - Footer nav   → <LessonNavigation> (prev/dots/next molecule)
  *  - Tone inherited from <LessonProvider> if available, else fallback "sun"
- *    (which matches the warm/yellow visual identity of the "Astuce" content)
+ *
+ * Sprint 1 (2026-06-29) :
+ *  - Framer-motion slide transitions between cards (direction-aware)
+ *  - CompletionModal on last card → marks item in useLessonProgressStore
  *
  * Route : /lesson/:id/astuces
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { AstucesCard } from '../components/learning/AstucesCard';
+import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
+import { useLessonProgressStore } from '../stores/persistence';
 import type { PageTone } from '../lib/tone-classes';
 
 interface Astuce {
@@ -100,20 +106,27 @@ const TONE_GRADIENT_BG: Record<PageTone, string> = {
 
 export const AstucesViewer: React.FC = () => {
   const navigate = useNavigate();
+  const { id: itemId } = useParams<{ id: string }>();
   const lessonCtx = useLessonContext();
-  // Astuces are visually anchored to "sun" tone (warm yellow). If a parent
-  // lesson injects a different tone via LessonProvider, defer to it.
   const tone: PageTone = lessonCtx?.tone ?? 'sun';
+  const prefersReduced = useReducedMotion();
+
+  const progressStore = useLessonProgressStore();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const [showCompletion, setShowCompletion] = useState(false);
+
   const currentTip = ASTUCES[currentIndex];
   const total = ASTUCES.length;
 
   const handleNext = useCallback(() => {
+    setDirection(1);
     setCurrentIndex((i) => Math.min(total - 1, i + 1));
   }, [total]);
 
   const handlePrev = useCallback(() => {
+    setDirection(-1);
     setCurrentIndex((i) => Math.max(0, i - 1));
   }, []);
 
@@ -125,20 +138,41 @@ export const AstucesViewer: React.FC = () => {
     }
   }, [navigate, lessonCtx]);
 
+  const markCompleted = useCallback(() => {
+    const id = itemId ?? 'astuces-default';
+    progressStore.setSection(id, 0, 1);
+    progressStore.completeSection(id, 0);
+  }, [itemId, progressStore]);
+
   const handleFinish = useCallback(() => {
-    navigate(resolveAfterLessonRoute(lessonCtx));
-  }, [navigate, lessonCtx]);
+    markCompleted();
+    setShowCompletion(true);
+  }, [markCompleted]);
 
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (showCompletion) return;
       if (e.key === 'Escape') handleClose();
       if (e.key === 'ArrowRight') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [handleClose, handleNext, handlePrev]);
+  }, [handleClose, handleNext, handlePrev, showCompletion]);
+
+  // Slide variants — direction-aware, respects reduced-motion
+  const slideVariants = prefersReduced
+    ? {
+        enter: { opacity: 0 },
+        center: { opacity: 1 },
+        exit: { opacity: 0 },
+      }
+    : {
+        enter: (dir: number) => ({ x: dir * 80, opacity: 0 }),
+        center: { x: 0, opacity: 1 },
+        exit: (dir: number) => ({ x: dir * -80, opacity: 0 }),
+      };
 
   return (
     <div
@@ -170,16 +204,30 @@ export const AstucesViewer: React.FC = () => {
             </p>
           </header>
 
-          {/* ── Main card ──────────────────────────────────────────── */}
-          <AstucesCard
-            number={currentTip.number}
-            badge={currentTip.badge}
-            image={currentTip.image}
-            title={currentTip.title}
-            description={currentTip.description}
-            examples={currentTip.examples}
-            tone={tone}
-          />
+          {/* ── Main card with slide transition ───────────────────── */}
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <AstucesCard
+                  number={currentTip.number}
+                  badge={currentTip.badge}
+                  image={currentTip.image}
+                  title={currentTip.title}
+                  description={currentTip.description}
+                  examples={currentTip.examples}
+                  tone={tone}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
           {/* ── Footer navigation ────────────────────────────────────── */}
           <LessonNavigation
@@ -189,11 +237,24 @@ export const AstucesViewer: React.FC = () => {
             onPrev={handlePrev}
             onNext={handleNext}
             onFinish={handleFinish}
-            onDotSelect={(idx) => setCurrentIndex(idx)}
+            onDotSelect={(idx) => {
+              setDirection(idx > currentIndex ? 1 : -1);
+              setCurrentIndex(idx);
+            }}
             finishLabel="Terminer les astuces"
           />
         </div>
       </div>
+
+      <CompletionModal
+        isOpen={showCompletion}
+        itemTitle={lessonCtx?.lesson.title ?? 'Astuces Pratiques'}
+        xpEarned={50}
+        onClose={() => {
+          setShowCompletion(false);
+          navigate(resolveAfterLessonRoute(lessonCtx));
+        }}
+      />
     </div>
   );
 };
