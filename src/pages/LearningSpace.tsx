@@ -1,13 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  BookOpen, ChevronDown, Sparkles, RotateCcw, Grid3x3, List,
+  BookOpen, ChevronDown, RotateCcw, Grid3x3, Grid2x2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Search } from '../components/ui/Search';
-import { FilterBar } from '../components/forms/FilterBar';
 import { EmptyState } from '../components/ui/EmptyState';
-import { CardGrid } from '../components/patterns/CardGrid';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
 import { MOCK_LEARNING_SPACE_ITEMS } from '../data/items';
@@ -38,15 +36,18 @@ const SEED_COMPLETED_ITEMS = new Set(['item-astuces-1', 'item-ressource-1']);
 
 /* ─── Type groups ────────────────────────────────────────────────────────── */
 
-type TypeGroupId = 'all' | 'videos' | 'guides' | 'astuces' | 'missions' | 'masterclass';
+type TypeGroupId =
+  | 'all' | 'astuces' | 'flashcard' | 'guide' | 'ressource' | 'videos' | 'mission' | 'masterclass';
 
 const TYPE_GROUPS: { id: TypeGroupId; label: string; types: ItemType[] | null }[] = [
-  { id: 'all',         label: 'Tout',               types: null },
-  { id: 'videos',      label: 'Vidéos',             types: ['video_conc', 'video_geste'] },
-  { id: 'guides',      label: 'Guides & Ressources', types: ['guide', 'ressource', 'micro_learning'] },
-  { id: 'astuces',     label: 'Astuces & Flash',    types: ['astuces', 'flashcard'] },
-  { id: 'missions',    label: 'Missions',           types: ['mission'] },
-  { id: 'masterclass', label: 'Masterclass',        types: ['masterclass'] },
+  { id: 'all',         label: 'Tous les types', types: null },
+  { id: 'astuces',     label: 'Astuces',        types: ['astuces'] },
+  { id: 'flashcard',   label: 'Flashcards',     types: ['flashcard'] },
+  { id: 'guide',       label: 'Guides',         types: ['guide'] },
+  { id: 'ressource',   label: 'Ressources',     types: ['ressource', 'micro_learning'] },
+  { id: 'videos',      label: 'Vidéos',         types: ['video_conc', 'video_geste'] },
+  { id: 'mission',     label: 'Missions',       types: ['mission'] },
+  { id: 'masterclass', label: 'Masterclass',    types: ['masterclass'] },
 ];
 
 /* ─── Duration buckets ───────────────────────────────────────────────────── */
@@ -126,7 +127,23 @@ export const LearningSpace: React.FC = () => {
   const [theme, setTheme]         = useState('all');
   const [level, setLevel]         = useState('all');
   const [duration, setDuration]   = useState<DurationBucket>('all');
-  const [displayMode, setDisplayMode] = useState<'grid' | 'list'>('grid');
+  const [gridCols, setGridCols] = useState<2 | 4>(4);
+  const [showFilters, setShowFilters] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  /* ─── Close filters on click outside ──────────────────────────────── */
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setShowFilters(false);
+      }
+    };
+
+    if (showFilters) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showFilters]);
 
   /* ─── Computed ───────────────────────────────────────────────────────── */
 
@@ -173,304 +190,207 @@ export const LearningSpace: React.FC = () => {
     setDuration('all');
   };
 
-  const typeFilterOptions = TYPE_GROUPS.map((g) => ({ id: g.id, label: g.label }));
-
   /* ─── Render ─────────────────────────────────────────────────────────── */
 
   return (
-    <PageShell width="page" className="relative z-base gap-5 pt-2 pb-2" noPadTop>
+    <PageShell width="page" gap="stack-lg" noPadTop className="relative z-base pt-6 md:pt-8 lg:pt-10">
 
-      {/* ── Main content wrapper (single max-w-6xl) ────────────────────────── */}
-      <div className="px-4 sm:px-6 lg:px-10 flex-1">
-        <div className="max-w-6xl mx-auto flex flex-col gap-stack-lg">
+      {/* ── Page header ─────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-tight">
+        <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em] w-max">
+          <BookOpen size={11} aria-hidden />
+          Espace Apprentissage
+        </span>
+        <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
+          Explorez nos ressources
+        </h1>
+        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+          Ressources adaptées à ton niveau et tes parcours actuels
+        </p>
+      </div>
 
-          {/* ── Page header + search ────────────────────────────────────────── */}
-          <div className="flex flex-col gap-stack">
-
-            {/* Title row */}
-            <div className="flex items-start justify-between gap-stack">
-              <div className="flex flex-col gap-tight">
-                <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
-                  <BookOpen size={11} aria-hidden />
-                  Espace Apprentissage
-                </span>
-                <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
-                  Explorez nos ressources
-                </h1>
-              </div>
-              <span className="text-body-sm text-ink-400 font-medium pt-1 shrink-0 tabular-nums">
-                {filteredItems.length} ressource{filteredItems.length !== 1 ? 's' : ''}
-              </span>
-            </div>
-
-            {/* Search + filters */}
-            <Search
-              variant="default"
-              size="default"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Rechercher par titre, thématique, tag…"
-              aria-label="Rechercher un contenu"
-              trailing={
-                hasActiveFilters ? (
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    leadingIcon={<RotateCcw size={11} />}
-                    onClick={resetFilters}
+      {/* ── Search + filters ────────────────────────────────────────────── */}
+      <div ref={searchContainerRef}>
+        <Search
+          variant="default"
+          size="default"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setShowFilters(true);
+          }}
+          onFocus={() => setShowFilters(true)}
+          placeholder="Rechercher par titre, thématique, tag…"
+          aria-label="Rechercher un contenu"
+          trailing={
+            hasActiveFilters ? (
+              <Button
+                variant="secondary"
+                size="sm"
+                leadingIcon={<RotateCcw size={11} />}
+                onClick={resetFilters}
+              >
+                Réinitialiser
+              </Button>
+            ) : undefined
+          }
+          filtersSlot={
+            showFilters ? (
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Type de ressource */}
+                <div className="relative shrink-0">
+                  <select
+                    value={typeGroup}
+                    onChange={(e) => setTypeGroup(e.target.value as TypeGroupId)}
+                    aria-label="Filtrer par type de ressource"
+                    className={[SELECT_CLS, typeGroup !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
                   >
-                    Réinitialiser
-                  </Button>
-                ) : undefined
-              }
-              filtersSlot={
-                <div className="flex items-center gap-2 flex-wrap">
-                  {/* Type filter pills */}
-                  <FilterBar
-                    options={typeFilterOptions}
-                    selected={[typeGroup]}
-                    onChange={(ids) => setTypeGroup((ids[0] ?? 'all') as TypeGroupId)}
-                    multiSelect={false}
-                    variant="solid"
-                    tone="brand"
-                    size="sm"
-                    showClearAll={false}
-                  />
-
-                  <span className="w-px h-4 bg-ink-200 shrink-0 hidden sm:block" aria-hidden />
-
-                  {/* Theme select */}
-                  <div className="relative shrink-0">
-                    <select
-                      value={theme}
-                      onChange={(e) => setTheme(e.target.value)}
-                      aria-label="Filtrer par thématique"
-                      className={[SELECT_CLS, theme !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                    >
-                      {themeOptions.map((o) => (
-                        <option key={o.id} value={o.id}>{o.label}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                  </div>
-
-                  {/* Level select */}
-                  <div className="relative shrink-0">
-                    <select
-                      value={level}
-                      onChange={(e) => setLevel(e.target.value)}
-                      aria-label="Filtrer par niveau"
-                      className={[SELECT_CLS, level !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                    >
-                      {LEVEL_OPTIONS.map((o) => (
-                        <option key={o.id} value={o.id}>{o.label}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                  </div>
-
-                  {/* Duration select */}
-                  <div className="relative shrink-0">
-                    <select
-                      value={duration}
-                      onChange={(e) => setDuration(e.target.value as DurationBucket)}
-                      aria-label="Filtrer par durée"
-                      className={[SELECT_CLS, duration !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                    >
-                      {DURATION_OPTIONS.map((o) => (
-                        <option key={o.id} value={o.id}>{o.label}</option>
-                      ))}
-                    </select>
-                    <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                  </div>
+                    {TYPE_GROUPS.map((o) => (
+                      <option key={o.id} value={o.id}>{o.label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
                 </div>
-              }
-            />
-          </div>
 
-          {/* ── Display mode toggle + count ────────────────────────────────── */}
-          <div className="flex items-center justify-between gap-stack">
-            <span className="text-body-sm text-ink-500 font-medium">
-              {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setDisplayMode('grid')}
-                aria-label="Affichage grille"
-                className={[
-                  'inline-flex items-center justify-center p-2 rounded-lg transition-all duration-base',
-                  displayMode === 'grid'
-                    ? 'bg-primary-100 text-primary-600 shadow-xs'
-                    : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50',
-                ].join(' ')}
-              >
-                <Grid3x3 size={16} strokeWidth={2} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setDisplayMode('list')}
-                aria-label="Affichage liste"
-                className={[
-                  'inline-flex items-center justify-center p-2 rounded-lg transition-all duration-base',
-                  displayMode === 'list'
-                    ? 'bg-primary-100 text-primary-600 shadow-xs'
-                    : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50',
-                ].join(' ')}
-              >
-                <List size={16} strokeWidth={2} />
-              </button>
-            </div>
-          </div>
+                {/* Thématique */}
+                <div className="relative shrink-0">
+                  <select
+                    value={theme}
+                    onChange={(e) => setTheme(e.target.value)}
+                    aria-label="Filtrer par thématique"
+                    className={[SELECT_CLS, theme !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                  >
+                    {themeOptions.map((o) => (
+                      <option key={o.id} value={o.id}>{o.label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+                </div>
 
-          {/* ── Smart Recommendations section ────────────────────────────── */}
-          <div>
-            <div className="flex items-center justify-between gap-stack mb-tight">
-              <h2 className="m-0 font-display text-h4 font-bold text-ink-900">
-                Pour toi maintenant
-              </h2>
-              <a href="#" className="text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors">
-                Voir plus →
-              </a>
-            </div>
-            <p className="m-0 font-body text-body-sm text-ink-500 mb-stack">
-              Ressources adaptées à ton niveau et tes parcours actuels
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack">
-              {filteredItems.slice(0, 4).map((item) => {
-                const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                  userSubscriptionTier: userTier,
-                  completedItemIds,
-                  learnerCompetencyLevels,
-                });
-                const isAccessible = accessCheck.allowed;
-                const denialMessage = getAccessDenialMessage(accessCheck);
-                return (
-                  <LearningItemCard
-                    key={item.id}
-                    id={item.id}
-                    type={item.type}
-                    title={item.title}
-                    description={item.description}
-                    duration={item.duration}
-                    dreyfusLevel={item.dreyfusLevel}
-                    theme={item.theme}
-                    isAccessible={isAccessible}
-                    isCompleted={completedItemIds.has(item.id)}
-                    denialReason={
-                      accessCheck.reason === 'tier'
-                        ? 'tier'
-                        : accessCheck.reason === 'prerequisite'
-                        ? 'prerequisite'
-                        : undefined
-                    }
-                    denialMessage={denialMessage}
-                    onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
-                  />
-                );
-              })}
-            </div>
-          </div>
+                {/* Niveau */}
+                <div className="relative shrink-0">
+                  <select
+                    value={level}
+                    onChange={(e) => setLevel(e.target.value)}
+                    aria-label="Filtrer par niveau"
+                    className={[SELECT_CLS, level !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                  >
+                    {LEVEL_OPTIONS.map((o) => (
+                      <option key={o.id} value={o.id}>{o.label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+                </div>
 
-          {/* ── Divider before discovery section ─────────────────────────── */}
-          <div className="border-t border-ink-100 pt-section" />
-
-          {/* ── "Découvrir" section ─────────────────────────────────────── */}
-          <div>
-            <h2 className="m-0 font-display text-h4 font-bold text-ink-900 mb-tight">
-              Découvrir
-            </h2>
-            <p className="m-0 font-body text-body-sm text-ink-500 mb-stack">
-              Parcourez toutes nos ressources d'apprentissage
-            </p>
-            {filteredItems.length === 0 ? (
-              <EmptyState
-                tone="primary"
-                icon={<Sparkles size={32} />}
-                title="Aucun contenu trouvé"
-                description="Essayez d'élargir vos filtres ou de modifier votre recherche."
-                actions={
-                  <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
-                    Réinitialiser les filtres
-                  </Button>
-                }
-              />
-            ) : displayMode === 'list' ? (
-              <div className="flex flex-col gap-stack" aria-label="Contenus d'apprentissage — Affichage liste">
-                {filteredItems.map((item) => {
-                  const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                    userSubscriptionTier: userTier,
-                    completedItemIds,
-                    learnerCompetencyLevels,
-                  });
-                  const isAccessible = accessCheck.allowed;
-                  const denialMessage = getAccessDenialMessage(accessCheck);
-
-                  return (
-                    <LearningItemCard
-                      key={item.id}
-                      id={item.id}
-                      type={item.type}
-                      title={item.title}
-                      description={item.description}
-                      duration={item.duration}
-                      dreyfusLevel={item.dreyfusLevel}
-                      theme={item.theme}
-                      isAccessible={isAccessible}
-                      isCompleted={completedItemIds.has(item.id)}
-                      denialReason={
-                        accessCheck.reason === 'tier'
-                          ? 'tier'
-                          : accessCheck.reason === 'prerequisite'
-                          ? 'prerequisite'
-                          : undefined
-                      }
-                      denialMessage={denialMessage}
-                      onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
-                    />
-                  );
-                })}
+                {/* Durée */}
+                <div className="relative shrink-0">
+                  <select
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value as DurationBucket)}
+                    aria-label="Filtrer par durée"
+                    className={[SELECT_CLS, duration !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
+                  >
+                    {DURATION_OPTIONS.map((o) => (
+                      <option key={o.id} value={o.id}>{o.label}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
+                </div>
               </div>
-            ) : (
-              <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage — Affichage grille">
-                {filteredItems.map((item) => {
-                  const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                    userSubscriptionTier: userTier,
-                    completedItemIds,
-                    learnerCompetencyLevels,
-                  });
-                  const isAccessible = accessCheck.allowed;
-                  const denialMessage = getAccessDenialMessage(accessCheck);
+            ) : undefined
+          }
+        />
+      </div>
 
-                  return (
-                    <LearningItemCard
-                      key={item.id}
-                      id={item.id}
-                      type={item.type}
-                      title={item.title}
-                      description={item.description}
-                      duration={item.duration}
-                      dreyfusLevel={item.dreyfusLevel}
-                      theme={item.theme}
-                      isAccessible={isAccessible}
-                      isCompleted={completedItemIds.has(item.id)}
-                      denialReason={
-                        accessCheck.reason === 'tier'
-                          ? 'tier'
-                          : accessCheck.reason === 'prerequisite'
-                          ? 'prerequisite'
-                          : undefined
-                      }
-                      denialMessage={denialMessage}
-                      onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
-                    />
-                  );
-                })}
-              </CardGrid>
-            )}
+      {/* ── Resources grid ──────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-stack">
+        {/* Count + layout toggle (2 col / 4 col) */}
+        <div className="flex items-center justify-between gap-stack">
+          <span className="text-caption text-ink-500 font-medium">
+            {filteredItems.length} ressource{filteredItems.length > 1 ? 's' : ''}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setGridCols(2)}
+              aria-label="Affichage 2 colonnes"
+              aria-pressed={gridCols === 2}
+              className={[
+                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                gridCols === 2
+                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+              ].join(' ')}
+            >
+              <Grid2x2 size={14} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setGridCols(4)}
+              aria-label="Affichage 4 colonnes"
+              aria-pressed={gridCols === 4}
+              className={[
+                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                gridCols === 4
+                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+              ].join(' ')}
+            >
+              <Grid3x3 size={14} strokeWidth={2} />
+            </button>
           </div>
-
         </div>
+
+        {/* Items grid or empty state */}
+        {filteredItems.length === 0 ? (
+          <EmptyState
+            icon={<BookOpen size={32} strokeWidth={1.75} />}
+            title="Aucune ressource trouvée"
+            description="Essaie d'ajuster tes filtres ou ta recherche."
+            actions={
+              hasActiveFilters ? (
+                <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={14} />} onClick={resetFilters}>
+                  Réinitialiser les filtres
+                </Button>
+              ) : undefined
+            }
+          />
+        ) : (
+          <div className={gridCols === 4 ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-stack' : 'grid grid-cols-1 sm:grid-cols-2 gap-stack-lg'}>
+            {filteredItems.map((item) => {
+              const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                userSubscriptionTier: userTier,
+                completedItemIds,
+                learnerCompetencyLevels,
+              });
+              const isAccessible = accessCheck.allowed;
+              const denialMessage = getAccessDenialMessage(accessCheck);
+              return (
+                <LearningItemCard
+                  key={item.id}
+                  id={item.id}
+                  type={item.type}
+                  title={item.title}
+                  description={item.description}
+                  duration={item.duration}
+                  dreyfusLevel={item.dreyfusLevel}
+                  theme={item.theme}
+                  isAccessible={isAccessible}
+                  isCompleted={completedItemIds.has(item.id)}
+                  denialReason={
+                    accessCheck.reason === 'tier'
+                      ? 'tier'
+                      : accessCheck.reason === 'prerequisite'
+                      ? 'prerequisite'
+                      : undefined
+                  }
+                  denialMessage={denialMessage}
+                  onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </PageShell>
   );

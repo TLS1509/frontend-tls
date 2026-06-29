@@ -138,7 +138,7 @@ export const ComplementaryContentViewer: React.FC = () => {
         onClose={handleClose}
       />
 
-      <div className="py-stack-lg px-stack sm:px-stack-lg lg:px-section">
+      <div className="py-stack-lg px-4 sm:px-6 lg:px-10">
         <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
 
           {/* ── Title block ─────────────────────────────────────── */}

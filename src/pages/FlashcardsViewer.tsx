@@ -220,7 +220,7 @@ export const FlashcardsViewer: React.FC = () => {
 
       {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
       {lessonCtx && (
-        <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-tight flex items-center gap-1.5 text-caption text-ink-400 font-medium border-b border-ink-100/50">
+        <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-1 flex items-center gap-1 text-micro text-ink-400 font-medium border-b border-ink-100/50">
           <button
             type="button"
             onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
@@ -242,9 +242,9 @@ export const FlashcardsViewer: React.FC = () => {
         </div>
       )}
 
-      {/* ── Content container (grows, scrollable) ──────────────────────── */}
-      <div className="flex-1 flex flex-col min-h-0 px-stack sm:px-stack-lg lg:px-section py-stack gap-stack-lg overflow-y-auto">
-        <div className="max-w-3xl mx-auto flex flex-col gap-stack-lg w-full">
+      {/* ── Content container (grows, no scroll) ──────────────────────── */}
+      <div className="flex-1 flex flex-col min-h-0 px-4 sm:px-6 lg:px-10 py-2 gap-2 overflow-hidden">
+        <div className="max-w-3xl mx-auto flex flex-col gap-2 w-full">
 
           {/* ── Progress bar ──────────────────────────────────────────── */}
           <ViewerProgressTrail
@@ -320,7 +320,7 @@ export const FlashcardsViewer: React.FC = () => {
       </div>
 
       {/* ── Footer navigation (sticky at bottom) ────────────────────────── */}
-      <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-stack border-t border-ink-100/50 backdrop-blur-glass-light">
+      <div className="shrink-0 px-4 sm:px-6 lg:px-10 py-stack border-t border-ink-100/50 backdrop-blur-glass-light">
         <div className="max-w-3xl mx-auto">
           <LessonNavigation
             tone={tone}
