@@ -6,7 +6,6 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
-import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { Container } from '../components/layout';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -39,7 +38,6 @@ const ItemRecommendations: React.FC = () => {
             <div className="text-h4 font-semibold">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
             <div className="text-caption text-ink-500 mt-1">Mises à jour au fil de tes sessions de coaching</div>
           </div>
-          <AITransparencyLabel variant="recommended" />
         </div>
 
         {recommendations.length === 0 ? (
