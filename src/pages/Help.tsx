@@ -146,7 +146,7 @@ export const Help: React.FC = () => {
 
         {/* FAQ */}
         <section>
-          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
+          <h2 className="m-0 mb-stack font-display text-h3 font-bold text-ink-900 tracking-headline">
             Questions fréquentes
           </h2>
           <div className="flex flex-col gap-stack-xs">

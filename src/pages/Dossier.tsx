@@ -110,14 +110,13 @@ export const Dossier: React.FC = () => {
             </Button>
             <Button
               variant={saved ? 'primary' : 'ghost'}
-              size="sm"
               iconOnly
               aria-label={saved ? 'Retirer le marque-page' : 'Ajouter aux marque-pages'}
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+            <Button variant="ghost" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
           </>

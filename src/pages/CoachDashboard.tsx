@@ -140,6 +140,7 @@ export default function CoachDashboard() {
                 subtitle={`${APPRENANTS.length} apprenants assignés`}
                 icon={<Users size={20} />}
                 tone="primary"
+                size="md"
               />
               {APPRENANTS.map((a) => {
                 const status = STATUS_CONFIG[a.status];
@@ -213,6 +214,7 @@ export default function CoachDashboard() {
               subtitle="Positionnement des apprenants : compétence (x) vs engagement (y) vs heures (bulles)"
               icon={<BarChart3 size={20} />}
               tone="primary"
+              size="md"
             />
             <ChartContainer>
               <ScatterChart
@@ -262,6 +264,7 @@ export default function CoachDashboard() {
               subtitle={`${pendingCorrections.length} travail${pendingCorrections.length > 1 ? 'aux' : ''} en attente de review`}
               icon={<CheckCircle2 size={20} />}
               tone="primary"
+              size="md"
               action={
                 <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
                   Tout voir

@@ -241,7 +241,7 @@ export const Coaching: React.FC = () => {
                   <CalendarPlus size={28} strokeWidth={1.75} />
                 </span>
                 <div className="flex flex-col gap-tight max-w-[520px]">
-                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-display">
+                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
                     Démarrez votre accompagnement
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 leading-relaxed mt-stack-xs">
@@ -274,6 +274,30 @@ export const Coaching: React.FC = () => {
                     </h2>
                   </div>
                   <Badge variant="success">Confirmée</Badge>
+                </div>
+
+                {/* Coach row : avatar + name + role + Message button: intégré ici
+                    (au lieu d'une section strip dédiée) car c'est dans le contexte de la
+                    session que contacter son coach a du sens. */}
+                <div className="flex flex-wrap items-center gap-stack-xs p-3 rounded-xl bg-white/60 backdrop-blur-glass-light border border-white/60">
+                  <Avatar initials="SM" size="sm" tint="brand" />
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span className="font-display text-body-sm font-bold text-ink-900 leading-tight truncate">
+                      {coach.name}
+                    </span>
+                    <span className="font-body text-caption text-ink-600 leading-tight truncate">
+                      {coach.role}
+                    </span>
+                  </div>
+                  <Button
+                    variant="glass-warm"
+                    size="md"
+                    leadingIcon={<MessageCircle size={14} />}
+                    onClick={() => navigate('/messages')}
+                    aria-label={`Envoyer un message à ${coach.name}`}
+                  >
+                    Message
+                  </Button>
                 </div>
 
                 <MetaPillGroup
@@ -344,7 +368,7 @@ export const Coaching: React.FC = () => {
                   <p className="m-0 font-body text-caption font-medium text-primary-700">
                     Aucune session programmée
                   </p>
-                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-display">
+                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
                     Prêt(e) pour une nouvelle session ?
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 leading-relaxed mt-stack-xs">

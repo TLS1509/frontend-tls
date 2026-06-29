@@ -64,7 +64,7 @@ const ApiDocs: React.FC = () => {
                   <code className="font-mono text-body-sm flex-1">{e.path}</code>
                   <span className="text-caption text-ink-500 hidden md:block flex-1">{e.desc}</span>
                   <Badge variant="neutral">{e.auth}</Badge>
-                  <Button variant="ghost" size="sm" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label="Copier" />
+                  <Button variant="ghost" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label="Copier" />
                 </Card>
               ))}
             </div>

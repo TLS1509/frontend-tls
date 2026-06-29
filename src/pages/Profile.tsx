@@ -193,7 +193,7 @@ export const Profile: React.FC = () => {
 
           {/* Identity */}
           <div className="flex-1 min-w-0 flex flex-col gap-tight">
-            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
               {displayName}
             </h1>
             <p className="m-0 font-body text-body-sm text-ink-600">
@@ -213,7 +213,7 @@ export const Profile: React.FC = () => {
             <Button variant="secondary" size="sm" leadingIcon={<Edit3 size={13} />} onClick={() => navigate('/account')}>
               Modifier
             </Button>
-            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+            <Button variant="ghost" iconOnly aria-label="Partager">
               <Share2 size={14} />
             </Button>
           </div>
@@ -237,7 +237,7 @@ export const Profile: React.FC = () => {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack-xs p-stack-lg rounded-2xl bg-ink-50 border border-ink-100">
                 {heroStats.map((s) => (
                   <div key={s.label} className="flex flex-col gap-tight">
-                    <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-tight tabular-nums">
+                    <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-headline tabular-nums">
                       {s.value}
                     </span>
                     <span className="font-body text-caption text-ink-700">{s.label}</span>
@@ -248,7 +248,7 @@ export const Profile: React.FC = () => {
               {/* Bio + interests */}
               <section className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-stack-lg">
                 <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
-                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                     À propos
                   </h2>
                   <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
@@ -267,7 +267,7 @@ export const Profile: React.FC = () => {
                 </div>
 
                 <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack">
-                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                     Cette semaine
                   </h2>
                   <div className="flex flex-col gap-stack">
@@ -293,7 +293,7 @@ export const Profile: React.FC = () => {
               {/* Top compétences (preview) */}
               <section className="flex flex-col gap-stack">
                 <div className="flex items-baseline justify-between gap-stack-xs">
-                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                  <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                     Top compétences
                   </h2>
                   <Button variant="ghost" size="sm" trailingIcon={<ArrowRight size={12} />} onClick={() => setActiveTab('skills')}>
@@ -312,7 +312,7 @@ export const Profile: React.FC = () => {
           {activeTab === 'activity' && (
             <section className="flex flex-col gap-stack">
               <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                   Activité récente
                 </h2>
                 <span className="font-body text-caption text-ink-700">
@@ -356,7 +356,7 @@ export const Profile: React.FC = () => {
           {activeTab === 'badges' && (
             <section className="flex flex-col gap-stack">
               <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                   Badges
                 </h2>
                 <span className="font-body text-caption text-ink-700">
@@ -408,7 +408,7 @@ export const Profile: React.FC = () => {
           {activeTab === 'skills' && (
             <section className="flex flex-col gap-stack">
               <div className="flex items-baseline justify-between gap-stack-xs">
-                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
+                <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">
                   Matrice de compétences
                 </h2>
                 <Badge variant="brand">5 compétences</Badge>

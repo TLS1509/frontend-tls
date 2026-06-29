@@ -85,7 +85,7 @@ export const WeeklyNewsletter: React.FC = () => {
             <Button variant="primary" size="sm" leadingIcon={<Mail size={13} />} className="hidden sm:inline-flex">
               S'abonner
             </Button>
-            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+            <Button variant="ghost" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
           </div>

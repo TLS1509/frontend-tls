@@ -87,7 +87,7 @@ const SettingRow: React.FC<{
 const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
     <div className="px-stack-lg py-stack border-b border-ink-100">
-      <h3 className="m-0 font-display text-body font-bold text-ink-900 tracking-tight">
+      <h3 className="m-0 font-display text-body font-bold text-ink-900 tracking-snug">
         {title}
       </h3>
     </div>
@@ -287,7 +287,7 @@ const BillingTab: React.FC = () => (
           <div>
             <div className="flex items-center gap-stack-xs mb-stack-xs">
               <Sparkles size={16} className="text-primary-500" />
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900">Plan Pro</h3>
+              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">Plan Pro</h3>
               <Badge variant="brand">Actif</Badge>
             </div>
             <p className="m-0 font-body text-body-sm text-ink-500">
@@ -357,7 +357,7 @@ export const Account: React.FC = () => {
       {/* ── Page header ──────────────────────────────────────── */}
       <header className="flex items-start justify-between gap-stack">
         <div className="flex flex-col gap-tight">
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
             Mon compte
           </h1>
           <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">

@@ -95,14 +95,13 @@ export const MagazineArticle: React.FC = () => {
             <ReadingProgressRing targetRef={articleRef} tone="brand" size={36} />
             <Button
               variant={bookmarked ? 'primary' : 'ghost'}
-              size="sm"
               iconOnly
               aria-label="Bookmark"
               onClick={() => toggleBookmark(bookmarkKey)}
             >
               <Bookmark size={15} fill={bookmarked ? 'currentColor' : 'none'} />
             </Button>
-            <Button variant="ghost" size="sm" iconOnly aria-label="Partager">
+            <Button variant="ghost" iconOnly aria-label="Partager">
               <Share2 size={15} />
             </Button>
           </>
@@ -121,7 +120,7 @@ export const MagazineArticle: React.FC = () => {
             <BookOpen size={11} /> {ARTICLE.category} · {ARTICLE.pages}
           </span>
 
-          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-tight text-primary-700">
+          <h1 className="m-0 font-display text-h1 sm:text-[3rem] font-extrabold leading-[1.05] tracking-display text-primary-700">
             {ARTICLE.title}
           </h1>
 

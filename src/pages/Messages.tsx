@@ -243,7 +243,7 @@ export const Messages: React.FC = () => {
                 </span>
               )}
             </div>
-            <Button variant="primary" size="sm" iconOnly aria-label="Nouveau message">
+            <Button variant="primary" iconOnly aria-label="Nouveau message">
               <MessageSquarePlus size={16} />
             </Button>
           </div>
@@ -351,7 +351,7 @@ export const Messages: React.FC = () => {
 
           {/* Thread header */}
           <div className="px-5 py-stack border-b border-ink-200 bg-white flex items-center gap-stack-xs">
-            <Button variant="secondary" size="sm" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
+            <Button variant="secondary" iconOnly aria-label="Retour" className="shrink-0" onClick={() => setSelectedId(null)}>
               <ArrowLeft size={15} />
             </Button>
 
@@ -435,7 +435,7 @@ export const Messages: React.FC = () => {
           {/* Compose bar */}
           <div className="px-5 py-stack border-t border-ink-200 bg-white">
             <div className="flex items-end gap-stack-xs">
-              <Button variant="secondary" size="sm" iconOnly aria-label="Pièce jointe" className="shrink-0">
+              <Button variant="secondary" iconOnly aria-label="Pièce jointe" className="shrink-0">
                 <Paperclip size={15} />
               </Button>
 
@@ -450,7 +450,6 @@ export const Messages: React.FC = () => {
 
               <Button
                 variant="primary"
-                size="sm"
                 iconOnly
                 aria-label="Envoyer"
                 className="shrink-0"
