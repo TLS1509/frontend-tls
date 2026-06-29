@@ -43,6 +43,7 @@ import type {
   JournalEntry,
   CoachingSession,
   Correction,
+  CoachRecommendation,
   CompanyMember,
   CompanyCohort,
   ManagerAlert,
@@ -80,7 +81,7 @@ import {
   MOCK_COMPETENCY_PROGRESSIONS,
 } from '../data/passeport';
 import { MOCK_JOURNAL_ENTRIES } from '../data/journal';
-import { MOCK_COACHING_SESSIONS, MOCK_CORRECTIONS } from '../data/coaching';
+import { MOCK_COACHING_SESSIONS, MOCK_CORRECTIONS, MOCK_COACH_RECOMMENDATIONS } from '../data/coaching';
 import {
   MOCK_XP_EVENTS,
   MOCK_USER_BADGES,
@@ -792,6 +793,7 @@ export const useJournalStore = create<JournalState>()(
 interface CoachingState {
   sessions: Record<string, CoachingSession[]>;
   corrections: Record<string, Correction[]>;
+  recommendations: Record<string, CoachRecommendation[]>;
   getSessions: (userId: string) => CoachingSession[];
   addSession: (session: CoachingSession) => void;
   updateSession: (userId: string, id: string, updates: Partial<CoachingSession>) => void;
@@ -800,6 +802,10 @@ interface CoachingState {
   getAllCorrections: () => Correction[];
   addCorrection: (correction: Correction) => void;
   updateCorrection: (userId: string, id: string, updates: Partial<Correction>) => void;
+  /** Items recommandés par le coach (seed-on-first-access, persisté). */
+  getRecommendations: (userId: string) => CoachRecommendation[];
+  /** Masquer une recommandation (persiste dismissed=true). */
+  dismissRecommendation: (userId: string, id: string) => void;
   clear: () => void;
 }
 
@@ -808,6 +814,7 @@ export const useCoachingStore = create<CoachingState>()(
     (set, get) => ({
       sessions: {},
       corrections: {},
+      recommendations: {},
 
       getSessions: (userId) => {
         const existing = get().sessions[userId];
@@ -870,7 +877,25 @@ export const useCoachingStore = create<CoachingState>()(
           },
         })),
 
-      clear: () => set({ sessions: {}, corrections: {} }),
+      getRecommendations: (userId) => {
+        const existing = get().recommendations[userId];
+        if (existing) return existing;
+        const seeded = MOCK_COACH_RECOMMENDATIONS.filter((r) => r.learnerId === userId);
+        set((state) => ({ recommendations: { ...state.recommendations, [userId]: seeded } }));
+        return seeded;
+      },
+
+      dismissRecommendation: (userId, id) =>
+        set((state) => ({
+          recommendations: {
+            ...state.recommendations,
+            [userId]: (state.recommendations[userId] ?? []).map((r) =>
+              r.id === id ? { ...r, dismissed: true } : r
+            ),
+          },
+        })),
+
+      clear: () => set({ sessions: {}, corrections: {}, recommendations: {} }),
     }),
     {
       name: 'tls-coaching',

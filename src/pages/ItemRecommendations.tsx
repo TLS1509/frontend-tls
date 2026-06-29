@@ -1,5 +1,5 @@
 import React from 'react';
-import { Lightbulb, BookOpen, Video, ArrowRight } from 'lucide-react';
+import { Lightbulb, BookOpen, Video, ArrowRight, EyeOff } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
@@ -8,62 +8,22 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { Container } from '../components/layout';
+import { useCoachingStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
+import type { CoachRecommendationType } from '../types/learning';
 
-interface Recommendation {
-  id: string;
-  type: 'article' | 'video' | 'lesson';
-  title: string;
-  reason: string;
-  coachName: string;
-  coachInitials: string;
-  duration: string;
-  competence: string;
-  date: string;
-}
-
-const RECOMMENDATIONS: Recommendation[] = [
-  {
-    id: '1',
-    type: 'article',
-    title: 'Les 7 habitudes des leaders authentiques',
-    reason: 'Tu m\'as dit que tu voulais travailler ton leadership. Ce papier de Bill George est une référence pour structurer ta réflexion sur ton style personnel.',
-    coachName: 'Marie Dubois',
-    coachInitials: 'MD',
-    duration: '15 min',
-    competence: 'Leadership',
-    date: 'il y a 2 jours',
-  },
-  {
-    id: '2',
-    type: 'video',
-    title: 'Storytelling pour managers : Stanford GSB',
-    reason: 'Suite à notre dernière session sur ta présentation Q2, ce talk va beaucoup t\'aider à structurer tes pitchs.',
-    coachName: 'Marie Dubois',
-    coachInitials: 'MD',
-    duration: '22 min',
-    competence: 'Communication',
-    date: 'il y a 4 jours',
-  },
-  {
-    id: '3',
-    type: 'lesson',
-    title: 'Module : Décisions sous incertitude',
-    reason: 'Tu m\'as parlé du dilemme stratégique sur le projet TLS 2027. Ce module va te donner un cadre de réflexion concret.',
-    coachName: 'Marie Dubois',
-    coachInitials: 'MD',
-    duration: '45 min',
-    competence: 'Stratégie',
-    date: 'il y a 1 semaine',
-  },
-];
-
-const TYPE_ICON = {
+const TYPE_ICON: Record<CoachRecommendationType, typeof BookOpen> = {
   article: BookOpen,
   video: Video,
   lesson: Lightbulb,
 };
 
 const ItemRecommendations: React.FC = () => {
+  const coachingStore = useCoachingStore();
+  const recommendations = coachingStore
+    .getRecommendations(MOCK_USER_ID)
+    .filter((r) => !r.dismissed);
+
   return (
     <div className="min-h-[100dvh] bg-surface">
       <EditorialHero
@@ -76,15 +36,23 @@ const ItemRecommendations: React.FC = () => {
       <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
         <div className="flex items-center justify-between gap-stack">
           <div>
-            <div className="text-h4 font-semibold">{RECOMMENDATIONS.length} recommandations actives</div>
+            <div className="text-h4 font-semibold">{recommendations.length} recommandation{recommendations.length > 1 ? 's' : ''} active{recommendations.length > 1 ? 's' : ''}</div>
             <div className="text-caption text-ink-500 mt-1">Mises à jour au fil de tes sessions de coaching</div>
           </div>
           <AITransparencyLabel variant="recommended" />
         </div>
 
+        {recommendations.length === 0 ? (
+          <SectionCard title="À consulter en priorité" description="Triés par pertinence pour tes objectifs en cours">
+            <p className="text-body-sm text-ink-500">
+              Aucune recommandation active. Tu as masqué toutes les suggestions de ton coach — elles
+              reviendront au fil de tes prochaines sessions.
+            </p>
+          </SectionCard>
+        ) : (
         <SectionCard title="À consulter en priorité" description="Triés par pertinence pour tes objectifs en cours">
           <div className="flex flex-col gap-stack">
-            {RECOMMENDATIONS.map((r) => {
+            {recommendations.map((r) => {
               const Icon = TYPE_ICON[r.type];
               return (
                 <Card key={r.id} className="p-stack-lg">
@@ -108,9 +76,19 @@ const ItemRecommendations: React.FC = () => {
                         </div>
                       </div>
 
-                      <Button variant="primary" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
-                        Découvrir
-                      </Button>
+                      <div className="flex items-center gap-stack-xs">
+                        <Button variant="primary" size="sm" trailingIcon={<ArrowRight className="w-4 h-4" />}>
+                          Découvrir
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          leadingIcon={<EyeOff className="w-4 h-4" />}
+                          onClick={() => coachingStore.dismissRecommendation(MOCK_USER_ID, r.id)}
+                        >
+                          Masquer
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -118,6 +96,7 @@ const ItemRecommendations: React.FC = () => {
             })}
           </div>
         </SectionCard>
+        )}
       </Container>
     </div>
   );

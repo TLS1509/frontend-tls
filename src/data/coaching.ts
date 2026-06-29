@@ -3,7 +3,7 @@
  * Sessions coaching 1-1 + corrections itératives.
  */
 
-import type { CoachingSession, Correction } from '../types/learning';
+import type { CoachingSession, Correction, CoachRecommendation } from '../types/learning';
 import { MOCK_USER_ID } from './passeport';
 
 export const MOCK_COACH_ID = 'coach-sophie';
@@ -145,5 +145,48 @@ export const MOCK_CORRECTIONS: Correction[] = [
     iterationCount: 0,
     submittedAt: '2026-05-19T11:30:00Z',
     updatedAt: '2026-05-19T11:30:00Z',
+  },
+];
+
+/** Items recommandés par le coach à l'apprenant (affichés sur /coaching/recommendations). */
+export const MOCK_COACH_RECOMMENDATIONS: CoachRecommendation[] = [
+  {
+    id: 'reco-1',
+    learnerId: MOCK_USER_ID,
+    type: 'article',
+    title: 'Les 7 habitudes des leaders authentiques',
+    reason:
+      "Tu m'as dit que tu voulais travailler ton leadership. Ce papier de Bill George est une référence pour structurer ta réflexion sur ton style personnel.",
+    coachName: 'Marie Dubois',
+    coachInitials: 'MD',
+    duration: '15 min',
+    competence: 'Leadership',
+    date: 'il y a 2 jours',
+  },
+  {
+    id: 'reco-2',
+    learnerId: MOCK_USER_ID,
+    type: 'video',
+    title: 'Storytelling pour managers : Stanford GSB',
+    reason:
+      "Suite à notre dernière session sur ta présentation Q2, ce talk va beaucoup t'aider à structurer tes pitchs.",
+    coachName: 'Marie Dubois',
+    coachInitials: 'MD',
+    duration: '22 min',
+    competence: 'Communication',
+    date: 'il y a 4 jours',
+  },
+  {
+    id: 'reco-3',
+    learnerId: MOCK_USER_ID,
+    type: 'lesson',
+    title: 'Module : Décisions sous incertitude',
+    reason:
+      "Tu m'as parlé du dilemme stratégique sur le projet TLS 2027. Ce module va te donner un cadre de réflexion concret.",
+    coachName: 'Marie Dubois',
+    coachInitials: 'MD',
+    duration: '45 min',
+    competence: 'Stratégie',
+    date: 'il y a 1 semaine',
   },
 ];

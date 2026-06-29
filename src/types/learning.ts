@@ -388,6 +388,29 @@ export interface Correction {
   updatedAt: string;
 }
 
+/** Type d'item recommandé par un coach (Cahier #04). */
+export type CoachRecommendationType = 'article' | 'video' | 'lesson';
+
+/**
+ * Recommandation d'un coach à un apprenant (Cahier #04 — Coaching).
+ * Contenu coach-authored (humain), affiché sur /coaching/recommendations.
+ */
+export interface CoachRecommendation {
+  id: string;
+  learnerId: string;
+  type: CoachRecommendationType;
+  title: string;
+  /** Message personnel du coach justifiant la recommandation. */
+  reason: string;
+  coachName: string;
+  coachInitials: string;
+  duration: string;
+  competence: string;
+  date: string;
+  /** Masquée par l'apprenant (persisté). */
+  dismissed?: boolean;
+}
+
 // ─── GDPR / AI Act (Cahier #13bis) ───────────────────────────────────────────
 
 /**
