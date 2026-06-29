@@ -36,8 +36,14 @@ export interface BarChartProps {
   layout?: 'vertical' | 'horizontal';
   /** Callback on bar click */
   onBarClick?: (data: BarChartDataPoint, index: number) => void;
+  /** Show export button */
+  showExport?: boolean;
+  /** Export filename prefix */
+  exportFilename?: string;
   /** Additional CSS */
   className?: string;
+  /** Chart element ID for exports */
+  chartId?: string;
 }
 
 const COLORS = {
@@ -69,7 +75,10 @@ export const BarChart: React.FC<BarChartProps> = ({
   showLegend = true,
   layout = 'horizontal',
   onBarClick,
+  showExport = false,
+  exportFilename = 'bar-chart',
   className = '',
+  chartId = 'bar-chart',
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
@@ -78,12 +87,21 @@ export const BarChart: React.FC<BarChartProps> = ({
   const isVertical = layout === 'horizontal'; // default recharts naming
 
   return (
-    <motion.div
-      className={`w-full ${className}`}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
-      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-    >
+    <div className={`w-full space-y-4 ${className}`}>
+      {showExport && (
+        <div className="flex justify-end">
+          <div id={`${chartId}-export`}>
+            {/* Export button will be added via ChartExportButton wrapper */}
+          </div>
+        </div>
+      )}
+      <motion.div
+        className="w-full"
+        id={chartId}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+        animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsBarChart
           data={data}
@@ -133,6 +151,7 @@ export const BarChart: React.FC<BarChartProps> = ({
           )}
         </RechartsBarChart>
       </ResponsiveContainer>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
