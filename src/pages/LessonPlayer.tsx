@@ -907,7 +907,8 @@ export const LessonPlayer: React.FC = () => {
       <div className="flex flex-col gap-stack-xs mt-section">
         {lessonData.intro.objectives.map((obj, i) => (
           <div key={i} className="flex items-center gap-stack-xs p-stack bg-ink-50 rounded-lg">
-            <CheckCircle2 size={18} className="text-success-base shrink-0" />
+            {/* Target (goal), not a check — these are objectives to reach, not items already done. */}
+            <Target size={18} className="text-primary-400 shrink-0" />
             <span className="font-body text-body">{obj}</span>
           </div>
         ))}
