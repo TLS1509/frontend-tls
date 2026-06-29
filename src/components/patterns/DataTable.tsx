@@ -40,6 +40,7 @@ const ALIGN: Record<NonNullable<DataTableColumn['align']>, string> = {
 const PAG_BTN =
   'px-3 py-2 rounded-md border border-ink-200 bg-white text-ink-900 text-body-sm font-medium ' +
   'hover:bg-ink-50 hover:border-ink-300 transition-all cursor-pointer ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none';
 
 export const DataTable: React.FC<DataTableProps> = ({
