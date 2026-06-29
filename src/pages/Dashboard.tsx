@@ -13,6 +13,7 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Button } from '../components/core/Button';
 import { useAuth } from '../hooks/useAuth';
 import { useUserProfileStore } from '../stores/persistence';
 import { MOCK_COACH } from '../data/coaching';
@@ -244,6 +245,8 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
         parcoursTitle="Devenir prompt designer"
         nextLessonTitle="Structurer un prompt efficace"
         progress={40}
+        currentStep={2}
+        totalSteps={5}
         tone="warm"
         duration="3h restantes"
         level="intermédiaire"

@@ -17,7 +17,7 @@ import { Card } from '../core/Card';
 import { Button } from '../core/Button';
 import { Badge } from '../ui/Badge';
 import type { ItemType, DreyfusLevel } from '../../types/learning';
-import { ITEM_TYPE_LABELS } from '../../data/items';
+import { ITEM_TYPE_LABELS, MODE_LABELS } from '../../data/items';
 
 /* ─── Type → tone + icon ──────────────────────────────────────────────────── */
 
@@ -121,8 +121,9 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
       {/* ── 1. Header: badge + meta pills + icon bubble ── */}
       <div className="flex items-start justify-between gap-2">
-        {/* Left cluster: type badge + duration (prominent) + level */}
+        {/* Left cluster: mode badge + type badge + duration (prominent) + level */}
         <div className="flex flex-wrap items-center gap-1.5 min-w-0">
+          <span className={META_PILL}>{MODE_LABELS[type]}</span>
           <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
           <span className={DURATION_PILL}>
             <Clock size={10} aria-hidden />

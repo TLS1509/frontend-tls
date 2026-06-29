@@ -52,6 +52,8 @@ export interface VeilleFeedItem {
   readTime: string;
   /** Si true, affiché en hero spotlight horizontal en haut du feed. */
   featured?: boolean;
+  /** Si true, affiche un badge "Nouveau" (item publié il y a < 7 jours). */
+  isNew?: boolean;
 }
 
 export interface VeilleCardFeedProps {
@@ -269,9 +271,16 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
 
       {/* Body content — titre → meta → summary */}
       <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 sm:p-5 justify-center">
-        <h3 className="m-0 font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
-          {item.title}
-        </h3>
+        <div className="flex items-start gap-2 min-w-0">
+          {item.isNew && (
+            <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide leading-none mt-px">
+              Nouveau
+            </span>
+          )}
+          <h3 className="m-0 font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
+            {item.title}
+          </h3>
+        </div>
         <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
           <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>

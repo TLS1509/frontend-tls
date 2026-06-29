@@ -237,8 +237,6 @@ export const Veille: React.FC = () => {
           )}
         </div>
 
-      </div>
-
       {/* Divider */}
       <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10">
         <div className="h-px bg-ink-100 mt-4" />

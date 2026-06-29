@@ -254,3 +254,16 @@ export const ITEM_TYPE_LABELS: Record<ItemType, string> = {
   mission: 'Missions',
   masterclass: 'Masterclass',
 };
+
+/** Mode d'interaction compact par type (Flash · Lecture · Vidéo · Cours · Projet). */
+export const MODE_LABELS: Record<ItemType, string> = {
+  astuces:        'Flash',
+  flashcard:      'Flash',
+  ressource:      'Lecture',
+  guide:          'Lecture',
+  video_conc:     'Vidéo',
+  video_geste:    'Vidéo',
+  micro_learning: 'Cours',
+  mission:        'Projet',
+  masterclass:    'Cours',
+};
