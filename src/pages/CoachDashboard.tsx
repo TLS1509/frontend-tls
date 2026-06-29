@@ -14,7 +14,7 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 import { ScatterChart, type ScatterChartDataPoint } from '../components/charts/ScatterChart';
 import { RadarChart, type RadarDataPoint } from '../components/charts/RadarChart';
 import { ChartContainer } from '../components/charts/ChartContainer';
@@ -101,7 +101,7 @@ export default function CoachDashboard() {
     APPRENANT_AXES.map((label, idx) => ({ label, current: scores[idx] ?? 0 }));
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" className="relative z-base gap-section" noPadTop>
       <EditorialHero
         eyebrow="Espace Coach"
         title="Tableau de bord Coach"
@@ -109,7 +109,7 @@ export default function CoachDashboard() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -315,7 +315,7 @@ export default function CoachDashboard() {
           />
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

@@ -8,7 +8,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { SessionCard } from '../components/learning/SessionCard';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 
@@ -47,7 +47,7 @@ export default function CoachingSessionDetail() {
   const previousSessions = sessions.filter((s) => s.id !== session.id && s.status === 'completed');
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" className="relative z-base gap-section" noPadTop>
       <EditorialHero
         eyebrow={`Coaching · Session #${session.id}`}
         title={`Session coaching : ${session.theme ?? 'Développement managérial'}`}
@@ -67,7 +67,7 @@ export default function CoachingSessionDetail() {
         }
       />
 
-      <Container width="page" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Info cards row */}
         <div className="grid md:grid-cols-3 gap-stack">
@@ -178,7 +178,7 @@ export default function CoachingSessionDetail() {
           </Button>
         </div>
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }
