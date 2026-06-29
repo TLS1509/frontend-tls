@@ -116,6 +116,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       size="md"
       className={[
         `relative border ${BG_GRADIENT[tone]} p-4`,
+        tone === 'sun' ? 'shadow-sun-sm' : tone === 'warm' ? 'shadow-warm-sm' : 'shadow-brand-sm',
         !isAccessible ? 'opacity-60 cursor-not-allowed' : '',
       ].filter(Boolean).join(' ')}
       onClick={onClick ? () => onClick(id) : undefined}
@@ -134,8 +135,8 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </span>
       </div>
 
-      {/* ── Main content (flex column, gap-tight) ── */}
-      <div className="flex flex-col gap-tight pr-12">
+      {/* ── Main content (flex column, gap-stack) ── */}
+      <div className="flex flex-col gap-stack pr-12">
         {/* 1. Type badge + duration ── */}
         <div className="flex items-center gap-1 flex-wrap text-micro">
           <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>

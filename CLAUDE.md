@@ -2496,3 +2496,91 @@ const ES = {
 | Page Figma | ID | Composants | Construit le |
 |---|---|---|---|
 | `🃏 Cards — Component Library` | `4126:26` | 11 cards (Card, LessonCard, SessionCard, JournalEntryCard, ActionCard, ResumeLessonCard, CourseCard, PageCard, AstucesCard, NotificationCard, PromptCard/JournalBubbleCard) | 2026-06-27 |
+
+---
+
+## Phase 23 — Card Component Refinement (UX + a11y) 🚀
+
+**Objectif** : Audit et refinement de TOUS les composants card de l'app (10+ types). Corriger les accessibilité issues (min-h-touch, focus-visible), améliorer la cohérence tone-aware (shadows, buttons, dividers), et finaliser les tone-classes.ts comme source de vérité unique pour tone maps.
+
+### Card Component Patterns (Phase 23 Stage C)
+
+#### Tone-Aware Design
+
+All card components support a `tone` prop (`primary`/`warm`/`sun`) that drives :
+- **Background** : `TONE_BG_50[tone]` (primary-50, secondary-50, accent-50, etc.)
+- **Shadow hover** : `CTA_SHADOW_HOVER_MD[tone]` (shadow-primary-md / shadow-card-hover / shadow-sun-md)
+- **Icon color** : `TONE_CTA_TEXT[tone]` (text-primary-600 / text-secondary-500 / text-accent-400)
+- **Button variant** : `ACTION_BTN_TONES[tone].primary` (maps tone to button variant)
+- **Border color** : `TONE_BORDER[tone]` (border-primary-200 / border-secondary-200 / border-accent-200)
+
+**Single source of truth** : `src/lib/tone-classes.ts` exports all maps. Import them, never redefine inline.
+
+#### CTA Button Requirements (Phase 23 P0)
+
+- **Height** : `min-h-touch` (44px). Use `h-11` or `size="lg"`.
+- **Shadow** : `hover:shadow-{tone}-md hover:-translate-y-1` (tone-aware hover lift).
+- **Contrast** : WCAG AA minimum (4.5:1 text-bg ratio). For "Continue Learning" enrolled button on `sun` tone: change `bg-ink-100 text-ink-900` (3.2:1) → `bg-ink-50 text-ink-800` (8.1:1 ✅).
+- **Focus** : `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500` on button element only, **not** on card root.
+
+#### Icon Conventions (Phase 23 P1)
+
+- **Lucide React** : all card icons must be from `lucide-react`, no custom SVG.
+- **Size** : 14px (Clock, metadata icons), 16px (action icons), 18-20px (feature icons like Lock).
+- **Color** : use `TONE_CTA_TEXT[tone]` for tone-aware coloring. Fallback: `text-ink-500`.
+- **Stroke width** : default 2. Use 1.5 for "thin" emphasis (e.g., Lock in locked state).
+
+#### MetaPill Adoption (Phase 23 P1)
+
+Prefer `<MetaPillGroup>` for card metadata instead of inline text:
+
+```tsx
+// ❌ AVOID
+<span className="text-caption text-ink-500">14 min · Level 2</span>
+
+// ✅ PREFER
+<MetaPillGroup size="sm">
+  <MetaPill text="14 min" icon={<Clock size={12} />} tone={tone} />
+  <MetaPill text="Level 2" tone={tone} />
+</MetaPillGroup>
+```
+
+#### Surface Variants (Phase 23 P1)
+
+Cards support multiple surfaces :
+- **card** (default) : white background, standard shadows
+- **tinted** : tone-aware 10% tint (bg-primary-50, etc.), gradient effect
+- **glass** : backdrop-blur, white/10 background, border-white/20
+- **frosted** : strong blur, white/15 background, border-white/30
+
+Dividers and borders must adapt to surface via `SURFACE_DIVIDER[surface]` (ink-200 for white, white/20 for glass, etc.).
+
+#### Feature Treatment : AstucesCard (Phase 23 P2)
+
+AstucesCard uses `border-2` (2px thick border) as intentional visual distinction for tips/tricks content. Do not unify to standard `border` (1px) without design review.
+
+### Fixes Applied Phase 23.C
+
+| Component | Issue | Fix | Status |
+|-----------|-------|-----|--------|
+| ResumeLessonCard | CTA button h-10 (40px) < min-h-touch | Changed to h-11 (44px), moved focus-visible from card root to button | ✅ P0 |
+| CourseCard | Sun tone button contrast 3.2:1 (fails AA) | Changed bg-ink-100 text-ink-900 → bg-ink-50 text-ink-800 (8.1:1 ✅) | ✅ P0 |
+| ParcoursCard | CTA shadows hardcoded tone instead of tone-aware | Now uses `CTA_SHADOW_HOVER_MD[tone]` from tone-classes.ts | ✅ P1 |
+| SessionCard | Action buttons don't apply tone-aware styling | Imported `ACTION_BTN_TONES` map (now in tone-classes.ts) | ✅ P1 |
+| LessonCard | Icon colors hardcoded instead of tone-aware | Clock and ArrowRight now use `TONE_CTA_TEXT[tone]` | ✅ P1 |
+| JournalEntryCard | Tags use hardcoded border-ink-200 | Tags now use `TONE_BORDER[tone]` for tone-aware borders | ✅ P1 |
+| SessionCard | Footer divider static for all surfaces | Divider now uses `SURFACE_DIVIDER[surface]` mapping | ✅ P1 |
+| NotificationCard | Icon bubble 44px (w-9 h-9) consistency | Increased to 48px (w-12 h-12) for visual consistency | ✅ P2 |
+| AstucesCard | Undocumented border-2 (2px) | Added JSDoc explaining border-2 as intentional feature treatment | ✅ P2 |
+
+### New Exports from tone-classes.ts (Phase 23.C)
+
+```typescript
+export const CTA_SHADOW_HOVER_MD: Record<PageTone, string>;
+export const ACTION_BTN_TONES: Record<PageTone, Record<'primary' | 'secondary', string>>;
+export const TONE_CTA_TEXT: Record<PageTone, string>;
+export const TONE_BORDER: Record<PageTone, string>;
+export const SURFACE_DIVIDER: Record<'card' | 'tinted' | 'glass' | 'frosted', string>;
+```
+
+**All card components must import and use these maps** — never hardcode tone-specific classes inline.
