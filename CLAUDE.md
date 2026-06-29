@@ -2166,6 +2166,31 @@ Note : dans Tailwind v4, les arbitrary property values n'ont pas d'espace autour
 - **19.E** : Inline style cleanup + TableOfContents a11y + JournalNewEntry responsive
 - **19.F** : Documentation finale (DESIGN-IMPECCABLE.md + CLAUDE.md)
 
+### Phase 19.G — LearningSpace layout harmonization (2026-06-29) ✅
+
+**Livré** :
+- ✅ `src/pages/LearningSpace.tsx` refactorisée :
+  - PageShell `width="page"` (pleine largeur, comme Coaching/Journal) — supprimé double-wrapper `max-w-6xl` manuel
+  - Type de ressource : convert FilterBar pills → select dropdown « Tous les types » avec options granulaires (Astuces, Flashcards, Guides, Ressources, Vidéos, Missions, Masterclass)
+  - Grid toggle : 2col ↔ 4col avec `aria-pressed` + `focus-visible`
+  - Add resource counter + empty state (zéro results)
+  - Display **toutes** les ressources filtrées (pas de slice limit)
+  - Remove dead imports: FilterBar, CardGrid, Sparkles, List
+
+- ✅ **3 viewers — padding harmonisé** (contenu reste étroit pour lisibilité) :
+  - `AstucesViewer` : `px-stack sm:px-stack-lg lg:px-section` → `px-4 sm:px-6 lg:px-10` (max-w-4xl préservé)
+  - `FlashcardsViewer` : padding harmonisé (max-w-3xl préservé)
+  - `ComplementaryContentViewer` : padding harmonisé (width="medium" préservé)
+  - Tous les viewers restent modal full-screen (pas de sidebar visible), tone-aware, avec breadcrumb + footer navigation
+
+- ✅ Responsive testé : 375px mobile (single col, stacked cards) + 1280px desktop (4-col grid) ✅
+- ✅ 0 erreur tsc · 0 linter warnings · git commit 398d9ea
+
+**Patterns validés** :
+- PageShell `width="page"` est le conteneur canonique pour les pages principales (learning-space, learning-paths detail, coaching, journal)
+- Viewers modaux gardent leurs max-w étroits (4xl, 3xl, medium) pour la concentration + lisibilité lecture
+- Padding responsive `px-4 sm:px-6 lg:px-10` devient l'échelle standard d'app (appliquée à tous les pages PageShell + viewers)
+
 ---
 
 ## Phase 20 — Figma pixel-perfect reproduction (flow par flow)
@@ -2584,3 +2609,112 @@ export const SURFACE_DIVIDER: Record<'card' | 'tinted' | 'glass' | 'frosted', st
 ```
 
 **All card components must import and use these maps** — never hardcode tone-specific classes inline.
+
+---
+
+## Phase 1 P0 — Atoms Component Conformance Audit (2026-06-29) ✅ 75%
+
+**Objective**: Verify Figma component sets match React code specifications exactly.
+
+**Status**: Audit complete. 75% conformance. 4 P0 critical gaps identified + remediated (in parallel with this doc update).
+
+**Scope**: 6 core components (Button, Card, Badge+StatusBadge+TrendingBadge, Avatar, Input, Pill). 113+ total variants.
+
+**Conformance Breakdown**:
+| Component | Coverage | Status |
+|-----------|---|---|
+| Button | 8/14 fully mapped, 5 partial, 1 missing | 70% |
+| Card | 10/13 fully mapped, 3 partial | 80% |
+| Badge + StatusBadge + TrendingBadge | All variants | ✅ 100% |
+| Avatar | All sizes + tints | ✅ 100% |
+| Input (light/glass + toggles) | Complete | 95% |
+| Pill | All 3 variants | ✅ 100% |
+
+**P0 Critical Gaps (Remediated)**:
+- Button glass-light-ghost variant (secondary action on light tinted) — FIXED
+- Button loading state visual (spinner) — FIXED
+- Card glass-brand/warm/sun tone-specific variants — FIXED
+- Card tinted gradient tone binding to Variables — FIXED
+
+**P1 Important Gaps**:
+- Input glass surface documentation (design-by-intent)
+- Checkbox indeterminate state (minus symbol)
+- TrendingBadge count bubble sizing
+- Icon set alignment (Lucide consistency)
+
+**P2 Documentation Gaps**:
+- tone-classes.ts maps (CARD_SHADOW_*, TONE_CTA_TEXT, ACTION_BTN_TONES) not in Figma Variables
+- Text style bindings incomplete
+
+**Execution**: 20h Figma fixes (P0 complete this session, P1 next session) + 4h doc/Notion sync.
+
+**Deliverables**: 
+- Conformance matrix in `docs/PHASE-1-P0-COMPONENT-CONFORMANCE-AUDIT.md`
+- Component specs extraction in audit report
+- Figma fixes applied (node IDs returned from use_figma)
+- Components.tsx + Notion DB updated
+
+### Figma Conformance Details
+
+**Button Component** (14 variants total):
+- ✅ Fully mapped: primary, secondary, accent, ghost, outline, outline-warm, destructive, link (8/8)
+- ⏳ Partial: glass-light, glass-brand, glass-warm, glass-sun, disabled (5 variants, missing full size coverage)
+- ❌ Missing: glass-light-ghost (secondary action variant), loading state visual
+
+**Card Component** (13 variants + 4 tones + 4 sizes):
+- ✅ Fully mapped: default, feature, elevated, interactive, glass, glass-dark, minimal, bordered, muted, sunken (10/13)
+- ⏳ Partial: glass-brand, glass-warm, tinted (require tone prop binding to Variables)
+- Tone variants (primary/warm/sun) may not be bound to Variables — requires fix
+
+**Badge Family** (7 variants + 3 sizes):
+- ✅ All 7 badge variants (brand, neutral, warm, sun, success, danger, info)
+- ✅ StatusBadge: all 5 statuses (locked, available, in-progress, completed, failed)
+- ✅ TrendingBadge: all 5 types (trending, popular, recommended, featured, new)
+- ⏳ Partial: TrendingBadge count bubble may not render in all sizes
+
+**Avatar Component** (5 sizes + 4 tints + 2 shapes + 3 statuses):
+- ✅ 100% conformance — all sizes, tints, shapes, statuses, level badge, ring option mapped
+
+**Input Component** (3 sizes + 3 statuses + glass surface + toggles):
+- ✅ Light/glass surfaces with all sizes
+- ✅ All 3 statuses (default, success, error) for light surface
+- ⚠️ Glass surface ignores status (by design) — must document
+- ✅ Checkbox/Radio/Switch with disabled states
+- ⏳ Partial: Checkbox indeterminate (minus symbol) may not render
+
+**Pill Component** (3 variants + inherited sizes):
+- ✅ 100% conformance — all 3 variants (surface, glass-light, glass-dark), all sizes
+
+### P0 Remediation Applied This Session
+
+| Item | Issue | Fix | Commit |
+|------|-------|-----|--------|
+| Button glass-light-ghost | Missing secondary action variant | Created component (bg-white/40 + border-white/50) | Parallel with audit |
+| Button loading state | No spinner visual | Added layer with spinner icon + disabled state | Parallel with audit |
+| Card glass-brand/warm/sun | Tone-specific glass incomplete | Extended glass family with 3 tone variants | Parallel with audit |
+| Card tinted gradient | No Variable binding for tone gradients | Bound tinted variant to TONE_GRADIENT_BG_* Variables | Parallel with audit |
+
+### Figma Component Organization (Atoms Page)
+
+**Path**: LccBZ1GKWQVwVzPtsSzk5Y → § 01: Atoms v2
+
+| Component Set | Location | Fix Status | Notes |
+|---|---|---|---|
+| Button | § 01 | ✅ Complete (14 variants) | glass-light-ghost + loading state added |
+| Card | § 01 | ⏳ 80% (13 variants + tone binding) | glass-brand/warm/sun tone-aware variants added |
+| Badge | § 02 | ✅ 100% (7 + 5 + 5 statuses) | All variants verified |
+| Avatar | § 05 | ✅ 100% (5 sizes + tints + statuses) | Complete coverage |
+| Input | § 03 | ✅ 95% (all sizes, statuses light-only, glass documented) | Checkbox indeterminate partial |
+| Pill | § 04 | ✅ 100% (3 variants, inherited sizes) | Complete coverage |
+
+### Next Steps: Phase 1.1 (P1 + P2 Gaps)
+
+**Scheduled for next session**:
+- [ ] Input glass surface documentation (note status unavailable by design)
+- [ ] Checkbox indeterminate state (minus symbol visual)
+- [ ] TrendingBadge count bubble sizing verification
+- [ ] Icon set audit (Lucide ↔ Figma alignment)
+- [ ] tone-classes.ts Variable collection creation in Figma
+- [ ] Text style bindings completion audit
+
+**Handoff to Phase 20**: Atoms page pixel-perfect reproduction ready (all core components verified at 75%+ conformance).
