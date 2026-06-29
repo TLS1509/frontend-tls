@@ -17,6 +17,7 @@ import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { Badge } from '../components/ui/Badge';
 import { InlineProgress } from '../components/patterns/InlineProgress';
 import { CardGrid } from '../components';
+import { PageShell } from '../components/layout';
 import { PageHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Tabs } from '../components/ui/Tabs';
@@ -243,8 +244,7 @@ export const LearningPathDetail: React.FC = () => {
 
   return (
     <>
-      <div className="relative min-h-[100dvh] bg-gradient-to-b from-primary-50/30 via-white to-primary-50/20">
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-stack-lg sm:py-section lg:py-12 flex flex-col gap-section">
+      <PageShell width="page" noPadTop className="relative z-[2] gap-section pt-6 md:pt-8 lg:pt-10">
 
           {/* Hero — PageHero tone-aware (Phase 19.B-2026-05-26 : migré depuis HeroSection) */}
           <PageHero
@@ -271,7 +271,7 @@ export const LearningPathDetail: React.FC = () => {
           />
 
           {/* Objectifs */}
-          <section aria-label="Objectifs d'apprentissage" className="flex flex-col gap-stack">
+          <section className="flex flex-col gap-stack">
             <SectionHeader
               variant="default"
               size="md"
@@ -283,7 +283,7 @@ export const LearningPathDetail: React.FC = () => {
               {OBJECTIFS.map(({ Icon, label, desc, classes, iconColor }) => (
                 <div
                   key={label}
-                  className={`p-5 rounded-xl border flex flex-col gap-stack-xs transition-all hover:-translate-y-0.5 hover:shadow-md ${classes}`}
+                  className={`p-stack rounded-xl border flex flex-col gap-stack-xs transition-all hover:-translate-y-0.5 hover:shadow-md ${classes}`}
                 >
                   <div className="w-10 h-10 rounded-md bg-white/50 flex items-center justify-center shrink-0">
                     <Icon size={20} className={iconColor} />
@@ -427,7 +427,7 @@ export const LearningPathDetail: React.FC = () => {
 
                         <h3
                           className={[
-                            'font-display text-h3 font-bold m-0 mb-3 leading-tight',
+                            'font-display text-h3 font-bold m-0 mb-stack-xs leading-tight',
                             etape.unlocked ? 'text-ink-900' : 'text-ink-500',
                           ].join(' ')}
                         >
@@ -486,12 +486,13 @@ export const LearningPathDetail: React.FC = () => {
                               : 'bg-ink-100 text-ink-500';
 
                             return (
-                              <div
+                              <button
                                 key={lecon.id}
+                                type="button"
                                 onClick={() =>
                                   navigate(`/learning-paths/${parcours.id}/lessons/${lecon.id}`)
                                 }
-                                className={`flex items-center gap-stack-xs px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white ${rowBg}`}
+                                className={`flex items-center gap-stack-xs px-4 py-3 rounded-xl border cursor-pointer transition-colors hover:bg-white text-left bg-transparent border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${rowBg}`}
                               >
                                 <div
                                   className={`w-9 h-9 rounded-lg shrink-0 flex items-center justify-center ${iconBg}`}
@@ -517,7 +518,7 @@ export const LearningPathDetail: React.FC = () => {
                                     <Badge variant="brand">En cours</Badge>
                                   </div>
                                 )}
-                              </div>
+                              </button>
                             );
                           })}
                         </div>
@@ -562,7 +563,7 @@ export const LearningPathDetail: React.FC = () => {
             <div className="flex flex-col gap-section">
               {/* Project hero */}
               <div
-                className={`text-center text-white p-10 rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
+                className={`text-center text-white p-stack-lg rounded-2xl ${TONE_HERO_GRADIENT[tone]}`}
               >
                 <div className="w-20 h-20 rounded-xl bg-white/15 backdrop-blur-sm mx-auto mb-stack-lg flex items-center justify-center">
                   <Award size={36} />
@@ -722,8 +723,7 @@ export const LearningPathDetail: React.FC = () => {
               />
             </section>
           )}
-        </div>
-      </div>
+      </PageShell>
 
       <PositionnementModal
         isOpen={showPositionnement}
