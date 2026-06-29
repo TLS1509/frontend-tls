@@ -211,6 +211,8 @@ import { MarketingHome } from './pages/marketing/MarketingHome';
 // [variant] import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
 // [variant] import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
 import { MarketingHomeFullPage } from './pages/marketing/MarketingHomeFullPage';
+import { MarketingHomeLight } from './pages/marketing/MarketingHomeLight';
+import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] home variants + devtools — files kept, routes removed from prod
 // import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
 // import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
@@ -525,7 +527,10 @@ function App() {
           <Route index element={<MarketingHomeFullPage />} />
           {/* [variant] <Route path="hero-b" element={<MarketingHomeC />} /> */}
           {/* [variant] <Route path="hero-c" element={<MarketingHomeD />} /> */}
+          {/* [variant] home-light — new light-themed variant for A/B testing */}
+          <Route path="_home-light" element={<MarketingHomeLight />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
+          <Route path="diagnostic" element={<MarketingDiagnostic />} />
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           {/* [variant] <Route path="accompagnement-a2" element={<MarketingAccompagnementA2 />} /> */}
