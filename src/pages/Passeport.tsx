@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Target, TrendingUp, Award, ChevronRight, Plus } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
@@ -35,6 +36,7 @@ const TABS = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Passeport() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAxis, setSelectedAxis] = useState<string | null>(null);
   const store = usePasseportStore();
@@ -80,9 +82,9 @@ export default function Passeport() {
         eyebrow="SBO · Match"
         title="Mon Passeport Compétences"
         summary="Visualise ta progression Dreyfus, définis tes objectifs et suis l'évolution de tes compétences H.S.O."
-        tone="flat"
+        tone="default"
         trailing={
-          <Button variant="glass" size="md" leadingIcon={<Plus size={16} />}>
+          <Button variant="glass" size="md" leadingIcon={<Plus size={16} />} onClick={() => setActiveTab('objectifs')}>
             Définir un objectif
           </Button>
         }
@@ -168,7 +170,9 @@ export default function Passeport() {
                         showValue
                       />
                     </div>
-                    <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" showLabel={false} />
+                    <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'}>
+                      <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" showLabel={false} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -195,7 +199,9 @@ export default function Passeport() {
                         {domainLabel(c.domain)}
                       </Badge>
                     </div>
-                    <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
+                    <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'}>
+                      <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
+                    </div>
                   </div>
                   <div className="flex items-center gap-stack-xs flex-wrap">
                     <span className="text-h4 font-display font-bold text-ink-900">D{c.level}</span>
@@ -213,7 +219,12 @@ export default function Passeport() {
                     label={`${c.points} / ${c.nextPoints} pts`}
                     showLabel
                   />
-                  <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    trailingIcon={<ChevronRight size={14} />}
+                    onClick={() => navigate(`/passeport/competence/${c.id}`)}
+                  >
                     Voir le détail
                   </Button>
                 </Card>
