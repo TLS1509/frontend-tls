@@ -14,11 +14,11 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Brain, Check, FolderOpen, RefreshCw, Sparkles, Target, Zap } from 'lucide-react';
+import { Check, ChevronRight, Home } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { FlipCard } from '../components/patterns/FlipCard';
-import { Container } from '../components/layout';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
 import { useLessonProgressStore } from '../stores/persistence';
@@ -200,11 +200,12 @@ export const FlashcardsViewer: React.FC = () => {
 
   return (
     <div
-      className={['fixed inset-0 z-modal overflow-y-auto', TONE_GRADIENT_BG[tone]].join(' ')}
+      className={['fixed inset-0 z-modal flex flex-col', TONE_GRADIENT_BG[tone]].join(' ')}
       role="dialog"
       aria-modal="true"
       aria-label="Flashcards d'apprentissage"
     >
+      {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
       <ViewerHeader
         tone={tone}
         eyebrow="Flashcards"
@@ -214,28 +215,47 @@ export const FlashcardsViewer: React.FC = () => {
         total={total}
         progress={progressPct}
         onClose={handleClose}
+        className="shrink-0"
       />
 
-      <div className="py-stack-lg px-stack sm:px-stack-lg lg:px-section">
-        <Container width="medium" padding={false} className="flex flex-col gap-stack-lg">
+      {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
+      {lessonCtx && (
+        <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-tight flex items-center gap-1.5 text-caption text-ink-400 font-medium border-b border-ink-100/50">
+          <button
+            type="button"
+            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
+            className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+          >
+            <Home size={12} aria-hidden />
+            {lessonCtx.parcours?.title || 'Parcours'}
+          </button>
+          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <button
+            type="button"
+            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
+            className="hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+          >
+            {lessonCtx.lesson.title}
+          </button>
+          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <span className="text-ink-500">Flashcard {currentCardIndex + 1}/{total}</span>
+        </div>
+      )}
 
-          {/* ── Title block ─────────────────────────────────────── */}
-          <header className="flex items-center gap-stack">
-            <div
-              className={[
-                'w-10 h-10 rounded-xl inline-flex items-center justify-center shadow-sm',
-                TONE_HERO_GRADIENT[tone],
-              ].join(' ')}
-            >
-              <Sparkles size={20} className="text-white" />
-            </div>
-            <h1 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
-              Flashcards d'apprentissage
-            </h1>
-          </header>
+      {/* ── Content container (grows, scrollable) ──────────────────────── */}
+      <div className="flex-1 flex flex-col min-h-0 px-stack sm:px-stack-lg lg:px-section py-stack gap-stack-lg overflow-y-auto">
+        <div className="max-w-3xl mx-auto flex flex-col gap-stack-lg w-full">
 
-          {/* ── Thumbnails ──────────────────────────────────────── */}
-          <div className="flex gap-stack-xs justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
+          {/* ── Progress bar ──────────────────────────────────────────── */}
+          <ViewerProgressTrail
+            current={currentCardIndex}
+            total={total}
+            tone={tone}
+            style="bar"
+          />
+
+          {/* ── Thumbnails grid (shrinkable) ──────────────────────────── */}
+          <div className="flex gap-1.5 justify-center flex-wrap" role="tablist" aria-label="Sélection de flashcard">
             {FLASHCARDS.map((card, index) => {
               const active = index === currentCardIndex;
               const done = completedCards.includes(index);
@@ -248,11 +268,11 @@ export const FlashcardsViewer: React.FC = () => {
                   aria-label={`Aller à la flashcard ${index + 1}`}
                   onClick={() => goToCard(index)}
                   className={[
-                    'relative shrink-0 w-16 h-16 rounded-xl overflow-hidden transition-all duration-base',
+                    'relative shrink-0 w-12 h-12 rounded-lg overflow-hidden transition-all duration-base',
                     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     active
-                      ? `border-[3px] ${TONE_BORDER_500[tone]} scale-105 opacity-100`
-                      : 'border-2 border-ink-200 opacity-50 hover:opacity-80',
+                      ? `border-[2px] ${TONE_BORDER_500[tone]} scale-110 opacity-100`
+                      : 'border border-ink-200 opacity-40 hover:opacity-70',
                   ].join(' ')}
                 >
                   <img
@@ -263,7 +283,7 @@ export const FlashcardsViewer: React.FC = () => {
                   />
                   {done && (
                     <div className="absolute inset-0 flex items-center justify-center bg-success-base/90">
-                      <Check size={24} className="text-white" />
+                      <Check size={14} className="text-white" />
                     </div>
                   )}
                 </button>
@@ -271,30 +291,37 @@ export const FlashcardsViewer: React.FC = () => {
             })}
           </div>
 
-          {/* ── Main flashcard (3D flip) ────────────────────────── */}
-          <FlipCard
-            front={currentCard.front}
-            back={currentCard.back}
-            isFlipped={isFlipped}
-            onFlip={handleFlip}
-            tone={tone}
-          />
+          {/* ── Main flashcard (3D flip, centered, height-constrained) ── */}
+          <div className="flex-1 flex items-center justify-center min-h-[300px] max-h-[400px]">
+            <FlipCard
+              front={currentCard.front}
+              back={currentCard.back}
+              isFlipped={isFlipped}
+              onFlip={handleFlip}
+              tone={tone}
+            />
+          </div>
 
           {/* ── Mark as understood (only when flipped + not done) ── */}
           {isFlipped && !completedCards.includes(currentCardIndex) && (
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-stack">
               <button
                 type="button"
                 onClick={handleMarkUnderstood}
-                className="inline-flex items-center gap-stack-xs min-h-touch px-5 py-3 rounded-xl bg-success-base text-white font-body text-body-sm font-semibold shadow-[0_4px_16px_rgba(157,190,186,0.4)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
+                className="inline-flex items-center gap-1.5 min-h-touch px-4 py-2.5 rounded-lg bg-success-base text-white font-body text-caption font-semibold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg hover:scale-105 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
               >
-                <Check size={16} />
-                Marquer comme compris
+                <Check size={14} />
+                Compris
               </button>
             </div>
           )}
 
-          {/* ── Footer navigation ───────────────────────────────── */}
+        </div>
+      </div>
+
+      {/* ── Footer navigation (sticky at bottom) ────────────────────────── */}
+      <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-stack border-t border-ink-100/50 backdrop-blur-glass-light">
+        <div className="max-w-3xl mx-auto">
           <LessonNavigation
             tone={tone}
             current={currentCardIndex + 1}
@@ -305,7 +332,7 @@ export const FlashcardsViewer: React.FC = () => {
             onDotSelect={(idx) => goToCard(idx)}
             finishLabel="Terminer les flashcards"
           />
-        </Container>
+        </div>
       </div>
 
       <CompletionModal

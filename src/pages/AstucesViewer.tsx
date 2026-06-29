@@ -1,15 +1,13 @@
 /**
- * AstucesViewer : Format scroll-story d'astuces pratiques.
+ * AstucesViewer : Fullscreen no-scroll modal pour astuces pratiques.
  *
- * Phase 14.2a refactor :
- *  - Header custom → <ViewerHeader> (tone-aware, sticky, touch-sized close)
- *  - Dots ad-hoc  → <ProgressDots> (atom unifié)
- *  - Footer nav   → <LessonNavigation> (prev/dots/next molecule)
- *  - Tone inherited from <LessonProvider> if available, else fallback "sun"
- *
- * Sprint 1 (2026-06-29) :
- *  - Framer-motion slide transitions between cards (direction-aware)
- *  - CompletionModal on last card → marks item in useLessonProgressStore
+ * Sprint 2 refactor (2026-06-29) :
+ *  - Layout: fixed fullscreen without overflow-y-auto (all content fits 1 screen)
+ *  - ViewerProgressTrail integrated (dots above card)
+ *  - Breadcrumb navigation (Parcours · Lesson · Astuce)
+ *  - Condensed vertical spacing: py-stack instead of py-section
+ *  - Card content scrollable locally (max-h-[calc(100vh-...)])
+ *  - Footer nav sticky at bottom (LessonNavigation)
  *
  * Route : /lesson/:id/astuces
  */
@@ -17,8 +15,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ChevronRight, Home } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
+import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { AstucesCard } from '../components/learning/AstucesCard';
 import { CompletionModal } from '../components/modals';
 import { useLessonContext, resolveAfterLessonRoute } from '../lib/lesson-context';
@@ -176,11 +176,12 @@ export const AstucesViewer: React.FC = () => {
 
   return (
     <div
-      className={['fixed inset-0 z-modal overflow-y-auto', TONE_GRADIENT_BG[tone]].join(' ')}
+      className={['fixed inset-0 z-modal flex flex-col', TONE_GRADIENT_BG[tone]].join(' ')}
       role="dialog"
       aria-modal="true"
       aria-labelledby="astuces-title"
     >
+      {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
       <ViewerHeader
         tone={tone}
         eyebrow="Astuces pratiques"
@@ -190,22 +191,49 @@ export const AstucesViewer: React.FC = () => {
         total={total}
         progress={((currentIndex + 1) / total) * 100}
         onClose={handleClose}
+        className="shrink-0"
       />
 
-      <div className="px-stack sm:px-stack-lg lg:px-section py-section">
-        <div className="max-w-4xl mx-auto pb-section flex flex-col gap-section">
+      {/* ── Breadcrumb navigation (clickable) ──────────────────────────── */}
+      {lessonCtx && (
+        <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-tight flex items-center gap-1.5 text-caption text-ink-400 font-medium">
+          <button
+            type="button"
+            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}`)}
+            className="inline-flex items-center gap-1 hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+          >
+            <Home size={12} aria-hidden />
+            {lessonCtx.parcours?.title || 'Parcours'}
+          </button>
+          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <button
+            type="button"
+            onClick={() => navigate(`/learning-paths/${lessonCtx.parcoursId}/lessons/${lessonCtx.lesson.id}`)}
+            className="hover:text-primary-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+          >
+            {lessonCtx.lesson.title}
+          </button>
+          <ChevronRight size={12} aria-hidden className="opacity-50" />
+          <span className="text-ink-500">Astuce {currentIndex + 1}/{total}</span>
+        </div>
+      )}
 
-          <header className="flex flex-col gap-stack" id="astuces-title">
-            <h1 className="m-0 font-display text-h2 sm:text-h1 font-bold text-ink-900 leading-tight tracking-tight">
-              💡 Astuces Pratiques
-            </h1>
-            <p className="m-0 font-body text-body-sm text-ink-500">
-              Format scroll-story · astuces concrètes avec exemples directement applicables.
-            </p>
-          </header>
+      {/* ── Content container (grows, scrollable) ──────────────────────── */}
+      <div className="flex-1 flex flex-col min-h-0 px-stack sm:px-stack-lg lg:px-section py-stack gap-stack overflow-y-auto">
+        <div className="max-w-4xl mx-auto flex flex-col gap-stack w-full">
 
-          {/* ── Main card with slide transition ───────────────────── */}
-          <div className="overflow-hidden">
+          {/* ── Progress trail dots ──────────────────────────────────────── */}
+          <div className="flex justify-center">
+            <ViewerProgressTrail
+              current={currentIndex}
+              total={total}
+              tone={tone}
+              style="dots"
+            />
+          </div>
+
+          {/* ── Main card with slide transition (height-constrained) ──── */}
+          <div className="overflow-hidden flex-1 flex items-center justify-center min-h-0">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -215,6 +243,7 @@ export const AstucesViewer: React.FC = () => {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full"
               >
                 <AstucesCard
                   number={currentTip.number}
@@ -229,7 +258,12 @@ export const AstucesViewer: React.FC = () => {
             </AnimatePresence>
           </div>
 
-          {/* ── Footer navigation ────────────────────────────────────── */}
+        </div>
+      </div>
+
+      {/* ── Footer navigation (sticky at bottom) ────────────────────────── */}
+      <div className="shrink-0 px-stack sm:px-stack-lg lg:px-section py-stack border-t border-ink-100/50 backdrop-blur-glass-light">
+        <div className="max-w-4xl mx-auto">
           <LessonNavigation
             tone={tone}
             current={currentIndex + 1}
