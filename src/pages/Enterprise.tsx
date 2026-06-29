@@ -23,6 +23,7 @@ import type { SelectOption } from '../components/core/Select';
 import { FormGroup } from '../components/core/FormGroup';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Container } from '../components/layout';
 import { HeatmapChart, type HeatmapDataPoint } from '../components/charts/HeatmapChart';
 import { BarChart, type BarChartDataPoint } from '../components/charts/BarChart';
@@ -185,16 +186,12 @@ export const Enterprise: React.FC = () => {
         </section>
 
         {/* ── Charts: Skills Matrix & Rankings ──────────────────────── */}
-        <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-stack-xs">
-            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
-              Analyse des compétences
-            </h2>
-          </div>
+        <section className="flex flex-col gap-section">
+          <SectionHeader title="Analyse des compétences" variant="default" tone="primary" size="md" />
 
           <ChartContainer>
             <div className="w-full">
-              <h3 className="m-0 mb-4 font-display text-body font-bold text-ink-900">
+              <h3 className="m-0 mb-stack-xs font-display text-body font-bold text-ink-900">
                 Matrice de compétences par équipe
               </h3>
               <HeatmapChart
@@ -210,12 +207,8 @@ export const Enterprise: React.FC = () => {
         </section>
 
         {/* ── Rankings Bar Chart ────────────────────────────────────── */}
-        <section className="flex flex-col gap-stack">
-          <div className="flex items-baseline justify-between gap-stack-xs">
-            <h2 className="m-0 font-display text-h3 font-bold text-ink-900 tracking-tight">
-              Classements des équipes
-            </h2>
-          </div>
+        <section className="flex flex-col gap-section">
+          <SectionHeader title="Classements des équipes" variant="default" tone="warm" size="md" />
 
           <ChartContainer>
             <div className="w-full">

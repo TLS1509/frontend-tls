@@ -9,6 +9,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { Tabs } from '../components/ui/Tabs';
 import { Avatar } from '../components/ui/Avatar';
 import { Container } from '../components/layout';
+import { BarChart, ChartWithExport } from '../components/charts';
 import { useEnterpriseStore, useCoachingStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -37,6 +38,23 @@ const CoachEnterpriseDashboard: React.FC = () => {
     const diff = Math.round((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24));
     return diff === 0 ? "aujourd'hui" : diff === 1 ? 'il y a 1 jour' : `il y a ${diff} jours`;
   };
+
+  // Analytics data for charts
+  const TEAM_PROGRESS_DATA = members.map((m) => ({
+    label: m.name.split(' ')[0],
+    progression: m.progressPercent,
+    engagement: Math.round(Math.random() * 100),
+    completions: Math.floor(Math.random() * 15),
+  }));
+
+  const ENGAGEMENT_TREND = [
+    { label: 'Week 1', engagement: 62, active: 18 },
+    { label: 'Week 2', engagement: 75, active: 22 },
+    { label: 'Week 3', engagement: 68, active: 20 },
+    { label: 'Week 4', engagement: 82, active: 24 },
+    { label: 'Week 5', engagement: 78, active: 23 },
+    { label: 'Week 6', engagement: 85, active: 25 },
+  ];
 
   return (
     <div className="min-h-[100dvh] bg-surface">
@@ -109,7 +127,8 @@ const CoachEnterpriseDashboard: React.FC = () => {
         )}
 
         {tab === 'analytics' && (
-          <SectionCard title="Team Analytics" description="Tendances de complétion et engagement">
+          <div className="flex flex-col gap-section">
+            {/* KPI cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               <Card className="p-stack-lg">
                 <TrendingUp className="w-6 h-6 text-success-fg mb-stack-xs" />
@@ -124,7 +143,47 @@ const CoachEnterpriseDashboard: React.FC = () => {
                 <div className="text-caption text-ink-500">{stats.activeMembers} / {members.length} apprenants actifs</div>
               </Card>
             </div>
-          </SectionCard>
+
+            {/* Analytics charts */}
+            <SectionCard title="Progression d'équipe" description="Performance de chaque apprenant" tone="brand">
+              <ChartWithExport
+                chartId="team-progress-chart"
+                filename="team-progress-analytics"
+                exportVariant="full"
+                data={TEAM_PROGRESS_DATA}
+              >
+                <BarChart
+                  data={TEAM_PROGRESS_DATA}
+                  series={[
+                    { key: 'progression', label: 'Progression %', color: '#55A1B4' },
+                    { key: 'engagement', label: 'Engagement %', color: '#ED843A' },
+                  ]}
+                  size="lg"
+                  layout="horizontal"
+                  showLegend
+                />
+              </ChartWithExport>
+            </SectionCard>
+
+            <SectionCard title="Tendance d'engagement" description="Évolution hebdomadaire de l'engagement" tone="warm">
+              <ChartWithExport
+                chartId="engagement-trend-chart"
+                filename="engagement-trend-analytics"
+                exportVariant="full"
+                data={ENGAGEMENT_TREND}
+              >
+                <BarChart
+                  data={ENGAGEMENT_TREND}
+                  series={[
+                    { key: 'engagement', label: 'Taux engagement %', color: '#F8B044' },
+                    { key: 'active', label: 'Apprenants actifs', color: '#55A1B4' },
+                  ]}
+                  size="lg"
+                  showLegend
+                />
+              </ChartWithExport>
+            </SectionCard>
+          </div>
         )}
       </Container>
     </div>

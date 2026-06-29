@@ -74,14 +74,14 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
         <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
           Écrire aujourd'hui
         </h3>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="sm"
+          leadingIcon={<PenLine size={12} />}
           onClick={() => navigate('/journal')}
-          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
         >
-          <PenLine size={12} aria-hidden="true" />
           Mon journal
-        </button>
+        </Button>
       </div>
 
       {/* Chat card */}
@@ -144,14 +144,14 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
         <h3 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
           Activité & veille
         </h3>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="sm"
+          trailingIcon={<ArrowRight size={12} />}
           onClick={() => navigate('/veille')}
-          className="inline-flex items-center gap-1 text-caption font-medium text-primary-600 hover:text-primary-700 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
         >
           Explorer la veille
-          <ArrowRight size={12} aria-hidden="true" />
-        </button>
+        </Button>
       </div>
 
       <ActivityFeed
