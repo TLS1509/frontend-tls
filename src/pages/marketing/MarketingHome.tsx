@@ -181,7 +181,7 @@ export const MarketingHome: React.FC = () => {
               <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
                 <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
                 <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
-                  Formation certifiante · Learning App · Accompagnement
+                  Formation + App + Accompagnement
                 </span>
               </span>
 
@@ -199,10 +199,10 @@ export const MarketingHome: React.FC = () => {
                 vos formateurs ont besoin pour maîtriser l'IA et transmettre autrement.
               </p>
 
-              {/* CTAs — warm magnétique primaire + secondary sur fond clair */}
+              {/* CTAs — enterprise first (primary), formation second (secondary) */}
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={14}>
-                  <Link to="/marketing/formation" aria-label="Je veux me former">
+                  <Link to="/marketing/accompagnement" aria-label="Je représente une entreprise">
                     <Button
                       variant="primary"
                       size="lg"
@@ -213,13 +213,13 @@ export const MarketingHome: React.FC = () => {
                         </span>
                       }
                     >
-                      Je veux me former
+                      Je représente une entreprise
                     </Button>
                   </Link>
                 </MagneticButton>
-                <Link to="/marketing/accompagnement">
-                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                    Je représente une entreprise
+                <Link to="/marketing/formation">
+                  <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                    Me former
                   </Button>
                 </Link>
               </div>
@@ -271,7 +271,7 @@ export const MarketingHome: React.FC = () => {
           </FadeInWhenVisible>
 
           {/* Bento grid — Learning App grande, Formation + Accompagnement petites */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 lg:grid-rows-2 gap-stack-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 lg:grid-rows-2 gap-32">
             {/* Hero card — Learning App (lg:col-span-3 row-span-2) */}
             <FadeInWhenVisible
               direction="up"
@@ -404,7 +404,7 @@ export const MarketingHome: React.FC = () => {
                 }}
                 role="button"
                 tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-accent-50/60 via-white to-accent-100/30 border border-accent-100 hover:border-accent-300 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
+                className="group relative h-full overflow-hidden rounded-2xl bg-accent-50/60 via-white to-accent-100/30 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
               >
                 <div
                   aria-hidden
@@ -412,7 +412,7 @@ export const MarketingHome: React.FC = () => {
                 />
                 <div className="relative p-stack-lg flex flex-col h-full justify-between gap-stack-lg">
                   <div className="flex flex-col gap-stack">
-                    <div className="inline-flex w-12 h-12 rounded-xl bg-accent-100 items-center justify-center text-accent-700 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-base">
+                    <div className="inline-flex w-12 h-12 rounded-xl bg-accent-100 items-center justify-center text-accent-700 group-hover:scale-105 transition-transform duration-base">
                       <Compass size={24} />
                     </div>
                     <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
@@ -588,7 +588,7 @@ export const MarketingHome: React.FC = () => {
                   </Link>
                 </MagneticButton>
                 <Link to="/marketing/magazine">
-                  <Button variant="ghost" size="lg">
+                  <Button variant="secondary" size="lg">
                     Lire le magazine
                   </Button>
                 </Link>
