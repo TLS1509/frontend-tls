@@ -37,6 +37,7 @@ export { WeeklyNewsDetail } from './WeeklyNewsDetail';
 export { Newsletter } from './Newsletter';
 export { Project } from './Project';
 export { LearningSpace } from './LearningSpace';
+export { LearningFlow } from './LearningFlow';
 export { Onboarding } from './Onboarding';
 export { CoachingBookingFlow } from './CoachingBookingFlow';
 export { PreCoachingQuestionnaire } from './PreCoachingQuestionnaire';
