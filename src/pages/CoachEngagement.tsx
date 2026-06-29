@@ -9,7 +9,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { ProgressBar } from '../components/ui/ProgressBar';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 interface Learner {
   name: string;
@@ -39,7 +39,7 @@ const CoachEngagement: React.FC = () => {
   });
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Coach · Engagement & Analytics"
         title="L'engagement de mon équipe"
@@ -47,7 +47,7 @@ const CoachEngagement: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Apprenants actifs" value="3/5" sub="60%" />
           <StatCard label="Streak moyen" value="10.2j" sub="+2 vs S-1" />
@@ -97,8 +97,8 @@ const CoachEngagement: React.FC = () => {
             </div>
           </Card>
         )}
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

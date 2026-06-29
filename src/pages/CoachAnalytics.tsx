@@ -10,7 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { ProfileCard } from '../components/ui/ProfileCard';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
 
@@ -116,8 +116,7 @@ export default function CoachAnalytics() {
   const maxEngagement = Math.max(...ENGAGEMENT_WEEKS);
 
   return (
-    <div className="flex flex-col gap-section">
-      {/* Hero */}
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow={{ label: 'Coach · Analytics' }}
         title="Analytics Équipe"
@@ -137,7 +136,7 @@ export default function CoachAnalytics() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* KPI strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -339,7 +338,7 @@ export default function CoachAnalytics() {
           </div>
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

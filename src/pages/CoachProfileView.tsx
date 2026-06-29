@@ -17,7 +17,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { StatCard } from '../components/ui/StatCard';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { ProfileCard } from '../components/ui/ProfileCard';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ─────────────────────────────────────────────────────────────────
 
@@ -91,7 +91,7 @@ function StarRating({ value, max = 5 }: { value: number; max?: number }) {
 
 export default function CoachProfileView() {
   return (
-    <div className="flex flex-col">
+    <PageShell width="wide" noPadTop>
       {/* ── Hero ── */}
       <EditorialHero
         eyebrow="Coaching · Mon Coach"
@@ -101,7 +101,7 @@ export default function CoachProfileView() {
       />
 
       {/* ── Main layout ── */}
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section py-section">
+      <div className="flex flex-col gap-section">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-section items-start">
 
           {/* ── Left : Bio + Approach + Testimonials ── */}
@@ -220,7 +220,7 @@ export default function CoachProfileView() {
             </div>
           </div>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

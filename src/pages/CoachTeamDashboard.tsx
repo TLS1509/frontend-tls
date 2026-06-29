@@ -11,7 +11,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { Tabs } from '../components/ui/Tabs';
 import { FilterChip } from '../components/ui/FilterChip';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
 import type { LearnerStatus } from '../types/learning';
@@ -67,7 +67,7 @@ export default function CoachTeamDashboard() {
   const alertCount = stats.stuckCount + stats.atRiskCount;
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
@@ -85,7 +85,7 @@ export default function CoachTeamDashboard() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -280,7 +280,7 @@ export default function CoachTeamDashboard() {
           </SectionCard>
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

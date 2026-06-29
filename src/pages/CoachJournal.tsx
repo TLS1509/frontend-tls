@@ -6,7 +6,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const MY_ENTRIES = [
   {
@@ -92,7 +92,7 @@ export default function CoachJournal() {
   const [tab, setTab] = useState('mine');
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop>
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Journal de Coaching"
@@ -159,7 +159,7 @@ export default function CoachJournal() {
             })}
           </div>
         )}
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

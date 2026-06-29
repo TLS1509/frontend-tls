@@ -10,8 +10,8 @@ import Badge from '../components/ui/Badge';
 import Button from '../components/core/Button';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { AIOverrideButton } from '../components/ui/AIOverrideButton';
+import { PageShell } from '../components/layout';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
-import { Container } from '../components/layout';
 import { getApprenantById, dreyfusLabel } from '../data/apprenants';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
@@ -191,7 +191,7 @@ export default function CoachLearnerProfile() {
     : { ...FALLBACK_LEARNER, status: 'active' as const, role: 'Apprenant' };
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop>
       <EditorialHero
         eyebrow="Coach · Apprenant"
         title={`Fiche : ${learner.name}`}
@@ -209,7 +209,7 @@ export default function CoachLearnerProfile() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Header apprenant */}
         <div className="flex items-center gap-stack-lg bg-white border border-ink-100 rounded-xl p-stack-lg shadow-xs">
           <Avatar
@@ -380,7 +380,7 @@ export default function CoachLearnerProfile() {
             </div>
           )}
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

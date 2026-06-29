@@ -6,7 +6,7 @@ import { CorrectionCard } from '../components/ui/CorrectionCard';
 import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useCoachingStore } from '../stores/persistence';
 import { getApprenantById } from '../data/apprenants';
 import { getCompetenceById } from '../data/competencies';
@@ -71,7 +71,7 @@ export default function CoachCorrectionsQueue() {
   const urgentCount = buckets.pending.length;
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop>
       <EditorialHero
         eyebrow="Coach · Corrections"
         title="File de Corrections"
@@ -87,7 +87,7 @@ export default function CoachCorrectionsQueue() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-3 gap-stack">
@@ -150,7 +150,7 @@ export default function CoachCorrectionsQueue() {
           )}
         </div>
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

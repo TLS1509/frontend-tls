@@ -7,7 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 interface Session {
   id: string;
@@ -35,7 +35,7 @@ const CoachCalendar: React.FC = () => {
   const [providerFilter, setProviderFilter] = useState<'all' | 'google' | 'outlook'>('all');
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Coach · Mon calendrier"
         title="Mes sessions de coaching"
@@ -44,7 +44,7 @@ const CoachCalendar: React.FC = () => {
         trailing={<Button variant="warm" leadingIcon={<Plus className="w-4 h-4" />}>Nouvelle session</Button>}
       />
 
-      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <div className="flex items-center gap-stack-xs">
             <Button variant="ghost" iconOnly leadingIcon={<ChevronLeft className="w-4 h-4" />} aria-label="Semaine précédente" onClick={() => setWeekOffset((w) => w - 1)} />
@@ -101,8 +101,8 @@ const CoachCalendar: React.FC = () => {
             <Badge variant="warm">Mer · ½ journée bloquée</Badge>
           </div>
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

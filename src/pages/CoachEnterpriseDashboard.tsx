@@ -8,7 +8,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Tabs } from '../components/ui/Tabs';
 import { Avatar } from '../components/ui/Avatar';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { BarChart, ChartWithExport } from '../components/charts';
 import { useEnterpriseStore, useCoachingStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
@@ -57,7 +57,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Coach Enterprise · Vue équipe"
         title="Mon équipe Acme Corp"
@@ -65,7 +65,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="page" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Apprenants suivis" value={stats.activeMembers} sub={`${members.length} membres total`} />
           <StatCard label="Taux de complétion" value={`${stats.completionRate}%`} sub="formations" />
@@ -185,8 +185,8 @@ const CoachEnterpriseDashboard: React.FC = () => {
             </SectionCard>
           </div>
         )}
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

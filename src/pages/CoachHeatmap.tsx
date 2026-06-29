@@ -8,7 +8,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { Badge } from '../components/ui/Badge';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { APPRENANTS, APPRENANT_AXES as AXES } from '../data/apprenants';
 
 const STATUS_TABS = [
@@ -40,7 +40,7 @@ export default function CoachHeatmap() {
     APPRENANTS.flatMap((a) => a.scores).filter((s) => s > 0).length).toFixed(1);
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Coach · Passeport"
         title="Heatmap Compétences Équipe"
@@ -58,7 +58,7 @@ export default function CoachHeatmap() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -183,7 +183,7 @@ export default function CoachHeatmap() {
           </div>
         </SectionCard>
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

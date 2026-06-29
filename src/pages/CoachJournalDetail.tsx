@@ -6,7 +6,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const ENTRY_CONTENT = [
   "Cette semaine, j'ai pu observer une évolution notable dans la posture de Marie lors des exercices de feedback. Alors qu'elle avait tendance à formuler ses retours de manière très indirecte, elle commence à adopter une communication plus directe tout en préservant la bienveillance du message.",
@@ -25,7 +25,7 @@ const COMPETENCY_TAGS = ['Communication', 'Leadership', 'Feedback'];
 
 export default function CoachJournalDetail() {
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="medium" noPadTop>
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Entrée de Journal"
@@ -39,7 +39,7 @@ export default function CoachJournalDetail() {
         }
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
+      <div className="flex flex-col gap-section">
         <Card>
           <div className="flex flex-col gap-stack">
             <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
@@ -104,7 +104,7 @@ export default function CoachJournalDetail() {
           <Button variant="ghost" leadingIcon={<Pencil size={16} />}>Modifier</Button>
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />}>Retour au journal</Button>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }
