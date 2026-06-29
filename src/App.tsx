@@ -170,6 +170,7 @@ import {
   Newsletter,
   Project,
   LearningSpace,
+  LearningFlow,
   Onboarding,
   CoachingBookingFlow,
   PreCoachingQuestionnaire,
@@ -639,6 +640,7 @@ function App() {
                   <Route path="/journal/free-entry" element={<JournalFreeEntry />} />
                   <Route path="/project/:id" element={<Project />} />
                   <Route path="/learning-space" element={<LearningSpace />} />
+                  <Route path="/learning-flow" element={<LearningFlow />} />
                   {/* /onboarding routes → déplacées hors AppLayout (plein écran, voir ci-dessus) */}
                   <Route path="/coaching/booking" element={<CoachingBookingFlow />} />
                   <Route path="/coaching/pre-questionnaire" element={<PreCoachingQuestionnaire />} />
