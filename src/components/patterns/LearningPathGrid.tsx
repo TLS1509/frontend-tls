@@ -80,8 +80,8 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
 
   return (
     <div className={['grid gap-stack', COLS[columns], className].filter(Boolean).join(' ')}>
-      {filteredPaths.map((path, idx) => (
-        <div key={path.id} onClick={() => onPathClick?.(path.id)} className="cursor-pointer">
+      {filteredPaths.map((path, idx) => {
+        const card = (
           <StepCard
             stepNumber={path.stepNumber ?? idx + 1}
             title={path.title}
@@ -91,8 +91,33 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
             progress={path.progress}
             status={path.status}
           />
-        </div>
-      ))}
+        );
+        // Carte cliquable au clavier (role=button + Enter/Espace + focus ring). Le guard
+        // closest('button, a') laisse les contrôles imbriqués (toggle leçons) se gérer seuls.
+        // Neutralise le BEM global [role="button"] (Piège #8) via block/h-auto/overflow-visible.
+        return onPathClick ? (
+          <div
+            key={path.id}
+            role="button"
+            tabIndex={0}
+            aria-label={`Ouvrir le parcours ${path.title}`}
+            onClick={(e) => {
+              if (!(e.target as HTMLElement).closest('button, a')) onPathClick(path.id);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onPathClick(path.id);
+              }
+            }}
+            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          >
+            {card}
+          </div>
+        ) : (
+          <div key={path.id}>{card}</div>
+        );
+      })}
     </div>
   );
 };

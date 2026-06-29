@@ -85,8 +85,22 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
       {filteredCoaches.map((coach) => (
         <div key={coach.id} role="gridcell" className="flex flex-col gap-stack-xs group">
           <div
-            onClick={() => onCoachSelect?.(coach.id)}
-            className="cursor-pointer transition-transform group-hover:-translate-y-0.5"
+            {...(onCoachSelect && {
+              role: 'button',
+              tabIndex: 0,
+              'aria-label': `Voir le profil de ${coach.name}`,
+              onClick: (e: React.MouseEvent<HTMLDivElement>) => {
+                // Le guard laisse le CTA "Réserver" imbriqué se gérer seul.
+                if (!(e.target as HTMLElement).closest('button, a')) onCoachSelect(coach.id);
+              },
+              onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onCoachSelect(coach.id);
+                }
+              },
+            })}
+            className="block w-full h-auto p-0 overflow-visible cursor-pointer rounded-2xl transition-transform group-hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             <ProfileCard
               name={coach.name}
