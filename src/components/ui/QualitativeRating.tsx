@@ -56,7 +56,7 @@ export const DEFAULT_QUALITATIVE_OPTIONS: QualitativeRatingOption[] = [
 /* ─── Style maps ────────────────────────────────────────────────────────────── */
 
 const PILL_BASE =
-  'inline-flex items-center justify-center gap-tight.5 rounded-pill ' +
+  'inline-flex items-center justify-center gap-1.5 rounded-pill ' +
   'font-body font-semibold select-none cursor-pointer ' +
   'border transition-[background-color,border-color,box-shadow,transform] duration-base ease-emphasis ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';

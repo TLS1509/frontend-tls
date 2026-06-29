@@ -228,7 +228,7 @@ export const MarketingEquipe: React.FC = () => {
                       <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
                         {m.bio}
                       </p>
-                      <div className="flex flex-wrap gap-tight.5 pt-stack border-t border-ink-100">
+                      <div className="flex flex-wrap gap-1.5 pt-stack border-t border-ink-100">
                         {m.expertise.map((e) => (
                           <span
                             key={e}

@@ -220,7 +220,7 @@ export const MarketingConseil: React.FC = () => {
 
                   <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                     {AUDIT_DELIVERABLES.map((d) => (
-                      <li key={d} className="flex items-start gap-stack-xs.5 font-body text-body-sm text-ink-700">
+                      <li key={d} className="flex items-start gap-2.5 font-body text-body-sm text-ink-700">
                         <CheckCircle2 size={16} className="text-secondary-600 shrink-0 mt-0.5" />
                         {d}
                       </li>
@@ -284,7 +284,7 @@ export const MarketingConseil: React.FC = () => {
                 <div className="grid grid-cols-[3.5rem_1fr] lg:grid-cols-[5rem_1fr] gap-stack lg:gap-stack-lg items-start p-stack-lg hover:bg-ink-50/40 transition-colors duration-fast">
 
                   {/* Letter badge */}
-                  <div className="flex flex-col items-center gap-tight.5 pt-0.5">
+                  <div className="flex flex-col items-center gap-1.5 pt-0.5">
                     <span
                       className={`inline-flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 rounded-2xl text-white font-display font-extrabold text-2xl shadow-sm shrink-0 leading-none ${step.color}`}
                     >
@@ -301,7 +301,7 @@ export const MarketingConseil: React.FC = () => {
                       <h3 className="font-display text-h5 font-extrabold text-ink-900 leading-tight m-0">
                         {step.title}
                       </h3>
-                      <span className={`inline-flex items-center gap-tight.5 px-2 py-0.5 rounded-pill border text-caption font-semibold ${step.light}`}>
+                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-pill border text-caption font-semibold ${step.light}`}>
                         {step.icon}
                         {step.word}
                       </span>

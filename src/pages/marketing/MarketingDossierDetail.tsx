@@ -142,7 +142,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
   activeId,
 }) => (
   <nav aria-label="Sommaire du dossier" className="flex flex-col gap-stack">
-    <span className="inline-flex items-center gap-tight.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
+    <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
       <Hash size={14} />
       Sommaire
     </span>
@@ -319,7 +319,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal>
             <Link
               to="/dossiers"
-              className="inline-flex items-center gap-tight.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Tous les dossiers
@@ -331,15 +331,15 @@ export const MarketingDossierDetail: React.FC = () => {
               <span className="inline-flex items-center px-3 py-1 rounded-pill border bg-secondary-50 text-secondary-700 border-secondary-100 font-body text-caption font-bold uppercase tracking-wider">
                 Dossier
               </span>
-              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Calendar size={14} />
                 {dossier.date}
               </span>
-              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Clock size={14} />
                 {dossier.readTime} de lecture
               </span>
-              <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-600">
+              <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-600">
                 <Library size={14} />
                 {dossier.sourceCount} sources
               </span>

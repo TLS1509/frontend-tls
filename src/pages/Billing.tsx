@@ -178,7 +178,7 @@ export const Billing: React.FC = () => {
           description={`${INVOICES.length} factures · toutes payées.`}
         >
           <div className="flex flex-col rounded-2xl border border-ink-100 overflow-hidden">
-            <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-stack px-stack py-stack-xs.5 bg-ink-50 border-b border-ink-100">
+            <div className="hidden md:grid grid-cols-[1.2fr_2fr_0.8fr_auto] gap-stack px-stack py-2.5 bg-ink-50 border-b border-ink-100">
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Date</span>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">Description</span>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500 text-right">Montant</span>

@@ -201,7 +201,7 @@ export const Recherche: React.FC = () => {
           {item.description}
         </p>
         {item.specialties && (
-          <div className="flex flex-wrap gap-tight.5">
+          <div className="flex flex-wrap gap-1.5">
             {item.specialties.map((s) => (
               <Badge key={s} variant="neutral">{s}</Badge>
             ))}

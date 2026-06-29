@@ -418,7 +418,7 @@ export const OnboardingQuestionnaireConversational: React.FC<OnboardingQuestionn
 
   // ── VARIANT C : Immersive full-screen ─────────────────────────────────────
   const progressDots = (
-    <div className="flex items-center justify-center gap-tight.5" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
+    <div className="flex items-center justify-center gap-1.5" role="progressbar" aria-valuenow={currentIdx + 1} aria-valuemax={total}>
       {Array.from({ length: total }).map((_, i) => (
         <span
           key={i}

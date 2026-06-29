@@ -231,7 +231,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onPrev}
             aria-label="Précédent"
             className={[
-              'inline-flex items-center gap-tight.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'
@@ -260,7 +260,7 @@ export const ViewerOverlay: React.FC<ViewerOverlayProps> = ({
             disabled={!onNext}
             aria-label="Suivant"
             className={[
-              'inline-flex items-center gap-tight.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
+              'inline-flex items-center gap-1.5 px-3 py-2 min-h-touch rounded-lg font-body text-caption font-semibold cursor-pointer transition-colors duration-base',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               isDark
                 ? 'text-white/85 hover:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed'

@@ -278,7 +278,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
 
           {/* Step pills */}
-          <div className="flex gap-tight.5 flex-wrap">
+          <div className="flex gap-1.5 flex-wrap">
             {allSteps.map((s, i) => (
               <div key={s} className={getPillClass(s, step, allSteps)}>
                 {i + 1}. {STEP_LABELS[s]}
@@ -352,14 +352,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                 {/* Time slots — compact */}
                 <div>
-                  <div className="flex items-center gap-tight.5 mb-2">
+                  <div className="flex items-center gap-1.5 mb-2">
                     <Clock size={12} className="text-primary-500 shrink-0" />
                     <span className="text-caption font-bold text-ink-900 leading-tight">
                       {selectedDate ? formatDateLabel(selectedDate) : 'Choisis une date'}
                     </span>
                   </div>
                   {availableTimes.length > 0 ? (
-                    <div className="flex flex-col gap-tight.5 max-h-[260px] overflow-y-auto">
+                    <div className="flex flex-col gap-1.5 max-h-[260px] overflow-y-auto">
                       {availableTimes.map((t) => {
                         const isSel = selectedTime === t;
                         return (
@@ -482,24 +482,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>
-                  <div className="flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
                     <CheckCircle2 size={12} /> 45 min
                   </div>
                 </div>
                 {/* Ligne facturation : crédit déduit / sponsorisé / payé */}
                 <div className="mt-stack-xs pt-stack-xs border-t border-primary-200 flex items-center justify-between flex-wrap gap-stack-xs">
                   {isEnterprise ? (
-                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
                       <Building2 size={12} className="text-success-fg" />
                       Sponsorisée par {companyName}
                     </span>
                   ) : hasCredits ? (
-                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
                       <Wallet size={12} className="text-primary-600" />
                       1 crédit déduit · reste {Math.max(0, credits.remaining - 1)} / {credits.total} ce mois
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-tight.5 font-body text-caption text-ink-700">
+                    <span className="inline-flex items-center gap-1.5 font-body text-caption text-ink-700">
                       <CreditCard size={12} className="text-primary-600" />
                       Carte ****{cardNumber.slice(-4) || '••••'}
                     </span>

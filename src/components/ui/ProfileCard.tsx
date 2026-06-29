@@ -253,7 +253,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                   href={c.href}
                   target={c.type === 'email' || c.type === 'phone' ? undefined : '_blank'}
                   rel={c.type === 'email' || c.type === 'phone' ? undefined : 'noopener noreferrer'}
-                  className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-[background-color,color] duration-fast ease-emphasis no-underline font-body text-caption font-medium"
                 >
                   <span className={TONE_ROLE[tone]}>{CONTACT_ICON[c.type]}</span>
                   <span className="truncate max-w-[180px]">{c.label ?? CONTACT_DEFAULT_LABEL[c.type]}</span>

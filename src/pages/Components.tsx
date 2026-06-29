@@ -2973,7 +2973,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
         <p className="text-caption text-ink-400 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-tight.5 text-caption text-ink-500">
+        <div className="flex items-center gap-1.5 text-caption text-ink-500">
           <span className="inline-flex items-center gap-tight text-primary-600 hover:text-primary-700 cursor-pointer font-medium">
             <BookOpen size={13} /> Parcours
           </span>
@@ -3599,10 +3599,10 @@ const COMPONENTS: ComponentEntry[] = [
             ]}
             actions={
               <>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-stack-xs.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
+                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white text-ink-900 font-semibold cursor-pointer hover:-translate-y-0.5 transition-all shadow-md">
                   Continuer mon parcours
                 </button>
-                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-stack-xs.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
+                <button type="button" className="inline-flex items-center gap-stack-xs px-stack-lg py-2.5 rounded-pill bg-white/15 text-white border border-white/30 font-semibold cursor-pointer hover:bg-white/25 backdrop-blur-sm transition-all">
                   Explorer
                 </button>
               </>
@@ -4250,7 +4250,7 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="text-caption text-ink-400 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
           <div className="flex items-center justify-between px-5 py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
-            <button className="inline-flex items-center gap-tight.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
+            <button className="inline-flex items-center gap-1.5 text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
               <ArrowLeft size={14} /> Retour
             </button>
             <div className="flex-1 text-center">
@@ -4265,9 +4265,9 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
           <div className="flex-1 flex items-center justify-center p-section text-ink-400 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-5 py-3 border-t border-ink-200 bg-white flex items-center justify-between">
-            <button className="inline-flex items-center gap-tight.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
             <span className="text-caption text-ink-500">3 / 12</span>
-            <button className="inline-flex items-center gap-tight.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
+            <button className="inline-flex items-center gap-1.5 text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
           </div>
         </div>
       </div>
@@ -4439,7 +4439,7 @@ const COMPONENTS: ComponentEntry[] = [
             <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
             <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-5 gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
                 <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
               <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
@@ -4528,7 +4528,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-tight.5 font-body text-micro text-ink-400 flex-wrap">
+                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-400 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -4561,7 +4561,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
                     <h3 className="m-0 font-display text-body-sm font-bold text-ink-900 leading-tight line-clamp-1">{it.title}</h3>
-                    <div className="flex items-center gap-tight.5 font-body text-micro text-ink-500 flex-wrap">
+                    <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>

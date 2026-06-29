@@ -153,7 +153,7 @@ export default function CoachingCorrections() {
               placeholder="Rechercher un exercice ou un apprenant..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-stack-xs.5 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
+              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-ink-200 text-body-sm focus:outline-none focus:border-primary-400 transition-colors duration-fast"
             />
           </div>
           <div className="flex flex-wrap gap-stack-xs">

@@ -72,7 +72,7 @@ export const BehavioralTileGrid: React.FC<BehavioralTileGridProps> = ({
   return (
     <div
       className={[
-        layout === 'grid' ? 'grid grid-cols-2 gap-stack-xs.5' : 'flex flex-col gap-stack-xs',
+        layout === 'grid' ? 'grid grid-cols-2 gap-2.5' : 'flex flex-col gap-stack-xs',
         className,
       ]
         .filter(Boolean)

@@ -224,7 +224,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
               key={t.key}
               type="button"
               onClick={() => setActive(t.key)}
-              className={`relative inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
+              className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
                 isActive ? 'text-primary-700' : 'text-ink-600 hover:text-ink-900'
               }`}
             >
@@ -235,7 +235,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
-              <span className="relative inline-flex items-center gap-tight.5">
+              <span className="relative inline-flex items-center gap-1.5">
                 {t.icon}
                 {t.label}
               </span>
@@ -254,7 +254,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
       </div>
 
       {/* hint */}
-      <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-tight.5">
+      <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-1.5">
         <Sparkles size={12} className="text-warning-fg" />
         <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
       </div>

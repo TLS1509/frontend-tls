@@ -35,7 +35,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
       <div className="flex items-center gap-stack flex-1 justify-end">
         {showProgressBar && progress !== undefined && (
-          <div className="flex items-center gap-stack-xs.5 max-w-[280px] flex-1">
+          <div className="flex items-center gap-2.5 max-w-[280px] flex-1">
             <span className="text-caption text-ink-500 font-medium whitespace-nowrap hidden sm:inline">
               Progression
             </span>
@@ -57,7 +57,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         )}
 
         {saveMessage && (
-          <span className="inline-flex items-center gap-tight.5 text-caption text-success-fg font-semibold animate-[dd-slide-up_0.25s_ease-out]">
+          <span className="inline-flex items-center gap-1.5 text-caption text-success-fg font-semibold animate-[dd-slide-up_0.25s_ease-out]">
             <CheckCircle2 size={14} />
             {saveMessage}
           </span>

@@ -31,7 +31,7 @@ export const AtrophieIndicator: React.FC<AtrophieIndicatorProps> = ({
   const iconSize = size === 'sm' ? 12 : 16;
   const sizeClasses = size === 'sm'
     ? 'text-micro px-1.5 py-0.5 gap-tight'
-    : 'text-caption px-2.5 py-1 gap-tight.5';
+    : 'text-caption px-2.5 py-1 gap-1.5';
 
   // Severity: > 180j = critical, > 90j = warning
   const isCritical = daysSinceActivity > 180;

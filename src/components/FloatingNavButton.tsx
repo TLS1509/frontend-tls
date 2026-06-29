@@ -101,7 +101,7 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
                 title={action.label}
                 aria-label={action.label}
                 className={[
-                  'inline-flex items-center gap-stack-xs.5 px-4 h-12 rounded-pill border shadow-sm cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis',
+                  'inline-flex items-center gap-2.5 px-4 h-12 rounded-pill border shadow-sm cursor-pointer transition-[background-color,border-color,box-shadow,transform] duration-fast ease-emphasis',
                   'hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.98]',
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   TONE_ACTION_BG[actionTone],

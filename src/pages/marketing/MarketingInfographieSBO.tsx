@@ -153,7 +153,7 @@ export const MarketingInfographieSBO: React.FC = () => {
           <Reveal>
             <Link
               to="/ressources"
-              className="inline-flex items-center gap-tight.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Ressources

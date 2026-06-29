@@ -219,7 +219,7 @@ export const MarketingMagazine: React.FC = () => {
                           <p className="font-body text-body text-ink-600 leading-relaxed m-0">
                             {featured.summary}
                           </p>
-                          <div className="inline-flex items-center gap-tight.5 font-body text-body-sm font-bold text-primary-700">
+                          <div className="inline-flex items-center gap-1.5 font-body text-body-sm font-bold text-primary-700">
                             Lire l'article
                             <ArrowRight
                               size={16}
@@ -281,7 +281,7 @@ export const MarketingMagazine: React.FC = () => {
                                 <p className="font-body text-body-sm text-ink-500 leading-relaxed m-0 line-clamp-2 flex-1">
                                   {a.summary}
                                 </p>
-                                <div className="inline-flex items-center gap-tight.5 font-body text-body-sm font-bold text-primary-700 pt-1">
+                                <div className="inline-flex items-center gap-1.5 font-body text-body-sm font-bold text-primary-700 pt-1">
                                   Lire
                                   <ArrowRight
                                     size={14}

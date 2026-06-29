@@ -194,7 +194,7 @@ export const Veille: React.FC = () => {
               type="button"
               onClick={() => setSelected(id)}
               className={[
-                'inline-flex items-center gap-tight.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 selected === id
                   ? 'bg-primary-500 text-white border-primary-500 shadow-sm'
                   : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
@@ -216,7 +216,7 @@ export const Veille: React.FC = () => {
             type="button"
             onClick={() => setShowSavedOnly((v) => !v)}
             className={[
-              'inline-flex items-center gap-tight.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+              'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
               showSavedOnly
                 ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-sm'
                 : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',

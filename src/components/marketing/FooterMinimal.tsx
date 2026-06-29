@@ -81,7 +81,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-tight.5 text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+                        className="inline-flex items-center gap-1.5 text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
                       >
                         {link.label}
                         <ExternalLink size={12} className="opacity-60" />
@@ -89,7 +89,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
                     ) : (
                       <Link
                         to={link.href}
-                        className="inline-flex items-center gap-tight.5 text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+                        className="inline-flex items-center gap-1.5 text-body-sm text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
                       >
                         {link.label}
                       </Link>
@@ -135,7 +135,7 @@ export const FooterMinimal: React.FC<FooterMinimalProps> = ({
           {/* Contact link */}
           <a
             href="mailto:contact@thelearningsociety.fr"
-            className="inline-flex items-center gap-tight.5 text-caption text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
+            className="inline-flex items-center gap-1.5 text-caption text-primary-600 hover:text-primary-700 underline underline-offset-4 transition-colors duration-200"
           >
             <Mail size={14} />
             contact@thelearningsociety.fr

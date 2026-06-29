@@ -58,7 +58,7 @@ export const MasteryBadge: React.FC<MasteryBadgeProps> = ({
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (pct / 100) * circumference;
 
-  const classes = ['inline-flex flex-col items-center gap-stack-xs.5', className]
+  const classes = ['inline-flex flex-col items-center gap-2.5', className]
     .filter(Boolean)
     .join(' ');
 

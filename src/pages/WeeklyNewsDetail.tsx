@@ -121,13 +121,13 @@ export const WeeklyNewsDetail: React.FC = () => {
               <header className="flex flex-col gap-stack">
                 {/* Eyebrow */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-primary-500 text-white font-body text-micro font-bold uppercase tracking-widest">
                     <TrendingUp size={11} /> {ACTU.week}
                   </span>
-                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-600 font-body text-micro font-semibold">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100 text-ink-600 font-body text-micro font-semibold">
                     {ACTU.category}
                   </span>
-                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-danger-bg text-danger-fg font-body text-micro font-semibold">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-danger-bg text-danger-fg font-body text-micro font-semibold">
                     {ACTU.priority}
                   </span>
                 </div>
@@ -137,10 +137,10 @@ export const WeeklyNewsDetail: React.FC = () => {
                 </h1>
 
                 <div className="flex items-center gap-stack font-body text-caption text-ink-500 flex-wrap border-b border-ink-100 pb-stack">
-                  <span className="inline-flex items-center gap-tight.5">
+                  <span className="inline-flex items-center gap-1.5">
                     <CalendarDays size={13} /> {ACTU.date}
                   </span>
-                  <span className="inline-flex items-center gap-tight.5">
+                  <span className="inline-flex items-center gap-1.5">
                     <Clock3 size={13} /> {ACTU.readTime}
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export const WeeklyNewsDetail: React.FC = () => {
 
               {/* Tags + source */}
               <footer className="flex flex-col gap-stack-xs pt-stack border-t border-ink-100">
-                <div className="flex items-center gap-tight.5 flex-wrap">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <TagIcon size={13} className="text-ink-400 shrink-0" />
                   {ACTU.tags.map((tag) => (
                     <span key={tag} className="px-2.5 py-1 rounded-pill bg-ink-100 font-body text-micro text-ink-600 font-semibold">

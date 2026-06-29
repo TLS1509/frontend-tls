@@ -31,7 +31,7 @@ const TRACK_SIZE: Record<SegmentedControlSize, string> = {
 };
 
 const SEGMENT_BASE =
-  'relative inline-flex items-center justify-center gap-tight.5 font-body font-semibold whitespace-nowrap rounded-md cursor-pointer border-0 bg-transparent transition-[background-color,box-shadow,color,transform] duration-fast ease-emphasis select-none ' +
+  'relative inline-flex items-center justify-center gap-1.5 font-body font-semibold whitespace-nowrap rounded-md cursor-pointer border-0 bg-transparent transition-[background-color,box-shadow,color,transform] duration-fast ease-emphasis select-none ' +
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ' +
   'disabled:opacity-disabled disabled:cursor-not-allowed';
 

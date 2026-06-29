@@ -61,7 +61,7 @@ export const MagicLink: React.FC = () => {
           <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
             {/* Mini-pitch trust */}
             <div className="flex flex-col gap-stack-xs p-stack rounded-2xl bg-white/8 border border-white/15 backdrop-blur-glass-light">
-              <div className="flex items-start gap-stack-xs.5">
+              <div className="flex items-start gap-2.5">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <Zap size={14} />
                 </span>
@@ -74,7 +74,7 @@ export const MagicLink: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-stack-xs.5">
+              <div className="flex items-start gap-2.5">
                 <span className="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/15 text-white">
                   <ShieldCheck size={14} />
                 </span>

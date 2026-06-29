@@ -179,7 +179,7 @@ export const LearnDoMatchVisual: React.FC<Props> = ({ active, className = '' }) 
       <div className="flex items-start gap-stack-xs">
         {STEPS.map((s, idx) => (
           <React.Fragment key={s.key}>
-            <div className="flex flex-col items-center gap-tight.5">
+            <div className="flex flex-col items-center gap-1.5">
               <span
                 className={`grid place-items-center w-11 h-11 rounded-pill transition-colors duration-slow ease-emphasis ${
                   idx === i ? `${s.fill} text-white shadow-sm` : 'bg-ink-100 text-ink-400'

@@ -153,7 +153,7 @@ export const JournalFreeEntry: React.FC = () => {
         {/* Main editor */}
         <div>
           {/* Date chip */}
-          <div className="flex items-center gap-tight.5 mb-stack text-ink-500 font-body text-body-sm">
+          <div className="flex items-center gap-1.5 mb-stack text-ink-500 font-body text-body-sm">
             <CalendarDays size={14} />
             <span>{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
           </div>
@@ -181,7 +181,7 @@ export const JournalFreeEntry: React.FC = () => {
                     type="button"
                     onClick={() => setSelectedCategory(active ? null : cat.id)}
                     className={[
-                      'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill border cursor-pointer font-body text-caption font-semibold transition-all duration-150',
                       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                       active
                         ? 'border-primary-400 bg-primary-50 text-primary-700'

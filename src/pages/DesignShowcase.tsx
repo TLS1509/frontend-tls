@@ -1457,7 +1457,7 @@ const CadenceSection: React.FC = () => {
             </div>
             <Heart size={20} className="text-primary-500" />
           </header>
-          <div className="grid grid-cols-7 gap-tight.5 mb-stack">
+          <div className="grid grid-cols-7 gap-1.5 mb-stack">
             {tlsWeek.map((d, i) => (
               <div key={d} className="flex flex-col items-center gap-tight">
                 <div
@@ -1497,7 +1497,7 @@ const CadenceSection: React.FC = () => {
             </div>
             <X size={20} className="text-danger-fg" />
           </header>
-          <div className="grid grid-cols-7 gap-tight.5 mb-stack">
+          <div className="grid grid-cols-7 gap-1.5 mb-stack">
             {tlsWeek.map((d, i) => (
               <div key={d} className="flex flex-col items-center gap-tight">
                 <div className="size-9 rounded-xl flex items-center justify-center text-caption font-bold bg-danger-base text-white">

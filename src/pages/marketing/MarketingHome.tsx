@@ -462,7 +462,7 @@ export const MarketingHome: React.FC = () => {
                     'Coaching 1-1 intégré (messagerie, corrections, visio)',
                     'Journal de bord réflexif + Veille pédagogique IA',
                   ].map((f) => (
-                    <li key={f} className="flex items-start gap-stack-xs.5">
+                    <li key={f} className="flex items-start gap-2.5">
                       <CheckCircle2 size={20} className="text-primary-600 shrink-0 mt-0.5" />
                       <span className="font-body text-body text-ink-800">{f}</span>
                     </li>

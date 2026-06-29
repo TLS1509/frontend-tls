@@ -97,7 +97,7 @@ export const OptionGrid: React.FC<OptionGridProps> = (props) => {
 
   const mobileCols = columns === 1 ? 'grid-cols-1' : 'grid-cols-2';
 
-  const baseGrid = ['grid gap-stack-xs.5', mobileCols, COLS_DESKTOP[columns], className]
+  const baseGrid = ['grid gap-2.5', mobileCols, COLS_DESKTOP[columns], className]
     .filter(Boolean)
     .join(' ');
 

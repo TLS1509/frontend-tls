@@ -167,7 +167,7 @@ export const MarketingHomeA: React.FC = () => (
         {/* App mockup: laptop frame inline */}
         <div className="w-full max-w-5xl relative">
           <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-900 to-primary-700 shadow-2xl border-8 border-ink-900">
-            <div className="h-8 bg-ink-900 flex items-center px-3 gap-tight.5">
+            <div className="h-8 bg-ink-900 flex items-center px-3 gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-accent-400" />
               <span className="w-2.5 h-2.5 rounded-full bg-success-base" />

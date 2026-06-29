@@ -228,7 +228,7 @@ export const VideoTutorial: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate("/veille")}
-              className="inline-flex items-center gap-tight.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+              className="inline-flex items-center gap-1.5 bg-transparent border-0 text-ink-500 font-body text-caption font-semibold cursor-pointer p-0 hover:text-primary-600 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={13} /> Retour veille
             </button>

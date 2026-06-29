@@ -126,7 +126,7 @@ export default function MasterclassHub() {
                     </div>
 
                     {mc.maxParticipants && (
-                      <div className="flex items-center gap-tight.5 text-caption text-ink-500">
+                      <div className="flex items-center gap-1.5 text-caption text-ink-500">
                         <Users size={12} className="shrink-0" />
                         <span>{mc.enrolledCount} / {mc.maxParticipants} inscrits</span>
                       </div>

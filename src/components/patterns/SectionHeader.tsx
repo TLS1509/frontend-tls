@@ -134,7 +134,7 @@ const SIZE_INLINE_GLYPH: Record<SectionHeaderSize, number> = {
 
 const SIZE_GAP: Record<SectionHeaderSize, string> = {
   xs: 'gap-stack-xs',
-  sm: 'gap-stack-xs.5',
+  sm: 'gap-2.5',
   md: 'gap-stack-xs',
   lg: 'gap-stack',
 };

@@ -73,7 +73,7 @@ export const ProjectTeam: React.FC = () => {
                     <Avatar initials={m.initials} size="md" tint="brand" />
                     <div className="flex flex-col gap-tight min-w-0">
                       <span className="text-body-sm font-semibold text-ink-900 truncate">{m.name}</span>
-                      <div className="flex items-center gap-tight.5 flex-wrap">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <Badge variant="neutral">{ROLE_LABELS[m.role]}</Badge>
                         <Badge variant="brand">{m.assignedTaskIds.length} tâche(s)</Badge>
                       </div>
@@ -82,7 +82,7 @@ export const ProjectTeam: React.FC = () => {
                   {competencies.length > 0 && (
                     <div className="flex flex-col gap-stack-xs">
                       <p className="text-caption font-semibold text-ink-500 uppercase tracking-wide m-0">Niveaux Dreyfus</p>
-                      <div className="flex flex-wrap gap-tight.5">
+                      <div className="flex flex-wrap gap-1.5">
                         {competencies.map(([compId, level]) => {
                           const skillReq = project?.skillProfile.find((s) => s.competencyId === compId);
                           const label = skillReq?.competencyName ?? compId;

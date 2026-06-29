@@ -200,11 +200,11 @@ export const Profile: React.FC = () => {
               {USER.role} · {USER.username}
             </p>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-500">
-              <span className="inline-flex items-center gap-tight.5"><Mail size={12} /> {displayEmail}</span>
+              <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-tight.5"><MapPin size={12} /> {USER.location}</span>
+              <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
               <span aria-hidden className="text-ink-300">·</span>
-              <span className="inline-flex items-center gap-tight.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
+              <span className="inline-flex items-center gap-1.5"><Calendar size={12} /> Membre depuis {USER.joinDate}</span>
             </div>
           </div>
 
@@ -254,7 +254,7 @@ export const Profile: React.FC = () => {
                   <p className="m-0 font-body text-body-sm text-ink-700 leading-relaxed">
                     {USER.bio}
                   </p>
-                  <div className="flex flex-wrap gap-tight.5 mt-stack-xs">
+                  <div className="flex flex-wrap gap-1.5 mt-stack-xs">
                     {USER.interests.map((interest) => (
                       <span
                         key={interest}

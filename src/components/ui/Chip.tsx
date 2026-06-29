@@ -51,7 +51,7 @@ export const CHIP_BASE =
 
 export const CHIP_SIZE: Record<ChipSize, string> = {
   sm: 'gap-tight px-2 py-0.5 text-micro font-medium',
-  md: 'gap-tight.5 px-2.5 py-1 text-caption font-medium',
+  md: 'gap-1.5 px-2.5 py-1 text-caption font-medium',
   lg: 'gap-stack-xs px-4 py-2 text-body-sm font-medium',
 };
 

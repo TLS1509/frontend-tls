@@ -99,7 +99,7 @@ const SURFACE: Record<'tinted' | 'plain', string> = {
 };
 
 const SIZE_PILL: Record<'sm' | 'md', string> = {
-  sm: 'h-7 px-2.5 text-micro gap-tight.5 rounded-pill',
+  sm: 'h-7 px-2.5 text-micro gap-1.5 rounded-pill',
   md: 'h-9 px-3.5 text-caption gap-stack-xs rounded-pill',
 };
 

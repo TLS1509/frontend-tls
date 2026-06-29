@@ -133,15 +133,15 @@ export const Magazine: React.FC = () => {
           </p>
 
           <div className="flex items-center gap-stack flex-wrap font-body text-caption text-white/70">
-            <span className="inline-flex items-center gap-tight.5">
+            <span className="inline-flex items-center gap-1.5">
               <CalendarDays size={13} /> Avril 2026
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-tight.5">
+            <span className="inline-flex items-center gap-1.5">
               <FileText size={13} /> 56 pages
             </span>
             <span aria-hidden className="text-white/30">·</span>
-            <span className="inline-flex items-center gap-tight.5">
+            <span className="inline-flex items-center gap-1.5">
               <Download size={13} /> 1 240 téléchargements
             </span>
           </div>

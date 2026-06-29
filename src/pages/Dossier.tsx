@@ -140,20 +140,20 @@ export const Dossier: React.FC = () => {
                 🧠
               </span>
               <div className="flex-1 min-w-0 flex flex-col gap-stack">
-                <span className="inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
+                <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-secondary-100 border border-secondary-200 text-micro font-bold uppercase tracking-wider text-secondary-800">
                   Dossier thématique
                 </span>
                 <h1 className="m-0 font-display text-h1 font-bold text-ink-900 leading-tight tracking-tight max-w-content">
                   Transformation IA des parcours de formation professionnelle
                 </h1>
                 <div className="flex items-center gap-stack flex-wrap font-body text-caption text-ink-600">
-                  <span className="inline-flex items-center gap-tight.5"><UserRound size={13} /> The Learning Society</span>
+                  <span className="inline-flex items-center gap-1.5"><UserRound size={13} /> The Learning Society</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-tight.5"><CalendarDays size={13} /> 15 janvier 2026</span>
+                  <span className="inline-flex items-center gap-1.5"><CalendarDays size={13} /> 15 janvier 2026</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-tight.5"><FileText size={13} /> 38 pages</span>
+                  <span className="inline-flex items-center gap-1.5"><FileText size={13} /> 38 pages</span>
                   <span aria-hidden className="text-ink-300">·</span>
-                  <span className="inline-flex items-center gap-tight.5"><Download size={13} /> 2 847 téléchargements</span>
+                  <span className="inline-flex items-center gap-1.5"><Download size={13} /> 2 847 téléchargements</span>
                 </div>
               </div>
             </div>

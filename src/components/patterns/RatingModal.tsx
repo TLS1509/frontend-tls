@@ -66,7 +66,7 @@ export const RatingModal: React.FC<RatingModalProps> = ({
       </div>
 
       <div className="flex flex-col items-center gap-stack-xs">
-        <div className="flex justify-center gap-tight.5">
+        <div className="flex justify-center gap-1.5">
           {[1, 2, 3, 4, 5].map((star) => {
             const isActive = star <= displayRating;
             return (

@@ -110,7 +110,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
 
         <div className="p-7 sm:p-8 flex flex-col gap-stack-lg">
           {/* Step badge */}
-          <span className="inline-flex self-start items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
+          <span className="inline-flex self-start items-center gap-1.5 px-2.5 py-1 rounded-pill bg-ink-100/70 font-body text-micro font-bold uppercase tracking-wider text-ink-500 select-none">
             {activeStep + 1} / {steps.length}
           </span>
 

@@ -198,7 +198,7 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
         )}
 
         {/* Prev / Next nav chevrons + Close button (right group) */}
-        <div className="shrink-0 flex items-center gap-tight.5">
+        <div className="shrink-0 flex items-center gap-1.5">
           {/* Prev / Next nav chevrons */}
           {hasNav && (
             <div className="flex items-center gap-tight">

@@ -182,7 +182,7 @@ export const NavItem: React.FC<NavItemProps> = ({
 }) => {
   const sizeClasses = collapsed
     ? 'w-12 h-12 mx-auto justify-center px-0'
-    : 'h-12 px-3.5 gap-stack-xs.5';
+    : 'h-12 px-3.5 gap-2.5';
 
   const classes = [
     NAV_BASE,

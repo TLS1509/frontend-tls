@@ -182,15 +182,15 @@ export const Leaderboard: React.FC = () => {
 
                 {/* Stats pills */}
                 <div className="flex items-center gap-stack-xs flex-wrap">
-                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Flame size={13} className={pod.iconClasses} />
                     {entry.streak}j streak
                   </span>
-                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Star size={12} className={pod.iconClasses} />
                     Niv.&nbsp;{entry.level}
                   </span>
-                  <span className={`inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold ${pod.pillClasses}`}>
                     <Zap size={12} className={pod.iconClasses} />
                     {entry.xp.toLocaleString('fr-FR')} XP
                   </span>

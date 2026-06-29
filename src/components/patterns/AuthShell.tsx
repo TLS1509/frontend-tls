@@ -185,7 +185,7 @@ export const AuthBackLink: React.FC<AuthBackLinkProps> = ({ label, onClick, clas
     type="button"
     onClick={onClick}
     className={[
-      'inline-flex items-center gap-tight.5 self-start',
+      'inline-flex items-center gap-1.5 self-start',
       'bg-transparent border-0 p-0 cursor-pointer',
       'text-body-sm font-medium text-white/75 hover:text-white transition-colors',
       className,

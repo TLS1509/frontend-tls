@@ -192,7 +192,7 @@ export default function ChatInterface() {
                   rows={2}
                   placeholder="Posez votre question à l'assistant…"
                   disabled={isTyping}
-                  className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-stack-xs.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
+                  className="flex-1 resize-none rounded-lg border border-ink-200 bg-white px-3 py-2.5 text-body-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all duration-base h-auto min-h-[64px] disabled:opacity-disabled disabled:cursor-not-allowed"
                 />
                 <Button
                   variant="primary"

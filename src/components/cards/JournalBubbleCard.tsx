@@ -164,7 +164,7 @@ export const JournalBubbleCard: React.FC<JournalBubbleCardProps> = ({
         </div>
         <span
           className={[
-            'inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill',
+            'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill',
             'font-body text-caption font-semibold shrink-0 whitespace-nowrap',
             meta.badge,
           ].join(' ')}

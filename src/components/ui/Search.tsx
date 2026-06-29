@@ -243,7 +243,7 @@ export const Search: React.FC<SearchProps> = ({
 
       {/* Filters slot — rendered BELOW input row, as sibling (not inside a label) */}
       {hasFiltersSlot && (
-        <div className={`flex flex-wrap gap-tight.5 pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
+        <div className={`flex flex-wrap gap-1.5 pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
           {filtersSlot}
         </div>
       )}

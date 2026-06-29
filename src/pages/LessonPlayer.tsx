@@ -982,7 +982,7 @@ export const LessonPlayer: React.FC = () => {
                 <span className="font-body text-caption text-ink-400">
                   Étape {decouvrirStep + 1} / {total}
                 </span>
-                <div className="flex items-center gap-tight.5">
+                <div className="flex items-center gap-1.5">
                   {d.steps!.map((_, i) => (
                     <button
                       key={i}
@@ -1008,14 +1008,14 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   <ChevronLeft size={14} /> Précédent
                 </button>
                 <button
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-600 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-700 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
                   Suivant <ChevronRight size={14} />
                 </button>
@@ -1222,7 +1222,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <ImageIcon size={13} /> Choisir un fichier
                   </span>
                 </label>
@@ -1260,7 +1260,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <Play size={13} /> Choisir une vidéo
                   </span>
                 </label>
@@ -1293,7 +1293,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-tight.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
                     <ImageIcon size={13} /> Choisir un GIF
                   </span>
                 </label>
@@ -1417,7 +1417,7 @@ export const LessonPlayer: React.FC = () => {
           return (
             <div key={key} className={mb}>
               {block.title && <h4 className={`m-0 mb-3 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
-              <div className="flex flex-wrap items-stretch gap-tight.5">
+              <div className="flex flex-wrap items-stretch gap-1.5">
                 {block.items.map((item, i) => {
                   const { card, num } = getColors(item.color);
                   return (
@@ -1470,7 +1470,7 @@ export const LessonPlayer: React.FC = () => {
 
         // vertical (default)
         return (
-          <div key={key} className={`flex flex-col ${compact ? 'gap-tight.5' : 'gap-stack-xs'} ${mb}`}>
+          <div key={key} className={`flex flex-col ${compact ? 'gap-1.5' : 'gap-stack-xs'} ${mb}`}>
             {block.title && <h4 className={`m-0 font-display font-bold text-ink-900 ${compact ? 'text-body-sm' : 'text-h4'}`}>{block.title}</h4>}
             {block.items.map((item, i) => {
               const { card, num } = getColors(item.color);
@@ -1503,7 +1503,7 @@ export const LessonPlayer: React.FC = () => {
               {block.description && (
                 <p className="m-0 mb-3 font-body text-body-sm text-ink-600">{block.description}</p>
               )}
-              <span className="inline-flex items-center gap-tight.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
+              <span className="inline-flex items-center gap-1.5 bg-primary-100 text-primary-700 px-3 py-1 rounded-pill font-body text-caption font-semibold">
                 <Cpu size={12} /> Module interactif · Bientôt disponible
               </span>
             </div>
@@ -1629,7 +1629,7 @@ export const LessonPlayer: React.FC = () => {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-tight.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    className="inline-flex items-center gap-1.5 px-stack h-10 bg-primary-600 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-700 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     <Link2 size={13} /> Charger
                   </button>
@@ -1860,7 +1860,7 @@ export const LessonPlayer: React.FC = () => {
           {/* Fade masks for scroll affordance on mobile */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white/95 to-transparent z-10" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white/95 to-transparent z-10" aria-hidden="true" />
-          <div className="lp-section-scroll flex gap-tight.5 overflow-x-auto px-stack py-stack-xs sm:justify-center">
+          <div className="lp-section-scroll flex gap-1.5 overflow-x-auto px-stack py-stack-xs sm:justify-center">
             {SECTIONS.map((section, index) => {
               const isActive = index === currentIndex;
               const isDone = completedSections.has(index) && !isActive;
@@ -1869,7 +1869,7 @@ export const LessonPlayer: React.FC = () => {
                 <button
                   key={section.id}
                   className={[
-                    'inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-none font-body text-micro cursor-pointer transition-all duration-200 whitespace-nowrap relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isActive
                       ? 'bg-primary-500 text-white font-bold shadow-sm'
                       : 'bg-ink-50 text-ink-600 font-medium hover:bg-ink-100',
@@ -1917,7 +1917,7 @@ export const LessonPlayer: React.FC = () => {
         </button>
 
         {/* BOTTOM PROGRESS — fixed, centered */}
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-tight.5 px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[51] flex items-center gap-1.5 px-3 py-stack-xs bg-white/80 backdrop-blur-sm rounded-pill shadow-sm border border-ink-100">
           {SECTIONS.map((_, i) => (
             <button
               key={i}

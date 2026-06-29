@@ -117,7 +117,7 @@ const VARIANT_TO_TONE_SURFACE: Record<StatCardVariant, { tone: StatCardTone; sur
 
 const CONTAINER_SIZE_CLASSES: Record<StatCardSize, string> = {
   sm: 'p-4 gap-stack-xs',
-  md: 'p-5 gap-stack-xs.5',
+  md: 'p-5 gap-2.5',
   lg: 'p-6 gap-stack-xs',
 };
 

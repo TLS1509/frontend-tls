@@ -198,7 +198,7 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
 
       {/* Body content */}
       <div className="flex flex-col gap-stack-xs p-5 flex-1">
-        <div className="inline-flex items-center gap-tight.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
+        <div className="inline-flex items-center gap-1.5 flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
           <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
@@ -272,7 +272,7 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
         <h3 className="m-0 font-display text-body sm:text-h4 font-bold text-ink-900 leading-tight line-clamp-2">
           {item.title}
         </h3>
-        <div className="flex items-center gap-tight.5 font-body text-micro text-ink-500 flex-wrap">
+        <div className="flex items-center gap-1.5 font-body text-micro text-ink-500 flex-wrap">
           <span className="inline-flex items-center gap-tight"><User size={10} strokeWidth={2} />{item.author}</span>
           <span aria-hidden>·</span>
           <span>{item.category}</span>
@@ -343,7 +343,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
           ✨ À la une
         </span>
         {showSaveButton && onToggleSave && (
@@ -365,7 +365,7 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
 
       {/* Content (right) */}
       <div className="flex flex-col gap-stack p-6 lg:p-8 justify-center">
-        <span className={['inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+        <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
           <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
         </span>
         <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
@@ -445,7 +445,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
           </div>
-          <span className="absolute top-4 left-4 inline-flex items-center gap-tight.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
+          <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-caption font-bold text-ink-900 shadow-sm">
             ✨ À la une
           </span>
           {showSaveButton && onToggleSave && (
@@ -468,7 +468,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           {items.length > 1 && (
             <div className="absolute bottom-4 inset-x-4 flex items-center justify-between">
               {/* Dots */}
-              <div className="flex items-center gap-tight.5">
+              <div className="flex items-center gap-1.5">
                 {items.map((_, i) => (
                   <button
                     key={i}
@@ -516,7 +516,7 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           role="button"
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
         >
-          <span className={['inline-flex items-center gap-tight.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
+          <span className={['inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
             <TypeIcon size={11} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
           </span>
           <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight group-hover:text-primary-700 transition-colors">
