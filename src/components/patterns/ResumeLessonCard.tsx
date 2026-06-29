@@ -100,7 +100,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
   eyebrow,
   nextLessonTitle,
   progress,
-  ctaLabel = 'Continuer ma leçon',
+  ctaLabel = 'Reprendre ta leçon',
   tone = 'warm',
   level,
   duration,
@@ -178,11 +178,12 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
           'gap-4 sm:gap-3 sm:min-w-[160px]',
           DIVIDER_COLOR[tone],
         ].join(' ')}>
-          {/* Progress % — large stat */}
+          {/* Progress % — quiet stat (completion is secondary to the action;
+              the full-width rail below already carries the visual signal). */}
           <div className="flex flex-col items-center">
             <span className={[
-              'font-display font-bold leading-none tabular-nums',
-              'text-[2rem] sm:text-[2.2rem]',
+              'font-display font-semibold leading-none tabular-nums',
+              'text-[1.5rem] sm:text-[1.6rem]',
               PCT_COLOR[tone],
             ].join(' ')}>
               {clamped}%
