@@ -33,7 +33,7 @@ import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
@@ -121,7 +121,7 @@ const ContentBlockRenderer: React.FC<{ block: ContentBlock }> = ({ block }) => {
   switch (block.type) {
     case 'heading':
       return (
-        <h2 className="m-0 mt-stack-lg font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
+        <h2 className="m-0 mt-stack font-display text-h3 font-bold text-ink-900 leading-tight tracking-tight">
           {block.text}
         </h2>
       );
@@ -186,7 +186,7 @@ export const ArticleDetail: React.FC = () => {
       : '/veille/weekly-newsletter';
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <>
       {/* Top reading progress bar : fixed */}
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
@@ -219,10 +219,8 @@ export const ArticleDetail: React.FC = () => {
         </Container>
       </div>
 
-      <div
-        ref={articleRef}
-        className="max-w-medium mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
-      >
+      <PageShell width="page" className="py-section flex flex-col gap-section">
+        <div ref={articleRef} className="flex flex-col gap-section">
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">
           <span className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-pill bg-primary-100 border border-primary-200 text-micro font-bold uppercase tracking-wider text-primary-700">
@@ -318,8 +316,9 @@ export const ArticleDetail: React.FC = () => {
             </div>
           }
         />
-      </div>
-    </div>
+        </div>
+      </PageShell>
+    </>
   );
 };
 
