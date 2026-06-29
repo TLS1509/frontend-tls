@@ -288,9 +288,6 @@ export const LearningSpace: React.FC = () => {
             />
           </div>
 
-          {/* ── Divider ────────────────────────────────────────────────────── */}
-          <div className="h-px bg-ink-100" />
-
           {/* ── Display mode toggle + count ────────────────────────────────── */}
           <div className="flex items-center justify-between gap-stack">
             <span className="text-body-sm text-ink-500 font-medium">
