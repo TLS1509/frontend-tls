@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useReducedMotion } from 'react';
+import { motion } from 'framer-motion';
 import {
   PieChart as RechartsPieChart,
   Pie,
@@ -85,8 +86,15 @@ export const PieChart: React.FC<PieChartProps> = ({
     return showLabels ? `${percent}%` : '';
   };
 
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <div className={`w-full ${className}`}>
+    <motion.div
+      className={`w-full ${className}`}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsPieChart>
           <Pie
@@ -135,6 +143,6 @@ export const PieChart: React.FC<PieChartProps> = ({
           )}
         </RechartsPieChart>
       </ResponsiveContainer>
-    </div>
+    </motion.div>
   );
 };

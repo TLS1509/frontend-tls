@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useReducedMotion } from 'react';
+import { motion } from 'framer-motion';
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -72,11 +73,17 @@ export const BarChart: React.FC<BarChartProps> = ({
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
+  const prefersReducedMotion = useReducedMotion();
 
   const isVertical = layout === 'horizontal'; // default recharts naming
 
   return (
-    <div className={`w-full ${className}`}>
+    <motion.div
+      className={`w-full ${className}`}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsBarChart
           data={data}
@@ -126,6 +133,6 @@ export const BarChart: React.FC<BarChartProps> = ({
           )}
         </RechartsBarChart>
       </ResponsiveContainer>
-    </div>
+    </motion.div>
   );
 };

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useReducedMotion } from 'react';
+import { motion } from 'framer-motion';
 import {
   ScatterChart as RechartsScatterChart,
   Scatter,
@@ -77,8 +78,15 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
     z: d.z ?? 100, // default bubble size
   }));
 
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <div className={`w-full ${className}`}>
+    <motion.div
+      className={`w-full ${className}`}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsScatterChart
           margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
@@ -134,6 +142,6 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
           </Scatter>
         </RechartsScatterChart>
       </ResponsiveContainer>
-    </div>
+    </motion.div>
   );
 };

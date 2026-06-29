@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useReducedMotion } from 'react';
+import { motion } from 'framer-motion';
 import {
   AreaChart as RechartsAreaChart,
   Area,
@@ -74,9 +75,15 @@ export const AreaChart: React.FC<AreaChartProps> = ({
 }) => {
   const heightMap = { sm: 250, md: 350, lg: 450 };
   const height = heightMap[size];
+  const prefersReducedMotion = useReducedMotion();
 
   return (
-    <div className={`w-full ${className}`}>
+    <motion.div
+      className={`w-full ${className}`}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <RechartsAreaChart
           data={data}
@@ -145,6 +152,6 @@ export const AreaChart: React.FC<AreaChartProps> = ({
           )}
         </RechartsAreaChart>
       </ResponsiveContainer>
-    </div>
+    </motion.div>
   );
 };
