@@ -226,7 +226,8 @@ import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
 import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
-import { MarketingRessources } from './pages/marketing/MarketingRessources';
+import { MarketingResources } from './pages/marketing/MarketingResources';
+import { MarketingResourceDetail } from './pages/marketing/MarketingResourceDetail';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
@@ -551,7 +552,9 @@ function App() {
           {/* [variant] <Route path="learning-app-b3" element={<MarketingLearningAppB3 />} /> */}
           <Route path="magazine" element={<MarketingMagazine />} />
           <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
-          <Route path="ressources" element={<MarketingRessources />} />
+          <Route path="resources" element={<MarketingResources />} />
+          <Route path="resources/:slug" element={<MarketingResourceDetail />} />
+          <Route path="ressources" element={<MarketingResources />} />
           <Route path="equipe" element={<MarketingEquipe />} />
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />

@@ -19,7 +19,7 @@ import {
   Clock, User, ChevronDown, ChevronUp,
 } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
-import { Container } from '../components/layout';
+import { Container, PageShell } from '../components/layout';
 
 interface VideoData {
   id: string;
@@ -218,11 +218,9 @@ export const VideoViewer: React.FC = () => {
       </div>
 
       {/* ── Content Section ─────────────────────────────────────── */}
-      <div className="flex-1 bg-white py-section px-stack sm:px-stack-lg lg:px-section">
-        <Container width="medium" padding={false} className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-section">
-
-          {/* Main content */}
-          <div className="flex flex-col gap-stack">
+      <PageShell width="medium" className="relative z-base flex-1 bg-white py-section gap-section grid grid-cols-1 lg:grid-cols-[1fr_320px]" noPadTop>
+        {/* Main content */}
+        <div className="flex flex-col gap-stack">
 
             {/* Title and metadata */}
             <div>
@@ -287,8 +285,7 @@ export const VideoViewer: React.FC = () => {
               </div>
             </Card>
           </div>
-        </Container>
-      </div>
+      </PageShell>
     </div>
   );
 };
