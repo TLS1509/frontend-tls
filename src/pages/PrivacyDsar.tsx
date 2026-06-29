@@ -18,6 +18,7 @@ const DATA_TYPES = [
   { id: 'journal', label: 'Journal de bord', size: '320 KB', desc: 'Toutes tes entrées et leur historique' },
   { id: 'coaching', label: 'Coaching & messages', size: '180 KB', desc: 'Sessions, corrections, threads messagerie' },
   { id: 'gamification', label: 'Gamification', size: '45 KB', desc: 'Badges, streaks, XP, achievements' },
+  { id: 'ai', label: 'IA & confidentialité', size: '20 KB', desc: 'Consentements IA/RGPD + journal de supervision IA (recommandations acceptées ou rejetées, AI Act Art. 14)' },
 ];
 
 const STATUS_LABEL: Record<string, { label: string; variant: 'success' | 'warm' | 'neutral' }> = {
@@ -35,21 +36,61 @@ const PrivacyDsar: React.FC = () => {
   const pastRequests = privacyStore.getDsarRequests(MOCK_USER_ID);
   const hasPendingRequest = pastRequests.some((r) => r.status === 'submitted' || r.status === 'processing');
 
+  /**
+   * Assemble le sous-ensemble de données réellement détenu côté client pour
+   * l'export DSAR. Le pan IA (consentements + journal de supervision) est
+   * exigé par l'AI Act (Art. 14, transparence des décisions) en plus du RGPD.
+   * Les catégories volumineuses (parcours, journal…) sont assemblées côté serveur.
+   */
+  const buildExportPackage = () => ({
+    meta: {
+      kind: 'tls-dsar-export',
+      userId: MOCK_USER_ID,
+      generatedAt: new Date().toISOString(),
+      legalBasis: ['RGPD Art. 15', 'AI Act Art. 13/14'],
+    },
+    privacy: {
+      gdprConsents: privacyStore.getGdprConsents(MOCK_USER_ID),
+      aiConsents: privacyStore.getAIConsents(MOCK_USER_ID),
+      dsarRequests: privacyStore.getDsarRequests(MOCK_USER_ID),
+    },
+    aiDecisionLog: privacyStore.getAIDecisionLog(MOCK_USER_ID),
+  });
+
   const handleRequest = async () => {
     setSubmitting(true);
     await new Promise((res) => setTimeout(res, 600));
     const now = new Date();
     const deadline = new Date(now);
     deadline.setDate(deadline.getDate() + 30);
+
+    // Génère et télécharge le volet IA/confidentialité de l'archive (JSON).
+    const pkg = buildExportPackage();
+    const json = JSON.stringify(pkg, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tls-donnees-${MOCK_USER_ID}-${now.toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    const sizeKb = Math.max(1, Math.round((json.length / 1024) * 10) / 10);
     privacyStore.addDsarRequest({
       id: `dsar-${Date.now()}`,
       userId: MOCK_USER_ID,
       status: 'submitted',
       submittedAt: now.toISOString(),
       legalDeadlineAt: deadline.toISOString(),
+      archiveSize: `${sizeKb} KB`,
     });
     setSubmitting(false);
-    toast.success('Ta demande DSAR a été enregistrée. Tu recevras un email sous 48h.', 'Demande envoyée');
+    toast.success(
+      'Le volet IA & confidentialité a été téléchargé. L\'archive complète te sera envoyée par email sous 48h.',
+      'Demande envoyée',
+    );
   };
 
   return (
