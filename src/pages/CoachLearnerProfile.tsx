@@ -13,6 +13,8 @@ import { AIOverrideButton } from '../components/ui/AIOverrideButton';
 import type { ActivityFeedItem } from '../components/patterns/ActivityFeed';
 import { Container } from '../components/layout';
 import { getApprenantById, dreyfusLabel } from '../data/apprenants';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_COACH_ID } from '../data/analytics';
 
 const FALLBACK_LEARNER = {
   name: 'Isabelle Fontaine',
@@ -148,9 +150,25 @@ export default function CoachLearnerProfile() {
   const navigate = useNavigate();
   const [note, setNote] = useState('');
   const [dismissedRecs, setDismissedRecs] = useState<Set<string>>(new Set());
+  const logAIDecision = usePrivacyStore((s) => s.logAIDecision);
 
-  const handleOverride = (id: string, reason?: string) => {
-    setDismissedRecs((prev) => new Set([...prev, id]));
+  /** Trace une décision humaine de supervision IA (AI Act Art. 14) — append-only, persistée. */
+  const logDecision = (
+    rec: (typeof AI_RECOMMENDATIONS)[number],
+    type: 'ai_override' | 'ai_accepted',
+    reason?: string,
+  ) => {
+    setDismissedRecs((prev) => new Set([...prev, rec.id]));
+    logAIDecision({
+      id: `aidec-${rec.id}-${Date.now()}`,
+      userId: id ?? 'unknown',
+      actorId: MOCK_COACH_ID,
+      type,
+      recId: rec.id,
+      recLabel: rec.title,
+      reason,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   const activeRecs = AI_RECOMMENDATIONS.filter((r) => !dismissedRecs.has(r.id));
@@ -260,12 +278,16 @@ export default function CoachLearnerProfile() {
                       </span>
                     </div>
                     <div className="flex items-center justify-between pt-tight border-t border-ink-100 mt-1">
-                      <Button variant="primary" size="sm">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => logDecision(rec, 'ai_accepted')}
+                      >
                         Appliquer
                       </Button>
                       <AIOverrideButton
                         label="Rejeter"
-                        onOverride={(reason) => handleOverride(rec.id, reason)}
+                        onOverride={(reason) => logDecision(rec, 'ai_override', reason)}
                         requireReason
                         size="sm"
                       />

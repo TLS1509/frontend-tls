@@ -429,6 +429,36 @@ export interface UserAIConsents {
 }
 
 /**
+ * Type de décision humaine enregistrée dans le journal de supervision IA
+ * (Cahier #13bis § AI Act — Human Oversight, Art. 14).
+ * `ai_override` = l'humain rejette une sortie IA (motif requis).
+ * `ai_accepted` = l'humain valide/applique une sortie IA.
+ */
+export type AIDecisionType = 'ai_override' | 'ai_accepted';
+
+/**
+ * Journal de décision IA — append-only (Cahier #13bis § AI Act Human Oversight).
+ * Chaque fois qu'un humain (coach) supervise une sortie IA (recommandation,
+ * suggestion), une entrée est tracée : qui, quoi, pourquoi. Inclus dans l'export
+ * DSAR (RGPD Art. 15 + AI Act transparence des décisions).
+ */
+export interface AIDecisionLog {
+  id: string;
+  /** Utilisateur dont les données sont concernées (l'apprenant). */
+  userId: string;
+  /** Auteur de la décision de supervision (le coach). */
+  actorId?: string;
+  type: AIDecisionType;
+  /** Identifiant de la recommandation / sortie IA concernée. */
+  recId: string;
+  /** Libellé lisible de la recommandation (pour l'export DSAR). */
+  recLabel?: string;
+  /** Motif fourni par l'humain — obligatoire pour un rejet (`ai_override`). */
+  reason?: string;
+  timestamp: string;
+}
+
+/**
  * Statuts d'une demande DSAR (Cahier #13bis § DSAR — RGPD Art. 15).
  * submitted → processing → completed | rejected
  */

@@ -53,6 +53,7 @@ import type {
   UserGdprConsents,
   UserAIConsents,
   DsarRequest,
+  AIDecisionLog,
   LearnerAnalyticsProfile,
   CoachTeamStats,
   ChatSession,
@@ -1129,6 +1130,8 @@ interface PrivacyState {
   gdprConsents: Record<string, UserGdprConsents>;
   aiConsents: Record<string, UserAIConsents>;
   dsarRequests: Record<string, DsarRequest[]>;
+  /** Journal de supervision IA append-only (AI Act Art. 14). Key = userId concerné. */
+  aiDecisionLog: Record<string, AIDecisionLog[]>;
 
   getGdprConsents: (userId: string) => UserGdprConsents;
   updateGdprConsents: (userId: string, updates: Partial<UserGdprConsents>) => void;
@@ -1136,6 +1139,10 @@ interface PrivacyState {
   updateAIConsents: (userId: string, updates: Partial<UserAIConsents>) => void;
   getDsarRequests: (userId: string) => DsarRequest[];
   addDsarRequest: (request: DsarRequest) => void;
+  /** Lire le journal de décisions IA d'un utilisateur (le plus récent en premier). */
+  getAIDecisionLog: (userId: string) => AIDecisionLog[];
+  /** Append-only : tracer une décision humaine de supervision sur une sortie IA. */
+  logAIDecision: (entry: AIDecisionLog) => void;
   clear: () => void;
 }
 
@@ -1145,6 +1152,7 @@ export const usePrivacyStore = create<PrivacyState>()(
       gdprConsents: {},
       aiConsents: {},
       dsarRequests: {},
+      aiDecisionLog: {},
 
       getGdprConsents: (userId) => {
         const existing = get().gdprConsents[userId];
@@ -1195,7 +1203,15 @@ export const usePrivacyStore = create<PrivacyState>()(
           return { dsarRequests: { ...state.dsarRequests, [request.userId]: [request, ...existing] } };
         }),
 
-      clear: () => set({ gdprConsents: {}, aiConsents: {}, dsarRequests: {} }),
+      getAIDecisionLog: (userId) => get().aiDecisionLog[userId] ?? [],
+
+      logAIDecision: (entry) =>
+        set((state) => {
+          const existing = state.aiDecisionLog[entry.userId] ?? [];
+          return { aiDecisionLog: { ...state.aiDecisionLog, [entry.userId]: [entry, ...existing] } };
+        }),
+
+      clear: () => set({ gdprConsents: {}, aiConsents: {}, dsarRequests: {}, aiDecisionLog: {} }),
     }),
     {
       name: 'tls-privacy',
