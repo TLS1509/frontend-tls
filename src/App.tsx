@@ -468,8 +468,10 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* pb-16 reserves space for BottomNav on mobile (hidden on md+) */}
-        <main className="flex-1 min-w-0 [overflow-x:clip] pb-16 md:pb-0">{children}</main>
+        {/* pb-16 reserves space for BottomNav; max-md:pt-14 clears the fixed
+            mobile menu button (top-2 left-2, 52px bottom edge) so no page's
+            top-of-content renders under it. Both mobile-only (md:hidden chrome). */}
+        <main className="flex-1 min-w-0 [overflow-x:clip] max-md:pt-14 pb-16 md:pb-0">{children}</main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 text-center">
           © {new Date().getFullYear()} The Learning Society. All rights reserved.
