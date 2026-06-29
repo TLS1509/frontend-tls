@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles } from 'lucide-react';
+import { BookOpen, Activity, Calendar, FileText, Plus, ArrowLeft, Sparkles, ShieldOff } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import ProgressBar from '../components/ui/ProgressBar';
@@ -151,6 +151,11 @@ export default function CoachLearnerProfile() {
   const [note, setNote] = useState('');
   const [dismissedRecs, setDismissedRecs] = useState<Set<string>>(new Set());
   const logAIDecision = usePrivacyStore((s) => s.logAIDecision);
+  const getAIConsents = usePrivacyStore((s) => s.getAIConsents);
+  // Le consentement IA appartient au sujet (l'apprenant). Si l'apprenant a désactivé
+  // les recommandations IA dans ses préférences, le coach ne voit aucune suggestion
+  // automatique générée à son sujet (RGPD / AI Act — consentement honoré, pas juste stocké).
+  const aiRecoAllowed = getAIConsents(id ?? 'unknown').aiRecommendations;
 
   /** Trace une décision humaine de supervision IA (AI Act Art. 14) — append-only, persistée. */
   const logDecision = (
@@ -246,8 +251,23 @@ export default function CoachLearnerProfile() {
           </div>
         </SectionCard>
 
-        {/* Recommandations IA */}
-        {activeRecs.length > 0 && (
+        {/* Recommandations IA — gated sur le consentement IA de l'apprenant (RGPD / AI Act) */}
+        {!aiRecoAllowed && (
+          <SectionCard
+            title="Recommandations IA"
+            titleIcon={<Sparkles size={18} />}
+            description="Suggestions générées par l'analyse comportementale."
+          >
+            <div className="flex items-start gap-stack-xs p-stack rounded-xl border border-ink-100 bg-ink-50">
+              <ShieldOff size={18} className="text-ink-400 mt-0.5 shrink-0" />
+              <p className="text-body-sm text-ink-600">
+                {learner.name} a désactivé les recommandations IA dans ses préférences de
+                confidentialité. Aucune suggestion automatique n'est générée pour cet apprenant.
+              </p>
+            </div>
+          </SectionCard>
+        )}
+        {aiRecoAllowed && activeRecs.length > 0 && (
           <SectionCard
             title="Recommandations IA"
             titleIcon={<Sparkles size={18} />}
