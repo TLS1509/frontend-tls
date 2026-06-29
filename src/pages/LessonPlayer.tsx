@@ -894,7 +894,7 @@ export const LessonPlayer: React.FC = () => {
 
   const renderIntroduction = () => (
     <div>
-      <h2 className={SECTION_TITLE}>{lessonData.intro.heading}</h2>
+      <h2 className={SECTION_TITLE}>{displayTitle}</h2>
       <p className="font-body text-body text-ink-500 leading-relaxed mb-stack-lg">
         {lessonData.intro.description}
       </p>
