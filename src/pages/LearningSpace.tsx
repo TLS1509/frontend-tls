@@ -180,20 +180,9 @@ export const LearningSpace: React.FC = () => {
   return (
     <PageShell width="page" className="relative z-base gap-5 pt-2 pb-2" noPadTop>
 
-      {/* ── Breadcrumb context ──────────────────────────────────────────── */}
-      <div className="px-4 sm:px-6 lg:px-10 text-micro text-ink-400 font-medium">
-        <div className="max-w-6xl mx-auto flex items-center gap-1.5">
-          <span>📚 Parcours</span>
-          <span>·</span>
-          <span>📍 Étape</span>
-          <span>·</span>
-          <span>📖 Leçon</span>
-        </div>
-      </div>
-
       {/* ── Main content wrapper (single max-w-6xl) ────────────────────────── */}
       <div className="px-4 sm:px-6 lg:px-10 flex-1">
-        <div className="max-w-6xl mx-auto flex flex-col gap-section">
+        <div className="max-w-6xl mx-auto flex flex-col gap-stack-lg">
 
           {/* ── Page header + search ────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack">
