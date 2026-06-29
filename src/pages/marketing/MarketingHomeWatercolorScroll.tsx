@@ -144,7 +144,7 @@ const Audience: React.FC = () => (
         {
           icon: GraduationCap,
           title: 'Formateurs indépendants',
-          desc: 'Se former à l'IA pédagogique, certification, intégration des bons outils.',
+          desc: "Se former à l'IA pédagogique, certification, intégration des bons outils.",
           cta: 'Devenir Formateur Augmenté',
           route: '/marketing/formation',
         },
@@ -201,7 +201,7 @@ const ThreePillars: React.FC = () => (
         {
           icon: GraduationCap,
           title: 'Formation certifiante',
-          desc: 'Maîtriser l'IA pédagogique avec méthode STRIDE.',
+          desc: "Maîtriser l'IA pédagogique avec méthode STRIDE.",
         },
         {
           icon: Smartphone,

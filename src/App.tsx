@@ -213,6 +213,11 @@ import { MarketingHome } from './pages/marketing/MarketingHome';
 // [variant] import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
 import { MarketingHomeFullPage } from './pages/marketing/MarketingHomeFullPage';
 import { MarketingHomeLight } from './pages/marketing/MarketingHomeLight';
+import { MarketingHomeParallax } from './pages/marketing/MarketingHomeParallax';
+import { MarketingHomeEditorial } from './pages/marketing/MarketingHomeEditorial';
+import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
+import { MarketingHomeCinematic } from './pages/marketing/MarketingHomeCinematic';
+import { MarketingHomeWatercolorScroll } from './pages/marketing/MarketingHomeWatercolorScroll';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] home variants + devtools — files kept, routes removed from prod
 // import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
@@ -525,11 +530,16 @@ function App() {
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
         <Route path="/marketing" element={<MarketingLayout />}>
-          <Route index element={<MarketingHomeFullPage />} />
-          {/* [variant] <Route path="hero-b" element={<MarketingHomeC />} /> */}
-          {/* [variant] <Route path="hero-c" element={<MarketingHomeD />} /> */}
-          {/* [variant] home-light — new light-themed variant for A/B testing */}
-          <Route path="_home-light" element={<MarketingHomeLight />} />
+          <Route index element={<MarketingHome />} />
+          {/* A/B Testing — 7 variants (underscore prefix = hidden from main nav) */}
+          <Route path="_v1-home" element={<MarketingHome />} />
+          <Route path="_v2-home-light" element={<MarketingHomeLight />} />
+          <Route path="_v3-home-parallax" element={<MarketingHomeParallax />} />
+          <Route path="_v4-home-editorial" element={<MarketingHomeEditorial />} />
+          <Route path="_v5-home-fullpage" element={<MarketingHomeFullPage />} />
+          <Route path="_v6-home-a" element={<MarketingHomeA />} />
+          <Route path="_v7-home-cinematic" element={<MarketingHomeCinematic />} />
+          <Route path="_v8-home-watercolor" element={<MarketingHomeWatercolorScroll />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           <Route path="formation" element={<MarketingFormation />} />

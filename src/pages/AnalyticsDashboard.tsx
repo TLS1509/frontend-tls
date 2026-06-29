@@ -473,7 +473,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-body-lg font-bold text-success-base">Compétences saines</div>
                   </div>
                   <div className="text-h3 font-bold text-ink-900">Leadership, Communication</div>
-                  <div className="text-body-sm text-ink-600">> 70% d'adoption, niveau D3+</div>
+                  <div className="text-body-sm text-ink-600">&gt; 70% d'adoption, niveau D3+</div>
                 </Card>
 
                 <Card className="flex flex-col gap-stack p-stack md:p-stack-lg bg-warning-bg/30 border border-warning-base/20">
@@ -482,7 +482,7 @@ export default function AnalyticsDashboard() {
                     <div className="text-body-lg font-bold text-warning-base">Compétences en retard</div>
                   </div>
                   <div className="text-h3 font-bold text-ink-900">Créativité, Analyse</div>
-                  <div className="text-body-sm text-ink-600">< 50% d'adoption, focus d'accompagnement requis</div>
+                  <div className="text-body-sm text-ink-600">{'<'} 50% d'adoption, focus d'accompagnement requis</div>
                 </Card>
               </div>
             </div>

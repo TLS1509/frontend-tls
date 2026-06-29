@@ -6,10 +6,14 @@
  */
 
 import React, { useState } from 'react';
-import { MarketingHomeFullPage } from './MarketingHomeFullPage';
 import { MarketingHome } from './MarketingHome';
-import { MarketingHomeC } from './MarketingHomeC';
-import { MarketingHomeD } from './MarketingHomeD';
+import { MarketingHomeLight } from './MarketingHomeLight';
+import { MarketingHomeParallax } from './MarketingHomeParallax';
+import { MarketingHomeEditorial } from './MarketingHomeEditorial';
+import { MarketingHomeFullPage } from './MarketingHomeFullPage';
+import { MarketingHomeA } from './MarketingHomeA';
+import { MarketingHomeCinematic } from './MarketingHomeCinematic';
+import { MarketingHomeWatercolorScroll } from './MarketingHomeWatercolorScroll';
 import { MarketingAccompagnement } from './MarketingAccompagnement';
 import { MarketingAccompagnementA2 } from './MarketingAccompagnementA2';
 import { MarketingAccompagnementA3 } from './MarketingAccompagnementA3';
@@ -18,7 +22,7 @@ import { MarketingLearningAppB2 } from './MarketingLearningAppB2';
 import { MarketingLearningAppB3 } from './MarketingLearningAppB3';
 
 type PageKey = 'home' | 'acc' | 'la';
-type VariantKey = 1 | 2 | 3 | 4;
+type VariantKey = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 const PAGE_LABELS: Record<PageKey, string> = {
   home: 'Homepage',
@@ -34,10 +38,14 @@ interface VariantMeta {
 
 const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> = {
   home: {
-    1: { label: 'H1 · Aquarelle Full', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
-    2: { label: 'H2 · Édito Premium', badge: 'Éditorial', badgeColor: 'bg-primary-100 text-primary-700' },
-    3: { label: 'H3 · Vidéo Scroll', badge: 'Vidéo', badgeColor: 'bg-secondary-100 text-secondary-700' },
-    4: { label: 'H4 · Aquarelle Pleine Page', badge: 'Aquarelle', badgeColor: 'bg-accent-100 text-warning-fg' },
+    1: { label: 'V1 · Quick Wins', badge: '72→82', badgeColor: 'bg-ink-200 text-ink-700' },
+    2: { label: 'V2 · Light', badge: 'Minimaliste', badgeColor: 'bg-primary-100 text-primary-700' },
+    3: { label: 'V3 · Parallax', badge: '3-layers', badgeColor: 'bg-secondary-100 text-secondary-700' },
+    4: { label: 'V4 · Editorial', badge: 'Sticky', badgeColor: 'bg-accent-100 text-ink-900' },
+    5: { label: 'V5 · FullPage', badge: 'Word-swap', badgeColor: 'bg-primary-100 text-primary-700' },
+    6: { label: 'V6 · HomeA', badge: 'Épuré', badgeColor: 'bg-secondary-100 text-secondary-700' },
+    7: { label: 'V7 · Cinematic', badge: '🎬 Video', badgeColor: 'bg-accent-100 text-ink-900' },
+    8: { label: 'V8 · Watercolor', badge: 'Scroll', badgeColor: 'bg-primary-100 text-primary-700' },
   },
   acc: {
     1: { label: 'A1 · Services + Timeline', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
@@ -55,10 +63,14 @@ type ComponentMap = Record<PageKey, Partial<Record<VariantKey, React.FC>>>;
 
 const COMPONENTS: ComponentMap = {
   home: {
-    1: MarketingHomeFullPage,
-    2: MarketingHome,
-    3: MarketingHomeC,
-    4: MarketingHomeD,
+    1: MarketingHome,
+    2: MarketingHomeLight,
+    3: MarketingHomeParallax,
+    4: MarketingHomeEditorial,
+    5: MarketingHomeFullPage,
+    6: MarketingHomeA,
+    7: MarketingHomeCinematic,
+    8: MarketingHomeWatercolorScroll,
   },
   acc: {
     1: MarketingAccompagnement,
@@ -73,7 +85,7 @@ const COMPONENTS: ComponentMap = {
 };
 
 const PAGE_VARIANT_COUNT: Record<PageKey, number> = {
-  home: 4,
+  home: 8,
   acc: 3,
   la: 3,
 };

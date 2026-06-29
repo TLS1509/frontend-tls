@@ -7,6 +7,9 @@ export { PieChart } from './PieChart';
 export { ScatterChart } from './ScatterChart';
 export { ComposedChart } from './ComposedChart';
 export { HeatmapChart } from './HeatmapChart';
+export { TimelineChart } from './TimelineChart';
+export { GaugeChart } from './GaugeChart';
+export { ChartExportButton } from './ChartExportButton';
 
 export type { RadarChartProps, RadarDataPoint } from './RadarChart';
 export type { BarChartProps, BarChartDataPoint } from './BarChart';
@@ -16,3 +19,5 @@ export type { PieChartProps, PieChartDataPoint } from './PieChart';
 export type { ScatterChartProps, ScatterChartDataPoint } from './ScatterChart';
 export type { ComposedChartProps, ComposedChartSeriesConfig, ComposedChartDataPoint } from './ComposedChart';
 export type { HeatmapChartProps, HeatmapDataPoint } from './HeatmapChart';
+export type { TimelineEvent } from './TimelineChart';
+export type { GaugeChartProps } from './GaugeChart';
