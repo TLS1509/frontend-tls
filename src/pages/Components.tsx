@@ -241,6 +241,9 @@ import {
   ComposedChart,
   HeatmapChart,
   ChartContainer,
+  TimelineChart,
+  GaugeChart,
+  ChartExportButton,
 } from '../components/charts';
 
 /* ============================================================================
@@ -540,7 +543,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
 
-  // ── DATA VISUALIZATION — Charts & Analytics (Phase 20) ──────────────────
+  // ── DATA VISUALIZATION — Charts & Analytics (Phase 20+) ──────────────────
   RadarChart:           { category: 'Data Visualization', subCategory: 'Competency charts' },
   BarChart:             { category: 'Data Visualization', subCategory: 'Distribution charts' },
   LineChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
@@ -549,7 +552,10 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   ScatterChart:         { category: 'Data Visualization', subCategory: 'Correlation charts' },
   ComposedChart:        { category: 'Data Visualization', subCategory: 'Composite charts' },
   HeatmapChart:         { category: 'Data Visualization', subCategory: 'Matrix charts' },
+  TimelineChart:        { category: 'Data Visualization', subCategory: 'Timeline & Events' },
+  GaugeChart:           { category: 'Data Visualization', subCategory: 'Progress & Gauges' },
   ChartContainer:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
+  ChartExportButton:    { category: 'Data Visualization', subCategory: 'Chart utilities' },
 };
 
 /** Display order for new categories (left-to-right in filter tabs, top-to-bottom in render). */
@@ -582,7 +588,7 @@ const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms'],
   Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards', 'Viewer content'],
-  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Chart utilities'],
+  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media'],
   'Auth Family': ['Shell & layout'],
   'Pages & Templates': [],
@@ -6956,6 +6962,72 @@ const COMPONENTS: ComponentEntry[] = [
           size="sm"
         />
       </ChartContainer>
+    ),
+  },
+
+  {
+    name: 'TimelineChart',
+    codeName: 'charts/TimelineChart.tsx',
+    cssBase: 'TimelineChart',
+    category: 'Learning',
+    description: 'Vertical or horizontal timeline for displaying learner journey events (lessons, sessions, badges, milestones). USAGE: Passeport learner journey, Coach activity log. PROPS: data, layout, maxEvents, onEventClick. Type-aware colors, responsive mobile-first.',
+    keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal'],
+    usedBy: ['Passeport', 'Coach', 'Analytics'],
+    render: () => (
+      <TimelineChart
+        data={[
+          { id: '1', date: '2026-06-29', label: 'Lesson 1: Leadership Foundations', type: 'lesson', description: 'Completed in 45 minutes', tone: 'primary' },
+          { id: '2', date: '2026-06-27', label: 'Badge Earned: Leadership D3', type: 'badge', tone: 'sun' },
+          { id: '3', date: '2026-06-25', label: 'Coaching Session', type: 'session', description: '1-on-1 with Sarah', tone: 'warm' },
+          { id: '4', date: '2026-06-20', label: 'Milestone: Week 2 Complete', type: 'milestone', tone: 'success' },
+        ]}
+        layout="vertical"
+        maxEvents={10}
+      />
+    ),
+  },
+
+  {
+    name: 'GaugeChart',
+    codeName: 'charts/GaugeChart.tsx',
+    cssBase: 'GaugeChart',
+    category: 'Learning',
+    description: 'Circular progress indicator (0-100% or 0-5 Dreyfus scale). Variants: arc (default), needle, segment. USAGE: Dashboard KPIs, competency progress, goal tracking. PROPS: current, max, label, tone, variant, size. Tone-aware colors, size variants (sm/md/lg).',
+    keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
+    usedBy: ['Passeport', 'Dashboard', 'Analytics'],
+    render: () => (
+      <div className="flex gap-6 flex-wrap">
+        <GaugeChart current={68} max={100} label="Passeport Progress" tone="primary" variant="arc" size="md" showPercentage />
+        <GaugeChart current={3.4} max={5} label="Leadership Level" tone="warm" variant="needle" size="md" target={4.5} />
+        <GaugeChart current={75} max={100} label="Weekly Goal" tone="sun" variant="segment" size="sm" target={90} />
+      </div>
+    ),
+  },
+
+  {
+    name: 'ChartExportButton',
+    codeName: 'charts/ChartExportButton.tsx',
+    cssBase: 'ChartExportButton',
+    category: 'Patterns',
+    description: 'Reusable export button component for charts. Provides PNG (html2canvas), PDF (jsPDF), CSV (papaparse) export options. USAGE: Wrap in any chart dashboard. PROPS: chartId, filename, data, showPdf, showPng, showCsv, variant. Compact or full button layout.',
+    keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report'],
+    usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
+    render: () => (
+      <div className="space-y-4">
+        <div>
+          <p className="text-caption text-ink-600 mb-2">Compact (default):</p>
+          <ChartExportButton chartId="chart-demo" filename="chart-export" variant="compact" />
+        </div>
+        <div>
+          <p className="text-caption text-ink-600 mb-2">Full:</p>
+          <ChartExportButton
+            chartId="chart-demo"
+            filename="report-export"
+            data={[{ label: 'Q1', value: 100 }, { label: 'Q2', value: 150 }]}
+            variant="full"
+          />
+        </div>
+      </div>
     ),
   },
 ];
