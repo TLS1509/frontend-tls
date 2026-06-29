@@ -8,9 +8,9 @@ import { Input } from '../components/core/Input';
 import { FormGroup } from '../components/core/FormGroup';
 import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
+import { PageShell } from '../components/layout';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
 
 const PrivacyDeleteAccount: React.FC = () => {
   const store = usePrivacyStore();
@@ -37,7 +37,7 @@ const PrivacyDeleteAccount: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="content" noPadTop>
       <EditorialHero
         eyebrow="Confidentialité · Droit à l'oubli (RGPD)"
         title="Supprimer définitivement mon compte"
@@ -45,7 +45,7 @@ const PrivacyDeleteAccount: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <Alert variant="warning" title="⚠️ Action irréversible">
           Cette action est définitive. Tu ne pourras pas récupérer ton compte ni tes données après confirmation. Pense à exporter tes données avant via la demande DSAR.
         </Alert>
@@ -135,7 +135,8 @@ const PrivacyDeleteAccount: React.FC = () => {
           </Alert>
         )}
       </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

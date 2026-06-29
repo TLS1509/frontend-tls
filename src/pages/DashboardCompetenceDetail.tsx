@@ -11,7 +11,7 @@ import { SkillBar } from '../components/ui/SkillBar';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { StatCard } from '../components/ui/StatCard';
 import { ActivityFeed } from '../components/patterns/ActivityFeed';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -57,7 +57,7 @@ export default function DashboardCompetenceDetail() {
   const [tab, setTab] = useState<'radar' | 'skills' | 'activity'>('radar');
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Dashboard · Compétence"
         title={COMPETENCE.label}
@@ -70,7 +70,7 @@ export default function DashboardCompetenceDetail() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -146,7 +146,7 @@ export default function DashboardCompetenceDetail() {
           </Button>
         </div>
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

@@ -350,42 +350,39 @@ export const Account: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('general');
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="medium" paddingX="comfortable">
+    <PageShell width="content" noPadTop={false}>
+      {/* ── Account family sub-nav ───────────────────────────── */}
+      <AccountFamilyNav active="account" />
 
-        {/* ── Account family sub-nav ───────────────────────────── */}
-        <AccountFamilyNav active="account" />
-
-        {/* ── Page header ──────────────────────────────────────── */}
-        <header className="flex items-start justify-between gap-stack">
-          <div className="flex flex-col gap-tight">
-            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
-              Mon compte
-            </h1>
-            <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
-              Informations personnelles, sécurité, notifications et abonnement.
-            </p>
-          </div>
-          <Badge variant="brand" className="shrink-0 mt-1">Plan Pro · Actif</Badge>
-        </header>
-
-        {/* ── Tabs ─────────────────────────────────────────────── */}
-        <Tabs
-          items={TAB_ITEMS}
-          value={activeTab}
-          onChange={(id) => setActiveTab(id as TabId)}
-          variant="underline"
-          fullWidth
-        />
-
-        {/* ── Tab panels ────────────────────────────────────────── */}
-        <div>
-          {activeTab === 'general'       && <GeneralTab />}
-          {activeTab === 'security'      && <SecurityTab />}
-          {activeTab === 'notifications' && <NotificationsTab />}
-          {activeTab === 'billing'       && <BillingTab />}
+      {/* ── Page header ──────────────────────────────────────── */}
+      <header className="flex items-start justify-between gap-stack">
+        <div className="flex flex-col gap-tight">
+          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
+            Mon compte
+          </h1>
+          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
+            Informations personnelles, sécurité, notifications et abonnement.
+          </p>
         </div>
-      </PageShell>
-    </div>
+        <Badge variant="brand" className="shrink-0 mt-1">Plan Pro · Actif</Badge>
+      </header>
+
+      {/* ── Tabs ─────────────────────────────────────────────── */}
+      <Tabs
+        items={TAB_ITEMS}
+        value={activeTab}
+        onChange={(id) => setActiveTab(id as TabId)}
+        variant="underline"
+        fullWidth
+      />
+
+      {/* ── Tab panels ────────────────────────────────────────── */}
+      <div>
+        {activeTab === 'general'       && <GeneralTab />}
+        {activeTab === 'security'      && <SecurityTab />}
+        {activeTab === 'notifications' && <NotificationsTab />}
+        {activeTab === 'billing'       && <BillingTab />}
+      </div>
+    </PageShell>
   );
 };

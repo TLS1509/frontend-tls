@@ -10,7 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -67,7 +67,7 @@ export default function EnterpriseAnalyticsDashboard() {
   }));
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Enterprise · Analytics"
         title="Dashboard Analytics Entreprise"
@@ -85,7 +85,7 @@ export default function EnterpriseAnalyticsDashboard() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Period filter */}
         <div className="flex flex-wrap gap-stack-xs">
@@ -218,7 +218,7 @@ export default function EnterpriseAnalyticsDashboard() {
           </SectionCard>
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

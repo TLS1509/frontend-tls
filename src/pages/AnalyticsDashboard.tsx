@@ -22,7 +22,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { LineChart } from '../components/charts/LineChart';
 import { ComposedChart } from '../components/charts/ComposedChart';
 import { AreaChart } from '../components/charts/AreaChart';
@@ -195,7 +195,7 @@ export default function AnalyticsDashboard() {
   ];
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Analytics · Dashboard"
         title="Tableau de bord d'analyse"
@@ -213,7 +213,7 @@ export default function AnalyticsDashboard() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Period Filter */}
         <div className="flex flex-wrap gap-stack-xs">
@@ -490,7 +490,7 @@ export default function AnalyticsDashboard() {
           </div>
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

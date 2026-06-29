@@ -283,13 +283,13 @@ export const LearningSpace: React.FC = () => {
         />
       </div>
 
-      {/* ── Divider */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="h-px bg-ink-100 mt-4" />
+      {/* ── Divider → Content grid separator ─────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-stack pb-stack">
+        <div className="h-px bg-ink-100" />
       </div>
 
       {/* ── Content grid ─────────────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-section">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
         {filteredItems.length === 0 ? (
           <EmptyState
             tone="primary"

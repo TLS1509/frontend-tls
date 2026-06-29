@@ -6,11 +6,11 @@ import { Switch } from '../components/core/Input';
 import Select from '../components/core/Select';
 import Button from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { PageShell } from '../components/layout';
 import { useNotificationPrefsStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { UserNotificationPrefs, NotificationChannelPrefs } from '../types/learning';
 import { useToastContext } from '../contexts/ToastContext';
-import { Container } from '../components/layout';
 
 const FREQUENCY_OPTIONS = [
   { value: 'immediate', label: 'Immédiat' },
@@ -71,7 +71,7 @@ export default function NotificationPreferences() {
   };
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="content" noPadTop>
       <EditorialHero
         eyebrow="Profil · Notifications"
         title="Préférences de notifications"
@@ -79,7 +79,7 @@ export default function NotificationPreferences() {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* In-App */}
         <SectionCard
@@ -177,7 +177,7 @@ export default function NotificationPreferences() {
             Enregistrer les préférences
           </Button>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

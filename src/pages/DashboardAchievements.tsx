@@ -7,11 +7,11 @@ import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
 import AchievementBadge from '../components/ui/AchievementBadge';
 import Avatar from '../components/ui/Avatar';
+import { PageShell } from '../components/layout';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getBadgeDefById } from '../data/gamification';
 import { buildLeaderboard } from '../data/apprenants';
-import { Container } from '../components/layout';
 import type { BadgeDef } from '../types/learning';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
@@ -116,7 +116,7 @@ export default function DashboardAchievements() {
   const currentRank = leaderboard.find((r) => r.isCurrentUser)?.rank;
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Dashboard · Réussites"
         title="Mes Réussites"
@@ -124,7 +124,7 @@ export default function DashboardAchievements() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
@@ -271,7 +271,7 @@ export default function DashboardAchievements() {
             ))}
           </ol>
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

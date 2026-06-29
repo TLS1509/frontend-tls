@@ -6,10 +6,10 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
 import { Badge } from '../components/ui/Badge';
+import { PageShell } from '../components/layout';
 import { usePrivacyStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import { useToastContext } from '../contexts/ToastContext';
-import { Container } from '../components/layout';
 
 const DATA_TYPES = [
   { id: 'profile', label: 'Profil utilisateur', size: '12 KB', desc: 'Nom, email, rôle, photo, paramètres' },
@@ -94,7 +94,7 @@ const PrivacyDsar: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="content" noPadTop>
       <EditorialHero
         eyebrow="Confidentialité · RGPD Article 15"
         title="Télécharger mes données personnelles"
@@ -102,7 +102,7 @@ const PrivacyDsar: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <Alert variant="info" title="Ce que dit la loi">
           L'article 15 du RGPD te donne le droit d'accéder à toutes les données personnelles te concernant. Nous t'enverrons un fichier ZIP contenant toutes ces données par email.
         </Alert>
@@ -176,8 +176,8 @@ const PrivacyDsar: React.FC = () => {
             </div>
           )}
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

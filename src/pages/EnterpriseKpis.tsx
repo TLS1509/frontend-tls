@@ -10,7 +10,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -144,7 +144,7 @@ export default function EnterpriseKpis() {
   }));
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       {/* Hero */}
       <EditorialHero
         eyebrow={{ label: 'Enterprise · KPIs' }}
@@ -154,7 +154,7 @@ export default function EnterpriseKpis() {
         trailing={
           <div className="flex flex-wrap gap-stack-xs">
             <Button
-              variant="glass-light-ghost"
+              variant="ghost"
               size="md"
               leadingIcon={<Download size={16} />}
             >
@@ -171,7 +171,7 @@ export default function EnterpriseKpis() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Period filter */}
         <div className="flex flex-wrap gap-stack-xs">
@@ -308,7 +308,7 @@ export default function EnterpriseKpis() {
           </div>
         )}
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

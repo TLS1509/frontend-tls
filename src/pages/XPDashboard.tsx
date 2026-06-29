@@ -4,9 +4,9 @@ import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
 import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
+import { PageShell } from '../components/layout';
 import { useGamificationStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
 
 
 const XP_CATEGORIES = [
@@ -28,7 +28,7 @@ export default function XPDashboard() {
   const xpProgress = Math.min(100, Math.round(((totalXP - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100));
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow="Profil · XP"
         title="Mes Points XP"
@@ -36,7 +36,7 @@ export default function XPDashboard() {
         tone="flat"
       />
 
-      <Container width="wide" padding={false} className="px-stack flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard
@@ -124,7 +124,7 @@ export default function XPDashboard() {
             ))}
           </div>
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }
