@@ -22,7 +22,7 @@ import { Avatar } from '../ui/Avatar';
 import { CalendarClock, FileText, Notebook, ArrowRight } from 'lucide-react';
 import { CARD_SHADOW_HOVER_MD } from '../../lib/tone-classes';
 
-export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
+export type SessionCardSurface = 'card' | 'tinted' | 'glass' | 'frosted' | 'outline';
 export type SessionCardTone = 'primary' | 'warm' | 'sun';
 
 export interface SessionCardProps {
@@ -81,6 +81,20 @@ const SURFACE_GLASS =
 const SURFACE_FROSTED =
   'bg-white/68 backdrop-blur-glass-medium border border-white/55 shadow-sm hover:bg-white/80 hover:shadow-card-hover';
 
+/* ─── Outline variant (minimal, white background + colored border) ─────── */
+const SURFACE_OUTLINE_BASE = 'bg-white';
+const SURFACE_OUTLINE_BORDER: Record<SessionCardTone, string> = {
+  primary: '!border-primary-300 !border-2',
+  warm:    '!border-secondary-300 !border-2',
+  sun:     '!border-accent-300 !border-2',
+};
+
+const SURFACE_OUTLINE_HOVER: Record<SessionCardTone, string> = {
+  primary: 'hover:bg-primary-50',
+  warm:    'hover:bg-secondary-50',
+  sun:     'hover:bg-accent-50',
+};
+
 const FOCUS_TONE: Record<SessionCardTone, string> = {
   primary: 'focus-visible:outline-primary-500',
   warm:    'focus-visible:outline-secondary-400',
@@ -93,6 +107,7 @@ const FOOTER_DIVIDER: Record<SessionCardSurface, string> = {
   tinted:  'border-t border-white/60',
   glass:   'border-t border-white/30',
   frosted: 'border-t border-white/30',
+  outline: 'border-t border-ink-100',
 };
 
 function getSurfaceClasses(surface: SessionCardSurface, tone: SessionCardTone): string {
@@ -100,6 +115,7 @@ function getSurfaceClasses(surface: SessionCardSurface, tone: SessionCardTone): 
     case 'tinted':  return SURFACE_TINTED[tone];
     case 'glass':   return SURFACE_GLASS;
     case 'frosted': return SURFACE_FROSTED;
+    case 'outline': return [SURFACE_OUTLINE_BASE, SURFACE_OUTLINE_BORDER[tone], SURFACE_OUTLINE_HOVER[tone]].join(' ');
     case 'card':
     default:        return `${SURFACE_CARD_BASE} ${SURFACE_CARD_HOVER_BORDER[tone]}`;
   }

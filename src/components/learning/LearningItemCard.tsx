@@ -40,23 +40,61 @@ const TONE: Record<ItemType, 'brand' | 'warm' | 'sun'> = {
 };
 
 const ICON: Record<ItemType, React.ReactNode> = {
-  astuces:        <Flame size={18} strokeWidth={1.75} />,
-  flashcard:      <Star size={18} strokeWidth={1.75} />,
-  ressource:      <FileText size={18} strokeWidth={1.75} />,
-  guide:          <Map size={18} strokeWidth={1.75} />,
-  video_conc:     <Video size={18} strokeWidth={1.75} />,
-  video_geste:    <Play size={18} strokeWidth={1.75} />,
-  micro_learning: <BookOpen size={18} strokeWidth={1.75} />,
-  mission:        <Users size={18} strokeWidth={1.75} />,
-  masterclass:    <Star size={18} strokeWidth={1.75} />,
+  astuces:        <Flame size={16} strokeWidth={1.75} />,
+  flashcard:      <Star size={16} strokeWidth={1.75} />,
+  ressource:      <FileText size={16} strokeWidth={1.75} />,
+  guide:          <Map size={16} strokeWidth={1.75} />,
+  video_conc:     <Video size={16} strokeWidth={1.75} />,
+  video_geste:    <Play size={16} strokeWidth={1.75} />,
+  micro_learning: <BookOpen size={16} strokeWidth={1.75} />,
+  mission:        <Users size={16} strokeWidth={1.75} />,
+  masterclass:    <Star size={16} strokeWidth={1.75} />,
 };
 
 /* ─── Gradient backgrounds & borders (tinted outline) ─────────────────────── */
 
 const BG_GRADIENT: Record<'brand' | 'warm' | 'sun', string> = {
-  brand: 'bg-gradient-to-br from-primary-50 to-white border-primary-200',
-  warm:  'bg-gradient-to-br from-secondary-50 to-white border-secondary-200',
-  sun:   'bg-gradient-to-br from-accent-50 to-white border-accent-200',
+  brand: 'bg-gradient-to-br from-primary-50 to-white',
+  warm:  'bg-gradient-to-br from-secondary-50 to-white',
+  sun:   'bg-gradient-to-br from-accent-50 to-white',
+};
+
+const BORDER_TONE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: '!border-primary-200',
+  warm:  '!border-secondary-200',
+  sun:   '!border-accent-200',
+};
+
+/* ─── Outline variant (minimal, light background) ──────────────────────────── */
+
+const BG_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-white',
+  warm:  'bg-white',
+  sun:   'bg-white',
+};
+
+const BORDER_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: '!border-primary-300 !border-2',
+  warm:  '!border-secondary-300 !border-2',
+  sun:   '!border-accent-300 !border-2',
+};
+
+const ICON_BUBBLE_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-primary-100 text-primary-600',
+  warm:  'bg-secondary-100 text-secondary-600',
+  sun:   'bg-accent-100 text-accent-600',
+};
+
+const LEVEL_PILL_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-primary-50 text-primary-700 border border-primary-200',
+  warm:  'bg-secondary-50 text-secondary-700 border border-secondary-200',
+  sun:   'bg-accent-50 text-accent-700 border border-accent-200',
+};
+
+const HOVER_BG_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'hover:bg-primary-50',
+  warm:  'hover:bg-secondary-50',
+  sun:   'hover:bg-accent-50',
 };
 
 const ICON_BUBBLE: Record<'brand' | 'warm' | 'sun', string> = {
@@ -86,6 +124,7 @@ export interface LearningItemCardProps {
   progress?: number;
   denialReason?: 'tier' | 'prerequisite';
   denialMessage?: string;
+  cardVariant?: 'tinted' | 'outline';
   onClick?: (id: string) => void;
 }
 
@@ -104,10 +143,18 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
   progress,
   denialReason,
   denialMessage,
+  cardVariant = 'tinted',
   onClick,
 }) => {
   const tone = TONE[type];
   const icon = ICON[type];
+  const isTinted = cardVariant === 'tinted';
+  const bgClasses = isTinted ? BG_GRADIENT[tone] : BG_OUTLINE[tone];
+  const borderClasses = isTinted ? BORDER_TONE[tone] : BORDER_OUTLINE[tone];
+  const hoverClasses = !isTinted ? HOVER_BG_OUTLINE[tone] : '';
+  const iconBubbleClasses = isTinted ? ICON_BUBBLE[tone] : ICON_BUBBLE_OUTLINE[tone];
+  const levelPillClasses = isTinted ? LEVEL_PILL[tone] : LEVEL_PILL_OUTLINE[tone];
+  const shadowClasses = isTinted && (tone === 'sun' ? 'shadow-sun-sm' : tone === 'warm' ? 'shadow-warm-sm' : 'shadow-brand-sm');
 
   return (
     <Card
@@ -115,19 +162,20 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       variant="interactive"
       size="md"
       className={[
-        `relative border ${BG_GRADIENT[tone]} p-4`,
-        tone === 'sun' ? 'shadow-sun-sm' : tone === 'warm' ? 'shadow-warm-sm' : 'shadow-brand-sm',
+        `relative border ${bgClasses} ${borderClasses} p-5 sm:p-6`,
+        shadowClasses,
+        hoverClasses,
         !isAccessible ? 'opacity-60 cursor-not-allowed' : '',
       ].filter(Boolean).join(' ')}
       onClick={onClick ? () => onClick(id) : undefined}
     >
 
       {/* ── Icon bubble (top-right corner) ── */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-3 right-3">
         <span
           className={[
-            'w-10 h-10 shrink-0 flex items-center justify-center rounded-xl',
-            isAccessible ? ICON_BUBBLE[tone] : 'bg-ink-100 text-ink-400',
+            'w-8 h-8 shrink-0 flex items-center justify-center rounded-lg',
+            isAccessible ? iconBubbleClasses : 'bg-ink-100 text-ink-400',
           ].join(' ')}
           aria-hidden
         >
@@ -135,32 +183,32 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </span>
       </div>
 
-      {/* ── Main content (flex column, gap-stack) ── */}
-      <div className="flex flex-col gap-stack pr-12">
+      {/* ── Main content (flex column, better spacing) ── */}
+      <div className="flex flex-col gap-2 pr-10">
         {/* 1. Type badge + duration ── */}
         <div className="flex items-center gap-1 flex-wrap text-micro">
           <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
           <span className="text-ink-400">•</span>
-          <span className="text-ink-500 font-medium">{duration}</span>
+          <span className="text-ink-500 font-medium text-micro">{duration}</span>
         </div>
 
         {/* 2. Title + description ── */}
-        <div className="flex flex-col gap-0.5">
-          <h3 className="m-0 font-display text-h5 font-semibold leading-tight tracking-tight text-ink-900 line-clamp-2">
+        <div className="flex flex-col gap-1">
+          <h3 className="m-0 font-display text-h5 font-semibold leading-tight text-ink-900 line-clamp-2">
             {title}
           </h3>
-          <p className="m-0 text-body-sm text-ink-500 leading-snug line-clamp-2">
+          <p className="m-0 text-caption text-ink-500 leading-snug line-clamp-2">
             {description}
           </p>
         </div>
 
         {/* 3. Footer: level + theme ── */}
-        <div className="flex items-center gap-1.5 text-micro">
-          <span className={`px-1.5 py-0.5 rounded text-micro font-medium border ${LEVEL_PILL[tone]}`}>
+        <div className="flex items-center gap-1 text-micro">
+          <span className={`px-2 py-1 rounded text-micro font-medium border ${levelPillClasses}`}>
             D{dreyfusLevel}
           </span>
-          <span className="text-ink-400">•</span>
-          <span className="text-ink-500">{theme}</span>
+          <span className="text-ink-400 text-micro">•</span>
+          <span className="text-ink-500 text-micro truncate">{theme}</span>
         </div>
       </div>
 
@@ -198,7 +246,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
 
       {/* ── CTA button (full-width, tone-aware) ── */}
       <Button
-        variant={isAccessible ? tone === 'brand' ? 'primary' : tone === 'warm' ? 'warm' : 'sun' : 'secondary'}
+        variant={isAccessible ? tone === 'brand' ? 'primary' : tone === 'warm' ? 'secondary' : 'accent' : 'secondary'}
         size="sm"
         fullWidth
         disabled={!isAccessible}

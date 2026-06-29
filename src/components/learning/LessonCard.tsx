@@ -7,7 +7,7 @@ import { CARD_SHADOW_HOVER_MD, CARD_PROGRESS_FILL, TONE_CTA_TEXT } from '../../l
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
 export type LessonTone = 'primary' | 'warm' | 'sun';
-export type LessonCardSurface = 'card' | 'tinted' | 'glass' | 'frosted';
+export type LessonCardSurface = 'card' | 'tinted' | 'glass' | 'frosted' | 'outline';
 
 export interface LessonCardProps {
   title: string;
@@ -62,6 +62,11 @@ const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
     primary: 'bg-primary-50/65 backdrop-blur-glass-medium border border-primary-200/50 shadow-brand-sm',
     warm:    'bg-secondary-50/65 backdrop-blur-glass-medium border border-secondary-200/50 shadow-warm-sm',
     sun:     'bg-accent-50/70 backdrop-blur-glass-medium border border-accent-200/50 shadow-sun-sm',
+  },
+  outline: {
+    primary: 'bg-white !border-primary-300 !border-2 hover:bg-primary-50',
+    warm:    'bg-white !border-secondary-300 !border-2 hover:bg-secondary-50',
+    sun:     'bg-white !border-accent-300 !border-2 hover:bg-accent-50',
   },
 };
 

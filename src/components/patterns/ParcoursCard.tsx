@@ -34,6 +34,8 @@ export interface ParcoursCardProps {
   progress: number;
   status: ParcoursStatus;
   tone?: ParcoursTone;
+  /** Card variant: tinted (default gradient bg) or outline (white bg + colored border). */
+  cardVariant?: 'tinted' | 'outline';
   onClick?: (id: string) => void;
   className?: string;
   /** Duration label rendered in a MetaPill (e.g. "6 semaines"). */
@@ -52,6 +54,20 @@ const TITLE_TONE_CLASSES: Record<ParcoursTone, string> = {
   primary: 'text-primary-600',
   warm:    'text-secondary-600',
   sun:     'text-accent-700',
+};
+
+/* ─── Outline variant (minimal, white background + colored border) ─────── */
+const BG_OUTLINE = 'bg-white';
+const BORDER_OUTLINE: Record<ParcoursTone, string> = {
+  primary: '!border-primary-300 !border-2',
+  warm:    '!border-secondary-300 !border-2',
+  sun:     '!border-accent-300 !border-2',
+};
+
+const HOVER_BG_OUTLINE: Record<ParcoursTone, string> = {
+  primary: 'hover:bg-primary-50',
+  warm:    'hover:bg-secondary-50',
+  sun:     'hover:bg-accent-50',
 };
 
 const CTA_BASE =
@@ -79,27 +95,43 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
   progress,
   status,
   tone = 'primary',
+  cardVariant = 'tinted',
   onClick,
   className = '',
   duration,
   lessons,
 }) => {
   const hasMeta = Boolean(duration || lessons);
+  const isTinted = cardVariant === 'tinted';
+  const bgClasses = isTinted ? '' : BG_OUTLINE;
+  const borderClasses = isTinted ? '' : BORDER_OUTLINE[tone];
+  const hoverClasses = !isTinted ? HOVER_BG_OUTLINE[tone] : '';
 
   return (
     <Card
-      variant="tinted"
-      tone={tone}
+      variant={isTinted ? 'tinted' : 'default'}
+      tone={isTinted ? tone : undefined}
       onClick={() => onClick?.(id)}
       aria-label={`${title} — ${status}`}
-      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 ${CTA_SHADOW_HOVER_MD[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={[
+        'group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1',
+        isTinted ? CTA_SHADOW_HOVER_MD[tone] : '',
+        `!p-0 !rounded-2xl !gap-0`,
+        bgClasses,
+        borderClasses,
+        hoverClasses,
+        !isTinted ? '!border-none' : '', // outline: remove default border
+        className,
+      ].filter(Boolean).join(' ')}
     >
-      {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-base ease-standard"
-        style={GLOW_BG[tone]}
-      />
+      {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover (tinted only) */}
+      {isTinted && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-base ease-standard"
+          style={GLOW_BG[tone]}
+        />
+      )}
 
       <div className="relative p-8 flex flex-col gap-stack h-full min-w-0">
         {/* Titre — pas de truncate, overflow-wrap:anywhere évite le dépassement sur longs mots,
