@@ -14,7 +14,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Check, ChevronRight, Home } from 'lucide-react';
+import { Check, ChevronRight, Home, Zap, Target, FolderOpen, Brain, RefreshCw } from 'lucide-react';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';

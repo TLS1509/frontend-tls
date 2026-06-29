@@ -112,7 +112,6 @@ import { LearningPathGrid } from '../components/patterns/LearningPathGrid';
 import { MultiStepForm } from '../components/patterns/MultiStepForm';
 import { PageCard } from '../components/patterns/PageCard';
 import { LessonCard } from '../components/learning/LessonCard';
-import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { ResumeLessonCard } from '../components/patterns/ResumeLessonCard';
 import { SessionCard } from '../components/learning/SessionCard';
 import { ArticleCard } from '../components/learning/ArticleCard';

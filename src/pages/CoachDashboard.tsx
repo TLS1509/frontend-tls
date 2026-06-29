@@ -150,7 +150,7 @@ export default function CoachDashboard() {
                 return (
                   <Card
                     key={a.id}
-                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : 'hover:shadow-sm'}`}
+                    className={`p-stack flex items-start gap-stack cursor-pointer transition-all duration-base ${isSelected ? 'ring-2 ring-primary-400' : 'hover:shadow-primary-md hover:-translate-y-1'}`}
                     onClick={() => setSelectedApprenantId(isSelected ? null : a.id)}
                   >
                     <Avatar initials={a.initials} size="md" />

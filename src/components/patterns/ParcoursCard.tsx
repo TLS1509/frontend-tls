@@ -60,7 +60,13 @@ const CTA_BASE =
 const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
   primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brand-sm hover:shadow-brand-md focus-visible:outline-primary-400',
   warm:    'bg-secondary-500 hover:bg-secondary-600 text-white shadow-xs hover:shadow-sm focus-visible:outline-secondary-400',
-  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sm focus-visible:outline-accent-500',
+  sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sun-sm focus-visible:outline-accent-500',
+};
+
+const CARD_HOVER_SHADOW: Record<ParcoursTone, string> = {
+  primary: 'hover:shadow-primary-md',
+  warm:    'hover:shadow-card-hover',
+  sun:     'hover:shadow-sun-md',
 };
 
 const GLOW_BG: Record<ParcoursTone, React.CSSProperties> = {
@@ -89,7 +95,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       tone={tone}
       onClick={() => onClick?.(id)}
       aria-label={`${title} — ${status}`}
-      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 hover:shadow-lg !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 ${CARD_HOVER_SHADOW[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
     >
       {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover */}
       <div

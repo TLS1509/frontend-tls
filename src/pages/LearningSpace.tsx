@@ -398,89 +398,89 @@ export const LearningSpace: React.FC = () => {
               Parcourez toutes nos ressources d'apprentissage
             </p>
             {filteredItems.length === 0 ? (
-          <EmptyState
-            tone="primary"
-            icon={<Sparkles size={32} />}
-            title="Aucun contenu trouvé"
-            description="Essayez d'élargir vos filtres ou de modifier votre recherche."
-            actions={
-              <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
-                Réinitialiser les filtres
-              </Button>
-            }
-          />
-        ) : displayMode === 'list' ? (
-          <div className="flex flex-col gap-stack" aria-label="Contenus d'apprentissage — Affichage liste">
-            {filteredItems.map((item) => {
-              const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                userSubscriptionTier: userTier,
-                completedItemIds,
-                learnerCompetencyLevels,
-              });
-              const isAccessible = accessCheck.allowed;
-              const denialMessage = getAccessDenialMessage(accessCheck);
+              <EmptyState
+                tone="primary"
+                icon={<Sparkles size={32} />}
+                title="Aucun contenu trouvé"
+                description="Essayez d'élargir vos filtres ou de modifier votre recherche."
+                actions={
+                  <Button variant="secondary" size="sm" leadingIcon={<RotateCcw size={12} />} onClick={resetFilters}>
+                    Réinitialiser les filtres
+                  </Button>
+                }
+              />
+            ) : displayMode === 'list' ? (
+              <div className="flex flex-col gap-stack" aria-label="Contenus d'apprentissage — Affichage liste">
+                {filteredItems.map((item) => {
+                  const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                    userSubscriptionTier: userTier,
+                    completedItemIds,
+                    learnerCompetencyLevels,
+                  });
+                  const isAccessible = accessCheck.allowed;
+                  const denialMessage = getAccessDenialMessage(accessCheck);
 
-              return (
-                <LearningItemCard
-                  key={item.id}
-                  id={item.id}
-                  type={item.type}
-                  title={item.title}
-                  description={item.description}
-                  duration={item.duration}
-                  dreyfusLevel={item.dreyfusLevel}
-                  theme={item.theme}
-                  isAccessible={isAccessible}
-                  isCompleted={completedItemIds.has(item.id)}
-                  denialReason={
-                    accessCheck.reason === 'tier'
-                      ? 'tier'
-                      : accessCheck.reason === 'prerequisite'
-                      ? 'prerequisite'
-                      : undefined
-                  }
-                  denialMessage={denialMessage}
-                  onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
-                />
-              );
-            })}
-          </div>
-        ) : (
-          <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage — Affichage grille">
-            {filteredItems.map((item) => {
-              const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
-                userSubscriptionTier: userTier,
-                completedItemIds,
-                learnerCompetencyLevels,
-              });
-              const isAccessible = accessCheck.allowed;
-              const denialMessage = getAccessDenialMessage(accessCheck);
+                  return (
+                    <LearningItemCard
+                      key={item.id}
+                      id={item.id}
+                      type={item.type}
+                      title={item.title}
+                      description={item.description}
+                      duration={item.duration}
+                      dreyfusLevel={item.dreyfusLevel}
+                      theme={item.theme}
+                      isAccessible={isAccessible}
+                      isCompleted={completedItemIds.has(item.id)}
+                      denialReason={
+                        accessCheck.reason === 'tier'
+                          ? 'tier'
+                          : accessCheck.reason === 'prerequisite'
+                          ? 'prerequisite'
+                          : undefined
+                      }
+                      denialMessage={denialMessage}
+                      onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <CardGrid layout="default" gapSize="stack" aria-label="Contenus d'apprentissage — Affichage grille">
+                {filteredItems.map((item) => {
+                  const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
+                    userSubscriptionTier: userTier,
+                    completedItemIds,
+                    learnerCompetencyLevels,
+                  });
+                  const isAccessible = accessCheck.allowed;
+                  const denialMessage = getAccessDenialMessage(accessCheck);
 
-              return (
-                <LearningItemCard
-                  key={item.id}
-                  id={item.id}
-                  type={item.type}
-                  title={item.title}
-                  description={item.description}
-                  duration={item.duration}
-                  dreyfusLevel={item.dreyfusLevel}
-                  theme={item.theme}
-                  isAccessible={isAccessible}
-                  isCompleted={completedItemIds.has(item.id)}
-                  denialReason={
-                    accessCheck.reason === 'tier'
-                      ? 'tier'
-                      : accessCheck.reason === 'prerequisite'
-                      ? 'prerequisite'
-                      : undefined
-                  }
-                  denialMessage={denialMessage}
-                  onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
-                />
-              );
-            })}
-          </CardGrid>
+                  return (
+                    <LearningItemCard
+                      key={item.id}
+                      id={item.id}
+                      type={item.type}
+                      title={item.title}
+                      description={item.description}
+                      duration={item.duration}
+                      dreyfusLevel={item.dreyfusLevel}
+                      theme={item.theme}
+                      isAccessible={isAccessible}
+                      isCompleted={completedItemIds.has(item.id)}
+                      denialReason={
+                        accessCheck.reason === 'tier'
+                          ? 'tier'
+                          : accessCheck.reason === 'prerequisite'
+                          ? 'prerequisite'
+                          : undefined
+                      }
+                      denialMessage={denialMessage}
+                      onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
+                    />
+                  );
+                })}
+              </CardGrid>
             )}
           </div>
 
