@@ -227,7 +227,7 @@ import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagneme
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 // [variant] import { MarketingLearningAppB2 } from './pages/marketing/MarketingLearningAppB2';
 // [variant] import { MarketingLearningAppB3 } from './pages/marketing/MarketingLearningAppB3';
-// [variant] import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
+import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
@@ -553,6 +553,7 @@ function App() {
 
         {/* ── Pages test temporaires ── */}
         <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
+        <Route path="/marketing/_variants" element={<MarketingVariantLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />
