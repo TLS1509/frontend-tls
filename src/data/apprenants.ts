@@ -158,6 +158,24 @@ export const APPRENANTS: Apprenant[] = [
     streak: 4,
     scores: [2, 2, 2, 3, 1, 2],
   },
+  {
+    // Compte démo (l'utilisateur connecté = MOCK_USER_ID 'user-demo'). Présent ici
+    // pour que la boucle de démo soit visible de bout en bout : le coach ouvre
+    // /coach/apprenant/user-demo → rejette une reco IA (tracée sous 'user-demo')
+    // → la décision apparaît dans l'export DSAR de l'utilisateur (/profile/privacy/dsar).
+    id: 'user-demo',
+    name: 'Alex Mercier',
+    initials: 'AM',
+    role: 'Apprenant',
+    email: 'alex.mercier@example.com',
+    tags: ['Leadership D2', 'Communication D3'],
+    status: 'active',
+    lastActivity: 'Aujourd’hui',
+    dreyfusAvg: 2.6,
+    nextSession: '24 mai',
+    streak: 7,
+    scores: [2, 3, 2, 3, 2, 3],
+  },
 ];
 
 export const getApprenantById = (id: string): Apprenant | undefined =>
