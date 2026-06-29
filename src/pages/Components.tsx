@@ -88,12 +88,14 @@ import {
   IconFeatureCard,
   // Patterns
   ParcoursCard,
+  ViewerProgressTrail,
 } from '../components';
 import { ToastContainer } from '../components';
 import { useToast } from '../hooks/useToast';
 // Components not yet in main index — direct imports
 import { ProfileCard } from '../components/ui/ProfileCard';
 import { CourseCard } from '../components/learning/CourseCard';
+import { LearningItemCard } from '../components/learning/LearningItemCard';
 // SurfaceCard deprecated → use <Card variant="default|elevated|glass|bordered|muted|sunken">
 import { ResourceCard } from '../components/ui/ResourceCard';
 import { CompetencyMatrix } from '../components/ui/CompetencyMatrix';
@@ -7027,6 +7029,88 @@ const COMPONENTS: ComponentEntry[] = [
             variant="full"
           />
         </div>
+      </div>
+    ),
+  },
+
+  {
+    name: 'ViewerProgressTrail',
+    codeName: 'patterns/ViewerProgressTrail.tsx',
+    cssBase: 'viewer-progress',
+    category: 'Patterns',
+    description: 'Progress indicator for step-by-step viewers (Astuces, Flashcards). Two display styles: dots (discrete steps) and bar (continuous percentage). Tone-aware colors (primary/warm/sun). Completion visual with gradient effect. Full a11y support: role="progressbar", aria-valuenow/valuemin/valuemax.',
+    keywords: ['progress', 'viewer', 'steps', 'indicator', 'astuces', 'flashcards', 'lessonplayer'],
+    usedBy: ['AstucesViewer', 'FlashcardsViewer'],
+    toneAware: true,
+    hasVariants: true,
+    render: () => (
+      <div className="flex flex-col gap-stack">
+        <div>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Dots style (default)</p>
+          <div className="flex gap-section items-center justify-center">
+            <ViewerProgressTrail current={0} total={5} tone="primary" />
+            <ViewerProgressTrail current={2} total={5} tone="warm" />
+            <ViewerProgressTrail current={4} total={5} tone="sun" />
+          </div>
+        </div>
+        <div>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Bar style</p>
+          <div className="flex flex-col gap-stack max-w-sm">
+            <ViewerProgressTrail current={0} total={5} style="bar" tone="primary" />
+            <ViewerProgressTrail current={2} total={5} style="bar" tone="warm" />
+            <ViewerProgressTrail current={5} total={5} style="bar" tone="sun" />
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  {
+    name: 'LearningItemCard',
+    codeName: 'learning/LearningItemCard.tsx',
+    cssBase: 'learning-item-card',
+    category: 'Learning',
+    description: 'Card for learning resources in LearningSpace grid/list. ResourceCard pattern: tone-aware gradient backgrounds + tinted outline. Icon bubble top-right corner. Consistent padding (p-4) ensures same-size cards in grids. Features: type badge, duration meta, completion badge overlay, lock state, progress bar, tone-aware footer pills.',
+    keywords: ['learning', 'resource', 'card', 'astuces', 'flashcard', 'video', 'mission', 'grid', 'learningspace'],
+    usedBy: ['LearningSpace', 'Recommendations', 'DiscoveryFeed'],
+    toneAware: true,
+    render: () => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack max-w-4xl">
+        <LearningItemCard
+          id="demo-1"
+          type="astuces"
+          title="Structurer un prompt efficace"
+          description="Apprenez les 4 piliers clés pour créer des prompts qui fonctionnent."
+          duration="12 min"
+          dreyfusLevel={2}
+          theme="Prompt Engineering"
+          isAccessible={true}
+          isCompleted={false}
+        />
+        <LearningItemCard
+          id="demo-2"
+          type="flashcard"
+          title="Raccourcis clavier essentiels"
+          description="Mémorisez les raccourcis qui font gagner du temps."
+          duration="8 min"
+          dreyfusLevel={1}
+          theme="Productivité"
+          isAccessible={true}
+          isCompleted={true}
+        />
+        <LearningItemCard
+          id="demo-3"
+          type="mission"
+          title="Projet SBO"
+          description="Appliquez la méthodologie Skills Based Organisation à un cas réel."
+          duration="3 jours"
+          dreyfusLevel={3}
+          theme="Organisation"
+          isAccessible={false}
+          isCompleted={false}
+          denialReason="tier"
+          denialMessage="Upgrade requis pour accéder aux missions"
+        />
       </div>
     ),
   },

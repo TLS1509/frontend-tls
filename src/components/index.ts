@@ -206,6 +206,9 @@ export type { MetaPillGroupProps } from './ui/MetaPillGroup';
 export { InlineProgress } from './patterns/InlineProgress';
 export type { InlineProgressProps } from './patterns/InlineProgress';
 
+export { ViewerProgressTrail } from './patterns/ViewerProgressTrail';
+export type { ViewerProgressTrailProps, ViewerProgressStyle, ViewerProgressTone } from './patterns/ViewerProgressTrail';
+
 // ToneAwareCard deprecated → use <Card variant="tinted" tone="primary|warm|sun">
 
 
