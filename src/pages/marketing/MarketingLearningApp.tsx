@@ -567,13 +567,13 @@ export const MarketingLearningApp: React.FC = () => {
             <div className="flex flex-col gap-stack max-w-2xl">
               <span className="inline-flex items-center gap-1.5 text-micro font-bold text-primary-300 uppercase tracking-[0.08em]">
                 <Award size={11} />
-                Open Badges · Certifications W3C
+                Open Badges · Exemples
               </span>
               <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
                 Des badges qui prouvent quelque chose.
               </h2>
               <p className="font-body text-body-lg text-white/70 leading-relaxed m-0">
-                Chaque Open Badge est lié à des preuves concrètes : missions accomplies, sessions de coaching, productions validées. Pas un trophée générique.
+                Chaque Open Badge est lié à des preuves concrètes : missions accomplies, sessions de coaching, productions validées. Pas un trophée générique. Exemples illustratifs.
               </p>
             </div>
           </FadeInWhenVisible>

@@ -4786,8 +4786,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'learning/LearningItemCard.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
-    description: 'Card pour un item du LearningSpace (astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 2 états: accessible (CTA coloré) et locked (opacity-60, lock row, bouton secondary disabled). Layout 5 zones: badge+meta+bubble / titre+desc / theme tag / lock row conditionnel / CTA full-width.',
-    keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'tone', 'badge', 'dreyfus'],
+    description: 'Card pour un item du LearningSpace (9 types: astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 3 états: accessible (CTA "Accéder"), complété (badge CheckCircle2 vert -top-2 -left-2 + CTA "Revoir"), locked (opacity-60, lock row enrichi avec raison+message, CTA disabled). Layout 6 zones: badge+DURATION_PILL+level+bubble / titre+desc / theme tag / lock row conditionnel / progress bar 3px conditionnel / CTA full-width. DURATION_PILL = plus proéminent (bg-ink-100 border-ink-200 text-ink-700 semibold) vs META_PILL (bg-ink-50 text-ink-500). Props: isCompleted?, progress? (0-100), onClick wired via resolveItemRoute() dans LearningSpace.',
+    keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -4797,10 +4797,16 @@ const COMPONENTS: ComponentEntry[] = [
           <LearningItemCard id="2" type="mission" title="Conduire un entretien de recrutement" description="Structurer et mener un entretien professionnel pour évaluer les compétences." duration="45 min" dreyfusLevel={4} theme="Management" isAccessible={true} onClick={() => {}} />
           <LearningItemCard id="3" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} onClick={() => {}} />
         </div>
+        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Complété + En cours (progress bar)</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <LearningItemCard id="c1" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} isCompleted={true} onClick={() => {}} />
+          <LearningItemCard id="c2" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={true} progress={65} onClick={() => {}} />
+          <LearningItemCard id="c3" type="ressource" title="Boîte à outils facilitation" description="Templates et fiches pratiques pour faciliter des ateliers en présentiel ou distanciel." duration="20 min" dreyfusLevel={2} theme="Facilitation" isAccessible={true} progress={25} onClick={() => {}} />
+        </div>
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Locked states — tier / prerequisite</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
-          <LearningItemCard id="4" type="masterclass" title="Stratégie de changement organisationnel" description="Piloter la transformation avec méthode et embarquer les équipes." duration="2h" dreyfusLevel={5} theme="Leadership" isAccessible={false} denialReason="tier" onClick={() => {}} />
-          <LearningItemCard id="5" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={false} denialReason="prerequisite" onClick={() => {}} />
+          <LearningItemCard id="4" type="masterclass" title="Stratégie de changement organisationnel" description="Piloter la transformation avec méthode et embarquer les équipes." duration="2h" dreyfusLevel={5} theme="Leadership" isAccessible={false} denialReason="tier" denialMessage="Disponible avec l'abonnement Pro" onClick={() => {}} />
+          <LearningItemCard id="5" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={false} denialReason="prerequisite" denialMessage="Complète d'abord les astuces de base" onClick={() => {}} />
           <LearningItemCard id="6" type="flashcard" title="Flashcards Dreyfus — niveau 1→5" description="Réviser les 5 niveaux d'expertise et leurs indicateurs comportementaux." duration="8 min" dreyfusLevel={1} theme="Compétences" isAccessible={false} denialReason="tier" onClick={() => {}} />
         </div>
       </div>

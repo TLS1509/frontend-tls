@@ -23,7 +23,6 @@ import {
   ExternalLink,
   MapPin,
   Lock,
-  Zap,
   Compass,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
@@ -86,6 +85,7 @@ export const MarketingContact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -95,6 +95,16 @@ export const MarketingContact: React.FC = () => {
     message: '',
     newsletter: false,
   });
+
+  const validate = () => {
+    const errors: { name?: string; email?: string; message?: string } = {};
+    if (!form.name.trim()) errors.name = 'Indiquez votre prénom et nom.';
+    if (!form.email.trim()) errors.email = 'Indiquez votre email pro.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+      errors.email = 'Cet email semble invalide.';
+    if (!form.message.trim()) errors.message = 'Décrivez brièvement votre demande.';
+    return errors;
+  };
 
   return (
     <div className="bg-white">
@@ -206,8 +216,17 @@ export const MarketingContact: React.FC = () => {
                 </motion.div>
               ) : (
                 <form
+                  noValidate
                   onSubmit={async (e) => {
                     e.preventDefault();
+                    const errors = validate();
+                    setFieldErrors(errors);
+                    if (Object.keys(errors).length > 0) {
+                      const firstId =
+                        errors.name ? 'ct-name' : errors.email ? 'ct-email' : 'ct-message';
+                      document.getElementById(firstId)?.focus();
+                      return;
+                    }
                     setSubmitting(true);
                     setSubmitError(null);
                     const { ok, error } = await submitForm({
@@ -274,11 +293,25 @@ export const MarketingContact: React.FC = () => {
                         id="ct-name"
                         type="text"
                         required
+                        aria-invalid={!!fieldErrors.name}
+                        aria-describedby={fieldErrors.name ? 'ct-name-error' : undefined}
                         value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        onChange={(e) => {
+                          setForm({ ...form, name: e.target.value });
+                          if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
+                        }}
                         placeholder="Marie Dupont"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base ${
+                          fieldErrors.name
+                            ? 'border-danger-base focus:ring-danger-base'
+                            : 'border-ink-200 focus:ring-primary-500'
+                        }`}
                       />
+                      {fieldErrors.name && (
+                        <p id="ct-name-error" role="alert" className="font-body text-caption text-danger-fg m-0">
+                          {fieldErrors.name}
+                        </p>
+                      )}
                     </div>
                     <div className="flex flex-col gap-stack-xs">
                       <label htmlFor="ct-email" className="font-body text-body-sm font-semibold text-ink-900">
@@ -288,11 +321,25 @@ export const MarketingContact: React.FC = () => {
                         id="ct-email"
                         type="email"
                         required
+                        aria-invalid={!!fieldErrors.email}
+                        aria-describedby={fieldErrors.email ? 'ct-email-error' : undefined}
                         value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        onChange={(e) => {
+                          setForm({ ...form, email: e.target.value });
+                          if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                        }}
                         placeholder="marie@organisation.fr"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base ${
+                          fieldErrors.email
+                            ? 'border-danger-base focus:ring-danger-base'
+                            : 'border-ink-200 focus:ring-primary-500'
+                        }`}
                       />
+                      {fieldErrors.email && (
+                        <p id="ct-email-error" role="alert" className="font-body text-caption text-danger-fg m-0">
+                          {fieldErrors.email}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -333,11 +380,25 @@ export const MarketingContact: React.FC = () => {
                       id="ct-message"
                       rows={5}
                       required
+                      aria-invalid={!!fieldErrors.message}
+                      aria-describedby={fieldErrors.message ? 'ct-message-error' : undefined}
                       value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      onChange={(e) => {
+                        setForm({ ...form, message: e.target.value });
+                        if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
+                      }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className="px-4 py-3 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[140px]"
+                      className={`px-4 py-3 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[140px] ${
+                        fieldErrors.message
+                          ? 'border-danger-base focus:ring-danger-base'
+                          : 'border-ink-200 focus:ring-primary-500'
+                      }`}
                     />
+                    {fieldErrors.message && (
+                      <p id="ct-message-error" role="alert" className="font-body text-caption text-danger-fg m-0">
+                        {fieldErrors.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Newsletter opt-in */}
@@ -383,11 +444,6 @@ export const MarketingContact: React.FC = () => {
                       </span>
                       <span className="text-ink-300 text-caption">·</span>
                       <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
-                        <Zap size={11} className="text-ink-400 shrink-0" />
-                        Réponse sous 48h ouvrées
-                      </span>
-                      <span className="text-ink-300 text-caption">·</span>
-                      <span className="inline-flex items-center gap-1 font-body text-caption text-ink-500">
                         <MapPin size={11} className="text-ink-400 shrink-0" />
                         Équipe basée à Paris
                       </span>
@@ -417,7 +473,7 @@ export const MarketingContact: React.FC = () => {
             {/* Booking card */}
               <div className="relative overflow-hidden rounded-2xl bg-primary-50 border border-primary-200 p-stack-lg flex flex-col gap-stack-lg shadow-sm">
                 <div className="flex flex-col gap-stack">
-                  <span className="inline-flex items-center gap-tight.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-pill bg-white border border-primary-200 text-accent-400 text-caption font-bold w-fit">
                     <Sparkles size={12} />
                     Plus rapide
                   </span>

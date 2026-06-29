@@ -12,7 +12,7 @@ import { SkillBar } from '../components/ui/SkillBar';
 import { GoalProgress } from '../components/ui/GoalProgress';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Tabs } from '../components/ui/Tabs';
-import { CompetencyRadar } from '../components/ui/CompetencyRadar';
+import { RadarChart } from '../components/charts';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
@@ -72,10 +72,6 @@ export default function Passeport() {
     : 0;
   const activeObjectives = objectives.filter((o) => o.status === 'active');
 
-  const handleAxisClick = (axis: { label: string }) => {
-    setSelectedAxis(axis.label);
-  };
-
   return (
     <div className="flex flex-col gap-section">
       <EditorialHero
@@ -110,17 +106,12 @@ export default function Passeport() {
                 title="Radar de compétences"
                 description="Niveau actuel (bleu) vs objectif cible (orange). Clic sur un axe pour le détail."
               >
-                <div className={`flex justify-center py-stack px-stack rounded-lg transition-all ${
-                  selectedAxis
-                    ? 'bg-primary-50 border-2 border-primary-300'
-                    : 'border border-transparent'
-                }`}>
-                  <CompetencyRadar
-                    axes={RADAR_AXES}
-                    size="md"
-                    onAxisClick={handleAxisClick}
-                  />
-                </div>
+                <RadarChart
+                  data={RADAR_AXES}
+                  size="md"
+                  onAxisClick={(axis) => setSelectedAxis(axis.label)}
+                  showLegend
+                />
                 {selectedAxis && (
                   <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 shrink-0" />

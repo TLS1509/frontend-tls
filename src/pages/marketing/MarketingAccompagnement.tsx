@@ -176,8 +176,7 @@ export const MarketingAccompagnement: React.FC = () => {
               Passez à une organisation <span className="text-secondary-600">Skills-Based</span>.
             </h1>
             <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-              Ingénieurs pédagogiques et spécialistes IA. Nous auditons, concevons et déployons
-              des dispositifs L&D avec la méthode STRIDE et le Passeport de Compétences comme fil rouge.
+              Nous auditons, concevons et déployons vos dispositifs L&D avec la méthode STRIDE.
               Livrables contractualisés à chaque étape.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
@@ -241,7 +240,7 @@ export const MarketingAccompagnement: React.FC = () => {
               <div className="shrink-0 mt-stack md:mt-0">
                 <a href="#contact-form">
                   <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Demander un diagnostic
+                    Cadrer mon projet
                   </Button>
                 </a>
               </div>
@@ -286,6 +285,9 @@ export const MarketingAccompagnement: React.FC = () => {
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 La méthode <span className="text-accent-400">S·T·R·I·D·E</span>.
               </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                Six temps — S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer — regroupés en trois phases.
+              </p>
             </FadeInWhenVisible>
           </div>
 

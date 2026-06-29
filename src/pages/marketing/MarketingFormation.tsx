@@ -183,7 +183,7 @@ const FAQ = [
   },
   {
     q: "Qu'est-ce qu'un Open Badge ?",
-    a: "Un Open Badge est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles (LinkedIn, France Compétences). Il atteste de vos compétences avec une preuve cryptographique.",
+    a: "Un Open Badge est une certification numérique vérifiable, reconnue par des employeurs et plateformes professionnelles comme LinkedIn. Il atteste de vos compétences avec une preuve cryptographique.",
   },
   {
     q: 'Puis-je passer du plan Autonome au plan Certifiant ?',
@@ -631,7 +631,7 @@ export const MarketingFormation: React.FC = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.4, delay: i * 0.04, ease: [0.21, 0.47, 0.32, 0.98] }}
-                  className="flex items-start gap-stack-xs.5 p-3 rounded-xl bg-primary-50/50 border border-primary-100"
+                  className="flex items-start gap-2.5 p-3 rounded-xl bg-primary-50/50 border border-primary-100"
                 >
                   <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
                   <span className="font-body text-body-sm text-ink-800 leading-snug">{c}</span>
@@ -648,19 +648,19 @@ export const MarketingFormation: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-stack-lg">
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                Certifié par <span className="text-accent-400">C-Campus</span>.
+                En partenariat avec <span className="text-accent-400">C-Campus</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
                 Le parcours est réalisé 100 % à distance en partenariat avec
                 <strong className="text-ink-900"> C-Campus</strong>.
-                Votre Open Badge est reconnu sur LinkedIn et France Compétences.
+                Votre Open Badge est reconnu sur LinkedIn.
                 La prise en charge OPCO est ouverte selon votre secteur.
               </p>
               <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
                 {[
                   'Prise en charge OPCO éligible selon votre secteur',
                   'Open Badge vérifiable par cryptographie',
-                  'Reconnaissance LinkedIn et France Compétences',
+                  'Reconnaissance sur LinkedIn',
                 ].map((f) => (
                   <li key={f} className="flex items-start gap-stack-xs font-body text-body text-ink-700">
                     <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />

@@ -298,9 +298,8 @@ export const MarketingHomeFullPage: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.75, delay: 0.12, ease: EASE_EMPHASIS as [number, number, number, number] }}
                   >
-                    La formation certifiante et la plateforme qui apprennent aux
-                    formateurs à intégrer l'IA dans leur pédagogie. En gardant
-                    l'humain au centre.
+                    Nous aidons les professionnels de la formation à intégrer
+                    l'IA dans leur pédagogie, sans la dénaturer.
                   </motion.p>
 
                   <motion.div
@@ -312,7 +311,7 @@ export const MarketingHomeFullPage: React.FC = () => {
                     <MagneticButton strength={14}>
                       <Link to="/marketing/formation">
                         <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                          Découvrir la formation
+                          Voir la formation
                         </Button>
                       </Link>
                     </MagneticButton>

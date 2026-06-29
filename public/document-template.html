@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Document TLS — Template</title>
+<style>
+  /* ── PRINT / A4 ─────────────────────────────────────────────────────── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { margin: 0; background: white; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .no-print { display: none; }
+  }
+
+  /* ── BASE ───────────────────────────────────────────────────────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.65;
+    color: #374151;
+    background: #f3f4f6;
+    padding: 32px 0;
+  }
+
+  /* ── PAGE A4 ─────────────────────────────────────────────────────────── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 32px;
+    background: white;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ──────────────────────────────────────────────────────────── */
+  .doc-header {
+    background: #1F3E45;
+    padding: 20px 32px 18px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .doc-header-brand {
+    font-size: 11pt;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1.5px;
+  }
+  .doc-header-meta {
+    font-size: 9pt;
+    color: rgba(255,255,255,0.45);
+  }
+  .doc-header-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #ED843A, #F8B044);
+    border-radius: 0;
+  }
+
+  /* ── BODY ────────────────────────────────────────────────────────────── */
+  .doc-body {
+    padding: 36px 40px 40px;
+    flex: 1;
+  }
+
+  /* ── TITLE BLOCK ─────────────────────────────────────────────────────── */
+  .doc-title-block { margin-bottom: 28px; }
+  .doc-eyebrow {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #55A1B4;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .doc-title {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #1F3E45;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .doc-subtitle {
+    font-size: 11pt;
+    color: #6B7280;
+    font-weight: 400;
+  }
+  .doc-title-divider {
+    width: 48px;
+    height: 3px;
+    background: #ED843A;
+    border-radius: 2px;
+    margin-top: 14px;
+  }
+
+  /* ── META TABLE ──────────────────────────────────────────────────────── */
+  .doc-meta {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    background: #F9FAFB;
+    border-radius: 6px;
+    border-left: 3px solid #E8F4F7;
+  }
+  .doc-meta-item { font-size: 9pt; }
+  .doc-meta-label { color: #9CA3AF; font-weight: 600; margin-bottom: 2px; }
+  .doc-meta-value { color: #1F3E45; font-weight: 600; }
+
+  /* ── TYPOGRAPHIE ─────────────────────────────────────────────────────── */
+  h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #1F3E45;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    margin: 28px 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #E8F4F7;
+  }
+  h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #2F5F6A;
+    letter-spacing: -0.2px;
+    margin: 22px 0 8px;
+  }
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 13px;
+    background: #ED843A;
+    border-radius: 2px;
+    margin-right: 8px;
+    vertical-align: -1px;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #374151;
+    margin: 16px 0 6px;
+  }
+  p { margin-bottom: 10px; }
+  strong { color: #1F3E45; font-weight: 700; }
+  a { color: #ED843A; text-decoration: none; }
+
+  /* ── LISTES ──────────────────────────────────────────────────────────── */
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+  ul li::marker { color: #ED843A; }
+
+  /* ── CALLOUT / HIGHLIGHT ─────────────────────────────────────────────── */
+  .callout {
+    background: #FFF3EB;
+    border-left: 4px solid #ED843A;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-size: 10pt;
+    color: #92400E;
+  }
+  .callout-info {
+    background: #E8F4F7;
+    border-left-color: #55A1B4;
+    color: #1F3E45;
+  }
+
+  /* ── TABLEAU ─────────────────────────────────────────────────────────── */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 9.5pt;
+  }
+  table.data-table th {
+    background: #1F3E45;
+    color: white;
+    font-weight: 600;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 9pt;
+    letter-spacing: 0.3px;
+  }
+  table.data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #F3F4F6;
+    color: #374151;
+  }
+  table.data-table tr:nth-child(even) td { background: #F9FAFB; }
+
+  /* ── FOOTER ──────────────────────────────────────────────────────────── */
+  .doc-footer {
+    border-top: 1px solid #E8F4F7;
+    padding: 12px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-footer-brand { font-size: 9pt; color: #9CA3AF; }
+  .doc-footer-page { font-size: 9pt; color: #9CA3AF; }
+
+  /* ── HELPER PRINT BUTTON ─────────────────────────────────────────────── */
+  .no-print {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .btn-print {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #1F3E45;
+    color: white;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    margin-right: 8px;
+  }
+  .btn-print:hover { background: #2F5F6A; }
+</style>
+</head>
+<body>
+
+<!-- Boutons helper (disparaissent à l'impression) -->
+<div class="no-print">
+  <button class="btn-print" onclick="window.print()">Imprimer / Exporter PDF</button>
+  <span style="font-size:13px;color:#6B7280;">ou Fichier → Importer dans Google Docs · Ouvrir dans Word</span>
+</div>
+
+<!-- ════════════════════ PAGE 1 ════════════════════ -->
+<div class="page">
+
+  <div class="doc-header">
+    <span class="doc-header-brand">THE LEARNING SOCIETY</span>
+    <span class="doc-header-meta">Document confidentiel · 2026</span>
+  </div>
+  <div class="doc-header-bar"></div>
+
+  <div class="doc-body">
+
+    <!-- Title block -->
+    <div class="doc-title-block">
+      <p class="doc-eyebrow">[Catégorie du document]</p>
+      <h1 class="doc-title">[Titre principal du document]</h1>
+      <p class="doc-subtitle">[Sous-titre optionnel — une phrase qui précise le périmètre]</p>
+      <div class="doc-title-divider"></div>
+    </div>
+
+    <!-- Meta -->
+    <div class="doc-meta">
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Date</div>
+        <div class="doc-meta-value">Juin 2026</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Auteur·e</div>
+        <div class="doc-meta-value">Chloé Mimault</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Statut</div>
+        <div class="doc-meta-value">Brouillon · v0.1</div>
+      </div>
+      <div class="doc-meta-item">
+        <div class="doc-meta-label">Destinataire</div>
+        <div class="doc-meta-value">[Nom / audience]</div>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <h1>Contexte &amp; objectifs</h1>
+
+    <h2>Situation</h2>
+    <p>[Décrire le contexte de manière factuelle. Qu'est-ce qui a motivé ce document ? Quelles contraintes ou opportunités ?]</p>
+
+    <div class="callout callout-info">
+      ℹ️ <strong>Point clé :</strong> [Information critique que le lecteur ne doit pas manquer. 1 à 2 phrases.]
+    </div>
+
+    <h2>Objectifs</h2>
+    <ul>
+      <li>[Objectif 1 — mesurable et délimité dans le temps]</li>
+      <li>[Objectif 2]</li>
+      <li>[Objectif 3]</li>
+    </ul>
+
+    <!-- Section 2 -->
+    <h1>Contenu principal</h1>
+
+    <h2>Première partie</h2>
+    <p>[Développement. Rester factuel, concis. Préférer les paragraphes courts aux blocs denses. Ajouter des sous-titres h2/h3 pour faciliter le scan.]</p>
+
+    <h3>Détail A</h3>
+    <p>[Contenu détaillé]</p>
+
+    <h3>Détail B</h3>
+    <p>[Contenu détaillé]</p>
+
+    <h2>Tableau récapitulatif</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Élément</th>
+          <th>Description</th>
+          <th>Statut</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>[Item 1]</td><td>[Description]</td><td>En cours</td><td>[Nom]</td></tr>
+        <tr><td>[Item 2]</td><td>[Description]</td><td>Planifié</td><td>[Nom]</td></tr>
+        <tr><td>[Item 3]</td><td>[Description]</td><td>Terminé</td><td>[Nom]</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Section 3 -->
+    <h1>Prochaines étapes</h1>
+
+    <div class="callout">
+      ⚡ <strong>Action requise :</strong> [Ce qui doit être fait avant [date]. Par [qui].]
+    </div>
+
+    <ol>
+      <li><strong>[Étape 1]</strong> — [Description, responsable, deadline]</li>
+      <li><strong>[Étape 2]</strong> — [Description, responsable, deadline]</li>
+      <li><strong>[Étape 3]</strong> — [Description, responsable, deadline]</li>
+    </ol>
+
+  </div>
+
+  <div class="doc-footer">
+    <span class="doc-footer-brand">The Learning Society · thelearningsociety.fr</span>
+    <span class="doc-footer-page">Page 1</span>
+  </div>
+
+</div>
+<!-- /PAGE 1 -->
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   BookOpen, ChevronDown, Sparkles, RotateCcw,
 } from 'lucide-react';
@@ -15,7 +16,24 @@ import { canAccessItem, getAccessDenialMessage } from '../lib/access-control';
 import { useUserProfileStore, useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 
-const SEED_COMPLETED_ITEMS = new Set(['item-1', 'item-4']);
+/* ─── Routing ────────────────────────────────────────────────────────────── */
+
+function resolveItemRoute(item: { type: ItemType; id: string }): string {
+  switch (item.type) {
+    case 'astuces':        return `/lesson/${item.id}/astuces`;
+    case 'flashcard':      return `/lesson/${item.id}/flashcards`;
+    case 'video_conc':
+    case 'video_geste':    return `/veille/video/${item.id}`;
+    case 'ressource':      return `/lesson/${item.id}/complementary`;
+    case 'guide':          return `/lesson/${item.id}/complementary`;
+    case 'masterclass':    return `/masterclass/${item.id}`;
+    case 'micro_learning': return `/lesson/${item.id}/complementary`;
+    case 'mission':        return `/project/${item.id}`;
+    default:               return '/learning-space';
+  }
+}
+
+const SEED_COMPLETED_ITEMS = new Set(['item-astuces-1', 'item-ressource-1']);
 
 /* ─── Type groups ────────────────────────────────────────────────────────── */
 
@@ -75,6 +93,7 @@ const SELECT_ACTIVE_CLS =
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const LearningSpace: React.FC = () => {
+  const navigate = useNavigate();
   const profileStore = useUserProfileStore();
   const userTier = profileStore.get().subscriptionTier;
 
@@ -304,6 +323,7 @@ export const LearningSpace: React.FC = () => {
                   dreyfusLevel={item.dreyfusLevel}
                   theme={item.theme}
                   isAccessible={isAccessible}
+                  isCompleted={completedItemIds.has(item.id)}
                   denialReason={
                     accessCheck.reason === 'tier'
                       ? 'tier'
@@ -312,6 +332,7 @@ export const LearningSpace: React.FC = () => {
                       : undefined
                   }
                   denialMessage={denialMessage}
+                  onClick={isAccessible ? () => navigate(resolveItemRoute(item)) : undefined}
                 />
               );
             })}
