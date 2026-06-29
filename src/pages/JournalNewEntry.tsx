@@ -243,7 +243,7 @@ export const JournalNewEntry: React.FC = () => {
   return (
     <div className="min-h-[100dvh] bg-surface font-body flex flex-col">
 
-      {/* Top bar */}
+      {/* Sticky top bar */}
       <header className="flex items-center px-4 sm:px-6 py-stack border-b border-ink-200 bg-white sticky top-0 z-sticky gap-stack-xs">
         <Button
           variant="ghost"
@@ -287,8 +287,7 @@ export const JournalNewEntry: React.FC = () => {
         </div>
       </header>
 
-      {/* Content */}
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-section">
+      <PageShell width="content" className="relative z-base gap-section flex-1 py-section" noPadTop>
 
         {/* Type selector */}
         <div className="mb-stack-lg">
@@ -438,7 +437,7 @@ export const JournalNewEntry: React.FC = () => {
             className="w-full border-0 outline-none bg-transparent font-body text-body text-ink-900 leading-relaxed resize-none h-auto block placeholder:text-ink-300"
           />
         </div>
-      </main>
+      </PageShell>
     </div>
   );
 };

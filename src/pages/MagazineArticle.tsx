@@ -109,9 +109,11 @@ export const MagazineArticle: React.FC = () => {
         }
       />
 
-      <div
+      <PageShell
         ref={articleRef}
-        className="max-w-medium mx-auto px-stack sm:px-stack-lg lg:px-section-lg py-section flex flex-col gap-section"
+        width="medium"
+        className="relative z-base py-section gap-section flex-1"
+        noPadTop
       >
         {/* Hero */}
         <header className="flex flex-col gap-stack max-w-prose">
@@ -222,7 +224,7 @@ export const MagazineArticle: React.FC = () => {
             </div>
           }
         />
-      </div>
+      </PageShell>
     </div>
   );
 };

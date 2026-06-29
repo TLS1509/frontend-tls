@@ -177,10 +177,10 @@ export const LearningSpace: React.FC = () => {
   /* ─── Render ─────────────────────────────────────────────────────────── */
 
   return (
-    <div className="min-h-[100dvh]">
+    <PageShell width="page" className="relative z-base gap-5 pt-2 pb-2" noPadTop>
 
       {/* ── Page header + search — on same surface as content ────────────── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-8 pb-2 flex flex-col gap-5">
+      <div className="flex flex-col gap-5">
 
         {/* Title row */}
         <div className="flex items-start justify-between gap-stack">
@@ -340,7 +340,7 @@ export const LearningSpace: React.FC = () => {
           </CardGrid>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 };
 

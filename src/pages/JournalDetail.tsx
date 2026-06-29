@@ -125,7 +125,7 @@ export const JournalDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <div className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 h-14 flex items-center justify-between gap-stack-xs">
+        <PageShell width="medium" className="h-14 flex items-center justify-between gap-stack-xs" noPadTop>
           <Button
             variant="ghost"
             size="sm"
@@ -145,12 +145,14 @@ export const JournalDetail: React.FC = () => {
               Nouvelle entrée
             </Button>
           </div>
-        </div>
+        </PageShell>
       </div>
 
-      <div
+      <PageShell
         ref={articleRef}
-        className="max-w-medium w-full mx-auto px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section"
+        width="medium"
+        className="relative z-base py-section gap-section flex-1"
+        noPadTop
       >
 
         {/* Hero éditorial */}
@@ -310,7 +312,7 @@ export const JournalDetail: React.FC = () => {
             Nouvelle entrée
           </Button>
         </section>
-      </div>
+      </PageShell>
     </div>
   );
 };
