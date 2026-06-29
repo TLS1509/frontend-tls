@@ -5593,7 +5593,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Label "IA" transversal pour marquer tout contenu généré, recommandé ou assisté par l\'IA. 3 variants × 2 sizes. AI Act / Module #13bis. Usage : items recommandés, suggestions coach, chatbot.',
     keywords: ['ai', 'ia', 'transparency', 'label', 'badge', 'generated', 'recommended', 'ai act', 'gdpr'],
     showcaseOnly: false,
-    usedBy: ['PerplexityContentDetail', 'ItemRecommendations'],
+    usedBy: ['PerplexityContentDetail', 'ItemRecommendations', 'ChatInterface', 'CoachLearnerProfile'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
@@ -5627,7 +5627,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Bouton "Rejeter cette recommandation" pour Coach/Admin. Peut ouvrir un textarea inline pour collecter la raison du rejet. Module #13bis — transversal IA.',
     keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
     showcaseOnly: false,
-    usedBy: [],
+    usedBy: ['CoachLearnerProfile'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
