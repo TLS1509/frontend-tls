@@ -32,7 +32,7 @@ import {
   BarChart2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { TableOfContents } from '../components/patterns/TableOfContents';
 import type { TocItem } from '../components/patterns/TableOfContents';
@@ -127,7 +127,7 @@ export const Dossier: React.FC = () => {
       <div ref={articleRef}>
         {/* Hero warm bounded */}
         <header className="bg-gradient-to-br from-secondary-50 via-white to-accent-50/40 border-b border-ink-100">
-          <Container width="page" className="py-section flex flex-col gap-stack-lg">
+          <PageShell width="page" className="py-section flex flex-col gap-stack-lg">
             <div className="flex items-start gap-stack sm:gap-stack-lg">
               <span aria-hidden className="shrink-0 inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-secondary-100 border border-secondary-200 text-3xl sm:text-4xl">
                 🧠
@@ -150,11 +150,11 @@ export const Dossier: React.FC = () => {
                 </div>
               </div>
             </div>
-          </Container>
+          </PageShell>
         </header>
 
         {/* Body : EditorialLayout aside-left (TOC) + main */}
-        <Container width="page" className="py-section">
+        <PageShell width="page">
           <EditorialLayout
             asideFirst
             aside={
@@ -299,7 +299,7 @@ export const Dossier: React.FC = () => {
               </div>
             }
           />
-        </Container>
+        </PageShell>
 
         {/* Download CTA centered */}
         <div className="max-w-2xl mx-auto px-stack sm:px-stack-lg lg:px-section-lg pb-section">

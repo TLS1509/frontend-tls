@@ -13,7 +13,7 @@ import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
 import { getCompetenceById } from '../data/competencies';
 import type { BadgeDef } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Display helpers ──────────────────────────────────────────────────────────
 
@@ -94,7 +94,7 @@ export default function BadgeDetail() {
   };
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop>
       <EditorialHero
         eyebrow={`Gamification · ${BADGE_TYPE_LABEL[badge.type]}`}
         title={badge.name}
@@ -115,8 +115,6 @@ export default function BadgeDetail() {
           </div>
         }
       />
-
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Badge showcase */}
         <div className="flex flex-col md:flex-row gap-section items-center md:items-start">
@@ -239,7 +237,6 @@ export default function BadgeDetail() {
           </Button>
         </div>
 
-      </Container>
-    </div>
+    </PageShell>
   );
 }

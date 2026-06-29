@@ -30,7 +30,7 @@ import {
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EditorialQuoteCallout } from '../components/patterns/EditorialQuoteCallout';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 /* ─── Data ───────────────────────────────────────────────────────────────── */
 
@@ -72,7 +72,7 @@ export const WeeklyNewsletter: React.FC = () => {
     <div className="min-h-[100dvh] bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
+        <PageShell width="page" className="h-14 flex items-center justify-between gap-stack-xs px-4 sm:px-6 lg:px-10 py-0">
           <Button
             variant="ghost"
             size="sm"
@@ -89,10 +89,10 @@ export const WeeklyNewsletter: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </Container>
+        </PageShell>
       </div>
 
-      <Container width="page" className="py-section flex flex-col gap-section">
+      <PageShell width="page">
 
         {/* Hero éditorial */}
         <header className="flex flex-col gap-stack">
@@ -292,7 +292,7 @@ export const WeeklyNewsletter: React.FC = () => {
             </Button>
           </form>
         </section>
-      </Container>
+      </PageShell>
     </div>
   );
 };

@@ -24,7 +24,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { SectionHeader } from '../components/patterns/SectionHeader';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { HeatmapChart, type HeatmapDataPoint } from '../components/charts/HeatmapChart';
 import { BarChart, type BarChartDataPoint } from '../components/charts/BarChart';
 import { ChartContainer } from '../components/charts/ChartContainer';
@@ -140,8 +140,7 @@ export const Enterprise: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      <Container width="page" className="py-section flex flex-col gap-section">
+    <PageShell width="page" noPadTop>
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -428,8 +427,7 @@ export const Enterprise: React.FC = () => {
           </div>
         </section>
 
-      </Container>
-    </div>
+    </PageShell>
   );
 };
 

@@ -11,7 +11,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { AchievementBadge } from '../components/ui/AchievementBadge';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { Tabs } from '../components/ui/Tabs';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useGamificationStore, usePasseportStore } from '../stores/persistence';
 import { BADGE_DEFS, getBadgeDefById } from '../data/gamification';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -86,7 +86,7 @@ export default function Gamification() {
   });
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide">
       <EditorialHero
         eyebrow="SBO · Learn"
         title="Ma Progression & Gamification"
@@ -98,8 +98,6 @@ export default function Gamification() {
           </Button>
         }
       />
-
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -294,7 +292,6 @@ export default function Gamification() {
           </div>
         )}
 
-      </Container>
-    </div>
+    </PageShell>
   );
 }
