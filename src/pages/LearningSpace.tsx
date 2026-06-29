@@ -180,6 +180,15 @@ export const LearningSpace: React.FC = () => {
   return (
     <PageShell width="page" className="relative z-base gap-5 pt-2 pb-2" noPadTop>
 
+      {/* ── Breadcrumb context ──────────────────────────────────────────── */}
+      <div className="flex items-center gap-1.5 px-4 sm:px-6 lg:px-10 text-micro text-ink-400 font-medium">
+        <span>📚 Parcours</span>
+        <span>·</span>
+        <span>📍 Étape</span>
+        <span>·</span>
+        <span>📖 Leçon</span>
+      </div>
+
       {/* ── Page header + search — on same surface as content ────────────── */}
       <div className="flex flex-col gap-5">
 

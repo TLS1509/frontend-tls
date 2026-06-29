@@ -1,31 +1,37 @@
 /**
  * LearningItemCard — Card for a single LearningSpace item.
  *
+ * Pattern: ResourceCard-inspired tone-aware outline + icon.
+ *
  * Layout (top → bottom):
- *   1. Header row: type badge + meta pills (duration, level) + icon bubble
- *   2. Title (h3) + description
- *   3. Theme tag
- *   4. Lock row (if inaccessible)
- *   5. CTA button
+ *   1. Icon bubble (top-right corner) with tone-aware gradient background
+ *   2. Type badge + duration metadata
+ *   3. Title (h4) + description (line-clamp-2)
+ *   4. Footer: level pill + theme tag
+ *   5. Lock row (if inaccessible)
+ *   6. CTA button (full-width)
+ *
+ * All cards enforce consistent padding (p-4) → same visual size in grids.
+ * Completion badge overlay (top-left).
  */
 
 import React from 'react';
 import {
-  Flame, Star, FileText, Map, Video, Play, BookOpen, Users, Lock, Clock, Layers, Tag, CheckCircle2,
+  Flame, Star, FileText, Map, Video, Play, BookOpen, Users, Lock, Clock, Tag, CheckCircle2,
 } from 'lucide-react';
 import { Card } from '../core/Card';
 import { Button } from '../core/Button';
 import { Badge } from '../ui/Badge';
 import type { ItemType, DreyfusLevel } from '../../types/learning';
-import { ITEM_TYPE_LABELS, MODE_LABELS } from '../../data/items';
+import { ITEM_TYPE_LABELS } from '../../data/items';
 
 /* ─── Type → tone + icon ──────────────────────────────────────────────────── */
 
-const TONE: Record<ItemType, 'brand' | 'warm' | 'sun' | 'success' | 'danger'> = {
+const TONE: Record<ItemType, 'brand' | 'warm' | 'sun'> = {
   astuces:        'sun',
   flashcard:      'brand',
   ressource:      'brand',
-  guide:          'success',
+  guide:          'brand',
   video_conc:     'brand',
   video_geste:    'warm',
   micro_learning: 'brand',
@@ -34,31 +40,36 @@ const TONE: Record<ItemType, 'brand' | 'warm' | 'sun' | 'success' | 'danger'> = 
 };
 
 const ICON: Record<ItemType, React.ReactNode> = {
-  astuces:        <Flame size={16} />,
-  flashcard:      <Star size={16} />,
-  ressource:      <FileText size={16} />,
-  guide:          <Map size={16} />,
-  video_conc:     <Video size={16} />,
-  video_geste:    <Play size={16} />,
-  micro_learning: <BookOpen size={16} />,
-  mission:        <Users size={16} />,
-  masterclass:    <Star size={16} />,
+  astuces:        <Flame size={18} strokeWidth={1.75} />,
+  flashcard:      <Star size={18} strokeWidth={1.75} />,
+  ressource:      <FileText size={18} strokeWidth={1.75} />,
+  guide:          <Map size={18} strokeWidth={1.75} />,
+  video_conc:     <Video size={18} strokeWidth={1.75} />,
+  video_geste:    <Play size={18} strokeWidth={1.75} />,
+  micro_learning: <BookOpen size={18} strokeWidth={1.75} />,
+  mission:        <Users size={18} strokeWidth={1.75} />,
+  masterclass:    <Star size={18} strokeWidth={1.75} />,
 };
 
-/* ─── Bubble color per tone ───────────────────────────────────────────────── */
+/* ─── Gradient backgrounds & borders (tinted outline) ─────────────────────── */
 
-const BUBBLE: Record<'brand' | 'warm' | 'sun' | 'success' | 'danger', string> = {
-  brand:   'bg-primary-50 text-primary-600',
-  warm:    'bg-secondary-50 text-secondary-600',
-  sun:     'bg-accent-50 text-accent-600',
-  success: 'bg-success-bg text-success-fg',
-  danger:  'bg-danger-bg text-danger-fg',
+const BG_GRADIENT: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-gradient-to-br from-primary-50 to-white border-primary-200',
+  warm:  'bg-gradient-to-br from-secondary-50 to-white border-secondary-200',
+  sun:   'bg-gradient-to-br from-accent-50 to-white border-accent-200',
 };
 
-/* ─── Meta pill base ─────────────────────────────────────────────────────── */
+const ICON_BUBBLE: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-gradient-to-br from-primary-100 to-primary-50 text-primary-600',
+  warm:  'bg-gradient-to-br from-secondary-100 to-secondary-50 text-secondary-600',
+  sun:   'bg-gradient-to-br from-accent-100 to-accent-50 text-accent-600',
+};
 
-const META_PILL = 'inline-flex items-center gap-tight px-2 py-0.5 bg-ink-50 border border-ink-100 rounded-pill text-micro text-ink-500 font-medium leading-none';
-const DURATION_PILL = 'inline-flex items-center gap-tight px-2 py-0.5 bg-ink-100 border border-ink-200 rounded-pill text-micro text-ink-700 font-semibold leading-none';
+const LEVEL_PILL: Record<'brand' | 'warm' | 'sun', string> = {
+  brand: 'bg-primary-50 text-primary-700 border-primary-200',
+  warm:  'bg-secondary-50 text-secondary-700 border-secondary-200',
+  sun:   'bg-accent-50 text-accent-700 border-accent-200',
+};
 
 /* ─── Props ──────────────────────────────────────────────────────────────── */
 
@@ -104,41 +115,27 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       variant="interactive"
       size="md"
       className={[
-        'relative',
+        `relative border ${BG_GRADIENT[tone]} p-4`,
         !isAccessible ? 'opacity-60 cursor-not-allowed' : '',
       ].filter(Boolean).join(' ')}
       onClick={onClick ? () => onClick(id) : undefined}
     >
-      {/* ── Completion badge overlay ── */}
+      {/* ── Completion badge overlay (top-left) ── */}
       {isCompleted && (
-        <span
+        <div
           aria-label="Complété"
-          className="absolute -top-2 -left-2 w-5 h-5 rounded-full bg-success-base text-white flex items-center justify-center shadow-xs z-base"
+          className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-success-base text-white flex items-center justify-center shadow-sm z-base"
         >
-          <CheckCircle2 size={12} strokeWidth={2.5} />
-        </span>
+          <CheckCircle2 size={14} strokeWidth={2} />
+        </div>
       )}
 
-      {/* ── 1. Header: badge + meta pills + icon bubble ── */}
-      <div className="flex items-start justify-between gap-2">
-        {/* Left cluster: mode badge + type badge + duration (prominent) + level */}
-        <div className="flex flex-wrap items-center gap-1.5 min-w-0">
-          <span className={META_PILL}>{MODE_LABELS[type]}</span>
-          <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
-          <span className={DURATION_PILL}>
-            <Clock size={10} aria-hidden />
-            {duration}
-          </span>
-          <span className={META_PILL}>
-            D{dreyfusLevel}
-          </span>
-        </div>
-
-        {/* Right: icon bubble */}
+      {/* ── Icon bubble (top-right corner) ── */}
+      <div className="absolute top-4 right-4">
         <span
           className={[
-            'w-8 h-8 shrink-0 flex items-center justify-center rounded-lg',
-            isAccessible ? BUBBLE[tone] : 'bg-ink-100 text-ink-400',
+            'w-10 h-10 shrink-0 flex items-center justify-center rounded-xl',
+            isAccessible ? ICON_BUBBLE[tone] : 'bg-ink-100 text-ink-400',
           ].join(' ')}
           aria-hidden
         >
@@ -146,25 +143,42 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </span>
       </div>
 
-      {/* ── 2. Content: title + description ── */}
-      <div className="flex flex-col gap-tight flex-1">
-        <h3 className="m-0 font-display text-h5 font-semibold leading-tight tracking-tight text-ink-900 line-clamp-2">
-          {title}
-        </h3>
-        <p className="m-0 text-body-sm text-ink-500 leading-snug line-clamp-2">
-          {description}
-        </p>
+      {/* ── Main content (flex column, gap-tight) ── */}
+      <div className="flex flex-col gap-tight pr-12">
+        {/* 1. Type badge + duration ── */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
+          <span className="inline-flex items-center gap-tight px-2 py-0.5 bg-ink-50 border border-ink-100 rounded-pill text-micro text-ink-500 font-medium leading-none">
+            <Clock size={10} aria-hidden />
+            {duration}
+          </span>
+        </div>
+
+        {/* 2. Title + description ── */}
+        <div className="flex flex-col gap-tight">
+          <h3 className="m-0 font-display text-h5 font-semibold leading-tight tracking-tight text-ink-900 line-clamp-2">
+            {title}
+          </h3>
+          <p className="m-0 text-body-sm text-ink-500 leading-snug line-clamp-2">
+            {description}
+          </p>
+        </div>
+
+        {/* 3. Footer: level pill + theme tag ── */}
+        <div className="flex items-center gap-1.5 flex-wrap pt-tight">
+          <span className={`inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-medium border leading-none ${LEVEL_PILL[tone]}`}>
+            D{dreyfusLevel}
+          </span>
+          <span className="inline-flex items-center gap-tight px-2 py-0.5 bg-ink-50 border border-ink-100 rounded-pill text-micro text-ink-500 font-medium leading-none">
+            <Tag size={10} aria-hidden />
+            {theme}
+          </span>
+        </div>
       </div>
 
-      {/* ── 3. Theme tag ── */}
-      <span className={`${META_PILL} w-fit`}>
-        <Tag size={10} aria-hidden />
-        {theme}
-      </span>
-
-      {/* ── 4. Lock row ── */}
+      {/* ── Lock row (if inaccessible) ── */}
       {!isAccessible && (
-        <div className="rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-2">
+        <div className="mt-stack rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-2">
           <Lock size={12} className="text-ink-400 shrink-0 mt-px" aria-hidden />
           <div className="flex flex-col gap-tight">
             <span className="text-caption text-ink-600 font-medium">
@@ -177,11 +191,13 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
       )}
 
-      {/* ── 5. Progress bar (if in-progress) ── */}
+      {/* ── Progress bar (if in-progress) ── */}
       {typeof progress === 'number' && progress > 0 && !isCompleted && (
-        <div className="h-[3px] rounded-full bg-ink-100 overflow-hidden">
+        <div className="mt-stack h-1 rounded-full bg-ink-100 overflow-hidden">
           <div
-            className="h-full rounded-full bg-primary-500 transition-all duration-slow"
+            className={`h-full rounded-full transition-all duration-slow ${
+              tone === 'brand' ? 'bg-primary-500' : tone === 'warm' ? 'bg-secondary-500' : 'bg-accent-500'
+            }`}
             style={{ width: `${Math.min(100, progress)}%` }}
             role="progressbar"
             aria-valuenow={progress}
@@ -192,7 +208,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
       )}
 
-      {/* ── 6. CTA ── */}
+      {/* ── CTA button (full-width) ── */}
       <Button
         variant={isAccessible ? 'primary' : 'secondary'}
         size="sm"
@@ -201,6 +217,7 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         title={!isAccessible ? denialMessage : undefined}
         aria-label={isAccessible ? `Accéder à ${title}` : `${title} — verrouillé`}
         onClick={onClick ? (e) => { e.stopPropagation(); onClick(id); } : undefined}
+        className="mt-stack"
       >
         {isCompleted ? 'Revoir' : isAccessible ? 'Accéder' : 'Verrouillé'}
       </Button>
