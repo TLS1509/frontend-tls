@@ -75,7 +75,7 @@ const BUTTON_ENROLL_TONE_CLASSES: Record<CourseCardTone, string> = {
 };
 
 const BUTTON_ENROLLED =
-  'bg-ink-100 text-ink-900 hover:bg-ink-50 hover:translate-y-0';
+  'bg-ink-50 text-ink-800 hover:bg-ink-100 hover:translate-y-0';
 
 export const CourseCard: React.FC<CourseCardProps> = ({
   title,

@@ -26,6 +26,8 @@ import {
   Calendar,
   Clock,
 } from 'lucide-react';
+import { TONE_BORDER } from '../../lib/tone-classes';
+import type { PageTone } from '../../lib/tone-classes';
 
 export type JournalEntryType = 'guided' | 'free' | 'learning' | 'coaching' | 'insight';
 
@@ -36,6 +38,7 @@ export interface JournalEntryCardProps {
   date: string;
   time?: string;
   tags?: string[];
+  tone?: PageTone;
   onClick?: () => void;
   className?: string;
 }
@@ -93,6 +96,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
   date,
   time,
   tags = [],
+  tone = 'primary',
   onClick,
   className = '',
 }) => {
@@ -145,7 +149,7 @@ export const JournalEntryCard: React.FC<JournalEntryCardProps> = ({
           {tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center px-2 py-0.5 rounded-pill bg-ink-50 border border-ink-200 font-body text-micro font-semibold text-ink-700"
+              className={['inline-flex items-center px-2 py-0.5 rounded-pill bg-ink-50 border font-body text-micro font-semibold text-ink-700', TONE_BORDER[tone]].join(' ')}
             >
               #{tag}
             </span>

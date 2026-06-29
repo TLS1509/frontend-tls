@@ -195,9 +195,9 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </div>
       )}
 
-      {/* ── CTA button (full-width) ── */}
+      {/* ── CTA button (full-width, tone-aware) ── */}
       <Button
-        variant={isAccessible ? 'primary' : 'secondary'}
+        variant={isAccessible ? tone === 'brand' ? 'primary' : tone === 'warm' ? 'warm' : 'sun' : 'secondary'}
         size="sm"
         fullWidth
         disabled={!isAccessible}

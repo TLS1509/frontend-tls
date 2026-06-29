@@ -22,6 +22,7 @@ import { ArrowRight, Clock3, BookOpen } from 'lucide-react';
 import { InlineProgress } from './InlineProgress';
 import { Card } from '../core/Card';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
+import { CTA_SHADOW_HOVER_MD } from '../../lib/tone-classes';
 
 export type ParcoursTone = 'primary' | 'warm' | 'sun';
 export type ParcoursStatus = 'en cours' | 'complété' | 'non commencé';
@@ -63,11 +64,7 @@ const CTA_TONE_CLASSES: Record<ParcoursTone, string> = {
   sun:     'bg-accent-400 hover:bg-accent-500 text-accent-900 shadow-xs hover:shadow-sun-sm focus-visible:outline-accent-500',
 };
 
-const CARD_HOVER_SHADOW: Record<ParcoursTone, string> = {
-  primary: 'hover:shadow-primary-md',
-  warm:    'hover:shadow-card-hover',
-  sun:     'hover:shadow-sun-md',
-};
+// CARD_HOVER_SHADOW moved to tone-classes.ts as CTA_SHADOW_HOVER_MD (single source of truth)
 
 const GLOW_BG: Record<ParcoursTone, React.CSSProperties> = {
   primary: { background: 'radial-gradient(circle at 50% 0%, rgba(85, 161, 180, 0.10) 0%, transparent 70%)' },
@@ -95,7 +92,7 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
       tone={tone}
       onClick={() => onClick?.(id)}
       aria-label={`${title} — ${status}`}
-      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 ${CARD_HOVER_SHADOW[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
+      className={`group relative overflow-hidden cursor-pointer transition-[transform,box-shadow,opacity] duration-base ease-emphasis hover:-translate-y-1 ${CTA_SHADOW_HOVER_MD[tone]} !p-0 !rounded-2xl !gap-0 ${className}`}
     >
       {/* Radial glow overlay — opacity-0 → opacity-100 on group-hover */}
       <div

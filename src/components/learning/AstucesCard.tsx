@@ -1,3 +1,13 @@
+/**
+ * AstucesCard — Tips & tricks card (Phase 23.C feature treatment).
+ *
+ * Uses border-2 (2px) as intentional visual distinction for tips/tricks content.
+ * This card deserves heavier visual weight than standard lesson content cards.
+ * Do not unify to standard border (1px) without design team approval.
+ *
+ * Phase 23.C: Documented border-2 as feature treatment (not a bug).
+ */
+
 import React from 'react';
 import { TONE_BG_500, TONE_BG_50, TONE_BORDER_200, TONE_TEXT_700 } from '../../lib/tone-classes';
 import type { PageTone } from '../../lib/tone-classes';

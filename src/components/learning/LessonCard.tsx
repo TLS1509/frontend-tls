@@ -3,7 +3,7 @@ import { Clock, Lock, ArrowRight } from 'lucide-react';
 import { ProgressBar } from '../ui/ProgressBar';
 import { Badge } from '../ui/Badge';
 import type { BadgeVariant } from '../ui/Badge';
-import { CARD_SHADOW_HOVER_MD, CARD_PROGRESS_FILL } from '../../lib/tone-classes';
+import { CARD_SHADOW_HOVER_MD, CARD_PROGRESS_FILL, TONE_CTA_TEXT } from '../../lib/tone-classes';
 
 export type LessonDifficulty = 'beginner' | 'intermediate' | 'advanced';
 export type LessonTone = 'primary' | 'warm' | 'sun';
@@ -38,11 +38,8 @@ const DIFFICULTY_VARIANTS: Record<LessonDifficulty, BadgeVariant> = {
 
 // CARD_SHADOW_HOVER_MD + CARD_PROGRESS_FILL imported from tone-classes.ts.
 
-const TONE_CTA_TEXT: Record<LessonTone, string> = {
-  primary: 'group-hover:text-primary-600',
-  warm:    'group-hover:text-secondary-600',
-  sun:     'group-hover:text-accent-700',
-};
+// TONE_CTA_TEXT imported from tone-classes.ts (single source of truth)
+// Apply group-hover variant wrapper in render, not in map
 
 
 const SURFACE_TONE: Record<LessonCardSurface, Record<LessonTone, string>> = {
@@ -143,7 +140,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         {/* Meta */}
         <div className="flex flex-wrap items-center gap-stack-xs text-caption text-ink-500">
           <div className="inline-flex items-center gap-1">
-            <Clock size={14} aria-hidden="true" className="text-ink-400" />
+            <Clock size={14} aria-hidden="true" className={TONE_CTA_TEXT[tone]} />
             <span>{duration}</span>
           </div>
           {instructor && (
@@ -162,14 +159,14 @@ export const LessonCard: React.FC<LessonCardProps> = ({
         {/* CTA footer */}
         {!locked && (
           <div className="flex items-center justify-between pt-2 border-t border-ink-100">
-            <span className={['text-caption font-semibold text-ink-500 transition-colors duration-fast', TONE_CTA_TEXT[tone]].join(' ')}>
+            <span className={['text-caption font-semibold text-ink-500 transition-colors duration-fast group-hover:' + TONE_CTA_TEXT[tone].split('-')[1]].join(' ')}>
               {PROGRESS_LABEL(progress)}
             </span>
             <ArrowRight
               size={16}
               className={[
                 'transition-all duration-fast ease-standard text-ink-400',
-                TONE_CTA_TEXT[tone],
+                `group-hover:${TONE_CTA_TEXT[tone]}`,
                 'group-hover:translate-x-1',
               ].join(' ')}
             />

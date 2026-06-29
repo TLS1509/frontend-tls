@@ -325,7 +325,7 @@ export const LearningSpace: React.FC = () => {
 
           {/* ── Smart Recommendations section ────────────────────────────── */}
           <div>
-            <div className="flex items-center justify-between gap-stack mb-stack">
+            <div className="flex items-center justify-between gap-stack mb-tight">
               <h2 className="m-0 font-display text-h4 font-bold text-ink-900">
                 Pour toi maintenant
               </h2>

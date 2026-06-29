@@ -138,7 +138,6 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
         'group relative rounded-2xl border overflow-hidden cursor-pointer',
         'transition-[transform,box-shadow] duration-base ease-emphasis',
         'hover:-translate-y-0.5 hover:shadow-card-lift',
-        'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
         '!h-auto !overflow-visible',
         BG_GRADIENT[tone],
         BORDER_COLOR[tone],
@@ -251,7 +250,7 @@ export const ResumeLessonCard: React.FC<ResumeLessonCardProps> = ({
             aria-label={ctaLabel}
             className={[
               'inline-flex items-center justify-center gap-1.5',
-              'h-10 px-4 rounded-pill text-body-sm font-body font-semibold whitespace-nowrap shrink-0',
+              'h-11 px-4 rounded-pill text-body-sm font-body font-semibold whitespace-nowrap shrink-0',
               'transition-[background-color,transform,box-shadow] duration-fast ease-emphasis',
               'hover:-translate-y-px active:translate-y-0',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400',

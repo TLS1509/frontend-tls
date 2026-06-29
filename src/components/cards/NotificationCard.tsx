@@ -144,11 +144,11 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Icon bubble (tone-aware) */}
+      {/* Icon bubble (tone-aware) — 48px (w-12 h-12) for visual consistency */}
       <div
         className={[
           'shrink-0 inline-flex items-center justify-center',
-          'w-9 h-9 rounded-pill',
+          'w-12 h-12 rounded-pill',
           ICON_BUBBLE[tone],
         ].join(' ')}
         aria-hidden

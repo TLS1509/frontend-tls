@@ -148,3 +148,48 @@ export const CARD_PROGRESS_FILL: Record<CardTone, 'brand' | 'warm' | 'sun'> = {
   warm:    'warm',
   sun:     'sun',
 };
+
+/** Hover shadow md for action CTA buttons — tone-aware lift */
+export const CTA_SHADOW_HOVER_MD: Record<PageTone, string> = {
+  primary: 'hover:shadow-brand-md',
+  warm:    'hover:shadow-card-hover',
+  sun:     'hover:shadow-sun-md',
+};
+
+/** Action button tone classes (for footer buttons, action rows) */
+export const ACTION_BTN_TONES: Record<PageTone, Record<'primary' | 'secondary', string>> = {
+  primary: {
+    primary: 'bg-primary-500 hover:bg-primary-600 text-white',
+    secondary: 'bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200'
+  },
+  warm: {
+    primary: 'bg-secondary-500 hover:bg-secondary-600 text-white',
+    secondary: 'bg-secondary-50 hover:bg-secondary-100 text-secondary-700 border border-secondary-200'
+  },
+  sun: {
+    primary: 'bg-accent-400 hover:bg-accent-500 text-accent-900',
+    secondary: 'bg-accent-50 hover:bg-accent-100 text-accent-700 border border-accent-200'
+  },
+};
+
+/** CTA text color for icons (used in cards to make icons tone-aware) */
+export const TONE_CTA_TEXT: Record<PageTone, string> = {
+  primary: 'text-primary-600',
+  warm:    'text-secondary-500',
+  sun:     'text-accent-400',
+};
+
+/** Border color for tone-aware dividers and tags */
+export const TONE_BORDER: Record<PageTone, string> = {
+  primary: 'border-primary-200',
+  warm:    'border-secondary-200',
+  sun:     'border-accent-200',
+};
+
+/** Divider color by surface type */
+export const SURFACE_DIVIDER: Record<'card' | 'tinted' | 'glass' | 'frosted', string> = {
+  card:    'border-ink-100',
+  tinted:  'border-white/60',
+  glass:   'border-white/30',
+  frosted: 'border-white/30',
+};
