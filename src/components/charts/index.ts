@@ -10,6 +10,7 @@ export { HeatmapChart } from './HeatmapChart';
 export { TimelineChart } from './TimelineChart';
 export { GaugeChart } from './GaugeChart';
 export { ChartExportButton } from './ChartExportButton';
+export { ChartDetailModal } from './ChartDetailModal';
 
 export type { RadarChartProps, RadarDataPoint } from './RadarChart';
 export type { BarChartProps, BarChartDataPoint } from './BarChart';
