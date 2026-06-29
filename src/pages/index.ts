@@ -83,6 +83,7 @@ export { default as CoachTeamDashboard } from './CoachTeamDashboard';
 export { default as FicheApprenantAnalytics } from './FicheApprenantAnalytics';
 export { default as ProfilePrivacy } from './ProfilePrivacy';
 export { default as EnterpriseAnalyticsDashboard } from './EnterpriseAnalyticsDashboard';
+export { default as AnalyticsDashboard } from './AnalyticsDashboard';
 // Phase 13 — Remaining MVP P0 pages
 export { default as PasseportRoadmap } from './PasseportRoadmap';
 export { default as PasseportJac } from './PasseportJac';

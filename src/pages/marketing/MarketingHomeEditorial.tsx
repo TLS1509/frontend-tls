@@ -468,7 +468,7 @@ export const MarketingHomeEditorial: React.FC = () => {
               </div>
               <div className="lg:col-span-4 lg:text-right">
                 <Link to="/marketing/magazine">
-                  <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                     Lire le blog
                   </Button>
                 </Link>

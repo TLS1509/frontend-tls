@@ -195,7 +195,7 @@ export const MarketingHomeA: React.FC = () => (
         </div>
 
         <Link to="/marketing/learning-app">
-          <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+          <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
             Voir toutes les fonctionnalités
           </Button>
         </Link>

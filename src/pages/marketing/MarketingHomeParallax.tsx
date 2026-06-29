@@ -316,7 +316,7 @@ export const MarketingHomeParallax: React.FC = () => (
               </Link>
             </MagneticButton>
             <Link to="/marketing/learning-app">
-              <Button variant="ghost" size="xl" trailingIcon={<ArrowUpRight size={18} />}>
+              <Button variant="secondary" size="xl" trailingIcon={<ArrowUpRight size={18} />}>
                 Voir la démo
               </Button>
             </Link>

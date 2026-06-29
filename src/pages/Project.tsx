@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Target, CheckCircle2, Clock3, FolderKanban, Sparkles, Award,
-  ArrowLeft, Users, Calendar, TrendingUp, Lock,
+  ArrowLeft, Users, Calendar, TrendingUp, Lock, ChevronRight,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
@@ -13,6 +13,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { StatCard } from '../components/ui/StatCard';
+import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
 import { useProjectsStore } from '../stores/persistence';
 import type { ProjectType, ProjectStatus, TaskStatus } from '../types/projects';
 import { Container } from '../components/layout';
@@ -52,6 +53,7 @@ export const Project: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const store = useProjectsStore();
+  const [openTask, setOpenTask] = useState<string | null>(null);
 
   // Seed via getter
   const project = store.getProject(id ?? '');
@@ -136,24 +138,56 @@ export const Project: React.FC = () => {
             >
               <div className="flex flex-col gap-stack-xs">
                 {tasks.map((task) => (
-                  <div
+                  <EtapeAccordion
                     key={task.id}
-                    className="flex items-center gap-stack p-3 rounded-lg border border-ink-100 hover:bg-ink-50 transition-all cursor-pointer"
-                    onClick={() => navigate(`/project/${project.id}/task/${task.id}`)}
+                    variant="default"
+                    isOpen={openTask === task.id}
+                    onToggle={() => setOpenTask(openTask === task.id ? null : task.id)}
+                    header={
+                      <div className="flex items-center gap-stack min-w-0 flex-1">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-body-sm font-semibold text-ink-900 m-0 truncate">{task.title}</p>
+                          <p className="text-caption text-ink-400 m-0 mt-0.5">
+                            D{task.dreyfusLevelRequired}+ · {task.estimatedHours}h
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <Avatar initials={task.assignedToInitials} size="sm" />
+                          <Badge variant={TASK_STATUS_VARIANTS[task.status]} size="sm">
+                            {TASK_STATUS_LABELS[task.status]}
+                          </Badge>
+                        </div>
+                      </div>
+                    }
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-body-sm font-semibold text-ink-900 m-0 truncate">{task.title}</p>
-                      <p className="text-caption text-ink-500 m-0">
-                        Dreyfus {task.dreyfusLevelRequired}+ requis · {task.estimatedHours}h estimées
-                      </p>
+                    <div className="px-4 py-stack flex flex-col gap-stack border-t border-ink-100">
+                      <p className="text-body-sm text-ink-600 m-0 leading-relaxed">{task.description}</p>
+                      {task.successCriteria.length > 0 && (
+                        <ul className="m-0 pl-4 flex flex-col gap-tight">
+                          {task.successCriteria.map((c, i) => (
+                            <li key={i} className="text-caption text-ink-500">{c.criterion}</li>
+                          ))}
+                        </ul>
+                      )}
+                      <div className="flex gap-stack-xs">
+                        {task.status !== 'approved' && (
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            trailingIcon={<ChevronRight size={13} />}
+                            onClick={() => navigate(`/project/${project.id}/task/${task.id}/submit`)}
+                          >
+                            {task.status === 'submitted' ? 'Voir la soumission' : 'Soumettre ma réalisation'}
+                          </Button>
+                        )}
+                        {task.status === 'approved' && (
+                          <span className="inline-flex items-center gap-1 text-caption text-success-fg font-semibold">
+                            <CheckCircle2 size={13} /> Tâche validée
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-stack-xs shrink-0">
-                      <Avatar initials={task.assignedToInitials} size="sm" />
-                      <Badge variant={TASK_STATUS_VARIANTS[task.status]}>
-                        {TASK_STATUS_LABELS[task.status]}
-                      </Badge>
-                    </div>
-                  </div>
+                  </EtapeAccordion>
                 ))}
               </div>
             </SectionCard>
