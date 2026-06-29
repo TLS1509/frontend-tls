@@ -26,6 +26,7 @@ import {
   Smile,
 } from 'lucide-react';
 import { MoodSelector } from '../components/ui/MoodSelector';
+import { PageShell } from '../components/layout';
 
 export type EntryType =
   | 'reflexion-libre'

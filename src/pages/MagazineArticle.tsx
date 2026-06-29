@@ -33,6 +33,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
 import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
+import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
   ReadingProgressRing,

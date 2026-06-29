@@ -9,6 +9,7 @@ import { FilterBar } from '../components/forms/FilterBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { CardGrid } from '../components/patterns/CardGrid';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
+import { PageShell } from '../components/layout';
 import { MOCK_LEARNING_SPACE_ITEMS } from '../data/items';
 import { DREYFUS_LABELS } from '../data/competencies';
 import type { ItemType, DreyfusLevel } from '../types/learning';

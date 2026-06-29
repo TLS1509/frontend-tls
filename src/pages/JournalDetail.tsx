@@ -35,6 +35,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { KeyFindingCard } from '../components/patterns/KeyFindingCard';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
+import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
