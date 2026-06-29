@@ -116,7 +116,7 @@ export default function ProfilePrivacy() {
                     <span className="text-body-sm font-semibold text-ink-900">{item.label}</span>
                     {item.required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
-                  <p className="text-caption text-ink-500">{item.description}</p>
+                  <p className="text-caption text-ink-700">{item.description}</p>
                 </div>
                 <Switch
                   checked={consents[item.id]}
@@ -145,7 +145,7 @@ export default function ProfilePrivacy() {
             <Card variant="default" className="flex items-center justify-between px-stack py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Exporter mes données</span>
-                <span className="text-caption text-ink-500">Télécharge une copie de toutes tes données (JSON/PDF)</span>
+                <span className="text-caption text-ink-700">Télécharge une copie de toutes tes données (JSON/PDF)</span>
               </div>
               <Button variant="ghost" size="sm" leadingIcon={<Download size={14} />}>
                 Exporter
@@ -154,7 +154,7 @@ export default function ProfilePrivacy() {
             <Card variant="default" className="flex items-center justify-between px-stack py-3">
               <div className="flex flex-col gap-tight">
                 <span className="text-body-sm font-semibold text-ink-900">Demande d'accès (DSAR)</span>
-                <span className="text-caption text-ink-500">Demande un rapport complet de tes données : réponse sous 30 jours</span>
+                <span className="text-caption text-ink-700">Demande un rapport complet de tes données : réponse sous 30 jours</span>
               </div>
               <Button variant="ghost" size="sm" trailingIcon={<ChevronRight size={14} />}>
                 Soumettre
@@ -236,7 +236,7 @@ export default function ProfilePrivacy() {
             {DATA_RETENTION.map((r) => (
               <div key={r.type} className="flex items-center justify-between gap-section px-stack py-2.5 rounded-lg bg-ink-50 border border-ink-100">
                 <span className="text-body-sm text-ink-800 font-medium">{r.type}</span>
-                <span className="text-caption text-ink-500 text-right shrink-0">{r.retention}</span>
+                <span className="text-caption text-ink-700 text-right shrink-0">{r.retention}</span>
               </div>
             ))}
           </div>

@@ -107,7 +107,7 @@ export default function ProfileConsent() {
                     <span className="text-body-sm font-semibold text-ink-900">{label}</span>
                     {required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
-                  <p className="text-caption text-ink-500">{desc}</p>
+                  <p className="text-caption text-ink-700">{desc}</p>
                 </div>
                 <Switch
                   checked={gdpr[key]}
@@ -156,7 +156,7 @@ export default function ProfileConsent() {
                     <span className="text-body-sm font-semibold text-ink-900">{item.label}</span>
                     {item.required && <Badge variant="info" size="sm">Requis</Badge>}
                   </div>
-                  <p className="text-caption text-ink-500">{item.description}</p>
+                  <p className="text-caption text-ink-700">{item.description}</p>
                 </div>
                 <Switch
                   checked={ai[item.id]}

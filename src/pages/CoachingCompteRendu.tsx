@@ -322,7 +322,7 @@ export const CoachingCompteRendu: React.FC = () => {
                   Votre coach
                 </h3>
                 <div className="flex gap-stack-xs items-center">
-                  <div className="w-[52px] h-[52px] rounded-full shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-md">
+                  <div className="w-[52px] h-[52px] rounded-full shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 text-white flex items-center justify-center font-body text-body font-extrabold shadow-card">
                     {report.coach.initials}
                   </div>
                   <div>

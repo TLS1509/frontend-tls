@@ -66,7 +66,7 @@ const SettingRow: React.FC<{
 }> = ({ icon, label, description, children, danger }) => (
   <div className="flex items-center justify-between gap-stack py-5 border-b border-ink-100 last:border-0">
     <div className="flex items-start gap-stack-xs flex-1 min-w-0">
-      <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-500'}`}>
+      <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-700'}`}>
         {icon}
       </div>
       <div>
@@ -74,7 +74,7 @@ const SettingRow: React.FC<{
           {label}
         </p>
         {description && (
-          <p className="m-0 mt-0.5 font-body text-caption text-ink-500 leading-snug">
+          <p className="m-0 mt-0.5 font-body text-caption text-ink-700 leading-snug">
             {description}
           </p>
         )}
@@ -205,7 +205,7 @@ const SecurityTab: React.FC = () => {
             ].join(' ')}
           >
             <div className="flex items-start gap-stack-xs">
-              <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${session.current ? 'bg-primary-100 text-primary-600' : 'bg-ink-100 text-ink-500'}`}>
+              <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${session.current ? 'bg-primary-100 text-primary-600' : 'bg-ink-100 text-ink-700'}`}>
                 <Smartphone size={16} />
               </div>
               <div>
@@ -215,7 +215,7 @@ const SecurityTab: React.FC = () => {
                   </p>
                   {session.current && <Badge variant="success">session actuelle</Badge>}
                 </div>
-                <p className="m-0 mt-0.5 font-body text-caption text-ink-500 flex items-center gap-stack-xs">
+                <p className="m-0 mt-0.5 font-body text-caption text-ink-700 flex items-center gap-stack-xs">
                   <MapPin size={11} /> {session.location} · {session.lastSeen}
                 </p>
               </div>
@@ -283,7 +283,7 @@ const BillingTab: React.FC = () => (
   <div className="flex flex-col gap-stack-lg">
     <SettingCard title="Abonnement actuel">
       <div className="pt-5 pb-5">
-        <div className="flex items-start justify-between gap-stack p-stack-lg rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-stack-lg shadow-md">
+        <div className="flex items-start justify-between gap-stack p-stack-lg rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-stack-lg shadow-card">
           <div>
             <div className="flex items-center gap-stack-xs mb-stack-xs">
               <Sparkles size={16} className="text-primary-500" />

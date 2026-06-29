@@ -110,7 +110,7 @@ export const Settings: React.FC = () => {
           <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight text-balance">
             Paramètres
           </h1>
-          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
+          <p className="m-0 font-body text-body-sm text-ink-700 max-w-prose">
             Notifications, confidentialité, interface et préférences de compte.
           </p>
         </header>
@@ -162,7 +162,7 @@ export const Settings: React.FC = () => {
                   </span>
                   <div>
                     <p className="m-0 text-body-sm font-semibold text-ink-900">Mode sombre</p>
-                    <p className="m-0 mt-0.5 text-caption text-ink-500">
+                    <p className="m-0 mt-0.5 text-caption text-ink-700">
                       {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
                     </p>
                   </div>

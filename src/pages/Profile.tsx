@@ -199,7 +199,7 @@ export const Profile: React.FC = () => {
             <p className="m-0 font-body text-body-sm text-ink-600">
               {USER.role} · {USER.username}
             </p>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-500">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-stack-xs font-body text-caption text-ink-700">
               <span className="inline-flex items-center gap-1.5"><Mail size={12} /> {displayEmail}</span>
               <span aria-hidden className="text-ink-300">·</span>
               <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {USER.location}</span>
@@ -240,7 +240,7 @@ export const Profile: React.FC = () => {
                     <span className="font-display text-h3 font-bold text-ink-900 leading-none tracking-tight tabular-nums">
                       {s.value}
                     </span>
-                    <span className="font-body text-caption text-ink-500">{s.label}</span>
+                    <span className="font-body text-caption text-ink-700">{s.label}</span>
                   </div>
                 ))}
               </div>
@@ -280,7 +280,7 @@ export const Profile: React.FC = () => {
                           <p className="m-0 font-display text-body font-bold text-ink-900 leading-none">
                             {k.value}
                           </p>
-                          <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
+                          <p className="m-0 font-body text-caption text-ink-700 mt-0.5">
                             {k.label}
                           </p>
                         </div>
@@ -315,7 +315,7 @@ export const Profile: React.FC = () => {
                 <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Activité récente
                 </h2>
-                <span className="font-body text-caption text-ink-500">
+                <span className="font-body text-caption text-ink-700">
                   {ACTIVITY.length} événements
                 </span>
               </div>
@@ -340,7 +340,7 @@ export const Profile: React.FC = () => {
                       <p className="m-0 font-body text-body-sm font-semibold text-ink-900 truncate">
                         {a.title}
                       </p>
-                      <p className="m-0 font-body text-caption text-ink-500 mt-0.5">
+                      <p className="m-0 font-body text-caption text-ink-700 mt-0.5">
                         {a.date} · {a.meta}
                       </p>
                     </div>
@@ -359,7 +359,7 @@ export const Profile: React.FC = () => {
                 <h2 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-tight">
                   Badges
                 </h2>
-                <span className="font-body text-caption text-ink-500">
+                <span className="font-body text-caption text-ink-700">
                   {earnedCount}/{badges.length} débloqués
                 </span>
               </div>
@@ -413,7 +413,7 @@ export const Profile: React.FC = () => {
                 </h2>
                 <Badge variant="brand">5 compétences</Badge>
               </div>
-              <p className="m-0 font-body text-caption text-ink-500 max-w-prose">
+              <p className="m-0 font-body text-caption text-ink-700 max-w-prose">
                 Évaluation par niveau (Novice → Expert) sur 5 paliers. Survolez une ligne
                 pour voir le détail de progression.
               </p>
@@ -427,7 +427,7 @@ export const Profile: React.FC = () => {
               <div className="rounded-2xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg">
                 <div className="flex items-center gap-stack-xs">
                   <CheckCircle2 size={14} className="text-primary-600" />
-                  <h3 className="m-0 font-body text-caption font-medium text-ink-500">
+                  <h3 className="m-0 font-body text-caption font-medium text-ink-700">
                     Vue détaillée
                   </h3>
                 </div>

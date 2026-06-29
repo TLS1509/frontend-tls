@@ -241,7 +241,7 @@ export const Coaching: React.FC = () => {
                   <CalendarPlus size={28} strokeWidth={1.75} />
                 </span>
                 <div className="flex flex-col gap-tight max-w-[520px]">
-                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-display">
                     Démarrez votre accompagnement
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 leading-relaxed mt-stack-xs">
@@ -269,7 +269,7 @@ export const Coaching: React.FC = () => {
                     <p className="m-0 font-body text-caption font-medium text-primary-700">
                       Prochaine session
                     </p>
-                    <h2 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight">
+                    <h2 className="m-0 font-display text-h3 font-bold text-ink-900 leading-tight tracking-headline">
                       {upcoming!.title}
                     </h2>
                   </div>
@@ -344,7 +344,7 @@ export const Coaching: React.FC = () => {
                   <p className="m-0 font-body text-caption font-medium text-primary-700">
                     Aucune session programmée
                   </p>
-                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight">
+                  <h2 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-display">
                     Prêt(e) pour une nouvelle session ?
                   </h2>
                   <p className="m-0 font-body text-body text-ink-600 leading-relaxed mt-stack-xs">
