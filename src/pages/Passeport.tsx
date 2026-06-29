@@ -110,7 +110,11 @@ export default function Passeport() {
                 title="Radar de compétences"
                 description="Niveau actuel (bleu) vs objectif cible (orange). Clic sur un axe pour le détail."
               >
-                <div className="flex justify-center py-stack">
+                <div className={`flex justify-center py-stack px-stack rounded-lg transition-all ${
+                  selectedAxis
+                    ? 'bg-primary-50 border-2 border-primary-300'
+                    : 'border border-transparent'
+                }`}>
                   <CompetencyRadar
                     axes={RADAR_AXES}
                     size="md"
@@ -118,9 +122,12 @@ export default function Passeport() {
                   />
                 </div>
                 {selectedAxis && (
-                  <p className="text-caption text-primary-600 text-center">
-                    Axe sélectionné : <strong>{selectedAxis}</strong> : voir l'onglet Compétences pour le détail.
-                  </p>
+                  <div className="flex items-start gap-stack-xs p-stack rounded-lg bg-primary-50 border border-primary-200">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary-500 mt-1.5 shrink-0" />
+                    <p className="text-body-sm text-primary-900">
+                      <strong>{selectedAxis}</strong> · Vois l'onglet "Compétences" ci-dessous pour explorer cette compétence.
+                    </p>
+                  </div>
                 )}
               </SectionCard>
 
@@ -191,43 +198,45 @@ export default function Passeport() {
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {COMPETENCES.map((c) => (
-                <Card key={c.id} className="p-5 flex flex-col gap-stack-xs">
-                  <div className="flex items-start justify-between gap-stack-xs">
-                    <div className="flex flex-col gap-tight">
-                      <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
-                      <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
-                        {domainLabel(c.domain)}
-                      </Badge>
+                <button
+                  key={c.id}
+                  onClick={() => navigate(`/passeport/competence/${c.id}`)}
+                  className="group text-left"
+                  aria-label={`Voir le détail de ${c.label}`}
+                >
+                  <Card className="p-5 flex flex-col gap-stack-xs h-full transition-all group-hover:shadow-card-hover group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-primary-500">
+                    <div className="flex items-start justify-between gap-stack-xs">
+                      <div className="flex flex-col gap-tight flex-1 min-w-0">
+                        <span className="text-body-sm font-semibold text-ink-900">{c.label}</span>
+                        <Badge variant={DOMAIN_COLORS[c.domain]} size="sm">
+                          {domainLabel(c.domain)}
+                        </Badge>
+                      </div>
+                      <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'} className="shrink-0">
+                        <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
+                      </div>
                     </div>
-                    <div aria-label={c.daysSinceActivity > 0 ? `Compétence inactive depuis ${c.daysSinceActivity} jours` : 'Compétence active'}>
-                      <AtrophieIndicator daysSinceActivity={c.daysSinceActivity} currentLevel={c.level} size="sm" />
+                    <div className="flex items-center gap-stack-xs flex-wrap">
+                      <span className="text-h4 font-display font-bold text-ink-900">D{c.level}</span>
+                      {c.target > c.level && (
+                        <span className="text-caption text-ink-500">→ D{c.target}</span>
+                      )}
+                      {c.target === c.level && (
+                        <Badge variant="success" size="sm">Atteint</Badge>
+                      )}
                     </div>
-                  </div>
-                  <div className="flex items-center gap-stack-xs flex-wrap">
-                    <span className="text-h4 font-display font-bold text-ink-900">D{c.level}</span>
-                    {c.target > c.level && (
-                      <span className="text-caption text-ink-400">→ objectif D{c.target}</span>
-                    )}
-                    {c.target === c.level && (
-                      <Badge variant="success" size="sm">Objectif atteint</Badge>
-                    )}
-                  </div>
-                  <ProgressBar
-                    value={(c.points / c.nextPoints) * 100}
-                    fill={DOMAIN_COLORS[c.domain]}
-                    size="sm"
-                    label={`${c.points} / ${c.nextPoints} pts`}
-                    showLabel
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    trailingIcon={<ChevronRight size={14} />}
-                    onClick={() => navigate(`/passeport/competence/${c.id}`)}
-                  >
-                    Voir le détail
-                  </Button>
-                </Card>
+                    <ProgressBar
+                      value={(c.points / c.nextPoints) * 100}
+                      fill={DOMAIN_COLORS[c.domain]}
+                      size="sm"
+                      label={`${c.points} / ${c.nextPoints} pts`}
+                      showLabel
+                    />
+                    <div className="text-caption text-ink-400 group-hover:text-primary-600 transition-colors">
+                      Voir le détail →
+                    </div>
+                  </Card>
+                </button>
               ))}
             </div>
           </div>
@@ -264,9 +273,9 @@ export default function Passeport() {
               </div>
             ) : (
               <EmptyState
-                title="Aucun objectif défini"
-                description="Définis un objectif de progression Dreyfus pour suivre ta montée en compétences."
-                actions={<Button variant="primary">Définir mon premier objectif</Button>}
+                title="Aucun objectif pour le moment"
+                description="Crée ton premier objectif pour structurer ta progression. Fixe un niveau Dreyfus cible et un délai : c'est le secret pour progresser."
+                actions={<Button variant="primary" leadingIcon={<Plus size={16} />}>Créer mon premier objectif</Button>}
               />
             )}
           </div>
