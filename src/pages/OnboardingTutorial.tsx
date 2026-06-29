@@ -5,6 +5,7 @@ import { StepTutorial } from '../components/patterns/StepTutorial';
 import { Stepper } from '../components/ui/Stepper';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { TlsLogo } from '../components/ui/TlsLogo';
+import { PageShell } from '../components/layout';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
 import { useOnboardingStore } from '../stores/persistence';
 
@@ -67,7 +68,7 @@ export default function OnboardingTutorial() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
 
-      <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section-lg">
+      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-between">
@@ -109,7 +110,7 @@ export default function OnboardingTutorial() {
           onComplete={handleDone}
           onSkip={handleDone}
         />
-      </div>
+      </PageShell>
     </main>
   );
 }

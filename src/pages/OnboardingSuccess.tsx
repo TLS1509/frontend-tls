@@ -5,6 +5,7 @@ import { Button } from '../components/core/Button';
 import { Stepper } from '../components/ui/Stepper';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { TlsLogo } from '../components/ui/TlsLogo';
+import { PageShell } from '../components/layout';
 import { CongratulationsCard } from '../components/patterns/CongratulationsCard';
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
@@ -58,7 +59,7 @@ export default function OnboardingSuccess() {
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-sun" aria-hidden />
       <AmbientBlobs intensity="normal" />
 
-      <div className="relative z-base max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-10 pt-section pb-page flex flex-col gap-section-lg">
+      <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl pb-page" noPadTop>
 
         {/* ── Brand bar ── */}
         <div className="flex items-center justify-center">
@@ -102,7 +103,7 @@ export default function OnboardingSuccess() {
             Revoir le tutoriel de la plateforme
           </button>
         </div>
-      </div>
+      </PageShell>
     </main>
   );
 }
