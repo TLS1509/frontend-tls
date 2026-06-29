@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { ClipboardList, Info, Calendar, Clock, MapPin, Users, Video } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
-import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -47,7 +47,7 @@ export default function AtelierDetail() {
   void id;
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Ateliers · Détail"
@@ -61,7 +61,7 @@ export default function AtelierDetail() {
         }
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Coach card */}
         <Card variant="tinted" tone="flat" className="flex flex-col sm:flex-row items-start sm:items-center gap-section p-stack-lg">
           <Avatar name="Sophie Martin" initials="SM" size="xl" />
@@ -129,7 +129,7 @@ export default function AtelierDetail() {
           <Clock size={14} className="text-ink-400 ml-stack-xs" />
           <span>10h00 – 13h00</span>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

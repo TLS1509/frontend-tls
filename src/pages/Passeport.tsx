@@ -18,7 +18,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById, domainLabel } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetenceDomain } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 /** Couleur du tone par domaine H.S.O. (Cahier #02). */
 const DOMAIN_COLORS: Record<CompetenceDomain, 'brand' | 'warm' | 'sun'> = {
@@ -130,7 +130,7 @@ export default function Passeport() {
   const activeObjectives = objectives.filter((o) => o.status === 'active');
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop={true}>
       <EditorialHero
         eyebrow="SBO · Match"
         title="Mon Passeport Compétences"
@@ -143,9 +143,7 @@ export default function Passeport() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
-
-        {/* Tab navigation */}
+      {/* Tab navigation */}
         <Tabs
           items={TABS}
           value={activeTab}
@@ -493,8 +491,6 @@ export default function Passeport() {
             )}
           </div>
         )}
-
-      </Container>
-    </div>
+    </PageShell>
   );
 }

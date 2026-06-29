@@ -12,12 +12,12 @@ import {
 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
-import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -70,7 +70,7 @@ export default function EvenementDetail() {
   const pct = Math.round((EVENT.registered / EVENT.capacity) * 100);
 
   return (
-    <div className="flex flex-col gap-section px-stack py-stack-lg">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow={{ label: 'Événements · Détail' }}
@@ -85,7 +85,7 @@ export default function EvenementDetail() {
         }
       />
 
-      <Container width="content" padding={false} className="flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Organizer */}
         <Card variant="tinted" tone="sun" className="flex items-center gap-section p-stack-lg">
           <Avatar name={EVENT.organizer.name} initials={EVENT.organizer.initials} size="lg" />
@@ -170,7 +170,7 @@ export default function EvenementDetail() {
             <p className="text-micro text-ink-400 m-0">Annulation possible jusqu'à J-1</p>
           </div>
         </Card>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

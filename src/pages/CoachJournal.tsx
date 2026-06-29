@@ -105,7 +105,7 @@ export default function CoachJournal() {
         }
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
+      <div className="px-stack flex flex-col gap-section pb-page">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
         {tab === 'mine' && (

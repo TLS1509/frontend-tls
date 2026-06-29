@@ -7,7 +7,7 @@ import { Card } from '../components/core/Card';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Input } from '../components/core/Input';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
@@ -47,7 +47,7 @@ export default function HelpSearch() {
   const getCategoryName = (catId: string) => cats.find((c) => c.id === catId)?.name ?? catId;
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Recherche' }}
         title="Rechercher dans l'aide"
@@ -55,7 +55,7 @@ export default function HelpSearch() {
         tone="flat"
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
+      <div className="flex flex-col gap-section">
         <Container width="content" padding={false}>
           <Input
             placeholder="Rechercher un article, une question…"
@@ -106,7 +106,7 @@ export default function HelpSearch() {
             ))
           )}
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

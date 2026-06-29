@@ -134,7 +134,6 @@ const PrivacyDeleteAccount: React.FC = () => {
             Ton compte sera supprimé sous 30 jours. Tu recevras un email de confirmation à chaque étape (initiation, anonymisation, suppression finale). Tu peux annuler cette demande pendant les 7 prochains jours en nous écrivant à privacy@tls.io.
           </Alert>
         )}
-      </Container>
       </div>
     </PageShell>
   );

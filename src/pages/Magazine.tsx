@@ -69,10 +69,10 @@ export const Magazine: React.FC = () => {
   const toggleBookmark = useBookmarksStore((s) => s.toggle);
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="page" noPadTop={true} className="bg-surface">
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <PageShell width="page" className="h-14 flex items-center justify-between gap-stack-xs px-4 sm:px-6 lg:px-10 py-0">
+        <PageShell width="page" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
           <Button
             variant="ghost"
             size="sm"
@@ -221,7 +221,7 @@ export const Magazine: React.FC = () => {
           }
         />
       </PageShell>
-    </div>
+    </PageShell>
   );
 };
 

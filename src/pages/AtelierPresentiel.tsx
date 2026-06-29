@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { MapPin, Navigation, Copy, Info, ClipboardList, FileText, Download } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
-import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -55,7 +55,7 @@ export default function AtelierPresentiel() {
   void id;
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · Présentiel"
@@ -66,7 +66,7 @@ export default function AtelierPresentiel() {
         }
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* Adresse card */}
         <Card variant="tinted" tone="flat" className="p-stack-lg flex flex-col gap-stack">
           <div className="flex items-center gap-stack-xs">
@@ -147,7 +147,7 @@ export default function AtelierPresentiel() {
             ))}
           </div>
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

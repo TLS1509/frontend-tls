@@ -6,7 +6,7 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Alert } from '../components/ui/Alert';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const MOCK_USER_ID = 'user-demo';
@@ -36,19 +36,19 @@ export default function HelpArticle() {
 
   if (!article) {
     return (
-      <div className="flex flex-col gap-section">
+      <PageShell width="page" noPadTop>
         <EditorialHero
           eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Article' }}
           title="Article introuvable"
           summary="Cet article n'existe pas ou a été déplacé."
           tone="flat"
         />
-        <Container className="pb-page">
+        <div className="pb-page">
           <Button variant="ghost" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
             Retour à l'aide
           </Button>
-        </Container>
-      </div>
+        </div>
+      </PageShell>
     );
   }
 
@@ -59,7 +59,7 @@ export default function HelpArticle() {
   });
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop className="gap-section">
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Article' }}
         title={article.title}
@@ -72,7 +72,7 @@ export default function HelpArticle() {
         }
       />
 
-      <Container className="pb-page">
+      <div className="pb-page">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-section items-start">
           <div className="flex flex-col gap-section">
             <Alert variant="info">Mis à jour le {updatedDate}</Alert>
@@ -136,7 +136,7 @@ export default function HelpArticle() {
             )}
           </aside>
         </div>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

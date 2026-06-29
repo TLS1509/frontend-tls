@@ -21,6 +21,7 @@ import {
   Tag as TagIcon,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
+import { PageShell } from '../components/layout';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
@@ -79,7 +80,7 @@ export const WeeklyNewsDetail: React.FC = () => {
   const toggleBookmark = useBookmarksStore((s) => s.toggle);
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="medium" noPadTop={true} className="bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="brand" />
 
       <ReaderContextStrip
@@ -197,7 +198,7 @@ export const WeeklyNewsDetail: React.FC = () => {
           }
         />
       </div>
-    </div>
+    </PageShell>
   );
 };
 

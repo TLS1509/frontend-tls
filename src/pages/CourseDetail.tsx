@@ -4,7 +4,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
-import { Container, PageShell } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { useLessonProgressStore } from '../stores/persistence';
 import { MOCK_PARCOURS_DATA } from '../data/learningPaths';
@@ -101,15 +101,15 @@ export const CourseDetail: React.FC = () => {
     <>
       {/* ─ Sticky header ─────────────────────────────────────────── */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-light border-b border-ink-100">
-        <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
+        <PageShell width="medium" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
           <Button variant="ghost" size="sm" leadingIcon={<ArrowLeft size={14} />} onClick={() => navigate(-1)}>
             Retour
           </Button>
           <span className="font-body text-caption text-ink-500">Cours #{id ?? ':'}</span>
-        </Container>
+        </PageShell>
       </div>
 
-      <PageShell width="page" className="py-section flex flex-col gap-section">
+      <PageShell width="page" noPadTop={false}>
 
         {/* ─ Course header section ──────────────────────────────── */}
         <section className="flex flex-col gap-stack">

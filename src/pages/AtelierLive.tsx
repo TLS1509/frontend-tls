@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import { Video, MessageSquare, Users, FileText, Download, ExternalLink } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { StatCard } from '../components/ui/StatCard';
-import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -52,7 +52,7 @@ export default function AtelierLive() {
   void id;
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · En direct"
@@ -63,8 +63,7 @@ export default function AtelierLive() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack py-section">
-        <div className="grid md:grid-cols-3 gap-section">
+      <div className="grid md:grid-cols-3 gap-section">
           {/* Zone player : col span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Video placeholder */}
@@ -157,7 +156,6 @@ export default function AtelierLive() {
             </SectionCard>
           </div>
         </div>
-      </Container>
-    </div>
+    </PageShell>
   );
 }

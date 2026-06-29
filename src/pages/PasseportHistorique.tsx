@@ -10,7 +10,7 @@ import { usePasseportStore } from '../stores/persistence';
 import { getCompetenceById } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { CompetencyProgression } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const TYPE_CONFIG: Record<CompetencyProgression['type'], { icon: React.ElementType; color: string; bg: string; label: string }> = {
   jac: { icon: Award, color: 'text-success-fg', bg: 'bg-success-bg', label: 'JAC' },
@@ -42,15 +42,13 @@ const PasseportHistorique: React.FC = () => {
   const formations = timeline.filter((e) => e.type === 'formation').length;
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop={false}>
       <EditorialHero
         eyebrow="Passeport · Historique"
         title="6 mois de progression"
         summary="Tous tes événements Dreyfus, JAC, missions et formations validés depuis novembre 2025"
         tone="flat"
       />
-
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
           <StatCard label="Niveaux Dreyfus gagnés" value={`+${dreyfusUps}`} sub="depuis le début" deltaDirection="up" />
           <StatCard label="JAC validés" value={String(jacs)} />
@@ -100,8 +98,7 @@ const PasseportHistorique: React.FC = () => {
             </div>
           </div>
         </SectionCard>
-      </Container>
-    </div>
+    </PageShell>
   );
 };
 

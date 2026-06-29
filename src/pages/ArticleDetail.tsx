@@ -33,7 +33,7 @@ import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
 import { AuthorStrip } from '../components/patterns/AuthorStrip';
 import { IntroCallout } from '../components/patterns/IntroCallout';
-import { Container, PageShell } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   ReadingProgressBar,
   ReadingProgressRing,
@@ -192,7 +192,7 @@ export const ArticleDetail: React.FC = () => {
 
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="medium" className="h-14 flex items-center justify-between gap-stack-xs">
+        <PageShell width="medium" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
           <button
             type="button"
             onClick={() => navigate('/veille')}
@@ -216,10 +216,10 @@ export const ArticleDetail: React.FC = () => {
               <Share2 size={15} />
             </Button>
           </div>
-        </Container>
+        </PageShell>
       </div>
 
-      <PageShell width="page" className="py-section flex flex-col gap-section">
+      <PageShell width="medium" noPadTop={true}>
         <div ref={articleRef} className="flex flex-col gap-section">
         {/* Breadcrumb + eyebrow + h1 + excerpt */}
         <header className="flex flex-col gap-stack max-w-prose">

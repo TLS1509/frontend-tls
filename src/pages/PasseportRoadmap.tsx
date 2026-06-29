@@ -7,7 +7,7 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -156,7 +156,7 @@ const JALON_BADGE_LABEL: Record<JalonStatus, string> = {
 
 export default function PasseportRoadmap() {
   return (
-    <div className="flex flex-col">
+    <PageShell width="wide" noPadTop={false}>
       {/* Hero */}
       <EditorialHero
         tone="flat"
@@ -174,9 +174,6 @@ export default function PasseportRoadmap() {
           </div>
         }
       />
-
-      {/* Body */}
-      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
 
         {/* KPI row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
@@ -284,8 +281,6 @@ export default function PasseportRoadmap() {
             ))}
           </div>
         </SectionCard>
-
-      </Container>
-    </div>
+    </PageShell>
   );
 }

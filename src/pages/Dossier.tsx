@@ -95,7 +95,7 @@ export const Dossier: React.FC = () => {
   useReadingProgressSync(bookmarkKey, progressPercent);
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="page" noPadTop={true} className="bg-surface">
       <ReadingProgressBar targetRef={articleRef} tone="warm" />
 
       <ReaderContextStrip
@@ -321,7 +321,7 @@ export const Dossier: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

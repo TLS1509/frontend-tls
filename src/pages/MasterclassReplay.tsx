@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Video, Play, Sparkles, FileText, Download, Award, Edit3 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { ResourceListItem } from '../components/learning/ResourceListItem';
-import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -26,7 +26,7 @@ export default function MasterclassReplay() {
   useParams<{ id: string }>();
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Masterclass · Replay"
@@ -40,8 +40,7 @@ export default function MasterclassReplay() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack py-section">
-        <div className="md:grid md:grid-cols-3 gap-section flex flex-col">
+      <div className="md:grid md:grid-cols-3 gap-section flex flex-col">
           {/* Colonne principale : span 2 */}
           <div className="md:col-span-2 flex flex-col gap-section">
             {/* Player replay */}
@@ -117,7 +116,6 @@ export default function MasterclassReplay() {
             </Card>
           </div>
         </div>
-      </Container>
-    </div>
+    </PageShell>
   );
 }

@@ -25,7 +25,7 @@ import type { ParcoursTone, ParcoursStatus } from '../components/patterns/Parcou
 import { CardGrid } from '../components/patterns/CardGrid';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Button } from '../components/core/Button';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useLessonProgressStore } from '../stores/persistence';
 import { MOCK_PARCOURS_DATA, MOCK_PARCOURS_LIST } from '../data/learningPaths';
 import type { ParcoursListItem } from '../data/learningPaths';
@@ -110,8 +110,7 @@ export const LearningPaths: React.FC = () => {
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
   return (
-    <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
-      <Container width="page" className="relative z-[2] pt-0 pb-section flex flex-col gap-section">
+    <PageShell width="page" noPadTop={false} className="relative bg-gradient-page-ambient">
 
         {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
         <EditorialHero
@@ -179,8 +178,7 @@ export const LearningPaths: React.FC = () => {
             ))}
           </CardGrid>
         )}
-      </Container>
-    </div>
+    </PageShell>
   );
 };
 

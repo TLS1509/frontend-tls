@@ -15,7 +15,7 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { useEnterpriseStore } from '../stores/persistence';
 import { MOCK_COMPANY_ID } from '../data/enterprise';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -55,7 +55,7 @@ export default function ManagerEnterprise() {
   ];
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="wide" noPadTop={true}>
       <EditorialHero
         eyebrow="Espace Manager"
         title="Portail Entreprise"
@@ -67,8 +67,6 @@ export default function ManagerEnterprise() {
           </Button>
         }
       />
-
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
         {/* Enterprise KPIs */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
@@ -205,8 +203,6 @@ export default function ManagerEnterprise() {
             </SectionCard>
           </div>
         )}
-
-      </Container>
-    </div>
+    </PageShell>
   );
 }

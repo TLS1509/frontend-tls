@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Calendar, Clock, Users, Video, CheckCircle, AlertCircle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -9,7 +10,6 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { useEventsStore } from '../stores/persistence';
-import { Container } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -46,7 +46,7 @@ export default function AtelierHub() {
   });
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Ateliers Pratiques"
@@ -55,7 +55,7 @@ export default function AtelierHub() {
         trailing={<Badge variant="info" size="md">Accès entreprise</Badge>}
       />
 
-      <Container width="wide" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* KPI strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
           <StatCard label="Prochains ateliers" value={upcomingCount} icon={<Calendar size={18} />} tone="flat" surface="tinted" />
@@ -170,7 +170,7 @@ export default function AtelierHub() {
             })}
           </div>
         )}
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

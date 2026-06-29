@@ -8,7 +8,7 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { FormGroup } from '../components/core/FormGroup';
 import { useHelpcenterStore } from '../stores/persistence';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const MOCK_USER_ID = 'user-demo';
 
@@ -50,7 +50,7 @@ export default function HelpTicketNew() {
   };
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Nouveau ticket' }}
         title="Contacter le support"
@@ -58,65 +58,63 @@ export default function HelpTicketNew() {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="px-stack pb-page">
-        <Card>
-          <div className="flex flex-col gap-stack-lg">
-            <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
-              Nouvelle demande de support
-            </h2>
+      <Card>
+        <div className="flex flex-col gap-stack-lg">
+          <h2 className="font-display font-semibold text-h3 text-ink-900 m-0">
+            Nouvelle demande de support
+          </h2>
 
-            <div className="flex flex-col gap-stack">
-              <FormGroup label="Catégorie" required>
-                <Select
-                  options={categoryOptions}
-                  value={categoryId}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                />
-              </FormGroup>
+          <div className="flex flex-col gap-stack">
+            <FormGroup label="Catégorie" required>
+              <Select
+                options={categoryOptions}
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+              />
+            </FormGroup>
 
-              <FormGroup label="Objet" required>
-                <Input
-                  placeholder="Résumez votre problème en une ligne…"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                />
-              </FormGroup>
+            <FormGroup label="Objet" required>
+              <Input
+                placeholder="Résumez votre problème en une ligne…"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </FormGroup>
 
-              <FormGroup label="Priorité">
-                <Select
-                  options={PRIORITY_OPTIONS}
-                  value={priority}
-                  onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
-                />
-              </FormGroup>
+            <FormGroup label="Priorité">
+              <Select
+                options={PRIORITY_OPTIONS}
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+              />
+            </FormGroup>
 
-              <FormGroup label="Description détaillée" required>
-                <Input
-                  multiline
-                  rows={6}
-                  placeholder="Décrivez votre problème en détail : contexte, étapes pour le reproduire, messages d'erreur éventuels…"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </FormGroup>
-            </div>
-
-            <div className="flex flex-wrap gap-stack-xs">
-              <Button
-                variant="primary"
-                leadingIcon={<Send size={16} />}
-                disabled={!subject.trim() || !description.trim() || !categoryId}
-                onClick={handleSubmit}
-              >
-                Envoyer la demande
-              </Button>
-              <Button variant="ghost" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
-                Annuler
-              </Button>
-            </div>
+            <FormGroup label="Description détaillée" required>
+              <Input
+                multiline
+                rows={6}
+                placeholder="Décrivez votre problème en détail : contexte, étapes pour le reproduire, messages d'erreur éventuels…"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </FormGroup>
           </div>
-        </Card>
-      </Container>
-    </div>
+
+          <div className="flex flex-wrap gap-stack-xs">
+            <Button
+              variant="primary"
+              leadingIcon={<Send size={16} />}
+              disabled={!subject.trim() || !description.trim() || !categoryId}
+              onClick={handleSubmit}
+            >
+              Envoyer la demande
+            </Button>
+            <Button variant="ghost" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
+              Annuler
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </PageShell>
   );
 }

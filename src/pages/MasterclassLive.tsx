@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Video, MessageSquare, FileText, ExternalLink, Clock, Users } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
-import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -28,7 +28,7 @@ export default function MasterclassLive() {
   useParams<{ id: string }>();
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Masterclass · En direct"
@@ -45,8 +45,7 @@ export default function MasterclassLive() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack py-section">
-        <div className="grid md:grid-cols-3 gap-section">
+      <div className="grid md:grid-cols-3 gap-section">
           {/* Player embed : col span 2 */}
           <div className="md:col-span-2">
             <Card variant="default" className="aspect-video flex items-center justify-center bg-ink-900 rounded-2xl overflow-hidden">
@@ -114,7 +113,6 @@ export default function MasterclassLive() {
             </SectionCard>
           </div>
         </div>
-      </Container>
-    </div>
+    </PageShell>
   );
 }

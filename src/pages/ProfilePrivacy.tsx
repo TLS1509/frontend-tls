@@ -9,7 +9,7 @@ import { FormGroup } from '../components/core/FormGroup';
 import { Alert } from '../components/ui/Alert';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { Switch } from '../components/core/Input';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -81,7 +81,7 @@ export default function ProfilePrivacy() {
   };
 
   return (
-    <div className="flex flex-col gap-section">
+    <PageShell width="page" noPadTop={true}>
       <EditorialHero
         eyebrow="Profil · Confidentialité"
         title="Confidentialité & RGPD"
@@ -92,7 +92,7 @@ export default function ProfilePrivacy() {
         }
       />
 
-      <Container width="content" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
 
         {/* Info alert */}
         <Alert variant="info" icon={<Shield size={18} />}>
@@ -251,7 +251,7 @@ export default function ProfilePrivacy() {
           ))}
         </div>
 
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

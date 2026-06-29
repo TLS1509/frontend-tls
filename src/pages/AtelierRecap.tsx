@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { Award, Star, FileText, Download, Sparkles } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
-import { Container } from '../components/layout';
 
 // ─── Mock data ───────────────────────────────────────────────────────────────
 
@@ -29,7 +29,7 @@ export default function AtelierRecap() {
   void id;
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · Récapitulatif"
@@ -43,7 +43,7 @@ export default function AtelierRecap() {
         }
       />
 
-      <Container width="content" padding={false} className="px-stack py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         {/* XP celebratoire */}
         <Card variant="tinted" tone="primary" className="text-center py-section flex flex-col items-center gap-stack">
           <Award size={40} className="text-primary-600" />
@@ -108,7 +108,7 @@ export default function AtelierRecap() {
             </Card>
           </div>
         </SectionCard>
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 }

@@ -22,7 +22,7 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { RelatedItemList } from '../components/patterns/RelatedItemList';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 const ARCHIVES = [
   { id: 'w17', title: 'Semaine #17', description: 'IA & Pédagogie',          meta: '28 avril 2026' },
@@ -35,10 +35,10 @@ export const Newsletter: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
+    <PageShell width="page" noPadTop={true}>
       {/* Sticky glass header */}
       <div className="sticky top-0 z-sticky bg-white/85 backdrop-blur-glass-medium border-b border-ink-100">
-        <Container width="page" className="h-14 flex items-center justify-between gap-stack-xs">
+        <PageShell width="page" noPadTop className="!h-14 !py-0 !gap-0 flex items-center justify-between gap-stack-xs">
           <button
             type="button"
             onClick={() => navigate('/veille')}
@@ -49,10 +49,10 @@ export const Newsletter: React.FC = () => {
           <Button variant="primary" size="sm" trailingIcon={<ArrowRight size={13} />} onClick={() => navigate('/veille/weekly-newsletter')}>
             Voir la dernière édition
           </Button>
-        </Container>
+        </PageShell>
       </div>
 
-      <Container width="page" className="py-section flex flex-col gap-section">
+      <div className="flex flex-col gap-section">
         <EditorialHero
           eyebrow={{ icon: <Newspaper size={12} />, label: 'Abonnement Veille' }}
           title="Newsletter TLS"
@@ -115,8 +115,8 @@ export const Newsletter: React.FC = () => {
             </SectionCard>
           }
         />
-      </Container>
-    </div>
+      </div>
+    </PageShell>
   );
 };
 

@@ -19,6 +19,7 @@ import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import type { ChatMessage } from '../components/patterns/ConversationalChat';
 import { TlsLogo } from '../components/ui/TlsLogo';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
+import { PageShell } from '../components/layout';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import type { UserRole } from '../types/learning';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -330,7 +331,7 @@ export const Onboarding: React.FC = () => {
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
-        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section">
+        <PageShell width="content" noPadTop={false}>
           {/* Brand bar */}
           <div className="flex items-center justify-between">
             <div className="w-24" />
@@ -369,7 +370,7 @@ export const Onboarding: React.FC = () => {
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"
           />
-        </div>
+        </PageShell>
       </main>
     );
   }
@@ -400,7 +401,7 @@ export const Onboarding: React.FC = () => {
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
 
-        <div className="relative z-base max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 pt-section pb-section flex flex-col gap-section">
+        <PageShell width="content" noPadTop={false}>
           {/* Brand bar */}
           <div className="flex items-center justify-between">
             <div className="w-24" />
@@ -421,7 +422,7 @@ export const Onboarding: React.FC = () => {
             footer={footer}
             className="min-h-[62vh] max-h-[72vh]"
           />
-        </div>
+        </PageShell>
       </main>
     );
   }

@@ -5,12 +5,12 @@ import { EditorialHero } from '../components/patterns/EditorialHero';
 import { EditorialLayout } from '../components/patterns/EditorialLayout';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { EtapeAccordion } from '../components/patterns/EtapeAccordion';
+import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { ProgressBar } from '../components/ui/ProgressBar';
-import { Container } from '../components/layout';
 
 // ─── Mock data ──────────────────────────────────────────────────────────────
 
@@ -52,7 +52,7 @@ export default function MasterclassDetail() {
   const [openProg, setOpenProg] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-col">
+    <PageShell width="medium" noPadTop={true}>
       <EditorialHero
         tone="flat"
         eyebrow="Masterclass · Détail"
@@ -66,8 +66,7 @@ export default function MasterclassDetail() {
         }
       />
 
-      <Container width="content" padding={false} className="px-stack py-section">
-        <EditorialLayout
+      <EditorialLayout
           main={
             <div className="flex flex-col gap-section">
               {/* Programme accordion */}
@@ -165,7 +164,6 @@ export default function MasterclassDetail() {
             </div>
           }
         />
-      </Container>
-    </div>
+    </PageShell>
   );
 }
