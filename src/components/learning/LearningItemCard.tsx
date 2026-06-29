@@ -137,12 +137,10 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
       {/* ── Main content (flex column, gap-tight) ── */}
       <div className="flex flex-col gap-tight pr-12">
         {/* 1. Type badge + duration ── */}
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1 flex-wrap text-micro">
           <Badge variant={tone} size="sm">{ITEM_TYPE_LABELS[type]}</Badge>
-          <span className="inline-flex items-center gap-tight px-2 py-0.5 bg-ink-50 border border-ink-100 rounded-pill text-micro text-ink-500 font-medium leading-none">
-            <Clock size={10} aria-hidden />
-            {duration}
-          </span>
+          <span className="text-ink-400">•</span>
+          <span className="text-ink-500 font-medium">{duration}</span>
         </div>
 
         {/* 2. Title + description ── */}
@@ -155,15 +153,13 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
           </p>
         </div>
 
-        {/* 3. Footer: level pill + theme tag ── */}
-        <div className="flex items-center gap-1.5 flex-wrap pt-tight">
-          <span className={`inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-medium border leading-none ${LEVEL_PILL[tone]}`}>
+        {/* 3. Footer: level + theme ── */}
+        <div className="flex items-center gap-1.5 text-micro">
+          <span className={`px-1.5 py-0.5 rounded text-micro font-medium border ${LEVEL_PILL[tone]}`}>
             D{dreyfusLevel}
           </span>
-          <span className="inline-flex items-center gap-tight px-2 py-0.5 bg-ink-50 border border-ink-100 rounded-pill text-micro text-ink-500 font-medium leading-none">
-            <Tag size={10} aria-hidden />
-            {theme}
-          </span>
+          <span className="text-ink-400">•</span>
+          <span className="text-ink-500">{theme}</span>
         </div>
       </div>
 
