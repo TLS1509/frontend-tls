@@ -8,7 +8,7 @@ import { Badge } from '../components/ui/Badge';
 import { Tabs } from '../components/ui/Tabs';
 import { EmptyState } from '../components/ui/EmptyState';
 import { useHelpcenterStore } from '../stores/persistence';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import type { BadgeVariant } from '../components';
 
 const MOCK_USER_ID = 'user-demo';
@@ -53,7 +53,7 @@ export default function HelpTickets() {
         }
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
+      <PageShell width="page" noPadTop className="pb-page">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
         {displayed.length === 0 ? (
@@ -94,7 +94,7 @@ export default function HelpTickets() {
             })}
           </div>
         )}
-      </Container>
+      </PageShell>
     </div>
   );
 }

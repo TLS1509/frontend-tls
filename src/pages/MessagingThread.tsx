@@ -8,7 +8,7 @@ import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
 import { useCoachingStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 interface Message {
   id: string;
@@ -57,7 +57,7 @@ const MessagingThread: React.FC = () => {
         tone="flat"
       />
 
-      <Container width="content" padding={false} className="flex-1 px-stack py-section flex flex-col gap-stack">
+      <PageShell width="content" noPadTop className="flex-1">
         <Card className="p-stack flex items-center gap-stack-xs">
           <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">
@@ -112,7 +112,7 @@ const MessagingThread: React.FC = () => {
             Envoyer
           </Button>
         </Card>
-      </Container>
+      </PageShell>
     </div>
   );
 };

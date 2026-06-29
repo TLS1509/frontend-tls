@@ -9,7 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
@@ -64,7 +64,7 @@ export default function CoachCorrectionInterface() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section grid md:grid-cols-[1fr_360px] gap-section items-start">
+      <PageShell width="wide" noPadTop className="!flex-row md:grid md:grid-cols-[1fr_360px]">
 
         {/* Main : submitted work */}
         <div className="flex flex-col gap-section">
@@ -178,7 +178,7 @@ export default function CoachCorrectionInterface() {
           </SectionCard>
         </div>
 
-      </Container>
+      </PageShell>
     </div>
   );
 }

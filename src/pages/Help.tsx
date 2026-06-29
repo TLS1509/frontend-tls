@@ -10,7 +10,7 @@ import { Badge } from '../components/ui/Badge';
 import { Search as SearchInput } from '../components/ui/Search';
 import { FilterBar } from '../components/forms/FilterBar';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import type { BadgeVariant } from '../components';
 import {
   ChevronDown,
@@ -117,8 +117,7 @@ export const Help: React.FC = () => {
   const toggleFaq = (id: string) => setOpenFaq((prev) => (prev === id ? null : id));
 
   return (
-    <div className="min-h-[100dvh] bg-surface flex flex-col">
-      <Container width="medium" className="flex-1 py-section sm:py-section flex flex-col gap-section">
+    <PageShell width="medium" noPadTop>
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero
@@ -283,7 +282,6 @@ export const Help: React.FC = () => {
           </div>
         </section>
 
-      </Container>
-    </div>
+    </PageShell>
   );
 };

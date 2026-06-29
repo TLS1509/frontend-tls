@@ -23,7 +23,7 @@ import {
 import { useNotificationsStore, useFilterPrefsStore, useInAppNotificationsStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { NotificationEventType } from '../types/learning';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import {
   Bell,
   BellDot,
@@ -177,9 +177,7 @@ export const Notifications: React.FC = () => {
   const hasMore = visible.length > loadCount;
 
   return (
-    <div className="min-h-[100dvh] bg-surface">
-      {/* Container compact, lisible, intégrable ailleurs (max-w-content) */}
-      <Container width="content" padding={false} className="px-stack sm:px-stack-lg lg:px-section py-section flex flex-col gap-stack-lg">
+    <PageShell width="content" gap="stack-lg">
 
         {/* ── Header épuré ───────────────────────────────────────────── */}
         <header className="flex flex-wrap items-center justify-between gap-stack">
@@ -296,8 +294,7 @@ export const Notifications: React.FC = () => {
             </div>
           )}
         </section>
-      </Container>
-    </div>
+    </PageShell>
   );
 };
 
