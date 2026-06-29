@@ -46,7 +46,24 @@ import { RadarChart } from '@/components/charts';
 
 ---
 
-## Components
+## Component Catalog
+
+Quick reference for all available charts:
+
+| Chart | Type | Use Cases | Import |
+|-------|------|-----------|--------|
+| **RadarChart** | Radar (Dreyfus) | Competency progression, skill assessment | `import { RadarChart }` |
+| **BarChart** | Bar/Column | Team rankings, category comparisons, performance | `import { BarChart }` |
+| **LineChart** | Line | Trends over time, progression, engagement timelines | `import { LineChart }` |
+| **AreaChart** | Area | Cumulative metrics, distribution, stacked trends | `import { AreaChart }` |
+| **PieChart** | Pie/Donut | Distribution, completion rates, category breakdown | `import { PieChart }` |
+| **ScatterChart** | Scatter/Bubble | Correlation, learner matrix, performance scatter | `import { ScatterChart }` |
+| **ComposedChart** | Bar + Line | Complex metrics (count + score), dual-axis analysis | `import { ComposedChart }` |
+| **HeatmapChart** | Heatmap Grid | Team skills matrix, learner progress grid | `import { HeatmapChart }` |
+
+---
+
+## Detailed Component APIs
 
 ### `RadarChart`
 
@@ -119,6 +136,279 @@ const competencies = [
   }}
 />
 ```
+
+### `BarChart`
+
+Horizontal or vertical bar comparisons with single or multiple series.
+
+#### Key Props
+
+```tsx
+interface BarChartProps {
+  data: BarChartDataPoint[];
+  dataKey: string;           // single series key
+  series?: Array<{           // or multiple series
+    key: string;
+    label: string;
+    color?: string;
+  }>;
+  size?: 'sm' | 'md' | 'lg';
+  layout?: 'vertical' | 'horizontal'; // bar direction
+  onBarClick?: (data, index) => void;
+}
+```
+
+#### Example
+
+```tsx
+<BarChart
+  data={[
+    { label: 'Alice', score: 85 },
+    { label: 'Bob', score: 72 },
+    { label: 'Carol', score: 91 },
+  ]}
+  dataKey="score"
+  size="md"
+  onBarClick={(data) => navigate(`/learner/${data.label}`)}
+/>
+```
+
+---
+
+### `LineChart`
+
+Trends and progression over time with smooth curves.
+
+#### Key Props
+
+```tsx
+interface LineChartProps {
+  data: LineChartDataPoint[];
+  dataKey?: string;         // single series
+  series?: Array<{          // multiple series
+    key: string;
+    label: string;
+    color?: string;
+    strokeWidth?: number;
+    strokeDasharray?: string;
+  }>;
+  size?: 'sm' | 'md' | 'lg';
+  smooth?: boolean;         // default: true
+  showDots?: boolean;       // default: true
+  onPointClick?: (data, index) => void;
+}
+```
+
+#### Example
+
+```tsx
+const data = [
+  { label: 'Week 1', xp: 200, completions: 3 },
+  { label: 'Week 2', xp: 350, completions: 5 },
+  { label: 'Week 3', xp: 600, completions: 8 },
+];
+
+<LineChart
+  data={data}
+  series={[
+    { key: 'xp', label: 'XP Gained', color: '#55A1B4' },
+    { key: 'completions', label: 'Lessons Done', color: '#ED843A' },
+  ]}
+  smooth
+  showDots
+/>
+```
+
+---
+
+### `AreaChart`
+
+Cumulative trends and stacked distributions.
+
+#### Key Props
+
+```tsx
+interface AreaChartProps {
+  data: AreaChartDataPoint[];
+  dataKey?: string;
+  series?: Array<{
+    key: string;
+    label: string;
+    color?: string;
+  }>;
+  size?: 'sm' | 'md' | 'lg';
+  stacked?: boolean;       // default: true
+  smooth?: boolean;        // default: true
+  fillOpacity?: number;    // 0-1, default: 0.3
+}
+```
+
+#### Example
+
+```tsx
+<AreaChart
+  data={[
+    { label: 'Month 1', soft: 30, technical: 20, leadership: 10 },
+    { label: 'Month 2', soft: 50, technical: 35, leadership: 25 },
+    { label: 'Month 3', soft: 80, technical: 60, leadership: 45 },
+  ]}
+  series={[
+    { key: 'soft', label: 'Soft Skills' },
+    { key: 'technical', label: 'Technical' },
+    { key: 'leadership', label: 'Leadership' },
+  ]}
+  stacked
+/>
+```
+
+---
+
+### `PieChart`
+
+Distribution and composition (pie or donut mode).
+
+#### Key Props
+
+```tsx
+interface PieChartProps {
+  data: PieChartDataPoint[];  // { label, value, color? }
+  size?: 'sm' | 'md' | 'lg';
+  showLegend?: boolean;
+  showLabels?: boolean;        // percentage on slices
+  donut?: boolean;             // default: false (pie mode)
+  innerRadius?: number;        // for donut, default: 60
+  onSliceClick?: (data, index) => void;
+}
+```
+
+#### Example
+
+```tsx
+<PieChart
+  data={[
+    { label: 'Completed', value: 34 },
+    { label: 'In Progress', value: 15 },
+    { label: 'Not Started', value: 51 },
+  ]}
+  donut
+  showLabels
+  onSliceClick={(data) => console.log(`${data.label}: ${data.value}`)}
+/>
+```
+
+---
+
+### `ScatterChart`
+
+Correlation analysis and distribution (bubble chart optional).
+
+#### Key Props
+
+```tsx
+interface ScatterChartProps {
+  data: ScatterChartDataPoint[]; // { label, x, y, z?, color? }
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+  xDomain?: [number, number];
+  yDomain?: [number, number];
+  size?: 'sm' | 'md' | 'lg';
+  bubbleScale?: number;         // scale for z value
+  onDotClick?: (data, index) => void;
+}
+```
+
+#### Example
+
+```tsx
+<ScatterChart
+  data={[
+    { label: 'Alice', x: 85, y: 90, z: 50 },  // z = hours spent
+    { label: 'Bob', x: 72, y: 78, z: 40 },
+    { label: 'Carol', x: 91, y: 88, z: 60 },
+  ]}
+  xAxisLabel="Skill Level (0-100)"
+  yAxisLabel="Engagement (0-100)"
+  bubbleScale={2}
+  onDotClick={(data) => navigate(`/learner/${data.label}`)}
+/>
+```
+
+---
+
+### `ComposedChart`
+
+Complex metrics combining bars + lines (e.g., activity count + average score).
+
+#### Key Props
+
+```tsx
+interface ComposedChartProps {
+  data: ComposedChartDataPoint[];
+  series: ComposedChartSeriesConfig[];  // { key, label, type: 'bar'|'line', ... }
+  size?: 'sm' | 'md' | 'lg';
+  showLegend?: boolean;
+  dualAxis?: boolean;          // left & right Y axes
+  leftAxisLabel?: string;
+  rightAxisLabel?: string;
+}
+```
+
+#### Example
+
+```tsx
+<ComposedChart
+  data={[
+    { label: 'Week 1', activities: 15, avgScore: 78 },
+    { label: 'Week 2', activities: 22, avgScore: 82 },
+    { label: 'Week 3', activities: 18, avgScore: 85 },
+  ]}
+  series={[
+    { key: 'activities', label: 'Activities', type: 'bar' },
+    { key: 'avgScore', label: 'Avg Score', type: 'line' },
+  ]}
+  dualAxis
+  leftAxisLabel="Count"
+  rightAxisLabel="Score (0-100)"
+/>
+```
+
+---
+
+### `HeatmapChart`
+
+Team skills matrix, learner progress grids (Red→Yellow→Green color scale).
+
+#### Key Props
+
+```tsx
+interface HeatmapChartProps {
+  data: HeatmapDataPoint[];    // { x, y, value }
+  minValue?: number;           // 0 (red)
+  maxValue?: number;           // 5 (green), or 100
+  cellSize?: number;           // pixels, default: 48
+  showValues?: boolean;        // show D1-D5 or %
+  onCellClick?: (data) => void;
+}
+```
+
+#### Example
+
+```tsx
+<HeatmapChart
+  data={[
+    { x: 'Alice', y: 'Leadership', value: 3 },
+    { x: 'Alice', y: 'Communication', value: 4 },
+    { x: 'Bob', y: 'Leadership', value: 2 },
+    { x: 'Bob', y: 'Communication', value: 5 },
+  ]}
+  maxValue={5}
+  cellSize={50}
+  showValues
+  onCellClick={(data) => navigate(`/learner/${data.x}/skill/${data.y}`)}
+/>
+```
+
+---
 
 ### `ChartContainer`
 
@@ -223,13 +513,23 @@ Recharts labels inherit from global styles:
 | **Coach Dashboard** | Bar Chart | Learner performance comparison | P2 |
 | **Manager Cockpit** | Scatter/Bubble | Org-wide skill distribution | P3 |
 
-### Component Roadmap
+### Component Status
 
-- [ ] `BarChart` — Recharts Bar with TLS styling
-- [ ] `LineChart` — Recharts LineChart with smooth animations
-- [ ] `HeatmapChart` — ScatterChart or custom grid for team matrices
-- [ ] `TimelineChart` — Custom timeline for learner journey
-- [ ] `Animations` — Framer Motion entrance animations for all charts
+**Core Charts** ✅ (2026-06-29)
+- ✅ `RadarChart` — Competency radar (Dreyfus model)
+- ✅ `BarChart` — Bar/column comparisons (single/multi-series)
+- ✅ `LineChart` — Line trends with smooth curves
+- ✅ `AreaChart` — Area with stacking & gradients
+- ✅ `PieChart` — Pie/donut distributions
+- ✅ `ScatterChart` — Scatter/bubble correlations
+- ✅ `ComposedChart` — Bar + line hybrid with dual axes
+- ✅ `HeatmapChart` — Custom grid heatmap (Red→Yellow→Green)
+
+**Future Enhancements** (Phase 21+)
+- [ ] `TimelineChart` — Custom vertical timeline for learner journey
+- [ ] `GaugeChart` — Circular progress indicators
+- [ ] `SankeyChart` — Flow/progression visualization
+- [ ] Animations — Framer Motion entrance animations for all charts
 
 ---
 
