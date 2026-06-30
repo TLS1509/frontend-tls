@@ -13,4 +13,6 @@
 
 export { HeroSection, type HeroLayout } from './HeroSection';
 export { ConvictionSection, type ConvictionLayout } from './ConvictionSection';
+export { OffersSection, type OffersLayout } from './OffersSection';
+export { MethodSection, type MethodLayout } from './MethodSection';
 export { CtaSection, type CtaLayout } from './CtaSection';

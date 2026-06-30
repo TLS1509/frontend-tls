@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
-import { HeroSection, ConvictionSection } from '../../components/marketing/sections';
+import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 
 const FOCUS_RING =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
