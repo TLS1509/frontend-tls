@@ -17,7 +17,6 @@ import {
   Mail,
   Bookmark,
   Rss,
-  RotateCcw,
   Grid3x3,
   List,
 } from 'lucide-react';
@@ -25,7 +24,7 @@ import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
-import { Search } from '../components/ui/Search';
+import { SearchFilters } from '../components/patterns/SearchFilters';
 import {
   VeilleCardFeed,
   type VeilleFeedItem,
@@ -157,70 +156,36 @@ export const Veille: React.FC = () => {
         </p>
       </div>
 
-      {/* ── Search + filters ────────────────────────────────────────────── */}
-      <Search
-        variant="default"
-        size="md"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+      {/* ── Search + filters (SearchFilters inline) ─────────────────────── */}
+      <SearchFilters
+        query={query}
+        onQueryChange={setQuery}
         placeholder="Rechercher un sujet, auteur, catégorie…"
         aria-label="Rechercher dans la veille"
-        trailing={
-          hasActiveFilter ? (
-            <Button
-              variant="secondary"
-              size="sm"
-              leadingIcon={<RotateCcw size={11} />}
-              onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-            >
-              Réinitialiser
-            </Button>
-          ) : undefined
-        }
-        filtersSlot={
-          <div className="flex flex-wrap items-center gap-2">
-            {TYPE_FILTERS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelected(id)}
-                className={[
-                  'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  selected === id
-                    ? 'bg-primary-500 text-white border-primary-500 shadow-sm'
-                    : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
-                ].join(' ')}
-              >
-                {Icon && <Icon size={12} strokeWidth={2.5} />}
-                {label}
-                {id !== 'all' && (
-                  <span className={selected === id ? 'text-white/70' : 'text-ink-400'}>
-                    {counts[id]}
-                  </span>
-                )}
-              </button>
-            ))}
-
-            <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5" />
-
-            <button
-              type="button"
-              onClick={() => setShowSavedOnly((v) => !v)}
-              className={[
-                'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                showSavedOnly
-                  ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-sm'
-                  : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
-              ].join(' ')}
-            >
-              <Bookmark size={12} strokeWidth={2.5} />
-              Sauvegardés
-              {savedIds.size > 0 && (
-                <span className={showSavedOnly ? 'text-ink-600' : 'text-ink-400'}>{savedIds.size}</span>
-              )}
-            </button>
-          </div>
-        }
+        filters={[
+          {
+            id: 'type',
+            label: 'Type',
+            multi: false,
+            options: TYPE_FILTERS.filter((f) => f.id !== 'all').map((f) => ({
+              id: f.id,
+              label: f.label,
+              count: counts[f.id as VeilleType],
+              icon: f.Icon ? <f.Icon size={12} strokeWidth={2.5} /> : undefined,
+            })),
+            selected: selected === 'all' ? [] : [selected],
+            onChange: (ids) => setSelected((ids[0] as 'all' | VeilleType) ?? 'all'),
+          },
+          {
+            id: 'saved',
+            label: 'Sauvegardés',
+            kind: 'toggle',
+            icon: <Bookmark size={12} strokeWidth={2.5} />,
+            value: showSavedOnly,
+            onChange: setShowSavedOnly,
+            count: savedIds.size || undefined,
+          },
+        ]}
       />
 
       {/* ── Feed ────────────────────────────────────────────────────────── */}

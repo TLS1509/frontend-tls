@@ -3,10 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useJournalStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
 import type { JournalEntryType } from '../types/learning';
-import { Card } from '../components/core/Card';
-import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
-import { Search } from '../components/ui/Search';
+import { SearchFilters } from '../components/patterns/SearchFilters';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
@@ -17,7 +15,6 @@ import {
   PenSquare,
   Sparkles,
   X,
-  SlidersHorizontal,
   Compass,
   PenLine,
   Lightbulb,
@@ -120,11 +117,6 @@ export const Journal: React.FC = () => {
   /* Compose state: quick-prompt chat input qui s'expand. */
   const [composeText, setComposeText] = useState('');
 
-  /* Filters panel collapsible: hidden par défaut, toggle via icon button trailing du Search. */
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const activeFilterCount =
-    (typeFilter !== 'all' ? 1 : 0) + (periodFilter !== 'all' ? 1 : 0);
-
   /* Types user-initiables (les 4 disponibles depuis la section "Compose new entry").
      Coaching/Questionnaire/Compte-rendu sont system-generated depuis le flow coaching. */
   const COMPOSE_TYPES: { type: JournalBubbleType; icon: React.ReactNode; label: string; tone: 'brand' | 'warm' | 'sun'; subtitle: string }[] = [
@@ -212,71 +204,34 @@ export const Journal: React.FC = () => {
           </div>
         </section>
 
-        {/* Toolbar compacte: Search size="sm" avec icon button "filters" trailing.
-            Panel filtres collapsible (caché par défaut, toggle via icon). */}
-        <div className="flex flex-col gap-stack-xs">
-          <Search
-            variant="default"
-            placeholder="Rechercher titre, thème, tag…"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            trailing={
-              <button
-                type="button"
-                onClick={() => setFiltersOpen((v) => !v)}
-                aria-expanded={filtersOpen}
-                aria-label={`${filtersOpen ? 'Masquer' : 'Afficher'} les filtres${activeFilterCount > 0 ? ` (${activeFilterCount} actifs)` : ''}`}
-                className={[
-                  'relative inline-flex items-center justify-center min-h-touch w-10 rounded-md border cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  filtersOpen || activeFilterCount > 0
-                    ? 'bg-primary-500 border-primary-500 text-white hover:bg-primary-600'
-                    : 'bg-white border-ink-200 text-ink-600 hover:bg-ink-50 hover:border-ink-300',
-                ].join(' ')}
-              >
-                <SlidersHorizontal size={16} strokeWidth={2.25} />
-                {activeFilterCount > 0 && !filtersOpen && (
-                  <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-accent-500 text-white text-[10px] font-bold border border-white">
-                    {activeFilterCount}
-                  </span>
-                )}
-              </button>
-            }
-          />
-
-          {/* Filters collapsible panel */}
-          {filtersOpen && (
-            <Card className="p-stack flex flex-col gap-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
-              <div className="flex flex-col gap-stack-xs">
-                <span className="font-body text-caption font-medium text-ink-500">Période</span>
-                <div className="flex gap-stack-xs flex-wrap" role="group" aria-label="Filtrer par période">
-                  {PERIOD_FILTERS.map(({ key, label }) => (
-                    <FilterChip
-                      key={key}
-                      label={label}
-                      active={periodFilter === key}
-                      onClick={() => setPeriodFilter(key)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-stack-xs">
-                <span className="font-body text-caption font-medium text-ink-500">Type d'entrée</span>
-                <div className="flex gap-stack-xs flex-wrap" role="group" aria-label="Filtrer par type">
-                  {TYPE_FILTERS.map(({ key, label, icon }) => (
-                    <FilterChip
-                      key={key}
-                      label={label}
-                      icon={icon}
-                      active={typeFilter === key}
-                      onClick={() => setTypeFilter(key)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </Card>
-          )}
-        </div>
+        {/* Toolbar: SearchFilters panel (Période + Type d'entrée) */}
+        <SearchFilters
+          layout="panel"
+          query={searchQuery}
+          onQueryChange={setSearchQuery}
+          placeholder="Rechercher titre, thème, tag…"
+          aria-label="Rechercher dans le journal"
+          onReset={() => { setTypeFilter('all'); setPeriodFilter('all'); setSearchQuery(''); }}
+          filters={[
+            {
+              id: 'period',
+              label: 'Période',
+              multi: false,
+              options: PERIOD_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label })),
+              selected: periodFilter === 'all' ? [] : [periodFilter],
+              onChange: (ids) => setPeriodFilter((ids[0] as PeriodFilter) ?? 'all'),
+            },
+            {
+              id: 'type',
+              label: "Type d'entrée",
+              multi: false,
+              control: 'chips',
+              options: TYPE_FILTERS.filter((f) => f.key !== 'all').map((f) => ({ id: f.key, label: f.label, icon: f.icon })),
+              selected: typeFilter === 'all' ? [] : [typeFilter],
+              onChange: (ids) => setTypeFilter((ids[0] as TypeFilter) ?? 'all'),
+            },
+          ]}
+        />
 
         {/* Active filter result count */}
         {hasActiveFilter && (

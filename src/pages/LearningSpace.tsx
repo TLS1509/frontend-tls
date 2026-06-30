@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  BookOpen, ChevronDown, RotateCcw, Grid3x3, Grid2x2,
+  BookOpen, RotateCcw, Grid3x3, Grid2x2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { Search } from '../components/ui/Search';
+import { SearchFilters } from '../components/patterns/SearchFilters';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
@@ -86,12 +86,6 @@ const LEVEL_OPTIONS = [
 
 /* ─── Select style ───────────────────────────────────────────────────────── */
 
-const SELECT_CLS =
-  'appearance-none h-8 pl-3 pr-7 bg-white border border-ink-200 rounded-lg text-micro text-ink-700 font-medium cursor-pointer focus:outline-none focus:border-primary-400 transition-colors duration-base hover:border-ink-300';
-
-const SELECT_ACTIVE_CLS =
-  'border-primary-400 bg-primary-50 text-primary-700';
-
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
 export const LearningSpace: React.FC = () => {
@@ -128,22 +122,6 @@ export const LearningSpace: React.FC = () => {
   const [level, setLevel]         = useState('all');
   const [duration, setDuration]   = useState<DurationBucket>('all');
   const [gridCols, setGridCols] = useState<2 | 4>(4);
-  const [showFilters, setShowFilters] = useState(false);
-  const searchContainerRef = useRef<HTMLDivElement>(null);
-
-  /* ─── Close filters on click outside ──────────────────────────────── */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
-        setShowFilters(false);
-      }
-    };
-
-    if (showFilters) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [showFilters]);
 
   /* ─── Computed ───────────────────────────────────────────────────────── */
 
@@ -209,98 +187,50 @@ export const LearningSpace: React.FC = () => {
         </p>
       </div>
 
-      {/* ── Search + filters ────────────────────────────────────────────── */}
-      <div ref={searchContainerRef}>
-        <Search
-          variant="default"
-          size="md"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setShowFilters(true);
-          }}
-          onFocus={() => setShowFilters(true)}
-          placeholder="Rechercher par titre, thématique, tag…"
-          aria-label="Rechercher un contenu"
-          trailing={
-            hasActiveFilters ? (
-              <Button
-                variant="secondary"
-                size="sm"
-                leadingIcon={<RotateCcw size={11} />}
-                onClick={resetFilters}
-              >
-                Réinitialiser
-              </Button>
-            ) : undefined
-          }
-          filtersSlot={
-            showFilters ? (
-              <div className="flex items-center gap-2 flex-wrap">
-                {/* Type de ressource */}
-                <div className="relative shrink-0">
-                  <select
-                    value={typeGroup}
-                    onChange={(e) => setTypeGroup(e.target.value as TypeGroupId)}
-                    aria-label="Filtrer par type de ressource"
-                    className={[SELECT_CLS, typeGroup !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                  >
-                    {TYPE_GROUPS.map((o) => (
-                      <option key={o.id} value={o.id}>{o.label}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                </div>
-
-                {/* Thématique */}
-                <div className="relative shrink-0">
-                  <select
-                    value={theme}
-                    onChange={(e) => setTheme(e.target.value)}
-                    aria-label="Filtrer par thématique"
-                    className={[SELECT_CLS, theme !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                  >
-                    {themeOptions.map((o) => (
-                      <option key={o.id} value={o.id}>{o.label}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                </div>
-
-                {/* Niveau */}
-                <div className="relative shrink-0">
-                  <select
-                    value={level}
-                    onChange={(e) => setLevel(e.target.value)}
-                    aria-label="Filtrer par niveau"
-                    className={[SELECT_CLS, level !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                  >
-                    {LEVEL_OPTIONS.map((o) => (
-                      <option key={o.id} value={o.id}>{o.label}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                </div>
-
-                {/* Durée */}
-                <div className="relative shrink-0">
-                  <select
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value as DurationBucket)}
-                    aria-label="Filtrer par durée"
-                    className={[SELECT_CLS, duration !== 'all' ? SELECT_ACTIVE_CLS : ''].join(' ')}
-                  >
-                    {DURATION_OPTIONS.map((o) => (
-                      <option key={o.id} value={o.id}>{o.label}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={11} className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" aria-hidden />
-                </div>
-              </div>
-            ) : undefined
-          }
-        />
-      </div>
+      {/* ── Search + filters (SearchFilters panel) ──────────────────────── */}
+      <SearchFilters
+        layout="panel"
+        query={query}
+        onQueryChange={setQuery}
+        placeholder="Rechercher par titre, thématique, tag…"
+        aria-label="Rechercher un contenu"
+        onReset={resetFilters}
+        filters={[
+          {
+            id: 'type',
+            label: 'Type de ressource',
+            multi: false,
+            control: 'chips',
+            options: TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
+            selected: typeGroup === 'all' ? [] : [typeGroup],
+            onChange: (ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all'),
+          },
+          {
+            id: 'theme',
+            label: 'Thématique',
+            multi: false,
+            options: themeOptions.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
+            selected: theme === 'all' ? [] : [theme],
+            onChange: (ids) => setTheme(ids[0] ?? 'all'),
+          },
+          {
+            id: 'level',
+            label: 'Niveau',
+            multi: false,
+            options: LEVEL_OPTIONS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
+            selected: level === 'all' ? [] : [level],
+            onChange: (ids) => setLevel(ids[0] ?? 'all'),
+          },
+          {
+            id: 'duration',
+            label: 'Durée',
+            multi: false,
+            options: DURATION_OPTIONS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
+            selected: duration === 'all' ? [] : [duration],
+            onChange: (ids) => setDuration((ids[0] as DurationBucket) ?? 'all'),
+          },
+        ]}
+      />
 
       {/* ── Resources grid ──────────────────────────────────────────────── */}
       <div className="flex flex-col gap-stack">
