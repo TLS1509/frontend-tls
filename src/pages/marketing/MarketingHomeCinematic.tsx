@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 
 // ─── Hero cinématique avec vidéo full-screen ────────────────────────────────
 

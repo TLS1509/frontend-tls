@@ -16,6 +16,7 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible, MagneticButton, CountUp,
 } from '../../components/marketing/motion';
+import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 
 const EASE_EMPHASIS = [0.22, 1, 0.36, 1] as const;
 

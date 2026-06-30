@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { TlsLogo } from '../../components/ui/TlsLogo';
+import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 
 const TRUSTED_LOGOS = [
   'Renault', 'BNP Paribas', 'Capgemini', 'L\'Oréal', 'Airbus', 'Decathlon', 'Orange', 'Société Générale',

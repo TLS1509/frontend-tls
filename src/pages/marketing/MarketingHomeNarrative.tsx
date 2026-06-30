@@ -30,6 +30,7 @@ import {
   ParallexTextLayers,
   type StoryPanel,
 } from '../../components/marketing/motion';
+import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 import {
   ParallaxSection,
   ScrollReveal,
