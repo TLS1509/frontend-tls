@@ -220,7 +220,6 @@ export const Coaching: React.FC = () => {
           {/* Hero: EditorialHero tone="warm" — Coaching = connexion humaine/amber */}
           <EditorialHero
             tone="flat"
-            eyebrow={{ icon: <CalendarClock size={12} />, label: 'Mon accompagnement' }}
             title="Coaching 1:1"
             summary="Accompagnement individuel pour accélérer la mise en pratique sur vos cas réels."
           />

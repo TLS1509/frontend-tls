@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SlidersHorizontal, RotateCcw } from 'lucide-react';
 import { Search, type SearchSize, type SearchVariant } from '../ui/Search';
 import { FilterChip, type FilterChipTone, type FilterChipSize } from '../ui/FilterChip';
@@ -99,7 +99,21 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
   className = '',
 }) => {
   const [panelOpen, setPanelOpen] = useState(false);
+  // Inline layout: filters are revealed on focus and collapse on click outside.
+  const [inlineOpen, setInlineOpen] = useState(false);
+  const inlineRef = useRef<HTMLDivElement>(null);
   const chipSize = CHIP_SIZE[size];
+
+  useEffect(() => {
+    if (layout !== 'inline' || !inlineOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (inlineRef.current && !inlineRef.current.contains(e.target as Node)) {
+        setInlineOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [layout, inlineOpen]);
 
   const activeCount = filters.reduce(
     (n, a) => (isToggle(a) ? n + (a.value ? 1 : 0) : n + a.selected.length),
@@ -170,7 +184,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
 
   const resetButton = (
     <Button
-      variant="secondary"
+      variant="glass-warm"
       size="sm"
       leadingIcon={<RotateCcw size={11} />}
       onClick={reset}
@@ -242,43 +256,43 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     );
   }
 
-  // ── INLINE layout ─────────────────────────────────────────────────────────
+  // ── INLINE layout — filters revealed on focus, collapse on click outside ────
   return (
-    <Search
-      variant={variant}
-      size={size}
-      value={query}
-      onChange={(e) => onQueryChange(e.target.value)}
-      placeholder={placeholder}
-      aria-label={ariaLabel}
-      className={className}
-      trailing={
-        (trailing || hasActive) ? (
-          <span className="inline-flex items-center gap-stack-xs">
-            {trailing}
-            {hasActive && resetButton}
-          </span>
-        ) : undefined
-      }
-      filtersSlot={
-        filters.length > 0 ? (
-          <div className="flex flex-wrap items-center gap-2">
-            {filters.map((axis, i) => (
-              <React.Fragment key={axis.id}>
-                {i > 0 && <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5" />}
+    <div ref={inlineRef} className={className}>
+      <Search
+        variant={variant}
+        size={size}
+        value={query}
+        onChange={(e) => { onQueryChange(e.target.value); setInlineOpen(true); }}
+        onFocus={() => setInlineOpen(true)}
+        placeholder={placeholder}
+        aria-label={ariaLabel}
+        trailing={
+          (trailing || hasActive) ? (
+            <span className="inline-flex items-center gap-stack-xs">
+              {trailing}
+              {hasActive && resetButton}
+            </span>
+          ) : undefined
+        }
+        filtersSlot={
+          inlineOpen && filters.length > 0 ? (
+            <div className="flex flex-wrap items-center gap-2">
+              {filters.map((axis) => (
                 <div
+                  key={axis.id}
                   className="flex flex-wrap items-center gap-stack-xs"
                   role="group"
                   aria-label={axis.label}
                 >
                   {renderAxisControl(axis)}
                 </div>
-              </React.Fragment>
-            ))}
-          </div>
-        ) : undefined
-      }
-    />
+              ))}
+            </div>
+          ) : undefined
+        }
+      />
+    </div>
   );
 };
 

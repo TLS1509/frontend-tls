@@ -114,7 +114,6 @@ export const LearningPaths: React.FC = () => {
         {/* Hero épuré : titre + summary (recherche/filtres déplacés au-dessus de la grille) */}
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <GraduationCap size={12} />, label: 'Mon apprentissage' }}
           title="Mes Parcours"
           summary="Explore tes parcours de formation et suis ta progression au fil des leçons."
         />

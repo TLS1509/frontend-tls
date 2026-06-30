@@ -144,10 +144,6 @@ export const Veille: React.FC = () => {
 
       {/* ── Page header ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-tight">
-        <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em] w-max">
-          <Rss size={11} aria-hidden />
-          Veille & Actualités
-        </span>
         <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
           Veille &amp; Actualités
         </h1>

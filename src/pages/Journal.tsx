@@ -154,7 +154,6 @@ export const Journal: React.FC = () => {
         {/* Hero: EditorialHero sun — Journal = espace de réflexion/or */}
         <EditorialHero
           tone="flat"
-          eyebrow={{ icon: <Sparkles size={12} />, label: 'Mon apprentissage' }}
           title="Journal d'apprentissage"
           summary="Capitalise tes prises de conscience, structure tes réflexions et suis ta progression."
         />
