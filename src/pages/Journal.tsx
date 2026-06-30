@@ -216,7 +216,7 @@ export const Journal: React.FC = () => {
             Panel filtres collapsible (caché par défaut, toggle via icon). */}
         <div className="flex flex-col gap-stack-xs">
           <Search
-            variant="filled"
+            variant="default"
             placeholder="Rechercher titre, thème, tag…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

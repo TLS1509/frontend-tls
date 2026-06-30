@@ -160,7 +160,7 @@ export const Veille: React.FC = () => {
       {/* ── Search + filters ────────────────────────────────────────────── */}
       <Search
         variant="default"
-        size="default"
+        size="md"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Rechercher un sujet, auteur, catégorie…"

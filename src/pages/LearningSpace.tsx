@@ -213,7 +213,7 @@ export const LearningSpace: React.FC = () => {
       <div ref={searchContainerRef}>
         <Search
           variant="default"
-          size="default"
+          size="md"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);

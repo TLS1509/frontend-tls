@@ -64,7 +64,16 @@ export { Search } from './ui/Search';
 export type { SearchProps, SearchSize, SearchVariant } from './ui/Search';
 
 export { FilterChip } from './ui/FilterChip';
-export type { FilterChipProps } from './ui/FilterChip';
+export type { FilterChipProps, FilterChipTone, FilterChipSize } from './ui/FilterChip';
+
+export { SearchFilters } from './patterns/SearchFilters';
+export type {
+  SearchFiltersProps,
+  SearchFilterAxis,
+  SelectFilterAxis,
+  ToggleFilterAxis,
+  SearchFilterOption,
+} from './patterns/SearchFilters';
 
 export { Pagination } from './ui/Pagination';
 export type { PaginationProps } from './ui/Pagination';

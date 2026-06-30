@@ -110,40 +110,40 @@ export const LearningPaths: React.FC = () => {
   const handleCardClick = (id: string) => navigate(`/learning-paths/${id}`);
 
   return (
-    <PageShell width="page" noPadTop={false} className="relative bg-gradient-page-ambient">
+    <PageShell width="page" gap="stack" noPadTop={false} className="relative bg-gradient-page-ambient">
 
-        {/* Hero : EditorialHero tone="brand" (primary teal : Parcours = core content of TLS) */}
+        {/* Hero épuré : titre + summary (recherche/filtres déplacés au-dessus de la grille) */}
         <EditorialHero
           tone="flat"
           eyebrow={{ icon: <GraduationCap size={12} />, label: 'Mon apprentissage' }}
           title="Mes Parcours"
           summary="Explore tes parcours de formation et suis ta progression au fil des leçons."
-          trailing={
-            <Search
-              size="sm"
-              variant="glass"
-              value={query}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
-              placeholder="Rechercher…"
-              aria-label="Rechercher un parcours"
-              filtersSlot={
-                <div className="flex flex-wrap items-center gap-stack-xs">
-                  <FilterBar
-                    options={STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }))}
-                    selected={Array.from(selectedStatuses)}
-                    onChange={(ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[]))}
-                    onClearAll={resetFilters}
-                    tone="brand"
-                    variant="glass"
-                    size="sm"
-                    surface="plain"
-                  />
-                  <span className="font-body text-caption text-white/70 ml-auto">
-                    {filteredParcours.length} sur {total}
-                  </span>
-                </div>
-              }
-            />
+        />
+
+        {/* Recherche + filtres — surface claire, juste au-dessus de la grille */}
+        <Search
+          size="md"
+          variant="default"
+          value={query}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+          placeholder="Rechercher un parcours…"
+          aria-label="Rechercher un parcours"
+          filtersSlot={
+            <div className="flex flex-wrap items-center gap-stack-xs">
+              <FilterBar
+                options={STATUS_FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }))}
+                selected={Array.from(selectedStatuses)}
+                onChange={(ids) => setSelectedStatuses(new Set(ids as ParcoursStatus[]))}
+                onClearAll={resetFilters}
+                tone="brand"
+                variant="solid"
+                size="sm"
+                surface="plain"
+              />
+              <span className="font-body text-caption text-ink-500 ml-auto">
+                {filteredParcours.length} sur {total}
+              </span>
+            </div>
           }
         />
 

@@ -28,6 +28,7 @@
 
 import React from 'react';
 import { X } from 'lucide-react';
+import { FilterChip, type FilterChipTone } from '../ui/FilterChip';
 
 export interface FilterBarOption {
   id: string;
@@ -58,54 +59,18 @@ export interface FilterBarProps {
   className?: string;
 }
 
-/* ── Variant base styles ────────────────────────────────────────────────── */
+/* ── FilterBar tone → FilterChip tone (brand maps to primary) ─────────────── */
 
-const VARIANT_BASE: Record<FilterBarVariant, string> = {
-  solid: '',
-  glass: 'bg-white/15 border-white/25 backdrop-blur-glass-light text-white hover:bg-white/22',
-  'glass-inverse': '',
+const TONE_MAP: Record<FilterBarTone, FilterChipTone> = {
+  brand:   'primary',
+  warm:    'warm',
+  sun:     'sun',
+  neutral: 'neutral',
 };
-
-const VARIANT_INACTIVE: Record<FilterBarVariant, string> = {
-  solid: 'bg-white border-ink-200 text-ink-700 hover:border-ink-300 hover:bg-ink-50',
-  glass: 'bg-white/10 border-white/20 text-white/80 hover:bg-white/15',
-  'glass-inverse': 'bg-white/10 border-white/15 text-white/80 hover:bg-white/20 hover:text-white',
-};
-
-/* ── Tone styles ────────────────────────────────────────────────────────── */
-
-const ACTIVE_PILL: Record<FilterBarTone, string> = {
-  brand:   'bg-primary-600 border-primary-600 text-white shadow-xs hover:bg-primary-700',
-  warm:    'bg-secondary-600 border-secondary-600 text-white shadow-xs hover:bg-secondary-700',
-  sun:     'bg-accent-400 border-accent-400 text-ink-900 shadow-xs hover:bg-accent-500',
-  neutral: 'bg-ink-900 border-ink-900 text-white shadow-xs hover:bg-ink-800',
-};
-
-const ACTIVE_COUNT: Record<FilterBarTone, string> = {
-  brand:   'bg-white/25 text-white',
-  warm:    'bg-white/25 text-white',
-  sun:     'bg-ink-900/15 text-ink-900',
-  neutral: 'bg-white/25 text-white',
-};
-
-const INACTIVE_PILL =
-  'bg-white border-ink-200 text-ink-700 hover:border-ink-300 hover:bg-ink-50';
-
-const INACTIVE_COUNT = 'bg-ink-100 text-ink-600';
 
 const SURFACE: Record<'tinted' | 'plain', string> = {
   tinted: 'bg-ink-50 border border-ink-100 rounded-2xl p-2',
   plain:  '',
-};
-
-const SIZE_PILL: Record<'sm' | 'md', string> = {
-  sm: 'h-7 px-2.5 text-micro gap-1.5 rounded-pill',
-  md: 'h-9 px-3.5 text-caption gap-stack-xs rounded-pill',
-};
-
-const SIZE_COUNT: Record<'sm' | 'md', string> = {
-  sm: 'h-4 min-w-4 px-1 text-[10px] rounded-pill',
-  md: 'h-5 min-w-5 px-1.5 text-[10px] rounded-pill',
 };
 
 /* ── Component ──────────────────────────────────────────────────────────── */
@@ -141,6 +106,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   const hasSelection = selected.length > 0;
+  const isGlass = variant === 'glass' || variant === 'glass-inverse';
+  const chipVariant = isGlass ? 'glass' : 'default';
+  const chipTone = TONE_MAP[tone];
 
   return (
     <div
@@ -160,84 +128,34 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         </span>
       )}
 
-      {options.map((option) => {
-        const isActive = selected.includes(option.id);
-        const isDisabled = option.disabled;
-
-        const pillClasses =
-          variant === 'glass'
-            ? isActive
-              ? `${VARIANT_BASE.glass} bg-white/20`
-              : VARIANT_INACTIVE.glass
-            : variant === 'glass-inverse'
-            ? isActive
-              ? 'bg-white border-white text-ink-900 shadow-xs'
-              : VARIANT_INACTIVE['glass-inverse']
-            : isActive
-            ? ACTIVE_PILL[tone]
-            : INACTIVE_PILL;
-
-        return (
-          <button
-            key={option.id}
-            type="button"
-            disabled={isDisabled}
-            aria-pressed={isActive}
-            onClick={() => handleClick(option.id)}
-            className={[
-              'inline-flex items-center font-body font-semibold border',
-              'transition-colors duration-base cursor-pointer',
-              'focus-visible:outline-2 focus-visible:outline-offset-2',
-              variant === 'glass' || variant === 'glass-inverse'
-                ? 'focus-visible:outline-white/50'
-                : 'focus-visible:outline-primary-500',
-              SIZE_PILL[size],
-              pillClasses,
-              isDisabled ? 'opacity-disabled cursor-not-allowed' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {option.icon && (
-              <span className="inline-flex items-center shrink-0">{option.icon}</span>
-            )}
-            <span className="truncate">{option.label}</span>
-            {option.count !== undefined && (
-              <span
-                className={[
-                  'inline-flex items-center justify-center font-bold tabular-nums',
-                  SIZE_COUNT[size],
-                  variant === 'glass' || variant === 'glass-inverse'
-                    ? isActive && variant === 'glass-inverse'
-                      ? 'bg-ink-900/10 text-ink-700'
-                      : 'bg-white/30 text-white'
-                    : isActive
-                    ? ACTIVE_COUNT[tone]
-                    : INACTIVE_COUNT,
-                ].join(' ')}
-              >
-                {option.count}
-              </span>
-            )}
-          </button>
-        );
-      })}
+      {options.map((option) => (
+        <FilterChip
+          key={option.id}
+          label={option.label}
+          icon={option.icon}
+          count={option.count}
+          active={selected.includes(option.id)}
+          tone={chipTone}
+          variant={chipVariant}
+          size={size}
+          disabled={option.disabled}
+          onClick={() => handleClick(option.id)}
+        />
+      ))}
 
       {hasSelection && showClearAll && (
         <>
           <span
             aria-hidden
-            className={`hidden sm:inline-block w-px h-5 ${
-              variant === 'glass' || variant === 'glass-inverse' ? 'bg-white/30' : 'bg-ink-200'
-            } mx-1`}
+            className={`hidden sm:inline-block w-px h-5 ${isGlass ? 'bg-white/30' : 'bg-ink-200'} mx-1`}
           />
           <button
             type="button"
             onClick={handleClear}
-            className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill ${
-              variant === 'glass' || variant === 'glass-inverse'
-                ? 'text-white/70 hover:text-white'
-                : 'text-ink-500 hover:text-danger-fg'
+            className={`inline-flex items-center gap-tight px-2.5 py-1 font-body text-micro font-semibold bg-transparent border-0 cursor-pointer transition-colors duration-base rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 ${
+              isGlass
+                ? 'text-white/70 hover:text-white focus-visible:outline-white/50'
+                : 'text-ink-500 hover:text-danger-fg focus-visible:outline-primary-500'
             }`}
             title="Effacer tous les filtres"
           >

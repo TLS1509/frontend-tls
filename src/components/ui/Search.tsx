@@ -21,8 +21,14 @@ import { Search as SearchIcon, X, Loader } from 'lucide-react';
  *  - isLoading      → spinner while async fetch
  */
 
-export type SearchSize = 'sm' | 'default' | 'lg';
-export type SearchVariant = 'default' | 'filled' | 'ghost' | 'glass';
+export type SearchSize = 'sm' | 'md' | 'lg';
+/**
+ * 2 surface variants (unified 2026-06-30):
+ *  - `default` — white + border, for all standard app pages (matches Input)
+ *  - `glass`   — translucent + blur, for hero / gradient / dark surfaces
+ * `filled` and `ghost` were removed (redundant with `default` on light surfaces).
+ */
+export type SearchVariant = 'default' | 'glass';
 
 export interface SearchSuggestion {
   id: string;
@@ -49,52 +55,46 @@ export interface SearchProps
 }
 
 const SIZE_WRAPPER: Record<SearchSize, string> = {
-  sm:      'py-1.5 px-3 rounded-lg',
-  default: 'py-2.5 px-4 rounded-xl',
-  lg:      'py-3.5 px-5 rounded-2xl',
+  sm: 'py-1.5 px-3 rounded-lg',
+  md: 'py-2.5 px-4 rounded-xl',
+  lg: 'py-3.5 px-5 rounded-2xl',
 };
 
 const SIZE_GAP: Record<SearchSize, string> = {
-  sm:      'gap-stack-xs',
-  default: 'gap-stack-xs',
-  lg:      'gap-stack-xs',
+  sm: 'gap-stack-xs',
+  md: 'gap-stack-xs',
+  lg: 'gap-stack-xs',
 };
 
 const SIZE_INPUT: Record<SearchSize, string> = {
-  sm:      'text-caption',
-  default: 'text-body-sm',
-  lg:      'text-body',
+  sm: 'text-caption',
+  md: 'text-body-sm',
+  lg: 'text-body',
 };
 
 const SIZE_ICON: Record<SearchSize, number> = {
   sm: 12,
-  default: 18,
+  md: 18,
   lg: 20,
 };
 
 const VARIANT_WRAPPER: Record<SearchVariant, string> = {
   default: 'bg-white border border-ink-300 hover:border-ink-400 focus-within:border-primary-400 focus-within:shadow-brand-sm',
-  filled:  'bg-ink-100 border border-transparent hover:bg-ink-200 focus-within:bg-white focus-within:border-primary-400 focus-within:shadow-brand-sm',
-  ghost:   'bg-transparent border border-ink-200 hover:border-ink-300 focus-within:border-primary-400 focus-within:bg-white focus-within:shadow-brand-sm',
   glass:   'bg-white/15 border border-white/25 backdrop-blur-glass-light hover:bg-white/22 focus-within:bg-white/30 focus-within:border-white/50',
 };
 
 const VARIANT_ICON: Record<SearchVariant, string> = {
   default: 'text-ink-500',
-  filled:  'text-ink-500',
-  ghost:   'text-ink-400',
   glass:   'text-white/70',
 };
 
 const VARIANT_INPUT: Record<SearchVariant, string> = {
   default: 'text-ink-900 placeholder:text-ink-400',
-  filled:  'text-ink-900 placeholder:text-ink-400',
-  ghost:   'text-ink-900 placeholder:text-ink-400',
   glass:   'text-white placeholder:text-white/60',
 };
 
 export const Search: React.FC<SearchProps> = ({
-  size = 'default',
+  size = 'md',
   variant = 'default',
   shortcut,
   leadingIcon,

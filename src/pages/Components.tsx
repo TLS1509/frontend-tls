@@ -52,6 +52,7 @@ import {
   EmptyState,
   Skeleton,
   Search,
+  SearchFilters,
   Toast,
   Modal,
   // Learning
@@ -261,7 +262,8 @@ type NewCategory =
   | 'Composites'         // group wrappers (AvatarGroup, MetaPillGroup, Tabs…)
   | 'Headers & Sections' // heroes, page headers, section headers/wrappers
   | 'Feedback'           // alert, toast, empty, celebration
-  | 'Navigation'         // sidebar, breadcrumb, tabs, search
+  | 'Navigation'         // sidebar, breadcrumb, tabs
+  | 'Search & Filters'   // search bar + filter controls + filter composites
   | 'Cards'              // single-content cards
   | 'Lists & Feeds'      // collections of cards/items
   | 'Forms'              // multi-step + composite forms
@@ -307,7 +309,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Radio:                { category: 'Atoms', subCategory: 'Form fields' },
   Switch:               { category: 'Atoms', subCategory: 'Form fields' },
   Select:               { category: 'Atoms', subCategory: 'Form fields' },
-  Combobox:             { category: 'Atoms', subCategory: 'Form fields' },
+  Combobox:             { category: 'Search & Filters', subCategory: 'Search' },
   QualitativeRating:    { category: 'Atoms', subCategory: 'Form fields' },
   FormGroup:            { category: 'Atoms', subCategory: 'Form fields' },
   // FormField supprimé (Phase 10) — fusionné dans Input + FormGroup
@@ -329,7 +331,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   MetaPill:             { category: 'Atoms', subCategory: 'Chips & Pills' },
   MetaItem:             { category: 'Atoms', subCategory: 'Chips & Pills' },
   Tag:                  { category: 'Atoms', subCategory: 'Chips & Pills' },
-  FilterChip:           { category: 'Atoms', subCategory: 'Chips & Pills' },
+  FilterChip:           { category: 'Search & Filters', subCategory: 'Filter controls' },
   // 'Filter Pills' supprimé — redondant avec FilterChip
 
   // Indicators
@@ -359,11 +361,11 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // Phase 19 Tier 2 — List composites
   SimpleTable:          { category: 'Composites', subCategory: 'List composites' },
   PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
-  FilteredList:         { category: 'Composites', subCategory: 'List composites' },
+  FilteredList:         { category: 'Search & Filters', subCategory: 'Filter composites' },
   // Phase 19 Tier 3 — Form/Step/Grid composites
   StepIndicator:        { category: 'Composites', subCategory: 'Form groups' },
   ModalForm:            { category: 'Composites', subCategory: 'Form groups' },
-  FilterableCardGrid:   { category: 'Composites', subCategory: 'List composites' },
+  FilterableCardGrid:   { category: 'Search & Filters', subCategory: 'Filter composites' },
 
   // ── HEADERS & SECTIONS ────────────────────────────────────────────────
   HeroSection:          { category: 'Headers & Sections', subCategory: 'Heroes' },
@@ -407,7 +409,8 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   // TopNav, BottomNav, HamburgerButton supprimés (0 production usage)
   // → la sidebar gère toute la navigation primaire de l'app shell
   TabsWithContent:      { category: 'Navigation', subCategory: 'Secondary nav' },
-  Search:               { category: 'Navigation', subCategory: 'Search' },
+  Search:               { category: 'Search & Filters', subCategory: 'Search' },
+  SearchFilters:        { category: 'Search & Filters', subCategory: 'Filter composites' },
   // SearchBar supprimé (Phase 10) — Search canonical le remplace
   // SearchWithFilters supprimé (Phase 10) — pattern composable via Search + trailing filter btn + Card panel (cf. Journal/Veille)
   FloatingNavButton:    { category: 'Navigation', subCategory: 'Floating actions' },
@@ -475,7 +478,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   MultiStepForm:        { category: 'Forms', subCategory: 'Composite forms' },
   FormLayout:           { category: 'Forms', subCategory: 'Composite forms' },
   SearchWithFilters_F:  { category: 'Forms', subCategory: 'Composite forms' }, // collision-safe alias
-  FilterBar:            { category: 'Forms', subCategory: 'Composite forms' },
+  FilterBar:            { category: 'Search & Filters', subCategory: 'Filter controls' },
 
   // ── LEARNING (gamification & pedagogy specific to TLS) ────────────────
   Medal:                { category: 'Learning', subCategory: 'Achievements' },
@@ -539,7 +542,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   DreyfusSlider:          { category: 'Learning',      subCategory: 'Compétences' },
   BehavioralTileGrid:     { category: 'Learning',      subCategory: 'Viewer content' },
   VeilleFormatShortcutCards: { category: 'Cards',      subCategory: 'Editorial content' },
-  VeilleHeroFilterChips:  { category: 'Navigation',    subCategory: 'Secondary nav' },
+  VeilleHeroFilterChips:  { category: 'Search & Filters', subCategory: 'Filter controls' },
 
   // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
   'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
@@ -567,6 +570,7 @@ const CATEGORY_ORDER: NewCategory[] = [
   'Headers & Sections',
   'Feedback',
   'Navigation',
+  'Search & Filters',
   'Cards',
   'Lists & Feeds',
   'Forms',
@@ -584,7 +588,8 @@ const SUBCATEGORY_ORDER: Record<NewCategory, string[]> = {
   Composites: ['Group wrappers', 'Form groups', 'List composites'],
   'Headers & Sections': ['Heroes', 'Page headers', 'Section headers', 'Section wrappers'],
   Feedback: ['Status messages', 'Empty/zero states', 'Celebrations'],
-  Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav', 'Search'],
+  Navigation: ['Primary nav (app shell)', 'Contextual menus', 'Secondary nav'],
+  'Search & Filters': ['Search', 'Filter controls', 'Filter composites'],
   Cards: ['Generic', 'KPI & Stats', 'Communication', 'Learning content', 'Editorial content', 'Domain (coaching/project)', 'Activity'],
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms'],
@@ -1453,9 +1458,9 @@ const AuthShellDemo: React.FC = () => {
 const COMPONENTS: ComponentEntry[] = [
   /* ---- CORE ------------------------------------------------------------- */
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: 14/14 (8 full + 6 partial), conformance: 70%
-    // P0 fixes applied: +glass-light-ghost, +loading state visual
+    // Phase 1 P0 (2026-06-30, vérifié): Figma Button set 1109:58 = 105 variantes,
+    // les 14 variants code présents (glass-light-ghost + loading inclus). Fix réel:
+    // 25 labels primary/secondary/accent étaient bindés à la couleur de fond → rebindés ink/0.
     name: 'Button',
     codeName: 'Button.tsx',
     cssBase: '.btn',
@@ -1569,8 +1574,8 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: 3 sizes + 3 statuses (light) + glass + toggles, conformance: 95%
+    // Phase 1 P0 (2026-06-30, vérifié): Figma Input 2119:22 (size×status) — conforme code.
+    // Toggles (Checkbox/Radio/Switch) sets distincts, OK. Checkbox indeterminate non re-vérifié.
     // Note: Glass surface ignores status prop (by design). Checkbox indeterminate partial.
     name: 'Input',
     codeName: 'Input.tsx',
@@ -1821,9 +1826,8 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: 13 (10 full + 3 partial), conformance: 80%
-    // P0 fixes applied: +glass-brand/warm/sun tone variants, +tinted gradient Variable binding
+    // Phase 1 P0 (2026-06-30, vérifié): Figma Card 1111:46 + Card/Glass 1111:63 = tous les
+    // variants code présents; tinted déjà tone-split (primary/warm/sun/brand). Rien ne manquait.
     name: 'Card',
     codeName: 'Card.tsx',
     cssBase: '.card',
@@ -1922,9 +1926,8 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: All 7 badge + 5 status + 5 trending, conformance: 100%
-    // P1 gap: TrendingBadge count bubble may not render in all sizes
+    // Phase 1 P0 (2026-06-30, vérifié): Badge set 1346:2 + TrendingBadge 1110:83 étaient CASSÉS
+    // (clés de variantes incohérentes) → réparés (Badge +dot=false, TrendingBadge +hasCount=false).
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
     cssBase: 'Tailwind',
@@ -1987,8 +1990,7 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: All 5 sizes + 4 tints + 2 shapes + 3 statuses + level + ring, conformance: 100%
+    // Phase 1 P0 (2026-06-30, vérifié): Avatar set 1115:97 conforme code (sizes/tints/shapes/statuses).
     name: 'Avatar',
     codeName: 'Avatar.tsx',
     cssBase: '.avatar',
@@ -2116,8 +2118,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'Search.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
-    usedBy: ['LearningPaths', 'Veille', 'Journal', 'Help/Support', 'Messages', 'Leaderboard', 'Recherche'],
-    description: 'Search bar composable. 4 variants (default/filled/ghost/glass) × 3 sizes (sm/default/lg). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. Glass variant pour fonds colorés/gradients.',
+    usedBy: ['LearningPaths', 'Veille', 'Journal', 'LearningSpace'],
+    description: 'Search bar composable. 2 variants (default = blanc+bordure, comme Input · glass = fonds colorés/gradients) × 3 sizes (sm 32 / md 40 / lg 48). Props: shortcut, leadingIcon, trailing, filtersSlot, suggestions, isLoading, onSuggestionSelect. (filled + ghost retirés 2026-06-30 — doublons de default.)',
     keywords: ['find', 'query', 'filter', 'search', 'input', 'glass', 'trailing', 'suggestions', 'autocomplete', 'async'],
     render: () => {
       const [searchVal, setSearchVal] = React.useState('');
@@ -2140,27 +2142,25 @@ const COMPONENTS: ComponentEntry[] = [
           {/* ── Variants ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
-            <Search placeholder="default — Rechercher un parcours…" shortcut="⌘K" />
-            <Search variant="filled" placeholder="filled — Rechercher partout…" shortcut="⌘K" />
-            <Search variant="ghost" placeholder="ghost — Rechercher…" />
+            <Search placeholder="default — blanc + bordure (pages app)" shortcut="⌘K" />
             <div className="bg-gradient-to-r from-primary-500 to-primary-700 p-stack rounded-xl">
-              <Search variant="glass" placeholder="glass — sur fond coloré…" shortcut="⌘K" />
+              <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
             </div>
           </div>
 
           {/* ── Sizes ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes</p>
-            <Search size="sm" placeholder="sm — compact" />
-            <Search size="default" placeholder="default — standard" />
-            <Search size="lg" placeholder="lg — large" shortcut="⌘K" />
+            <Search size="sm" placeholder="sm — compact (32px)" />
+            <Search size="md" placeholder="md — standard (40px)" />
+            <Search size="lg" placeholder="lg — large (48px)" shortcut="⌘K" />
           </div>
 
           {/* ── Suggestions (async) ───────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions · async + loading state</p>
             <Search
-              variant="filled"
+              variant="default"
               placeholder='Tape "react" pour suggestions…'
               value={searchVal}
               onChange={(e) => {
@@ -2183,7 +2183,7 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">trailing slot · filter button avec badge</p>
             <Search
-              variant="filled"
+              variant="default"
               placeholder="Rechercher avec filtres…"
               trailing={
                 <button
@@ -2247,6 +2247,75 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
 
+        </div>
+      );
+    },
+  },
+  {
+    name: 'SearchFilters',
+    codeName: 'patterns/SearchFilters.tsx',
+    cssBase: 'Tailwind (no BEM)',
+    category: 'Patterns',
+    usedBy: ['Journal', 'Veille', 'LearningPaths', 'LearningSpace'],
+    description:
+      "Composite search + filtres canonique. Orchestre Search + FilterChip + SelectCheckbox : déclare un tableau `filters` (axes) et le composant choisit le contrôle (chips si ≤ chipThreshold options, dropdown checklist sinon, 1 chip si toggle). 2 layouts : `inline` (filtersSlot toujours visible) · `panel` (bouton filtre + badge count → panneau dépliable, pattern Journal). Reset auto, tone-aware.",
+    keywords: ['search', 'filter', 'filtre', 'recherche', 'composite', 'panel', 'chips', 'checklist', 'toggle', 'facets'],
+    render: () => {
+      const [q1, setQ1] = React.useState('');
+      const [types, setTypes] = React.useState<string[]>([]);
+      const [saved, setSaved] = React.useState(false);
+      const [q2, setQ2] = React.useState('');
+      const [period, setPeriod] = React.useState<string[]>([]);
+      const [kind, setKind] = React.useState<string[]>([]);
+      const [themes, setThemes] = React.useState<string[]>([]);
+
+      const TYPE_OPTS = [
+        { id: 'actu', label: 'Actus' },
+        { id: 'tuto', label: 'Tutoriels' },
+        { id: 'dossier', label: 'Dossiers' },
+        { id: 'mag', label: 'Magazine' },
+      ];
+      const THEME_OPTS = Array.from({ length: 12 }, (_, i) => ({ id: `t${i}`, label: `Thématique ${i + 1}` }));
+
+      return (
+        <div className="flex flex-col gap-section max-w-2xl">
+          {/* Inline — 1-2 axes peu d'options */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="inline" · chips + toggle (Veille / Parcours)</p>
+            <SearchFilters
+              query={q1}
+              onQueryChange={setQ1}
+              placeholder="Rechercher un sujet…"
+              filters={[
+                { id: 'type', label: 'Type', options: TYPE_OPTS, selected: types, onChange: setTypes },
+                { id: 'saved', label: 'Sauvegardés', kind: 'toggle', value: saved, onChange: setSaved },
+              ]}
+            />
+          </div>
+
+          {/* Panel — 2+ axes, dont un à beaucoup d'options → dropdown auto */}
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="panel" · groupes labellisés + auto chips/checklist (Journal / Espace App.)</p>
+            <SearchFilters
+              layout="panel"
+              query={q2}
+              onQueryChange={setQ2}
+              placeholder="Rechercher titre, thème, tag…"
+              filters={[
+                { id: 'period', label: 'Période', options: [
+                  { id: 'week', label: 'Cette semaine' },
+                  { id: 'month', label: 'Ce mois' },
+                  { id: '3m', label: '3 mois' },
+                ], selected: period, onChange: setPeriod },
+                { id: 'kind', label: "Type d'entrée", options: [
+                  { id: 'guided', label: 'Guidé' },
+                  { id: 'free', label: 'Libre' },
+                  { id: 'insight', label: 'Insight' },
+                ], selected: kind, onChange: setKind },
+                { id: 'theme', label: 'Thématique (12 → dropdown auto)', options: THEME_OPTS, selected: themes, onChange: setThemes },
+              ]}
+            />
+          </div>
         </div>
       );
     },
@@ -2506,8 +2575,7 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    // Phase 1 P0 audit (2026-06-29): ✅ Figma conformance verified
-    // Variants: All 3 variants + inherited sizes, conformance: 100%
+    // Phase 1 P0 (2026-06-30, vérifié): Pill set 1113:11 conforme code (3 variants).
     name: 'Pill',
     codeName: 'ui/Pill.tsx',
     cssBase: 'Tailwind (no BEM)',

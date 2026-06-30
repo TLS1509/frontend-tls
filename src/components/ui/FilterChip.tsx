@@ -6,6 +6,24 @@ import {
   CHIP_TONE_HOVER,
 } from './Chip';
 
+/** Active-state tone — inactive chips are always neutral; tone only colours the active state. */
+export type FilterChipTone = 'primary' | 'warm' | 'sun' | 'neutral';
+
+const COUNT_BG_ACTIVE: Record<FilterChipTone, string> = {
+  primary: 'bg-primary-500 text-white',
+  warm:    'bg-secondary-500 text-white',
+  sun:     'bg-accent-400 text-ink-900',
+  neutral: 'bg-ink-900 text-white',
+};
+
+export type FilterChipSize = 'sm' | 'md';
+
+/** `md` (default) keeps the 44px touch target. `sm` is compact for dense toolbars. */
+const SIZE_MAP: Record<FilterChipSize, string> = {
+  sm: 'gap-1 px-2.5 py-1 text-micro font-semibold',
+  md: 'gap-1.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
+};
+
 /**
  * FilterChip — Interactive toggle chip with active state + optional count badge.
  *
@@ -27,6 +45,11 @@ export interface FilterChipProps {
   count?: number;
   /** 'default' = solid surface · 'reset' = passive · 'glass' = glassmorphism */
   variant?: 'default' | 'reset' | 'glass';
+  /** Active-state colour (default variant only). Default `primary`. */
+  tone?: FilterChipTone;
+  /** `md` (default, 44px touch) · `sm` (compact toolbars). */
+  size?: FilterChipSize;
+  disabled?: boolean;
   className?: string;
   'aria-label'?: string;
 }
@@ -48,6 +71,9 @@ export const FilterChip: React.FC<FilterChipProps> = ({
   icon,
   count,
   variant = 'default',
+  tone = 'primary',
+  size = 'md',
+  disabled = false,
   className = '',
   'aria-label': ariaLabel,
 }) => {
@@ -62,17 +88,18 @@ export const FilterChip: React.FC<FilterChipProps> = ({
     stateClass = [CHIP_TONE_SOLID.neutral, CHIP_TONE_HOVER.neutral, 'focus-visible:outline-primary-500'].join(' ');
   } else {
     stateClass = active
-      ? [CHIP_TONE_SOLID_ACTIVE.primary, 'focus-visible:outline-primary-500'].join(' ')
+      ? [CHIP_TONE_SOLID_ACTIVE[tone], 'focus-visible:outline-primary-500'].join(' ')
       : [CHIP_TONE_SOLID.neutral, CHIP_TONE_HOVER.neutral, 'focus-visible:outline-primary-500'].join(' ');
   }
 
   const classes = [
     CHIP_BASE,
     // FilterChip uses its own padding (heavier touch target than passive chips)
-    'gap-1.5 px-3.5 py-2 min-h-touch text-caption font-semibold',
+    SIZE_MAP[size],
     BORDER_OVERRIDE,
     INTERACTIVE_LIFT,
     stateClass,
+    disabled && 'opacity-disabled cursor-not-allowed pointer-events-none',
     className,
   ]
     .filter(Boolean)
@@ -83,13 +110,14 @@ export const FilterChip: React.FC<FilterChipProps> = ({
       ? 'bg-white/40 text-white'
       : 'bg-white/20 text-white/80'
     : active
-      ? 'bg-primary-500 text-white'
+      ? COUNT_BG_ACTIVE[tone]
       : 'bg-ink-200 text-ink-700';
 
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       className={classes}
       aria-pressed={!isReset ? active : undefined}
       aria-label={ariaLabel}
