@@ -4,7 +4,7 @@ import {
   BookOpen, RotateCcw, Grid3x3, Grid2x2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { CompactFilterPanel } from '../components/patterns/CompactFilterPanel';
+import { SearchFiltersComposite } from '../components/patterns/SearchFiltersComposite';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
@@ -183,11 +183,11 @@ export const LearningSpace: React.FC = () => {
         </p>
       </div>
 
-      {/* ── Compact search + filter panel ──────────────────────────────── */}
-      <CompactFilterPanel
+      {/* ── Search + filters (composite pattern) ────────────────────────── */}
+      <SearchFiltersComposite
         query={query}
         onQueryChange={setQuery}
-        placeholder="Rechercher par titre, thématique, tag…"
+        searchPlaceholder="Rechercher par titre, thématique, tag…"
         hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
         filters={[
