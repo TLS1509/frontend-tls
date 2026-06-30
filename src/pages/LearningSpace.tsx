@@ -4,7 +4,7 @@ import {
   BookOpen, RotateCcw, Grid3x3, Grid2x2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { SearchFilters } from '../components/patterns/SearchFilters';
+import { CompactFilterPanel } from '../components/patterns/CompactFilterPanel';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
@@ -183,20 +183,18 @@ export const LearningSpace: React.FC = () => {
         </p>
       </div>
 
-      {/* ── Search + filters (SearchFilters panel) ──────────────────────── */}
-      <SearchFilters
-        layout="panel"
+      {/* ── Compact search + filter panel ──────────────────────────────── */}
+      <CompactFilterPanel
         query={query}
         onQueryChange={setQuery}
         placeholder="Rechercher par titre, thématique, tag…"
-        aria-label="Rechercher un contenu"
+        hasActiveFilters={hasActiveFilters}
         onReset={resetFilters}
         filters={[
           {
             id: 'type',
-            label: 'Type de ressource',
+            label: 'Type',
             multi: false,
-            control: 'chips',
             options: TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
             selected: typeGroup === 'all' ? [] : [typeGroup],
             onChange: (ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all'),
