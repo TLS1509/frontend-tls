@@ -6,8 +6,8 @@
  */
 
 import React, { useState } from 'react';
-import { MarketingHome } from './MarketingHome';
 import { MarketingHomeLight } from './MarketingHomeLight';
+import { MarketingHomeEditorial } from './MarketingHomeEditorial';
 import { MarketingHomeFullPage } from './MarketingHomeFullPage';
 import { MarketingHomeA } from './MarketingHomeA';
 import { MarketingHomeCinematic } from './MarketingHomeCinematic';
@@ -32,8 +32,8 @@ interface VariantMeta {
 
 const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> = {
   home: {
-    1: { label: 'V1 · Quick Wins', badge: '72→82', badgeColor: 'bg-ink-200 text-ink-700' },
     2: { label: 'V2 · Light', badge: 'Minimaliste', badgeColor: 'bg-primary-100 text-primary-700' },
+    4: { label: 'V4 · Editorial', badge: 'Sticky', badgeColor: 'bg-accent-100 text-ink-900' },
     5: { label: 'V5 · FullPage', badge: 'Word-swap', badgeColor: 'bg-primary-100 text-primary-700' },
     6: { label: 'V6 · HomeA', badge: 'Épuré', badgeColor: 'bg-secondary-100 text-secondary-700' },
     7: { label: 'V7 · Cinematic', badge: '🎬 Video', badgeColor: 'bg-accent-100 text-ink-900' },
@@ -51,8 +51,8 @@ type ComponentMap = Record<PageKey, Partial<Record<VariantKey, React.FC>>>;
 
 const COMPONENTS: ComponentMap = {
   home: {
-    1: MarketingHome,
     2: MarketingHomeLight,
+    4: MarketingHomeEditorial,
     5: MarketingHomeFullPage,
     6: MarketingHomeA,
     7: MarketingHomeCinematic,

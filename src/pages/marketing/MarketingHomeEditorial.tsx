@@ -268,7 +268,7 @@ export const MarketingHomeEditorial: React.FC = () => {
       <section className="bg-ink-50">
         <div className="max-w-wide mx-auto px-6 py-page">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
-            <div className="lg:col-span-5 flex flex-col gap-stack-lg">
+            <div className="lg:col-span-4 flex flex-col gap-stack-lg">
               <Reveal>
                 <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4vw,3.25rem)]">
                   Essayez la plateforme avant d'en parler à votre équipe.
@@ -302,7 +302,7 @@ export const MarketingHomeEditorial: React.FC = () => {
               </Reveal>
             </div>
 
-            <Reveal delay={0.1} className="lg:col-span-7">
+            <Reveal delay={0.1} className="lg:col-span-8 flex items-center justify-center">
               <div className="rounded-2xl overflow-hidden ring-1 ring-ink-200 shadow-xl bg-white">
                 <InteractiveAppMockup />
               </div>

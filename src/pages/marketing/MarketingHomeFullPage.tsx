@@ -189,7 +189,7 @@ const AppPreviewCard: React.FC<{ reduce: boolean }> = ({ reduce }) => (
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const TRUST_CHIPS = ['Programme certifiant', 'Open Badge vérifiable', 'Éligible OPCO'];
+const TRUST_CHIPS: string[] = [];
 
 const OFFRES = [
   {
@@ -279,7 +279,7 @@ export const MarketingHomeFullPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
 
                 {/* Gauche — texte */}
-                <div className="lg:col-span-6 flex flex-col gap-stack-lg">
+                <div className="lg:col-span-5 flex flex-col gap-stack-lg">
 
                   <motion.h1
                     className="font-display font-extrabold text-white leading-[0.96] tracking-display m-0 [text-wrap:balance]"
@@ -289,7 +289,7 @@ export const MarketingHomeFullPage: React.FC = () => {
                     transition={{ duration: 0.75, ease: EASE_EMPHASIS as [number, number, number, number] }}
                   >
                     Ce que l'IA change<br />
-                    pour ceux qui <WordSwap />.
+                    pour ceux qui <WordSwap /><span>.</span>
                   </motion.h1>
 
                   <motion.p
@@ -343,7 +343,7 @@ export const MarketingHomeFullPage: React.FC = () => {
                 </div>
 
                 {/* Droite — app card */}
-                <div className="lg:col-span-6 flex justify-center lg:justify-end pt-section lg:pt-0">
+                <div className="lg:col-span-7 flex justify-center lg:justify-end pt-section lg:pt-0">
                   <AppPreviewCard reduce={reduce} />
                 </div>
 
