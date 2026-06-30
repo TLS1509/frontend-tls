@@ -110,8 +110,6 @@ const TransparentSection: React.FC<{ children: React.ReactNode }> = ({ children 
   </section>
 );
 
-// ─── Conviction ──────────────────────────────────────────────────────────────
-
 const Conviction: React.FC = () => (
   <TransparentSection>
     <FadeInWhenVisible className="max-w-[40ch] mx-auto text-center flex flex-col gap-stack-lg">
@@ -233,8 +231,6 @@ const ThreePillars: React.FC = () => (
     </div>
   </TransparentSection>
 );
-
-// ─── CTA final ───────────────────────────────────────────────────────────────
 
 const FinalCTA: React.FC = () => (
   <TransparentSection>

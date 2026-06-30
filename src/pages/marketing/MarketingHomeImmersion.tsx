@@ -374,7 +374,6 @@ export const MarketingHomeImmersion: React.FC = () => {
       {/* ── OFFRES ────────────────────────────────────────────────────── */}
       <section className="py-page bg-white" aria-label="Nos offres">
         <div className="max-w-5xl mx-auto px-6 flex flex-col gap-section">
-
           <FadeInWhenVisible direction="up">
             <h2
               className="font-display font-extrabold text-ink-900 leading-tight tracking-headline m-0 text-center"
@@ -383,8 +382,7 @@ export const MarketingHomeImmersion: React.FC = () => {
               Trois façons de travailler ensemble.
             </h2>
           </FadeInWhenVisible>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <OffersSection layout="grid-3col">
             {OFFRES.map((o, i) => (
               <FadeInWhenVisible key={o.tag} direction="up" delay={i * 0.08}>
                 <article className="rounded-2xl bg-white border border-ink-100 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-base p-stack-lg flex flex-col gap-stack h-full group">
@@ -414,8 +412,7 @@ export const MarketingHomeImmersion: React.FC = () => {
                 </article>
               </FadeInWhenVisible>
             ))}
-          </div>
-
+          </OffersSection>
         </div>
       </section>
 
@@ -504,8 +501,8 @@ export const MarketingHomeImmersion: React.FC = () => {
       </section>
 
       {/* ── CTA FINAL ─────────────────────────────────────────────────── */}
-      <section className="py-page bg-gradient-to-br from-primary-700 to-primary-900" aria-label="Contact">
-        <FadeInWhenVisible direction="up" className="max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-stack-lg">
+      <CtaSection layout="bold-centered" tone="primary">
+        <FadeInWhenVisible direction="up" className="flex flex-col items-center text-center gap-stack-lg">
           <h2
             className="font-display font-extrabold text-white leading-[1.05] tracking-headline m-0"
             style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)' }}
@@ -523,7 +520,7 @@ export const MarketingHomeImmersion: React.FC = () => {
             </Link>
           </MagneticButton>
         </FadeInWhenVisible>
-      </section>
+      </CtaSection>
 
     </div>
   );

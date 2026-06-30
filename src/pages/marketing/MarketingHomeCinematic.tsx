@@ -133,8 +133,6 @@ const SectionWithVideoUnderlay: React.FC<{ children: React.ReactNode; className?
   </section>
 );
 
-// ─── Conviction ──────────────────────────────────────────────────────────────
-
 const Conviction: React.FC = () => (
   <SectionWithVideoUnderlay>
     <FadeInWhenVisible className="max-w-[40ch] mx-auto text-center flex flex-col gap-stack-lg">
@@ -289,6 +287,33 @@ const FinalCTA: React.FC = () => (
 );
 
 // ─── Export ──────────────────────────────────────────────────────────────────
+
+const FinalCTA: React.FC = () => (
+  <SectionWithVideoUnderlay className="py-section-lg">
+    <FadeInWhenVisible className="text-center flex flex-col items-center gap-stack-lg">
+      <h2 className="font-display font-extrabold text-ink-900 tracking-display m-0 text-[clamp(1.9rem,3.5vw,2.75rem)]">
+        Commencez maintenant
+      </h2>
+      <p className="font-body text-body-lg text-ink-600 m-0 max-w-[60ch]">
+        Réservez un diagnostic de maturité SBO ou lancez la découverte de la Learning App.
+      </p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-stack-xs pt-stack">
+        <MagneticButton strength={14}>
+          <Link to="/marketing/contact">
+            <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Prendre rendez-vous
+            </Button>
+          </Link>
+        </MagneticButton>
+        <Link to="/marketing/learning-app">
+          <Button variant="secondary" size="lg">
+            Voir la plateforme
+          </Button>
+        </Link>
+      </div>
+    </FadeInWhenVisible>
+  </SectionWithVideoUnderlay>
+);
 
 export const MarketingHomeCinematic: React.FC = () => {
   return (
