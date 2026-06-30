@@ -47,7 +47,7 @@ export default function HelpSearch() {
   const getCategoryName = (catId: string) => cats.find((c) => c.id === catId)?.name ?? catId;
 
   return (
-    <PageShell width="page" noPadTop={true}>
+    <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Recherche' }}
         title="Rechercher dans l'aide"

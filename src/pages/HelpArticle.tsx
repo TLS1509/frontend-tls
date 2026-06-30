@@ -36,7 +36,7 @@ export default function HelpArticle() {
 
   if (!article) {
     return (
-      <PageShell width="page" noPadTop>
+      <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
         <EditorialHero
           eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Article' }}
           title="Article introuvable"

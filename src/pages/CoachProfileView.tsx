@@ -91,7 +91,7 @@ function StarRating({ value, max = 5 }: { value: number; max?: number }) {
 
 export default function CoachProfileView() {
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       {/* ── Hero ── */}
       <EditorialHero
         eyebrow="Coaching · Mon Coach"

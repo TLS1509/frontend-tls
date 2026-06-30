@@ -57,7 +57,7 @@ export default function DashboardCompetenceDetail() {
   const [tab, setTab] = useState<'radar' | 'skills' | 'activity'>('radar');
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Dashboard · Compétence"
         title={COMPETENCE.label}

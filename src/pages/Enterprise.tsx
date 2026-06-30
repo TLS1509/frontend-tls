@@ -140,7 +140,7 @@ export const Enterprise: React.FC = () => {
   };
 
   return (
-    <PageShell width="page" noPadTop>
+    <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero

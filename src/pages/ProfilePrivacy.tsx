@@ -81,7 +81,7 @@ export default function ProfilePrivacy() {
   };
 
   return (
-    <PageShell width="page" noPadTop={true}>
+    <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Profil · Confidentialité"
         title="Confidentialité & RGPD"

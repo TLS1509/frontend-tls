@@ -40,7 +40,7 @@ export default function CoachHeatmap() {
     APPRENANTS.flatMap((a) => a.scores).filter((s) => s > 0).length).toFixed(1);
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Passeport"
         title="Heatmap Compétences Équipe"

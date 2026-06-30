@@ -57,7 +57,7 @@ const MessagingThread: React.FC = () => {
         tone="flat"
       />
 
-      <PageShell width="content" noPadTop className="flex-1">
+      <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10 flex-1">
         <Card className="p-stack flex items-center gap-stack-xs">
           <Avatar initials={coachInitials} size="md" />
           <div className="flex-1">

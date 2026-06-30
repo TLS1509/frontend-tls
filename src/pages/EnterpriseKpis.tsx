@@ -144,7 +144,7 @@ export default function EnterpriseKpis() {
   }));
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       {/* Hero */}
       <EditorialHero
         eyebrow={{ label: 'Enterprise · KPIs' }}

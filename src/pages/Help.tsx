@@ -117,7 +117,7 @@ export const Help: React.FC = () => {
   const toggleFaq = (id: string) => setOpenFaq((prev) => (prev === id ? null : id));
 
   return (
-    <PageShell width="medium" noPadTop>
+    <PageShell width="medium" noPadTop className="pt-6 md:pt-8 lg:pt-10">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
         <EditorialHero

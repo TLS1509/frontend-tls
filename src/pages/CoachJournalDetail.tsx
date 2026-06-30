@@ -25,7 +25,7 @@ const COMPETENCY_TAGS = ['Communication', 'Leadership', 'Feedback'];
 
 export default function CoachJournalDetail() {
   return (
-    <PageShell width="medium" noPadTop>
+    <PageShell width="medium" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Entrée de Journal"

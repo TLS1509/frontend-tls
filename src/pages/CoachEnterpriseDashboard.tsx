@@ -57,7 +57,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
   ];
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach Enterprise · Vue équipe"
         title="Mon équipe Acme Corp"

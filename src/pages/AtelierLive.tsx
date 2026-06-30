@@ -52,7 +52,7 @@ export default function AtelierLive() {
   void id;
 
   return (
-    <PageShell width="page" noPadTop={true}>
+    <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · En direct"

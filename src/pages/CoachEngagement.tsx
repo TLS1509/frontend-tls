@@ -39,7 +39,7 @@ const CoachEngagement: React.FC = () => {
   });
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Engagement & Analytics"
         title="L'engagement de mon équipe"

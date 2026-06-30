@@ -116,7 +116,7 @@ export default function CoachAnalytics() {
   const maxEngagement = Math.max(...ENGAGEMENT_WEEKS);
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ label: 'Coach · Analytics' }}
         title="Analytics Équipe"

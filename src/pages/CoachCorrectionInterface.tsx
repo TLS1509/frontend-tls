@@ -64,7 +64,7 @@ export default function CoachCorrectionInterface() {
         }
       />
 
-      <PageShell width="wide" noPadTop className="!flex-row md:grid md:grid-cols-[1fr_360px]">
+      <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10 !flex-row md:grid md:grid-cols-[1fr_360px]">
 
         {/* Main : submitted work */}
         <div className="flex flex-col gap-section">

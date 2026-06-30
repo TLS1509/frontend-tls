@@ -35,7 +35,7 @@ const CoachCalendar: React.FC = () => {
   const [providerFilter, setProviderFilter] = useState<'all' | 'google' | 'outlook'>('all');
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Mon calendrier"
         title="Mes sessions de coaching"

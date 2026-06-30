@@ -67,7 +67,7 @@ export default function EnterpriseAnalyticsDashboard() {
   }));
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Enterprise · Analytics"
         title="Dashboard Analytics Entreprise"

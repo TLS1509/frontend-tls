@@ -46,7 +46,7 @@ export default function AtelierHub() {
   });
 
   return (
-    <PageShell width="page" noPadTop={true}>
+    <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         tone="flat"
         eyebrow="Ateliers Pratiques"

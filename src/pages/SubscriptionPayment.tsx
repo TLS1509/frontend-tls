@@ -170,7 +170,7 @@ export const SubscriptionPayment: React.FC = () => {
     <div className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
 
-      <PageShell width="content" className="relative z-base gap-section" noPadTop>
+      <PageShell width="content" className="pt-6 md:pt-8 lg:pt-10 relative z-base gap-section" noPadTop>
 
         {/* Brand bar */}
         <div className="flex items-center justify-between">

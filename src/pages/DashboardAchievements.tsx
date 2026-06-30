@@ -116,7 +116,7 @@ export default function DashboardAchievements() {
   const currentRank = leaderboard.find((r) => r.isCurrentUser)?.rank;
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Dashboard · Réussites"
         title="Mes Réussites"

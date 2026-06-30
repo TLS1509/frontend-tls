@@ -71,7 +71,7 @@ export default function NotificationPreferences() {
   };
 
   return (
-    <PageShell width="content" noPadTop>
+    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Profil · Notifications"
         title="Préférences de notifications"

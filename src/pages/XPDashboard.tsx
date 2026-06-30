@@ -28,7 +28,7 @@ export default function XPDashboard() {
   const xpProgress = Math.min(100, Math.round(((totalXP - xpCurrentLevel) / (xpNextLevel - xpCurrentLevel)) * 100));
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Profil · XP"
         title="Mes Points XP"

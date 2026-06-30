@@ -53,7 +53,7 @@ export default function HelpTickets() {
         }
       />
 
-      <PageShell width="page" noPadTop className="pb-page">
+      <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10 pb-page">
         <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
 
         {displayed.length === 0 ? (

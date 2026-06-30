@@ -55,7 +55,7 @@ export default function ManagerEnterprise() {
   ];
 
   return (
-    <PageShell width="wide" noPadTop={true}>
+    <PageShell width="wide" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Espace Manager"
         title="Portail Entreprise"

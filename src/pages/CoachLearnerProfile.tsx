@@ -191,7 +191,7 @@ export default function CoachLearnerProfile() {
     : { ...FALLBACK_LEARNER, status: 'active' as const, role: 'Apprenant' };
 
   return (
-    <PageShell width="page" noPadTop>
+    <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Apprenant"
         title={`Fiche : ${learner.name}`}

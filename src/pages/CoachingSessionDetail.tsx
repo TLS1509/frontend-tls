@@ -47,7 +47,7 @@ export default function CoachingSessionDetail() {
   const previousSessions = sessions.filter((s) => s.id !== session.id && s.status === 'completed');
 
   return (
-    <PageShell width="page" className="relative z-base gap-section" noPadTop>
+    <PageShell width="page" className="pt-6 md:pt-8 lg:pt-10 relative z-base gap-section" noPadTop>
       <EditorialHero
         eyebrow={`Coaching · Session #${session.id}`}
         title={`Session coaching : ${session.theme ?? 'Développement managérial'}`}

@@ -133,7 +133,7 @@ export default function CoachingCorrections() {
         tone="flat"
       />
 
-      <PageShell noPadTop>
+      <PageShell noPadTop className="pt-6 md:pt-8 lg:pt-10">
 
         {/* KPI row */}
         <div className="grid grid-cols-3 gap-stack">

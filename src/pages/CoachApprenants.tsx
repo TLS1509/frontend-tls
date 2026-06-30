@@ -44,7 +44,7 @@ export default function CoachApprenants() {
   const aheadCount = APPRENANTS.filter((a) => a.status === 'ahead').length;
 
   return (
-    <PageShell width="page" noPadTop>
+    <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Apprenants"
         title="Mes Apprenants"

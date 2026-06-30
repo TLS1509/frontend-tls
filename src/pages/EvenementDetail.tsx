@@ -70,7 +70,7 @@ export default function EvenementDetail() {
   const pct = Math.round((EVENT.registered / EVENT.capacity) * 100);
 
   return (
-    <PageShell width="medium" noPadTop={true}>
+    <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         tone="flat"
         eyebrow={{ label: 'Événements · Détail' }}

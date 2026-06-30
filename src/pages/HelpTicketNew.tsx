@@ -50,7 +50,7 @@ export default function HelpTicketNew() {
   };
 
   return (
-    <PageShell width="medium" noPadTop={true}>
+    <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Nouveau ticket' }}
         title="Contacter le support"

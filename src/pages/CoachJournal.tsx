@@ -92,7 +92,7 @@ export default function CoachJournal() {
   const [tab, setTab] = useState('mine');
 
   return (
-    <PageShell width="page" noPadTop>
+    <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ icon: <BookOpen size={14} />, label: 'Coach · Journal' }}
         title="Journal de Coaching"

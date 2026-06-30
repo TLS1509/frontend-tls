@@ -55,7 +55,7 @@ export default function AtelierPresentiel() {
   void id;
 
   return (
-    <PageShell width="medium" noPadTop={true}>
+    <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         tone="flat"
         eyebrow="Atelier · Présentiel"

@@ -94,7 +94,7 @@ const PrivacyDsar: React.FC = () => {
   };
 
   return (
-    <PageShell width="content" noPadTop>
+    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Confidentialité · RGPD Article 15"
         title="Télécharger mes données personnelles"

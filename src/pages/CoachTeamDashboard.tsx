@@ -67,7 +67,7 @@ export default function CoachTeamDashboard() {
   const alertCount = stats.stuckCount + stats.atRiskCount;
 
   return (
-    <PageShell width="wide" noPadTop>
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Équipe"
         title="Tableau de Bord Équipe"
