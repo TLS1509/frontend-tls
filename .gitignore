@@ -41,20 +41,24 @@ IMPLEMENTATION_ORDER.md
 # ── Brand assets — binaires lourds gardés en local (decks/docs régénérables via _pipeline) ──
 # On garde le source léger (scripts _pipeline/*.js, *.py, READMEs, guidelines .md,
 # fonts d'_pipeline/assets, signatures .html) ; on exclut les artefacts binaires.
+# Chemins mis à jour après consolidation brand/ (2026-06-30)
 *.pptx
 *.pdf
-brand-decks/**/*.jpg
-brand-decks/**/*.jpeg
-brand-decks/**/*.png
-brand-docs/**/*.jpg
-brand-docs/**/*.png
-brand-assets/app-screenshots/
-brand-assets/**/*.png
-brand-assets/**/*.mp4
-brand-assets/**/*.mov
-thumbnails.jpg
+brand/decks/**/*.jpg
+brand/decks/**/*.jpeg
+brand/decks/**/*.png
+brand/docs/**/*.jpg
+brand/docs/**/*.png
+brand/assets/app-screenshots/
+brand/assets/**/*.png
+brand/assets/**/*.mp4
+brand/assets/**/*.mov
 # …mais conserver les assets source du pipeline (fonts + inputs de build)
-!brand-decks/_pipeline/assets/
-!brand-decks/_pipeline/assets/**
-!brand-assets/video/_pipeline/assets/
-!brand-assets/video/_pipeline/assets/**
+!brand/decks/_pipeline/assets/
+!brand/decks/_pipeline/assets/**
+!brand/assets/video/_pipeline/assets/
+!brand/assets/video/_pipeline/assets/**
+# Livrables brand finaux : tracker les .pptx/.pdf (décision 2026-06-30)
+!brand/decks/*.pptx
+!brand/decks/*.pdf
+!brand/docs/*.pptx

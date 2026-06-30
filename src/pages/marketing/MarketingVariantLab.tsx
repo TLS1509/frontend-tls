@@ -8,18 +8,12 @@
 import React, { useState } from 'react';
 import { MarketingHome } from './MarketingHome';
 import { MarketingHomeLight } from './MarketingHomeLight';
-import { MarketingHomeParallax } from './MarketingHomeParallax';
-import { MarketingHomeEditorial } from './MarketingHomeEditorial';
 import { MarketingHomeFullPage } from './MarketingHomeFullPage';
 import { MarketingHomeA } from './MarketingHomeA';
 import { MarketingHomeCinematic } from './MarketingHomeCinematic';
 import { MarketingHomeWatercolorScroll } from './MarketingHomeWatercolorScroll';
 import { MarketingAccompagnement } from './MarketingAccompagnement';
-import { MarketingAccompagnementA2 } from './MarketingAccompagnementA2';
-import { MarketingAccompagnementA3 } from './MarketingAccompagnementA3';
 import { MarketingLearningApp } from './MarketingLearningApp';
-import { MarketingLearningAppB2 } from './MarketingLearningAppB2';
-import { MarketingLearningAppB3 } from './MarketingLearningAppB3';
 
 type PageKey = 'home' | 'acc' | 'la';
 type VariantKey = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -40,8 +34,6 @@ const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> 
   home: {
     1: { label: 'V1 · Quick Wins', badge: '72→82', badgeColor: 'bg-ink-200 text-ink-700' },
     2: { label: 'V2 · Light', badge: 'Minimaliste', badgeColor: 'bg-primary-100 text-primary-700' },
-    3: { label: 'V3 · Parallax', badge: '3-layers', badgeColor: 'bg-secondary-100 text-secondary-700' },
-    4: { label: 'V4 · Editorial', badge: 'Sticky', badgeColor: 'bg-accent-100 text-ink-900' },
     5: { label: 'V5 · FullPage', badge: 'Word-swap', badgeColor: 'bg-primary-100 text-primary-700' },
     6: { label: 'V6 · HomeA', badge: 'Épuré', badgeColor: 'bg-secondary-100 text-secondary-700' },
     7: { label: 'V7 · Cinematic', badge: '🎬 Video', badgeColor: 'bg-accent-100 text-ink-900' },
@@ -49,13 +41,9 @@ const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> 
   },
   acc: {
     1: { label: 'A1 · Services + Timeline', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
-    2: { label: 'A2 · Édito Manifeste', badge: 'Éditorial', badgeColor: 'bg-primary-100 text-primary-700' },
-    3: { label: 'A3 · Split Livrables', badge: 'Premium', badgeColor: 'bg-secondary-100 text-secondary-700' },
   },
   la: {
-    1: { label: 'B1 · Mockup Hero', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
-    2: { label: 'B2 · Zigzag Features', badge: 'Éditorial', badgeColor: 'bg-primary-100 text-primary-700' },
-    3: { label: 'B3 · Bento Bold', badge: 'Bold', badgeColor: 'bg-accent-100 text-warning-fg' },
+    1: { label: 'B1 · Mockup Hero + Zigzag', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
   },
 };
 
@@ -65,8 +53,6 @@ const COMPONENTS: ComponentMap = {
   home: {
     1: MarketingHome,
     2: MarketingHomeLight,
-    3: MarketingHomeParallax,
-    4: MarketingHomeEditorial,
     5: MarketingHomeFullPage,
     6: MarketingHomeA,
     7: MarketingHomeCinematic,
@@ -74,20 +60,16 @@ const COMPONENTS: ComponentMap = {
   },
   acc: {
     1: MarketingAccompagnement,
-    2: MarketingAccompagnementA2,
-    3: MarketingAccompagnementA3,
   },
   la: {
     1: MarketingLearningApp,
-    2: MarketingLearningAppB2,
-    3: MarketingLearningAppB3,
   },
 };
 
 const PAGE_VARIANT_COUNT: Record<PageKey, number> = {
   home: 8,
-  acc: 3,
-  la: 3,
+  acc: 1,
+  la: 1,
 };
 
 export const MarketingVariantLab: React.FC = () => {

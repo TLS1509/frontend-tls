@@ -1,6 +1,8 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-06-12 | **Total docs**: ~80 fichiers organisés
+**Last updated**: 2026-06-30 | **Total docs**: ~85 fichiers organisés
+
+> 🧹 **Nettoyage 2026-06-30** : ~20 docs déversés en vrac (racine repo + `docs/`) par des sessions d'agents ont été re-rangés. Nouveaux sous-dossiers `_phases/`, `charts/`, `briefs/`. 4 audits Figma du 26/06 marqués `⚠️ FIABILITÉ NON VÉRIFIÉE` (claims non vérifiés contre le fichier Figma). `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `docs/_old-sessions/` supprimés. Voir règles d'hygiène doc dans `CLAUDE.md`.
 
 ---
 
@@ -120,17 +122,16 @@
 
 ---
 
-## 📦 PRODUCT/ — Config & Design system (84K)
+## 📦 Racine repo + product/ — Config & Design system
 
-**Setup, design system specification, flows**
+**⚠️ `PRODUCT.md`, `DESIGN.md`, `DESIGN-IMPECCABLE.md` vivent à la RACINE du repo** (pas dans `docs/product/`) — lus par le skill impeccable.
 
-| Fichier | Purpose |
-|---------|---------|
-| [PRODUCT.md](product/PRODUCT.md) | **Version, stack, routes, first steps** |
-| [DESIGN.md](product/DESIGN.md) | **Design system specification** (colors, tokens, patterns) |
-| USER-FLOWS.md | User journey diagrams (signup, lesson, journal) |
-| PHASE-16-GAP-ANALYSIS.md | Duplicate of root PHASE-16 (for reference) |
-| dynamic-backlog.md | Old task tracking (archived, can delete) |
+| Fichier | Emplacement | Purpose |
+|---------|---|---------|
+| `PRODUCT.md` | racine repo | Version, stack, routes, first steps |
+| `DESIGN.md` | racine repo | Design system specification (colors, tokens, patterns) |
+| `DESIGN-IMPECCABLE.md` | racine repo | Design excellence gaps + signatures |
+| `USER-FLOWS.md` | `docs/product/` | User journey diagrams (signup, lesson, journal) |
 
 ---
 
@@ -156,12 +157,36 @@
 
 ---
 
-## 📂 FIGMA/ — Figma-specific docs
+## 📂 figma/ — Figma-specific docs (5 fichiers)
 
-**Figma design system audit & gap analysis**
+**Figma design system audit & gap analysis** (Token parity → voir `_audits/FIGMA-FOUNDATIONS-AUDIT.md`, doublon réconcilié 06-30)
 
-- `figma-gap-matrix.md` — Old gap matrix (superseded by _audits/FIGMA-AUDIT-REPORT.md)
-- `FIGMA-FOUNDATIONS-AUDIT.md` — Token parity audit (duplicate)
+| Fichier | Note |
+|---|---|
+| `AUDIT-FIGMA-CODE-DRIFT.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** (06-26, claims non vérifiés) |
+| `AUDIT-FIGMA-STRUCTURE-CLARITY.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
+| `FIGMA-CODE-COMPARISON.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
+| `FIGMA-CURRENT-STATE.md` | ⚠️ **FIABILITÉ NON VÉRIFIÉE** |
+| `RESOURCES-DESIGN-MAPPING.md` | Mapping ressources ↔ design |
+
+> Pour l'état Figma **vérifié** (2026-06-30, inspection node-par-node), voir `CLAUDE.md` § Phase 1 P0.
+
+---
+
+## 🧩 _phases/ — Rapports de phase (4 fichiers)
+
+- `PHASE-1-P0-REPAIR-CHECKLIST.md` — Atoms conformance (réécrit 06-30, vérifié)
+- `PHASE-20-STATUS.md` · `PHASE-20-INTEGRATION-CHECKLIST.md` — Phase 20 Figma reproduction
+- `PHASE-20.4-ANALYTICS-DASHBOARD.md` — Analytics dashboard spec
+
+## 📊 charts/ — Data visualization (5 fichiers)
+
+- `CHARTS-SYSTEM.md` · `CHARTS-DS-ENTRY.md` · `CHARTS-QUICK-START.md` · `CHARTS-FUTURE-CANDIDATES.md`
+- `FIGMA-CHARTS-SYNC-PLAN.md` — sync charts ↔ Figma
+
+## 📋 briefs/ — Briefs de travail (1 fichier)
+
+- `BRIEF-LEARNING-SPACE-VEILLE.md` — brief refonte Learning Space + Veille
 
 ---
 
@@ -183,19 +208,9 @@
 
 ---
 
-## 🏚️ _OLD-SESSIONS/ — Archived sessions (7 files)
+## 🗑️ _old-sessions/ — SUPPRIMÉ (2026-06-30)
 
-**Motion effects redondance from prior sessions (2026-05)**
-
-- `ANIMATION-EFFECTS-INTEGRATED.md`
-- `ANIMATION-EFFECTS-SESSION-SUMMARY.md`
-- `MOTION-EFFECTS-ROADMAP.md`
-- `PREMIUM-MOTION-EFFECTS-COMPLETE.md`
-- `SCROLL-EFFECTS-SESSION-RECAP.md`
-- `8-EFFECTS-QUICK-REFERENCE.md`
-- `QUICK-START-ANIMATION-EFFECTS.md`
-
-*(Can be safely deleted after 2026-07-01)*
+Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/06. Historique dans git si besoin.
 
 ---
 
@@ -216,18 +231,24 @@
 
 ---
 
-## 📈 Cleanup status (2026-06-12)
+## 📈 Cleanup status
 
-✅ Merged CDC / (doublon) → CDC/
-✅ Archived 7 motion files → _old-sessions/
-✅ Consolidated audits → _audits/ (6 reports)
-✅ Deleted obsolete (dynamic-backlog, figma-gap-matrix, post-design)
-✅ Created README.md + INDEX.md
+**2026-06-30** (anti-dérive agents)
+✅ ~20 docs déversés en vrac re-rangés (racine repo + docs/ → sous-dossiers)
+✅ Nouveaux sous-dossiers : `_phases/`, `charts/`, `briefs/`
+✅ 4 audits Figma (06-26) marqués ⚠️ FIABILITÉ NON VÉRIFIÉE
+✅ Dédupliqué PHASE-16-GAP-ANALYSIS (product/ supprimé)
+✅ Supprimé `.claude/worktrees/` (40 Mo), `.agents/skills 2/`, `docs/_old-sessions/`
+✅ Archivé .claude/REFACTORING_* + SESSION_FINAL_SUMMARY → `_archive/`
+✅ Règles d'hygiène doc ajoutées à CLAUDE.md
 
-**Next cleanup opportunities:**
-- [ ] Delete _old-sessions/ after 2026-07-01 (motion effects are dated)
-- [ ] Consolidate flow-prompts/ into a single JSON manifest
-- [ ] Archive old blog drafts to _archive/ if not publishing
+**2026-06-12**
+✅ Merged CDC doublon · Archived motion files · Consolidated audits → _audits/ · Created README + INDEX
+
+**Reste à faire :**
+- [ ] Réconcilier les 2 versions divergentes de `FIGMA-FOUNDATIONS-AUDIT.md` (figma/ vs _audits/)
+- [ ] Re-vérifier (ou archiver) les 4 audits Figma flaggés non-vérifiés
+- [ ] Consolidate flow-prompts/ en un manifeste unique
 
 ---
 

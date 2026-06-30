@@ -169,7 +169,7 @@ export const MagazineArticle: React.FC = () => {
 
                 {/* Inline quote */}
                 <figure className="m-0 my-stack px-5 sm:px-6 py-stack bg-primary-50 rounded-xl">
-                  <blockquote className="m-0 font-display italic text-body-lg text-primary-800 leading-relaxed">
+                  <blockquote className="m-0 font-body italic text-body-lg text-primary-800 leading-relaxed">
                     « Le métier d'ingénieur pédagogique cesse d'être un métier de production
                     pour devenir un métier de curation, de coaching et de design. »
                   </blockquote>

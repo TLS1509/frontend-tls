@@ -36,7 +36,7 @@ import {
   StickyScrollStory,
   type StoryPanel,
 } from '../../components/marketing/motion';
-import gradientTealOrangeBg from '../../../brand-assets/patterns/backgrounds/pattern_gradient-teal-orange_bg-v1.svg?url';
+import gradientTealOrangeBg from '../../../brand/assets/patterns/backgrounds/pattern_gradient-teal-orange_bg-v1.svg?url';
 import { SEOHead } from './components/SEOHead';
 
 // Module names aligned with the live site (thelearningsociety.fr/formation)

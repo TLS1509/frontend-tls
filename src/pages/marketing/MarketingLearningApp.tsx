@@ -196,6 +196,56 @@ const BENTO_FEATURES = [
   },
 ];
 
+// ─── Zigzag features data ────────────────────────────────────────────────────
+
+const ZIGZAG_FEATURES = [
+  {
+    eyebrow: 'Personnalisation IA',
+    icon: Map,
+    title: 'Parcours adaptatifs\nen temps réel.',
+    body: "L'IA analyse vos progrès et recommande la suite la plus pertinente. Votre niveau Dreyfus progresse en temps réel — de Novice à Expert, tracé à chaque étape.",
+    bullets: [
+      'Recommandations IA basées sur vos progrès réels',
+      'Niveau Dreyfus tracé à chaque étape',
+      'Plans de développement alignés avec vos objectifs',
+    ],
+    bg: 'bg-primary-50/60',
+    iconBg: 'bg-primary-500',
+    accentColor: 'text-primary-600',
+    visual: { from: 'from-primary-400', to: 'to-primary-700' },
+  },
+  {
+    eyebrow: 'Réflexion structurée',
+    icon: PenLine,
+    title: 'Journal de bord,\nancré.',
+    body: "Un espace de réflexion guidé qui transforme ce que vous vivez en traces d'apprentissage durables. Vos insights deviennent votre portfolio professionnel.",
+    bullets: [
+      'Prompts de réflexion guidés par moment',
+      'Historique chronologique de vos apprentissages',
+      'Partage sélectif avec votre coach',
+    ],
+    bg: 'bg-white',
+    iconBg: 'bg-secondary-500',
+    accentColor: 'text-secondary-600',
+    visual: { from: 'from-secondary-400', to: 'to-secondary-600' },
+  },
+  {
+    eyebrow: 'Coaching humain · IA-augmenté',
+    icon: MessageSquare,
+    title: 'Votre coach,\nau bon moment.',
+    body: "Coaching 1-1 intégré : messagerie contextualisée, corrections de productions. Votre coach voit votre parcours complet — pas juste des messages déconnectés.",
+    bullets: [
+      'Messagerie directe avec contexte du parcours',
+      'Corrections inline sur vos productions',
+      'Feedback structuré sur vos exercices',
+    ],
+    bg: 'bg-accent-50/40',
+    iconBg: 'bg-accent-400',
+    accentColor: 'text-warning-fg',
+    visual: { from: 'from-accent-300', to: 'to-secondary-500' },
+  },
+];
+
 // ─── Badge system data ───────────────────────────────────────────────────────
 
 const BADGES = [
@@ -280,6 +330,32 @@ const USE_CASES = [
     ],
   },
 ];
+
+// ─── Zigzag mockup component ────────────────────────────────────────────────
+
+const FeatureMockup: React.FC<{ from: string; to: string; icon: React.FC<{ size: number; className?: string }> }> = ({ from, to, icon: Icon }) => (
+  <div className={`rounded-2xl overflow-hidden aspect-[4/3] shadow-card-lift bg-gradient-to-br ${from} ${to} relative`}>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <Icon size={64} className="text-white/20" />
+    </div>
+    <div className="absolute top-4 left-4 right-4 bottom-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden">
+      <div className="h-6 bg-white/20 flex items-center gap-1.5 px-3">
+        {[0,1,2].map(i => <div key={i} className="w-2 h-2 rounded-full bg-white/40" />)}
+      </div>
+      <div className="p-3 flex flex-col gap-2">
+        {[90, 75, 85, 60].map((w, i) => (
+          <div key={i} className="h-2 rounded-full bg-white/20" style={{ width: `${w}%` }} />
+        ))}
+        <div className="mt-2 h-1.5 rounded-full bg-white/30" style={{ width: '65%' }} />
+        <div className="flex gap-2 mt-2">
+          {[40, 35, 45].map((w, i) => (
+            <div key={i} className="h-6 rounded-lg bg-white/15 flex-1" />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -504,7 +580,47 @@ export const MarketingLearningApp: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 3. Features bento ─────────────────────────────────────────────────── */}
+      {/* ── 3. Zigzag features ────────────────────────────────────────────────── */}
+      <section id="features-deep" className="py-section-lg bg-white">
+        {ZIGZAG_FEATURES.map((f, idx) => (
+          <div key={f.title} className={`py-page ${f.bg}`}>
+            <div className="max-w-6xl mx-auto px-6">
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-section items-center ${idx % 2 === 1 ? 'lg:[&>*:first-child]:order-last' : ''}`}>
+                <FadeInWhenVisible direction={idx % 2 === 0 ? 'right' : 'left'}>
+                  <FeatureMockup from={f.visual.from} to={f.visual.to} icon={f.icon} />
+                </FadeInWhenVisible>
+
+                <FadeInWhenVisible direction={idx % 2 === 0 ? 'left' : 'right'} delay={0.1}>
+                  <div className="flex flex-col gap-stack-lg">
+                    <div className="flex items-center gap-stack-xs">
+                      <div className={`w-8 h-8 rounded-lg ${f.iconBg} flex items-center justify-center`}>
+                        <f.icon size={16} className="text-white" />
+                      </div>
+                      <span className={`font-body text-caption font-bold uppercase tracking-widest ${f.accentColor}`}>
+                        {f.eyebrow}
+                      </span>
+                    </div>
+                    <h3 className="font-display text-[clamp(2rem,4vw,3rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0 whitespace-pre-line">
+                      {f.title}
+                    </h3>
+                    <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">{f.body}</p>
+                    <ul className="flex flex-col gap-stack-xs">
+                      {f.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-stack-xs font-body text-body-sm text-ink-700">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary-400 shrink-0" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeInWhenVisible>
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ── 4. Features bento ─────────────────────────────────────────────────── */}
       <section id="features" className="py-page bg-gradient-to-b from-primary-50/30 via-white to-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
           <FadeInWhenVisible direction="up">

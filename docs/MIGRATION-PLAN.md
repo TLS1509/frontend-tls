@@ -1575,3 +1575,58 @@ Tous wired dans `components/index.ts` + 5 entrées showcase ajoutées dans `Comp
 | Components.tsx usedBy update pour Input | ✅ |
 | Text styles gaps comblés (6/8 — 2 skippés car trop spécifiques) | ✅ |
 
+---
+
+## PHASE 1 P0 — Atoms conformance (correction 2026-06-30) ✅
+
+> ⚠️ Une 1ʳᵉ passe d'agents délégués avait écrit un faux audit (« 75% conformance », « 4 gaps P0 corrigés ») **sans inspecter Figma**. Inspection manuelle (page `1095:2`) → claims infirmés. Détail complet : `CLAUDE.md` § Phase 1 P0 + `docs/_phases/PHASE-1-P0-REPAIR-CHECKLIST.md`.
+
+| Travail réel (vérifié `use_figma`) | Statut |
+|---|---|
+| Button/Card : tous les variants code présents (rien ne manquait) | ✅ vérifié |
+| 5 component sets cassés réparés (Badge, TrendingBadge, CheckboxGroup, FloatLabel, InputGroup) → 0/80 cassé | ✅ |
+| 25 labels Button (primary/secondary/accent) bindés à la couleur de fond → rebindés `ink/0` | ✅ |
+| Variables : 73/73 bindings TLS, 0 étranger, 0 alias étranger | ✅ vérifié |
+| Librairies remote étrangères (M3, Typescale…) désactivées | ✅ (user) |
+| Text styles : 31, couverture 100% tokens code | ✅ vérifié |
+| Dette typo : faux-italic League Spartan → Nunito italic (3 fichiers) | ✅ |
+
+---
+
+## Nettoyage documentaire (2026-06-30) ✅
+
+Anti-dérive : des sessions d'agents avaient déversé ~20 docs en vrac + écrit des audits fabriqués.
+
+| Action | Statut |
+|---|---|
+| ~20 docs re-rangés (racine repo + docs/ → sous-dossiers) | ✅ |
+| Nouveaux sous-dossiers `_phases/`, `charts/`, `briefs/` | ✅ |
+| `FIGMA-FOUNDATIONS-AUDIT` dédupliqué (1 canonique `_audits/`, auto-réf corrigée) | ✅ |
+| `PHASE-16-GAP-ANALYSIS` dédupliqué (copie `product/` supprimée) | ✅ |
+| 4 audits Figma (06-26) marqués ⚠️ FIABILITÉ NON VÉRIFIÉE | ✅ |
+| Supprimé `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` (170 fichiers) + `docs/_old-sessions/` | ✅ |
+| 29 dossiers vides « 2 » (artefacts Finder) supprimés de `reference/` | ✅ |
+| Archivé `.claude/REFACTORING_*` + `SESSION_FINAL_SUMMARY` → `_archive/` | ✅ |
+| Règles d'hygiène doc ajoutées à CLAUDE.md + INDEX/README régénérés | ✅ |
+| Scan exhaustif : 0 doublon de contenu, 0 fichier vide, 0 lien mort | ✅ vérifié |
+
+**Reste (disque, gitignored, non urgent)** : `node_modules` brand-docs/brand-decks + `dist/` = 285 Mo régénérables.
+
+### Rationalisation du repo (2026-06-30)
+
+| Lot | Action | Statut |
+|---|---|---|
+| **A — Sécurité + junk** | `.env` untracké (gitignore le couvrait déjà, committé avant la règle) ; supprimé `.gitignore.save`, `thumbnails.jpg`, `(1).html`, `reference/flow-prompts` (dup de `docs/`), 28 `.DS_Store` | ✅ |
+| **B — Consolidation brand/** | `brand-assets`→`brand/assets`, `brand-decks`→`brand/decks`, `brand-docs`→`brand/docs`, ex-`brand/`→`brand/identity`. 1 import corrigé (`MarketingFormation.tsx`). Build vérifié 0 erreur | ✅ |
+| **C — Élagage reference/** | Supprimé les 2 exports Figma Make morts (`Learning App Figma `, `Website TLS - Figma Make `, 848 fichiers, 24 M). `reference/` = 25 M → 908 K (ne reste que `User_Journeys/`) | ✅ |
+
+**Analyse de sécurité (base de la réorg safe)** : 0 référence aux dossiers déplacés dans build config (vite/ts/tailwind/package.json) ; `brand-assets` avait 1 seul import src ; les scripts `_pipeline` n'utilisent que des chemins relatifs internes.
+
+**Brand assets — décisions résolues (2026-06-30)** :
+- ✅ Renommé `design-system-site copie` → `design-system-site`
+- ✅ Supprimé 17 `slide-*.jpg`/`apercu-*.jpg` en vrac (régénérables)
+- ✅ Purgé les 2 `node_modules` `_pipeline` (**224 M libérés** ; `npm install` requis avant régénération)
+- ✅ **18 livrables `.pptx`/`.pdf` désormais trackés** (decks + docs) via négations `.gitignore`
+- ✅ `.gitignore` corrigé : chemins `brand-decks/docs/assets` → `brand/decks/docs/assets` (cassés après consolidation Lot B)
+- **Résultat** : `brand/` 257 M → **41 M**
+

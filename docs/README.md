@@ -32,9 +32,15 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
   - etc.
 
 ### 🗂️ Archives
-- **`/_old-sessions/`** — Sessions anciennes, redondances (motion effects, old prompts)
-- **`/_archive/`** — Docs obsolètes conservées pour historique
+- **`/_archive/`** — Docs obsolètes conservées pour historique (incl. anciens REFACTORING_*, SESSION_FINAL_SUMMARY)
 - **`/_canon/`** — Canonical docs (rarement modifiés, très stables)
+- *(`/_old-sessions/` supprimé le 2026-06-30)*
+
+### 🆕 Sous-dossiers ajoutés (2026-06-30)
+- **`/_phases/`** — Rapports de phase (Phase 1 P0, Phase 20)
+- **`/charts/`** — Data-viz (CHARTS-*, sync Figma)
+- **`/briefs/`** — Briefs de travail
+- **`/figma/`** — Audits Figma (⚠️ 4 marqués non-vérifiés, voir INDEX.md)
 
 ## ✨ Fichiers clés au root
 
@@ -47,8 +53,8 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 - `site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` — Prompt navbar fluid island + hero parallax
 
 **Références :**
-- `product/PRODUCT.md` — Config produit (version, stack, routes)
-- `product/DESIGN.md` — Design system tokens, patterns, rules
+- `PRODUCT.md` (racine repo) — Config produit (version, stack, routes)
+- `DESIGN.md` (racine repo) — Design system tokens, patterns, rules
 
 ## 🚀 Commencer une session
 
@@ -58,7 +64,7 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 |------|---|---|
 | **Navbar Fluid Island + Hero parallax** | `site/DESIGN-INSPO.md` + `site/PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md` | Copier PROMPT-NAVBAR-HOMEPAGE-REDESIGN.md directement |
 | **Phase 16 (Spec compliance)** | `PHASE-16-GAP-ANALYSIS.md` + cahiers `/CDC/01-13bis` | Lancer un Agent Explore sur CDC/ + FO pages |
-| **Design System audit** | `product/DESIGN.md` + `/CDC/` | Valider tokens Tailwind vs Figma DS |
+| **Design System audit** | `DESIGN.md` (racine) + `/CDC/` | Valider tokens Tailwind vs Figma DS |
 | **Marketing site refonte** | `site/DESIGN-INSPO.md` + `MARKETING-CONTEXT.md` | Copier structure site 6 pages |
 | **Bootcamp UX/UI** | `/learning/BOOTCAMP-START-HERE.md` | Lancer 12-week learning path |
 
@@ -69,13 +75,11 @@ Bienvenue dans la doc du projet **The Learning Society** — plateforme EdTech S
 - **Pages FO** : 140+ routes (83 écrans learning app + extras)
 - **Documentation** : 16 cahiers specs (CDC), audits consolidés, bootcamp learning paths
 
-## 🔧 Cleanup récent (2026-06-12)
+## 🔧 Cleanup récent
 
-✅ Merged `CDC /` doublon → `CDC/`
-✅ Archived 7 motion-effects redondances → `_old-sessions/`
-✅ Consolidated audits → `_audits/` (6 rapports)
-✅ Deleted obsolete files (dynamic-backlog, figma-gap-matrix, post-design-integration)
-✅ Created INDEX.md + README.md pour navigation
+**2026-06-30** : ~20 docs déversés en vrac re-rangés ; sous-dossiers `_phases/`/`charts/`/`briefs/` ; 4 audits Figma flaggés non-vérifiés ; `.claude/worktrees/` (40 Mo) + `.agents/skills 2/` + `_old-sessions/` supprimés ; règles d'hygiène doc dans CLAUDE.md. Détail → `INDEX.md`.
+
+**2026-06-12** : merged CDC doublon · archived motion files · consolidated audits → `_audits/` · created INDEX + README
 
 ---
 

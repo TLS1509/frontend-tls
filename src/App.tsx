@@ -232,11 +232,7 @@ import { MarketingResourceDetail } from './pages/marketing/MarketingResourceDeta
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
-// [variant] import { MarketingAccompagnementA2 } from './pages/marketing/MarketingAccompagnementA2';
-// [variant] import { MarketingAccompagnementA3 } from './pages/marketing/MarketingAccompagnementA3';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
-// [variant] import { MarketingLearningAppB2 } from './pages/marketing/MarketingLearningAppB2';
-// [variant] import { MarketingLearningAppB3 } from './pages/marketing/MarketingLearningAppB3';
 import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
 import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
@@ -546,11 +542,7 @@ function App() {
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           <Route path="formation" element={<MarketingFormation />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
-          {/* [variant] <Route path="accompagnement-a2" element={<MarketingAccompagnementA2 />} /> */}
-          {/* [variant] <Route path="accompagnement-a3" element={<MarketingAccompagnementA3 />} /> */}
           <Route path="learning-app" element={<MarketingLearningApp />} />
-          {/* [variant] <Route path="learning-app-b2" element={<MarketingLearningAppB2 />} /> */}
-          {/* [variant] <Route path="learning-app-b3" element={<MarketingLearningAppB3 />} /> */}
           <Route path="magazine" element={<MarketingMagazine />} />
           <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
           <Route path="resources" element={<MarketingResources />} />

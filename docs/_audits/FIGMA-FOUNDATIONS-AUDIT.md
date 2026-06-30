@@ -371,7 +371,7 @@ Collections : TLS/Colors (76) · TLS/Spacing (35) · TLS/Radius (7) · TLS/Effec
 ```
 Contexte : audit de parité Figma DS ↔ code app (frontend-tls). Source de vérité = src/index.css @theme.
 Fichier Figma : LccBZ1GKWQVwVzPtsSzk5Y, page Foundations = 1093:2.
-État détaillé : docs/FIGMA-FOUNDATIONS-AUDIT.md (lis-le d'abord).
+État détaillé : docs/_audits/FIGMA-FOUNDATIONS-AUDIT.md (lis-le d'abord).
 
 Fait : §01 COLORS entièrement repris (parité 78 vars), §02/§05 ok, tokens fantômes sage/purple supprimés.
 Vérif couleurs : 76/78 parité parfaite. Reste 2 écarts (ink/450 + ink/550 Figma-only, rampe cassée) → voir §4 décisions.
