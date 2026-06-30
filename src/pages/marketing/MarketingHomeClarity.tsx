@@ -1,9 +1,9 @@
 /**
- * MarketingHomeLight — variante LIGHT de la home marketing TLS.
+ * MarketingHomeClarity — variante LIGHT de la home marketing TLS.
  *
  * La home existante est sombre. Cette variante est entièrement claire :
  * fonds blancs / dégradés chauds doux, cartes blanches shadow-card,
- * texte ink-900. Hero vidéo light (technique CinematicHero) + voile bg-white/30.
+ * texte ink-900. Hero vidéo light + voile bg-white/30.
  *
  * 8 sections : Hero · Conviction · Pour qui · 3 piliers · Méthode STRIDE ·
  * Auto-diagnostic · Preuve & équipe · CTA final + newsletter.
@@ -28,107 +28,61 @@ import {
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import { FadeInWhenVisible, MagneticButton } from '../../components/marketing/motion';
+import { HeroSection, ConvictionSection } from '../../components/marketing/sections';
 
 const FOCUS_RING =
   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500';
 
-// ─── Hero vidéo light ────────────────────────────────────────────────────────
-
-const HeroVideoBackground: React.FC<{ reduce: boolean }> = ({ reduce }) => {
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-
-  // React ne propage pas l'attribut `muted` au DOM (bug connu) → Chrome bloque
-  // l'autoplay non-muet. On force muted impérativement via ref.
-  React.useEffect(() => {
-    if (reduce) return;
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = true;
-    v.play().catch(() => {});
-  }, [reduce]);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {reduce ? (
-        <img
-          src="/marketing/assets/hero-watercolor.webp"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      ) : (
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          playsInline
-          preload="auto"
-          poster="/marketing/assets/hero-watercolor.webp"
-          className="absolute inset-0 w-full h-full object-cover"
-          tabIndex={-1}
-        >
-          <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
-        </video>
-      )}
-    </div>
-  );
-};
+// ─── Hero (using HeroSection layout router) ──────────────────────────────────
 
 const Hero: React.FC<{ reduce: boolean }> = ({ reduce }) => (
-  <section className="relative min-h-[88vh] overflow-hidden bg-secondary-50">
-    <HeroVideoBackground reduce={reduce} />
+  <HeroSection layout="centered" animation={!reduce}>
+    <FadeInWhenVisible className="flex flex-col items-center text-center gap-stack-lg">
+      <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 [text-wrap:balance] max-w-[20ch] text-[clamp(2.4rem,5.6vw,4.6rem)]">
+        L'IA au service des{' '}
+        <span className="text-secondary-600">compétences</span>. Pas l'inverse.
+      </h1>
 
-    <div className="relative min-h-[88vh] flex items-center">
-      <div className="w-full max-w-page mx-auto px-6 py-page">
-        <FadeInWhenVisible className="flex flex-col items-center text-center gap-stack-lg">
-          <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 [text-wrap:balance] max-w-[20ch] text-[clamp(2.4rem,5.6vw,4.6rem)]">
-            L'IA au service des{' '}
-            <span className="text-secondary-600">compétences</span>. Pas l'inverse.
-          </h1>
+      <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-[60ch]">
+        On aide les organisations et les pros de la formation à passer à une
+        logique de compétences. L'IA comme accélérateur, sans dénaturer la
+        pédagogie.
+      </p>
 
-          <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-[60ch]">
-            On aide les organisations et les pros de la formation à passer à une
-            logique de compétences. L'IA comme accélérateur, sans dénaturer la
-            pédagogie.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
-            <MagneticButton strength={14}>
-              <Link to="/marketing/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-                <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Évaluer ma maturité SBO
-                </Button>
-              </Link>
-            </MagneticButton>
-            <Link to="/marketing/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-              <Button variant="secondary" size="lg">
-                Réserver 30 min
-              </Button>
-            </Link>
-          </div>
-        </FadeInWhenVisible>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
+        <MagneticButton strength={14}>
+          <Link to="/marketing/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Évaluer ma maturité SBO
+            </Button>
+          </Link>
+        </MagneticButton>
+        <Link to="/marketing/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+          <Button variant="secondary" size="lg">
+            Réserver 30 min
+          </Button>
+        </Link>
       </div>
-    </div>
-  </section>
+    </FadeInWhenVisible>
+  </HeroSection>
 );
 
-// ─── 2. Conviction ──────────────────────────────────────────────────────────
+// ─── 2. Conviction (using ConvictionSection layout router) ───────────────────
 
 const Conviction: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-page mx-auto px-6 py-page">
-      <FadeInWhenVisible className="max-w-[34ch] mx-auto text-center flex flex-col gap-stack-lg">
-        <h2 className="font-display font-extrabold text-ink-900 tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,3rem)] leading-tight">
-          Les outils changent chaque mois. Les compétences restent votre{' '}
-          <span className="text-primary-600">boussole</span>.
-        </h2>
-        <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[58ch] mx-auto">
-          Passer d'une logique de postes à une logique de compétences, avec
-          l'humain au centre. Les technologies évoluent vite. Vos compétences,
-          elles, se cultivent et durent.
-        </p>
-      </FadeInWhenVisible>
-    </div>
-  </section>
+  <ConvictionSection layout="quote-led" tone="primary">
+    <FadeInWhenVisible className="flex flex-col gap-stack-lg">
+      <h2 className="font-display font-extrabold text-ink-900 tracking-tight m-0 [text-wrap:balance] text-[clamp(1.9rem,3.6vw,3rem)] leading-tight">
+        Les outils changent chaque mois. Les compétences restent votre{' '}
+        <span className="text-primary-600">boussole</span>.
+      </h2>
+      <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-[58ch] mx-auto">
+        Passer d'une logique de postes à une logique de compétences, avec
+        l'humain au centre. Les technologies évoluent vite. Vos compétences,
+        elles, se cultivent et durent.
+      </p>
+    </FadeInWhenVisible>
+  </ConvictionSection>
 );
 
 // ─── 3. Pour qui ──────────────────────────────────────────────────────────────

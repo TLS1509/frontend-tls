@@ -37,7 +37,7 @@ import {
   ScrollProgressIndicator,
 } from '../../components/marketing/scroll-effects';
 import { LearnDoMatchVisual } from './components/LearnDoMatchVisual';
-import { CinematicHero } from './components/CinematicHero';
+import { HeroSection } from '../../components/marketing/sections/HeroSection';
 
 /**
  * Reveal : minimal scroll-in wrapper. Content is VISIBLE BY DEFAULT (opacity:1);
