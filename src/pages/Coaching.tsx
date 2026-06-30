@@ -215,7 +215,7 @@ export const Coaching: React.FC = () => {
   return (
     <>
       <div className="relative min-h-[100dvh] bg-gradient-page-ambient">
-        <PageShell width="page" noPadTop className="relative z-base">
+        <PageShell width="page" noPadTop className="relative z-[2] pt-6 md:pt-8 lg:pt-10">
 
           {/* Hero: EditorialHero tone="warm" — Coaching = connexion humaine/amber */}
           <EditorialHero

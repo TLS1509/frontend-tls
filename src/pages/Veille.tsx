@@ -14,9 +14,7 @@ import {
   FolderOpen,
   BookOpen,
   TrendingUp,
-  Search as SearchIcon,
   Mail,
-  X,
   Bookmark,
   Rss,
   RotateCcw,
@@ -27,6 +25,7 @@ import type { LucideIcon } from 'lucide-react';
 import { VideoPlayerModal } from '../components/modals';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
+import { Search } from '../components/ui/Search';
 import {
   VeilleCardFeed,
   type VeilleFeedItem,
@@ -142,116 +141,106 @@ export const Veille: React.FC = () => {
   };
 
   return (
-    <PageShell width="page" className="relative flex flex-col min-h-[100dvh] pb-2 gap-5" noPadTop>
+    <PageShell width="page" gap="stack-lg" noPadTop className="relative z-base pt-6 md:pt-8 lg:pt-10">
 
-        {/* Title row */}
-        <div className="flex items-start justify-between gap-stack">
-          <div className="flex flex-col gap-tight">
-            <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
-              <Rss size={11} aria-hidden />
-              Veille & Actualités
-            </span>
-            <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
-              Veille &amp; Actualités
-            </h1>
-          </div>
-          {hasActiveFilter && (
-            <span className="text-body-sm text-ink-400 font-medium pt-1 shrink-0 tabular-nums">
-              {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
+      {/* ── Page header ─────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-tight">
+        <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em] w-max">
+          <Rss size={11} aria-hidden />
+          Veille & Actualités
+        </span>
+        <h1 className="m-0 font-display text-h2 font-bold text-ink-900 tracking-headline leading-tight">
+          Veille &amp; Actualités
+        </h1>
+        <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
+          Actus, tutoriels, dossiers et magazine — toute la veille TLS au même endroit.
+        </p>
+      </div>
 
-        {/* Search bar — light surface */}
-        <div className="relative">
-          <SearchIcon size={16} strokeWidth={2} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400 pointer-events-none" />
-          <input
-            type="search"
-            aria-label="Rechercher dans la veille"
-            placeholder="Rechercher un sujet, auteur, catégorie…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full h-10 pl-10 pr-10 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body-sm focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100 transition-all"
-          />
-          {query && (
-            <button
-              type="button"
-              aria-label="Effacer la recherche"
-              onClick={() => setQuery('')}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-sm text-ink-400 hover:text-ink-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+      {/* ── Search + filters ────────────────────────────────────────────── */}
+      <Search
+        variant="default"
+        size="default"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Rechercher un sujet, auteur, catégorie…"
+        aria-label="Rechercher dans la veille"
+        trailing={
+          hasActiveFilter ? (
+            <Button
+              variant="secondary"
+              size="sm"
+              leadingIcon={<RotateCcw size={11} />}
+              onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
             >
-              <X size={14} aria-hidden />
-            </button>
-          )}
-        </div>
+              Réinitialiser
+            </Button>
+          ) : undefined
+        }
+        filtersSlot={
+          <div className="flex flex-wrap items-center gap-2">
+            {TYPE_FILTERS.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setSelected(id)}
+                className={[
+                  'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  selected === id
+                    ? 'bg-primary-500 text-white border-primary-500 shadow-sm'
+                    : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
+                ].join(' ')}
+              >
+                {Icon && <Icon size={12} strokeWidth={2.5} />}
+                {label}
+                {id !== 'all' && (
+                  <span className={selected === id ? 'text-white/70' : 'text-ink-400'}>
+                    {counts[id]}
+                  </span>
+                )}
+              </button>
+            ))}
 
-        {/* Filtres type + Sauvegardés */}
-        <div className="flex flex-wrap items-center gap-2">
-          {TYPE_FILTERS.map(({ id, label, Icon }) => (
+            <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5" />
+
             <button
-              key={id}
               type="button"
-              onClick={() => setSelected(id)}
+              onClick={() => setShowSavedOnly((v) => !v)}
               className={[
                 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                selected === id
-                  ? 'bg-primary-500 text-white border-primary-500 shadow-sm'
+                showSavedOnly
+                  ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-sm'
                   : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
               ].join(' ')}
             >
-              {Icon && <Icon size={12} strokeWidth={2.5} />}
-              {label}
-              {id !== 'all' && (
-                <span className={selected === id ? 'text-white/70' : 'text-ink-400'}>
-                  {counts[id]}
-                </span>
+              <Bookmark size={12} strokeWidth={2.5} />
+              Sauvegardés
+              {savedIds.size > 0 && (
+                <span className={showSavedOnly ? 'text-ink-600' : 'text-ink-400'}>{savedIds.size}</span>
               )}
             </button>
-          ))}
+          </div>
+        }
+      />
 
-          <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5" />
-
-          <button
-            type="button"
-            onClick={() => setShowSavedOnly((v) => !v)}
-            className={[
-              'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill font-body text-caption font-semibold border transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-              showSavedOnly
-                ? 'bg-accent-400 text-ink-900 border-accent-400 shadow-sm'
-                : 'bg-white text-ink-600 border-ink-200 hover:bg-ink-50 hover:border-ink-300',
-            ].join(' ')}
-          >
-            <Bookmark size={12} strokeWidth={2.5} />
-            Sauvegardés
-            {savedIds.size > 0 && (
-              <span className={showSavedOnly ? 'text-ink-600' : 'text-ink-400'}>{savedIds.size}</span>
-            )}
-          </button>
-
-          {hasActiveFilter && (
-            <button
-              type="button"
-              onClick={() => { setSelected('all'); setQuery(''); setShowSavedOnly(false); }}
-              className="inline-flex items-center gap-1 font-body text-caption text-ink-400 hover:text-primary-600 transition-colors ml-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-            >
-              <RotateCcw size={11} />
-              Réinitialiser
-            </button>
-          )}
-
-          <span aria-hidden className="w-px h-4 bg-ink-200 mx-0.5 ml-auto" />
-
-          {/* Display mode toggle */}
-          <div className="inline-flex items-center gap-1 rounded-lg bg-white border border-ink-200">
+      {/* ── Feed ────────────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-stack">
+        {/* Count + display mode toggle */}
+        <div className="flex items-center justify-between gap-stack">
+          <span className="text-caption text-ink-500 font-medium">
+            {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
+          </span>
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={() => setDisplayMode('grid')}
               aria-label="Affichage grille"
+              aria-pressed={displayMode === 'grid'}
               className={[
-                'inline-flex items-center justify-center p-1.5 transition-all duration-base rounded',
+                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'grid'
-                  ? 'bg-primary-100 text-primary-600'
-                  : 'text-ink-400 hover:text-ink-600',
+                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
               <Grid3x3 size={14} strokeWidth={2} />
@@ -260,25 +249,18 @@ export const Veille: React.FC = () => {
               type="button"
               onClick={() => setDisplayMode('list')}
               aria-label="Affichage liste"
+              aria-pressed={displayMode === 'list'}
               className={[
-                'inline-flex items-center justify-center p-1.5 transition-all duration-base rounded',
+                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                 displayMode === 'list'
-                  ? 'bg-primary-100 text-primary-600'
-                  : 'text-ink-400 hover:text-ink-600',
+                  ? 'bg-primary-100 text-primary-600 shadow-xs'
+                  : 'bg-white text-ink-400 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
               ].join(' ')}
             >
               <List size={14} strokeWidth={2} />
             </button>
           </div>
         </div>
-
-      {/* Divider */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10">
-        <div className="h-px bg-ink-100 mt-4" />
-      </div>
-
-      {/* ── 3. FEED VERTICAL ─────────────────────────────────────────────── */}
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-10 py-section flex flex-col gap-section flex-1">
 
         <VeilleCardFeed
           items={filteredItems}
@@ -288,46 +270,44 @@ export const Veille: React.FC = () => {
           onItemClick={handleOpen}
           emptyMessage="Aucun résultat — essayez d'élargir vos filtres."
         />
-      </main>
+      </div>
 
-      {/* ── 4. BANDE MAILING — glassy minimale ──────────────────────────── */}
-      <div className="relative border-t border-ink-200/60 bg-white/70 backdrop-blur-glass-medium">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-stack">
-          <form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"
-          >
-            <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
-              <Mail size={14} className="text-ink-400" />
-              <span className="font-body text-body-sm">
-                Recevoir les actus veille dans ta boîte mail
-              </span>
-            </div>
-            <div className="flex items-center gap-stack-xs sm:ml-auto">
-              <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
-              <Input
-                id={emailId}
-                name="email"
-                type="email"
-                required
-                size="sm"
-                placeholder="votre@email.com"
-                autoComplete="email"
-                className="w-48 sm:w-56"
-              />
-              <Button type="submit" variant="primary" size="sm">
-                S'abonner
-              </Button>
-              <button
-                type="button"
-                onClick={() => navigate('/veille/newsletter')}
-                className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-              >
-                Gérer mes préférences
-              </button>
-            </div>
-          </form>
-        </div>
+      {/* ── Bande mailing — glassy minimale ──────────────────────────────── */}
+      <div className="rounded-2xl border border-ink-200/60 bg-white/70 backdrop-blur-glass-medium px-stack-lg py-stack">
+        <form
+          onSubmit={handleSubscribe}
+          className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"
+        >
+          <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
+            <Mail size={14} className="text-ink-400" />
+            <span className="font-body text-body-sm">
+              Recevoir les actus veille dans ta boîte mail
+            </span>
+          </div>
+          <div className="flex items-center gap-stack-xs sm:ml-auto">
+            <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
+            <Input
+              id={emailId}
+              name="email"
+              type="email"
+              required
+              size="sm"
+              placeholder="votre@email.com"
+              autoComplete="email"
+              className="w-48 sm:w-56"
+            />
+            <Button type="submit" variant="primary" size="sm">
+              S'abonner
+            </Button>
+            <button
+              type="button"
+              onClick={() => navigate('/veille/newsletter')}
+              className="font-body text-caption text-ink-400 hover:text-primary-600 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            >
+              Gérer mes préférences
+            </button>
+          </div>
+        </form>
       </div>
 
       {videoModal.item && (
