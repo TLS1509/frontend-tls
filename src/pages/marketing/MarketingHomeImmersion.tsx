@@ -231,7 +231,7 @@ const CAMPUS_STATS = [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export const MarketingHomeFullPage: React.FC = () => {
+export const MarketingHomeImmersion: React.FC = () => {
   const reduce = useReducedMotion() ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -528,4 +528,4 @@ export const MarketingHomeFullPage: React.FC = () => {
   );
 };
 
-export default MarketingHomeFullPage;
+export default MarketingHomeImmersion;

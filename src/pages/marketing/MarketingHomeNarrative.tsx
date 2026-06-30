@@ -173,7 +173,7 @@ const PROOFS: { title: string; detail: string }[] = [
   { title: 'Premiers déploiements en cours', detail: 'dont un grand groupe français, depuis janvier 2026.' },
 ];
 
-export const MarketingHomeEditorial: React.FC = () => {
+export const MarketingHomeNarrative: React.FC = () => {
   return (
     <div className="bg-white text-ink-900">
       <ScrollProgressIndicator height={3} />
@@ -515,4 +515,4 @@ export const MarketingHomeEditorial: React.FC = () => {
   );
 };
 
-export default MarketingHomeEditorial;
+export default MarketingHomeNarrative;

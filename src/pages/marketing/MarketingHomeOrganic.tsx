@@ -264,7 +264,7 @@ const FinalCTA: React.FC = () => (
 
 // ─── Export ──────────────────────────────────────────────────────────────────
 
-export const MarketingHomeWatercolorScroll: React.FC = () => {
+export const MarketingHomeOrganic: React.FC = () => {
   const reduced = useReducedMotion();
 
   return (
@@ -279,4 +279,4 @@ export const MarketingHomeWatercolorScroll: React.FC = () => {
   );
 };
 
-export default MarketingHomeWatercolorScroll;
+export default MarketingHomeOrganic;

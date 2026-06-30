@@ -585,7 +585,7 @@ const FinalCta: React.FC = () => {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export const MarketingHomeLight: React.FC = () => {
+export const MarketingHomeClarity: React.FC = () => {
   const reduce = useReducedMotion() ?? false;
 
   return (
@@ -602,4 +602,4 @@ export const MarketingHomeLight: React.FC = () => {
   );
 };
 
-export default MarketingHomeLight;
+export default MarketingHomeClarity;

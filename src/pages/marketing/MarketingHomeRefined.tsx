@@ -38,7 +38,7 @@ const PRINCIPLES = [
   },
 ];
 
-export const MarketingHomeA: React.FC = () => (
+export const MarketingHomeRefined: React.FC = () => (
   <div className="bg-white">
 
     {/* ── Hero: éditorial centré, typo oversized ────────────────────────────── */}
@@ -248,4 +248,4 @@ export const MarketingHomeA: React.FC = () => (
   </div>
 );
 
-export default MarketingHomeA;
+export default MarketingHomeRefined;

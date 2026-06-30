@@ -6,12 +6,12 @@
  */
 
 import React, { useState } from 'react';
-import { MarketingHomeLight } from './MarketingHomeLight';
-import { MarketingHomeEditorial } from './MarketingHomeEditorial';
-import { MarketingHomeFullPage } from './MarketingHomeFullPage';
-import { MarketingHomeA } from './MarketingHomeA';
+import { MarketingHomeClarity } from './MarketingHomeClarity';
+import { MarketingHomeNarrative } from './MarketingHomeNarrative';
+import { MarketingHomeImmersion } from './MarketingHomeImmersion';
+import { MarketingHomeRefined } from './MarketingHomeRefined';
 import { MarketingHomeCinematic } from './MarketingHomeCinematic';
-import { MarketingHomeWatercolorScroll } from './MarketingHomeWatercolorScroll';
+import { MarketingHomeOrganic } from './MarketingHomeOrganic';
 import { MarketingAccompagnement } from './MarketingAccompagnement';
 import { MarketingLearningApp } from './MarketingLearningApp';
 
@@ -32,12 +32,12 @@ interface VariantMeta {
 
 const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> = {
   home: {
-    2: { label: 'V2 · Light', badge: 'Minimaliste', badgeColor: 'bg-primary-100 text-primary-700' },
-    4: { label: 'V4 · Editorial', badge: 'Sticky', badgeColor: 'bg-accent-100 text-ink-900' },
-    5: { label: 'V5 · FullPage', badge: 'Word-swap', badgeColor: 'bg-primary-100 text-primary-700' },
-    6: { label: 'V6 · HomeA', badge: 'Épuré', badgeColor: 'bg-secondary-100 text-secondary-700' },
-    7: { label: 'V7 · Cinematic', badge: '🎬 Video', badgeColor: 'bg-accent-100 text-ink-900' },
-    8: { label: 'V8 · Watercolor', badge: 'Scroll', badgeColor: 'bg-primary-100 text-primary-700' },
+    2: { label: 'Clarity-First', badge: 'Light · Clear', badgeColor: 'bg-primary-100 text-primary-700' },
+    4: { label: 'Storyteller', badge: 'Sticky Story', badgeColor: 'bg-accent-100 text-ink-900' },
+    5: { label: 'Momentum', badge: 'Scroll Flow', badgeColor: 'bg-primary-100 text-primary-700' },
+    6: { label: 'Elegant', badge: 'Premium', badgeColor: 'bg-secondary-100 text-secondary-700' },
+    7: { label: 'Cinematic', badge: '🎬 Motion', badgeColor: 'bg-accent-100 text-ink-900' },
+    8: { label: 'Flow', badge: 'Organic', badgeColor: 'bg-primary-100 text-primary-700' },
   },
   acc: {
     1: { label: 'A1 · Services + Timeline', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
@@ -51,12 +51,12 @@ type ComponentMap = Record<PageKey, Partial<Record<VariantKey, React.FC>>>;
 
 const COMPONENTS: ComponentMap = {
   home: {
-    2: MarketingHomeLight,
-    4: MarketingHomeEditorial,
-    5: MarketingHomeFullPage,
-    6: MarketingHomeA,
+    2: MarketingHomeClarity,
+    4: MarketingHomeNarrative,
+    5: MarketingHomeImmersion,
+    6: MarketingHomeRefined,
     7: MarketingHomeCinematic,
-    8: MarketingHomeWatercolorScroll,
+    8: MarketingHomeOrganic,
   },
   acc: {
     1: MarketingAccompagnement,
