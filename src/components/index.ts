@@ -181,6 +181,9 @@ export type { DividerProps } from './ui/Divider';
 export { StatusBadge } from './ui/StatusBadge';
 export type { StatusBadgeProps, StatusBadgeStatus } from './ui/StatusBadge';
 
+export { SelectCheckboxFloating } from './ui/SelectCheckboxFloating';
+export type { SelectCheckboxFloatingProps, SelectCheckboxFloatingOption } from './ui/SelectCheckboxFloating';
+
 /* ============================================================================
  * Legacy UI Components (pre-spec, kept for backward compatibility)
  * ============================================================================ */

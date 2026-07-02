@@ -4,7 +4,8 @@ import {
   BookOpen, RotateCcw, Grid3x3, Grid2x2,
 } from 'lucide-react';
 import { Button } from '../components/core/Button';
-import { SearchFilters } from '../components/patterns/SearchFilters';
+import { Search } from '../components/ui/Search';
+import { SelectCheckboxFloating } from '../components/ui/SelectCheckboxFloating';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
@@ -183,52 +184,63 @@ export const LearningSpace: React.FC = () => {
         </p>
       </div>
 
-      {/* ── Search + filters (canonical SearchFilters component) ────────── */}
-      <SearchFilters
-        query={query}
-        onQueryChange={setQuery}
+      {/* ── Search bar ──────────────────────────────────────────────────── */}
+      <Search
+        value={query}
+        onChange={setQuery}
         placeholder="Rechercher par titre, thématique, tag…"
-        layout="panel"
-        onReset={resetFilters}
-        filters={[
-          {
-            id: 'type',
-            label: 'Type de ressource',
-            kind: 'select',
-            multi: false,
-            options: TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
-            selected: typeGroup === 'all' ? [] : [typeGroup],
-            onChange: (ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all'),
-          },
-          {
-            id: 'theme',
-            label: 'Thématique',
-            kind: 'select',
-            multi: false,
-            options: themeOptions.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
-            selected: theme === 'all' ? [] : [theme],
-            onChange: (ids) => setTheme(ids[0] ?? 'all'),
-          },
-          {
-            id: 'level',
-            label: 'Niveau',
-            kind: 'select',
-            multi: false,
-            options: LEVEL_OPTIONS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
-            selected: level === 'all' ? [] : [level],
-            onChange: (ids) => setLevel(ids[0] ?? 'all'),
-          },
-          {
-            id: 'duration',
-            label: 'Durée',
-            kind: 'select',
-            multi: false,
-            options: DURATION_OPTIONS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
-            selected: duration === 'all' ? [] : [duration],
-            onChange: (ids) => setDuration((ids[0] as DurationBucket) ?? 'all'),
-          },
-        ]}
+        size="md"
       />
+
+      {/* ── Grouped floating filters ─────────────────────────────────────── */}
+      <div className="flex flex-col gap-stack">
+
+        {/* Type de ressource filter */}
+        <SelectCheckboxFloating
+          label="Type de ressource"
+          options={TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label }))}
+          selected={typeGroup === 'all' ? [] : [typeGroup]}
+          onChange={(ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all')}
+        />
+
+        {/* Thématique filter */}
+        <SelectCheckboxFloating
+          label="Thématique"
+          options={themeOptions.filter((o) => o.id !== 'all')}
+          selected={theme === 'all' ? [] : [theme]}
+          onChange={(ids) => setTheme(ids[0] ?? 'all')}
+        />
+
+        {/* Niveau filter */}
+        <SelectCheckboxFloating
+          label="Niveau"
+          options={LEVEL_OPTIONS.filter((o) => o.id !== 'all')}
+          selected={level === 'all' ? [] : [level]}
+          onChange={(ids) => setLevel(ids[0] ?? 'all')}
+        />
+
+        {/* Durée filter */}
+        <SelectCheckboxFloating
+          label="Durée"
+          options={DURATION_OPTIONS.filter((o) => o.id !== 'all')}
+          selected={duration === 'all' ? [] : [duration]}
+          onChange={(ids) => setDuration((ids[0] as DurationBucket) ?? 'all')}
+        />
+
+        {/* Reset button (only show if filters active) */}
+        {hasActiveFilters && (
+          <div className="flex justify-start">
+            <Button
+              variant="secondary"
+              size="sm"
+              leadingIcon={<RotateCcw size={14} />}
+              onClick={resetFilters}
+            >
+              Réinitialiser les filtres
+            </Button>
+          </div>
+        )}
+      </div>
 
       {/* ── Resources grid ──────────────────────────────────────────────── */}
       <div className="flex flex-col gap-stack">
