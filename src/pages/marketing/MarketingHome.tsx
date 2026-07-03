@@ -14,11 +14,19 @@
  *
  * Discipline : vous (pas tu), pas de métrique inventée, pas de client fictif,
  * pas d'em dash, CTA verbe+objet. Aucun ParallaxSection / scroll-jack ici.
+ *
+ * 03/07/2026 (2) — Hero : léger zoom + fondu de la vidéo au scroll (scale
+ * 1→1.15, opacity 1→0 sur la hauteur du hero, via useScroll/useTransform).
+ * PAS de scroll-jack : le hero n'est jamais épinglé, il défile normalement ;
+ * seule la couche vidéo/scrim s'anime en fonction du scroll progress. Le
+ * contenu texte (h1/p/CTA) garde son fade-in au chargement, non lié au
+ * scroll, pour ne jamais risquer de le faire disparaître en pleine lecture.
+ * Neutralisé sous prefers-reduced-motion (scale/opacity fixés à 1).
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -44,6 +52,7 @@ import { SkillMapSection } from './components/SkillMapSection';
 const Hero: React.FC = () => {
   const reduced = useReducedMotion();
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const sectionRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
     if (reduced) return;
@@ -53,9 +62,20 @@ const Hero: React.FC = () => {
     v.play().catch(() => {});
   }, [reduced]);
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.15]);
+  const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
+
   return (
-    <section className="relative min-h-[100dvh] overflow-hidden bg-black">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+    <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-black">
+      <motion.div
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        style={{ scale, opacity: videoOpacity }}
+        aria-hidden
+      >
         {reduced ? (
           <img
             src="/marketing/assets/hero-watercolor.webp"
@@ -77,7 +97,7 @@ const Hero: React.FC = () => {
             <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
           </video>
         )}
-      </div>
+      </motion.div>
 
       <div aria-hidden className="absolute inset-0 bg-black/45 pointer-events-none" />
 
