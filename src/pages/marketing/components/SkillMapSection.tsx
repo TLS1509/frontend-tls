@@ -12,7 +12,14 @@
  *   t=1.0  — Arc P→V se dessine (dashed)
  *   t=1.4+ — Satellites + lignes satellites apparaissent
  *   t=0.4  — Glass pills flottent au-dessus de chaque nœud principal
- *   t=2.8  — Bottom CTA
+ *   t=2.8  — Captions Apprendre/Pratiquer/Valider
+ *
+ * 03/07/2026 — Fusion avec l'ex-section MethodSteps (critique : les deux
+ * racontaient la même boucle Learn/Do/Match en double, à 30s d'écart, avec
+ * deux vocabulaires différents). La copy la plus riche de MethodSteps est
+ * reprise ici en captions texte sous le diagramme — pas de nouvelle grille
+ * de cartes, juste le texte qui manquait au visuel le plus travaillé de la
+ * page. MethodSteps supprimé de MarketingHome.tsx.
  */
 
 import React, { useRef } from 'react';
@@ -82,6 +89,22 @@ const SAT_NODES = [
   { id: 's7', cx: 820, cy: 86,  r: 19, label: 'Badges',     delay: 2.25, path: 'M 832 105 Q 870 147 912 182' },
   { id: 's8', cx: 1050, cy: 112, r: 20, label: 'Passeport',  delay: 2.35, path: 'M 1032 130 Q 1000 163 963 185' },
   { id: 's9', cx: 1048, cy: 322, r: 17, label: 'JAC',        delay: 2.45, path: 'M 1036 307 Q 1008 272 968 243' },
+] as const;
+
+// ── Captions (copy reprise de l'ex-MethodSteps, 03/07/2026) ────────────────
+const CAPTIONS = [
+  {
+    title: 'Apprendre, à votre rythme.',
+    body: "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier : pas un catalogue de vidéos à consommer.",
+  },
+  {
+    title: 'Mettre en pratique, sur du concret.',
+    body: "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel : accompagné, jamais seul.",
+  },
+  {
+    title: 'Valoriser, et faire matcher.',
+    body: "Chaque acquis enrichit un passeport de compétences vérifiable. Des preuves lisibles, prêtes à relier les bonnes compétences aux bons projets.",
+  },
 ] as const;
 
 // ── Easing & variants ──────────────────────────────────────────────────────
@@ -353,17 +376,21 @@ export const SkillMapSection: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Bottom CTA strip ───────────────────────────────────────────── */}
+      {/* ── Captions — copy reprise de l'ex-MethodSteps ──────────────────── */}
       <motion.div
         initial={initial}
         animate={animate}
         variants={fadeUp(2.8)}
-        className="relative z-base mx-auto mt-section-lg max-w-page px-stack text-center"
+        className="relative z-base mx-auto mt-section-lg max-w-page px-stack"
       >
-        <p className="mx-auto max-w-[46ch] font-body text-body text-primary-200/65">
-          Chaque étape génère une preuve tangible de compétence :{' '}
-          <span className="text-white/90 font-semibold">reconnue, exportable, exploitable.</span>
-        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg border-t border-white/10 pt-section">
+          {CAPTIONS.map((c) => (
+            <div key={c.title} className="flex flex-col gap-tight text-center md:text-left">
+              <p className="font-display text-body font-bold text-white m-0">{c.title}</p>
+              <p className="font-body text-body-sm text-primary-200/70 leading-relaxed m-0">{c.body}</p>
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );

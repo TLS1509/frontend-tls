@@ -26,8 +26,6 @@ import {
   BadgeCheck,
   GraduationCap,
   Compass,
-  Wrench,
-  Award,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -255,71 +253,9 @@ const Offers: React.FC = () => (
   </section>
 );
 
-// ─── 4. Méthode : diagramme SkillMap + 3 temps Learn/Do/Match (statique) ─────
-// SkillMapSection est réutilisé tel quel (diagramme animé au reveal, pas de pin).
-// Les 3 cartes ci-dessous remplacent l'ancien StickyScrollStory : même contenu,
-// mise en page statique, fade-in classique, ZÉRO parallax/scroll-jack.
-
-const METHOD_STEPS: { step: string; icon: React.ReactNode; title: string; body: string }[] = [
-  {
-    step: 'Learn',
-    icon: <GraduationCap size={22} />,
-    title: 'Apprendre, à votre rythme.',
-    body:
-      "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier : pas un catalogue de vidéos à consommer.",
-  },
-  {
-    step: 'Do',
-    icon: <Wrench size={22} />,
-    title: 'Mettre en pratique, sur du concret.',
-    body:
-      "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel : accompagné, jamais seul.",
-  },
-  {
-    step: 'Match',
-    icon: <Award size={22} />,
-    title: 'Valoriser, et faire matcher.',
-    body:
-      "Chaque acquis enrichit un passeport de compétences vérifiable. Des preuves lisibles, prêtes à relier les bonnes compétences aux bons projets.",
-  },
-];
-
-const MethodSteps: React.FC = () => (
-  <section className="bg-white py-page">
-    <div className="max-w-wide mx-auto px-6 flex flex-col gap-section-lg">
-      <FadeInWhenVisible>
-        <div className="max-w-content flex flex-col gap-stack">
-          <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.25rem)]">
-            De l'apprentissage à la preuve, une seule boucle.
-          </h2>
-          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-            On n'apprend pas pour cocher une case, mais pour appliquer, prouver et
-            faire reconnaître de vraies compétences. À notre connaissance, le seul
-            dispositif français qui relie les trois en une boucle intégrée.
-          </p>
-        </div>
-      </FadeInWhenVisible>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
-        {METHOD_STEPS.map((s, i) => (
-          <FadeInWhenVisible key={s.step} direction="up" delay={i * 0.08}>
-            <div className="h-full flex flex-col gap-stack rounded-2xl border border-ink-100 bg-white p-section shadow-card">
-              <span className="inline-flex w-11 h-11 items-center justify-center rounded-xl bg-secondary-50 text-secondary-600">
-                {s.icon}
-              </span>
-              <h3 className="font-display text-h4 font-bold text-ink-900 leading-snug m-0">
-                {s.title}
-              </h3>
-              <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                {s.body}
-              </p>
-            </div>
-          </FadeInWhenVisible>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+// ─── 4. Méthode : diagramme SkillMap (fusionné avec MethodSteps, 03/07/2026) ─
+// SkillMapSection porte désormais aussi la copy Learn/Do/Match en captions
+// sous le diagramme — plus de section séparée qui redisait la même boucle.
 
 // ─── 5. Démo produit — features réelles, pas de slides ──────────────────────
 
@@ -381,9 +317,8 @@ export const MarketingHome: React.FC = () => {
       {/* ── 3. Ce qu'on propose (offre remontée pour la clarté) ─────────────── */}
       <Offers />
 
-      {/* ── 4. Méthode : diagramme + 3 temps (statique, sans scroll-jack) ───── */}
+      {/* ── 4. Méthode : diagramme SkillMap (avec captions Learn/Do/Match) ──── */}
       <SkillMapSection />
-      <MethodSteps />
 
       {/* ── 5. Démo produit interactive ──────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-ink-50 py-page">
