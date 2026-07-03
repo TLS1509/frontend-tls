@@ -59,9 +59,7 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
         </div>
 
         <div className="pt-stack border-t border-ink-100">
-          <Link to="/website/contact">
-            <Button variant="primary">Nous contacter</Button>
-          </Link>
+          <Button to="/website/contact" variant="primary">Nous contacter</Button>
         </div>
       </div>
     </div>

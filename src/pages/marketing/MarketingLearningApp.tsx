@@ -386,17 +386,13 @@ export const MarketingLearningApp: React.FC = () => {
 
               <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                 <MagneticButton strength={14}>
-                  <a href="#early-access">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Accès anticipé
-                    </Button>
-                  </a>
-                </MagneticButton>
-                <a href="#features">
-                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                    Voir les fonctionnalités
+                  <Button href="#early-access" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Accès anticipé
                   </Button>
-                </a>
+                </MagneticButton>
+                <Button href="#features" variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                  Voir les fonctionnalités
+                </Button>
               </div>
 
               <div className="flex items-center gap-stack-xs">

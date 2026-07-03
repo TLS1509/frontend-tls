@@ -191,17 +191,13 @@ export const MarketingAccompagnement: React.FC = () => {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
               <MagneticButton strength={14}>
-                <a href="#contact-form">
-                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Demander un diagnostic
-                  </Button>
-                </a>
-              </MagneticButton>
-              <a href="#services">
-                <Button variant="outline" size="lg">
-                  Voir les services
+                <Button href="#contact-form" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Demander un diagnostic
                 </Button>
-              </a>
+              </MagneticButton>
+              <Button href="#services" variant="outline" size="lg">
+                Voir les services
+              </Button>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-stack gap-y-1 text-ink-400">
               <span className="font-body text-caption">Tarif sur devis</span>
@@ -248,11 +244,9 @@ export const MarketingAccompagnement: React.FC = () => {
                 </p>
               </div>
               <div className="shrink-0 mt-stack md:mt-0">
-                <a href="#contact-form">
-                  <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Cadrer mon projet
-                  </Button>
-                </a>
+                <Button href="#contact-form" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Cadrer mon projet
+                </Button>
               </div>
             </motion.article>
           </FadeInWhenVisible>

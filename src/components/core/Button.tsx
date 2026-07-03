@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * Button — Source of truth: design-system/spec.json → components.Button
@@ -66,6 +67,25 @@ export interface ButtonProps
   fullWidth?: boolean;
   /** HTML button type (button | submit | reset) */
   type?: 'button' | 'submit' | 'reset';
+  /**
+   * Render as an internal React Router link instead of a <button>. Use this
+   * instead of wrapping <Button> in <Link> — nesting a real <button> inside
+   * an <a> is invalid HTML and creates duplicate/ambiguous tab stops for
+   * keyboard and screen-reader users. Mutually exclusive with `href`.
+   */
+  to?: string;
+  /**
+   * Render as a plain external <a> instead of a <button>. Same rationale as
+   * `to` — use this instead of wrapping <Button> in <a>. Mutually exclusive
+   * with `to`.
+   */
+  href?: string;
+  /** Anchor target — only applies when `to` or `href` is set. */
+  target?: string;
+  /** Anchor rel — only applies when `to` or `href` is set. */
+  rel?: string;
+  /** Anchor download — only applies when `href` is set. */
+  download?: string | boolean;
 }
 
 const BASE = 'inline-flex items-center justify-center gap-stack-xs rounded-pill font-body font-semibold tracking-tight cursor-pointer transition-[background-color,box-shadow,transform,opacity] duration-fast ease-emphasis focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:opacity-disabled disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 aria-busy:pointer-events-none whitespace-nowrap select-none';
@@ -124,6 +144,12 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   className = '',
   children,
+  to,
+  href,
+  target,
+  rel,
+  download,
+  onClick,
   ...rest
 }) => {
   const classes = [
@@ -151,6 +177,47 @@ export const Button: React.FC<ButtonProps> = ({
     </span>
   );
 
+  const content = (
+    <>
+      {loading
+        ? spinner
+        : leadingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{leadingIcon}</span>}
+      {!iconOnly && children}
+      {iconOnly && !loading && children}
+      {trailingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{trailingIcon}</span>}
+    </>
+  );
+
+  // `to`/`href` render as a real single anchor instead of nesting this
+  // <button> inside a <Link>/<a> — nesting is invalid HTML and creates
+  // duplicate/ambiguous tab stops for keyboard and screen-reader users.
+  if (to || href) {
+    const isDisabled = disabled || loading;
+    const linkRest = rest as Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target' | 'rel' | 'onClick'>;
+    const sharedProps = {
+      className: classes,
+      target,
+      rel,
+      'aria-disabled': isDisabled || undefined,
+      onClick: isDisabled
+        ? (e: React.MouseEvent) => e.preventDefault()
+        : (onClick as unknown as React.MouseEventHandler<HTMLAnchorElement> | undefined),
+      ...linkRest,
+    };
+    if (to) {
+      return (
+        <Link to={to} {...sharedProps}>
+          {content}
+        </Link>
+      );
+    }
+    return (
+      <a href={href} download={download} {...sharedProps}>
+        {content}
+      </a>
+    );
+  }
+
   return (
     <button
       type={type}
@@ -158,14 +225,10 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       aria-disabled={disabled || loading || undefined}
+      onClick={onClick}
       {...rest}
     >
-      {loading
-        ? spinner
-        : leadingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{leadingIcon}</span>}
-      {!iconOnly && children}
-      {iconOnly && !loading && children}
-      {trailingIcon && <span className="inline-flex items-center justify-center shrink-0" style={{ width: '1em', height: '1em', fontSize: '1.05em', lineHeight: 0 }}>{trailingIcon}</span>}
+      {content}
     </button>
   );
 };

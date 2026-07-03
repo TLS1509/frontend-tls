@@ -66,16 +66,12 @@ export const MarketingHomeRefined: React.FC = () => (
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-          <Link to="/website/learning-app">
-            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Devenir Formateur Augmenté
-            </Button>
-          </Link>
-          <Link to="/website/learning-app">
-            <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-              Explorer la plateforme
-            </Button>
-          </Link>
+          <Button to="/website/learning-app" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            Devenir Formateur Augmenté
+          </Button>
+          <Button to="/website/learning-app" variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+            Explorer la plateforme
+          </Button>
         </div>
 
         {/* Hero portrait: placeholder photo */}
@@ -199,11 +195,9 @@ export const MarketingHomeRefined: React.FC = () => (
           </div>
         </div>
 
-        <Link to="/website/learning-app">
-          <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-            Voir toutes les fonctionnalités
-          </Button>
-        </Link>
+        <Button to="/website/learning-app" variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+          Voir toutes les fonctionnalités
+        </Button>
       </div>
     </section>
 
@@ -231,11 +225,9 @@ export const MarketingHomeRefined: React.FC = () => (
           Échangez avec notre équipe pour découvrir comment intégrer l'IA dans vos formations.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-          <Link to="/website/contact">
-            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Réserver un échange
-            </Button>
-          </Link>
+          <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            Réserver un échange
+          </Button>
         </div>
       </div>
     </section>

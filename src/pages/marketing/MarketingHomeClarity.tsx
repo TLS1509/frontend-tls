@@ -53,17 +53,13 @@ const Hero: React.FC<{ reduce: boolean }> = ({ reduce }) => (
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
         <MagneticButton strength={14}>
-          <Link to="/website/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Évaluer ma maturité SBO
-            </Button>
-          </Link>
-        </MagneticButton>
-        <Link to="/website/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-          <Button variant="secondary" size="lg">
-            Réserver 30 min
+          <Button to="/website/diagnostic" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            Évaluer ma maturité SBO
           </Button>
-        </Link>
+        </MagneticButton>
+        <Button to="/website/contact" variant="secondary" size="lg">
+          Réserver 30 min
+        </Button>
       </div>
     </FadeInWhenVisible>
   </HeroSection>
@@ -427,11 +423,9 @@ const Diagnostic: React.FC = () => (
         </ul>
 
         <MagneticButton strength={14}>
-          <Link to="/website/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-            <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Évaluer ma maturité SBO
-            </Button>
-          </Link>
+          <Button to="/website/diagnostic" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            Évaluer ma maturité SBO
+          </Button>
         </MagneticButton>
       </FadeInWhenVisible>
     </div>
@@ -516,11 +510,9 @@ const FinalCta: React.FC = () => {
             30 minutes pour comprendre vos enjeux, sans engagement.
           </p>
           <MagneticButton strength={14}>
-            <Link to="/website/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
-              <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                Réserver 30 min
-              </Button>
-            </Link>
+            <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+              Réserver 30 min
+            </Button>
           </MagneticButton>
         </FadeInWhenVisible>
 

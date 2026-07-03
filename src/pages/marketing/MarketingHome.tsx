@@ -121,17 +121,13 @@ const Hero: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
             <MagneticButton strength={14}>
-              <Link to="/website/accompagnement">
-                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Je représente une entreprise
-                </Button>
-              </Link>
-            </MagneticButton>
-            <Link to="/website/learning-app">
-              <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                Me former
+              <Button to="/website/accompagnement" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Je représente une entreprise
               </Button>
-            </Link>
+            </MagneticButton>
+            <Button to="/website/learning-app" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+              Me former
+            </Button>
           </div>
         </motion.div>
       </div>
@@ -371,11 +367,9 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.24}>
                 <div className="pt-stack">
-                  <Link to="/website/learning-app">
-                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Voir toutes les fonctionnalités
-                    </Button>
-                  </Link>
+                  <Button to="/website/learning-app" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Voir toutes les fonctionnalités
+                  </Button>
                 </div>
               </FadeInWhenVisible>
             </div>
@@ -500,11 +494,9 @@ export const MarketingHome: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={16}>
-                    <Link to="/website/contact">
-                      <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                        Réserver un échange
-                      </Button>
-                    </Link>
+                    <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                      Réserver un échange
+                    </Button>
                   </MagneticButton>
                 </div>
               </div>

@@ -358,17 +358,13 @@ export const MarketingMethode: React.FC = () => {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Link to="/website/contact">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Demander un diagnostic
-                    </Button>
-                  </Link>
-                </MagneticButton>
-                <Link to="/website/accompagnement">
-                  <Button variant="glass" size="lg" trailingIcon={<Briefcase size={16} />}>
-                    Voir l'accompagnement
+                  <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Demander un diagnostic
                   </Button>
-                </Link>
+                </MagneticButton>
+                <Button to="/website/accompagnement" variant="glass" size="lg" trailingIcon={<Briefcase size={16} />}>
+                  Voir l'accompagnement
+                </Button>
               </div>
             </div>
           </FadeInWhenVisible>

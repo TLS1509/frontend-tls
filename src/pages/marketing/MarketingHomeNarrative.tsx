@@ -197,17 +197,13 @@ export const MarketingHomeNarrative: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
             <MagneticButton strength={14}>
-              <Link to="/website/learning-app">
-                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Découvrir la formation
-                </Button>
-              </Link>
-            </MagneticButton>
-            <Link to="/website/learning-app">
-              <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                Explorer la plateforme
+              <Button to="/website/learning-app" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Découvrir la formation
               </Button>
-            </Link>
+            </MagneticButton>
+            <Button to="/website/learning-app" variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+              Explorer la plateforme
+            </Button>
           </div>
         </FadeInWhenVisible>
       </HeroSection>
@@ -323,11 +319,9 @@ export const MarketingHomeNarrative: React.FC = () => {
               </Reveal>
               <Reveal delay={0.24}>
                 <div className="pt-stack">
-                  <Link to="/website/learning-app">
-                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Voir toutes les fonctionnalités
-                    </Button>
-                  </Link>
+                  <Button to="/website/learning-app" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Voir toutes les fonctionnalités
+                  </Button>
                 </div>
               </Reveal>
             </div>
@@ -497,11 +491,9 @@ export const MarketingHomeNarrative: React.FC = () => {
                 </p>
               </div>
               <div className="lg:col-span-4 lg:text-right">
-                <Link to="/website/resources">
-                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                    Lire le blog
-                  </Button>
-                </Link>
+                <Button to="/website/resources" variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                  Lire le blog
+                </Button>
               </div>
             </div>
           </Reveal>
@@ -524,17 +516,13 @@ export const MarketingHomeNarrative: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={16}>
-                    <Link to="/website/contact">
-                      <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                        Réserver un échange
-                      </Button>
-                    </Link>
-                  </MagneticButton>
-                  <Link to="/website/learning-app">
-                    <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-                      Explorer la plateforme
+                    <Button to="/website/contact" variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                      Réserver un échange
                     </Button>
-                  </Link>
+                  </MagneticButton>
+                  <Button to="/website/learning-app" variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+                    Explorer la plateforme
+                  </Button>
                 </div>
               </div>
             </div>

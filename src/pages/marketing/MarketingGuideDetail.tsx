@@ -188,11 +188,9 @@ export const MarketingGuideDetail: React.FC = () => {
                         Votre téléchargement est prêt. Vous recevrez aussi une copie du lien par email.
                       </span>
                     </div>
-                    <a href={guide.fileUrl} download className="w-full">
-                      <Button variant="primary" size="lg" className="w-full" trailingIcon={<Download size={16} />}>
-                        Télécharger maintenant
-                      </Button>
-                    </a>
+                    <Button href={guide.fileUrl} download variant="primary" size="lg" className="w-full" trailingIcon={<Download size={16} />}>
+                      Télécharger maintenant
+                    </Button>
                   </motion.div>
                 )}
               </AnimatePresence>

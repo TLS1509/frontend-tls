@@ -100,21 +100,18 @@ const CinematicHero: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
             <MagneticButton strength={14}>
-              <Link to="/website/accompagnement">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  trailingIcon={<ArrowRight size={18} />}
-                >
-                  Je représente une entreprise
-                </Button>
-              </Link>
-            </MagneticButton>
-            <Link to="/website/learning-app">
-              <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                Me former
+              <Button
+                to="/website/accompagnement"
+                variant="primary"
+                size="lg"
+                trailingIcon={<ArrowRight size={18} />}
+              >
+                Je représente une entreprise
               </Button>
-            </Link>
+            </MagneticButton>
+            <Button to="/website/learning-app" variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+              Me former
+            </Button>
           </div>
         </motion.div>
       </div>
@@ -272,17 +269,13 @@ const FinalCTA: React.FC = () => (
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-stack-xs pt-stack">
         <MagneticButton strength={14}>
-          <Link to="/website/contact">
-            <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-              Prendre rendez-vous
-            </Button>
-          </Link>
-        </MagneticButton>
-        <Link to="/website/learning-app">
-          <Button variant="secondary" size="lg">
-            Explorer la plateforme
+          <Button to="/website/contact" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+            Prendre rendez-vous
           </Button>
-        </Link>
+        </MagneticButton>
+        <Button to="/website/learning-app" variant="secondary" size="lg">
+          Explorer la plateforme
+        </Button>
       </div>
     </FadeInWhenVisible>
   </SectionWithVideoUnderlay>

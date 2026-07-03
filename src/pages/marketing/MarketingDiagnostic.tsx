@@ -613,26 +613,24 @@ export const MarketingDiagnostic: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-stack sm:items-center pt-stack border-t border-ink-100">
-                  <Link to="/website/contact" className="block">
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      fullWidth
-                      trailingIcon={<Calendar size={18} />}
-                    >
-                      Réserver un échange de 30 min
-                    </Button>
-                  </Link>
-                  <Link to={level.recoLink} className="block">
-                    <Button
-                      variant="ghost"
-                      size="lg"
-                      fullWidth
-                      trailingIcon={<ArrowRight size={18} />}
-                    >
-                      {level.recoLabel}
-                    </Button>
-                  </Link>
+                  <Button
+                    to="/website/contact"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    trailingIcon={<Calendar size={18} />}
+                  >
+                    Réserver un échange de 30 min
+                  </Button>
+                  <Button
+                    to={level.recoLink}
+                    variant="ghost"
+                    size="lg"
+                    fullWidth
+                    trailingIcon={<ArrowRight size={18} />}
+                  >
+                    {level.recoLabel}
+                  </Button>
                 </div>
               </div>
 
@@ -663,11 +661,9 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Explorez la méthode STRIDE pour structurer votre transformation.
                     </p>
-                    <Link to="/website/methode" className="mt-auto">
-                      <Button variant="ghost" size="md">
-                        Découvrir
-                      </Button>
-                    </Link>
+                    <Button to="/website/methode" className="mt-auto" variant="ghost" size="md">
+                      Découvrir
+                    </Button>
                   </div>
 
                   <div className="rounded-2xl bg-gradient-to-br from-secondary-50 to-secondary-100/50 border border-secondary-100 shadow-sm p-stack-lg flex flex-col gap-stack items-start">
@@ -680,11 +676,9 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Lancez-vous avec la Learning App et montez en compétences.
                     </p>
-                    <Link to="/website/learning-app" className="mt-auto">
-                      <Button variant="ghost" size="md">
-                        Explorer
-                      </Button>
-                    </Link>
+                    <Button to="/website/learning-app" className="mt-auto" variant="ghost" size="md">
+                      Explorer
+                    </Button>
                   </div>
 
                   <div className="rounded-2xl bg-gradient-to-br from-accent-50 to-accent-100/50 border border-accent-100 shadow-sm p-stack-lg flex flex-col gap-stack items-start">
@@ -697,11 +691,9 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Discutez avec nos experts pour un accompagnement sur-mesure.
                     </p>
-                    <Link to="/website/accompagnement" className="mt-auto">
-                      <Button variant="ghost" size="md">
-                        Voir l'accompagnement
-                      </Button>
-                    </Link>
+                    <Button to="/website/accompagnement" className="mt-auto" variant="ghost" size="md">
+                      Voir l'accompagnement
+                    </Button>
                   </div>
                 </div>
               </div>

@@ -305,17 +305,13 @@ export const MarketingEquipe: React.FC = () => {
               <p className="font-body text-body text-white/60 m-0">L'équipe TLS, Paris</p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Link to="/website/contact">
-                    <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Échanger avec nous
-                    </Button>
-                  </Link>
-                </MagneticButton>
-                <Link to="/website/methode">
-                  <Button variant="glass" size="lg" trailingIcon={<Sparkles size={16} />}>
-                    Découvrir notre méthode
+                  <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                    Échanger avec nous
                   </Button>
-                </Link>
+                </MagneticButton>
+                <Button to="/website/methode" variant="glass" size="lg" trailingIcon={<Sparkles size={16} />}>
+                  Découvrir notre méthode
+                </Button>
               </div>
             </div>
           </FadeInWhenVisible>

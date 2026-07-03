@@ -412,16 +412,12 @@ export const MarketingDossierDetail: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
-              <Link to="/website/accompagnement">
-                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Découvrir l'accompagnement
-                </Button>
-              </Link>
-              <Link to="/website/learning-app">
-                <Button variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                  Voir la Learning App
-                </Button>
-              </Link>
+              <Button to="/website/accompagnement" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Découvrir l'accompagnement
+              </Button>
+              <Button to="/website/learning-app" variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                Voir la Learning App
+              </Button>
             </div>
           </Reveal>
         </div>

@@ -384,17 +384,13 @@ export const CinematicHero: React.FC = () => {
 
                 <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={14}>
-                    <Link to="/website/learning-app">
-                      <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                        Découvrir la formation
-                      </Button>
-                    </Link>
-                  </MagneticButton>
-                  <Link to="/website/learning-app">
-                    <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                      Explorer la plateforme
+                    <Button to="/website/learning-app" variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                      Découvrir la formation
                     </Button>
-                  </Link>
+                  </MagneticButton>
+                  <Button to="/website/learning-app" variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                    Explorer la plateforme
+                  </Button>
                 </div>
 
               </SettleIn>

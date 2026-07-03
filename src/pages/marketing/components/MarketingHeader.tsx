@@ -323,22 +323,18 @@ export const MarketingHeader: React.FC = () => {
 
             {/* Contact — glassy outline, secondary action next to Connexion */}
             <div className="shrink-0 pl-1">
-              <Link to="/website/contact" aria-label="Contact">
-                <Button variant="glass-brand" size="md">
-                  Contact
-                </Button>
-              </Link>
+              <Button to="/website/contact" variant="glass-brand" size="md">
+                Contact
+              </Button>
             </div>
 
             {/* Desktop CTA — magnetic, flattened (plain trailing icon, no
                 nested icon-button treatment) */}
             <div className="shrink-0 pl-1">
               <MagneticButton strength={10}>
-                <Link to="/auth/login" aria-label="Connexion">
-                  <Button variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
-                    Connexion
-                  </Button>
-                </Link>
+                <Button to="/auth/login" variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+                  Connexion
+                </Button>
               </MagneticButton>
             </div>
             </div>
@@ -495,11 +491,9 @@ export const MarketingHeader: React.FC = () => {
                     })}
                 className="mt-stack-lg"
               >
-                <Link to="/auth/login">
-                  <Button variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
-                    Connexion
-                  </Button>
-                </Link>
+                <Button to="/auth/login" variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
+                  Connexion
+                </Button>
               </motion.div>
             </nav>
             </motion.div>

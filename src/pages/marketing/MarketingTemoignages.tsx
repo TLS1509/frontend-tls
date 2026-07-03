@@ -182,11 +182,9 @@ export const MarketingTemoignages: React.FC = () => {
                 </p>
               </div>
               <MagneticButton strength={12}>
-                <Link to="/website/contact">
-                  <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                    Réserver un diagnostic
-                  </Button>
-                </Link>
+                <Button to="/website/contact" variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Réserver un diagnostic
+                </Button>
               </MagneticButton>
             </div>
           </FadeInWhenVisible>
