@@ -265,4 +265,85 @@ export const TlsLogo: React.FC<TlsLogoProps> = ({
   );
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// TlsLogoLockup — icône + wordmark « The Learning Society » (League Spartan)
+// Miroir 1-pour-1 du component set Figma `TlsLogoLockup` (property `layout`).
+// L'icône est un <TlsLogo> (= instance de l'icône), le wordmark est en
+// font-display (League Spartan) ExtraBold, teal par défaut.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type TlsLogoLockupLayout = 'horizontal' | 'vertical' | 'vertical-3' | 'horizontal-3';
+
+export interface TlsLogoLockupProps {
+  /** Arrangement du lockup. Default: 'horizontal' */
+  layout?: TlsLogoLockupLayout;
+  /** Taille de l'icône (px, = largeur du mark). Default: 44 */
+  iconSize?: number;
+  /** Variant couleur de l'icône (passé à TlsLogo). Default: 'color' */
+  variant?: TlsLogoProps['variant'];
+  /** Couleur du wordmark. Default: 'primary' (teal) */
+  wordmarkTone?: 'primary' | 'ink' | 'white';
+  className?: string;
+}
+
+const LOCKUP_WORDMARK_TONE: Record<NonNullable<TlsLogoLockupProps['wordmarkTone']>, string> = {
+  primary: 'text-primary-500',
+  ink:     'text-ink-900',
+  white:   'text-white',
+};
+
+export const TlsLogoLockup: React.FC<TlsLogoLockupProps> = ({
+  layout = 'horizontal',
+  iconSize = 44,
+  variant = 'color',
+  wordmarkTone = 'primary',
+  className = '',
+}) => {
+  const wordBase = `font-display font-extrabold tracking-tight ${LOCKUP_WORDMARK_TONE[wordmarkTone]}`;
+
+  const icon = (
+    <span aria-hidden="true" className="inline-flex shrink-0">
+      <TlsLogo size={iconSize} withBubble={false} variant={variant} />
+    </span>
+  );
+
+  const oneLine = (fs: number) => (
+    <span className={`${wordBase} leading-none whitespace-nowrap`} style={{ fontSize: fs }}>
+      The Learning Society
+    </span>
+  );
+
+  const threeLine = (fs: number, align: 'left' | 'center') => (
+    <span
+      className={`${wordBase} leading-[0.92] ${align === 'center' ? 'text-center' : 'text-left'}`}
+      style={{ fontSize: fs }}
+    >
+      The<br />Learning<br />Society
+    </span>
+  );
+
+  const layoutClass =
+    layout === 'horizontal' || layout === 'horizontal-3'
+      ? 'flex-row gap-3'
+      : layout === 'vertical'
+      ? 'flex-col gap-2'
+      : 'flex-col gap-3';
+
+  const content =
+    layout === 'horizontal'    ? <>{icon}{oneLine(iconSize * 0.86)}</> :
+    layout === 'vertical'      ? <>{icon}{oneLine(iconSize * 0.36)}</> :
+    layout === 'vertical-3'    ? <>{icon}{threeLine(iconSize * 0.42, 'center')}</> :
+    /* horizontal-3 */           <>{icon}{threeLine(iconSize * 0.36, 'left')}</>;
+
+  return (
+    <span
+      role="img"
+      aria-label="The Learning Society"
+      className={['inline-flex items-center', layoutClass, className].filter(Boolean).join(' ')}
+    >
+      {content}
+    </span>
+  );
+};
+
 export default TlsLogo;

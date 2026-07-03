@@ -128,7 +128,7 @@ import { JournalTypeTile, JOURNAL_TYPE_ORDER } from '../components/cards/Journal
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { RankingCard } from '../components/learning/RankingCard';
-import { TlsLogo } from '../components/ui/TlsLogo';
+import { TlsLogo, TlsLogoLockup } from '../components/ui/TlsLogo';
 import { Flashcard } from '../components/patterns/Flashcard';
 import { QuizQuestionCard } from '../components/patterns/QuizQuestionCard';
 import { DataTable } from '../components/patterns/DataTable';
@@ -321,6 +321,7 @@ const REMAP: Record<string, { category: NewCategory; subCategory: SubCategory }>
   Avatar:               { category: 'Atoms', subCategory: 'Identity' },
   UserInfo:             { category: 'Atoms', subCategory: 'Identity' },
   TlsLogo:              { category: 'Atoms', subCategory: 'Identity' },
+  TlsLogoLockup:        { category: 'Atoms', subCategory: 'Identity' },
 
   // Badges (rationalisés en une seule entrée)
   Badge:                { category: 'Atoms', subCategory: 'Status badges' },
@@ -5214,6 +5215,48 @@ const COMPONENTS: ComponentEntry[] = [
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Sur fond brand (gradient)</p>
         <div className="p-stack rounded-lg bg-gradient-brand-deep">
           <TlsLogo />
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: 'TlsLogoLockup',
+    codeName: 'ui/TlsLogo.tsx',
+    cssBase: 'Tailwind (TlsLogo + League Spartan)',
+    category: 'Core',
+    usedBy: [],
+    description: '⭐ Lockup logo — icône TlsLogo + wordmark « The Learning Society » (font-display League Spartan ExtraBold, teal). 4 layouts via prop `layout` : horizontal · vertical · vertical-3 · horizontal-3. Miroir 1-pour-1 du component set Figma `TlsLogoLockup`. Props : `layout`, `iconSize`, `variant` (icône), `wordmarkTone` (primary/ink/white).',
+    keywords: ['logo', 'lockup', 'wordmark', 'brand', 'tls', 'league spartan', 'horizontal', 'vertical'],
+    render: () => (
+      <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
+        <div className="flex flex-wrap items-center gap-section">
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal</p>
+            <TlsLogoLockup layout="horizontal" iconSize={44} />
+          </div>
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal-3</p>
+            <TlsLogoLockup layout="horizontal-3" iconSize={56} />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-start gap-section">
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical</p>
+            <TlsLogoLockup layout="vertical" iconSize={64} />
+          </div>
+          <div className="flex flex-col gap-stack-xs">
+            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical-3</p>
+            <TlsLogoLockup layout="vertical-3" iconSize={64} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">wordmark ink · sur fond brand (white)</p>
+          <div className="flex flex-wrap items-center gap-section">
+            <TlsLogoLockup layout="horizontal" iconSize={40} wordmarkTone="ink" />
+            <div className="p-stack rounded-lg bg-gradient-brand-deep">
+              <TlsLogoLockup layout="horizontal" iconSize={40} wordmarkTone="white" />
+            </div>
+          </div>
         </div>
       </div>
     ),
