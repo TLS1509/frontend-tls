@@ -26,6 +26,8 @@ import {
 import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
+  Stagger,
+  StaggerItem,
   MagneticButton,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
@@ -73,8 +75,8 @@ const SERVICES = [
     title: "Mesure d'Impact",
     desc: "KPIs, tableaux de bord, A/B testing pédagogique et reporting d'impact pour vos décideurs.",
     iconBg: 'bg-accent-100',
-    iconText: 'text-warning-fg',
-    pillCls: 'bg-accent-50 border-accent-200 text-warning-fg',
+    iconText: 'text-secondary-600',
+    pillCls: 'bg-accent-50 border-accent-200 text-secondary-600',
   },
   {
     icon: <Shield size={24} />,
@@ -89,7 +91,7 @@ const SERVICES = [
 
 const PROCESS = [
   {
-    num: '01',
+    num: 'S·T',
     duration: '2 semaines',
     title: "S'orienter",
     desc: "Rencontre d'exploration (90 min), audit de maturité pédagogique, cartographie des compétences Dreyfus et identification des cas d'usage prioritaires. Livrable : rapport + feuille de route stratégique.",
@@ -98,7 +100,7 @@ const PROCESS = [
     accentText: 'text-primary-700',
   },
   {
-    num: '02',
+    num: 'R·I',
     duration: '4–8 semaines',
     title: 'Tester · Réaliser',
     desc: "Validation du modèle sur une cohorte pilote (Tester), puis développement des agents IA, référentiels de compétences et parcours sur-mesure avec vos équipes (Réaliser). Livrable : dispositif conçu, testé et validé.",
@@ -107,13 +109,13 @@ const PROCESS = [
     accentText: 'text-secondary-700',
   },
   {
-    num: '03',
+    num: 'D·E',
     duration: '2–4 semaines',
     title: 'Intégrer · Déployer · Évoluer',
     desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences. Amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord compétences.",
     accent: 'bg-accent-400',
     accentLight: 'bg-accent-50',
-    accentText: 'text-warning-fg',
+    accentText: 'text-secondary-600',
   },
 ];
 
@@ -188,7 +190,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#services">
-                <Button variant="secondary" size="lg">
+                <Button variant="ghost" size="lg">
                   Voir les services
                 </Button>
               </a>
@@ -224,7 +226,7 @@ export const MarketingAccompagnement: React.FC = () => {
             <motion.article
               whileHover={{ y: -3 }}
               transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-              className="rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/60 border border-primary-200 p-section flex flex-col md:flex-row items-start md:items-center gap-section shadow-card hover:shadow-card-hover transition-shadow duration-base"
+              className="rounded-2xl bg-gradient-to-br from-primary-50 to-primary-100/60 p-section flex flex-col md:flex-row items-start md:items-center gap-section shadow-card hover:shadow-card-hover transition-shadow duration-base"
             >
               <div className="flex flex-col gap-stack flex-1">
                 <span className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary-200/70 text-primary-700">
@@ -254,7 +256,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-shadow duration-base"
+                  className="h-full rounded-xl bg-white p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-shadow duration-base"
                 >
                   <div className="flex items-start justify-between gap-stack-xs">
                     <span className={`inline-flex items-center justify-center w-12 h-12 rounded-lg ${s.iconBg} ${s.iconText}`}>
@@ -307,7 +309,7 @@ export const MarketingAccompagnement: React.FC = () => {
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true, margin: '-60px' }}
                       transition={{ type: 'spring', stiffness: 240, damping: 16, delay: i * 0.15 }}
-                      className={`relative inline-flex items-center justify-center w-24 h-24 rounded-pill ${p.accent} text-white font-display font-extrabold text-h2 shadow-xl ring-8 ring-white`}
+                      className={`relative inline-flex items-center justify-center w-24 h-24 rounded-pill ${p.accent} text-white font-display font-extrabold text-h3 tracking-tight shadow-xl ring-8 ring-white`}
                     >
                       {p.num}
                     </motion.span>
@@ -330,35 +332,9 @@ export const MarketingAccompagnement: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Ancrage terrain ───────────────────────────────────────────────── */}
-      <section className="py-section bg-gradient-to-b from-primary-50/30 to-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <FadeInWhenVisible direction="up">
-            <div className="rounded-2xl bg-white border border-primary-100 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
-              <div className="flex flex-col gap-stack flex-1">
-                <p className="font-display text-h3 font-extrabold text-ink-900 leading-tight m-0">
-                  Formateurs et ingénieurs pédagogiques de terrain.
-                </p>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
-                  Chloé Mimault et Pierre-Armand Dennery conçoivent et déploient
-                  des dispositifs L&D depuis plusieurs années. Nous construisons
-                  ce que nous vendons : méthode éprouvée, livrables concrets.
-                </p>
-              </div>
-              <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
-                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
-                  <GraduationCap size={13} /> Partenaire C-Campus
-                </span>
-                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-accent-50 border border-accent-200 text-warning-fg font-body text-caption font-semibold">
-                  <Sparkles size={13} /> 1 an de Learning App offert
-                </span>
-              </div>
-            </div>
-          </FadeInWhenVisible>
-        </div>
-      </section>
-
-      {/* ── Pourquoi TLS ──────────────────────────────────────────────────── */}
+      {/* ── Pourquoi TLS (fusion Ancrage terrain + Ce qui nous distingue,
+          03/07/2026 — les 2 sections se chevauchaient en propos "pourquoi
+          nous faire confiance", l'une juste après l'autre) ─────────────── */}
       <section className="py-page bg-white">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-section">
           <FadeInWhenVisible direction="up">
@@ -373,7 +349,30 @@ export const MarketingAccompagnement: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
+          <FadeInWhenVisible direction="up" delay={0.05}>
+            <div className="rounded-xl bg-primary-50/30 p-stack-lg flex flex-col md:flex-row items-center gap-section-lg">
+              <div className="flex flex-col gap-stack flex-1">
+                <p className="font-display text-h4 font-extrabold text-ink-900 leading-tight m-0">
+                  Formateurs et ingénieurs pédagogiques de terrain.
+                </p>
+                <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 max-w-prose">
+                  Chloé Mimault et Pierre-Armand Dennery conçoivent et déploient
+                  des dispositifs L&D depuis plusieurs années. Nous construisons
+                  ce que nous vendons : méthode éprouvée, livrables concrets.
+                </p>
+              </div>
+              <div className="flex flex-col gap-stack-xs items-center md:items-end shrink-0">
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-secondary-50 border border-secondary-200 text-secondary-700 font-body text-caption font-semibold">
+                  <GraduationCap size={13} /> Partenaire C-Campus
+                </span>
+                <span className="inline-flex items-center gap-tight px-3 py-1.5 rounded-pill bg-accent-50 border border-accent-200 text-secondary-600 font-body text-caption font-semibold">
+                  <Sparkles size={13} /> 1 an de Learning App offert
+                </span>
+              </div>
+            </div>
+          </FadeInWhenVisible>
+
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {[
               {
                 icon: <GraduationCap size={22} />,
@@ -390,13 +389,9 @@ export const MarketingAccompagnement: React.FC = () => {
                 title: 'Conformité & Éthique',
                 body: "RGPD et propriété intellectuelle pris en compte dès la conception. Votre organisation reste conforme à chaque étape.",
               },
-            ].map((item, i) => (
-              <FadeInWhenVisible key={item.title} direction="up" delay={i * 0.1}>
-                <motion.article
-                  whileHover={{ y: -4 }}
-                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-gradient-to-br from-primary-50/60 to-white border border-primary-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 hover:border-primary-200 transition-all duration-base"
-                >
+            ].map((item) => (
+              <StaggerItem key={item.title} direction="up">
+                <div className="h-full rounded-xl bg-white p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-base">
                   <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-100 text-primary-600">
                     {item.icon}
                   </span>
@@ -406,10 +401,10 @@ export const MarketingAccompagnement: React.FC = () => {
                   <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
                     {item.body}
                   </p>
-                </motion.article>
-              </FadeInWhenVisible>
+                </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
