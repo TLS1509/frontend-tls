@@ -11,6 +11,7 @@
  */
 
 import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -36,6 +37,7 @@ import {
   Award,
   CheckCircle2,
   Trophy,
+  Settings2,
 } from 'lucide-react';
 
 /* ── Types ──────────────────────────────────────────────────────────────── */
@@ -118,6 +120,7 @@ const FILTERS: { id: Filter; label: string; icon: React.ReactNode }[] = [
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const Notifications: React.FC = () => {
+  const navigate = useNavigate();
   // Filter persisted via Zustand (cross-session) : use primitive selector to avoid infinite loop
   const persistedFilter = useFilterPrefsStore((s) => s.filters['notifications']?.[0]);
   const setPersistedFilters = useFilterPrefsStore((s) => s.set);
@@ -197,16 +200,26 @@ export const Notifications: React.FC = () => {
             </div>
           </div>
 
-          {unread > 0 && (
+          <div className="flex items-center gap-stack-xs">
+            {unread > 0 && (
+              <Button
+                size="sm"
+                variant="ghost"
+                leadingIcon={<CheckCheck size={14} />}
+                onClick={markAllRead}
+              >
+                Tout marquer comme lu
+              </Button>
+            )}
             <Button
               size="sm"
               variant="ghost"
-              leadingIcon={<CheckCheck size={14} />}
-              onClick={markAllRead}
-            >
-              Tout marquer comme lu
-            </Button>
-          )}
+              iconOnly
+              leadingIcon={<Settings2 size={16} />}
+              aria-label="Préférences de notifications"
+              onClick={() => navigate('/notifications/preferences')}
+            />
+          </div>
         </header>
 
         {/* ── Filter chips ───────────────────────────────────────────── */}

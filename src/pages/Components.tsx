@@ -969,14 +969,14 @@ const PAGE_TEMPLATES: PageTemplate[] = [
     icon: '🔔',
   },
   {
-    id: 'settings',
-    name: 'Paramètres',
-    description: 'Glass hero COMPTE & PRÉFÉRENCES, tls-kpi-row (BellRing/Shield/Palette), 4 cards settings avec switch toggles, selects langue/sécurité, best practice callout.',
-    path: '/settings',
+    id: 'account',
+    name: 'Mon compte',
+    description: 'AccountFamilyNav (5 destinations), tabs Général/Sécurité, section Interface avec switch toggles (animations/contraste/nav compacte/dark mode), zone de danger liée aux vrais flows RGPD. Ex-Settings.tsx fusionné ici (Phase 24).',
+    path: '/account',
     family: 'Compte',
     color: 'var(--tls-primary-600)',
     bg: 'var(--tls-primary-50)',
-    tags: ['glass hero', 'kpi icons', 'toggles', 'settings cards', 'select'],
+    tags: ['account family nav', 'tabs', 'toggles', 'settings rows', 'select'],
     icon: '⚙️',
   },
 ];
@@ -3106,7 +3106,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/AccountFamilyNav.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Navigation',
-    usedBy: ['Profile', 'Account', 'Settings', 'Billing'],
+    usedBy: ['Profile', 'Account', 'Billing'],
     description: 'Sub-navigation pour les pages "compte" (Profil / Mon compte / Facturation / Paramètres). Pills scrollables avec label + description courte du rôle de chaque page. Clarifie la séparation des responsabilités.',
     keywords: ['account', 'profile', 'settings', 'nav', 'sub-navigation', 'billing', 'tabs', 'secondary'],
     render: () => (
@@ -4407,7 +4407,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     category: 'Patterns',
     showcaseOnly: true,
-    usedBy: ['Account', 'Settings', 'Profile (edit)'],
+    usedBy: ['Account', 'Profile (edit)'],
     description: 'Wrapper de formulaire structuré avec sections titrées. Titre + description globaux, sections avec champs `label + helpText + error + input slot`. Boutons submit/cancel intégrés. Isomorphe : chaque `input` est un slot React → compatible avec Input, Select, Switch, etc.',
     keywords: ['form', 'layout', 'section', 'field', 'label', 'help', 'error', 'submit', 'cancel'],
     render: () => (
@@ -5500,7 +5500,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/EditorialHero.tsx',
     cssBase: 'EditorialHero (glass hero band)',
     category: 'Patterns',
-    usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Settings'],
+    usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Account'],
     description: 'Bandeau hero éditorial plein-largeur. Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs.',
     keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
     render: () => (
@@ -6403,7 +6403,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     category: 'Composites',
     subCategory: 'Form groups',
-    usedBy: ['Onboarding', 'FilterBar', 'Settings'],
+    usedBy: ['Onboarding', 'FilterBar', 'Account'],
     description: 'Groupe de cases à cocher multi-sélection avec sémantique fieldset/legend. 2 variants : **default** (inline checkbox) · **card** (case carte). Tone-aware (primary/warm/sun). value: string[] — tableau des valeurs cochées. Props identiques à RadioGroup sauf onChange retourne string[].',
     keywords: ['checkbox', 'group', 'multi', 'select', 'form', 'fieldset', 'card', 'tone'],
     render: () => {
@@ -6436,7 +6436,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     category: 'Composites',
     subCategory: 'Form groups',
-    usedBy: ['Settings', 'Profile', 'Account'],
+    usedBy: ['Account', 'Profile'],
     description: 'Section de formulaire avec titre, description et séparateur. Optionnellement rétractable (collapsible) avec animation. Props : title, description, titleIcon, collapsible (default false), defaultExpanded (default true). Conteneur sémantique <section>.',
     keywords: ['form', 'section', 'group', 'title', 'collapsible', 'accordion', 'settings'],
     render: () => (
@@ -6458,7 +6458,7 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     category: 'Composites',
     subCategory: 'Form groups',
-    usedBy: ['Settings', 'Profile', 'Onboarding'],
+    usedBy: ['Account', 'Profile', 'Onboarding'],
     description: 'Wrapper de disposition pour groupes d\'inputs. 3 layouts : **vertical** (stack), **horizontal** (row), **grid** (colonnes). Prop columns (2/3/4) en mode grid. Label + hint + error de groupe partagés. Mobile-first : grid collapse à 1 colonne.',
     keywords: ['input', 'group', 'layout', 'form', 'grid', 'horizontal', 'vertical', 'columns'],
     render: () => (

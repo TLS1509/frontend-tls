@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, Mail, Clock, Save, MessageCircle } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
@@ -21,6 +22,7 @@ const FREQUENCY_OPTIONS = [
 ];
 
 export default function NotificationPreferences() {
+  const navigate = useNavigate();
   const prefsStore = useNotificationPrefsStore();
   const toast = useToastContext();
   const stored = prefsStore.getPrefs(MOCK_USER_ID);
@@ -50,6 +52,11 @@ export default function NotificationPreferences() {
         title="Préférences de notifications"
         summary="Choisis comment et quand tu veux être notifié. Tu peux modifier ces réglages à tout moment."
         tone="flat"
+        trailing={
+          <Button variant="ghost" size="sm" leadingIcon={<Bell size={14} />} onClick={() => navigate('/notifications')}>
+            Voir mes notifications
+          </Button>
+        }
       />
 
       <div className="flex flex-col gap-section">
