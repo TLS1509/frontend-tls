@@ -161,7 +161,7 @@ export default function CoachCorrectionInterface() {
             </div>
           </SectionCard>
 
-          <SectionCard title="Progression D{SUBMISSION.dreyfusLevel}" titleIcon={<Star size={18} />}>
+          <SectionCard title={`Progression D${SUBMISSION.dreyfusLevel}`} titleIcon={<Star size={18} />}>
             <p className="text-caption text-ink-500">
               D{SUBMISSION.dreyfusLevel} Compétent : planifie et adapte selon le contexte. Montre une compréhension des patterns récurrents.
             </p>
