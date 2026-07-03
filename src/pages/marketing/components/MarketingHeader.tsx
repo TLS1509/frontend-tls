@@ -45,8 +45,13 @@ const NAV_ITEMS: NavItem[] = [
       },
     ],
   },
+  // Contact stays in this list for the mobile sheet (rendered as a plain
+  // link there); on desktop it's excluded from the loop and rendered
+  // separately as a glassy outline button next to Connexion.
   { label: 'Contact', href: '/website/contact' },
 ];
+
+const DESKTOP_NAV_ITEMS = NAV_ITEMS.filter((item) => item.label !== 'Contact');
 
 const isPathActive = (pathname: string, href: string): boolean =>
   pathname === href || (href !== '/website' && pathname.startsWith(href));
@@ -148,50 +153,55 @@ export const MarketingHeader: React.FC = () => {
   return (
     <header
       className={[
-        'fixed inset-x-0 top-3 flex justify-center px-3 sm:top-4',
+        'fixed inset-x-0 top-3 sm:top-4',
         // Above the mobile sheet (z-modal) while open, so the hamburger→X stays
         // visible and tappable to close — previously the sheet (z-modal, 50)
         // sat on top of the header (z-sticky, 20), hiding the only close control.
         menuOpen ? 'z-toast' : 'z-sticky',
       ].join(' ')}
     >
-      {/* ── Outer shell (the machined tray) ────────────────────────────────── */}
-      <nav
-        aria-label="Navigation principale"
-        className={[
-          'pointer-events-auto w-max max-w-[calc(100vw-1.5rem)] rounded-pill p-1.5 ring-1',
-          'transition-[background-color,box-shadow,border-color] duration-[450ms]',
-          'ease-[cubic-bezier(0.32,0.72,0,1)] [will-change:background-color,box-shadow]',
-          'backdrop-blur-glass-heavy',
-          scrolled
-            ? 'bg-white/70 ring-black/[0.07] shadow-card-lift'
-            : 'bg-white/40 ring-black/[0.04] shadow-card',
-        ].join(' ')}
-      >
-        {/* ── Inner core (glass plate with edge highlight) ─────────────────── */}
-        <div
+      {/* ── Outer shell — full-width, aligned to max-w-medium (same container
+          as Article/Dossier reading pages + their hero) so the header's left
+          edge matches the content's left edge below it. Was a hugging,
+          viewport-centered pill whose left edge never matched any page. ── */}
+      <div className="mx-auto max-w-medium px-4 sm:px-6 lg:px-10">
+        <nav
+          aria-label="Navigation principale"
           className={[
-            'flex items-center gap-1 rounded-pill pl-2 pr-1.5 py-1',
-            'transition-colors duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]',
-            scrolled ? 'bg-white/70' : 'bg-white/45',
-            'shadow-[inset_0_1px_1px_rgba(255,255,255,0.65)]',
+            'pointer-events-auto w-full rounded-pill p-1.5 ring-1',
+            'transition-[background-color,box-shadow,border-color] duration-[450ms]',
+            'ease-[cubic-bezier(0.32,0.72,0,1)] [will-change:background-color,box-shadow]',
+            'backdrop-blur-glass-heavy',
+            scrolled
+              ? 'bg-white/70 ring-black/[0.07] shadow-card-lift'
+              : 'bg-white/40 ring-black/[0.04] shadow-card',
           ].join(' ')}
         >
-          {/* Logo */}
-          <Link
-            to="/website"
-            className="group flex shrink-0 items-center gap-2 rounded-pill pl-1.5 pr-2 py-1.5 transition-colors duration-fast hover:bg-ink-900/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-            aria-label="The Learning Society: Accueil"
+          {/* ── Inner core (glass plate with edge highlight) ─────────────────── */}
+          <div
+            className={[
+              'flex items-center justify-between gap-1 rounded-pill pl-2 pr-1.5 py-1',
+              'transition-colors duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]',
+              scrolled ? 'bg-white/70' : 'bg-white/45',
+              'shadow-[inset_0_1px_1px_rgba(255,255,255,0.65)]',
+            ].join(' ')}
           >
-            <TlsLogo size={30} className="transition-transform duration-base ease-emphasis group-hover:scale-105" />
-            <span className="hidden font-display text-body-sm font-extrabold leading-none tracking-tight text-ink-900 whitespace-nowrap xl:block">
-              The Learning Society
-            </span>
-          </Link>
+            {/* Logo */}
+            <Link
+              to="/website"
+              className="group flex shrink-0 items-center gap-2 rounded-pill pl-1.5 pr-2 py-1.5 transition-colors duration-fast hover:bg-ink-900/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+              aria-label="The Learning Society: Accueil"
+            >
+              <TlsLogo variant="primary" size={30} className="transition-transform duration-base ease-emphasis group-hover:scale-105" />
+              <span className="hidden font-display text-body-sm font-extrabold leading-none tracking-tight text-primary-700 whitespace-nowrap xl:block">
+                The Learning Society
+              </span>
+            </Link>
 
-          {/* Desktop nav links */}
-          <div className="hidden items-center gap-0.5 lg:flex">
-            {NAV_ITEMS.map((item) => {
+            {/* Desktop nav links + CTA — grouped on the right, opposite the logo */}
+            <div className="hidden items-center gap-1 lg:flex">
+            <div className="flex items-center gap-0.5">
+            {DESKTOP_NAV_ITEMS.map((item) => {
               if (item.dropdown) {
                 const isOpen = openDropdown === item.label;
                 const hasActiveChild = item.dropdown.some((d) => isPathActive(pathname, d.href));
@@ -309,41 +319,44 @@ export const MarketingHeader: React.FC = () => {
                 </Link>
               );
             })}
-          </div>
+            </div>
 
-          {/* Desktop CTA — magnetic, button-in-button arrow */}
-          <div className="hidden shrink-0 pl-1 lg:block">
-            <MagneticButton strength={10}>
-              <Link to="/auth/login" aria-label="Connexion">
-                <Button
-                  variant="primary"
-                  size="md"
-                  className="group/cta pr-1.5"
-                  trailingIcon={
-                    <span className="ml-0.5 inline-flex h-6 w-6 items-center justify-center rounded-pill bg-white/20 transition-transform duration-base ease-emphasis group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px">
-                      <ArrowRight size={13} />
-                    </span>
-                  }
-                >
-                  Connexion
+            {/* Contact — glassy outline, secondary action next to Connexion */}
+            <div className="shrink-0 pl-1">
+              <Link to="/website/contact" aria-label="Contact">
+                <Button variant="glass-brand" size="md">
+                  Contact
                 </Button>
               </Link>
-            </MagneticButton>
-          </div>
+            </div>
 
-          {/* Mobile burger */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill text-ink-900 transition-colors duration-fast hover:bg-ink-900/[0.05] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:hidden"
-            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={menuOpen}
-            aria-controls="marketing-mobile-nav"
-          >
-            <HamburgerMorph open={menuOpen} />
-          </button>
-        </div>
-      </nav>
+            {/* Desktop CTA — magnetic, flattened (plain trailing icon, no
+                nested icon-button treatment) */}
+            <div className="shrink-0 pl-1">
+              <MagneticButton strength={10}>
+                <Link to="/auth/login" aria-label="Connexion">
+                  <Button variant="primary" size="md" trailingIcon={<ArrowRight size={16} />}>
+                    Connexion
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </div>
+            </div>
+
+            {/* Mobile burger */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill text-ink-900 transition-colors duration-fast hover:bg-ink-900/[0.05] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 lg:hidden"
+              aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+              aria-expanded={menuOpen}
+              aria-controls="marketing-mobile-nav"
+            >
+              <HamburgerMorph open={menuOpen} />
+            </button>
+          </div>
+        </nav>
+      </div>
 
       {/* ── Mobile bottom sheet (thumb-reachable, not a top-down overlay) ────── */}
       <AnimatePresence>

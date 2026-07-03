@@ -414,26 +414,22 @@ export const MarketingArticleDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Body + TOC ───────────────────────────────────────────────────────
-          The TOC floats in the page's left margin (outside the article
-          container) instead of sharing a grid column with it — the article
-          keeps its full width (same as the hero above), and the TOC sticks
-          alongside it only where there's actual margin room to float in. */}
-      <div className="relative bg-white">
-        <div className="hidden 2xl:block absolute top-0 left-[calc(50%-47.5rem)] w-56">
-          <div className="sticky top-28">
+      {/* ── Body + TOC — narrow fixed sidebar inside the same container as the
+          hero (not a margin float — that needed ≥1536px to have room, which
+          hid the TOC on most real desktop viewports incl. 1440px). ────────── */}
+      <PageShell width="medium" className="bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-section items-start">
+          <aside className="hidden lg:block sticky top-28">
             <SectionTOC sections={article.sections} activeId={activeId} />
-          </div>
-        </div>
-        <PageShell width="medium" className="bg-white">
+          </aside>
           <ArticleBody
             intro={article.intro}
             body={article.body}
             conclusion={article.conclusion}
             liveUrl={article.liveUrl}
           />
-        </PageShell>
-      </div>
+        </div>
+      </PageShell>
 
       {/* ── Prev/Next navigation ──────────────────────────────────────────── */}
       <section className="py-page bg-ink-50/40 border-y border-ink-100">

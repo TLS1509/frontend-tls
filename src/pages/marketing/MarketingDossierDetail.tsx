@@ -369,18 +369,20 @@ export const MarketingDossierDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Body + TOC — sommaire flottant dans la marge (hors container) ──── */}
-      <div className="relative bg-white">
-        <div className="hidden 2xl:block absolute top-0 left-[calc(50%-47.5rem)] w-56">
-          <div className="sticky top-28">
+      {/* ── Body + TOC — narrow fixed sidebar inside the same container as the
+          hero (not a margin float — that needed ≥1536px to have room, which
+          hid the TOC on most real desktop viewports incl. 1440px). ────────── */}
+      <PageShell width="medium" className="bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-section items-start">
+          <aside className="hidden lg:block sticky top-28">
             <SectionTOC sections={dossier.sections} activeId={activeId} />
+          </aside>
+          <div className="flex flex-col gap-stack-lg">
+            <IntroCallout text={dossier.summary} />
+            <DossierBody intro={dossier.intro} body={dossier.body} />
           </div>
         </div>
-        <PageShell width="medium" className="bg-white">
-          <IntroCallout text={dossier.summary} />
-          <DossierBody intro={dossier.intro} body={dossier.body} />
-        </PageShell>
-      </div>
+      </PageShell>
 
       {/* ── Points clés ─────────────────────────────────────────────────────── */}
       {dossier.keyFindings && dossier.keyFindings.length > 0 && (

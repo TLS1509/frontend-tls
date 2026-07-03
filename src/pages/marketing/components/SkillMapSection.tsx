@@ -159,14 +159,6 @@ export const SkillMapSection: React.FC = () => {
 
       {/* ── Section header ─────────────────────────────────────────────── */}
       <div className="relative z-base mx-auto max-w-page px-stack text-center mb-section">
-        <motion.p
-          initial={initial}
-          animate={animate}
-          variants={fadeUp(0)}
-          className="mb-tight font-body text-caption font-semibold uppercase tracking-[0.18em] text-primary-300"
-        >
-          La méthode STRIDE
-        </motion.p>
         <motion.h2
           id="skillmap-title"
           initial={initial}
@@ -174,7 +166,7 @@ export const SkillMapSection: React.FC = () => {
           variants={fadeUp(0.12)}
           className="font-display text-h2 font-extrabold tracking-display text-white [text-wrap:balance]"
         >
-          Former · Pratiquer · Valider
+          Former, pratiquer, valider.
         </motion.h2>
         <motion.p
           initial={initial}
@@ -189,38 +181,6 @@ export const SkillMapSection: React.FC = () => {
       {/* ── SVG Knowledge Map ──────────────────────────────────────────── */}
       <div className="relative z-base mx-auto max-w-[1100px] px-4">
         <div className="relative w-full">
-
-          {/* Glass pills — floating above main nodes (positioned over SVG) */}
-          {MAIN_NODES.map((n) => (
-            <motion.div
-              key={`pill-${n.id}`}
-              initial={initial}
-              animate={animate}
-              variants={fadeUp(n.popDelay + 0.38)}
-              aria-hidden
-              className="absolute pointer-events-none"
-              style={{
-                left: `${(n.cx / VB_W) * 100}%`,
-                top:  `${((n.cy - n.r - 48) / VB_H) * 100}%`,
-                transform: 'translateX(-50%)',
-              }}
-            >
-              <span
-                className="inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 font-body text-caption font-semibold backdrop-blur-glass-light whitespace-nowrap"
-                style={{
-                  background: `${n.color}1A`,
-                  border: `1px solid ${n.color}55`,
-                  color: n.color,
-                }}
-              >
-                <span
-                  className="inline-block h-1.5 w-1.5 rounded-pill shrink-0"
-                  style={{ background: n.color }}
-                />
-                {n.pill}
-              </span>
-            </motion.div>
-          ))}
 
           {/* SVG canvas */}
           <svg
@@ -401,24 +361,9 @@ export const SkillMapSection: React.FC = () => {
         className="relative z-base mx-auto mt-section-lg max-w-page px-stack text-center"
       >
         <p className="mx-auto max-w-[46ch] font-body text-body text-primary-200/65">
-          Chaque étape génère une preuve tangible de compétence —{' '}
+          Chaque étape génère une preuve tangible de compétence :{' '}
           <span className="text-white/90 font-semibold">reconnue, exportable, exploitable.</span>
         </p>
-        <div className="mt-stack-lg inline-flex items-center gap-stack-xs rounded-pill border border-white/10 bg-white/5 px-5 py-2.5 backdrop-blur-glass-light">
-          {MAIN_NODES.map((n, i) => (
-            <React.Fragment key={n.id}>
-              <span
-                className="font-body text-caption font-semibold"
-                style={{ color: n.color }}
-              >
-                {n.label}
-              </span>
-              {i < MAIN_NODES.length - 1 && (
-                <span className="text-white/20 font-body text-caption">→</span>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
       </motion.div>
     </section>
   );
