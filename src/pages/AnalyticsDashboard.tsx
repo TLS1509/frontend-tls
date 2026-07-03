@@ -342,7 +342,7 @@ export default function AnalyticsDashboard() {
                     data={learnerStatusData}
                     size="sm"
                     showLegend
-                    showValues
+                    showLabels
                   />
                 </div>
               </SectionCard>

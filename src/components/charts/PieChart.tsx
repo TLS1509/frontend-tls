@@ -133,8 +133,9 @@ export const PieChart: React.FC<PieChartProps> = ({
           {showLegend && (
             <Legend
               wrapperStyle={{ paddingTop: '20px' }}
-              formatter={(value, entry: any) => {
-                const item = dataWithColors[entry.index];
+              formatter={(value, _entry, index) => {
+                const item = dataWithColors[index as number];
+                if (!item) return value;
                 const total = dataWithColors.reduce((sum, d) => sum + d.value, 0);
                 const percent = ((item.value / total) * 100).toFixed(1);
                 return `${item.label} (${item.value}, ${percent}%)`;

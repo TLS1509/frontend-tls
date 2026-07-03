@@ -177,7 +177,7 @@ const ManagerViewsBuilder: React.FC = () => {
             <LineChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
           )}
           {chartType === 'pie' && (
-            <PieChart data={pieData} size="sm" showLegend showValues />
+            <PieChart data={pieData} size="sm" showLegend showLabels />
           )}
           {chartType === 'table' && (
             <DataTable
