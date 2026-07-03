@@ -137,7 +137,7 @@ const BENTO_FEATURES = [
     icon: <Trophy size={28} />,
     eyebrow: 'Engagement',
     title: 'Gamification & streaks',
-    desc: 'XP, badges, classements, défis hebdomadaires. Apprenez en jouant — sans tomber dans le jeu pour le jeu.',
+    desc: 'XP, badges, classements, défis hebdomadaires. Apprenez en jouant, sans tomber dans le jeu pour le jeu.',
     accent: 'bg-gradient-to-br from-ink-900 to-primary-900 border-ink-700',
     iconBg: 'bg-accent-400 text-ink-900',
     tag: null,
@@ -185,7 +185,7 @@ const ZIGZAG_FEATURES = [
     eyebrow: 'Personnalisation IA',
     icon: Map,
     title: 'Parcours adaptatifs\nen temps réel.',
-    body: "L'IA analyse vos progrès et recommande la suite la plus pertinente. Votre niveau Dreyfus progresse en temps réel — de Novice à Expert, tracé à chaque étape.",
+    body: "L'IA analyse vos progrès et recommande la suite la plus pertinente. Votre niveau Dreyfus progresse en temps réel, de Novice à Expert, tracé à chaque étape.",
     bullets: [
       'Recommandations IA basées sur vos progrès réels',
       'Niveau Dreyfus tracé à chaque étape',
@@ -215,7 +215,7 @@ const ZIGZAG_FEATURES = [
     eyebrow: 'Coaching humain · IA-augmenté',
     icon: MessageSquare,
     title: 'Votre coach,\nau bon moment.',
-    body: "Coaching 1-1 intégré : messagerie contextualisée, corrections de productions. Votre coach voit votre parcours complet — pas juste des messages déconnectés.",
+    body: "Coaching 1-1 intégré : messagerie contextualisée, corrections de productions. Votre coach voit votre parcours complet, pas juste des messages déconnectés.",
     bullets: [
       'Messagerie directe avec contexte du parcours',
       'Corrections inline sur vos productions',
@@ -331,7 +331,7 @@ export const MarketingLearningApp: React.FC = () => {
     const { ok, error } = await submitForm({
       email: email.trim(),
       name: role.trim() || 'Accès bêta',
-      subject: 'Demande d\'accès bêta — Learning App',
+      subject: 'Demande d\'accès bêta · Learning App',
       need: role.trim() || undefined,
       _source: 'learning-app-beta',
     });
@@ -345,7 +345,7 @@ export const MarketingLearningApp: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="Learning App TLS — Formation IA adaptative"
+        title="Learning App TLS · Formation IA adaptative"
         description="La plateforme qui connecte apprentissage, compétences et impact business. Parcours IA, Passeport de Compétences Dreyfus, coaching, gamification."
         canonical="/website/learning-app"
       />

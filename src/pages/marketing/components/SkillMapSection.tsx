@@ -203,7 +203,7 @@ export const SkillMapSection: React.FC = () => {
           className="mx-auto mt-stack max-w-[52ch] font-body text-body leading-relaxed text-primary-200/75"
         >
           Une boucle d'apprentissage complète, celle que vivront vos formateurs
-          et apprenants — de la théorie à la preuve concrète de compétence.
+          et apprenants, de la théorie à la preuve concrète de compétence.
         </motion.p>
       </div>
 

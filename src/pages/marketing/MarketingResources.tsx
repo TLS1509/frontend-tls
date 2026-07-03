@@ -304,7 +304,7 @@ export const MarketingResources: React.FC = () => {
           Ressources
         </h1>
         <p className="m-0 font-body text-body-sm text-ink-500 max-w-2xl">
-          Articles, dossiers, guides, vidéos et webinaires — tout le contenu TLS au même endroit.
+          Articles, dossiers, guides, vidéos et webinaires : tout le contenu TLS au même endroit.
         </p>
       </div>
 

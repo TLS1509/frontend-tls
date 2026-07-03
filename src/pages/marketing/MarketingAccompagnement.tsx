@@ -288,7 +288,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 La méthode <span className="text-accent-400">S·T·R·I·D·E</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Six temps — S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer — regroupés en trois phases.
+                Six temps (S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer) regroupés en trois phases.
               </p>
             </FadeInWhenVisible>
           </div>

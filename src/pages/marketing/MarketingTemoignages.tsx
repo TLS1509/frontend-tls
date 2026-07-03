@@ -80,7 +80,7 @@ export const MarketingTemoignages: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Cas clients & témoignages"
-        description="Schémas de missions anonymisés — organismes de formation, équipes L&D, cabinets de conseil. Contactez-nous pour échanger avec des référents de missions en cours."
+        description="Schémas de missions anonymisés : organismes de formation, équipes L&D, cabinets de conseil. Contactez-nous pour échanger avec des référents de missions en cours."
         canonical="/website/temoignages"
       />
 
@@ -116,7 +116,7 @@ export const MarketingTemoignages: React.FC = () => {
                 Quatre missions, anonymisées.
               </h2>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">
-                Secteur, taille, défi et intervention réels — sans nom d'organisation,
+                Secteur, taille, défi et intervention réels, sans nom d'organisation,
                 le temps d'obtenir les autorisations. Aucune métrique inventée.
               </p>
             </div>

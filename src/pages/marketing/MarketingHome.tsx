@@ -299,7 +299,7 @@ export const MarketingHome: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="The Learning Society — Former à l'ère de l'IA"
+        title="The Learning Society · Former à l'ère de l'IA"
         description="Formation certifiante, Learning App adaptative, accompagnement stratégique. La méthode complète pour que vos formateurs maîtrisent l'IA et forment autrement."
         canonical="/website"
         schema={{
