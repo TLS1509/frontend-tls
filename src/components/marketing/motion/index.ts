@@ -1,5 +1,6 @@
 export { MeshGradientBg, type MeshTone } from './MeshGradientBg';
 export { FadeInWhenVisible } from './FadeInWhenVisible';
+export { Stagger, StaggerItem } from './Stagger';
 export { ParallaxLayer } from './ParallaxLayer';
 export { MagneticButton } from './MagneticButton';
 export { GradientText } from './GradientText';
