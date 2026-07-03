@@ -620,7 +620,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       fullWidth
                       trailingIcon={<Calendar size={18} />}
                     >
-                      Réserver 30 min
+                      Réserver un échange de 30 min
                     </Button>
                   </Link>
                   <Link to={level.recoLink} className="block">
@@ -664,7 +664,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       Explorez la méthode STRIDE pour structurer votre transformation.
                     </p>
                     <Link to="/website/methode" className="mt-auto">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="md">
                         Découvrir
                       </Button>
                     </Link>
@@ -681,7 +681,7 @@ export const MarketingDiagnostic: React.FC = () => {
                       Lancez-vous avec la Learning App et montez en compétences.
                     </p>
                     <Link to="/website/learning-app" className="mt-auto">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="md">
                         Explorer
                       </Button>
                     </Link>
@@ -697,9 +697,9 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Discutez avec nos experts pour un accompagnement sur-mesure.
                     </p>
-                    <Link to="/website/contact" className="mt-auto">
-                      <Button variant="ghost" size="sm">
-                        Contacter
+                    <Link to="/website/accompagnement" className="mt-auto">
+                      <Button variant="ghost" size="md">
+                        Voir l'accompagnement
                       </Button>
                     </Link>
                   </div>

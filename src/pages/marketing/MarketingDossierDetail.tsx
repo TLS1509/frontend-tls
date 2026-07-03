@@ -12,7 +12,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
@@ -46,17 +46,20 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: 
   children,
   delay = 0,
   className,
-}) => (
-  <motion.div
-    className={className}
-    initial={{ y: 26 }}
-    whileInView={{ y: 0 }}
-    viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-    transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-  >
-    {children}
-  </motion.div>
-);
+}) => {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      className={className}
+      initial={reduced ? { y: 0 } : { y: 26 }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+      transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 // ─── Reading progress bar (fixe, en haut) ─────────────────────────────────────
 const ReadingProgressBar: React.FC = () => {
@@ -163,7 +166,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base ${
+              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 isActive
                   ? 'border-primary-600 text-primary-700 font-semibold'
                   : 'border-ink-200 text-ink-600 hover:text-ink-900 hover:border-ink-400'
@@ -276,7 +279,7 @@ const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex gap-stack-xs p-stack rounded-xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-sm transition-all duration-base"
+              className="group flex gap-stack-xs p-stack rounded-xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <span className="font-mono text-caption font-bold text-primary-600 shrink-0 mt-0.5">
                 {s.ref}
@@ -328,7 +331,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <Reveal>
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Tous les dossiers
@@ -377,7 +380,7 @@ export const MarketingDossierDetail: React.FC = () => {
           <aside className="hidden lg:block sticky top-28">
             <SectionTOC sections={dossier.sections} activeId={activeId} />
           </aside>
-          <div className="flex flex-col gap-stack-lg">
+          <div className="flex flex-col gap-stack-lg max-w-prose">
             <IntroCallout text={dossier.summary} />
             <DossierBody intro={dossier.intro} body={dossier.body} />
           </div>

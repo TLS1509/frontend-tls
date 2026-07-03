@@ -48,7 +48,7 @@ export const WEBINAIRES: Webinaire[] = [
   {
     slug: 'organisation-par-les-competences-webinaire-replay',
     title: "L'organisation par les compétences : présentation du dossier SBO",
-    subtitle: 'Replay — présentation commentée du dossier de fond SBO',
+    subtitle: 'Replay : présentation commentée du dossier de fond SBO',
     description:
       "Le replay de la session de présentation du dossier « L'organisation par les compétences » : le constat, les preuves issues de la recherche et le rôle du passeport de compétences.",
     status: 'past',

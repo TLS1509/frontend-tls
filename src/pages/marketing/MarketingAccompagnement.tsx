@@ -206,7 +206,7 @@ export const MarketingAccompagnement: React.FC = () => {
             <div className="flex flex-wrap items-center justify-center gap-x-stack gap-y-1 text-ink-400">
               <span className="font-body text-caption">Tarif sur devis</span>
               <span aria-hidden className="text-ink-200">·</span>
-              <span className="font-body text-caption">Première rencontre gratuite</span>
+              <span className="font-body text-caption">Diagnostic gratuit de 90 min</span>
               <span aria-hidden className="text-ink-200">·</span>
               <span className="font-body text-caption">1 an de Learning App offert</span>
             </div>

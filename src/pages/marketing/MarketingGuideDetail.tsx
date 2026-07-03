@@ -55,7 +55,7 @@ export const MarketingGuideDetail: React.FC = () => {
     });
     setLoading(false);
     if (result.ok) setUnlocked(true);
-    else setError(result.error ?? "Une erreur est survenue. Réessaie ou écris-nous.");
+    else setError(result.error ?? "Une erreur est survenue. Réessayez ou écrivez-nous.");
   };
 
   return (
@@ -72,7 +72,7 @@ export const MarketingGuideDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -114,7 +114,7 @@ export const MarketingGuideDetail: React.FC = () => {
             </p>
             <div className="flex flex-col gap-stack">
               <span className="font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
-                Ce que tu trouveras dans ce guide
+                Ce que vous trouverez dans ce guide
               </span>
               <ul className="flex flex-col gap-stack m-0 pl-0 list-none">
                 {guide.highlights.map((h, i) => (
@@ -148,15 +148,16 @@ export const MarketingGuideDetail: React.FC = () => {
                         Recevoir le guide
                       </span>
                       <span className="font-body text-caption text-ink-600">
-                        Ton email pour recevoir le lien de téléchargement immédiatement.
+                        Votre email pour recevoir le lien de téléchargement immédiatement.
                       </span>
                     </div>
                     <Input
                       type="email"
+                      label="Email professionnel"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="ton.email@organisation.fr"
+                      placeholder="vous@organisation.fr"
                       autoComplete="email"
                     />
                     {error && (
@@ -184,7 +185,7 @@ export const MarketingGuideDetail: React.FC = () => {
                         C'est prêt !
                       </span>
                       <span className="font-body text-caption text-ink-600 max-w-xs">
-                        Ton téléchargement est prêt. Tu recevras aussi une copie du lien par email.
+                        Votre téléchargement est prêt. Vous recevrez aussi une copie du lien par email.
                       </span>
                     </div>
                     <a href={guide.fileUrl} download className="w-full">
@@ -212,8 +213,8 @@ export const MarketingGuideDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {related.map((g, i) => (
                 <FadeInWhenVisible key={g.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/guides/${g.slug}`} className="group block h-full">
-                    <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-secondary-200 transition-all duration-base">
+                  <Link to={`/website/guides/${g.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                    <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-secondary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <FileText size={12} /> {g.pageCount} pages
                       </span>

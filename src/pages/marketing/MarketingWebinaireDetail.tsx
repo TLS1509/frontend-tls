@@ -61,7 +61,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
     });
     setLoading(false);
     if (result.ok) setRegistered(true);
-    else setError(result.error ?? "Une erreur est survenue. Réessaie ou écris-nous.");
+    else setError(result.error ?? "Une erreur est survenue. Réessayez ou écrivez-nous.");
   };
 
   return (
@@ -78,7 +78,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -178,10 +178,11 @@ export const MarketingWebinaireDetail: React.FC = () => {
                       </div>
                       <Input
                         type="email"
+                        label="Email professionnel"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="ton.email@organisation.fr"
+                        placeholder="vous@organisation.fr"
                         autoComplete="email"
                       />
                       {error && (
@@ -209,7 +210,7 @@ export const MarketingWebinaireDetail: React.FC = () => {
                           C'est noté !
                         </span>
                         <span className="font-body text-caption text-ink-600 max-w-xs">
-                          Tu recevras le lien de connexion par email avant le {webinaire.date}.
+                          Vous recevrez le lien de connexion par email avant la session.
                         </span>
                       </div>
                     </motion.div>
@@ -219,13 +220,24 @@ export const MarketingWebinaireDetail: React.FC = () => {
             ) : (
               <div className="flex flex-col gap-stack">
                 <div className="aspect-video w-full rounded-2xl bg-gradient-to-br from-primary-900 via-primary-800 to-ink-900 relative flex items-center justify-center overflow-hidden">
-                  <button
-                    type="button"
-                    aria-label="Lire le replay"
-                    className="w-16 h-16 rounded-full bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
-                  >
-                    <Play size={24} className="ml-1 fill-white text-white" />
-                  </button>
+                  {webinaire.replayUrl ? (
+                    <a
+                      href={webinaire.replayUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Lire le replay (nouvel onglet)"
+                      className="w-16 h-16 rounded-full bg-primary-500 shadow-[0_0_0_12px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+                    >
+                      <Play size={24} className="ml-1 fill-white text-white" />
+                    </a>
+                  ) : (
+                    <div aria-label="Replay à venir" className="flex flex-col items-center gap-stack-xs text-white/70">
+                      <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                        <Play size={24} className="ml-1 text-white/50" />
+                      </div>
+                      <span className="font-body text-caption font-semibold">Replay à venir</span>
+                    </div>
+                  )}
                 </div>
                 <span className="font-body text-caption text-ink-500 text-center">
                   Replay disponible · {webinaire.duration}
@@ -248,8 +260,8 @@ export const MarketingWebinaireDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
               {related.map((w, i) => (
                 <FadeInWhenVisible key={w.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/webinaires/${w.slug}`} className="group block h-full">
-                    <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-all duration-base">
+                  <Link to={`/website/webinaires/${w.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
+                    <div className="h-full bg-white border border-ink-100 rounded-2xl p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-primary-200 transition-all duration-base">
                       <span className="inline-flex items-center gap-tight font-body text-caption text-ink-500">
                         <Calendar size={12} /> {w.date}
                       </span>

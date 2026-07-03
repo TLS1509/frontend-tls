@@ -255,7 +255,7 @@ export const ARTICLES: Article[] = [
     readTime: '6 min',
     featured: false,
     summary:
-      "Pourquoi la facilité apparente des outils IA peut nuire à l'apprentissage profond — et comment y remédier en redessinant tes activités pédagogiques.",
+      "Pourquoi la facilité apparente des outils IA peut nuire à l'apprentissage profond, et comment y remédier en redessinant vos activités pédagogiques.",
     intro:
       "Dans nos organisations, l'IA délivre des solutions immédiates : scripts de vente, modules managériaux générés en quelques secondes. Mais dans nos entreprises, la réponse immédiate est souvent le tombeau de la compétence réelle. Comment refonder l'apprentissage à l'heure où une machine sait tout, plus vite que nous ?",
     sections: [
@@ -363,7 +363,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Vers une modélisation fine du profil apprenant pour des formations vraiment adaptatives. Enjeux, limites et perspectives concrètes.",
     intro:
-      "L'analyse de besoins en formation ressemble trop souvent à une autopsie — on intervient une fois que les écarts de compétences ont déjà causé des dégâts. En 2026, l'ingénierie de formation change de braquet. Chez The Learning Society, on affine une méthode pour nos clients : utiliser l'IA non pour rédiger des quiz, mais pour simuler le futur. Voici comment passer d'une formation réactive à une ingénierie de précision.",
+      "L'analyse de besoins en formation ressemble trop souvent à une autopsie : on intervient une fois que les écarts de compétences ont déjà causé des dégâts. En 2026, l'ingénierie de formation change de braquet. Chez The Learning Society, on affine une méthode pour nos clients : utiliser l'IA non pour rédiger des quiz, mais pour simuler le futur. Voici comment passer d'une formation réactive à une ingénierie de précision.",
     sections: [
       { heading: "1. L'ingestion prédictive : cartographier les compétences avant qu'elles n'existent" },
       { heading: "2. Le crash-test pédagogique : simuler l'apprenant pour anticiper les freins" },
@@ -506,7 +506,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Comment nous construisons nos équipes pédagogiques hybrides humain × IA chez The Learning Society. Méthodes, rituels et apprentissages.",
     intro:
-      "Nous avons précédemment introduit le concept d'« escouade » — une approche architecturale qui dépasse l'interface chat traditionnelle pour permettre l'ingénierie augmentée. Cet article ouvre notre laboratoire : nous révélons comment nous avons configuré et déployé notre « Dream Team » interne. La vérité, c'est que le succès ne réside pas dans l'outil, mais dans la façon de le façonner pour en faire un collaborateur fiable.",
+      "Nous avons précédemment introduit le concept d'« escouade », une approche architecturale qui dépasse l'interface chat traditionnelle pour permettre l'ingénierie augmentée. Cet article ouvre notre laboratoire : nous révélons comment nous avons configuré et déployé notre « Dream Team » interne. La vérité, c'est que le succès ne réside pas dans l'outil, mais dans la façon de le façonner pour en faire un collaborateur fiable.",
     sections: [
       { heading: "L'Assistant n'est pas un agent (pour le moment)" },
       { heading: 'Notre stack technique : Mistral et Gemini au cœur du réacteur' },
@@ -515,7 +515,7 @@ export const ARTICLES: Article[] = [
         subheadings: [
           'Couche 1 : La Fiche de Poste (Le « Qui »)',
           'Couche 2 : Le « Frame » (Le Périmètre)',
-          'Couche 3 : Le COT — Chain of Thought (Le « Comment »)',
+          'Couche 3 : Le COT, Chain of Thought (Le « Comment »)',
           'Couche 4 : Le Savoir (Le « Quoi »)',
         ],
       },
@@ -549,7 +549,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Une précision méthodologique s'impose : chez The Learning Society, nous ne croyons pas à l'agent autonome pour le pilotage de projets — du moins, pas encore.",
+        text: "Une précision méthodologique s'impose : chez The Learning Society, nous ne croyons pas à l'agent autonome pour le pilotage de projets, du moins pas encore.",
       },
       {
         type: 'p',
@@ -620,7 +620,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h3',
-        text: 'Couche 3 : Le COT — Chain of Thought (Le « Comment »)',
+        text: 'Couche 3 : Le COT, Chain of Thought (Le « Comment »)',
       },
       {
         type: 'p',
@@ -705,7 +705,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Le chat conversationnel n'est plus le format dominant de l'IA en formation. Voici les interfaces et workflows qui le remplacent dès 2026.",
     intro:
-      "En 2026, l'ère de l'improvisation est terminée. Ceux qui traitent encore l'intelligence artificielle comme une simple interface de chat — où les questions reçoivent des réponses réactives — passent à côté de la vraie révolution d'efficacité. Le passage du « Chat » généraliste aux Assistants personnalisés représente la frontière entre approche amateur et ingénierie augmentée. Comprendre ce qu'est vraiment un Assistant, et pourquoi il devient essentiel, est devenu fondamental.",
+      "En 2026, l'ère de l'improvisation est terminée. Ceux qui traitent encore l'intelligence artificielle comme une simple interface de chat (où les questions reçoivent des réponses réactives) passent à côté de la vraie révolution d'efficacité. Le passage du « Chat » généraliste aux Assistants personnalisés représente la frontière entre approche amateur et ingénierie augmentée. Comprendre ce qu'est vraiment un Assistant, et pourquoi il devient essentiel, est devenu fondamental.",
     sections: [
       { heading: "Qu'est-ce qu'un Assistant et pourquoi est-ce un « Game Changer » ?" },
       {
@@ -725,7 +725,7 @@ export const ARTICLES: Article[] = [
       "L'IP qui réussit en 2026 est celui qui sait s'entourer.",
     ],
     conclusion:
-      "Le concepteur pédagogique qui réussit en 2026 réussit par l'orchestration plutôt que par l'effort individuel — en déléguant les tâches spécialisées à des assistants IA configurés, tout en gardant la supervision humaine finale.",
+      "Le concepteur pédagogique qui réussit en 2026 réussit par l'orchestration plutôt que par l'effort individuel, en déléguant les tâches spécialisées à des assistants IA configurés, tout en gardant la supervision humaine finale.",
     liveUrl:
       'https://thelearningsociety.fr/pourquoi-lere-du-chat-est-terminee-et-pourquoi-vous-devez-passer-aux-assistants/',
     cover: 'from-primary-200 via-accent-100 to-secondary-100',
@@ -865,9 +865,9 @@ export const ARTICLES: Article[] = [
     readTime: '8 min',
     featured: false,
     summary:
-      "Automatiser la conformité Qualiopi avec l'IA : reporting, traçabilité, indicateurs. La compliance qui ne te bouffe plus tes vendredis soirs.",
+      "Analyse : comment un agent IA dédié pourrait automatiser une partie de la conformité Qualiopi (reporting, traçabilité, indicateurs) et alléger la charge administrative des équipes qualité.",
     intro:
-      "Dans un environnement compétitif où la certification Qualiopi est vitale, une réalité reste largement sous-dite : le processus est vécu comme une lourde charge administrative, chronophage, génératrice de tension mentale critique pour les équipes qualité. Entre suivi documentaire, collecte éparpillée des preuves et anticipation d'audit, le stress est constant. L'émergence d'agents IA personnalisés change la donne.",
+      "Dans un environnement compétitif où la certification Qualiopi est vitale pour les organismes de formation, une réalité reste largement sous-dite : le processus est vécu comme une lourde charge administrative, chronophage, génératrice de tension mentale critique pour les équipes qualité. Entre suivi documentaire, collecte éparpillée des preuves et anticipation d'audit, le stress est constant. Voici comment l'émergence d'agents IA personnalisés pourrait changer la donne.",
     sections: [
       { heading: 'I. Le constat : pourquoi Qualiopi épuise vos équipes' },
       {
@@ -898,7 +898,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "L'émergence des agents IA personnalisés change la donne. Oubliez la dispersion des tableaux Excel et la course effrénée à la dernière preuve la veille de l'audit. Nous allons explorer comment la création d'un agent IA Qualiopi dédié permet d'assurer une mise en conformité continue et d'offrir à vos équipes une sérénité opérationnelle inédite.",
+        text: "L'émergence des agents IA personnalisés change la donne. Oubliez la dispersion des tableaux Excel et la course effrénée à la dernière preuve la veille de l'audit. Voici comment la création d'un agent IA Qualiopi dédié peut assurer une mise en conformité continue et offrir aux équipes qualité une sérénité opérationnelle inédite.",
       },
       {
         type: 'h2',
@@ -990,7 +990,7 @@ export const ARTICLES: Article[] = [
         items: [
           "L'expertise réglementaire (Le cerveau) : Le RNQ officiel, les guides de lecture à jour et la jurisprudence Qualiopi.",
           "Votre ADN (La mémoire) : Vos documents internes, procédures, chartes et données réelles (via des connecteurs sécurisés à vos LMS/CRM).",
-          "La sécurité des données : Contrairement aux outils grand public, nous privilégions des modèles de langage privés ou cloisonnés. Cela assure qu'aucune donnée pédagogique, stratégique ou personnelle ne soit utilisée pour entraîner des modèles tiers. La confidentialité est totale.",
+          "La sécurité des données : contrairement aux outils grand public, ce type d'architecture repose sur des modèles de langage privés ou cloisonnés, garantissant qu'aucune donnée pédagogique, stratégique ou personnelle ne serve à entraîner des modèles tiers. La confidentialité est alors totale.",
         ],
       },
       {
@@ -999,7 +999,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "L'agent IA Qualiopi est l'outil indispensable pour transformer la conformité, souvent perçue comme un centre de coûts, en un avantage compétitif. En déléguant les tâches répétitives et la charge mentale administrative à votre assistant numérique, vous permettez à votre responsable qualité de se consacrer à l'essentiel : l'excellence pédagogique et la croissance de votre offre.",
+        text: "Un agent IA Qualiopi bien conçu peut transformer la conformité, souvent perçue comme un centre de coûts, en avantage compétitif. En déléguant les tâches répétitives et la charge mentale administrative à un assistant numérique, les équipes qualité peuvent se consacrer à l'essentiel : l'excellence pédagogique et la croissance de l'offre.",
       },
     ],
   },
@@ -1018,7 +1018,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Les QCM résistent depuis 60 ans. L'IA générative leur donne le coup de grâce. Voici par quoi les remplacer pour vraiment évaluer la compétence.",
     intro:
-      "Les méthodes traditionnelles d'évaluation par QCM ne mesurent plus la compétence réelle. En 2026, évaluer un professionnel en lui faisant cocher A-B-C relève d'une pratique obsolète. L'IA va transformer les examens en dialogue pédagogique continu — pas simplement automatiser des formats existants. Voici comment passer d'une logique de notation à une logique d'évaluation structurée du raisonnement.",
+      "Les méthodes traditionnelles d'évaluation par QCM ne mesurent plus la compétence réelle. En 2026, évaluer un professionnel en lui faisant cocher A-B-C relève d'une pratique obsolète. L'IA va transformer les examens en dialogue pédagogique continu, pas simplement automatiser des formats existants. Voici comment passer d'une logique de notation à une logique d'évaluation structurée du raisonnement.",
     sections: [
       { heading: 'Le syndrome de la case cochée' },
       { heading: 'De la case à cocher au dialogue socratique' },
@@ -1033,7 +1033,7 @@ export const ARTICLES: Article[] = [
       "Le formateur ne disparaît pas : il monte en gamme.",
     ],
     conclusion:
-      "La certification du futur opère comme une évaluation continue, intégrée — non comme un examen high-stakes ponctuel. Les apprenants se certifient en continu pendant leur parcours, l'évaluation devient compagne de l'apprentissage et non événement culminant stressant.",
+      "La certification du futur opère comme une évaluation continue, intégrée, non comme un examen high-stakes ponctuel. Les apprenants se certifient en continu pendant leur parcours, l'évaluation devient compagne de l'apprentissage et non événement culminant stressant.",
     liveUrl:
       'https://thelearningsociety.fr/la-fin-des-qcm-lia-et-lere-de-levaluation-conversationnelle/',
     cover: 'from-primary-200 via-primary-100 to-secondary-100',
@@ -1151,7 +1151,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Refonder l'ingénierie pédagogique à l'ère de l'IA générative. Méthodologie, outillage et gestes professionnels du concepteur augmenté.",
     intro:
-      "Scène typique en département formation : les discussions sur la stratégie IA déclenchent des réactions « oscillant entre scepticisme, préoccupations éthiques (privacy, RGPD) et anxiétés tacites sur l'avenir des métiers ». La réponse managériale classique — rassurer les équipes, promettre de longs plans de formation — se retourne souvent contre elle dans le contexte de l'IA générative. Voici une méthodologie alternative : remplacer l'acculturation soft par une mise en pratique immédiate et intensive. Le « Wait and See » n'est plus une option viable.",
+      "Scène typique en département formation : les discussions sur la stratégie IA déclenchent des réactions « oscillant entre scepticisme, préoccupations éthiques (privacy, RGPD) et anxiétés tacites sur l'avenir des métiers ». La réponse managériale classique (rassurer les équipes, promettre de longs plans de formation) se retourne souvent contre elle dans le contexte de l'IA générative. Voici une méthodologie alternative : remplacer l'acculturation soft par une mise en pratique immédiate et intensive. Le « Wait and See » n'est plus une option viable.",
     sections: [
       {
         heading: 'I. Le constat : les limites de la « pédagogie de la réassurance »',
@@ -1178,7 +1178,7 @@ export const ARTICLES: Article[] = [
       "L'expertise pédagogique est plus nécessaire que jamais pour vérifier, structurer, éditer et « humaniser » le contenu généré.",
     ],
     conclusion:
-      "En permettant une immersion rapide, guidée par l'expertise et balisée par des garde-fous, les organisations donnent à leurs équipes les moyens de regagner leur agency professionnelle. La vraie proposition de valeur émerge quand le temps gagné sur la production est redirigé vers la stratégie pédagogique et l'accompagnement humain — c'est le futur de la fonction L&D.",
+      "En permettant une immersion rapide, guidée par l'expertise et balisée par des garde-fous, les organisations donnent à leurs équipes les moyens de regagner leur agency professionnelle. La vraie proposition de valeur émerge quand le temps gagné sur la production est redirigé vers la stratégie pédagogique et l'accompagnement humain : c'est le futur de la fonction L&D.",
     liveUrl:
       'https://thelearningsociety.fr/ia-et-ingenierie-pedagogique-pourquoi-lacculturation-theorique-ne-suffit-plus-et-comment-passer-a-laction/',
     cover: 'from-secondary-200 via-accent-100 to-primary-100',
@@ -1342,7 +1342,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Apprendre dans le flux du travail : la prochaine frontière du L&D. Comment l'IA rend enfin possible la formation « just-in-time » à grande échelle.",
     intro:
-      "Micro-learning, mobile learning, on-demand learning — au-delà du vocabulaire, ces concepts signalent un basculement fondamental dans l'approche de la formation. On quitte le modèle « Just-in-Case » (stocker du savoir au cas où) pour entrer dans le « Just-in-Time » (du savoir mobilisable pour agir maintenant). Le Workflow Learning déplace la formation d'un entrepôt de connaissances vers un processus aligné sur les besoins réels du travail.",
+      "Micro-learning, mobile learning, on-demand learning : au-delà du vocabulaire, ces concepts signalent un basculement fondamental dans l'approche de la formation. On quitte le modèle « Just-in-Case » (stocker du savoir au cas où) pour entrer dans le « Just-in-Time » (du savoir mobilisable pour agir maintenant). Le Workflow Learning déplace la formation d'un entrepôt de connaissances vers un processus aligné sur les besoins réels du travail.",
     sections: [
       { heading: 'Du stock au flux : la rupture logistique de la formation' },
       { heading: "L'approche validée par les sciences cognitives" },
@@ -1356,7 +1356,7 @@ export const ARTICLES: Article[] = [
       "Il ne s'agit pas de remplacer la salle de classe, mais d'hybrider intelligemment les dispositifs.",
     ],
     conclusion:
-      "Le basculement attendu d'ici 2026 consiste à intégrer la formation formelle de manière fluide dans le travail quotidien, plutôt qu'à l'éliminer. La formation se transforme d'un événement séparé en infrastructure de support invisible — les professionnels L&D doivent désormais architecturer des environnements rendant les ressources accessibles avec un minimum de friction.",
+      "Le basculement attendu d'ici 2026 consiste à intégrer la formation formelle de manière fluide dans le travail quotidien, plutôt qu'à l'éliminer. La formation se transforme d'un événement séparé en infrastructure de support invisible : les professionnels L&D doivent désormais architecturer des environnements rendant les ressources accessibles avec un minimum de friction.",
     liveUrl:
       'https://thelearningsociety.fr/workflow-learning-vers-une-redefinition-de-lunite-de-temps-et-de-lieu-en-formation/',
     cover: 'from-accent-200 via-secondary-100 to-primary-100',
@@ -1494,11 +1494,11 @@ export const ARTICLES: Article[] = [
       "L'horizon 2026 marque un tournant décisif pour la formation professionnelle. Le secteur sort de la phase expérimentale avec l'IA, qui devient désormais une infrastructure cognitive fondamentale. Le véritable défi n'est plus technologique mais stratégique : comment maximiser le capital humain quand l'IA gère la transmission du savoir factuel ? Les professionnels RH doivent passer d'une logique de production de contenu (centre de coût) à une orchestration de la valeur (actif stratégique).",
     sections: [
       { heading: "L'impératif de la transformation L&D" },
-      { heading: "Levier 1 — L'Ingénierie Pédagogique 4.0 : de l'artisanat à l'architecture du contenu" },
-      { heading: "Levier 2 — L'Apprentissage Éphémère : intégration dans le flux de travail" },
-      { heading: 'Levier 3 — Le Management L&D comme Science de la Décision : pilotage par la donnée augmentée' },
-      { heading: 'Levier 4 — Le Triumvirat Formateur-Apprenant-IA : revalorisation des soft skills' },
-      { heading: "Levier 5 — La GPEC par Anticipation IA : un levier d'avantage concurrentiel" },
+      { heading: "Levier 1 : L'Ingénierie Pédagogique 4.0, de l'artisanat à l'architecture du contenu" },
+      { heading: "Levier 2 : L'Apprentissage Éphémère, intégration dans le flux de travail" },
+      { heading: 'Levier 3 : Le Management L&D comme Science de la Décision, pilotage par la donnée augmentée' },
+      { heading: 'Levier 4 : Le Triumvirat Formateur-Apprenant-IA, revalorisation des soft skills' },
+      { heading: "Levier 5 : La GPEC par Anticipation IA, un levier d'avantage concurrentiel" },
     ],
     quotes: [
       "L'Intelligence Artificielle est désormais le moteur conceptuel de la fonction formation.",
@@ -1513,7 +1513,7 @@ export const ARTICLES: Article[] = [
     body: [
       {
         type: 'p',
-        text: "L'année 2026 marque la fin des phases de test dans le Learning & Development. L'IA est passée d'une simple commodité à une infrastructure cognitive essentielle — le moteur conceptuel de la fonction formation. L'enjeu est désormais stratégique plutôt que technique : comment maximiser le capital humain alors que l'IA accélère la transmission des savoirs factuels ?",
+        text: "L'année 2026 marque la fin des phases de test dans le Learning & Development. L'IA est passée d'une simple commodité à une infrastructure cognitive essentielle : le moteur conceptuel de la fonction formation. L'enjeu est désormais stratégique plutôt que technique : comment maximiser le capital humain alors que l'IA accélère la transmission des savoirs factuels ?",
       },
       {
         type: 'p',
@@ -1525,7 +1525,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Le secteur sort de la phase expérimentale. Les outils IA ne sont plus des gadgets en évaluation dans un département IT isolé — ils sont déployés, utilisés, et leurs effets sont mesurables. La question n'est plus « Faut-il adopter l'IA ? » mais « Comment l'intégrer stratégiquement sans perdre l'âme de nos métiers ? »",
+        text: "Le secteur sort de la phase expérimentale. Les outils IA ne sont plus des gadgets en évaluation dans un département IT isolé, ils sont déployés, utilisés, et leurs effets sont mesurables. La question n'est plus « Faut-il adopter l'IA ? » mais « Comment l'intégrer stratégiquement sans perdre l'âme de nos métiers ? »",
       },
       {
         type: 'pullquote',
@@ -1533,7 +1533,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h2',
-        text: "Levier 1 — L'Ingénierie Pédagogique 4.0 : de l'artisanat à l'architecture du contenu",
+        text: "Levier 1 : L'Ingénierie Pédagogique 4.0, de l'artisanat à l'architecture du contenu",
       },
       {
         type: 'p',
@@ -1545,7 +1545,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h2',
-        text: "Levier 2 — L'Apprentissage Éphémère : intégration dans le flux de travail",
+        text: "Levier 2 : L'Apprentissage Éphémère, intégration dans le flux de travail",
       },
       {
         type: 'p',
@@ -1557,7 +1557,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h2',
-        text: 'Levier 3 — Le Management L&D comme Science de la Décision : pilotage par la donnée augmentée',
+        text: 'Levier 3 : Le Management L&D comme Science de la Décision, pilotage par la donnée augmentée',
       },
       {
         type: 'p',
@@ -1573,7 +1573,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h2',
-        text: 'Levier 4 — Le Triumvirat Formateur-Apprenant-IA : revalorisation des soft skills',
+        text: 'Levier 4 : Le Triumvirat Formateur-Apprenant-IA, revalorisation des soft skills',
       },
       {
         type: 'p',
@@ -1581,11 +1581,11 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Cette revalorisation adresse les soft skills comme la pensée critique, l'intelligence émotionnelle et le leadership adaptatif — des compétences que l'IA peut observer et mesurer (via l'analyse sémantique), mais qu'elle ne peut pas développer seule. Le triangle Formateur-Apprenant-IA devient le modèle dominant de toute ingénierie pédagogique efficace.",
+        text: "Cette revalorisation adresse les soft skills comme la pensée critique, l'intelligence émotionnelle et le leadership adaptatif, des compétences que l'IA peut observer et mesurer (via l'analyse sémantique), mais qu'elle ne peut pas développer seule. Le triangle Formateur-Apprenant-IA devient le modèle dominant de toute ingénierie pédagogique efficace.",
       },
       {
         type: 'h2',
-        text: "Levier 5 — La GPEC par Anticipation IA : un levier d'avantage concurrentiel",
+        text: "Levier 5 : La GPEC par Anticipation IA, un levier d'avantage concurrentiel",
       },
       {
         type: 'p',
@@ -1608,15 +1608,15 @@ export const ARTICLES: Article[] = [
   {
     slug: 'ai-act-article-4-obligation-formation-ia',
     title: "AI Act Article 4 : ce que votre entreprise doit faire avant le 2 août 2026",
-    subtitle: "L'obligation de littératie IA concerne toutes les entreprises. Ce qu'elle impose — et comment y répondre.",
+    subtitle: "L'obligation de littératie IA concerne toutes les entreprises. Ce qu'elle impose, et comment y répondre.",
     category: 'IA',
     date: 'Juin 2026',
     readTime: '8 min',
     featured: true,
     summary:
-      "L'Article 4 du Règlement européen sur l'IA impose à tous les employeurs de garantir la maîtrise de l'IA à leurs collaborateurs avant le 2 août 2026. Ce que cela signifie concrètement — et comment y répondre.",
+      "L'Article 4 du Règlement européen sur l'IA impose à tous les employeurs de garantir la maîtrise de l'IA à leurs collaborateurs avant le 2 août 2026. Ce que cela signifie concrètement, et comment y répondre.",
     intro:
-      "Le 2 août 2026, une obligation nouvelle entre en vigueur pour toutes les entreprises françaises : garantir que les collaborateurs qui travaillent avec des outils d'IA disposent d'une maîtrise suffisante de cette technologie. Pas un diplôme. Pas une certification spectaculaire. Une maîtrise documentée, adaptée aux usages réels de votre organisation. Si vos équipes utilisent ChatGPT, Copilot, Gemini ou tout autre outil d'IA générative — et c'est le cas dans l'immense majorité des entreprises —  vous êtes directement concerné.",
+      "Le 2 août 2026, une obligation nouvelle entre en vigueur pour toutes les entreprises françaises : garantir que les collaborateurs qui travaillent avec des outils d'IA disposent d'une maîtrise suffisante de cette technologie. Pas un diplôme. Pas une certification spectaculaire. Une maîtrise documentée, adaptée aux usages réels de votre organisation. Si vos équipes utilisent ChatGPT, Copilot, Gemini ou tout autre outil d'IA générative (et c'est le cas dans l'immense majorité des entreprises), vous êtes directement concerné.",
     sections: [
       { heading: "Qu'est-ce que l'Article 4 du Règlement européen sur l'IA ?" },
       { heading: "Qui est concerné ? Tous les « déployeurs » d'IA" },
@@ -1626,12 +1626,12 @@ export const ARTICLES: Article[] = [
       { heading: "Comment répondre à cette obligation d'ici le 2 août ?" },
     ],
     quotes: [
-      "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act — et vous êtes directement concerné par l'Article 4.",
+      "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act, et vous êtes directement concerné par l'Article 4.",
       "La maîtrise n'est pas un standard uniforme : elle doit être adaptée aux usages réels et au contexte métier de chaque collaborateur.",
       "Un Open Badge délivré par un organisme certifiant constitue, à ce jour, la preuve de conformité la plus solide face à un éventuel contrôle.",
     ],
     conclusion:
-      "L'Article 4 n'est pas une contrainte de plus. C'est le signal que l'IA en entreprise ne peut plus être une pratique informelle et non documentée. Les organisations qui anticipent construisent un avantage concret : des équipes plus efficaces, moins exposées aux erreurs, capables d'utiliser l'IA comme un levier de performance plutôt que d'en subir les risques juridiques et opérationnels. Il reste quelques semaines pour mettre en place une réponse sérieuse — le diagnostic est le meilleur point de départ.",
+      "L'Article 4 n'est pas une contrainte de plus. C'est le signal que l'IA en entreprise ne peut plus être une pratique informelle et non documentée. Les organisations qui anticipent construisent un avantage concret : des équipes plus efficaces, moins exposées aux erreurs, capables d'utiliser l'IA comme un levier de performance plutôt que d'en subir les risques juridiques et opérationnels. Il reste quelques semaines pour mettre en place une réponse sérieuse : le diagnostic est le meilleur point de départ.",
     liveUrl: '/website/ressources',
     cover: 'from-primary-100 via-primary-50 to-accent-50',
     body: [
@@ -1641,7 +1641,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Le Règlement européen sur l'intelligence artificielle (EU AI Act, Règlement 2024/1689/UE) est entré en vigueur le 1er août 2024. Il s'applique progressivement, par thématiques. La première échéance a concerné l'interdiction des systèmes à risque inacceptable (février 2025). Le 2 août 2026 marque la mise en application des obligations générales pour les systèmes à haut risque — et de l'Article 4, qui lui, s'applique à tous.",
+        text: "Le Règlement européen sur l'intelligence artificielle (EU AI Act, Règlement 2024/1689/UE) est entré en vigueur le 1er août 2024. Il s'applique progressivement, par thématiques. La première échéance a concerné l'interdiction des systèmes à risque inacceptable (février 2025). Le 2 août 2026 marque la mise en application des obligations générales pour les systèmes à haut risque, et de l'Article 4, qui lui, s'applique à tous.",
       },
       {
         type: 'p',
@@ -1649,7 +1649,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Sa particularité ? Il ne cible pas un type précis d'IA à risque élevé. Il s'adresse à l'ensemble des organisations qui utilisent de l'IA dans un cadre professionnel — quelle que soit leur taille, leur secteur, et le niveau de risque des outils concernés.",
+        text: "Sa particularité ? Il ne cible pas un type précis d'IA à risque élevé. Il s'adresse à l'ensemble des organisations qui utilisent de l'IA dans un cadre professionnel, quelle que soit leur taille, leur secteur, et le niveau de risque des outils concernés.",
       },
       {
         type: 'h2',
@@ -1657,7 +1657,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "L'AI Act distingue les fournisseurs (ceux qui développent les systèmes d'IA) et les déployeurs (ceux qui les utilisent dans un contexte professionnel). Un déployeur, c'est toute organisation qui met en usage un outil d'IA dans ses activités — même sans l'avoir développé. Concrètement : dès qu'un collaborateur utilise ChatGPT, Copilot, Claude, Gemini ou tout LLM dans son travail, l'employeur est déployeur.",
+        text: "L'AI Act distingue les fournisseurs (ceux qui développent les systèmes d'IA) et les déployeurs (ceux qui les utilisent dans un contexte professionnel). Un déployeur, c'est toute organisation qui met en usage un outil d'IA dans ses activités, même sans l'avoir développé. Concrètement : dès qu'un collaborateur utilise ChatGPT, Copilot, Claude, Gemini ou tout LLM dans son travail, l'employeur est déployeur.",
       },
       {
         type: 'ul',
@@ -1675,7 +1675,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'pullquote',
-        text: "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act — et vous êtes directement concerné par l'Article 4.",
+        text: "Si vos équipes utilisent ChatGPT, Copilot ou Gemini au travail, vous êtes déployeur au sens de l'AI Act, et vous êtes directement concerné par l'Article 4.",
       },
       {
         type: 'h2',
@@ -1708,7 +1708,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "La conformité à l'Article 4 ne se déclare pas — elle se démontre. En cas de contrôle ou d'incident, vous devez être en mesure de produire des justificatifs. Voici ce qu'il est recommandé de conserver :",
+        text: "La conformité à l'Article 4 ne se déclare pas : elle se démontre. En cas de contrôle ou d'incident, vous devez être en mesure de produire des justificatifs. Voici ce qu'il est recommandé de conserver :",
       },
       {
         type: 'ul',
@@ -1762,7 +1762,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Avant de former, il faut savoir qui utilise quoi. Cette cartographie est souvent sous-estimée — les usages informels (ChatGPT en mode personnel, Copilot activé sans politique d'usage) sont rarement remontés. Un atelier de diagnostic de 2 à 3 heures suffit pour dresser une première carte des usages par rôle et par département.",
+        text: "Avant de former, il faut savoir qui utilise quoi. Cette cartographie est souvent sous-estimée : les usages informels (ChatGPT en mode personnel, Copilot activé sans politique d'usage) sont rarement remontés. Un atelier de diagnostic de 2 à 3 heures suffit pour dresser une première carte des usages par rôle et par département.",
       },
       {
         type: 'h3',
@@ -1782,7 +1782,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "The Learning Society propose une formation certifiante sur l'usage de l'IA dans les métiers de la formation et de la pédagogie — dispensée en partenariat avec C-Campus, organisme certifiant. Elle est éligible OPCO, délivre un Open Badge vérifiable, et couvre les quatre dimensions de la maîtrise telles qu'attendues par les orientations Article 4. Le programme peut être démarré immédiatement pour une complétion avant l'échéance du 2 août.",
+        text: "The Learning Society propose une formation certifiante sur l'usage de l'IA dans les métiers de la formation et de la pédagogie, dispensée en partenariat avec C-Campus, organisme certifiant. Elle est éligible OPCO, délivre un Open Badge vérifiable, et couvre les quatre dimensions de la maîtrise telles qu'attendues par les orientations Article 4. Le programme peut être démarré immédiatement pour une complétion avant l'échéance du 2 août.",
       },
     ],
   },
@@ -1801,22 +1801,22 @@ export const ARTICLES: Article[] = [
     summary:
       "Ce que l'IA change vraiment dans le métier de formateur : les tâches qu'elle prend en charge, les compétences irréductiblement humaines, et la boucle Learn→Do→Match qui structure une montée en compétences durable.",
     intro:
-      "La peur est compréhensible. Une IA écrit un script de formation en 45 secondes, génère un quiz adaptatif, reformule un même module pour trois niveaux différents. Face à ça, la question revient dans tous les ateliers de formation de formateurs : est-ce que mon métier a encore un avenir ? Oui. Mais pas en restant au même endroit. Ce que l'IA déplace n'est pas le formateur — c'est la façon dont il répartit son temps. Et cette redistribution, bien menée, libère exactement le temps qu'il lui manquait pour faire ce que personne d'autre ne peut faire à sa place.",
+      "La peur est compréhensible. Une IA écrit un script de formation en 45 secondes, génère un quiz adaptatif, reformule un même module pour trois niveaux différents. Face à ça, la question revient dans tous les ateliers de formation de formateurs : est-ce que mon métier a encore un avenir ? Oui. Mais pas en restant au même endroit. Ce que l'IA déplace n'est pas le formateur, c'est la façon dont il répartit son temps. Et cette redistribution, bien menée, libère exactement le temps qu'il lui manquait pour faire ce que personne d'autre ne peut faire à sa place.",
     sections: [
       { heading: 'La peur, de près' },
       { heading: "Ce que « augmenté » veut dire en pratique" },
       { heading: "4 tâches que l'IA prend en charge" },
-      { heading: 'Ce que le formateur garde — irréductiblement' },
+      { heading: 'Ce que le formateur garde, irréductiblement' },
       { heading: 'Learn → Do → Match : la boucle qui ancre les compétences' },
       { heading: 'Certifier le formateur augmenté' },
     ],
     quotes: [
-      "Le formateur augmenté confie à l'IA ce qu'elle fait mieux — et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
+      "Le formateur augmenté confie à l'IA ce qu'elle fait mieux, et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
       "L'IA peut informer. Le formateur peut convaincre. Ce n'est pas la même chose.",
       "7 modules, 7 heures, un Open Badge C-Campus. La formation qui positionne le formateur là où il crée le plus de valeur.",
     ],
     conclusion:
-      "Le résultat n'est pas un formateur remplacé. C'est un formateur qui passe moins de temps sur des tâches sans valeur ajoutée, et plus de temps sur ce qui justifie son rôle : créer des conditions d'apprentissage que personne n'oublie, dans des contextes que les algorithmes ne comprennent pas. L'IA redistribue le travail. Ce que vous faites avec le temps retrouvé — voilà la vraie question. Si vous voulez structurer cette transition, la formation certifiante « Formateur Augmenté par l'IA » de The Learning Society est ouverte aux inscriptions. Découvrez le programme sur notre page Formation.",
+      "Le résultat n'est pas un formateur remplacé. C'est un formateur qui passe moins de temps sur des tâches sans valeur ajoutée, et plus de temps sur ce qui justifie son rôle : créer des conditions d'apprentissage que personne n'oublie, dans des contextes que les algorithmes ne comprennent pas. L'IA redistribue le travail. Ce que vous faites avec le temps retrouvé, voilà la vraie question. Si vous voulez structurer cette transition, la formation certifiante « Formateur Augmenté par l'IA » de The Learning Society est ouverte aux inscriptions. Découvrez le programme sur notre page Formation.",
     liveUrl: 'https://thelearningsociety.fr/le-formateur-augmente-par-lia/',
     cover: 'from-primary-200 via-primary-100 to-accent-100',
     body: [
@@ -1826,7 +1826,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Les formateurs qui s'inquiètent ne se trompent pas de diagnostic — seulement de conclusion.",
+        text: "Les formateurs qui s'inquiètent ne se trompent pas de diagnostic, seulement de conclusion.",
       },
       {
         type: 'p',
@@ -1850,7 +1850,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "C'est un formateur qui a redéfini ses priorités. Il confie à l'IA les tâches chronophages sans valeur différenciatrice — production de contenu brut, mise en forme, reformulations — et libère du temps pour ce que les algorithmes ne savent pas faire : nouer une relation de confiance avec un apprenant qui résiste, détecter la fatigue cognitive d'un groupe avant qu'elle se transforme en décrochage, adapter une progression pédagogique en direct selon ce que le groupe révèle de lui-même.",
+        text: "C'est un formateur qui a redéfini ses priorités. Il confie à l'IA les tâches chronophages sans valeur différenciatrice (production de contenu brut, mise en forme, reformulations) et libère du temps pour ce que les algorithmes ne savent pas faire : nouer une relation de confiance avec un apprenant qui résiste, détecter la fatigue cognitive d'un groupe avant qu'elle se transforme en décrochage, adapter une progression pédagogique en direct selon ce que le groupe révèle de lui-même.",
       },
       {
         type: 'p',
@@ -1858,7 +1858,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'pullquote',
-        text: "Le formateur augmenté confie à l'IA ce qu'elle fait mieux — et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
+        text: "Le formateur augmenté confie à l'IA ce qu'elle fait mieux, et reprend la main sur ce que personne d'autre ne peut faire à sa place.",
       },
       {
         type: 'h2',
@@ -1882,7 +1882,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Adapter un même module pour un débutant, un intermédiaire et un expert représentait trois journées de travail distinctes. Avec un prompt structuré et une révision ciblée, c'est une heure. Cela rend la différenciation réelle — pas seulement promise dans les objectifs pédagogiques, mais effective dans les ressources livrées.",
+        text: "Adapter un même module pour un débutant, un intermédiaire et un expert représentait trois journées de travail distinctes. Avec un prompt structuré et une révision ciblée, c'est une heure. Cela rend la différenciation réelle, pas seulement promise dans les objectifs pédagogiques, mais effective dans les ressources livrées.",
       },
       {
         type: 'h3',
@@ -1902,7 +1902,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'h2',
-        text: 'Ce que le formateur garde — irréductiblement',
+        text: 'Ce que le formateur garde, irréductiblement',
       },
       {
         type: 'p',
@@ -1910,7 +1910,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Elle ne détecte pas la défiance silencieuse d'un manager à qui on a demandé de « faire de la formation » sous pression hiérarchique. Elle ne sait pas quand raccourcir une explication parce que le groupe a déjà compris et commence à s'ennuyer. Elle n'a pas de crédibilité terrain — cette légitimité qui vient d'avoir fait le même métier, face aux mêmes contraintes, avec les mêmes outils défaillants.",
+        text: "Elle ne détecte pas la défiance silencieuse d'un manager à qui on a demandé de « faire de la formation » sous pression hiérarchique. Elle ne sait pas quand raccourcir une explication parce que le groupe a déjà compris et commence à s'ennuyer. Elle n'a pas de crédibilité terrain, cette légitimité qui vient d'avoir fait le même métier, face aux mêmes contraintes, avec les mêmes outils défaillants.",
       },
       {
         type: 'p',
@@ -1919,10 +1919,10 @@ export const ARTICLES: Article[] = [
       {
         type: 'ul',
         items: [
-          "La présence relationnelle : créer les moments de friction bienveillante — un formateur qui challenge un raisonnement trop rapide, un pair qui partage une erreur coûteuse devant le groupe. Ces échanges ne se produisent pas dans une interface chatbot. Ils demandent une présence, une temporalité, une confiance construite sur la durée.",
+          "La présence relationnelle : créer les moments de friction bienveillante, un formateur qui challenge un raisonnement trop rapide, un pair qui partage une erreur coûteuse devant le groupe. Ces échanges ne se produisent pas dans une interface chatbot. Ils demandent une présence, une temporalité, une confiance construite sur la durée.",
           "Le jugement contextuel : décider, au milieu d'une session, de jeter le plan de cours parce que le vrai problème du groupe vient d'apparaître à travers une question apparemment anodine. Cette flexibilité stratégique en temps réel n'est pas algorithmique. Elle s'apprend par l'expérience et ne se délègue pas.",
           "L'autorité d'expérience : les apprenants suivent des formateurs en qui ils ont confiance. Cette confiance se construit sur un parcours visible, une expertise incarnée, une posture qui dit « j'y suis passé avant vous ». L'IA peut informer, le formateur peut convaincre d'agir différemment.",
-          "La conception de sens : relier une compétence abstraite à un enjeu business précis, à une situation de travail que le groupe reconnaît comme la sienne, à une transformation individuelle souhaitée. Donner envie d'apprendre quelque chose de difficile. Ce travail de mise en sens — qui transforme une obligation de formation en désir d'apprendre — reste profondément humain.",
+          "La conception de sens : relier une compétence abstraite à un enjeu business précis, à une situation de travail que le groupe reconnaît comme la sienne, à une transformation individuelle souhaitée. Donner envie d'apprendre quelque chose de difficile. Ce travail de mise en sens (qui transforme une obligation de formation en désir d'apprendre) reste profondément humain.",
         ],
       },
       {
@@ -1940,9 +1940,9 @@ export const ARTICLES: Article[] = [
       {
         type: 'ul',
         items: [
-          "Learn — acquérir le savoir, comprendre les concepts, construire le modèle mental. C'est le temps de l'information et de la compréhension. L'IA augmente considérablement ce temps : personnalisation du contenu, rythme adaptatif, formats variés, répétition espacée automatisée. C'est ici que l'automatisation apporte le plus de gain immédiat.",
-          "Do — appliquer dans une situation proche du réel. Simulations, mises en situation, études de cas contextualisées, exercices à partir de vrais documents métier. C'est ici que le formateur reprend la main : concevoir des situations d'entraînement qui ressemblent au vrai travail du collaborateur demande une connaissance du terrain que l'IA n'a pas.",
-          "Match — ancrer dans le quotidien métier, suivre le transfert des compétences, valider que ce qui a été appris s'exprime concrètement dans le poste. Ce troisième temps est le plus difficile à outiller, et celui où l'accompagnement humain compte le plus. C'est souvent lui qui est sacrifié dans les dispositifs trop courts ou trop génériques.",
+          "Learn : acquérir le savoir, comprendre les concepts, construire le modèle mental. C'est le temps de l'information et de la compréhension. L'IA augmente considérablement ce temps : personnalisation du contenu, rythme adaptatif, formats variés, répétition espacée automatisée. C'est ici que l'automatisation apporte le plus de gain immédiat.",
+          "Do : appliquer dans une situation proche du réel. Simulations, mises en situation, études de cas contextualisées, exercices à partir de vrais documents métier. C'est ici que le formateur reprend la main : concevoir des situations d'entraînement qui ressemblent au vrai travail du collaborateur demande une connaissance du terrain que l'IA n'a pas.",
+          "Match : ancrer dans le quotidien métier, suivre le transfert des compétences, valider que ce qui a été appris s'exprime concrètement dans le poste. Ce troisième temps est le plus difficile à outiller, et celui où l'accompagnement humain compte le plus. C'est souvent lui qui est sacrifié dans les dispositifs trop courts ou trop génériques.",
         ],
       },
       {
@@ -1959,7 +1959,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "La formation « Formateur Augmenté par l'IA » de The Learning Society a été construite avec cette logique. 7 modules, 7 heures. Conçue avec C-Campus — organisme de formation certifié, partenaire de référence sur la formation de formateurs. Éligible OPCO. Sanctionnée par un Open Badge C-Campus qui atteste de la montée en compétences sur les usages pédagogiques de l'IA.",
+        text: "La formation « Formateur Augmenté par l'IA » de The Learning Society a été construite avec cette logique. 7 modules, 7 heures. Conçue avec C-Campus, organisme de formation certifié, partenaire de référence sur la formation de formateurs. Éligible OPCO. Sanctionnée par un Open Badge C-Campus qui atteste de la montée en compétences sur les usages pédagogiques de l'IA.",
       },
       {
         type: 'p',
@@ -1986,7 +1986,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Comment intégrer l'IA dans la conception de formation sans perdre la rigueur pédagogique : les étapes où l'IA aide vraiment, les limites à connaître, et des exemples de prompts opérationnels.",
     intro:
-      "L'ingénierie pédagogique est un métier de précision. Définir des objectifs mesurables, séquencer des activités pour qu'elles s'articulent, calibrer les évaluations pour qu'elles testent ce qu'elles prétendent tester. C'est ce travail que l'IA change — pas en le supprimant, mais en redistribuant où l'effort cognitif doit aller. Pour les ingénieurs pédagogiques qui ont appris à se méfier des effets d'annonce, la question n'est pas « est-ce que l'IA va tout changer ? » mais « sur quelles tâches précises l'IA m'aide vraiment, et sur lesquelles je dois rester attentif ? »",
+      "L'ingénierie pédagogique est un métier de précision. Définir des objectifs mesurables, séquencer des activités pour qu'elles s'articulent, calibrer les évaluations pour qu'elles testent ce qu'elles prétendent tester. C'est ce travail que l'IA change, pas en le supprimant, mais en redistribuant où l'effort cognitif doit aller. Pour les ingénieurs pédagogiques qui ont appris à se méfier des effets d'annonce, la question n'est pas « est-ce que l'IA va tout changer ? » mais « sur quelles tâches précises l'IA m'aide vraiment, et sur lesquelles je dois rester attentif ? »",
     sections: [
       { heading: "Ce que change (vraiment) l'IA pour l'IP" },
       { heading: 'Phase 1 : analyse des besoins et objectifs' },
@@ -1997,11 +1997,11 @@ export const ARTICLES: Article[] = [
     ],
     quotes: [
       "L'IA produit du volume. L'ingénieur pédagogique produit de la cohérence. Les deux ne se substituent pas.",
-      "Un prompt bien construit n'est pas une commande — c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
+      "Un prompt bien construit n'est pas une commande, c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
       "L'IA peut vous dire si vos objectifs sont bien rédigés. Elle ne peut pas décider si vous avez cerné les bons.",
     ],
     conclusion:
-      "L'IA ne remplace pas l'expertise pédagogique. Elle amplifie les compétences de ceux qui savent déjà ce qu'ils font — et expose les faiblesses de ceux qui ne le savent pas encore. Les ingénieurs pédagogiques qui intègrent l'IA comme partenaire de réflexion, pas comme rédacteur automatique, gagnent du temps sur les tâches de production et libèrent de l'attention pour ce qui détermine vraiment la qualité d'un dispositif : la pertinence des objectifs, la cohérence du séquençage, la validité des évaluations. Si vous souhaitez structurer cette pratique dans votre travail quotidien, la formation certifiante de The Learning Society est conçue pour exactement ça.",
+      "L'IA ne remplace pas l'expertise pédagogique. Elle amplifie les compétences de ceux qui savent déjà ce qu'ils font, et expose les faiblesses de ceux qui ne le savent pas encore. Les ingénieurs pédagogiques qui intègrent l'IA comme partenaire de réflexion, pas comme rédacteur automatique, gagnent du temps sur les tâches de production et libèrent de l'attention pour ce qui détermine vraiment la qualité d'un dispositif : la pertinence des objectifs, la cohérence du séquençage, la validité des évaluations. Si vous souhaitez structurer cette pratique dans votre travail quotidien, la formation certifiante de The Learning Society est conçue pour exactement ça.",
     liveUrl: 'https://thelearningsociety.fr/ingenierie-pedagogique-ia/',
     cover: 'from-secondary-200 via-secondary-100 to-primary-100',
     body: [
@@ -2016,7 +2016,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Ce qui ne change pas : la qualité du raisonnement pédagogique en amont. Savoir si les objectifs sont formulés à un bon niveau de granularité. Savoir si la séquence d'activités respecte une progression qui facilite les transferts. Savoir si l'évaluation mesure réellement la compétence ciblée ou seulement la mémorisation à court terme. Sur ces questions, l'IA peut vous challenger, vous proposer des alternatives, vous aider à vérifier la cohérence interne — mais elle ne décide pas à votre place.",
+        text: "Ce qui ne change pas : la qualité du raisonnement pédagogique en amont. Savoir si les objectifs sont formulés à un bon niveau de granularité. Savoir si la séquence d'activités respecte une progression qui facilite les transferts. Savoir si l'évaluation mesure réellement la compétence ciblée ou seulement la mémorisation à court terme. Sur ces questions, l'IA peut vous challenger, vous proposer des alternatives, vous aider à vérifier la cohérence interne, mais elle ne décide pas à votre place.",
       },
       {
         type: 'pullquote',
@@ -2025,7 +2025,7 @@ export const ARTICLES: Article[] = [
       { type: 'h2', text: 'Phase 1 : analyse des besoins et objectifs' },
       {
         type: 'p',
-        text: "C'est la phase la plus critique et celle où l'IA aide le moins directement — mais le plus utilement si on sait comment l'utiliser.",
+        text: "C'est la phase la plus critique et celle où l'IA aide le moins directement, mais le plus utilement si on sait comment l'utiliser.",
       },
       {
         type: 'p',
@@ -2052,7 +2052,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Le résultat n'est pas à utiliser tel quel — c'est un point de départ. L'IP compare les propositions, élimine celles qui ne cadrent pas avec les contraintes réelles du dispositif (temps, modalités, public), et conserve 1 ou 2 idées à affiner.",
+        text: "Le résultat n'est pas à utiliser tel quel, c'est un point de départ. L'IP compare les propositions, élimine celles qui ne cadrent pas avec les contraintes réelles du dispositif (temps, modalités, public), et conserve 1 ou 2 idées à affiner.",
       },
       { type: 'h2', text: 'Phase 3 : production des contenus' },
       {
@@ -2074,12 +2074,12 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'pullquote',
-        text: "Un prompt bien construit n'est pas une commande — c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
+        text: "Un prompt bien construit n'est pas une commande, c'est une conversation avec un partenaire qui ne sait rien du contexte sans que vous le lui donniez.",
       },
       { type: 'h2', text: 'Phase 4 : évaluation et feedback' },
       {
         type: 'p',
-        text: "Les évaluations formatives (quiz, QCM, questions ouvertes, grilles d'auto-évaluation) sont chronophages à produire en volume et souffrent souvent d'un défaut de diversité — on finit par produire les mêmes types de questions par habitude.",
+        text: "Les évaluations formatives (quiz, QCM, questions ouvertes, grilles d'auto-évaluation) sont chronophages à produire en volume et souffrent souvent d'un défaut de diversité : on finit par produire les mêmes types de questions par habitude.",
       },
       {
         type: 'p',
@@ -2100,7 +2100,7 @@ export const ARTICLES: Article[] = [
         items: [
           "L'IA hallucine sur les références. Si vous demandez à l'IA de citer des études sur l'efficacité d'une méthode pédagogique, elle vous donnera des références qui semblent crédibles mais peuvent être inventées. Ne jamais citer une source sans l'avoir vérifiée directement.",
           "L'IA ne connaît pas votre public réel. Elle travaille avec les descripteurs que vous lui donnez. Si votre public a des particularités culturelles, sectorielles, ou linguistiques spécifiques, vous devez les injecter dans chaque prompt, pas seulement dans le premier.",
-          "L'IA ne peut pas valider la pertinence des objectifs. Elle peut vous dire si vos objectifs sont bien rédigés selon Bloom. Elle ne peut pas décider si vous avez cerné les bons besoins à adresser — ça, c'est votre expertise terrain.",
+          "L'IA ne peut pas valider la pertinence des objectifs. Elle peut vous dire si vos objectifs sont bien rédigés selon Bloom. Elle ne peut pas décider si vous avez cerné les bons besoins à adresser : ça, c'est votre expertise terrain.",
         ],
       },
       {
@@ -2134,7 +2134,7 @@ export const ARTICLES: Article[] = [
     ],
     quotes: [
       "Un badge de complétion dit que vous avez regardé. Un badge de compétence dit que vous savez faire.",
-      "Le niveau Dreyfus n'est pas une note — c'est une description de comment vous fonctionnez face à un problème nouveau.",
+      "Le niveau Dreyfus n'est pas une note, c'est une description de comment vous fonctionnez face à un problème nouveau.",
       "La cryptographie garantit que personne ne peut falsifier un Open Badge. Ce que C-Campus certifie, c'est la réalité de ce qui a été évalué.",
     ],
     conclusion:
@@ -2159,11 +2159,11 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Ce modèle est utile pour construire un passeport de compétences parce qu'il décrit des comportements observables, pas des connaissances déclaratives. La différence entre niveau 2 et niveau 3 sur une compétence donnée n'est pas « en sait-on plus » — c'est « comment se comporte-t-on face à une situation nouvelle dans ce domaine ».",
+        text: "Ce modèle est utile pour construire un passeport de compétences parce qu'il décrit des comportements observables, pas des connaissances déclaratives. La différence entre niveau 2 et niveau 3 sur une compétence donnée n'est pas « en sait-on plus », c'est « comment se comporte-t-on face à une situation nouvelle dans ce domaine ».",
       },
       {
         type: 'pullquote',
-        text: "Le niveau Dreyfus n'est pas une note — c'est une description de comment vous fonctionnez face à un problème nouveau.",
+        text: "Le niveau Dreyfus n'est pas une note, c'est une description de comment vous fonctionnez face à un problème nouveau.",
       },
       { type: 'h2', text: 'Le badge de complétion vs le badge de compétence' },
       {
@@ -2212,7 +2212,7 @@ export const ARTICLES: Article[] = [
       {
         type: 'ul',
         items: [
-          "Ancrez chaque compétence sur un référentiel. Une compétence sans définition partagée ne peut pas être évaluée de façon cohérente. Le modèle Dreyfus, la taxonomie de Bloom, ou un référentiel sectoriel reconnu — peu importe lequel, tant qu'il est explicite.",
+          "Ancrez chaque compétence sur un référentiel. Une compétence sans définition partagée ne peut pas être évaluée de façon cohérente. Le modèle Dreyfus, la taxonomie de Bloom, ou un référentiel sectoriel reconnu : peu importe lequel, tant qu'il est explicite.",
           "Privilegiez les preuves sur les déclarations. Une compétence 'auto-déclarée' (je sais faire X) vaut moins qu'une compétence 'prouvée' (j'ai produit Y, évalué par Z). Votre passeport doit contenir des livrables, pas seulement des certifications.",
           "Mettez à jour régulièrement. Une compétence au niveau 3 (Dreyfus) aujourd'hui peut régresser si elle n'est pas pratiquée. Un passeport qui date de 5 ans sans mise à jour dit plus sur votre rapport à l'apprentissage que sur vos compétences actuelles.",
           "Liez vos badges à vos projets. Sur LinkedIn et dans vos propositions, un badge est plus convaincant quand il est relié à un projet concret où vous avez appliqué la compétence certifiée.",
@@ -2235,7 +2235,7 @@ export const ARTICLES: Article[] = [
     summary:
       "Le marché des formations IA pour formateurs a explosé. Voici cinq critères pour évaluer une offre sérieusement : pas de classements, pas de noms, des questions à poser.",
     intro:
-      "En 2024, il n'existait presque pas de formations IA spécifiquement conçues pour les formateurs. En 2026, il en existe des dizaines. Certaines durent 3 heures. D'autres 7 jours. Certaines promettent un certificat, d'autres un Open Badge. Certaines sont conçues par des pédagogues, d'autres par des généralistes IA qui ont appris à construire des formations à la va-vite. Devant cette abondance, choisir devient un travail à part entière. Ces cinq critères ne classent pas les offres — ils vous donnent les questions à poser pour le faire vous-même.",
+      "En 2024, il n'existait presque pas de formations IA spécifiquement conçues pour les formateurs. En 2026, il en existe des dizaines. Certaines durent 3 heures. D'autres 7 jours. Certaines promettent un certificat, d'autres un Open Badge. Certaines sont conçues par des pédagogues, d'autres par des généralistes IA qui ont appris à construire des formations à la va-vite. Devant cette abondance, choisir devient un travail à part entière. Ces cinq critères ne classent pas les offres : ils vous donnent les questions à poser pour le faire vous-même.",
     sections: [
       { heading: 'Critère 1 : qui a conçu le programme ?' },
       { heading: 'Critère 2 : quelle est la profondeur pédagogique ?' },
@@ -2249,7 +2249,7 @@ export const ARTICLES: Article[] = [
       "Une certification sans critères d'évaluation publiés est une certification sans valeur. Demandez à voir les critères avant d'acheter.",
     ],
     conclusion:
-      "Choisir une formation IA en 2026, c'est choisir comment vous voulez évoluer dans votre métier pour les 5 à 10 prochaines années. Les critères ci-dessus ne sont pas une garantie — ils sont un filtre pour éliminer les offres qui ne méritent pas votre temps. Si vous souhaitez voir comment la formation certifiante de The Learning Society répond à chacun de ces critères, consultez le programme détaillé sur notre page Formation.",
+      "Choisir une formation IA en 2026, c'est choisir comment vous voulez évoluer dans votre métier pour les 5 à 10 prochaines années. Les critères ci-dessus ne sont pas une garantie : ils sont un filtre pour éliminer les offres qui ne méritent pas votre temps. Si vous souhaitez voir comment la formation certifiante de The Learning Society répond à chacun de ces critères, consultez le programme détaillé sur notre page Formation.",
     liveUrl: 'https://thelearningsociety.fr/choisir-formation-ia-formateurs/',
     cover: 'from-primary-100 via-accent-50 to-secondary-100',
     body: [
@@ -2273,7 +2273,7 @@ export const ARTICLES: Article[] = [
       { type: 'h2', text: 'Critère 2 : quelle est la profondeur pédagogique ?' },
       {
         type: 'p',
-        text: "Une formation sur l'IA pour formateurs doit elle-même être un exemple de bonne ingénierie pédagogique. Si la formation consiste en 7 heures de vidéos à regarder passivement, sans activités pratiques, sans productions attendues, sans feedback sur l'application — c'est un signal fort sur la vision pédagogique de ceux qui l'ont construite.",
+        text: "Une formation sur l'IA pour formateurs doit elle-même être un exemple de bonne ingénierie pédagogique. Si la formation consiste en 7 heures de vidéos à regarder passivement, sans activités pratiques, sans productions attendues, sans feedback sur l'application, c'est un signal fort sur la vision pédagogique de ceux qui l'ont construite.",
       },
       {
         type: 'p',
@@ -2281,7 +2281,7 @@ export const ARTICLES: Article[] = [
       },
       {
         type: 'p',
-        text: "Une formation qui vous apprend l'ingénierie pédagogique augmentée par l'IA doit elle-même être construite selon les principes qu'elle enseigne. Sinon, le message implicite est que ces principes ne s'appliquent pas vraiment — ou que les concepteurs ne les maîtrisent pas.",
+        text: "Une formation qui vous apprend l'ingénierie pédagogique augmentée par l'IA doit elle-même être construite selon les principes qu'elle enseigne. Sinon, le message implicite est que ces principes ne s'appliquent pas vraiment, ou que les concepteurs ne les maîtrisent pas.",
       },
       { type: 'h2', text: 'Critère 3 : comment est évaluée la montée en compétences ?' },
       {
@@ -2307,7 +2307,7 @@ export const ARTICLES: Article[] = [
       { type: 'h2', text: 'Critère 4 : quelle est la durée réelle ?' },
       {
         type: 'p',
-        text: "Les durées affichées peuvent être trompeuses. « 7 heures de formation » peut signifier 7 heures de vidéos — ou 7 heures incluant des activités pratiques, des échanges avec un expert, et du temps de production de livrables. La seconde option demande en réalité bien plus de 7 heures d'engagement total.",
+        text: "Les durées affichées peuvent être trompeuses. « 7 heures de formation » peut signifier 7 heures de vidéos, ou 7 heures incluant des activités pratiques, des échanges avec un expert, et du temps de production de livrables. La seconde option demande en réalité bien plus de 7 heures d'engagement total.",
       },
       {
         type: 'p',
@@ -2324,7 +2324,7 @@ export const ARTICLES: Article[] = [
       { type: 'h2', text: "Critère 5 : quelle est l'éligibilité OPCO ?" },
       {
         type: 'p',
-        text: "Si vous êtes salarié ou travailleur indépendant, votre OPCO (Opérateur de Compétences) peut financer tout ou partie d'une formation professionnelle continue. L'éligibilité dépend de l'organisme de formation (doit être référencé DataDock ou équivalent), de votre secteur d'activité et de votre OPCO, et du type de financement (plan de développement des compétences, CPF de transition, etc.).",
+        text: "Si vous êtes salarié ou travailleur indépendant, votre OPCO (Opérateur de Compétences) peut financer tout ou partie d'une formation professionnelle continue. L'éligibilité dépend de l'organisme de formation (doit être référencé DataDock ou équivalent), de votre secteur d'activité et de votre OPCO, et du dispositif de financement retenu (plan de développement des compétences, Pro-A, etc.).",
       },
       {
         type: 'p',

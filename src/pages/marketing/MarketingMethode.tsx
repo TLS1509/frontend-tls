@@ -30,7 +30,6 @@ import { Button } from '../../components/core/Button';
 import {
   FadeInWhenVisible,
   MagneticButton,
-  CountUp,
 } from '../../components/marketing/motion';
 import { SEOHead } from './components/SEOHead';
 
@@ -108,23 +107,27 @@ const PRINCIPLES = [
   },
 ];
 
+/* Pas de métrique chiffrée (%, adoption, complétion) sur ces cas illustratifs
+   — règle absolue FACTS-CANON.md : aucune performance/adoption/complétion
+   inventée. Le champ `metric` reste un repère de portée/durée, jamais un
+   chiffre de performance. */
 const USE_CASES = [
   {
     badge: 'Formation interne',
     title: 'Onboarding commercial 2 jours',
-    metric: '40 % de temps de conception en moins',
+    metric: 'Refonte livrée en 5 semaines',
     desc: "Un grand groupe industriel a refondu son onboarding commercial via STRIDE en 5 semaines. L'IA a généré les variantes par secteur, le formateur a animé.",
   },
   {
     badge: 'Parcours certifiant',
     title: 'Manager Augmenté · 8 semaines',
-    metric: '92 % de complétion',
+    metric: 'Validé en JAC à chaque étape',
     desc: "Cohorte mixte managers + L&D. STRIDE a permis d'aligner le programme sur les vrais cas d'usage opérationnels, validés en JAC à chaque étape.",
   },
   {
     badge: 'Workflow learning',
     title: 'Compagnon IA dans le CRM',
-    metric: 'Adoption 78 % en 3 mois',
+    metric: 'Rythmé par le flux de travail',
     desc: "Une scale-up tech a embarqué la méthode dans son outil métier. Apprentissage 'just-in-time' rythmé par les vrais moments du flux de travail.",
   },
 ];
@@ -208,7 +211,7 @@ export const MarketingMethode: React.FC = () => {
                 <article
                   className={`grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-stack-lg items-start lg:items-center rounded-3xl p-stack-lg border ${
                     i % 2 === 0 ? 'bg-white border-ink-100' : 'bg-primary-50/30 border-primary-100'
-                  } shadow-sm hover:shadow-lg transition-shadow duration-base`}
+                  } shadow-card hover:shadow-card-hover transition-shadow duration-base`}
                 >
                   {/* Letter + word */}
                   <div className="flex items-center gap-stack lg:flex-col lg:items-start lg:gap-tight lg:w-40">
@@ -276,7 +279,7 @@ export const MarketingMethode: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-card hover:shadow-card-hover hover:border-primary-200 transition-shadow duration-base"
                 >
                   <span className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-50 text-primary-700 border border-primary-100">
                     {p.icon}
@@ -305,7 +308,7 @@ export const MarketingMethode: React.FC = () => {
             </FadeInWhenVisible>
             <FadeInWhenVisible direction="up" delay={0.1}>
               <p className="font-body text-caption text-ink-400 italic m-0">
-                Exemples illustratifs — vrais cas clients publiés dès accord des organisations concernées.
+                Exemples illustratifs, vrais cas clients publiés dès accord des organisations concernées.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -316,7 +319,7 @@ export const MarketingMethode: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -6 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                  className="h-full rounded-3xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-3xl border border-ink-100 bg-white p-stack-lg flex flex-col gap-stack-lg shadow-card hover:shadow-card-lift hover:border-primary-200 transition-shadow duration-base"
                 >
                   <span className="inline-flex self-start items-center gap-tight px-2.5 py-1 rounded-pill bg-ink-50 border border-ink-200 text-ink-700 font-body text-caption font-bold uppercase tracking-wider">
                     {u.badge}
@@ -345,7 +348,7 @@ export const MarketingMethode: React.FC = () => {
         </div>
         <div className="relative max-w-3xl mx-auto px-6 flex flex-col items-center">
           <FadeInWhenVisible direction="up">
-            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-2xl p-section-lg flex flex-col items-center text-center gap-stack-lg">
+            <div className="w-full rounded-3xl bg-white/10 backdrop-blur-glass-heavy border border-white/20 shadow-card-lift p-section-lg flex flex-col items-center text-center gap-stack-lg">
               <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
                 On applique STRIDE{' '}
                 <span className="text-accent-400">à votre contexte</span> ?
@@ -372,7 +375,6 @@ export const MarketingMethode: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
     </div>
   );
 };

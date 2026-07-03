@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
@@ -28,6 +28,7 @@ const CONTAINER = 'max-w-medium mx-auto px-4 sm:px-6 lg:px-10';
 export const MarketingVideoDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const video = slug ? findVideo(slug) : null;
+  const reduced = useReducedMotion();
 
   if (!video) {
     return <Navigate to="/website/resources" replace />;
@@ -49,7 +50,7 @@ export const MarketingVideoDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour aux ressources
@@ -99,13 +100,27 @@ export const MarketingVideoDetail: React.FC = () => {
                   'radial-gradient(ellipse at 30% 40%, rgba(85,161,180,0.14) 0%, transparent 60%), radial-gradient(ellipse at 70% 70%, rgba(85,161,180,0.05) 0%, transparent 50%)',
               }}
             />
-            <button
-              type="button"
-              aria-label="Lire la vidéo"
-              className="relative z-[1] w-20 h-20 rounded-full bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
-            >
-              <Play size={30} className="ml-1 fill-white text-white" />
-            </button>
+            {video.embedUrl ? (
+              <a
+                href={video.embedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Lire la vidéo (nouvel onglet)"
+                className="relative z-[1] w-20 h-20 rounded-full bg-primary-500 shadow-[0_0_0_14px_rgba(85,161,180,0.20)] flex items-center justify-center transition-transform duration-base hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white/70"
+              >
+                <Play size={30} className="ml-1 fill-white text-white" />
+              </a>
+            ) : (
+              <div
+                aria-label="Vidéo à venir"
+                className="relative z-[1] flex flex-col items-center gap-stack-xs text-white/70"
+              >
+                <div className="w-20 h-20 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                  <Play size={30} className="ml-1 text-white/50" />
+                </div>
+                <span className="font-body text-caption font-semibold">Vidéo à venir</span>
+              </div>
+            )}
             <span className="absolute bottom-4 right-5 bg-black/45 backdrop-blur-sm text-white font-body text-caption font-bold px-2.5 py-1 rounded-md">
               {video.duration}
             </span>
@@ -143,11 +158,11 @@ export const MarketingVideoDetail: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
               {related.map((r, i) => (
                 <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.06}>
-                  <Link to={`/website/videos/${r.slug}`} className="group block h-full">
+                  <Link to={`/website/videos/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                     <motion.article
-                      whileHover={{ y: -4 }}
+                      whileHover={reduced ? undefined : { y: -4 }}
                       transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                      className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-lg hover:border-primary-200 transition-shadow duration-base"
+                      className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-card hover:shadow-card-hover hover:border-primary-200 transition-shadow duration-base"
                     >
                       <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center`}>
                         <Play size={28} strokeWidth={1.5} className="text-ink-900/30" />

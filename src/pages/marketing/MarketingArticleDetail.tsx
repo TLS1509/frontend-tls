@@ -30,6 +30,7 @@ import { PageShell } from '../../components/layout';
 import {
   FadeInWhenVisible,
   MagneticButton,
+  MeshGradientBg,
 } from '../../components/marketing/motion';
 import { ARTICLES, findArticle, getRelatedArticles, type ArticleBodyBlock } from '../../data/marketingArticles';
 import { SEOHead } from './components/SEOHead';
@@ -37,9 +38,9 @@ import { SEOHead } from './components/SEOHead';
 const CATEGORY_TONES: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
-  Outils: 'bg-accent-50 text-warning-fg border-accent-100',
-  Innovation: 'bg-primary-50 text-primary-700 border-primary-100',
-  "Retours d'expérience": 'bg-secondary-50 text-secondary-700 border-secondary-100',
+  Outils: 'bg-accent-50 text-accent-600 border-accent-200',
+  Innovation: 'bg-ink-100 text-ink-700 border-ink-200',
+  "Retours d'expérience": 'bg-success-bg text-success-fg border-success-base/30',
 };
 
 /**
@@ -78,7 +79,7 @@ const SectionTOC: React.FC<{ sections: { heading: string }[]; activeId: string |
           <li key={id}>
             <a
               href={`#${id}`}
-              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base ${
+              className={`block py-1.5 pl-3 border-l-2 text-body-sm leading-snug transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
                 isActive
                   ? 'border-primary-600 text-primary-700 font-semibold'
                   : 'border-ink-200 text-ink-600 hover:text-ink-900 hover:border-ink-400'
@@ -124,7 +125,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       <button
         type="button"
         onClick={handleShare}
-        className="inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch"
+        className="inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill bg-white border border-ink-200 text-ink-700 hover:bg-ink-50 hover:border-primary-300 transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         aria-label="Partager l'article"
       >
         <Share2 size={14} />
@@ -133,7 +134,7 @@ const ShareBar: React.FC<{ url: string; title: string }> = ({ url, title }) => {
       <button
         type="button"
         onClick={handleCopy}
-        className={`inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill border transition-colors duration-fast min-h-touch ${
+        className={`inline-flex items-center gap-stack-xs px-3 h-9 rounded-pill border transition-colors duration-fast min-h-touch focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
           copied
             ? 'bg-success-bg text-success-fg border-success-base/40'
             : 'bg-white text-ink-700 border-ink-200 hover:bg-ink-50 hover:border-primary-300'
@@ -254,7 +255,7 @@ const ArticleBody: React.FC<{
   let pullquoteCount = 0;
 
   return (
-    <article className="flex flex-col gap-stack-lg">
+    <article className="flex flex-col gap-stack-lg max-w-prose">
       {/* Intro : drop cap */}
       <FadeInWhenVisible direction="up">
         <p className="font-display text-[clamp(1.125rem,1.5vw,1.375rem)] text-ink-800 leading-relaxed m-0 first-letter:font-extrabold first-letter:text-[3rem] first-letter:leading-[0.85] first-letter:float-left first-letter:mr-2 first-letter:mt-1 first-letter:text-primary-600">
@@ -300,7 +301,7 @@ const ArticleBody: React.FC<{
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary-600 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast"
+              className="text-primary-600 hover:text-primary-700 underline underline-offset-2 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               thelearningsociety.fr
             </a>
@@ -350,7 +351,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <FadeInWhenVisible direction="up">
             <Link
               to="/website/resources"
-              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
+              className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
               Retour au Mag'
@@ -437,7 +438,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {prev && (
             <Link
               to={`/website/magazine/${prev.slug}`}
-              className="group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base"
+              className="group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card-hover transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 <ArrowLeft size={14} className="transition-transform duration-base group-hover:-translate-x-1" />
@@ -452,7 +453,7 @@ export const MarketingArticleDetail: React.FC = () => {
           {next && (
             <Link
               to={`/website/magazine/${next.slug}`}
-              className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base text-right ${!prev ? 'md:col-start-2' : ''}`}
+              className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-card-hover transition-all duration-base text-right focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${!prev ? 'md:col-start-2' : ''}`}
             >
               <span className="inline-flex items-center gap-1.5 self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
                 Article suivant
@@ -485,11 +486,11 @@ export const MarketingArticleDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {related.map((r, i) => (
               <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.1}>
-                <Link to={`/website/magazine/${r.slug}`} className="group block h-full">
+                <Link to={`/website/magazine/${r.slug}`} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
                   <motion.article
                     whileHover={{ y: -4 }}
                     transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                    className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
+                    className="h-full bg-white border border-ink-100 rounded-2xl overflow-hidden flex flex-col shadow-card hover:shadow-card-lift hover:border-primary-200 transition-shadow duration-base"
                   >
                     <div className={`relative h-32 bg-gradient-to-br ${r.cover} flex items-center justify-center overflow-hidden`}>
                       <div aria-hidden className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/20" />
@@ -531,7 +532,37 @@ export const MarketingArticleDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ── CTA final (le seul moment dark) ─────────────────────────────────── */}
+      <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
+        <MeshGradientBg tone="ink" intensity="subtle" />
+        <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
+          <FadeInWhenVisible direction="up">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
+              Passer de la théorie à la pratique ?
+            </h2>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.08}>
+            <p className="font-body text-body-lg text-white/80 max-w-2xl m-0">
+              La Learning App et l'accompagnement STRIDE opérationnalisent ce modèle dans votre
+              organisation.
+            </p>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="up" delay={0.16}>
+            <div className="flex flex-wrap items-center justify-center gap-stack">
+              <Link to="/website/accompagnement">
+                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Découvrir l'accompagnement
+                </Button>
+              </Link>
+              <Link to="/website/learning-app">
+                <Button variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Voir la Learning App
+                </Button>
+              </Link>
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
     </div>
   );
 };

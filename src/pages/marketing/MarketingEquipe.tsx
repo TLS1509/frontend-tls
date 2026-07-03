@@ -33,7 +33,7 @@ import { SEOHead } from './components/SEOHead';
 
 const TEAM = [
   {
-    name: 'Chloé Mimault-Talagrand',
+    name: 'Chloé Mimault',
     initials: 'CM',
     role: 'Co-fondatrice · Managing Director',
     bio: "Pilote la stratégie, le développement commercial et les opérations de TLS. Construit la marque et les partenariats avec l'exigence que la transformation pédagogique mérite.",
@@ -72,7 +72,7 @@ const VALUES = [
 ];
 
 const TIMELINE = [
-  { year: '2022', title: 'Fondation', desc: "Pierre-Armand Dennery et Chloé Mimault-Talagrand fondent The Learning Society (SAS, Paris 14e)." },
+  { year: '2022', title: 'Fondation', desc: "Pierre-Armand Dennery et Chloé Mimault fondent The Learning Society (SAS, Paris 14e)." },
   { year: '2025', title: 'Premier parcours certifiant', desc: 'Lancement de la formation Formateur Augmenté par l\'IA (7 modules), en partenariat avec C-Campus. Open Badge reconnu sur LinkedIn, prise en charge OPCO éligible selon secteur.' },
   { year: '2026', title: 'Learning App + écosystème', desc: "Beta de la plateforme. Premier client entreprise en production depuis janvier 2026." },
 ];
@@ -82,7 +82,7 @@ export const MarketingEquipe: React.FC = () => {
     <div className="bg-white">
       <SEOHead
         title="Qui sommes-nous · Fondateurs & vision"
-        description="Pierre-Armand Dennery et Chloé Mimault, co-fondateurs de The Learning Society. Experts pédagogie IA et transformation L&D — Paris, fondée en 2022."
+        description="Pierre-Armand Dennery et Chloé Mimault, co-fondateurs de The Learning Society. Experts pédagogie IA et transformation L&D, basés à Paris, fondée en 2022."
         canonical="/website/equipe"
       />
 
@@ -163,7 +163,7 @@ export const MarketingEquipe: React.FC = () => {
                 <motion.article
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="h-full rounded-3xl bg-gradient-to-br from-white to-primary-50/30 border border-primary-100 p-stack-lg flex flex-col gap-stack-lg shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
+                  className="h-full rounded-3xl bg-gradient-to-br from-white to-primary-50/30 border border-primary-100 p-stack-lg flex flex-col gap-stack-lg shadow-card hover:shadow-card-hover transition-shadow duration-base"
                 >
                   <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-100 border border-primary-200 text-primary-700">
                     {v.icon}
@@ -206,11 +206,7 @@ export const MarketingEquipe: React.FC = () => {
             {TEAM.map((m, i) => (
               <FadeInWhenVisible key={m.name} direction="up" delay={i * 0.08}>
                 <TiltCard maxRotation={6} className="h-full">
-                  <motion.article
-                    whileHover={{ y: -6 }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                    className="h-full rounded-3xl bg-white border border-ink-100 overflow-hidden flex flex-col shadow-sm hover:shadow-xl hover:border-primary-200 transition-shadow duration-base"
-                  >
+                  <article className="h-full rounded-3xl bg-white border border-ink-100 overflow-hidden flex flex-col shadow-card hover:shadow-card-lift transition-shadow duration-base">
                     <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
                       <span className="font-display text-[clamp(3rem,8vw,5rem)] font-extrabold text-primary-400 select-none">
                         {m.initials}
@@ -239,7 +235,7 @@ export const MarketingEquipe: React.FC = () => {
                         ))}
                       </div>
                     </div>
-                  </motion.article>
+                  </article>
                 </TiltCard>
               </FadeInWhenVisible>
             ))}
