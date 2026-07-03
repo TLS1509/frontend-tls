@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Download, FileText, Table2, BarChart3, Calendar, Check } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
+import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -65,26 +66,14 @@ export default function ManagerExport() {
         <SectionCard title="Format d'export" titleIcon={<FileText size={18} />}>
           <div className="grid md:grid-cols-3 gap-stack">
             {(Object.entries(FORMAT_CONFIG) as [ExportFormat, (typeof FORMAT_CONFIG)[ExportFormat]][]).map(([key, cfg]) => (
-              <button
+              <SelectableOptionCard
                 key={key}
-                type="button"
+                icon={cfg.icon}
+                label={cfg.label}
+                description={cfg.description}
+                selected={format === key}
                 onClick={() => setFormat(key)}
-                className={[
-                  'flex flex-col gap-stack-xs p-5 rounded-xl border text-left transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  format === key
-                    ? 'bg-primary-50 border-primary-300 shadow-sm'
-                    : 'bg-white border-ink-100 hover:border-ink-200',
-                ].join(' ')}
-              >
-                <div className={['w-10 h-10 rounded-lg flex items-center justify-center', format === key ? 'bg-primary-600 text-white' : 'bg-ink-100 text-ink-500'].join(' ')}>
-                  {cfg.icon}
-                </div>
-                <div className="flex flex-col gap-tight">
-                  <span className="text-body-sm font-semibold text-ink-900">{cfg.label}</span>
-                  <span className="text-caption text-ink-500">{cfg.description}</span>
-                </div>
-                {format === key && <Badge variant="info" size="sm">Sélectionné</Badge>}
-              </button>
+              />
             ))}
           </div>
         </SectionCard>

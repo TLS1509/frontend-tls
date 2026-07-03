@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Plus, Save, BarChart3, LineChart, PieChart, Table2, Trash2 } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Save, BarChart3, LineChart as LineChartIcon, PieChart as PieChartIcon, Table2, Trash2 } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
+import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
+import { DataTable } from '../components/patterns/DataTable';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
@@ -9,6 +11,9 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
+import { BarChart } from '../components/charts/BarChart';
+import { LineChart } from '../components/charts/LineChart';
+import { PieChart } from '../components/charts/PieChart';
 import { Container } from '../components/layout';
 
 const METRICS = [
@@ -24,10 +29,24 @@ const METRICS = [
 
 const CHART_TYPES = [
   { v: 'bar', label: 'Barres', icon: BarChart3 },
-  { v: 'line', label: 'Ligne', icon: LineChart },
-  { v: 'pie', label: 'Camembert', icon: PieChart },
+  { v: 'line', label: 'Ligne', icon: LineChartIcon },
+  { v: 'pie', label: 'Camembert', icon: PieChartIcon },
   { v: 'table', label: 'Tableau', icon: Table2 },
 ];
+
+const GROUP_LABELS: Record<string, string[]> = {
+  'département': ['Product & Tech', 'Marketing & Sales', 'Finance & Ops', 'RH & Talent', 'Direction'],
+  'cohorte': ['Cohorte A', 'Cohorte B', 'Cohorte C', 'Cohorte D'],
+  'apprenant': ['Sophie M.', 'Marc D.', 'Julie R.', 'Thomas L.'],
+  'compétence': ['Leadership', 'Communication', 'Analyse', 'Tech Tools'],
+};
+
+const SERIES_COLORS = ['#55A1B4', '#ED843A', '#9DBEBA', '#F8B044'];
+
+/** Génère une valeur pseudo-stable (pas Math.random) à partir des index groupe/métrique. */
+function mockValue(groupIdx: number, metricIdx: number): number {
+  return 40 + ((groupIdx * 17 + metricIdx * 23) % 55);
+}
 
 const ManagerViewsBuilder: React.FC = () => {
   const [name, setName] = useState('Ma nouvelle vue');
@@ -39,6 +58,35 @@ const ManagerViewsBuilder: React.FC = () => {
   const toggleMetric = (m: string) => {
     setSelectedMetrics((s) => (s.includes(m) ? s.filter((x) => x !== m) : [...s, m]));
   };
+
+  const groups = GROUP_LABELS[groupBy] ?? GROUP_LABELS['département'];
+  const previewMetrics = selectedMetrics.length > 0 ? selectedMetrics.slice(0, 4) : [METRICS[0]];
+
+  // Data shape shared by bar/line/table: one row per group, one field per metric
+  const chartData = useMemo(
+    () =>
+      groups.map((label, groupIdx) => {
+        const row: Record<string, string | number> = { label };
+        previewMetrics.forEach((metric, metricIdx) => {
+          row[`m${metricIdx}`] = mockValue(groupIdx, metricIdx);
+        });
+        return row;
+      }),
+    [groups, previewMetrics]
+  );
+
+  const series = previewMetrics.map((metric, i) => ({
+    key: `m${i}`,
+    label: metric,
+    color: SERIES_COLORS[i % SERIES_COLORS.length],
+  }));
+
+  // Pie preview only makes sense for a single metric distributed across groups
+  const pieData = groups.map((label, groupIdx) => ({
+    label,
+    value: mockValue(groupIdx, 0),
+    color: SERIES_COLORS[groupIdx % SERIES_COLORS.length],
+  }));
 
   return (
     <div className="min-h-[100dvh] bg-surface">
@@ -89,21 +137,16 @@ const ManagerViewsBuilder: React.FC = () => {
 
           <SectionCard title="4. Type de visualisation">
             <div className="grid grid-cols-2 gap-stack-xs">
-              {CHART_TYPES.map((c) => {
-                const Icon = c.icon;
-                return (
-                  <button
-                    key={c.v}
-                    onClick={() => setChartType(c.v)}
-                    className={`p-3 rounded-lg border-2 flex flex-col items-center gap-tight transition-[border-color,background-color] duration-fast ease-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 ${
-                      chartType === c.v ? 'border-primary-500 bg-primary-50' : 'border-ink-200 hover:border-primary-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
-                    }`}
-                  >
-                    <Icon className="w-6 h-6" />
-                    <span className="text-caption">{c.label}</span>
-                  </button>
-                );
-              })}
+              {CHART_TYPES.map((c) => (
+                <SelectableOptionCard
+                  key={c.v}
+                  size="sm"
+                  icon={<c.icon className="w-5 h-5" />}
+                  label={c.label}
+                  selected={chartType === c.v}
+                  onClick={() => setChartType(c.v)}
+                />
+              ))}
             </div>
           </SectionCard>
 
@@ -123,13 +166,28 @@ const ManagerViewsBuilder: React.FC = () => {
             <Badge variant="info">{selectedMetrics.length} métriques</Badge>
           </div>
 
-          <div className="aspect-video bg-ink-50 rounded-lg flex items-center justify-center border-2 border-dashed border-ink-300">
-            <div className="text-center">
-              <BarChart3 className="w-12 h-12 text-ink-400 mx-auto mb-stack-xs" />
-              <div className="text-caption text-ink-500">Aperçu graphique {chartType}</div>
-              <div className="text-caption text-ink-400 mt-1">groupé par {groupBy} · {dateRange}</div>
-            </div>
+          <div className="mb-stack-xs text-caption text-ink-400">
+            groupé par {groupBy} · {dateRange}
           </div>
+
+          {chartType === 'bar' && (
+            <BarChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
+          )}
+          {chartType === 'line' && (
+            <LineChart data={chartData} dataKey="m0" series={series.length > 1 ? series : undefined} showLegend={series.length > 1} size="sm" />
+          )}
+          {chartType === 'pie' && (
+            <PieChart data={pieData} size="sm" showLegend showValues />
+          )}
+          {chartType === 'table' && (
+            <DataTable
+              columns={[
+                { key: 'label', label: groupBy.charAt(0).toUpperCase() + groupBy.slice(1), align: 'left' },
+                ...previewMetrics.map((metric, i) => ({ key: `m${i}`, label: metric, align: 'right' as const })),
+              ]}
+              rows={chartData}
+            />
+          )}
 
           <div className="mt-stack flex flex-wrap gap-tight">
             {selectedMetrics.map((m) => (
