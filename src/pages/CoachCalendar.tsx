@@ -73,8 +73,8 @@ const CoachCalendar: React.FC = () => {
                 {WEEK.map((_, dayIdx) => {
                   const session = SESSIONS.find((s) => s.day === dayIdx && s.hour === h);
                   return (
-                    <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px]">
-                      {session && (
+                    <div key={dayIdx} className="p-1 border-b border-ink-200 min-h-[60px] group">
+                      {session ? (
                         <div className="bg-secondary-50 border border-secondary-200 rounded p-stack-xs h-full">
                           <div className="flex items-center gap-tight mb-1">
                             <Avatar initials={session.initials} size="sm" />
@@ -85,6 +85,14 @@ const CoachCalendar: React.FC = () => {
                             <span>{session.duration}</span>
                           </div>
                         </div>
+                      ) : (
+                        <button
+                          type="button"
+                          aria-label={`Créer une session ${WEEK[dayIdx]} à ${h}`}
+                          className="w-full h-full min-h-[52px] rounded flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-primary-50 transition-opacity duration-fast focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                        >
+                          <Plus className="w-4 h-4 text-primary-500" />
+                        </button>
                       )}
                     </div>
                   );
