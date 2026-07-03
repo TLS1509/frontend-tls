@@ -23,7 +23,7 @@
  */
 
 import React, { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion, type Variants } from 'framer-motion';
 
 // ── Grain ──────────────────────────────────────────────────────────────────
 const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
@@ -124,13 +124,13 @@ function drawPath(delay: number, duration = 1.6) {
   };
 }
 
-function popIn(delay: number) {
+function popIn(delay: number): Variants {
   return {
     hidden:  { scale: 0, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { type: 'spring', stiffness: 300, damping: 24, delay },
+      transition: { type: 'spring' as const, stiffness: 300, damping: 24, delay },
     },
   };
 }
