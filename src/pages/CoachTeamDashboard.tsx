@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { ProfileCard } from '../components/ui/ProfileCard';
+import { Avatar } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
 import { FilterChip } from '../components/ui/FilterChip';
 import { PageShell } from '../components/layout';
@@ -220,10 +221,7 @@ export default function CoachTeamDashboard() {
                 filteredLearners.map((learner) => (
                   <Link key={learner.userId} to={`/coach/apprenant/${learner.userId}/analytics`} className="block">
                     <Card variant="default" className="flex items-center gap-stack px-stack py-3 hover:bg-ink-50 transition-colors duration-fast cursor-pointer">
-                      {/* Avatar */}
-                      <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-secondary-50 text-secondary-600 text-caption font-bold shrink-0">
-                        {learner.initials}
-                      </span>
+                      <Avatar initials={learner.initials} name={learner.name} size="sm" tint="warm" />
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">

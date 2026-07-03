@@ -7,6 +7,7 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { Avatar } from '../components/ui/Avatar';
+import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
 import { PageShell } from '../components/layout';
@@ -111,24 +112,13 @@ export default function CoachCorrectionInterface() {
                 {/* Dreyfus assessment */}
                 <div className="flex flex-col gap-stack-xs">
                   <span className="text-body-sm font-semibold text-ink-700">Évaluation Dreyfus</span>
-                  <div className="flex gap-stack-xs">
-                    {[1, 2, 3, 4, 5].map((level) => (
-                      <button
-                        key={level}
-                        type="button"
-                        onClick={() => setDreyfusAssessed(level)}
-                        className={[
-                          'flex flex-col items-center gap-0.5 px-3 py-stack-xs rounded-xl border transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                          dreyfusAssessed === level
-                            ? 'bg-secondary-500 border-secondary-500 text-white'
-                            : 'bg-white border-ink-200 text-ink-600 hover:border-secondary-300',
-                        ].join(' ')}
-                      >
-                        <span className="text-caption font-bold">D{level}</span>
-                        <Star size={10} fill={dreyfusAssessed === level ? 'currentColor' : 'none'} />
-                      </button>
-                    ))}
-                  </div>
+                  <DreyfusSlider
+                    value={dreyfusAssessed ?? undefined}
+                    onChange={setDreyfusAssessed}
+                    variant="solid"
+                    tone="warm"
+                    aria-label="Évaluation Dreyfus"
+                  />
                 </div>
 
                 <Button

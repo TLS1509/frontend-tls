@@ -12,10 +12,10 @@ import FormGroup from '../components/core/FormGroup';
 import { useProjectsStore } from '../stores/persistence';
 import type { JacStatus, DreyfusRubricScore } from '../types/projects';
 import type { DreyfusLevel } from '../types/learning';
+import { DREYFUS_LABELS } from '../data/competencies';
 import { Container } from '../components/layout';
 
 const MOCK_EXPERT_ID = 'expert-jean-marc';
-const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
 const JAC_STATUS_LABELS: Record<JacStatus, string> = {
   pending: 'En attente',

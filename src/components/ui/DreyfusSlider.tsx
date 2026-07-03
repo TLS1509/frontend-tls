@@ -28,12 +28,17 @@ export interface DreyfusSliderLevel {
   icon?: React.ReactNode;
 }
 
+/**
+ * Libellés canoniques Cahier #02 (Novice/Apprenant/Compétent/Expert/Maître) —
+ * voir `data/competencies.ts` DREYFUS_LABELS, source de vérité unique.
+ * Ne jamais diverger de ce libellé ici : les 2 doivent toujours matcher.
+ */
 const DEFAULT_LEVELS: DreyfusSliderLevel[] = [
-  { v: 1, label: 'Novice',          desc: 'Je découvre',                icon: <Sprout size={16} strokeWidth={1.75} /> },
-  { v: 2, label: 'Débutant avancé', desc: 'Je connais les bases',       icon: <Leaf size={16} strokeWidth={1.75} /> },
-  { v: 3, label: 'Compétent',       desc: 'Je sais faire en autonomie', icon: <TreeDeciduous size={16} strokeWidth={1.75} /> },
-  { v: 4, label: 'Maîtrise',        desc: 'Je sais expliquer',          icon: <Trophy size={16} strokeWidth={1.75} /> },
-  { v: 5, label: 'Expert',          desc: 'Je sais innover et former',  icon: <Sparkles size={16} strokeWidth={1.75} /> },
+  { v: 1, label: 'Novice',    desc: 'Suit des règles explicites',           icon: <Sprout size={16} strokeWidth={1.75} /> },
+  { v: 2, label: 'Apprenant', desc: 'Adapte selon l\'expérience acquise',   icon: <Leaf size={16} strokeWidth={1.75} /> },
+  { v: 3, label: 'Compétent', desc: 'Planifie et priorise en autonomie',    icon: <TreeDeciduous size={16} strokeWidth={1.75} /> },
+  { v: 4, label: 'Expert',    desc: 'Perçoit et adapte intuitivement',      icon: <Trophy size={16} strokeWidth={1.75} /> },
+  { v: 5, label: 'Maître',    desc: 'Redéfinit les pratiques du domaine',   icon: <Sparkles size={16} strokeWidth={1.75} /> },
 ];
 
 export interface DreyfusSliderProps {

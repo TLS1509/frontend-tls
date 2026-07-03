@@ -7,7 +7,9 @@ import { Button } from '../components/core/Button';
 import { StatCard } from '../components/ui/StatCard';
 import { FilterChip } from '../components/ui/FilterChip';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
+import { Avatar } from '../components/ui/Avatar';
 import { Badge } from '../components/ui/Badge';
+import { Tabs } from '../components/ui/Tabs';
 import { PageShell } from '../components/layout';
 import { APPRENANTS, APPRENANT_AXES as AXES } from '../data/apprenants';
 
@@ -116,26 +118,16 @@ export default function CoachHeatmap() {
           }
         >
           {/* Status filter tabs */}
-          <div className="flex gap-stack-xs mb-stack border-b border-ink-100 pb-3">
-            {STATUS_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={[
-                  'px-3 py-1.5 text-caption font-semibold rounded-pill transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  activeTab === tab.id
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-ink-100 text-ink-600 hover:bg-ink-200',
-                ].join(' ')}
-              >
-                {tab.label}
-                {tab.id === 'stuck' && stuckCount > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-danger-base text-white text-micro">
-                    {stuckCount}
-                  </span>
-                )}
-              </button>
-            ))}
+          <div className="mb-stack">
+            <Tabs
+              items={STATUS_TABS.map((tab) => ({
+                ...tab,
+                badge: tab.id === 'stuck' && stuckCount > 0 ? stuckCount : undefined,
+              }))}
+              value={activeTab}
+              onChange={setActiveTab}
+              variant="underline"
+            />
           </div>
 
           <HeatmapGrid
@@ -161,9 +153,7 @@ export default function CoachHeatmap() {
                   className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-100 bg-white hover:bg-ink-50 transition-colors duration-fast"
                 >
                   <div className="flex items-center gap-stack">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-100 text-primary-700 text-caption font-bold shrink-0">
-                      {a.initials}
-                    </span>
+                    <Avatar initials={a.initials} name={a.name} size="sm" tint="brand" />
                     <span className="text-body-sm font-medium text-ink-900">{a.name}</span>
                   </div>
                   <div className="flex items-center gap-stack-xs">

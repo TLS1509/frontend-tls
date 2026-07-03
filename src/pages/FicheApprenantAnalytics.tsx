@@ -13,6 +13,7 @@ import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { HeatmapGrid } from '../components/ui/HeatmapGrid';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
+import { Tabs } from '../components/ui/Tabs';
 import { useAnalyticsStore } from '../stores/persistence';
 import { Container } from '../components/layout';
 import { MOCK_COACH_ID } from '../data/analytics';
@@ -137,20 +138,16 @@ export default function FicheApprenantAnalytics() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-stack-xs border-b border-ink-100">
-          {(['overview', 'heatmap', 'activity'] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={[
-                'px-stack py-stack-xs text-body-sm font-semibold transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-sm',
-                tab === t ? 'text-secondary-600 border-b-2 border-secondary-500' : 'text-ink-500 hover:text-ink-900',
-              ].join(' ')}
-            >
-              {t === 'overview' ? 'Compétences' : t === 'heatmap' ? 'Heatmap' : 'Activité'}
-            </button>
-          ))}
-        </div>
+        <Tabs
+          items={[
+            { id: 'overview', label: 'Compétences' },
+            { id: 'heatmap', label: 'Heatmap' },
+            { id: 'activity', label: 'Activité' },
+          ]}
+          value={tab}
+          onChange={(id) => setTab(id as 'overview' | 'heatmap' | 'activity')}
+          variant="underline"
+        />
 
         {tab === 'overview' && (
           <div className="grid md:grid-cols-2 gap-section">
