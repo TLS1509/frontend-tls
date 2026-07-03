@@ -8,9 +8,8 @@ import { SectionCard } from '../components/patterns/SectionCard';
 import { StatCard } from '../components/ui/StatCard';
 import { Avatar } from '../components/ui/Avatar';
 import { useProjectsStore } from '../stores/persistence';
+import { DREYFUS_LABELS } from '../data/competencies';
 import { Container } from '../components/layout';
-
-const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
 const DREYFUS_VARIANT = (level: number): 'neutral' | 'info' | 'brand' | 'warm' | 'success' => {
   if (level <= 2) return 'neutral';
@@ -86,14 +85,11 @@ export const ProjectTeam: React.FC = () => {
                         {competencies.map(([compId, level]) => {
                           const skillReq = project?.skillProfile.find((s) => s.competencyId === compId);
                           const label = skillReq?.competencyName ?? compId;
+                          const met = level >= (skillReq?.dreyfusLevelRequired ?? 1);
                           return (
-                            <span key={compId} className={`px-2 py-0.5 rounded-pill text-caption font-semibold ${
-                              level >= (skillReq?.dreyfusLevelRequired ?? 1)
-                                ? 'bg-success-bg text-success-fg'
-                                : 'bg-warning-bg text-warning-fg'
-                            }`}>
-                              {label} · D{level}
-                            </span>
+                            <Badge key={compId} variant={met ? 'success' : 'warm'} size="sm">
+                              {label} · D{level} · {DREYFUS_LABELS[level as 1 | 2 | 3 | 4 | 5]}
+                            </Badge>
                           );
                         })}
                       </div>

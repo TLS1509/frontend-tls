@@ -6,11 +6,11 @@ import { Badge } from '../components/ui/Badge';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { StatCard } from '../components/ui/StatCard';
+import { DataTable } from '../components/patterns/DataTable';
 import { useProjectsStore } from '../stores/persistence';
 import type { DreyfusLevel } from '../types/learning';
+import { DREYFUS_LABELS } from '../data/competencies';
 import { Container } from '../components/layout';
-
-const DREYFUS_LABELS = ['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître'] as const;
 
 export const ProjectSkillGaps: React.FC = () => {
   const { id: projectId } = useParams<{ id: string }>();
@@ -148,42 +148,32 @@ export const ProjectSkillGaps: React.FC = () => {
 
       {/* Vue d'ensemble */}
       <SectionCard title="Vue d'ensemble par membre" titleIcon={<BarChart2 size={18} />}>
-        <div className="overflow-x-auto">
-          <table className="w-full text-caption">
-            <thead>
-              <tr className="border-b border-ink-100">
-                <th className="text-left font-semibold text-ink-600 pb-2 pr-4">Membre</th>
-                {project.skillProfile.map((req) => (
-                  <th key={req.competencyId} className="text-center font-semibold text-ink-600 pb-2 px-2 min-w-[100px]">
-                    {req.competencyName}
-                    <br />
-                    <span className="text-ink-400 font-normal">D{req.dreyfusLevelRequired}+ requis</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {collaborateurs.map((m) => (
-                <tr key={m.userId} className="border-b border-ink-50 last:border-0">
-                  <td className="py-stack-xs pr-4 font-semibold text-ink-800 whitespace-nowrap">{m.name}</td>
-                  {project.skillProfile.map((req) => {
-                    const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
-                    const ok = current >= req.dreyfusLevelRequired;
-                    return (
-                      <td key={req.competencyId} className="py-stack-xs px-2 text-center">
-                        <span className={`px-2 py-0.5 rounded-pill text-caption font-semibold ${
-                          ok ? 'bg-success-bg text-success-fg' : 'bg-warning-bg text-warning-fg'
-                        }`}>
-                          D{current}
-                        </span>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable
+          columns={[
+            { key: 'name', label: 'Membre', align: 'left' },
+            ...project.skillProfile.map((req) => ({
+              key: req.competencyId,
+              label: `${req.competencyName} (D${req.dreyfusLevelRequired}+)`,
+              align: 'center' as const,
+            })),
+          ]}
+          rows={collaborateurs.map((m) => {
+            const row: Record<string, React.ReactNode> = {
+              name: <span className="font-semibold text-ink-800 whitespace-nowrap">{m.name}</span>,
+            };
+            project.skillProfile.forEach((req) => {
+              const current = (m.currentDreyfusLevels[req.competencyId] ?? 1) as DreyfusLevel;
+              const ok = current >= req.dreyfusLevelRequired;
+              row[req.competencyId] = (
+                <Badge variant={ok ? 'success' : 'warm'} size="sm">
+                  D{current} · {DREYFUS_LABELS[current]}
+                </Badge>
+              );
+            });
+            return row;
+          })}
+          emptyMessage="Aucun collaborateur dans ce projet."
+        />
       </SectionCard>
     </Container>
   );
