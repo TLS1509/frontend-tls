@@ -175,10 +175,10 @@ export const MarketingFooter: React.FC = () => (
       },
     ]}
     legalLinks={[
-      { label: 'Mentions légales', href: '/marketing/mentions-legales' },
-      { label: 'Politique de confidentialité', href: '/marketing/politique-confidentialite' },
-      { label: 'CGV & CGU', href: '/marketing/cgv-cgu' },
-      { label: 'Charte IA', href: '/marketing/charte-ia' },
+      { label: 'Mentions légales', href: '/website/mentions-legales' },
+      { label: 'Politique de confidentialité', href: '/website/politique-confidentialite' },
+      { label: 'CGV & CGU', href: '/website/cgv-cgu' },
+      { label: 'Charte IA', href: '/website/charte-ia' },
     ]}
   />
 );

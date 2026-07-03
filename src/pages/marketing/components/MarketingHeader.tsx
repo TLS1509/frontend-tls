@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, ArrowRight, Users, Compass, Award, Newspaper } from 'lucide-react';
+import { ChevronDown, ArrowRight, Users, Compass, Award, LayoutGrid, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { MagneticButton } from '../../../components/marketing/motion';
@@ -13,44 +13,43 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Accueil', href: '/marketing' },
-  { label: 'Learning App', href: '/marketing/learning-app' },
-  { label: 'Formation', href: '/marketing/formation' },
-  { label: 'Accompagnement', href: '/marketing/accompagnement' },
+  { label: 'Accueil', href: '/website' },
+  { label: 'Learning App', href: '/website/learning-app' },
+  { label: 'Accompagnement', href: '/website/accompagnement' },
   {
     label: 'Ressources',
     dropdown: [
       {
-        label: 'Magazine',
-        href: '/marketing/magazine',
-        desc: 'Articles, analyses, tendances EdTech & IA',
-        icon: <Newspaper size={16} />,
+        label: 'Ressources',
+        href: '/website/resources',
+        desc: 'Articles, dossiers, guides, vidéos, webinaires',
+        icon: <LayoutGrid size={16} />,
       },
       {
         label: "L'équipe",
-        href: '/marketing/equipe',
+        href: '/website/equipe',
         desc: 'Les humains derrière TLS',
         icon: <Users size={16} />,
       },
       {
         label: 'Notre méthode',
-        href: '/marketing/methode',
+        href: '/website/methode',
         desc: 'STRIDE en 6 étapes',
         icon: <Compass size={16} />,
       },
       {
         label: 'Cas clients',
-        href: '/marketing/temoignages',
+        href: '/website/temoignages',
         desc: 'Six transformations racontées',
         icon: <Award size={16} />,
       },
     ],
   },
-  { label: 'Contact', href: '/marketing/contact' },
+  { label: 'Contact', href: '/website/contact' },
 ];
 
 const isPathActive = (pathname: string, href: string): boolean =>
-  pathname === href || (href !== '/marketing' && pathname.startsWith(href));
+  pathname === href || (href !== '/website' && pathname.startsWith(href));
 
 /* ────────────────────────────────────────────────────────────────────────────
    Fluid Island shell — custom spring cubic-bezier used everywhere for the
@@ -118,6 +117,21 @@ export const MarketingHeader: React.FC = () => {
     };
   }, [menuOpen]);
 
+  // Click-outside-to-close: closing a dropdown was previously only possible by
+  // moving the mouse away (handleDropdownLeave). Keyboard/touch users who open
+  // it via click had no way to dismiss it except navigating away.
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[aria-haspopup="menu"]') && !target.closest('[role="menu"]')) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown]);
+
   const handleDropdownEnter = (label: string) => {
     if (dropdownTimerRef.current) {
       window.clearTimeout(dropdownTimerRef.current);
@@ -132,7 +146,15 @@ export const MarketingHeader: React.FC = () => {
   };
 
   return (
-    <header className="fixed inset-x-0 top-3 z-sticky flex justify-center px-3 sm:top-4">
+    <header
+      className={[
+        'fixed inset-x-0 top-3 flex justify-center px-3 sm:top-4',
+        // Above the mobile sheet (z-modal) while open, so the hamburger→X stays
+        // visible and tappable to close — previously the sheet (z-modal, 50)
+        // sat on top of the header (z-sticky, 20), hiding the only close control.
+        menuOpen ? 'z-toast' : 'z-sticky',
+      ].join(' ')}
+    >
       {/* ── Outer shell (the machined tray) ────────────────────────────────── */}
       <nav
         aria-label="Navigation principale"
@@ -157,7 +179,7 @@ export const MarketingHeader: React.FC = () => {
         >
           {/* Logo */}
           <Link
-            to="/marketing"
+            to="/website"
             className="group flex shrink-0 items-center gap-2 rounded-pill pl-1.5 pr-2 py-1.5 transition-colors duration-fast hover:bg-ink-900/[0.04] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             aria-label="The Learning Society: Accueil"
           >
@@ -182,7 +204,12 @@ export const MarketingHeader: React.FC = () => {
                   >
                     <button
                       type="button"
-                      onClick={() => setOpenDropdown(isOpen ? null : item.label)}
+                      // Always open on click rather than toggling: any mouse click is
+                      // preceded by a mouseenter, which already opened this via
+                      // handleDropdownEnter — a toggle here would immediately close it
+                      // right back, so clicking looked like it did nothing. Closing now
+                      // happens via mouseleave (existing) or click-outside (added above).
+                      onClick={() => setOpenDropdown(item.label)}
                       aria-expanded={isOpen}
                       aria-haspopup="menu"
                       className={[
@@ -287,7 +314,7 @@ export const MarketingHeader: React.FC = () => {
           {/* Desktop CTA — magnetic, button-in-button arrow */}
           <div className="hidden shrink-0 pl-1 lg:block">
             <MagneticButton strength={10}>
-              <Link to="/login" aria-label="Connexion">
+              <Link to="/auth/login" aria-label="Connexion">
                 <Button
                   variant="primary"
                   size="md"
@@ -318,19 +345,49 @@ export const MarketingHeader: React.FC = () => {
         </div>
       </nav>
 
-      {/* ── Mobile full-screen overlay ─────────────────────────────────────── */}
+      {/* ── Mobile bottom sheet (thumb-reachable, not a top-down overlay) ────── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            id="marketing-mobile-nav"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-            className="fixed inset-0 z-modal flex flex-col overflow-y-auto bg-white/90 backdrop-blur-glass-heavy lg:hidden"
-          >
+          <>
+            {/* Scrim — tap anywhere outside the sheet to close */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+              className="fixed inset-0 z-modal bg-ink-900/45 backdrop-blur-sm lg:hidden"
+            />
+
+            <motion.div
+              id="marketing-mobile-nav"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+              className="fixed inset-x-0 bottom-0 z-modal max-h-[85dvh] overflow-y-auto rounded-t-3xl bg-white shadow-card-lift lg:hidden"
+            >
+              {/* Handle + explicit close — redundant with the header's X on
+                  purpose: this sheet should be closable on its own even if the
+                  header is ever obscured again. */}
+              <div className="sticky top-0 z-base flex items-center justify-between border-b border-ink-100 bg-white/95 px-6 pb-2 pt-3 backdrop-blur-glass-light">
+                <span aria-hidden className="absolute left-1/2 top-1.5 h-1 w-10 -translate-x-1/2 rounded-pill bg-ink-200" />
+                <span className="font-body text-caption font-semibold uppercase tracking-widest text-ink-400">
+                  Menu
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMenuOpen(false)}
+                  aria-label="Fermer le menu"
+                  className="flex h-11 w-11 items-center justify-center rounded-pill text-ink-700 transition-colors duration-fast hover:bg-ink-900/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
             <nav
-              className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center gap-tight px-6 pb-16 pt-28"
+              className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-tight px-6 pb-8 pt-2"
               aria-label="Navigation mobile"
             >
               {NAV_ITEMS.map((item, i) => {
@@ -425,14 +482,15 @@ export const MarketingHeader: React.FC = () => {
                     })}
                 className="mt-stack-lg"
               >
-                <Link to="/login">
+                <Link to="/auth/login">
                   <Button variant="primary" size="lg" fullWidth trailingIcon={<ArrowRight size={18} />}>
                     Connexion
                   </Button>
                 </Link>
               </motion.div>
             </nav>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>

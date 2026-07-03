@@ -17,20 +17,20 @@ const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 15 }) => (
 );
 
 const NAV_LINKS = [
-  { label: 'Learning App', href: '/marketing/learning-app' },
-  { label: 'Accompagnement', href: '/marketing/accompagnement' },
-  { label: 'Méthode', href: '/marketing/methode' },
-  { label: 'Magazine', href: '/marketing/magazine' },
-  { label: 'Témoignages', href: '/marketing/temoignages' },
-  { label: "L'équipe", href: '/marketing/equipe' },
-  { label: 'Contact', href: '/marketing/contact' },
-  { label: 'Accès anticipé', href: '/marketing/waitlist' },
+  { label: 'Learning App', href: '/website/learning-app' },
+  { label: 'Accompagnement', href: '/website/accompagnement' },
+  { label: 'Méthode', href: '/website/methode' },
+  { label: 'Ressources', href: '/website/resources' },
+  { label: 'Témoignages', href: '/website/temoignages' },
+  { label: "L'équipe", href: '/website/equipe' },
+  { label: 'Contact', href: '/website/contact' },
+  { label: 'Accès anticipé', href: '/website/waitlist' },
 ];
 
 const LEGAL_LINKS = [
-  { label: 'Mentions légales', href: '/marketing/mentions-legales' },
-  { label: 'Confidentialité', href: '/marketing/politique-confidentialite' },
-  { label: 'CGV / CGU', href: '/marketing/cgv-cgu' },
+  { label: 'Mentions légales', href: '/website/mentions-legales' },
+  { label: 'Confidentialité', href: '/website/politique-confidentialite' },
+  { label: 'CGV / CGU', href: '/website/cgv-cgu' },
 ];
 
 export const MarketingFooter: React.FC = () => (
@@ -39,7 +39,7 @@ export const MarketingFooter: React.FC = () => (
 
       {/* Row 1 — Logo + nav */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-stack sm:gap-section-lg">
-        <Link to="/marketing" className="flex items-center gap-2 shrink-0 group w-fit">
+        <Link to="/website" className="flex items-center gap-2 shrink-0 group w-fit">
           <TlsLogo size={24} variant="primary" />
           <span className="font-display font-bold text-body text-ink-800 leading-none whitespace-nowrap">
             The Learning Society

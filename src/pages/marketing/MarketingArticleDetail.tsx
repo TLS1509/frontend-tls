@@ -26,6 +26,7 @@ import {
   Check,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
+import { PageShell } from '../../components/layout';
 import {
   FadeInWhenVisible,
   MagneticButton,
@@ -40,6 +41,15 @@ const CATEGORY_TONES: Record<string, string> = {
   Innovation: 'bg-primary-50 text-primary-700 border-primary-100',
   "Retours d'expérience": 'bg-secondary-50 text-secondary-700 border-secondary-100',
 };
+
+/**
+ * Canonical container — matches PageShell width="medium" (1024px) horizontal
+ * rhythm exactly (same max-w + same responsive px scale). Used on every
+ * section of this page (hero, body, prev/next, related) so nothing
+ * horizontally drifts between the gradient hero and the white body sections
+ * — same pattern as MagazineArticle.tsx (learning app / Veille family).
+ */
+const CONTAINER = 'max-w-medium mx-auto px-4 sm:px-6 lg:px-10';
 
 // ─── Slug helper ──────────────────────────────────────────────────────────────
 const headingToId = (heading: string): string =>
@@ -316,7 +326,7 @@ export const MarketingArticleDetail: React.FC = () => {
   }, [slug]);
 
   if (!article) {
-    return <Navigate to="/marketing/magazine" replace />;
+    return <Navigate to="/website/resources" replace />;
   }
 
   const related = getRelatedArticles(article.slug, 3);
@@ -329,17 +339,17 @@ export const MarketingArticleDetail: React.FC = () => {
       <SEOHead
         title={article.title}
         description={article.summary}
-        canonical={`/marketing/magazine/${article.slug}`}
+        canonical={`/website/magazine/${article.slug}`}
         ogType="article"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className={`relative pt-32 pb-page overflow-hidden bg-gradient-to-br ${article.cover}`}>
+      <section className={`relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br ${article.cover}`}>
 
-        <div className="relative max-w-4xl mx-auto px-6 flex flex-col gap-stack-lg">
+        <div className={`relative ${CONTAINER} flex flex-col gap-stack-lg`}>
           {/* Back link */}
           <FadeInWhenVisible direction="up">
             <Link
-              to="/marketing/magazine"
+              to="/website/resources"
               className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
@@ -404,32 +414,33 @@ export const MarketingArticleDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Body + TOC layout ─────────────────────────────────────────────── */}
-      <section className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
-          {/* Main content */}
-          <div className="min-w-0 max-w-3xl">
-            <ArticleBody
-              intro={article.intro}
-              body={article.body}
-              conclusion={article.conclusion}
-              liveUrl={article.liveUrl}
-            />
-          </div>
-
-          {/* Sticky TOC aside */}
-          <aside className="hidden lg:block sticky top-24 self-start">
+      {/* ── Body + TOC ───────────────────────────────────────────────────────
+          The TOC floats in the page's left margin (outside the article
+          container) instead of sharing a grid column with it — the article
+          keeps its full width (same as the hero above), and the TOC sticks
+          alongside it only where there's actual margin room to float in. */}
+      <div className="relative bg-white">
+        <div className="hidden 2xl:block absolute top-0 left-[calc(50%-47.5rem)] w-56">
+          <div className="sticky top-28">
             <SectionTOC sections={article.sections} activeId={activeId} />
-          </aside>
+          </div>
         </div>
-      </section>
+        <PageShell width="medium" className="bg-white">
+          <ArticleBody
+            intro={article.intro}
+            body={article.body}
+            conclusion={article.conclusion}
+            liveUrl={article.liveUrl}
+          />
+        </PageShell>
+      </div>
 
       {/* ── Prev/Next navigation ──────────────────────────────────────────── */}
       <section className="py-page bg-ink-50/40 border-y border-ink-100">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-stack">
+        <div className={`${CONTAINER} grid grid-cols-1 md:grid-cols-2 gap-stack`}>
           {prev && (
             <Link
-              to={`/marketing/magazine/${prev.slug}`}
+              to={`/website/magazine/${prev.slug}`}
               className="group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base"
             >
               <span className="inline-flex items-center gap-1.5 font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
@@ -444,7 +455,7 @@ export const MarketingArticleDetail: React.FC = () => {
           )}
           {next && (
             <Link
-              to={`/marketing/magazine/${next.slug}`}
+              to={`/website/magazine/${next.slug}`}
               className={`group flex flex-col gap-stack p-stack-lg rounded-2xl bg-white border border-ink-100 hover:border-primary-200 hover:shadow-lg transition-all duration-base text-right ${!prev ? 'md:col-start-2' : ''}`}
             >
               <span className="inline-flex items-center gap-1.5 self-end font-body text-caption font-bold text-ink-500 uppercase tracking-widest">
@@ -462,7 +473,7 @@ export const MarketingArticleDetail: React.FC = () => {
 
       {/* ── Related articles ──────────────────────────────────────────────── */}
       <section className="py-page bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
+        <div className={`${CONTAINER} flex flex-col gap-section`}>
           <FadeInWhenVisible direction="up">
             <div className="flex flex-col gap-stack max-w-3xl">
               <span className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
@@ -478,7 +489,7 @@ export const MarketingArticleDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             {related.map((r, i) => (
               <FadeInWhenVisible key={r.slug} direction="up" delay={i * 0.1}>
-                <Link to={`/marketing/magazine/${r.slug}`} className="group block h-full">
+                <Link to={`/website/magazine/${r.slug}`} className="group block h-full">
                   <motion.article
                     whileHover={{ y: -4 }}
                     transition={{ type: 'spring', stiffness: 280, damping: 22 }}

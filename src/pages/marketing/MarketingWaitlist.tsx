@@ -154,7 +154,7 @@ export const MarketingWaitlist: React.FC = () => {
       <SEOHead
         title="Accès anticipé · Learning App — The Learning Society"
         description="Rejoignez la liste d'accès anticipé à la Learning App TLS. Parcours adaptatifs, Passeport Dreyfus, coaching intégré, méthode STRIDE."
-        canonical="/marketing/waitlist"
+        canonical="/website/waitlist"
         noIndex={false}
       />
 
@@ -423,7 +423,7 @@ export const MarketingWaitlist: React.FC = () => {
                           <p className="font-body text-micro text-ink-400 text-center m-0 leading-relaxed">
                             En envoyant ce formulaire, vous acceptez notre{' '}
                             <Link
-                              to="/marketing/politique-confidentialite"
+                              to="/website/politique-confidentialite"
                               className="text-primary-600 hover:text-primary-800 underline underline-offset-2 transition-colors"
                             >
                               politique de confidentialité
@@ -463,14 +463,14 @@ export const MarketingWaitlist: React.FC = () => {
 
                         <div className="flex flex-col items-center gap-2 pt-1">
                           <Link
-                            to="/marketing/learning-app"
+                            to="/website/learning-app"
                             className="inline-flex items-center gap-2 font-body text-caption font-semibold text-primary-600 hover:text-primary-800 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
                           >
                             Découvrir la Learning App
                             <ArrowRight size={14} />
                           </Link>
                           <Link
-                            to="/marketing/magazine"
+                            to="/website/resources"
                             className="font-body text-caption text-ink-400 hover:text-ink-700 transition-colors"
                           >
                             Lire notre magazine EdTech

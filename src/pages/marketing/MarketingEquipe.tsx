@@ -83,11 +83,11 @@ export const MarketingEquipe: React.FC = () => {
       <SEOHead
         title="Qui sommes-nous · Fondateurs & vision"
         description="Pierre-Armand Dennery et Chloé Mimault, co-fondateurs de The Learning Society. Experts pédagogie IA et transformation L&D — Paris, fondée en 2022."
-        canonical="/marketing/equipe"
+        canonical="/website/equipe"
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/25 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-pill bg-secondary-500/10 blur-3xl" />
@@ -309,13 +309,13 @@ export const MarketingEquipe: React.FC = () => {
               <p className="font-body text-body text-white/60 m-0">L'équipe TLS, Paris</p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Link to="/marketing/contact">
+                  <Link to="/website/contact">
                     <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Échanger avec nous
                     </Button>
                   </Link>
                 </MagneticButton>
-                <Link to="/marketing/methode">
+                <Link to="/website/methode">
                   <Button variant="glass" size="lg" trailingIcon={<Sparkles size={16} />}>
                     Découvrir notre méthode
                   </Button>

@@ -1,37 +1,33 @@
 /**
- * MarketingHome — Premium Editorial (light + immersive)
+ * MarketingHome — homepage de production, `/website` (route index).
  *
- * Direction : Stripe-style light premium, glassmorphism subtle, cursor spotlight,
- * mesh gradient mouvant, grain texture, asymétrie éditoriale.
+ * Composée le 03/07/2026 à partir de 3 sources (triage + sélection explicite) :
+ *  - Hero : vidéo full-bleed de la variante Cinematic (fade-in au chargement,
+ *    AUCUN scroll-jack — contrairement au hero partagé `components/CinematicHero.tsx`
+ *    utilisé ailleurs, celui-ci ne fait que fader une fois, pas de useScroll).
+ *  - SkillMap, 3 leviers (bento) : variante Original.
+ *  - Conviction, Learn→Do→Match, démo produit, preuve honnête, méthode STRIDE,
+ *    blog, CTA finale : variante Storyteller.
  *
- * Structure 9 sections :
- *   1. Hero light + cursor spotlight + grain
- *   2. Marquee logos (sobre)
- *   3. Bento 3 leviers (asymétrique : Learning App hero card + Formation + Accompagnement)
- *   4. Product Demo (TiltCard mockup glass container)
- *   5. Manifesto pull-quote (dark mesh gradient, ancre éditoriale)
- *   6. Humains + outils (édito 2-col, squiggly underline)
- *   7. Témoignage unique éditorial (1 grande citation + portrait)
- *   8. Hero stat impact (97% XXL gradient + 3 secondaires)
- *   9. CTA finale light éditorial (no box, floating elements)
+ * Retiré volontairement : le bandeau "Chiffres C-Campus" (redondant avec la
+ * section Preuve honnête) et le badge CountUp 93% dans la carte Learning App
+ * (pattern "hero-metric" — gros chiffre + dégradé — banni du registre brand).
+ *
+ * Discipline : vous (pas tu), pas de métrique inventée, pas de client fictif,
+ * pas d'em dash, CTA verbe+objet. Pas de ParallaxSection / scroll-jack ici.
  */
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
-  Sparkles,
   ArrowRight,
   ArrowUpRight,
-  ChevronDown,
-  Quote,
   CheckCircle2,
+  BadgeCheck,
   GraduationCap,
   Smartphone,
   Compass,
-  ShieldCheck,
-  CreditCard,
-  Globe,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -39,113 +35,198 @@ import {
   MagneticButton,
   InteractiveAppMockup,
   TiltCard,
-  CountUp,
+  StickyScrollStory,
+  MorphingSVGVisualizer,
+  CounterAnimation,
+  ParallexTextLayers,
+  MeshGradientBg,
+  type StoryPanel,
 } from '../../components/marketing/motion';
+import { ScrollReveal, ScrollProgressIndicator } from '../../components/marketing/scroll-effects';
 import { SEOHead } from './components/SEOHead';
 import { SkillMapSection } from './components/SkillMapSection';
+import { LearnDoMatchVisual } from './components/LearnDoMatchVisual';
 
-// Signaux de confiance — données réelles, issues de C-Campus.
-const TRUST_SIGNALS = [
-  { value: '578', label: 'apprenants formés', note: 'C-Campus 2023' },
-  { value: '+93%', label: 'de satisfaction', note: 'C-Campus 2023' },
-  { value: '1 grand groupe', label: 'français en production', note: 'depuis janvier 2026' },
-  { value: '7 modules', label: 'de formation certifiante', note: '7h de pédagogie active' },
-] as const;
+// ─── 1. Hero : vidéo full-bleed, fade-in au chargement, pas de scroll-jack ────
 
-/* ────────────────────────────────────────────────────────────────────────────
-   Grain SVG — texture organic premium discrète.
-   ──────────────────────────────────────────────────────────────────────────── */
-const GRAIN_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
-
-/* ────────────────────────────────────────────────────────────────────────────
-   HeroChevron — indicateur de scroll animé (surface sombre).
-   ──────────────────────────────────────────────────────────────────────────── */
-const HeroChevron: React.FC = () => {
+const Hero: React.FC = () => {
   const reduced = useReducedMotion();
-  return (
-    <motion.div
-      aria-hidden
-      animate={reduced ? undefined : { y: [0, 8, 0] }}
-      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      className="flex flex-col items-center gap-tight text-ink-400"
-    >
-      <span className="font-body text-caption font-semibold uppercase tracking-widest">Scroll</span>
-      <ChevronDown size={18} />
-    </motion.div>
-  );
-};
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
-/* ────────────────────────────────────────────────────────────────────────────
-   HeroBlobs — couche mid-ground : 3 blobs organiques teal/amber, parallax +
-   rotation lente + respiration. Désactivés sous prefers-reduced-motion.
-   ──────────────────────────────────────────────────────────────────────────── */
-// Sur fond clair, les blobs restent discrets — dorés ambrés + teal doux.
-const HERO_BLOBS = [
-  { pos: 'top-[8%] right-[6%] h-[34rem] w-[34rem]', color: 'rgba(248,176,68,0.38)', dur: 17 },
-  { pos: 'bottom-[2%] -left-[4%] h-[42rem] w-[42rem]', color: 'rgba(85,161,180,0.18)', dur: 22 },
-  { pos: 'top-[34%] left-[40%] h-[24rem] w-[24rem]', color: 'rgba(237,132,58,0.12)', dur: 14 },
-];
-
-const HeroBlobs: React.FC<{ y: ReturnType<typeof useTransform>; rotate: ReturnType<typeof useTransform>; reduced: boolean | null }> = ({ y, rotate, reduced }) => (
-  <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
-    {HERO_BLOBS.map((b, i) => (
-      <motion.div
-        key={i}
-        style={reduced ? undefined : { y, rotate }}
-        animate={reduced ? undefined : { scale: [1, 1.08, 1] }}
-        transition={{ duration: b.dur, repeat: Infinity, ease: 'easeInOut' }}
-        className={`absolute rounded-pill blur-[64px] ${b.pos}`}
-      >
-        <div
-          className="h-full w-full rounded-pill"
-          style={{ background: `radial-gradient(circle at 50% 50%, ${b.color}, transparent 70%)` }}
-        />
-      </motion.div>
-    ))}
-  </div>
-);
-
-/* ────────────────────────────────────────────────────────────────────────────
-   HeroParallax — hero immersif sombre, 3 couches parallax bound au scroll.
-   Couche 1 (mesh, lent) · Couche 2 (blobs, medium) · Couche 3 (contenu, rapide
-   + fade out). Surface : gradient teal saturé from-primary-700 → primary-900.
-   ──────────────────────────────────────────────────────────────────────────── */
-const HeroParallax: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const reduced = useReducedMotion();
-  const { scrollY } = useScroll();
-
-  // Absolute-px scroll mapping over ~one viewport. Hooks called unconditionally.
-  const meshY = useTransform(scrollY, [0, 760], [0, -110]);
-  const blobY = useTransform(scrollY, [0, 760], [0, -260]);
-  const blobRotate = useTransform(scrollY, [0, 760], [0, 9]);
-  const contentY = useTransform(scrollY, [0, 760], [0, -150]);
-  const contentOpacity = useTransform(scrollY, [0, 560], [1, 0]);
+  React.useEffect(() => {
+    if (reduced) return;
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, [reduced]);
 
   return (
-    <section className="relative isolate flex min-h-[100dvh] items-center overflow-hidden bg-gradient-to-b from-primary-50 via-white to-white pt-32 pb-page">
-      {/* Blobs ambrés + teal — discrets sur fond clair, ambiance chaleureuse */}
-      <HeroBlobs y={blobY} rotate={blobRotate} reduced={reduced} />
+    <section className="relative min-h-[100dvh] overflow-hidden bg-black">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+        {reduced ? (
+          <img
+            src="/marketing/assets/hero-watercolor.webp"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster="/marketing/assets/hero-watercolor.webp"
+            className="absolute inset-0 w-full h-full object-cover"
+            tabIndex={-1}
+          >
+            <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
+          </video>
+        )}
+      </div>
 
-      {/* Couche contenu — parallax + fade au scroll */}
-      <motion.div
-        className="relative z-base w-full"
-        style={reduced ? undefined : { y: contentY, opacity: contentOpacity }}
-      >
-        {children}
-      </motion.div>
+      <div aria-hidden className="absolute inset-0 bg-black/40 pointer-events-none" />
+
+      <div className="relative min-h-[100dvh] flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.4, ease: 'easeOut' }}
+          className="w-full max-w-page mx-auto px-6 py-page text-center flex flex-col items-center gap-stack-lg"
+        >
+          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[24ch] text-[clamp(3rem,7vw,5.5rem)]">
+            Vos formateurs,{' '}
+            <span className="text-accent-400">augmentés par l'IA</span>.
+          </h1>
+
+          <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-[58ch]">
+            Formation certifiante, Learning App adaptative, accompagnement sur mesure.
+            Tout pour maîtriser l'IA sans perdre l'humain au centre.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
+            <MagneticButton strength={14}>
+              <Link to="/website/accompagnement">
+                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Je représente une entreprise
+                </Button>
+              </Link>
+            </MagneticButton>
+            <Link to="/website/learning-app">
+              <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                Me former
+              </Button>
+            </Link>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
 
+// ─── 2. Conviction : un bandeau teal, une seule affirmation ──────────────────
+
+const Conviction: React.FC = () => (
+  <section className="bg-primary-700 text-white">
+    <div className="max-w-wide mx-auto px-6 py-page lg:py-section-lg">
+      <FadeInWhenVisible>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-baseline">
+          <p className="lg:col-span-3 font-body text-caption font-semibold uppercase tracking-widest text-white/70 m-0">
+            Notre conviction
+          </p>
+          <h2 className="lg:col-span-9 font-display font-bold text-white leading-[1.08] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.75rem,3.8vw,3rem)]">
+            L'IA ne remplace pas le formateur. Elle l'aide à aller plus loin :
+            à personnaliser, à mesurer, et à rendre du temps au métier qui
+            compte vraiment.
+          </h2>
+        </div>
+      </FadeInWhenVisible>
+    </div>
+  </section>
+);
+
+// ─── 3. SkillMap — la méthode se dessine (Apprendre · Pratiquer · Valider) ────
+// Composant réutilisé tel quel (déjà construit, déjà apprécié).
+
+// ─── 4. Learn → Do → Match : la boucle racontée en trois temps ───────────────
+
+const STORY: StoryPanel[] = [
+  {
+    eyebrow: 'Learn',
+    title: 'Apprendre, à votre rythme.',
+    body:
+      "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier : pas un catalogue de vidéos à consommer.",
+  },
+  {
+    eyebrow: 'Do',
+    title: 'Mettre en pratique, sur du concret.',
+    body:
+      "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel : accompagné, jamais seul.",
+  },
+  {
+    eyebrow: 'Match',
+    title: 'Valoriser, et faire matcher.',
+    body:
+      "Chaque acquis enrichit un passeport de compétences vérifiable. Des preuves lisibles, prêtes à relier les bonnes compétences aux bons projets.",
+  },
+];
+
+// ─── 5. Trois leviers : Learning App (mise en avant) + Formation + Accompagnement
+
+type Pillar = {
+  tag: string;
+  title: string;
+  desc: string;
+  link: string;
+  cta: string;
+};
+
+const PILLARS: Pillar[] = [
+  {
+    tag: 'Formation',
+    title: 'Formation certifiante',
+    desc:
+      'Formateurs Augmentés · méthode STRIDE · pédagogie active. Devenez architecte de l\'apprentissage IA-augmenté.',
+    link: '/website/learning-app',
+    cta: 'Voir la formation',
+  },
+  {
+    tag: 'Conseil',
+    title: 'Accompagnement',
+    desc:
+      'Conseil stratégique · déploiement sur mesure · pilotage de la montée en compétences. Avec vous, pas pour vous.',
+    link: '/website/accompagnement',
+    cta: "Voir l'accompagnement",
+  },
+];
+
+// ─── 6. Démo produit — features réelles, pas de slides ──────────────────────
+
+const FEATURES = [
+  'Parcours adaptatifs avec progression Dreyfus',
+  'Coaching 1-1 intégré (messagerie et visio)',
+  "Journal de bord réflexif, augmenté par l'IA",
+  'Veille pédagogique curée pour votre métier',
+];
+
+// ─── 7. Preuve honnête : ce qu'on peut affirmer aujourd'hui, rien de plus ─────
+
+const PROOFS: { title: string; detail: string }[] = [
+  { title: 'Open Badge vérifiable', detail: 'une preuve de compétence numérique, partageable et durable.' },
+  { title: 'Premiers déploiements en cours', detail: 'dont un grand groupe français, depuis janvier 2026.' },
+];
+
 export const MarketingHome: React.FC = () => {
-  const navigate = useNavigate();
+  const [activeStep, setActiveStep] = React.useState(0);
 
   return (
     <div className="bg-white">
       <SEOHead
         title="The Learning Society — Former à l'ère de l'IA"
         description="Formation certifiante, Learning App adaptative, accompagnement stratégique. La méthode complète pour que vos formateurs maîtrisent l'IA et forment autrement."
-        canonical="/marketing"
+        canonical="/website"
         schema={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
@@ -172,92 +253,85 @@ export const MarketingHome: React.FC = () => {
         }}
       />
 
-      {/* ── 1. Hero éditorial clair — parallax 3 couches ──────────────────── */}
-      <HeroParallax>
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-stack-lg px-6 text-center">
-          <FadeInWhenVisible direction="up">
-            <div className="flex flex-col items-center gap-stack-lg text-center">
-              {/* Eyebrow — pill teal discret sur fond clair */}
-              <span className="inline-flex items-center gap-stack-xs rounded-pill border border-primary-200 bg-primary-50 px-3 py-1">
-                <span className="inline-flex h-1.5 w-1.5 rounded-pill bg-accent-400" />
-                <span className="font-body text-micro font-semibold uppercase tracking-[0.2em] text-primary-700">
-                  Formation + App + Accompagnement
-                </span>
+      <ScrollProgressIndicator height={3} />
+
+      {/* ── 1. Hero ─────────────────────────────────────────────────────────── */}
+      <Hero />
+
+      {/* ── 2. Conviction ───────────────────────────────────────────────────── */}
+      <Conviction />
+
+      {/* ── 3. SkillMap ──────────────────────────────────────────────────────── */}
+      <SkillMapSection />
+
+      {/* ── 4. Learn → Do → Match ────────────────────────────────────────────── */}
+      <section className="bg-white">
+        <div className="max-w-wide mx-auto px-6 pt-page lg:pt-section-lg">
+          <FadeInWhenVisible>
+            <div className="max-w-content flex flex-col gap-stack-lg">
+              <span className="font-body text-caption font-bold uppercase tracking-widest text-secondary-600 m-0">
+                La boucle Learn · Do · Match
               </span>
-
-              {/* H1 */}
-              <h1 className="m-0 max-w-4xl font-display text-[clamp(2.75rem,6vw,5.5rem)] font-extrabold leading-[0.96] tracking-display text-ink-900 [text-wrap:balance]">
-                Vos formateurs,{' '}
-                <span className="text-primary-700">
-                  augmentés par l'IA.
-                </span>
-              </h1>
-
-              {/* Sous-titre */}
-              <p className="m-0 max-w-[52ch] font-body text-body-lg leading-relaxed text-ink-600">
-                Formation certifiante, plateforme apprenante, accompagnement sur mesure. Tout ce dont
-                vos formateurs ont besoin pour maîtriser l'IA et transmettre autrement.
+              <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4.5vw,3.5rem)]">
+                De l'apprentissage à la preuve, une seule boucle.
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
+                On n'apprend pas pour cocher une case, mais pour appliquer,
+                prouver et faire reconnaître de vraies compétences. Apprendre,
+                mettre en pratique, valoriser : sans rupture.
               </p>
-
-              {/* CTAs — enterprise first (primary), formation second (secondary) */}
-              <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-                <MagneticButton strength={14}>
-                  <Link to="/marketing/accompagnement" aria-label="Je représente une entreprise">
-                    <Button
-                      variant="primary"
-                      size="lg"
-                      className="group/cta pr-1.5"
-                      trailingIcon={
-                        <span className="ml-0.5 inline-flex h-7 w-7 items-center justify-center rounded-pill bg-white/20 transition-transform duration-base ease-emphasis group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-px">
-                          <ArrowRight size={15} />
-                        </span>
-                      }
-                    >
-                      Je représente une entreprise
-                    </Button>
-                  </Link>
-                </MagneticButton>
-                <Link to="/marketing/formation">
-                  <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                    Me former
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="none" delay={0.7}>
-            <div className="pt-section">
-              <HeroChevron />
+              <p className="font-body text-caption text-ink-500 italic m-0">
+                À notre connaissance, le seul dispositif français qui relie les
+                trois en une boucle intégrée.
+              </p>
             </div>
           </FadeInWhenVisible>
         </div>
-      </HeroParallax>
 
-      {/* ── 2. Chiffres réels C-Campus ──────────────────────────────────── */}
-      <section className="border-y border-ink-100 py-stack-lg bg-white">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-stack-lg">
-          <p className="font-body text-caption text-ink-500 text-center font-semibold m-0">
-            Résultats vérifiables · source C-Campus 2023
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-            {TRUST_SIGNALS.map((s) => (
-              <div key={s.label} className="flex flex-col items-center text-center gap-tight">
-                <span className="font-display text-h2 font-extrabold text-ink-900 tracking-display leading-none">
-                  {s.value}
-                </span>
-                <span className="font-body text-body-sm font-semibold text-ink-700">{s.label}</span>
-                <span className="font-body text-micro text-ink-400">{s.note}</span>
-              </div>
-            ))}
+        <div className="pt-section">
+          <div className="max-w-wide mx-auto px-6 mb-section-lg">
+            <FadeInWhenVisible>
+              <CounterAnimation
+                currentStep={activeStep}
+                totalSteps={3}
+                label="Étape"
+                colorClass="text-secondary-600"
+              />
+            </FadeInWhenVisible>
           </div>
+          <StickyScrollStory
+            className="pt-0"
+            panels={STORY}
+            eyebrowToneClass="text-secondary-600"
+            onActiveChange={setActiveStep}
+            visual={(active) => (
+              <div className="flex flex-col items-center gap-section-lg">
+                <MorphingSVGVisualizer
+                  activeIndex={active}
+                  size={140}
+                  colorClass="text-secondary-600"
+                />
+                <LearnDoMatchVisual active={active} />
+              </div>
+            )}
+            renderText={(panel) => (
+              <ParallexTextLayers
+                eyebrow={panel.eyebrow}
+                eyebrowSpeed={0.3}
+                title={panel.title}
+                titleSpeed={0.5}
+                body={panel.body}
+                bodySpeed={0.7}
+              />
+            )}
+          />
         </div>
       </section>
 
-      {/* ── 3. Bento 3 leviers ───────────────────────────────────────────── */}
+      {/* ── 5. Trois leviers ─────────────────────────────────────────────────── */}
       <section className="relative py-page bg-gradient-to-b from-white to-primary-50/30 overflow-hidden">
-<div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg relative">
-          <FadeInWhenVisible direction="up">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section-lg relative">
+          <FadeInWhenVisible>
             <div className="max-w-3xl flex flex-col gap-stack">
               <h2 className="font-display text-[clamp(2.25rem,5vw,4rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
                 Formation, technologie,{' '}
@@ -270,447 +344,265 @@ export const MarketingHome: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
-          {/* Bento grid — Learning App grande, Formation + Accompagnement petites */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 lg:grid-rows-2 gap-32">
-            {/* Hero card — Learning App (lg:col-span-3 row-span-2) */}
-            <FadeInWhenVisible
-              direction="up"
-              className="md:col-span-2 lg:col-span-3 lg:row-span-2"
-            >
-              <article
-                onClick={() => navigate('/marketing/learning-app')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate('/marketing/learning-app');
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 hover:shadow-brand-md hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[420px] lg:min-h-[560px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
+          <div className="grid grid-cols-1 lg:grid-cols-5 lg:grid-rows-2 gap-stack-lg">
+            {/* Learning App — carte vedette, pas de stat inventée */}
+            <FadeInWhenVisible direction="up" className="lg:col-span-3 lg:row-span-2">
+              <Link
+                to="/website/learning-app"
+                className="group relative flex h-full min-h-[420px] lg:min-h-[560px] flex-col justify-between gap-section overflow-hidden rounded-2xl bg-gradient-to-br from-primary-800 via-primary-900 to-ink-900 p-stack-lg lg:p-section-lg transition-all duration-500 hover:-translate-y-1 hover:shadow-brand-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
               >
-                {/* Ambient glows */}
                 <div aria-hidden className="absolute -top-24 -right-24 w-96 h-96 rounded-pill bg-primary-500/25 blur-3xl pointer-events-none group-hover:bg-primary-400/35 transition-colors duration-700" />
                 <div aria-hidden className="absolute -bottom-20 -left-20 w-72 h-72 rounded-pill bg-accent-400/12 blur-3xl pointer-events-none" />
 
-                <div className="relative p-stack-lg lg:p-section-lg flex flex-col h-full justify-between gap-section">
-                  {/* Top: eyebrow + stat */}
-                  <div className="flex items-start justify-between gap-stack">
-                    <span className="inline-flex items-center gap-stack-xs px-2.5 py-1 rounded-pill bg-white/10 border border-white/20 text-accent-400 font-body text-caption font-bold">
-                      <Smartphone size={12} />
-                      Bêta ouverte
-                    </span>
-                    <div className="flex flex-col items-end gap-tight">
-                      <span className="font-display font-extrabold text-white leading-none" style={{ fontSize: 'clamp(3rem,6vw,4.5rem)' }}>
-                        <CountUp to={93} suffix="%" duration={2} />
-                      </span>
-                      <span className="font-body text-caption text-white/50 text-right">satisfaction apprenants*</span>
-                    </div>
-                  </div>
+                <div className="relative flex items-start justify-between gap-stack">
+                  <span className="inline-flex items-center gap-stack-xs px-2.5 py-1 rounded-pill bg-white/10 border border-white/20 text-accent-400 font-body text-caption font-bold">
+                    <Smartphone size={12} />
+                    Bêta ouverte
+                  </span>
+                </div>
 
-                  {/* Middle: heading + body */}
-                  <div className="flex flex-col gap-stack-lg">
-                    <h3 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-white leading-[1.1] m-0 max-w-md">
-                      La plateforme qui{' '}
-                      <span className="text-accent-400">apprend avec vous</span>.
-                    </h3>
-                    <p className="font-body text-body-lg text-white/70 leading-relaxed m-0 max-w-md">
-                      Parcours adaptatifs, Passeport Dreyfus, coaching intégré, matching IA. Une expérience apprenante de bout en bout.
-                    </p>
-                  </div>
+                <div className="relative flex flex-col gap-stack-lg">
+                  <h3 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-extrabold text-white leading-[1.1] m-0 max-w-md">
+                    La plateforme qui{' '}
+                    <span className="text-accent-400">apprend avec vous</span>.
+                  </h3>
+                  <p className="font-body text-body-lg text-white/70 leading-relaxed m-0 max-w-md">
+                    Parcours adaptatifs, Passeport Dreyfus, coaching intégré, matching IA. Une expérience apprenante de bout en bout.
+                  </p>
+                </div>
 
-                  {/* Bottom: features + CTA */}
-                  <div className="flex flex-col gap-stack-lg">
-                    <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
-                      {[
-                        'Passeport Dreyfus mesurable',
-                        'Matching Talents-Projets par IA',
-                        'Coaching 1-1 intégré',
-                      ].map((f) => (
-                        <li key={f} className="flex items-center gap-stack-xs">
-                          <CheckCircle2 size={15} className="text-accent-400 shrink-0" />
-                          <span className="font-body text-body-sm text-white/80">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex items-center gap-stack-xs text-accent-400 font-semibold">
-                      <span>Explorer la Learning App</span>
-                      <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-base" />
-                    </div>
+                <div className="relative flex flex-col gap-stack-lg">
+                  <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
+                    {[
+                      'Passeport Dreyfus mesurable',
+                      'Matching Talents-Projets par IA',
+                      'Coaching 1-1 intégré',
+                    ].map((f) => (
+                      <li key={f} className="flex items-center gap-stack-xs">
+                        <CheckCircle2 size={15} className="text-accent-400 shrink-0" />
+                        <span className="font-body text-body-sm text-white/80">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex items-center gap-stack-xs text-accent-400 font-semibold">
+                    <span>Explorer la Learning App</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-base" />
                   </div>
                 </div>
-              </article>
+              </Link>
             </FadeInWhenVisible>
 
-            {/* Formation card (lg:col-span-2) */}
-            <FadeInWhenVisible
-              direction="up"
-              delay={0.1}
-              className="md:col-span-1 lg:col-span-2"
-            >
-              <article
-                onClick={() => navigate('/marketing/formation')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate('/marketing/formation');
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-2xl bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 border border-secondary-100 hover:border-secondary-300 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
-              >
-                <div
-                  aria-hidden
-                  className="absolute -bottom-20 -right-20 w-72 h-72 rounded-pill bg-secondary-200/30 blur-3xl pointer-events-none"
-                />
-                <div className="relative p-stack-lg flex flex-col h-full justify-between gap-stack-lg">
-                  <div className="flex flex-col gap-stack">
+            {PILLARS.map((p, i) => (
+              <FadeInWhenVisible key={p.title} direction="up" delay={0.1 * (i + 1)} className="lg:col-span-2">
+                <Link
+                  to={p.link}
+                  className="group relative flex h-full min-h-[260px] flex-col justify-between gap-stack-lg overflow-hidden rounded-2xl border border-secondary-100 bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 p-stack-lg transition-all duration-500 hover:-translate-y-1 hover:border-secondary-300 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+                >
+                  <div aria-hidden className="absolute -bottom-20 -right-20 w-72 h-72 rounded-pill bg-secondary-200/30 blur-3xl pointer-events-none" />
+                  <div className="relative flex flex-col gap-stack">
                     <div className="inline-flex w-12 h-12 rounded-xl bg-secondary-100 items-center justify-center text-secondary-700 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-base">
-                      <GraduationCap size={24} />
+                      {i === 0 ? <GraduationCap size={24} /> : <Compass size={24} />}
                     </div>
-                    <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
-                      Formation certifiante
-                    </h3>
-                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                      Formateurs Augmentés · méthode STRIDE · pédagogie active. Devenez architecte
-                      de l'apprentissage IA-augmenté.
-                    </p>
+                    <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">{p.title}</h3>
+                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">{p.desc}</p>
                   </div>
-                  <div className="flex items-center gap-stack-xs text-secondary-700 font-semibold text-body-sm">
-                    <span>Voir la formation</span>
-                    <ArrowRight
-                      size={16}
-                      className="group-hover:translate-x-1 transition-transform duration-base"
-                    />
+                  <div className="relative flex items-center gap-stack-xs text-secondary-700 font-semibold text-body-sm">
+                    <span>{p.cta}</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-base" />
                   </div>
-                </div>
-              </article>
-            </FadeInWhenVisible>
-
-            {/* Accompagnement card (lg:col-span-2) */}
-            <FadeInWhenVisible
-              direction="up"
-              delay={0.2}
-              className="md:col-span-1 lg:col-span-2"
-            >
-              <article
-                onClick={() => navigate('/marketing/accompagnement')}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate('/marketing/accompagnement');
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                className="group relative h-full overflow-hidden rounded-2xl bg-accent-50/60 via-white to-accent-100/30 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-500 cursor-pointer min-h-[260px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400"
-              >
-                <div
-                  aria-hidden
-                  className="absolute -top-20 -right-20 w-72 h-72 rounded-pill bg-accent-200/30 blur-3xl pointer-events-none"
-                />
-                <div className="relative p-stack-lg flex flex-col h-full justify-between gap-stack-lg">
-                  <div className="flex flex-col gap-stack">
-                    <div className="inline-flex w-12 h-12 rounded-xl bg-accent-100 items-center justify-center text-accent-700 group-hover:scale-105 transition-transform duration-base">
-                      <Compass size={24} />
-                    </div>
-                    <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
-                      Accompagnement
-                    </h3>
-                    <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
-                      Conseil stratégique · déploiement sur mesure · pilotage de la montée en
-                      compétences. Avec vous, pas pour vous.
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-stack-xs text-accent-700 font-semibold text-body-sm">
-                    <span>Voir l'accompagnement</span>
-                    <ArrowRight
-                      size={16}
-                      className="group-hover:translate-x-1 transition-transform duration-base"
-                    />
-                  </div>
-                </div>
-              </article>
-            </FadeInWhenVisible>
+                </Link>
+              </FadeInWhenVisible>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── 4. Interactive Product Demo ──────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white py-page">
-        <div className="relative max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-page items-center">
-            {/* Colonne texte */}
-            <FadeInWhenVisible direction="up" delay={0.1}>
-              <div className="flex flex-col gap-stack-lg">
-                <h2 className="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                  Essayez-la avant{' '}
-                  <span className="text-secondary-500">
-                    d'en parler à votre équipe
-                  </span>
-                  .
+      {/* ── 6. Démo produit interactive ──────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-ink-50 py-page">
+        <div className="max-w-wide mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-center">
+            <div className="lg:col-span-4 flex flex-col gap-stack-lg">
+              <FadeInWhenVisible>
+                <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4vw,3.25rem)]">
+                  Essayez la plateforme avant d'en parler à votre équipe.
                 </h2>
-                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-lg">
-                  Pas de demo call, pas de slides. Clique sur les onglets de la maquette, regarde
-                  l'app vivre, comprends en 30 secondes.
+              </FadeInWhenVisible>
+              <FadeInWhenVisible delay={0.08}>
+                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
+                  Pas de demo call, pas de slides. Cliquez sur les onglets,
+                  regardez l'app fonctionner, comprenez en trente secondes ce que
+                  vivent vos apprenants.
                 </p>
-                <ul className="flex flex-col gap-stack m-0 p-0 list-none pt-stack">
-                  {[
-                    'Passeport Compétences Dreyfus — Novice → Expert mesurable',
-                    'Matching Talents-Projets par IA',
-                    'Coaching 1-1 intégré (messagerie, corrections, visio)',
-                    'Journal de bord réflexif + Veille pédagogique IA',
-                  ].map((f) => (
-                    <li key={f} className="flex items-start gap-2.5">
+              </FadeInWhenVisible>
+              <FadeInWhenVisible delay={0.16}>
+                <ul className="flex flex-col gap-stack m-0 p-0 list-none">
+                  {FEATURES.map((f) => (
+                    <li key={f} className="flex items-start gap-stack-xs">
                       <CheckCircle2 size={20} className="text-primary-600 shrink-0 mt-0.5" />
                       <span className="font-body text-body text-ink-800">{f}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="flex items-center gap-stack-xs pt-stack">
-                  <Link to="/marketing/learning-app">
+              </FadeInWhenVisible>
+              <FadeInWhenVisible delay={0.24}>
+                <div className="pt-stack">
+                  <Link to="/website/learning-app">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Voir toutes les fonctionnalités
                     </Button>
                   </Link>
                 </div>
-              </div>
-            </FadeInWhenVisible>
+              </FadeInWhenVisible>
+            </div>
 
-            {/* Colonne mockup — glass container */}
-            <FadeInWhenVisible direction="left" delay={0.15}>
-              <div className="relative">
-                <div
-                  aria-hidden
-                  className="absolute -inset-12 bg-gradient-to-br from-primary-100/50 via-accent-100/30 to-primary-50/40 blur-3xl pointer-events-none"
-                />
-                <TiltCard maxRotation={6} className="relative">
+            <FadeInWhenVisible delay={0.1} className="lg:col-span-8 flex items-center justify-center">
+              <TiltCard maxRotation={6} className="relative w-full">
+                <div className="rounded-2xl overflow-hidden ring-1 ring-ink-200 shadow-xl bg-white">
                   <InteractiveAppMockup />
-                </TiltCard>
-              </div>
+                </div>
+              </TiltCard>
             </FadeInWhenVisible>
           </div>
         </div>
       </section>
 
-      {/* ── 5. SkillMap — La méthode TLS se dessine ─────────────────────── */}
-      <SkillMapSection />
+      {/* ── 7. Preuve honnête ───────────────────────────────────────────────── */}
+      <section className="bg-white">
+        <div className="max-w-wide mx-auto px-6 py-page">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-section lg:gap-page items-start">
+            <div className="lg:col-span-5">
+              <FadeInWhenVisible>
+                <div className="flex flex-col gap-stack-lg">
+                  <span className="font-body text-caption font-bold uppercase tracking-widest text-secondary-600 m-0">
+                    La preuve, pas la promesse
+                  </span>
+                  <h2 className="font-display font-extrabold text-ink-900 leading-[1.04] tracking-tight m-0 [text-wrap:balance] text-[clamp(2rem,4vw,3.25rem)]">
+                    On préfère prouver que survendre.
+                  </h2>
+                  <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-sm">
+                    Pas de métriques gonflées ni de logos empruntés. Voici ce
+                    qu'on peut affirmer aujourd'hui : le reste viendra avec les
+                    premiers parcours terminés.
+                  </p>
+                </div>
+              </FadeInWhenVisible>
+            </div>
 
-      {/* ── 6. Manifesto pull-quote (dark ancre éditoriale) ──────────────── */}
-      <section className="relative py-page overflow-hidden bg-ink-900">
-        {/* Mesh gradient dark */}
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: `
-              radial-gradient(700px circle at 25% 30%, rgba(85, 161, 180, 0.32), transparent 55%),
-              radial-gradient(600px circle at 75% 70%, rgba(248, 176, 68, 0.18), transparent 55%),
-              radial-gradient(500px circle at 50% 50%, rgba(237, 132, 58, 0.08), transparent 60%)
-            `,
-          }}
-        />
-        {/* Grain texture */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
-          style={{ backgroundImage: GRAIN_SVG }}
-        />
-
-        <FadeInWhenVisible direction="up">
-          <div className="relative max-w-4xl mx-auto px-6 flex flex-col items-center text-center gap-section">
-            <Quote size={48} className="text-accent-400" />
-            <p className="font-display text-[clamp(1.75rem,4.5vw,3.5rem)] font-medium text-white leading-[1.2] tracking-tight m-0">
-              L'enjeu n'est pas de produire{' '}
-              <span className="text-white/40">plus de contenu</span>.
-              <br />
-              C'est de produire des{' '}
-              <span className="text-accent-400 font-bold italic">apprenants augmentés</span>.
-            </p>
-            <div className="flex items-center gap-stack-xs">
-              <div className="w-12 h-px bg-white/30" />
-              <span className="font-body text-caption text-white/60 tracking-widest uppercase font-semibold">
-                Notre philosophie
-              </span>
-              <div className="w-12 h-px bg-white/30" />
+            <div className="lg:col-span-7 flex flex-col">
+              {PROOFS.map((p, i) => (
+                <FadeInWhenVisible key={p.title} delay={i * 0.05}>
+                  <div className="flex items-start gap-stack-lg border-t border-ink-200/70 py-stack-lg first:border-t-0 last:border-b last:border-ink-200/70">
+                    <BadgeCheck size={24} className="text-primary-600 shrink-0 mt-0.5" />
+                    <p className="font-body text-body-lg leading-snug m-0">
+                      <span className="font-bold text-ink-900">{p.title}</span>
+                      <span className="text-ink-600"> • {p.detail}</span>
+                    </p>
+                  </div>
+                </FadeInWhenVisible>
+              ))}
+              <p className="font-body text-caption text-ink-500 italic mt-stack-lg m-0">
+                Les retours de nos formateurs et clients seront publiés ici, avec
+                leur accord : pas avant.
+              </p>
             </div>
           </div>
-        </FadeInWhenVisible>
+        </div>
       </section>
 
-      {/* ── 6. Humains + outils ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white py-page">
-        <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-page items-center">
-          <FadeInWhenVisible direction="up">
-            <div className="flex flex-col gap-stack-lg">
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
-                On n'apprend pas{' '}
-                <span className="relative inline-block">
-                  avec des outils.
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 200 12"
-                    fill="none"
-                    className="absolute -bottom-2 left-0 w-full text-accent-400"
-                    preserveAspectRatio="none"
-                  >
-                    <motion.path
-                      d="M2 8 Q 25 1, 50 6 T 100 6 T 150 6 T 198 6"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0 }}
-                      whileInView={{ pathLength: 1 }}
-                      viewport={{ once: true, margin: '-100px' }}
-                      transition={{ duration: 1.2, delay: 0.4, ease: 'easeOut' }}
-                    />
-                  </svg>
+      {/* ── 8. Méthode STRIDE ────────────────────────────────────────────────── */}
+      <section className="bg-white">
+        <div className="max-w-wide mx-auto px-6 pb-page">
+          <FadeInWhenVisible>
+            <Link
+              to="/website/accompagnement"
+              className="group block rounded-2xl bg-primary-50 px-6 py-section-lg sm:px-section-lg transition-colors duration-base hover:bg-primary-100"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-center">
+                <div className="lg:col-span-8 flex flex-col gap-stack">
+                  <span className="font-body text-caption font-semibold uppercase tracking-widest text-primary-700 m-0">
+                    Notre méthode
+                  </span>
+                  <h2 className="font-display font-bold text-ink-900 leading-[1.08] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.625rem,3.2vw,2.5rem)]">
+                    STRIDE : six étapes pour passer de l'intention à l'impact.
+                  </h2>
+                  <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-prose">
+                    Une démarche structurée qui relie le besoin métier, le parcours
+                    et la preuve de compétence. Sans jargon, sans détour.
+                  </p>
+                </div>
+                <div className="lg:col-span-4 lg:text-right">
+                  <span className="inline-flex items-center gap-stack-xs font-body text-body font-bold text-primary-700 min-h-touch">
+                    Découvrir la méthode
+                    <ArrowRight size={18} className="transition-transform duration-base group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── 9. Blog teaser ───────────────────────────────────────────────────── */}
+      <section className="bg-white">
+        <div className="max-w-wide mx-auto px-6 py-page">
+          <FadeInWhenVisible>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-end border-b border-ink-200 pb-section-lg">
+              <div className="lg:col-span-8 flex flex-col gap-stack">
+                <span className="font-body text-caption font-semibold uppercase tracking-widest text-ink-500 m-0">
+                  Le blog
                 </span>
-                <br />
-                On apprend{' '}
-                <span className="text-primary-700">
-                  avec des humains
-                </span>{' '}
-                — accompagnés par des outils.
-              </h2>
-              <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
-                Nos formateurs deviennent des architectes de l'apprentissage. Des pédagogues qui
-                maîtrisent l'IA sans s'y soumettre. Des artisans qui combinent technologie et
-                présence.
-              </p>
-              <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
-                <MagneticButton strength={12}>
-                  <Link to="/marketing/formation">
-                    <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
-                      Devenir Formateur Augmenté
+                <h2 className="font-display font-extrabold text-ink-900 leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.75rem,3.6vw,2.75rem)]">
+                  L'IA en formation, sans esbroufe.
+                </h2>
+                <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
+                  Des analyses concrètes, des retours de terrain et des prises de
+                  position. Pour décider en connaissance de cause, pas sur la hype.
+                </p>
+              </div>
+              <div className="lg:col-span-4 lg:text-right">
+                <Link to="/website/resources">
+                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                    Lire le blog
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── 10. CTA finale : le seul moment sombre de la page ────────────────── */}
+      <section className="bg-white">
+        <div className="max-w-wide mx-auto px-6 pb-page">
+          <ScrollReveal distance={32} duration={800}>
+            <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-page sm:px-section-lg">
+              <MeshGradientBg tone="ink" intensity="subtle" />
+              <div className="relative max-w-content flex flex-col gap-stack-lg">
+                <h2 className="font-display font-extrabold text-white leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.25rem,5vw,4rem)]">
+                  Discutons de vos enjeux, pas de la hype.
+                </h2>
+                <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
+                  Trente minutes pour comprendre votre contexte et tracer le chemin
+                  le plus court vers l'impact. Sans engagement.
+                </p>
+                <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
+                  <MagneticButton strength={16}>
+                    <Link to="/website/contact">
+                      <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
+                        Réserver un échange
+                      </Button>
+                    </Link>
+                  </MagneticButton>
+                  <Link to="/website/learning-app">
+                    <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
+                      Explorer la plateforme
                     </Button>
                   </Link>
-                </MagneticButton>
-                <Link to="/marketing/magazine">
-                  <Button variant="secondary" size="lg">
-                    Lire le magazine
-                  </Button>
-                </Link>
+                </div>
               </div>
             </div>
-          </FadeInWhenVisible>
-
-          <FadeInWhenVisible direction="left" delay={0.2}>
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-card-lift ring-1 ring-primary-100 bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 flex items-center justify-center">
-                <div className="flex flex-col items-center gap-stack-lg text-center px-stack-lg">
-                  <div className="w-20 h-20 rounded-2xl bg-primary-200/60 flex items-center justify-center">
-                    <GraduationCap size={40} className="text-primary-600" />
-                  </div>
-                  <p className="font-display font-bold text-h4 text-primary-800 leading-tight m-0 max-w-xs">
-                    Le Formateur Augmenté par l'IA
-                  </p>
-                  <p className="font-body text-body-sm text-primary-600 m-0">
-                    7 modules · Open Badge C-Campus
-                  </p>
-                </div>
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                className="absolute -bottom-6 -left-6 max-w-xs bg-white/95 backdrop-blur-glass-light rounded-2xl shadow-2xl border border-ink-100 p-stack-lg flex flex-col gap-stack-xs"
-              >
-                <CheckCircle2 size={20} className="text-primary-500" />
-                <p className="font-display font-medium text-body text-ink-900 leading-snug m-0">
-                  +93% de satisfaction aux formations C-Campus.
-                </p>
-                <p className="font-body text-caption text-ink-500 m-0">Source : C-Campus 2023</p>
-              </motion.div>
-            </div>
-          </FadeInWhenVisible>
+          </ScrollReveal>
         </div>
-      </section>
-
-      {/* ── 7. Gages de confiance ────────────────────────────────────────── */}
-      <section className="py-page bg-white border-y border-ink-100">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col gap-section items-center">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-lg w-full">
-            <FadeInWhenVisible direction="up" delay={0.05}>
-              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-primary-200 hover:shadow-card transition-all duration-base">
-                <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center text-primary-700">
-                  <ShieldCheck size={24} />
-                </div>
-                <span className="font-display font-bold text-body text-ink-900">Open Badge</span>
-                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
-                  Certification numérique vérifiable, délivrée à l'issue du parcours.
-                </span>
-              </div>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.1}>
-              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-secondary-200 hover:shadow-card transition-all duration-base">
-                <div className="w-12 h-12 rounded-xl bg-secondary-50 flex items-center justify-center text-secondary-700">
-                  <CreditCard size={24} />
-                </div>
-                <span className="font-display font-bold text-body text-ink-900">Éligible OPCO</span>
-                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
-                  Prise en charge possible via votre OPCO. Devis sur demande.
-                </span>
-              </div>
-            </FadeInWhenVisible>
-            <FadeInWhenVisible direction="up" delay={0.15}>
-              <div className="flex flex-col items-center text-center gap-stack p-stack-lg rounded-2xl border border-ink-100 bg-white hover:border-accent-200 hover:shadow-card transition-all duration-base">
-                <div className="w-12 h-12 rounded-xl bg-accent-50 flex items-center justify-center text-accent-700">
-                  <Globe size={24} />
-                </div>
-                <span className="font-display font-bold text-body text-ink-900">100% à distance</span>
-                <span className="font-body text-body-sm text-ink-500 leading-relaxed">
-                  Formation en ligne, accessible depuis partout, à votre rythme.
-                </span>
-              </div>
-            </FadeInWhenVisible>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 8. CTA finale light éditorial ────────────────────────────────── */}
-      <section className="relative py-page overflow-hidden bg-gradient-to-br from-primary-50/50 via-white to-accent-50/30">
-        {/* Halos pastels */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-pill bg-primary-200/30 blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-pill bg-accent-200/30 blur-3xl" />
-        </div>
-        {/* Grain */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-multiply"
-          style={{ backgroundImage: GRAIN_SVG }}
-        />
-
-        <FadeInWhenVisible direction="up">
-          <div className="relative max-w-3xl mx-auto px-6 text-center flex flex-col gap-stack-lg items-center">
-            <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] font-extrabold text-ink-900 leading-[1.02] tracking-tight m-0">
-              Et si on en parlait{' '}
-              <span className="text-primary-700">de vive voix</span>{' '}
-              ?
-            </h2>
-            <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
-              30 minutes pour comprendre vos enjeux et tracer le chemin le plus court vers
-              l'impact. Pas de slides, pas de démo formatée. Juste une conversation.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-              <MagneticButton strength={14}>
-                <Link to="/marketing/contact">
-                  <Button variant="primary" size="xl" trailingIcon={<ArrowRight size={20} />}>
-                    Réserver un échange
-                  </Button>
-                </Link>
-              </MagneticButton>
-              <Link to="/marketing/learning-app">
-                <Button variant="ghost" size="xl">
-                  Voir la démo
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </FadeInWhenVisible>
       </section>
     </div>
   );

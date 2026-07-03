@@ -3,7 +3,8 @@
  *
  * Props: layout, tone, children content
  * Routes to:
- * - quote-led : centered h2 quote with icon accent (Clarity, Elegant)
+ * - quote-led : centered h2 quote with icon-dot accent (Clarity, Elegant)
+ *   (validated in Figma — docs/_variants/PHASE-3-FIGMA-EXPLORATIONS.md, exploration 3)
  * - callout-2col : 2-col text-left + visual-right (Momentum, Flow)
  * - dark-stripe : dark teal stripe with white text (Storyteller)
  */
@@ -18,11 +19,19 @@ interface ConvictionSectionProps {
   children?: React.ReactNode;
 }
 
-// ─── Layout: Quote-Led (centered h2 + p, simple) ────────────────────────
-const ConvictionQuoteLed: React.FC<ConvictionSectionProps> = ({ children }) => (
+const TONE_DOT: Record<NonNullable<ConvictionSectionProps['tone']>, string> = {
+  primary: 'bg-primary-600',
+  warm: 'bg-secondary-600',
+  sun: 'bg-accent-500',
+  neutral: 'bg-ink-400',
+};
+
+// ─── Layout: Quote-Led (centered h2 + p, icon-dot accent) ────────────────
+const ConvictionQuoteLed: React.FC<ConvictionSectionProps> = ({ tone = 'primary', children }) => (
   <section className="bg-white">
     <div className="max-w-page mx-auto px-6 py-page">
-      <div className="max-w-[34ch] mx-auto text-center flex flex-col gap-stack-lg">
+      <div className="max-w-[34ch] mx-auto text-center flex flex-col items-center gap-stack-lg">
+        <span aria-hidden className={`w-2 h-2 rounded-full ${TONE_DOT[tone]}`} />
         {children}
       </div>
     </div>

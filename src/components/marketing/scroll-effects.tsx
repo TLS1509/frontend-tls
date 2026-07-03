@@ -35,12 +35,15 @@ export const ParallaxSection = React.forwardRef<
   const { scrollY } = useScroll()
   const reduceMotion = useReducedMotion()
 
-  // Parallax: as scrollY increases, element moves up slower
+  // Parallax: as scrollY increases, element moves up slower.
+  // Clamped (default) so the offset caps at -200*speed instead of
+  // extrapolating unbounded for sections far down a long page — an
+  // unclamped transform pushed a section ~890px off its box further down
+  // this homepage, reading as a giant empty gap between sections.
   const y = useTransform(
     scrollY,
     [0, 1000],
-    [0, -200 * speed],
-    { clamp: false }
+    [0, -200 * speed]
   )
 
   return (

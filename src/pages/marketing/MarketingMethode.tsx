@@ -135,11 +135,11 @@ export const MarketingMethode: React.FC = () => {
       <SEOHead
         title="La Méthode STRIDE"
         description="STRIDE : S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer. La méthode TLS pour transformer vos pratiques pédagogiques avec l'IA, de l'audit initial à l'évolution continue."
-        canonical="/marketing/methode"
+        canonical="/website/methode"
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-pill bg-accent-400/5 blur-3xl" />
@@ -355,13 +355,13 @@ export const MarketingMethode: React.FC = () => {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Link to="/marketing/contact">
+                  <Link to="/website/contact">
                     <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Demander un diagnostic
                     </Button>
                   </Link>
                 </MagneticButton>
-                <Link to="/marketing/accompagnement">
+                <Link to="/website/accompagnement">
                   <Button variant="glass" size="lg" trailingIcon={<Briefcase size={16} />}>
                     Voir l'accompagnement
                   </Button>

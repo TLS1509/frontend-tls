@@ -17,10 +17,6 @@ import { Button } from '../../components/core/Button';
 import { TlsLogo } from '../../components/ui/TlsLogo';
 import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
 
-const TRUSTED_LOGOS = [
-  'Renault', 'BNP Paribas', 'Capgemini', 'L\'Oréal', 'Airbus', 'Decathlon', 'Orange', 'Société Générale',
-];
-
 const PRINCIPLES = [
   {
     number: '01',
@@ -43,7 +39,7 @@ export const MarketingHomeRefined: React.FC = () => (
   <div className="bg-white">
 
     {/* ── Hero: éditorial centré, typo oversized ────────────────────────────── */}
-    <section className="relative pt-32 pb-section-lg overflow-hidden">
+    <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-section-lg overflow-hidden">
       {/* Subtle ambient gradient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-primary-100/40 blur-[120px]" />
@@ -58,11 +54,9 @@ export const MarketingHomeRefined: React.FC = () => (
           </span>
         </span>
 
-        <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(3rem,8vw,6.5rem)]">
+        <h1 className="font-display font-extrabold text-ink-900 leading-[0.95] tracking-tight m-0 text-[clamp(3rem,7.5vw,6rem)]">
           Former, c'est<br />
-          <span className="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 bg-clip-text text-transparent">
-            transmettre l'avenir.
-          </span>
+          <span className="text-primary-700">transmettre l'avenir.</span>
         </h1>
 
         <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
@@ -72,14 +66,14 @@ export const MarketingHomeRefined: React.FC = () => (
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-          <Link to="/marketing/formation">
+          <Link to="/website/learning-app">
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Devenir Formateur Augmenté
             </Button>
           </Link>
-          <Link to="/marketing/learning-app">
+          <Link to="/website/learning-app">
             <Button variant="ghost" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-              Découvrir la plateforme
+              Explorer la plateforme
             </Button>
           </Link>
         </div>
@@ -97,19 +91,29 @@ export const MarketingHomeRefined: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Trusted by: bandeau grayscale ─────────────────────────────────────── */}
+    {/* ── Partenariat C-Campus : preuve honnête, sourcée ────────────────────── */}
     <section className="border-y border-ink-100 py-section">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col gap-stack-lg">
-        <p className="font-body text-caption text-ink-500 text-center uppercase tracking-widest font-semibold">
-          40+ organisations leur font confiance
+      <div className="max-w-6xl mx-auto px-6 flex flex-col items-center gap-stack-lg text-center">
+        <p className="font-body text-caption text-ink-500 uppercase tracking-widest font-semibold">
+          Partenariat C-Campus
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60">
-          {TRUSTED_LOGOS.map((name) => (
-            <span key={name} className="font-display text-body-lg font-bold text-ink-700 tracking-tight">
-              {name}
+        <div className="flex flex-wrap items-center justify-center gap-page">
+          <div className="flex flex-col gap-tight">
+            <span className="font-display font-extrabold text-primary-700 text-[clamp(2.4rem,5vw,3.4rem)] leading-none tracking-tight">
+              578
             </span>
-          ))}
+            <span className="font-body text-body-sm text-ink-600">professionnels formés</span>
+          </div>
+          <div className="flex flex-col gap-tight">
+            <span className="font-display font-extrabold text-secondary-600 text-[clamp(2.4rem,5vw,3.4rem)] leading-none tracking-tight">
+              +93 %
+            </span>
+            <span className="font-body text-body-sm text-ink-600">de satisfaction</span>
+          </div>
         </div>
+        <p className="font-body text-caption text-ink-500 m-0">
+          Source : C-Campus, formations de formateurs 2023.
+        </p>
       </div>
     </section>
 
@@ -183,7 +187,7 @@ export const MarketingHomeRefined: React.FC = () => (
                 <p className="font-display text-h2 font-bold m-0 mt-2">Bienvenue Marie 👋</p>
                 <p className="text-body-sm opacity-90 m-0 mt-2">Ton parcours Leadership t'attend: étape 4 sur 7.</p>
               </div>
-              <div className="grid grid-cols-3 gap-stack-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack-xs">
                 {['Parcours', 'Coaching', 'Veille'].map((t) => (
                   <div key={t} className="rounded-xl bg-ink-50 p-3 flex flex-col gap-tight">
                     <span className="text-caption font-bold text-ink-500 uppercase">{t}</span>
@@ -195,7 +199,7 @@ export const MarketingHomeRefined: React.FC = () => (
           </div>
         </div>
 
-        <Link to="/marketing/learning-app">
+        <Link to="/website/learning-app">
           <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
             Voir toutes les fonctionnalités
           </Button>
@@ -203,26 +207,16 @@ export const MarketingHomeRefined: React.FC = () => (
       </div>
     </section>
 
-    {/* ── Testimonial hero: single quote ────────────────────────────────────── */}
+    {/* ── Citation fondateur : honnête, attribuée, vérifiable ───────────────── */}
     <section className="py-page bg-white">
       <div className="max-w-4xl mx-auto px-6 flex flex-col gap-section items-center text-center">
         <Quote size={48} className="text-accent-400" />
         <blockquote className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-medium text-ink-900 leading-snug m-0 max-w-3xl">
-          "TLS a transformé notre approche de la formation interne.
-          Nos formateurs sont devenus des architectes de parcours,
-          et l'engagement de nos apprenants a doublé."
+          L'IA démultiplie ce que les formateurs font de mieux.
         </blockquote>
-        <div className="flex items-center gap-stack">
-          <img
-            src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&q=80&auto=format&fit=crop"
-            alt=""
-            className="w-16 h-16 rounded-pill object-cover border-2 border-white shadow-md"
-          />
-          <div className="text-left">
-            <p className="font-display font-bold text-body text-ink-900 m-0">Camille Lefèvre</p>
-            <p className="font-body text-body-sm text-ink-500 m-0">Directrice Formation, Renault</p>
-          </div>
-        </div>
+        <p className="font-body text-caption font-semibold text-ink-500 m-0">
+          Pierre-Armand Dennery, co-fondateur
+        </p>
       </div>
     </section>
 
@@ -237,7 +231,7 @@ export const MarketingHomeRefined: React.FC = () => (
           Échangez avec notre équipe pour découvrir comment intégrer l'IA dans vos formations.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
-          <Link to="/marketing/contact">
+          <Link to="/website/contact">
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Réserver un échange
             </Button>

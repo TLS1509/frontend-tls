@@ -146,7 +146,7 @@ export const MarketingConseil: React.FC = () => {
     <main className="bg-white">
 
       {/* ── Hero ────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-secondary-50 via-white to-accent-50/40">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-secondary-50 via-white to-accent-50/40">
         <MeshGradientBg tone="warm" intensity="subtle" />
         <div className="relative max-w-medium mx-auto px-6 flex flex-col gap-stack-lg">
           <Reveal>
@@ -184,7 +184,7 @@ export const MarketingConseil: React.FC = () => {
 
           <Reveal delay={0.18}>
             <div className="flex flex-wrap items-center gap-stack">
-              <Link to="/marketing/contact">
+              <Link to="/website/contact">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Démarrer par l'Audit Flash
                 </Button>
@@ -228,7 +228,7 @@ export const MarketingConseil: React.FC = () => {
                   </ul>
 
                   <div className="flex flex-wrap items-center gap-stack pt-1">
-                    <Link to="/marketing/contact">
+                    <Link to="/website/contact">
                       <Button variant="warm" size="md" trailingIcon={<ArrowRight size={16} />}>
                         Demander l'Audit Flash
                       </Button>
@@ -397,12 +397,12 @@ export const MarketingConseil: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
-              <Link to="/marketing/contact">
+              <Link to="/website/contact">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Réserver un échange
                 </Button>
               </Link>
-              <Link to="/marketing/learning-app">
+              <Link to="/website/learning-app">
                 <Button variant="glass" size="lg" trailingIcon={<BookOpen size={16} />}>
                   Voir la Learning App
                 </Button>

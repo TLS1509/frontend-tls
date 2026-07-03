@@ -210,32 +210,27 @@ import { DevPanel } from './components/DevPanel';
 // Marketing site
 import { MarketingLayout } from './pages/marketing/components/MarketingLayout';
 import { MarketingHome } from './pages/marketing/MarketingHome';
-// [variant] import { MarketingHomeC } from './pages/marketing/MarketingHomeC';
-// [variant] import { MarketingHomeD } from './pages/marketing/MarketingHomeD';
-import { MarketingHomeImmersion } from './pages/marketing/MarketingHomeImmersion';
 import { MarketingHomeClarity } from './pages/marketing/MarketingHomeClarity';
-import { MarketingHomeParallax } from './pages/marketing/MarketingHomeParallax';
 import { MarketingHomeNarrative } from './pages/marketing/MarketingHomeNarrative';
 import { MarketingHomeRefined } from './pages/marketing/MarketingHomeRefined';
 import { MarketingHomeCinematic } from './pages/marketing/MarketingHomeCinematic';
-import { MarketingHomeOrganic } from './pages/marketing/MarketingHomeOrganic';
+import { MarketingTaglineLab } from './pages/marketing/MarketingTaglineLab';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
-// [archived] home variants + devtools — files kept, routes removed from prod
-// import { MarketingHomeA } from './pages/marketing/MarketingHomeA';
-// import { MarketingHomeB } from './pages/marketing/MarketingHomeB';
+// [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
 // import { default as StickyScrollShowcase } from './pages/marketing/StickyScrollShowcase';
-import { MarketingFormation } from './pages/marketing/MarketingFormation';
 import { MarketingEquipe } from './pages/marketing/MarketingEquipe';
 import { MarketingResources } from './pages/marketing/MarketingResources';
-import { MarketingResourceDetail } from './pages/marketing/MarketingResourceDetail';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
-import { MarketingMagazine } from './pages/marketing/MarketingMagazine';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
+import { MarketingDossierDetail } from './pages/marketing/MarketingDossierDetail';
+import { MarketingVideoDetail } from './pages/marketing/MarketingVideoDetail';
+import { MarketingGuideDetail } from './pages/marketing/MarketingGuideDetail';
+import { MarketingWebinaireDetail } from './pages/marketing/MarketingWebinaireDetail';
 import { MarketingContact } from './pages/marketing/MarketingContact';
 import { MarketingWaitlist } from './pages/marketing/MarketingWaitlist';
 import {
@@ -527,27 +522,34 @@ function App() {
       <ScrollToTop />
       <Routes>
         {/* ── Marketing site (public — no auth required) ── */}
-        <Route path="/marketing" element={<MarketingLayout />}>
+        <Route path="/website" element={<MarketingLayout />}>
           <Route index element={<MarketingHome />} />
           {/* A/B Testing — 7 variants (underscore prefix = hidden from main nav) */}
           <Route path="_v1-home" element={<MarketingHome />} />
           <Route path="_v2-home-clarity" element={<MarketingHomeClarity />} />
-          <Route path="_v3-home-parallax" element={<MarketingHomeParallax />} />
           <Route path="_v4-home-narrative" element={<MarketingHomeNarrative />} />
-          <Route path="_v5-home-momentum" element={<MarketingHomeImmersion />} />
           <Route path="_v6-home-elegant" element={<MarketingHomeRefined />} />
           <Route path="_v7-home-cinematic" element={<MarketingHomeCinematic />} />
-          <Route path="_v8-home-organic" element={<MarketingHomeOrganic />} />
+          <Route path="_taglines" element={<MarketingTaglineLab />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
-          <Route path="formation" element={<MarketingFormation />} />
+          {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
+          <Route path="formation" element={<Navigate to="/website/learning-app" replace />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
-          <Route path="magazine" element={<MarketingMagazine />} />
+          {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub
+              "Ressources" agrège tous les formats (Phase consolidation). */}
+          <Route path="magazine" element={<Navigate to="/website/resources" replace />} />
           <Route path="magazine/:slug" element={<MarketingArticleDetail />} />
           <Route path="resources" element={<MarketingResources />} />
-          <Route path="resources/:slug" element={<MarketingResourceDetail />} />
+          {/* Merged into the single canonical article template (Phase Ressources fusion) */}
+          <Route path="resources/:slug" element={<MarketingArticleDetail />} />
           <Route path="ressources" element={<MarketingResources />} />
+          <Route path="dossiers" element={<Navigate to="/website/resources" replace />} />
+          <Route path="dossiers/:slug" element={<MarketingDossierDetail />} />
+          <Route path="videos/:slug" element={<MarketingVideoDetail />} />
+          <Route path="guides/:slug" element={<MarketingGuideDetail />} />
+          <Route path="webinaires/:slug" element={<MarketingWebinaireDetail />} />
           <Route path="equipe" element={<MarketingEquipe />} />
           <Route path="methode" element={<MarketingMethode />} />
           <Route path="temoignages" element={<MarketingTemoignages />} />
@@ -567,7 +569,7 @@ function App() {
 
         {/* ── Pages test temporaires ── */}
         <Route path="/_test-logo" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><TestLogo /></div>} />
-        <Route path="/marketing/_variants" element={<MarketingVariantLab />} />
+        <Route path="/website/_variants" element={<MarketingVariantLab />} />
 
         {/* ── Landing page inscription — public, plein écran ── */}
         <Route path="/inscription" element={<div style={{ width: '100vw', minHeight: '100vh', overflow: 'auto' }}><AppLanding /></div>} />

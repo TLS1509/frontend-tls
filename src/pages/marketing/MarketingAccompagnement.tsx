@@ -146,10 +146,10 @@ export const MarketingAccompagnement: React.FC = () => {
       <SEOHead
         title="Accompagnement STRIDE"
         description="Déployez l'IA dans votre organisation avec la méthode STRIDE. Accompagnement sur-mesure pour organismes de formation et ETI : de l'audit flash au déploiement opérationnel."
-        canonical="/marketing/accompagnement"
+        canonical="/website/accompagnement"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/40 to-accent-50/20">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/40 to-accent-50/20">
         {/* Watercolour decorative — right side */}
         <div aria-hidden className="absolute inset-y-0 right-0 w-1/2 pointer-events-none overflow-hidden">
           <img

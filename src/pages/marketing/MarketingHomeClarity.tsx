@@ -36,28 +36,30 @@ const FOCUS_RING =
 // ─── Hero (using HeroSection layout router) ──────────────────────────────────
 
 const Hero: React.FC<{ reduce: boolean }> = ({ reduce }) => (
-  <HeroSection layout="centered" animation={!reduce}>
+  <HeroSection layout="type-hero" animation={!reduce}>
     <FadeInWhenVisible className="flex flex-col items-center text-center gap-stack-lg">
-      <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-tight m-0 [text-wrap:balance] max-w-[20ch] text-[clamp(2.4rem,5.6vw,4.6rem)]">
-        L'IA au service des{' '}
-        <span className="text-secondary-600">compétences</span>. Pas l'inverse.
+      <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[16ch] text-[clamp(2.4rem,6.4vw,4rem)]">
+        L'IA au service des compétences
       </h1>
+      <p className="font-body text-body-lg text-primary-600 font-semibold m-0">
+        Pas l'inverse.
+      </p>
 
       <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-[60ch]">
         On aide les organisations et les pros de la formation à passer à une
-        logique de compétences. L'IA comme accélérateur, sans dénaturer la
-        pédagogie.
+        logique de compétences (Skills-Based Organization, ou SBO). L'IA comme
+        accélérateur, sans dénaturer la pédagogie.
       </p>
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
         <MagneticButton strength={14}>
-          <Link to="/marketing/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+          <Link to="/website/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Évaluer ma maturité SBO
             </Button>
           </Link>
         </MagneticButton>
-        <Link to="/marketing/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+        <Link to="/website/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
           <Button variant="secondary" size="lg">
             Réserver 30 min
           </Button>
@@ -124,7 +126,7 @@ const Audience: React.FC = () => (
               ))}
             </ul>
             <Link
-              to="/marketing/formation"
+              to="/website/learning-app"
               className={`mt-auto inline-flex items-center gap-1.5 min-h-touch font-body font-semibold text-secondary-700 hover:text-secondary-800 rounded-pill ${FOCUS_RING}`}
             >
               Voir les parcours
@@ -146,7 +148,7 @@ const Audience: React.FC = () => (
             </div>
             <p className="font-body text-body text-ink-600 leading-relaxed m-0">
               Vous pilotez la montée en compétences de vos équipes et cherchez une
-              approche concrète, pas une couche d'outils de plus.
+              méthode qui s'applique directement à vos métiers.
             </p>
             <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
               {['Méthode STRIDE', 'Upskilling L&D sur-mesure', 'Pass Pro équipes'].map((item) => (
@@ -157,7 +159,7 @@ const Audience: React.FC = () => (
               ))}
             </ul>
             <Link
-              to="/marketing/accompagnement"
+              to="/website/accompagnement"
               className={`mt-auto inline-flex items-center gap-1.5 min-h-touch font-body font-semibold text-primary-700 hover:text-primary-800 rounded-pill ${FOCUS_RING}`}
             >
               Découvrir l'accompagnement
@@ -187,7 +189,7 @@ const PILLARS: Pillar[] = [
     tag: 'Produit',
     title: 'La Learning App',
     desc: 'La plateforme qui suit vos compétences, vos parcours et votre passeport vérifiable.',
-    link: '/marketing/learning-app',
+    link: '/website/learning-app',
     cta: 'Explorer la plateforme',
     icon: <Smartphone size={22} />,
     accent: 'primary',
@@ -196,7 +198,7 @@ const PILLARS: Pillar[] = [
     tag: 'Service',
     title: 'Accompagnement & Conseil',
     desc: 'Un upskilling L&D conçu avec vous, ancré dans vos métiers et vos enjeux réels.',
-    link: '/marketing/accompagnement',
+    link: '/website/accompagnement',
     cta: "Voir l'accompagnement",
     icon: <Lightbulb size={22} />,
     accent: 'warm',
@@ -205,7 +207,7 @@ const PILLARS: Pillar[] = [
     tag: 'Méthode',
     title: 'Expertise & Diagnostic',
     desc: 'Un regard structuré sur votre maturité Skills-Based et un plan d\'action clair.',
-    link: '/marketing/methode',
+    link: '/website/methode',
     cta: 'Découvrir la méthode',
     icon: <Target size={22} />,
     accent: 'sun',
@@ -242,55 +244,96 @@ const ACCENT: Record<
   },
 };
 
-const Pillars: React.FC = () => (
-  <section className="bg-white">
-    <div className="max-w-page mx-auto px-6 py-page">
-      <FadeInWhenVisible className="text-center max-w-[40ch] mx-auto mb-section">
-        <p className="font-body text-caption font-semibold uppercase tracking-widest text-primary-600 m-0">
-          Notre approche
-        </p>
-        <h2 className="font-display font-extrabold text-ink-900 tracking-tight m-0 mt-stack text-[clamp(1.7rem,3vw,2.5rem)]">
-          Trois façons d'avancer
-        </h2>
-      </FadeInWhenVisible>
+const Pillars: React.FC = () => {
+  const [featured, ...rest] = PILLARS;
+  const fa = ACCENT[featured.accent];
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
-        {PILLARS.map((p, i) => {
-          const a = ACCENT[p.accent];
-          return (
-            <FadeInWhenVisible key={p.title} direction="up" delay={0.05 * i}>
-              <div
-                className={`h-full flex flex-col gap-stack rounded-2xl bg-white border ${a.border} p-7 shadow-card hover:shadow-card-hover transition-shadow duration-base`}
+  return (
+    <section className="bg-white">
+      <div className="max-w-page mx-auto px-6 py-page">
+        <FadeInWhenVisible className="text-center max-w-[40ch] mx-auto mb-section">
+          <p className="font-body text-caption font-semibold uppercase tracking-widest text-primary-600 m-0">
+            Notre approche
+          </p>
+          <h2 className="font-display font-extrabold text-ink-900 tracking-tight m-0 mt-stack text-[clamp(1.7rem,3vw,2.5rem)]">
+            Trois façons d'avancer
+          </h2>
+        </FadeInWhenVisible>
+
+        <div className="flex flex-col gap-stack-lg">
+          {/* Featured: Learning App — le pilier produit, revenus récurrents */}
+          <FadeInWhenVisible direction="up">
+            <div
+              className={`flex flex-col md:flex-row md:items-center gap-stack-lg rounded-2xl bg-primary-50/60 border ${fa.border} p-8 sm:p-9 shadow-card hover:shadow-card-hover transition-shadow duration-base`}
+            >
+              <span
+                className={`inline-flex items-center justify-center w-14 h-14 shrink-0 rounded-xl ${fa.iconBg} ${fa.iconText}`}
               >
+                {featured.icon}
+              </span>
+              <div className="flex flex-col gap-stack flex-1">
                 <span
-                  className={`inline-flex items-center justify-center w-11 h-11 rounded-xl ${a.iconBg} ${a.iconText}`}
+                  className={`self-start inline-flex px-2.5 py-0.5 rounded-pill ${fa.chipBg} ${fa.chipText} font-body text-micro font-semibold uppercase tracking-widest`}
                 >
-                  {p.icon}
+                  {featured.tag}
                 </span>
-                <span
-                  className={`self-start inline-flex px-2.5 py-0.5 rounded-pill ${a.chipBg} ${a.chipText} font-body text-micro font-semibold uppercase tracking-widest`}
-                >
-                  {p.tag}
-                </span>
-                <h3 className="font-display font-bold text-ink-900 tracking-tight m-0 text-h4">
-                  {p.title}
+                <h3 className="font-display font-bold text-ink-900 tracking-tight m-0 text-h3">
+                  {featured.title}
                 </h3>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.desc}</p>
-                <Link
-                  to={p.link}
-                  className={`mt-auto inline-flex items-center gap-1.5 min-h-touch font-body font-semibold ${a.link} rounded-pill ${FOCUS_RING}`}
-                >
-                  {p.cta}
-                  <ArrowUpRight size={16} />
-                </Link>
+                <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-prose">
+                  {featured.desc}
+                </p>
               </div>
-            </FadeInWhenVisible>
-          );
-        })}
+              <Link
+                to={featured.link}
+                className={`shrink-0 inline-flex items-center gap-1.5 min-h-touch font-body font-semibold ${fa.link} rounded-pill ${FOCUS_RING}`}
+              >
+                {featured.cta}
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </FadeInWhenVisible>
+
+          {/* Les 2 autres : côte à côte, taille secondaire */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            {rest.map((p, i) => {
+              const a = ACCENT[p.accent];
+              return (
+                <FadeInWhenVisible key={p.title} direction="up" delay={0.06 * (i + 1)}>
+                  <div
+                    className={`h-full flex flex-col gap-stack rounded-2xl bg-white border ${a.border} p-7 shadow-card hover:shadow-card-hover transition-shadow duration-base`}
+                  >
+                    <span
+                      className={`inline-flex items-center justify-center w-11 h-11 rounded-xl ${a.iconBg} ${a.iconText}`}
+                    >
+                      {p.icon}
+                    </span>
+                    <span
+                      className={`self-start inline-flex px-2.5 py-0.5 rounded-pill ${a.chipBg} ${a.chipText} font-body text-micro font-semibold uppercase tracking-widest`}
+                    >
+                      {p.tag}
+                    </span>
+                    <h3 className="font-display font-bold text-ink-900 tracking-tight m-0 text-h4">
+                      {p.title}
+                    </h3>
+                    <p className="font-body text-body text-ink-600 leading-relaxed m-0">{p.desc}</p>
+                    <Link
+                      to={p.link}
+                      className={`mt-auto inline-flex items-center gap-1.5 min-h-touch font-body font-semibold ${a.link} rounded-pill ${FOCUS_RING}`}
+                    >
+                      {p.cta}
+                      <ArrowUpRight size={16} />
+                    </Link>
+                  </div>
+                </FadeInWhenVisible>
+              );
+            })}
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 // ─── 5. Méthode STRIDE ──────────────────────────────────────────────────────────
 
@@ -338,7 +381,7 @@ const Stride: React.FC = () => (
 
       <FadeInWhenVisible className="mt-section text-center">
         <Link
-          to="/marketing/methode"
+          to="/website/methode"
           className={`inline-flex items-center gap-1.5 min-h-touch font-body font-semibold text-primary-700 hover:text-primary-800 rounded-pill ${FOCUS_RING}`}
         >
           La méthode STRIDE
@@ -384,7 +427,7 @@ const Diagnostic: React.FC = () => (
         </ul>
 
         <MagneticButton strength={14}>
-          <Link to="/marketing/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+          <Link to="/website/diagnostic" className={`inline-block rounded-pill ${FOCUS_RING}`}>
             <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Évaluer ma maturité SBO
             </Button>
@@ -407,7 +450,7 @@ const Proof: React.FC = () => (
             <p className="font-body text-caption font-semibold uppercase tracking-widest text-primary-700 m-0">
               Partenariat C-Campus
             </p>
-            <div className="grid grid-cols-2 gap-stack-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg">
               <div className="flex flex-col gap-tight">
                 <span className="font-display font-extrabold text-primary-700 text-[clamp(2.4rem,5vw,3.4rem)] leading-none tracking-tight">
                   578
@@ -437,8 +480,7 @@ const Proof: React.FC = () => (
             <figure className="flex flex-col gap-stack rounded-2xl bg-white border border-secondary-100 p-7 shadow-card m-0">
               <Quote size={28} className="text-secondary-400" />
               <blockquote className="font-display font-semibold text-ink-900 text-body-lg leading-snug m-0">
-                L'IA n'est pas là pour remplacer les formateurs. Elle est là pour
-                démultiplier ce qu'ils font de mieux.
+                L'IA démultiplie ce que les formateurs font de mieux.
               </blockquote>
               <figcaption className="font-body text-caption font-semibold text-ink-500">
                 Pierre-Armand Dennery, co-fondateur
@@ -474,7 +516,7 @@ const FinalCta: React.FC = () => {
             30 minutes pour comprendre vos enjeux, sans engagement.
           </p>
           <MagneticButton strength={14}>
-            <Link to="/marketing/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
+            <Link to="/website/contact" className={`inline-block rounded-pill ${FOCUS_RING}`}>
               <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                 Réserver 30 min
               </Button>

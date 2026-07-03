@@ -2,9 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const VARIANTS = [
-  { path: '/marketing', label: 'A — Fond page', exact: true },
-  { path: '/marketing/hero-b', label: 'B — Cinematic' },
-  { path: '/marketing/hero-c', label: 'C — Aquarelle scroll' },
+  { path: '/website', label: 'A — Fond page', exact: true },
+  { path: '/website/hero-b', label: 'B — Cinematic' },
+  { path: '/website/hero-c', label: 'C — Aquarelle scroll' },
 ];
 
 export const VariantSwitcher: React.FC = () => {
@@ -16,7 +16,7 @@ export const VariantSwitcher: React.FC = () => {
         Variante
       </span>
       {VARIANTS.map(({ path, label, exact }) => {
-        const isActive = exact ? pathname === '/marketing' : pathname === path;
+        const isActive = exact ? pathname === '/website' : pathname === path;
         return (
           <Link key={path} to={path}>
             <span

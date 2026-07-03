@@ -15,7 +15,7 @@ import { DOSSIERS } from '../../data/marketingDossiers';
 
 const CARDS = [
   {
-    to: '/marketing/magazine',
+    to: '/website/magazine',
     icon: <Newspaper size={22} className="text-primary-700" />,
     iconBg: 'bg-primary-50 border-primary-100',
     title: 'Magazine',
@@ -24,7 +24,7 @@ const CARDS = [
     tone: 'primary' as const,
   },
   {
-    to: '/marketing/methode',
+    to: '/website/methode',
     icon: <Compass size={22} className="text-secondary-700" />,
     iconBg: 'bg-secondary-50 border-secondary-100',
     title: 'Méthode STRIDE',
@@ -33,7 +33,7 @@ const CARDS = [
     tone: 'warm' as const,
   },
   {
-    to: '/marketing/equipe',
+    to: '/website/equipe',
     icon: <Users size={22} className="text-accent-500" />,
     iconBg: 'bg-accent-50 border-accent-100',
     title: "L'équipe",
@@ -51,7 +51,7 @@ export const MarketingRessources: React.FC = () => {
       <SEOHead
         title="Ressources · Magazine, Méthode STRIDE, Équipe TLS"
         description="Dossiers de fond, articles EdTech, présentation de la méthode STRIDE et de l'équipe The Learning Society. Toutes nos ressources libres d'accès."
-        canonical="/marketing/ressources"
+        canonical="/website/ressources"
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -171,13 +171,13 @@ export const MarketingRessources: React.FC = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-stack-xs">
             <MagneticButton strength={12}>
-              <Link to="/marketing/contact">
+              <Link to="/website/contact">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Nous contacter
                 </Button>
               </Link>
             </MagneticButton>
-            <Link to="/marketing/formation">
+            <Link to="/website/learning-app">
               <Button variant="secondary" size="lg">
                 Voir la formation
               </Button>

@@ -1,5 +1,5 @@
 /**
- * HeroSection — Layout router for 4 hero patterns
+ * HeroSection — Layout router for 5 hero patterns
  *
  * Props: layout, tone, animation, children content
  * Routes to:
@@ -7,12 +7,14 @@
  * - cinematic : 100dvh full-screen video, dark overlay, white text (Cinematic/Narrative)
  * - parallax : 200vh sticky, parallax bg, text-left (Momentum)
  * - static-image : static image + ambient blobs (Elegant)
+ * - type-hero : no video, oversized typography, geometric accent, primary-50 bg
+ *   (validated in Figma — docs/_variants/PHASE-3-FIGMA-EXPLORATIONS.md, exploration 1)
  */
 
 import React from 'react';
 import { useReducedMotion } from 'framer-motion';
 
-export type HeroLayout = 'centered' | 'cinematic' | 'parallax' | 'static-image';
+export type HeroLayout = 'centered' | 'cinematic' | 'parallax' | 'static-image' | 'type-hero';
 
 interface HeroSectionProps {
   layout?: HeroLayout;
@@ -197,6 +199,23 @@ const HeroStaticImage: React.FC<HeroSectionProps> = ({ children }) => (
   </section>
 );
 
+// ─── Layout: Type-as-Hero (no video, oversized type, geometric accent) ───
+const HeroTypeHero: React.FC<HeroSectionProps> = ({ children }) => (
+  <section className="relative min-h-[88vh] overflow-hidden bg-primary-50">
+    <div
+      aria-hidden
+      className="absolute -top-20 -right-16 w-60 h-60 rounded-full bg-primary-600/8 pointer-events-none"
+    />
+    <div className="relative min-h-[88vh] flex items-center">
+      <div className="w-full max-w-page mx-auto px-6 py-page">
+        <div className="flex flex-col items-center text-center gap-stack-lg">
+          {children}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 // ─── Main router ─────────────────────────────────────────────────────────
 export const HeroSection: React.FC<HeroSectionProps> = ({
   layout = 'centered',
@@ -228,6 +247,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <HeroStaticImage animation={animation} {...rest}>
           {children}
         </HeroStaticImage>
+      );
+    case 'type-hero':
+      return (
+        <HeroTypeHero animation={animation} {...rest}>
+          {children}
+        </HeroTypeHero>
       );
     default:
       return (

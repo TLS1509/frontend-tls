@@ -40,10 +40,10 @@ function useMouseParallax(strength = 20) {
 /* ── Navigation suggestions ───────────────────────────────────────────────── */
 
 const SUGGESTIONS = [
-  { icon: <Home size={16} />, label: 'Accueil', href: '/marketing' },
-  { icon: <BookOpen size={16} />, label: 'La méthode', href: '/marketing/methode' },
-  { icon: <BookOpen size={16} />, label: 'Formations', href: '/marketing/formation' },
-  { icon: <Mail size={16} />, label: 'Contact', href: '/marketing/contact' },
+  { icon: <Home size={16} />, label: 'Accueil', href: '/website' },
+  { icon: <BookOpen size={16} />, label: 'La méthode', href: '/website/methode' },
+  { icon: <BookOpen size={16} />, label: 'Formations', href: '/website/learning-app' },
+  { icon: <Mail size={16} />, label: 'Contact', href: '/website/contact' },
 ];
 
 /* ── Page ─────────────────────────────────────────────────────────────────── */
@@ -169,7 +169,7 @@ export const MarketingError404: React.FC = () => {
         >
           <Button
             size="lg"
-            onClick={() => window.location.href = '/marketing'}
+            onClick={() => window.location.href = '/website'}
             trailingIcon={<ArrowRight size={18} />}
           >
             Retour à l'accueil
@@ -177,7 +177,7 @@ export const MarketingError404: React.FC = () => {
           <Button
             size="lg"
             variant="secondary"
-            onClick={() => window.location.href = '/marketing/contact'}
+            onClick={() => window.location.href = '/website/contact'}
           >
             Nous contacter
           </Button>

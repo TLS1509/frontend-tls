@@ -2,18 +2,18 @@ User-agent: *
 Allow: /
 
 # Pages placeholder (contenu non validé)
-Disallow: /marketing/equipe
-Disallow: /marketing/methode
+Disallow: /website/equipe
+Disallow: /website/methode
 
 # Variantes de développement (non destinées à la production)
-Disallow: /marketing/home-a
-Disallow: /marketing/home-b
-Disallow: /marketing/home-c
-Disallow: /marketing/home-preserve
-Disallow: /marketing/home-editorial
-Disallow: /marketing/home-bold
-Disallow: /marketing/_motion-lab
-Disallow: /marketing/temoignages
+Disallow: /website/home-a
+Disallow: /website/home-b
+Disallow: /website/home-c
+Disallow: /website/home-preserve
+Disallow: /website/home-editorial
+Disallow: /website/home-bold
+Disallow: /website/_motion-lab
+Disallow: /website/temoignages
 
 # Pages app (authentification requise)
 Disallow: /app/

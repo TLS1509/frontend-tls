@@ -2873,6 +2873,7 @@ const COMPONENTS: ComponentEntry[] = [
     category: 'Navigation',
     description: '**Stepper** : indicateur d\'étapes séquentiel horizontal/vertical — états done/current/upcoming. Utilisé dans onboarding, wizards. **Steps** : checklist séquentielle d\'étapes (done/current/upcoming) — différent du stepper car vertical avec descriptions longues.',
     keywords: ['stepper', 'steps', 'progress', 'wizard', 'onboarding', 'sequence', 'checklist', 'task', 'sequential'],
+    usedBy: ['OnboardingQuestionnaire', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
     render: () => {
       const steps = [
         { id: '1', label: 'Positionnement', state: 'done' as const },
@@ -5157,7 +5158,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ConversationalChat.tsx',
     cssBase: 'Tailwind',
     category: 'Patterns',
-    usedBy: ['ChatInterface'],
+    usedBy: ['ChatInterface', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
     description: '⭐ Wrapper de fil de conversation complet — liste scrollable de `MessageBubble` + indicateur de frappe animé (3 dots bounce) + auto-scroll-to-bottom (`useRef + useEffect`). Props : `messages: ChatMessage[]`, `isTyping`, `onFeedback`, `emptyState`, `className` (pour contraindre la hauteur). État vide affiché si 0 messages. Encapsule un `<Card>` avec overflow-y-auto. ⚠️ `animationDelay` via `style={{}}` (exception légitime — pas d\'utility Tailwind pour animation-delay sur keyframes).',
     keywords: ['chat', 'conversation', 'thread', 'messages', 'typing', 'auto-scroll', 'chatbot', 'feed'],
     render: () => (
@@ -5205,8 +5206,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/TlsLogo.tsx',
     cssBase: 'Tailwind (SVG inline)',
     category: 'Core',
-    usedBy: ['Sidebar', 'AuthShell'],
-    description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages). ⚠️ **Pas de similar** — composant unique.',
+    usedBy: ['Sidebar', 'AuthShell', 'Onboarding', 'OnboardingUnified', 'OnboardingQuestionnaire', 'OnboardingQuestionnaireConversational', 'SubscriptionPayment', 'OnboardingTutorial', 'OnboardingSuccess'],
+    description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages + brand bar de tout le flow onboarding). ⚠️ **Pas de similar** — composant unique.',
     keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
     render: () => (
       <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
@@ -5547,7 +5548,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionCard.tsx',
     cssBase: 'SectionCard (titled content card)',
     category: 'Patterns',
-    usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement'],
+    usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement', 'OnboardingQuestionnaire'],
     description: 'Carte de section avec header (titre + icône + description + headerAction), body (children) et footer actions séparé par une bordure. Tone configurable (passé à Card). Utilisé pour structurer les pages éditoriales et content.',
     keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout'],
     render: () => (
@@ -6205,9 +6206,9 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/BehavioralTileGrid.tsx',
     cssBase: 'Tailwind (no BEM)',
     category: 'Learning',
-    description: 'Grille auto-fit responsive de tuiles de piliers comportementaux / compétences. 4 palettes ton cycliques (primary/warm/sun/primary-alt). Chaque tuile : indicateur décoratif accentué + titre + description + pills optionnelles. Utilisé dans LessonPlayer (section Engagement) pour présenter les dimensions comportementales d\'une compétence.',
+    description: 'Grille auto-fit responsive de tuiles de piliers comportementaux / compétences. 4 palettes ton cycliques (primary/warm/sun/primary-alt). Chaque tuile : indicateur décoratif accentué + titre + description + pills optionnelles. Utilisé dans LessonPlayer (section Engagement) pour présenter les dimensions comportementales d\'une compétence, et dans le flow Onboarding (positionnement conversationnel) pour capturer le niveau Dreyfus via tuiles comportementales plutôt que labels 1-5 visibles.',
     keywords: ['behavioral', 'tile', 'grid', 'pillar', 'competence', 'engagement', 'lesson', 'viewer', 'auto-fit'],
-    usedBy: ['LessonPlayer'],
+    usedBy: ['LessonPlayer', 'OnboardingUnified', 'OnboardingQuestionnaireConversational'],
     render: () => (
       <BehavioralTileGrid
         heading="Les 4 Piliers du Leadership"

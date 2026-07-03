@@ -5,6 +5,15 @@
  *  - Dreyfus interactif: 5-level selector with animated panel
  *  - Features bento: varied-size grid replacing flat 8-tile grid
  *  - Badge system: visual Open Badge showcase
+ *
+ * 03/07/2026 — Page Formation (/website/formation) supprimée, deux de ses
+ * sections fusionnées ici (le reste — public cible, compétences clés, pricing,
+ * FAQ — était redondant avec Dreyfus/Use cases ou trop tôt pour être figé) :
+ *  - Programme certifiant : les 7 modules (ModuleTimeline, snap-scroll horizontal,
+ *    pas de scroll-jack) — section 2.5, juste après Dreyfus.
+ *  - Partenariat C-Campus : preuve honnête (OPCO, Open Badge vérifiable) —
+ *    section 6.5, juste avant l'accès anticipé.
+ * L'ancienne route /website/formation redirige vers /website/learning-app.
  */
 
 import React, { useState } from 'react';
@@ -29,6 +38,8 @@ import {
   Target,
   TrendingUp,
   ChevronRight,
+  ChevronLeft,
+  Clock,
   Lightbulb,
   Shield,
 } from 'lucide-react';
@@ -100,6 +111,126 @@ const DREYFUS_LEVELS = [
     timeLabel: '36 mois +',
   },
 ];
+
+// ─── Programme certifiant (fusionné depuis /formation le 03/07/2026) ─────────
+
+const MODULES = [
+  {
+    n: '01',
+    title: "Le Formateur Augmenté par l'IA : Une Révolution Pédagogique",
+    desc: "Fondamentaux de l'IA générative, des LLMs et de leurs usages pédagogiques. Vocabulaire commun, cartographie des outils du marché.",
+    duration: '1h',
+  },
+  {
+    n: '02',
+    title: "Le Prompt Engineering pour le Formateur : Maîtriser la Communication avec l'IA",
+    desc: "Techniques de prompt engineering pour concevoir des instructions efficaces et reproductibles. Library de prompts pédagogiques prêts à l'emploi.",
+    duration: '1h',
+  },
+  {
+    n: '03',
+    title: "Choisir les bons outils d'IA en fonction de son contexte de formation",
+    desc: "Panorama des outils IA pour la formation, critères de sélection, intégration dans votre stack pédagogique existant.",
+    duration: '1h',
+  },
+  {
+    n: '04',
+    title: "Découvrir l'IA dans la Conception de Formation",
+    desc: "Intégrer l'IA dans l'ingénierie pédagogique sans perdre l'intention humaine. Méthodologie STRIDE appliquée.",
+    duration: '1h',
+  },
+  {
+    n: '05',
+    title: "Utiliser l'IA pour enrichir l'animation et l'accompagnement sans déshumaniser",
+    desc: "Utilisation live de l'IA en séance : démonstrations, quiz adaptatifs, feedback instantané. Posture du formateur augmenté.",
+    duration: '1h',
+  },
+  {
+    n: '06',
+    title: "Automatisation Augmentée par l'IA",
+    desc: "Emails, comptes-rendus, évaluations, fiches de suivi : l'IA comme assistant invisible pour libérer votre temps.",
+    duration: '1h',
+  },
+  {
+    n: '07',
+    title: "Éthique, responsabilité et accompagnement critique des apprenants avec l'IA",
+    desc: 'RGPD, propriété intellectuelle, biais algorithmiques. La posture du formateur augmenté responsable et conforme.',
+    duration: '1h',
+  },
+];
+
+// ─── Module Timeline (horizontal snap-scroll, pas de scroll-jack) ────────────
+const ModuleTimeline: React.FC = () => {
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollBy = (dir: 1 | -1) => {
+    if (!scrollerRef.current) return;
+    const cardWidth = 320 + 16; // card w-80 + gap
+    scrollerRef.current.scrollBy({ left: dir * cardWidth * 1.5, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="relative">
+      <div className="hidden md:flex items-center justify-end gap-stack-xs mb-stack">
+        <button
+          type="button"
+          onClick={() => scrollBy(-1)}
+          aria-label="Module précédent"
+          className="w-11 h-11 rounded-pill border border-ink-200 bg-white text-ink-700 hover:bg-ink-50 hover:border-primary-300 flex items-center justify-center transition-colors duration-fast min-h-touch min-w-touch"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <button
+          type="button"
+          onClick={() => scrollBy(1)}
+          aria-label="Module suivant"
+          className="w-11 h-11 rounded-pill border border-ink-200 bg-white text-ink-700 hover:bg-ink-50 hover:border-primary-300 flex items-center justify-center transition-colors duration-fast min-h-touch min-w-touch"
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+
+      <div
+        ref={scrollerRef}
+        className="flex gap-stack overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 -mx-6 pb-stack"
+        style={{ scrollbarWidth: 'thin' }}
+      >
+        {MODULES.map((m, i) => (
+          <motion.article
+            key={m.n}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.5, delay: i * 0.05, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="snap-start shrink-0 w-80 rounded-2xl bg-white border border-ink-100 p-stack-lg flex flex-col gap-stack shadow-sm hover:shadow-md hover:border-primary-200 transition-all duration-base"
+          >
+            <div className="flex items-start justify-between">
+              <span className="font-display text-h2 font-extrabold text-primary-600 leading-none tracking-tight">
+                {m.n}
+              </span>
+              <span className="inline-flex items-center gap-tight px-2 py-1 rounded-lg bg-primary-50 text-primary-700 text-caption font-bold">
+                <Clock size={12} />
+                {m.duration}
+              </span>
+            </div>
+            <h3 className="font-display text-h4 font-bold text-ink-900 leading-tight m-0">
+              {m.title}
+            </h3>
+            <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0 flex-1">
+              {m.desc}
+            </p>
+            <div className="pt-stack border-t border-ink-100 flex items-center gap-stack-xs">
+              <span className="font-body text-caption font-semibold text-primary-600">
+                Module {m.n}
+              </span>
+              <ArrowRight size={14} className="text-primary-600 ml-auto" />
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 // ─── Features bento data ─────────────────────────────────────────────────────
 
@@ -391,11 +522,11 @@ export const MarketingLearningApp: React.FC = () => {
       <SEOHead
         title="Learning App TLS — Formation IA adaptative"
         description="La plateforme qui connecte apprentissage, compétences et impact business. Parcours IA, Passeport de Compétences Dreyfus, coaching, gamification."
-        canonical="/marketing/learning-app"
+        canonical="/website/learning-app"
       />
 
       {/* ── 1. Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-50/60 via-white to-accent-50/15">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-50/60 via-white to-accent-50/15">
         <div aria-hidden className="absolute top-0 right-0 w-1/3 h-80 pointer-events-none overflow-hidden">
           <img
             src="/images/bg-frames/aquarelle-orange-teal-1s.jpg"
@@ -576,6 +707,31 @@ export const MarketingLearningApp: React.FC = () => {
                 </motion.div>
               </AnimatePresence>
             </div>
+          </FadeInWhenVisible>
+        </div>
+      </section>
+
+      {/* ── 2.5. Programme certifiant (Formateur Augmenté) ───────────────────── */}
+      <section className="py-page bg-white border-t border-ink-100">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col gap-section">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 text-micro font-bold text-ink-400 uppercase tracking-[0.08em]">
+                <Award size={11} />
+                Programme certifiant · Formateur Augmenté
+              </span>
+              <h2 className="font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                Sept modules, délivrés dans la plateforme.
+              </h2>
+              <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+                Le parcours certifiant qui vous fait passer de novice à expert sur l'IA
+                pédagogique. Open Badge à l'issue, suivi mesuré à chaque étape.
+              </p>
+            </div>
+          </FadeInWhenVisible>
+
+          <FadeInWhenVisible direction="up" delay={0.1}>
+            <ModuleTimeline />
           </FadeInWhenVisible>
         </div>
       </section>
@@ -824,6 +980,70 @@ export const MarketingLearningApp: React.FC = () => {
             </div>
           </div>
         </FadeInWhenVisible>
+      </section>
+
+      {/* ── 6.5. Partenariat C-Campus (fusionné depuis /formation) ───────────── */}
+      <section className="py-page bg-gradient-to-b from-white to-primary-50 relative">
+        <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-page items-center">
+          <FadeInWhenVisible direction="up">
+            <div className="flex flex-col gap-stack-lg">
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+                En partenariat avec <span className="text-accent-400">C-Campus</span>.
+              </h2>
+              <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-lg">
+                Le programme certifiant est réalisé 100 % à distance en partenariat avec
+                <strong className="text-ink-900"> C-Campus</strong>.
+                Votre Open Badge est reconnu sur LinkedIn.
+                La prise en charge OPCO est ouverte selon votre secteur.
+              </p>
+              <ul className="flex flex-col gap-stack-xs m-0 p-0 list-none">
+                {[
+                  'Prise en charge OPCO éligible selon votre secteur',
+                  'Open Badge vérifiable par cryptographie',
+                  'Reconnaissance sur LinkedIn',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-stack-xs font-body text-body text-ink-700">
+                    <CheckCircle2 size={18} className="text-primary-600 shrink-0 mt-0.5" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeInWhenVisible>
+          <FadeInWhenVisible direction="left" delay={0.25}>
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="relative aspect-square max-w-sm mx-auto rounded-2xl bg-white border border-ink-100 p-section flex flex-col items-center justify-center gap-stack shadow-md hover:shadow-lg transition-shadow duration-base"
+            >
+              <div className="flex flex-col items-center gap-stack-lg text-center">
+                <div className="w-16 h-16 rounded-lg bg-primary-50 flex items-center justify-center">
+                  <Award size={32} className="text-primary-600" />
+                </div>
+                <div className="flex flex-col gap-tight">
+                  <span className="font-display text-h2 font-extrabold text-ink-900 leading-none">
+                    C-Campus
+                  </span>
+                  <span className="font-body text-caption text-ink-600 uppercase tracking-widest">
+                    Partenaire certifiant
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
+                  {['OPCO'].map((b) => (
+                    <span
+                      key={b}
+                      className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary-50 border border-primary-200 text-primary-700 font-body text-caption font-bold uppercase tracking-wider"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </FadeInWhenVisible>
+        </div>
       </section>
 
       {/* ── 7. Early access ───────────────────────────────────────────────────── */}

@@ -1632,7 +1632,7 @@ export const ARTICLES: Article[] = [
     ],
     conclusion:
       "L'Article 4 n'est pas une contrainte de plus. C'est le signal que l'IA en entreprise ne peut plus être une pratique informelle et non documentée. Les organisations qui anticipent construisent un avantage concret : des équipes plus efficaces, moins exposées aux erreurs, capables d'utiliser l'IA comme un levier de performance plutôt que d'en subir les risques juridiques et opérationnels. Il reste quelques semaines pour mettre en place une réponse sérieuse — le diagnostic est le meilleur point de départ.",
-    liveUrl: '/marketing/ressources',
+    liveUrl: '/website/ressources',
     cover: 'from-primary-100 via-primary-50 to-accent-50',
     body: [
       {

@@ -36,21 +36,21 @@ const QUICK_LINKS = [
   {
     icon: <Compass size={20} />,
     label: 'Notre méthode STRIDE',
-    href: '/marketing/methode',
+    href: '/website/methode',
     desc: 'Comment on travaille',
     tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
     icon: <Briefcase size={20} />,
     label: 'Accompagnement sur mesure',
-    href: '/marketing/accompagnement',
+    href: '/website/accompagnement',
     desc: 'Devis personnalisé',
     tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
   {
     icon: <Smartphone size={20} />,
     label: 'Learning App : accès anticipé',
-    href: '/marketing/learning-app',
+    href: '/website/learning-app',
     desc: 'Inscription bêta gratuite',
     tone: 'bg-primary-50 text-primary-700 border-primary-100',
   },
@@ -111,10 +111,10 @@ export const MarketingContact: React.FC = () => {
       <SEOHead
         title="Contactez The Learning Society — Devis & Rendez-vous"
         description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
-        canonical="/marketing/contact"
+        canonical="/website/contact"
       />
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-section overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-section overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
 <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/30 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-pill bg-secondary-200/20 blur-3xl" />

@@ -214,7 +214,7 @@ const AppLanding: React.FC = () => {
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 left-0 right-0 z-sticky h-14 flex items-center justify-between px-6 md:px-10 bg-white/80 backdrop-blur-glass-light border-b border-ink-100">
-        <Link to="/marketing" className="flex items-center gap-2">
+        <Link to="/website" className="flex items-center gap-2">
           <TlsLogo variant="primary" className="h-7 w-7" />
           <span className="font-display font-bold text-body-sm text-ink-900 tracking-snug hidden sm:inline">
             The Learning Society
@@ -532,11 +532,11 @@ const AppLanding: React.FC = () => {
 
           <p className="font-body text-micro text-white/55 m-0">
             En créant un compte, vous acceptez nos{' '}
-            <Link to="/marketing/cgv-cgu" className="underline underline-offset-2 hover:text-white transition-colors">
+            <Link to="/website/cgv-cgu" className="underline underline-offset-2 hover:text-white transition-colors">
               CGU
             </Link>{' '}
             et notre{' '}
-            <Link to="/marketing/politique-confidentialite" className="underline underline-offset-2 hover:text-white transition-colors">
+            <Link to="/website/politique-confidentialite" className="underline underline-offset-2 hover:text-white transition-colors">
               politique de confidentialité
             </Link>.
           </p>
@@ -552,13 +552,13 @@ const AppLanding: React.FC = () => {
           </span>
         </div>
         <div className="flex items-center gap-5">
-          <Link to="/marketing/mentions-legales" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/mentions-legales" className="font-body text-caption text-white/50 hover:text-white transition-colors">
             Mentions légales
           </Link>
-          <Link to="/marketing/politique-confidentialite" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/politique-confidentialite" className="font-body text-caption text-white/50 hover:text-white transition-colors">
             Confidentialité
           </Link>
-          <Link to="/marketing/contact" className="font-body text-caption text-white/50 hover:text-white transition-colors">
+          <Link to="/website/contact" className="font-body text-caption text-white/50 hover:text-white transition-colors">
             Contact
           </Link>
         </div>

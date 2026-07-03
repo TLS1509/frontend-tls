@@ -28,6 +28,7 @@ import {
   MorphingSVGVisualizer,
   CounterAnimation,
   ParallexTextLayers,
+  FadeInWhenVisible,
   type StoryPanel,
 } from '../../components/marketing/motion';
 import { HeroSection, ConvictionSection, OffersSection, MethodSection, CtaSection } from '../../components/marketing/sections';
@@ -139,7 +140,7 @@ const OFFERS: {
     body:
       "Le programme certifiant, délivré dans la Learning App. Vous apprenez à intégrer l'IA dans votre pédagogie, à votre rythme, avec un suivi qui mesure vos progrès réels. Open Badge à l'issue du parcours.",
     cta: 'Voir le programme',
-    to: '/marketing/formation',
+    to: '/website/learning-app',
     num: 'text-primary-200',
     tag: 'text-primary-700',
   },
@@ -150,7 +151,7 @@ const OFFERS: {
     body:
       "Audit, stratégie IA et déploiement sur-mesure pour les organismes de formation et les entreprises. On part de vos contraintes réelles, via la méthode STRIDE : pas d'un modèle générique.",
     cta: 'Parler de votre projet',
-    to: '/marketing/accompagnement',
+    to: '/website/accompagnement',
     num: 'text-secondary-200',
     tag: 'text-secondary-700',
   },
@@ -160,8 +161,8 @@ const OFFERS: {
     title: 'La Learning App',
     body:
       'Parcours adaptatifs (progression Dreyfus), coaching 1-1, journal réflexif, veille curée, passeport de compétences et badges. La plateforme qui porte tout le reste.',
-    cta: 'Découvrir la plateforme',
-    to: '/marketing/learning-app',
+    cta: 'Explorer la plateforme',
+    to: '/website/learning-app',
     num: 'text-accent-300',
     tag: 'text-accent-700',
   },
@@ -174,14 +175,42 @@ const PROOFS: { title: string; detail: string }[] = [
 ];
 
 export const MarketingHomeNarrative: React.FC = () => {
+  const [activeStep, setActiveStep] = React.useState(0);
+
   return (
     <div className="bg-white text-ink-900">
       <ScrollProgressIndicator height={3} />
 
-      {/* ── 1. Hero : Direction C cinematic (Illustrated Glass) ────────────────── */}
-      <ParallaxSection speed={0.5}>
-        <CinematicHero />
-      </ParallaxSection>
+      {/* ── 1. Hero : type-hero simple (2026-07-03 — remplace CinematicHero,
+             dont le mécanisme scroll-jack causait un vide récurrent avant la
+             section Conviction, sur plusieurs variantes). Le vrai moment
+             immersif de cette page reste la section 3 (Learn → Do → Match). */}
+      <HeroSection layout="type-hero" animation>
+        <FadeInWhenVisible className="flex flex-col items-center text-center gap-stack-lg">
+          <h1 className="font-display font-extrabold text-ink-900 leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[18ch] text-[clamp(2.4rem,6.4vw,4rem)]">
+            Ce que l'IA change pour ceux qui forment.
+          </h1>
+          <p className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-[60ch]">
+            La formation certifiante et la plateforme qui apprennent aux
+            formateurs à intégrer l'IA dans leur pédagogie. En gardant
+            l'humain au centre.
+          </p>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
+            <MagneticButton strength={14}>
+              <Link to="/website/learning-app">
+                <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
+                  Découvrir la formation
+                </Button>
+              </Link>
+            </MagneticButton>
+            <Link to="/website/learning-app">
+              <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
+                Explorer la plateforme
+              </Button>
+            </Link>
+          </div>
+        </FadeInWhenVisible>
+      </HeroSection>
 
       {/* ── 2. Conviction : one committed teal stripe ──────────────────────────── */}
       <section className="bg-primary-700 text-white">
@@ -229,7 +258,7 @@ export const MarketingHomeNarrative: React.FC = () => {
           <div className="max-w-wide mx-auto px-6 mb-section-lg">
             <Reveal>
               <CounterAnimation
-                currentStep={0}
+                currentStep={activeStep}
                 totalSteps={3}
                 label="Étape"
                 colorClass="text-secondary-600"
@@ -240,6 +269,7 @@ export const MarketingHomeNarrative: React.FC = () => {
             className="pt-0"
             panels={STORY}
             eyebrowToneClass="text-secondary-600"
+            onActiveChange={setActiveStep}
             visual={(active) => (
               <div className="flex flex-col items-center gap-section-lg">
                 <MorphingSVGVisualizer
@@ -293,7 +323,7 @@ export const MarketingHomeNarrative: React.FC = () => {
               </Reveal>
               <Reveal delay={0.24}>
                 <div className="pt-stack">
-                  <Link to="/marketing/learning-app">
+                  <Link to="/website/learning-app">
                     <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                       Voir toutes les fonctionnalités
                     </Button>
@@ -373,7 +403,7 @@ export const MarketingHomeNarrative: React.FC = () => {
         <div className="max-w-wide mx-auto px-6 pb-page">
           <Reveal>
             <Link
-              to="/marketing/accompagnement"
+              to="/website/accompagnement"
               className="group block rounded-2xl bg-primary-50 px-6 py-section-lg sm:px-section-lg transition-colors duration-base hover:bg-primary-100"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-center">
@@ -467,7 +497,7 @@ export const MarketingHomeNarrative: React.FC = () => {
                 </p>
               </div>
               <div className="lg:col-span-4 lg:text-right">
-                <Link to="/marketing/magazine">
+                <Link to="/website/resources">
                   <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                     Lire le blog
                   </Button>
@@ -494,13 +524,13 @@ export const MarketingHomeNarrative: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={16}>
-                    <Link to="/marketing/contact">
+                    <Link to="/website/contact">
                       <Button variant="secondary" size="xl" trailingIcon={<ArrowRight size={20} />}>
                         Réserver un échange
                       </Button>
                     </Link>
                   </MagneticButton>
-                  <Link to="/marketing/learning-app">
+                  <Link to="/website/learning-app">
                     <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                       Explorer la plateforme
                     </Button>

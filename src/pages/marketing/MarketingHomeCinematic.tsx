@@ -6,7 +6,9 @@
  * permettant à la vidéo de "persister" visuellement sous les sections.
  *
  * Structure : Hero vidéo immersif · Conviction · Pour qui · 3 piliers ·
- * Méthode STRIDE · Auto-diagnostic · Preuve & équipe · CTA final.
+ * CTA final. (Pas de section Méthode STRIDE / Auto-diagnostic / Preuve —
+ * volontairement plus courte que les autres variantes, la vidéo hero est
+ * le moment signature.)
  */
 
 import React from 'react';
@@ -98,7 +100,7 @@ const CinematicHero: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-stack-xs pt-stack">
             <MagneticButton strength={14}>
-              <Link to="/marketing/accompagnement">
+              <Link to="/website/accompagnement">
                 <Button
                   variant="primary"
                   size="lg"
@@ -108,7 +110,7 @@ const CinematicHero: React.FC = () => {
                 </Button>
               </Link>
             </MagneticButton>
-            <Link to="/marketing/formation">
+            <Link to="/website/learning-app">
               <Button variant="glass" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                 Me former
               </Button>
@@ -168,14 +170,14 @@ const Audience: React.FC = () => (
           title: 'Formateurs indépendants',
           desc: "Se former à l'IA pédagogique, intégrer les bons outils, obtenir une certification.",
           cta: 'Devenir Formateur Augmenté',
-          route: '/marketing/formation',
+          route: '/website/learning-app',
         },
         {
           icon: Building2,
           title: 'Organisations L&D',
           desc: 'Transformer vers une logique de compétences, accompagnement stratégique, déploiement mesurable.',
           cta: 'Consulter pour mon org',
-          route: '/marketing/accompagnement',
+          route: '/website/accompagnement',
         },
       ].map((item, idx) => {
         const Icon = item.icon;
@@ -270,15 +272,15 @@ const FinalCTA: React.FC = () => (
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-stack-xs pt-stack">
         <MagneticButton strength={14}>
-          <Link to="/marketing/contact">
+          <Link to="/website/contact">
             <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
               Prendre rendez-vous
             </Button>
           </Link>
         </MagneticButton>
-        <Link to="/marketing/learning-app">
+        <Link to="/website/learning-app">
           <Button variant="secondary" size="lg">
-            Voir la plateforme
+            Explorer la plateforme
           </Button>
         </Link>
       </div>

@@ -152,7 +152,7 @@ export const MarketingInfographieSBO: React.FC = () => {
         <div className="relative max-w-4xl mx-auto px-6 flex flex-col gap-stack-lg">
           <Reveal>
             <Link
-              to="/ressources"
+              to="/website/resources"
               className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
@@ -194,7 +194,7 @@ export const MarketingInfographieSBO: React.FC = () => {
             </p>
           </Reveal>
           <Reveal delay={0.08}>
-            <Link to="/dossiers/organisation-par-les-competences-sbo">
+            <Link to="/website/dossiers/organisation-par-les-competences-sbo">
               <Button variant="ghost" size="lg" leadingIcon={<BookOpen size={18} />}>
                 Lire le dossier complet (sources incluses)
               </Button>
@@ -219,12 +219,12 @@ export const MarketingInfographieSBO: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
-              <Link to="/conseil">
+              <Link to="/website/accompagnement">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Découvrir l'accompagnement
                 </Button>
               </Link>
-              <Link to="/learning-app">
+              <Link to="/website/learning-app">
                 <Button variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Voir la Learning App
                 </Button>

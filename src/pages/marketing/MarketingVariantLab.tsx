@@ -2,27 +2,29 @@
  * MarketingVariantLab — Switcher de variantes de mise en page
  *
  * Dev-only page at /marketing/_variants (standalone, no MarketingLayout wrapper)
- * Lets you switch between layout variants for Homepage, Accompagnement, Learning App.
+ * Lets you switch between the 6 homepage layout variants.
+ *
+ * Accompagnement et Learning App n'ont qu'une seule version chacun (pas de
+ * variantes à comparer) — ils sont accessibles directement via leurs routes
+ * `/website/accompagnement` et `/website/learning-app`.
+ *
+ * Flow (Organic), Audience-split et Momentum retirés le 03/07 (triage) : Flow
+ * dupliquait la même conviction que Cinematic, Audience-split n'était qu'un
+ * outil de comparaison pour la décision sitemap (déjà tranchée en faveur
+ * d'Original), Momentum partageait le même bug de scroll-jack que Cinematic
+ * (conteneur 200vh + fade sur 28% seulement) sans rien apporter de propre
+ * (word-swap quasi identique à Cinematic, TRUST_CHIPS vide/mort).
  */
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MarketingHome } from './MarketingHome';
 import { MarketingHomeClarity } from './MarketingHomeClarity';
 import { MarketingHomeNarrative } from './MarketingHomeNarrative';
-import { MarketingHomeImmersion } from './MarketingHomeImmersion';
 import { MarketingHomeRefined } from './MarketingHomeRefined';
 import { MarketingHomeCinematic } from './MarketingHomeCinematic';
-import { MarketingHomeOrganic } from './MarketingHomeOrganic';
-import { MarketingAccompagnement } from './MarketingAccompagnement';
-import { MarketingLearningApp } from './MarketingLearningApp';
 
-type PageKey = 'home' | 'acc' | 'la';
-type VariantKey = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-
-const PAGE_LABELS: Record<PageKey, string> = {
-  home: 'Homepage',
-  acc: 'Accompagnement',
-  la: 'Learning App',
-};
+type VariantKey = 1 | 2 | 4 | 6 | 7;
 
 interface VariantMeta {
   label: string;
@@ -30,56 +32,30 @@ interface VariantMeta {
   badgeColor: string;
 }
 
-const VARIANT_LABELS: Record<PageKey, Partial<Record<VariantKey, VariantMeta>>> = {
-  home: {
-    2: { label: 'Clarity-First', badge: 'Light · Clear', badgeColor: 'bg-primary-100 text-primary-700' },
-    4: { label: 'Storyteller', badge: 'Sticky Story', badgeColor: 'bg-accent-100 text-ink-900' },
-    5: { label: 'Momentum', badge: 'Scroll Flow', badgeColor: 'bg-primary-100 text-primary-700' },
-    6: { label: 'Elegant', badge: 'Premium', badgeColor: 'bg-secondary-100 text-secondary-700' },
-    7: { label: 'Cinematic', badge: '🎬 Motion', badgeColor: 'bg-accent-100 text-ink-900' },
-    8: { label: 'Flow', badge: 'Organic', badgeColor: 'bg-primary-100 text-primary-700' },
-  },
-  acc: {
-    1: { label: 'A1 · Services + Timeline', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
-  },
-  la: {
-    1: { label: 'B1 · Mockup Hero + Zigzag', badge: 'Actuel', badgeColor: 'bg-ink-200 text-ink-700' },
-  },
+const VARIANT_LABELS: Record<VariantKey, VariantMeta> = {
+  1: { label: 'Original', badge: 'SkillMap · STRIDE', badgeColor: 'bg-ink-200 text-ink-700' },
+  2: { label: 'Clarity-First', badge: 'Light · Clear', badgeColor: 'bg-primary-100 text-primary-700' },
+  4: { label: 'Storyteller', badge: 'Sticky Story', badgeColor: 'bg-accent-100 text-ink-900' },
+  6: { label: 'Elegant', badge: 'Premium', badgeColor: 'bg-secondary-100 text-secondary-700' },
+  7: { label: 'Cinematic', badge: '🎬 Motion', badgeColor: 'bg-accent-100 text-ink-900' },
 };
 
-type ComponentMap = Record<PageKey, Partial<Record<VariantKey, React.FC>>>;
-
-const COMPONENTS: ComponentMap = {
-  home: {
-    2: MarketingHomeClarity,
-    4: MarketingHomeNarrative,
-    5: MarketingHomeImmersion,
-    6: MarketingHomeRefined,
-    7: MarketingHomeCinematic,
-    8: MarketingHomeOrganic,
-  },
-  acc: {
-    1: MarketingAccompagnement,
-  },
-  la: {
-    1: MarketingLearningApp,
-  },
+const COMPONENTS: Record<VariantKey, React.FC> = {
+  1: MarketingHome,
+  2: MarketingHomeClarity,
+  4: MarketingHomeNarrative,
+  6: MarketingHomeRefined,
+  7: MarketingHomeCinematic,
 };
 
-const PAGE_VARIANT_COUNT: Record<PageKey, number> = {
-  home: 8,
-  acc: 1,
-  la: 1,
-};
+const VARIANT_KEYS = Object.keys(VARIANT_LABELS).map(Number) as VariantKey[];
 
 export const MarketingVariantLab: React.FC = () => {
-  const [page, setPage] = useState<PageKey>('home');
-  const [variant, setVariant] = useState<Record<PageKey, VariantKey>>({ home: 1, acc: 1, la: 1 });
+  const [variant, setVariant] = useState<VariantKey>(1);
 
-  const currentVariant = variant[page];
-  const PageComponent = COMPONENTS[page][currentVariant];
-  const variantMeta = VARIANT_LABELS[page][currentVariant];
-  const variantCount = PAGE_VARIANT_COUNT[page];
+  const PageComponent = COMPONENTS[variant];
+  const variantMeta = VARIANT_LABELS[variant];
+  const currentIndex = VARIANT_KEYS.indexOf(variant);
 
   return (
     <div className="min-h-screen bg-ink-50">
@@ -92,36 +68,15 @@ export const MarketingVariantLab: React.FC = () => {
           </span>
           <div className="w-px h-6 bg-ink-200 shrink-0 hidden sm:block" />
 
-          {/* Page tabs */}
-          <div className="flex gap-tight">
-            {(Object.keys(PAGE_LABELS) as PageKey[]).map((p) => (
-              <button
-                key={p}
-                onClick={() => setPage(p)}
-                className={[
-                  'font-body text-body-sm font-bold px-4 h-9 rounded-pill transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  page === p
-                    ? 'bg-primary-500 text-white shadow-xs'
-                    : 'bg-transparent text-ink-600 hover:bg-ink-100 border border-ink-200',
-                ].join(' ')}
-              >
-                {PAGE_LABELS[p]}
-              </button>
-            ))}
-          </div>
-
-          <div className="w-px h-6 bg-ink-200 shrink-0" />
-
           {/* Variant tabs */}
           <div className="flex gap-tight flex-wrap">
-            {Array.from({ length: variantCount }, (_, i) => (i + 1) as VariantKey).map((v) => {
-              const meta = VARIANT_LABELS[page][v];
-              if (!meta) return null;
-              const isActive = currentVariant === v;
+            {VARIANT_KEYS.map((v) => {
+              const meta = VARIANT_LABELS[v];
+              const isActive = variant === v;
               return (
                 <button
                   key={v}
-                  onClick={() => setVariant((prev) => ({ ...prev, [page]: v }))}
+                  onClick={() => setVariant(v)}
                   className={[
                     'inline-flex items-center gap-tight font-body text-body-sm font-bold px-3 h-9 rounded-lg transition-all duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                     isActive
@@ -144,10 +99,17 @@ export const MarketingVariantLab: React.FC = () => {
             <div className="ml-auto shrink-0 hidden lg:flex items-center gap-tight">
               <div className="w-2 h-2 rounded-full bg-success-base animate-pulse" />
               <span className="font-body text-caption text-ink-500">
-                {PAGE_LABELS[page]} — {variantMeta.label}
+                Homepage — {variantMeta.label}
               </span>
             </div>
           )}
+
+          <Link
+            to="/website/_taglines"
+            className="shrink-0 inline-flex items-center h-9 px-3 rounded-lg font-body text-body-sm font-bold text-secondary-700 bg-secondary-50 border border-secondary-100 hover:bg-secondary-100 transition-colors duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          >
+            🏷️ Taglines
+          </Link>
         </div>
       </div>
 
@@ -161,22 +123,22 @@ export const MarketingVariantLab: React.FC = () => {
         <div className="max-w-[1400px] mx-auto px-4 h-12 flex items-center justify-between gap-stack">
           <button
             onClick={() => {
-              if (currentVariant > 1) setVariant((prev) => ({ ...prev, [page]: (currentVariant - 1) as VariantKey }));
+              if (currentIndex > 0) setVariant(VARIANT_KEYS[currentIndex - 1]);
             }}
-            disabled={currentVariant === 1}
+            disabled={currentIndex === 0}
             className="font-body text-body-sm font-bold text-ink-600 disabled:text-ink-300 hover:text-ink-900 transition-colors duration-fast flex items-center gap-tight"
           >
             ← Précédent
           </button>
 
           <div className="flex gap-stack-xs">
-            {Array.from({ length: variantCount }, (_, i) => (i + 1) as VariantKey).map((v) => (
+            {VARIANT_KEYS.map((v) => (
               <button
                 key={v}
-                onClick={() => setVariant((prev) => ({ ...prev, [page]: v }))}
+                onClick={() => setVariant(v)}
                 className={[
                   'w-2 h-2 rounded-full transition-all duration-fast',
-                  currentVariant === v ? 'bg-ink-900 scale-125' : 'bg-ink-300 hover:bg-ink-500',
+                  variant === v ? 'bg-ink-900 scale-125' : 'bg-ink-300 hover:bg-ink-500',
                 ].join(' ')}
               />
             ))}
@@ -184,9 +146,9 @@ export const MarketingVariantLab: React.FC = () => {
 
           <button
             onClick={() => {
-              if (currentVariant < variantCount) setVariant((prev) => ({ ...prev, [page]: (currentVariant + 1) as VariantKey }));
+              if (currentIndex < VARIANT_KEYS.length - 1) setVariant(VARIANT_KEYS[currentIndex + 1]);
             }}
-            disabled={currentVariant === variantCount}
+            disabled={currentIndex === VARIANT_KEYS.length - 1}
             className="font-body text-body-sm font-bold text-ink-600 disabled:text-ink-300 hover:text-ink-900 transition-colors duration-fast flex items-center gap-tight"
           >
             Suivant →

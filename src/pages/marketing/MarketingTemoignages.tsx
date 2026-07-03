@@ -30,11 +30,11 @@ export const MarketingTemoignages: React.FC = () => {
       <SEOHead
         title="Cas clients & témoignages"
         description="Nos premiers retours clients arrivent prochainement. Contactez-nous pour échanger avec des référents de missions en cours — formation, STRIDE, Learning App."
-        canonical="/marketing/temoignages"
+        canonical="/website/temoignages"
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900">
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-pill bg-primary-500/30 blur-3xl" />
           <div className="absolute top-0 right-0 w-[350px] h-[350px] rounded-pill bg-accent-400/5 blur-3xl" />
@@ -63,7 +63,7 @@ export const MarketingTemoignages: React.FC = () => {
           </FadeInWhenVisible>
           <FadeInWhenVisible direction="up" delay={0.3}>
             <MagneticButton strength={12}>
-              <Link to="/marketing/contact">
+              <Link to="/website/contact">
                 <Button variant="warm" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Parler à un référent
                 </Button>
@@ -92,7 +92,7 @@ export const MarketingTemoignages: React.FC = () => {
                 </p>
               </div>
               <MagneticButton strength={12}>
-                <Link to="/marketing/contact">
+                <Link to="/website/contact">
                   <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                     Parler à un référent
                   </Button>
@@ -122,13 +122,13 @@ export const MarketingTemoignages: React.FC = () => {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-stack-xs pt-stack">
                 <MagneticButton strength={12}>
-                  <Link to="/marketing/contact">
+                  <Link to="/website/contact">
                     <Button variant="warm" size="xl" trailingIcon={<ArrowRight size={20} />}>
                       Réserver un diagnostic
                     </Button>
                   </Link>
                 </MagneticButton>
-                <Link to="/marketing/methode">
+                <Link to="/website/methode">
                   <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
                     Voir notre méthode
                   </Button>

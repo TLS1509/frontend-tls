@@ -18,6 +18,8 @@ type Props = {
   /** Optional render function for custom text layout (e.g., with parallax layers). */
   renderText?: (panel: StoryPanel, index: number, isActive: boolean) => React.ReactNode;
   className?: string;
+  /** Optional callback fired whenever the active panel index changes (e.g. to drive an external step counter). */
+  onActiveChange?: (activeIndex: number) => void;
 };
 
 /**
@@ -37,6 +39,7 @@ export const StickyScrollStory: React.FC<Props> = ({
   visualSide = 'right',
   renderText,
   className = '',
+  onActiveChange,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -44,6 +47,7 @@ export const StickyScrollStory: React.FC<Props> = ({
     offset: ['start start', 'end end'],
   });
   const [active, setActive] = useState(0);
+  const lastEmitted = useRef(0);
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -53,9 +57,13 @@ export const StickyScrollStory: React.FC<Props> = ({
         Math.max(0, Math.floor(v * panels.length))
       );
       setActive(idx);
+      if (lastEmitted.current !== idx) {
+        lastEmitted.current = idx;
+        onActiveChange?.(idx);
+      }
     });
     return () => unsubscribe();
-  }, [scrollYProgress, panels.length]);
+  }, [scrollYProgress, panels.length, onActiveChange]);
 
   return (
     <>

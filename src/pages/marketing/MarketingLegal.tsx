@@ -22,9 +22,9 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
   <div className="min-h-[100dvh] bg-white">
     <SEOHead title={title} description={subtitle} canonical={canonical} noIndex />
     {/* Hero */}
-    <div className="bg-gradient-to-br from-primary-700 to-primary-900 text-white pt-32 pb-16 px-6">
+    <div className="bg-gradient-to-br from-primary-700 to-primary-900 text-white pt-24 sm:pt-28 lg:pt-32 pb-16 px-6">
       <div className="max-w-page mx-auto">
-        <Link to="/marketing" className="inline-flex items-center gap-stack-xs text-white/60 hover:text-white text-body-sm mb-section transition-colors duration-base">
+        <Link to="/website" className="inline-flex items-center gap-stack-xs text-white/60 hover:text-white text-body-sm mb-section transition-colors duration-base">
           <ArrowLeft size={16} />
           Retour à l'accueil
         </Link>
@@ -59,7 +59,7 @@ const LegalPage: React.FC<LegalPageProps> = ({ icon, title, subtitle, lastUpdate
         </div>
 
         <div className="pt-stack border-t border-ink-100">
-          <Link to="/marketing/contact">
+          <Link to="/website/contact">
             <Button variant="primary">Nous contacter</Button>
           </Link>
         </div>
@@ -76,7 +76,7 @@ export const MarketingMentionsLegales: React.FC = () => (
     title="Mentions légales"
     subtitle="Informations légales relatives à l'éditeur et à l'hébergeur du site."
     lastUpdated="Juin 2026"
-    canonical="/marketing/mentions-legales"
+    canonical="/website/mentions-legales"
     sections={[
       {
         heading: 'Éditeur du site',
@@ -106,7 +106,7 @@ export const MarketingPolitiqueConfidentialite: React.FC = () => (
     title="Politique de confidentialité"
     subtitle="Comment nous collectons, utilisons et protégeons vos données personnelles."
     lastUpdated="Juin 2026"
-    canonical="/marketing/politique-confidentialite"
+    canonical="/website/politique-confidentialite"
     sections={[
       {
         heading: 'Responsable du traitement',
@@ -144,7 +144,7 @@ export const MarketingCgvCgu: React.FC = () => (
     title="CGV & CGU"
     subtitle="Conditions Générales de Vente et d'Utilisation applicables aux prestations et à la plateforme The Learning Society."
     lastUpdated="Juin 2026"
-    canonical="/marketing/cgv-cgu"
+    canonical="/website/cgv-cgu"
     sections={[
       {
         heading: 'Champ d\'application',
@@ -178,7 +178,7 @@ export const MarketingCharteIA: React.FC = () => (
     title="Charte IA & éthique"
     subtitle="Nos engagements sur l'usage responsable de l'intelligence artificielle dans nos formations et notre plateforme."
     lastUpdated="Juin 2026"
-    canonical="/marketing/charte-ia"
+    canonical="/website/charte-ia"
     sections={[
       {
         heading: 'IA augmentée, jamais substitutive',

@@ -25,7 +25,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, CheckCircle2, Award, BookOpen } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Award, BookOpen } from 'lucide-react';
 import { Button } from '../../../components/core/Button';
 import { MagneticButton } from '../../../components/marketing/motion';
 
@@ -33,7 +33,6 @@ const EASE_EMPHASIS = [0.22, 1, 0.36, 1] as const;
 const EASE_SMOOTH   = [0.25, 0.46, 0.45, 0.94] as const;
 
 const SWAP_WORDS = ['forment', 'conçoivent', 'accompagnent', 'transmettent'];
-const CHIPS = ['Programme certifiant', 'Open Badge vérifiable', 'Éligible OPCO'];
 
 // ─── Word swap ─────────────────────────────────────────────────────────────────
 const WordSwap: React.FC = () => {
@@ -274,7 +273,7 @@ const AppGlassCard: React.FC<{ reduce: boolean }> = ({ reduce }) => (
 
     {/* Pill Passeport */}
     <motion.div
-      className="absolute right-3 bottom-16 inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1.5"
+      className="absolute -bottom-4 -right-5 inline-flex items-center gap-1.5 rounded-pill px-2.5 py-1.5"
       style={{
         background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(8px)',
@@ -341,13 +340,19 @@ export const CinematicHero: React.FC = () => {
   const bgY    = useTransform(scrollYProgress, [0, 1], [0, -200]);
   const bgScale = useTransform(scrollYProgress, [0, 0.8], [1, 1.12]);
 
-  // Contenu : disparaît sur les 25% premiers du scroll
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  const contentY       = useTransform(scrollYProgress, [0, 0.25], [0, -32]);
+  // Contenu : disparaît sur tout le scroll-jack (pas juste les 25% premiers)
+  // pour qu'il n'y ait pas de fond vide qui "tient" avant le relâchement
+  // du sticky — le texte s'efface pile au moment où la section suivante arrive.
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0]);
+  const contentY       = useTransform(scrollYProgress, [0, 0.9], [0, -32]);
 
   return (
-    // Container tall — fournit la distance de scroll (220vh)
-    <div ref={containerRef} style={{ minHeight: '220vh' }}>
+    // Container = exactement 100vh (2026-07-03, réduit de 220vh → 140vh → 115vh
+    // → 100vh) : à 100vh le conteneur fait la même hauteur que la section
+    // sticky interne, donc il n'y a plus AUCUNE distance de scroll "morte"
+    // réservée après la disparition du contenu — la section suivante arrive
+    // immédiatement après le hero, sans bande de fond vide entre les deux.
+    <div ref={containerRef} style={{ minHeight: '100vh' }}>
 
       {/* Section sticky — reste dans le viewport pendant le défilement */}
       <section className="sticky top-0 h-screen overflow-hidden bg-primary-50">
@@ -379,27 +384,18 @@ export const CinematicHero: React.FC = () => {
 
                 <div className="flex flex-wrap items-center gap-stack-xs pt-stack">
                   <MagneticButton strength={14}>
-                    <Link to="/marketing/formation">
+                    <Link to="/website/learning-app">
                       <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                         Découvrir la formation
                       </Button>
                     </Link>
                   </MagneticButton>
-                  <Link to="/marketing/learning-app">
+                  <Link to="/website/learning-app">
                     <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
                       Explorer la plateforme
                     </Button>
                   </Link>
                 </div>
-
-                <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-stack m-0 p-0 list-none">
-                  {CHIPS.map((c) => (
-                    <li key={c} className="inline-flex items-center gap-1.5">
-                      <CheckCircle2 size={15} className="text-primary-500 shrink-0" />
-                      <span className="font-body text-caption font-semibold text-ink-500">{c}</span>
-                    </li>
-                  ))}
-                </ul>
 
               </SettleIn>
 

@@ -25,12 +25,21 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
+import { PageShell } from '../../components/layout';
 import { MeshGradientBg } from '../../components/marketing/motion';
 import {
   findDossier,
   type DossierBodyBlock,
   type DossierSource,
 } from '../../data/marketingDossiers';
+
+/**
+ * Canonical container — matches PageShell width="medium" (1024px) exactly,
+ * same as MarketingArticleDetail.tsx / MagazineArticle.tsx (Veille family).
+ * Applied to every section (hero, body, key findings, bibliography, CTA) so
+ * nothing horizontally drifts between sections.
+ */
+const CONTAINER = 'max-w-medium mx-auto px-4 sm:px-6 lg:px-10';
 
 // ─── Reveal local : VISIBLE par défaut, seul translateY s'anime ───────────────
 const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
@@ -64,7 +73,7 @@ const ReadingProgressBar: React.FC = () => {
 
 // ─── Intro callout (résumé exécutif) ──────────────────────────────────────────
 const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
-  <div className="mb-stack-lg rounded-2xl border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
+  <div className="rounded-2xl border border-secondary-100 bg-secondary-50/60 p-stack-lg flex gap-stack">
     <Quote size={22} className="text-secondary-400 shrink-0 mt-0.5" />
     <div className="flex flex-col gap-tight">
       <span className="font-body text-caption font-bold text-secondary-700 uppercase tracking-widest">
@@ -78,7 +87,7 @@ const IntroCallout: React.FC<{ text: string }> = ({ text }) => (
 // ─── Points clés (key findings) ───────────────────────────────────────────────
 const KeyFindings: React.FC<{ findings: { text: string; source?: string }[] }> = ({ findings }) => (
   <section className="py-page bg-white">
-    <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
+    <div className={`${CONTAINER} flex flex-col gap-section`}>
       <Reveal>
         <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
           <ListChecks size={15} />
@@ -243,7 +252,7 @@ const DossierBody: React.FC<{ intro: string; body: DossierBodyBlock[] }> = ({ in
 // ─── Bibliography ─────────────────────────────────────────────────────────────
 const Bibliography: React.FC<{ sources: DossierSource[] }> = ({ sources }) => (
   <section className="py-page bg-ink-50/40 border-y border-ink-100">
-    <div className="max-w-medium mx-auto px-6 flex flex-col gap-section">
+    <div className={`${CONTAINER} flex flex-col gap-section`}>
       <Reveal>
         <div className="flex flex-col gap-stack max-w-content">
           <span className="inline-flex items-center gap-stack-xs font-body text-caption font-bold text-primary-700 uppercase tracking-widest">
@@ -305,20 +314,20 @@ export const MarketingDossierDetail: React.FC = () => {
   }, [slug]);
 
   if (!dossier) {
-    return <Navigate to="/dossiers" replace />;
+    return <Navigate to="/website/resources" replace />;
   }
 
   return (
     <div className="bg-white">
       <ReadingProgressBar />
       {/* ── Hero (light + warm) ─────────────────────────────────────────────── */}
-      <section className={`relative pt-32 pb-page overflow-hidden bg-gradient-to-br ${dossier.cover}`}>
+      <section className={`relative pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br ${dossier.cover}`}>
         <MeshGradientBg tone="warm" intensity="subtle" />
 
-        <div className="relative max-w-4xl mx-auto px-6 flex flex-col gap-stack-lg">
+        <div className={`relative ${CONTAINER} flex flex-col gap-stack-lg`}>
           <Reveal>
             <Link
-              to="/dossiers"
+              to="/website/resources"
               className="inline-flex items-center gap-1.5 self-start text-ink-700 hover:text-ink-900 font-body text-body-sm font-semibold transition-colors duration-fast group"
             >
               <ArrowLeft size={16} className="transition-transform duration-base group-hover:-translate-x-1" />
@@ -360,18 +369,18 @@ export const MarketingDossierDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Body + TOC ──────────────────────────────────────────────────────── */}
-      <section className="py-page bg-white">
-        <div className="max-w-wide mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-section items-start">
-          <div className="min-w-0 max-w-content">
-            <IntroCallout text={dossier.summary} />
-            <DossierBody intro={dossier.intro} body={dossier.body} />
-          </div>
-          <aside className="hidden lg:block sticky top-24 self-start">
+      {/* ── Body + TOC — sommaire flottant dans la marge (hors container) ──── */}
+      <div className="relative bg-white">
+        <div className="hidden 2xl:block absolute top-0 left-[calc(50%-47.5rem)] w-56">
+          <div className="sticky top-28">
             <SectionTOC sections={dossier.sections} activeId={activeId} />
-          </aside>
+          </div>
         </div>
-      </section>
+        <PageShell width="medium" className="bg-white">
+          <IntroCallout text={dossier.summary} />
+          <DossierBody intro={dossier.intro} body={dossier.body} />
+        </PageShell>
+      </div>
 
       {/* ── Points clés ─────────────────────────────────────────────────────── */}
       {dossier.keyFindings && dossier.keyFindings.length > 0 && (
@@ -384,7 +393,7 @@ export const MarketingDossierDetail: React.FC = () => {
       {/* ── CTA final (le seul moment dark) ─────────────────────────────────── */}
       <section className="relative overflow-hidden py-page bg-gradient-to-br from-ink-900 via-primary-900 to-primary-950">
         <MeshGradientBg tone="ink" intensity="subtle" />
-        <div className="relative max-w-4xl mx-auto px-6 text-center flex flex-col items-center gap-stack-lg">
+        <div className={`relative ${CONTAINER} text-center flex flex-col items-center gap-stack-lg`}>
           <Reveal>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white leading-[1.05] tracking-tight m-0">
               Passer de la théorie à la pratique ?
@@ -398,12 +407,12 @@ export const MarketingDossierDetail: React.FC = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <div className="flex flex-wrap items-center justify-center gap-stack">
-              <Link to="/conseil">
+              <Link to="/website/accompagnement">
                 <Button variant="primary" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Découvrir l'accompagnement
                 </Button>
               </Link>
-              <Link to="/learning-app">
+              <Link to="/website/learning-app">
                 <Button variant="glass" size="lg" trailingIcon={<ArrowRight size={18} />}>
                   Voir la Learning App
                 </Button>

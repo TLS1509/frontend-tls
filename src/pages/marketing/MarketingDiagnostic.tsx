@@ -120,7 +120,7 @@ const LEVELS: MaturityLevel[] = [
       'Vous posez les premières bases. La compétence reste gérée de façon statique et l’IA n’est pas encore outillée.',
     recommendation:
       'Commencez par la Learning App et la formation Formateur Augmenté pour poser les bases.',
-    recoLink: '/marketing/formation',
+    recoLink: '/website/learning-app',
     recoLabel: 'Découvrir la formation',
   },
   {
@@ -132,7 +132,7 @@ const LEVELS: MaturityLevel[] = [
       'Vous avez amorcé la transformation. Les usages existent mais manquent encore de cadre et de pilotage.',
     recommendation:
       'Cadrez votre démarche avec un audit flash, puis structurez par la formation.',
-    recoLink: '/marketing/accompagnement',
+    recoLink: '/website/accompagnement',
     recoLabel: 'Voir l’accompagnement',
   },
   {
@@ -144,7 +144,7 @@ const LEVELS: MaturityLevel[] = [
       'Votre organisation est structurée et proactive. Vous êtes prêt à industrialiser la démarche par les compétences.',
     recommendation:
       'Passez à la méthode STRIDE pour structurer la transformation par les compétences.',
-    recoLink: '/marketing/accompagnement',
+    recoLink: '/website/accompagnement',
     recoLabel: 'Voir l’accompagnement',
   },
   {
@@ -156,7 +156,7 @@ const LEVELS: MaturityLevel[] = [
       'Vous êtes à la pointe de l’organisation par les compétences. Il s’agit maintenant de déployer à l’échelle.',
     recommendation:
       'Déployez l’Upskilling L&D sur-mesure et le Passeport de compétences à l’échelle.',
-    recoLink: '/marketing/accompagnement',
+    recoLink: '/website/accompagnement',
     recoLabel: 'Voir l’accompagnement',
   },
 ];
@@ -271,7 +271,7 @@ export const MarketingDiagnostic: React.FC = () => {
 
   return (
     <div className="bg-white min-h-dvh flex flex-col">
-      <section className="relative flex-1 pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
+      <section className="relative flex-1 pt-24 sm:pt-28 lg:pt-32 pb-page overflow-hidden bg-gradient-to-br from-white via-primary-50/60 to-secondary-50/30">
         <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-pill bg-primary-200/25 blur-3xl" />
           <div className="absolute bottom-0 right-0 w-[320px] h-[320px] rounded-pill bg-accent-200/25 blur-3xl" />
@@ -613,7 +613,7 @@ export const MarketingDiagnostic: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-stack sm:items-center pt-stack border-t border-ink-100">
-                  <Link to="/marketing/contact" className="block">
+                  <Link to="/website/contact" className="block">
                     <Button
                       variant="primary"
                       size="lg"
@@ -663,7 +663,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Explorez la méthode STRIDE pour structurer votre transformation.
                     </p>
-                    <Link to="/marketing/methode" className="mt-auto">
+                    <Link to="/website/methode" className="mt-auto">
                       <Button variant="ghost" size="sm">
                         Découvrir
                       </Button>
@@ -680,7 +680,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Lancez-vous avec la Learning App et montez en compétences.
                     </p>
-                    <Link to="/marketing/learning-app" className="mt-auto">
+                    <Link to="/website/learning-app" className="mt-auto">
                       <Button variant="ghost" size="sm">
                         Explorer
                       </Button>
@@ -697,7 +697,7 @@ export const MarketingDiagnostic: React.FC = () => {
                     <p className="font-body text-body-sm text-ink-600 leading-relaxed m-0">
                       Discutez avec nos experts pour un accompagnement sur-mesure.
                     </p>
-                    <Link to="/marketing/contact" className="mt-auto">
+                    <Link to="/website/contact" className="mt-auto">
                       <Button variant="ghost" size="sm">
                         Contacter
                       </Button>
