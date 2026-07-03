@@ -10,6 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
+import { BarChart } from '../components/charts/BarChart';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -37,6 +38,11 @@ const TABLE_COLUMNS = [
   { key: 'engagement', label: 'Engagement', sortable: true },
   { key: 'badgesEarned', label: 'Badges obtenus', sortable: true },
 ];
+
+const WEEKLY_ENGAGEMENT = [62, 68, 71, 65, 74, 70, 78, 68].map((value, i) => ({
+  label: `S${i + 1}`,
+  value,
+}));
 
 const PERIOD_OPTIONS = [
   { id: 'week', label: 'Semaine' },
@@ -128,20 +134,9 @@ export default function EnterpriseAnalyticsDashboard() {
         {activeTab === 'kpis' && (
           <div className="flex flex-col gap-section">
 
-            {/* Engagement chart (simplified visual) */}
+            {/* Engagement chart */}
             <SectionCard title="Taux d'engagement par semaine" titleIcon={<BarChart3 size={18} />}>
-              <div className="flex items-end gap-stack-xs h-40">
-                {[62, 68, 71, 65, 74, 70, 78, 68].map((val, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-tight">
-                    <div
-                      className="w-full bg-primary-400 rounded-t-sm transition-all duration-slow"
-                      style={{ height: `${val}%` }}
-                      title={`${val}%`}
-                    />
-                    <span className="text-micro text-ink-400">S{i + 1}</span>
-                  </div>
-                ))}
-              </div>
+              <BarChart data={WEEKLY_ENGAGEMENT} dataKey="value" size="sm" />
             </SectionCard>
 
             {/* Dreyfus progression */}

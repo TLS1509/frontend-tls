@@ -38,6 +38,11 @@ const WEEKLY_ACTIVITY = [
   { day: 'Jeu', sessions: 1, corrections: 3 },
   { day: 'Ven', sessions: 3, corrections: 1 },
 ];
+const WEEKLY_ACTIVITY_CHART = WEEKLY_ACTIVITY.map(({ day, sessions, corrections }) => ({
+  label: day,
+  sessions,
+  corrections,
+}));
 
 function formatLastActive(daysSince: number): string {
   if (daysSince === 0) return "Aujourd'hui";
@@ -143,36 +148,16 @@ export default function CoachTeamDashboard() {
           <div className="flex flex-col gap-section">
             {/* Activity chart */}
             <SectionCard title="Activité hebdomadaire" titleIcon={<BarChart3 size={18} />}>
-              <div className="flex items-end gap-stack-xs h-32 px-2">
-                {WEEKLY_ACTIVITY.map(({ day, sessions, corrections }) => {
-                  const maxVal = 5;
-                  return (
-                    <div key={day} className="flex flex-col items-center gap-tight flex-1">
-                      <div className="flex items-end gap-0.5 h-24 w-full">
-                        <div
-                          className="flex-1 bg-secondary-300 rounded-t-sm transition-all duration-slow"
-                          style={{ height: `${(sessions / maxVal) * 100}%` }}
-                          title={`${sessions} sessions`}
-                        />
-                        <div
-                          className="flex-1 bg-primary-300 rounded-t-sm transition-all duration-slow"
-                          style={{ height: `${(corrections / maxVal) * 100}%` }}
-                          title={`${corrections} corrections`}
-                        />
-                      </div>
-                      <span className="text-micro text-ink-400">{day}</span>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex gap-stack mt-stack-xs">
-                <div className="flex items-center gap-1.5 text-caption text-ink-500">
-                  <span className="w-3 h-3 rounded-sm bg-secondary-300" /> Sessions
-                </div>
-                <div className="flex items-center gap-1.5 text-caption text-ink-500">
-                  <span className="w-3 h-3 rounded-sm bg-primary-300" /> Corrections
-                </div>
-              </div>
+              <BarChart
+                data={WEEKLY_ACTIVITY_CHART}
+                dataKey="sessions"
+                series={[
+                  { key: 'sessions', label: 'Sessions', color: '#ED843A' },
+                  { key: 'corrections', label: 'Corrections', color: '#55A1B4' },
+                ]}
+                showLegend
+                size="sm"
+              />
             </SectionCard>
 
             {/* Dreyfus distribution */}

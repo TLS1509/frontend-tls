@@ -10,6 +10,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
+import { BarChart } from '../components/charts/BarChart';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -111,6 +112,10 @@ const COMPETENCES = [
 ];
 
 const ENGAGEMENT_TREND = [58, 62, 65, 68, 71, 68];
+const ENGAGEMENT_TREND_CHART = ENGAGEMENT_TREND.map((value, i) => ({
+  label: `M${i + 1}`,
+  value,
+}));
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -118,8 +123,6 @@ export default function EnterpriseKpis() {
   const [activePeriod, setActivePeriod] = useState('month');
   const [activeDept, setActiveDept] = useState('all');
   const [activeTab, setActiveTab] = useState('dept');
-
-  const maxTrend = Math.max(...ENGAGEMENT_TREND);
 
   const tableRows = DEPARTMENTS.map((d) => ({
     name: d.name,
@@ -271,19 +274,7 @@ export default function EnterpriseKpis() {
               titleIcon={<TrendingUp size={18} className="text-primary-600" />}
             >
               <div className="flex flex-col gap-section">
-                {/* Bar chart */}
-                <div className="flex items-end gap-stack-xs h-32 pt-2">
-                  {ENGAGEMENT_TREND.map((val, i) => (
-                    <div key={i} className="flex flex-col items-center gap-tight flex-1 min-w-0">
-                      <span className="text-micro text-ink-500 font-medium tabular-nums">{val}%</span>
-                      <div
-                        className="w-full rounded-t-sm bg-gradient-to-t from-primary-700 to-primary-400 transition-all duration-slow"
-                        style={{ height: `${(val / maxTrend) * 80}px` }}
-                      />
-                      <span className="text-micro text-ink-400 font-medium">M{i + 1}</span>
-                    </div>
-                  ))}
-                </div>
+                <BarChart data={ENGAGEMENT_TREND_CHART} dataKey="value" size="sm" />
 
                 {/* Summary card */}
                 <Card variant="tinted" tone="brand" className="p-stack">

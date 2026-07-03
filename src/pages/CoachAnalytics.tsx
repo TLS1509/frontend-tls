@@ -10,6 +10,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { ProfileCard } from '../components/ui/ProfileCard';
+import { BarChart } from '../components/charts/BarChart';
 import { PageShell } from '../components/layout';
 import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';
@@ -29,6 +30,10 @@ const TAB_ITEMS = [
 ];
 
 const ENGAGEMENT_WEEKS = [65, 72, 68, 75, 80, 71, 78, 72];
+const ENGAGEMENT_WEEKS_CHART = ENGAGEMENT_WEEKS.map((value, i) => ({
+  label: `S${i + 1}`,
+  value,
+}));
 
 // DREYFUS_DISTRIBUTION and TOP_PROGRESSORS are derived from the store (see component body)
 
@@ -113,8 +118,6 @@ export default function CoachAnalytics() {
       }))
   , [learnerProfiles]);
 
-  const maxEngagement = Math.max(...ENGAGEMENT_WEEKS);
-
   return (
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
@@ -191,18 +194,7 @@ export default function CoachAnalytics() {
               title="Engagement hebdomadaire"
               titleIcon={<BarChart3 size={18} className="text-secondary-600" />}
             >
-              <div className="flex items-end gap-stack-xs h-32 pt-2">
-                {ENGAGEMENT_WEEKS.map((val, i) => (
-                  <div key={i} className="flex flex-col items-center gap-tight flex-1 min-w-0">
-                    <span className="text-micro text-ink-500 font-medium tabular-nums">{val}%</span>
-                    <div
-                      className="w-full rounded-t-sm bg-gradient-to-t from-secondary-600 to-secondary-400 transition-all duration-slow"
-                      style={{ height: `${(val / maxEngagement) * 80}px` }}
-                    />
-                    <span className="text-micro text-ink-400 font-medium">S{i + 1}</span>
-                  </div>
-                ))}
-              </div>
+              <BarChart data={ENGAGEMENT_WEEKS_CHART} dataKey="value" size="sm" />
             </SectionCard>
 
             {/* Distribution Dreyfus */}
