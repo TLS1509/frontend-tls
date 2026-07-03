@@ -409,63 +409,60 @@ export const MarketingHome: React.FC = () => {
         </div>
       </section>
 
-      {/* ── 7. Méthode STRIDE ────────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="max-w-wide mx-auto px-6 pb-page">
-          <FadeInWhenVisible>
-            <Link
-              to="/website/accompagnement"
-              className="group block rounded-2xl bg-primary-50 px-6 py-section-lg sm:px-section-lg transition-colors duration-base hover:bg-primary-100"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-center">
-                <div className="lg:col-span-8 flex flex-col gap-stack">
-                  <h2 className="font-display font-bold text-ink-900 leading-[1.08] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.625rem,3.2vw,2.5rem)]">
-                    STRIDE : six étapes pour passer de l'intention à l'impact.
-                  </h2>
-                  <p className="font-body text-body text-ink-700 leading-relaxed m-0 max-w-prose">
-                    Une démarche structurée qui relie le besoin métier, le parcours
-                    et la preuve de compétence. Sans jargon, sans détour.
-                  </p>
-                </div>
-                <div className="lg:col-span-4 lg:text-right">
-                  <span className="inline-flex items-center gap-stack-xs font-body text-body font-bold text-primary-700 min-h-touch">
-                    Découvrir la méthode
-                    <ArrowRight size={18} className="transition-transform duration-base group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </FadeInWhenVisible>
-        </div>
-      </section>
-
-      {/* ── 8. Blog teaser ───────────────────────────────────────────────────── */}
+      {/* ── 7. En savoir plus : STRIDE + Ressources (fusionnés, 03/07/2026) ──
+          Étaient 2 sections pleine largeur identiques en forme (titre + p +
+          1 lien), l'une après l'autre — lues comme deux arrière-pensées
+          jumelles (critique P1). Fusionnées en 2 cartes compactes côte à côte. */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 py-page">
-          <FadeInWhenVisible>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg lg:gap-section items-end border-b border-ink-200 pb-section-lg">
-              <div className="lg:col-span-8 flex flex-col gap-stack">
-                <h2 className="font-display font-extrabold text-ink-900 leading-[1.06] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.75rem,3.6vw,2.75rem)]">
-                  L'IA en formation, sans esbroufe.
-                </h2>
-                <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-prose">
-                  Des analyses concrètes, des retours de terrain et des prises de
-                  position. Pour décider en connaissance de cause, pas sur la hype.
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            <FadeInWhenVisible direction="up">
+              <Link
+                to="/website/methode"
+                className="group flex h-full flex-col gap-stack rounded-2xl bg-primary-50 p-section transition-colors duration-base hover:bg-primary-100"
+              >
+                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
+                  La méthode STRIDE.
+                </h3>
+                <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
+                  Six étapes qui relient le besoin métier, le parcours et la
+                  preuve de compétence. Sans jargon, sans détour.
                 </p>
-              </div>
-              <div className="lg:col-span-4 lg:text-right">
-                <Link to="/website/resources">
-                  <Button variant="secondary" size="lg" trailingIcon={<ArrowUpRight size={18} />}>
-                    Lire le blog
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </FadeInWhenVisible>
+                <span className="inline-flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-700 min-h-touch">
+                  Découvrir la méthode
+                  <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </FadeInWhenVisible>
+
+            <FadeInWhenVisible direction="up" delay={0.08}>
+              <Link
+                to="/website/resources"
+                className="group flex h-full flex-col gap-stack rounded-2xl bg-secondary-50 p-section transition-colors duration-base hover:bg-secondary-100"
+              >
+                <h3 className="font-display text-h3 font-bold text-ink-900 leading-tight m-0">
+                  L'IA en formation, sans esbroufe.
+                </h3>
+                <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
+                  Des analyses concrètes et des retours de terrain, pour décider
+                  en connaissance de cause, pas sur la hype.
+                </p>
+                <span className="inline-flex items-center gap-stack-xs font-body text-body-sm font-bold text-secondary-700 min-h-touch">
+                  Lire nos analyses
+                  <ArrowRight size={16} className="transition-transform duration-base group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </FadeInWhenVisible>
+          </div>
         </div>
       </section>
 
       {/* ── 9. CTA finale : le seul moment sombre de la page ─────────────────── */}
+      {/* 03/07/2026 — Second bouton ("Explorer la plateforme" → learning-app)
+          retiré : répétait la bifurcation du hero (déjà vue à la seconde 0) sans
+          rien apporter de neuf après 9 sections. Un lecteur qui vient de voir la
+          démo + les preuves n'a plus besoin d'un nudge générique "explorer" —
+          la fin doit converger vers UNE action, pas rouvrir le menu de départ. */}
       <section className="bg-white">
         <div className="max-w-wide mx-auto px-6 pb-page">
           <ScrollReveal distance={32} duration={800}>
@@ -487,11 +484,6 @@ export const MarketingHome: React.FC = () => {
                       </Button>
                     </Link>
                   </MagneticButton>
-                  <Link to="/website/learning-app">
-                    <Button variant="glass" size="xl" trailingIcon={<ArrowUpRight size={20} />}>
-                      Explorer la plateforme
-                    </Button>
-                  </Link>
                 </div>
               </div>
             </div>
