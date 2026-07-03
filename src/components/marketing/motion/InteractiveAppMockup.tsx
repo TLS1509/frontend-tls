@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import { BookOpen, MessageSquare, NotebookPen, Compass, Sparkles } from 'lucide-react';
 import { TlsLogo } from '../../ui/TlsLogo';
 
@@ -186,79 +186,109 @@ type Props = {
   className?: string;
   /** Tab to display initially. Default 'parcours'. */
   initialTab?: TabKey;
+  /**
+   * 'full' (default) = hero/showcase frame with logo, working tab-switcher and hint text.
+   * 'compact' = illustrative frame for a single fixed feature (used in zigzag sections):
+   * no logo/dots, no tab-switcher, no hint — just the feature name and its panel.
+   */
+  variant?: 'full' | 'compact';
 };
 
 /**
  * Interactive Learning App mockup. 4 tabs (Parcours / Coaching / Journal / Veille)
  * — each click loads a different mini-panel with internal staggered animations.
  * Signature piece for the home page "Interactive Product Demo" section.
+ *
+ * Wrapped in MotionConfig reducedMotion="user" so every nested motion.* element
+ * (including the per-panel entrance animations defined above) automatically
+ * collapses transform/layout animation to an immediate state for users with
+ * prefers-reduced-motion, without needing each panel to check it individually.
  */
 export const InteractiveAppMockup: React.FC<Props> = ({
   className = '',
   initialTab = 'parcours',
+  variant = 'full',
 }) => {
   const [active, setActive] = useState<TabKey>(initialTab);
   const Panel = PANELS[active];
+  const compact = variant === 'compact';
+  const activeTab = TABS.find((t) => t.key === active);
 
   return (
-    <div
-      className={`relative rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-5 flex flex-col gap-stack min-h-[460px] ${className}`}
-    >
-      {/* mockup header */}
-      <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
-        <TlsLogo size={20} />
-        <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
-        <div className="ml-auto flex gap-tight">
-          <span className="w-2 h-2 rounded-pill bg-ink-200" />
-          <span className="w-2 h-2 rounded-pill bg-ink-200" />
-          <span className="w-2 h-2 rounded-pill bg-ink-200" />
+    <MotionConfig reducedMotion="user">
+      <div
+        className={`relative rounded-2xl bg-gradient-to-br from-primary-50 via-white to-secondary-50 border border-ink-100 shadow-2xl overflow-hidden p-5 flex flex-col gap-stack ${compact ? 'min-h-[360px]' : 'min-h-[460px]'} ${className}`}
+      >
+        {compact ? (
+          /* compact header — single feature label, no chrome/tab-switcher */
+          <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
+            <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white shadow-xs text-primary-600">
+              {activeTab?.icon}
+            </span>
+            <span className="font-display font-bold text-body-sm text-ink-900">{activeTab?.label}</span>
+          </div>
+        ) : (
+          <>
+            {/* mockup header */}
+            <div className="flex items-center gap-stack-xs pb-3 border-b border-ink-100">
+              <TlsLogo size={20} />
+              <span className="font-display font-bold text-body-sm text-ink-900">Learning App</span>
+              <div className="ml-auto flex gap-tight">
+                <span className="w-2 h-2 rounded-pill bg-ink-200" />
+                <span className="w-2 h-2 rounded-pill bg-ink-200" />
+                <span className="w-2 h-2 rounded-pill bg-ink-200" />
+              </div>
+            </div>
+
+            {/* tabs */}
+            <div className="flex items-center gap-tight p-1 rounded-pill bg-ink-100 w-fit">
+              {TABS.map((t) => {
+                const isActive = active === t.key;
+                return (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => setActive(t.key)}
+                    className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
+                      isActive ? 'text-primary-700' : 'text-ink-600 hover:text-ink-900'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="mockup-tab-bg"
+                        className="absolute inset-0 rounded-pill bg-white shadow-xs"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative inline-flex items-center gap-1.5">
+                      {t.icon}
+                      {t.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* panel */}
+        <div className="flex-1 relative">
+          <AnimatePresence mode="wait">
+            <motion.div key={active}>
+              <Panel />
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </div>
 
-      {/* tabs */}
-      <div className="flex items-center gap-tight p-1 rounded-pill bg-ink-100 w-fit">
-        {TABS.map((t) => {
-          const isActive = active === t.key;
-          return (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => setActive(t.key)}
-              className={`relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
-                isActive ? 'text-primary-700' : 'text-ink-600 hover:text-ink-900'
-              }`}
-            >
-              {isActive && (
-                <motion.span
-                  layoutId="mockup-tab-bg"
-                  className="absolute inset-0 rounded-pill bg-white shadow-xs"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-              <span className="relative inline-flex items-center gap-1.5">
-                {t.icon}
-                {t.label}
-              </span>
-            </button>
-          );
-        })}
+        {/* hint — full variant only, since compact has no tab-switcher to hint at */}
+        {!compact && (
+          <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-1.5">
+            <Sparkles size={12} className="text-warning-fg" />
+            <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
+          </div>
+        )}
       </div>
-
-      {/* panel */}
-      <div className="flex-1 relative">
-        <AnimatePresence mode="wait">
-          <motion.div key={active}>
-            <Panel />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* hint */}
-      <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-1.5">
-        <Sparkles size={12} className="text-warning-fg" />
-        <span className="font-body text-caption text-ink-500">Clique sur les onglets pour explorer</span>
-      </div>
-    </div>
+    </MotionConfig>
   );
 };
 

@@ -60,8 +60,8 @@ const CATEGORY_BADGE: Record<string, string> = {
   IA: 'bg-primary-50 text-primary-700 border-primary-100',
   Pédagogie: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   Outils: 'bg-accent-50 text-warning-fg border-accent-100',
-  Innovation: 'bg-primary-50 text-primary-700 border-primary-100',
-  "Retours d'expérience": 'bg-secondary-50 text-secondary-700 border-secondary-100',
+  Innovation: 'bg-ink-100 text-ink-700 border-ink-200',
+  "Retours d'expérience": 'bg-success-bg text-success-fg border-success-base/30',
 };
 
 const TYPE_BADGE_TONE: Record<ContentType, string> = {
@@ -157,13 +157,20 @@ const RESOURCE_TYPES = [
   { id: 'webinaire' as const, label: 'Webinaires', count: WEBINAIRES.length, Icon: Radio },
 ];
 
+/**
+ * Thématiques statiques (non cliquables) : ce qu'on couvre régulièrement,
+ * pas un index filtrable. Ancien état avait des compteurs inventés (18/15/11...)
+ * sur des <a href="#"> qui rendaient tout l'attirail hover d'un lien réel sans
+ * jamais mener nulle part — corrigé (03/07/2026) en downgradant vers un
+ * affichage statique honnête, sans chiffre fabriqué ni fausse affordance.
+ */
 const FEATURED_TOPICS = [
-  { label: 'IA en Formation', href: '#', count: 18 },
-  { label: 'Compétences', href: '#', count: 15 },
-  { label: 'Hybrid Learning', href: '#', count: 11 },
-  { label: 'L&D Strategy', href: '#', count: 9 },
-  { label: 'Micro-learning', href: '#', count: 7 },
-  { label: 'Engagement', href: '#', count: 6 },
+  { label: 'IA en formation', desc: 'Outils, usages, limites' },
+  { label: 'Compétences', desc: 'Modèle Dreyfus, preuves, passeport' },
+  { label: 'Hybrid learning', desc: 'Présentiel augmenté par le distanciel' },
+  { label: 'Stratégie L&D', desc: 'Pilotage, déploiement, gouvernance' },
+  { label: 'Micro-learning', desc: 'Formats courts, mémorisation active' },
+  { label: 'Engagement', desc: 'Motivation et suivi des apprenants' },
 ];
 
 /**
@@ -180,7 +187,7 @@ const badgeTone = (item: ResourceItem) =>
  */
 const FeaturedCard: React.FC<{ item: ResourceItem }> = ({ item }) => (
   <FadeInWhenVisible>
-    <Link to={item.href} className="group block">
+    <Link to={item.href} className="group block rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
       <motion.div
         whileHover={{ y: -6 }}
         transition={{ type: 'spring', stiffness: 280, damping: 22 }}
@@ -231,7 +238,7 @@ const ResourceCard: React.FC<{ item: ResourceItem; index: number }> = ({ item, i
   const Icon = TYPE_ICON[item.type];
   return (
     <FadeInWhenVisible direction="up" delay={index * 0.05}>
-      <Link to={item.href} className="group block h-full">
+      <Link to={item.href} className="group block h-full rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500">
         <motion.article
           whileHover={{ y: -4 }}
           transition={{ type: 'spring', stiffness: 280, damping: 22 }}
@@ -405,7 +412,7 @@ export const MarketingResources: React.FC = () => {
             <form className="flex flex-col sm:flex-row gap-stack-xs w-full max-w-md mt-stack">
               <Input
                 type="email"
-                placeholder="ton@email.com"
+                placeholder="vous@email.com"
                 required
                 className="flex-1"
               />
@@ -416,7 +423,7 @@ export const MarketingResources: React.FC = () => {
               </MagneticButton>
             </form>
             <p className="font-body text-caption text-ink-500">
-              Sans spam. Désinscrivez-vous anytime.
+              Sans spam. Désinscrivez-vous à tout moment.
             </p>
           </FadeInWhenVisible>
         </div>
@@ -428,7 +435,7 @@ export const MarketingResources: React.FC = () => {
           <FadeInWhenVisible className="flex flex-col gap-section">
             <div>
               <p className="font-body text-caption font-bold text-primary-700 uppercase tracking-widest m-0">
-                Explorez par sujet
+                Ce qu'on couvre
               </p>
               <h2 className="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-extrabold text-ink-900 leading-tight m-0 mt-stack">
                 Thématiques clés
@@ -437,18 +444,17 @@ export const MarketingResources: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack">
               {FEATURED_TOPICS.map((topic) => (
-                <a
+                <div
                   key={topic.label}
-                  href={topic.href}
-                  className="group flex flex-col gap-tight p-stack rounded-2xl bg-ink-50 hover:bg-primary-50 border border-ink-100 hover:border-primary-200 transition-all duration-base"
+                  className="flex flex-col gap-tight p-stack rounded-2xl bg-ink-50 border border-ink-100"
                 >
-                  <h3 className="font-display text-h5 font-bold text-ink-900 m-0 group-hover:text-primary-700 transition-colors">
+                  <h3 className="font-display text-h5 font-bold text-ink-900 m-0">
                     {topic.label}
                   </h3>
                   <span className="font-body text-caption text-ink-500">
-                    {topic.count} ressources
+                    {topic.desc}
                   </span>
-                </a>
+                </div>
               ))}
             </div>
           </FadeInWhenVisible>

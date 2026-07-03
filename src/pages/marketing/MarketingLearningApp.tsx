@@ -308,7 +308,7 @@ const USE_CASES = [
     bullets: [
       'Passeports de Compétences agrégés par cohorte',
       'Analytics Dreyfus : où en est chaque apprenant',
-      'Reporting conformité OPCO en 1 clic',
+      'Alertes sur les apprenants en décrochage',
     ],
   },
 ];
@@ -543,7 +543,7 @@ export const MarketingLearningApp: React.FC = () => {
             <div className="max-w-6xl mx-auto px-6">
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-section items-center ${idx % 2 === 1 ? 'lg:[&>*:first-child]:order-last' : ''}`}>
                 <FadeInWhenVisible direction={idx % 2 === 0 ? 'right' : 'left'}>
-                  <InteractiveAppMockup initialTab={f.tabKey} className="max-w-md mx-auto" />
+                  <InteractiveAppMockup initialTab={f.tabKey} variant="compact" className="max-w-md mx-auto" />
                 </FadeInWhenVisible>
 
                 <FadeInWhenVisible direction={idx % 2 === 0 ? 'left' : 'right'} delay={0.1}>
@@ -586,7 +586,7 @@ export const MarketingLearningApp: React.FC = () => {
                 <span className="text-accent-400">dans le même outil</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
-                En complément de vos parcours, journal et coaching : la mémorisation, l'engagement, la veille et la communauté, intégrés nativement.
+                Autour de vos parcours, journal et coaching, la Learning App intègre nativement la mémorisation, l'engagement et la veille collective.
               </p>
             </div>
           </FadeInWhenVisible>

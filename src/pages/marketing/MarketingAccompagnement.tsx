@@ -83,15 +83,23 @@ const SERVICES = [
     pill: 'Gouvernance',
     title: 'Conformité & Éthique',
     desc: "Encadrement RGPD, propriété intellectuelle, gouvernance de l'IA responsable.",
-    iconBg: 'bg-success-bg',
-    iconText: 'text-success-fg',
-    pillCls: 'bg-success-bg border-success-base/40 text-success-fg',
+    /* Tons neutres (pas success-*) : une carte gouvernance/conformité n'est pas
+       un état de succès. success-bg/fg sont réservés à l'état de confirmation
+       du formulaire plus bas sur cette page (03/07/2026, fix review). */
+    iconBg: 'bg-ink-800',
+    iconText: 'text-white',
+    pillCls: 'bg-ink-50 border-ink-300 text-ink-700',
   },
 ];
 
+// Chaque bulle affiche la ou les initiale(s) EXACTE(S) des mots de son propre
+// titre, dans l'ordre — corrigé (03/07/2026) : l'ancien découpage séquentiel
+// S·T / R·I / D·E ne correspondait pas aux titres adjacents (ex. "R·I" à côté
+// de "Tester · Réaliser", qui commence par T et R, pas R et I). Chaque bulle
+// = initiales du titre qu'elle accompagne, ça matche toujours.
 const PROCESS = [
   {
-    num: 'S·T',
+    num: 'S',
     duration: '2 semaines',
     title: "S'orienter",
     desc: "Rencontre d'exploration (90 min), audit de maturité pédagogique, cartographie des compétences Dreyfus et identification des cas d'usage prioritaires. Livrable : rapport + feuille de route stratégique.",
@@ -100,7 +108,7 @@ const PROCESS = [
     accentText: 'text-primary-700',
   },
   {
-    num: 'R·I',
+    num: 'T·R',
     duration: '4–8 semaines',
     title: 'Tester · Réaliser',
     desc: "Validation du modèle sur une cohorte pilote (Tester), puis développement des agents IA, référentiels de compétences et parcours sur-mesure avec vos équipes (Réaliser). Livrable : dispositif conçu, testé et validé.",
@@ -109,7 +117,7 @@ const PROCESS = [
     accentText: 'text-secondary-700',
   },
   {
-    num: 'D·E',
+    num: 'I·D·E',
     duration: '2–4 semaines',
     title: 'Intégrer · Déployer · Évoluer',
     desc: "Connexion à votre stack existante (LMS, SIRH, CRM), lancement officiel, onboarding des équipes sur la Learning App et activation des Passeports de Compétences. Amélioration continue pilotée par la donnée. Livrable : solution déployée + tableau de bord compétences.",
@@ -190,7 +198,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 </a>
               </MagneticButton>
               <a href="#services">
-                <Button variant="ghost" size="lg">
+                <Button variant="outline" size="lg">
                   Voir les services
                 </Button>
               </a>
@@ -288,7 +296,7 @@ export const MarketingAccompagnement: React.FC = () => {
                 La méthode <span className="text-accent-400">S·T·R·I·D·E</span>.
               </h2>
               <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-2xl">
-                Six temps (S'orienter, Tester, Réaliser, Intégrer, Déployer, Évoluer) regroupés en trois phases.
+                Six temps regroupés en trois phases : S'orienter, Tester · Réaliser, Intégrer · Déployer · Évoluer.
               </p>
             </FadeInWhenVisible>
           </div>
@@ -309,7 +317,7 @@ export const MarketingAccompagnement: React.FC = () => {
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true, margin: '-60px' }}
                       transition={{ type: 'spring', stiffness: 240, damping: 16, delay: i * 0.15 }}
-                      className={`relative inline-flex items-center justify-center w-24 h-24 rounded-pill ${p.accent} text-white font-display font-extrabold text-h3 tracking-tight shadow-xl ring-8 ring-white`}
+                      className={`relative inline-flex items-center justify-center w-24 h-24 rounded-pill ${p.accent} text-white font-display font-extrabold text-h4 tracking-tight shadow-xl ring-8 ring-white px-2`}
                     >
                       {p.num}
                     </motion.span>

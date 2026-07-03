@@ -206,8 +206,8 @@ const Offers: React.FC = () => (
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
             Une plateforme d'apprentissage, une formation certifiante et un
-            accompagnement stratégique. Trois portes d'entrée vers la même
-            destination : une organisation qui apprend vraiment.
+            accompagnement stratégique, vers la même destination : une
+            organisation qui apprend vraiment.
           </p>
         </div>
       </FadeInWhenVisible>
@@ -435,7 +435,7 @@ export const MarketingHome: React.FC = () => {
           Étaient 2 sections pleine largeur identiques en forme (titre + p +
           1 lien), l'une après l'autre — lues comme deux arrière-pensées
           jumelles (critique P1). Fusionnées en 2 cartes compactes côte à côte. */}
-      <section className="bg-white">
+      <section className="bg-white border-t border-ink-100">
         <div className="max-w-wide mx-auto px-6 py-page">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
             <FadeInWhenVisible direction="up">
@@ -485,8 +485,8 @@ export const MarketingHome: React.FC = () => {
           rien apporter de neuf après 9 sections. Un lecteur qui vient de voir la
           démo + les preuves n'a plus besoin d'un nudge générique "explorer" —
           la fin doit converger vers UNE action, pas rouvrir le menu de départ. */}
-      <section className="bg-white">
-        <div className="max-w-wide mx-auto px-6 pb-page">
+      <section className="bg-white border-t border-ink-100">
+        <div className="max-w-wide mx-auto px-6 pt-page pb-page">
           <ScrollReveal distance={32} duration={800}>
             <div className="relative overflow-hidden rounded-2xl bg-ink-900 text-white px-6 py-page sm:px-section-lg">
               <MeshGradientBg tone="ink" intensity="subtle" />

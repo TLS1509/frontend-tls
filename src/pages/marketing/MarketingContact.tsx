@@ -45,14 +45,14 @@ const QUICK_LINKS = [
     label: 'Accompagnement sur mesure',
     href: '/website/accompagnement',
     desc: 'Devis personnalisé',
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
+    tone: 'bg-secondary-50 text-secondary-700 border-secondary-100',
   },
   {
     icon: <Smartphone size={20} />,
     label: 'Learning App : accès anticipé',
     href: '/website/learning-app',
     desc: 'Inscription bêta gratuite',
-    tone: 'bg-primary-50 text-primary-700 border-primary-100',
+    tone: 'bg-accent-50 text-accent-600 border-accent-200',
   },
 ];
 
@@ -109,7 +109,7 @@ export const MarketingContact: React.FC = () => {
   return (
     <div className="bg-white">
       <SEOHead
-        title="Contactez The Learning Society · Devis & Rendez-vous"
+        title="Contactez The Learning Society · Échange & Rendez-vous"
         description="Échangez avec l'équipe The Learning Society. Prenez rendez-vous, posez vos questions ou démarrez votre projet de formation IA."
         canonical="/website/contact"
       />
@@ -253,11 +253,14 @@ export const MarketingContact: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Subject pills */}
-                  <div className="flex flex-col gap-stack">
+                  {/* Subject pills — pré-rempli depuis le sélecteur du hero, modifiable ici */}
+                  <div className="flex flex-col gap-stack-xs">
                     <label className="font-body text-body-sm font-semibold text-ink-900">
                       Sujet
                     </label>
+                    <p className="font-body text-caption text-ink-500 m-0 -mt-1">
+                      Pré-rempli depuis votre choix ci-dessus, modifiable.
+                    </p>
                     <div className="flex flex-wrap gap-stack-xs">
                       {SUBJECTS.map((s) => {
                         const isActive = form.subject === s;
@@ -266,7 +269,7 @@ export const MarketingContact: React.FC = () => {
                             key={s}
                             type="button"
                             onClick={() => setForm({ ...form, subject: s })}
-                            className={`relative inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base ${
+                            className={`relative inline-flex items-center px-3 py-1.5 rounded-pill text-caption font-semibold transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 min-h-touch ${
                               isActive ? 'text-white' : 'text-ink-700 hover:text-ink-900 bg-ink-50 hover:bg-ink-100'
                             }`}
                           >
@@ -301,10 +304,10 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: undefined });
                         }}
                         placeholder="Marie Dupont"
-                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base ${
+                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.name
-                            ? 'border-danger-base focus:ring-danger-base'
-                            : 'border-ink-200 focus:ring-primary-500'
+                            ? 'border-danger-base focus-visible:outline-danger-base'
+                            : 'border-ink-200 focus-visible:outline-primary-500'
                         }`}
                       />
                       {fieldErrors.name && (
@@ -329,10 +332,10 @@ export const MarketingContact: React.FC = () => {
                           if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
                         }}
                         placeholder="marie@organisation.fr"
-                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base ${
+                        className={`px-4 h-12 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base ${
                           fieldErrors.email
-                            ? 'border-danger-base focus:ring-danger-base'
-                            : 'border-ink-200 focus:ring-primary-500'
+                            ? 'border-danger-base focus-visible:outline-danger-base'
+                            : 'border-ink-200 focus-visible:outline-primary-500'
                         }`}
                       />
                       {fieldErrors.email && (
@@ -354,7 +357,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.org}
                         onChange={(e) => setForm({ ...form, org: e.target.value })}
                         placeholder="Nom de l'entreprise ou organisation"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                     <div className="flex flex-col gap-stack-xs">
@@ -367,7 +370,7 @@ export const MarketingContact: React.FC = () => {
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
                         placeholder="+33 6 00 00 00 00"
-                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-base"
+                        className="px-4 h-12 rounded-xl bg-white border border-ink-200 text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-base"
                       />
                     </div>
                   </div>
@@ -388,10 +391,10 @@ export const MarketingContact: React.FC = () => {
                         if (fieldErrors.message) setFieldErrors({ ...fieldErrors, message: undefined });
                       }}
                       placeholder="Décrivez brièvement votre contexte, vos objectifs, vos questions…"
-                      className={`px-4 py-3 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-base resize-y h-auto min-h-[140px] ${
+                      className={`px-4 py-3 rounded-xl bg-white border text-ink-900 placeholder:text-ink-400 font-body text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 transition-all duration-base resize-y h-auto min-h-[140px] ${
                         fieldErrors.message
-                          ? 'border-danger-base focus:ring-danger-base'
-                          : 'border-ink-200 focus:ring-primary-500'
+                          ? 'border-danger-base focus-visible:outline-danger-base'
+                          : 'border-ink-200 focus-visible:outline-primary-500'
                       }`}
                     />
                     {fieldErrors.message && (
@@ -492,7 +495,7 @@ export const MarketingContact: React.FC = () => {
                     className="block"
                   >
                     <Button
-                      variant="primary"
+                      variant="secondary"
                       size="md"
                       fullWidth
                       trailingIcon={<Calendar size={16} />}
@@ -515,7 +518,7 @@ export const MarketingContact: React.FC = () => {
                       <Mail size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
+                      <span className="font-body text-caption font-bold text-ink-500">
                         Email
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors truncate">
@@ -533,7 +536,7 @@ export const MarketingContact: React.FC = () => {
                       <ExternalLink size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
+                      <span className="font-body text-caption font-bold text-ink-500">
                         LinkedIn
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900 group-hover:text-primary-700 transition-colors">
@@ -546,7 +549,7 @@ export const MarketingContact: React.FC = () => {
                       <MapPin size={18} />
                     </span>
                     <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-body text-caption font-bold text-ink-500 uppercase">
+                      <span className="font-body text-caption font-bold text-ink-500">
                         Bureau
                       </span>
                       <span className="font-body text-body-sm font-semibold text-ink-900">

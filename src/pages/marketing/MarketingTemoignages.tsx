@@ -45,25 +45,25 @@ const PROOF_CASES: ProofCase[] = [
     icon: <GraduationCap size={22} />,
     sector: 'Organisme de formation',
     size: '~40 formateurs',
-    challenge: "Former les équipes à l'IA générative sans perdre la pédagogie humaine.",
+    challenge: "40 formateurs, autant de niveaux face à l'IA générative : certains l'utilisaient déjà en cachette, d'autres n'y avaient jamais touché.",
     intervention: 'Diagnostic flash + déploiement STRIDE sur 3 mois',
-    outcome: "Équipes pédagogiques autonomes sur leurs propres prompts et parcours, sans dépendance à un prestataire externe.",
+    outcome: "Trois mois plus tard, l'équipe construit ses propres prompts et parcours. Plus besoin de nous pour la suite.",
   },
   {
     icon: <Building2 size={22} />,
     sector: 'Grand groupe · équipe L&D interne',
     size: '12 personnes',
-    challenge: "Structurer une politique IA pédagogique avant que les équipes ne bricolent seules.",
+    challenge: "Chaque formateur testait des outils IA de son côté, sans cadre commun ni retour d'expérience partagé.",
     intervention: 'Accompagnement STRIDE (cadrage et gouvernance)',
-    outcome: "Une doctrine IA commune adoptée par toute l'équipe formation, déploiement piloté en interne.",
+    outcome: "Une doctrine IA écrite avec l'équipe, pas pour elle. Le déploiement aux autres équipes du groupe reste piloté en interne, sans nous.",
   },
   {
     icon: <Briefcase size={22} />,
     sector: 'Cabinet de conseil en formation',
     size: '8 consultants',
-    challenge: "Proposer une offre IA crédible à leurs propres clients.",
+    challenge: "Leurs clients demandaient une offre IA. Le cabinet n'avait ni la légitimité ni la méthode pour la construire seul.",
     intervention: 'Formation Formateur Augmenté (programme certifiant)',
-    outcome: "Une offre IA distincte lancée sur leur marché, portée par des consultants formés en interne.",
+    outcome: "Les 8 consultants sont désormais certifiés Formateur Augmenté et vendent leur propre offre IA, pas la nôtre en marque blanche.",
   },
   {
     icon: <Target size={22} />,
@@ -116,9 +116,15 @@ export const MarketingTemoignages: React.FC = () => {
                 Quatre missions, anonymisées.
               </h2>
               <p className="font-body text-body text-ink-600 leading-relaxed m-0">
-                Secteur, taille, défi et intervention réels, sans nom d'organisation,
-                le temps d'obtenir les autorisations. Aucune métrique inventée.
+                Secteur, taille, défi et intervention sont réels ; aucune métrique n'est inventée.
               </p>
+              <Link
+                to="/website/methode"
+                className="inline-flex items-center gap-1 self-start font-body text-body-sm font-semibold text-primary-700 hover:text-primary-800 min-h-touch"
+              >
+                Comprendre la méthode STRIDE
+                <ArrowRight size={14} />
+              </Link>
             </div>
           </FadeInWhenVisible>
 

@@ -154,13 +154,19 @@ export const SkillMapSection: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden bg-gradient-to-br from-primary-900 via-[#1B3B47] to-[#111820] py-page"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-primary-900 via-[#1B3B47] to-[#111820] py-page"
       aria-labelledby="skillmap-title"
     >
-      {/* Seams : adoucissent les coupures nettes blanc→pétrole (haut) et
-          pétrole→gris clair (bas), 03/07/2026 */}
-      <div aria-hidden className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-      <div aria-hidden className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-ink-50/15 to-transparent pointer-events-none" />
+      {/* Seams : adoucissent les coupures nettes entre cette section et ses
+          voisines. Fond passé de bg-gradient-to-br → to-b (03/07/2026 v2) pour
+          que la couleur ne varie plus qu'en Y : les seams peuvent alors peindre
+          la couleur EXACTE de la section voisine (pas un lavis translucide qui
+          dépend du coin où il tombe, cause du seam bas cassé signalé en review).
+          Haut : primary-50 plein qui s'estompe (≈ couleur de fond d'Offers juste
+          au-dessus). Bas : ink-50 plein qui s'estompe (couleur exacte de la
+          section Démo produit juste en-dessous). */}
+      <div aria-hidden className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-primary-50 to-transparent pointer-events-none" />
+      <div aria-hidden className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-ink-50 to-transparent pointer-events-none" />
 
       {/* Ambient glow behind each main node */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -202,8 +208,8 @@ export const SkillMapSection: React.FC = () => {
           variants={fadeUp(0.22)}
           className="mx-auto mt-stack max-w-[52ch] font-body text-body leading-relaxed text-primary-200/75"
         >
-          Une boucle d'apprentissage complète, celle que vivront vos formateurs
-          et apprenants, de la théorie à la preuve concrète de compétence.
+          Une boucle d'apprentissage complète, de la théorie à la preuve
+          concrète de compétence.
         </motion.p>
       </div>
 
