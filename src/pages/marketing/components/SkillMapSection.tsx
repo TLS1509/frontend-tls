@@ -157,6 +157,11 @@ export const SkillMapSection: React.FC = () => {
       className="relative isolate overflow-hidden bg-gradient-to-br from-primary-900 via-[#1B3B47] to-[#111820] py-page"
       aria-labelledby="skillmap-title"
     >
+      {/* Seams : adoucissent les coupures nettes blanc→pétrole (haut) et
+          pétrole→gris clair (bas), 03/07/2026 */}
+      <div aria-hidden className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+      <div aria-hidden className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-ink-50/15 to-transparent pointer-events-none" />
+
       {/* Ambient glow behind each main node */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         {MAIN_NODES.map((n) => (

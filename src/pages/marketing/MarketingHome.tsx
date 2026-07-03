@@ -34,6 +34,7 @@ import {
   BadgeCheck,
   GraduationCap,
   Compass,
+  ChevronDown,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -68,6 +69,7 @@ const Hero: React.FC = () => {
   });
   const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.15]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
     <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-black">
@@ -135,6 +137,20 @@ const Hero: React.FC = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Indice de scroll — invite à descendre, s'estompe avec le zoom vidéo */}
+      <motion.div
+        aria-hidden
+        style={{ opacity: cueOpacity }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none"
+      >
+        <motion.div
+          animate={reduced ? undefined : { y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown size={22} className="text-white/60" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };
@@ -142,7 +158,9 @@ const Hero: React.FC = () => {
 // ─── 2. Conviction : un bandeau teal, une seule affirmation ──────────────────
 
 const Conviction: React.FC = () => (
-  <section className="bg-primary-700 text-white">
+  <section className="relative bg-primary-700 text-white">
+    {/* Seam : adoucit la coupure nette noir (hero) → teal, 03/07/2026 */}
+    <div aria-hidden className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
     <div className="max-w-wide mx-auto px-6 py-page lg:py-section-lg">
       <FadeInWhenVisible>
         <h2 className="max-w-5xl font-display font-bold text-white leading-[1.1] tracking-tight m-0 [text-wrap:balance] text-[clamp(1.75rem,3.8vw,3rem)]">
