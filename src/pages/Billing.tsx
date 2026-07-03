@@ -280,7 +280,7 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
         </div>
 
         <div className="flex flex-col gap-stack-xs items-center md:items-end">
-          <Button variant="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/profile/credits/buy')}>
+          <Button variant="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
             Acheter des crédits
           </Button>
           <p className="m-0 text-caption text-ink-400">Packs à partir de 9,90 €</p>

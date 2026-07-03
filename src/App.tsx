@@ -715,7 +715,8 @@ function App() {
                   <Route path="/projects" element={<ProjectsList />} />
                   <Route path="/coaching/recommendations" element={<ItemRecommendations />} />
                   <Route path="/passeport/historique" element={<PasseportHistorique />} />
-                  <Route path="/profile/credits/buy" element={<PurchaseCredits />} />
+                  <Route path="/account/billing/credits/buy" element={<PurchaseCredits />} />
+                  <Route path="/profile/credits/buy" element={<Navigate to="/account/billing/credits/buy" replace />} />
                   <Route path="/gamification/streaks" element={<StreakDetail />} />
                   <Route path="/coach/engagement" element={<CoachEngagement />} />
                   <Route path="/coach/enterprise-dashboard" element={<CoachEnterpriseDashboard />} />
