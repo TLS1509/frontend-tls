@@ -12,6 +12,7 @@ import { ProfileCard } from '../components/ui/ProfileCard';
 import { Avatar } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
 import { FilterChip } from '../components/ui/FilterChip';
+import { BarChart } from '../components/charts/BarChart';
 import { PageShell } from '../components/layout';
 import { useAnalyticsStore } from '../stores/persistence';
 import { MOCK_COACH_ID } from '../data/analytics';

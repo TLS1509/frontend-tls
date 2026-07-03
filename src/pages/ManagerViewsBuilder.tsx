@@ -11,7 +11,7 @@ import { Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
-import { BarChart } from '../components/charts/BarChart';
+import { BarChart, type BarChartDataPoint } from '../components/charts/BarChart';
 import { LineChart } from '../components/charts/LineChart';
 import { PieChart } from '../components/charts/PieChart';
 import { Container } from '../components/layout';
@@ -63,10 +63,10 @@ const ManagerViewsBuilder: React.FC = () => {
   const previewMetrics = selectedMetrics.length > 0 ? selectedMetrics.slice(0, 4) : [METRICS[0]];
 
   // Data shape shared by bar/line/table: one row per group, one field per metric
-  const chartData = useMemo(
+  const chartData: BarChartDataPoint[] = useMemo(
     () =>
       groups.map((label, groupIdx) => {
-        const row: Record<string, string | number> = { label };
+        const row: BarChartDataPoint = { label };
         previewMetrics.forEach((metric, metricIdx) => {
           row[`m${metricIdx}`] = mockValue(groupIdx, metricIdx);
         });
