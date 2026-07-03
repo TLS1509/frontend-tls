@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Bell, Mail, Clock, Save, MessageCircle, Eye, EyeOff } from 'lucide-react';
+import { Bell, Mail, Clock, Save, MessageCircle } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
 import SectionCard from '../components/patterns/SectionCard';
+import { SettingsToggleRow as SwitchRow } from '../components/patterns/SettingsRow';
 import { Switch } from '../components/core/Input';
 import Select from '../components/core/Select';
 import Button from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
 import { PageShell } from '../components/layout';
 import { useNotificationPrefsStore } from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
@@ -17,35 +19,6 @@ const FREQUENCY_OPTIONS = [
   { value: 'daily', label: 'Quotidien' },
   { value: 'weekly', label: 'Hebdomadaire' },
 ];
-
-function SwitchRow({
-  label,
-  description,
-  checked,
-  onChange,
-  id,
-}: {
-  label: string;
-  description: string;
-  checked: boolean;
-  onChange: (v: boolean) => void;
-  id: string;
-}) {
-  return (
-    <div className="flex items-start justify-between gap-stack py-3 first:pt-0 last:pb-0">
-      <div className="flex flex-col gap-tight flex-1 min-w-0">
-        <span className="text-body-sm font-semibold text-ink-900">{label}</span>
-        <span className="text-caption text-ink-500">{description}</span>
-      </div>
-      <Switch
-        id={id}
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="shrink-0 mt-0.5"
-      />
-    </div>
-  );
-}
 
 export default function NotificationPreferences() {
   const prefsStore = useNotificationPrefsStore();
@@ -80,6 +53,7 @@ export default function NotificationPreferences() {
       />
 
       <div className="flex flex-col gap-section">
+        <AccountFamilyNav active="notifications" />
 
         {/* In-App */}
         <SectionCard

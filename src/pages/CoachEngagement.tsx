@@ -52,7 +52,7 @@ const CoachEngagement: React.FC = () => {
           <StatCard label="Apprenants actifs" value="3/5" sub="60%" />
           <StatCard label="Streak moyen" value="10.2j" sub="+2 vs S-1" />
           <StatCard label="Badges semaine" value="7" sub="dont 2 Or" />
-          <StatCard label="⚠️ Atrophie" value="2" sub="à relancer" />
+          <StatCard label="Atrophie" value="2" sub="à relancer" icon={<AlertTriangle size={18} />} />
         </div>
 
         <div className="flex flex-wrap gap-stack-xs">

@@ -1,45 +1,47 @@
 /**
- * Account Page : Paramètres du compte
+ * Account Page : Informations personnelles, sécurité et interface.
+ *
+ * Phase 24 rationalization : les tabs "Notifications" et "Facturation"
+ * ont été retirés (doublons de NotificationPreferences.tsx et Billing.tsx —
+ * chaque concept vit maintenant à un seul endroit, voir AccountFamilyNav).
+ * Le contenu "Interface" de l'ex-Settings.tsx a été intégré à l'onglet
+ * Général, et la "Zone de danger" pointe désormais vers les vrais flows
+ * RGPD (export DSAR, suppression de compte) au lieu de dupliquer leur UI.
  */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/core/Button';
 import { Switch, Input } from '../components/core/Input';
 import { Select } from '../components/core/Select';
 import type { SelectOption } from '../components/core/Select';
 import { Tabs } from '../components/ui/Tabs';
 import { Badge } from '../components/ui/Badge';
+import { SettingsRow } from '../components/patterns/SettingsRow';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import { useTheme } from '../hooks/useTheme';
 import { PageShell } from '../components/layout';
 import {
   UserRound,
   ShieldCheck,
-  BellRing,
-  CreditCard,
-  Sparkles,
-  Mail,
-  Smartphone,
   Globe,
+  Clock,
+  Palette,
+  Moon,
+  Sun,
   Lock,
   Fingerprint,
   LogOut,
   Download,
   Trash2,
   CheckCircle2,
-  Clock,
+  Smartphone,
   MapPin,
   ChevronRight,
 } from 'lucide-react';
 
-type TabId = 'general' | 'security' | 'notifications' | 'billing';
-
-interface NotifPref {
-  id: string;
-  label: string;
-  description: string;
-  enabled: boolean;
-}
+type TabId = 'general' | 'security';
 
 interface Session {
   id: string;
@@ -56,33 +58,6 @@ const SESSIONS: Session[] = [
 ];
 
 /* ─── Sub-components ──────────────────────────────────────────────────────── */
-
-const SettingRow: React.FC<{
-  icon: React.ReactNode;
-  label: string;
-  description?: string;
-  children?: React.ReactNode;
-  danger?: boolean;
-}> = ({ icon, label, description, children, danger }) => (
-  <div className="flex items-center justify-between gap-stack py-5 border-b border-ink-100 last:border-0">
-    <div className="flex items-start gap-stack-xs flex-1 min-w-0">
-      <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${danger ? 'bg-danger-bg text-danger-fg' : 'bg-ink-100 text-ink-700'}`}>
-        {icon}
-      </div>
-      <div>
-        <p className={`m-0 font-body text-body-sm font-semibold ${danger ? 'text-danger-fg' : 'text-ink-900'}`}>
-          {label}
-        </p>
-        {description && (
-          <p className="m-0 mt-0.5 font-body text-caption text-ink-700 leading-snug">
-            {description}
-          </p>
-        )}
-      </div>
-    </div>
-    {children}
-  </div>
-);
 
 const SettingCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-2xl border border-ink-100 bg-white overflow-hidden">
@@ -106,11 +81,18 @@ const LANG_OPTIONS: SelectOption[] = [
 /* ─── Tab panels ──────────────────────────────────────────────────────────── */
 
 const GeneralTab: React.FC = () => {
+  const navigate = useNavigate();
+  const { theme, toggle: toggleTheme } = useTheme();
+
   const [name,  setName]  = useState('Claire Fontaine');
   const [email, setEmail] = useState('claire.fontaine@example.com');
   const [lang,  setLang]  = useState('fr');
   const [isSaving, setIsSaving] = useState(false);
   const toast = useToastContext();
+
+  const [smoothAnimations, setSmoothAnimations] = useState(true);
+  const [highContrast, setHighContrast] = useState(false);
+  const [compactNav, setCompactNav] = useState(true);
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -137,7 +119,7 @@ const GeneralTab: React.FC = () => {
       </SettingCard>
 
       <SettingCard title="Préférences">
-        <SettingRow icon={<Globe size={16} />} label="Langue de l'interface" description="Actuellement : Français">
+        <SettingsRow icon={<Globe size={16} />} label="Langue de l'interface" description="Actuellement : Français">
           <div className="w-[180px]">
             <Select
               value={lang}
@@ -145,21 +127,48 @@ const GeneralTab: React.FC = () => {
               options={LANG_OPTIONS}
             />
           </div>
-        </SettingRow>
-        <SettingRow icon={<Clock size={16} />} label="Fuseau horaire" description="Europe/Paris (UTC+2)">
+        </SettingsRow>
+        <SettingsRow icon={<Clock size={16} />} label="Fuseau horaire" description="Europe/Paris (UTC+2)">
           <Button variant="link" size="sm" trailingIcon={<ChevronRight size={14} />}>Modifier</Button>
-        </SettingRow>
+        </SettingsRow>
+      </SettingCard>
+
+      <SettingCard title="Interface">
+        <SettingsRow icon={<Palette size={16} />} label="Animations fluides" description="Transitions et micro-interactions animées">
+          <Switch checked={smoothAnimations} onChange={(e) => setSmoothAnimations(e.target.checked)} aria-label="Animations fluides" />
+        </SettingsRow>
+        <SettingsRow icon={<ShieldCheck size={16} />} label="Contraste renforcé" description="Améliore la lisibilité des textes et bordures">
+          <Switch checked={highContrast} onChange={(e) => setHighContrast(e.target.checked)} aria-label="Contraste renforcé" />
+        </SettingsRow>
+        <SettingsRow icon={<UserRound size={16} />} label="Navigation compacte" description="Réduit la largeur de la barre latérale">
+          <Switch checked={compactNav} onChange={(e) => setCompactNav(e.target.checked)} aria-label="Navigation compacte" />
+        </SettingsRow>
+        <SettingsRow
+          icon={theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
+          label="Mode sombre"
+          description={theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
+        >
+          <Switch checked={theme === 'dark'} onChange={toggleTheme} aria-label="Mode sombre" />
+        </SettingsRow>
       </SettingCard>
 
       <SettingCard title="Zone de danger">
-        <SettingRow icon={<Download size={16} />} label="Exporter mes données" description="Télécharger toutes vos données de progression et journaux">
-          <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />}>Exporter</Button>
-        </SettingRow>
-        <SettingRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
-          <Button variant="secondary" size="sm" className="border-danger-base text-danger-fg hover:bg-danger-bg" leadingIcon={<Trash2 size={13} />}>
+        <SettingsRow icon={<Download size={16} />} label="Exporter mes données" description="Demande d'accès RGPD (DSAR) — délai légal 30 jours">
+          <Button variant="secondary" size="sm" leadingIcon={<Download size={13} />} onClick={() => navigate('/profile/privacy/dsar')}>
+            Exporter
+          </Button>
+        </SettingsRow>
+        <SettingsRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="border-danger-base text-danger-fg hover:bg-danger-bg"
+            leadingIcon={<Trash2 size={13} />}
+            onClick={() => navigate('/profile/privacy/delete-account')}
+          >
             Supprimer
           </Button>
-        </SettingRow>
+        </SettingsRow>
       </SettingCard>
     </div>
   );
@@ -171,10 +180,10 @@ const SecurityTab: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       <SettingCard title="Authentification">
-        <SettingRow icon={<Lock size={16} />} label="Mot de passe" description="Dernière modification il y a 3 mois">
+        <SettingsRow icon={<Lock size={16} />} label="Mot de passe" description="Dernière modification il y a 3 mois">
           <Button variant="secondary" size="sm">Changer</Button>
-        </SettingRow>
-        <SettingRow
+        </SettingsRow>
+        <SettingsRow
           icon={<Fingerprint size={16} />}
           label="Double authentification (2FA)"
           description={twoFA ? "Activée : votre compte est protégé" : "Désactivée : recommandé pour plus de sécurité"}
@@ -191,7 +200,7 @@ const SecurityTab: React.FC = () => {
               aria-label="Activer la double authentification"
             />
           </div>
-        </SettingRow>
+        </SettingsRow>
       </SettingCard>
 
       <SettingCard title="Sessions actives">
@@ -237,113 +246,11 @@ const SecurityTab: React.FC = () => {
   );
 };
 
-const NotificationsTab: React.FC = () => {
-  const [prefs, setPrefs] = useState<NotifPref[]>([
-    { id: 'coaching', label: 'Rappels de coaching',    description: "Rappels 24h avant vos sessions programmées",                    enabled: true },
-    { id: 'lesson',   label: 'Nouvelles leçons',       description: "Quand un nouveau contenu est disponible dans votre parcours",    enabled: true },
-    { id: 'streak',   label: 'Streak & gamification',  description: "Alertes de streak, badges débloqués, progression",               enabled: true },
-    { id: 'journal',  label: 'Prompts journal',         description: "Suggestions de réflexion quotidiennes",                          enabled: false },
-    { id: 'veille',   label: 'Veille hebdomadaire',     description: "La sélection éditoriale TLS chaque vendredi",                    enabled: true },
-    { id: 'report',   label: 'Rapport mensuel',         description: "Synthèse mensuelle de votre progression",                        enabled: false },
-  ]);
-  const toggle = (id: string) =>
-    setPrefs((prev) => prev.map((p) => (p.id === id ? { ...p, enabled: !p.enabled } : p)));
-
-  const [emailNotif, setEmailNotif] = useState(true);
-  const [pushNotif,  setPushNotif]  = useState(false);
-
-  return (
-    <div className="flex flex-col gap-stack-lg">
-      <SettingCard title="Canaux de notification">
-        <SettingRow icon={<Mail size={16} />} label="Notifications email" description="Reçues sur claire.fontaine@example.com">
-          <Switch checked={emailNotif} onChange={(e) => setEmailNotif(e.target.checked)} />
-        </SettingRow>
-        <SettingRow icon={<Smartphone size={16} />} label="Notifications push" description="Notifications sur votre navigateur ou application mobile">
-          <Switch checked={pushNotif} onChange={(e) => setPushNotif(e.target.checked)} />
-        </SettingRow>
-      </SettingCard>
-
-      <SettingCard title="Préférences par type">
-        {prefs.map((pref) => (
-          <SettingRow
-            key={pref.id}
-            icon={<BellRing size={16} />}
-            label={pref.label}
-            description={pref.description}
-          >
-            <Switch checked={pref.enabled} onChange={() => toggle(pref.id)} aria-label={pref.label} />
-          </SettingRow>
-        ))}
-      </SettingCard>
-    </div>
-  );
-};
-
-const BillingTab: React.FC = () => (
-  <div className="flex flex-col gap-stack-lg">
-    <SettingCard title="Abonnement actuel">
-      <div className="pt-5 pb-5">
-        <div className="flex items-start justify-between gap-stack p-stack-lg rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-200 mb-stack-lg shadow-card">
-          <div>
-            <div className="flex items-center gap-stack-xs mb-stack-xs">
-              <Sparkles size={16} className="text-primary-500" />
-              <h3 className="m-0 font-display text-h4 font-bold text-ink-900 tracking-snug">Plan Pro</h3>
-              <Badge variant="brand">Actif</Badge>
-            </div>
-            <p className="m-0 font-body text-body-sm text-ink-500">
-              Accès illimité aux parcours, coaching mensuel inclus · Renouvellement le 1er juin 2026
-            </p>
-          </div>
-          <div className="text-right shrink-0">
-            <p className="m-0 font-display text-h3 font-extrabold text-primary-700">89 €</p>
-            <p className="m-0 mt-0.5 font-body text-caption text-ink-400">/ mois</p>
-          </div>
-        </div>
-        <div className="flex gap-stack-xs">
-          <Button>Gérer l'abonnement</Button>
-          <Button variant="secondary">Voir les plans</Button>
-        </div>
-      </div>
-    </SettingCard>
-
-    <SettingCard title="Moyen de paiement">
-      <SettingRow icon={<CreditCard size={16} />} label="Visa •••• 6411" description="Expire le 04/2027 · Carte principale">
-        <Button variant="secondary" size="sm">Modifier</Button>
-      </SettingRow>
-    </SettingCard>
-
-    <SettingCard title="Historique de facturation">
-      {[
-        { date: '1 mai 2026',   desc: 'Plan Pro : mai',    amount: '89,00 €', status: 'Payé' },
-        { date: '1 avr. 2026',  desc: 'Plan Pro : avril',  amount: '89,00 €', status: 'Payé' },
-        { date: '1 mars 2026',  desc: 'Plan Pro : mars',   amount: '89,00 €', status: 'Payé' },
-      ].map((inv, i, arr) => (
-        <div
-          key={inv.date}
-          className={`flex items-center justify-between gap-stack py-5 transition-colors ${i < arr.length - 1 ? 'border-b border-ink-100' : ''}`}
-        >
-          <div>
-            <p className="m-0 font-body text-body-sm font-semibold text-ink-900">{inv.desc}</p>
-            <p className="m-0 mt-0.5 font-body text-caption text-ink-400">{inv.date}</p>
-          </div>
-          <div className="flex items-center gap-stack-xs">
-            <span className="font-body text-body-sm font-bold text-ink-900">{inv.amount}</span>
-            <Badge variant="success">{inv.status}</Badge>
-            <Button variant="link" size="sm" leadingIcon={<Download size={12} />}>PDF</Button>
-          </div>
-        </div>
-      ))}
-    </SettingCard>
-  </div>
-);
-
 /* ─── Main component ──────────────────────────────────────────────────────── */
 
 const TAB_ITEMS = [
-  { id: 'general',       label: <><UserRound size={14} /> Général</> },
-  { id: 'security',      label: <><ShieldCheck size={14} /> Sécurité</> },
-  { id: 'notifications', label: <><BellRing size={14} /> Notifications</> },
-  { id: 'billing',       label: <><CreditCard size={14} /> Facturation</> },
+  { id: 'general',  label: <><UserRound size={14} /> Général</> },
+  { id: 'security', label: <><ShieldCheck size={14} /> Sécurité</> },
 ];
 
 export const Account: React.FC = () => {
@@ -361,7 +268,7 @@ export const Account: React.FC = () => {
             Mon compte
           </h1>
           <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
-            Informations personnelles, sécurité, notifications et abonnement.
+            Informations personnelles, sécurité et préférences d'interface.
           </p>
         </div>
         <Badge variant="brand" className="shrink-0 mt-1">Plan Pro · Actif</Badge>
@@ -378,11 +285,11 @@ export const Account: React.FC = () => {
 
       {/* ── Tab panels ────────────────────────────────────────── */}
       <div>
-        {activeTab === 'general'       && <GeneralTab />}
-        {activeTab === 'security'      && <SecurityTab />}
-        {activeTab === 'notifications' && <NotificationsTab />}
-        {activeTab === 'billing'       && <BillingTab />}
+        {activeTab === 'general'  && <GeneralTab />}
+        {activeTab === 'security' && <SecurityTab />}
       </div>
     </PageShell>
   );
 };
+
+export default Account;

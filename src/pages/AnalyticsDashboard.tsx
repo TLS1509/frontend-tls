@@ -337,14 +337,14 @@ export default function AnalyticsDashboard() {
             {/* Learner Status Distribution Pie Chart */}
             <div className="grid md:grid-cols-2 gap-section">
               <SectionCard title="Distribution des statuts apprenants" titleIcon={<Users size={18} />}>
-                <ChartContainer className="!p-0 !border-0 !bg-transparent">
+                <div className="flex justify-center w-full">
                   <PieChart
                     data={learnerStatusData}
                     size="sm"
                     showLegend
                     showValues
                   />
-                </ChartContainer>
+                </div>
               </SectionCard>
 
               {/* Status Summary Cards */}

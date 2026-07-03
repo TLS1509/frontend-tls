@@ -5,7 +5,7 @@
 
 export { Dashboard } from './Dashboard';
 export { Profile } from './Profile';
-export { Settings } from './Settings';
+// Settings retired (Phase 24) — merged into Account.tsx (Interface section)
 export { Components } from './Components';
 export { LearningPaths } from './LearningPaths';
 export { LearningPathDetail } from './LearningPathDetail';
@@ -90,7 +90,7 @@ export { default as PasseportRoadmap } from './PasseportRoadmap';
 export { default as PasseportJac } from './PasseportJac';
 export { default as CoachAnalytics } from './CoachAnalytics';
 export { default as EnterpriseKpis } from './EnterpriseKpis';
-export { default as ProfileConsent } from './ProfileConsent';
+// ProfileConsent retired (Phase 24) — merged into ProfilePrivacy.tsx
 export { default as AlerteInactivite } from './AlerteInactivite';
 export { default as AlerteStagnation } from './AlerteStagnation';
 // Phase 14 — Ateliers + Masterclass + Événements

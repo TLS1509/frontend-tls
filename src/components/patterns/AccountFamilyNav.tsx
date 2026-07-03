@@ -1,25 +1,32 @@
 /**
- * AccountFamilyNav — sub-nav for the 3 "account" pages (Profile / Account / Settings).
+ * AccountFamilyNav — sub-nav for the "account" domain pages.
  *
- * Clarifie la confusion entre les 3 pages "compte" en les regroupant
- * visuellement sous une nav commune avec :
- *  - label clair de chaque page
- *  - description courte du rôle de la page
- *  - état actif sur la page courante
+ * Single source of truth per concern (Phase 24 account rationalization):
+ *  - Profil        → identité publique, compétences, badges
+ *  - Mon compte     → informations personnelles, sécurité, interface
+ *  - Confidentialité → RGPD, consentements IA/cookies, suppression, export
+ *  - Notifications  → canaux et fréquence des alertes
+ *  - Facturation    → abonnement, crédits, factures
+ *
+ * `Settings.tsx` (ex-"Paramètres") was retired: its Interface section moved
+ * into Account's "Général" tab, and its Notifications/Confidentialité cards
+ * were duplicates of the two dedicated pages below.
  *
  * Usage :
  *   <AccountFamilyNav active="profile" />
  *   <AccountFamilyNav active="account" />
- *   <AccountFamilyNav active="settings" />
+ *   <AccountFamilyNav active="privacy" />
+ *   <AccountFamilyNav active="notifications" />
+ *   <AccountFamilyNav active="billing" />
  *
  * Intégré en haut de chaque page après le header.
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UserRound, KeyRound, Settings2, CreditCard } from 'lucide-react';
+import { UserRound, KeyRound, ShieldCheck, BellRing, CreditCard } from 'lucide-react';
 
-export type AccountFamilyPage = 'profile' | 'account' | 'billing' | 'settings';
+export type AccountFamilyPage = 'profile' | 'account' | 'privacy' | 'notifications' | 'billing';
 
 const ITEMS: Array<{
   id: AccountFamilyPage;
@@ -38,23 +45,30 @@ const ITEMS: Array<{
   {
     id: 'account',
     label: 'Mon compte',
-    description: 'Données personnelles, sécurité',
+    description: 'Données personnelles, sécurité, interface',
     href: '/account',
     Icon: KeyRound,
   },
   {
-    id: 'billing',
-    label: 'Facturation',
-    description: 'Abonnement, factures, paiement',
-    href: '/account/billing',
-    Icon: CreditCard,
+    id: 'privacy',
+    label: 'Confidentialité',
+    description: 'RGPD, consentements IA, suppression',
+    href: '/profile/privacy',
+    Icon: ShieldCheck,
   },
   {
-    id: 'settings',
-    label: 'Paramètres',
-    description: 'Préférences interface, notifications',
-    href: '/settings',
-    Icon: Settings2,
+    id: 'notifications',
+    label: 'Notifications',
+    description: 'Canaux et fréquence des alertes',
+    href: '/notifications/preferences',
+    Icon: BellRing,
+  },
+  {
+    id: 'billing',
+    label: 'Facturation',
+    description: 'Abonnement, crédits, factures',
+    href: '/account/billing',
+    Icon: CreditCard,
   },
 ];
 
@@ -71,7 +85,7 @@ export const AccountFamilyNav: React.FC<AccountFamilyNavProps> = ({
     <nav
       aria-label="Navigation compte"
       className={[
-        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-stack-xs p-2 rounded-2xl bg-ink-50 border border-ink-100',
+        'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-stack-xs p-2 rounded-2xl bg-ink-50 border border-ink-100',
         className,
       ].join(' ')}
     >

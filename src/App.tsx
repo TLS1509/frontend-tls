@@ -32,7 +32,6 @@ import {
   Video,
   Sparkles as SparklesIcon,
   UserRound,
-  Settings2,
   Bell,
   Target,
   BarChart3,
@@ -52,7 +51,6 @@ import {
 import {
   Dashboard,
   Profile,
-  Settings,
   Components,
   LearningPaths,
   LearningPathDetail,
@@ -92,7 +90,6 @@ import {
   PasseportJac,
   CoachAnalytics,
   EnterpriseKpis,
-  ProfileConsent,
   AlerteInactivite,
   AlerteStagnation,
   // Phase 14 — Ateliers + Masterclass + Événements
@@ -196,7 +193,6 @@ import MotionSprintShowcase from './pages/MotionSprintShowcase';
 import ChatInterface from './pages/ChatInterface';
 import ChatHistoryPanel from './pages/ChatHistoryPanel';
 import OpenBadgesSection from './pages/OpenBadgesSection';
-import CreditsPage from './pages/CreditsPage';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import OnboardingPreview from './pages/OnboardingPreview';
@@ -348,7 +344,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         >
           <DropdownItem icon={<UserRound size={16} />} onClick={goTo('/profile')}>Mon Profil</DropdownItem>
           <DropdownItem icon={<KeyRound size={16} />} onClick={goTo('/account')}>Mon compte</DropdownItem>
-          <DropdownItem icon={<Settings2 size={16} />} onClick={goTo('/settings')}>Paramètres</DropdownItem>
           <DropdownItem
             icon={<Bell size={16} />}
             badge={unreadNotifications > 0 ? String(unreadNotifications) : undefined}
@@ -603,7 +598,7 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/settings" element={<Navigate to="/account" replace />} />
                   <Route path="/components" element={<Components />} />
                   <Route path="/motion-sprints" element={<MotionSprintShowcase />} />
                   <Route path="/design-showcase" element={<DesignShowcase />} />
@@ -672,7 +667,7 @@ function App() {
                   <Route path="/passeport/jac" element={<PasseportJac />} />
                   <Route path="/coach/analytics" element={<CoachAnalytics />} />
                   <Route path="/enterprise/kpis" element={<EnterpriseKpis />} />
-                  <Route path="/profile/consent" element={<ProfileConsent />} />
+                  <Route path="/profile/consent" element={<Navigate to="/profile/privacy" replace />} />
                   <Route path="/enterprise/alertes/inactivite" element={<AlerteInactivite />} />
                   <Route path="/coach/alertes/stagnation" element={<AlerteStagnation />} />
                   {/* Phase 14 — Ateliers + Masterclass + Événements */}
@@ -739,7 +734,7 @@ function App() {
                   <Route path="/assistant" element={<ChatInterface />} />
                   <Route path="/assistant/history" element={<ChatHistoryPanel />} />
                   <Route path="/profile/open-badges" element={<OpenBadgesSection />} />
-                  <Route path="/profile/credits" element={<CreditsPage />} />
+                  <Route path="/profile/credits" element={<Navigate to="/account/billing" replace />} />
                   <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
                   <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />
                   <Route path="*" element={<Navigate to="/error/404" replace />} />

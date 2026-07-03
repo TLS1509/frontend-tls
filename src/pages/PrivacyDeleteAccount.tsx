@@ -46,7 +46,7 @@ const PrivacyDeleteAccount: React.FC = () => {
       />
 
       <div className="flex flex-col gap-section">
-        <Alert variant="warning" title="⚠️ Action irréversible">
+        <Alert variant="warning" icon={<AlertTriangle size={18} />} title="Action irréversible">
           Cette action est définitive. Tu ne pourras pas récupérer ton compte ni tes données après confirmation. Pense à exporter tes données avant via la demande DSAR.
         </Alert>
 
@@ -86,12 +86,12 @@ const PrivacyDeleteAccount: React.FC = () => {
           <Card className="p-stack-lg flex flex-col gap-stack">
             <h3 className="text-h4 font-semibold">Étape 1/2 : Raison du départ (optionnel)</h3>
             <FormGroup label="Pour nous aider à nous améliorer, peux-tu nous dire pourquoi tu pars ?">
-              <textarea
+              <Input
+                multiline
+                rows={4}
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 placeholder="Optionnel : ta réponse nous aide à améliorer la plateforme"
-                className="w-full h-auto min-h-[100px] p-3 border border-ink-200 rounded-lg focus:border-primary-500 focus:outline-none"
-                rows={4}
               />
             </FormGroup>
             <div className="flex gap-stack-xs">

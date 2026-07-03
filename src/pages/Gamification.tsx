@@ -86,7 +86,7 @@ export default function Gamification() {
   });
 
   return (
-    <PageShell width="wide">
+    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="SBO · Learn"
         title="Ma Progression & Gamification"

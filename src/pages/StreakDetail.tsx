@@ -52,8 +52,8 @@ const StreakDetail: React.FC = () => {
       />
 
       <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-          <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="🔥 Actif" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+          <StatCard label="Streak actuel" value={`${currentStreak}j`} sub="Actif" icon={<Flame size={18} />} />
           <StatCard label="Streak record" value={`${longest}j`} sub="Mars 2026" />
           <StatCard label="Total jours actifs" value="142" sub="6 derniers mois" />
           <StatCard label="Reset heure" value="00:00" sub="UTC+1 Paris" />
