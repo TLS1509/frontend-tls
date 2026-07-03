@@ -78,11 +78,11 @@ export const MarketingMentionsLegales: React.FC = () => (
     sections={[
       {
         heading: 'Éditeur du site',
-        body: 'The Learning Society — SAS au capital de 100 €. Siège social : 26 bis, rue Olivier Noyer, 75014 Paris, France. SIRET : 909 413 841 00026 — RCS Paris 909 413 841 — TVA intracommunautaire : FR38909413841. Directeur de la publication : Pierre-Armand Dennery. Contact : contact@thelearningsociety.fr.',
+        body: 'The Learning Society, SAS au capital de 100 €. Siège social : 26 bis, rue Olivier Noyer, 75014 Paris, France. SIRET : 909 413 841 00026. RCS Paris 909 413 841. TVA intracommunautaire : FR38909413841. Directeur de la publication : Pierre-Armand Dennery. Contact : contact@thelearningsociety.fr.',
       },
       {
         heading: 'Hébergeur',
-        body: 'OVH — SASU au capital de 10 174 560 €. Siège social : 2, rue Kellermann, 59100 Roubaix, France. SIRET : 424 761 419 00045 — RCS Lille Métropole 424 761 419. Contact : support@ovh.com — Téléphone : +33 (0) 820 32 03 63.',
+        body: 'OVH, SASU au capital de 10 174 560 €. Siège social : 2, rue Kellermann, 59100 Roubaix, France. SIRET : 424 761 419 00045. RCS Lille Métropole 424 761 419. Contact : support@ovh.com. Téléphone : +33 (0) 820 32 03 63.',
       },
       {
         heading: 'Propriété intellectuelle',
@@ -108,7 +108,7 @@ export const MarketingPolitiqueConfidentialite: React.FC = () => (
     sections={[
       {
         heading: 'Responsable du traitement',
-        body: 'The Learning Society — 26 bis, rue Olivier Noyer, 75014 Paris — est responsable du traitement de vos données personnelles au sens du RGPD (Règlement Général sur la Protection des Données).',
+        body: 'The Learning Society (26 bis, rue Olivier Noyer, 75014 Paris) est responsable du traitement de vos données personnelles au sens du RGPD (Règlement Général sur la Protection des Données).',
       },
       {
         heading: 'Données collectées',

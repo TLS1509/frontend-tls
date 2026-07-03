@@ -46,7 +46,7 @@ export const GUIDES: Guide[] = [
   },
   {
     slug: 'referentiel-5-piliers-fiche-synthese',
-    title: 'Le Référentiel des 5 Piliers — fiche de synthèse',
+    title: 'Le Référentiel des 5 Piliers : fiche de synthèse',
     subtitle: 'La matrice de compétences L&D condensée en une fiche imprimable',
     description:
       "La synthèse visuelle du dossier « Le Référentiel des 5 Piliers » : les 5 dimensions de compétences du professionnel de la formation augmenté, en une page.",

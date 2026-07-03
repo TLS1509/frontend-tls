@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 const SITE_NAME = 'The Learning Society';
 const BASE_URL = 'https://thelearningsociety.fr';
 const DEFAULT_DESCRIPTION =
-  "Formation certifiante IA pour formateurs, Learning App adaptative et accompagnement stratégique — The Learning Society.";
+  "The Learning Society : formation certifiante IA pour formateurs, Learning App adaptative et accompagnement stratégique.";
 const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.svg`;
 const TWITTER_HANDLE = '@thelearningsociety';
 

@@ -152,7 +152,7 @@ export const MarketingWaitlist: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Accès anticipé · Learning App — The Learning Society"
+        title="Accès anticipé · Learning App · The Learning Society"
         description="Rejoignez la liste d'accès anticipé à la Learning App TLS. Parcours adaptatifs, Passeport Dreyfus, coaching intégré, méthode STRIDE."
         canonical="/website/waitlist"
         noIndex={false}

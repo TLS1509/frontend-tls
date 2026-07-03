@@ -99,7 +99,7 @@ export const MarketingVariantLab: React.FC = () => {
             <div className="ml-auto shrink-0 hidden lg:flex items-center gap-tight">
               <div className="w-2 h-2 rounded-full bg-success-base animate-pulse" />
               <span className="font-body text-caption text-ink-500">
-                Homepage — {variantMeta.label}
+                Homepage · {variantMeta.label}
               </span>
             </div>
           )}

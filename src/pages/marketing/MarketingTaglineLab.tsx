@@ -106,7 +106,7 @@ export const MarketingTaglineLab: React.FC = () => (
           TLS Tagline Lab
         </span>
         <span className="font-body text-caption text-ink-500">
-          6 angles, même hero, même typo — décision non tranchée
+          6 angles, même hero, même typo : décision non tranchée
         </span>
       </div>
     </div>
