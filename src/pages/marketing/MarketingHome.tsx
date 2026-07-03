@@ -34,7 +34,6 @@ import {
   BadgeCheck,
   GraduationCap,
   Compass,
-  ChevronDown,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -69,7 +68,6 @@ const Hero: React.FC = () => {
   });
   const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.15]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
   return (
     <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-black">
@@ -137,20 +135,6 @@ const Hero: React.FC = () => {
           </div>
         </motion.div>
       </div>
-
-      {/* Indice de scroll — invite à descendre, s'estompe avec le zoom vidéo */}
-      <motion.div
-        aria-hidden
-        style={{ opacity: cueOpacity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none"
-      >
-        <motion.div
-          animate={reduced ? undefined : { y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ChevronDown size={22} className="text-white/60" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };
