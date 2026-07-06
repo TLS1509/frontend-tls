@@ -571,6 +571,7 @@ export const MOCK_PARCOURS_DATA: Record<string, Parcours> = {
       { id: 'bootcamp-comp-3', title: 'Template: Component Library Template', description: 'Modèle React pour structures réutilisables des composants', duration: '15 min', kind: 'template', tone: 'sun' },
       { id: 'bootcamp-comp-4', title: 'Podcast: Design System Leaders', description: 'Interviews d\'experts en design systems (Apple, Shopify, Vercel)', duration: '35 min', kind: 'podcast', tone: 'warm' },
       { id: 'bootcamp-comp-5', title: 'Exercice: Build Your First Component', description: 'Atelier pratique: créer un Button component avec Figma + React', duration: '45 min', kind: 'exercise', tone: 'primary' },
+      { id: 'bootcamp-comp-6', title: 'Guide: Motion Design Patterns for the Web', description: 'Panorama des patterns d\'animation web (reveals, scroll, micro-interactions, transitions), quand les utiliser, et application concrète à la home TLS', duration: '25 min', kind: 'guide', tone: 'warm' },
     ],
     progress: { completed: 0, total: 34, percentage: 0 },
   },

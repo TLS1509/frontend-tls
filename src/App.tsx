@@ -211,10 +211,9 @@ import { MarketingHomeNarrative } from './pages/marketing/MarketingHomeNarrative
 import { MarketingHomeRefined } from './pages/marketing/MarketingHomeRefined';
 import { MarketingHomeCinematic } from './pages/marketing/MarketingHomeCinematic';
 import { MarketingTaglineLab } from './pages/marketing/MarketingTaglineLab';
-// V2 cinematic direction prototypes (2026-07-06) — 3 options for the agency-grade redesign, not yet chosen
+// V2 cinematic direction prototypes (2026-07-06): options for the agency-grade redesign, not yet chosen
 import { HomeCinematicRevealV2 } from './pages/marketing/_prototypes/HomeCinematicRevealV2';
 import { HomeInterfaceChoreographyV2 } from './pages/marketing/_prototypes/HomeInterfaceChoreographyV2';
-import { HomeEditorialMotionV2 } from './pages/marketing/_prototypes/HomeEditorialMotionV2';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
@@ -533,7 +532,6 @@ function App() {
           {/* V2 cinematic direction prototypes — 3 options, comparison only, none chosen yet */}
           <Route path="_v2-cinematic-a" element={<HomeCinematicRevealV2 />} />
           <Route path="_v2-cinematic-b" element={<HomeInterfaceChoreographyV2 />} />
-          <Route path="_v2-cinematic-c" element={<HomeEditorialMotionV2 />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
