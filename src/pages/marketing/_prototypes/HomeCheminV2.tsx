@@ -102,19 +102,25 @@ const Hero: React.FC = () => {
       </motion.div>
 
       {/*
-        Voile éditorial tuné pour la lisibilité — PAS un scrim lourd.
-        Blanc dense en haut (zone titre, sur le ciel pâle) → transparent au
-        milieu (on voit la peinture nette) → très léger blanc en bas pour
-        asseoir le sous-titre. Le H1 ink-900 tombe sur du blanc ≥ 85% → AA large.
+        Lisibilité éditoriale — panneau lumineux ancré à GAUCHE (là où vit le
+        texte), qui s'efface vers la droite pour laisser la peinture nette sur
+        son point focal : le chemin qui monte vers la rotonde. Le texte
+        (titre ink-900, sous-titre ink-800) s'assoit ainsi sur un fond blanc
+        ≥ 60% sur toute la colonne de lecture → AA large, sans masquer le sujet.
       */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/85 via-white/10 to-transparent"
+        className="absolute inset-0 pointer-events-none bg-gradient-to-r from-white/92 via-white/60 to-transparent"
+      />
+      {/* Voile haut discret : assoit le contenu sous la nav sticky. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-48 pointer-events-none bg-gradient-to-b from-white/75 to-transparent"
       />
 
-      {/* Contenu : haut-gauche, encre foncée sur ciel pâle */}
+      {/* Contenu : haut-gauche, dégagé sous la nav, encre foncée sur fond clair */}
       <div className="relative min-h-[100dvh] flex items-start">
-        <div className="w-full max-w-wide mx-auto px-6 pt-page sm:pt-section-lg lg:pt-page">
+        <div className="w-full max-w-wide mx-auto px-6 pt-28 sm:pt-32 lg:pt-36">
           <motion.div
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -159,7 +165,7 @@ const Hero: React.FC = () => {
               initial={reduced ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.7, ease: 'easeOut' }}
-              className="font-body text-body-lg text-ink-700 leading-relaxed m-0 max-w-[54ch]"
+              className="font-body text-body-lg text-ink-800 leading-relaxed m-0 max-w-[46ch]"
             >
               The Learning Society aide organisations et professionnels à maîtriser
               l&apos;IA en formation : une formation certifiante, une Learning App
