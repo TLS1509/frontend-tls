@@ -22,11 +22,11 @@ interface Message {
 }
 
 const SEED_MESSAGES: Message[] = [
-  { id: '1', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Bonjour ! J\'ai vu que tu as terminé le module de stratégie produit. Comment ça s\'est passé ?', time: '09:12', read: true, isMe: false },
+  { id: '1', authorId: 'coach', authorName: 'Coach', initials: 'SM', text: 'Bonjour ! J\'ai vu que tu as terminé le module de stratégie produit. Comment ça s\'est passé ?', time: '09:12', read: true, isMe: false },
   { id: '2', authorId: 'me', authorName: 'Moi', initials: 'CM', text: 'Salut ! Plutôt bien, mais j\'avais quelques questions sur la matrice BCG.', time: '09:15', read: true, isMe: true },
-  { id: '3', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Parfait, on peut en parler lors de notre prochain RDV jeudi. Tu peux me préciser ce qui te bloque exactement ?', time: '09:18', read: true, isMe: false },
+  { id: '3', authorId: 'coach', authorName: 'Coach', initials: 'SM', text: 'Parfait, on peut en parler lors de notre prochain RDV jeudi. Tu peux me préciser ce qui te bloque exactement ?', time: '09:18', read: true, isMe: false },
   { id: '4', authorId: 'me', authorName: 'Moi', initials: 'CM', text: 'C\'est surtout l\'arbitrage entre les "vache à lait" et les "stars" quand on a un budget limité.', time: '09:22', read: true, isMe: true },
-  { id: '5', authorId: 'coach', authorName: 'Coach', initials: 'MD', text: 'Excellent point ! C\'est exactement le type de réflexion qu\'on attend au niveau Dreyfus 3. Je te prépare un cas concret pour jeudi.', time: '09:25', read: false, isMe: false },
+  { id: '5', authorId: 'coach', authorName: 'Coach', initials: 'SM', text: 'Excellent point ! C\'est exactement le type de réflexion qu\'on attend au niveau Dreyfus 3. Je te prépare un cas concret pour jeudi.', time: '09:25', read: false, isMe: false },
 ];
 
 const MessagingThread: React.FC = () => {

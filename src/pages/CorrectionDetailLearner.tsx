@@ -30,8 +30,8 @@ const STATUS_VARIANTS: Record<CorrectionStatus, 'neutral' | 'info' | 'sun' | 'su
   completed: 'success',
 };
 
-const MOCK_COACH_INITIALS = 'MD';
-const MOCK_COACH_NAME = 'Marie Dubois';
+const MOCK_COACH_INITIALS = 'SM';
+const MOCK_COACH_NAME = 'Sophie Marchand';
 
 const CorrectionDetailLearner: React.FC = () => {
   const { id } = useParams<{ id: string }>();

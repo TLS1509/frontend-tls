@@ -174,7 +174,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="medium" paddingX="comfortable">
+      <PageShell width="content">
 
         {/* ── Account family sub-nav ───────────────────────────── */}
         <AccountFamilyNav active="profile" />

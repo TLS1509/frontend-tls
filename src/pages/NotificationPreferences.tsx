@@ -46,7 +46,9 @@ export default function NotificationPreferences() {
   };
 
   return (
-    <PageShell width="content" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="content" noPadTop>
+      <AccountFamilyNav active="notifications" />
+
       <EditorialHero
         eyebrow="Profil · Notifications"
         title="Préférences de notifications"
@@ -60,8 +62,6 @@ export default function NotificationPreferences() {
       />
 
       <div className="flex flex-col gap-section">
-        <AccountFamilyNav active="notifications" />
-
         {/* In-App */}
         <SectionCard
           title="Notifications in-app"

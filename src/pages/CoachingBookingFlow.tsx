@@ -21,7 +21,7 @@ export const CoachingBookingFlow: React.FC = () => {
   const [selectedSlot, setSelectedSlot] = useState<'slot-1' | 'slot-2'>('slot-2');
 
   const SLOTS = {
-    'slot-1': { label: 'Lundi 09:00', coach: 'Sarah Martin', dateISO: '2026-05-19T09:00:00Z' },
+    'slot-1': { label: 'Lundi 09:00', coach: 'Sophie Marchand', dateISO: '2026-05-19T09:00:00Z' },
     'slot-2': { label: 'Mardi 14:30', coach: 'Sophie Marchand', dateISO: '2026-05-20T14:30:00Z' },
   };
 
@@ -92,7 +92,7 @@ export const CoachingBookingFlow: React.FC = () => {
                 {
                   id: 'slot-1',
                   title: 'Lundi 09:00',
-                  description: 'Coach : Sarah Martin',
+                  description: 'Coach : Sophie Marchand',
                   onClick: () => setSelectedSlot('slot-1'),
                 },
                 {

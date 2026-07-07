@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { Checkbox } from '../core/Input';
 
 export interface SelectCheckboxOption {
   id: string;
@@ -15,8 +16,8 @@ export interface SelectCheckboxProps {
 }
 
 /**
- * Premium select dropdown with multiple checkbox selection.
- * Input-style interface with smooth reveal animation.
+ * Compact glass select dropdown with checkbox selection.
+ * Single-layer floating trigger + frosted popover (matches DropdownMenu's `glass` variant).
  */
 export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
   options,
@@ -51,128 +52,80 @@ export const SelectCheckbox: React.FC<SelectCheckboxProps> = ({
     onChange(newSelected);
   };
 
-  const selectedCount = selected.length;
-  const triggerText = selectedCount === 0 ? placeholder : `${selectedCount} filtre${selectedCount > 1 ? 's' : ''} actif${selectedCount > 1 ? 's' : ''}`;
+  const selectedLabels = options.filter((o) => selected.includes(o.id)).map((o) => o.label);
+  const isActive = selectedLabels.length > 0;
+  const triggerText =
+    selectedLabels.length === 0
+      ? placeholder
+      : selectedLabels.length === 1
+      ? selectedLabels[0]
+      : `${placeholder} (${selectedLabels.length})`;
 
   return (
     <div className={`relative inline-block ${className}`}>
-      {/* ===== OUTER SHELL (Double-Bezel) ===== */}
-      <div className="p-0.5 bg-black/5 rounded-xl border border-ink-200">
-        {/* ===== INNER CORE ===== */}
-        <button
-          ref={triggerRef}
-          onClick={() => setIsOpen(!isOpen)}
-          className={`
-            w-full px-4 py-3 bg-white rounded-lg
-            text-body-sm font-medium text-ink-900
-            border border-ink-100
-            shadow-[inset_0_1px_1px_white/15]
-            flex items-center justify-between gap-stack-xs
-            transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
-            hover:border-ink-200 hover:bg-ink-50
-            active:scale-[0.98]
-            focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500
-          `}
-        >
-          <span className="text-ink-600">{triggerText}</span>
-          <ChevronDown
-            size={18}
-            className={`
-              transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
-              ${isOpen ? 'rotate-180' : 'rotate-0'}
-            `}
-          />
-        </button>
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        className={[
+          'inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-body-sm font-medium',
+          'backdrop-blur-glass-light transition-all duration-base',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+          isActive
+            ? 'bg-primary-50/80 border border-primary-200 text-primary-700 hover:bg-primary-50'
+            : 'bg-white/70 border border-ink-200/70 text-ink-700 hover:bg-white hover:border-ink-300',
+        ].join(' ')}
+      >
+        <span className="truncate max-w-[10rem]">{triggerText}</span>
+        <ChevronDown
+          size={15}
+          strokeWidth={2.25}
+          className={`shrink-0 transition-transform duration-base ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+        />
+      </button>
 
-        {/* ===== DROPDOWN OVERLAY ===== */}
-        {isOpen && (
-          <>
-            {/* Backdrop blur */}
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsOpen(false)}
-            />
+      {/* Dropdown overlay */}
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
 
-            {/* Dropdown menu */}
-            <div
-              ref={dropdownRef}
-              className={`
-                absolute top-full left-0 right-0 mt-2 z-50
-                bg-white border border-ink-200 rounded-xl
-                shadow-lg backdrop-blur-glass-medium
-                overflow-hidden
-                animate-in fade-in slide-in-from-top-2 duration-300
-              `}
-            >
-              {/* Header */}
-              <div className="px-4 py-3 border-b border-ink-100">
-                <p className="text-micro font-bold uppercase tracking-[0.15em] text-ink-500">
-                  Sélectionner les filtres
-                </p>
-              </div>
+          <div
+            ref={dropdownRef}
+            className={[
+              'absolute top-full left-0 mt-2 z-50 min-w-[200px]',
+              'bg-white/80 backdrop-blur-glass-heavy backdrop-saturate-150',
+              'border border-white/60 ring-1 ring-primary-100/50 rounded-xl',
+              'shadow-[0_20px_60px_-15px_rgba(85,161,180,0.35),0_8px_25px_-8px_rgba(85,161,180,0.15)]',
+              'overflow-hidden animate-[dd-slide-up_0.18s_ease-out]',
+            ].join(' ')}
+          >
+            <div className="p-1.5 max-h-72 overflow-y-auto space-y-0.5">
+              {options.map((opt) => (
+                <Checkbox
+                  key={opt.id}
+                  checked={selected.includes(opt.id)}
+                  onChange={() => handleToggle(opt.id)}
+                  label={opt.label}
+                  className="w-full px-2.5 py-1.5 rounded-lg hover:bg-primary-50/70 transition-colors duration-base"
+                />
+              ))}
+            </div>
 
-              {/* Options */}
-              <div className="p-2 max-h-80 overflow-y-auto space-y-0.5">
-                {options.map((opt) => (
-                  <label
-                    key={opt.id}
-                    className={`
-                      flex items-center gap-stack-xs px-3 py-2 rounded-lg
-                      cursor-pointer transition-[background-color] duration-base ease-emphasis
-                      hover:bg-primary-50
-                    `}
-                  >
-                    {/* Checkbox */}
-                    <input
-                      type="checkbox"
-                      checked={selected.includes(opt.id)}
-                      onChange={() => handleToggle(opt.id)}
-                      className="peer sr-only"
-                    />
-                    <div
-                      className={`
-                        w-5 h-5 rounded-md border-2 flex items-center justify-center
-                        transition-[background-color,border-color] duration-base ease-emphasis
-                        ${
-                          selected.includes(opt.id)
-                            ? 'bg-primary-500 border-primary-500'
-                            : 'border-ink-300 bg-white'
-                        }
-                      `}
-                    >
-                      {selected.includes(opt.id) && (
-                        <span className="text-white text-caption font-bold">✓</span>
-                      )}
-                    </div>
-                    <span className={`text-body-sm transition-colors duration-base ${selected.includes(opt.id) ? 'text-ink-900 font-semibold' : 'text-ink-600'}`}>
-                      {opt.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="px-4 py-3 border-t border-ink-100 flex gap-stack-xs">
+            {isActive && (
+              <div className="px-2.5 py-1.5 border-t border-ink-100/70">
                 <button
-                  onClick={() => {
-                    onChange([]);
-                    setIsOpen(false);
-                  }}
-                  className="flex-1 px-3 py-2 text-body-sm text-ink-600 hover:text-ink-900 font-medium rounded-lg hover:bg-ink-100 transition-[background-color,color] duration-fast ease-standard"
+                  type="button"
+                  onClick={() => onChange([])}
+                  className="w-full px-2 py-1 text-caption text-ink-500 hover:text-ink-900 font-medium rounded-md hover:bg-ink-100/60 transition-colors duration-fast text-left"
                 >
                   Réinitialiser
                 </button>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="flex-1 px-3 py-2 text-body-sm text-white font-medium bg-primary-500 rounded-lg hover:bg-primary-600 transition-[background-color] duration-fast ease-standard"
-                >
-                  Fermer
-                </button>
               </div>
-            </div>
-          </>
-        )}
-      </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

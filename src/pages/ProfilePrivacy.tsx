@@ -132,7 +132,9 @@ export default function ProfilePrivacy() {
   };
 
   return (
-    <PageShell width="content" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="content" noPadTop>
+      <AccountFamilyNav active="privacy" />
+
       <EditorialHero
         eyebrow="Confidentialité · RGPD & IA Act"
         title="Confidentialité & RGPD"
@@ -147,8 +149,6 @@ export default function ProfilePrivacy() {
       />
 
       <div className="flex flex-col gap-section">
-        <AccountFamilyNav active="privacy" />
-
         {/* Info alert */}
         <Alert variant="info" icon={<Shield size={18} />}>
           Tes données sont hébergées en Europe et traitées conformément au Règlement Général sur la Protection des Données (RGPD). Tu peux exercer tes droits à tout moment.

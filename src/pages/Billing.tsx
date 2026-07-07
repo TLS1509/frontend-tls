@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -363,18 +364,17 @@ export const Billing: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-surface">
-      <PageShell width="content" paddingX="comfortable">
+      <PageShell width="content" noPadTop>
 
         <AccountFamilyNav active="billing" />
 
-        <header className="flex flex-col gap-tight">
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-tight">
-            Facturation & abonnement
-          </h1>
-          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
-            Gérez votre formule, vos crédits, vos factures et votre méthode de paiement.
-          </p>
-        </header>
+        <PageHero
+          eyebrow="Profil · Facturation"
+          title="Facturation & abonnement"
+          summary="Gérez votre formule, vos crédits, vos factures et votre méthode de paiement."
+          tone="flat"
+          trailing={<Badge variant="brand">{tierConfig.name} · Actif</Badge>}
+        />
 
         <Tabs
           items={TAB_ITEMS}

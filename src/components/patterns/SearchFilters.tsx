@@ -140,6 +140,12 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     filters.forEach((a) => (isToggle(a) ? a.onChange(false) : a.onChange([])));
   };
 
+  /** A select axis resolved to a dropdown control is self-describing (trigger shows its own
+   *  label as placeholder), so the panel skips the redundant group label for it. */
+  const isDropdownAxis = (axis: SearchFilterAxis): boolean =>
+    !isToggle(axis) &&
+    (axis.control === 'dropdown' || (axis.control !== 'chips' && axis.options.length > chipThreshold));
+
   /** Render the control(s) for one axis (no group label — caller adds it in panel mode). */
   const renderAxisControl = (axis: SearchFilterAxis): React.ReactNode => {
     if (isToggle(axis)) {
@@ -155,10 +161,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
         />
       );
     }
-    const useDropdown =
-      axis.control === 'dropdown' ||
-      (axis.control !== 'chips' && axis.options.length > chipThreshold);
-    if (useDropdown) {
+    if (isDropdownAxis(axis)) {
       return (
         <SelectCheckbox
           options={axis.options.map((o) => ({ id: o.id, label: o.label }))}
@@ -234,10 +237,19 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
         />
 
         {panelOpen && (
-          <div className="flex flex-col gap-stack rounded-2xl border border-ink-200 bg-white p-stack shadow-sm animate-[filterIn_0.18s_ease_both]">
+          <div
+            className={[
+              'flex flex-wrap items-center gap-stack-xs p-2.5 rounded-2xl',
+              'bg-white/70 backdrop-blur-glass-light border border-white/60',
+              'shadow-[0_8px_24px_-8px_rgba(85,161,180,0.18)]',
+              'animate-[filterIn_0.18s_ease]',
+            ].join(' ')}
+          >
             {filters.map((axis) => (
               <div key={axis.id} className="flex flex-col gap-stack-xs">
-                <span className="font-body text-caption font-medium text-ink-500">{axis.label}</span>
+                {!isDropdownAxis(axis) && (
+                  <span className="font-body text-caption font-medium text-ink-500">{axis.label}</span>
+                )}
                 <div
                   className="flex flex-wrap items-center gap-stack-xs"
                   role="group"
@@ -247,9 +259,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                 </div>
               </div>
             ))}
-            {hasActive && (
-              <div className="flex justify-end pt-tight border-t border-ink-100">{resetButton}</div>
-            )}
+            {hasActive && <div className="ml-auto">{resetButton}</div>}
           </div>
         )}
       </div>

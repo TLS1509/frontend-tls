@@ -20,6 +20,7 @@ import { Badge } from '../components/ui/Badge';
 import { SettingsRow } from '../components/patterns/SettingsRow';
 import { useToastContext } from '../contexts/ToastContext';
 import { AccountFamilyNav } from '../components/patterns/AccountFamilyNav';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { useTheme } from '../hooks/useTheme';
 import { PageShell } from '../components/layout';
 import {
@@ -257,22 +258,18 @@ export const Account: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('general');
 
   return (
-    <PageShell width="content" noPadTop={false}>
+    <PageShell width="content" noPadTop>
       {/* ── Account family sub-nav ───────────────────────────── */}
       <AccountFamilyNav active="account" />
 
       {/* ── Page header ──────────────────────────────────────── */}
-      <header className="flex items-start justify-between gap-stack">
-        <div className="flex flex-col gap-tight">
-          <h1 className="m-0 font-display text-h2 font-bold text-ink-900 leading-tight tracking-headline">
-            Mon compte
-          </h1>
-          <p className="m-0 font-body text-body-sm text-ink-500 max-w-prose">
-            Informations personnelles, sécurité et préférences d'interface.
-          </p>
-        </div>
-        <Badge variant="brand" className="shrink-0 mt-1">Plan Pro · Actif</Badge>
-      </header>
+      <PageHero
+        eyebrow="Profil · Mon compte"
+        title="Mon compte"
+        summary="Informations personnelles, sécurité et préférences d'interface."
+        tone="flat"
+        trailing={<Badge variant="brand">Plan Pro · Actif</Badge>}
+      />
 
       {/* ── Tabs ─────────────────────────────────────────────── */}
       <Tabs
