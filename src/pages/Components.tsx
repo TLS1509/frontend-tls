@@ -4907,6 +4907,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: 'Card pour un item du LearningSpace (9 types: astuces, flashcard, ressource, guide, vidéo, micro-learning, mission, masterclass). 9 ItemTypes → 5 tones (brand/warm/sun/success/danger). 3 états: accessible (CTA "Accéder"), complété (badge CheckCircle2 vert -top-2 -left-2 + CTA "Revoir"), locked (opacity-60, lock row enrichi avec raison+message, CTA disabled). Layout 6 zones: badge+DURATION_PILL+level+bubble / titre+desc / theme tag / lock row conditionnel / progress bar 3px conditionnel / CTA full-width. DURATION_PILL = plus proéminent (bg-ink-100 border-ink-200 text-ink-700 semibold) vs META_PILL (bg-ink-50 text-ink-500). Props: isCompleted?, progress? (0-100), onClick wired via resolveItemRoute() dans LearningSpace.',
     keywords: ['learning', 'item', 'card', 'astuces', 'flashcard', 'mission', 'video', 'locked', 'completed', 'progress', 'tone', 'badge', 'dreyfus'],
     usedBy: ['LearningSpace'],
+    toneAware: true,
     render: () => (
       <div className="flex flex-col gap-section">
         <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Accessible — brand / warm / sun</p>
@@ -7192,55 +7193,6 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
 
-  {
-    name: 'LearningItemCard',
-    codeName: 'learning/LearningItemCard.tsx',
-    cssBase: 'learning-item-card',
-    category: 'Learning',
-    description: 'Card for learning resources in LearningSpace grid/list. ResourceCard pattern: tone-aware gradient backgrounds + tinted outline. Icon bubble top-right corner. Consistent padding (p-4) ensures same-size cards in grids. Features: type badge, duration meta, completion badge overlay, lock state, progress bar, tone-aware footer pills.',
-    keywords: ['learning', 'resource', 'card', 'astuces', 'flashcard', 'video', 'mission', 'grid', 'learningspace'],
-    usedBy: ['LearningSpace', 'Recommendations', 'DiscoveryFeed'],
-    toneAware: true,
-    render: () => (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack max-w-4xl">
-        <LearningItemCard
-          id="demo-1"
-          type="astuces"
-          title="Structurer un prompt efficace"
-          description="Apprenez les 4 piliers clés pour créer des prompts qui fonctionnent."
-          duration="12 min"
-          dreyfusLevel={2}
-          theme="Prompt Engineering"
-          isAccessible={true}
-          isCompleted={false}
-        />
-        <LearningItemCard
-          id="demo-2"
-          type="flashcard"
-          title="Raccourcis clavier essentiels"
-          description="Mémorisez les raccourcis qui font gagner du temps."
-          duration="8 min"
-          dreyfusLevel={1}
-          theme="Productivité"
-          isAccessible={true}
-          isCompleted={true}
-        />
-        <LearningItemCard
-          id="demo-3"
-          type="mission"
-          title="Projet SBO"
-          description="Appliquez la méthodologie Skills Based Organisation à un cas réel."
-          duration="3 jours"
-          dreyfusLevel={3}
-          theme="Organisation"
-          isAccessible={false}
-          isCompleted={false}
-          denialReason="tier"
-          denialMessage="Upgrade requis pour accéder aux missions"
-        />
-      </div>
-    ),
-  },
 ];
 
 /* ============================================================================
