@@ -102,7 +102,7 @@ const CinematicHero: React.FC = () => {
       >
         {reduced ? (
           <img
-            src="/images/bg-frames/watercolour-reveal-7s.jpg"
+            src="/images/bg-frames/aquarelle-hero-loop-poster.jpg"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -114,11 +114,11 @@ const CinematicHero: React.FC = () => {
             muted
             playsInline
             preload="auto"
-            poster="/images/bg-frames/watercolour-reveal-7s.jpg"
+            poster="/images/bg-frames/aquarelle-hero-loop-poster.jpg"
             className="absolute inset-0 w-full h-full object-cover"
             tabIndex={-1}
           >
-            <source src="/videos/watercolour-reveal-8s.mp4" type="video/mp4" />
+            <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
           </video>
         )}
       </motion.div>

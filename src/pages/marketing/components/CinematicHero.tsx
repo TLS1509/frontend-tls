@@ -112,7 +112,7 @@ const VideoBackground: React.FC<{
           aria-hidden
           tabIndex={-1}
         >
-          <source src="/videos/watercolour-reveal-8s.mp4" type="video/mp4" />
+          <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
         </video>
       </motion.div>
 

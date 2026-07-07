@@ -60,7 +60,7 @@ const HeroCentered: React.FC<HeroSectionProps> = ({ animation = true, children }
             className="absolute inset-0 w-full h-full object-cover"
             tabIndex={-1}
           >
-            <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
+            <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
           </video>
         )}
       </div>
@@ -113,7 +113,7 @@ const HeroCinematic: React.FC<HeroSectionProps> = ({ animation = true, children 
             className="absolute inset-0 w-full h-full object-cover"
             tabIndex={-1}
           >
-            <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
+            <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
           </video>
         )}
       </div>
@@ -170,7 +170,7 @@ const HeroParallax: React.FC<HeroSectionProps> = ({ animation = true, children }
             className="absolute inset-0 w-full h-full object-cover"
             tabIndex={-1}
           >
-            <source src="/videos/watercolour-reveal-4s.mp4" type="video/mp4" />
+            <source src="/videos/aquarelle-hero-loop.mp4" type="video/mp4" />
           </video>
         )}
       </div>
