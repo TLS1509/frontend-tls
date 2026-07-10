@@ -34,6 +34,8 @@ import {
   BadgeCheck,
   GraduationCap,
   Compass,
+  UserRound,
+  Building2,
 } from 'lucide-react';
 import { Button } from '../../components/core/Button';
 import {
@@ -281,6 +283,85 @@ const Offers: React.FC = () => (
   </section>
 );
 
+// ─── 3bis. Pour qui : les 3 offres ci-dessus servent 2 chemins différents ────
+// Ajoutée le 07/07/2026 — tension "2 audiences" identifiée dans le doc
+// stratégique Sitemap & Structure Homepage (29/06/2026) : le site doit servir
+// à la fois des formateurs individuels et des responsables L&D en organisation.
+// Pas de prix ici (aucun n'est public ailleurs sur le site — tout reste "sur
+// devis") : on décrit le chemin, pas le tarif.
+
+const PourQui: React.FC = () => (
+  <section className="relative py-page bg-white border-t border-ink-100">
+    <div className="max-w-wide mx-auto px-6 flex flex-col gap-section-lg">
+      <FadeInWhenVisible>
+        <div className="max-w-2xl flex flex-col gap-stack">
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] font-extrabold text-ink-900 leading-[1.05] tracking-tight m-0">
+            Pour qui, <span className="text-primary-600">concrètement</span> ?
+          </h2>
+          <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
+            La même méthode, deux points d'entrée. À vous de choisir celui qui
+            correspond à votre situation aujourd'hui.
+          </p>
+        </div>
+      </FadeInWhenVisible>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+        <FadeInWhenVisible direction="up">
+          <Link
+            to="/website/learning-app"
+            className="group relative flex h-full flex-col gap-stack-lg overflow-hidden rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50/60 via-white to-primary-100/30 p-section transition-all duration-500 hover:-translate-y-1 hover:border-primary-300 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          >
+            <div aria-hidden className="absolute -bottom-20 -right-20 w-72 h-72 rounded-pill bg-primary-200/30 blur-3xl pointer-events-none" />
+            <div className="relative flex flex-col gap-stack">
+              <div className="inline-flex w-12 h-12 rounded-xl bg-primary-100 items-center justify-center text-primary-700 group-hover:scale-110 transition-transform duration-base">
+                <UserRound size={22} />
+              </div>
+              <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
+                Vous êtes formateur ou pédagogue.
+              </h3>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+                Devenez Formateur Augmenté par l'IA : une formation certifiante
+                (en partenariat avec C-Campus), un Open Badge vérifiable, puis
+                la Learning App pour continuer à progresser une fois certifié.
+              </p>
+            </div>
+            <div className="relative flex items-center gap-stack-xs text-primary-700 font-semibold text-body-sm">
+              <span>Se former</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-base" />
+            </div>
+          </Link>
+        </FadeInWhenVisible>
+
+        <FadeInWhenVisible direction="up" delay={0.08}>
+          <Link
+            to="/website/accompagnement"
+            className="group relative flex h-full flex-col gap-stack-lg overflow-hidden rounded-2xl border border-secondary-100 bg-gradient-to-br from-secondary-50/60 via-white to-secondary-100/30 p-section transition-all duration-500 hover:-translate-y-1 hover:border-secondary-300 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary-500"
+          >
+            <div aria-hidden className="absolute -bottom-20 -right-20 w-72 h-72 rounded-pill bg-secondary-200/30 blur-3xl pointer-events-none" />
+            <div className="relative flex flex-col gap-stack">
+              <div className="inline-flex w-12 h-12 rounded-xl bg-secondary-100 items-center justify-center text-secondary-700 group-hover:scale-110 transition-transform duration-base">
+                <Building2 size={22} />
+              </div>
+              <h3 className="font-display text-h3 font-bold text-ink-900 m-0 leading-tight">
+                Vous pilotez une organisation ou une équipe L&D.
+              </h3>
+              <p className="font-body text-body text-ink-600 leading-relaxed m-0">
+                L'accompagnement STRIDE structure votre transformation vers une
+                logique de compétences, de l'audit au déploiement, avec la
+                Learning App incluse la première année.
+              </p>
+            </div>
+            <div className="relative flex items-center gap-stack-xs text-secondary-700 font-semibold text-body-sm">
+              <span>Transformer mon organisation</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-base" />
+            </div>
+          </Link>
+        </FadeInWhenVisible>
+      </div>
+    </div>
+  </section>
+);
+
 // ─── 4. Méthode : diagramme SkillMap (fusionné avec MethodSteps, 03/07/2026) ─
 // SkillMapSection porte désormais aussi la copy Learn/Do/Match en captions
 // sous le diagramme — plus de section séparée qui redisait la même boucle.
@@ -344,6 +425,9 @@ export const MarketingHome: React.FC = () => {
 
       {/* ── 3. Ce qu'on propose (offre remontée pour la clarté) ─────────────── */}
       <Offers />
+
+      {/* ── 3bis. Pour qui : formateur individuel vs organisation ────────────── */}
+      <PourQui />
 
       {/* ── 4. Méthode : diagramme SkillMap (avec captions Learn/Do/Match) ──── */}
       <SkillMapSection />
