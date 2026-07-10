@@ -230,3 +230,16 @@ Un seul moment fort par section. Quand tu hésites, choisis la sobriété.
 | `/website/_v2-chemin` | Le Chemin | paysage-rotonde | Éditorial chaud |
 
 « Cinematic Editorial » (ce brief) = synthèse : hero peint (Jardin/Chemin) + moment produit (B) + retenue de rythme.
+
+---
+
+## Annexe — Décisions tagline (10/07/2026)
+
+Brainstorm multi-rounds (A→H) sur le H1 de la home. Deux lignes validées, une seule en prod pour l'instant :
+
+| Ligne | Statut | Où | Notes |
+|---|---|---|---|
+| **E** — « L'IA n'éclipse pas vos formateurs. Elle les met en lumière. » | ✅ **En prod** | H1 Home (`MarketingHome.tsx`) | Analogie lumière/éclipse. Le mot « lumière » tombe en `accent-400` (or) — copie et couleur se renforcent. Rime avec le bandeau Conviction juste en dessous sans répéter les mêmes mots. |
+| **G** — « Le formateur reste au centre. L'IA lui rend du temps. » | 🟡 **Validée, en banque** | Aucun (pas encore placée) | Réutilise le mot « rend du temps » du bandeau Conviction — trop proche pour remplacer ce bandeau sans perdre les 2 précisions qu'il porte (personnaliser/mesurer). Décision explicite (10/07/2026) : rester sur la direction lumière/éclipse pour l'instant, ne pas diluer avec une 2e image (formateur au centre) tant que E n'est pas déployée ailleurs sur le site. À ressortir pour : un post LinkedIn, une variante A/B du H1, ou une autre page si le thème lumière ne s'y prête pas. |
+
+Si une future session de motion (cf. Partie 3) explore une vidéo hero sur le thème lumière/éclipse, c'est E qui doit la piloter — pas G.
