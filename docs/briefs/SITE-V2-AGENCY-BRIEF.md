@@ -220,6 +220,146 @@ Un seul moment fort par section. Quand tu hésites, choisis la sobriété.
 
 ---
 
+## PARTIE 4 — Prompts Higgsfield : génération vidéo « éclipse → lumière » (4 DA à tester, 10/07/2026)
+
+Contexte : le H1 de la Home est *« L'IA n'éclipse pas vos formateurs. Elle les met en
+lumière. »* (accent-400 sur la 2e phrase). Les essais code-only (glow radial) et
+watercolour (crossfade, radial-glow sur l'aquarelle existante) sont déjà en place
+(`/website/_eclipse-trials`). Ce qui manque : une vraie vidéo générée, cinématique,
+scène de ciel nocturne avec une planète/lune dorée qui tourne et une lumière qui
+perce — mais **jamais en rendu sci-fi/3D générique**. C'est précisément ce qui a fait
+échouer les 4 candidats Pexels testés (rendu solaire 3D texturé, VFX spatial, lens
+flare rouge/vert) : tous lisibles comme stock-footage documentaire, pas comme la
+peinture éditoriale du reste du site.
+
+### Contraintes communes aux 4 DA (à répéter dans chaque prompt Higgsfield)
+
+**Palette — tokens réels, pas de hex approximatif :**
+- Ciel nocturne : teal très sombre, proche de `primary-900` **#1F3E45**, PAS un noir pur
+  neutre (le hero vidéo actuel utilise déjà `rgba(15,42,48)` pour sa vignette — même
+  famille de couleur, pour que la vidéo générée s'intègre sans à-plat).
+- Planète / lune : or chaud, `accent-400` **#F8B044** — jamais gris/blanc lunaire classique.
+- Rayons de lumière / halo horizon : dégradé `secondary-500` **#ED843A** (orange chaud)
+  → `accent-400` **#F8B044** (or), jamais un blanc pur qui écraserait la palette.
+- Aucune couleur froide additionnelle (pas de violet, pas de rose, pas de vert) —
+  seulement teal sombre + orange + or, l'exacte palette TLS.
+
+**Texture / rendu — pour éviter l'écueil Pexels :**
+- Peint / illustré, PAS photoréaliste 3D. Penser aquarelle numérique ou matte painting,
+  pas rendu CGI type jeu vidéo ou documentaire spatial.
+- Pas de texture de surface détaillée sur la planète (pas de cratères, pas de taches
+  solaires, pas de relief — une sphère lisse, presque un disque plat stylisé).
+- Grain subtil autorisé (cohérent avec le grain déjà utilisé sur `SkillMapSection`).
+
+**Mouvement — règle du tutoriel Media Vault (transcript lu en entier) :**
+- Mouvement lent, continu, **sans zoom in/out** (« l'animation doit être lisse avec
+  une vraie profondeur de mouvement, pas de zoom » — c'est le site qui gère le zoom
+  au scroll séparément si besoin, jamais la vidéo elle-même).
+- Boucle de 8-10s, 16:9, 1920×1080 minimum (idéalement le rendu le plus haut dispo
+  côté Higgsfield/Cinema Studio).
+- Aucun texte, logo ou overlay généré dans la vidéo — tout ça se fait en CSS/React
+  par-dessus, jamais baked-in (cf. règle du tutoriel : « n'ajoutez pas d'overlay »).
+
+---
+
+### DA 1 — « Aube minérale » (la plus proche du glow déjà en prod)
+
+Une sphère dorée immobile en haut-tiers du cadre, une brume chaude qui respire
+doucement autour, aucun mouvement de caméra. La plus sobre des 4 — extension directe
+du glow radial déjà codé.
+
+```
+Cinematic night sky scene, very dark deep teal background (not pure black, closer to
+a muted dark teal-green, hex #1F3E45 tonal family). A smooth, matte, warm golden
+sphere (hex #F8B044, no craters, no surface texture, almost a flat glowing disc)
+sits in the upper third of the frame. A soft warm haze breathes gently around it,
+gradient from deep teal at the edges to warm orange (#ED843A) close to the sphere.
+Faint, soft light rays extend slowly outward from behind the sphere, warm gold to
+soft orange gradient, low opacity, painterly not photorealistic. Style: digital
+watercolour / matte painting, not 3D render, not photoreal, no visible surface
+texture on the sphere, no lens flare, no stars, no CGI look. Camera is completely
+static, no zoom in or out, no pan. Motion is only in the haze and light rays,
+breathing slowly. Calm, premium, editorial mood — restrained, not dramatic sci-fi.
+Loopable, 8-10 seconds, 16:9, 1920x1080 or higher.
+```
+
+### DA 2 — « Éclipse qui se lève » (reprend le schéma déjà prototypé, en vrai vidéo)
+
+Un disque sombre couvre partiellement la sphère dorée puis glisse lentement pour la
+révéler — littéralement l'éclipse qui se lève. Reprend le concept du prototype
+schématique déjà codé (`eclipse-schema-diagram.mp4`) mais en rendu peint/cinématique.
+
+```
+Cinematic night sky scene, very dark deep teal background (#1F3E45 tonal family,
+not pure black). A smooth matte golden sphere (#F8B044, no surface texture, flat
+glowing disc) is partially covered by a dark near-black circular silhouette
+(slightly darker than the background, #141f22). Over the duration of the clip, the
+dark silhouette slides slowly and smoothly to one side, gradually revealing more of
+the golden sphere and its warm light. As it uncovers, soft warm light rays (orange
+#ED843A to gold #F8B044 gradient) grow gently outward. Style: digital watercolour /
+matte painting, not 3D render, not photoreal, no craters, no lens flare, no stars.
+Camera is static, no zoom in or out. The only motion is the sliding silhouette and
+the growing soft light. Calm, deliberate pacing - this should read as a slow reveal,
+not a dramatic event. Loopable if possible (silhouette can slide back at the very
+end), 8-10 seconds, 16:9, 1920x1080 or higher.
+```
+
+### DA 3 — « Aurore TLS » (la plus safe — évite complètement le "planète 3D")
+
+Pas de sphère du tout : un ruban de lumière façon aurore boréale, peint, qui ondule
+doucement dans un ciel sombre. Évite entièrement l'écueil "rendu planète CGI" identifié
+sur Pexels, en gardant la même palette et la même émotion (lumière qui émerge du noir).
+
+```
+Cinematic night sky scene, very dark deep teal background (#1F3E45 tonal family).
+Soft painterly ribbons of light drift slowly across the upper half of the frame,
+like a gentle aurora - colors flowing gradually between warm orange (#ED843A) and
+warm gold (#F8B044), never cool colors (no green, no purple, no blue in the light
+itself - only the dark teal background is cool). The light ribbons move slowly and
+organically, like watercolour bleeding across paper, not like sharp digital aurora
+photography. A small, soft, out-of-focus warm golden glow sits low in the frame,
+barely a suggestion of a light source rather than a defined sphere. Style: digital
+watercolour / matte painting, painterly and soft-edged throughout, absolutely no
+photorealistic 3D rendering, no stars, no lens flare, no CGI look. Camera static,
+no zoom, no pan. Calm, slow, meditative movement only in the light ribbons.
+Loopable, 8-10 seconds, 16:9, 1920x1080 or higher.
+```
+
+### DA 4 — « Horizon doré » (la plus littéralement "aube/aurore")
+
+Composition façon lever de soleil : la sphère est basse dans le cadre, proche d'une
+ligne d'horizon suggérée, le ciel se dégrade du sombre en haut vers le chaud en bas.
+La plus proche de "l'aube" au sens propre du terme, moins abstraite que la DA3, moins
+frontale que la DA1/DA2.
+
+```
+Cinematic scene, wide static shot. Sky gradient from very dark deep teal at the top
+(#1F3E45 tonal family) down through warm orange (#ED843A) to warm gold (#F8B044)
+near a soft, undefined horizon line low in the frame - like a stylized dawn, not a
+literal landscape (no ground, no landscape detail, just the gradient sky and light).
+A smooth matte golden sphere (#F8B044, no craters, no surface texture) sits low near
+the horizon, partially soft-glowing into the gradient below it. Gentle warm light
+rays fan out slowly from the sphere upward into the dark teal sky. Style: digital
+watercolour / matte painting, painterly, soft-edged, not 3D render, not photoreal,
+no stars, no lens flare, no CGI look. Camera completely static, no zoom, no pan -
+only the light and haze move, slowly and continuously. Calm, warm, hopeful mood.
+Loopable, 8-10 seconds, 16:9, 1920x1080 or higher.
+```
+
+### Comment les tester (avant de payer Higgsfield)
+
+1. Générer les 4 DA une par une (ou 2-3 variations de la DA qui te parle le plus en
+   premier, pour ne pas cramer tes crédits sur les 4 d'un coup).
+2. Chaque clip → l'ajouter dans `/website/_eclipse-trials` (déjà construit, il suffit
+   d'ajouter une entrée dans `VARIANTS` avec le fichier téléchargé) pour comparer avec
+   le H1 réel dessus, à égalité avec les essais déjà en place.
+3. Trancher une seule DA avant de regénérer quoi que ce soit — ne pas mélanger 2 DA
+   sur la même page.
+4. Si aucune des 4 ne convainc à la génération, le glow radial déjà en prod
+   (`eclipse-radial-glow-hero.mp4`, gratuit, déjà codé) reste la valeur de repli.
+
+---
+
 ## Annexe — Rappel des 4 directions déjà prototypées
 
 | Route | Direction | Asset | Registre |
