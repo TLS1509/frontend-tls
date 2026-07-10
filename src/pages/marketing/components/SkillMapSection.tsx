@@ -95,11 +95,11 @@ const SAT_NODES = [
 const CAPTIONS = [
   {
     title: 'Apprendre, à votre rythme.',
-    body: "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur ce qui compte pour votre métier : pas un catalogue de vidéos à consommer.",
+    body: "Un parcours adaptatif qui part de votre niveau réel (échelle Dreyfus) et vous fait progresser sur les compétences dont vous avez besoin aujourd'hui.",
   },
   {
     title: 'Mettre en pratique, sur du concret.',
-    body: "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel : accompagné, jamais seul.",
+    body: "Vous appliquez immédiatement sur vos propres projets. La compétence se construit en faisant, et se prouve sur un livrable réel, avec un coach à chaque étape.",
   },
   {
     title: 'Valoriser, et faire matcher.',

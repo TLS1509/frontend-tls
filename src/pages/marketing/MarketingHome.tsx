@@ -216,7 +216,7 @@ const OFFERS: Offer[] = [
     icon: <GraduationCap size={24} />,
     title: 'Formation certifiante',
     desc:
-      "Formateurs Augmentés, méthode STRIDE, pédagogie active. Devenez architecte de l'apprentissage IA-augmenté.",
+      "Formateurs Augmentés, méthode STRIDE, pédagogie active. Une certification reconnue, un Open Badge vérifiable à la clé.",
     link: '/website/learning-app',
     cta: 'Voir la formation',
   },
@@ -225,7 +225,7 @@ const OFFERS: Offer[] = [
     icon: <Compass size={24} />,
     title: 'Accompagnement',
     desc:
-      'Conseil stratégique, déploiement sur mesure, pilotage de la montée en compétences. Avec vous, pas pour vous.',
+      'Conseil stratégique, déploiement sur mesure, pilotage de la montée en compétences, aux côtés de vos équipes.',
     link: '/website/accompagnement',
     cta: "Voir l'accompagnement",
   },
@@ -248,8 +248,8 @@ const Offers: React.FC = () => (
           </h2>
           <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0">
             Une plateforme d'apprentissage, une formation certifiante et un
-            accompagnement stratégique, vers la même destination : une
-            organisation qui apprend vraiment.
+            accompagnement stratégique. Formateur ou organisation : chacun y
+            trouve son chemin.
           </p>
         </div>
       </FadeInWhenVisible>
@@ -478,9 +478,9 @@ export const MarketingHome: React.FC = () => {
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.08}>
                 <p className="font-body text-body-lg text-ink-600 leading-relaxed m-0 max-w-md">
-                  Pas de demo call, pas de slides. Cliquez sur les onglets,
-                  regardez l'app fonctionner, comprenez en trente secondes ce que
-                  vivent vos apprenants.
+                  Cliquez sur les onglets, regardez l'app fonctionner, et
+                  comprenez en trente secondes ce que vivent vos apprenants :
+                  aucun rendez-vous à caler, aucune slide à préparer.
                 </p>
               </FadeInWhenVisible>
               <FadeInWhenVisible delay={0.16}>
@@ -524,8 +524,8 @@ export const MarketingHome: React.FC = () => {
                     On préfère prouver que survendre.
                   </h2>
                   <p className="font-body text-body text-ink-600 leading-relaxed m-0 max-w-sm">
-                    Pas de métriques gonflées ni de logos empruntés. Voici ce
-                    qu'on peut affirmer aujourd'hui : le reste viendra avec les
+                    Voici ce qu'on peut affirmer aujourd'hui, sans métriques
+                    gonflées ni logos empruntés : le reste viendra avec les
                     premiers parcours terminés.
                   </p>
                 </div>
@@ -570,7 +570,7 @@ export const MarketingHome: React.FC = () => {
                 </h3>
                 <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
                   Six étapes qui relient le besoin métier, le parcours et la
-                  preuve de compétence. Sans jargon, sans détour.
+                  preuve de compétence, expliquées simplement.
                 </p>
                 <span className="inline-flex items-center gap-stack-xs font-body text-body-sm font-bold text-primary-700 min-h-touch">
                   Découvrir la méthode
@@ -589,7 +589,7 @@ export const MarketingHome: React.FC = () => {
                 </h3>
                 <p className="font-body text-body text-ink-700 leading-relaxed m-0 flex-1">
                   Des analyses concrètes et des retours de terrain, pour décider
-                  en connaissance de cause, pas sur la hype.
+                  en connaissance de cause.
                 </p>
                 <span className="inline-flex items-center gap-stack-xs font-body text-body-sm font-bold text-secondary-700 min-h-touch">
                   Lire nos analyses
@@ -614,7 +614,7 @@ export const MarketingHome: React.FC = () => {
               <MeshGradientBg tone="ink" intensity="subtle" />
               <div className="relative max-w-content flex flex-col gap-stack-lg">
                 <h2 className="font-display font-extrabold text-white leading-[1.02] tracking-tight m-0 [text-wrap:balance] text-[clamp(2.25rem,5vw,4rem)]">
-                  Discutons de vos enjeux, pas de la hype.
+                  Discutons de vos enjeux, concrètement.
                 </h2>
                 <p className="font-body text-body-lg text-white/80 leading-relaxed m-0 max-w-2xl">
                   Trente minutes pour comprendre votre contexte et tracer le chemin
