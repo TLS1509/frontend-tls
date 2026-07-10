@@ -99,7 +99,17 @@ const Hero: React.FC = () => {
         )}
       </motion.div>
 
-      <div aria-hidden className="absolute inset-0 bg-black/45 pointer-events-none" />
+      {/* Lisibilité ciblée (pas de washout uniforme) : vignette ink-teal
+          concentrée derrière le texte centré, transparente aux bords → la
+          vidéo se montre riche en périphérie tout en gardant le texte AA. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(120% 85% at 50% 52%, rgba(15,42,48,0.60) 0%, rgba(15,42,48,0.34) 44%, rgba(15,42,48,0) 78%)',
+        }}
+      />
 
       <div className="relative min-h-[100dvh] flex items-center justify-center">
         <motion.div
