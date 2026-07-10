@@ -218,6 +218,8 @@ import { HomeJardinVivantV2 } from './pages/marketing/_prototypes/HomeJardinViva
 import { HomeCheminV2 } from './pages/marketing/_prototypes/HomeCheminV2';
 import { EclipseHeroTrials } from './pages/marketing/_prototypes/EclipseHeroTrials';
 import { StickyVideoCards } from './pages/marketing/_prototypes/StickyVideoCards';
+import { StickyVideoCardsDepth } from './pages/marketing/_prototypes/StickyVideoCardsDepth';
+import { ImmersiveParallaxStory } from './pages/marketing/_prototypes/ImmersiveParallaxStory';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
@@ -541,6 +543,8 @@ function App() {
           <Route path="_v2-chemin" element={<HomeCheminV2 />} />
           <Route path="_eclipse-trials" element={<EclipseHeroTrials />} />
           <Route path="_sticky-video-cards" element={<StickyVideoCards />} />
+          <Route path="_sticky-video-cards-depth" element={<StickyVideoCardsDepth />} />
+          <Route path="_immersive-parallax-story" element={<ImmersiveParallaxStory />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
