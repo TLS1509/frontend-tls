@@ -78,6 +78,9 @@ const Hero: React.FC = () => {
   });
   const scale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.15]);
   const videoOpacity = useTransform(scrollYProgress, [0, 0.75, 1], reduced ? [1, 1, 1] : [1, 0.4, 0]);
+  // Même source de scroll que la vidéo (pas une couche parallax indépendante) —
+  // le glow s'estompe au même rythme en descendant la page.
+  const glowScrollOpacity = useTransform(scrollYProgress, [0, 0.6, 1], reduced ? [1, 1, 1] : [1, 0.35, 0]);
 
   return (
     <section ref={sectionRef} className="relative min-h-[100dvh] overflow-hidden bg-black">
@@ -120,6 +123,29 @@ const Hero: React.FC = () => {
             'radial-gradient(120% 85% at 50% 52%, rgba(15,42,48,0.60) 0%, rgba(15,42,48,0.34) 44%, rgba(15,42,48,0) 78%)',
         }}
       />
+
+      {/* Lueur dorée "éclipse → lumière" : écho visuel du H1 ("Elle les met
+          en lumière", en accent-400). Glow radial derrière le texte, révélé
+          une fois au chargement (pas de boucle infinie — reste sobre), puis
+          s'estompe au scroll sur la même source que la vidéo (pas de couche
+          parallax indépendante). 100% CSS/framer-motion, aucun asset vidéo. */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: glowScrollOpacity }}
+      >
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(40% 34% at 50% 46%, rgba(248,176,68,0.85) 0%, rgba(248,176,68,0.30) 48%, rgba(248,176,68,0) 76%)',
+            filter: 'blur(48px)',
+          }}
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 0.55, scale: 1 }}
+          transition={{ duration: reduced ? 0 : 2.4, delay: reduced ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </motion.div>
 
       <div className="relative min-h-[100dvh] flex items-center justify-center">
         <motion.div
