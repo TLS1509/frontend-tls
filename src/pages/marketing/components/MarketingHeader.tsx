@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, ArrowRight, Users, Compass, Award, LayoutGrid, X } from 'lucide-react';
+import { ChevronDown, ArrowRight, Users, Compass, Award, LayoutGrid, GraduationCap, X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from '../../../components/core/Button';
 import { MagneticButton } from '../../../components/marketing/motion';
@@ -15,7 +15,23 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Accueil', href: '/website' },
   { label: 'Learning App', href: '/website/learning-app' },
-  { label: 'Accompagnement', href: '/website/accompagnement' },
+  {
+    label: 'Accompagnement',
+    dropdown: [
+      {
+        label: 'Accompagnement STRIDE',
+        href: '/website/accompagnement',
+        desc: 'Nous transformons votre dispositif avec vous',
+        icon: <Compass size={16} />,
+      },
+      {
+        label: 'Upskilling L&D',
+        href: '/website/upskilling',
+        desc: 'Votre équipe apprend à le faire elle-même',
+        icon: <GraduationCap size={16} />,
+      },
+    ],
+  },
   {
     label: 'Ressources',
     dropdown: [

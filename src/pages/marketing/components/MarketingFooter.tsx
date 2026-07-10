@@ -19,6 +19,7 @@ const LinkedInIcon: React.FC<{ size?: number }> = ({ size = 15 }) => (
 const NAV_LINKS = [
   { label: 'Learning App', href: '/website/learning-app' },
   { label: 'Accompagnement', href: '/website/accompagnement' },
+  { label: 'Upskilling L&D', href: '/website/upskilling' },
   { label: 'Méthode', href: '/website/methode' },
   { label: 'Ressources', href: '/website/resources' },
   { label: 'Témoignages', href: '/website/temoignages' },

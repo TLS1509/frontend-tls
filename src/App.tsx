@@ -225,6 +225,7 @@ import { MarketingResources } from './pages/marketing/MarketingResources';
 import { MarketingMethode } from './pages/marketing/MarketingMethode';
 import { MarketingTemoignages } from './pages/marketing/MarketingTemoignages';
 import { MarketingAccompagnement } from './pages/marketing/MarketingAccompagnement';
+import { MarketingUpskilling } from './pages/marketing/MarketingUpskilling';
 import { MarketingLearningApp } from './pages/marketing/MarketingLearningApp';
 import { MarketingVariantLab } from './pages/marketing/MarketingVariantLab';
 import { MarketingArticleDetail } from './pages/marketing/MarketingArticleDetail';
@@ -541,6 +542,7 @@ function App() {
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
           <Route path="formation" element={<Navigate to="/website/learning-app" replace />} />
           <Route path="accompagnement" element={<MarketingAccompagnement />} />
+          <Route path="upskilling" element={<MarketingUpskilling />} />
           <Route path="learning-app" element={<MarketingLearningApp />} />
           {/* Magazine et Dossiers n'ont plus de hub dédié — un seul hub
               "Ressources" agrège tous les formats (Phase consolidation). */}
