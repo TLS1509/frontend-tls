@@ -216,6 +216,7 @@ import { HomeCinematicRevealV2 } from './pages/marketing/_prototypes/HomeCinemat
 import { HomeInterfaceChoreographyV2 } from './pages/marketing/_prototypes/HomeInterfaceChoreographyV2';
 import { HomeJardinVivantV2 } from './pages/marketing/_prototypes/HomeJardinVivantV2';
 import { HomeCheminV2 } from './pages/marketing/_prototypes/HomeCheminV2';
+import { EclipseHeroTrials } from './pages/marketing/_prototypes/EclipseHeroTrials';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
@@ -537,6 +538,7 @@ function App() {
           <Route path="_v2-cinematic-b" element={<HomeInterfaceChoreographyV2 />} />
           <Route path="_v2-jardin" element={<HomeJardinVivantV2 />} />
           <Route path="_v2-chemin" element={<HomeCheminV2 />} />
+          <Route path="_eclipse-trials" element={<EclipseHeroTrials />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
