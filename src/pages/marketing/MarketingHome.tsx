@@ -22,6 +22,14 @@
  * contenu texte (h1/p/CTA) garde son fade-in au chargement, non lié au
  * scroll, pour ne jamais risquer de le faire disparaître en pleine lecture.
  * Neutralisé sous prefers-reduced-motion (scale/opacity fixés à 1).
+ *
+ * 10/07/2026 — H1 retravaillé (brainstorm tagline multi-rounds, décision
+ * utilisateur) : "L'IA n'éclipse pas vos formateurs. Elle les met en
+ * lumière." L'analogie lumière fait écho à la couleur accent-400 (or) posée
+ * sur la 2e phrase, et rime avec le bandeau Conviction juste en dessous
+ * ("L'IA ne remplace pas le formateur. Elle l'aide à..."). Piste ouverte,
+ * non traitée ici : vidéo hero sur le thème lumière/éclipse pour appuyer la
+ * tagline visuellement (actuel aquarelle-hero-loop.mp4 gardé pour l'instant).
  */
 
 import React from 'react';
@@ -120,9 +128,9 @@ const Hero: React.FC = () => {
           transition={{ duration: 1.2, delay: 0.4, ease: 'easeOut' }}
           className="w-full max-w-page mx-auto px-6 py-page text-center flex flex-col items-center gap-stack-lg"
         >
-          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[24ch] text-[clamp(3rem,7vw,5.5rem)]">
-            Vos formateurs,{' '}
-            <span className="text-accent-400">augmentés par l'IA</span>.
+          <h1 className="font-display font-extrabold text-white leading-[0.98] tracking-display m-0 [text-wrap:balance] max-w-[30ch] text-[clamp(3rem,7vw,5.5rem)]">
+            L'IA n'éclipse pas vos formateurs.{' '}
+            <span className="text-accent-400">Elle les met en lumière.</span>
           </h1>
 
           <p className="font-body text-body-lg text-white/85 leading-relaxed m-0 max-w-[62ch]">
