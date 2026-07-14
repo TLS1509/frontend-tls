@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA générative et ingénierie pédagogique : état de l'art 2026 — The Learning Society</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tls-primary-500: #55A1B4;
+            --tls-primary-600: #4A8FA1;
+            --tls-primary-700: #3D7786;
+            --tls-primary-900: #1F3E45;
+            --tls-orange-500: #ED843A;
+            --tls-yellow-400: #F8B044;
+            --tls-ink-900: #252B37;
+            --g-hero: linear-gradient(120deg, #3D7786 0%, #55A1B4 30%, #ED843A 75%, #F8B044 100%);
+            --g-achievement: linear-gradient(135deg, #F8B044, #ED843A);
+            --shadow-md: 0 4px 12px -2px rgba(18, 24, 28, 0.08);
+            --shadow-card: 0 1px 3px rgba(237,132,58,0.07), 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-card-hover: 0 4px 14px rgba(237,132,58,0.11), 0 2px 6px rgba(0,0,0,0.07);
+            --shadow-xl: 0 28px 72px -20px rgba(18, 24, 28, 0.22);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 400;
+            color: var(--tls-ink-900);
+            background: linear-gradient(180deg, #f0f9ff 0%, #fef3e2 100%);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+        
+        .hero {
+            background: var(--g-hero);
+            padding: 80px 24px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><circle cx="200" cy="100" r="120" fill="rgba(255,255,255,0.03)"/><circle cx="900" cy="250" r="180" fill="rgba(255,255,255,0.04)"/><circle cx="500" cy="300" r="100" fill="rgba(255,255,255,0.02)"/></svg>') no-repeat center;
+            background-size: cover;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 16px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 64px);
+            color: white;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        
+        .hero-meta {
+            font-size: 16px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 999px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 6px 8px;
+            backdrop-filter: blur(12px);
+            transition: all 200ms ease;
+        }
+        
+        .badge:hover {
+            background: rgba(255,255,255,0.22);
+            transform: scale(1.02);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        .section {
+            margin-top: -60px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 32px;
+            transition: all 200ms ease;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-card-hover);
+            transform: scale(1.005);
+        }
+        
+        .card-title {
+            font-size: 20px;
+            color: var(--tls-primary-900);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title-icon {
+            font-size: 24px;
+        }
+        
+        h2 {
+            font-size: 32px;
+            color: var(--tls-primary-900);
+            margin: 60px 0 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(85, 161, 180, 0.15);
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: var(--tls-primary-700);
+            margin: 40px 0 16px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+        
+        ul, ol {
+            margin: 20px 0 20px 24px;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: var(--tls-ink-900);
+        }
+        
+        .executive-summary {
+            background: linear-gradient(135deg, rgba(85, 161, 180, 0.08), rgba(248, 176, 68, 0.08));
+            border-left: 4px solid var(--tls-primary-600);
+        }
+        
+        .executive-summary ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .executive-summary li {
+            padding-left: 32px;
+            position: relative;
+        }
+        
+        .executive-summary li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--g-achievement);
+            border-radius: 50%;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+            font-size: 16px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        
+        thead {
+            background: var(--tls-primary-600);
+            color: white;
+        }
+        
+        th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        tbody tr:hover {
+            background: rgba(85, 161, 180, 0.04);
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .next-steps {
+            background: linear-gradient(135deg, #F8B044, #ED843A);
+            color: white;
+            border: none;
+        }
+        
+        .next-steps h2 {
+            color: white;
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+        
+        .next-steps strong {
+            color: white;
+            font-weight: 700;
+        }
+        
+        .sources {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 2px solid rgba(0,0,0,0.06);
+        }
+        
+        .sources h2 {
+            margin-top: 0;
+        }
+        
+        .source-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .source-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 999px;
+            text-decoration: none;
+            color: var(--tls-ink-900);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-card);
+            transition: all 200ms ease;
+        }
+        
+        .source-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: var(--tls-primary-500);
+        }
+        
+        .source-chip-favicon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .source-chip-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 8px;
+            background: var(--tls-primary-600);
+            color: white;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .ref {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: rgba(85, 161, 180, 0.12);
+            color: var(--tls-primary-700);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            margin: 0 2px;
+            transition: all 150ms ease;
+        }
+        
+        .ref:hover {
+            background: var(--tls-primary-600);
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 60px 24px 40px;
+            color: rgba(37, 43, 55, 0.6);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px 80px;
+            }
+            
+            .card {
+                padding: 32px 24px;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow">DOSSIER TLS — 21 MAI 2026</div>
+            <h1>IA générative et ingénierie pédagogique : état de l'art 2026</h1>
+            <div class="hero-meta">
+                Audience : L&D managers, ingénieurs pédagogiques, DRH francophones (≥ 3 ans d'expérience)
+            </div>
+            <div>
+                <span class="badge">🎯 EdTech</span>
+                <span class="badge">📚 L&D</span>
+                <span class="badge">🧠 IA</span>
+                <span class="badge">💼 Formation Pro</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="card executive-summary">
+                <div class="card-title">
+                    <span class="card-title-icon">📌</span>
+                    Résumé exécutif
+                </div>
+                <ul>
+                    <li><strong>Adoption massive</strong> : En 2026, 68 % des équipes L&D utilisent au moins un outil d'IA générative dans leur processus de conception pédagogique <a href="#source-29" class="ref">29</a>.</li>
+                    <li><strong>Gain de productivité documenté</strong> : Les LLM réduisent de 40 à 60 % le temps de production de contenus e-learning (scripts, quiz, études de cas), mais exigent une validation humaine systématique <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Cadre réglementaire français</strong> : Qualiopi (indicateurs 6, 17, 21) et l'AI Act européen imposent documentation, traçabilité et justification pédagogique de tout usage IA en formation <a href="#source-24" class="ref">24</a>.</li>
+                    <li><strong>Glissement de rôle</strong> : L'ingénieur pédagogique devient « architecte de prompt et de parcours » plutôt que producteur de contenu brut — la conception de l'expérience apprenant reste non-délégable à l'IA <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Risque transmissif</strong> : Sans cadrage, l'IA reproduit des pédagogies exposées (cours magistraux numérisés) — le biais du tout-transmissif est le principal écueil identifié en 2026 <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Agentic workflows</strong> : Les IA connectées (orchestration LMS + LLM + générateurs de slides + Notion) deviennent le nouveau standard de production L&D <a href="#source-20" class="ref">20</a>.</li>
+                    <li><strong>Évaluation redessinée</strong> : Les outils de détection IA étant peu fiables, l'évaluation se déplace vers la mise en situation, le jugement contextualisé et la performance observable <a href="#source-20" class="ref">20</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>1. Contexte et enjeux</h2>
+
+                <h3>1.1 Un marché en accélération</h3>
+                <p>Depuis fin 2023, l'IA générative a quitté le statut d'expérimentation pour devenir une composante opérationnelle des chaînes de production L&D. En France, 2026 s'impose comme l'année de l'industrialisation : les budgets formation IA en entreprise ont progressé de +34 % entre 2024 et 2026, portés par l'obligation européenne de compétences spécifiques (AI Act, article 4) et la pression sur les coûts de production pédagogique <a href="#source-21" class="ref">21</a>.</p>
+                <p>L'enjeu n'est plus « faut-il utiliser l'IA ? » mais « comment l'intégrer sans dégrader la qualité pédagogique ? »</p>
+
+                <h3>1.2 Tensions structurelles</h3>
+                <p>Trois tensions majeures structurent le débat en 2026 <a href="#source-23" class="ref">23</a><a href="#source-25" class="ref">25</a> :</p>
+                <ul>
+                    <li><strong>Vitesse vs. qualité</strong> : la génération rapide de contenus crée une inflation de modules pauvres sur le plan pédagogique.</li>
+                    <li><strong>Personnalisation vs. cohérence</strong> : les parcours adaptatifs IA peuvent diverger des objectifs institutionnels sans cadrage rigoureux.</li>
+                    <li><strong>Autonomie apprenant vs. dépendance IA</strong> : le risque de substitution cognitive (l'IA pense à la place de l'apprenant) est documenté par l'OCDE <a href="#source-25" class="ref">25</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>2. Analyse / Benchmark</h2>
+
+                <h3>2.1 Cartographie des usages IA en ingénierie pédagogique</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cas d'usage</th>
+                            <th>Outils représentatifs</th>
+                            <th>Gain estimé</th>
+                            <th>Maturité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Génération de scripts / storyboards</td>
+                            <td>ChatGPT-4o, Claude 3.5, Mistral Large</td>
+                            <td>−45 % temps rédaction</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Création de quiz et évaluations</td>
+                            <td>Quizgecko, Coursebox AI, Magic School</td>
+                            <td>−60 % temps production</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Personnalisation des parcours (adaptive)</td>
+                            <td>360Learning AI, Docebo Shape, Cornerstone</td>
+                            <td>+18 % rétention</td>
+                            <td>En déploiement</td>
+                        </tr>
+                        <tr>
+                            <td>Génération de vidéos pédagogiques</td>
+                            <td>Synthesia, HeyGen, Canva AI</td>
+                            <td>−50 % coût vidéo</td>
+                            <td>Mature</td>
+                        </tr>
+                        <tr>
+                            <td>Copilote formateur (préparation séances)</td>
+                            <td>Perplexity, NotebookLM, ChatGPT Projects</td>
+                            <td>−30 % préparation</td>
+                            <td>Adoption rapide</td>
+                        </tr>
+                        <tr>
+                            <td>Analyse des données d'apprentissage</td>
+                            <td>Watershed (xAPI), Learning Locker, Degreed</td>
+                            <td>Insights temps réel</td>
+                            <td>Émergent</td>
+                        </tr>
+                        <tr>
+                            <td>Workflows agentiques (orchestration multi-outils)</td>
+                            <td>n8n + LLM, Zapier AI, Make + GPT-4</td>
+                            <td>Automatisation fin-à-fin</td>
+                            <td>Pilotes avancés</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>2.2 Positionnement des acteurs</h3>
+                <p><strong>Acteurs internationaux</strong> : 360Learning (France) intègre un moteur IA collaboratif natif ; Coursera et LinkedIn Learning déploient des copilotes d'apprentissage personnalisés ; Degreed positionne l'IA au cœur de l'ingénierie des compétences <a href="#source-29" class="ref">29</a>.</p>
+                <p><strong>Acteurs français</strong> : Rise Up, Beedeez et Teachizy investissent dans la génération automatique de modules. Le marché reste fragmenté avec une forte pression sur les prix unitaires de production <a href="#source-21" class="ref">21</a>.</p>
+                <p>Pour les modèles LLM, GPT-4o (OpenAI) et Claude 3.5/3.7 (Anthropic) dominent en qualité rédactionnelle pédagogique. Mistral Large gagne du terrain pour les usages souverains en France (conformité RGPD, hébergement UE) <a href="#source-27" class="ref">27</a>.</p>
+
+                <h3>2.3 Le nouvel ingénieur pédagogique augmenté</h3>
+                <p>La règle d'or : <strong>injecter ses documents sources dans les prompts</strong> pour que l'IA structure le contenu autour des valeurs et de la matière propres à l'organisme <a href="#source-18" class="ref">18</a>. Les nouvelles compétences clés sont :</p>
+                <ul>
+                    <li><strong>Prompt engineering pédagogique</strong> : formuler des contraintes de niveau, de modalité, de durée et de technique pédagogique dans chaque prompt.</li>
+                    <li><strong>Validation critique</strong> : détecter les biais transmissifs, vérifier la variété des techniques proposées sur les formations longues.</li>
+                    <li><strong>Architecture de parcours</strong> : définir les squelettes pédagogiques que l'IA remplit, plutôt que déléguer la structure elle-même.</li>
+                    <li><strong>Éthique et traçabilité</strong> : documenter les outils IA utilisés (fiches outil pour audit Qualiopi).</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>3. Implications pour la formation professionnelle</h2>
+
+                <h3>3.1 Qualiopi et AI Act : ce que les OF doivent savoir</h3>
+                <p>En France, Qualiopi n'interdit pas l'IA, mais impose depuis 2025–2026 que tout usage soit documenté (indicateur 6 : adaptation des contenus ; indicateur 17 : moyens pédagogiques), validé humainement avant diffusion, transparent vis-à-vis des apprenants, et traçable dans le processus qualité <a href="#source-24" class="ref">24</a>.</p>
+                <p>L'AI Act européen (pleinement applicable en 2026) classe certains usages IA en formation dans les systèmes à « risque limité » ou « haut risque » selon leur impact sur l'évaluation et l'orientation — un point de vigilance pour les organismes utilisant l'IA dans l'évaluation certificative <a href="#source-27" class="ref">27</a>.</p>
+
+                <h3>3.2 Impacts concrets sur l'ingénierie de formation</h3>
+                <ul>
+                    <li>Le temps économisé sur la production doit être réinvesti dans la <strong>conception de l'expérience apprenant</strong> (scénarios, mises en situation, social learning) <a href="#source-26" class="ref">26</a>.</li>
+                    <li>L'évaluation doit migrer vers des formats <strong>non duplicables par l'IA</strong> : projets appliqués, démonstrations, évaluations par les pairs, entretiens de compétences <a href="#source-20" class="ref">20</a>.</li>
+                    <li>Les LMS doivent intégrer des <strong>tableaux de bord analytics exploitables en temps réel</strong> pour ajuster les parcours selon la progression <a href="#source-29" class="ref">29</a>.</li>
+                </ul>
+
+                <h3>3.3 Risques à maîtriser</h3>
+                <ul>
+                    <li><strong>Hallucinations</strong> : les LLM produisent des contenus plausibles mais inexacts — une relecture experte reste non-négociable sur tout contenu diffusé <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Homogénéisation des contenus</strong> : à force d'utiliser les mêmes outils, les formations se ressemblent — différencier par la contextualisation métier <a href="#source-23" class="ref">23</a>.</li>
+                    <li><strong>Dépendance fournisseur</strong> : les outils IA SaaS peuvent modifier leurs tarifs ou conditions — anticiper par des clauses contractuelles spécifiques <a href="#source-23" class="ref">23</a>.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>4. Recommandations pratiques</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Horizon</th>
+                            <th>Action</th>
+                            <th>Priorité</th>
+                            <th>Ressources</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Court terme<br>(0–3 mois)</strong></td>
+                            <td>Cartographier les usages IA actuels et identifier les quick wins (quiz, résumés, scripts)</td>
+                            <td>⚡ Haute</td>
+                            <td>1 atelier IP (2h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Former les IP au prompt engineering pédagogique (2h atelier pratique + guide interne)</td>
+                            <td>⚡ Haute</td>
+                            <td>Formateur + guide</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Créer une fiche outil IA par application utilisée (conformité Qualiopi)</td>
+                            <td>⚡ Haute</td>
+                            <td>Template procédure</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Court terme</strong></td>
+                            <td>Définir une politique de validation humaine systématique des contenus IA</td>
+                            <td>⚡ Haute</td>
+                            <td>Procédure qualité</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme<br>(3–12 mois)</strong></td>
+                            <td>Mettre en place un workflow agentique de production (LMS + LLM + générateur de slides)</td>
+                            <td>🔷 Moyenne</td>
+                            <td>DSI + L&D</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Refondre le dispositif d'évaluation : migrer vers l'évaluation par la performance</td>
+                            <td>🔷 Moyenne</td>
+                            <td>Refonte ingénierie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Déployer un copilote apprenant (chatbot contextuel dans le LMS)</td>
+                            <td>🔷 Moyenne</td>
+                            <td>Budget tech</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Moyen terme</strong></td>
+                            <td>Constituer un comité IA formation (L&D + Juridique + DPO) pour gouvernance</td>
+                            <td>🔷 Moyenne</td>
+                            <td>Réunion mensuelle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card next-steps">
+                <div class="card-title">
+                    <span class="card-title-icon">🗓️</span>
+                    Next steps — pour un L&D manager
+                </div>
+                <ol>
+                    <li><strong>Semaine 1</strong> : Organiser un atelier « état des lieux IA » avec l'équipe IP (2h) — cartographier les usages existants, identifier les pratiques non documentées, prioriser 3 cas d'usage à formaliser immédiatement <a href="#source-18" class="ref">18</a>.</li>
+                    <li><strong>Mois 1</strong> : Lancer une formation interne au prompt engineering pédagogique — s'appuyer sur un LLM de référence unique pour l'équipe (Claude 3.7 ou Mistral Large pour l'hébergement UE) et produire un guide interne du prompt pédagogique <a href="#source-24" class="ref">24</a>.</li>
+                    <li><strong>Trimestre 1</strong> : Produire un module pilote 100 % IA-assisté sur un sujet à faible enjeu certificatif, mesurer le gain de temps réel, documenter le processus et le soumettre à un audit Qualiopi blanc avant de généraliser <a href="#source-24" class="ref">24</a>.</li>
+                </ol>
+            </div>
+
+            <div class="sources">
+                <h2>📎 Sources consultées</h2>
+                <div class="source-chips">
+                    <a href="https://www.blog-formation-entreprise.fr/ia-ingenierie-pedagogique-depasser-biais-transmissif/" target="_blank" class="source-chip" id="source-18">
+                        <img src="https://www.google.com/s2/favicons?domain=blog-formation-entreprise.fr&sz=32" alt="" class="source-chip-favicon">
+                        <span>Blog Formation-Entreprise</span>
+                        <span class="source-chip-number">18</span>
+                    </a>
+                    <a href="https://www.digitallearninginstitute.com/blog/ai-for-learning-in-2026-what-s-new-what-s-next-and-what-it-means-for-educators" target="_blank" class="source-chip" id="source-20">
+                        <img src="https://www.google.com/s2/favicons?domain=digitallearninginstitute.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Digital Learning Institute</span>
+                        <span class="source-chip-number">20</span>
+                    </a>
+                    <a href="https://www.savoiria.fr/formation-ia-entreprise-france-2026/" target="_blank" class="source-chip" id="source-21">
+                        <img src="https://www.google.com/s2/favicons?domain=savoiria.fr&sz=32" alt="" class="source-chip-favicon">
+                        <span>SavoirIA</span>
+                        <span class="source-chip-number">21</span>
+                    </a>
+                    <a href="https://iventiv.com/news/2026-ld-trends-skills-based-organisations-ai-governance-and-learning-culture" target="_blank" class="source-chip" id="source-23">
+                        <img src="https://www.google.com/s2/favicons?domain=iventiv.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Iventiv</span>
+                        <span class="source-chip-number">23</span>
+                    </a>
+                    <a href="https://www.koudeclat.com/blog/ia-formation-professionnelle-qualiopi-2026" target="_blank" class="source-chip" id="source-24">
+                        <img src="https://www.google.com/s2/favicons?domain=koudeclat.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>Koud Éclat</span>
+                        <span class="source-chip-number">24</span>
+                    </a>
+                    <a href="https://www.oecd.org/fr/blogs/2026/01/how-to-effectively-use-generative-ai-in-education.html" target="_blank" class="source-chip" id="source-25">
+                        <img src="https://www.google.com/s2/favicons?domain=oecd.org&sz=32" alt="" class="source-chip-favicon">
+                        <span>OCDE</span>
+                        <span class="source-chip-number">25</span>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=8ierObjiY2o" target="_blank" class="source-chip" id="source-26">
+                        <img src="https://www.google.com/s2/favicons?domain=youtube.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>YouTube</span>
+                        <span class="source-chip-number">26</span>
+                    </a>
+                    <a href="https://initial.legal/blog/comparatif-des-llm-pour-les-professionnels-du-droit" target="_blank" class="source-chip" id="source-27">
+                        <img src="https://www.google.com/s2/favicons?domain=initial.legal&sz=32" alt="" class="source-chip-favicon">
+                        <span>Initial Legal</span>
+                        <span class="source-chip-number">27</span>
+                    </a>
+                    <a href="https://www.talentlms.com/blog/ai-in-learning-and-development/" target="_blank" class="source-chip" id="source-29">
+                        <img src="https://www.google.com/s2/favicons?domain=talentlms.com&sz=32" alt="" class="source-chip-favicon">
+                        <span>TalentLMS</span>
+                        <span class="source-chip-number">29</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>The Learning Society</strong> — Conseil & Formation IA appliquée à la pédagogie</p>
+        <p>Document généré le 21 mai 2026</p>
+    </div>
+</body>
+</html>

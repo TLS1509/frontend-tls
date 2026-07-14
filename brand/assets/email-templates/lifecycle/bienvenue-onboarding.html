@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenue sur The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:40px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; }
+
+  .header { padding:36px 48px; border-bottom:1px solid #E5E7EB; display:flex; align-items:center; justify-content:space-between; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:20px; font-weight:800; color:#252B37; letter-spacing:-0.02em; }
+  .logo span { color:#4A8FA1; }
+
+  .welcome-band { background:#1F3E45; padding:56px 48px; }
+  .welcome-eyebrow { font-family:'Nunito', sans-serif; font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:16px; }
+  .welcome-title { font-family:'League Spartan', sans-serif; font-size:36px; font-weight:800; color:#FFFFFF; line-height:1.08; letter-spacing:-0.025em; margin-bottom:20px; }
+  .welcome-title em { font-style:normal; color:#F8B044; }
+  .welcome-body { font-family:'Nunito', sans-serif; font-size:15px; line-height:1.75; color:rgba(255,255,255,0.75); }
+
+  .steps { padding:40px 48px; }
+  .steps-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#9CA3AF; margin-bottom:24px; }
+  .step { display:table; width:100%; padding:16px 0; border-bottom:1px solid #F3F4F6; }
+  .step:last-child { border-bottom:none; }
+  .step-num { display:table-cell; width:32px; vertical-align:top; padding-top:2px; }
+  .step-num-inner { font-family:'League Spartan', sans-serif; font-size:12px; font-weight:800; color:#9CA3AF; letter-spacing:0.04em; }
+  .step-content { display:table-cell; vertical-align:top; padding-left:16px; }
+  .step-title { font-family:'League Spartan', sans-serif; font-size:15px; font-weight:700; color:#252B37; letter-spacing:-0.01em; margin-bottom:4px; }
+  .step-desc { font-family:'Nunito', sans-serif; font-size:13px; color:#6B7280; line-height:1.6; }
+
+  .cta-block { padding:32px 48px 40px; border-top:1px solid #E5E7EB; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:15px; font-weight:700; color:#FFFFFF; background:#ED843A; padding:14px 32px; border-radius:999px; text-decoration:none; }
+  .cta-note { font-family:'Nunito', sans-serif; font-size:12px; color:#9CA3AF; margin-top:12px; }
+
+  .info-row { background:#F3F4F6; padding:24px 48px; }
+  .info-row table { width:100%; }
+  .info-cell { padding:0 12px; vertical-align:top; }
+  .info-cell:first-child { padding-left:0; }
+  .info-cell:last-child { padding-right:0; border-right:none !important; }
+  .info-cell-border { border-right:1px solid #E5E7EB; }
+  .info-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#9CA3AF; margin-bottom:4px; }
+  .info-value { font-family:'League Spartan', sans-serif; font-size:14px; font-weight:700; color:#374151; letter-spacing:-0.01em; }
+
+  .footer { padding:24px 48px 32px; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.7; }
+  .footer-text a { color:#6B7280; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  @media only screen and (max-width:600px) {
+    .welcome-band, .steps, .cta-block, .info-row, .footer, .header { padding-left:24px !important; padding-right:24px !important; }
+    .welcome-title { font-size:28px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="logo">The Learning <span>Society</span></div>
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;color:#9CA3AF;letter-spacing:0.08em;text-transform:uppercase;">Plateforme</div>
+  </td></tr>
+
+  <!-- WELCOME BAND -->
+  <tr><td class="welcome-band">
+    <div class="welcome-eyebrow">Votre compte est activé</div>
+    <h1 class="welcome-title">Bienvenue,<br><em>[Prénom].</em></h1>
+    <p class="welcome-body">Votre espace The Learning Society est prêt. Vous pouvez dès maintenant accéder à vos parcours, à la veille stratégique et aux ressources de votre organisation.</p>
+  </td></tr>
+
+  <!-- INFO ROW -->
+  <tr><td class="info-row">
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <td class="info-cell info-cell-border" style="width:33.3%">
+          <div class="info-label">Votre compte</div>
+          <div class="info-value">[Prénom Nom]</div>
+        </td>
+        <td class="info-cell info-cell-border" style="width:33.3%">
+          <div class="info-label">Organisation</div>
+          <div class="info-value">[Entreprise]</div>
+        </td>
+        <td class="info-cell" style="width:33.3%">
+          <div class="info-label">Accès depuis</div>
+          <div class="info-value">Juin 2026</div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- STEPS -->
+  <tr><td class="steps">
+    <div class="steps-label">Pour bien démarrer</div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-num-inner">01</div></div>
+      <div class="step-content">
+        <div class="step-title">Complétez votre profil apprenant</div>
+        <div class="step-desc">Indiquez vos objectifs, votre niveau et vos préférences de format — la plateforme adapte votre parcours.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-num-inner">02</div></div>
+      <div class="step-content">
+        <div class="step-title">Explorez votre bibliothèque</div>
+        <div class="step-desc">Modules courts, ressources de veille et parcours certifiants — tout est accessible depuis votre tableau de bord.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num"><div class="step-num-inner">03</div></div>
+      <div class="step-content">
+        <div class="step-title">Activez la veille personnalisée</div>
+        <div class="step-desc">Recevez chaque semaine une sélection d'articles EdTech, L&amp;D et IA adaptée à votre contexte professionnel.</div>
+      </div>
+    </div>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td class="cta-block">
+    <a href="#" class="cta-btn">Accéder à ma plateforme →</a>
+    <p class="cta-note">Lien valable 72h · Aucun mot de passe requis</p>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      Une question ? Répondez directement à cet email ou consultez notre <a href="#">centre d'aide</a>.<br>
+      © 2026 The Learning Society · <a href="#">Se désabonner</a> · <a href="#">Politique de confidentialité</a>
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>

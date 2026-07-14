@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paiement confirmé — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:40px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; }
+
+  .header { padding:32px 48px 0; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:18px; font-weight:800; color:#252B37; letter-spacing:-0.02em; }
+  .logo span { color:#4A8FA1; }
+  .header-eyebrow { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:2px; letter-spacing:0.06em; text-transform:uppercase; }
+
+  .content { padding:32px 48px 8px; text-align:center; }
+  .badge { width:52px; height:52px; margin:0 auto 20px; background:#E8F4F7; border-radius:50%; }
+  .badge-check { display:block; font-size:20px; line-height:52px; font-weight:800; color:#2F5F6A; }
+  .title { font-family:'League Spartan', sans-serif; font-size:20px; font-weight:800; color:#252B37; letter-spacing:-0.02em; margin:0 0 4px; }
+  .amount { font-family:'League Spartan', sans-serif; font-size:40px; font-weight:800; color:#252B37; letter-spacing:-0.03em; margin:8px 0 4px; }
+  .amount-sub { font-family:'Nunito', sans-serif; font-size:13px; color:#6B7280; }
+
+  .items { padding:28px 48px 0; }
+  .items table { width:100%; border-collapse:collapse; }
+  .item-row td { padding:14px 0; border-bottom:1px solid #F3F4F6; font-family:'Nunito', sans-serif; font-size:14px; color:#374151; }
+  .item-name { font-weight:700; color:#252B37; }
+  .item-desc { font-size:12px; color:#9CA3AF; margin-top:2px; }
+  .item-amount { text-align:right; font-weight:700; color:#252B37; white-space:nowrap; }
+  .total-row td { padding:16px 0 4px; font-family:'League Spartan', sans-serif; font-size:15px; font-weight:800; color:#252B37; }
+  .total-amount { text-align:right; }
+
+  .meta-row { background:#F3F4F6; margin:28px 48px 0; border-radius:10px; }
+  .meta-row table { width:100%; }
+  .meta-cell { padding:18px 0; text-align:center; }
+  .meta-cell-inner { padding:0 16px; border-right:1px solid #E5E7EB; }
+  .meta-cell:last-child .meta-cell-inner { border-right:none; }
+  .meta-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#9CA3AF; margin-bottom:4px; }
+  .meta-value { font-family:'League Spartan', sans-serif; font-size:13px; font-weight:700; color:#252B37; }
+
+  .cta-block { padding:32px 48px 8px; text-align:center; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:15px; font-weight:700; color:#FFFFFF; background:#4A8FA1; padding:14px 32px; border-radius:999px; text-decoration:none; }
+  .cta-secondary { display:block; font-family:'Nunito', sans-serif; font-size:13px; color:#6B7280; margin-top:16px; text-decoration:none; border-bottom:1px solid #D1D5DB; display:inline-block; }
+
+  .footer { padding:28px 48px 32px; border-top:1px solid #E5E7EB; margin-top:20px; text-align:center; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.7; }
+  .footer-text a { color:#6B7280; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  @media only screen and (max-width:600px) {
+    .header, .content, .items, .cta-block, .footer { padding-left:24px !important; padding-right:24px !important; }
+    .meta-row { margin-left:24px !important; margin-right:24px !important; }
+    .amount { font-size:32px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="logo">The Learning <span>Society</span></div>
+    <div class="header-eyebrow">Reçu de paiement</div>
+  </td></tr>
+
+  <!-- CONTENT -->
+  <tr><td class="content">
+    <table cellpadding="0" cellspacing="0" role="presentation" align="center" style="margin:0 auto;"><tr><td class="badge" align="center">
+      <span class="badge-check">&#10003;</span>
+    </td></tr></table>
+    <div class="title">Paiement confirmé</div>
+    <div class="amount">89,00&nbsp;€</div>
+    <div class="amount-sub">Prélevé le [Date]</div>
+  </td></tr>
+
+  <!-- ITEMS -->
+  <tr><td class="items">
+    <table cellpadding="0" cellspacing="0" role="presentation">
+      <tr class="item-row">
+        <td>
+          <div class="item-name">Abonnement Pass Pro</div>
+          <div class="item-desc">Mensuel · renouvellement automatique</div>
+        </td>
+        <td class="item-amount">89,00&nbsp;€</td>
+      </tr>
+      <tr class="total-row">
+        <td>Total</td>
+        <td class="total-amount">89,00&nbsp;€</td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- META -->
+  <tr><td>
+    <div class="meta-row">
+      <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td class="meta-cell" style="width:33.3%">
+            <div class="meta-cell-inner">
+              <div class="meta-label">Méthode</div>
+              <div class="meta-value">•••• 4242</div>
+            </div>
+          </td>
+          <td class="meta-cell" style="width:33.3%">
+            <div class="meta-cell-inner">
+              <div class="meta-label">Référence</div>
+              <div class="meta-value">[N° transaction]</div>
+            </div>
+          </td>
+          <td class="meta-cell" style="width:33.3%">
+            <div class="meta-cell-inner">
+              <div class="meta-label">Prochain prélèvement</div>
+              <div class="meta-value">[Date]</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td class="cta-block">
+    <a href="#" class="cta-btn">Voir ma facture PDF</a><br>
+    <a href="#" class="cta-secondary">Accéder à mon espace →</a>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      Une question sur ce paiement ? <a href="#">Contactez-nous</a> · <a href="#">Gérer mon abonnement</a><br><br>
+      © 2026 The Learning Society · 12 rue de la Paix, 75002 Paris
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>

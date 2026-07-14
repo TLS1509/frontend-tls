@@ -1,0 +1,106 @@
+<!--
+  Template de notification transactionnelle — un seul fichier flexible pour toutes
+  les notifs déclenchées par un événement produit (pas des envois de masse).
+  Exemple ci-dessous rempli avec "Correction disponible" (cahier 04 Coaching).
+
+  Pour adapter à un autre type de notification, changer uniquement :
+    - .badge background + .badge-icon (couleur tone-aware : primary=coaching,
+      accent=gamification/badge, secondary=social/message)
+    - .header-eyebrow (ex. "Nouveau message", "Badge débloqué")
+    - .title + .body-text
+    - le bloc .preview (optionnel — citation/extrait, retirer le <tr> si non pertinent)
+    - le libellé du CTA
+
+  Exemples d'autres types :
+    · Nouveau message coach   → badge secondary (#FFF3EB / #C06920), icône 💬 ou "M"
+    · Badge débloqué          → badge accent (#FFF9EE / #C68D36), icône 🏅 ou "★"
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ta correction est prête — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:40px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; }
+
+  .header { padding:28px 48px; border-bottom:1px solid #E5E7EB; display:table; width:100%; }
+  .header-cell { display:table-cell; vertical-align:middle; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:18px; font-weight:800; color:#252B37; letter-spacing:-0.02em; }
+  .logo span { color:#4A8FA1; }
+  .header-pref { display:table-cell; vertical-align:middle; text-align:right; }
+  .header-pref a { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  .content { padding:40px 48px 8px; }
+  .badge-row { display:table; width:100%; margin-bottom:20px; }
+  .badge { width:44px; height:44px; background:#E8F4F7; border-radius:50%; display:table-cell; }
+  .badge-icon { display:block; font-size:16px; line-height:44px; text-align:center; font-weight:800; color:#3D7786; }
+  .header-eyebrow { font-family:'Nunito', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#4A8FA1; padding-top:14px; padding-left:14px; display:table-cell; vertical-align:middle; }
+
+  .title { font-family:'League Spartan', sans-serif; font-size:24px; font-weight:800; color:#252B37; letter-spacing:-0.02em; margin:0 0 12px; }
+  .body-text { font-family:'Nunito', sans-serif; font-size:15px; line-height:1.7; color:#4B5563; margin:0 0 24px; }
+  .body-text strong { color:#252B37; }
+
+  .preview { border-left:3px solid #ED843A; background:#F3F4F6; padding:16px 20px; margin:0 0 28px; }
+  .preview-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#9CA3AF; margin-bottom:6px; }
+  .preview-text { font-family:'Nunito', sans-serif; font-size:14px; font-style:italic; color:#374151; line-height:1.6; }
+
+  .cta-block { padding:0 0 40px; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:15px; font-weight:700; color:#FFFFFF; background:#ED843A; padding:14px 32px; border-radius:999px; text-decoration:none; }
+
+  .footer { padding:24px 48px 32px; border-top:1px solid #E5E7EB; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.7; }
+  .footer-text a { color:#6B7280; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  @media only screen and (max-width:600px) {
+    .header, .content, .footer { padding-left:24px !important; padding-right:24px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="header-cell"><div class="logo">The Learning <span>Society</span></div></div>
+    <div class="header-pref"><a href="#">Gérer mes notifications</a></div>
+  </td></tr>
+
+  <!-- CONTENT -->
+  <tr><td class="content">
+    <div class="badge-row">
+      <div class="badge"><span class="badge-icon">&#10003;</span></div>
+      <div class="header-eyebrow">Coaching · Correction</div>
+    </div>
+
+    <h1 class="title">Ta correction est prête</h1>
+    <p class="body-text"><strong>[Nom du coach]</strong> vient de corriger ton rendu « [Nom du livrable / mission] ». Prends quelques minutes pour la consulter et poser tes questions si besoin.</p>
+
+    <div class="preview">
+      <div class="preview-label">Aperçu du feedback</div>
+      <div class="preview-text">« [Extrait de 1-2 phrases du commentaire du coach, pour donner un avant-goût du contenu.] »</div>
+    </div>
+
+    <div class="cta-block">
+      <a href="#" class="cta-btn">Voir la correction →</a>
+    </div>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      Tu reçois cet email car une action a eu lieu sur ton compte The Learning Society.<br>
+      <a href="#">Gérer mes notifications</a> · <a href="#">Centre d'aide</a><br><br>
+      © 2026 The Learning Society
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TLS – Skills-Based Organizations | Dossier Stratégique 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TLS DESIGN TOKENS ─────────────────────────────────── */
+:root {
+  /* TLS Brand Colors */
+  --tls-teal:     #55A1B4;
+  --tls-orange:   #ED843A;
+  --tls-gold:     #F8B044;
+  --tls-teal-dark:#3A7F94;
+  --tls-teal-light:#A8D4DF;
+
+  /* Gradient backgrounds */
+  --bg-gradient: linear-gradient(135deg, #F0F9FF 0%, #FFF9F4 50%, #FEF3E2 100%);
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-bg-hover: rgba(255, 255, 255, 0.92);
+
+  /* Text */
+  --text-primary: #1A2A35;
+  --text-secondary: #3D5566;
+  --text-muted: #6B8494;
+  --text-faint: #9FB5C0;
+
+  /* Typography */
+  --font-display: 'League Spartan', 'Arial Black', sans-serif;
+  --font-body: 'Nunito', 'Helvetica Neue', sans-serif;
+
+  /* Type scale */
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+  --text-3xl:  clamp(2.5rem,   1rem    + 4vw,    5rem);
+
+  /* Spacing */
+  --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem;
+  --space-5:1.25rem; --space-6:1.5rem; --space-8:2rem; --space-10:2.5rem;
+  --space-12:3rem; --space-16:4rem; --space-20:5rem; --space-24:6rem;
+
+  /* Radius */
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 18px; --radius-xl: 24px; --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(85,161,180,0.10);
+  --shadow-md: 0 8px 32px rgba(85,161,180,0.15);
+  --shadow-lg: 0 16px 48px rgba(85,161,180,0.18);
+  --shadow-card: 0 4px 24px rgba(26,42,53,0.08);
+
+  /* Transitions */
+  --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET & BASE ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+img { display: block; max-width: 100%; }
+p { max-width: 72ch; text-wrap: pretty; }
+h1,h2,h3,h4,h5 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  line-height: 1.15;
+  font-weight: 700;
+}
+a { color: var(--tls-teal-dark); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--tls-orange); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+}
+
+/* ─── HEADER / NAV ─────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(240, 249, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(85,161,180,0.15);
+  padding: var(--space-3) 0;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+}
+.logo {
+  display: flex; align-items: center; gap: var(--space-3);
+  font-family: var(--font-display); font-weight: 800;
+  font-size: var(--text-lg); color: var(--text-primary);
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-mark {
+  width: 40px; height: 40px; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--tls-teal) 0%, var(--tls-teal-dark) 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(85,161,180,0.35);
+  flex-shrink: 0;
+}
+.logo-text-top { color: var(--tls-teal-dark); }
+.logo-text-sub { font-size: var(--text-xs); font-weight: 400; color: var(--text-muted); font-family: var(--font-body); display: block; margin-top: -4px; }
+
+nav { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+.nav-link {
+  font-size: var(--text-sm); font-weight: 600; font-family: var(--font-display);
+  color: var(--text-secondary); padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full); transition: all var(--transition);
+  white-space: nowrap;
+}
+.nav-link:hover { background: rgba(85,161,180,0.12); color: var(--tls-teal-dark); }
+
+.header-badge {
+  background: linear-gradient(135deg, var(--tls-teal), var(--tls-teal-dark));
+  color: white; font-size: var(--text-xs); font-weight: 700;
+  font-family: var(--font-display); padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full); white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(85,161,180,0.30);
+}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero {
+  padding: var(--space-20) var(--space-6) var(--space-16);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(85,161,180,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(248,176,68,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 60% 20%, rgba(237,132,58,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 960px; margin: 0 auto; position: relative; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: rgba(85,161,180,0.12); border: 1px solid rgba(85,161,180,0.25);
+  border-radius: var(--radius-full); padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm); font-weight: 700; font-family: var(--font-display);
+  color: var(--tls-teal-dark); margin-bottom: var(--space-6);
+  backdrop-filter: blur(8px);
+}
+.hero-eyebrow-dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--tls-teal); }
+.hero h1 {
+  font-size: var(--text-3xl); font-weight: 900;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--tls-teal-dark) 50%, var(--tls-teal) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: var(--space-6); letter-spacing: -0.02em;
+}
+.hero-subtitle {
+  font-size: var(--text-lg); color: var(--text-secondary); font-weight: 500;
+  max-width: 680px; margin: 0 auto var(--space-8);
+}
+.hero-meta {
+  display: flex; justify-content: center; gap: var(--space-6); flex-wrap: wrap;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-sm); color: var(--text-muted); font-weight: 600;
+}
+.hero-meta-item svg { width: 16px; height: 16px; color: var(--tls-teal); }
+
+/* ─── LAYOUT / CONTAINER ──────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6); }
+.container-narrow { max-width: 800px; margin: 0 auto; padding: 0 var(--space-6); }
+
+section { padding: var(--space-16) var(--space-6); }
+section:nth-child(even) { background: rgba(255,255,255,0.3); }
+
+.section-header {
+  margin-bottom: var(--space-12);
+}
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-xs); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; font-family: var(--font-display);
+  color: var(--tls-teal-dark); margin-bottom: var(--space-4);
+}
+.section-eyebrow::before {
+  content: ''; width: 20px; height: 3px;
+  background: linear-gradient(90deg, var(--tls-teal), var(--tls-orange));
+  border-radius: var(--radius-full);
+}
+.section-title {
+  font-size: var(--text-xl); font-weight: 800; color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+.section-desc {
+  font-size: var(--text-base); color: var(--text-secondary); max-width: 64ch;
+  line-height: 1.7;
+}
+
+/* ─── CARDS ────────────────────────────────────────────── */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(85,161,180,0.15);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-8);
+  transition: all var(--transition);
+}
+.card:hover {
+  background: var(--card-bg-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+/* ─── KPI STATS ────────────────────────────────────────── */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-6); max-width: 1200px; margin: 0 auto;
+}
+.kpi-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(85,161,180,0.15);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+  position: relative; overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--kpi-color-a, var(--tls-teal)), var(--kpi-color-b, var(--tls-teal-dark)));
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+.kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.kpi-card.accent-teal { --kpi-color-a: var(--tls-teal); --kpi-color-b: var(--tls-teal-dark); }
+.kpi-card.accent-orange { --kpi-color-a: var(--tls-orange); --kpi-color-b: #D4621E; }
+.kpi-card.accent-gold { --kpi-color-a: var(--tls-gold); --kpi-color-b: #E09020; }
+
+.kpi-number {
+  font-size: var(--text-2xl); font-weight: 900; font-family: var(--font-display);
+  background: linear-gradient(135deg, var(--tls-teal-dark), var(--tls-teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: var(--space-2); display: block;
+}
+.kpi-card.accent-orange .kpi-number { background: linear-gradient(135deg, #D4621E, var(--tls-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.kpi-card.accent-gold .kpi-number { background: linear-gradient(135deg, #D08820, var(--tls-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.kpi-label {
+  font-size: var(--text-sm); font-weight: 600; color: var(--text-secondary);
+  font-family: var(--font-display); line-height: 1.4;
+}
+.kpi-source {
+  display: block; font-size: var(--text-xs); color: var(--text-faint);
+  margin-top: var(--space-2); font-weight: 400;
+}
+
+/* ─── FEATURE CARDS (ASYMMETRIC) ──────────────────────── */
+.feature-grid-asym {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--space-6); max-width: 1200px; margin: 0 auto;
+}
+.feature-card-main {
+  grid-column: 1; grid-row: 1 / 3;
+}
+.feature-card-sm { grid-column: 2; }
+
+/* ─── TWO-COL GRID ─────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: var(--space-6); max-width: 1200px; margin: 0 auto; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-6); max-width: 1200px; margin: 0 auto; }
+
+/* ─── COMPANIES ────────────────────────────────────────── */
+.company-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(85,161,180,0.15);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+}
+.company-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.company-logo-placeholder {
+  width: 52px; height: 52px; border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 900; font-size: 1.1rem;
+  margin-bottom: var(--space-4); color: white;
+}
+.company-name { font-size: var(--text-lg); font-weight: 800; font-family: var(--font-display); color: var(--text-primary); margin-bottom: var(--space-2); }
+.company-tag {
+  display: inline-block; background: rgba(85,161,180,0.12); color: var(--tls-teal-dark);
+  font-size: var(--text-xs); font-weight: 700; font-family: var(--font-display);
+  padding: 2px 10px; border-radius: var(--radius-full); margin-bottom: var(--space-4);
+}
+.company-desc { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.7; }
+
+/* ─── INSIGHTS / IMPLICATIONS ──────────────────────────── */
+.insight-item {
+  display: flex; gap: var(--space-4); align-items: flex-start;
+  padding: var(--space-6);
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(85,161,180,0.12);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition);
+  box-shadow: 0 2px 12px rgba(26,42,53,0.05);
+}
+.insight-item:hover { transform: translateX(4px); box-shadow: var(--shadow-sm); }
+.insight-icon {
+  width: 44px; height: 44px; border-radius: var(--radius-md); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.insight-icon.teal { background: linear-gradient(135deg, rgba(85,161,180,0.2), rgba(85,161,180,0.1)); color: var(--tls-teal-dark); }
+.insight-icon.orange { background: linear-gradient(135deg, rgba(237,132,58,0.2), rgba(237,132,58,0.1)); color: #C4621A; }
+.insight-icon.gold { background: linear-gradient(135deg, rgba(248,176,68,0.2), rgba(248,176,68,0.1)); color: #C07820; }
+.insight-content h4 { font-size: var(--text-base); font-weight: 700; font-family: var(--font-display); color: var(--text-primary); margin-bottom: var(--space-2); }
+.insight-content p { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.65; }
+
+/* ─── OPPORTUNITIES (TLS) ──────────────────────────────── */
+.opp-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(85,161,180,0.15);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition);
+  position: relative; overflow: hidden;
+}
+.opp-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.opp-card::after {
+  content: attr(data-num);
+  position: absolute; top: var(--space-4); right: var(--space-6);
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 4rem; line-height: 1;
+  color: rgba(85,161,180,0.08); pointer-events: none;
+}
+.opp-badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: linear-gradient(135deg, rgba(85,161,180,0.15), rgba(85,161,180,0.08));
+  border: 1px solid rgba(85,161,180,0.20);
+  color: var(--tls-teal-dark); font-size: var(--text-xs); font-weight: 700;
+  font-family: var(--font-display); padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full); margin-bottom: var(--space-4);
+}
+.opp-title { font-size: var(--text-lg); font-weight: 800; font-family: var(--font-display); color: var(--text-primary); margin-bottom: var(--space-3); }
+.opp-desc { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.7; }
+.opp-pill {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  margin-top: var(--space-4); padding: var(--space-2) var(--space-4);
+  background: rgba(237,132,58,0.10); border: 1px solid rgba(237,132,58,0.20);
+  border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 700;
+  font-family: var(--font-display); color: #BE5E1A;
+}
+
+/* ─── ROADMAP ──────────────────────────────────────────── */
+.roadmap { display: flex; flex-direction: column; gap: var(--space-4); max-width: 800px; margin: 0 auto; }
+.roadmap-step {
+  display: flex; gap: var(--space-6); align-items: flex-start;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(85,161,180,0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6); box-shadow: 0 2px 16px rgba(26,42,53,0.06);
+  transition: all var(--transition);
+}
+.roadmap-step:hover { transform: translateX(6px); box-shadow: var(--shadow-sm); }
+.roadmap-step-num {
+  width: 48px; height: 48px; flex-shrink: 0; border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: white;
+}
+.roadmap-step-num.step1 { background: linear-gradient(135deg, var(--tls-teal), var(--tls-teal-dark)); }
+.roadmap-step-num.step2 { background: linear-gradient(135deg, var(--tls-orange), #C45A12); }
+.roadmap-step-num.step3 { background: linear-gradient(135deg, var(--tls-gold), #D08020); }
+.roadmap-step-info h4 { font-size: var(--text-base); font-weight: 700; font-family: var(--font-display); color: var(--text-primary); margin-bottom: var(--space-2); }
+.roadmap-step-info p { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.65; }
+
+/* ─── BIBLIOGRAPHIE ────────────────────────────────────── */
+.bib-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-4); max-width: 1200px; margin: 0 auto;
+}
+.bib-item {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(85,161,180,0.12);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  display: flex; gap: var(--space-4); align-items: flex-start;
+  transition: all var(--transition);
+  box-shadow: 0 2px 8px rgba(26,42,53,0.04);
+}
+.bib-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.bib-num {
+  min-width: 28px; height: 28px; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--tls-teal), var(--tls-teal-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.7rem;
+  color: white; flex-shrink: 0; margin-top: 2px;
+}
+.bib-content {}
+.bib-category {
+  display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; font-family: var(--font-display);
+  color: var(--tls-teal-dark); margin-bottom: var(--space-1);
+  background: rgba(85,161,180,0.1); padding: 2px 7px; border-radius: var(--radius-full);
+}
+.bib-content .bib-title { font-size: var(--text-sm); font-weight: 700; color: var(--text-primary); line-height: 1.4; font-family: var(--font-display); margin-bottom: var(--space-1); }
+.bib-content .bib-author { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: var(--space-2); }
+.bib-content .bib-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: var(--text-xs); font-weight: 700; font-family: var(--font-display);
+  color: var(--tls-teal-dark); padding: 3px 10px;
+  background: rgba(85,161,180,0.10); border: 1px solid rgba(85,161,180,0.20);
+  border-radius: var(--radius-full); transition: all var(--transition);
+}
+.bib-content .bib-link:hover { background: rgba(85,161,180,0.20); color: var(--tls-teal-dark); transform: none; }
+
+/* ─── TABLE ─────────────────────────────────────────────── */
+.data-table-wrap {
+  overflow-x: auto; border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card); background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(85,161,180,0.15);
+}
+.data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.data-table thead { background: linear-gradient(135deg, rgba(85,161,180,0.15), rgba(85,161,180,0.08)); }
+.data-table th {
+  padding: var(--space-4) var(--space-6); text-align: left;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--text-xs);
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--tls-teal-dark);
+}
+.data-table td { padding: var(--space-4) var(--space-6); color: var(--text-secondary); border-top: 1px solid rgba(85,161,180,0.08); vertical-align: top; }
+.data-table tr:hover td { background: rgba(85,161,180,0.04); }
+.data-table td:first-child { font-weight: 600; color: var(--text-primary); }
+.data-badge {
+  display: inline-block; padding: 2px 8px; border-radius: var(--radius-full);
+  font-size: 0.7rem; font-weight: 700; font-family: var(--font-display);
+}
+.data-badge.green { background: rgba(85,180,120,0.15); color: #2A6B45; }
+.data-badge.orange { background: rgba(237,132,58,0.15); color: #9E4A10; }
+.data-badge.teal { background: rgba(85,161,180,0.15); color: var(--tls-teal-dark); }
+
+/* ─── QUOTE BLOCK ──────────────────────────────────────── */
+.quote-block {
+  background: linear-gradient(135deg, rgba(85,161,180,0.08), rgba(248,176,68,0.06));
+  border: 1px solid rgba(85,161,180,0.20);
+  border-left: 4px solid var(--tls-teal);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-10);
+  margin: var(--space-8) 0; max-width: 760px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.quote-text {
+  font-size: var(--text-lg); font-weight: 700; font-family: var(--font-display);
+  color: var(--text-primary); line-height: 1.5; margin-bottom: var(--space-4);
+  font-style: italic;
+}
+.quote-source { font-size: var(--text-sm); color: var(--text-muted); font-weight: 600; }
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+.site-footer {
+  background: linear-gradient(135deg, #1A2A35, #243544);
+  color: rgba(255,255,255,0.85); padding: var(--space-16) var(--space-6);
+  margin-top: var(--space-16);
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+.footer-brand .logo-footer { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 900; margin-bottom: var(--space-4); }
+.footer-brand .logo-footer span { color: var(--tls-teal); }
+.footer-desc { font-size: var(--text-sm); color: rgba(255,255,255,0.55); line-height: 1.7; max-width: 36ch; }
+.footer-links h4 { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); color: var(--tls-teal); margin-bottom: var(--space-4); }
+.footer-links ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.footer-links a { font-size: var(--text-sm); color: rgba(255,255,255,0.6); transition: color var(--transition); }
+.footer-links a:hover { color: var(--tls-teal); }
+.footer-bottom { max-width: 1200px; margin: var(--space-12) auto 0; padding-top: var(--space-6); border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4); }
+.footer-bottom p { font-size: var(--text-xs); color: rgba(255,255,255,0.35); }
+.footer-badges { display: flex; gap: var(--space-2); }
+.footer-badge {
+  font-size: 0.65rem; font-weight: 700; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: var(--radius-full);
+  border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.4);
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .header-inner { flex-wrap: wrap; }
+  nav { display: none; }
+  .feature-grid-asym { grid-template-columns: 1fr; }
+  .feature-card-main { grid-column: 1; grid-row: auto; }
+  .feature-card-sm { grid-column: 1; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .bib-grid { grid-template-columns: 1fr; }
+  .hero { padding: var(--space-16) var(--space-4) var(--space-12); }
+  .hero h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
+}
+
+/* ─── SCROLL REVEAL ANIMATION ─────────────────────────── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 500ms ease, transform 500ms ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── DIVIDER ──────────────────────────────────────────── */
+.gradient-divider {
+  height: 3px; width: 80px; margin: var(--space-4) 0;
+  background: linear-gradient(90deg, var(--tls-teal), var(--tls-orange), var(--tls-gold));
+  border-radius: var(--radius-full);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 2L4 6.5V15.5L11 20L18 15.5V6.5L11 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="11" cy="11" r="3" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <span class="logo-text-top">TLS</span>
+        <span class="logo-text-sub">The Learning Society</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#definition" class="nav-link">Définition</a>
+      <a href="#chiffres" class="nav-link">Chiffres clés</a>
+      <a href="#entreprises" class="nav-link">Cas d'usage</a>
+      <a href="#ld" class="nav-link">L&D</a>
+      <a href="#opportunites" class="nav-link">Opportunités TLS</a>
+      <a href="#bibliographie" class="nav-link">Sources</a>
+    </nav>
+    <span class="header-badge">Dossier Format 4 · 2026</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-inner reveal">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Veille Stratégique TLS · Juin 2026
+    </div>
+    <h1>Skills-Based Organizations</h1>
+    <p class="hero-subtitle">
+      Réorganiser l'entreprise autour des compétences — le paradigme qui transforme le L&D, les RH et les organisations apprenantes en 2025–2026.
+    </p>
+    <div class="hero-meta">
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        21 sources vérifiées
+      </span>
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Mise à jour : juin 2026
+      </span>
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        France + International
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ DÉFINITION -->
+<section id="definition">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">01 · Contexte &amp; Définition</span>
+      <h2 class="section-title">Qu'est-ce qu'une<br>Skills-Based Organization ?</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">Une SBO structure ses processus RH, opérationnels et organisationnels autour des compétences individuelles et collectives, plutôt qu'autour de postes figés. C'est un changement de paradigme fondamental pour les fonctions RH et L&D.</p>
+    </div>
+
+    <div class="feature-grid-asym reveal">
+      <div class="card feature-card-main">
+        <h3 style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;margin-bottom:var(--space-6);color:var(--text-primary);">Le nouveau modèle organisationnel</h3>
+        <p style="color:var(--text-secondary);margin-bottom:var(--space-6);line-height:1.75;">Dans une organisation traditionnelle, tout s'organise autour du poste : fiche de poste → description de rôle → trajectoire de carrière définie. Dans une SBO, c'est la compétence qui devient l'unité de base. Le travail est assigné, les équipes constituées, la rémunération fixée et la mobilité organisée en fonction des compétences réelles — démontrées, pas supposées.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div style="padding:var(--space-4);background:rgba(85,161,180,0.07);border-radius:var(--radius-md);border:1px solid rgba(85,161,180,0.12);">
+            <div style="font-family:var(--font-display);font-weight:800;font-size:var(--text-sm);color:var(--text-primary);margin-bottom:var(--space-2);">🏢 Organisation traditionnelle</div>
+            <ul style="font-size:var(--text-sm);color:var(--text-muted);line-height:2;list-style:none;">
+              <li>Postes figés &amp; fiches de rôle</li>
+              <li>Recrutement = diplômes</li>
+              <li>Mobilité = promotions linéaires</li>
+              <li>Évaluation = title &amp; ancienneté</li>
+              <li>Formation = catalogue annuel</li>
+            </ul>
+          </div>
+          <div style="padding:var(--space-4);background:linear-gradient(135deg,rgba(85,161,180,0.12),rgba(248,176,68,0.08));border-radius:var(--radius-md);border:1px solid rgba(85,161,180,0.20);">
+            <div style="font-family:var(--font-display);font-weight:800;font-size:var(--text-sm);color:var(--tls-teal-dark);margin-bottom:var(--space-2);">🚀 Skills-Based Organization</div>
+            <ul style="font-size:var(--text-sm);color:var(--text-secondary);line-height:2;list-style:none;">
+              <li>Compétences &amp; capabilities dynamiques</li>
+              <li>Recrutement = skills démontrées</li>
+              <li>Mobilité interne basée sur les skills</li>
+              <li>Évaluation = impact &amp; compétences</li>
+              <li>Formation = parcours adaptatifs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card feature-card-sm" style="display:flex;flex-direction:column;gap:var(--space-4);">
+        <div>
+          <div style="font-size:2rem;margin-bottom:var(--space-2);">📋</div>
+          <h4 style="font-family:var(--font-display);font-weight:800;font-size:var(--text-base);color:var(--text-primary);margin-bottom:var(--space-2);">Recrutement</h4>
+          <p style="font-size:var(--text-sm);color:var(--text-secondary);">Sur les compétences démontrées, non les diplômes ni les expériences linéaires.</p>
+        </div>
+        <div style="border-top:1px solid rgba(85,161,180,0.12);padding-top:var(--space-4);">
+          <div style="font-size:2rem;margin-bottom:var(--space-2);">🔄</div>
+          <h4 style="font-family:var(--font-display);font-weight:800;font-size:var(--text-base);color:var(--text-primary);margin-bottom:var(--space-2);">Mobilité interne</h4>
+          <p style="font-size:var(--text-sm);color:var(--text-secondary);">Matching dynamique compétences ↔ besoins projets via talent marketplace.</p>
+        </div>
+        <div style="border-top:1px solid rgba(85,161,180,0.12);padding-top:var(--space-4);">
+          <div style="font-size:2rem;margin-bottom:var(--space-2);">💰</div>
+          <h4 style="font-family:var(--font-display);font-weight:800;font-size:var(--text-base);color:var(--text-primary);margin-bottom:var(--space-2);">Rémunération</h4>
+          <p style="font-size:var(--text-sm);color:var(--text-secondary);">Évolution basée sur les compétences acquises et certifiées.</p>
+        </div>
+      </div>
+
+      <div class="card feature-card-sm">
+        <div class="quote-block" style="margin:0;padding:var(--space-6);">
+          <p class="quote-text" style="font-size:var(--text-base);">"89 % des dirigeants considèrent que les compétences deviennent plus importantes pour définir le travail."</p>
+          <span class="quote-source">— Deloitte Global Research 2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ CHIFFRES -->
+<section id="chiffres">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">02 · Données &amp; Marché</span>
+      <h2 class="section-title">Les chiffres clés 2025–2026</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">Les données les plus récentes issues de Deloitte, WEF, Workday, LinkedIn et iMocha — le socle factuel de tout conseil SBO.</p>
+    </div>
+
+    <div class="kpi-grid reveal">
+      <div class="kpi-card accent-teal">
+        <span class="kpi-number">+107 %</span>
+        <span class="kpi-label">Efficacité placement talents (SBO vs non-SBO)</span>
+        <span class="kpi-source">Deloitte Global Research 2025</span>
+      </div>
+      <div class="kpi-card accent-orange">
+        <span class="kpi-number">+98 %</span>
+        <span class="kpi-label">Probabilité de retenir les hauts potentiels</span>
+        <span class="kpi-source">Deloitte Global Research 2025</span>
+      </div>
+      <div class="kpi-card accent-gold">
+        <span class="kpi-number">+57 %</span>
+        <span class="kpi-label">Réactivité au changement organisationnel</span>
+        <span class="kpi-source">Deloitte Global Research 2025</span>
+      </div>
+      <div class="kpi-card accent-teal">
+        <span class="kpi-number">39 %</span>
+        <span class="kpi-label">Des compétences actuelles transformées ou obsolètes d'ici 2030</span>
+        <span class="kpi-source">WEF Future of Jobs 2025</span>
+      </div>
+      <div class="kpi-card accent-orange">
+        <span class="kpi-number">81 %</span>
+        <span class="kpi-label">Des entreprises pratiquent le skills-based hiring (vs 56 % en 2022)</span>
+        <span class="kpi-source">iMocha 2026</span>
+      </div>
+      <div class="kpi-card accent-gold">
+        <span class="kpi-number">63 %</span>
+        <span class="kpi-label">Des employeurs citent les skills gaps comme frein n°1 à leur transformation</span>
+        <span class="kpi-source">WEF Future of Jobs 2025</span>
+      </div>
+      <div class="kpi-card accent-teal">
+        <span class="kpi-number">80 %</span>
+        <span class="kpi-label">Des dirigeants EMEA estiment la transition SBO bénéfique pour leur organisation</span>
+        <span class="kpi-source">Workday Global State of Skills 2025</span>
+      </div>
+      <div class="kpi-card accent-orange">
+        <span class="kpi-number">98 %</span>
+        <span class="kpi-label">Des salariés français considèrent la mise à jour des compétences comme un enjeu clé</span>
+        <span class="kpi-source">Edflex / RiseUp 2025</span>
+      </div>
+      <div class="kpi-card accent-gold">
+        <span class="kpi-number">29 Md€</span>
+        <span class="kpi-label">Chiffre d'affaires du marché formation en France (2024)</span>
+        <span class="kpi-source">France Compétences RUF 2026</span>
+      </div>
+    </div>
+
+    <!-- Tableau comparatif -->
+    <div style="margin-top:var(--space-12);">
+      <h3 class="reveal" style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;margin-bottom:var(--space-6);color:var(--text-primary);">Tableau des sources — Statistiques vérifiées</h3>
+      <div class="data-table-wrap reveal">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Indicateur</th>
+              <th>Chiffre</th>
+              <th>Périmètre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deloitte 2025</td>
+              <td>Avantage placement talents SBO</td>
+              <td><span class="data-badge green">+107 %</span></td>
+              <td>10 pays, 1 400 dirigeants</td>
+            </tr>
+            <tr>
+              <td>Deloitte 2025</td>
+              <td>Rétention hauts potentiels</td>
+              <td><span class="data-badge green">+98 %</span></td>
+              <td>Global</td>
+            </tr>
+            <tr>
+              <td>WEF FoJ 2025</td>
+              <td>Skills transformées d'ici 2030</td>
+              <td><span class="data-badge orange">39 %</span></td>
+              <td>1 000+ employeurs, 14M salariés</td>
+            </tr>
+            <tr>
+              <td>WEF FoJ 2025</td>
+              <td>Employeurs freinés par skills gaps</td>
+              <td><span class="data-badge orange">63 %</span></td>
+              <td>Global</td>
+            </tr>
+            <tr>
+              <td>Workday EMEA 2025</td>
+              <td>Transition SBO en cours</td>
+              <td><span class="data-badge teal">55 %</span></td>
+              <td>2 300 dirigeants, 22 pays</td>
+            </tr>
+            <tr>
+              <td>Workday EMEA 2025</td>
+              <td>Préoccupés pénuries futures</td>
+              <td><span class="data-badge orange">51 %</span></td>
+              <td>EMEA</td>
+            </tr>
+            <tr>
+              <td>iMocha 2026</td>
+              <td>Skills-based hiring pratiqué</td>
+              <td><span class="data-badge green">81 %</span></td>
+              <td>USA + Europe</td>
+            </tr>
+            <tr>
+              <td>Edflex / RiseUp 2025</td>
+              <td>Salariés FR : compétences = enjeu</td>
+              <td><span class="data-badge green">98 %</span></td>
+              <td>France</td>
+            </tr>
+            <tr>
+              <td>France Compétences 2026</td>
+              <td>CA marché formation FR</td>
+              <td><span class="data-badge teal">29 Md€</span></td>
+              <td>France</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Facteurs accélérateurs -->
+    <div style="margin-top:var(--space-12);">
+      <h3 class="reveal" style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;margin-bottom:var(--space-8);color:var(--text-primary);">Facteurs d'accélération 2025–2026</h3>
+      <div class="grid-3 reveal">
+        <div class="insight-item">
+          <div class="insight-icon teal">🤖</div>
+          <div class="insight-content">
+            <h4>IA générative &amp; obsolescence rapide</h4>
+            <p>39 % des compétences actuelles seront transformées d'ici 2030 (WEF). 81 % des organisations ont déjà une skills taxonomy. L'IA agit comme accélérateur brutal de l'obsolescence.</p>
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon orange">📉</div>
+          <div class="insight-content">
+            <h4>Pénuries de talents structurelles</h4>
+            <p>Le déficit mondial de talents pourrait coûter 8 500 Md$ aux entreprises d'ici 2030. 63 % des employeurs voient les skills gaps comme premier frein à leur transformation.</p>
+          </div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-icon gold">❤️</div>
+          <div class="insight-content">
+            <h4>Nouvelles attentes collaborateurs</h4>
+            <p>3/4 des travailleurs estiment que les pratiques SBO amélioreraient leur expérience. La formation est classée top 2 des raisons de mobilité (McKinsey HR Monitor Europe 2025).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ ENTREPRISES -->
+<section id="entreprises">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">03 · Cas d'usage</span>
+      <h2 class="section-title">Entreprises pionnières SBO</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">Les leaders mondiaux qui ont déjà restructuré leur organisation autour des compétences — référentiels, plateformes et résultats mesurables.</p>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="company-card">
+        <div class="company-logo-placeholder" style="background:linear-gradient(135deg,#1E4D8C,#2D6FBF);">UNI</div>
+        <div class="company-name">Unilever</div>
+        <div class="company-tag">Flex Experiences &amp; FLEX Talent Marketplace</div>
+        <p class="company-desc">Depuis 2019–2020, Unilever déploie un internal talent marketplace (Gloat + Workday) pour ses 150 000+ employés. Missions de 3 à 6 mois basées sur les compétences, indépendamment du poste. Cité par Deloitte 2025 comme référence de transformation SBO.</p>
+        <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(85,161,180,0.10);">
+          <a href="https://diginomica.com/workday-rising-emea-rolls-royce-linkedin-unilever-skills-based-organization" target="_blank" rel="noopener" class="bib-link">→ Source Diginomica</a>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-logo-placeholder" style="background:linear-gradient(135deg,#0060A9,#0078D4);">IBM</div>
+        <div class="company-name">IBM</div>
+        <div class="company-tag">SkillsBuild &amp; Workforce Skills Platform</div>
+        <p class="company-desc">Skill graph interne pour 250 000+ employés. Suppression de l'obligation de diplôme pour 50 % des postes USA. Engagement de former 30 millions de personnes d'ici 2030 via IBM SkillsBuild. Pionnier SBO reconnu par Deloitte 2025.</p>
+        <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(85,161,180,0.10);">
+          <a href="https://newsroom.ibm.com/2021-10-13-IBM-Commits-to-Skill-30-Million-People-Globally-by-2030" target="_blank" rel="noopener" class="bib-link">→ Newsroom IBM</a>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-logo-placeholder" style="background:linear-gradient(135deg,#3A5F3A,#4CAF50);">SE</div>
+        <div class="company-name">Schneider Electric</div>
+        <div class="company-tag">Open Talent Market (Eightfold AI)</div>
+        <p class="company-desc">Déployé mars 2020, basé sur l'IA (Eightfold AI). Permet aux employés de trouver projets, mentors et formations en interne. La plateforme se nourrit du profil LinkedIn de chaque employé pour construire le skill graph en temps réel.</p>
+        <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(85,161,180,0.10);">
+          <a href="https://www.cio-online.com/actualites/lire-schneider-electric-branche-une-plateforme-d-ia-sur-son-suivi-d-evolution-de-carriere" target="_blank" rel="noopener" class="bib-link">→ Source CIO Online</a>
+        </div>
+      </div>
+
+      <div class="company-card">
+        <div class="company-logo-placeholder" style="background:linear-gradient(135deg,#C41E3A,#E03050);">FR</div>
+        <div class="company-name">Contexte France</div>
+        <div class="company-tag">Marché &amp; Régulation 2026</div>
+        <p class="company-desc">29 Md€ de CA, 130 000+ organismes de formation. 87 % des entreprises françaises font de la formation à l'IA une priorité. Budget France Compétences 2026 : ~12 Md€. 43 millions de Passeports Compétences alimentés (Caisse des Dépôts).</p>
+        <div style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(85,161,180,0.10);">
+          <a href="https://cpformation.com/ruf-2025-france-competences-publie-son-rapport-sur-la-formation-professionnelle-les-chiffres-de-2024/" target="_blank" rel="noopener" class="bib-link">→ RUF France Compétences 2026</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ L&D -->
+<section id="ld">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">04 · Implications L&D &amp; OF</span>
+      <h2 class="section-title">Le L&D devient architecte<br>des compétences</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">La question centrale pour les L&D leaders n'est plus "quelle formation proposer ?" mais "comment construire les bonnes compétences assez vite pour exécuter la stratégie business ?" (LinkedIn WLR 2025).</p>
+    </div>
+
+    <div class="grid-2 reveal" style="margin-bottom:var(--space-12);">
+      <div class="insight-item">
+        <div class="insight-icon teal">🗂️</div>
+        <div class="insight-content">
+          <h4>Piloter la skills taxonomy</h4>
+          <p>Le L&D devient co-propriétaire du référentiel compétences avec RH et métiers. Un chantier de 18 à 36 mois, mais seules 34 % des entreprises ont un référentiel opérationnel.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon orange">📊</div>
+        <div class="insight-content">
+          <h4>Mesurer les skills gaps en continu</h4>
+          <p>Via learning analytics, pas seulement aux entretiens annuels. Le "time-to-skill" s'impose comme nouvel indicateur clé aux côtés des taux de certification.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon gold">🤝</div>
+        <div class="insight-content">
+          <h4>Personnaliser à grande échelle</h4>
+          <p>Parcours adaptatifs basés sur le profil de compétences réel. Les micro-certifications et badges numériques deviennent des standards reconnus sur le marché du travail.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon teal">🔀</div>
+        <div class="insight-content">
+          <h4>Acteur de la mobilité interne</h4>
+          <p>Alimenter les talent marketplaces avec des parcours ciblés. Le marché LMS mondial passe de 18 Md$ (2024) à 50 Md$ (2030) — CAGR ~20 %.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon orange">🎓</div>
+        <div class="insight-content">
+          <h4>Disruption pour les OF</h4>
+          <p>Les formats longs et généralistes cèdent du terrain face aux formations courtes, modulaires, souvent certifiantes. RNCP par blocs, ROME 4.0 — une recomposition commerciale directe.</p>
+        </div>
+      </div>
+      <div class="insight-item">
+        <div class="insight-icon gold">🛠️</div>
+        <div class="insight-content">
+          <h4>Outils du modèle SBO</h4>
+          <p>LXP avec moteur compétences (Degreed, 360Learning, EdCast), Talent Intelligence (Eightfold AI, Beamery). 360Learning + SAP SuccessFactors lancent un connecteur LXP natif en 2026.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="background:linear-gradient(135deg,rgba(85,161,180,0.08),rgba(248,176,68,0.06));">
+      <h3 style="font-family:var(--font-display);font-weight:800;font-size:var(--text-lg);color:var(--text-primary);margin-bottom:var(--space-4);">🇫🇷 Passeport de Compétences — France 2026</h3>
+      <p style="color:var(--text-secondary);margin-bottom:var(--space-4);">43 millions de passeports déjà alimentés (Caisse des Dépôts). Dispositif clé pour l'employabilité et la traçabilité des compétences — une opportunité pour les OF de valoriser leurs certifications dans l'écosystème SBO français.</p>
+      <a href="https://competences.moncompteformation.gouv.fr/espace-public/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:var(--space-2);background:linear-gradient(135deg,var(--tls-teal),var(--tls-teal-dark));color:white;padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);font-family:var(--font-display);font-weight:700;font-size:var(--text-sm);box-shadow:0 4px 16px rgba(85,161,180,0.30);transition:all var(--transition);">
+        Accéder au Passeport Compétences →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ OPPORTUNITÉS TLS -->
+<section id="opportunites">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">05 · Stratégie TLS</span>
+      <h2 class="section-title">Opportunités stratégiques<br>pour The Learning Society</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">5 pistes d'actions concrètes pour positionner TLS comme acteur de référence sur la transformation SBO en France — conseil, produit et thought leadership.</p>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="opp-card" data-num="01">
+        <div class="opp-badge">💡 Offre Conseil</div>
+        <div class="opp-title">SBO Readiness Assessment</div>
+        <p class="opp-desc">Diagnostic packagé (2 jours + rapport) sur 5 dimensions : gouvernance compétences, data skills, outils LXP, culture apprentissage, mobilité interne. S'appuie sur le cadre Deloitte 2025 comme référence méthodologique.</p>
+        <div class="opp-pill">⏱ Quick win · J+30</div>
+      </div>
+
+      <div class="opp-card" data-num="02">
+        <div class="opp-badge">🚀 Produit App</div>
+        <div class="opp-title">Skill Graph dans la learning app TLS</div>
+        <p class="opp-desc">Couche "skills intelligence" dans la roadmap produit : graphe de compétences, profil utilisateur temps réel, visualisation des gaps. Alignement API avec Workday Skills Cloud / SAP SuccessFactors pour les entreprises clientes.</p>
+        <div class="opp-pill">🛠 Roadmap · J+60</div>
+      </div>
+
+      <div class="opp-card" data-num="03">
+        <div class="opp-badge">🎓 OF Partenaires</div>
+        <div class="opp-title">Programme "Skills Architecture" pour OF</div>
+        <p class="opp-desc">Aider les OF à restructurer leur catalogue en blocs certifiables RNCP, s'aligner sur ROME 4.0 et se positionner sur les marchés SBO. Une disruption commerciale directe pour les OF qui ne l'anticipent pas.</p>
+        <div class="opp-pill">📋 Programme · J+45</div>
+      </div>
+
+      <div class="opp-card" data-num="04">
+        <div class="opp-badge">🔗 Partenariats</div>
+        <div class="opp-title">Intégrations Talent Intelligence</div>
+        <p class="opp-desc">Partenariats API avec Eightfold AI, Beamery, Workday Skills Cloud. Positionner TLS comme couche pédagogique d'un écosystème skills-based — différenciation forte vis-à-vis des LMS généralistes.</p>
+        <div class="opp-pill">🤝 Partenariats · J+90</div>
+      </div>
+
+      <div class="opp-card" data-num="05" style="grid-column:span 2;">
+        <div class="opp-badge">📰 Thought Leadership</div>
+        <div class="opp-title">Baromètre SBO France — Publication Annuelle</div>
+        <p class="opp-desc">Enquête annuelle auprès de 200 DRH/CLO français. Publication Q4 2026, en partenariat académique (CNAM, Sciences Po). Génération de leads qualifiés et positionnement thought leadership — le baromètre de référence sur la maturité SBO en France. Modèle : Baromètre Deloitte Human Capital Trends + Josh Bersin Company Annual Report.</p>
+        <div class="opp-pill">📊 Publication · Q4 2026</div>
+      </div>
+    </div>
+
+    <!-- Roadmap 90 jours -->
+    <div style="margin-top:var(--space-16);">
+      <h3 class="reveal" style="font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;margin-bottom:var(--space-8);color:var(--text-primary);">Roadmap 90 jours — Prochaines étapes</h3>
+      <div class="roadmap reveal">
+        <div class="roadmap-step">
+          <div class="roadmap-step-num step1">J+30</div>
+          <div class="roadmap-step-info">
+            <h4>Diagnostic SBO Readiness</h4>
+            <p>Créer le questionnaire 30 items basé sur le cadre Deloitte 2025. Lancer le pilote avec 2 clients TLS (ETI et grand compte). Produire un template de rapport "SBO Readiness Score" sur 5 dimensions.</p>
+          </div>
+        </div>
+        <div class="roadmap-step">
+          <div class="roadmap-step-num step2">J+60</div>
+          <div class="roadmap-step-info">
+            <h4>Roadmap Skill Graph — App TLS</h4>
+            <p>Spécifications module "Profil Compétences" : skill tagging, dashboard gap, visualisation. Étude des API Workday Skills Cloud &amp; SAP SuccessFactors. Wireframes du parcours utilisateur "skills-based" dans l'app.</p>
+          </div>
+        </div>
+        <div class="roadmap-step">
+          <div class="roadmap-step-num step3">J+90</div>
+          <div class="roadmap-step-info">
+            <h4>Baromètre SBO France — Lancement</h4>
+            <p>Design de l'enquête (200 DRH/CLO). Identification d'un partenaire académique (CNAM ou Sciences Po). Planification publication Q4 2026. Stratégie de diffusion (Centre Inffo, EdTech France, médias RH).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ BIBLIOGRAPHIE -->
+<section id="bibliographie">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">06 · Bibliographie</span>
+      <h2 class="section-title">Sources &amp; Références</h2>
+      <div class="gradient-divider"></div>
+      <p class="section-desc">21 sources vérifiées et directement accessibles — rapports de référence, études sectorielles, données marché France et ressources thought leadership pour approfondir chaque dimension du dossier SBO.</p>
+    </div>
+
+    <div class="bib-grid reveal">
+
+      <!-- RAPPORTS MAJEURS -->
+      <div class="bib-item">
+        <div class="bib-num">1</div>
+        <div class="bib-content">
+          <span class="bib-category">Rapport majeur</span>
+          <div class="bib-title">Deloitte 2025 Human Capital Trends — Skills-Based Organizations</div>
+          <div class="bib-author">Deloitte Global · 2025 · 100 pages · 10 pays, 14 000 dirigeants</div>
+          <a href="https://www.deloitte.com/us/en/insights/topics/talent/organizational-skill-based-hiring.html" target="_blank" rel="noopener" class="bib-link">→ Accéder</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">2</div>
+        <div class="bib-content">
+          <span class="bib-category">Rapport majeur</span>
+          <div class="bib-title">WEF Future of Jobs Report 2025</div>
+          <div class="bib-author">World Economic Forum · Jan 2025 · 1 000+ employeurs, 14M travailleurs</div>
+          <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/" target="_blank" rel="noopener" class="bib-link">→ Digest</a>
+          &nbsp;
+          <a href="https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf" target="_blank" rel="noopener" class="bib-link">→ PDF</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">3</div>
+        <div class="bib-content">
+          <span class="bib-category">Rapport majeur</span>
+          <div class="bib-title">LinkedIn Workplace Learning Report 2025</div>
+          <div class="bib-author">LinkedIn Learning · 2025 · L&D et HR pros international</div>
+          <a href="https://business.linkedin.com/learn/resources/workplace-learning-report" target="_blank" rel="noopener" class="bib-link">→ Accéder</a>
+          &nbsp;
+          <a href="https://learnexperts.ai/blog/linkedin-workplace-learning-report/" target="_blank" rel="noopener" class="bib-link">→ Synthèse</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">4</div>
+        <div class="bib-content">
+          <span class="bib-category">Rapport majeur</span>
+          <div class="bib-title">Workday Global State of Skills 2025</div>
+          <div class="bib-author">Workday · Mars 2025 · 2 300 dirigeants, 22 pays</div>
+          <a href="https://newsroom.workday.com/2025-03-05-Talent-Shortage-Concerns-Drive-Shift-to-Skills-Based-Strategies,-Workday-Research-Finds" target="_blank" rel="noopener" class="bib-link">→ Communiqué</a>
+          &nbsp;
+          <a href="https://www.enterprisetimes.co.uk/2025/03/05/organisations-are-solving-the-talent-gap-with-a-skills-based-approach/" target="_blank" rel="noopener" class="bib-link">→ Analyse</a>
+        </div>
+      </div>
+
+      <!-- THOUGHT LEADERSHIP -->
+      <div class="bib-item">
+        <div class="bib-num">5</div>
+        <div class="bib-content">
+          <span class="bib-category">Thought Leadership</span>
+          <div class="bib-title">Building A Skills-Based Organization: The Exciting But Sober Reality</div>
+          <div class="bib-author">Josh Bersin · 2023 · Référence méthodologique fondatrice</div>
+          <a href="https://joshbersin.com/2023/07/building-a-skills-based-organization-the-exciting-but-sober-reality/" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">6</div>
+        <div class="bib-content">
+          <span class="bib-category">Thought Leadership</span>
+          <div class="bib-title">New Research: How AI Transforms $400 Billion of Corporate Learning</div>
+          <div class="bib-author">Josh Bersin · Fév 2026 · IA et learning d'entreprise</div>
+          <a href="https://joshbersin.com/2026/02/new-research-how-ai-transforms-400-billion-of-corporate-learning/" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">7</div>
+        <div class="bib-content">
+          <span class="bib-category">Thought Leadership</span>
+          <div class="bib-title">Rewriting Performance with Skills: Key Takeaways from Deloitte 2025</div>
+          <div class="bib-author">Nestorip.com · Mai 2025 · Synthèse du rapport Deloitte</div>
+          <a href="https://nestorup.com/blog/rewriting-performance-with-skills-key-takeaways-from-deloittes-2025-report/" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">8</div>
+        <div class="bib-content">
+          <span class="bib-category">Thought Leadership</span>
+          <div class="bib-title">Learning for a Skills-Based Future</div>
+          <div class="bib-author">Deloitte UK · Mars 2025 · Blog stratégie L&D</div>
+          <a href="https://www.deloitte.com/uk/en/services/consulting/blogs/2025/learning-for-a-skills-based-future.html" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <!-- DONNÉES MARCHÉ -->
+      <div class="bib-item">
+        <div class="bib-num">9</div>
+        <div class="bib-content">
+          <span class="bib-category">Données marché</span>
+          <div class="bib-title">33 Key Skills Statistics Every Leader Should Know for 2026</div>
+          <div class="bib-author">iMocha · 2026 · USA + Europe, skills-based hiring stats</div>
+          <a href="https://www.imocha.io/blog/skills-statistics" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">10</div>
+        <div class="bib-content">
+          <span class="bib-category">Données marché</span>
+          <div class="bib-title">Marché de la formation professionnelle FR 2026 — chiffres clés</div>
+          <div class="bib-author">RiseUp.ai · Jan 2026 · France, statistiques formation</div>
+          <a href="https://www.riseup.ai/fr/blog/marche-de-la-formation" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">11</div>
+        <div class="bib-content">
+          <span class="bib-category">Données marché</span>
+          <div class="bib-title">RUF 2026 — France Compétences, rapport sur la formation 2024</div>
+          <div class="bib-author">France Compétences · Fév 2026 · Données officielles</div>
+          <a href="https://cpformation.com/ruf-2025-france-competences-publie-son-rapport-sur-la-formation-professionnelle-les-chiffres-de-2024/" target="_blank" rel="noopener" class="bib-link">→ Rapport</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">12</div>
+        <div class="bib-content">
+          <span class="bib-category">Données marché</span>
+          <div class="bib-title">Organismes de formation en France 2026 — chiffres</div>
+          <div class="bib-author">Fresh Management · Fév 2026 · ~130 000 OF en France</div>
+          <a href="https://fresh-management.fr/organismes-de-formation-en-france-2026-chiffres/" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">13</div>
+        <div class="bib-content">
+          <span class="bib-category">Données marché</span>
+          <div class="bib-title">Panorama 2026 — évolution du monde de la formation</div>
+          <div class="bib-author">CCM Benchmark / Formation.fr · 2026 · Tendances France</div>
+          <a href="https://formation.ccmbenchmark.com/actualite/panorama-du-monde-de-la-formation" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <!-- CAS D'USAGE -->
+      <div class="bib-item">
+        <div class="bib-num">14</div>
+        <div class="bib-content">
+          <span class="bib-category">Cas d'usage</span>
+          <div class="bib-title">Workday Rising EMEA — Rolls-Royce, LinkedIn, Unilever SBO</div>
+          <div class="bib-author">Diginomica · 2024 · Cas d'usage EMEA</div>
+          <a href="https://diginomica.com/workday-rising-emea-rolls-royce-linkedin-unilever-skills-based-organization" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">15</div>
+        <div class="bib-content">
+          <span class="bib-category">Cas d'usage</span>
+          <div class="bib-title">IBM Commits to Skill 30 Million People Globally by 2030</div>
+          <div class="bib-author">IBM Newsroom · Oct 2021 · SkillsBuild engagement</div>
+          <a href="https://newsroom.ibm.com/2021-10-13-IBM-Commits-to-Skill-30-Million-People-Globally-by-2030" target="_blank" rel="noopener" class="bib-link">→ Communiqué</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">16</div>
+        <div class="bib-content">
+          <span class="bib-category">Cas d'usage</span>
+          <div class="bib-title">Schneider Electric — plateforme IA suivi évolution carrière</div>
+          <div class="bib-author">CIO Online · 2021 · Open Talent Market, Eightfold AI</div>
+          <a href="https://www.cio-online.com/actualites/lire-schneider-electric-branche-une-plateforme-d-ia-sur-son-suivi-d-evolution-de-carriere" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <!-- OUTILS & TECHNOLOGIE -->
+      <div class="bib-item">
+        <div class="bib-num">17</div>
+        <div class="bib-content">
+          <span class="bib-category">Outils &amp; Tech</span>
+          <div class="bib-title">LMS et formation professionnelle — marché en révolution (18→50 Md$)</div>
+          <div class="bib-author">Didask · 2024 · Marché LMS, CAGR 20 %</div>
+          <a href="https://www.didask.com/post/lms-et-formation-professionnelle-etat-des-lieux-un-marche-en-revolution" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">18</div>
+        <div class="bib-content">
+          <span class="bib-category">Outils &amp; Tech</span>
+          <div class="bib-title">Skills-Based Organizations: Why HR Leaders Must Act in 2025</div>
+          <div class="bib-author">Talentia Software · 2025 · Approche et outils SBO</div>
+          <a href="https://www.talentia-software.com/en/skills-based-organizations-hr-2025/" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <!-- RÉGULATION FRANCE -->
+      <div class="bib-item">
+        <div class="bib-num">19</div>
+        <div class="bib-content">
+          <span class="bib-category">Régulation France</span>
+          <div class="bib-title">Passeport Compétences — Guide officiel Ministère du Travail</div>
+          <div class="bib-author">Ministère du Travail · Jan 2025 · PDF officiel</div>
+          <a href="https://travail-emploi.gouv.fr/sites/travail-emploi/files/2025-01/Passeport%20competences-2025.pdf" target="_blank" rel="noopener" class="bib-link">→ PDF</a>
+          &nbsp;
+          <a href="https://competences.moncompteformation.gouv.fr/espace-public/" target="_blank" rel="noopener" class="bib-link">→ Plateforme</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">20</div>
+        <div class="bib-content">
+          <span class="bib-category">Régulation France</span>
+          <div class="bib-title">Tendances formation professionnelle — grandes tendances 2026</div>
+          <div class="bib-author">Eduformaction.fr · 2025 · France</div>
+          <a href="https://eduformaction.fr/ressources/formation-professionnelle-les-grandes-tendances-qui-faconneront-2026" target="_blank" rel="noopener" class="bib-link">→ Article</a>
+        </div>
+      </div>
+
+      <div class="bib-item">
+        <div class="bib-num">21</div>
+        <div class="bib-content">
+          <span class="bib-category">Régulation France</span>
+          <div class="bib-title">Marché formation professionnelle à l'horizon 2030</div>
+          <div class="bib-author">Xerfi · Jan 2026 · Étude prospective France</div>
+          <a href="https://www.xerfi.com/presentationetude/le-marche-de-la-formation-professionnelle_sae35" target="_blank" rel="noopener" class="bib-link">→ Étude</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-footer"><span>TLS</span> — The Learning Society</div>
+      <p class="footer-desc">Société française de conseil spécialisée dans la formation professionnelle et l'usage de l'IA dans la formation. Accompagnement des organisations dans leur transformation vers le digital learning.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Sections du dossier</h4>
+      <ul>
+        <li><a href="#definition">01 · Définition SBO</a></li>
+        <li><a href="#chiffres">02 · Chiffres clés 2025–2026</a></li>
+        <li><a href="#entreprises">03 · Cas d'usage entreprises</a></li>
+        <li><a href="#ld">04 · Implications L&D et OF</a></li>
+        <li><a href="#opportunites">05 · Opportunités stratégiques TLS</a></li>
+        <li><a href="#bibliographie">06 · Bibliographie (21 sources)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 The Learning Society · Dossier Stratégique Format 4 · Mise à jour juin 2026 · 21 sources vérifiées</p>
+    <div class="footer-badges">
+      <span class="footer-badge">France + International</span>
+      <span class="footer-badge">L&D · IA · EdTech</span>
+      <span class="footer-badge">Confidentiel TLS</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════ JS -->
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Stagger reveal in grid
+document.querySelectorAll('.kpi-grid, .grid-2, .grid-3, .bib-grid').forEach(grid => {
+  [...grid.children].forEach((child, i) => {
+    child.style.transitionDelay = `${i * 60}ms`;
+  });
+});
+</script>
+</body>
+</html>

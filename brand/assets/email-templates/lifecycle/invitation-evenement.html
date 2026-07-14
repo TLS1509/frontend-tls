@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitation Webinaire — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:40px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; }
+
+  .header { padding:28px 48px; border-bottom:1px solid #E5E7EB; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:18px; font-weight:800; color:#252B37; letter-spacing:-0.02em; }
+  .logo span { color:#4A8FA1; }
+  .header-meta { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:2px; letter-spacing:0.06em; text-transform:uppercase; }
+
+  .event-hero { padding:52px 48px 44px; }
+  .event-type { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#C06920; margin-bottom:20px; }
+  .event-title { font-family:'League Spartan', sans-serif; font-size:34px; font-weight:800; color:#252B37; line-height:1.08; letter-spacing:-0.025em; margin-bottom:20px; }
+  .event-intro { font-family:'Nunito', sans-serif; font-size:15px; line-height:1.75; color:#4B5563; }
+
+  .event-meta { background:#F3F4F6; padding:0; margin:0; }
+  .event-meta-row { display:table; width:100%; }
+  .event-meta-cell { display:table-cell; padding:20px 0; vertical-align:middle; }
+  .event-meta-inner { padding:20px 48px; border-right:1px solid #E5E7EB; }
+  .event-meta-inner:last-child { border-right:none; }
+  .meta-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#6B7280; margin-bottom:4px; }
+  .meta-value { font-family:'League Spartan', sans-serif; font-size:16px; font-weight:700; color:#252B37; letter-spacing:-0.01em; }
+  .meta-sub { font-family:'Nunito', sans-serif; font-size:12px; color:#6B7280; margin-top:1px; }
+
+  .agenda { padding:36px 48px; }
+  .agenda-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#9CA3AF; margin-bottom:20px; }
+  .agenda-item { display:table; width:100%; padding:12px 0; border-bottom:1px solid #F3F4F6; }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-time { display:table-cell; width:72px; vertical-align:top; font-family:'League Spartan', sans-serif; font-size:12px; font-weight:700; color:#9CA3AF; padding-top:2px; letter-spacing:0.02em; }
+  .agenda-content { display:table-cell; vertical-align:top; padding-left:16px; }
+  .agenda-title { font-family:'League Spartan', sans-serif; font-size:14px; font-weight:700; color:#252B37; letter-spacing:-0.01em; }
+  .agenda-detail { font-family:'Nunito', sans-serif; font-size:12px; color:#6B7280; margin-top:2px; }
+
+  .speakers { padding:28px 48px 36px; border-top:1px solid #E5E7EB; }
+  .speakers-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#9CA3AF; margin-bottom:20px; }
+  .speaker { display:table; width:100%; margin-bottom:16px; }
+  .speaker:last-child { margin-bottom:0; }
+  .speaker-avatar { display:table-cell; width:44px; vertical-align:top; }
+  .speaker-avatar-circle { width:40px; height:40px; background:#E8F4F7; border-radius:50%; font-family:'League Spartan', sans-serif; font-size:14px; font-weight:800; color:#3D7786; text-align:center; line-height:40px; }
+  .speaker-info { display:table-cell; vertical-align:middle; padding-left:12px; }
+  .speaker-name { font-family:'League Spartan', sans-serif; font-size:14px; font-weight:700; color:#252B37; letter-spacing:-0.01em; }
+  .speaker-role { font-family:'Nunito', sans-serif; font-size:12px; color:#6B7280; }
+
+  .cta-block { padding:32px 48px 40px; border-top:1px solid #E5E7EB; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:15px; font-weight:700; color:#FFFFFF; background:#ED843A; padding:15px 36px; border-radius:999px; text-decoration:none; }
+  .cta-note { font-family:'Nunito', sans-serif; font-size:12px; color:#9CA3AF; margin-top:10px; }
+  .cta-note a { color:#4A8FA1; text-decoration:none; border-bottom:1px solid #4A8FA1; }
+
+  .footer { padding:24px 48px 32px; border-top:1px solid #E5E7EB; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.7; }
+  .footer-text a { color:#6B7280; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  @media only screen and (max-width:600px) {
+    .event-hero, .agenda, .speakers, .cta-block, .footer, .header { padding-left:24px !important; padding-right:24px !important; }
+    .event-title { font-size:26px !important; }
+    .event-meta-inner { padding:16px 24px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="logo">The Learning <span>Society</span></div>
+    <div class="header-meta">Invitation · Webinaire</div>
+  </td></tr>
+
+  <!-- HERO -->
+  <tr><td class="event-hero">
+    <div class="event-type">Webinaire · 24 juin 2026 · 11h–12h30</div>
+    <h1 class="event-title">IA & Ingénierie pédagogique : que faut-il vraiment automatiser ?</h1>
+    <p class="event-intro">Un temps de réflexion pratique avec des experts du L&amp;D pour décider ce qui mérite d'être délégué à l'IA — et ce qui doit rester humain dans la conception de formation.</p>
+  </td></tr>
+
+  <!-- META -->
+  <tr><td class="event-meta">
+    <table cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td style="width:33.3%; padding:20px 0; border-right:1px solid #E5E7EB;">
+          <div style="padding:0 24px 0 48px;">
+            <div class="meta-label">Date</div>
+            <div class="meta-value">24 juin 2026</div>
+            <div class="meta-sub">Mardi</div>
+          </div>
+        </td>
+        <td style="width:33.3%; padding:20px 0; border-right:1px solid #E5E7EB;">
+          <div style="padding:0 24px;">
+            <div class="meta-label">Horaire</div>
+            <div class="meta-value">11h00 – 12h30</div>
+            <div class="meta-sub">Paris (CEST)</div>
+          </div>
+        </td>
+        <td style="width:33.3%; padding:20px 0;">
+          <div style="padding:0 48px 0 24px;">
+            <div class="meta-label">Format</div>
+            <div class="meta-value">Live + Q&amp;A</div>
+            <div class="meta-sub">Replay disponible</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- AGENDA -->
+  <tr><td class="agenda">
+    <div class="agenda-label">Programme</div>
+
+    <div class="agenda-item">
+      <div class="agenda-time">11:00</div>
+      <div class="agenda-content">
+        <div class="agenda-title">Ouverture & cadrage</div>
+        <div class="agenda-detail">État des usages IA dans le L&D — chiffres 2026</div>
+      </div>
+    </div>
+
+    <div class="agenda-item">
+      <div class="agenda-time">11:20</div>
+      <div class="agenda-content">
+        <div class="agenda-title">Ce qui fonctionne vraiment</div>
+        <div class="agenda-detail">Cas concrets : production de contenus, scénarisation, évaluation automatisée</div>
+      </div>
+    </div>
+
+    <div class="agenda-item">
+      <div class="agenda-time">11:55</div>
+      <div class="agenda-content">
+        <div class="agenda-title">Les limites à ne pas franchir</div>
+        <div class="agenda-detail">Éthique, biais pédagogiques, maintien de l'expertise humaine</div>
+      </div>
+    </div>
+
+    <div class="agenda-item">
+      <div class="agenda-time">12:15</div>
+      <div class="agenda-content">
+        <div class="agenda-title">Questions & échanges live</div>
+        <div class="agenda-detail">Session ouverte avec les participants</div>
+      </div>
+    </div>
+  </td></tr>
+
+  <!-- SPEAKERS -->
+  <tr><td class="speakers">
+    <div class="speakers-label">Intervenants</div>
+
+    <div class="speaker">
+      <div class="speaker-avatar"><div class="speaker-avatar-circle">AL</div></div>
+      <div class="speaker-info">
+        <div class="speaker-name">Anne Lefranc</div>
+        <div class="speaker-role">Directrice L&D, The Learning Society</div>
+      </div>
+    </div>
+
+    <div class="speaker">
+      <div class="speaker-avatar"><div class="speaker-avatar-circle">MB</div></div>
+      <div class="speaker-info">
+        <div class="speaker-name">Marc Bertin</div>
+        <div class="speaker-role">Expert IA pédagogique, consultant indépendant</div>
+      </div>
+    </div>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td class="cta-block">
+    <a href="#" class="cta-btn">Réserver ma place →</a>
+    <p class="cta-note">Places limitées à 80 participants · <a href="#">Ajouter à mon agenda</a></p>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      Invitation personnelle — ne pas diffuser.<br>
+      © 2026 The Learning Society · <a href="#">Se désabonner</a> · <a href="#">Politique de confidentialité</a>
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>

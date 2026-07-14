@@ -1,0 +1,92 @@
+<!-- D'après Figma "📧 Templates — Mailing" › Template D — Weekly Learning Recap
+     (node 4158:26). Traduction fidèle, 2 corrections apportées :
+     - Texte des CTA passé de gris #808080 (bug, illisible sur fond coloré) à blanc
+     - Police Inter → League Spartan (titres) / Nunito (corps), système typo TLS réel
+     Reste identique à Figma : rayons 6px (pas de rounded-pill), fond gradient. -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu as progressé cette semaine — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  .email-wrapper { background:linear-gradient(180deg,#E8F4F7 0%,#FFFFFF 40%,#FFF9EE 100%); padding:44px 16px 52px; }
+  .email-container { max-width:560px; margin:0 auto; }
+
+  .logo { font-family:'Nunito', sans-serif; font-size:12px; font-weight:700; color:#4A8FA1; letter-spacing:0.04em; }
+  .eyebrow { font-family:'Nunito', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#55A1B4; margin-top:28px; }
+  .title { font-family:'League Spartan', sans-serif; font-size:26px; font-weight:800; color:#252B37; letter-spacing:-0.02em; line-height:1.15; margin-top:10px; }
+
+  .stats-row { margin-top:20px; }
+  .stats-row table { width:100%; border-collapse:separate; border-spacing:6px 0; margin:0 -6px; }
+  .stat-card { background:#FFFFFF; border-radius:8px; padding:16px; text-align:center; }
+  .stat-num { font-family:'League Spartan', sans-serif; font-size:19px; font-weight:800; color:#4A8FA1; letter-spacing:-0.01em; }
+  .stat-label { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:4px; line-height:1.4; }
+
+  .reco-card { background:#E8F4F7; border-radius:8px; padding:20px; margin-top:20px; text-align:center; }
+  .reco-eyebrow { font-family:'Nunito', sans-serif; font-size:11px; font-weight:700; color:#4A8FA1; }
+  .reco-title { font-family:'League Spartan', sans-serif; font-size:15px; font-weight:800; color:#252B37; margin-top:10px; }
+  .reco-desc { font-family:'Nunito', sans-serif; font-size:12px; color:#9CA3AF; margin-top:6px; line-height:1.5; }
+  .reco-cta { display:inline-block; margin-top:14px; font-family:'Nunito', sans-serif; font-size:13px; font-weight:700; color:#FFFFFF; background:#55A1B4; padding:11px 22px; border-radius:6px; text-decoration:none; }
+
+  .streak-row { background:#FFF9EE; border-radius:8px; padding:14px 16px; margin-top:20px; }
+  .streak-num { font-family:'Nunito', sans-serif; font-size:12px; font-weight:700; color:#C06920; }
+  .streak-text { font-family:'Nunito', sans-serif; font-size:12px; color:#C06920; }
+
+  .footer { margin-top:28px; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; line-height:1.7; }
+  .footer-text a { color:#D1D5DB; text-decoration:none; }
+  .footer-sub { font-family:'Nunito', sans-serif; font-size:11px; color:#E5E7EB; margin-top:2px; }
+
+  @media only screen and (max-width:600px) {
+    .email-wrapper { padding:32px 20px 40px; }
+    .title { font-size:22px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<div class="email-container">
+
+  <div class="logo">THE LEARNING SOCIETY</div>
+  <div class="eyebrow">Semaine · Récap personnel</div>
+  <h1 class="title">Tu as progressé cette semaine</h1>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <table cellpadding="0" cellspacing="0" role="presentation" width="100%"><tr>
+      <td class="stat-card" style="width:33%"><div class="stat-num">4h 32min</div><div class="stat-label">Temps d'apprentissage</div></td>
+      <td class="stat-card" style="width:33%"><div class="stat-num">12</div><div class="stat-label">Points XP gagnés</div></td>
+      <td class="stat-card" style="width:33%"><div class="stat-num">+1</div><div class="stat-label">Nouveau badge</div></td>
+    </tr></table>
+  </div>
+
+  <!-- RECOMMANDATION -->
+  <div class="reco-card">
+    <div class="reco-eyebrow">⭐ Recommandé pour toi</div>
+    <div class="reco-title">Maîtriser les micro-apprentissages</div>
+    <div class="reco-desc">Basé sur ton historique et ton niveau. ~45 min pour compléter.</div>
+    <a href="#" class="reco-cta">Commencer →</a>
+  </div>
+
+  <!-- STREAK -->
+  <table class="streak-row" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tr>
+    <td style="width:56px;"><span class="streak-num">7 jours</span></td>
+    <td><span class="streak-text">Série active. Continue comme ça !</span></td>
+  </tr></table>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="footer-text">
+      <a href="#">Voir ton dashboard</a> &middot; <a href="https://thelearningsociety.fr">thelearningsociety.fr</a>
+    </p>
+    <p class="footer-sub">Vous recevez cet email car vous avez un compte. <a href="#" style="color:#E5E7EB;">Se désabonner</a></p>
+  </div>
+
+</div>
+</div>
+</body>
+</html>

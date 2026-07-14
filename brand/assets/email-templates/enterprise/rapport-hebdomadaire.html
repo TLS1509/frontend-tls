@@ -1,0 +1,104 @@
+<!-- D'après Figma "📧 Templates — Mailing" › Template E — Executive Report
+     (node 4158:59). Traduction fidèle, 2 corrections apportées :
+     - Texte du CTA passé de gris #808080 (bug, illisible sur fond orange) à blanc
+     - Police Inter → League Spartan (titres) / Nunito (corps), système typo TLS réel
+     Reste identique à Figma : rayons 6-8px (pas de rounded-pill), fond blanc uni
+     (seul template mailing sans gradient — registre plus sobre/corporate).
+     Destinataire : manager/admin Enterprise (cahier 06_Enterprise_FO_Space). -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rapport hebdomadaire — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:44px 16px 52px; }
+  .email-container { max-width:560px; margin:0 auto; background:#FFFFFF; }
+
+  .logo { font-family:'Nunito', sans-serif; font-size:12px; font-weight:700; color:#4A8FA1; letter-spacing:0.04em; }
+  .rule { background:#ED843A; height:3px; margin-top:24px; }
+  .eyebrow { font-family:'Nunito', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#9CA3AF; margin-top:20px; }
+  .title { font-family:'League Spartan', sans-serif; font-size:19px; font-weight:800; color:#252B37; letter-spacing:-0.01em; margin-top:8px; }
+
+  .stats-row { margin-top:16px; }
+  .stats-row table { width:100%; border-collapse:separate; border-spacing:6px 0; margin:0 -6px; }
+  .stat-card { background:#F9FAFB; border-radius:8px; padding:14px; text-align:left; }
+  .stat-num { font-family:'League Spartan', sans-serif; font-size:17px; font-weight:800; color:#252B37; }
+  .stat-delta { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:4px; }
+  .stat-label { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:4px; }
+
+  .insight-card { background:#FFF9EE; border-radius:8px; padding:20px; margin-top:20px; }
+  .insight-label { font-family:'Nunito', sans-serif; font-size:12px; font-weight:700; color:#C06920; }
+  .insight-text { font-family:'Nunito', sans-serif; font-size:13px; color:#374151; line-height:1.6; margin-top:12px; }
+
+  .cta-block { margin-top:20px; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:13px; font-weight:700; color:#FFFFFF; background:#ED843A; padding:13px 24px; border-radius:6px; text-decoration:none; }
+
+  .footer { margin-top:24px; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; line-height:1.7; }
+  .footer-text a { color:#D1D5DB; text-decoration:none; }
+  .footer-sub { font-family:'Nunito', sans-serif; font-size:11px; color:#E5E7EB; margin-top:2px; }
+
+  @media only screen and (max-width:600px) {
+    .email-wrapper { padding:32px 20px 40px; }
+    .stats-row table, .stats-row table tr, .stats-row table td { display:block !important; width:100% !important; margin-bottom:6px; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="560" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="padding:0 36px 52px;">
+
+  <div style="height:1px;"></div>
+  <div class="logo" style="padding-top:44px;">THE LEARNING SOCIETY</div>
+  <div class="rule"></div>
+  <div class="eyebrow">Rapport hebdo · Semaine 26</div>
+  <h1 class="title">Vue d'ensemble : Adoption en hausse</h1>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <table cellpadding="0" cellspacing="0" role="presentation" width="100%"><tr>
+      <td class="stat-card" style="width:33%">
+        <div class="stat-num">1,247</div>
+        <div class="stat-delta">+12%</div>
+        <div class="stat-label">Utilisateurs actifs</div>
+      </td>
+      <td class="stat-card" style="width:33%">
+        <div class="stat-num">89%</div>
+        <div class="stat-delta">+4%</div>
+        <div class="stat-label">Taux d'engagement</div>
+      </td>
+      <td class="stat-card" style="width:33%">
+        <div class="stat-num">4.7h</div>
+        <div class="stat-delta">+0.3h</div>
+        <div class="stat-label">Temps moyen/user</div>
+      </td>
+    </tr></table>
+  </div>
+
+  <!-- INSIGHT -->
+  <div class="insight-card">
+    <div class="insight-label">💡 Insight clé</div>
+    <div class="insight-text">Les utilisateurs qui terminent 3 formations sur 4 semaines ont 5x plus de chances de renouveler. Recommandation : renforcer l'onboarding guidé.</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <a href="#" class="cta-btn">Voir le rapport complet →</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="footer-text">
+      <a href="#">Dashboard</a> &middot; <a href="https://thelearningsociety.fr">thelearningsociety.fr</a>
+    </p>
+    <p class="footer-sub">Rapport généré pour vous. <a href="#" style="color:#E5E7EB;">Préférences email</a></p>
+  </div>
+
+</td></tr></table>
+</div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reprenez votre parcours — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:40px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; }
+
+  .header { padding:28px 48px; border-bottom:1px solid #E5E7EB; display:table; width:100%; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:18px; font-weight:800; color:#252B37; letter-spacing:-0.02em; }
+  .logo span { color:#4A8FA1; }
+
+  .message-block { padding:52px 48px 40px; }
+  .greeting { font-family:'Nunito', sans-serif; font-size:13px; color:#6B7280; margin-bottom:24px; }
+  .main-title { font-family:'League Spartan', sans-serif; font-size:30px; font-weight:800; color:#252B37; line-height:1.12; letter-spacing:-0.025em; margin-bottom:20px; }
+  .main-body { font-family:'Nunito', sans-serif; font-size:15px; line-height:1.75; color:#4B5563; margin-bottom:0; }
+
+  .progress-block { background:#F3F4F6; padding:28px 48px; }
+  .progress-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#6B7280; margin-bottom:16px; }
+  .progress-course { font-family:'League Spartan', sans-serif; font-size:15px; font-weight:700; color:#252B37; letter-spacing:-0.01em; margin-bottom:10px; }
+  .progress-bar-bg { background:#E5E7EB; height:4px; width:100%; }
+  .progress-bar-fill { background:#55A1B4; height:4px; width:42%; }
+  .progress-meta { font-family:'Nunito', sans-serif; font-size:12px; color:#6B7280; margin-top:8px; }
+  .progress-meta strong { color:#252B37; }
+
+  .suggest { padding:32px 48px; border-top:1px solid #E5E7EB; }
+  .suggest-label { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#9CA3AF; margin-bottom:18px; }
+  .suggest-item { display:table; width:100%; padding:12px 0; border-bottom:1px solid #F3F4F6; }
+  .suggest-item:last-child { border-bottom:none; }
+  .suggest-num { display:table-cell; width:28px; vertical-align:top; font-family:'League Spartan', sans-serif; font-size:11px; font-weight:800; color:#C68D36; padding-top:3px; }
+  .suggest-content { display:table-cell; vertical-align:top; }
+  .suggest-title { font-family:'League Spartan', sans-serif; font-size:14px; font-weight:700; color:#252B37; letter-spacing:-0.01em; }
+  .suggest-desc { font-family:'Nunito', sans-serif; font-size:12px; color:#6B7280; margin-top:2px; }
+  .suggest-duration { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; margin-top:2px; }
+
+  .cta-block { padding:32px 48px 40px; border-top:1px solid #E5E7EB; }
+  .cta-btn { display:inline-block; font-family:'Nunito', sans-serif; font-size:15px; font-weight:700; color:#FFFFFF; background:#ED843A; padding:14px 32px; border-radius:999px; text-decoration:none; }
+  .cta-ghost { display:inline-block; font-family:'Nunito', sans-serif; font-size:13px; color:#6B7280; margin-left:20px; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  .personal-note { padding:28px 48px; background:#F3F4F6; border-top:1px solid #E5E7EB; }
+  .personal-note p { font-family:'Nunito', sans-serif; font-size:13px; color:#4B5563; line-height:1.7; font-style:italic; }
+  .personal-note strong { font-style:normal; color:#252B37; font-family:'League Spartan', sans-serif; font-size:13px; }
+
+  .footer { padding:24px 48px 32px; border-top:1px solid #E5E7EB; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.7; }
+  .footer-text a { color:#6B7280; text-decoration:none; border-bottom:1px solid #D1D5DB; }
+
+  @media only screen and (max-width:600px) {
+    .message-block, .progress-block, .suggest, .cta-block, .personal-note, .footer, .header { padding-left:24px !important; padding-right:24px !important; }
+    .main-title { font-size:24px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="logo">The Learning <span>Society</span></div>
+  </td></tr>
+
+  <!-- MESSAGE -->
+  <tr><td class="message-block">
+    <div class="greeting">Bonjour [Prénom],</div>
+    <h1 class="main-title">Votre parcours vous attend.</h1>
+    <p class="main-body">Vous n'avez pas ouvert la plateforme depuis 14 jours. Vos modules restent là où vous les aviez laissés — et trois nouvelles ressources correspondent exactement à vos objectifs déclarés.</p>
+  </td></tr>
+
+  <!-- PROGRESS -->
+  <tr><td class="progress-block">
+    <div class="progress-label">En cours</div>
+    <div class="progress-course">IA & conception pédagogique — Module 3/7</div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill"></div>
+    </div>
+    <div class="progress-meta"><strong>42% complété</strong> · Reprendre au chapitre « Évaluation automatisée » · 35 min restantes</div>
+  </td></tr>
+
+  <!-- SUGGESTIONS -->
+  <tr><td class="suggest">
+    <div class="suggest-label">Sélectionnées pour vous</div>
+
+    <div class="suggest-item">
+      <div class="suggest-num">01</div>
+      <div class="suggest-content">
+        <div class="suggest-title">Prompt engineering pour formateurs</div>
+        <div class="suggest-desc">Comment rédiger des instructions IA adaptées à la création de contenus pédagogiques</div>
+        <div class="suggest-duration">Micro-module · 18 min</div>
+      </div>
+    </div>
+
+    <div class="suggest-item">
+      <div class="suggest-num">02</div>
+      <div class="suggest-content">
+        <div class="suggest-title">Rapport OCDE : l'avenir des compétences 2026</div>
+        <div class="suggest-desc">Analyse synthétisée des 3 grandes mutations du marché du travail et leurs implications L&D</div>
+        <div class="suggest-duration">Article de veille · 8 min</div>
+      </div>
+    </div>
+
+    <div class="suggest-item">
+      <div class="suggest-num">03</div>
+      <div class="suggest-content">
+        <div class="suggest-title">Webinaire replay : mesurer l'impact formation</div>
+        <div class="suggest-desc">Méthodes et outils pour démontrer le ROI de vos programmes à votre direction</div>
+        <div class="suggest-duration">Replay · 52 min</div>
+      </div>
+    </div>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td class="cta-block">
+    <a href="#" class="cta-btn">Reprendre mon parcours →</a>
+    <a href="#" class="cta-ghost">Voir toutes les ressources</a>
+  </td></tr>
+
+  <!-- NOTE PERSONNELLE -->
+  <tr><td class="personal-note">
+    <p>« Si vous avez besoin d'ajuster votre parcours ou d'échanger sur vos objectifs, <strong>répondez directement à cet email</strong> — notre équipe pédagogique vous répondra sous 24h. »</p>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      Vous recevez ce message car vous êtes inscrit(e) sur The Learning Society.<br>
+      <a href="#">Se désabonner</a> · <a href="#">Gérer les notifications</a> · <a href="#">Centre d'aide</a><br><br>
+      © 2026 The Learning Society · 12 rue de la Paix, 75002 Paris
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>

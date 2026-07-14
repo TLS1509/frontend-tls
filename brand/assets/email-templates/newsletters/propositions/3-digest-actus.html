@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Veille TLS — The Learning Society</title>
+<style>
+  body { margin:0; padding:0; background:#FAFBFC; font-family:'Nunito', Georgia, sans-serif; }
+  @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap');
+
+  .email-wrapper { background:#FAFBFC; padding:32px 16px; }
+  .email-container { max-width:600px; margin:0 auto; background:#FFFFFF; border-radius:20px; overflow:hidden; }
+
+  .header { padding:28px 28px 4px; }
+  .logo { font-family:'League Spartan', sans-serif; font-size:16px; font-weight:800; color:#252B37; letter-spacing:-0.01em; }
+  .logo span { color:#4A8FA1; }
+  .header-date { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; letter-spacing:0.06em; text-transform:uppercase; margin-top:2px; }
+
+  .grid { padding:20px 20px 8px; }
+  .grid table { width:100%; border-collapse:separate; border-spacing:8px; margin:-8px; }
+
+  .tile { border-radius:16px; padding:20px 22px; vertical-align:top; }
+  .tile-featured { background:linear-gradient(135deg,#4A8FA1,#1F3E45); }
+  .tile-brand { background:#E8F4F7; }
+  .tile-warm { background:#FFF3EB; }
+  .tile-sun { background:#FFF9EE; }
+
+  .tile-eyebrow { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; }
+  .tile-featured .tile-eyebrow { color:rgba(255,255,255,0.65); }
+  .tile-brand .tile-eyebrow { color:#3D7786; }
+  .tile-warm .tile-eyebrow { color:#C06920; }
+  .tile-sun .tile-eyebrow { color:#C68D36; }
+
+  .tile-title { font-family:'League Spartan', sans-serif; font-weight:800; letter-spacing:-0.01em; margin-bottom:8px; line-height:1.28; }
+  .tile-featured .tile-title { color:#FFFFFF; font-size:19px; }
+  .tile-brand .tile-title, .tile-warm .tile-title, .tile-sun .tile-title { color:#252B37; font-size:14px; }
+
+  .tile-dek { font-family:'Nunito', sans-serif; font-size:12.5px; line-height:1.55; margin-bottom:8px; }
+  .tile-featured .tile-dek { color:rgba(255,255,255,0.82); }
+  .tile-brand .tile-dek, .tile-warm .tile-dek, .tile-sun .tile-dek { color:#6B7280; }
+
+  .tile-meta { font-family:'Nunito', sans-serif; font-size:11px; }
+  .tile-featured .tile-meta { color:rgba(255,255,255,0.55); }
+  .tile-brand .tile-meta, .tile-warm .tile-meta, .tile-sun .tile-meta { color:#9CA3AF; }
+
+  .tile-link { display:inline-block; font-family:'Nunito', sans-serif; font-size:13px; font-weight:700; color:#FFFFFF; text-decoration:none; margin-top:10px; }
+
+  .footer { padding:20px 28px 28px; text-align:center; }
+  .footer-text { font-family:'Nunito', sans-serif; font-size:11px; color:#9CA3AF; line-height:1.8; }
+  .footer-text a { color:#6B7280; text-decoration:none; }
+
+  @media only screen and (max-width:600px) {
+    .grid table, .grid table tr, .grid table td { display:block !important; width:100% !important; }
+    .grid table td { margin-bottom:8px; }
+  }
+</style>
+</head>
+<body>
+<div class="email-wrapper">
+<table class="email-container" width="600" cellpadding="0" cellspacing="0" role="presentation">
+
+  <!-- HEADER -->
+  <tr><td class="header">
+    <div class="logo">The Learning <span>Society</span></div>
+    <div class="header-date">Veille · N°12 · Juillet 2026</div>
+  </td></tr>
+
+  <!-- BENTO GRID -->
+  <tr><td class="grid">
+    <table cellpadding="0" cellspacing="0" role="presentation">
+
+      <!-- Featured article, full width -->
+      <tr>
+        <td class="tile tile-featured" colspan="2">
+          <div class="tile-eyebrow">À la une · IA &amp; Formation</div>
+          <div class="tile-title">Comment les LLMs transforment la conception pédagogique en 2026</div>
+          <p class="tile-dek">Josh Bersin analyse l'impact réel des outils IA sur les équipes L&amp;D : gain de temps, défis sur l'évaluation.</p>
+          <a href="#" class="tile-link">Lire l'article →</a>
+        </td>
+      </tr>
+
+      <!-- 2 regular articles, side by side -->
+      <tr>
+        <td class="tile tile-warm" style="width:50%">
+          <div class="tile-eyebrow">Marché France</div>
+          <div class="tile-title">CPF 2026 : les nouvelles règles du reste à charge</div>
+          <div class="tile-meta">Centre Inffo · 4 juillet</div>
+        </td>
+        <td class="tile tile-sun" style="width:50%">
+          <div class="tile-eyebrow">EdTech</div>
+          <div class="tile-title">360Learning lève 50M€</div>
+          <div class="tile-meta">Les Échos · 3 juillet</div>
+        </td>
+      </tr>
+
+      <!-- Insight tile, full width -->
+      <tr>
+        <td class="tile tile-brand" colspan="2">
+          <div class="tile-eyebrow">Signal faible à surveiller</div>
+          <div class="tile-title" style="font-size:15px;">« Les apprenants adultes préfèrent un feedback IA immédiat à un retour formateur différé. »</div>
+          <div class="tile-meta">— OCDE Skills Outlook 2026</div>
+        </td>
+      </tr>
+
+    </table>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td class="footer">
+    <p class="footer-text">
+      <a href="#">Se désabonner</a> · <a href="#">Préférences</a><br>
+      © 2026 The Learning Society
+    </p>
+  </td></tr>
+
+</table>
+</div>
+</body>
+</html>
