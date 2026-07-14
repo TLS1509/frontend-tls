@@ -193,10 +193,11 @@
 - `CHARTS-SYSTEM.md` · `CHARTS-DS-ENTRY.md` · `CHARTS-QUICK-START.md` · `CHARTS-FUTURE-CANDIDATES.md`
 - `FIGMA-CHARTS-SYNC-PLAN.md` — sync charts ↔ Figma
 
-## 📋 briefs/ — Briefs de travail (2 fichiers)
+## 📋 briefs/ — Briefs de travail (3 fichiers)
 
 - `BRIEF-LEARNING-SPACE-VEILLE.md` — brief refonte Learning Space + Veille
 - `SITE-V2-AGENCY-BRIEF.md` — brief site vitrine agency-grade (motion) + prompt Fable 5 prêt à coller + mode d'emploi crédits Fable 5 (2026-07-07)
+- `HERO-CONSTELLATION-ILLUSTRATION-BRIEF.md` — brief + guide de création de l'illustration hero (constellation dessinée main + aube) : refs domaine public, brief custom, pas-à-pas Procreate/Affinity, prompts Higgsfield/IA (2026-07-14)
 
 ---
 

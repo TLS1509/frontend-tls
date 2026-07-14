@@ -220,6 +220,12 @@ import { EclipseHeroTrials } from './pages/marketing/_prototypes/EclipseHeroTria
 import { StickyVideoCards } from './pages/marketing/_prototypes/StickyVideoCards';
 import { StickyVideoCardsDepth } from './pages/marketing/_prototypes/StickyVideoCardsDepth';
 import { ImmersiveParallaxStory } from './pages/marketing/_prototypes/ImmersiveParallaxStory';
+import { HeroDawnLight } from './pages/marketing/_prototypes/HeroDawnLight';
+import { HeroConstellation } from './pages/marketing/_prototypes/HeroConstellation';
+import { HeroEclipse } from './pages/marketing/_prototypes/HeroEclipse';
+import { HeroTrait } from './pages/marketing/_prototypes/HeroTrait';
+import { HeroLeverDuJour } from './pages/marketing/_prototypes/HeroLeverDuJour';
+import { HeroCelestial } from './pages/marketing/_prototypes/HeroCelestial';
 import { MarketingDiagnostic } from './pages/marketing/MarketingDiagnostic';
 // [archived] devtools — files kept, routes removed from prod
 // import { MarketingMotionLab } from './pages/marketing/MarketingMotionLab';
@@ -545,6 +551,12 @@ function App() {
           <Route path="_sticky-video-cards" element={<StickyVideoCards />} />
           <Route path="_sticky-video-cards-depth" element={<StickyVideoCardsDepth />} />
           <Route path="_immersive-parallax-story" element={<ImmersiveParallaxStory />} />
+          <Route path="_hero-dawn-light" element={<HeroDawnLight />} />
+          <Route path="_hero-constellation" element={<HeroConstellation />} />
+          <Route path="_hero-eclipse" element={<HeroEclipse />} />
+          <Route path="_hero-trait" element={<HeroTrait />} />
+          <Route path="_hero-lever-du-jour" element={<HeroLeverDuJour />} />
+          <Route path="_hero-celestial" element={<HeroCelestial />} />
           {/* [archived] home variants — files kept, routes removed: home-a/b, _motion-lab, _variants */}
           <Route path="diagnostic" element={<MarketingDiagnostic />} />
           {/* Formation fusionnée dans Learning App le 03/07/2026 — redirect pour les liens existants */}
